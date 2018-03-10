@@ -1,5 +1,0 @@
-File: temp_behaviors/
-
-Chosen Behavior: {
-tdtd,true
-}

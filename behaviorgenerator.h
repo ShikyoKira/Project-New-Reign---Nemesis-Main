@@ -37,4 +37,6 @@ public:
 	int getLine();
 };
 
+extern void GenerateBehavior(std::string directory, vecstr behaviorPriority, std::unordered_map<std::string, bool> chosenBehavior);
+
 #endif
