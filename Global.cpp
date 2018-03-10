@@ -5,7 +5,9 @@ using namespace std;
 bool debug = false;
 bool error = false;
 int memory = 100;
+
 boost::posix_time::ptime time1;
+unordered_map<string, string> behaviorPath;
 
 struct path_leaf_string
 {

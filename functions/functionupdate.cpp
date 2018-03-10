@@ -6,81 +6,37 @@ typedef vector<string> vecstr;
 
 unordered_map<string, mutex> locker;
 
-string GetFunctionEdits(string filename, int numline)
+string GetFunctionEdits(vecstr storeline, int numline)
 {
-	int linecount = 0;
-	char line[5000];
-	FILE* edit;
-	fopen_s(&edit, filename.c_str(), "r");
-
-	if (edit)
+	if (int(storeline.size()) > numline)
 	{
-		while (fgets(line, 5000, edit))
-		{
-			if (linecount == numline)
-			{
-				if (line[strlen(line) - 1] == '\n')
-				{
-					line[strlen(line) - 1] = '\0';
-				}
-
-				return line;
-			}
-
-			linecount++;
-		}
+		return storeline[numline];
 	}
 
-	cout << "ERROR(2005): Missing edits (File: " << filename << ", Line: " << numline << ")" << endl;
+	error = true;
 	return "null";
 }
 
-vecstr GetFunctionEdits(string filename, int startline, int endline)
+vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int endline)
 {	
-	int linecount = 0;
 	vecstr storage;
-	bool record = false;
-	int recordcount = 0;
-	char line[5000];
-	FILE* edit;
-	fopen_s(&edit, filename.c_str(), "r");
+	storage.reserve(endline);
 
-	if (edit)
+	if (int(storeline.size()) > endline + startline)
 	{
-		while (fgets(line, 5000, edit))
+		for (size_t i = startline; i < endline + startline; ++i)
 		{
-			if (linecount == startline)
-			{
-				record = true;
-			}
-			else if (linecount == startline + endline)
-			{
-				return storage;
-			}
-
-			if (record)
-			{
-				if (line[strlen(line) - 1] == '\n')
-				{
-					line[strlen(line) - 1] = '\0';
-				}
-
-				storage.push_back(line);
-			}
-
-			linecount++;
+			storage.push_back(storeline[i]);
 		}
+
+		return storage;
 	}
 	else
 	{
-		cout << "ERROR(2003): Missing file (File: " << filename << ", StartLine: " << startline << ", EndLine: " << startline + endline << ")" << endl;
-		storage.clear();
+		cout << "ERROR(2003): Missing file" << endl << "File: " << filename << endl << "StartLine: " << startline << endl << "EndLine: " << startline + endline << endl << endl;
+		error = true;
 		return storage;
 	}
-
-	cout << "ERROR(2004): Missing edits (File: " << filename << ", StartLine: " << startline << ", EndLine: " << startline + endline << ")" << endl;
-	storage.clear();
-	return storage;
 }
 
 bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
@@ -113,6 +69,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 		int attributecount;
 		int characterpropertycount;
 
+		vecstr storeline;
 		string line;
 		string filename = "cache/" + modcode + "/" + f2 + "/" + f3;
 		char charline[5000];
@@ -200,6 +157,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 					originalline++;
 				}
 
+				storeline.push_back(line);
 				coordinate++;
 			}
 
@@ -207,7 +165,8 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 		}
 		else
 		{
-			cout << "ERROR(2000): Failed to open file (File: " + filename + ")" << endl;
+			cout << "ERROR(2000): Failed to open file" << endl << "File: " << filename << endl << endl;
+			error = true;
 			return false;
 		}
 
@@ -239,6 +198,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 						if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != string::npos || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != string::npos)
 						{
 							int tempint = eventcount - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+
 							if (line.find("<!-- EVENT numelement ", 0) != string::npos)
 							{
 								line.append(" <!-- EVENT numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
@@ -251,6 +211,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 						else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != string::npos)
 						{
 							int tempint = attributecount - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+
 							if (line.find("<!-- ATTRIBUTE numelement ", 0) != string::npos)
 							{
 								line.append(" <!-- ATTRIBUTE numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
@@ -263,6 +224,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 						else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != string::npos || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0) != string::npos || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != string::npos)
 						{
 							int tempint = variablecount - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+							
 							if (line.find("<!-- VARIABLE numelement ", 0) != string::npos)
 							{
 								line.append(" <!-- VARIABLE numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
@@ -275,6 +237,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 						else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0) != string::npos || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0) != string::npos)
 						{
 							int tempint = characterpropertycount - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+
 							if (line.find("<!-- CHARACTER numelement ", 0) != string::npos)
 							{
 								line.append(" <!-- CHARACTER numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
@@ -286,10 +249,12 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 						}
 						else if (line.find("numelements=\"", 0) != string::npos)
 						{
-							string templine = GetFunctionEdits("cache/" + modcode + "/" + f2 + "/" + f3, modEditLine[to_string(linecount)]);
+							string templine = GetFunctionEdits(storeline, modEditLine[to_string(linecount)]);
 
-							if (templine.length() == 0)
+							if (error)
 							{
+								cout << "ERROR(2005): Missing edits" << endl << "File: " << "cache/" << modcode << "/" << f2 << "/" << f3 << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
+								error = true;
 								return false;
 							}
 
@@ -306,10 +271,12 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 						}
 						else
 						{
-							string templine = GetFunctionEdits("cache/" + modcode + "/" + f2 + "/" + f3, modEditLine[to_string(linecount)]);
+							string templine = GetFunctionEdits(storeline, modEditLine[to_string(linecount)]);
 
-							if (templine.length() == 0)
+							if (error)
 							{
+								cout << "ERROR(2005): Missing edits" << endl << "File: " << "cache/" << modcode << "/" << f2 << "/" << f3 << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
+								error = true;
 								return false;
 							}
 
@@ -330,14 +297,16 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 					else if (NewCoordinate[f3][linecount] > 0)
 					{
 						functionline.push_back("<!-- NEW *" + modcode + "* -->");
-						vecstr storage = GetFunctionEdits("cache/" + modcode + "/" + f2 + "/" + f3, modEditLine[to_string(linecount) + "R"], NewCoordinate[f3][linecount]);
 
-						if (storage.size() != 0)
+						vecstr storage = GetFunctionEdits("cache/" + modcode + "/" + f2 + "/" + f3, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[f3][linecount]);
+
+						if (!error)
 						{
 							for (unsigned int i = 0; i < storage.size(); i++)
 							{
 								functionline.push_back(storage[i]);
 							}
+
 							functionline.push_back("<!-- CLOSE -->");
 						}
 						else
@@ -345,6 +314,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 							return false;
 						}
 					}
+
 					linecount++;
 				}
 
@@ -360,7 +330,8 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 		}
 		else
 		{
-			cout << "ERROR(2001): Failed to open file (File: " + filename + ")" << endl;
+			cout << "ERROR(2001): Failed to open file" << endl << "File: " << filename << endl << endl;
+			error = true;
 			return false;
 		}
 
@@ -378,7 +349,8 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 		}
 		else
 		{
-			cout << "ERROR(2002): Failed to create file (File: " + filename + ")" << endl;
+			cout << "ERROR(2002): Failed to create file" << endl << "File: " << filename << endl << endl;
+			error = true;
 			return false;
 		}
 	}
@@ -398,7 +370,8 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 	}
 	else
 	{
-		cout << "ERROR(2006): Invalid File (File:cache/" << modcode << "/" + f2 << "/" << f3 << ")" << endl;
+		cout << "ERROR(2004): Invalid File" << endl << "File: cache/" << modcode << "/" + f2 << "/" << f3 << endl << endl;
+		error = true;
 		return false;
 	}
 

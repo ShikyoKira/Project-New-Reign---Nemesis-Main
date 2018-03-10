@@ -113,19 +113,20 @@ void VanillaUpdate()
 
 	for (size_t i = 0; i < filelist.size(); ++i)
 	{
-		boost::filesystem::path curfile(path + filelist[i]);
+		newPath = path + filelist[i];
+		boost::filesystem::path curfile(newPath);
 
 		if (!boost::filesystem::is_directory(curfile))
 		{
 			if (curfile.extension() == ".xml" || curfile.extension() == ".txt")
 			{
-				behaviorPath[filelist[i]] = path + filelist[i];
-				VanillaDeassemble(path, filelist[i]);
+				behaviorPath[curfile.stem().string()] = newPath;
+				VanillaDeassemble(newPath, curfile.stem().string());
 			}
 		}
 		else
 		{
-			GetPathLoop(path + filelist[i]);
+			GetPathLoop(newPath);
 		}
 	}
 }
@@ -137,19 +138,20 @@ void GetPathLoop(string newPath)
 
 	for (size_t i = 0; i < filelist.size(); ++i)
 	{
-		boost::filesystem::path curfile(newPath + filelist[i]);
+		string path = newPath + filelist[i];
+		boost::filesystem::path curfile(path);
 
 		if (!boost::filesystem::is_directory(curfile))
 		{
 			if (curfile.extension() == ".xml" || curfile.extension() == ".txt")
 			{
-				behaviorPath[filelist[i]] = newPath + filelist[i];
-				VanillaDeassemble(newPath, filelist[i]);
+				behaviorPath[filelist[i]] = path;
+				VanillaDeassemble(path, filelist[i]);
 			}
 		}
 		else
 		{
-			GetPathLoop(newPath + filelist[i]);
+			GetPathLoop(path);
 		}
 	}
 }
@@ -168,30 +170,26 @@ void VanillaDeassemble(string path, string filename)
 
 			if (CreateDirectory(dir.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
 			{
-				boost::filesystem::path curPath(path);
+				vecstr storeline;
+				storeline.reserve(2000);
+				char line[5000];
+				FILE* vanillafile;
+				fopen_s(&vanillafile, path.c_str(), "r");
+				string curID;
 
-				if (!boost::filesystem::is_directory(curPath))
+				if (vanillafile)
 				{
-					vecstr storeline;
-					char line[5000];
-					FILE* vanillafile;
-					fopen_s(&vanillafile, path.c_str(), "r");
-					string curID;
-
-					if (vanillafile && (curPath.extension() == ".xml" || curPath.extension() == ".txt"))
+					while (fgets(line, 5000, vanillafile))
 					{
-						while (fgets(line, 5000, vanillafile))
-						{
-							string curline = string(line);
+						string curline = string(line);
 
+						if (curline.find("SERIALIZE_IGNORED") == string::npos)
+						{
 							if (curline.find("<hkobject name=\"", 0) != string::npos && curline.find("signature=\"", curline.find("<hkobject name=\"")) != string::npos)
 							{
-								int pos = curline.find("<hkobject name=\"#") - 1;
-								curID = curline.substr(pos, curline.find("\" class=\"", curline.find("<hkobject name=\"") - pos));
-
-								if (storeline.size() != 0)
+								if (storeline.size() != 0 && curID.length() != 0)
 								{
-									ofstream output(dir + curID);
+									ofstream output(dir + curID + ".txt");
 									FunctionWriter fwriter(&output);
 
 									if (output.is_open())
@@ -210,41 +208,44 @@ void VanillaDeassemble(string path, string filename)
 										return;
 									}
 								}
+
+								size_t pos = curline.find("<hkobject name=\"#") + 16;
+								curID = curline.substr(pos, curline.find("\" class=\"", curline.find("<hkobject name=\"")) - pos);
+								storeline.clear();
 							}
 
 							storeline.push_back(curline);
 						}
+					}
 
-						if (storeline.size() != 0)
+					if (storeline.size() != 0 && curID.length() != 0)
+					{
+						ofstream output(dir + curID + ".txt");
+						FunctionWriter fwriter(&output);
+
+						if (output.is_open())
 						{
-							ofstream output(dir + curID);
-							FunctionWriter fwriter(&output);
-
-							if (output.is_open())
+							for (size_t i = 0; i < storeline.size(); ++i)
 							{
-								for (size_t i = 0; i < storeline.size(); ++i)
-								{
-									fwriter << storeline[i];
-								}
+								fwriter << storeline[i];
+							}
 
-								output.close();
-							}
-							else
-							{
-								cout << "ERROR(2603): Unable to write file " << endl << "File: " << dir << curID << endl << endl;
-								error = true;
-								return;
-							}
+							output.close();
+						}
+						else
+						{
+							cout << "ERROR(2603): Unable to write file " << endl << "File: " << dir << curID << endl << endl;
+							error = true;
+							return;
 						}
 					}
-					else
-					{
-						cout << "ERROR(2602): Unable to open file " << endl << "File: " << dir << curID << endl << endl;
-						error = true;
-						return;
-					}
 				}
-
+				else
+				{
+					cout << "ERROR(2602): Unable to open file " << endl << "File: " << dir << curID << endl << endl;
+					error = true;
+					return;
+				}
 			}
 		}
 	}

@@ -6,7 +6,7 @@ using namespace std;
 
 typedef unordered_map<string, set<string>> mapSetString;
 
-DataPath skyrimDataPath;
+// DataPath skyrimDataPath;
 SSMap behaviorpath;
 
 IDCatcher::IDCatcher(int id, int curline)

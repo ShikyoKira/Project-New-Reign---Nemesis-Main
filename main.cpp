@@ -26,20 +26,26 @@ void UpdateFiles(string directory, string newAnimDirectory)
 {
 	if (!error)
 	{
+		// update "vanilla" folder
 		VanillaUpdate();
+
+		// remove outdated behavior files + copy "vanilla" to "new"
 		Clearing(directory);
 	}
 	
 	if (!error)
 	{
+		// comparing
 		if (newAnimUpdate(newAnimDirectory, directory))
 		{
+			// modify "new"
 			JoiningEdits(directory);
 		}
 	}
 
 	if (!error)
 	{
+		// compiling all behaviors in "new" to "temp_behaviors" folder
 		CombiningFiles(directory);
 	}
 }
@@ -172,13 +178,13 @@ int main()
 	time1 = boost::posix_time::microsec_clock::local_time();
 
 	// funcSpeed();
-	test();
+	// test();
 
 	// REMEMBER ADD FILE CHECKER
 	
 
 	// Patcher Update
-	// UpdateFiles("cache/", "behavior templates/");
+	UpdateFiles("cache/", "behavior templates/");
 
 
 	// For Debug purpose
