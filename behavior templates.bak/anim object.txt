@@ -1,0 +1,4 @@
+		<hkobject name="#$&AnimObject$" class="hkbStringEventPayload" signature="0xed04256a">
+			<hkparam name="data">$ObjectName$</hkparam>
+		</hkobject>
+

@@ -1,0 +1,15 @@
+		<hkobject name="#2726" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#2735</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">BowDrawn_TurnRight_Blend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">16</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="4">
+				#2733 #2731 #2729 #2727
+			</hkparam>
+		</hkobject>

@@ -1,0 +1,9 @@
+		<hkobject name="#0084" class="hkRootLevelContainer" signature="0x2772c11e">
+			<hkparam name="namedVariants" numelements="1">
+				<hkobject>
+					<hkparam name="name">hkbBehaviorGraph</hkparam>
+					<hkparam name="className">hkbBehaviorGraph</hkparam>
+					<hkparam name="variant">#4877</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

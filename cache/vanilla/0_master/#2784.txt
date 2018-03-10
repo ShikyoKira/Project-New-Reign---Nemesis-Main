@@ -1,0 +1,12 @@
+		<hkobject name="#2784" class="BSEventOnDeactivateModifier" signature="0x1062d993">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">3</hkparam>
+			<hkparam name="name">blockStop_OnDeactivateMod</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="event">
+				<hkobject>
+					<hkparam name="id">5</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

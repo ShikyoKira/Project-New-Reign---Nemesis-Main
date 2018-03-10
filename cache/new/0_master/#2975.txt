@@ -1,0 +1,10 @@
+		<hkobject name="#2975" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2978</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">DualWield_Dagger_PowerAttackForward_MSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#2970 #2970 #2976 #2970 #2970 #2970 #2970 #2970 #2970 #2970 #2970 #2970
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

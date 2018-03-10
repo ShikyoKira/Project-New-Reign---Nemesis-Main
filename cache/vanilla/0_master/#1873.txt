@@ -1,0 +1,34 @@
+		<hkobject name="#1873" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">KillMoveBehavior</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">2</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="140">
+				#1872 #1866 #1856 #1846 #1836 #1826 #1815 #1805 #1795 #1785 #1775 #1765 #1755 #1745 #1735 #1725
+				#1714 #1704 #1694 #1684 #1674 #1664 #1654 #1644 #1634 #1624 #1614 #1604 #1594 #1583 #1573 #1563
+				#1553 #1543 #1533 #1523 #1513 #1503 #1493 #1483 #1473 #1463 #1453 #1443 #1433 #1423 #1413 #1403
+				#1393 #1383 #1373 #1363 #1353 #1343 #1333 #1323 #1313 #1303 #1293 #1283 #1273 #1263 #1253 #1243
+				#1233 #1223 #1213 #1203 #1193 #1183 #1173 #1163 #1153 #1143 #1133 #1123 #1116 #1111 #1104 #1094
+				#1084 #1074 #1064 #1054 #1044 #1034 #1024 #1014 #1004 #0994 #0984 #0974 #0964 #0954 #0944 #0933
+				#0922 #0912 #0902 #0892 #0882 #0872 #0862 #0852 #0841 #0830 #0820 #0809 #0798 #0788 #0777 #0766
+				#0755 #0744 #0733 #0722 #0711 #0700 #0689 #0678 #0668 #0657 #0646 #0635 #0625 #0614 #0603 #0592
+				#0581 #0570 #0559 #0548 #0537 #0526 #0515 #0504 #0493 #0482 #0471 #0460
+			</hkparam>
+			<hkparam name="wildcardTransitions">#0447</hkparam>
+		</hkobject>

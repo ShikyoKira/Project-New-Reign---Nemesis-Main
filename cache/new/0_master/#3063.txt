@@ -1,0 +1,10 @@
+		<hkobject name="#3063" class="BSInterpValueModifier" signature="0x29adc802">
+			<hkparam name="variableBindingSet">#3064</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">SpeedDamped_BSInterpValueModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="source">0.000000</hkparam>
+			<hkparam name="target">0.000000</hkparam>
+			<hkparam name="result">0.000000</hkparam>
+			<hkparam name="gain">0.100000</hkparam>
+		</hkobject>

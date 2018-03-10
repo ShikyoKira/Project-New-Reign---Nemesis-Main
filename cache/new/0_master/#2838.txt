@@ -1,0 +1,147 @@
+		<hkobject name="#2838" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="8">					<!-- numelement *tudm* +3-->
+				<hkobject>
+					<hkparam name="localTime">-0.233000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">8</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.135000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">168</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.331000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">37</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.434000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">480</hkparam>					<!-- *tudm* -->
+							<hkparam name="id">35</hkparam>				<!-- original -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.434000</hkparam>					<!-- *tudm* -->
+					<hkparam name="localTime">0.466000</hkparam>				<!-- original -->
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">35</hkparam>					<!-- *tudm* -->
+							<hkparam name="id">167</hkparam>				<!-- original -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.466000</hkparam>					<!-- *tudm* -->
+					<hkparam name="localTime">0.529000</hkparam>				<!-- original -->
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">167</hkparam>					<!-- *tudm* -->
+							<hkparam name="id">36</hkparam>				<!-- original -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.529000</hkparam>					<!-- *tudm* -->
+					<hkparam name="localTime">0.665000</hkparam>				<!-- original -->
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">36</hkparam>					<!-- *tudm* -->
+							<hkparam name="id">167</hkparam>				<!-- original -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.665000</hkparam>					<!-- *tudm* -->
+					<hkparam name="localTime">1.030000</hkparam>				<!-- original -->
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">167</hkparam>					<!-- *tudm* -->
+							<hkparam name="id">168</hkparam>				<!-- original -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- NEW *tudm* -->
+				<hkobject>
+					<hkparam name="localTime">0.700000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">463</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.800000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">464</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">1.030000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">168</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>

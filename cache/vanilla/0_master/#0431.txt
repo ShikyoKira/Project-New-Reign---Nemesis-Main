@@ -1,0 +1,12 @@
+		<hkobject name="#0431" class="BSEventOnDeactivateModifier" signature="0x1062d993">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">3</hkparam>
+			<hkparam name="name">bowZoomStopOnDeactivate</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="event">
+				<hkobject>
+					<hkparam name="id">175</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

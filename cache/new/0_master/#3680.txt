@@ -1,0 +1,10 @@
+		<hkobject name="#3680" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#3679</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">AttackLeft_H2HRaceTypeMSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#3626 #3678
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

@@ -1,0 +1,6 @@
+		<hkobject name="#4048" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">SprintBFR</hkparam>
+			<hkparam name="behaviorName">Behaviors\SprintBehavior.hkx</hkparam>
+		</hkobject>

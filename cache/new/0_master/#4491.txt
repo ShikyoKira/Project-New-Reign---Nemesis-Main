@@ -1,0 +1,10 @@
+		<hkobject name="#4491" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#4501</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Tor_LocomotionMSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#4499 #4492
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

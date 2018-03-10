@@ -1,0 +1,10 @@
+		<hkobject name="#0296" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0304</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">CrossBow_DwarvenReleaseMSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0300 #0297
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

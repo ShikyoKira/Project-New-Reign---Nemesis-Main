@@ -1,0 +1,3 @@
+		<hkobject name="#4871" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">bWantCastLeft == 0</hkparam>
+		</hkobject>

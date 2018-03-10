@@ -1,0 +1,10 @@
+		<hkobject name="#2672" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2677</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Bow_DrawNock_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#2675 #2673
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

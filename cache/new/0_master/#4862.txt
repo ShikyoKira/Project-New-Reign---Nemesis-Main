@@ -1,0 +1,10 @@
+		<hkobject name="#4862" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#4861</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Recoil_1st3rd_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#4860 #4829
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

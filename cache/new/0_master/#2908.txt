@@ -1,0 +1,7 @@
+		<hkobject name="#2908" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">LeftHand_AttackPowerRight_Mod</hkparam>
+			<hkparam name="modifier">#2768</hkparam>
+			<hkparam name="generator">#2909</hkparam>
+		</hkobject>

@@ -1,0 +1,413 @@
+		<hkobject name="#MID$0" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">!AC1!</hkparam>
+			<hkparam name="exitNotifyEvents">!AC0!</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#MID$1</hkparam>
+			<hkparam name="name">Namesis_Paired_State_!%!</hkparam>
+			<hkparam name="stateId">!S$0!</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$1" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#MID$2</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Namesis_Paired_Behavior_!%!</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="1">
+				#MID$3
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$2" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">isActive</hkparam>
+					<hkparam name="variableIndex">51</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$3" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#MID$4</hkparam>
+			<hkparam name="name">Namesis_Paired_NullPitch_!%!</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$4" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#MID$5</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Namesis_Paired_AnimObj_Behavior_!%!</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="1">
+				#MID$6
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$5" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">isActive</hkparam>
+					<hkparam name="variableIndex">58</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+	
+		<hkobject name="#MID$6" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">!HO!</hkparam>
+			<hkparam name="exitNotifyEvents">!HO!</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#MID$8</hkparam>
+			<hkparam name="name">Namesis_AnimObj_State_!%!</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$7" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="!AO0*2$H!">
+<!-- NEW *H* -->
+				<hkobject>
+					<hkparam name="id">366</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+<!-- NEW *AO0* -->
+				<hkobject>
+					<hkparam name="id">937</hkparam>
+					<hkparam name="payload">!AO0N!</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="id">936</hkparam>
+					<hkparam name="payload">!AO0N!</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$8" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Namesis_Paired_AO_BSCG_!%!</hkparam>
+			<hkparam name="pClipGenerator">#MID$9</hkparam>
+			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
+			<hkparam name="bSyncClipIgnoreMarkPlacement">false</hkparam>
+			<hkparam name="fGetToMarkTime">0.000000</hkparam>
+			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
+			<hkparam name="bLeadCharacter">false</hkparam>
+			<hkparam name="bReorientSupportChar">true</hkparam>
+			<hkparam name="bApplyMotionFromRoot">false</hkparam>
+			<hkparam name="sAnimationBindingIndex">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$9" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Namesis_Paired_AO_Clip_!%!</hkparam>
+			<hkparam name="animationName">Animations\@M@</hkparam>
+			<hkparam name="triggers">#MID$10</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$10" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="!nT$2!">
+<!-- NEW *Trigger0* +% -->
+				<hkobject>
+					<hkparam name="localTime">!tT$0!</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">!T$0!</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+				<hkobject>
+					<hkparam name="localTime">!END!</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">156</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">!END!</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">1070</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$11" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">!AC1!</hkparam>
+			<hkparam name="exitNotifyEvents">!AC0!</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#MID$12</hkparam>
+			<hkparam name="name">NPC_Namesis_Paired_State_!%!</hkparam>
+			<hkparam name="stateId">!S$1!</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$12" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#MID$13</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">NPC_Namesis_Paired_Behavior_!%!</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="1">
+				#MID$14
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$13" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">isActive</hkparam>
+					<hkparam name="variableIndex">51</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$14" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#MID$15</hkparam>
+			<hkparam name="name">NPC_Namesis_Paired_NullPitch_!%!</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$15" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#MID$16</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">NPC_Namesis_Paired_AO_Behavior_!%!</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="1">
+				#MID$17
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$16" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">isActive</hkparam>
+					<hkparam name="variableIndex">58</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$17" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">!HO!</hkparam>
+			<hkparam name="exitNotifyEvents">!HO!</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#MID$19</hkparam>
+			<hkparam name="name">NPC_Namesis_AnimObj_State_!%!</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$18" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="!AO1*2$H!">
+<!-- NEW *H* -->
+				<hkobject>
+					<hkparam name="id">366</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+<!-- NEW *AO1* -->
+				<hkobject>
+					<hkparam name="id">937</hkparam>
+					<hkparam name="payload">!AO1N!</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="id">936</hkparam>
+					<hkparam name="payload">!AO1N!</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$19" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">NPC_Namesis_Paired_BSCG_!%!</hkparam>
+			<hkparam name="pClipGenerator">#MID$20</hkparam>
+			<hkparam name="SyncAnimPrefix">2_</hkparam>
+			<hkparam name="bSyncClipIgnoreMarkPlacement">false</hkparam>
+			<hkparam name="fGetToMarkTime">0.000000</hkparam>
+			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
+			<hkparam name="bLeadCharacter">true</hkparam>
+			<hkparam name="bReorientSupportChar">true</hkparam>
+			<hkparam name="bApplyMotionFromRoot">false</hkparam>
+			<hkparam name="sAnimationBindingIndex">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$20" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">NPC_Namesis_Paired_Clip_!%!</hkparam>
+			<hkparam name="animationName">Animations\@M@</hkparam>
+			<hkparam name="triggers">#MID$21</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$21" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="!nT2$1!">
+<!-- NEW *Trigger1* +% -->
+				<hkobject>
+					<hkparam name="localTime">!tT$1!</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">!T$1!</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+				<hkobject>
+					<hkparam name="localTime">!END!</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">956</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

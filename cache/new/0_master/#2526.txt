@@ -1,0 +1,16 @@
+		<hkobject name="#2526" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="3">
+				<hkobject>
+					<hkparam name="id">352</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="id">171</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="id">72</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

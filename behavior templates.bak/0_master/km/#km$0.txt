@@ -1,0 +1,12 @@
+		<hkobject name="#killmove$0" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="2">
+				<hkobject>
+					<hkparam name="id">1061</hkparam>
+					<hkparam name="payload">#0119</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="id">915</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

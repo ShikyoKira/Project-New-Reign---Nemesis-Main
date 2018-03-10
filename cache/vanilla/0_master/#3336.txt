@@ -1,0 +1,12 @@
+		<hkobject name="#3336" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">#3337</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">attackReleaseTransition</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
+			<hkparam name="duration">0.000000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="endMode">END_MODE_CAP_DURATION_AT_END_OF_FROM_GENERATOR</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+		</hkobject>

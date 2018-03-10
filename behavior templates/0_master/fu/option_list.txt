@@ -1,0 +1,16 @@
+rules a a
+minimum 3
+link AVI AV
+
+a
+o
+h
+ac
+ao
+T[]<event>/<time>
+AVI[]<variable>
+AV[]<variable>
+
+event_group L <main_anim_event>_DONE
+event nextAnim
+event IdleForceDefaultState

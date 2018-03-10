@@ -1,0 +1,8 @@
+		<hkobject name="#4819" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">RecoilLargeModifierGenerator00</hkparam>
+			<hkparam name="modifier">#tudm$45</hkparam>					<!-- *tudm* -->
+			<hkparam name="modifier">#4820</hkparam>				<!-- original -->
+			<hkparam name="generator">#4818</hkparam>
+		</hkobject>

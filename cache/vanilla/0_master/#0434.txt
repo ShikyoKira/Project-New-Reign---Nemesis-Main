@@ -1,0 +1,7 @@
+		<hkobject name="#0434" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">#0436</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">EvaluateBowZoom</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#0435</hkparam>
+		</hkobject>
