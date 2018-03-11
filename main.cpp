@@ -27,15 +27,21 @@ void UpdateFiles(string directory, string newAnimDirectory)
 	if (!error)
 	{
 		// update "vanilla" folder
-		VanillaUpdate();
-
-		// remove outdated behavior files + copy "vanilla" to "new"
-		Clearing(directory);
+		if (VanillaUpdate())
+		{
+			// remove outdated behavior files + copy "vanilla" to "new"
+			Clearing(directory);
+		}
+		else
+		{
+			error = true;
+			return;
+		}
 	}
 	
 	if (!error)
 	{
-		// comparing
+		// comparing if different
 		if (newAnimUpdate(newAnimDirectory, directory))
 		{
 			// modify "new"
@@ -132,6 +138,8 @@ void speedTest2()
 
 void funcSpeed()
 {
+	// for testing the speed of the function when multithreading
+
 	vector<thread> cur;
 
 	for (int i = 0; i < 1; ++i)
@@ -167,7 +175,7 @@ void funcSpeed()
 
 void test()
 {
-
+	// for testing function
 
 
 }
@@ -184,7 +192,7 @@ int main()
 	
 
 	// Patcher Update
-	UpdateFiles("cache/", "behavior templates/");
+	UpdateFiles("cache\\", "behavior templates/");
 
 
 	// For Debug purpose
@@ -201,7 +209,7 @@ int main()
 	// =======================
 
 
-	// GenerateBehavior("temp_behaviors/", behaviorPriority, chosenBehavior);
+	GenerateBehavior("temp_behaviors/", behaviorPriority, chosenBehavior);
 	
 	boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
 	boost::posix_time::time_duration diff = time2 - time1;

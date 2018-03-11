@@ -8,9 +8,9 @@ bool Renew(boost::filesystem::path const & source, boost::filesystem::path const
 	{
 		boost::filesystem::remove_all(destination);
 	}
-	catch (boost::filesystem::filesystem_error const & error)
+	catch (boost::filesystem::filesystem_error const & ex)
 	{
-		cout << error.what() << endl;
+		cout << ex.what() << endl;
 		return false;
 	}
 
@@ -28,7 +28,7 @@ bool copyDir(boost::filesystem::path const & source, boost::filesystem::path con
 	{
 		if (!boost::filesystem::exists(source))
 		{
-			cout << "ERROR(2100): Missing vanilla folder. Failed to renew output folder.";
+			cout << "ERROR(2100): Missing vanilla folder. Failed to renew output folder";
 			return false;
 		}
 	}
@@ -93,70 +93,230 @@ void Clearing(string directory)
 	{
 		boost::filesystem::path vanillaPath(vanillaDirectory);
 		boost::filesystem::path newPath(newDirectory);
-		Renew(vanillaPath, newPath);
+		
+		if (!Renew(vanillaPath, newPath))
+		{
+			error = true;
+			return;
+		}
 	}
 }
 
-void VanillaUpdate()
+bool VanillaUpdate()
 {
+#ifndef DEBUG
 	string path = "vanilla_behaviors";
+#else
+	string path = skyrimDataPath.dataPath;
+#endif
 
 	if (!isFileExist(path))
 	{
 		CreateDirectory(path.c_str(), NULL);
 	}
+	else
+	{
+		if (!GetPathLoop(path + "/"))
+		{
+			return false;
+		}
 
-	path.append("/");
+		if (behaviorPath.size() != 0)
+		{
+			ofstream output("behavior_path.txt");
+
+			if (output.is_open())
+			{
+				FunctionWriter fwriter(&output);
+
+				for (auto it = behaviorPath.begin(); it != behaviorPath.end(); ++it)
+				{
+					fwriter << it->first << " " << it->second << "\n";
+				}
+			}
+			else
+			{
+				cout << "ERROR(2602): Unable to open file" << endl << "File: behavior_path.txt" << endl << endl;
+				return false;
+			}
+		}		
+	}
+
+	return true;
+}
+
+bool GetPathLoop(string path)
+{
 	vecstr filelist;
-	string newPath;
 	read_directory(path, filelist);
+	unordered_map<string, time_t> lastEdit;
+	unordered_map<string, time_t> curEdit;
+	unordered_map<string, string> behaviorFile;
 
 	for (size_t i = 0; i < filelist.size(); ++i)
 	{
-		newPath = path + filelist[i];
+		string newPath = path + filelist[i];
 		boost::filesystem::path curfile(newPath);
 
 		if (!boost::filesystem::is_directory(curfile))
 		{
 			if (curfile.extension() == ".xml" || curfile.extension() == ".txt")
 			{
-				behaviorPath[curfile.stem().string()] = newPath;
-				VanillaDeassemble(newPath, curfile.stem().string());
+				string curFileName = curfile.stem().string();
+
+				if (curFileName.find("- last_edit (Do Not Modify)") == curFileName.length() - 27)
+				{
+					string behaviorName = curFileName.substr(0, curFileName.find(" - last_edit (Do Not Modify)"));
+					char line[2000];
+					FILE* editFile;
+					fopen_s(&editFile, newPath.c_str(), "r");
+
+					if (editFile)
+					{
+						while (fgets(line, 2000, editFile))
+						{
+							if (strlen(line) != 0)
+							{
+								time_t fileEdit;
+
+								if (line[strlen(line) - 1] == '\n' && strlen(line) != 0)
+								{
+									line[strlen(line) - 1] = '\0';
+								}
+
+								try
+								{
+									fileEdit = boost::lexical_cast<time_t>(line);
+								}
+								catch (boost::bad_lexical_cast& ex)
+								{
+									cout << ex.what() << endl;
+									return false;
+								}
+
+								// check if current file last write has been recorded
+								if (curEdit[behaviorName] != 0)
+								{
+									// check last modified date ignore if same
+									if (fileEdit < curEdit[behaviorName])
+									{
+										if (!VanillaDeassemble(behaviorFile[behaviorName], behaviorName))
+										{
+											return false;
+										}
+									}
+
+									curEdit[behaviorName] = 0;
+								}
+								else
+								{
+									lastEdit[behaviorName] = fileEdit;
+								}
+							}
+
+							break;
+						}
+					}
+					else
+					{
+						cout << "ERROR(2602): Unable to open file" << endl << "File: " << newPath << endl << endl;
+						return false;
+					}
+				}
+				else if (curFileName.find("Nemesis_") == 0)
+				{
+					curFileName = curFileName.substr(8);
+					time_t fileEdit = boost::filesystem::last_write_time(curfile);
+
+					// check if last edit has been recorded
+					if (lastEdit[curFileName] != 0)
+					{
+						// check last modified date ignore if same
+						if (lastEdit[curFileName] < fileEdit)
+						{
+							if (!VanillaDeassemble(newPath, curFileName))
+							{
+								return false;
+							}
+						}
+
+						lastEdit[curFileName] = 0;
+					}
+					else
+					{
+						curEdit[curFileName] = fileEdit;
+						behaviorFile[curFileName] = newPath;
+					}
+
+					newPath = path + filelist[i].substr(8);
+					behaviorPath[curFileName] = newPath.substr(0, newPath.find_last_of("."));
+				}
 			}
 		}
 		else
 		{
-			GetPathLoop(newPath);
+			// look deeper into the folder for behavior file
+			GetPathLoop(newPath + "/");
 		}
 	}
-}
 
-void GetPathLoop(string newPath)
-{
-	vecstr filelist;
-	read_directory(newPath, filelist);
-
-	for (size_t i = 0; i < filelist.size(); ++i)
+	for (auto it = curEdit.begin(); it != curEdit.end(); ++it)
 	{
-		string path = newPath + filelist[i];
-		boost::filesystem::path curfile(path);
-
-		if (!boost::filesystem::is_directory(curfile))
+		if (it->second != 0)
 		{
-			if (curfile.extension() == ".xml" || curfile.extension() == ".txt")
+			string filename = path + it->first + " - last_edit (Do Not Modify).txt";
+			ofstream output(filename);
+
+			if (output.is_open())
 			{
-				behaviorPath[filelist[i]] = path;
-				VanillaDeassemble(path, filelist[i]);
+				FunctionWriter fwriter(&output);
+
+				try
+				{
+					fwriter << boost::lexical_cast<string>(it->second);
+				}
+				catch (boost::bad_lexical_cast& ex)
+				{
+					cout << ex.what() << endl;
+					return false;
+				}
+
+				output.close();
+			}
+			else
+			{
+				cout << "ERROR(2603): Unable to write file" << endl << "File: " << filename << endl << endl;
+				return false;
+			}
+
+			if (!VanillaDeassemble(behaviorFile[it->first], it->first))
+			{
+				return false;
 			}
 		}
-		else
+	}
+
+	for (auto it = lastEdit.begin(); it != lastEdit.end(); ++it)
+	{
+		if (it->second != 0)
 		{
-			GetPathLoop(path);
+			try
+			{
+				boost::filesystem::remove_all(path + it->first + " - last_edit (Do Not Modify)");
+			}
+			catch (boost::filesystem::filesystem_error const & ex)
+			{
+				cout << ex.what() << endl;
+				return false;
+			}
+
 		}
 	}
+
+	return true;
 }
 
-void VanillaDeassemble(string path, string filename)
+bool VanillaDeassemble(string path, string filename)
 {
 	string dir = "cache/";
 	
@@ -172,16 +332,21 @@ void VanillaDeassemble(string path, string filename)
 			{
 				vecstr storeline;
 				storeline.reserve(2000);
-				char line[5000];
+				char line[2000];
 				FILE* vanillafile;
 				fopen_s(&vanillafile, path.c_str(), "r");
 				string curID;
 
 				if (vanillafile)
 				{
-					while (fgets(line, 5000, vanillafile))
+					while (fgets(line, 2000, vanillafile))
 					{
 						string curline = string(line);
+
+						if (curline.find("	</hksection>") != string::npos)
+						{
+							break;
+						}
 
 						if (curline.find("SERIALIZE_IGNORED") == string::npos)
 						{
@@ -190,10 +355,11 @@ void VanillaDeassemble(string path, string filename)
 								if (storeline.size() != 0 && curID.length() != 0)
 								{
 									ofstream output(dir + curID + ".txt");
-									FunctionWriter fwriter(&output);
 
 									if (output.is_open())
 									{
+										FunctionWriter fwriter(&output);
+
 										for (size_t i = 0; i < storeline.size(); ++i)
 										{
 											fwriter << storeline[i];
@@ -203,9 +369,8 @@ void VanillaDeassemble(string path, string filename)
 									}
 									else
 									{
-										cout << "ERROR(2603): Unable to write file " << endl << "File: " << dir << curID << endl << endl;
-										error = true;
-										return;
+										cout << "ERROR(2603): Unable to write file" << endl << "File: " << dir << curID << endl << endl;
+										return false;
 									}
 								}
 
@@ -218,13 +383,16 @@ void VanillaDeassemble(string path, string filename)
 						}
 					}
 
+					fclose(vanillafile);
+
 					if (storeline.size() != 0 && curID.length() != 0)
 					{
 						ofstream output(dir + curID + ".txt");
-						FunctionWriter fwriter(&output);
 
 						if (output.is_open())
 						{
+							FunctionWriter fwriter(&output);
+
 							for (size_t i = 0; i < storeline.size(); ++i)
 							{
 								fwriter << storeline[i];
@@ -234,19 +402,19 @@ void VanillaDeassemble(string path, string filename)
 						}
 						else
 						{
-							cout << "ERROR(2603): Unable to write file " << endl << "File: " << dir << curID << endl << endl;
-							error = true;
-							return;
+							cout << "ERROR(2603): Unable to write file" << endl << "File: " << dir << curID << endl << endl;
+							return false;
 						}
 					}
 				}
 				else
 				{
-					cout << "ERROR(2602): Unable to open file " << endl << "File: " << dir << curID << endl << endl;
-					error = true;
-					return;
+					cout << "ERROR(2602): Unable to open file" << endl << "File: " << dir << curID << endl << endl;
+					return false;
 				}
 			}
 		}
 	}
+
+	return true;
 }

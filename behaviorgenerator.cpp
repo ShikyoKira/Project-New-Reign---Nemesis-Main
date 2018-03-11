@@ -6,7 +6,6 @@ using namespace std;
 
 typedef unordered_map<string, set<string>> mapSetString;
 
-// DataPath skyrimDataPath;
 SSMap behaviorpath;
 
 IDCatcher::IDCatcher(int id, int curline)
@@ -965,9 +964,20 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 	cout << "Processing time 6: " << duration / 1000 << " seconds" << endl;
 
-	// final output
-	
-	string filename = "new_behaviors/" + filelist[curList];
+	if (behaviorPath[filelist[curList]].size() == 0)
+	{
+		cout << "ERROR(1068): Missing \"" << filelist[curList] << "\" file. Perform \"Update Patcher\" operation to fix this" << endl << "File :" << filelist[curList] << endl << endl;
+		error = true;
+		return;
+	}
+
+	// final output	
+#ifndef DEBUG
+	string filename = "new_behaviors/" + behaviorPath[filelist[curList]];
+#else
+	string filename = skyrimDataPath.dataPath + behaviorPath[filelist[curList]];
+#endif
+
 	ofstream output(filename.substr(0, filename.find_last_of(".")) + ".xml");
 	FunctionWriter fwriter(&output);
 
@@ -1666,6 +1676,16 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 	double duration = double(diff.total_milliseconds());
 
 	cout << "Processing time 1: " << duration / 1000 << " seconds" << endl;
+
+	if (behaviorPath.size() == 0)
+	{
+		GetBehaviorPath();
+
+		if (error)
+		{
+			return;
+		}
+	}
 
 	vecstr filelist;
 	read_directory(directory, filelist);

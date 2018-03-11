@@ -6,6 +6,9 @@ bool debug = false;
 bool error = false;
 int memory = 100;
 
+#ifdef DEBUG
+DataPath skyrimDataPath;
+#endif
 boost::posix_time::ptime time1;
 unordered_map<string, string> behaviorPath;
 
@@ -97,27 +100,6 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
 	}
 }
 
-inline string randomStringGenerator()
-{
-	string line;
-
-	int randomLength = rand() % 16 + 5;
-
-	for (int i = 0; i < randomLength; i++)
-	{
-		char key = (char)(rand() % 127);
-
-		while (key == '\n' || key == '\x1a' || key == '\0' || key == '\r')
-		{
-			key = (char)(rand() % 127);
-		}
-		
-		line.append(1, key);
-	}
-
-	return line;
-}
-
 inline int sameWordCount(string line, string word)
 {
 	size_t nextWord = 0;
@@ -135,21 +117,6 @@ inline int sameWordCount(string line, string word)
 		}
 	}
 	return wordCount;
-}
-
-inline vecchar getKey(string keyline)
-{
-	vecchar key;
-	size_t linelen = keyline.length();
-
-	key.reserve(linelen);
-
-	for (size_t i = 0; i < linelen; i++)
-	{
-		key.push_back(keyline[i]);
-	}
-
-	return key;
 }
 
 vecstr GetFunctionLines(string filename)
@@ -174,7 +141,7 @@ vecstr GetFunctionLines(string filename)
 		{
 			while (fgets(line, 5000, BehaviorFormat))
 			{
-				if (line[strlen(line) - 1] == '\n')
+				if (line[strlen(line) - 1] == '\n' && strlen(line) != 0)
 				{
 					line[strlen(line) - 1] = '\0';
 				}

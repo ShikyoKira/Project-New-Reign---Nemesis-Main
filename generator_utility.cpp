@@ -171,26 +171,73 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 	return list;
 }
 
-void getBehaviorPath(SSMap& behaviorPath)
+void GetBehaviorPath()
 {
-	string dir = "vanilla_behaviors";
+	string filename = "behavior_path.txt";
+
+	if (isFileExist(filename))
+	{
+		int linecount = 0;
+		char line[2000];
+		FILE* pathFile;
+		fopen_s(&pathFile, filename.c_str(), "r");
+
+		if (pathFile)
+		{
+			while (fgets(line, 2000, pathFile))
+			{
+				linecount++;
+
+				if ((line[0] != '\'' || line[0] != '\n') && strlen(line) != 0)
+				{
+					stringstream sstream(line);
+					istream_iterator<string> ssbegin(sstream);
+					istream_iterator<string> ssend;
+					vecstr path(ssbegin, ssend);
+					copy(path.begin(), path.end(), path.begin());
+
+					if (path.size() == 2)
+					{
+						behaviorPath[path[0]] = path[1];
+					}
+					else
+					{
+						cout << "ERROR(1067): Invalid input. Only 2 elements are acceptable with the first element being the file name and second element being the file path" << endl << "File: " << filename << "Line: " << linecount << endl << endl;
+						error = true;
+						return;
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		cout << "ERROR(1068): Missing \"" << filename << "\" file. Perform \"Update Patcher\" operation to fix this" << endl << "File :" << filename << endl << endl;
+		error = true;
+		return;
+	}
 }
 
-void FolderCreate(string behaviorPath, DataPath skyrimDataPath)
+void FolderCreate(string curBehaviorPath)
 {
-	size_t pos = behaviorPath.find("/") + 1;
-	string curFolder = skyrimDataPath.GetDataPath() + behaviorPath.substr(0, pos);
-	__int64 counter = sameWordCount(behaviorPath, "/");
+	size_t pos = curBehaviorPath.find("/") + 1;
+
+#ifdef DEBUG
+	string curFolder = skyrimDataPath.GetDataPath() + curBehaviorPath.substr(0, pos);
+#else
+	string curFolder = "data/" + curBehaviorPath.substr(0, pos);
+#endif
+	__int64 counter = sameWordCount(curBehaviorPath, "/");
 
 	for (int i = 0; i < counter; ++i)
 	{
 		if (CreateDirectory((curFolder).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
 		{
-			pos = behaviorPath.find("/", pos) + 1;
+			pos = curBehaviorPath.find("/", pos) + 1;
 
 			if (pos != 0)
 			{
-				curFolder = skyrimDataPath.GetDataPath() + behaviorPath.substr(0, pos);
+				curFolder = "data/" + curBehaviorPath.substr(0, pos);
 			}
 		}
 	}

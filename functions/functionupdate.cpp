@@ -336,15 +336,17 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 		}
 
 		functionline.shrink_to_fit();
-
 		ofstream output("cache/new/" + f2 + "/" + f3);
+
 		if (output.is_open())
 		{
 			FunctionWriter fwriter(&output);
+
 			for (unsigned int i = 0; i < functionline.size(); i++)
 			{
 				fwriter << functionline[i] << "\n";
 			}
+
 			output.close();
 		}
 		else
@@ -357,6 +359,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 	else if (f3.find("#") != string::npos && f3.find("$") != string::npos)
 	{
 		string destination = "cache/new/" + f2 + "/";
+
 		try
 		{
 			boost::filesystem::path currentfile("cache/" + modcode + "/" + f2 + "/" + f3);

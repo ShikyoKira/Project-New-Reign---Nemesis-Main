@@ -8,7 +8,7 @@ void SeparateMod(string dr, string f1, vecstr f2)
 
 	for (unsigned int j = 0; j < f2.size(); j++)
 	{
-		read_directory(dr + f1 + "/" + f2[j] + "/", f3);
+		read_directory(dr + f1 + "\\" + f2[j] + "\\", f3);
 
 		for (unsigned int k = 0; k < f3.size(); k++)
 		{
@@ -38,18 +38,18 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 
 			for (unsigned int j = 0; j < filelist2.size(); j++)
 			{
-				boost::filesystem::path curfile(folderpath + "/" + filelist2[j]);
+				boost::filesystem::path curfile(folderpath + "\\" + filelist2[j]);
 
 				if (boost::filesystem::is_directory(curfile))
 				{
-					read_directory(folderpath + "/" + filelist2[j], filelist3);
+					read_directory(folderpath + "\\" + filelist2[j], filelist3);
 
 					for (unsigned int k = 0; k < filelist3.size(); k++)
 					{
 						if (filelist3[k][0] == '#')
 						{
 							string line;
-							string readfile = folderpath + "/" + filelist2[j] + "/" + filelist3[k];
+							string readfile = folderpath + "\\" + filelist2[j] + "\\" + filelist3[k];
 							vecstr storeline = GetFunctionLines(readfile);
 
 							if (error)
@@ -57,7 +57,7 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 								return false;
 							}
 
-							string targetfile = targetfolder + "new/" + filelist[i] + "/" + filelist3[k];
+							string targetfile = targetfolder + "new\\" + filelist[i] + "\\" + filelist3[k];
 							vecstr originallines = GetFunctionLines(targetfile);
 
 							if (error)
@@ -162,7 +162,7 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 							}
 							else
 							{
-								cout << "ERROR(2602): Unable to open file " << endl << "File: " << targetfile << endl << endl;
+								cout << "ERROR(2602): Unable to open file:" << endl << "File: " << targetfile << endl << endl;
 								error = true;
 								return false;
 							}
@@ -182,7 +182,7 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 							return false;
 						}
 
-						string targetfile = targetfolder + "new/" + filelist[i] + "/" + filelist2[j];
+						string targetfile = targetfolder + "new\\" + filelist[i] + "\\" + filelist2[j];
 						ofstream pasteTarget(targetfile);
 						FunctionWriter fwriter(&pasteTarget);
 
@@ -196,7 +196,7 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 						}
 						else
 						{
-							cout << "ERROR(2603): Unable to write file " << endl << "File: " << targetfile << endl << endl;
+							cout << "ERROR(2603): Unable to write file:" << endl << "File: " << targetfile << endl << endl;
 							error = true;
 							return false;
 						}
@@ -209,7 +209,7 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 	}
 	else
 	{
-		cout << "ERROR(2604): Failed to create new folder (Folder: " << sourcefolder << ")" << endl;
+		cout << "ERROR(2604): Failed to create new folder" << endl << "Folder: " << sourcefolder << endl << endl;
 		error = true;
 		return false;
 	}
@@ -231,7 +231,7 @@ void JoiningEdits(string directory)
 		{
 			vecstr filelist2;
 
-			read_directory(directory + filelist[i] + "/", filelist2);
+			read_directory(directory + filelist[i] + "\\", filelist2);
 
 			if ((filelist[i] != "new") && (filelist[i] != "vanilla"))
 			{
@@ -259,11 +259,11 @@ void CombiningFiles(string directory)
 	{
 		if (filelist[i] == "new")
 		{
-			read_directory(directory + filelist[i] + "/", filelist2);
+			read_directory(directory + filelist[i] + "\\", filelist2);
 
 			for (unsigned int j = 0; j < filelist2.size(); j++)
 			{
-				read_directory(directory + filelist[i] + "/" + filelist2[j] + "/", filelist3);
+				read_directory(directory + filelist[i] + "\\" + filelist2[j] + "\\", filelist3);
 
 				string rootID;
 				bool isOpen = false;
@@ -290,7 +290,7 @@ void CombiningFiles(string directory)
 					}
 
 					string line;
-					string file = directory + filelist[i] + "/" + filelist2[j] + "/" + filelist3[k];
+					string file = directory + filelist[i] + "\\" + filelist2[j] + "\\" + filelist3[k];
 					char charline[5000];
 					FILE* BehaviorFormat;
 					fopen_s(&BehaviorFormat, file.c_str(), "r");
@@ -312,7 +312,7 @@ void CombiningFiles(string directory)
 					}
 					else
 					{
-						cout << "ERROR(2601): Unable to open file (File: " << file << ")" << endl;
+						cout << "ERROR(2601): Unable to open file" << endl << "File: " << file << endl << endl;
 						error = true;
 						return;
 					}
@@ -325,7 +325,7 @@ void CombiningFiles(string directory)
 				}
 
 				string filename = filelist2[j] + ".txt";
-				string compilingfolder = "temp_behaviors/";
+				string compilingfolder = "temp_behaviors\\";
 
 				if (CreateDirectory(compilingfolder.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
 				{
@@ -356,7 +356,7 @@ void CombiningFiles(string directory)
 					}
 					else
 					{
-						cout << "ERROR(2600): Unable to create file (File: " << file << ")" << endl;
+						cout << "ERROR(2600): Unable to create file" << endl << "File: " << file << endl << endl;
 						error = true;
 						return;
 					}

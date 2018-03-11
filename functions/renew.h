@@ -11,9 +11,9 @@
 extern bool Renew(boost::filesystem::path const & source, boost::filesystem::path const & destination);
 extern bool copyDir(boost::filesystem::path const & source, boost::filesystem::path const & destination);
 extern void Clearing(std::string directory);
-extern void VanillaUpdate();
+extern bool VanillaUpdate();
 
-void GetPathLoop(std::string newPath);
-void VanillaDeassemble(std::string path, std::string filename);
+bool GetPathLoop(std::string newPath);
+bool VanillaDeassemble(std::string path, std::string filename);
 
 #endif
