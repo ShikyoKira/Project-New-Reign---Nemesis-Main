@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void SeparateMod(string dr, string f1, vecstr f2)
+void SeparateMod(string dr, string f1, vecstr f2, unordered_map<string, map<string, vecstr>>& newFile)
 {
 	vecstr f3;
 
@@ -12,7 +12,7 @@ void SeparateMod(string dr, string f1, vecstr f2)
 
 		for (unsigned int k = 0; k < f3.size(); k++)
 		{
-			if (!FunctionUpdate(f1, f2[j], f3[k], memory))
+			if (!FunctionUpdate(f1, f2[j], f3[k], memory, newFile))
 			{
 				error = true;
 				return;
@@ -21,7 +21,7 @@ void SeparateMod(string dr, string f1, vecstr f2)
 	}
 }
 
-bool newAnimUpdate(string sourcefolder, string targetfolder)
+bool newAnimUpdate(string sourcefolder, string targetfolder, unordered_map<string, map<string, vecstr>>& newFile)
 {
 	vecstr filelist;
 	vecstr filelist2;
@@ -49,16 +49,14 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 						if (filelist3[k][0] == '#')
 						{
 							string line;
-							string readfile = folderpath + "\\" + filelist2[j] + "\\" + filelist3[k];
-							vecstr storeline = GetFunctionLines(readfile);
+							vecstr storeline = GetFunctionLines(folderpath + "\\" + filelist2[j] + "\\" + filelist3[k]);
 
 							if (error)
 							{
 								return false;
 							}
 
-							string targetfile = targetfolder + "new\\" + filelist[i] + "\\" + filelist3[k];
-							vecstr originallines = GetFunctionLines(targetfile);
+							vecstr originallines = newFile[filelist[i]][filelist3[k]];
 
 							if (error)
 							{
@@ -148,24 +146,7 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 								}
 							}
 
-							ofstream pasteTarget(targetfile);
-							FunctionWriter fwriter(&pasteTarget);
-
-							if (pasteTarget.is_open())
-							{
-								for (unsigned int k = 0; k < combinelines.size(); k++)
-								{
-									fwriter << combinelines[k] << "\n";
-								}
-
-								pasteTarget.close();
-							}
-							else
-							{
-								cout << "ERROR(2602): Unable to open file:" << endl << "File: " << targetfile << endl << endl;
-								error = true;
-								return false;
-							}
+							newFile[filelist[i]][filelist3[k]] = combinelines;
 						}
 					}
 
@@ -175,29 +156,10 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 				{
 					if (filelist2[j][0] == '#')
 					{
-						vecstr storeline = GetFunctionLines(folderpath + "/" + filelist2[j]);
+						newFile[filelist[i]][filelist2[j]] = GetFunctionLines(folderpath + "/" + filelist2[j]);
 
 						if (error)
 						{
-							return false;
-						}
-
-						string targetfile = targetfolder + "new\\" + filelist[i] + "\\" + filelist2[j];
-						ofstream pasteTarget(targetfile);
-						FunctionWriter fwriter(&pasteTarget);
-
-						if (pasteTarget.is_open())
-						{
-							for (unsigned int k = 0; k < storeline.size(); k++)
-							{
-								fwriter << storeline[k] << "\n";
-							}
-							pasteTarget.close();
-						}
-						else
-						{
-							cout << "ERROR(2603): Unable to write file:" << endl << "File: " << targetfile << endl << endl;
-							error = true;
 							return false;
 						}
 					}
@@ -217,7 +179,7 @@ bool newAnimUpdate(string sourcefolder, string targetfolder)
 	return true;
 }
 
-void JoiningEdits(string directory)
+void JoiningEdits(string directory, unordered_map<string, map<string, vecstr>>& newFile)
 {
 	vecstr filelist;
 	
@@ -233,10 +195,7 @@ void JoiningEdits(string directory)
 
 			read_directory(directory + filelist[i] + "\\", filelist2);
 
-			if ((filelist[i] != "new") && (filelist[i] != "vanilla"))
-			{
-				threads.emplace_back(SeparateMod, directory, filelist[i], filelist2);
-			}
+			threads.emplace_back(SeparateMod, directory, filelist[i], filelist2, ref(newFile));
 		}
 
 		for (auto& th: threads)
@@ -246,121 +205,102 @@ void JoiningEdits(string directory)
 	}
 }
 
-void CombiningFiles(string directory)
+void CombiningFiles(unordered_map<string, map<string, vecstr>>& newFile)
 {
-	vecstr filelist;
-	vecstr filelist2;
-	vecstr filelist3;
 	vecstr fileline;
-
-	read_directory(directory, filelist);
-
-	for (unsigned int i = 0; i < filelist.size(); i++)
+	
+	for (auto it = newFile.begin(); it != newFile.end(); ++it) // behavior file name
 	{
-		if (filelist[i] == "new")
+		string rootID;
+		bool isOpen = false;
+		string OpeningMod;
+
+		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter) // behavior node ID
 		{
-			read_directory(directory + filelist[i] + "\\", filelist2);
-
-			for (unsigned int j = 0; j < filelist2.size(); j++)
+			if (iter->first.find("$") != string::npos)
 			{
-				read_directory(directory + filelist[i] + "\\" + filelist2[j] + "\\", filelist3);
+				string modID = iter->first.substr(1, iter->first.find("$") - 1);
 
-				string rootID;
-				bool isOpen = false;
-				string OpeningMod;
-
-				for (unsigned int k = 0; k < filelist3.size(); k++)
+				if (OpeningMod != modID && isOpen)
 				{
-					if (filelist3[k].find("$") != string::npos)
-					{
-						string modID = filelist3[k].substr(1, filelist3[k].find("$") - 1);
-
-						if (OpeningMod != modID && isOpen)
-						{
-							fileline.push_back("<!-- CLOSE -->\n");
-							isOpen = false;
-						}
-
-						if (!isOpen)
-						{
-							fileline.push_back("<!-- NEW *" + modID + "* -->\n");
-							OpeningMod = modID;
-							isOpen = true;
-						}
-					}
-
-					string line;
-					string file = directory + filelist[i] + "\\" + filelist2[j] + "\\" + filelist3[k];
-					char charline[5000];
-					FILE* BehaviorFormat;
-					fopen_s(&BehaviorFormat, file.c_str(), "r");
-
-					if (BehaviorFormat)
-					{
-						while (fgets(charline, 5000, BehaviorFormat))
-						{
-							if (string(charline).find("class=\"hkRootLevelContainer\" signature=\"0x2772c11e\">", 0) != string::npos)
-							{
-								rootID = "#" + boost::regex_replace(string(charline), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-							}
-
-							fileline.push_back(charline);
-						}
-
-						fileline.push_back("\n");
-						fclose(BehaviorFormat);
-					}
-					else
-					{
-						cout << "ERROR(2601): Unable to open file" << endl << "File: " << file << endl << endl;
-						error = true;
-						return;
-					}
-				}
-
-				if (isOpen)
-				{
-					fileline.push_back("<!-- CLOSE -->\n");
+					fileline.push_back("<!-- CLOSE -->");
 					isOpen = false;
 				}
 
-				string filename = filelist2[j] + ".txt";
-				string compilingfolder = "temp_behaviors\\";
-
-				if (CreateDirectory(compilingfolder.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+				if (!isOpen)
 				{
-					string file = compilingfolder + filename;
-					ofstream output(file);
-
-					if (output.is_open())
-					{
-						FunctionWriter writeoutput(&output);
-
-						writeoutput << "<?xml version=\"1.0\" encoding=\"ascii\"?>" << "\n";
-						writeoutput << "<hkpackfile classversion=\"8\" contentsversion=\"hk_2010.2.0 - r1\" toplevelobject=\"" << rootID << "\">" << "\n";
-						writeoutput << "\n";
-						writeoutput << "	<hksection name=\"__data__\">" << "\n";
-						writeoutput << "\n";
-
-						for (unsigned int linecount = 0; linecount < fileline.size(); linecount++)
-						{
-							writeoutput << fileline[linecount];
-						}
-						
-						writeoutput << "	</hksection>" << "\n";
-						writeoutput << "\n";
-						writeoutput << "</hkpackfile>" << "\n";
-						writeoutput << "\n";
-
-						output.close();
-					}
-					else
-					{
-						cout << "ERROR(2600): Unable to create file" << endl << "File: " << file << endl << endl;
-						error = true;
-						return;
-					}
+					fileline.push_back("<!-- NEW *" + modID + "* -->");
+					OpeningMod = modID;
+					isOpen = true;
 				}
+			}
+
+			vecstr storeline = iter->second;
+			string line;
+
+			if (storeline.size() != 0)
+			{
+				for (unsigned int l = 0; l < storeline.size(); ++l)
+				{
+					line = storeline[l];
+
+					if (line.find("class=\"hkRootLevelContainer\" signature=\"0x2772c11e\">", 0) != string::npos)
+					{
+						rootID = "#" + boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+					}
+
+					fileline.push_back(line);
+				}
+			}
+			else
+			{
+				cout << ">> ERROR(2605): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "File: " << it->first << "(" << iter->first << ")" << endl << endl;
+				error = true;
+				return;
+			}
+		}
+
+		if (isOpen)
+		{
+			fileline.push_back("<!-- CLOSE -->");
+			isOpen = false;
+		}
+
+		string filename = it->first + ".txt";
+		string compilingfolder = "temp_behaviors\\";
+
+		if (CreateDirectory(compilingfolder.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+		{
+			string file = compilingfolder + filename;
+			ofstream output(file);
+
+			if (output.is_open())
+			{
+				FunctionWriter writeoutput(&output);
+
+				writeoutput << "<?xml version=\"1.0\" encoding=\"ascii\"?>" << "\n";
+				writeoutput << "<hkpackfile classversion=\"8\" contentsversion=\"hk_2010.2.0 - r1\" toplevelobject=\"" << rootID << "\">" << "\n";
+				writeoutput << "\n";
+				writeoutput << "	<hksection name=\"__data__\">" << "\n";
+				writeoutput << "\n";
+
+				for (unsigned int linecount = 0; linecount < fileline.size(); linecount++)
+				{
+					writeoutput << fileline[linecount] << "\n";
+				}
+
+				writeoutput << "	</hksection>" << "\n";
+				writeoutput << "\n";
+				writeoutput << "</hkpackfile>" << "\n";
+				writeoutput << "\n";
+
+				output.close();
+			}
+			else
+			{
+				cout << "ERROR(2600): Unable to create file" << endl << "File: " << file << endl << endl;
+				error = true;
+				return;
 			}
 		}
 	}

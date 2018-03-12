@@ -37,12 +37,12 @@ inline bool isFileExist(const string& filename)
 size_t fileLineCount(string filepath)
 {
 	int linecount = 0;
-	char line[5000];
+	char line[2000];
 	FILE* input;
 	fopen_s(&input, filepath.c_str(), "r");
 	if (input)
 	{
-		while (fgets(line, 5000, input))
+		while (fgets(line, 2000, input))
 		{
 			linecount++;
 		}
@@ -133,13 +133,13 @@ vecstr GetFunctionLines(string filename)
 			return functionlines;
 		}
 
-		char line[5000];
+		char line[2000];
 		FILE* BehaviorFormat;
 		fopen_s(&BehaviorFormat, filename.c_str(), "r");
 
 		if (BehaviorFormat)
 		{
-			while (fgets(line, 5000, BehaviorFormat))
+			while (fgets(line, 2000, BehaviorFormat))
 			{
 				if (line[strlen(line) - 1] == '\n' && strlen(line) != 0)
 				{

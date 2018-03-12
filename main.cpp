@@ -24,35 +24,26 @@ unordered_map<string, bool> behaviorlist;
 
 void UpdateFiles(string directory, string newAnimDirectory)
 {
-	if (!error)
-	{
-		// update "vanilla" folder
-		if (VanillaUpdate())
-		{
-			// remove outdated behavior files + copy "vanilla" to "new"
-			Clearing(directory);
-		}
-		else
-		{
-			error = true;
-			return;
-		}
-	}
-	
-	if (!error)
-	{
-		// comparing if different
-		if (newAnimUpdate(newAnimDirectory, directory))
-		{
-			// modify "new"
-			JoiningEdits(directory);
-		}
-	}
+	unordered_map<string, map<string, vecstr>> newFile;		// newFile[<file name>][<node ID>] = vector<string>, memory to access each node
 
 	if (!error)
 	{
-		// compiling all behaviors in "new" to "temp_behaviors" folder
-		CombiningFiles(directory);
+		// copy latest vanilla into memory
+		if (VanillaUpdate(newFile))
+		{
+			// check template for association with vanilla nodes
+			if (newAnimUpdate(newAnimDirectory, directory, newFile))
+			{
+				// comparing if different
+				JoiningEdits(directory, newFile);
+
+				if (!error)
+				{
+					// compiling all behaviors in "new" to "temp_behaviors" folder
+					CombiningFiles(newFile);
+				}
+			}
+		}
 	}
 }
 
@@ -209,7 +200,7 @@ int main()
 	// =======================
 
 
-	GenerateBehavior("temp_behaviors/", behaviorPriority, chosenBehavior);
+	// GenerateBehavior("temp_behaviors/", behaviorPriority, chosenBehavior);
 	
 	boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
 	boost::posix_time::time_duration diff = time2 - time1;

@@ -39,12 +39,12 @@ vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int en
 	}
 }
 
-bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
+bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unordered_map<string, map<string, vecstr>>& newFile)
 {
 	lock_guard<mutex> filelocker(locker[f3]);
-	string filecheck = "#" + boost::regex_replace(string(f3), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")) + ".txt";
+	string filecheck = boost::regex_replace(string(f3), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")) + ".txt";
 
-	if (filecheck == f3)
+	if ("#" + filecheck == f3)
 	{
 		unordered_map<string, string> modPath;
 		unordered_map<string, vecstr> modEdits;
@@ -72,7 +72,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 		vecstr storeline;
 		string line;
 		string filename = "cache/" + modcode + "/" + f2 + "/" + f3;
-		char charline[5000];
+		char charline[2000];
 		FILE* BehaviorFormat;
 		fopen_s(&BehaviorFormat, filename.c_str(), "r");
 
@@ -80,7 +80,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 		{
 			bool IsEventVariable = false;
 
-			while (fgets(charline, 5000, BehaviorFormat))
+			while (fgets(charline, 2000, BehaviorFormat))
 			{
 				line = charline;
 				line.pop_back();
@@ -170,21 +170,18 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 			return false;
 		}
 
+		vecstr newline = newFile[f2][f3.substr(0, f3.find_last_of("."))];
 		vecstr functionline;
+		functionline.reserve(newline.size());
 		linecount = 0;
 		int editcount = 0;
 		bool skip = false;
-		filename = "cache/new/" + f2 + "/" + f3;
-		functionline.reserve(fileLineCount(filename));
-		FILE* BehaviorFormat2;
-		fopen_s(&BehaviorFormat2, filename.c_str(), "r");
 
-		if (BehaviorFormat2)
+		if (newline.size() != 0)
 		{
-			while (fgets(charline, 5000, BehaviorFormat2))
+			for (unsigned int i = 0; i < newline.size(); ++i)
 			{
-				line = charline;
-				line.pop_back();
+				line = newline[i];
 
 				if (line.find("<!-- NEW", 0) != string::npos)
 				{
@@ -325,8 +322,6 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 
 				functionline.push_back(line);
 			}
-
-			fclose(BehaviorFormat2);
 		}
 		else
 		{
@@ -336,38 +331,23 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore)
 		}
 
 		functionline.shrink_to_fit();
-		ofstream output("cache/new/" + f2 + "/" + f3);
-
-		if (output.is_open())
-		{
-			FunctionWriter fwriter(&output);
-
-			for (unsigned int i = 0; i < functionline.size(); i++)
-			{
-				fwriter << functionline[i] << "\n";
-			}
-
-			output.close();
-		}
-		else
-		{
-			cout << "ERROR(2002): Failed to create file" << endl << "File: " << filename << endl << endl;
-			error = true;
-			return false;
-		}
+		newFile[f2][f3.substr(0, f3.find_last_of("."))] = functionline;
 	}
 	else if (f3.find("#") != string::npos && f3.find("$") != string::npos)
 	{
-		string destination = "cache/new/" + f2 + "/";
+		if (f3 == "#" + modcode + "$" + filecheck)
+		{
+			newFile[f2][f3.substr(0, f3.find_last_of("."))] = GetFunctionLines("cache/" + modcode + "/" + f2 + "/" + f3);
 
-		try
-		{
-			boost::filesystem::path currentfile("cache/" + modcode + "/" + f2 + "/" + f3);
-			boost::filesystem::copy_file(currentfile, destination / currentfile.filename(), boost::filesystem::copy_option::overwrite_if_exists);
+			if (newFile[f2][f3.substr(0, f3.find_last_of("."))].back().length() != 0)
+			{
+				newFile[f2][f3.substr(0, f3.find_last_of("."))].push_back("");
+			}
 		}
-		catch (boost::filesystem::filesystem_error const& error)
+		else
 		{
-			cout << error.what() << endl;
+			cout << "ERROR(2004): Invalid File" << endl << "File: cache/" << modcode << "/" + f2 << "/" << f3 << endl << endl;
+			error = true;
 			return false;
 		}
 	}

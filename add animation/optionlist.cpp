@@ -19,7 +19,7 @@ OptionList::OptionList(string filepath, string format)
 
 	if (input)
 	{
-		char line[5000];
+		char line[2000];
 		int linecount = 0;
 		bool minDone = false;
 		bool ruleDone = false;
@@ -30,7 +30,7 @@ OptionList::OptionList(string filepath, string format)
 		unordered_map<string, int> matchLine;
 		unordered_map<string, bool> isElementExist;
 
-		while (fgets(line, 5000, input))
+		while (fgets(line, 2000, input))
 		{
 			linecount++;
 

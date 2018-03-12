@@ -9,7 +9,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 	
 	if (newAnimationList)
 	{
-		char line[5000];
+		char line[2000];
 		int linecount = 0;
 
 		if (isNemesis)
@@ -25,7 +25,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 		string previousShortline;
 		string previousLine;
 
-		while (fgets(line, 5000, newAnimationList))
+		while (fgets(line, 2000, newAnimationList))
 		{
 			linecount++;
 

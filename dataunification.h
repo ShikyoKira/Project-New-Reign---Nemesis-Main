@@ -9,8 +9,10 @@
 #include "functions\functionupdate.h"
 #include "functions\functionwriter.h"
 
-extern void JoiningEdits(std::string directory);
-extern void CombiningFiles(std::string directory);
-extern bool newAnimUpdate(std::string sourcefolder, std::string targetfolder);
+void SeparateMod(std::string dr, std::string f1, vecstr f2, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile);
+
+extern void JoiningEdits(std::string directory, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile);
+extern void CombiningFiles(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile);
+extern bool newAnimUpdate(std::string sourcefolder, std::string targetfolder, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile);
 
 #endif
