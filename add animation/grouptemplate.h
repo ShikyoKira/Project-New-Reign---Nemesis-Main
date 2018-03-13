@@ -50,8 +50,8 @@ private:
 	SSMap IDExist;
 
 public:
-	vecstr groupExistingFunctionProcess(vecstr existingFunctionLines, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, std::string format, ImportContainer import, id eventid, id variableid, int& nFunctionID, bool hasMaster, bool hasGroup);
-	void processing(std::string& line, int linecount, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, id eventid, id variableid, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
+	vecstr groupExistingFunctionProcess(int curFunctionID, vecstr existingFunctionLines, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, std::string format, ImportContainer import, id eventid, id variableid, int& nFunctionID, bool hasMaster, bool hasGroup);
+	void processing(std::string& line, int curFunctionID, int linecount, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, id eventid, id variableid, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
 	inline void newID();
 	void setZeroEvent(std::string eventname);
 

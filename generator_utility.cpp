@@ -1,5 +1,7 @@
 #include "generator_utility.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 int GetStateID(int mainJoint, map<int, vecstr> functionlist)
@@ -125,45 +127,83 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 
 vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 {
-	// string animationDirectory = GetDataPath() + "/meshes/actors/character/animations/";
-	string animationDirectory = "data/meshes/actors/character/animations/"; // need update
-
-	vecstr filelist1;
-	vecstr filelist2;
-
 	vector<unique_ptr<registerAnimation>> list;
+	set<string> animPath;
 
-	if (error)
+	for (auto it = behaviortemplate.grouplist.begin(); it != behaviortemplate.grouplist.end(); ++it)
 	{
-		return list;
+		string path = behaviorPath[it->first];
+
+		if (path.length() == 0)
+		{
+			cout << "ERROR(1050): Unregistered behavior path detected. Perform \"Update Patcher\" operation to fix this" << endl << "Behavior :" << it->first << endl << endl;
+			error = true;
+			return list;
+		}
+
+		size_t pos = wordFind(path, "/behaviors/", true);
+
+		if (pos != -1)
+		{
+			animPath.insert(path.substr(0, pos) + "/");
+		}
+		else
+		{
+			cout << "WARNING: Behavior located in non-standard path detected. Following behavior will be ignored" << endl << "Behavior: " << it->first << endl << "Path: " << path << endl << endl;
+		}
 	}
 
-	read_directory(animationDirectory, filelist1);
-
-	for (unsigned int l = 0; l < filelist1.size(); l++)
+	for (auto it = animPath.begin(); it != animPath.end(); ++it)
 	{
-		boost::filesystem::path FOF(animationDirectory + filelist1[l]);
+#ifndef DEBUG
+		string animationDirectory = *it + "animations/";
+#else
+		string animationDirectory = skyrimdataPath.GetDataPath() + *it + "animations/";
+#endif
 
-		if (boost::filesystem::is_directory(FOF))
+		vecstr filelist1;
+		vecstr filelist2;
+		unordered_map<string, vecstr> animFile;
+
+		if (error)
 		{
-			read_directory(animationDirectory + filelist1[l], filelist2);
+			return list;
+		}
 
-			for (unsigned int k = 0; k < filelist2.size(); k++)
+		read_directory(animationDirectory, filelist1);
+
+		for (unsigned int l = 0; l < filelist1.size(); l++)
+		{
+			boost::filesystem::path FOF(animationDirectory + filelist1[l]);
+
+			if (boost::filesystem::is_directory(FOF))
 			{
-				if (filelist2[k].find("_" + filelist1[l] + "_List.txt") != string::npos)
-				{
-					string fileToolName = filelist2[k].substr(0, filelist2[k].find("_", 0) + 1);
-					string listword = filelist2[k].substr(filelist2[k].find_last_of("_"));
+				read_directory(animationDirectory + filelist1[l], filelist2);
 
-					if (fileToolName == "FNIS_" && listword == "_List.txt")
+				for (unsigned int k = 0; k < filelist2.size(); k++)
+				{
+					if (filelist2[k].find("_" + filelist1[l] + "_List.txt") != string::npos)
 					{
-						list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate));
-					}
-					else if (fileToolName == "Nemesis_" && listword == "_List.txt")
-					{
-						list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate, true));
+						string fileToolName = filelist2[k].substr(0, filelist2[k].find("_", 0) + 1);
+						string listword = filelist2[k].substr(filelist2[k].find_last_of("_"));
+
+						if (fileToolName == "FNIS_" && listword == "_List.txt")
+						{
+							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate));
+						}
+						else if (fileToolName == "Nemesis_" && listword == "_List.txt")
+						{
+							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate, true));
+						}
+
+						if (error)
+						{
+							return list;
+						}
 					}
 				}
+
+				filelist2.clear();
 			}
 		}
 	}

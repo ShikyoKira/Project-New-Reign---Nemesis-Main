@@ -43,6 +43,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 {
 	lock_guard<mutex> filelocker(locker[f3]);
 	string filecheck = boost::regex_replace(string(f3), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")) + ".txt";
+	string nodeID = f3.substr(0, f3.find_last_of("."));
 
 	if ("#" + filecheck == f3)
 	{
@@ -169,8 +170,8 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 			error = true;
 			return false;
 		}
-
-		vecstr newline = newFile[f2][f3.substr(0, f3.find_last_of("."))];
+		
+		vecstr newline = newFile[f2][nodeID];
 		vecstr functionline;
 		functionline.reserve(newline.size());
 		linecount = 0;
@@ -325,23 +326,23 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 		}
 		else
 		{
-			cout << "ERROR(2001): Failed to open file" << endl << "File: " << filename << endl << endl;
+			cout << "ERROR(2001): Missing node ID" << endl << "Node ID: " << nodeID << endl << endl;
 			error = true;
 			return false;
 		}
 
 		functionline.shrink_to_fit();
-		newFile[f2][f3.substr(0, f3.find_last_of("."))] = functionline;
+		newFile[f2][nodeID] = functionline;
 	}
 	else if (f3.find("#") != string::npos && f3.find("$") != string::npos)
 	{
 		if (f3 == "#" + modcode + "$" + filecheck)
 		{
-			newFile[f2][f3.substr(0, f3.find_last_of("."))] = GetFunctionLines("cache/" + modcode + "/" + f2 + "/" + f3);
+			newFile[f2][nodeID] = GetFunctionLines("cache/" + modcode + "/" + f2 + "/" + f3);
 
-			if (newFile[f2][f3.substr(0, f3.find_last_of("."))].back().length() != 0)
+			if (newFile[f2][nodeID].back().length() != 0)
 			{
-				newFile[f2][f3.substr(0, f3.find_last_of("."))].push_back("");
+				newFile[f2][nodeID].push_back("");
 			}
 		}
 		else

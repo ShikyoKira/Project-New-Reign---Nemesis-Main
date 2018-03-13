@@ -1,11 +1,13 @@
 #include "renew.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile)
 {
 #ifndef DEBUG
-	string path = "vanilla_behaviors";
+	string path = "data";
 #else
 	string path = skyrimDataPath.dataPath + "/meshes";
 #endif
@@ -64,7 +66,7 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 			{
 				string curFileName = curfile.stem().string();
 				
-				if (curFileName.find("Nemesis_") == 0)
+				if (curFileName.find("Nemesis_") == 0 && wordFind(curFileName, "_List") == -1)
 				{
 					curFileName = curFileName.substr(8);
 

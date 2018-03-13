@@ -1,5 +1,7 @@
 #include "dataunification.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 void SeparateMod(string dr, string f1, vecstr f2, unordered_map<string, map<string, vecstr>>& newFile)
@@ -18,6 +20,8 @@ void SeparateMod(string dr, string f1, vecstr f2, unordered_map<string, map<stri
 				return;
 			}
 		}
+
+		f3.clear();
 	}
 }
 
@@ -56,7 +60,9 @@ bool newAnimUpdate(string sourcefolder, string targetfolder, unordered_map<strin
 								return false;
 							}
 
-							vecstr originallines = newFile[filelist[i]][filelist3[k]];
+
+							string nodeID = filelist3[k].substr(0, filelist3[k].find_last_of("."));
+							vecstr originallines = newFile[filelist[i]][nodeID];
 
 							if (error)
 							{
@@ -146,7 +152,7 @@ bool newAnimUpdate(string sourcefolder, string targetfolder, unordered_map<strin
 								}
 							}
 
-							newFile[filelist[i]][filelist3[k]] = combinelines;
+							newFile[filelist[i]][nodeID] = combinelines;
 						}
 					}
 
@@ -156,7 +162,7 @@ bool newAnimUpdate(string sourcefolder, string targetfolder, unordered_map<strin
 				{
 					if (filelist2[j][0] == '#')
 					{
-						newFile[filelist[i]][filelist2[j]] = GetFunctionLines(folderpath + "/" + filelist2[j]);
+						newFile[filelist[i]][filelist2[j].substr(0, filelist2[j].find_last_of("."))] = GetFunctionLines(folderpath + "/" + filelist2[j]);
 
 						if (error)
 						{
@@ -196,6 +202,8 @@ void JoiningEdits(string directory, unordered_map<string, map<string, vecstr>>& 
 			read_directory(directory + filelist[i] + "\\", filelist2);
 
 			threads.emplace_back(SeparateMod, directory, filelist[i], filelist2, ref(newFile));
+
+			filelist2.clear();
 		}
 
 		for (auto& th: threads)
@@ -293,6 +301,7 @@ void CombiningFiles(unordered_map<string, map<string, vecstr>>& newFile)
 				writeoutput << "\n";
 				writeoutput << "</hkpackfile>" << "\n";
 
+				fileline.clear();
 				output.close();
 			}
 			else

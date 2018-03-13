@@ -176,6 +176,8 @@ getTemplate::getTemplate()
 							error = true;
 							return;
 						}
+
+						filelist.clear();
 					}
 				}
 
@@ -183,6 +185,8 @@ getTemplate::getTemplate()
 				{
 					return;
 				}
+
+				codelist.clear();
 			}
 		}
 
