@@ -6,8 +6,6 @@ using namespace std;
 
 typedef unordered_map<string, set<string>> mapSetString;
 
-SSMap behaviorpath;
-
 IDCatcher::IDCatcher(int id, int curline)
 {
 	ID = id;
@@ -313,6 +311,8 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 					if (openRange == range)
 					{
+						unordered_map<string, bool> isExist;
+
 						// reset
 						if (norElement)
 						{
@@ -329,30 +329,35 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 									if (curNum == "eventNames")
 									{
 										string eventname = *it;
-										string curline = "				<hkcstring>" + eventname + "</hkcstring>";
 
-										if (eventid[eventname] != 0)
+										if (isExist[eventname])
 										{
-											cout << "ERROR(1050): Duplicated event name found. Please change the name of the event name" << endl << "Event Name: " << eventname << endl << endl;
-											error = true;
-											return;
+											cout << "WARNING: Duplicated event name found" << endl << "Event Name: " << eventname << endl << endl;
 										}
-
-										eventid[eventname] = counter;
-										eventName[counter] = eventname;
-
-										if (counter == 0)
+										else
 										{
-											ZeroEvent = eventname;
-										}
+											string curline = "				<hkcstring>" + eventname + "</hkcstring>";
+											eventid[eventname] = counter;
+											eventName[counter] = eventname;
+											isExist[eventname] = true;
 
-										catalystMap[curID].push_back(curline);
+											if (counter == 0)
+											{
+												ZeroEvent = eventname;
+											}
+
+											catalystMap[curID].push_back(curline);
+										}
 									}
 									else if (curNum == "eventInfos")
 									{
-										catalystMap[curID].push_back("				<hkobject>");
-										catalystMap[curID].push_back("					<hkparam name=\"flags\">0</hkparam>");
-										catalystMap[curID].push_back("				</hkobject>");
+										if (!isExist[*it])
+										{
+											catalystMap[curID].push_back("				<hkobject>");
+											catalystMap[curID].push_back("					<hkparam name=\"flags\">0</hkparam>");
+											catalystMap[curID].push_back("				</hkobject>");
+											isExist[*it] = true;
+										}
 									}
 									else
 									{
@@ -384,28 +389,44 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 									if (curNum == "variableNames")
 									{
-										string curline = "				<hkcstring>" + variablename + "</hkcstring>";
-										varName[counter] = variablename;
-										variableid[variablename] = counter;
-										catalystMap[curID].push_back(curline);
+										if (isExist[variablename])
+										{
+											cout << "WARNING: Duplicated variable name found" << endl << "Event Name: " << variablename << endl << endl;
+										}
+										else
+										{
+											string curline = "				<hkcstring>" + variablename + "</hkcstring>";
+											varName[counter] = variablename;
+											variableid[variablename] = counter;
+											catalystMap[curID].push_back(curline);
+											isExist[variablename] = true;
+										}
 									}
 									else if (curNum == "wordVariableValues")
 									{
-										catalystMap[curID].push_back("				<hkobject>");
-										catalystMap[curID].push_back("					<hkparam name=\"value\">" + AnimVar[variablename].init_value + "</hkparam>");
-										catalystMap[curID].push_back("				</hkobject>");
+										if (!isExist[variablename])
+										{
+											catalystMap[curID].push_back("				<hkobject>");
+											catalystMap[curID].push_back("					<hkparam name=\"value\">" + AnimVar[variablename].init_value + "</hkparam>");
+											catalystMap[curID].push_back("				</hkobject>");
+											isExist[variablename] = true;
+										}
 									}
 									else if (curNum == "variableInfos")
 									{
-										catalystMap[curID].push_back("				<hkobject>");
-										catalystMap[curID].push_back("					<hkparam name=\"role\">");
-										catalystMap[curID].push_back("						<hkobject>");
-										catalystMap[curID].push_back("							<hkparam name=\"role\">ROLE_DEFAULT</hkparam>");
-										catalystMap[curID].push_back("							<hkparam name=\"flags\">0</hkparam>");
-										catalystMap[curID].push_back("						</hkobject>");
-										catalystMap[curID].push_back("					</hkparam>");
-										catalystMap[curID].push_back("					<hkparam name=\"type\">VARIABLE_TYPE_" + AnimVar[variablename].var_type + "</hkparam>");
-										catalystMap[curID].push_back("				</hkobject>");
+										if (!isExist[variablename])
+										{
+											catalystMap[curID].push_back("				<hkobject>");
+											catalystMap[curID].push_back("					<hkparam name=\"role\">");
+											catalystMap[curID].push_back("						<hkobject>");
+											catalystMap[curID].push_back("							<hkparam name=\"role\">ROLE_DEFAULT</hkparam>");
+											catalystMap[curID].push_back("							<hkparam name=\"flags\">0</hkparam>");
+											catalystMap[curID].push_back("						</hkobject>");
+											catalystMap[curID].push_back("					</hkparam>");
+											catalystMap[curID].push_back("					<hkparam name=\"type\">VARIABLE_TYPE_" + AnimVar[variablename].var_type + "</hkparam>");
+											catalystMap[curID].push_back("				</hkobject>");
+											isExist[variablename] = true;
+										}
 									}
 									else
 									{
@@ -878,7 +899,8 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					{
 						ExistingFunction exFunction;
 						exFunction.setZeroEvent(ZeroEvent);
-						catalystMap[BehaviorTemplate.existingFunctionID[templateCode][k]] = exFunction.groupExistingFunctionProcess(catalystMap[BehaviorTemplate.existingFunctionID[templateCode][k]], subFunctionIDs, groupAnimInfo[0], templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup);
+						int functionID = BehaviorTemplate.existingFunctionID[templateCode][k];
+						catalystMap[functionID] = exFunction.groupExistingFunctionProcess(functionID, catalystMap[functionID], subFunctionIDs, groupAnimInfo[0], templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup);
 
 						if (catalystMap[BehaviorTemplate.existingFunctionID[templateCode][k]].size() == 0 || error)
 						{
@@ -977,7 +999,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 #ifndef DEBUG
 	filename = "new_behaviors/" + behaviorPath[filename].substr(behaviorPath[filename].find("/") + 1);
 #else
-	filename = skyrimDataPath.dataPath + behaviorPath[filename];
+	filename = behaviorPath[filename];
 #endif
 
 	FolderCreate(filename.substr(0, filename.find_last_of(filename)));
@@ -1004,6 +1026,16 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<string, bool> chosenBehavior)
 {
+	if (behaviorPath.size() == 0)
+	{
+		GetBehaviorPath();
+
+		if (error)
+		{
+			return;
+		}
+	}
+
 	// register animation & organize AE n Var
 	unordered_map<string, int> animationCount;
 	getTemplate BehaviorTemplate;
@@ -1019,7 +1051,7 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 		return;
 	}
 
-	// read each animation list file
+	// read each animation list file'
 	for (unsigned int i = 0; i < animationList.size(); i++)
 	{
 		string modID = animationList[i]->modID;
@@ -1680,16 +1712,6 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 	double duration = double(diff.total_milliseconds());
 
 	cout << "Processing time 1: " << duration / 1000 << " seconds" << endl;
-
-	if (behaviorPath.size() == 0)
-	{
-		GetBehaviorPath();
-
-		if (error)
-		{
-			return;
-		}
-	}
 
 	vecstr filelist;
 	read_directory(directory, filelist);
