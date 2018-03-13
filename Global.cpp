@@ -165,3 +165,29 @@ vecstr GetFunctionLines(string filename)
 
 	return functionlines;
 }
+
+size_t wordFind(string line, string word, bool isLast)		// case insensitive "string.find"
+{
+	boost::algorithm::to_lower(line);
+	boost::algorithm::to_lower(word);
+
+	if (line.find(word) == string::npos)
+	{
+		return -1;
+	}
+
+	if (isLast)
+	{
+		size_t pos = 0;
+		__int64 ref = sameWordCount(line, word);
+
+		for (__int64 i = 0; i < ref; ++i)
+		{
+			pos = line.find(word, pos + 1);
+		}
+
+		return pos;
+	}
+
+	return line.find(word);
+}
