@@ -3,6 +3,8 @@
 
 #include "optionlist.h"
 
+#pragma warning(disable:4503)
+
 typedef std::unordered_map<std::string, std::string> SSMap;
 typedef std::unordered_map<std::string, SSMap> ImportContainer;
 

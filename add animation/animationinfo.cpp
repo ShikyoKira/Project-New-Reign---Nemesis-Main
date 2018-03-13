@@ -1,10 +1,13 @@
 #include "animationinfo.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList behaviorOption, int linecount, bool& isOExist, bool noOption)
 {
 	unsigned int k = 0;
+	bool known = false;
 	string line = newAnimInfo[1];
 	animInfo = newAnimInfo;
 
@@ -51,6 +54,12 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 
 			while (true)
 			{
+				if (option == "k" || option == "bsa")
+				{
+					known = true;
+					break;
+				}
+
 				if (option[0] == 'D' && isalnum(option[1]) && !isalpha(option[1]))
 				{
 					string time = boost::regex_replace(string(option), boost::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
@@ -195,8 +204,8 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 	}
 
 	mainAnimEvent = animInfo[k + 1];
-	eventID.push_back(mainAnimEvent);
 	filename = animInfo[k + 2];
+	eventID.push_back(mainAnimEvent);
 
 	if (animInfo.size() > k + 3)
 	{

@@ -109,7 +109,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 
 					var variable(type, value);
 
-					if (error)
+					if (!error)
 					{
 						AnimVar[name] = variable;
 					}
@@ -137,12 +137,34 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 							if (newAnimInfo.size() > 3 && newAnimInfo[1][0] == '-')
 							{
 								animInfo[previousShortline].push_back(make_shared<animationInfo>(newAnimInfo, filename, behaviortemplate.optionlist[previousShortline], linecount, isOExist));
+
+								if (error)
+								{
+									return;
+								}
+								
 								animInfo[previousShortline].back()->addFilename(newAnimInfo[3]);
+
+								if (!isFileExist(filepath.substr(0, filepath.find_last_of("/") + 1) + newAnimInfo[3]))
+								{
+									cout << "WARNING: Missing animation file" << endl << "File: " << newAnimInfo[3] << endl << endl;
+								}
 							}
 							else
 							{
 								animInfo[previousShortline].push_back(make_shared<animationInfo>(newAnimInfo, filename, behaviortemplate.optionlist[previousShortline], linecount, isOExist, true));
+
+								if (error)
+								{
+									return;
+								}
+								
 								animInfo[previousShortline].back()->addFilename(newAnimInfo[2]);
+
+								if (!isFileExist(filepath.substr(0, filepath.find_last_of("/") + 1) + newAnimInfo[2]))
+								{
+									cout << "WARNING: Missing animation file" << endl << "File: " << newAnimInfo[2] << endl << endl;
+								}
 							}
 
 							if (behaviortemplate.behaviortemplate[previousShortline + "_group"].size() != 0)
@@ -188,11 +210,21 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 					{
 						animInfo[newAnimInfo[0]].push_back(make_shared<animationInfo>(newAnimInfo, filename, behaviortemplate.optionlist[newAnimInfo[0]], linecount, isOExist));
 						animInfo[newAnimInfo[0]].back()->addFilename(newAnimInfo[3]);
+
+						if (!isFileExist(filepath.substr(0, filepath.find_last_of("/") + 1) + newAnimInfo[3]))
+						{
+							cout << "WARNING: Missing animation file" << endl << "File: " << newAnimInfo[3] << endl << endl;
+						}
 					}
 					else
 					{
 						animInfo[newAnimInfo[0]].push_back(make_shared<animationInfo>(newAnimInfo, filename, behaviortemplate.optionlist[newAnimInfo[0]], linecount, isOExist, true));
 						animInfo[newAnimInfo[0]].back()->addFilename(newAnimInfo[2]);
+
+						if (!isFileExist(filepath.substr(0, filepath.find_last_of("/") + 1) + newAnimInfo[2]))
+						{
+							cout << "WARNING: Missing animation file" << endl << "File: " << newAnimInfo[2] << endl << endl;
+						}
 					}
 
 					if (behaviortemplate.behaviortemplate[newAnimInfo[0] + "_group"].size() != 0)
