@@ -223,9 +223,9 @@ void FolderCreate(string curBehaviorPath)
 	size_t pos = curBehaviorPath.find("/") + 1;
 
 #ifdef DEBUG
-	string curFolder = skyrimDataPath.GetDataPath() + curBehaviorPath.substr(0, pos);
+	string curFolder = curBehaviorPath.substr(0, pos);
 #else
-	string curFolder = "data/" + curBehaviorPath.substr(0, pos);
+	string curFolder = curBehaviorPath.substr(0, pos);
 #endif
 	__int64 counter = sameWordCount(curBehaviorPath, "/");
 
@@ -237,7 +237,7 @@ void FolderCreate(string curBehaviorPath)
 
 			if (pos != 0)
 			{
-				curFolder = "data/" + curBehaviorPath.substr(0, pos);
+				curFolder = curBehaviorPath.substr(0, pos);
 			}
 		}
 	}

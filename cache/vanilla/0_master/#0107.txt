@@ -1,3 +1,0 @@
-		<hkobject name="#0107" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">IsFirstPerson == 0</hkparam>
-		</hkobject>

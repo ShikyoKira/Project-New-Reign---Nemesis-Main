@@ -1,7 +1,0 @@
-		<hkobject name="#3987" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">CrossBow_TurnModifierGenerator</hkparam>
-			<hkparam name="modifier">#0231</hkparam>
-			<hkparam name="generator">#3988</hkparam>
-		</hkobject>

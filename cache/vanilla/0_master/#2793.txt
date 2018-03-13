@@ -1,3 +1,0 @@
-		<hkobject name="#2793" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iLeftHandType != 5) &amp;&amp; (iLeftHandType != 10) &amp;&amp; (iLeftHandType != 6) &amp;&amp; (iLeftHandType != 7) &amp;&amp; (iLeftHandType != 9) &amp;&amp; (iLeftHandType != 8) &amp;&amp; (iLeftHandType != 0)</hkparam>
-		</hkobject>

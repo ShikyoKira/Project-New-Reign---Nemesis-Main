@@ -7,7 +7,7 @@ bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile)
 #ifndef DEBUG
 	string path = "vanilla_behaviors";
 #else
-	string path = skyrimDataPath.dataPath;
+	string path = skyrimDataPath.dataPath + "/meshes";
 #endif
 
 	if (!isFileExist(path))
@@ -51,6 +51,7 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 {
 	vecstr filelist;
 	read_directory(path, filelist);
+	vector<thread> multithreads;
 
 	for (size_t i = 0; i < filelist.size(); ++i)
 	{
@@ -80,8 +81,13 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 		else
 		{
 			// look deeper into the folder for behavior file
-			GetPathLoop(newPath + "/", newFile);
+			multithreads.emplace_back(GetPathLoop, newPath + "/", ref(newFile));
 		}
+	}
+
+	for (auto& t : multithreads)
+	{
+		t.join();
 	}
 
 	return true;

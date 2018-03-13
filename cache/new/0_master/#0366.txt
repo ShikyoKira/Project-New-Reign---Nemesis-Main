@@ -1,7 +1,0 @@
-		<hkobject name="#0366" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">SneakCrossBow_AimDwarven_MG</hkparam>
-			<hkparam name="modifier">#0172</hkparam>
-			<hkparam name="generator">#0367</hkparam>
-		</hkobject>

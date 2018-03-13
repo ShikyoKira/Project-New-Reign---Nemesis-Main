@@ -964,25 +964,29 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 	cout << "Processing time 6: " << duration / 1000 << " seconds" << endl;
 
-	if (behaviorPath[filelist[curList]].size() == 0)
+	string filename = filelist[curList].substr(0, filelist[curList].find_last_of("."));
+
+	if (behaviorPath[filename].size() == 0)
 	{
-		cout << "ERROR(1068): Missing \"" << filelist[curList] << "\" file. Perform \"Update Patcher\" operation to fix this" << endl << "File :" << filelist[curList] << endl << endl;
+		cout << "ERROR(1068): Missing \"" << filename << "\" file. Perform \"Update Patcher\" operation to fix this" << endl << "File :" << filename << endl << endl;
 		error = true;
 		return;
 	}
 
 	// final output	
 #ifndef DEBUG
-	string filename = "new_behaviors/" + behaviorPath[filelist[curList]];
+	filename = "new_behaviors/" + behaviorPath[filename].substr(behaviorPath[filename].find("/") + 1);
 #else
-	string filename = skyrimDataPath.dataPath + behaviorPath[filelist[curList]];
+	filename = skyrimDataPath.dataPath + behaviorPath[filename];
 #endif
 
-	ofstream output(filename.substr(0, filename.find_last_of(".")) + ".xml");
-	FunctionWriter fwriter(&output);
+	FolderCreate(filename.substr(0, filename.find_last_of(filename)));
+	ofstream output(filename + ".xml");
 
 	if (output.is_open())
 	{
+		FunctionWriter fwriter(&output);
+
 		for (unsigned int i = 0; i < behaviorlines.size(); i++)
 		{
 			fwriter << behaviorlines[i] << "\n";

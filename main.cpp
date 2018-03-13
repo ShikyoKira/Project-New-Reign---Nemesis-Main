@@ -200,7 +200,7 @@ int main()
 	// =======================
 
 
-	// GenerateBehavior("temp_behaviors/", behaviorPriority, chosenBehavior);
+	GenerateBehavior("temp_behaviors/", behaviorPriority, chosenBehavior);
 	
 	boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
 	boost::posix_time::time_duration diff = time2 - time1;

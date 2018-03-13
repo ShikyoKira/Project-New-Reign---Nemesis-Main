@@ -1,3 +1,0 @@
-		<hkobject name="#2610" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iWantBlock == 1) &amp;&amp; (iLeftHandType != 7) &amp;&amp; (iLeftHandType != 12)</hkparam>
-		</hkobject>

@@ -1,3 +1,0 @@
-		<hkobject name="#4787" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">iRightHandType &gt; 0</hkparam>
-		</hkobject>

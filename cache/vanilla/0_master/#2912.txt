@@ -1,8 +1,0 @@
-		<hkobject name="#2912" class="BSiStateTaggingGenerator" signature="0xf0826fc1">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">LeftHand_AttackPowerRight_iStateGen</hkparam>
-			<hkparam name="pDefaultGenerator">#2908</hkparam>
-			<hkparam name="iStateToSetAs">14</hkparam>
-			<hkparam name="iPriority">10</hkparam>
-		</hkobject>

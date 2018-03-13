@@ -292,7 +292,6 @@ void CombiningFiles(unordered_map<string, map<string, vecstr>>& newFile)
 				writeoutput << "	</hksection>" << "\n";
 				writeoutput << "\n";
 				writeoutput << "</hkpackfile>" << "\n";
-				writeoutput << "\n";
 
 				output.close();
 			}

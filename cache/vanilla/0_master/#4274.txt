@@ -1,9 +1,0 @@
-		<hkobject name="#4274" class="BSBoneSwitchGenerator" signature="0xf33d3eea">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">SneakWeap_TurnRight_BoneSwitch</hkparam>
-			<hkparam name="pDefaultGenerator">#0200</hkparam>
-			<hkparam name="ChildrenA" numelements="1">
-				#4275
-			</hkparam>
-		</hkobject>
