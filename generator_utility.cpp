@@ -4,64 +4,81 @@
 
 using namespace std;
 
-int GetStateID(int mainJoint, map<int, vecstr> functionlist)
+vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 {
-	int stateID = 0;
+	vector<int> stateID;
 	vecstr storeID;
 	bool open = false;
 	bool rightFunction = false;
+	size_t jointsize = mainJoint.size();
 
-	for (unsigned int j = 0; j < functionlist[mainJoint].size(); j++)
+	if (jointsize > 0)
 	{
-		string curline = functionlist[mainJoint][j];
+		for (auto it = mainJoint.begin(); it != mainJoint.end(); ++it)
+		{
+			stateID.push_back(0);
 
-		if (curline.find("class=\"hkbStateMachine\" signature=\"") != string::npos)
-		{
-			rightFunction = true;
-		}
-		else if (curline.find("<hkparam name=\"states\" numelements=\"") != string::npos)
-		{
-			open = true;
-		}
-
-		if (!rightFunction)
-		{
-			break;
-		}
-		else if (open)
-		{
-			if (curline.find("#") != string::npos)
+			for (unsigned int j = 0; j < functionlist[it->second].size(); j++)
 			{
-				size_t counter = count(curline.begin(), curline.end(), '#');
-				size_t nextpos = 0;
+				string curline = functionlist[it->second][j];
 
-				for (int k = 0; k < counter; k++) // multiple IDs in 1 line
+				if (curline.find("class=\"hkbStateMachine\" signature=\"") != string::npos)
 				{
-					nextpos = curline.find("#", nextpos) + 1;
+					rightFunction = true;
+				}
+				else if (curline.find("<hkparam name=\"states\" numelements=\"") != string::npos)
+				{
+					open = true;
+				}
 
-					int ID = stoi(boost::regex_replace(string(curline.substr(nextpos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-
-					for (unsigned int l = 0; l < functionlist[ID].size(); l++)
+				if (!rightFunction)
+				{
+					cout << ">> ERROR(1077): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Function ID: " << it->second << endl << endl;
+					error = true;
+					return stateID;
+				}
+				else if (open)
+				{
+					if (curline.find("#") != string::npos)
 					{
-						string line = functionlist[ID][l];
+						size_t counter = count(curline.begin(), curline.end(), '#');
+						size_t nextpos = 0;
 
-						if (line.find("<hkparam name=\"stateId\">", 0) != string::npos)
+						for (int k = 0; k < counter; k++) // multiple IDs in 1 line
 						{
-							int tempStateID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+							nextpos = curline.find("#", nextpos) + 1;
 
-							if (tempStateID >= stateID)
+							int ID = stoi(boost::regex_replace(string(curline.substr(nextpos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+
+							for (unsigned int l = 0; l < functionlist[ID].size(); l++)
 							{
-								stateID = tempStateID + 1;
-							}
+								string line = functionlist[ID][l];
 
-							break;
+								if (line.find("<hkparam name=\"stateId\">", 0) != string::npos)
+								{
+									int tempStateID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+
+									if (tempStateID >= stateID.back())
+									{
+										stateID.back() = tempStateID + 1;
+									}
+
+									break;
+								}
+							}
 						}
 					}
 				}
 			}
 		}
 	}
-
+	else
+	{
+		cout << ">> ERROR(1078): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
+		error = true;
+		return stateID;
+	}
+	
 	return stateID;
 }
 
@@ -156,11 +173,12 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 	for (auto it = animPath.begin(); it != animPath.end(); ++it)
 	{
 #ifndef DEBUG
-		string animationDirectory = *it + "animations/";
+		string directory = *it;
 #else
-		string animationDirectory = skyrimdataPath.GetDataPath() + *it + "animations/";
+		string directory = skyrimdataPath.GetDataPath() + *it;
 #endif
 
+		string animationDirectory = directory + "animations/";
 		vecstr filelist1;
 		vecstr filelist2;
 		unordered_map<string, vecstr> animFile;
@@ -186,14 +204,23 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 					{
 						string fileToolName = filelist2[k].substr(0, filelist2[k].find("_", 0) + 1);
 						string listword = filelist2[k].substr(filelist2[k].find_last_of("_"));
+						string behaviorfile = fileToolName + filelist1[l] + "_Behavior.hkx";
+						string modBehavior = directory + "Behaviors/" + behaviorfile;
+
+						if (!isFileExist(modBehavior))
+						{
+							cout << "ERROR(1082): " << behaviorfile << " not found. Please contact the mod author" << endl << "File Path: " << modBehavior << endl << endl;
+							error = true;
+							return list;
+						}
 
 						if (fileToolName == "FNIS_" && listword == "_List.txt")
 						{
-							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate));
+							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate, modBehavior, behaviorfile));
 						}
 						else if (fileToolName == "Nemesis_" && listword == "_List.txt")
 						{
-							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate, true));
+							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate, modBehavior, behaviorfile, true));
 						}
 
 						if (error)
@@ -242,13 +269,41 @@ void GetBehaviorPath()
 					}
 					else
 					{
-						cout << "ERROR(1067): Invalid input. Only 2 elements are acceptable with the first element being the file name and second element being the file path" << endl << "File: " << filename << "Line: " << linecount << endl << endl;
-						error = true;
-						return;
+						if (path.size() > 2)
+						{
+							string pathline = "";
+
+							for (unsigned int i = 1; i < path.size(); ++i)
+							{
+								if (path[i].find("/") != string::npos)
+								{
+									pathline = pathline + path[i] + " ";
+								}
+								else
+								{
+									cout << "ERROR(1067): Invalid input. Only 2 elements are acceptable with the first element being the file name and second element being the file path" << endl << "File: " << filename << "Line: " << linecount << endl << endl;
+									error = true;
+									fclose(pathFile);
+									return;
+								}
+							}
+
+							pathline.pop_back();
+							behaviorPath[path[0]] = pathline;
+						}
+						else
+						{
+							cout << "ERROR(1067): Invalid input. Only 2 elements are acceptable with the first element being the file name and second element being the file path" << endl << "File: " << filename << "Line: " << linecount << endl << endl;
+							error = true;
+							fclose(pathFile);
+							return;
+						}
 					}
 				}
 			}
 		}
+
+		fclose(pathFile);
 	}
 	else
 	{
@@ -261,12 +316,7 @@ void GetBehaviorPath()
 void FolderCreate(string curBehaviorPath)
 {
 	size_t pos = curBehaviorPath.find("/") + 1;
-
-#ifdef DEBUG
 	string curFolder = curBehaviorPath.substr(0, pos);
-#else
-	string curFolder = curBehaviorPath.substr(0, pos);
-#endif
 	__int64 counter = sameWordCount(curBehaviorPath, "/");
 
 	for (int i = 0; i < counter; ++i)
@@ -281,4 +331,94 @@ void FolderCreate(string curBehaviorPath)
 			}
 		}
 	}
+}
+
+void characterHKX(string directory, string filename)
+{
+	char charline[2000];
+	string line;
+	FILE* file;
+	fopen_s(&file, (directory + filename).c_str(), "r");
+
+	if (file)
+	{
+		while (fgets(charline, 2000, file))
+		{
+			line = charline;
+
+			if (line.find("<hkparam name=\"behaviorFilename\">") != string::npos)
+			{
+				size_t nextpos = line.find("behaviorFilename\">") + 18;
+				string behaviorName = line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos);
+
+				if (behaviorName.find("/") != string::npos)
+				{
+					if (behaviorName.find("\\") != string::npos)
+					{
+						if (behaviorName.find_last_of("/") < behaviorName.find_last_of("\\"))
+						{
+							nextpos = behaviorName.find_last_of("\\") + 1;
+						}
+						else
+						{
+							nextpos = behaviorName.find_last_of("/") + 1;
+						}
+					}
+					else
+					{
+						nextpos = behaviorName.find_last_of("/") + 1;
+					}
+				}
+				else
+				{
+					nextpos = behaviorName.find_last_of("\\") + 1;
+				}
+
+				behaviorName = behaviorName.substr(nextpos, behaviorName.find_last_of(".") - nextpos);
+				boost::algorithm::to_lower(behaviorName);
+				string lowerBehaviorFile = boost::algorithm::to_lower_copy(filename.substr(0, filename.find_last_of(".")));
+				behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
+			}
+		}
+		
+		fclose(file);
+	}
+	else
+	{
+		cout << "ERROR(3002): Failed to open behavior template" << endl << "File: " << directory << filename << endl << endl;
+		error = true;
+		return;
+	}
+}
+
+string GetFileName(string filepath)
+{
+	string filename;
+	size_t nextpos;
+
+	if (filepath.find("/") != string::npos)
+	{
+		if (filepath.find("\\") != string::npos)
+		{
+			if (filepath.find_last_of("/") < filepath.find_last_of("\\"))
+			{
+				nextpos = filepath.find_last_of("\\") + 1;
+			}
+			else
+			{
+				nextpos = filepath.find_last_of("/") + 1;
+			}
+		}
+		else
+		{
+			nextpos = filepath.find_last_of("/") + 1;
+		}
+	}
+	else
+	{
+		nextpos = filepath.find_last_of("\\") + 1;
+	}
+
+	filename = filepath.substr(nextpos, filepath.find_last_of(".") - nextpos);
+	return filename;
 }

@@ -24,6 +24,7 @@
 #include "generator_utility.h"
 
 typedef std::unordered_map<std::string, SSMap> ImportContainer;
+typedef std::unordered_map<std::string, std::set<std::string>> mapSetString;
 
 struct IDCatcher
 {
@@ -37,6 +38,7 @@ public:
 	int getLine();
 };
 
+void BehaviorCompilation(std::string directory, vecstr filelist, int curList, vecstr behaviorPriority, std::unordered_map<std::string, bool> chosenBehavior, getTemplate BehaviorTemplate, std::vector<std::unique_ptr<registerAnimation>>& animationList, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation, mapSetString newAnimEvent, mapSetString newAnimVariable, std::unordered_map<std::string, var> AnimVar, std::unordered_map<std::string, std::unordered_map<int, bool>> ignoreFunction, std::unordered_map<std::string, std::vector<std::string>> modAnimBehavior);
 extern void GenerateBehavior(std::string directory, vecstr behaviorPriority, std::unordered_map<std::string, bool> chosenBehavior);
 
 #endif

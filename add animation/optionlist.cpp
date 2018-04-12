@@ -29,12 +29,13 @@ OptionList::OptionList(string filepath, string format)
 		unordered_set<string> container;
 		unordered_map<string, int> matchLine;
 		unordered_map<string, bool> isElementExist;
+		unordered_map<int, bool> isNumExist;
 
 		while (fgets(line, 2000, input))
 		{
 			linecount++;
 
-			if (line[0] != '`' && line[0] != '\n')
+			if (line[0] != '\'' && line[0] != '\n')
 			{
 				if (line[strlen(line) - 1] == '\n')
 				{
@@ -117,6 +118,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1029): Invalid rule. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 
@@ -126,6 +128,7 @@ OptionList::OptionList(string filepath, string format)
 					{
 						cout << "ERROR(1040): Rule has already been registered. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << "Line: " << linecount << endl << endl;
 						error = true;
+						fclose(input);
 						return;
 					}
 				}
@@ -144,6 +147,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1013): Invalid state characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 
@@ -153,6 +157,7 @@ OptionList::OptionList(string filepath, string format)
 					{
 						cout << "ERROR(1041): State has already been registered. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << "Line: " << linecount << endl << endl;
 						error = true;
+						fclose(input);
 						return;
 					}
 				}
@@ -173,8 +178,13 @@ OptionList::OptionList(string filepath, string format)
 					{
 						cout << "ERROR(1042): Minimum condition has already been registered. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << "Line: " << linecount << endl << endl;
 						error = true;
+						fclose(input);
 						return;
 					}
+				}
+				else if (lower == "ignore_group")
+				{
+					ignoreGroup = true;
 				}
 				else if (lower == "link")
 				{
@@ -193,6 +203,7 @@ OptionList::OptionList(string filepath, string format)
 								{
 									cout << "ERROR(1046): " << currentTab << " has already been linked with other option. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << "Option: " << currentTab << endl << endl;
 									error = true;
+									fclose(input);
 									return;
 								}
 							}
@@ -213,6 +224,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1036): Invalid animation event characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 					}
@@ -223,6 +235,7 @@ OptionList::OptionList(string filepath, string format)
 					{
 						cout << "ERROR(1063): Duplicated " << templine << " registration detected. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << "Event: " << templine << endl << endl;
 						error = true;
+						fclose(input);
 						return;
 					}
 
@@ -247,6 +260,7 @@ OptionList::OptionList(string filepath, string format)
 								{
 									cout << "ERROR(1037): Invalid animation event characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 									error = true;
+									fclose(input);
 									return;
 								}
 
@@ -270,6 +284,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1039): Missing closing bracket for event/variable. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 					}
@@ -288,6 +303,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1036): Invalid animation event characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 					}
@@ -306,6 +322,7 @@ OptionList::OptionList(string filepath, string format)
 					{
 						cout << "ERROR(1048): Invalid group order. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 						error = true;
+						fclose(input);
 						return;
 					}
 
@@ -315,6 +332,7 @@ OptionList::OptionList(string filepath, string format)
 					{
 						cout << "ERROR(1063): Duplicated " << templine << " registration detected. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << "Event: " << templine << endl << endl;
 						error = true;
+						fclose(input);
 						return;
 					}
 
@@ -337,6 +355,7 @@ OptionList::OptionList(string filepath, string format)
 								{
 									cout << "ERROR(1037): Invalid animation event characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 									error = true;
+									fclose(input);
 									return;
 								}
 
@@ -367,6 +386,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1039): Missing closing bracket for event/variable. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 					}
@@ -394,6 +414,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1043): Invalid variable characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 					}
@@ -419,6 +440,7 @@ OptionList::OptionList(string filepath, string format)
 								{
 									cout << "ERROR(1037): Invalid animation event characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 									error = true;
+									fclose(input);
 									return;
 								}
 
@@ -437,6 +459,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1039): Missing closing bracket for event/variable. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 					}
@@ -455,6 +478,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1043): Invalid variable characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 					}
@@ -473,6 +497,7 @@ OptionList::OptionList(string filepath, string format)
 					{
 						cout << "ERROR(1048): Invalid group order. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 						error = true;
+						fclose(input);
 						return;
 					}
 
@@ -497,6 +522,7 @@ OptionList::OptionList(string filepath, string format)
 								{
 									cout << "ERROR(1037): Invalid animation event characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 									error = true;
+									fclose(input);
 									return;
 								}
 
@@ -524,6 +550,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1039): Missing closing bracket for event/variable. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 					}
@@ -551,6 +578,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							cout << "ERROR(1044): Invalid option characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(input);
 							return;
 						}
 					}
@@ -585,16 +613,106 @@ OptionList::OptionList(string filepath, string format)
 					{
 						cout << "ERROR(1045): Compulsory options have already been registered. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << "Line: " << linecount << endl << endl;
 						error = true;
+						fclose(input);
 						return;
 					}
 				}
+				else if (lower == "core")
+				{
+					core = true;
+				}
+				else if (lower == "add")				// Add <option> <addon> <modifier>
+				{
+					if (AnimInfo[3].find("$$$") == string::npos)
+					{
+						cout << "ERROR(1089): Missing add-on indicator. \"Add\" function must have \"$$$\" to act as add-on. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << "Add: " << strline << endl << endl;
+						error = true;
+						fclose(input);
+						return;
+					}
+
+					if (AnimInfo[3] == "$$$")
+					{
+						cout << "ERROR(1090): No modification detected. Remove this line or add modification to fix this. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << "Add: " << strline << endl << endl;
+						error = true;
+						fclose(input);
+						return;
+					}
+
+					modAddOn[AnimInfo[1]][AnimInfo[2]] = AnimInfo[3];
+				}
 				else
 				{
-					size_t lineplus = boost::regex_replace(string(strline), boost::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"), string("\\1")).length();
+					string ID = boost::regex_replace(string(lower), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-					if (lineplus < 5 && lineplus > 0)
+					if (AnimInfo[0] == "S" + ID)
 					{
+						if (ID == "0")
+						{
+							cout << "ERROR(1076): 0 is not valid. Starting number is 1. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
+							error = true;
+							fclose(input);
+							return;
+						}
+
+						if (AnimInfo.size() < 3)
+						{
+							cout << "ERROR(1069): Missing input. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
+							error = true;
+							fclose(input);
+							return;
+						}
+						else if (AnimInfo.size() > 3)
+						{
+							cout << "ERROR(1070): Extra input detected. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
+							error = true;
+							fclose(input);
+							return;
+						}
+
+						string functionID = boost::regex_replace(string(AnimInfo[2]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+						if (AnimInfo[2] != "#" + functionID)
+						{
+							cout << "ERROR(1071): Invalid node(function) ID detected. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
+							error = true;
+							fclose(input);
+							return;
+						}
+
+						if (behaviorPath[AnimInfo[1]].length() == 0)
+						{
+							cout << "ERROR(1083): " << AnimInfo[1] << " not found. Run update patcher to fix it. If it doesn't, please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
+							error = true;
+							fclose(input);
+							return;
+						}
+
+						multiState[AnimInfo[1]][stoi(ID)] = stoi(functionID);
+						isNumExist[stoi(ID)] = true;
+					}
+					else
+					{
+						size_t lineplus = boost::regex_replace(string(strline), boost::regex("[<\\s]*([^<\\s]+).*"), string("\\1")).length();
+
+						if (lineplus > 4 || lineplus < 1)
+						{
+							cout << "ERROR(1011): Option contain too many characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << "Option: " << AnimInfo[0] << endl << endl;
+							error = true;
+							fclose(input);
+							return;
+						}
+
 						string tempOption = strline.substr(0, lineplus);
+						string recontext = tempOption;
+
+						if (tempOption == "k" || tempOption == "bsa")
+						{
+							cout << "ERROR(1049): " << tempOption << " cannot be used as it has already been registered by default. Use other name for your option. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line : " << linecount << endl << endl;
+							error = true;
+							fclose(input);
+							return;
+						}
 
 						if (strline.find("<", lineplus) != string::npos && strline.find(">", lineplus) != string::npos)
 						{
@@ -602,28 +720,20 @@ OptionList::OptionList(string filepath, string format)
 							{
 								cout << "ERROR(1049): " << tempOption << " cannot be used as it has already been registered by default. Use other name for your option. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line : " << linecount << endl << endl;
 								error = true;
+								fclose(input);
 								return;
 							}
 
-							if (tempOption != "o")
+							if (boost::iequals(tempOption, format))
 							{
-								if (boost::iequals(tempOption, format))
-								{
-									cout << "ERROR(1064): Invalid option name. The option name must not share the same name as the format of the animation. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
-									error = true;
-									return;
-								}
-
-								storelist[tempOption] = true;
-								optionOrder.push_back(tempOption);
-							}
-							else
-							{
-								cout << "ERROR(1049): " << tempOption << " cannot be used as it has already been registered by default. Use other name for your option. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line : " << linecount << endl << endl;
+								cout << "ERROR(1064): Invalid option name. The option name must not share the same name as the format of the animation. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 								error = true;
+								fclose(input);
 								return;
 							}
 
+							storelist[tempOption] = true;
+							optionOrder.push_back(tempOption);
 							__int64 opening = count(strline.begin(), strline.end(), '<');
 							__int64 closing = count(strline.begin(), strline.end(), '>');
 
@@ -643,6 +753,7 @@ OptionList::OptionList(string filepath, string format)
 									{
 										cout << "ERROR(1015): Add-on contain invalid characters, only alphabet is accepted. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 										error = true;
+										fclose(input);
 										return;
 									}
 									else
@@ -656,6 +767,7 @@ OptionList::OptionList(string filepath, string format)
 										addOn[tempOption].push_back(addition);
 										container.insert(addition);
 										isAddOn[tempOption] = true;
+										recontext = recontext + "<" + tempAddOn + ">";
 									}
 
 									if (i != opening - 1)
@@ -663,23 +775,31 @@ OptionList::OptionList(string filepath, string format)
 										size_t pos = strline.find(">", nextpos) + 1;
 										string jointStr = strline.substr(pos, strline.find("<", pos) - pos);
 										joint[tempOption].push_back(jointStr);
+										recontext = recontext + jointStr;
 									}
 								}
 
-								if (isAddOn[tempOption] && line[tempOption.length()] == '[' && line[tempOption.length() + 1] == ']')
+								if (strline.length() > 2 && strline.substr(strline.length() - 2) == "[]")
 								{
 									groupOption[tempOption] = true;
-
-									// cout << "ERROR(1022): Option array and add-on cannot be used together. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
-									// error = true;
-									// return;
+									recontext = recontext + "[]";
 								}
-
 							}
 							else
 							{
 								cout << "ERROR(1014): Missing closing bracket for add-on. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 								error = true;
+								fclose(input);
+								return;
+							}
+
+							boost::algorithm::erase_all(strline, " ");
+
+							if (recontext != strline)
+							{
+								cout << "ERROR(1085): Something went wrong. Some text are not recognizable. Please ensure there isn't accidental empty space character. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
+								error = true;
+								fclose(input);
 								return;
 							}
 						}
@@ -693,14 +813,16 @@ OptionList::OptionList(string filepath, string format)
 								{
 									cout << "ERROR(1012): Option contain invalid characters, only alphabet is accepted. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 									error = true;
+									fclose(input);
 									return;
 								}
 							}
-							
+
 							if (boost::iequals(tempOption, "animobject") || tempOption == "D")
 							{
 								cout << "ERROR(1049): " << tempOption << " cannot be used as it has already been registered by default. Use other name for your option. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line : " << linecount << endl << endl;
 								error = true;
+								fclose(input);
 								return;
 							}
 
@@ -708,27 +830,45 @@ OptionList::OptionList(string filepath, string format)
 							{
 								cout << "ERROR(1064): Invalid option name. The option name must not share the same name as the format of the animation. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 								error = true;
+								fclose(input);
 								return;
 							}
 
 							storelist[tempOption] = true;
 							optionOrder.push_back(tempOption);
 
-							if (line[tempOption.length()] == '[' && line[tempOption.length() + 1] == ']')
+							if (strline.length() > 2 && strline.substr(strline.length() - 2) == "[]")
 							{
 								cout << "ERROR(1022): Option array can only be used with add-on. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 								error = true;
+								fclose(input);
+								return;
+							}
+
+							boost::algorithm::erase_all(strline, " ");
+
+							if (recontext != strline)
+							{
+								cout << "ERROR(1085): Something went wrong. Some text are not recognizable. Please ensure there isn't accidental empty space character. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
+								error = true;
+								fclose(input);
 								return;
 							}
 						}
 					}
-					else
-					{
-						cout << "ERROR(1011): Option contain too many characters. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
-						error = true;
-						return;
-					}
 				}
+			}
+		}
+
+		fclose(input);
+
+		for (unsigned int i = 1; i < isNumExist.size(); ++i)
+		{
+			if (!isNumExist[i])
+			{
+				cout << "ERROR(1024): Anomaly detected. State numbering must be in order (1 to " << isNumExist.size() << "). Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
+				error = true;
+				return;
 			}
 		}
 
@@ -753,8 +893,51 @@ OptionList::OptionList(string filepath, string format)
 				return;
 			}
 		}
-		
-		fclose(input);
+
+		// check for validity of modAddOn
+		for (auto it = modAddOn.begin(); it != modAddOn.end(); ++it)
+		{
+			// check if option exist
+			if (isAddOn[it->first])
+			{
+				for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+				{
+					size_t addOnSize = addOn[it->first].size();
+					bool pass = false;
+
+					for (unsigned int i = 0; i < addOnSize; ++i)
+					{
+						if (iter->first == addOn[it->first][i])
+						{
+							pass = true;
+							break;
+						}
+					}
+
+					if (!pass)
+					{
+						cout << "ERROR(1088): Add-on not found. \"" << it->first << "\" option does not have \"" << iter->first << "\" as add-on. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << "Option: " << it->first << endl << endl;
+						error = true;
+						return;
+					}
+				}
+			}
+			else
+			{
+				if (storelist[it->first])
+				{
+					cout << "ERROR(1086): Invalid modification. \"" << it->first << "\" option does not exist. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << "Option: " << it->first << endl << endl;
+					error = true;
+					return;
+				}
+				else
+				{
+					cout << "ERROR(1087): Option contains no add-on to modify. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << "Option: " << it->first << endl << endl;
+					error = true;
+					return;
+				}
+			}
+		}
 	}
 	else
 	{
@@ -770,6 +953,23 @@ OptionList::OptionList(string filepath, string format)
 		return;
 	}
 
+	if (ignoreGroup)
+	{
+		if (eleEventGroupF.size() != 0 || eleEventGroupL.size() != 0)
+		{
+			cout << "ERROR(1080): Conflict detected between ignore_group and event_group. Please contact the template creator" << endl << "Template: " << format << endl << "File : " << filepath << endl << endl;;
+			error = true;
+			return;
+		}
+
+		if (eleVarGroupF.size() != 0 || eleVarGroupL.size() != 0)
+		{
+			cout << "ERROR(1080): Conflict detected between ignore_group and variable_group. Please contact the template creator" << endl << "Template: " << format << endl << "File : " << filepath << endl << endl;;
+			error = true;
+			return;
+		}
+	}
+
 	for (auto it = linked.begin(); it != linked.end(); ++it)
 	{
 		if (mixOptRegis[it->first].length() == 0)
@@ -781,13 +981,12 @@ OptionList::OptionList(string filepath, string format)
 				mixedOption = mixedOption + "&" + it->second[i];
 			}
 
-			bool isOptionGroup = groupOption[it->first];
 			mixOptRegis[it->first] = mixedOption;
 			mixOptRever[mixedOption].push_back(it->first);
 
 			for (unsigned int i = 0; i < it->second.size(); ++i)
 			{
-				if (isOptionGroup != groupOption[it->second[i]])
+				if (groupOption[it->first] != groupOption[it->second[i]])
 				{
 					error = true;
 				}
@@ -817,38 +1016,7 @@ OptionList::OptionList(string filepath, string format)
 
 		}
 	}
-
-	// linked option existence and add on presence
-	// for (auto it = linked.begin(); it != linked.end(); ++it)
-	{
-	//	bool isMatched = false;
-
-	//	for (auto iter = storelist.begin(); iter != storelist.end(); ++iter)
-		{
-	//		if (it->first == iter->first)
-			{
-	//			for (auto iterator = addOn.begin(); iterator != addOn.end(); ++iterator)
-				{
-	//				if (iter->first == iterator->first)
-					{
-	//					isMatched = true;
-	//					break;
-					}
-				}
-
-	//			if (isMatched)
-				{
-	//				break;
-				}
-			}
-		}
-
-	//	if (isMatched)
-		{
-	//		break;
-		}
-	}
-
+	
 	unordered_map<string, bool> isDone;
 
 	// linked option existence element matching
@@ -880,6 +1048,111 @@ OptionList::OptionList(string filepath, string format)
 					return;
 				}
 			}
+		}
+	}
+
+	// throw error
+	if (core)
+	{
+		if (ignoreGroup)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (groupMin != -1)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (startStateID.length() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (ruleOne.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (ruleTwo.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (compulsory.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (optionOrder.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (multiState.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (storelist.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (groupOption.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (mixOptRegis.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (mixOptRever.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (addOn.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (joint.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (eleEvent.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (eleEventGroupF.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (eleEventGroupL.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (eleVar.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (eleVarGroupF.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
+		}
+		else if (eleVarGroupL.size() != 0)
+		{
+			throwError(format, filepath);
+			return;
 		}
 	}
 
@@ -931,4 +1204,10 @@ bool optionMatching(string option1, string option2)
 	}
 
 	return true;
+}
+
+void throwError(string format, string filepath)
+{
+	cout << "ERROR(1084): Other input detected with CORE activated. No other input can exist when CORE is activated in option_list.txt. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << endl;
+	error = true;
 }
