@@ -181,7 +181,7 @@
 		<hkobject name="#MID$11" class="BSEventOnDeactivateModifier" signature="0x1062d993">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">3</hkparam>
-			<hkparam name="name">IdelChairGetUp_DeactivateMod</hkparam>
+			<hkparam name="name">IdleChairGetUp_DeactivateMod</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="event">
 				<hkobject>
@@ -213,8 +213,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_FORCE_TRANSITION_TO_START_STATE</hkparam>
 			<hkparam name="states" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^fu_group^ +% -->
-				#fu_group$0
+<!-- NEW ^fuo_group^ +% -->
+				#fuo_group$0
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>

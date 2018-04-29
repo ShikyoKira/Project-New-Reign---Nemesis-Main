@@ -1,0 +1,6 @@
+'Animation Condition
+minimum 4
+ignore_group
+
+'Animation Options
+o

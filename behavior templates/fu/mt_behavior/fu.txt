@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- o|!h|ac1 #MID$1 --> <!-- null -->
 			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- o|!h|ac0|^first^ #MID$2 --> <!-- null -->
-			<hkparam name="transitions">$MC$</hkparam>			<!-- ^first^ #$import[transitions][LastState eventID[nextAnim] fu[N][(S+0)]]$ --> <!-- ^last^ null --> <!-- #$import[transitions][LastState eventID[nextAnim] fu[N][(S+0)]]$ -->
+			<hkparam name="transitions">$MC$</hkparam>			<!-- ^first^ #$import[transitions][LastState]$ --> <!-- ^last^ null --> <!-- #$import[transitions][LastState]$ -->
  			<hkparam name="generator">$MC$</hkparam>			<!-- !^first^&(AV|AVI) #MID$3 --> <!-- #MID$6 -->
 			<hkparam name="name">$main_anim_event$</hkparam>
 			<hkparam name="stateId">$(S+0)$</hkparam>
@@ -29,11 +29,11 @@
 <!-- NEW ^AnimObject^ +% -->
 				<hkobject>
 					<hkparam name="id">393</hkparam>
-					<hkparam name="payload">#$import[anim_object][&AnimObject]$</hkparam>
+					<hkparam name="payload">#$import[anim_object][@AnimObject]$</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="id">394</hkparam>
-					<hkparam name="payload">#$import[anim_object][&AnimObject]$</hkparam>
+					<hkparam name="payload">#$import[anim_object][@AnimObject]$</hkparam>
 				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
@@ -151,7 +151,7 @@
 					<hkparam name="localTime">-0.050000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$eventID[IdleForceDefaultState]$</hkparam> 					<!-- IdleForceDefaultState -->
+							<hkparam name="id">130</hkparam> 					<!-- IdleForceDefaultState -->
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
@@ -188,7 +188,7 @@
 					<hkparam name="localTime">-0.300000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$eventID[nextAnim]$</hkparam> 			<!-- next AnimEvent -->
+							<hkparam name="id">$eventID[fu[N][main_anim_event]]$</hkparam> 			<!-- next AnimEvent -->
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
