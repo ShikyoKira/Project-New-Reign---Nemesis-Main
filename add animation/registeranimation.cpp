@@ -2,8 +2,32 @@
 
 using namespace std;
 
-registerAnimation::registerAnimation(string filepath, string filename, getTemplate behaviortemplate, bool isNemesis)
+registerAnimation::registerAnimation(string curDirectory, string filename, getTemplate behaviortemplate, string behaviorpath, string behavior, bool isNemesis)
 {
+	if (isNemesis)
+	{
+		modID = filename.substr(8, filename.find("_List.txt") - 8);
+	}
+	else
+	{
+		modID = filename.substr(5, filename.find("_List.txt") - 5);
+	}
+	
+	string filepath = curDirectory + filename;
+
+	{
+		size_t nextpos = wordFind(filepath, "\\animations\\", true);
+
+		if(nextpos == -1)
+		{
+			cout << ">> ERROR(1081): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
+			error = true;
+			return;
+		}
+		
+		behaviorFile = behavior;
+	}
+
 	FILE* newAnimationList;
 	fopen_s(&newAnimationList, filepath.c_str(), "r");
 	
@@ -11,19 +35,12 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 	{
 		char line[2000];
 		int linecount = 0;
-
-		if (isNemesis)
-		{
-			modID = filename.substr(8, filename.find("_List.txt") - 8);
-		}
-		else
-		{
-			modID = filename.substr(5, filename.find("_List.txt") - 5);
-		}
-
 		int multiCount = -1;
 		string previousShortline;
 		string previousLine;
+		string curAAprefix;
+		unordered_map<string, bool> AAAnimFileExist;
+		unordered_map<string, bool> AAprefixExist;
 
 		while (fgets(line, 2000, newAnimationList))
 		{
@@ -46,6 +63,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 				{
 					cout << "ERROR(1017): Unable to read line" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 					error = true;
+					fclose(newAnimationList);
 					return;
 				}
 
@@ -58,6 +76,138 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 					else
 					{
 						version = "V" + newAnimInfo[1];
+					}
+				}
+				else if (boost::iequals(newAnimInfo[0], "AAprefix"))
+				{
+					if (string(line).substr(wordFind(line, "AAprefix") + 9).length() > 3 || newAnimInfo[1].length() != 3 || newAnimInfo.size() != 2)
+					{
+						cout << "ERROR(4002): Invalid AAprefix. Please contact the mod author" << endl << "File: " << filename << endl << "Line: " << linecount << endl << "AAset: " << line << endl << endl;
+						error = true;
+						fclose(newAnimationList);
+						return;
+					}
+
+					curAAprefix = newAnimInfo[1];
+
+					if (!AAprefixExist[curAAprefix])
+					{
+						if (AAprefixExist.size() > 30)
+						{
+							cout << "ERROR(4007): Alternate Animation has exceeded supported 30 mods limit. Please disable some mods that use alternate animation" << endl << "File: " << filename << "Line: " << linecount << "Mod: " << modID << endl << "AAprefix: " << newAnimInfo[1] << endl << endl;
+							error = true;
+							fclose(newAnimationList);
+							return;
+						}
+
+						AAprefixExist[curAAprefix] = true;
+					}
+				}
+				else if (boost::iequals(newAnimInfo[0], "AAset"))
+				{
+					if (curAAprefix.length() == 0)
+					{
+						cout << "ERROR(4006): Missing AAprefix. Please contact the mod author" << endl << "File: " << filename << endl << "Line: " << linecount << endl << "AAset: " << line << endl << endl;
+						error = true;
+						fclose(newAnimationList);
+						return;
+					}
+
+					if (newAnimInfo.size() != 3 )
+					{
+						cout << "ERROR(4003): Invalid AAset. Please contact the mod author" << endl << "File: " << filename << endl << "Line: " << linecount << endl << "AAset: " << line << endl << endl;
+						error = true;
+						fclose(newAnimationList);
+						return;
+					}
+
+					size_t groupSize = groupAA[newAnimInfo[1]].size();
+
+					if (groupSize == 0)
+					{
+						cout << "ERROR(4004): Unknown AAset group detected. Registration required in \"alternate_animation_list.txt\" Please contact the mod author" << endl << "File: " << filename << endl << "Line: " << linecount << endl << "AAset: " << line << endl << endl;
+						error = true;
+						fclose(newAnimationList);
+						return;
+					}
+					
+					if (newAnimInfo[2].length() > 0)
+					{
+						for (unsigned int i = 0; i < newAnimInfo[2].length(); ++i)
+						{
+							if (isalpha(newAnimInfo[2][i]) || !isalnum(newAnimInfo[2][i]))
+							{
+								cout << "ERROR(4005): Invalid AAset input. Only number is acceptable for the 3rd element. Please contact the mod author" << endl << "File: " << filename << endl << "Line: " << linecount << endl << "AAset: " << line << endl << endl;
+								error = true;
+								fclose(newAnimationList);
+								return;
+							}
+						}
+					}
+
+					string lowGroupName = boost::algorithm::to_lower_copy(newAnimInfo[1]);
+					int num = stoi(newAnimInfo[2]);
+					AAGroupCount[curAAprefix][boost::algorithm::to_lower_copy(newAnimInfo[1])] = num;
+					groupAAPrefix[boost::algorithm::to_lower_copy(newAnimInfo[1])].push_back(curAAprefix);
+
+					for (unsigned int i = 0; i < groupSize; ++i)		// list of animations in the animation group
+					{
+						string lowAnim = groupAA[lowGroupName][i];
+
+						for (int j = 0; j < num; ++j)					// number of variation of the specific animation
+						{
+							string animFile = curAAprefix + to_string(j) + "_" + lowAnim;
+
+							if (!isFileExist(curDirectory + animFile))
+							{
+								cout << "WARNING: Alternate animation file doesn't exist. Current alternate animation file will not work" << endl << "Mod: " << modID << endl << "Animation File: " << animFile << endl << endl;
+								alternateAnim[lowAnim].push_back("x");
+							}
+							else
+							{
+								alternateAnim[lowAnim].push_back(modID + "\\" + animFile);
+								AAAnimFileExist[animFile] = true;
+							}
+						}
+
+						if (alternateAnim[lowAnim].size() > 128)
+						{
+							cout << "ERROR(4008): Alternate Animation has exceeded supported 128 sets of animation limit. Please disable some mods that use alternate animation" << endl << "File: " << filename << endl << "Line: " << linecount << endl << "AAset: " << line << endl << endl;
+							error = true;
+							fclose(newAnimationList);
+							return;
+						}
+					}
+				}
+				else if (boost::iequals(newAnimInfo[0], "T"))
+				{
+					if (newAnimInfo.size() < 4 || newAnimInfo.size() % 2 != 0)
+					{
+						cout << "ERROR(4010): Missing input regarding Alternate Animation. Please contact the mod author" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
+						error = true;
+						return;
+					}
+
+					if (!AAAnimFileExist[newAnimInfo[1]])
+					{
+						cout << "ERROR(4011): Alternate animation file has not been registered. Please contact the mod authork" << endl << "File: " << filename << endl << "Animation File: " << newAnimInfo[1] << endl << endl;
+						error = true;
+						return;
+					}
+					else
+					{
+						string lowerAnimName = boost::algorithm::to_lower_copy(newAnimInfo[1]);
+						string originalAnim = lowerAnimName.substr(lowerAnimName.find("_") + 1);
+						
+						for (unsigned int j = 2; j < newAnimInfo.size(); ++j)
+						{
+							AAEvent[lowerAnimName].push_back(newAnimInfo[j]);
+
+							if (j == 2)
+							{
+								AAHasEvent[originalAnim].push_back(lowerAnimName);
+							}
+						}
 					}
 				}
 				else if (boost::iequals(newAnimInfo[0], "AnimVar"))
@@ -96,6 +246,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 							{
 								cout << "ERROR(1030): Invalid element. Please enter valid numerical character" << endl << "File: " << filename << endl << "Line: " << linecount << endl << "Element: " << strline << endl << endl;
 								error = true;
+								fclose(newAnimationList);
 								return;
 							}
 						}
@@ -103,6 +254,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 						{
 							cout << "ERROR(1023): Too many elements" << endl << "File: " << filename << endl << "Line: " << linecount << endl << "Element: " << strline << endl << endl;
 							error = true;
+							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -117,8 +269,75 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 					{
 						cout << "ERROR(1018): Unknown Variable Type. Only \"BOOL\", \"INT32\" and \"REAL\" are supported" << endl << "File: " << filename << endl << "Line: " << linecount << endl << "Variable: " << type << endl << endl;
 						error = true;
+						fclose(newAnimationList);
 						return;
 					}
+				}
+				else if (newAnimInfo[0] == "MD")
+				{
+					if (newAnimInfo.size() != 5)
+					{
+						cout << "ERROR(1093): Motion data only accepts 4 numerical values. Please contact the mod author" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
+						error = true;
+						return;
+					}
+
+					for (unsigned int i = 1; i < newAnimInfo.size(); ++i)
+					{
+						for (unsigned int j = 0; j < newAnimInfo[i].length(); ++j)
+						{
+							if ((isalpha(newAnimInfo[i][j]) || !isalnum(newAnimInfo[i][j])) && newAnimInfo[i][j] != ' ')
+							{
+								cout << "ERROR(1091): Invalid motion data character. Only number character is acceptable. Please contact the mod author" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
+								error = true;
+								return;
+							}
+						}
+					}
+
+					if (animInfo[previousShortline].back()->motionData.size() > 0)
+					{
+						int timer = stoi(animInfo[previousShortline].back()->motionData.back().substr(0, animInfo[previousShortline].back()->motionData.back().find(" ")));
+
+						if (timer >= stoi(newAnimInfo[1]))
+						{
+							cout << "ERROR(1092): Invalid motion data time frame. Previous motion data time frame must be before the current motion time frame" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
+							error = true;
+							return;
+						}
+					}
+
+					animInfo[previousShortline].back()->motionData.push_back(newAnimInfo[1] + " " + newAnimInfo[2] + " " + newAnimInfo[3] + " " + newAnimInfo[4]);
+				}
+				else if (newAnimInfo[0] == "RD")
+				{
+					if (newAnimInfo.size() != 6)
+					{
+						cout << "ERROR(1093): Rotation data only accepts 5 numerical values. Please contact the mod author" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
+						error = true;
+						return;
+					}
+
+					if (animInfo[previousShortline].back()->motionData.size() == 0)
+					{
+						cout << "ERROR(1094): Missing motion data. Rotation data is only available right after at least 1 motion data has been attached to the animation" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
+						error = true;
+						return;
+					}
+
+					if (animInfo[previousShortline].back()->rotationData.size() > 0)
+					{
+						int timer = stoi(animInfo[previousShortline].back()->rotationData.back().substr(0, animInfo[previousShortline].back()->rotationData.back().find(" ")));
+
+						if (timer >= stoi(newAnimInfo[1]))
+						{
+							cout << "ERROR(1093): Invalid rotation data time frame. Previous motion data time frame must be before the current rotation time frame" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
+							error = true;
+							return;
+						}
+					}
+
+					animInfo[previousShortline].back()->rotationData.push_back(newAnimInfo[1] + " " + newAnimInfo[2] + " " + newAnimInfo[3] + " " + newAnimInfo[4] + " " + newAnimInfo[5]);
 				}
 				else if (newAnimInfo[0] == "+")
 				{
@@ -140,12 +359,13 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 
 								if (error)
 								{
+									fclose(newAnimationList);
 									return;
 								}
 								
 								animInfo[previousShortline].back()->addFilename(newAnimInfo[3]);
 
-								if (!isFileExist(filepath.substr(0, filepath.find_last_of("/") + 1) + newAnimInfo[3]))
+								if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[3]))
 								{
 									cout << "WARNING: Missing animation file" << endl << "File: " << newAnimInfo[3] << endl << endl;
 								}
@@ -156,23 +376,24 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 
 								if (error)
 								{
+									fclose(newAnimationList);
 									return;
 								}
 								
 								animInfo[previousShortline].back()->addFilename(newAnimInfo[2]);
 
-								if (!isFileExist(filepath.substr(0, filepath.find_last_of("/") + 1) + newAnimInfo[2]))
+								if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[2]))
 								{
 									cout << "WARNING: Missing animation file" << endl << "File: " << newAnimInfo[2] << endl << endl;
 								}
 							}
 
-							if (behaviortemplate.behaviortemplate[previousShortline + "_group"].size() != 0)
+							if (behaviortemplate.behaviortemplate.count(previousShortline + "_group") != 0 && behaviortemplate.behaviortemplate[previousShortline + "_group"].size() != 0)
 							{
 								animInfo[previousShortline].back()->optionPickedCount[previousShortline + "_group"] = 1;
 							}
 
-							if (behaviortemplate.behaviortemplate[previousShortline + "_master"].size() != 0)
+							if (behaviortemplate.behaviortemplate.count(previousShortline + "_master") != 0 && behaviortemplate.behaviortemplate[previousShortline + "_master"].size() != 0)
 							{
 								animInfo[previousShortline].back()->optionPickedCount[previousShortline + "_master"] = 1;
 							}
@@ -181,6 +402,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 							{
 								cout << "ERROR(1000): \"o\" option not found. \"o\" is required for AnimObject" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 								error = true;
+								fclose(newAnimationList);
 								return;
 							}
 
@@ -193,6 +415,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 					{
 						cout << "ERROR(1065): Missing animation type detected" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 						error = true;
+						fclose(newAnimationList);
 						return;
 					}
 				}
@@ -211,7 +434,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 						animInfo[newAnimInfo[0]].push_back(make_shared<animationInfo>(newAnimInfo, filename, behaviortemplate.optionlist[newAnimInfo[0]], linecount, isOExist));
 						animInfo[newAnimInfo[0]].back()->addFilename(newAnimInfo[3]);
 
-						if (!isFileExist(filepath.substr(0, filepath.find_last_of("/") + 1) + newAnimInfo[3]))
+						if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[3]))
 						{
 							cout << "WARNING: Missing animation file" << endl << "File: " << newAnimInfo[3] << endl << endl;
 						}
@@ -221,18 +444,24 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 						animInfo[newAnimInfo[0]].push_back(make_shared<animationInfo>(newAnimInfo, filename, behaviortemplate.optionlist[newAnimInfo[0]], linecount, isOExist, true));
 						animInfo[newAnimInfo[0]].back()->addFilename(newAnimInfo[2]);
 
-						if (!isFileExist(filepath.substr(0, filepath.find_last_of("/") + 1) + newAnimInfo[2]))
+						if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[2]))
 						{
 							cout << "WARNING: Missing animation file" << endl << "File: " << newAnimInfo[2] << endl << endl;
 						}
 					}
 
-					if (behaviortemplate.behaviortemplate[newAnimInfo[0] + "_group"].size() != 0)
+					if (error)
+					{
+						fclose(newAnimationList);
+						return;
+					}
+
+					if (behaviortemplate.behaviortemplate.count(newAnimInfo[0] + "_group") != 0 && behaviortemplate.behaviortemplate[newAnimInfo[0] + "_group"].size() != 0)
 					{
 						animInfo[newAnimInfo[0]].back()->optionPickedCount[newAnimInfo[0] + "_group"] = 1;
 					}
 
-					if (behaviortemplate.behaviortemplate[newAnimInfo[0] + "_master"].size() != 0)
+					if (behaviortemplate.behaviortemplate.count(newAnimInfo[0] + "_master") != 0 && behaviortemplate.behaviortemplate[newAnimInfo[0] + "_master"].size() != 0)
 					{
 						animInfo[newAnimInfo[0]].back()->optionPickedCount[newAnimInfo[0] + "_master"] = 1;
 					}
@@ -241,6 +470,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 					{
 						cout << "ERROR(1000): \"o\" option not found. \"o\" is required for AnimObject" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 						error = true;
+						fclose(newAnimationList);
 						return;
 					}
 
@@ -248,8 +478,9 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 					{
 						if (behaviortemplate.optionlist[previousShortline].groupMin > multiCount)
 						{
-							cout << "ERROR(1034): Insufficient animation in an animation group. At least " << behaviortemplate.optionlist[previousShortline].groupMin << " animations are required for " << previousShortline << " type animation. Add more animations using (+) in the group" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
+							cout << "ERROR(1034): Insufficient animation in an animation group. At least " << behaviortemplate.optionlist[previousShortline].groupMin << " animations are required for " << previousShortline << " type animation. Add more animations using (+) in the group" << endl << "File: " << filename << endl << "Line: " << linecount - 1 << endl << endl;
 							error = true;
+							fclose(newAnimationList);
 							return;
 						}
 
@@ -342,6 +573,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 											{
 												cout << "ERROR(1035): Missing required option" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 												error = true;
+												fclose(newAnimationList);
 												return;
 											}
 										}
@@ -350,6 +582,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 									{
 										cout << "ERROR(1035): Missing required option" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 										error = true;
+										fclose(newAnimationList);
 										return;
 									}
 								}
@@ -440,6 +673,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 								{
 									cout << "ERROR(1035): Missing required option" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 									error = true;
+									fclose(newAnimationList);
 									return;
 								}
 							}
@@ -495,6 +729,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 								{
 									cout << "ERROR(1035): Missing required option" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 									error = true;
+									fclose(newAnimationList);
 									return;
 								}
 							}
@@ -503,6 +738,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 						{
 							cout << "ERROR(1035): Missing required option" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 							error = true;
+							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -517,6 +753,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 				{
 					cout << "ERROR(1016): Unable to read line" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
 					error = true;
+					fclose(newAnimationList);
 					return;
 				}
 
@@ -529,7 +766,7 @@ registerAnimation::registerAnimation(string filepath, string filename, getTempla
 
 		if (behaviortemplate.optionlist[previousShortline].groupMin > multiCount)
 		{
-			cout << "ERROR(1034): Insufficient animation in an animation group. At least " << behaviortemplate.optionlist[previousShortline].groupMin << " animations are required for " << previousShortline << " type animation. Add more animations using (+) in the group" << endl << "File: " << filename << endl << "Line: " << linecount << endl << endl;
+			cout << "ERROR(1034): Insufficient animation in an animation group. At least " << behaviortemplate.optionlist[previousShortline].groupMin << " animations are required for " << previousShortline << " type animation. Add more animations using (+) in the group" << endl << "File: " << filename << endl << "Line: " << linecount - 1 << endl << endl;
 			error = true;
 			return;
 		}
@@ -661,11 +898,6 @@ void registerAnimation::clear()
 	templateType.clear();
 	isMulti.clear();
 	last.clear();
-}
-
-var::var()
-{
-
 }
 
 var::var(string inputtype, string inputvalue)
