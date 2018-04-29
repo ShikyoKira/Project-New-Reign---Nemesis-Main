@@ -4,13 +4,16 @@
 
 using namespace std;
 
-bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile)
+bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader)
 {
 #ifndef DEBUG
 	string path = "data";
 #else
-	string path = skyrimDataPath.dataPath + "/meshes";
+	string path = skyrimDataPath.dataPath + "\\meshes";
 #endif
+
+	unordered_map<string, string> emptyPath;
+	behaviorPath = emptyPath;
 
 	if (!isFileExist(path))
 	{
@@ -18,7 +21,7 @@ bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile)
 	}
 	else
 	{
-		if (!GetPathLoop(path + "/", newFile))
+		if (!GetPathLoop(path + "\\", newFile, newAnimData, animDataChar, animDataHeader))
 		{
 			error = true;
 			return false;
@@ -36,20 +39,22 @@ bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile)
 				{
 					fwriter << it->first << " " << it->second << "\n";
 				}
+
+				output.close();
 			}
 			else
 			{
 				cout << "ERROR(2602): Unable to open file" << endl << "File: behavior_path.txt" << endl << endl;
 				error = true;
 				return false;
-			}
-		}		
+			}			
+		}
 	}
 
 	return true;
 }
 
-bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFile)
+bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader)
 {
 	vecstr filelist;
 	read_directory(path, filelist);
@@ -70,12 +75,38 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 				{
 					curFileName = curFileName.substr(8);
 
-					if (!VanillaDeassemble(newPath, curFileName, newFile))
+					if (!VanillaDisassemble(newPath, curFileName, newFile))
 					{
 						return false;
 					}
 
+					string parent = curfile.parent_path().filename().string();
 					newPath = path + filelist[i].substr(8);
+					boost::algorithm::to_lower(parent);
+					boost::algorithm::to_lower(newPath);
+					boost::algorithm::to_lower(curFileName);
+					behaviorPath[curFileName] = newPath.substr(0, newPath.find_last_of("."));
+
+					if (parent.find("characters") == 0)
+					{
+						unordered_map<string, bool> empty;
+						registeredAnim[boost::algorithm::to_lower_copy(curFileName)] = empty;
+					}
+				}
+				else if (boost::iequals(curFileName, "nemesis_animationdatasinglefile"))
+				{
+					curFileName = curFileName.substr(8);
+
+					if (!AnimDataDisassemble(newPath, newAnimData, animDataChar, animDataHeader))
+					{
+						return false;
+					}
+
+					string parent = curfile.parent_path().filename().string();
+					newPath = path + filelist[i].substr(8);
+					boost::algorithm::to_lower(parent);
+					boost::algorithm::to_lower(newPath);
+					boost::algorithm::to_lower(curFileName);
 					behaviorPath[curFileName] = newPath.substr(0, newPath.find_last_of("."));
 				}
 			}
@@ -83,7 +114,7 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 		else
 		{
 			// look deeper into the folder for behavior file
-			multithreads.emplace_back(GetPathLoop, newPath + "/", ref(newFile));
+			multithreads.emplace_back(GetPathLoop, newPath + "\\", ref(newFile), ref(newAnimData), ref(animDataChar), ref(animDataHeader));
 		}
 	}
 
@@ -95,7 +126,7 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 	return true;
 }
 
-bool VanillaDeassemble(string path, string filename, unordered_map<string, map<string, vecstr>>& newFile)
+bool VanillaDisassemble(string path, string filename, unordered_map<string, map<string, vecstr>>& newFile)
 {
 	vecstr storeline;
 	storeline.reserve(2000);
@@ -106,33 +137,45 @@ bool VanillaDeassemble(string path, string filename, unordered_map<string, map<s
 
 	if (vanillafile)
 	{
+		bool skip = true;
+
 		while (fgets(line, 2000, vanillafile))
 		{
-			string curline = string(line);
-			curline.pop_back();
+			string curline = line;
+
+			if (curline[curline.length() - 1] == '\n')
+			{
+				curline.pop_back();
+			}
 
 			if (curline.find("	</hksection>") != string::npos)
 			{
 				break;
 			}
 
-			if (curline.find("SERIALIZE_IGNORED") == string::npos)
+			if (curline.find("SERIALIZE_IGNORED") == string::npos && !skip)
 			{
 				if (curline.find("<hkobject name=\"", 0) != string::npos && curline.find("signature=\"", curline.find("<hkobject name=\"")) != string::npos)
 				{
 					if (storeline.size() != 0 && curID.length() != 0)
 					{
-						for (size_t i = 0; i < storeline.size(); ++i)
-						{
-							newFile[filename][curID].push_back(storeline[i]);
-						}
+						storeline.shrink_to_fit();
+						newFile[filename][curID] = storeline;
+						storeline.reserve(2000);
+						storeline.clear();
 					}
 
 					size_t pos = curline.find("<hkobject name=\"#") + 16;
 					curID = curline.substr(pos, curline.find("\" class=\"", curline.find("<hkobject name=\"")) - pos);
-					storeline.clear();
 				}
 
+				storeline.push_back(curline);
+			}
+			else if (skip && curline.find("<hkobject name=\"#") != string::npos)
+			{
+				skip = false;
+				size_t pos = curline.find("<hkobject name=\"#") + 16;
+				curID = curline.substr(pos, curline.find("\" class=\"", curline.find("<hkobject name=\"")) - pos);
 				storeline.push_back(curline);
 			}
 		}
@@ -141,16 +184,213 @@ bool VanillaDeassemble(string path, string filename, unordered_map<string, map<s
 
 		if (storeline.size() != 0 && curID.length() != 0)
 		{
-			for (size_t i = 0; i < storeline.size(); ++i)
-			{
-				newFile[filename][curID].push_back(storeline[i]);
-			}
+			storeline.shrink_to_fit();
+			newFile[filename][curID] = storeline;
 		}
 	}
 	else
 	{
 		cout << "ERROR(2602): Unable to open file" << endl << "File: " << path << endl << endl;
 		return false;
+	}
+
+	return true;
+}
+
+bool AnimDataDisassemble(string path, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader)
+{
+	int num;
+	vecstr newline;
+	newline.reserve(500);
+	vecstr storeline = GetFunctionLines(path);
+
+	if (error)
+	{
+		return false;
+	}
+	
+	{
+		string strnum = boost::regex_replace(string(storeline[0]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+		if (!isOnlyNumber(strnum) || stoi(strnum) < 10)
+		{
+			cout << "ERROR(3014): Wrong nemesis_animationdatasinglefile detected. Abort processing. Please reinstall Nemesis" << endl << endl;
+			error = true;
+			return false;
+		}
+
+		num = stoi(strnum) + 1;
+	}
+	
+	for (int i = 0; i < num; ++i)
+	{
+		newline.push_back(storeline[i]);
+	}
+
+	newline.shrink_to_fit();
+	string character = "$header$";
+	string header = character;
+	bool special = false;
+	bool isInfo = false;
+	bool end = false;
+	newAnimData[character][header] = newline;
+	animDataChar.push_back(header);
+	animDataHeader[header].push_back(header);
+	newline.reserve(20);
+	newline.clear();
+
+	for (unsigned int j = num; j < storeline.size(); ++j)
+	{
+		if (wordFind(storeline[j], "Characters") == 0)
+		{
+			character = GetFileName(boost::algorithm::to_lower_copy(storeline[j]));
+			animDataChar.push_back(character);
+			header = "$header$";
+			animDataHeader[character].push_back(header);
+			break;
+		}
+	}
+
+	for (unsigned int i = num; i < storeline.size(); ++i)
+	{
+		if (!end)
+		{
+			if (i + 3 < storeline.size() && (storeline[i - 1] == ""))
+			{
+				if (storeline[i + 3].find("Behaviors") != string::npos && storeline[i + 3].find(".hkx") == storeline[i + 3].length() - 4)
+				{
+					newline.shrink_to_fit();
+					newAnimData[character][header] = newline;
+					newline.reserve(20);
+					newline.clear();
+					isInfo = false;
+
+					if (storeline[i + 3].find("Behaviors\\Behavior00.hkx") != string::npos)
+					{
+						end = true;
+						character = "$end$";
+						header = character;
+						animDataChar.push_back(character);
+						animDataHeader[character].push_back(header);
+					}
+					else
+					{
+						for (unsigned int j = i + 4; j < storeline.size(); ++j)
+						{
+							if (wordFind(storeline[j], "Characters") == 0)
+							{
+								character = GetFileName(boost::algorithm::to_lower_copy(storeline[j]));
+								animDataChar.push_back(character);
+								header = "$header$";
+								animDataHeader[character].push_back(header);
+								break;
+							}
+						}
+					}
+				}
+				else if (wordFind(storeline[i - 3], "Characters") == 0)
+				{
+					if (hasAlpha(storeline[i]))
+					{
+						if (isOnlyNumber(storeline[i + 1]))
+						{
+							newline.shrink_to_fit();
+							newAnimData[character][header] = newline;
+							newline.reserve(20);
+							newline.clear();
+							header = storeline[i] + " " + storeline[i + 1];
+							animDataHeader[character].push_back(header);
+						}
+					}
+				}
+				else
+				{
+					if (!isInfo)
+					{
+						if (isOnlyNumber(storeline[i]))
+						{
+							isInfo = true;
+							special = true;
+							newline.shrink_to_fit();
+							newAnimData[character][header] = newline;
+							newline.clear();
+							header = "$info header$";
+							animDataHeader[character].push_back(header);
+						}
+						else if (hasAlpha(storeline[i]))
+						{
+							if (isOnlyNumber(storeline[i + 1]))
+							{
+								newline.shrink_to_fit();
+								newAnimData[character][header] = newline;
+								newline.reserve(20);
+								newline.clear();
+								header = storeline[i] + " " + storeline[i + 1];
+								animDataHeader[character].push_back(header);
+							}
+						}
+					}
+					else
+					{
+						if (isOnlyNumber(storeline[i]))
+						{
+							newline.shrink_to_fit();
+							newAnimData[character][header] = newline;
+							newline.reserve(20);
+							newline.clear();
+							header = storeline[i];
+							animDataHeader[character].push_back(header);
+						}
+					}
+				}
+			}
+			else if (wordFind(storeline[i - 3], "Characters") == 0)
+			{
+				if (hasAlpha(storeline[i]) && i + 1 != storeline.size())
+				{
+					if (isOnlyNumber(storeline[i + 1]))
+					{
+						newline.shrink_to_fit();
+						newAnimData[character][header] = newline;
+						newline.reserve(20);
+						newline.clear();
+						header = storeline[i] + " " + storeline[i + 1];
+						animDataHeader[character].push_back(header);
+					}
+				}
+			}
+
+			if (special)
+			{
+				special = false;
+				newline.push_back(storeline[i]);
+				newline.shrink_to_fit();
+				newAnimData[character][header] = newline;
+				newline.reserve(20);
+				newline.clear();
+				header = storeline[i + 1];
+				animDataHeader[character].push_back(header);
+			}
+			else
+			{
+				newline.push_back(storeline[i]);
+			}
+		}
+		else
+		{
+			newline.push_back(storeline[i]);
+		}
+	}
+
+ 	if (newline.size() != 0)
+	{
+		if (newline.back().length() == 0)
+		{
+			newline.pop_back();
+		}
+
+		newline.shrink_to_fit();
+		newAnimData[character][header] = newline;
 	}
 
 	return true;
