@@ -4,6 +4,8 @@
 
 using namespace std;
 
+vector<thread> hkxThread;
+
 IDCatcher::IDCatcher(int id, int curline)
 {
 	ID = id;
@@ -23,9 +25,11 @@ int IDCatcher::getLine()
 void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr behaviorPriority, unordered_map<string, bool> chosenBehavior, getTemplate BehaviorTemplate, vector<unique_ptr<registerAnimation>>& animationList, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, mapSetString newAnimEvent, mapSetString newAnimVariable, unordered_map<string, var> AnimVar, unordered_map<string, unordered_map<int, bool>> ignoreFunction, unordered_map<string, vector<string>> modAnimBehavior)
 {
 	ImportContainer exportID;
+
 	string filepath = directory + filelist[curList];
-	vecstr behaviorlines;
-	map<int, vecstr> catalystMap;
+	string behaviorFile = filelist[curList].substr(0, filelist[curList].find_last_of("."));
+	string lowerBehaviorFile = boost::algorithm::to_lower_copy(behaviorFile);
+
 	int lastID = 0;
 	int nexteventid = 0;
 	int nextvarid = 0;
@@ -34,6 +38,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 	int attributeelements = -1;
 	int characterelements = -1;
 	int normalelements = -1;
+	int curID = 0;
 
 	bool eventOpen = false;
 	bool varOpen = false;
@@ -42,17 +47,29 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 	bool animOpen = false;
 	bool otherAnimOpen = false;
 	bool norElement = false;
+	bool isClip = false;
+	bool behaviorRef = false;
+	bool hasAA = false;
 
 	id eventid;
 	id variableid;
 	id attriid;
 	id charid;
+
 	unordered_map<int, string> eventName;
 	unordered_map<int, string> varName;
 	unordered_map<int, string> attriName;
 	unordered_map<int, string> charName;
 	unordered_map<string, vector<int>> newAnimCon;
 	unordered_map<string, vecstr> parent;
+	unordered_map<int, unordered_map<string, vecstr>> clipAA;
+
+	map<int, vecstr> catalystMap;
+
+	vector<int> behaviorDataNode;
+
+	set<string> AAGroupList;
+	set<string> AAEventName;
 
 	// read behavior file
 	vecstr catalyst = GetFunctionLines(filepath);
@@ -70,18 +87,83 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 	cout << "Processing time 2: " << duration / 1000 << " seconds" << endl;
 
+	if (alternateAnim.size() != 0)
+	{
+		hasAA = true;
+	}
+
 	for (unsigned int l = 0; l < catalyst.size(); l++)
 	{
 		string line = catalyst[l];
 
 		if (line.find("<hkobject name=\"", 0) != string::npos && line.find("signature=\"", 0) != string::npos)
 		{
-			int tempID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+			string templine = line.substr(0, line.find("class"));
+			string tempID = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+			curID = stoi(tempID);
 
-			if (tempID >= lastID)
+			if (tempID != templine && curID >= lastID)
 			{
-				lastID = tempID + 1;
+				lastID = curID + 1;
 			}
+
+			if (line.find("class=\"hkbClipGenerator\" signature=\"", 0) != string::npos)
+			{
+				isClip = true;
+			}
+			else
+			{
+				isClip = false;
+			}
+
+			if (line.find("class=\"hkbBehaviorReferenceGenerator\" signature=\"", 0) != string::npos)
+			{
+				behaviorRef = true;
+			}
+			else
+			{
+				behaviorRef = false;
+			}
+		}
+		else if (isClip && line.find("<hkparam name=\"animationName\">") != string::npos)
+		{
+			size_t pos = line.find("animationName\">") + 15;
+			string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
+			boost::algorithm::to_lower(animPath);
+			usedAnim[lowerBehaviorFile].insert(animPath);
+			string animFile = GetFileName(animPath) + ".hkx";
+			isClip = false;
+
+			if (error)
+			{
+				return;
+			}
+
+			// Dynamic AA function without a template
+			if (hasAA && alternateAnim.count(animFile) > 0)
+			{
+				clipAA[curID][animFile] = alternateAnim[animFile];
+				AAGroupList.insert(AAGroup[animFile]);
+
+				if (AAHasEvent.count(animFile) != 0)
+				{
+					for (unsigned int j = 0; j < AAHasEvent[animFile].size(); ++j)
+					{
+						for (unsigned int k = 0; k < AAEvent[AAHasEvent[animFile][j]].size(); ++k)
+						{
+							AAEventName.insert(AAEvent[AAHasEvent[animFile][j]][k]);
+						}
+					}
+				}
+			}
+		}
+		else if (behaviorRef && line.find("<hkparam name=\"behaviorName\">") != string::npos)
+		{
+			size_t nextpos = line.find("behaviorName\">") + 14;
+			string behaviorName = GetFileName(line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos));
+			boost::algorithm::to_lower(behaviorName);
+			behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
+			behaviorRef = false;
 		}
 	}
 	
@@ -89,8 +171,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 	{
 		return;
 	}
-
-
+	
 	time2 = boost::posix_time::microsec_clock::local_time();
 	diff = time2 - time1;
 
@@ -100,14 +181,18 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 	int newModID = -500000;
 	int counter = 0;
-	int firstID = stoi(boost::regex_replace(string(catalyst[1].substr(catalyst[1].find("toplevelobject="))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-	int curID = firstID;
+	int firstID;
+
+	if (!boost::iequals(behaviorFile, "animationdatasinglefile"))
+	{
+		firstID = stoi(boost::regex_replace(string(catalyst[1].substr(catalyst[1].find("toplevelobject="))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+	}
+
+	curID = firstID;
 	size_t elementLine = -1;
 	size_t openRange = 0;
 	bool isOpen = true;
 	bool special = false;
-	bool behaviorRef = false;
-	string behaviorFile = filelist[curList].substr(0, filelist[curList].find_last_of("."));
 	string newMod;
 	string curNum;
 	string ZeroEvent;
@@ -199,6 +284,11 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					{
 						catalystMap[curID].shrink_to_fit();
 						isNewID = true;
+					}
+
+					if (line.find("class=\"hkbBehaviorGraphStringData\" signature=\"", 0) != string::npos || line.find("class=\"hkbVariableValueSet\" signature=\"", 0) != string::npos || line.find("class=\"hkbBehaviorGraphData\" signature=\"", 0) != string::npos)
+					{
+						behaviorDataNode.push_back(curID);
 					}
 				}
 
@@ -324,7 +414,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					string templine = line.substr(0, line.find("<hkparam name=\"", 0));
 					openRange = count(templine.begin(), templine.end(), '\t');
 				}
-				else if (line.find("<hkparam name=\"deformableSkinNames\" numelements=\"") != string::npos || line.find("<hkparam name=\"rigidSkinNames\" numelements=\"") != string::npos || line.find("<hkparam name=\"animationFilenames\" numelements=\"") != string::npos || line.find("<hkparam name=\"characterPropertyNames\" numelements=\"") != string::npos)
+				else if (line.find("<hkparam name=\"deformableSkinNames\" numelements=\"") != string::npos || line.find("<hkparam name=\"rigidSkinNames\" numelements=\"") != string::npos || line.find("<hkparam name=\"animationFilenames\" numelements=\"") != string::npos)
 				{
 					otherAnimOpen = true;
 					elementCatch = true;
@@ -338,7 +428,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					string templine = line.substr(0, line.find("<hkparam name=\"", 0));
 					openRange = count(templine.begin(), templine.end(), '\t');
 				}
-				else if (line.find("</hkparam>") != string::npos && (norElement || eventOpen || varOpen || attriOpen || charOpen || animOpen))
+				else if (line.find("</hkparam>") != string::npos && (norElement || eventOpen || varOpen || attriOpen || charOpen || animOpen || otherAnimOpen))
 				{
 					string templine = line.substr(0, line.find("</hkparam>"));
 					size_t range = count(templine.begin(), templine.end(), '\t');
@@ -354,7 +444,48 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 						}
 						else if (eventOpen)
 						{
-							vecstr codelist = BehaviorTemplate.grouplist[behaviorFile];
+							for (auto it = AAEventName.begin(); it != AAEventName.end(); ++it)
+							{
+								if (curNum == "eventNames")
+								{
+									if (isExist[*it])
+									{
+										cout << "WARNING: Duplicated event name found" << endl << "Event Name: " << *it << endl << endl;
+									}
+									else
+									{
+										if (counter == 0)
+										{
+											ZeroEvent = *it;
+										}
+
+										eventid[*it] = counter;
+										eventName[counter] = *it;
+										catalystMap[curID].push_back("				<hkcstring>" + *it + "</hkcstring>");
+										isExist[*it] = true;
+										counter++;
+									}
+								}
+								else if (curNum == "eventInfos")
+								{
+									if (!isExist[*it])
+									{
+										catalystMap[curID].push_back("				<hkobject>");
+										catalystMap[curID].push_back("					<hkparam name=\"flags\">0</hkparam>");
+										catalystMap[curID].push_back("				</hkobject>");
+										isExist[*it] = true;
+										counter++;
+									}
+								}
+								else
+								{
+									cout << ">> ERROR(1031): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
+									error = true;
+									return;
+								}
+							}
+
+							vecstr codelist = BehaviorTemplate.grouplist[lowerBehaviorFile];
 
 							for (unsigned int j = 0; j < codelist.size(); j++)
 							{
@@ -409,7 +540,63 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 						}
 						else if (varOpen)
 						{
-							vecstr codelist = BehaviorTemplate.grouplist[behaviorFile];
+							for (auto it = AAGroupList.begin(); it != AAGroupList.end(); ++it)
+							{
+								string variablename = "Nemesis_AA_" + *it;
+
+								if (curNum == "variableNames")
+								{
+									if (isExist[variablename])
+									{
+										cout << "WARNING: Duplicated variable name found" << endl << "Event Name: " << variablename << endl << endl;
+									}
+									else
+									{
+										string curline = "				<hkcstring>" + variablename + "</hkcstring>";
+										varName[counter] = variablename;
+										variableid[variablename] = counter;
+										catalystMap[curID].push_back(curline);
+										isExist[variablename] = true;
+										counter++;
+									}
+								}
+								else if (curNum == "wordVariableValues")
+								{
+									if (!isExist[variablename])
+									{
+										catalystMap[curID].push_back("				<hkobject>");
+										catalystMap[curID].push_back("					<hkparam name=\"value\">0</hkparam>");
+										catalystMap[curID].push_back("				</hkobject>");
+										isExist[variablename] = true;
+										counter++;
+									}
+								}
+								else if (curNum == "variableInfos")
+								{
+									if (!isExist[variablename])
+									{
+										catalystMap[curID].push_back("				<hkobject>");
+										catalystMap[curID].push_back("					<hkparam name=\"role\">");
+										catalystMap[curID].push_back("						<hkobject>");
+										catalystMap[curID].push_back("							<hkparam name=\"role\">ROLE_DEFAULT</hkparam>");
+										catalystMap[curID].push_back("							<hkparam name=\"flags\">0</hkparam>");
+										catalystMap[curID].push_back("						</hkobject>");
+										catalystMap[curID].push_back("					</hkparam>");
+										catalystMap[curID].push_back("					<hkparam name=\"type\">VARIABLE_TYPE_INT32</hkparam>");
+										catalystMap[curID].push_back("				</hkobject>");
+										isExist[variablename] = true;
+										counter++;
+									}
+								}
+								else
+								{
+									cout << ">> ERROR(1032): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
+									error = true;
+									return;
+								}
+							}
+
+							vecstr codelist = BehaviorTemplate.grouplist[lowerBehaviorFile];
 
 							for (unsigned int j = 0; j < codelist.size(); j++)
 							{
@@ -430,6 +617,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 											variableid[variablename] = counter;
 											catalystMap[curID].push_back(curline);
 											isExist[variablename] = true;
+											counter++;
 										}
 									}
 									else if (curNum == "wordVariableValues")
@@ -440,6 +628,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 											catalystMap[curID].push_back("					<hkparam name=\"value\">" + AnimVar[variablename].init_value + "</hkparam>");
 											catalystMap[curID].push_back("				</hkobject>");
 											isExist[variablename] = true;
+											counter++;
 										}
 									}
 									else if (curNum == "variableInfos")
@@ -456,6 +645,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 											catalystMap[curID].push_back("					<hkparam name=\"type\">VARIABLE_TYPE_" + AnimVar[variablename].var_type + "</hkparam>");
 											catalystMap[curID].push_back("				</hkobject>");
 											isExist[variablename] = true;
+											counter++;
 										}
 									}
 									else
@@ -464,8 +654,6 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 										error = true;
 										return;
 									}
-
-									counter++;
 								}
 							}
 
@@ -502,7 +690,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 								for (unsigned int k = 0; k < behaviorNames.size(); ++k)
 								{
-									if (it->second.size() > 0 && behaviorFile == behaviorNames[k])
+									if (it->second.size() > 0 && lowerBehaviorFile == behaviorNames[k])
 									{
 										vecstr templateGroup = it->second;
 
@@ -587,6 +775,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					if (funcID.find("$", 0) != string::npos)
 					{
 						string modID = funcID.substr(0, funcID.find("$"));
+
 						if (chosenBehavior[modID])
 						{
 							string ID = to_string(lastID);
@@ -680,22 +869,6 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					}
 				}
 
-				if (line.find("<hkparam name=\"animationName\">") != string::npos)
-				{
-					size_t pos = line.find("animationName\">") + 15;
-					string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
-					boost::algorithm::to_lower(animPath);
-					usedAnim[boost::algorithm::to_lower_copy(behaviorFile)].insert(animPath);
-				}
-				else if (line.find("<hkparam name=\"behaviorName\">") != string::npos)
-				{
-					size_t nextpos = line.find("behaviorName\">") + 14;
-					string behaviorName = GetFileName(line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos));
-					boost::algorithm::to_lower(behaviorName);
-					string lowerBehaviorFile = boost::algorithm::to_lower_copy(behaviorFile);
-					behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
-				}
-
 				// counting for numelement
 				if (eventOpen && line.find("<hkcstring>") != string::npos)
 				{
@@ -752,7 +925,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					string animPath = line.substr(nextpos, line.find("</hkcstring>", nextpos) - nextpos);
 					boost::algorithm::to_lower(animPath);
 					string animFile = GetFileName(animPath);
-					registeredAnim[behaviorFile][animFile] = true;
+					registeredAnim[lowerBehaviorFile][animFile] = true;
 					counter++;
 
 					if (newMod.length() == 0)
@@ -825,10 +998,10 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				{
 					if (!ignoreFunction[filelist[curList]][curID])
 					{
-						__int64 counter = count(line.begin(), line.end(), '$') / 2;
+						__int64 funCounter = count(line.begin(), line.end(), '$') / 2;
 						size_t curPos = 0;
 
-						for (int i = 0; i < counter; ++i)
+						for (int i = 0; i < funCounter; ++i)
 						{
 							bool isChange = false;
 							curPos = line.find("$", curPos + 1);
@@ -944,7 +1117,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 	for (auto it = BehaviorTemplate.grouplist.begin(); it != BehaviorTemplate.grouplist.end(); ++it)
 	{
 		// check for having newAnimation for the file
-		if (it->second.size() > 0 && filelist[curList] == it->first + ".txt")
+		if (it->second.size() > 0 && boost::algorithm::to_lower_copy(filelist[curList]) == it->first + ".txt")
 		{
 			vecstr templateGroup = it->second;
 
@@ -959,17 +1132,17 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				bool hasMaster = false;
 				bool ignoreGroup = false;
 
-				if (BehaviorTemplate.behaviortemplate[templateCode + "_group"][it->first].size() != 0)
+				if (BehaviorTemplate.behaviortemplate.count(templateCode + "_group") > 0 && BehaviorTemplate.behaviortemplate[templateCode + "_group"].count(it->first) > 0 && BehaviorTemplate.behaviortemplate[templateCode + "_group"][it->first].size() > 0)
 				{
 					hasGroup = true;
 				}
 
-				if (BehaviorTemplate.behaviortemplate[templateCode + "_master"][it->first].size() != 0)
+				if (BehaviorTemplate.behaviortemplate.count(templateCode + "_master") > 0 && BehaviorTemplate.behaviortemplate[templateCode + "_master"].count(it->first) > 0 && BehaviorTemplate.behaviortemplate[templateCode + "_master"][it->first].size() > 0)
 				{
 					hasMaster = true;
 				}
 				
-				if (newAnimation[templateCode].size() != 0)
+				if (newAnimation.count(templateCode) != 0 && newAnimation[templateCode].size() != 0)
 				{
 					vector<SSMap> subFunctionIDs;
 					subFunctionIDs.reserve(memory);
@@ -1005,7 +1178,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 						// getlines from newAnination
 						shared_ptr<Furniture> dummyAnimation = newAnimation[templateCode][k];
 						dummyAnimation->setZeroEvent(ZeroEvent);
-						unique_ptr<vecstr> tempoLines = make_unique<vecstr>(dummyAnimation->GetFurnitureLine(behaviorFile, lastID, exportID, eventid, variableid, stateID, stateMultiplier, hasGroup, BehaviorTemplate.optionlist[templateCode].core));
+						unique_ptr<vecstr> tempoLines = make_unique<vecstr>(dummyAnimation->GetFurnitureLine(lowerBehaviorFile, lastID, exportID, eventid, variableid, stateID, stateMultiplier, hasGroup, BehaviorTemplate.optionlist[templateCode].core));
 
 						if (error)
 						{
@@ -1099,7 +1272,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 							string filename = templateCode + "_group";
 							groupTemplate group(BehaviorTemplate.behaviortemplate[filename][it->first]);
 							group.setZeroEvent(ZeroEvent);
-							unique_ptr<vecstr> groupBehaviorTemplate = make_unique<vecstr>(group.getFunctionLines(behaviorFile, filename, stateID, groupFunctionIDs[k], groupAnimInfo[k], lastID, exportID, eventid, variableid, templateCode, k + 1));
+							unique_ptr<vecstr> groupBehaviorTemplate = make_unique<vecstr>(group.getFunctionLines(lowerBehaviorFile, filename, stateID, groupFunctionIDs[k], groupAnimInfo[k], lastID, exportID, eventid, variableid, templateCode, k + 1));
 
 							if (error)
 							{
@@ -1148,7 +1321,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 						groupTemplate master(BehaviorTemplate.behaviortemplate[filename][it->first]);
 						master.setZeroEvent(ZeroEvent);
-						unique_ptr<vecstr> masterBehaviorTemplate = make_unique<vecstr>(master.getFunctionLines(behaviorFile, filename, stateID, subFunctionIDs, groupAnimInfo[0], lastID, exportID, eventid, variableid, templateCode, -1));
+						unique_ptr<vecstr> masterBehaviorTemplate = make_unique<vecstr>(master.getFunctionLines(lowerBehaviorFile, filename, stateID, subFunctionIDs, groupAnimInfo[0], lastID, exportID, eventid, variableid, templateCode, -1));
 
 						if (error)
 						{
@@ -1262,6 +1435,205 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 		return;
 	}
 
+	// AA animation installation
+	vecstr AAlines;
+
+	if (clipAA.size() != 0)
+	{
+		unordered_map<string, int> replacerCount;
+
+		for (auto iter = clipAA.begin(); iter != clipAA.end(); ++iter)
+		{
+			vecstr msglines;
+
+			for (auto it = iter->second.begin(); it != iter->second.end(); ++it)
+			{
+				vecstr children;
+				string groupName = AAGroup[it->first];
+				msglines.push_back("		<hkobject name=\"#" + to_string(iter->first) + "\" class=\"hkbManualSelectorGenerator\" signature=\"0xd932fab8\">");
+
+				string importline = "variableID[Nemesis_AA_" + groupName + "]";
+				variableIDReplacer(importline, "AA", variableid, 0);
+
+				if (error)
+				{
+					return;
+				}
+
+				if (exportID["variable_binding"]["selectedGeneratorIndex " + importline].length() == 0)
+				{
+					string tempID = to_string(lastID);
+					exportID["variable_binding"]["selectedGeneratorIndex " + importline] = tempID;
+					importline = "			<hkparam name=\"variableBindingSet\">#" + tempID + "</hkparam>";
+					lastID++;
+				}
+				else
+				{
+					importline = "			<hkparam name=\"variableBindingSet\">#" + exportID["variable_binding"]["selectedGeneratorIndex " + importline] + "</hkparam>";
+				}
+
+				msglines.push_back(importline);
+				msglines.push_back("			<hkparam name=\"userData\">0</hkparam>");
+				replacerCount[it->first]++;
+				msglines.push_back("			<hkparam name=\"name\">Nemesis_" + to_string(replacerCount[it->first]) + "_" + groupName + "_MSG</hkparam>");
+				msglines.push_back("			<hkparam name=\"generators\" numelements=\"" + to_string(it->second.size() + 1) + "\">");
+
+				string baseID = to_string(lastID);
+				msglines.push_back("				#" + baseID);
+				lastID++;
+
+				for (unsigned int i = 0; i < it->second.size(); ++i)
+				{
+					if (it->second[i] != "x")
+					{
+						string tempID = to_string(lastID);
+						msglines.push_back("				#" + tempID);
+						children.push_back(tempID);
+						lastID++;
+					}
+					else
+					{
+						msglines.push_back("				#" + baseID);
+					}
+				}
+
+				msglines.push_back("			</hkparam>");
+				msglines.push_back("			<hkparam name=\"selectedGeneratorIndex\">0</hkparam>");
+				msglines.push_back("			<hkparam name=\"currentGeneratorIndex\">0</hkparam>");
+				msglines.push_back("		</hkobject>");
+				msglines.push_back("");
+				
+				AAlines.push_back("		<hkobject name=\"#" + baseID + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
+
+				unordered_map<string, vecstr> triggerID;
+				int originTrigger = -1;
+
+				for (unsigned int i = 1; i < catalystMap[iter->first].size(); ++i)
+				{
+					AAlines.push_back(catalystMap[iter->first][i]);
+
+					if (catalystMap[iter->first][i].find("<hkparam name=\"triggers\">") != string::npos)
+					{
+						if (originTrigger == -1)
+						{
+							size_t pos = catalystMap[iter->first][i].find("<hkparam name=\"triggers\">") + 25;
+							string templine = catalystMap[iter->first][i].substr(pos, catalystMap[iter->first][i].find("</hkparam>", pos) - pos);
+
+							if (templine != "null")
+							{
+								originTrigger = stoi(boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+							}
+						}
+						else
+						{
+							cout << ">> ERROR(3003): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
+							error = true;
+							return;
+						}
+					}
+				}
+
+				if (AAlines.back().length() != 0)
+				{
+					AAlines.push_back("");
+				}
+
+				int num = 0;
+
+				for (unsigned int i = 0; i < children.size(); ++i)
+				{
+					AAlines.push_back("		<hkobject name=\"#" + children[i] + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
+					AAlines.push_back(catalystMap[iter->first][1]);
+					AAlines.push_back(catalystMap[iter->first][2]);
+					AAlines.push_back(catalystMap[iter->first][3]);
+
+					while (it->second[num] == "x")
+					{
+						++num;
+					}
+
+					AAlines.push_back("			<hkparam name=\"animationName\">Animation\\" + it->second[num] + "</hkparam>");
+
+					if (AAEvent.count(it->second[num]) > 0)
+					{
+						string tempID = to_string(lastID);
+						AAlines.push_back("			<hkparam name=\"triggers\">#" + tempID + "</hkparam>");
+						triggerID[tempID] = AAEvent[it->second[i - 2]];
+						lastID++;
+					}
+					else
+					{
+						AAlines.push_back(catalystMap[iter->first][5]);
+					}
+
+					for (unsigned int j = 6; j < catalystMap[iter->first].size(); ++j)
+					{
+						AAlines.push_back(catalystMap[iter->first][j]);
+					}
+
+					if (AAlines.back().length() != 0)
+					{
+						AAlines.push_back("");
+					}
+
+					++num;
+				}
+
+				for (auto itera = triggerID.begin(); itera != triggerID.end(); ++itera)
+				{
+					AAlines.push_back("		<hkobject name=\"#" + itera->first + "\" class=\"hkbClipTriggerArray\" signature=\"0x59c23a0f\">");
+
+					if (originTrigger != -1)
+					{
+						string templine = catalystMap[originTrigger][1];
+						string elements = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+						if (elements != templine)
+						{
+							int curElements = stoi(elements);
+							AAlines.push_back("			<hkparam name=\"triggers\" numelements=\"" + to_string((itera->second.size() / 2) + curElements) + "\">");
+						}
+					}
+					else
+					{
+						AAlines.push_back("			<hkparam name=\"triggers\" numelements=\"" + to_string(itera->second.size() / 2) + "\">");
+					}
+
+					for (unsigned int i = 0; i < itera->second.size(); ++i)
+					{
+						AAlines.push_back("				<hkobject>");
+						AAlines.push_back("					<hkparam name=\"localTime\">" + itera->second[i + 1] +"</hkparam>");
+						AAlines.push_back("					<hkparam name=\"event\">");
+						AAlines.push_back("						<hkobject>");
+
+						string eventID = "eventID[" + itera->second[i] + "]";
+						eventIDReplacer(eventID, "AA", eventid, ZeroEvent, 0);
+
+						if (error)
+						{
+							return;
+						}
+
+						AAlines.push_back("							<hkparam name=\"id\">" + eventID + "</hkparam>");
+						AAlines.push_back("							<hkparam name=\"payload\">null</hkparam>");
+						AAlines.push_back("						</hkobject>");
+						AAlines.push_back("					</hkparam>");
+						AAlines.push_back("					<hkparam name=\"relativeToEndOfClip\">false</hkparam>");
+						AAlines.push_back("					<hkparam name=\"acyclic\">false</hkparam>");
+						AAlines.push_back("					<hkparam name=\"isAnnotation\">false</hkparam>");
+						AAlines.push_back("				</hkobject>");
+						AAlines.push_back("			</hkparam>");
+						AAlines.push_back("		</hkobject>");
+						AAlines.push_back("");
+
+						++i;
+					}
+				}
+			}
+
+			catalystMap[iter->first] = msglines;
+		}
+	}
 
 	time2 = boost::posix_time::microsec_clock::local_time();
 	diff = time2 - time1;
@@ -1271,6 +1643,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 	cout << "Processing time 5: " << duration / 1000 << " seconds" << endl;
 
 	size_t reserveSize = 0;
+	vecstr behaviorlines;
 
 	// output import functions
 	// Must be in vector
@@ -1288,7 +1661,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 		reserveSize += it->second.size();
 	}
 
-	reserveSize = reserveSize + additionallines.size();
+	reserveSize = reserveSize + additionallines.size() + AAlines.size();
 	behaviorlines.reserve(behaviorlines.size() + reserveSize + 7);
 
 	for (int i = firstID; i < firstID + 4; ++i)
@@ -1300,6 +1673,11 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 	behaviorlines.push_back("");
 	behaviorlines.insert(behaviorlines.end(), additionallines.begin(), additionallines.end());
 	behaviorlines.push_back("<!-- ======================== NEMESIS import TEMPLATE END ======================== -->");
+
+	behaviorlines.push_back("<!-- ======================== NEMESIS alternate animation TEMPLATE START ======================== -->");
+	behaviorlines.push_back("");
+	behaviorlines.insert(behaviorlines.end(), AAlines.begin(), AAlines.end());
+	behaviorlines.push_back("<!-- ======================== NEMESIS alternate animation TEMPLATE END ======================== -->");
 
 	for (unsigned int j = 0; j < allEditLines.size(); j++)
 	{
@@ -1338,21 +1716,25 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 	cout << "Processing time 6: " << duration / 1000 << " seconds" << endl;
 
-	if (behaviorPath[behaviorFile].size() == 0)
+
+
+	if (behaviorPath[lowerBehaviorFile].size() == 0)
 	{
 		cout << "ERROR(1068): Missing \"" << behaviorFile << "\" file. Perform \"Update Patcher\" operation to fix this. If it doesn't fix it, contact mod author not Nemesis' author" << endl << "File :" << behaviorFile << endl << endl;
 		error = true;
 		return;
 	}
 
-	// final output	
+	// final output
 #ifndef DEBUG
-	string filename = "new_behaviors/" + behaviorPath[behaviorFile].substr(behaviorPath[behaviorFile].find("/") + 1);
+	string outputdir = "new_behaviors\\" + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
-	string filename = behaviorPath[behaviorFile];
+	string outputdir = behaviorPath[lowerBehaviorFile];
 #endif
 
+	string filename = "temp_behaviors\\xml\\" + lowerBehaviorFile;
 	FolderCreate(filename.substr(0, filename.find_last_of(filename)));
+	FolderCreate(outputdir.substr(0, outputdir.find_last_of(outputdir)));
 	ofstream output(filename + ".xml");
 
 	if (output.is_open())
@@ -1368,10 +1750,12 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 	}
 	else
 	{
-		cout << "ERROR(1025): Fail to output file" << endl << "File: " << filename << endl << endl;
+		cout << "ERROR(1025): Fail to output xml file" << endl << "File: " << filename << endl << endl;
 		error = true;
 		return;
 	}
+
+	hkxThread.emplace_back(hkxcmdOutput, filename, outputdir);
 }
 
 void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<string, bool> chosenBehavior)
@@ -1391,6 +1775,7 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 	}
 
 	GetBehaviorPath();
+	GetAnimData();
 
 	if (error)
 	{
@@ -1421,10 +1806,9 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 
 		{
 			string templatecode = "core";
-			string filename = animationList[i]->behaviorFile;
 			unordered_map<string, vecstr>* functionlines = &BehaviorTemplate.behaviortemplate[templatecode];
 			shared_ptr<animationInfo> dummy = make_shared<animationInfo>();
-			dummy->addFilename(filename);
+			dummy->addFilename(animationList[i]->behaviorFile);
 			dummy->ignoreGroup = false;
 			dummy->optionPickedCount[templatecode] = 1;
 			animationCount[templatecode]++;
@@ -1446,7 +1830,7 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 			bool isGroup;
 			bool ignoreGroup = BehaviorTemplate.optionlist[templatecode].ignoreGroup;
 
-			if (BehaviorTemplate.behaviortemplate[templatecode + "_group"].size() != 0)
+			if (BehaviorTemplate.behaviortemplate.count(templatecode + "_group") != 0 && BehaviorTemplate.behaviortemplate[templatecode + "_group"].size() != 0)
 			{
 				animInfoGroup.reserve(100);
 				isGroup = true;
@@ -2094,36 +2478,44 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 	vector<thread> behaviorGenerate;
 	set<int> characterFiles;
 	vecstr filelist;
+	int animData = -1;
 	read_directory(directory, filelist);
 
 	for (unsigned int i = 0; i < filelist.size(); i++)
 	{
-		bool skip = false;
-		string tempfilename = filelist[i].substr(0, filelist[i].find_last_of("."));
-		boost::algorithm::to_lower(tempfilename);
-		string temppath = behaviorPath[tempfilename];
-
-		if (temppath.length() != 0)
+		if (!boost::filesystem::is_directory(directory + filelist[i]))
 		{
-			size_t nextpos = 0;
-			size_t lastpos = temppath.find_last_of("/");
+			bool skip = false;
+			string tempfilename = filelist[i].substr(0, filelist[i].find_last_of("."));
+			boost::algorithm::to_lower(tempfilename);
+			string temppath = behaviorPath[tempfilename];
 
-			while (temppath.find("/", nextpos) != lastpos)
+			if (temppath.length() != 0)
 			{
-				nextpos = temppath.find("/", nextpos) + 1;
+				size_t nextpos = 0;
+				size_t lastpos = temppath.find_last_of("\\");
+
+				while (temppath.find("\\", nextpos) != lastpos)
+				{
+					nextpos = temppath.find("\\", nextpos) + 1;
+				}
+
+				temppath = temppath.substr(nextpos, lastpos - nextpos);
 			}
 
-			temppath = temppath.substr(nextpos, lastpos - nextpos);
-		}
-
-		if (temppath.find("characters") != 0)
-		{
-			behaviorGenerate.emplace_back(BehaviorCompilation, directory, filelist, i, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), newAnimEvent, newAnimVariable, AnimVar, ignoreFunction, modAnimBehavior);
-		}
-		else
-		{
-			characterFiles.insert(i);
-			characterHKX(directory, filelist[i]);
+			if (boost::iequals(filelist[i], "animationdatasinglefile.txt"))
+			{
+				animData = i;
+			}
+			else if (temppath.find("characters") != 0)
+			{
+				behaviorGenerate.emplace_back(BehaviorCompilation, directory, filelist, i, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), newAnimEvent, newAnimVariable, AnimVar, ignoreFunction, modAnimBehavior);
+			}
+			else
+			{
+				characterFiles.insert(i);
+				characterHKX(directory, filelist[i]);
+			}
 		}
 	}
 
@@ -2136,6 +2528,15 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 	{
 		return;
 	}
+
+	if (animData == -1)
+	{
+		cout << "ERROR(3004): Missing \"animationdatasinglefile.txt\" file in \"temp_behaviors\" folder. Please reinstall Nemesis and/or run update patcher" << endl << endl;
+		error = true;
+		return;
+	}
+
+	thread animDataThread (AnimDataCompilation, directory, filelist, animData, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), AnimVar, modAnimBehavior);
 
 	unordered_map<string, vector<string>> tempBehaviorJoints;
 
@@ -2165,67 +2566,52 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 			characterGenerate.emplace_back(BehaviorCompilation, directory, filelist, *it, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), newAnimEvent, newAnimVariable, AnimVar, ignoreFunction, modAnimBehavior);			
 		}
 
-		for (auto& endt : characterGenerate)
-		{
-			endt.join();
-		}
+	}
 
-		if (error)
+	if (AAGroup.size() > 0)
+	{
+		AAInstallation();		// install AA script
+	}
+	
+	for (auto& endt : characterGenerate)
+	{
+		endt.join();
+	}
+
+	for (auto& endt : hkxThread)
+	{
+		endt.join();
+	}
+
+	animDataThread.join();
+
+	if (error)
+	{
+		return;
+	}
+}
+
+void hkxcmdOutput(string xmlfile, string hkxfile)
+{
+	string args = "convert -v:WIN32 \"" + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"";
+
+	if (boost::process::system("hkxcmd " + args) != 0)
+	{
+		cout << "ERROR(1095): Fail to output hkx file" << endl << "File: " << xmlfile << ".xml" << endl << endl;
+		error = true;
+		return;
+	}
+	else
+	{
+		if (!isFileExist(hkxfile + ".hkx"))
 		{
+			cout << "ERROR(1095): Fail to output hkx file" << endl << "File: " << xmlfile << ".xml" << endl << endl;
+			error = true;
 			return;
 		}
-	}
-
-	// test duplicate anim file
-	for (auto it = usedAnim.begin(); it != usedAnim.end(); ++it)
-	{
-		vecstr forwardPort = behaviorJoints[it->first];
-
-		for (unsigned int j = 0; j < forwardPort.size(); ++j)
+		else if (remove((xmlfile + ".xml").c_str()) != 0)
 		{
-			for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-			{
-				string filename = GetFileName(*iter);
-
-				if (!registeredAnim[forwardPort[j]][filename])
-				{
-					cout << "WARNING: Animation has not been registered in " << forwardPort[j] << "file. The animation will not work. Please contact the mod author" << endl << "Animation: " << *iter << endl << endl;
-				}
-			}
+			cout << "WARNING: Fail to remove xml file" << endl << "File: " << xmlfile << ".xml" << endl << endl;
 		}
 	}
-
-
-
-	// test if anim file used has been registered
-	for (auto it = animModMatch.begin(); it != animModMatch.end(); ++it)		// first string
-	{
-		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)		// second string
-		{
-			if (iter->second.size() == 2)
-			{
-				if (iter->second[0].size() > 1)
-				{
-					cout << "WARNING: Duplicated animation file detected" << endl << "File: " << it->first << endl << "Animation: " << iter->first << endl << "Mod: ";
-					string warning;
-
-					for (auto iteration = iter->second[1].begin(); iteration != iter->second[1].end(); ++iteration)
-					{
-						warning = warning + *iteration + ",";
-					}
-
-					warning.pop_back();
-					cout << warning << endl << endl;
-				}
-			}
-			else
-			{
-				cout << ">> ERROR(1066): BUG FOUND!! Report to Nemesis' author immediately << " << endl << endl;
-				error = true;
-				return;
-			}
-		}
-
-	}
-
 }
