@@ -3,6 +3,7 @@
 #include "add animation\registeranimation.h"
 #include "add animation\gettemplate.h"
 #include "skyrimdirectory.h"
+#include "add animation\alternateanimation.h"
 
 extern std::vector<int> GetStateID(std::map<int, int> mainJoint, std::map<int, vecstr> functionlist);
 extern int GetStateCount(vecstr templatelines);
@@ -11,5 +12,6 @@ extern std::string behaviorLineChooser(std::string originalline, std::unordered_
 extern std::string GetFileName(std::string filepath);
 extern std::vector<std::unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate);
 extern void GetBehaviorPath();
+extern void GetAnimData();
 extern void FolderCreate(std::string curBehaviorPath);
 extern void characterHKX(std::string directory, std::string filename);

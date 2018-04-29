@@ -44,7 +44,7 @@ vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 						size_t counter = count(curline.begin(), curline.end(), '#');
 						size_t nextpos = 0;
 
-						for (int k = 0; k < counter; k++) // multiple IDs in 1 line
+						for (size_t k = 0; k < counter; k++) // multiple IDs in 1 line
 						{
 							nextpos = curline.find("#", nextpos) + 1;
 
@@ -146,6 +146,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 {
 	vector<unique_ptr<registerAnimation>> list;
 	set<string> animPath;
+	AAInitialize("alternate animation");
 
 	for (auto it = behaviortemplate.grouplist.begin(); it != behaviortemplate.grouplist.end(); ++it)
 	{
@@ -158,11 +159,11 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 			return list;
 		}
 
-		size_t pos = wordFind(path, "/behaviors/", true);
+		size_t pos = wordFind(path, "\\behaviors\\", true);
 
 		if (pos != -1)
 		{
-			animPath.insert(path.substr(0, pos) + "/");
+			animPath.insert(path.substr(0, pos) + "\\");
 		}
 		else
 		{
@@ -178,7 +179,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 		string directory = skyrimdataPath.GetDataPath() + *it;
 #endif
 
-		string animationDirectory = directory + "animations/";
+		string animationDirectory = directory + "animations\\";
 		vecstr filelist1;
 		vecstr filelist2;
 		unordered_map<string, vecstr> animFile;
@@ -205,7 +206,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 						string fileToolName = filelist2[k].substr(0, filelist2[k].find("_", 0) + 1);
 						string listword = filelist2[k].substr(filelist2[k].find_last_of("_"));
 						string behaviorfile = fileToolName + filelist1[l] + "_Behavior.hkx";
-						string modBehavior = directory + "Behaviors/" + behaviorfile;
+						string modBehavior = directory + "Behaviors\\" + behaviorfile;
 
 						if (!isFileExist(modBehavior))
 						{
@@ -216,11 +217,11 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 						if (fileToolName == "FNIS_" && listword == "_List.txt")
 						{
-							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate, modBehavior, behaviorfile));
+							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "\\", filelist2[k], behaviortemplate, modBehavior, behaviorfile));
 						}
 						else if (fileToolName == "Nemesis_" && listword == "_List.txt")
 						{
-							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "/" + filelist2[k], filelist2[k], behaviortemplate, modBehavior, behaviorfile, true));
+							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "\\", filelist2[k], behaviortemplate, modBehavior, behaviorfile, true));
 						}
 
 						if (error)
@@ -263,6 +264,11 @@ void GetBehaviorPath()
 					vecstr path(ssbegin, ssend);
 					copy(path.begin(), path.end(), path.begin());
 
+					for (unsigned int i = 0; i < path.size(); ++i)
+					{
+						boost::algorithm::to_lower(path[i]);
+					}
+
 					if (path.size() == 2)
 					{
 						behaviorPath[path[0]] = path[1];
@@ -275,7 +281,7 @@ void GetBehaviorPath()
 
 							for (unsigned int i = 1; i < path.size(); ++i)
 							{
-								if (path[i].find("/") != string::npos)
+								if (path[i].find("\\") != string::npos)
 								{
 									pathline = pathline + path[i] + " ";
 								}
@@ -302,6 +308,90 @@ void GetBehaviorPath()
 				}
 			}
 		}
+		else
+		{
+			cout << "ERROR(2602): Unable to open file" << endl << "File: " << filename << endl << endl;
+			error = true;
+			return;
+		}
+
+		fclose(pathFile);
+	}
+	else
+	{
+		cout << "ERROR(1068): Missing \"" << filename << "\" file. Perform \"Update Patcher\" operation to fix this" << endl << "File :" << filename << endl << endl;
+		error = true;
+		return;
+	}
+}
+
+void GetAnimData()
+{
+	string filename = "animationdata_list.txt";
+
+	if (isFileExist(filename))
+	{
+		int linecount = 0;
+		char charline[2000];
+		FILE* pathFile;
+		fopen_s(&pathFile, filename.c_str(), "r");
+		bool newCharacter = false;
+		string character;
+		string line;
+
+		if (pathFile)
+		{
+			while (fgets(charline, 2000, pathFile))
+			{
+				line = charline;
+
+				if (line.back() == '\n')
+				{
+					line.pop_back();
+				}
+
+				if (!newCharacter)
+				{
+					if (line.length() == 0)
+					{
+						cout << "ERROR(3009): Invalid format detected in animationdata_list.txt. Please re-run Update Pathcer to fix it" << endl;
+						error = true;
+						return;
+					}
+
+					character = line;
+					newCharacter = true;
+
+					if (characterHeaders.find(character) != characterHeaders.end())
+					{
+						cout << "ERROR(3010): Duplicated character detected in animationdata_list.txt. Please re-run Update Pathcer to fix it" << endl << "Character: " << character << endl << endl;
+						error = true;
+						return;
+					}
+				}
+				else if (line.length() == 0)
+				{
+					newCharacter = false;
+				}
+				else if (newCharacter)
+				{
+					if (characterHeaders[character].find(line) != characterHeaders[character].end())
+					{
+						cout << "ERROR(3008): Duplicated header detected in animationdata_list.txt. Please re-run Update Pathcer to fix it" << endl << "Character: " << character << endl << endl;
+						error = true;
+						return;
+					}
+					
+					characterHeaders[character].insert(line);
+				}
+			}
+		}
+		else
+		{
+			cout << "ERROR(2602): Unable to open file" << endl << "File: " << filename << endl << endl;
+			error = true;
+			return;
+		}
 
 		fclose(pathFile);
 	}
@@ -315,15 +405,15 @@ void GetBehaviorPath()
 
 void FolderCreate(string curBehaviorPath)
 {
-	size_t pos = curBehaviorPath.find("/") + 1;
+	size_t pos = curBehaviorPath.find("\\") + 1;
 	string curFolder = curBehaviorPath.substr(0, pos);
-	__int64 counter = sameWordCount(curBehaviorPath, "/");
+	__int64 counter = sameWordCount(curBehaviorPath, "\\");
 
 	for (int i = 0; i < counter; ++i)
 	{
 		if (CreateDirectory((curFolder).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
 		{
-			pos = curBehaviorPath.find("/", pos) + 1;
+			pos = curBehaviorPath.find("\\", pos) + 1;
 
 			if (pos != 0)
 			{
@@ -350,31 +440,7 @@ void characterHKX(string directory, string filename)
 			{
 				size_t nextpos = line.find("behaviorFilename\">") + 18;
 				string behaviorName = line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos);
-
-				if (behaviorName.find("/") != string::npos)
-				{
-					if (behaviorName.find("\\") != string::npos)
-					{
-						if (behaviorName.find_last_of("/") < behaviorName.find_last_of("\\"))
-						{
-							nextpos = behaviorName.find_last_of("\\") + 1;
-						}
-						else
-						{
-							nextpos = behaviorName.find_last_of("/") + 1;
-						}
-					}
-					else
-					{
-						nextpos = behaviorName.find_last_of("/") + 1;
-					}
-				}
-				else
-				{
-					nextpos = behaviorName.find_last_of("\\") + 1;
-				}
-
-				behaviorName = behaviorName.substr(nextpos, behaviorName.find_last_of(".") - nextpos);
+				behaviorName = GetFileName(behaviorName);
 				boost::algorithm::to_lower(behaviorName);
 				string lowerBehaviorFile = boost::algorithm::to_lower_copy(filename.substr(0, filename.find_last_of(".")));
 				behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
