@@ -16,6 +16,13 @@ void SeparateMod(string directory, string modecode, vecstr behaviorfilelist, uno
 		{
 			if (boost::iequals(behaviorfilelist[j], "animationdatasinglefile"))
 			{
+				if (newAnimData.size() == 0)
+				{
+					cout << "ERROR(3017): Nemesis_animationdatasinglefile.txt not found. Please re-install Nemesis" << endl << endl;
+					error = true;
+					return;
+				}
+
 				for (unsigned int k = 0; k < nodelist.size(); ++k)
 				{
 					boost::filesystem::path curPath(directory + modecode + "\\" + behaviorfilelist[j] + "\\" + nodelist[k]);
