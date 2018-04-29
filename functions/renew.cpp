@@ -70,8 +70,24 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 			if (curfile.extension() == ".xml" || curfile.extension() == ".txt")
 			{
 				string curFileName = curfile.stem().string();
-				
-				if (curFileName.find("Nemesis_") == 0 && wordFind(curFileName, "_List") == -1)
+
+				if (boost::iequals(curFileName, "nemesis_animationdatasinglefile"))
+				{
+					curFileName = curFileName.substr(8);
+
+					if (!AnimDataDisassemble(newPath, newAnimData, animDataChar, animDataHeader))
+					{
+						return false;
+					}
+
+					string parent = curfile.parent_path().filename().string();
+					newPath = path + filelist[i].substr(8);
+					boost::algorithm::to_lower(parent);
+					boost::algorithm::to_lower(newPath);
+					boost::algorithm::to_lower(curFileName);
+					behaviorPath[curFileName] = newPath.substr(0, newPath.find_last_of("."));
+				}
+				else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_List") == -1)
 				{
 					curFileName = curFileName.substr(8);
 
@@ -92,22 +108,6 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 						unordered_map<string, bool> empty;
 						registeredAnim[boost::algorithm::to_lower_copy(curFileName)] = empty;
 					}
-				}
-				else if (boost::iequals(curFileName, "nemesis_animationdatasinglefile"))
-				{
-					curFileName = curFileName.substr(8);
-
-					if (!AnimDataDisassemble(newPath, newAnimData, animDataChar, animDataHeader))
-					{
-						return false;
-					}
-
-					string parent = curfile.parent_path().filename().string();
-					newPath = path + filelist[i].substr(8);
-					boost::algorithm::to_lower(parent);
-					boost::algorithm::to_lower(newPath);
-					boost::algorithm::to_lower(curFileName);
-					behaviorPath[curFileName] = newPath.substr(0, newPath.find_last_of("."));
 				}
 			}
 		}
