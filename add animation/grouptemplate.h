@@ -26,14 +26,14 @@ private:
 	std::string format;
 	std::string strID;
 	int* nextFunctionID;
-	int* nextStateID;
+	std::vector<int>* nextStateID;
 	SSMap IDExist;
 
 public:
 	groupTemplate(vecstr groupfunctionformat);
-	vecstr getFunctionLines(std::string formatname, int& stateID, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, int& nFunctionID, ImportContainer& import, id eventid, id variableID, std::string masterFormat, int groupCount = 0);
+	vecstr getFunctionLines(std::string behaviorFile, std::string formatname, std::vector<int>& stateID, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, int& nFunctionID, ImportContainer& import, id eventid, id variableID, std::string masterFormat, int groupCount = 0);
 	SSMap getFunctionIDs();
-	std::string stateReplacer(std::string curline, int stateID, int linecount, int groupCount);
+	void stateReplacer(std::string& line, std::string statenum, int stateID, int linecount, int groupCount);
 	void processing(std::string& line, std::string masterFormat, int linecount, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, id eventid, id variableid, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
 	inline void newID();
 	void setZeroEvent(std::string eventname);
@@ -50,8 +50,8 @@ private:
 	SSMap IDExist;
 
 public:
-	vecstr groupExistingFunctionProcess(int curFunctionID, vecstr existingFunctionLines, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, std::string format, ImportContainer import, id eventid, id variableid, int& nFunctionID, bool hasMaster, bool hasGroup);
-	void processing(std::string& line, int curFunctionID, int linecount, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, id eventid, id variableid, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
+	vecstr groupExistingFunctionProcess(int curFunctionID, vecstr existingFunctionLines, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, std::string format, ImportContainer import, id eventid, id variableid, int& nFunctionID, bool hasMaster, bool hasGroup, vecstr templateGroup);
+	void processing(std::string& line, int curFunctionID, int linecount, std::vector<SSMap> subFunctionIDs, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, id eventid, id variableid, bool hasGroup, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
 	inline void newID();
 	void setZeroEvent(std::string eventname);
 

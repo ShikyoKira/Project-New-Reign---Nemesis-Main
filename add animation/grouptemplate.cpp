@@ -29,7 +29,7 @@ groupTemplate::groupTemplate(vecstr grouptemplateformat)
 	templatelines = grouptemplateformat;
 }
 
-vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<SSMap> subFunctionIDs, vector<shared_ptr<animationInfo>> groupAnimInfo, int& nFunctionID, ImportContainer& import, id eventid, id variableid, string masterFormat, int groupCount)
+vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, vector<int>& stateID, vector<SSMap> subFunctionIDs, vector<shared_ptr<animationInfo>> groupAnimInfo, int& nFunctionID, ImportContainer& import, id eventid, id variableid, string masterFormat, int groupCount)
 {
 	format = formatname;
 	unordered_map<string, string> IDExist;
@@ -43,14 +43,14 @@ vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<S
 	bool skip = false;
 	bool freeze = false; // mainly used by CONDITION to freeze following CONDITION
 	__int64 openRange = 0;
-	int fixedStateID = stateID;
+	vector<int> fixedStateID = stateID;
 	int condition = 0;
 	int counter = 0;
 	int order = -2;
 	strID = to_string(nFunctionID);
 	nextFunctionID = const_cast<int*>(&nFunctionID);
 	newImport = const_cast<ImportContainer*>(&import);
-	nextStateID = const_cast<int*>(&stateID);
+	nextStateID = const_cast<vector<int>*>(&stateID);
 	unordered_map<int, bool> IsConditionOpened;
 	size_t elementLine = -1;
 	vector<unordered_map<string, bool>> groupOptionPicked;
@@ -551,9 +551,34 @@ vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<S
 				}
 
 				// set state ID
-				if (templatelines[i].find("$(S+", 0) != string::npos)
+				if (templatelines[i].find("$(S", 0) != string::npos)
 				{
-					templatelines[i] = stateReplacer(templatelines[i], fixedStateID, i + 1, groupCount);
+					string templine = templatelines[i].substr(templatelines[i].find("$(S"));
+					string ID = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+					int intID;
+
+					if (templatelines[i].find("$(S" + ID + "+") == string::npos)
+					{
+						ID = "";
+						intID = 0;
+					}
+					else
+					{
+						intID = stoi(ID) - 1;
+
+						if (intID >= int(fixedStateID.size()))
+						{
+							cout << "ERROR(1168): Invalid state number. State number must be smaller than number of root state registered in option_list.txt. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << "State: " << templine.substr(0, templine.find(")") + 1) << endl << endl;
+							error = true;
+							functionline.shrink_to_fit();
+							return functionline;
+						}
+					}
+
+					if (templatelines[i].find("$(S" + ID + "+") != string::npos)
+					{
+						stateReplacer(templatelines[i], ID, fixedStateID[intID], i + 1, groupCount);
+					}
 				}
 
 				if (groupCount != -1)
@@ -662,14 +687,35 @@ vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<S
 					}
 				}
 
-				if (templatelines[i].find("\t\t\t#") != string::npos && templatelines[i].find("$") != string::npos && templatelines[i].find("#" + masterFormat + "$") != string::npos && templatelines[i].find("#" + masterFormat + "_group$") != string::npos)
+				if ((templatelines[i].find("#" + masterFormat + "$") != string::npos || templatelines[i].find("#" + masterFormat + "_group$") != string::npos))
 				{
-					stringstream sstream(templatelines[i]);
-					istream_iterator<string> ssbegin(sstream);
-					istream_iterator<string> ssend;
-					vecstr generator(ssbegin, ssend);
-					copy(generator.begin(), generator.end(), generator.begin());
-					size_t nextpos = 0;
+					vecstr generator;
+					size_t nextpos = -1;
+
+					if(templatelines[i].find("\t\t\t#") != string::npos)
+					{
+						stringstream sstream(templatelines[i]);
+						istream_iterator<string> ssbegin(sstream);
+						istream_iterator<string> ssend;
+						vecstr tempGenerator(ssbegin, ssend);
+						copy(generator.begin(), generator.end(), generator.begin());
+						generator = tempGenerator;
+					}
+					else
+					{
+						int ref = sameWordCount(templatelines[i], "#" + masterFormat);
+
+						for (int j = 0; j < ref; ++j)
+						{
+							nextpos = templatelines[i].find("#" + masterFormat, nextpos + 1);
+							string templine = templatelines[i].substr(nextpos);
+							string ID = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+							templine = templatelines[i].substr(nextpos, templatelines[i].find(ID, nextpos) - nextpos);
+							generator.push_back(templine);
+						}
+					}
+
+					nextpos = 0;
 
 					for (unsigned int p = 0; p < generator.size(); p++)
 					{
@@ -744,6 +790,21 @@ vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<S
 						functionline.shrink_to_fit();
 						return functionline;
 					}
+				}
+
+				if (templatelines[i].find("<hkparam name=\"animationName\">") != string::npos)
+				{
+					size_t pos = templatelines[i].find("animationName\">") + 15;
+					string animPath = templatelines[i].substr(pos, templatelines[i].find("</hkparam>", pos) - pos);
+					boost::algorithm::to_lower(animPath);
+					usedAnim[behaviorFile].insert(animPath);
+				}
+				else if (templatelines[i].find("<hkparam name=\"behaviorName\">") != string::npos)
+				{
+					size_t pos = templatelines[i].find("behaviorName\">") + 14;
+					string behaviorName = templatelines[i].substr(pos, templatelines[i].find("</hkparam>", pos) - pos);
+					boost::algorithm::to_lower(behaviorName);
+					behaviorJoints[behaviorName].push_back(behaviorFile);
 				}
 
 				functionline.push_back(templatelines[i]);
@@ -882,9 +943,34 @@ vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<S
 									}
 
 									// set state ID
-									if (curLine.find("$(S+", 0) != string::npos)
+									if (curLine.find("$(S", 0) != string::npos)
 									{
-										curLine = stateReplacer(curLine, fixedStateID, i + 1, groupCount);
+										string templine = curLine.substr(curLine.find("$(S"));
+										string ID = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+										int intID;
+
+										if (curLine.find("$(S" + ID + "+") == string::npos)
+										{
+											ID = "";
+											intID = 0;
+										}
+										else
+										{
+											intID = stoi(ID) - 1;
+
+											if (intID >= int(fixedStateID.size()))
+											{
+												cout << "ERROR(1168): Invalid state. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
+												error = true;
+												functionline.shrink_to_fit();
+												return functionline;
+											}
+										}
+
+										if (curLine.find("$(S" + ID + "+") != string::npos)
+										{
+											stateReplacer(curLine, ID, fixedStateID[intID], i + 1, groupCount);
+										}
 									}
 
 									// multi choice selection
@@ -986,18 +1072,15 @@ vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<S
 
 											if (tempID.find(curID, 0) != string::npos && nextpos == curLine.find(curID))
 											{
-												for (unsigned int k = 0; k < subFunctionIDs.size(); k++) // number of variation
+												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
-													if (subFunctionIDs[k][curID].length() == 0)
-													{
-														cout << "ERROR(2105): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-														error = true;
-														functionline.shrink_to_fit();
-														return functionline;
-													}
-
-													curLine.replace(nextpos, curID.length(), subFunctionIDs[k][curID]);
+													cout << "ERROR(2105): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
+													error = true;
+													functionline.shrink_to_fit();
+													return functionline;
 												}
+
+												curLine.replace(nextpos, curID.length(), subFunctionIDs[animMulti][curID]);
 											}
 											else
 											{
@@ -1023,6 +1106,21 @@ vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<S
 
 								if (!storeSkip)
 								{
+									if (curLine.find("<hkparam name=\"animationName\">") != string::npos)
+									{
+										size_t pos = curLine.find("animationName\">") + 15;
+										string animPath = curLine.substr(pos, curLine.find("</hkparam>", pos) - pos);
+										boost::algorithm::to_lower(animPath);
+										usedAnim[behaviorFile].insert(animPath);
+									}
+									else if (curLine.find("<hkparam name=\"behaviorName\">") != string::npos)
+									{
+										size_t pos = curLine.find("behaviorName\">") + 14;
+										string behaviorName = curLine.substr(pos, curLine.find("</hkparam>", pos) - pos);
+										boost::algorithm::to_lower(behaviorName);
+										behaviorJoints[behaviorName].push_back(behaviorFile);
+									}
+
 									functionline.push_back(curLine);
 								}
 							}
@@ -1050,6 +1148,19 @@ vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<S
 
 			if (freeze && IsConditionOpened[condition])
 			{
+				if (templatelines[i].find("<hkparam name=\"animationName\">") != string::npos)
+				{
+					size_t pos = templatelines[i].find("animationName\">") + 15;
+					string animPath = templatelines[i].substr(pos, templatelines[i].find("</hkparam>", pos) - pos);
+					usedAnim[behaviorFile].insert(animPath);
+				}
+				else if (templatelines[i].find("<hkparam name=\"behaviorName\">") != string::npos)
+				{
+					size_t pos = templatelines[i].find("behaviorName\">") + 14;
+					string behaviorName = templatelines[i].substr(pos, templatelines[i].find("</hkparam>", pos) - pos);
+					behaviorJoints[behaviorName].push_back(behaviorFile);
+				}
+
 				functionline.push_back(templatelines[i]);
 				freeze = false;
 			}
@@ -1088,9 +1199,20 @@ vecstr groupTemplate::getFunctionLines(string formatname, int& stateID, vector<S
 		}
 	}
 
-	functionIDs[format + "[" + to_string(groupCount) + "][StateID]"] = to_string(fixedStateID);
+	if (fixedStateID.size() > 1)
+	{
+		for (unsigned int i = 0; i < fixedStateID.size(); ++i)
+		{
+			functionIDs[format + "[" + to_string(groupCount) + "][(S+" + to_string(i) + ")]"] = to_string(fixedStateID[i]);
+		}
+	}
+	else
+	{
+		functionIDs[format + "[" + to_string(groupCount) + "][(S+0)]"] = to_string(fixedStateID[0]);
+	}
 
-	if (functionline.back().length() != 0)
+
+	if (functionline.size() != 0 && functionline.back().length() != 0)
 	{
 		functionline.push_back("");
 	}
@@ -1104,11 +1226,16 @@ SSMap groupTemplate::getFunctionIDs()
 	return functionIDs;
 }
 
-vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr existingFunctionLines, vector<SSMap> subFunctionIDs, vector<shared_ptr<animationInfo>> groupAnimInfo, string curformat, ImportContainer import, id eventid, id variableid, int& nFunctionID, bool hasMaster, bool hasGroup)
+vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr existingFunctionLines, vector<SSMap> subFunctionIDs, vector<shared_ptr<animationInfo>> groupAnimInfo, string curformat, ImportContainer import, id eventid, id variableid, int& nFunctionID, bool hasMaster, bool hasGroup, vecstr templateGroup)
 {
 	vecstr newFunctionLines;
 	vecstr tempstore;
 	vecstr empty;
+
+	newImport = const_cast<ImportContainer*>(&import);
+	nextFunctionID = const_cast<int*>(&nFunctionID);
+	format = curformat;
+	strID = to_string(nFunctionID);
 
 	string multiOption;
 	bool functionNot = false;
@@ -1122,14 +1249,15 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 	__int64 elementCount = 0;
 	int counter = 0;
 	int order = -2;
+	int elementLine = 0;
 	unordered_map<int, bool> IsConditionOpened;
-	shared_ptr<string> elementLine = make_shared<string>();
+	unordered_map<string, bool> otherAnimType;
 	vector<unordered_map<string, bool>> groupOptionPicked;
 
 	// check error before initialization
-	if (subFunctionIDs.size() != groupAnimInfo.size() && !hasGroup)
+	if (subFunctionIDs.size() != groupAnimInfo.size() && !hasGroup && !groupAnimInfo[0]->ignoreGroup)
 	{
-		cout << ">> ERROR(1155): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << endl;
+		cout << ">> ERROR(1170): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << endl;
 		error = true;
 		return newFunctionLines;
 	}
@@ -1139,15 +1267,20 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 		groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
 	}
 
-	newImport = const_cast<ImportContainer*>(&import);
-	nextFunctionID = const_cast<int*>(&nFunctionID);
-	format = curformat;
-	strID = to_string(nFunctionID);
-
 
 	for (unsigned int i = 0; i < 4 - strID.length(); i++)
 	{
 		strID = "0" + strID;
+	}
+
+	for (unsigned int i = 0; i < templateGroup.size(); ++i)
+	{
+		if (templateGroup[i] != format)
+		{
+			otherAnimType[templateGroup[i]] = true;
+			otherAnimType[templateGroup[i] + "_group"] = true;
+			otherAnimType[templateGroup[i] + "_master"] = true;
+		}
 	}
 
 	IsConditionOpened[0] = true;
@@ -1394,7 +1527,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					if (formatInfo[2] == "AnimObject")
 					{
 						cout << "ERROR(1153): Invalid element. Specifying the AnimObject is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << "Option: " << curOption << endl << endl;
-						skip = true;
+						error = true;
 						return empty;
 					}
 
@@ -1431,7 +1564,13 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				return empty;
 			}
 
-			uniqueskip = true;
+			size_t pos = line.find("<!-- NEW ^") + 10;
+			string checker = line.substr(pos, line.find("^", pos) - pos);
+
+			if (!otherAnimType[checker])
+			{
+				uniqueskip = true;
+			}
 		}
 		else if (line.find("<!-- NEW ^", 0) != string::npos && line.find("^ +% -->", 0) != string::npos && IsConditionOpened[condition])
 		{
@@ -1483,11 +1622,20 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				return empty;
 			}
 
-			uniqueskip = true;
+			size_t pos = line.find("<!-- NEW ^") + 10;
+			string checker = line.substr(pos, line.find("^", pos) - pos);
+
+			if (!otherAnimType[checker])
+			{
+				uniqueskip = true;
+			}
 		}
 		else if (line.find("<!-- CLOSE -->", 0) != string::npos || line.find("<!-- CONDITION END -->", 0) != string::npos)
 		{
-			uniqueskip = true;
+			if (open)
+			{
+				uniqueskip = true;
+			}
 		}
 
 		if (!uniqueskip && !skip && !freeze)
@@ -1497,12 +1645,6 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				if (multi)
 				{
 					tempstore.push_back(line);
-					
-					if (elementCatch)
-					{
-						elementLine = make_shared<string>(tempstore.back());
-					}
-
 					break;
 				}
 
@@ -1524,7 +1666,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				}
 
 				// compute numelements
-				if (line.find("<hkparam name=\"") != string::npos && line.find("numelements=\"") != string::npos && line.find("</hkparam>") == string::npos && line.find("<!-- COMPUTE -->", 0) != string::npos)
+				if (line.find("<hkparam name=\"") != string::npos && line.find("numelements=\"") != string::npos && line.find("</hkparam>") == string::npos)
 				{
 					if (!isElement)
 					{
@@ -1549,10 +1691,10 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					{
 						string oldElement;
 
-						if (elementLine->find("numelements=\"$elements$\">", 0) == string::npos)
+						if (newFunctionLines[elementLine].find("numelements=\"$elements$\">", 0) == string::npos)
 						{
-							size_t position = elementLine->find("numelements=\"") + 13;
-							oldElement = elementLine->substr(position, elementLine->find("\">", position) - position);
+							size_t position = newFunctionLines[elementLine].find("numelements=\"") + 13;
+							oldElement = newFunctionLines[elementLine].substr(position, newFunctionLines[elementLine].find("\">", position) - position);
 						}
 						else
 						{
@@ -1561,7 +1703,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 						if (oldElement != to_string(elementCount))
 						{
-							elementLine->replace(elementLine->find(oldElement), oldElement.length(), to_string(elementCount));
+							newFunctionLines[elementLine].replace(newFunctionLines[elementLine].find(oldElement), oldElement.length(), to_string(elementCount));
 						}
 
 						isElement = false;
@@ -1599,7 +1741,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				
 				if (line.find("$") != string::npos && !hasGroup)
 				{
-					processing(line, curFunctionID, i + 1, subFunctionIDs, groupAnimInfo, eventid, variableid);
+					processing(line, curFunctionID, i + 1, subFunctionIDs, groupAnimInfo, eventid, variableid, hasGroup);
 					
 					if (error)
 					{
@@ -1611,7 +1753,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 				if (elementCatch)
 				{
-					elementLine = make_shared<string>(newFunctionLines.back());
+					elementLine = newFunctionLines.size() - 1;
 				}
 
 				break;
@@ -1645,9 +1787,9 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 						size = order + 1;
 					}
 
-					for (int animMulti = order; animMulti < size; ++animMulti) // variation for each animation >> multi animation
+					for (int animMulti = order; animMulti < size; ++animMulti) // each animation in a group
 					{
-						for (int optionMulti = 0; optionMulti < groupAnimInfo[animMulti]->optionPickedCount[multiOption]; ++optionMulti)
+						for (int optionMulti = 0; optionMulti < groupAnimInfo[animMulti]->optionPickedCount[multiOption]; ++optionMulti)		// option with different add-ons
 						{
 							for (unsigned int l = 0; l < tempstore.size(); ++l) // part lines need to add
 							{
@@ -1713,6 +1855,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
 													cout << "ERROR(2102): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
+													error = true;
 													return empty;
 												}
 
@@ -1721,6 +1864,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											else
 											{
 												cout << "ERROR(2104): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
+												error = true;
 												return empty;
 											}
 										}
@@ -1733,20 +1877,19 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 											if (tempID.find(curID, 0) != string::npos && nextpos == curLine.find(curID))
 											{
-												for (unsigned int k = 0; k < subFunctionIDs.size(); k++) // number of variation
+												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
-													if (subFunctionIDs[k][curID].length() == 0)
-													{
-														cout << "ERROR(2102): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
-														return empty;
-													}
-
-													curLine.replace(nextpos, curID.length(), subFunctionIDs[k][curID]);
+													cout << "ERROR(2102): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
+													error = true;
+													return empty;
 												}
+
+												curLine.replace(nextpos, curID.length(), subFunctionIDs[animMulti][curID]);
 											}
 											else
 											{
 												cout << "ERROR(2104): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
+												error = true;
 												return empty;
 											}
 
@@ -1760,20 +1903,19 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 											if (tempID.find(curID, 0) != string::npos && nextpos == curLine.find(curID))
 											{
-												for (unsigned int k = 0; k < subFunctionIDs.size(); k++) // number of variation
+												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
-													if (subFunctionIDs[k][curID].length() == 0)
-													{
-														cout << "ERROR(2102): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
-														return empty;
-													}
-
-													curLine.replace(nextpos, curID.length(), subFunctionIDs[k][curID]);
+													cout << "ERROR(2102): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
+													error = true;
+													return empty;
 												}
+
+												curLine.replace(nextpos, curID.length(), subFunctionIDs[animMulti][curID]);
 											}
 											else
 											{
 												cout << "ERROR(2104): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
+												error = true;
 												return empty;
 											}
 
@@ -1810,7 +1952,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 								if (curLine.find("$") != string::npos && !hasGroup)
 								{
-									processing(curLine, curFunctionID, int(i + 1 - tempstore.size() + l + (optionMulti * animMulti * tempstore.size())), subFunctionIDs, groupAnimInfo, eventid, variableid, optionMulti, animMulti, multiOption);
+									processing(curLine, curFunctionID, int(i + 1 - tempstore.size() + l + (optionMulti * animMulti * tempstore.size())), subFunctionIDs, groupAnimInfo, eventid, variableid, hasGroup, optionMulti, animMulti, multiOption);
 
 									if (error)
 									{
@@ -1880,7 +2022,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 		}
 	}
 
-	if (newFunctionLines.back().length() != 0)
+	if (newFunctionLines.size() != 0 && newFunctionLines.back().length() != 0)
 	{
 		newFunctionLines.push_back("");
 	}
@@ -1889,15 +2031,14 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 	return newFunctionLines;
 }
 
-string groupTemplate::stateReplacer(string curline, int stateID, int linecount, int groupCount)
+void groupTemplate::stateReplacer(string& line, string statenum, int stateID, int linecount, int groupCount)
 {
-	string line = curline;
-	int count = sameWordCount(line, "$(S+");
+	int count = sameWordCount(line, "$(S" + statenum + "+");
 
 	for (int i = 0; i < count; ++i)
 	{
-		string number = boost::regex_replace(string(line.substr(line.find("$(S+"))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-		string state = "$(S+" + number + ")$";
+		string number = boost::regex_replace(string(line.substr(line.find("$(S" + statenum + "+") + statenum.length() + 4)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+		string state = "$(S" + statenum + "+" + number + ")$";
 
 		if (line.find(state, 0) != string::npos)
 		{
@@ -1907,25 +2048,41 @@ string groupTemplate::stateReplacer(string curline, int stateID, int linecount, 
 			{
 				size_t stateLength = state.length();
 				state = state.substr(1, state.length() - 2);
-				state.replace(1, 1, to_string(stateID));
+				state.replace(1, 1 + statenum.length(), to_string(stateID));
 				calculate(state, error);
-				functionIDs[format + "[" + to_string(groupCount) + "][(S+" + number + ")]"] = state;
+				functionIDs[format + "[" + to_string(groupCount) + "][(S" + statenum + "+" + number + ")]"] = state;
 				line.replace(stateposition, stateLength, state);
 
-				if (stoi(state) >= (*nextStateID))
+				int ID;
+
+				if (statenum.length() > 0)
 				{
-					(*nextStateID) = stoi(state) + 1;
+					ID = stoi(statenum) - 1;
+				}
+				else
+				{
+					ID = 0;
+				}
+
+				if (ID >= int((*nextStateID).size()))
+				{
+					cout << "ERROR(1168): Invalid state number. State number must be smaller than number of root state registered in option_list.txt. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << state << endl << endl;
+					error = true;
+					return;
+				}
+
+				if (stoi(state) >= (*nextStateID)[ID])
+				{
+					(*nextStateID)[ID] = stoi(state) + 1;
 				}
 			}
 			else
 			{
 				cout << "ERROR(2108): Invalid state. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << state << endl << endl;
-				return "";
+				return;
 			}
 		}
 	}
-
-	return line;
 }
 
 void groupTemplate::processing(string& line, string masterFormat, int linecount, vector<SSMap> subFunctionIDs, vector<shared_ptr<animationInfo>> groupAnimInfo, id eventid, id variableid, int optionMulti, int animMulti, string multiOption)
@@ -1955,9 +2112,22 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 					for (__int64 j = 0; j < maths; ++j)
 					{
 						string equation = change.substr(nextpos, change.find(")", nextpos) - 1);
-						string number = boost::regex_replace(string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+						string number = "";
+						string ID = "";
 
-						if (equation != "(S+" + number + ")")
+						if (equation.find("(S", 0) != string::npos)
+						{
+							ID = boost::regex_replace(string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+							if (change.find("(S" + ID + "+") == string::npos)
+							{
+								ID = "";
+							}
+
+							number = boost::regex_replace(string(equation.substr(3 + ID.length())), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+						}
+
+						if (equation != "(S" + ID + "+" + number + ")")
 						{
 							size_t equationLength = equation.length();
 
@@ -1973,7 +2143,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 
 							calculate(equation, error);
 
-							if (stoi(equation) > groupAnimInfo.size() - 1 || stoi(equation) < 0)
+							if (stoi(equation) > int(groupAnimInfo.size() - 1) || stoi(equation) < 0)
 							{
 								cout << "ERROR(1155): Invalid order number. Enter number from 0 to " << groupAnimInfo.size() - 1 << ". Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
 								error = true;
@@ -1981,6 +2151,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 							}
 
 							change.replace(nextpos, equationLength, equation);
+							isChange = true;
 						}
 
 						nextpos = change.find("(", nextpos + 1);
@@ -2021,16 +2192,6 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 				return;
 			}
 
-			if (change.find(masterFormat + "_group[", 0) != string::npos && change.find("]", change.find(masterFormat + "_group[")) != string::npos)
-			{
-				isChange = true;
-			}
-
-			if (error)
-			{
-				return;
-			}
-
 			if (change.find("eventID[", 0) != string::npos &&  change.find("]", 0) != string::npos)
 			{
 				eventIDReplacer(change, format, eventid, zeroEvent, linecount);
@@ -2056,45 +2217,48 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 			if (change.find("import[", 0) != string::npos && change.find("]", 0) != string::npos)
 			{
 				size_t nextpos = change.find("import[");
-				string importer = change.substr(nextpos, change.find("]", change.find("]") + 1) - nextpos + 1);
+				string importer = change.substr(nextpos, change.find_last_of("]") - nextpos + 1);
 				__int64 bracketCount = count(importer.begin(), importer.end(), '[');
 				__int64 altBracketCount = count(importer.begin(), importer.end(), ']');
 
 				if (IDExist[importer].length() == 0)
 				{
-					if (bracketCount == 2)
-					{
-						if (bracketCount == altBracketCount)
-						{
-							size_t pos = importer.find("[") + 1;
-							string file = importer.substr(pos, importer.find("]", pos) - pos);
-							pos = importer.find("[", pos) + 1;
-							string keyword = importer.substr(pos, importer.find("]", pos) - pos);
-
-							string tempID;
-
-							if ((*newImport)[file][keyword].length() > 0)
-							{
-								tempID = (*newImport)[file][keyword];
-							}
-							else
-							{
-								tempID = strID;
-								IDExist[importer] = tempID;
-								(*newImport)[file][keyword] = tempID;
-								newID();
-							}
-
-							change.replace(nextpos, importer.length(), tempID);
-							isChange = true;
-						}
-					}
-					else
+					if (bracketCount != altBracketCount)
 					{
 						cout << "ERROR(2109): Invalid import input. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << endl;
 						error = true;
 						return;
 					}
+
+					size_t pos = importer.find("[") + 1;
+					string file = importer.substr(pos, importer.find("]", pos) - pos);
+					string keyword;
+					string tempID;
+
+					if (bracketCount > 1)
+					{
+						pos = importer.find("[", pos) + 1;
+						keyword = importer.substr(pos, importer.find_last_of("]") - pos);
+					}
+					else
+					{
+						keyword = "";
+					}
+
+					if ((*newImport)[file][keyword].length() > 0)
+					{
+						tempID = (*newImport)[file][keyword];
+					}
+					else
+					{
+						tempID = strID;
+						IDExist[importer] = tempID;
+						(*newImport)[file][keyword] = tempID;
+						newID();
+					}
+
+					change.replace(nextpos, importer.length(), tempID);
+					isChange = true;
 				}
 				else
 				{
@@ -2113,7 +2277,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 	}
 }
 
-void ExistingFunction::processing(string& line, int curFunctionID, int linecount, vector<SSMap> subFunctionIDs, vector<shared_ptr<animationInfo>> groupAnimInfo, id eventid, id variableid, int optionMulti, int animMulti, string multiOption)
+void ExistingFunction::processing(string& line, int curFunctionID, int linecount, vector<SSMap> subFunctionIDs, vector<shared_ptr<animationInfo>> groupAnimInfo, id eventid, id variableid, bool hasGroup, int optionMulti, int animMulti, string multiOption)
 {
 	__int64 counter = count(line.begin(), line.end(), '$') / 2;
 	size_t curPos = 0;
@@ -2141,9 +2305,22 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 					for (__int64 j = 0; j < maths; ++j)
 					{
 						string equation = change.substr(nextpos, change.find(")", nextpos) - 1);
-						string number = boost::regex_replace(string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+						string number = "";
+						string ID = "";
 
-						if (equation != "(S+" + number + ")")
+						if (equation.find("(S", 0) != string::npos)
+						{
+							ID = boost::regex_replace(string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+							if (change.find("(S" + ID + "+") == string::npos)
+							{
+								ID = "";
+							}
+
+							number = boost::regex_replace(string(equation.substr(3 + ID.length())), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+						}
+						
+						if (equation != "(S" + ID + "+" + number + ")")
 						{
 							size_t equationLength = equation.length();
 
@@ -2159,7 +2336,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 
 							calculate(equation, error);
 
-							if (stoi(equation) > groupAnimInfo.size() - 1 || stoi(equation) < 0)
+							if (stoi(equation) > int(groupAnimInfo.size() - 1) || stoi(equation) < 0)
 							{
 								cout << "ERROR(1148): \"Minimum\" in option_list.txt must be used and contain larger value than the 1st element being used. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
 								error = true;
@@ -2167,6 +2344,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 							}
 
 							change.replace(nextpos, equationLength, equation);
+							isChange = true;
 						}
 
 						nextpos = change.find("(", nextpos + 1);
@@ -2174,98 +2352,125 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 				}
 			}
 
-			if (change.find("[File]") != string::npos)
+			if (hasGroup)
 			{
-				if (change.find(format + "[][File]", 0) != string::npos)
+				if (change.find("[File]") != string::npos)
 				{
-					cout << "ERROR(1052): Invalid element. Only \"F\" or \"L\" is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-					error = true;
-					return;
-				}
-
-				if (change.find(format + "[F][File]", 0) != string::npos)
-				{
-					change.replace(change.find(format + "[F][File]"), 9 + format.length(), subFunctionIDs[0][format + "File"]);
-				}
-
-				if (change.find(format + "[N][File]", 0) != string::npos)
-				{
-					cout << "ERROR(1056): Invalid elmenent. Only \"F\" \"L\", or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-					error = true;
-					return;
-				}
-
-				if (change.find(format + "[L][File]", 0) != string::npos)
-				{
-					change.replace(change.find(format + "[L][File]"), 9 + format.length(), subFunctionIDs[groupAnimInfo.size() - 1][format + "File"]);
-				}
-
-				if (change.find(format + "[", 0) != string::npos)
-				{
-					string number = boost::regex_replace(string(change.substr(change.find(format + "[", 0))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-
-					if (change.find(format + "[" + number + "][File]", 0) != string::npos)
+					if (change.find(format + "[][File]", 0) != string::npos)
 					{
-						if (unsigned int(stoi(number)) >= groupAnimInfo.size())
+						cout << "ERROR(1052): Invalid element. Only \"F\" or \"L\" is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+						error = true;
+						return;
+					}
+
+					if (change.find(format + "[F][File]", 0) != string::npos)
+					{
+						change.replace(change.find(format + "[F][File]"), 9 + format.length(), subFunctionIDs[0][format + "File"]);
+						isChange = true;
+					}
+
+					if (change.find(format + "[N][File]", 0) != string::npos)
+					{
+						cout << "ERROR(1056): Invalid elmenent. Only \"F\" \"L\", or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+						error = true;
+						return;
+					}
+
+					if (change.find(format + "[L][File]", 0) != string::npos)
+					{
+						change.replace(change.find(format + "[L][File]"), 9 + format.length(), subFunctionIDs[groupAnimInfo.size() - 1][format + "File"]);
+						isChange = true;
+					}
+
+					if (change.find(format + "[", 0) != string::npos)
+					{
+						string number = boost::regex_replace(string(change.substr(change.find(format + "[", 0))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+						if (change.find(format + "[" + number + "][File]", 0) != string::npos)
 						{
-							change.replace(change.find(format + "[" + number + "][File]"), 8 + format.length() + number.length(), subFunctionIDs[stoi(number)][format + "File"]);
-						}
-						else
-						{
-							cout << "ERROR(1148): \"Minimum\" in option_list.txt must be used and contain larger value than the 1st element being used. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
-							error = true;
-							return;
+							if (unsigned int(stoi(number)) >= groupAnimInfo.size())
+							{
+								change.replace(change.find(format + "[" + number + "][File]"), 8 + format.length() + number.length(), subFunctionIDs[stoi(number)][format + "File"]);
+								isChange = true;
+							}
+							else
+							{
+								cout << "ERROR(1148): \"Minimum\" in option_list.txt must be used and contain larger value than the 1st element being used. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
+								error = true;
+								return;
+							}
 						}
 					}
 				}
-			}
 
-			if (change.find(format + "[][", 0) != string::npos && change.find("]", change.find(format + "[][")) != string::npos)
-			{
-				formatReplace(change, format, subFunctionIDs[animMulti], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
-				isChange = true;
-			}
+				if (change.find(format + "[][", 0) != string::npos && change.find("]", change.find(format + "[][")) != string::npos)
+				{
+					formatReplace(change, format, subFunctionIDs[animMulti], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
+					isChange = true;
+				}
 
-			if (error)
-			{
-				cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-				return;
-			}
+				if (error)
+				{
+					cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+					return;
+				}
 
-			if (change.find(format + "[F][", 0) != string::npos && change.find("]", change.find(format + "[F][")) != string::npos)
-			{
-				formatReplace(change, format, subFunctionIDs[0], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
-				isChange = true;
-			}
+				if (change.find(format + "[F][", 0) != string::npos && change.find("]", change.find(format + "[F][")) != string::npos)
+				{
+					formatReplace(change, format, subFunctionIDs[0], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
+					isChange = true;
+				}
 
-			if (error)
-			{
-				cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-				return;
-			}
+				if (error)
+				{
+					cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+					return;
+				}
 
-			if (change.find(format + "[L][", 0) != string::npos && change.find("]", change.find(format + "[L][")) != string::npos)
-			{
-				formatReplace(change, format, subFunctionIDs[groupAnimInfo.size() - 1], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
-				isChange = true;
-			}
+				if (change.find(format + "[L][", 0) != string::npos && change.find("]", change.find(format + "[L][")) != string::npos)
+				{
+					formatReplace(change, format, subFunctionIDs[groupAnimInfo.size() - 1], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
+					isChange = true;
+				}
 
-			if (error)
-			{
-				cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-				return;
-			}
+				if (error)
+				{
+					cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+					return;
+				}
 
-			if (change.find(format + "_group[][", 0) != string::npos && change.find("]", change.find(format + "_group[][")) != string::npos)
-			{
-				formatReplace(change, format + "_group", subFunctionIDs[animMulti], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
-				isChange = true;
-			}
+				if (change.find(format + "_group[][", 0) != string::npos && change.find("]", change.find(format + "_group[][")) != string::npos)
+				{
+					formatReplace(change, format + "_group", subFunctionIDs[animMulti], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
+					isChange = true;
+				}
 
-			if (error)
+				if (error)
+				{
+					cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+					return;
+				}
+			}
+			else
 			{
-				cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-				return;
+				for (auto it = subFunctionIDs[animMulti].begin(); it != subFunctionIDs[animMulti].end(); ++it)
+				{
+					if (change.find(it->first) != string::npos)
+					{
+						int counter = sameWordCount(change, it->first);
+
+						for (int j = 0; j < counter; ++j)
+						{
+							change.replace(change.find(it->first), it->first.length(), it->second);
+							isChange = true;
+						}
+
+						if (change.length() == it->second.length())
+						{
+							break;
+						}
+					}
+				}
 			}
 
 			if (change.find("eventID[", 0) != string::npos && change.find("]", 0) != string::npos)
@@ -2293,45 +2498,48 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 			if (change.find("import[", 0) != string::npos && change.find("]", 0) != string::npos)
 			{
 				size_t nextpos = change.find("import[");
-				string importer = change.substr(nextpos, change.find("]", change.find("]") + 1) - nextpos + 1);
+				string importer = change.substr(nextpos, change.find_last_of("]") - nextpos + 1);
 				__int64 bracketCount = count(importer.begin(), importer.end(), '[');
 				__int64 altBracketCount = count(importer.begin(), importer.end(), ']');
 
 				if (IDExist[importer].length() == 0)
 				{
-					if (bracketCount == 2)
-					{
-						if (bracketCount == altBracketCount)
-						{
-							size_t pos = importer.find("[") + 1;
-							string file = importer.substr(pos, importer.find("]", pos) - pos);
-							pos = importer.find("[", pos) + 1;
-							string keyword = importer.substr(pos, importer.find("]", pos) - pos);
-
-							string tempID;
-
-							if ((*newImport)[file][keyword].length() > 0)
-							{
-								tempID = (*newImport)[file][keyword];
-							}
-							else
-							{
-								tempID = strID;
-								IDExist[importer] = tempID;
-								(*newImport)[file][keyword] = tempID;
-								newID();
-							}
-
-							change.replace(nextpos, importer.length(), tempID);
-							isChange = true;
-						}
-					}
-					else
+					if (bracketCount != altBracketCount)
 					{
 						cout << "ERROR(2109): Invalid import input. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
 						error = true;
 						return;
 					}
+
+					size_t pos = importer.find("[") + 1;
+					string file = importer.substr(pos, importer.find("]", pos) - pos);
+					string keyword;
+					string tempID;
+
+					if (bracketCount > 1)
+					{
+						pos = importer.find("[", pos) + 1;
+						keyword = importer.substr(pos, importer.find_last_of("]") - pos);
+					}
+					else
+					{
+						keyword = "";
+					}
+
+					if ((*newImport)[file][keyword].length() > 0)
+					{
+						tempID = (*newImport)[file][keyword];
+					}
+					else
+					{
+						tempID = strID;
+						IDExist[importer] = tempID;
+						(*newImport)[file][keyword] = tempID;
+						newID();
+					}
+
+					change.replace(nextpos, importer.length(), tempID);
+					isChange = true;
 				}
 				else
 				{
@@ -2436,7 +2644,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 
 		bool inHouseResult;
 
-		if (x == -1 && y == -1)
+		if (x == 4294967295 && y == 4294967295)
 		{
 			bool isNot = false;
 
@@ -2463,7 +2671,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				inHouseResult = isNot;
 			}
 		}
-		else if (x == -1 || (x > y && y != -1))
+		else if (x == 4294967295 || (x > y && y != 4294967295))
 		{
 			string firstCondition = inHouse.substr(0, inHouse.find("|"));
 			string secondCondition = inHouse.substr(inHouse.find("|") + 1);
@@ -2496,7 +2704,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				inHouseResult = true;
 			}
 		}
-		else if (y == -1 || (x < y && x != -1))
+		else if (y == 4294967295 || (x < y && x != 4294967295))
 		{
 			string firstCondition = inHouse.substr(0, inHouse.find("&"));
 			string tempSecondCondition = inHouse.substr(inHouse.find("&") + 1);
@@ -2519,7 +2727,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 			size_t x = tempSecondCondition.find("&");
 			size_t y = tempSecondCondition.find("|");
 
-			if ((x == -1 || x > y) && y != -1)
+			if ((x == 4294967295 || x > y) && y != 4294967295)
 			{
 				secondCondition = tempSecondCondition.substr(0, tempSecondCondition.find("|"));
 				tempSecondCondition = tempSecondCondition.substr(tempSecondCondition.find("|") + 1);
@@ -2592,11 +2800,11 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 		x = outHouse.find("&");
 		y = outHouse.find("|");
 
-		if (x == -1 && y == -1)
+		if (x == 4294967295 && y == 4294967295)
 		{
 			return inHouseResult;
 		}
-		else if (x == -1 || (x > y && y != -1))
+		else if (x == 4294967295 || (x > y && y != 4294967295))
 		{
 			string secondCondition = outHouse.substr(outHouse.find("|") + 1);
 
@@ -2605,7 +2813,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				return true;
 			}
 		}
-		else if (y == -1 || (x < y && x != -1))
+		else if (y == 4294967295 || (x < y && x != 4294967295))
 		{
 			string secondCondition = inHouse.substr(inHouse.find("&") + 1);
 
@@ -2626,7 +2834,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 		size_t x = condition.find("&");
 		size_t y = condition.find("|");
 
-		if (x == -1 && y == -1)
+		if (x == 4294967295 && y == 4294967295)
 		{
 			string conditionOrder = condition;
 			bool isNot = false;
@@ -2653,7 +2861,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				return isNot;
 			}
 		}
-		else if (x == -1 || (x > y && y != -1))
+		else if (x == 4294967295 || (x > y && y != 4294967295))
 		{
 			string firstCondition = condition.substr(0, condition.find("|"));
 			string secondCondition = condition.substr(condition.find("|") + 1);
@@ -2692,7 +2900,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				return true;
 			}
 		}
-		else if (y == -1 || (x < y && x != -1))
+		else if (y == 4294967295 || (x < y && x != 4294967295))
 		{
 			string firstCondition = condition.substr(0, condition.find("&"));
 			string secondCondition = condition.substr(condition.find("&") + 1);
@@ -2711,7 +2919,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				return false;
 			}
 
-			if (y != -1)
+			if (y != 4294967295)
 			{
 				if (secondCondition[0] == '(')
 				{
@@ -2821,7 +3029,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 					x = secondCondition.find("&");
 					y = secondCondition.find("|");
 
-					if (x == -1 && y == -1)
+					if (x == 4294967295 && y == 4294967295)
 					{
 						if (curOptionPicked[stoi(optionInfo[1])][optionInfo[2]])
 						{
@@ -2894,7 +3102,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 							}
 						}
 					}
-					else if (x == -1 || (x > y && y != -1))
+					else if (x == 4294967295 || (x > y && y != 4294967295))
 					{
 						size_t position = secondCondition.find("|") + 1;
 						string thirdCondition = secondCondition.substr(position);
@@ -2926,7 +3134,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 							return true;
 						}
 					}
-					else if (y == -1 || (x < y && x != -1))
+					else if (y == 4294967295 || (x < y && x != 4294967295))
 					{
 						size_t position = secondCondition.find("&") + 1;
 						string thirdCondition = secondCondition.substr(position);
@@ -3068,6 +3276,18 @@ void formatReplace(string& curline, string format, SSMap subFunctionIDs, vector<
 	if (groupline[1].length() == 0 && isAnimMulti)
 	{
 		groupline[1] = to_string(animMulti);
+	}
+
+	if (groupline.back() == "@AnimObject")
+	{
+		if (optionMulti == -1)
+		{
+			cout << ">> ERROR(1162): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Template: " << format << endl << "Line: " << linecount << endl << endl;
+			error = true;
+			return;
+		}
+
+		groupline.back() = "@AnimObject/" + to_string(optionMulti + 1);
 	}
 
 	for (unsigned int i = 1; i < groupline.size(); ++i)
