@@ -7,9 +7,10 @@ using namespace std;
 animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList behaviorOption, int linecount, bool& isOExist, bool noOption)
 {
 	unsigned int k = 0;
-	bool known = false;
 	string line = newAnimInfo[1];
 	animInfo = newAnimInfo;
+	ignoreGroup = behaviorOption.ignoreGroup;
+	groupOption = behaviorOption.groupOption;
 
 	if (animInfo.size() < 3)
 	{
@@ -24,7 +25,6 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 		string anim = line.substr(1, line.length() - 1);
 		__int64 counter = count(anim.begin(), anim.end(), ',') + 1;
 		unordered_map<string, bool> optionList = behaviorOption.storelist;
-		unordered_map<string, bool> optionGroup = behaviorOption.groupOption;
 		unordered_map<string, vecstr> joint = behaviorOption.joint;
 		vecstr optionOrder = behaviorOption.optionOrder;
 
@@ -56,14 +56,21 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 			{
 				if (option == "k" || option == "bsa")
 				{
-					known = true;
+					if (!known)
+					{
+						known = true;
+					}
+					else
+					{
+						cout << "WARNING: Option with the same function as previously registered has been detected. Please contact mod author. Patcher will still function as normal" << endl << endl;
+					}
+
 					break;
 				}
 
 				if (option[0] == 'D' && isalnum(option[1]) && !isalpha(option[1]))
 				{
 					string time = boost::regex_replace(string(option), boost::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
-					time = time.substr(1);
 
 					if ("D" + time == option)
 					{
@@ -75,7 +82,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 					}
 				}
 
-				if (optionList[option] && !optionGroup[option])
+				if (optionList[option] && !groupOption[option])
 				{
 					optionPicked[option] = true;
 					optionPickedCount[option]++;
@@ -150,13 +157,13 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 													{
 														size_t pos = nonHeader.find(joint[header][k], 0) + joint[header][k].length();
 														string name = nonHeader.substr(0, pos - joint[header][k].length());
-														groupAdditionProcess(header, addOnName, name, optionGroup);
+														groupAdditionProcess(header, addOnName, name, groupOption, behaviorOption.modAddOn);
 														isPassed = true;
 														nonHeader = nonHeader.substr(pos);
 													}
 													else
 													{
-														groupAdditionProcess(header, addOnName, nonHeader, optionGroup);
+														groupAdditionProcess(header, addOnName, nonHeader, groupOption, behaviorOption.modAddOn);
 														isPassed = true;
 														break;
 													}
@@ -232,7 +239,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 	optionPickedCount[behaviorOption.templatecode] = 1;
 }
 
-void animationInfo::addFilename(std::string curFilename)
+void animationInfo::addFilename(string curFilename)
 {
 	filename = curFilename;
 }
@@ -260,9 +267,17 @@ void animationInfo::storeAnimObject(vecstr animobjects, string listFilename, int
 	}
 }
 
-void animationInfo::groupAdditionProcess(string header, string addOnName, string name, unordered_map<string, bool> optionGroup)
+void animationInfo::groupAdditionProcess(string header, string addOnName, string name, unordered_map<string, bool> groupOption, unordered_map<string, unordered_map<string, string>> modAddOn)
 {
-	if (optionGroup[header])
+	string newName = name;
+
+	if (modAddOn[header][addOnName].length() != 0)
+	{
+		string newAddOn = modAddOn[header][addOnName];
+		newName = newAddOn.replace(newAddOn.find("$$$"), 3, newName);
+	}
+
+	if (groupOption[header])
 	{
 		string reheader = header;
 
@@ -272,22 +287,22 @@ void animationInfo::groupAdditionProcess(string header, string addOnName, string
 			optionPicked[header + to_string(optionPickedCount[reheader])] = true;
 			optionPicked[reheader] = true;
 			optionPickedCount[reheader]++;
-			groupAddition[reheader][addOnName].push_back(name);
+			groupAddition[reheader][addOnName].push_back(newName);
 		}
 
-		groupAddition[header][addOnName].push_back(name);
+		groupAddition[header][addOnName].push_back(newName);
 	}
 	else
 	{
-		addition[header][addOnName] = name;
+		addition[header][addOnName] = newName;
 	}
 
 	if (boost::iequals(addOnName, "event"))
 	{
-		eventID.push_back(name);
+		eventID.push_back(newName);
 	}
 	else if (boost::iequals(addOnName, "variable"))
 	{
-		variableID.push_back(name);
+		variableID.push_back(newName);
 	}
 };

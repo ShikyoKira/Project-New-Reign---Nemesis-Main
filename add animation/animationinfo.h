@@ -10,27 +10,34 @@ typedef std::unordered_map<std::string, SSMap> ImportContainer;
 
 struct animationInfo
 {
+	bool ignoreGroup = false;
+	bool known = false;
 	bool hasDuration = false;
 	double duration = 0;
-	std::string filename;
-	std::string mainAnimEvent;
+	std::string filename = "";
+	std::string mainAnimEvent = "";
+	vecstr clipname;
 	vecstr eventID;
 	vecstr animInfo;
 	vecstr variableID;
+	vecstr motionData;
+	vecstr rotationData;
 	SSMap mixOptRegis;
 	ImportContainer addition;
-	std::unordered_map<std::string, vecstr> addOn;
+	std::unordered_map<std::string, vecstr> addOn;											// option, list of add-on
 	std::unordered_map<std::string, vecstr> mixOptRever;
 	std::unordered_map<std::string, vecstr> linkedOption;
+	std::unordered_map<std::string, bool> groupOption;
 	std::unordered_map<std::string, bool> optionPicked;
 	std::unordered_map<std::string, int> optionPickedCount;
 	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> groupAddition;
 	std::unordered_map<int, std::string> AnimObject;
 
+	animationInfo() {}
 	animationInfo(vecstr newAnimInfo, std::string curFilename, OptionList behaviorOption, int linecount, bool& isOExist, bool noOption = false);
 	void addFilename(std::string curFilename);
 	void storeAnimObject(vecstr animobjects, std::string listFilename, int lineCount);
-	void groupAdditionProcess(std::string header, std::string addOnName, std::string name, std::unordered_map<std::string, bool> optionGroup);
+	void groupAdditionProcess(std::string header, std::string addOnName, std::string name, std::unordered_map<std::string, bool> optionGroup, std::unordered_map<std::string, std::unordered_map<std::string, std::string>> modAddOn);
 };
 
 #endif
