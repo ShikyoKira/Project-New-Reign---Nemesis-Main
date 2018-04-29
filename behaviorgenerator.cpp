@@ -140,12 +140,12 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 			}
 
 			// Dynamic AA function without a template
-			if (hasAA && alternateAnim.count(animFile) > 0)
+			if (hasAA && alternateAnim.find(animFile) != alternateAnim.end())
 			{
 				clipAA[curID][animFile] = alternateAnim[animFile];
 				AAGroupList.insert(AAGroup[animFile]);
 
-				if (AAHasEvent.count(animFile) != 0)
+				if (AAHasEvent.find(animFile) != AAHasEvent.end())
 				{
 					for (unsigned int j = 0; j < AAHasEvent[animFile].size(); ++j)
 					{
