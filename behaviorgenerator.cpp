@@ -1450,9 +1450,15 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 			{
 				vecstr children;
 				string groupName = AAGroup[it->first];
-				msglines.push_back("		<hkobject name=\"#" + to_string(iter->first) + "\" class=\"hkbManualSelectorGenerator\" signature=\"0xd932fab8\">");
+				string importline = to_string(iter->first);
 
-				string importline = "variableID[Nemesis_AA_" + groupName + "]";
+				for (unsigned int i = 0; i < 4 - importline.length(); i++)
+				{
+					importline = "0" + importline;
+				}
+
+				msglines.push_back("		<hkobject name=\"#" + importline + "\" class=\"hkbManualSelectorGenerator\" signature=\"0xd932fab8\">");
+				importline = "variableID[Nemesis_AA_" + groupName + "]";
 				variableIDReplacer(importline, "AA", variableid, 0);
 
 				if (error)
@@ -1463,6 +1469,12 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				if (exportID["variable_binding"]["selectedGeneratorIndex " + importline].length() == 0)
 				{
 					string tempID = to_string(lastID);
+
+					for (unsigned int i = 0; i < 4 - tempID.length(); i++)
+					{
+						tempID = "0" + tempID;
+					}
+
 					exportID["variable_binding"]["selectedGeneratorIndex " + importline] = tempID;
 					importline = "			<hkparam name=\"variableBindingSet\">#" + tempID + "</hkparam>";
 					lastID++;
@@ -1479,6 +1491,12 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				msglines.push_back("			<hkparam name=\"generators\" numelements=\"" + to_string(it->second.size() + 1) + "\">");
 
 				string baseID = to_string(lastID);
+
+				for (unsigned int i = 0; i < 4 - baseID.length(); i++)
+				{
+					baseID = "0" + baseID;
+				}
+
 				msglines.push_back("				#" + baseID);
 				lastID++;
 
@@ -1487,6 +1505,12 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					if (it->second[i] != "x")
 					{
 						string tempID = to_string(lastID);
+
+						for (unsigned int i = 0; i < 4 - tempID.length(); i++)
+						{
+							tempID = "0" + tempID;
+						}
+
 						msglines.push_back("				#" + tempID);
 						children.push_back(tempID);
 						lastID++;
@@ -1557,6 +1581,12 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					if (AAEvent.count(it->second[num]) > 0)
 					{
 						string tempID = to_string(lastID);
+
+						for (unsigned int i = 0; i < 4 - tempID.length(); i++)
+						{
+							tempID = "0" + tempID;
+						}
+
 						AAlines.push_back("			<hkparam name=\"triggers\">#" + tempID + "</hkparam>");
 						triggerID[tempID] = AAEvent[it->second[i - 2]];
 						lastID++;
