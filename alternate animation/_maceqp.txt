@@ -1,0 +1,2 @@
+mac_equip.hkx
+mac_unequip.hkx
