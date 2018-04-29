@@ -24,7 +24,7 @@ vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int en
 
 	if (int(storeline.size()) > endline + startline)
 	{
-		for (size_t i = startline; i < endline + startline; ++i)
+		for (int i = startline; i < endline + startline; ++i)
 		{
 			storage.push_back(storeline[i]);
 		}
@@ -39,19 +39,27 @@ vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int en
 	}
 }
 
-bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unordered_map<string, map<string, vecstr>>& newFile)
+bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unordered_map<string, map<string, vecstr>>& newFile)
 {
-	lock_guard<mutex> filelocker(locker[f3]);
-	string filecheck = boost::regex_replace(string(f3), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")) + ".txt";
-	string nodeID = f3.substr(0, f3.find_last_of("."));
+	lock_guard<mutex> filelocker(locker[behaviorfile + nodefile]);
 
-	if ("#" + filecheck == f3)
+	if (behaviorPath[behaviorfile].empty())
 	{
+		cout << "ERROR(2006): Missing behavior file. The behavior file name is in this format (\"Nemesis_<file name>.xml\") and it is located in the same path as the hkx counterpart. Please contact the mod author" << endl << "File: " << behaviorfile << endl << endl;
+		error = true;
+		return false;
+	}
+
+	string filecheck = boost::regex_replace(string(nodefile), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")) + ".txt";
+	string nodeID = nodefile.substr(0, nodefile.find_last_of("."));
+
+	if ("#" + filecheck == nodefile)
+	{
+		vector<int> modEditCoordinate;
 		unordered_map<string, string> modPath;
 		unordered_map<string, vecstr> modEdits;
-		unordered_map<string, vector<int>> modEditCoordinate;
 		unordered_map<string, int> modEditLine;
-		unordered_map<string, unordered_map<int, int>> NewCoordinate;
+		unordered_map<int, int> NewCoordinate;
 		unordered_map<int, int> Pair;
 
 		int curline = 0;
@@ -72,7 +80,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 
 		vecstr storeline;
 		string line;
-		string filename = "cache/" + modcode + "/" + f2 + "/" + f3;
+		string filename = "cache\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
 		char charline[2000];
 		FILE* BehaviorFormat;
 		fopen_s(&BehaviorFormat, filename.c_str(), "r");
@@ -84,8 +92,12 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 			while (fgets(charline, 2000, BehaviorFormat))
 			{
 				line = charline;
-				line.pop_back();
 
+				if (line.back() == '\n')
+				{
+					line.pop_back();
+				}
+				
 				if (line.find("hkbBehaviorGraphStringData", 0) != string::npos || line.find("hkbVariableValueSet", 0) != string::npos || line.find("hkbBehaviorGraphData", 0) != string::npos)
 				{
 					IsEventVariable = true;
@@ -111,19 +123,21 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 					if (originalopen)
 					{
 						int tempint = editline - originalline;
-						NewCoordinate[f3][linecount] = tempint;
-						modEditLine[to_string(linecount) + "R"] = coordinate - tempint;
+						NewCoordinate[linecount] = tempint;
+						modEditLine[to_string(linecount) + "R"] = coordinate - tempint - 2;
+
 						for (int i = startoriline; i < originalline; i++)
 						{
-							modEditCoordinate[f3].push_back(i);
+							modEditCoordinate.push_back(i);
 							modEditLine[to_string(i)] = Pair[i];
 						}
+
 						originalopen = false;
 					}
 					else
 					{
 						int tempint = editline - starteditline;
-						NewCoordinate[f3][linecount] = tempint;
+						NewCoordinate[linecount] = tempint;
 						modEditLine[to_string(linecount) + "R"] = coordinate - tempint;
 					}
 				}
@@ -171,7 +185,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 			return false;
 		}
 		
-		vecstr newline = newFile[f2][nodeID];
+		vecstr newline = newFile[behaviorfile][nodeID];
 		vecstr functionline;
 		functionline.reserve(newline.size());
 		linecount = 0;
@@ -191,7 +205,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 
 				if (line.find("<!-- *", 0) == string::npos && !skip)
 				{
-					if (modEditCoordinate[f3][editcount] == linecount)
+					if (modEditCoordinate[editcount] == linecount)
 					{
 						if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != string::npos || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != string::npos)
 						{
@@ -251,7 +265,7 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 
 							if (error)
 							{
-								cout << "ERROR(2005): Missing edits" << endl << "File: " << "cache/" << modcode << "/" << f2 << "/" << f3 << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
+								cout << "ERROR(2005): Missing edits" << endl << "File: " << "cache\\" << modcode << "\\" << behaviorfile << "\\" << nodefile << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
 								error = true;
 								return false;
 							}
@@ -273,30 +287,34 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 
 							if (error)
 							{
-								cout << "ERROR(2005): Missing edits" << endl << "File: " << "cache/" << modcode << "/" << f2 << "/" << f3 << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
+								cout << "ERROR(2005): Missing edits" << endl << "File: " << "cache\\" << modcode << "\\" << behaviorfile << "\\" << nodefile << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
 								error = true;
 								return false;
 							}
 
-							templine.append("					<!-- *" + modcode + "* -->");
-							functionline.push_back(templine);
-
-							if (line.find("<!-- original -->", 0) == string::npos)
+							if (templine.find("			<hkobject>") == string::npos && templine.find("			</hkobject>") == string::npos && templine.find("			<hkparam>") == string::npos && templine.find("			<hkparam>") == string::npos)
 							{
-								line.append("				<!-- original -->");
+								templine.append("					<!-- *" + modcode + "* -->");
+								functionline.push_back(templine);
+
+								if (line.find("<!-- original -->", 0) == string::npos)
+								{
+									line.append("				<!-- original -->");
+								}
 							}
+
 						}
 
-						if (editcount != modEditCoordinate[f3].size() - 1)
+						if (editcount != modEditCoordinate.size() - 1)
 						{
 							editcount++;
 						}
 					}
-					else if (NewCoordinate[f3][linecount] > 0)
+					else if (NewCoordinate[linecount] > 0)
 					{
 						functionline.push_back("<!-- NEW *" + modcode + "* -->");
 
-						vecstr storage = GetFunctionEdits("cache/" + modcode + "/" + f2 + "/" + f3, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[f3][linecount]);
+						vecstr storage = GetFunctionEdits("cache\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
 
 						if (!error)
 						{
@@ -332,31 +350,324 @@ bool FunctionUpdate(string modcode, string f2, string f3, int memoryStore, unord
 		}
 
 		functionline.shrink_to_fit();
-		newFile[f2][nodeID] = functionline;
+		newFile[behaviorfile][nodeID] = functionline;
 	}
-	else if (f3.find("#") != string::npos && f3.find("$") != string::npos)
+	else if (nodefile.find("#") != string::npos && nodefile.find("$") != string::npos)
 	{
-		if (f3 == "#" + modcode + "$" + filecheck)
+		if (nodefile == "#" + modcode + "$" + filecheck)
 		{
-			newFile[f2][nodeID] = GetFunctionLines("cache/" + modcode + "/" + f2 + "/" + f3);
-
-			if (newFile[f2][nodeID].back().length() != 0)
-			{
-				newFile[f2][nodeID].push_back("");
-			}
+			newFile[behaviorfile][nodeID] = GetFunctionLines("cache\\" + modcode + "\\" + behaviorfile + "\\" + nodefile);
 		}
 		else
 		{
-			cout << "ERROR(2004): Invalid File" << endl << "File: cache/" << modcode << "/" + f2 << "/" << f3 << endl << endl;
+			cout << "ERROR(2004): Invalid file name. File name must only contain #<modcode>$<id> or #<id>. Please contact the mod author" << endl << "File: cache\\" << modcode << "\\" + behaviorfile << "\\" << nodefile << endl << endl;
 			error = true;
 			return false;
 		}
 	}
 	else
 	{
-		cout << "ERROR(2004): Invalid File" << endl << "File: cache/" << modcode << "/" + f2 << "/" << f3 << endl << endl;
+		cout << "ERROR(2004): Invalid file name. File name must only contain #<modcode>$<id> or #<id>. Please contact the mod author" << endl << "File: cache\\" << modcode << "\\" + behaviorfile << "\\" << nodefile << endl << endl;
 		error = true;
 		return false;
+	}
+
+	return true;
+}
+
+bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, string filepath, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader, bool isNewCharacter)
+{
+	if (behaviorPath[animdatafile].empty())
+	{
+		cout << "ERROR(2006): Missing behavior file. The behavior file name is in this format (\"Nemesis_<file name>.xml\") and it is located in the same path as the hkx counterpart. Please contact the mod author" << endl << "File: " << animdatafile << endl << endl;
+		error = true;
+		return false;
+	}
+
+	string filename = GetFileName(filepath);
+
+	if (isNewCharacter)
+	{
+		newAnimData[characterfile][filename] = GetFunctionLines(filepath);
+		animDataHeader[characterfile].push_back(filename);
+	}
+	else
+	{
+		vector<int> modEditCoordinate;
+		unordered_map<string, int> modEditLine;
+		unordered_map<int, int> NewCoordinate;
+		unordered_map<int, int> Pair;
+
+		bool edited = false;
+		bool originalopen = false;
+
+		int coordinate = 0;
+		int startoriline = 0;
+		int starteditline = 0;
+		int editline = 0;
+		int originalline = 0;
+		int linecount = 0;
+
+		stringstream sstream(filename);
+		istream_iterator<string> ssbegin(sstream);
+		istream_iterator<string> ssend;
+		vecstr fileparts(ssbegin, ssend);
+		copy(fileparts.begin(), fileparts.end(), fileparts.begin());
+		vecstr storeline = GetFunctionLines(filepath);
+		string line;
+
+		for (unsigned int i = 0; i < storeline.size(); ++i)
+		{
+			line = storeline[i];
+
+			if ((line.find("<!-- MOD_CODE", 0) != string::npos) && (line.find("OPEN -->", 0) != string::npos) && (!edited))
+			{
+				edited = true;
+				editline = linecount;
+				starteditline = linecount;
+			}
+			else if (line.find("<!-- ORIGINAL -->", 0) != string::npos)
+			{
+				edited = false;
+				originalopen = true;
+				originalline = linecount;
+				startoriline = linecount;
+			}
+			else if (line.find("<!-- CLOSE -->", 0) != string::npos)
+			{
+				edited = false;
+
+				if (originalopen)
+				{
+					int tempint = editline - originalline;
+					NewCoordinate[linecount] = tempint;
+					modEditLine[to_string(linecount) + "R"] = coordinate - tempint - 2;
+
+					for (int i = startoriline; i < originalline; i++)
+					{
+						modEditCoordinate.push_back(i);
+						modEditLine[to_string(i)] = Pair[i];
+					}
+
+					originalopen = false;
+				}
+				else
+				{
+					int tempint = editline - starteditline;
+					NewCoordinate[linecount] = tempint;
+					modEditLine[to_string(linecount) + "R"] = coordinate - tempint;
+				}
+			}
+			else if (edited)
+			{
+				Pair[editline] = coordinate;
+				editline++;
+			}
+			else if (!edited)
+			{
+				linecount++;
+				originalline++;
+			}
+
+			coordinate++;
+		}
+
+		int type;
+
+		if (filename == "$header$")
+		{
+			type = 0;
+		}
+		else if (hasAlpha(storeline[0]))
+		{
+			type = 1;
+		}
+		else if (isOnlyNumber(storeline[0]))
+		{
+			type = 2;
+		}
+		else
+		{
+			cout << "ERROR(3006): Invalid file name. Please enter a file name that is within the format. Please contact the mod author" << endl << "Character: " << characterfile << endl << "Header: " << fileparts[0] << endl << endl;
+			error = true;
+			return false;
+		}
+
+		if (newAnimData[characterfile].find(filename) != newAnimData[characterfile].end())
+		{
+			vecstr newline = newAnimData[characterfile][filename];
+			vecstr functionline;
+			functionline.reserve(newline.size());
+			linecount = 0;
+			int editcount = 0;
+			bool skip = false;
+
+			for (unsigned int i = 0; i < newline.size(); ++i)
+			{
+				line = newline[i];
+
+				if (line.find("<!-- NEW", 0) != string::npos)
+				{
+					skip = true;
+					int position = AnimDataPosition(storeline, characterfile, filename, modcode, linecount, type);
+
+					if (error)
+					{
+						return false;
+					}
+
+				}
+
+				if (line.find("<!-- *", 0) == string::npos && !skip)
+				{
+					if (modEditCoordinate[editcount] == linecount)
+					{
+						string templine = GetFunctionEdits(storeline, modEditLine[to_string(linecount)]);
+
+						if (error)
+						{
+							cout << "ERROR(2005): Missing edits" << endl << "File: " << filepath << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
+							error = true;
+							return false;
+						}
+
+						int position = AnimDataPosition(storeline, characterfile, filename, modcode, linecount, type);
+
+						if (error)
+						{
+							return false;
+						}
+
+						if(type == 0)
+						{
+							if (position == 3)		// behavior file count
+							{
+								position = -1;
+							}
+						}
+						else if (type == 1)
+						{
+							if (position == 6)		// event name count
+							{
+								position = -1;
+							}
+						}
+						else if (type == 2)
+						{
+							if (position == 3 || position == 5)		// motion data count or rotation data count
+							{
+								position = -1;
+							}
+						}
+
+						if (position != -1)
+						{
+							templine.append("					<!-- *" + modcode + "* -->");
+							functionline.push_back(templine);
+
+							if (line.find("<!-- original -->", 0) == string::npos)
+							{
+								line.append("				<!-- original -->");
+							}
+
+							if (editcount != modEditCoordinate.size() - 1)
+							{
+								editcount++;
+							}
+						}
+						else
+						{
+							line = "$elements$";
+						}
+					}
+					else if (NewCoordinate[linecount] > 0)
+					{
+						functionline.push_back("<!-- NEW *" + modcode + "* -->");
+
+						vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+
+						if (!error)
+						{
+							for (unsigned int i = 0; i < storage.size(); i++)
+							{
+								functionline.push_back(storage[i]);
+							}
+
+							functionline.push_back("<!-- CLOSE -->");
+						}
+						else
+						{
+							return false;
+						}
+					}
+
+					linecount++;
+				}
+
+				if (line.find("<!-- CLOSE -->", 0) != string::npos)
+				{
+					skip = false;
+					int position = AnimDataPosition(storeline, characterfile, filename, modcode, linecount, type);
+
+					if (error)
+					{
+						return false;
+					}
+
+				}
+
+				functionline.push_back(line);
+			}
+
+			functionline.shrink_to_fit();
+			newAnimData[characterfile][filename] = functionline;
+		}
+		else if (filename.find(modcode + "$") != string::npos)
+		{
+			string tempID;
+			size_t partCount = fileparts.size();
+
+			if (partCount < 3 && partCount != 0)
+			{
+				if (partCount == 1)
+				{
+					tempID = boost::regex_replace(string(fileparts[0]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+					if (fileparts[0] != modcode + "$" + tempID || (!isOnlyNumber(fileparts[0]) && !boost::iequals(fileparts[0], "$header$") && !boost::iequals(fileparts[0], "$info header$")))
+					{
+						cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
+						error = true;
+						return false;
+					}
+				}
+				else if (partCount == 2)
+				{
+					tempID = boost::regex_replace(string(fileparts[0]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+					if(fileparts[1] != modcode + "$" + tempID || (!hasAlpha(fileparts[0]) || !isOnlyNumber(fileparts[1])))
+					{
+						cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
+						error = true;
+						return false;
+					}
+				}
+
+				newAnimData[characterfile][filename] = GetFunctionLines(filepath);
+				animDataHeader[characterfile].push_back(filename);
+			}
+			else
+			{
+				cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
+				error = true;
+				return false;
+			}
+		}
+		else
+		{
+			cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
+			error = true;
+			return false;
+		}
 	}
 
 	return true;
