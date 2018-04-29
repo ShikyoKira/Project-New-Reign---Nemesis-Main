@@ -5,12 +5,29 @@ using namespace std;
 bool debug = false;
 bool error = false;
 int memory = 100;
+int fixedkey[257];
 
 #ifdef DEBUG
 DataPath skyrimDataPath;
 #endif
+
 boost::posix_time::ptime time1;
 unordered_map<string, string> behaviorPath;
+unordered_map<string, string> AAGroup;
+unordered_map<string, unordered_map<string, vector<string>>> animList;
+unordered_map<string, unordered_map<string, vector<set<string>>>> animModMatch;
+unordered_map<string, unordered_map<string, bool>> registeredAnim;
+unordered_map<string, set<string>> usedAnim;
+unordered_map<string, set<string>> characterHeaders;
+unordered_map<string, vecstr> behaviorJoints;
+
+unordered_map<string, vecstr> alternateAnim;
+unordered_map<string, vecstr> groupAA;
+unordered_map<string, vecstr> groupAAPrefix;
+unordered_map<string, vecstr> AAEvent;
+unordered_map<string, vecstr> AAHasEvent;
+unordered_map<string, unordered_map<string, int>> AAGroupCount;
+vecstr groupNameList;
 
 struct path_leaf_string
 {
@@ -40,6 +57,7 @@ size_t fileLineCount(string filepath)
 	char line[2000];
 	FILE* input;
 	fopen_s(&input, filepath.c_str(), "r");
+
 	if (input)
 	{
 		while (fgets(line, 2000, input))
@@ -141,9 +159,11 @@ vecstr GetFunctionLines(string filename)
 		{
 			while (fgets(line, 2000, BehaviorFormat))
 			{
-				if (line[strlen(line) - 1] == '\n' && strlen(line) != 0)
+				int size = strlen(line);
+
+				if (size != 0 && line[size - 1] == '\n')
 				{
-					line[strlen(line) - 1] = '\0';
+					line[size - 1] = '\0';
 				}
 
 				functionlines.push_back(line);
@@ -159,17 +179,29 @@ vecstr GetFunctionLines(string filename)
 	}
 	else
 	{
-		cout << "ERROR(3003): Unknown behavior template" << endl << "File: " << filename << endl << endl;
+		cout << "ERROR(3001): Unknown behavior template" << endl << "File: " << filename << endl << endl;
 		error = true;
+	}
+
+	if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == string::npos && functionlines.back().find("<!-- CLOSE -->") == string::npos)
+	{
+		functionlines.push_back("");
 	}
 
 	return functionlines;
 }
 
-size_t wordFind(string line, string word, bool isLast)		// case insensitive "string.find"
+size_t wordFind(string line, string word, bool isLast)
 {
-	boost::algorithm::to_lower(line);
-	boost::algorithm::to_lower(word);
+	if (hasAlpha(line))
+	{
+		boost::algorithm::to_lower(line);
+	}
+
+	if (hasAlpha(word))
+	{
+		boost::algorithm::to_lower(word);
+	}
 
 	if (line.find(word) == string::npos)
 	{
@@ -190,4 +222,30 @@ size_t wordFind(string line, string word, bool isLast)		// case insensitive "str
 	}
 
 	return line.find(word);
+}
+
+bool isOnlyNumber(string line)
+{
+	for (unsigned int j = 0; j < line.length(); ++j)
+	{
+		if (!isalnum(line[j]) || isalpha(line[j]))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool hasAlpha(string line)
+{
+	for (unsigned int j = 0; j < line.length(); ++j)
+	{
+		if (isalpha(line[j]))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
