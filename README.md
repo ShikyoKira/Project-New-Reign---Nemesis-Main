@@ -5,17 +5,17 @@
 - UI design + Debug log
 
 - Template for each animation type
-	- mt_behavior
-	- 1hm_behavior
+	- mt_behavior ✓
+	- 1hm_behavior ✓
 	- 1hm_locomotion
-	- 0_master
-	- animationdatasinglefile
+	- 0_master ✓
+	- animationdatasinglefile ✓
 	- animationsetdatasinglefile
 	- bashbehavior
 	- blockbehavior
 	- bow_direction_behavior
-	- defaultfemale
-	- defaultmale
+	- defaultfemale ✓
+	- defaultmale ✓
 	- idlebehavior
 	- magicbehavior
 	- magicmountedbehavior
