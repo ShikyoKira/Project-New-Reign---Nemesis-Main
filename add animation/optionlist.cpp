@@ -680,7 +680,7 @@ OptionList::OptionList(string filepath, string format)
 							return;
 						}
 
-						if (behaviorPath[AnimInfo[1]].length() == 0)
+						if (behaviorPath[boost::algorithm::to_lower_copy(AnimInfo[1])].length() == 0)
 						{
 							cout << "ERROR(1083): " << AnimInfo[1] << " not found. Run update patcher to fix it. If it doesn't, please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line: " << linecount << endl << endl;
 							error = true;
@@ -688,7 +688,7 @@ OptionList::OptionList(string filepath, string format)
 							return;
 						}
 
-						multiState[AnimInfo[1]][stoi(ID)] = stoi(functionID);
+						multiState[boost::algorithm::to_lower_copy(AnimInfo[1])][stoi(ID)] = stoi(functionID);
 						isNumExist[stoi(ID)] = true;
 					}
 					else
@@ -706,7 +706,7 @@ OptionList::OptionList(string filepath, string format)
 						string tempOption = strline.substr(0, lineplus);
 						string recontext = tempOption;
 
-						if (tempOption == "k" || tempOption == "bsa")
+						if (boost::iequals(tempOption, "k") || boost::iequals(tempOption, "bsa"))
 						{
 							cout << "ERROR(1049): " << tempOption << " cannot be used as it has already been registered by default. Use other name for your option. Please contact the template creator" << endl << "Template: " << format << endl << "File: " << filepath << endl << "Line : " << linecount << endl << endl;
 							error = true;
