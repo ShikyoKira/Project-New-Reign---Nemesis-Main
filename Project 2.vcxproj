@@ -35,6 +35,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -81,13 +82,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:/Program Files/boost/boost_1_66_0/msvc/include/boost-1_66;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>Global.h</ForcedIncludeFiles>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:/Program Files/boost/boost_1_66_0/msvc/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>encryption.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -145,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="add animation\alternateanimation.cpp" />
+    <ClCompile Include="add animation\animationdata.cpp" />
     <ClCompile Include="add animation\animationinfo.cpp" />
     <ClCompile Include="add animation\furniture.cpp" />
     <ClCompile Include="add animation\gettemplate.cpp" />
@@ -152,17 +156,21 @@
     <ClCompile Include="add animation\import.cpp" />
     <ClCompile Include="add animation\optionlist.cpp" />
     <ClCompile Include="add animation\registeranimation.cpp" />
+    <ClCompile Include="behaviorcheck.cpp" />
     <ClCompile Include="behaviorgenerator.cpp" />
     <ClCompile Include="compute.cpp" />
     <ClCompile Include="dataunification.cpp" />
     <ClCompile Include="functions\functionupdate.cpp" />
     <ClCompile Include="functions\renew.cpp" />
+    <ClCompile Include="animationutility.cpp" />
     <ClCompile Include="generator_utility.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="skyrimdirectory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="add animation\alternateanimation.h" />
+    <ClInclude Include="add animation\animationdata.h" />
     <ClInclude Include="add animation\animationinfo.h" />
     <ClInclude Include="add animation\furniture.h" />
     <ClInclude Include="add animation\gettemplate.h" />
@@ -170,6 +178,8 @@
     <ClInclude Include="add animation\import.h" />
     <ClInclude Include="add animation\optionlist.h" />
     <ClInclude Include="add animation\registeranimation.h" />
+    <ClInclude Include="animationutility.h" />
+    <ClInclude Include="behaviorcheck.h" />
     <ClInclude Include="behaviorgenerator.h" />
     <ClInclude Include="compute.h" />
     <ClInclude Include="dataunification.h" />
