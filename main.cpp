@@ -15,8 +15,12 @@
 #include "functions/renew.h"
 #include "dataunification.h"
 #include "behaviorgenerator.h"
+#include "behaviorcheck.h"
+#include "filechecker.h"
 #include "add animation\furniture.h"
 #include "skyrimdirectory.h"
+
+#pragma warning(disable:4503)
 
 using namespace std;
 
@@ -24,23 +28,33 @@ unordered_map<string, bool> behaviorlist;
 
 void UpdateFiles(string directory, string newAnimDirectory)
 {
-	unordered_map<string, map<string, vecstr>> newFile;		// newFile[<file name>][<node ID>] = vector<string>, memory to access each node
+	unordered_map<string, map<string, vecstr>> newFile;						// behavior file, function/node ID, vector<string>; memory to access each node
+	unordered_map<string, unordered_map<std::string, vecstr>> newAnimData;	// character, unique code, vector<string>; memory to access each node
+	vecstr animDataChar;													// order of the character
+	unordered_map<string, vecstr> animDataHeader;							// order of the character's header
 
-	if (!error)
+	// Check the existence of required files
+	if (FileCheck())
 	{
-		// copy latest vanilla into memory
-		if (VanillaUpdate(newFile))
-		{
-			// check template for association with vanilla nodes
-			if (newAnimUpdate(newAnimDirectory, directory, newFile))
-			{
-				// comparing if different
-				JoiningEdits(directory, newFile);
+		// clear the temp_behaviors folder to prevent it from bloating
+		ClearTempBehaviors();
 
-				if (!error)
+		// copy latest vanilla into memory
+		if (VanillaUpdate(newFile, newAnimData, animDataChar, animDataHeader))
+		{
+			if (!error)
+			{
+				// check template for association with vanilla nodes
+				if (newAnimUpdate(newAnimDirectory, newFile, newAnimData, animDataChar, animDataHeader))
 				{
-					// compiling all behaviors in "new" to "temp_behaviors" folder
-					CombiningFiles(newFile);
+					// comparing if different
+					JoiningEdits(directory, newFile, newAnimData, animDataChar, animDataHeader);
+
+					if (!error)
+					{
+						// compiling all behaviors in "new" to "temp_behaviors" folder
+						CombiningFiles(newFile, newAnimData, animDataChar, animDataHeader);
+					}
 				}
 			}
 		}
@@ -167,12 +181,27 @@ void funcSpeed()
 void test()
 {
 	// for testing function
+	string filename = "Nemesis_magic_readied_direction_behavior.txt";
+	vecstr storeline = GetFunctionLines(filename);
 
+	ofstream out(filename);
 
+	for (unsigned int i = 0; i < storeline.size(); ++i)
+	{
+		if (storeline[i].find("SERIALIZE_IGNORED") == string::npos)
+		{
+			out << storeline[i] << "\n";
+		}
+	}
 }
 
 int main()
 {
+	if (!FileCheck())
+	{
+		return 0;
+	}
+
 	srand(unsigned int(time(NULL)));
 	time1 = boost::posix_time::microsec_clock::local_time();
 
@@ -183,11 +212,11 @@ int main()
 	
 
 	// Patcher Update
-	UpdateFiles("cache\\", "behavior templates/");
+	// UpdateFiles("cache\\", "behavior templates\\");
 
 
 	// For Debug purpose
-	// =====================
+	// =======================
 
 	// Behavior Priority Order
 	vecstr behaviorPriority;
@@ -200,14 +229,35 @@ int main()
 	// =======================
 
 
-	GenerateBehavior("temp_behaviors/", behaviorPriority, chosenBehavior);
+	GenerateBehavior("temp_behaviors\\", behaviorPriority, chosenBehavior);
 	
+	if (!error)
+	{
+		behaviorCheck();
+	}
+
 	boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
 	boost::posix_time::time_duration diff = time2 - time1;
 
 	double duration = double(diff.total_milliseconds());
 
 	cout << "Total processing time: " << duration / 1000 << " seconds" << endl;
+
+
+	unordered_map<string, string> emptyBehaviorPath;
+	behaviorPath = emptyBehaviorPath;
+
+	unordered_map<string, unordered_map<string, bool>> emptyRegisteredAnim;
+	registeredAnim = emptyRegisteredAnim;
+
+	unordered_map<string, set<string>> emptyUsedAnim;
+	usedAnim = emptyUsedAnim;
+
+	unordered_map<string, unordered_map<string, vector<set<string>>>> emptyAnimModMatch;
+	animModMatch = emptyAnimModMatch;
+
+	unordered_map<string, vector<string>> emptyBehaviorJoints;
+	behaviorJoints = emptyBehaviorJoints;
 
 
 	cin.sync();

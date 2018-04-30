@@ -23,6 +23,7 @@
 #include "add animation\import.h"
 #include "add animation\animationdata.h"
 #include "generator_utility.h"
+#include "filechecker.h"
 
 typedef std::unordered_map<std::string, std::set<std::string>> mapSetString;
 

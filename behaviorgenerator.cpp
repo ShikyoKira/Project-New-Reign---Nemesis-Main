@@ -1790,315 +1790,113 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<string, bool> chosenBehavior)
 {
-	{	// clear all data for consistency check
-		unordered_map<string, unordered_map<string, bool>> emptyRegisteredAnim;
-		unordered_map<string, unordered_map<string, vector<set<string>>>> emptyAnimModMatch;
-		unordered_map<string, set<string>> emptyUsedAnim;
-		unordered_map<string, vector<string>> emptyBehaviorJoints;
-		unordered_map<string, string> emptyPath;
-
-		registeredAnim = emptyRegisteredAnim;
-		usedAnim = emptyUsedAnim;
-		animModMatch = emptyAnimModMatch;
-		behaviorJoints = emptyBehaviorJoints;
-		behaviorPath = emptyPath;
-	}
-
-	GetBehaviorPath();
-	GetAnimData();
-
-	if (error)
+	// Check the existence of required files
+	if (FileCheck())
 	{
-		return;
-	}
-	
-	// register animation & organize AE n Var
-	unordered_map<string, int> animationCount;												// animation type counter; use to determine how many of the that type of animation have been installed
-	getTemplate BehaviorTemplate;															// get animation type
-	vector<unique_ptr<registerAnimation>> animationList = move(openFile(BehaviorTemplate));	// get anim list installed by mods
-	unordered_map<string, vector<shared_ptr<Furniture>>> newAnimation;						// record each of the animation created from registerAnimation
-	mapSetString newAnimEvent;																// template code, 
-	mapSetString newAnimVariable;
-	unordered_map<string, var> AnimVar;
-	unordered_map<string, vector<string>> modAnimBehavior;									// behavior directory, list of behavior files; use to get behavior reference
-	unordered_map<string, unordered_map<int, bool>> ignoreFunction;							// behavior file, function ID, true/false; is the function part of animation template?
+		{	// clear all data for consistency check
+			unordered_map<string, unordered_map<string, bool>> emptyRegisteredAnim;
+			unordered_map<string, unordered_map<string, vector<set<string>>>> emptyAnimModMatch;
+			unordered_map<string, set<string>> emptyUsedAnim;
+			unordered_map<string, vector<string>> emptyBehaviorJoints;
+			unordered_map<string, string> emptyPath;
 
-	// check for error
-	if (error)
-	{
-		return;
-	}
-
-	// read each animation list file'
-	for (unsigned int i = 0; i < animationList.size(); i++)
-	{
-		string modID = animationList[i]->modID;
-
-		{
-			string templatecode = "core";
-			unordered_map<string, vecstr>* functionlines = &BehaviorTemplate.behaviortemplate[templatecode];
-			shared_ptr<animationInfo> dummy = make_shared<animationInfo>();
-			dummy->addFilename(animationList[i]->behaviorFile);
-			dummy->ignoreGroup = false;
-			dummy->optionPickedCount[templatecode] = 1;
-			animationCount[templatecode]++;
-			newAnimation[templatecode].emplace_back(make_unique<Furniture>(*functionlines, templatecode, animationCount[templatecode], "", *dummy));
-			vector<shared_ptr<animationInfo>> animInfoGroup = { dummy };
-			newAnimation[templatecode].back()->addGroupAnimInfo(animInfoGroup);
-			newAnimation[templatecode].back()->setLastOrder(0);
+			registeredAnim = emptyRegisteredAnim;
+			usedAnim = emptyUsedAnim;
+			animModMatch = emptyAnimModMatch;
+			behaviorJoints = emptyBehaviorJoints;
+			behaviorPath = emptyPath;
 		}
 
-		// read each animation in a group of the same type
-		for (auto it = animationList[i]->templateType.begin(); it != animationList[i]->templateType.end(); ++it)
+		GetBehaviorPath();
+		GetAnimData();
+
+		if (error)
 		{
-			string firstAE;
-			string templatecode = it->first;
-			vector<shared_ptr<animationInfo>> animInfoGroup;
-			unordered_map<string, vecstr>* functionlines = &BehaviorTemplate.behaviortemplate[templatecode];
-			newAnimation[templatecode].reserve(50 * memory);
-			animationCount[templatecode]++;
-			bool isGroup;
-			bool ignoreGroup = BehaviorTemplate.optionlist[templatecode].ignoreGroup;
+			return;
+		}
 
-			if (BehaviorTemplate.behaviortemplate.count(templatecode + "_group") != 0 && BehaviorTemplate.behaviortemplate[templatecode + "_group"].size() != 0)
+		// register animation & organize AE n Var
+		unordered_map<string, int> animationCount;												// animation type counter; use to determine how many of the that type of animation have been installed
+		getTemplate BehaviorTemplate;															// get animation type
+		vector<unique_ptr<registerAnimation>> animationList = move(openFile(BehaviorTemplate));	// get anim list installed by mods
+		unordered_map<string, vector<shared_ptr<Furniture>>> newAnimation;						// record each of the animation created from registerAnimation
+		mapSetString newAnimEvent;																// template code, 
+		mapSetString newAnimVariable;
+		unordered_map<string, var> AnimVar;
+		unordered_map<string, vector<string>> modAnimBehavior;									// behavior directory, list of behavior files; use to get behavior reference
+		unordered_map<string, unordered_map<int, bool>> ignoreFunction;							// behavior file, function ID, true/false; is the function part of animation template?
+
+																								// check for error
+		if (error)
+		{
+			return;
+		}
+
+		// read each animation list file'
+		for (unsigned int i = 0; i < animationList.size(); i++)
+		{
+			string modID = animationList[i]->modID;
+
 			{
-				animInfoGroup.reserve(100);
-				isGroup = true;
+				string templatecode = "core";
+				unordered_map<string, vecstr>* functionlines = &BehaviorTemplate.behaviortemplate[templatecode];
+				shared_ptr<animationInfo> dummy = make_shared<animationInfo>();
+				dummy->addFilename(animationList[i]->behaviorFile);
+				dummy->ignoreGroup = false;
+				dummy->optionPickedCount[templatecode] = 1;
+				animationCount[templatecode]++;
+				newAnimation[templatecode].emplace_back(make_unique<Furniture>(*functionlines, templatecode, animationCount[templatecode], "", *dummy));
+				vector<shared_ptr<animationInfo>> animInfoGroup = { dummy };
+				newAnimation[templatecode].back()->addGroupAnimInfo(animInfoGroup);
+				newAnimation[templatecode].back()->setLastOrder(0);
 			}
-			else
-			{
-				animInfoGroup.reserve(50 * memory);
-				isGroup = false;
-			}
 
-			// read each line and generate lines categorized using template code (animation type)
-			for (int j = 0; j < it->second; ++j)
+			// read each animation in a group of the same type
+			for (auto it = animationList[i]->templateType.begin(); it != animationList[i]->templateType.end(); ++it)
 			{
-				int order = animationList[i]->isMulti[templatecode][j];
-				int lastOrder = animationList[i]->last[templatecode][j];
-				newAnimation[templatecode].emplace_back(make_unique<Furniture>(*functionlines, templatecode, animationCount[templatecode], modID + "\\", *animationList[i]->animInfo[templatecode][j]));
-				vecstr tempEventID = newAnimation[templatecode].back()->GetEventID();
-				vecstr tempVariableID = newAnimation[templatecode].back()->GetVariableID();
-				newAnimEvent[templatecode].insert(tempEventID.begin(), tempEventID.end());
-				newAnimVariable[templatecode].insert(tempVariableID.begin(), tempVariableID.end());
+				string firstAE;
+				string templatecode = it->first;
+				vector<shared_ptr<animationInfo>> animInfoGroup;
+				unordered_map<string, vecstr>* functionlines = &BehaviorTemplate.behaviortemplate[templatecode];
+				newAnimation[templatecode].reserve(50 * memory);
+				animationCount[templatecode]++;
+				bool isGroup;
+				bool ignoreGroup = BehaviorTemplate.optionlist[templatecode].ignoreGroup;
 
-				if (order != 0)
+				if (BehaviorTemplate.behaviortemplate.count(templatecode + "_group") != 0 && BehaviorTemplate.behaviortemplate[templatecode + "_group"].size() != 0)
 				{
-					newAnimation[templatecode].back()->setOrder(order);
+					animInfoGroup.reserve(100);
+					isGroup = true;
 				}
 				else
 				{
-					firstAE = newAnimation[templatecode].back()->mainAnimEvent;
-
-					if (BehaviorTemplate.optionlist[templatecode].eleEventGroupF.size() != 0)
-					{
-						vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleEventGroupF;
-						vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleEventGroupFLine;
-						ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-						unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
-
-						for (unsigned int k = 0; k < elementList->size(); ++k)
-						{
-							vecstr* element = &(*elementList)[k];
-							string elementLine = (*elementListLine)[k];
-							vector<vecstr> groupAddOnElement;
-							groupAddOnElement.reserve(memory / 10);
-
-							for (unsigned int l = 0; l < element->size(); ++l)
-							{
-								string templine = (*element)[l];
-
-								if (boost::iequals(templine, "main_anim_event"))
-								{
-									templine = newAnimation[templatecode].back()->mainAnimEvent;
-									elementLine.replace(elementLine.find("$$"), 2, templine);
-								}
-								else
-								{
-									bool isDone = false;
-
-									for (auto it = addOn.begin(); it != addOn.end(); ++it)
-									{
-										bool isBreak = false;
-
-										for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-										{
-											if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-											{
-												elementLine.replace(elementLine.find("$$"), 2, iter->second);
-												isBreak = true;
-												isDone = true;
-												break;
-											}
-										}
-
-										if (isBreak)
-										{
-											break;
-										}
-									}
-
-									if (!isDone)
-									{
-										for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
-										{
-											bool isBreak = false;
-
-											for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-											{
-												if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-												{
-													elementLine.replace(elementLine.find("$$"), 2, "##");
-													isBreak = true;
-													isDone = true;
-													break;
-												}
-
-												groupAddOnElement.push_back(iter->second);
-											}
-
-											if (isBreak)
-											{
-												break;
-											}
-										}
-
-									}
-								}
-							}
-
-							if (groupAddOnElement.size() != 0)
-							{
-								vecstr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
-
-								for (unsigned int l = 0; l < animEvent.size(); ++l)
-								{
-									newAnimEvent[templatecode].insert(animEvent[l]);
-								}
-							}
-							else
-							{
-								newAnimEvent[templatecode].insert(elementLine);
-							}
-						}
-					}
-
-					if (BehaviorTemplate.optionlist[templatecode].eleVarGroupF.size() != 0)
-					{
-						vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleVarGroupF;
-						vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleVarGroupFLine;
-						ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-						unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
-
-						for (unsigned int k = 0; k < elementList->size(); ++k)
-						{
-							vecstr* element = &(*elementList)[k];
-							string elementLine = (*elementListLine)[k];
-							vector<vecstr> groupAddOnElement;
-							groupAddOnElement.reserve(memory / 10);
-
-							for (unsigned int l = 0; l < element->size(); ++l)
-							{
-								string templine = (*element)[l];
-								bool isBreak = false;
-
-								for (auto it = addOn.begin(); it != addOn.end(); ++it)
-								{
-									for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-									{
-										if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-										{
-											elementLine.replace(elementLine.find("$$"), 2, iter->second);
-											isBreak = true;
-											break;
-										}
-									}
-
-									if (isBreak)
-									{
-										break;
-									}
-								}
-
-								if (!isBreak)
-								{
-									bool isDone = false;
-
-									for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
-									{
-										for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-										{
-											if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-											{
-												elementLine.replace(elementLine.find("$$"), 2, "##");
-												isDone = true;
-												break;
-											}
-
-											groupAddOnElement.push_back(iter->second);
-										}
-
-										if (isDone)
-										{
-											break;
-										}
-									}
-								}
-							}
-
-							if (groupAddOnElement.size() != 0)
-							{
-								vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
-
-								for (unsigned int l = 0; l < animVar.size(); ++l)
-								{
-									newAnimVariable[templatecode].insert(animVar[l]);
-								}
-							}
-							else
-							{
-								newAnimVariable[templatecode].insert(elementLine);
-							}
-						}
-					}
+					animInfoGroup.reserve(50 * memory);
+					isGroup = false;
 				}
 
-				newAnimation[templatecode].back()->setLastOrder(lastOrder);
-				animInfoGroup.push_back(move(animationList[i]->animInfo[templatecode][j]));
-
-				if (!ignoreGroup)
+				// read each line and generate lines categorized using template code (animation type)
+				for (int j = 0; j < it->second; ++j)
 				{
-					animationCount[templatecode]++;
-				}
+					int order = animationList[i]->isMulti[templatecode][j];
+					int lastOrder = animationList[i]->last[templatecode][j];
+					newAnimation[templatecode].emplace_back(make_unique<Furniture>(*functionlines, templatecode, animationCount[templatecode], modID + "\\", *animationList[i]->animInfo[templatecode][j]));
+					vecstr tempEventID = newAnimation[templatecode].back()->GetEventID();
+					vecstr tempVariableID = newAnimation[templatecode].back()->GetVariableID();
+					newAnimEvent[templatecode].insert(tempEventID.begin(), tempEventID.end());
+					newAnimVariable[templatecode].insert(tempVariableID.begin(), tempVariableID.end());
 
-				if (lastOrder == order)
-				{
-					size_t animationSize = newAnimation[templatecode].size();
-					animInfoGroup.shrink_to_fit();
-
-					for (int k = 0; k < order + 1; ++k)
+					if (order != 0)
 					{
-						newAnimation[templatecode][animationSize - k - 1]->addGroupAnimInfo(animInfoGroup);
-
-						if (error)
-						{
-							return;
-						}
-					}
-
-					animInfoGroup.clear();
-					animInfoGroup.reserve(100);
-
-					if (ignoreGroup)
-					{
-						animationCount[templatecode]++;
+						newAnimation[templatecode].back()->setOrder(order);
 					}
 					else
 					{
-						if (BehaviorTemplate.optionlist[templatecode].eleEventGroupL.size() != 0)
+						firstAE = newAnimation[templatecode].back()->mainAnimEvent;
+
+						if (BehaviorTemplate.optionlist[templatecode].eleEventGroupF.size() != 0)
 						{
-							vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleEventGroupL;
-							vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleEventGroupLLine;
+							vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleEventGroupF;
+							vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleEventGroupFLine;
 							ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
 							unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
 
@@ -2188,10 +1986,10 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 							}
 						}
 
-						if (BehaviorTemplate.optionlist[templatecode].eleVarGroupL.size() != 0)
+						if (BehaviorTemplate.optionlist[templatecode].eleVarGroupF.size() != 0)
 						{
-							vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleVarGroupL;
-							vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleVarGroupLLine;
+							vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleVarGroupF;
+							vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleVarGroupFLine;
 							ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
 							unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
 
@@ -2205,6 +2003,305 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 								for (unsigned int l = 0; l < element->size(); ++l)
 								{
 									string templine = (*element)[l];
+									bool isBreak = false;
+
+									for (auto it = addOn.begin(); it != addOn.end(); ++it)
+									{
+										for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+										{
+											if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+											{
+												elementLine.replace(elementLine.find("$$"), 2, iter->second);
+												isBreak = true;
+												break;
+											}
+										}
+
+										if (isBreak)
+										{
+											break;
+										}
+									}
+
+									if (!isBreak)
+									{
+										bool isDone = false;
+
+										for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
+										{
+											for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+											{
+												if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+												{
+													elementLine.replace(elementLine.find("$$"), 2, "##");
+													isDone = true;
+													break;
+												}
+
+												groupAddOnElement.push_back(iter->second);
+											}
+
+											if (isDone)
+											{
+												break;
+											}
+										}
+									}
+								}
+
+								if (groupAddOnElement.size() != 0)
+								{
+									vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
+
+									for (unsigned int l = 0; l < animVar.size(); ++l)
+									{
+										newAnimVariable[templatecode].insert(animVar[l]);
+									}
+								}
+								else
+								{
+									newAnimVariable[templatecode].insert(elementLine);
+								}
+							}
+						}
+					}
+
+					newAnimation[templatecode].back()->setLastOrder(lastOrder);
+					animInfoGroup.push_back(move(animationList[i]->animInfo[templatecode][j]));
+
+					if (!ignoreGroup)
+					{
+						animationCount[templatecode]++;
+					}
+
+					if (lastOrder == order)
+					{
+						size_t animationSize = newAnimation[templatecode].size();
+						animInfoGroup.shrink_to_fit();
+
+						for (int k = 0; k < order + 1; ++k)
+						{
+							newAnimation[templatecode][animationSize - k - 1]->addGroupAnimInfo(animInfoGroup);
+
+							if (error)
+							{
+								return;
+							}
+						}
+
+						animInfoGroup.clear();
+						animInfoGroup.reserve(100);
+
+						if (ignoreGroup)
+						{
+							animationCount[templatecode]++;
+						}
+						else
+						{
+							if (BehaviorTemplate.optionlist[templatecode].eleEventGroupL.size() != 0)
+							{
+								vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleEventGroupL;
+								vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleEventGroupLLine;
+								ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
+								unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
+
+								for (unsigned int k = 0; k < elementList->size(); ++k)
+								{
+									vecstr* element = &(*elementList)[k];
+									string elementLine = (*elementListLine)[k];
+									vector<vecstr> groupAddOnElement;
+									groupAddOnElement.reserve(memory / 10);
+
+									for (unsigned int l = 0; l < element->size(); ++l)
+									{
+										string templine = (*element)[l];
+
+										if (boost::iequals(templine, "main_anim_event"))
+										{
+											templine = newAnimation[templatecode].back()->mainAnimEvent;
+											elementLine.replace(elementLine.find("$$"), 2, templine);
+										}
+										else
+										{
+											bool isDone = false;
+
+											for (auto it = addOn.begin(); it != addOn.end(); ++it)
+											{
+												bool isBreak = false;
+
+												for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+												{
+													if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+													{
+														elementLine.replace(elementLine.find("$$"), 2, iter->second);
+														isBreak = true;
+														isDone = true;
+														break;
+													}
+												}
+
+												if (isBreak)
+												{
+													break;
+												}
+											}
+
+											if (!isDone)
+											{
+												for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
+												{
+													bool isBreak = false;
+
+													for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+													{
+														if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+														{
+															elementLine.replace(elementLine.find("$$"), 2, "##");
+															isBreak = true;
+															isDone = true;
+															break;
+														}
+
+														groupAddOnElement.push_back(iter->second);
+													}
+
+													if (isBreak)
+													{
+														break;
+													}
+												}
+
+											}
+										}
+									}
+
+									if (groupAddOnElement.size() != 0)
+									{
+										vecstr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
+
+										for (unsigned int l = 0; l < animEvent.size(); ++l)
+										{
+											newAnimEvent[templatecode].insert(animEvent[l]);
+										}
+									}
+									else
+									{
+										newAnimEvent[templatecode].insert(elementLine);
+									}
+								}
+							}
+
+							if (BehaviorTemplate.optionlist[templatecode].eleVarGroupL.size() != 0)
+							{
+								vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleVarGroupL;
+								vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleVarGroupLLine;
+								ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
+								unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
+
+								for (unsigned int k = 0; k < elementList->size(); ++k)
+								{
+									vecstr* element = &(*elementList)[k];
+									string elementLine = (*elementListLine)[k];
+									vector<vecstr> groupAddOnElement;
+									groupAddOnElement.reserve(memory / 10);
+
+									for (unsigned int l = 0; l < element->size(); ++l)
+									{
+										string templine = (*element)[l];
+										bool isDone = false;
+
+										for (auto it = addOn.begin(); it != addOn.end(); ++it)
+										{
+											bool isBreak = false;
+
+											for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+											{
+												if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+												{
+													elementLine.replace(elementLine.find("$$"), 2, iter->second);
+													isBreak = true;
+													isDone = true;
+													break;
+												}
+											}
+
+											if (isBreak)
+											{
+												break;
+											}
+										}
+
+										if (!isDone)
+										{
+											for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
+											{
+												bool isBreak = false;
+
+												for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+												{
+													if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+													{
+														elementLine.replace(elementLine.find("$$"), 2, "##");
+														isBreak = true;
+														isDone = true;
+														break;
+													}
+
+													groupAddOnElement.push_back(iter->second);
+												}
+
+												if (isBreak)
+												{
+													break;
+												}
+											}
+
+										}
+									}
+
+									if (groupAddOnElement.size() != 0)
+									{
+										vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
+
+										for (unsigned int l = 0; l < animVar.size(); ++l)
+										{
+											newAnimVariable[templatecode].insert(animVar[l]);
+										}
+									}
+									else
+									{
+										newAnimVariable[templatecode].insert(elementLine);
+									}
+								}
+							}
+						}
+					}
+
+					if (BehaviorTemplate.optionlist[templatecode].eleEvent.size() != 0)
+					{
+						vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleEvent;
+						vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleEventLine;
+						ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
+						unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
+
+						for (unsigned int k = 0; k < elementList->size(); ++k)
+						{
+							vecstr* element = &(*elementList)[k];
+							string elementLine = (*elementListLine)[k];
+							vector<vecstr> groupAddOnElement;
+							groupAddOnElement.reserve(memory / 10);
+
+							for (unsigned int l = 0; l < element->size(); ++l)
+							{
+								string templine = (*element)[l];
+
+								if (boost::iequals(templine, "main_anim_event"))
+								{
+									templine = newAnimation[templatecode].back()->mainAnimEvent;
+									elementLine.replace(elementLine.find("$$"), 2, templine);
+								}
+								else
+								{
 									bool isDone = false;
 
 									for (auto it = addOn.begin(); it != addOn.end(); ++it)
@@ -2255,76 +2352,52 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 
 									}
 								}
+							}
 
-								if (groupAddOnElement.size() != 0)
+							if (groupAddOnElement.size() != 0)
+							{
+								vecstr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
+
+								for (unsigned int l = 0; l < animEvent.size(); ++l)
 								{
-									vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
+									newAnimEvent[templatecode].insert(animEvent[l]);
+								}
+							}
+							else
+							{
+								newAnimEvent[templatecode].insert(elementLine);
+							}
+						}
+					}
 
-									for (unsigned int l = 0; l < animVar.size(); ++l)
-									{
-										newAnimVariable[templatecode].insert(animVar[l]);
-									}
+					if (BehaviorTemplate.optionlist[templatecode].eleVar.size() != 0)
+					{
+						vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleVar;
+						vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleVarLine;
+						ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
+						unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
+
+						for (unsigned int k = 0; k < elementList->size(); ++k)
+						{
+							vecstr* element = &(*elementList)[k];
+							string elementLine = (*elementListLine)[k];
+							vector<vecstr> groupAddOnElement;
+							groupAddOnElement.reserve(memory / 10);
+
+							for (unsigned int l = 0; l < element->size(); ++l)
+							{
+								string templine = (*element)[l];
+
+								if (boost::iequals(templine, "main_anim_event"))
+								{
+									templine = newAnimation[templatecode].back()->mainAnimEvent;
+									elementLine.replace(elementLine.find("$$"), 2, templine);
 								}
 								else
 								{
-									newAnimVariable[templatecode].insert(elementLine);
-								}
-							}
-						}
-					}
-				}
+									bool isDone = false;
 
-				if (BehaviorTemplate.optionlist[templatecode].eleEvent.size() != 0)
-				{
-					vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleEvent;
-					vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleEventLine;
-					ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-					unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
-
-					for (unsigned int k = 0; k < elementList->size(); ++k)
-					{
-						vecstr* element = &(*elementList)[k];
-						string elementLine = (*elementListLine)[k];
-						vector<vecstr> groupAddOnElement;
-						groupAddOnElement.reserve(memory / 10);
-
-						for (unsigned int l = 0; l < element->size(); ++l)
-						{
-							string templine = (*element)[l];
-
-							if (boost::iequals(templine, "main_anim_event"))
-							{
-								templine = newAnimation[templatecode].back()->mainAnimEvent;
-								elementLine.replace(elementLine.find("$$"), 2, templine);
-							}
-							else
-							{
-								bool isDone = false;
-
-								for (auto it = addOn.begin(); it != addOn.end(); ++it)
-								{
-									bool isBreak = false;
-
-									for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-									{
-										if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-										{
-											elementLine.replace(elementLine.find("$$"), 2, iter->second);
-											isBreak = true;
-											isDone = true;
-											break;
-										}
-									}
-
-									if (isBreak)
-									{
-										break;
-									}
-								}
-
-								if (!isDone)
-								{
-									for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
+									for (auto it = addOn.begin(); it != addOn.end(); ++it)
 									{
 										bool isBreak = false;
 
@@ -2332,13 +2405,11 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 										{
 											if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
 											{
-												elementLine.replace(elementLine.find("$$"), 2, "##");
+												elementLine.replace(elementLine.find("$$"), 2, iter->second);
 												isBreak = true;
 												isDone = true;
 												break;
 											}
-
-											groupAddOnElement.push_back(iter->second);
 										}
 
 										if (isBreak)
@@ -2347,277 +2418,210 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 										}
 									}
 
+									if (!isDone)
+									{
+										for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
+										{
+											bool isBreak = false;
+
+											for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+											{
+												if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+												{
+													elementLine.replace(elementLine.find("$$"), 2, "##");
+													isBreak = true;
+													isDone = true;
+													break;
+												}
+
+												groupAddOnElement.push_back(iter->second);
+											}
+
+											if (isBreak)
+											{
+												break;
+											}
+										}
+
+									}
 								}
 							}
-						}
 
-						if (groupAddOnElement.size() != 0)
-						{
-							vecstr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
-
-							for (unsigned int l = 0; l < animEvent.size(); ++l)
+							if (groupAddOnElement.size() != 0)
 							{
-								newAnimEvent[templatecode].insert(animEvent[l]);
-							}
-						}
-						else
-						{
-							newAnimEvent[templatecode].insert(elementLine);
-						}
-					}
-				}
+								vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-				if (BehaviorTemplate.optionlist[templatecode].eleVar.size() != 0)
-				{
-					vector<vecstr>* elementList = &BehaviorTemplate.optionlist[templatecode].eleVar;
-					vector<string>* elementListLine = &BehaviorTemplate.optionlist[templatecode].eleVarLine;
-					ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-					unordered_map<string, unordered_map<string, vecstr>> groupAddOn = newAnimation[templatecode].back()->GetGroupAddition();
-
-					for (unsigned int k = 0; k < elementList->size(); ++k)
-					{
-						vecstr* element = &(*elementList)[k];
-						string elementLine = (*elementListLine)[k];
-						vector<vecstr> groupAddOnElement;
-						groupAddOnElement.reserve(memory / 10);
-
-						for (unsigned int l = 0; l < element->size(); ++l)
-						{
-							string templine = (*element)[l];
-
-							if (boost::iequals(templine, "main_anim_event"))
-							{
-								templine = newAnimation[templatecode].back()->mainAnimEvent;
-								elementLine.replace(elementLine.find("$$"), 2, templine);
+								for (unsigned int l = 0; l < animVar.size(); ++l)
+								{
+									newAnimVariable[templatecode].insert(animVar[l]);
+								}
 							}
 							else
 							{
-								bool isDone = false;
-
-								for (auto it = addOn.begin(); it != addOn.end(); ++it)
-								{
-									bool isBreak = false;
-
-									for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-									{
-										if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-										{
-											elementLine.replace(elementLine.find("$$"), 2, iter->second);
-											isBreak = true;
-											isDone = true;
-											break;
-										}
-									}
-
-									if (isBreak)
-									{
-										break;
-									}
-								}
-
-								if (!isDone)
-								{
-									for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
-									{
-										bool isBreak = false;
-
-										for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-										{
-											if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-											{
-												elementLine.replace(elementLine.find("$$"), 2, "##");
-												isBreak = true;
-												isDone = true;
-												break;
-											}
-
-											groupAddOnElement.push_back(iter->second);
-										}
-
-										if (isBreak)
-										{
-											break;
-										}
-									}
-
-								}
+								newAnimVariable[templatecode].insert(elementLine);
 							}
 						}
+					}
 
-						if (groupAddOnElement.size() != 0)
-						{
-							vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
+					for (unsigned int k = 0; k < tempVariableID.size(); k++)
+					{
+						string name = tempVariableID[k];
+						AnimVar[name] = animationList[i]->AnimVar[name];
+					}
 
-							for (unsigned int l = 0; l < animVar.size(); ++l)
-							{
-								newAnimVariable[templatecode].insert(animVar[l]);
-							}
-						}
-						else
-						{
-							newAnimVariable[templatecode].insert(elementLine);
-						}
+					if (error)
+					{
+						cout << "Fail to register new animation" << endl << endl;
+						error = true;
+						return;
 					}
 				}
 
-				for (unsigned int k = 0; k < tempVariableID.size(); k++)
+				newAnimation[templatecode].shrink_to_fit();
+			}
+		}
+
+		if (error)
+		{
+			return;
+		}
+
+		// Ignore function in master branch
+		for (auto it = BehaviorTemplate.grouplist.begin(); it != BehaviorTemplate.grouplist.end(); ++it)
+		{
+			vecstr templateGroup = it->second;
+
+			for (unsigned int j = 0; j < templateGroup.size(); j++)
+			{
+				// existing function
+				for (unsigned int k = 0; k < BehaviorTemplate.existingFunctionID[templateGroup[j]][it->first].size(); k++)
 				{
-					string name = tempVariableID[k];
-					AnimVar[name] = animationList[i]->AnimVar[name];
+					ignoreFunction[it->first + ".txt"][BehaviorTemplate.existingFunctionID[templateGroup[j]][it->first][k]] = true;
+				}
+			}
+		}
+
+		boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
+		boost::posix_time::time_duration diff = time2 - time1;
+
+		double duration = double(diff.total_milliseconds());
+
+		cout << "Processing time 1: " << duration / 1000 << " seconds" << endl;
+
+		vector<thread> behaviorGenerate;
+		set<int> characterFiles;
+		vecstr filelist;
+		int animData = -1;
+		read_directory(directory, filelist);
+
+		for (unsigned int i = 0; i < filelist.size(); i++)
+		{
+			if (!boost::filesystem::is_directory(directory + filelist[i]))
+			{
+				bool skip = false;
+				string tempfilename = filelist[i].substr(0, filelist[i].find_last_of("."));
+				boost::algorithm::to_lower(tempfilename);
+				string temppath = behaviorPath[tempfilename];
+
+				if (temppath.length() != 0)
+				{
+					size_t nextpos = 0;
+					size_t lastpos = temppath.find_last_of("\\");
+
+					while (temppath.find("\\", nextpos) != lastpos)
+					{
+						nextpos = temppath.find("\\", nextpos) + 1;
+					}
+
+					temppath = temppath.substr(nextpos, lastpos - nextpos);
 				}
 
-				if (error)
+				if (boost::iequals(filelist[i], "animationdatasinglefile.txt"))
 				{
-					cout << "Fail to register new animation" << endl << endl;
-					error = true;
-					return;
+					animData = i;
+				}
+				else if (temppath.find("characters") != 0)
+				{
+					behaviorGenerate.emplace_back(BehaviorCompilation, directory, filelist, i, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), newAnimEvent, newAnimVariable, AnimVar, ignoreFunction, modAnimBehavior);
+				}
+				else
+				{
+					characterFiles.insert(i);
+					characterHKX(directory, filelist[i]);
 				}
 			}
-
-			newAnimation[templatecode].shrink_to_fit();
 		}
-	}
 
-	if (error)
-	{
-		return;
-	}
-
-	// Ignore function in master branch
-	for (auto it = BehaviorTemplate.grouplist.begin(); it != BehaviorTemplate.grouplist.end(); ++it)
-	{
-		vecstr templateGroup = it->second;
-
-		for (unsigned int j = 0; j < templateGroup.size(); j++)
+		for (auto& endt : behaviorGenerate)
 		{
-			// existing function
-			for (unsigned int k = 0; k < BehaviorTemplate.existingFunctionID[templateGroup[j]][it->first].size(); k++)
-			{
-				ignoreFunction[it->first + ".txt"][BehaviorTemplate.existingFunctionID[templateGroup[j]][it->first][k]] = true;
-			}
+			endt.join();
 		}
-	}
 
-	boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
-	boost::posix_time::time_duration diff = time2 - time1;
-
-	double duration = double(diff.total_milliseconds());
-
-	cout << "Processing time 1: " << duration / 1000 << " seconds" << endl;
-
-	vector<thread> behaviorGenerate;
-	set<int> characterFiles;
-	vecstr filelist;
-	int animData = -1;
-	read_directory(directory, filelist);
-
-	for (unsigned int i = 0; i < filelist.size(); i++)
-	{
-		if (!boost::filesystem::is_directory(directory + filelist[i]))
+		if (error)
 		{
-			bool skip = false;
-			string tempfilename = filelist[i].substr(0, filelist[i].find_last_of("."));
-			boost::algorithm::to_lower(tempfilename);
-			string temppath = behaviorPath[tempfilename];
+			return;
+		}
 
-			if (temppath.length() != 0)
+		if (animData == -1)
+		{
+			cout << "ERROR(3004): Missing \"animationdatasinglefile.txt\" file in \"temp_behaviors\" folder. Please reinstall Nemesis and/or run update patcher" << endl << endl;
+			error = true;
+			return;
+		}
+
+		thread animDataThread(AnimDataCompilation, directory, filelist, animData, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), AnimVar, modAnimBehavior);
+
+		unordered_map<string, vector<string>> tempBehaviorJoints;
+
+		for (auto it = behaviorJoints.begin(); it != behaviorJoints.end(); ++it)
+		{
+			for (unsigned int i = 0; i < it->second.size(); ++i)
 			{
-				size_t nextpos = 0;
-				size_t lastpos = temppath.find_last_of("\\");
+				vecstr temp = it->second;
 
-				while (temppath.find("\\", nextpos) != lastpos)
+				while (!behaviorJoints[temp[i]].empty())
 				{
-					nextpos = temppath.find("\\", nextpos) + 1;
+					temp = behaviorJoints[temp[i]];
 				}
 
-				temppath = temppath.substr(nextpos, lastpos - nextpos);
-			}
-
-			if (boost::iequals(filelist[i], "animationdatasinglefile.txt"))
-			{
-				animData = i;
-			}
-			else if (temppath.find("characters") != 0)
-			{
-				behaviorGenerate.emplace_back(BehaviorCompilation, directory, filelist, i, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), newAnimEvent, newAnimVariable, AnimVar, ignoreFunction, modAnimBehavior);
-			}
-			else
-			{
-				characterFiles.insert(i);
-				characterHKX(directory, filelist[i]);
+				tempBehaviorJoints[it->first] = temp;
+				break;
 			}
 		}
-	}
 
-	for (auto& endt : behaviorGenerate)
-	{
-		endt.join();
-	}
+		behaviorJoints = tempBehaviorJoints;
+		vector<thread> characterGenerate;
 
-	if (error)
-	{
-		return;
-	}
-
-	if (animData == -1)
-	{
-		cout << "ERROR(3004): Missing \"animationdatasinglefile.txt\" file in \"temp_behaviors\" folder. Please reinstall Nemesis and/or run update patcher" << endl << endl;
-		error = true;
-		return;
-	}
-
-	thread animDataThread (AnimDataCompilation, directory, filelist, animData, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), AnimVar, modAnimBehavior);
-
-	unordered_map<string, vector<string>> tempBehaviorJoints;
-
-	for (auto it = behaviorJoints.begin(); it != behaviorJoints.end(); ++it)
-	{
-		for (unsigned int i = 0; i < it->second.size(); ++i)
+		if (characterFiles.size() != 0)
 		{
-			vecstr temp = it->second;
-
-			while (!behaviorJoints[temp[i]].empty())
+			for (auto it = characterFiles.begin(); it != characterFiles.end(); ++it)
 			{
-				temp = behaviorJoints[temp[i]];
+				characterGenerate.emplace_back(BehaviorCompilation, directory, filelist, *it, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), newAnimEvent, newAnimVariable, AnimVar, ignoreFunction, modAnimBehavior);
 			}
 
-			tempBehaviorJoints[it->first] = temp;
-			break;
 		}
-	}
 
-	behaviorJoints = tempBehaviorJoints;
-	vector<thread> characterGenerate;
-
-	if (characterFiles.size() != 0)
-	{
-		for (auto it = characterFiles.begin(); it != characterFiles.end(); ++it)
+		if (AAGroup.size() > 0)
 		{
-			characterGenerate.emplace_back(BehaviorCompilation, directory, filelist, *it, behaviorPriority, chosenBehavior, BehaviorTemplate, ref(animationList), ref(newAnimation), newAnimEvent, newAnimVariable, AnimVar, ignoreFunction, modAnimBehavior);			
+			AAInstallation();		// install AA script
 		}
 
-	}
+		for (auto& endt : characterGenerate)
+		{
+			endt.join();
+		}
 
-	if (AAGroup.size() > 0)
-	{
-		AAInstallation();		// install AA script
-	}
-	
-	for (auto& endt : characterGenerate)
-	{
-		endt.join();
-	}
+		for (auto& endt : hkxThread)
+		{
+			endt.join();
+		}
 
-	for (auto& endt : hkxThread)
-	{
-		endt.join();
-	}
+		animDataThread.join();
 
-	animDataThread.join();
-
-	if (error)
-	{
-		return;
+		if (error)
+		{
+			return;
+		}
 	}
 }
 
