@@ -1,5 +1,7 @@
 #include "Global.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 bool debug = false;
@@ -173,13 +175,13 @@ vecstr GetFunctionLines(string filename)
 		}
 		else
 		{
-			cout << "ERROR(3002): Failed to open behavior template" << endl << "File: " << filename << endl << endl;
+			cout << "ERROR(3002): Failed to open file" << endl << "File: " << filename << endl << endl;
 			error = true;
 		}
 	}
 	else
 	{
-		cout << "ERROR(3001): Unknown behavior template" << endl << "File: " << filename << endl << endl;
+		cout << "ERROR(3001): Unknown file format" << endl << "File: " << filename << endl << endl;
 		error = true;
 	}
 
