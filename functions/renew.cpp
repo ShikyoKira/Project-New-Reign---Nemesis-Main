@@ -395,3 +395,22 @@ bool AnimDataDisassemble(string path, unordered_map<string, unordered_map<string
 
 	return true;
 }
+
+void ClearTempBehaviors()
+{
+	vecstr filelist;
+	string tempbehavior = "temp_behaviors\\";
+	read_directory(tempbehavior, filelist);
+	bool failed = false;
+
+	for (unsigned int i = 0; i < filelist.size(); ++i)
+	{
+		if (!boost::iequals(filelist[i], "xml"))
+		{
+			if (remove((tempbehavior + filelist[i]).c_str()) != 0 && !failed)
+			{
+				cout << "WARNING: Fail to clear all files in \"temp_behaviors\"" << endl << endl;
+			}
+		}
+	}
+}
