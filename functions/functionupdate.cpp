@@ -1,5 +1,7 @@
 #include "functionupdate.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 typedef vector<string> vecstr;
@@ -318,9 +320,9 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 						if (!error)
 						{
-							for (unsigned int i = 0; i < storage.size(); i++)
+							for (unsigned int j = 0; j < storage.size(); ++j)
 							{
-								functionline.push_back(storage[i]);
+								functionline.push_back(storage[j]);
 							}
 
 							functionline.push_back("<!-- CLOSE -->");
@@ -407,6 +409,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 		int editline = 0;
 		int originalline = 0;
 		int linecount = 0;
+		int type;
 
 		stringstream sstream(filename);
 		istream_iterator<string> ssbegin(sstream);
@@ -472,35 +475,43 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 			coordinate++;
 		}
 
-		int type;
-
-		if (filename == "$header$")
-		{
-			type = 0;
-		}
-		else if (hasAlpha(storeline[0]))
-		{
-			type = 1;
-		}
-		else if (isOnlyNumber(storeline[0]))
-		{
-			type = 2;
-		}
-		else
-		{
-			cout << "ERROR(3006): Invalid file name. Please enter a file name that is within the format. Please contact the mod author" << endl << "Character: " << characterfile << endl << "Header: " << fileparts[0] << endl << endl;
-			error = true;
-			return false;
-		}
-
 		if (newAnimData[characterfile].find(filename) != newAnimData[characterfile].end())
 		{
 			vecstr newline = newAnimData[characterfile][filename];
 			vecstr functionline;
+			vecstr storeline;
+
+			int editcount = 0;
+
+			bool skip = false;
+			bool isHeader = false;
+
 			functionline.reserve(newline.size());
 			linecount = 0;
-			int editcount = 0;
-			bool skip = false;
+
+			if (boost::iequals(characterfile, "$header$"))
+			{
+				isHeader = true;
+			}
+
+			if (filename == "$header$" || filename == "$info header$")
+			{
+				type = 0;
+			}
+			else if (hasAlpha(storeline[0]))
+			{
+				type = 1;
+			}
+			else if (isOnlyNumber(storeline[0]))
+			{
+				type = 2;
+			}
+			else
+			{
+				cout << "ERROR(3006): Invalid file name. Please enter a file name that is within the format. Please contact the mod author" << endl << "Character: " << characterfile << endl << "Header: " << fileparts[0] << endl << endl;
+				error = true;
+				return false;
+			}
 
 			for (unsigned int i = 0; i < newline.size(); ++i)
 			{
@@ -509,13 +520,6 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 				if (line.find("<!-- NEW", 0) != string::npos)
 				{
 					skip = true;
-					int position = AnimDataPosition(storeline, characterfile, filename, modcode, linecount, type);
-
-					if (error)
-					{
-						return false;
-					}
-
 				}
 
 				if (line.find("<!-- *", 0) == string::npos && !skip)
@@ -538,7 +542,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 							return false;
 						}
 
-						if(type == 0)
+						if (type == 0)
 						{
 							if (position == 3)		// behavior file count
 							{
@@ -582,22 +586,54 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 					}
 					else if (NewCoordinate[linecount] > 0)
 					{
-						functionline.push_back("<!-- NEW *" + modcode + "* -->");
-
-						vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
-
-						if (!error)
+						if (isHeader)
 						{
-							for (unsigned int i = 0; i < storage.size(); i++)
-							{
-								functionline.push_back(storage[i]);
-							}
+							vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
 
-							functionline.push_back("<!-- CLOSE -->");
+							if (!error)
+							{
+								storeline.push_back("<!--NEW *" + modcode + "* -->");
+								storeline.insert(storeline.end(), storage.begin(), storage.end());
+								storeline.push_back("<!-- CLOSE -->");
+							}
+							else
+							{
+								return false;
+							}
 						}
 						else
 						{
-							return false;
+							functionline.push_back("<!-- NEW *" + modcode + "* -->");
+							size_t startline = functionline.size();
+							vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+
+							if (!error)
+							{
+								functionline.insert(functionline.end(), storage.begin(), storage.end());
+								functionline.push_back("<!-- CLOSE -->");
+							}
+							else
+							{
+								return false;
+							}
+
+							for (unsigned int j = startline; j < functionline.size() - 1; ++j)
+							{
+								namespace AD = AnimDataFormat;
+								AD::position position = AnimDataPosition(storeline, characterfile, filename, modcode, linecount, type);
+
+								if (error)
+								{
+									return false;
+								}
+
+								if (position != AD::behaviorfilelist && position != AD::eventnamelist && position != AD::motiondatalist && position != AD::rotationdatalist)
+								{
+									cout << "ERROR(3018): Wrong format. Current line cannot be used to run NEW tab function. Only BehaviorFileList, EventNameList, MotionDataList, or RotationDataList can use NEW tab function. Please contact the mod author" << endl << "Mod: " << modcode << endl << "Character: " << characterfile << endl << "Header: " << filename << endl << endl;
+									error = true;
+									return false;
+								}
+							}
 						}
 					}
 
@@ -607,16 +643,14 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 				if (line.find("<!-- CLOSE -->", 0) != string::npos)
 				{
 					skip = false;
-					int position = AnimDataPosition(storeline, characterfile, filename, modcode, linecount, type);
-
-					if (error)
-					{
-						return false;
-					}
-
 				}
 
 				functionline.push_back(line);
+			}
+
+			if (isHeader && storeline.size() > 0)
+			{
+				functionline.insert(functionline.end(), storeline.begin(), storeline.end());
 			}
 
 			functionline.shrink_to_fit();

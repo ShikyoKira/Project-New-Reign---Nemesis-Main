@@ -33,9 +33,7 @@ void SeparateMod(string directory, string modecode, vecstr behaviorfilelist, uno
 
 						if (newAnimData.find(nodelist[k]) == newAnimData.end())
 						{
-							animDataChar.pop_back();
 							animDataChar.push_back(nodelist[k]);
-							animDataChar.push_back("$end$");
 							newChar = true;
 						}
 
@@ -150,8 +148,7 @@ bool newAnimUpdateExt(string folderpath, string behaviorfile, unordered_map<stri
 			{
 				return false;
 			}
-
-
+			
 			string nodeID = nodelist[k].substr(0, nodelist[k].find_last_of("."));
 			vecstr originallines = newFile[behaviorfile][nodeID];
 
@@ -186,6 +183,11 @@ bool newAnimUpdateExt(string folderpath, string behaviorfile, unordered_map<stri
 								combinelines.push_back(originallines[linecount]);
 								++linecount;
 								break;
+							}
+							else
+							{
+								combinelines.push_back(originallines[linecount]);
+								++linecount;
 							}
 						}
 					}
@@ -238,15 +240,17 @@ bool newAnimUpdateExt(string folderpath, string behaviorfile, unordered_map<stri
 								++linecount;
 								break;
 							}
+							else
+							{
+								combinelines.push_back(originallines[linecount]);
+								++linecount;
+							}
 						}
 					}
 
-					for (unsigned int l = 0; l < newlines.size(); l++)
-					{
-						combinelines.push_back(newlines[l]);
-					}
-
+					combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
 					combinelines.push_back(storeline[k]);
+					newlines.clear();
 					close = false;
 				}
 				else
@@ -323,9 +327,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 
 				if (newAnimData.find(characterfile) == newAnimData.end())
 				{
-					animDataChar.pop_back();
 					animDataChar.push_back(characterfile);
-					animDataChar.push_back("$end$");
 					isNew = true;
 				}
 
@@ -418,15 +420,45 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 						storeline.push_back("");
 					}
 
+					bool isHeader = false;
 					bool close = false;
+					bool conditionOri = false;
+
 					unordered_map<int, bool> conditionOpen;
 					unordered_map<int, vecstr> condition;
-					bool conditionOri = false;
+
 					int linecount = 0;
 					int conditionLvl = 0;
+					int type;
+
 					vecstr newlines;
 					vecstr combinelines;
+
 					combinelines.reserve(storeline.size() + originallines.size());
+
+					if (boost::iequals(characterfile, "$header$"))
+					{
+						isHeader = true;
+					}
+
+					if (filename == "$header$" || filename == "$info header$")
+					{
+						type = 0;
+					}
+					else if (hasAlpha(storeline[0]))
+					{
+						type = 1;
+					}
+					else if (isOnlyNumber(storeline[0]))
+					{
+						type = 2;
+					}
+					else
+					{
+						cout << "ERROR(3006): Invalid file name. Please enter a file name that is within the format. Please contact the mod author" << endl << "Character: " << characterfile << endl << "Header: " << fileparts[0] << endl << endl;
+						error = true;
+						return false;
+					}
 
 					for (unsigned int k = 0; k < storeline.size(); k++)
 					{
@@ -452,6 +484,11 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 										combinelines.push_back(originallines[linecount]);
 										++linecount;
 										break;
+									}
+									else
+									{
+										combinelines.push_back(originallines[linecount]);
+										++linecount;
 									}
 								}
 							}
@@ -490,15 +527,44 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 										++linecount;
 										break;
 									}
+									else
+									{
+										combinelines.push_back(originallines[linecount]);
+										++linecount;
+									}
 								}
 							}
 
-							for (unsigned int l = 0; l < newlines.size(); l++)
+							if (isHeader)
 							{
-								combinelines.push_back(newlines[l]);
+								newlines.push_back(storeline[k]);
+							}
+							else
+							{
+								size_t startline = combinelines.size() + 1;
+								combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
+								combinelines.push_back(storeline[k]);
+								newlines.clear();
+
+								for (unsigned int j = startline; j < combinelines.size() - 1; ++j)
+								{
+									namespace AD = AnimDataFormat;
+									AD::position position = AnimDataPosition(storeline, characterfile, filename, modcode, linecount, type);
+
+									if (error)
+									{
+										return false;
+									}
+
+									if (position != AD::behaviorfilelist && position != AD::eventnamelist && position != AD::motiondatalist && position != AD::rotationdatalist)
+									{
+										cout << "ERROR(3018): Wrong format. Current line cannot be used to run NEW tab function. Only BehaviorFileList, EventNameList, MotionDataList, or RotationDataList can use NEW tab function. Please contact the mod author" << endl << "Mod: " << modcode << endl << "Character: " << characterfile << endl << "Header: " << filename << endl << endl;
+										error = true;
+										return false;
+									}
+								}
 							}
 
-							combinelines.push_back(storeline[k]);
 							close = false;
 						}
 						else
@@ -515,6 +581,13 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 						{
 							newlines.push_back(storeline[k]);
 						}
+					}
+
+					// for $header$
+					if (isHeader && newlines.size() > 0)
+					{
+						combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
+						newlines.clear();
 					}
 
 					combinelines.shrink_to_fit();
