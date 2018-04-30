@@ -1,5 +1,7 @@
 #include "optionlist.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 bool Debug = false;

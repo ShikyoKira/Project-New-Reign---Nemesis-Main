@@ -1,5 +1,7 @@
 #include "animationdata.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr behaviorPriority, unordered_map<string, bool> chosenBehavior, getTemplate BehaviorTemplate, vector<unique_ptr<registerAnimation>>& animationList, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, unordered_map<string, var> AnimVar, unordered_map<string, vector<string>> modAnimBehavior)

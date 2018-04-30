@@ -1,5 +1,7 @@
 #include "gettemplate.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 getTemplate::getTemplate()

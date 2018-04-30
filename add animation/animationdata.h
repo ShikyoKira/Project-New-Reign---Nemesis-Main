@@ -44,8 +44,8 @@ namespace AnimDataFormat
 {
 	enum position
 	{
-		totallinecount = 1,
-		behaviorfilecount = 2,
+		totallinecount,
+		behaviorfilecount,
 		behaviorfilelist,
 		animationname,
 		uniquecode,

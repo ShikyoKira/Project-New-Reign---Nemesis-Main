@@ -1,6 +1,8 @@
 #include "alternateanimation.h"
 #include <boost\algorithm\string.hpp>
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 void AAInitialize(string AAList)

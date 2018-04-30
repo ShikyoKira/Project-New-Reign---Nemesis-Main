@@ -1,5 +1,7 @@
 #include "import.h"
 
+#pragma warning(disable:4503)
+
 using namespace std;
 
 vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, string file)
