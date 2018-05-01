@@ -82,7 +82,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 		vecstr storeline;
 		string line;
-		string filename = "cache\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
+		string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
 		char charline[2000];
 		FILE* BehaviorFormat;
 		fopen_s(&BehaviorFormat, filename.c_str(), "r");
@@ -128,7 +128,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 						NewCoordinate[linecount] = tempint;
 						modEditLine[to_string(linecount) + "R"] = coordinate - tempint - 2;
 
-						for (int i = startoriline; i < originalline; i++)
+						for (int i = startoriline; i < originalline; ++i)
 						{
 							modEditCoordinate.push_back(i);
 							modEditLine[to_string(i)] = Pair[i];
@@ -166,12 +166,12 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 					}
 
 					Pair[editline] = coordinate;
-					editline++;
+					++editline;
 				}
 				else if (!edited)
 				{
-					linecount++;
-					originalline++;
+					++linecount;
+					++originalline;
 				}
 
 				storeline.push_back(line);
@@ -267,7 +267,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 							if (error)
 							{
-								cout << "ERROR(2005): Missing edits" << endl << "File: " << "cache\\" << modcode << "\\" << behaviorfile << "\\" << nodefile << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
+								cout << "ERROR(2005): Missing edits" << endl << "File: " << "mod\\" << modcode << "\\" << behaviorfile << "\\" << nodefile << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
 								error = true;
 								return false;
 							}
@@ -289,7 +289,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 							if (error)
 							{
-								cout << "ERROR(2005): Missing edits" << endl << "File: " << "cache\\" << modcode << "\\" << behaviorfile << "\\" << nodefile << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
+								cout << "ERROR(2005): Missing edits" << endl << "File: " << "mod\\" << modcode << "\\" << behaviorfile << "\\" << nodefile << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
 								error = true;
 								return false;
 							}
@@ -316,7 +316,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 					{
 						functionline.push_back("<!-- NEW *" + modcode + "* -->");
 
-						vecstr storage = GetFunctionEdits("cache\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+						vecstr storage = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
 
 						if (!error)
 						{
@@ -333,7 +333,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 						}
 					}
 
-					linecount++;
+					++linecount;
 				}
 
 				if (line.find("<!-- CLOSE -->", 0) != string::npos)
@@ -358,18 +358,18 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 	{
 		if (nodefile == "#" + modcode + "$" + filecheck)
 		{
-			newFile[behaviorfile][nodeID] = GetFunctionLines("cache\\" + modcode + "\\" + behaviorfile + "\\" + nodefile);
+			newFile[behaviorfile][nodeID] = GetFunctionLines("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile);
 		}
 		else
 		{
-			cout << "ERROR(2004): Invalid file name. File name must only contain #<modcode>$<id> or #<id>. Please contact the mod author" << endl << "File: cache\\" << modcode << "\\" + behaviorfile << "\\" << nodefile << endl << endl;
+			cout << "ERROR(2004): Invalid file name. File name must only contain #<modcode>$<id> or #<id>. Please contact the mod author" << endl << "File: mod\\" << modcode << "\\" + behaviorfile << "\\" << nodefile << endl << endl;
 			error = true;
 			return false;
 		}
 	}
 	else
 	{
-		cout << "ERROR(2004): Invalid file name. File name must only contain #<modcode>$<id> or #<id>. Please contact the mod author" << endl << "File: cache\\" << modcode << "\\" + behaviorfile << "\\" << nodefile << endl << endl;
+		cout << "ERROR(2004): Invalid file name. File name must only contain #<modcode>$<id> or #<id>. Please contact the mod author" << endl << "File: mod\\" << modcode << "\\" + behaviorfile << "\\" << nodefile << endl << endl;
 		error = true;
 		return false;
 	}
@@ -446,7 +446,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 					NewCoordinate[linecount] = tempint;
 					modEditLine[to_string(linecount) + "R"] = coordinate - tempint - 2;
 
-					for (int i = startoriline; i < originalline; i++)
+					for (int i = startoriline; i < originalline; ++i)
 					{
 						modEditCoordinate.push_back(i);
 						modEditLine[to_string(i)] = Pair[i];
@@ -464,12 +464,12 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 			else if (edited)
 			{
 				Pair[editline] = coordinate;
-				editline++;
+				++editline;
 			}
 			else if (!edited)
 			{
-				linecount++;
-				originalline++;
+				++linecount;
+				++originalline;
 			}
 
 			coordinate++;
@@ -637,7 +637,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 						}
 					}
 
-					linecount++;
+					++linecount;
 				}
 
 				if (line.find("<!-- CLOSE -->", 0) != string::npos)

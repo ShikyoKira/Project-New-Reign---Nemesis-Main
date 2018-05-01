@@ -17,8 +17,8 @@
 #include "behaviorgenerator.h"
 #include "behaviorcheck.h"
 #include "filechecker.h"
-#include "add animation\furniture.h"
 #include "skyrimdirectory.h"
+#include "add animation\furniture.h"
 
 #pragma warning(disable:4503)
 
@@ -64,7 +64,7 @@ void UpdateFiles(string directory, string newAnimDirectory)
 template<typename T>
 void printVector(vector<T> list)
 {
-	for (unsigned int i = 0; i < list.size(); i++)
+	for (unsigned int i = 0; i < list.size(); ++i)
 	{
 		cout << list[i] << endl;
 	}
@@ -212,7 +212,7 @@ int main()
 	
 
 	// Patcher Update
-	// UpdateFiles("cache\\", "behavior templates\\");
+	UpdateFiles("mod\\", "behavior templates\\");
 
 
 	// For Debug purpose
