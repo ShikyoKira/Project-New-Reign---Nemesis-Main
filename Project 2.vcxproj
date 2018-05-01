@@ -160,6 +160,7 @@
     <ClCompile Include="behaviorgenerator.cpp" />
     <ClCompile Include="compute.cpp" />
     <ClCompile Include="dataunification.cpp" />
+    <ClCompile Include="filechecker.cpp" />
     <ClCompile Include="functions\functionupdate.cpp" />
     <ClCompile Include="functions\renew.cpp" />
     <ClCompile Include="animationutility.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="compute.h" />
     <ClInclude Include="dataunification.h" />
     <ClInclude Include="exprtk.hpp" />
+    <ClInclude Include="filechecker.h" />
     <ClInclude Include="functions\functionupdate.h" />
     <ClInclude Include="functions\functionwriter.h" />
     <ClInclude Include="functions\renew.h" />

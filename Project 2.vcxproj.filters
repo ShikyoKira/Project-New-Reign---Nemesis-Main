@@ -75,6 +75,9 @@
     <ClCompile Include="add animation\animationdata.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="filechecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functions\functionupdate.h">
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="add animation\animationdata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="filechecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
