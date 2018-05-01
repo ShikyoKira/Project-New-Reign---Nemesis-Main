@@ -22,6 +22,7 @@ unordered_map<string, unordered_map<string, bool>> registeredAnim;
 unordered_map<string, set<string>> usedAnim;
 unordered_map<string, set<string>> characterHeaders;
 unordered_map<string, vecstr> behaviorJoints;
+unordered_map<string, bool> activatedBehavior;
 
 unordered_map<string, vecstr> alternateAnim;
 unordered_map<string, vecstr> groupAA;
@@ -64,7 +65,7 @@ size_t fileLineCount(string filepath)
 	{
 		while (fgets(line, 2000, input))
 		{
-			linecount++;
+			++linecount;
 		}
 
 		fclose(input);
@@ -84,7 +85,7 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
 	string time = to_simple_string(time1);
 	string timer;
 
-	for (unsigned int i = 0; i < time.size(); i++)
+	for (unsigned int i = 0; i < time.size(); ++i)
 	{
 		if (time[i] != ':')
 		{

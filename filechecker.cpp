@@ -31,7 +31,7 @@ bool FileCheck()
 		return false;
 	}
 
-	file = "cache";
+	file = "mod";
 
 	if (!isFileExist(file))
 	{
@@ -57,4 +57,39 @@ bool FileCheck()
 	}
 
 	return true;
+}
+
+void behaviorActivateMod(vecstr behaviorPriority)
+{
+	unordered_map<string, vecstr> behaviorActivator;	// modcode, behavior; existence of the behavior in any of these
+	vecstr modlist;
+	string directory = "mod\\";
+	read_directory(directory, modlist);
+
+	for (unsigned int i = 0; i < modlist.size(); ++i)
+	{
+		string newpath = directory + modlist[i];
+		vecstr behaviorlist;
+
+		if (boost::filesystem::is_directory(newpath))
+		{
+			read_directory(newpath, behaviorlist);
+
+			for (unsigned int j = 0; j < behaviorlist.size(); ++j)
+			{
+				behaviorActivator[modlist[i]].push_back(behaviorlist[j]);
+			}
+		}
+	}
+
+	for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
+	{
+		if (behaviorActivator.find(behaviorPriority[i]) != behaviorActivator.end())
+		{
+			for (unsigned int j = 0; j < behaviorActivator[behaviorPriority[i]].size(); ++j)
+			{
+				activatedBehavior[behaviorActivator[behaviorPriority[i]][j]] = true;
+			}
+		}
+	}
 }

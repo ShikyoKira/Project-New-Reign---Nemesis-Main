@@ -18,7 +18,7 @@ vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 		{
 			stateID.push_back(0);
 
-			for (unsigned int j = 0; j < functionlist[it->second].size(); j++)
+			for (unsigned int j = 0; j < functionlist[it->second].size(); ++j)
 			{
 				string curline = functionlist[it->second][j];
 
@@ -44,13 +44,13 @@ vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 						size_t counter = count(curline.begin(), curline.end(), '#');
 						size_t nextpos = 0;
 
-						for (size_t k = 0; k < counter; k++) // multiple IDs in 1 line
+						for (size_t k = 0; k < counter; ++k) // multiple IDs in 1 line
 						{
 							nextpos = curline.find("#", nextpos) + 1;
 
 							int ID = stoi(boost::regex_replace(string(curline.substr(nextpos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
-							for (unsigned int l = 0; l < functionlist[ID].size(); l++)
+							for (unsigned int l = 0; l < functionlist[ID].size(); ++l)
 							{
 								string line = functionlist[ID][l];
 
@@ -131,7 +131,7 @@ vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
 
 string behaviorLineChooser(string originalline, unordered_map<string, string> chosenLines, vecstr behaviorPriority)
 {
-	for (unsigned int i = 0; i < behaviorPriority.size(); i++)
+	for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
 	{
 		if (chosenLines[behaviorPriority[i]].length() != 0)
 		{
@@ -191,7 +191,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 		read_directory(animationDirectory, filelist1);
 
-		for (unsigned int l = 0; l < filelist1.size(); l++)
+		for (unsigned int l = 0; l < filelist1.size(); ++l)
 		{
 			boost::filesystem::path FOF(animationDirectory + filelist1[l]);
 
@@ -199,7 +199,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 			{
 				read_directory(animationDirectory + filelist1[l], filelist2);
 
-				for (unsigned int k = 0; k < filelist2.size(); k++)
+				for (unsigned int k = 0; k < filelist2.size(); ++k)
 				{
 					if (filelist2[k].find("_" + filelist1[l] + "_List.txt") != string::npos)
 					{
@@ -254,7 +254,7 @@ void GetBehaviorPath()
 		{
 			while (fgets(line, 2000, pathFile))
 			{
-				linecount++;
+				++linecount;
 
 				if ((line[0] != '\'' || line[0] != '\n') && strlen(line) != 0)
 				{
@@ -487,4 +487,54 @@ string GetFileName(string filepath)
 
 	filename = filepath.substr(nextpos, filepath.find_last_of(".") - nextpos);
 	return filename;
+}
+
+inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, bool isCharacter)
+{
+	if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
+	{
+		vecstr templateGroup = BehaviorTemplate.grouplist[lowerBehaviorFile];
+
+		for (unsigned int j = 0; j < templateGroup.size(); ++j)
+		{
+			if (newAnimation.find(templateGroup[j]) != newAnimation.end() && newAnimation[templateGroup[j]].size() != 0)
+			{
+				return true;
+			}
+		}
+	}
+
+	if (isCharacter)
+	{
+		for (auto it = BehaviorTemplate.grouplist.begin(); it != BehaviorTemplate.grouplist.end(); ++it)
+		{
+			vecstr behaviorNames = behaviorJoints[it->first];
+
+			for (unsigned int k = 0; k < behaviorNames.size(); ++k)
+			{
+				if (it->second.size() > 0 && lowerBehaviorFile == behaviorNames[k])
+				{
+					vecstr templateGroup = it->second;
+
+					for (unsigned int j = 0; j < templateGroup.size(); ++j)
+					{
+						string templatecode = templateGroup[j];
+
+						if (newAnimation[templatecode].size() != 0 && !BehaviorTemplate.optionlist[templatecode].core)
+						{
+							for (unsigned int k = 0; k < newAnimation[templatecode].size(); ++k)
+							{
+								if (!newAnimation[templatecode][k]->isKnown())
+								{
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return false;
 }

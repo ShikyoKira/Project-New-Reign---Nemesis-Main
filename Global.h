@@ -20,7 +20,7 @@ typedef std::vector<char> vecchar;
 extern bool debug;												// if debug is on
 extern bool error;												// get error warning
 extern int memory;												// not used; for setting memory allocation from 100 - 1000
-extern int fixedkey[257];																									// AA installation key
+extern int fixedkey[257];										// AA installation key
 extern boost::posix_time::ptime time1;							// for getting elapsed time
 
 // update patcher
@@ -32,8 +32,9 @@ extern std::unordered_map<std::string, std::unordered_map<std::string, std::vect
 extern std::unordered_map<std::string, std::set<std::string>> characterHeaders;												// character, list of headers; use to check if header exist
 extern std::unordered_map<std::string, std::set<std::string>> usedAnim;														// behavior name, animation path; animation used in behavior file
 extern std::unordered_map<std::string, vecstr> behaviorJoints;																// lower lvl behavior file, higher lvl behavior file
+extern std::unordered_map<std::string, bool> activatedBehavior;																// behavior file, true/fast; check if the behavior is needed to be edited
 
-// AA data
+// Alternate Animation data
 extern std::unordered_map<std::string, vecstr> alternateAnim;																// original animation name, list of AA animations
 extern std::unordered_map<std::string, vecstr> groupAA;																		// animation group name, list of animations
 extern std::unordered_map<std::string, vecstr> groupAAPrefix;																// animation group name, list of AA prefix's group; for scripting
