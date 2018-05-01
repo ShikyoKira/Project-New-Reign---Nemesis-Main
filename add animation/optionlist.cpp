@@ -35,7 +35,7 @@ OptionList::OptionList(string filepath, string format)
 
 		while (fgets(line, 2000, input))
 		{
-			linecount++;
+			++linecount;
 
 			if (line[0] != '\'' && line[0] != '\n')
 			{
@@ -70,7 +70,7 @@ OptionList::OptionList(string filepath, string format)
 								size_t nextpos = 0;
 								size_t pos = 0;
 
-								for (int i = 0; i < reference + 1; i++)
+								for (int i = 0; i < reference + 1; ++i)
 								{
 									if (i != reference)
 									{
@@ -97,7 +97,7 @@ OptionList::OptionList(string filepath, string format)
 								size_t nextpos = 0;
 								size_t pos = 0;
 
-								for (int i = 0; i < reference + 1; i++)
+								for (int i = 0; i < reference + 1; ++i)
 								{
 									if (i != reference)
 									{
@@ -254,7 +254,7 @@ OptionList::OptionList(string filepath, string format)
 							vecstr import;
 							import.reserve(10);
 
-							for (int i = 0; i < opening; i++)
+							for (int i = 0; i < opening; ++i)
 							{
 								nextpos = templine.find("<", nextpos) + 1;
 
@@ -347,9 +347,9 @@ OptionList::OptionList(string filepath, string format)
 						{
 							size_t nextpos = 0;
 							vecstr import;
-							import.reserve(opening);
+							import.reserve(int(opening));
 
-							for (int i = 0; i < opening; i++)
+							for (int i = 0; i < opening; ++i)
 							{
 								nextpos = templine.find("<", nextpos) + 1;
 
@@ -434,7 +434,7 @@ OptionList::OptionList(string filepath, string format)
 							vecstr import;
 							import.reserve(10);
 
-							for (int i = 0; i < opening; i++)
+							for (int i = 0; i < opening; ++i)
 							{
 								nextpos = templine.find("<", nextpos) + 1;
 
@@ -516,7 +516,7 @@ OptionList::OptionList(string filepath, string format)
 							vecstr import;
 							import.reserve(10);
 
-							for (int i = 0; i < opening; i++)
+							for (int i = 0; i < opening; ++i)
 							{
 								nextpos = templine.find("<", nextpos) + 1;
 
@@ -595,7 +595,7 @@ OptionList::OptionList(string filepath, string format)
 						size_t nextpos = 0;
 						size_t pos = 0;
 
-						for (int i = 0; i < reference + 1; i++)
+						for (int i = 0; i < reference + 1; ++i)
 						{
 							if (i != reference)
 							{
@@ -741,11 +741,11 @@ OptionList::OptionList(string filepath, string format)
 
 							if (opening == closing)
 							{
-								addOn[tempOption].reserve(opening);
-								joint[tempOption].reserve(opening - 1);
+								addOn[tempOption].reserve(int(opening));
+								joint[tempOption].reserve(int(opening) - 1);
 								size_t nextpos = 0;
 
-								for (int i = 0; i < opening; i++)
+								for (int i = 0; i < opening; ++i)
 								{
 									nextpos = strline.find("<", nextpos) + 1;
 									string addition = strline.substr(nextpos, strline.find(">", nextpos) - nextpos);
@@ -809,7 +809,7 @@ OptionList::OptionList(string filepath, string format)
 						{
 							bool number = false;
 
-							for (unsigned int i = 0; i < strlen(line); i++)
+							for (unsigned int i = 0; i < strlen(line); ++i)
 							{
 								if (!isalpha(line[i]) && !isalnum(line[i]) && line[i] != '[' && line[i] != ']')
 								{
@@ -1197,7 +1197,7 @@ bool optionMatching(string option1, string option2)
 		longer = option1;
 	}
 
-	for (unsigned int i = 0; i < shorter.size(); i++)
+	for (unsigned int i = 0; i < shorter.size(); ++i)
 	{
 		if (shorter[i] != longer[i])
 		{

@@ -42,7 +42,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 				SSMap IDExist;
 				behaviorlines.reserve(behaviorlines.size() + exportFormat.size() + 1);
 
-				for (unsigned int j = 0; j < exportFormat.size(); j++)
+				for (unsigned int j = 0; j < exportFormat.size(); ++j)
 				{
 					bool elementCatch = false;
 					string line = exportFormat[j];
@@ -116,7 +116,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 							if (reference == openRange + 1)
 							{
 								__int64 number = count(line.begin(), line.end(), '#');
-								eleCounter += number;
+								eleCounter += int(number);
 							}
 						}
 					}
@@ -125,7 +125,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 					{
 						int reference = sameWordCount(line, "$import[1][2]$");
 
-						for (int k = 0; k < reference; k++)
+						for (int k = 0; k < reference; ++k)
 						{
 							line.replace(line.find("$import[1][2]$"), 14, iter->second);
 						}
@@ -135,7 +135,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 					{
 						int reference = sameWordCount(line, "$import[1]$");
 
-						for (int k = 0; k < reference; k++)
+						for (int k = 0; k < reference; ++k)
 						{
 							line.replace(line.find("$import[1]$"), 11, it->first);
 						}
@@ -145,7 +145,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 					{
 						int reference = sameWordCount(line, "$import[");
 
-						for (int k = 0; k < reference; k++)
+						for (int k = 0; k < reference; ++k)
 						{
 							string number = boost::regex_replace(string(line.substr(line.find("$import["))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
@@ -228,7 +228,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 							{
 								tempID = to_string(lastID);
 
-								for (unsigned int i = 0; i < 4 - tempID.length(); i++)
+								for (unsigned int i = 0; i < 4 - tempID.length(); ++i)
 								{
 									tempID = "0" + tempID;
 								}
@@ -251,7 +251,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 					{
 						int reference = sameWordCount(line, "MID$");
 
-						for (int k = 0; k < reference; k++)
+						for (int k = 0; k < reference; ++k)
 						{
 							string tempID = line.substr(line.find("MID$"));
 							string number = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
@@ -269,7 +269,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 								{
 									tempID = to_string(lastID);
 
-									for (unsigned int i = 0; i < 4 - tempID.length(); i++)
+									for (unsigned int i = 0; i < 4 - tempID.length(); ++i)
 									{
 										tempID = "0" + tempID;
 									}

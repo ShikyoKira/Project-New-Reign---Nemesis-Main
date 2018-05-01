@@ -44,7 +44,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 		while (fgets(line, 2000, newAnimationList))
 		{
-			linecount++;
+			++linecount;
 
 			if (line[0] != '\'' && line[0] != '\n' && strlen(line) != 0)
 			{
@@ -219,7 +219,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					string type;
 					string value;
 
-					for (unsigned int i = 0; i < num; i++)
+					for (unsigned int i = 0; i < num; ++i)
 					{
 						size_t position = strline.find(" ", nextpos) + 1;
 						nextpos = strline.find(" ", position);
@@ -388,12 +388,12 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 								}
 							}
 
-							if (behaviortemplate.behaviortemplate.count(previousShortline + "_group") != 0 && behaviortemplate.behaviortemplate[previousShortline + "_group"].size() != 0)
+							if (behaviortemplate.behaviortemplate.find(previousShortline + "_group") != behaviortemplate.behaviortemplate.end() && behaviortemplate.behaviortemplate[previousShortline + "_group"].size() != 0)
 							{
 								animInfo[previousShortline].back()->optionPickedCount[previousShortline + "_group"] = 1;
 							}
 
-							if (behaviortemplate.behaviortemplate.count(previousShortline + "_master") != 0 && behaviortemplate.behaviortemplate[previousShortline + "_master"].size() != 0)
+							if (behaviortemplate.behaviortemplate.find(previousShortline + "_master") != behaviortemplate.behaviortemplate.end() && behaviortemplate.behaviortemplate[previousShortline + "_master"].size() != 0)
 							{
 								animInfo[previousShortline].back()->optionPickedCount[previousShortline + "_master"] = 1;
 							}
@@ -456,12 +456,12 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						return;
 					}
 
-					if (behaviortemplate.behaviortemplate.count(newAnimInfo[0] + "_group") != 0 && behaviortemplate.behaviortemplate[newAnimInfo[0] + "_group"].size() != 0)
+					if (behaviortemplate.behaviortemplate.find(newAnimInfo[0] + "_group") != behaviortemplate.behaviortemplate.end() && behaviortemplate.behaviortemplate[newAnimInfo[0] + "_group"].size() != 0)
 					{
 						animInfo[newAnimInfo[0]].back()->optionPickedCount[newAnimInfo[0] + "_group"] = 1;
 					}
 
-					if (behaviortemplate.behaviortemplate.count(newAnimInfo[0] + "_master") != 0 && behaviortemplate.behaviortemplate[newAnimInfo[0] + "_master"].size() != 0)
+					if (behaviortemplate.behaviortemplate.find(newAnimInfo[0] + "_master") != behaviortemplate.behaviortemplate.end() && behaviortemplate.behaviortemplate[newAnimInfo[0] + "_master"].size() != 0)
 					{
 						animInfo[newAnimInfo[0]].back()->optionPickedCount[newAnimInfo[0] + "_master"] = 1;
 					}
@@ -761,7 +761,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 			}
 		}
 
-		linecount++;
+		++linecount;
 		fclose(newAnimationList);
 
 		if (behaviortemplate.optionlist[previousShortline].groupMin > multiCount)

@@ -75,7 +75,7 @@ getTemplate::getTemplate()
 						string lowerBehaviorFolder = boost::algorithm::to_lower_copy(behaviorFolder);
 						bool noGroup = true;
 
-						for (unsigned int i = 0; i < filelist.size(); i++)
+						for (unsigned int i = 0; i < filelist.size(); ++i)
 						{
 							newpath = templateDirectory + codelist[k] + "\\" + behaviorFolder + "\\" + filelist[i];
 							boost::filesystem::path file(newpath);
@@ -156,7 +156,7 @@ getTemplate::getTemplate()
 									bool isJoint = false;
 									bool isStateMachine = false;
 
-									for (unsigned int j = 0; j < storeline.size(); j++)
+									for (unsigned int j = 0; j < storeline.size(); ++j)
 									{
 										if (storeline[j].find("class=\"hkbStateMachine\" signature=\"") != string::npos)
 										{

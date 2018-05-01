@@ -95,7 +95,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 	// add picked behavior and remove not picked behavior 
 	// separation of all items for easier access and better compatibility
-	for (unsigned int l = num; l < catalyst.size(); l++)
+	for (unsigned int l = num; l < catalyst.size(); ++l)
 	{
 		string line = catalyst[l];
 		bool skip = false;
@@ -593,7 +593,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 			{
 				int counter = 0;
 
-				for (unsigned int j = 0; j < infoline; ++j)
+				for (int j = 0; j < infoline; ++j)
 				{
 					counter = counter + int(catalystMap[character][animDataHeader[character][j]].size());
 				}

@@ -74,7 +74,7 @@ bool newAnimUpdate(string sourcefolder, unordered_map<string, map<string, vecstr
 		vecstr codelist;
 		read_directory(sourcefolder, codelist);
 
-		for (unsigned int i = 0; i < codelist.size(); i++)
+		for (unsigned int i = 0; i < codelist.size(); ++i)
 		{
 			string folderpath = sourcefolder + codelist[i];
 			boost::filesystem::path codefile(folderpath);
@@ -84,7 +84,7 @@ bool newAnimUpdate(string sourcefolder, unordered_map<string, map<string, vecstr
 				vecstr behaviorlist;
 				read_directory(folderpath, behaviorlist);
 
-				for (unsigned int j = 0; j < behaviorlist.size(); j++)
+				for (unsigned int j = 0; j < behaviorlist.size(); ++j)
 				{
 					boost::filesystem::path curfolder(folderpath + "\\" + behaviorlist[j]);
 
@@ -95,7 +95,7 @@ bool newAnimUpdate(string sourcefolder, unordered_map<string, map<string, vecstr
 							vecstr characterlist;
 							read_directory(folderpath + "\\" + behaviorlist[j], characterlist);
 
-							for (unsigned int k = 0; k < characterlist.size(); k++)
+							for (unsigned int k = 0; k < characterlist.size(); ++k)
 							{
 								boost::filesystem::path characterfolder(folderpath + "\\" + behaviorlist[j] + "\\" + characterlist[k]);
 
@@ -135,7 +135,7 @@ bool newAnimUpdateExt(string folderpath, string behaviorfile, unordered_map<stri
 	vecstr nodelist;
 	read_directory(folderpath + "\\" + behaviorfile, nodelist);
 
-	for (unsigned int k = 0; k < nodelist.size(); k++)
+	for (unsigned int k = 0; k < nodelist.size(); ++k)
 	{
 		boost::filesystem::path curfile(folderpath + "\\" + behaviorfile + "\\" + nodelist[k]);
 
@@ -165,7 +165,7 @@ bool newAnimUpdateExt(string folderpath, string behaviorfile, unordered_map<stri
 			vecstr newlines;
 			vecstr combinelines;
 
-			for (unsigned int k = 0; k < storeline.size(); k++)
+			for (unsigned int k = 0; k < storeline.size(); ++k)
 			{
 				if (storeline[k].find("<!-- NEW", 0) == string::npos && !close)
 				{
@@ -286,7 +286,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 	vecstr headerlist;
 	read_directory(folderpath, headerlist);
 
-	for (unsigned int k = 0; k < headerlist.size(); k++)
+	for (unsigned int k = 0; k < headerlist.size(); ++k)
 	{
 		string filepath = folderpath + "\\" + headerlist[k];
 		boost::filesystem::path curfile(filepath);
@@ -460,7 +460,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 						return false;
 					}
 
-					for (unsigned int k = 0; k < storeline.size(); k++)
+					for (unsigned int k = 0; k < storeline.size(); ++k)
 					{
 						if (storeline[k].find("<!-- CONDITION START ") != string::npos)
 						{
@@ -656,7 +656,7 @@ void JoiningEdits(string directory, unordered_map<string, map<string, vecstr>>& 
 		vector<thread> threads;
 		read_directory(directory, filelist);
 
-		for (unsigned int i = 0; i < filelist.size(); i++)
+		for (unsigned int i = 0; i < filelist.size(); ++i)
 		{
 			boost::filesystem::path curPath(directory + filelist[i]);
 

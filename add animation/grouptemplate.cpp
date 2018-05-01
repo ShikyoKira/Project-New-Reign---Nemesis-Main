@@ -62,7 +62,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 		groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
 	}
 
-	for (unsigned int i = 0; i < 4 - strID.length(); i++)
+	for (unsigned int i = 0; i < 4 - strID.length(); ++i)
 	{
 		strID = "0" + strID;
 	}
@@ -524,7 +524,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				{
 					int counter = sameWordCount(templatelines[i], "MID$");
 
-					for (int k = 0; k < counter; k++)
+					for (int k = 0; k < counter; ++k)
 					{
 						size_t MIDposition = templatelines[i].find("MID$");
 						string ID = boost::regex_replace(string(templatelines[i].substr(MIDposition)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
@@ -759,7 +759,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 							if (tempID.find(curID, 0) != string::npos && nextpos == templatelines[i].find(curID))
 							{
-								for (unsigned int k = 0; k < subFunctionIDs.size(); k++) // number of variation
+								for (unsigned int k = 0; k < subFunctionIDs.size(); ++k) // number of variation
 								{
 									if (subFunctionIDs[k][curID].length() == 0)
 									{
@@ -916,7 +916,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									{
 										int counter = sameWordCount(curLine, "MID$");
 
-										for (int k = 0; k < counter; k++)
+										for (int k = 0; k < counter; ++k)
 										{
 											size_t MIDposition = curLine.find("MID$");
 											string ID = boost::regex_replace(string(curLine.substr(MIDposition)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
@@ -1270,7 +1270,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 	}
 
 
-	for (unsigned int i = 0; i < 4 - strID.length(); i++)
+	for (unsigned int i = 0; i < 4 - strID.length(); ++i)
 	{
 		strID = "0" + strID;
 	}
@@ -2590,7 +2590,7 @@ void multiChoice(string& line, vector<unordered_map<string, bool>> groupOptionPi
 		bool none = true;
 		nextposition = 0;
 
-		for (int i = 0; i < choicecount; i++)
+		for (int i = 0; i < choicecount; ++i)
 		{
 			vecstr opt;
 			vector<char> storechar;
@@ -2928,7 +2928,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 					int position;
 					int openCounter = 0;
 
-					for (unsigned int i = 0; i < secondCondition.size(); i++)
+					for (unsigned int i = 0; i < secondCondition.size(); ++i)
 					{
 						if (secondCondition[i] == '(')
 						{

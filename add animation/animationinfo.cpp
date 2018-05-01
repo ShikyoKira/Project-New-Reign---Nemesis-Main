@@ -21,7 +21,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 
 	if (!noOption)
 	{
-		k++;
+		++k;
 		string anim = line.substr(1, line.length() - 1);
 		__int64 counter = count(anim.begin(), anim.end(), ',') + 1;
 		unordered_map<string, bool> optionList = behaviorOption.storelist;
@@ -97,7 +97,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 						bool loose = false;
 
 						// check on group / addon option
-						for (unsigned int j = 0; j < optionOrder[m].size(); j++)
+						for (unsigned int j = 0; j < optionOrder[m].size(); ++j)
 						{
 							if (optionOrder[m][j] != option[j])
 							{
@@ -125,7 +125,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 											bool isPassed = true;
 											string section = nonHeader;
 
-											for (unsigned int k = 0; k < joint[header].size(); k++)
+											for (unsigned int k = 0; k < joint[header].size(); ++k)
 											{
 												string newSection = section.substr(section.find(joint[header][k]) + 1);
 
@@ -147,7 +147,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 
 											isPassed = false;
 
-											for (unsigned int k = 0; k < addOn[header].size(); k++)
+											for (unsigned int k = 0; k < addOn[header].size(); ++k)
 											{
 												if (nonHeader.length() != 0)
 												{
@@ -248,7 +248,7 @@ void animationInfo::storeAnimObject(vecstr animobjects, string listFilename, int
 {
 	size_t position;
 
-	for (unsigned int i = 0; i < animobjects.size(); i++)
+	for (unsigned int i = 0; i < animobjects.size(); ++i)
 	{
 		position = animobjects[i].find("/");
 

@@ -58,7 +58,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 
 	strID = to_string(*nextFunctionID);
 
-	for (unsigned int i = 0; i < 4 - strID.length(); i++)
+	for (unsigned int i = 0; i < 4 - strID.length(); ++i)
 	{
 		strID = "0" + strID;
 	}
@@ -73,7 +73,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 	IsConditionOpened[0] = true;
 	generatedlines.reserve(furniturelines[behaviorFile].size() + 10 * memory);
 
-	for (unsigned int i = 0; i < furniturelines[behaviorFile].size(); i++)
+	for (unsigned int i = 0; i < furniturelines[behaviorFile].size(); ++i)
 	{
 		bool uniqueskip = false;
 		bool elementCatch = false;
@@ -457,7 +457,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 					bool word = false;
 					bool unknown = false;
 
-					for (unsigned int j = 0; j < curOrder.size(); j++)
+					for (unsigned int j = 0; j < curOrder.size(); ++j)
 					{
 						if (isalpha(curOrder[j]))
 						{
@@ -680,7 +680,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 					{
 						int counter = sameWordCount(line, "MID$");
 
-						for (int k = 0; k < counter; k++)
+						for (int k = 0; k < counter; ++k)
 						{
 							size_t MIDposition = line.find("MID$");
 							string ID = boost::regex_replace(string(line.substr(MIDposition)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
@@ -786,7 +786,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 						{
 							for (int optionMulti = 0; optionMulti < groupAnimInfo[animMulti]->optionPickedCount[multiOption]; ++optionMulti)
 							{
-								for (unsigned int k = 0; k < recorder.size(); k++)
+								for (unsigned int k = 0; k < recorder.size(); ++k)
 								{
 									string newline = recorder[k];
 
@@ -816,7 +816,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 										{
 											int counter = sameWordCount(newline, "MID$");
 
-											for (int k = 0; k < counter; k++)
+											for (int k = 0; k < counter; ++k)
 											{
 												size_t MIDposition = newline.find("MID$");
 												string ID = boost::regex_replace(string(newline.substr(MIDposition)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
@@ -1174,7 +1174,7 @@ inline void Furniture::newID()
 	(*nextFunctionID)++;
 	strID = to_string(*nextFunctionID);
 
-	for (unsigned int i = 0; i < 4 - strID.length(); i++)
+	for (unsigned int i = 0; i < 4 - strID.length(); ++i)
 	{
 		strID = "0" + strID;
 	}
@@ -1196,7 +1196,7 @@ void Furniture::storeAnimObject(vecstr animobjects, string listFilename, int lin
 {
 	size_t position;
 
-	for (unsigned int i = 0; i < animobjects.size(); i++)
+	for (unsigned int i = 0; i < animobjects.size(); ++i)
 	{
 		position = animobjects[i].find("/");
 
@@ -1279,7 +1279,7 @@ void Furniture::multiChoice(string& line, vecstr& storeline, vector<unordered_ma
 
 		nextposition = 0;
 
-		for (int i = 0; i < choicecount; i++)
+		for (int i = 0; i < choicecount; ++i)
 		{
 			vecstr opt;
 			vector<char> storechar;
@@ -1342,7 +1342,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 		size_t y = 0;
 		size_t backB = 0;
 
-		for (unsigned int i = 0; i < condition.size(); i++)
+		for (unsigned int i = 0; i < condition.size(); ++i)
 		{
 			if (condition[i] == '(')
 			{
@@ -1684,7 +1684,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 						int position;
 						int openCounter = 0;
 
-						for (unsigned int i = 0; i < secondCondition.size(); i++)
+						for (unsigned int i = 0; i < secondCondition.size(); ++i)
 						{
 							if (secondCondition[i] == '(')
 							{
@@ -1859,7 +1859,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 						int position;
 						int openCounter = 0;
 
-						for (unsigned int i = 0; i < secondCondition.size(); i++)
+						for (unsigned int i = 0; i < secondCondition.size(); ++i)
 						{
 							if (secondCondition[i] == '(')
 							{
@@ -2903,7 +2903,7 @@ void addOnReplacer(string& line, unordered_map<string, vecstr> addOn, ImportCont
 {
 	for (auto it = addOn.begin(); it != addOn.end(); ++it)
 	{
-		for (unsigned int j = 0; j < it->second.size(); j++)
+		for (unsigned int j = 0; j < it->second.size(); ++j)
 		{
 			if (line.find(it->first + "[" + it->second[j] + "]", 0) != string::npos)
 			{
@@ -3011,7 +3011,7 @@ void animObjectReplacer(string& line, unordered_map<int, string> AnimObject, int
 	{
 		int reference = sameWordCount(line, format + "[" + animNum + "][@AnimObject/");
 
-		for (int k = 0; k < reference; k++)
+		for (int k = 0; k < reference; ++k)
 		{
 			size_t nextpos = line.find(format + "[" + animNum + "][@AnimObject/");
 			string object = line.substr(nextpos);
@@ -3033,7 +3033,7 @@ void animObjectReplacer(string& line, unordered_map<int, string> AnimObject, int
 		string object = format + "[" + animNum + "]@AnimObject]";
 		reference = sameWordCount(line, object);
 
-		for (int k = 0; k < reference; k++)
+		for (int k = 0; k < reference; ++k)
 		{
 			line.replace(line.find(object), object.length(), AnimObject[id]);
 		}
@@ -3042,7 +3042,7 @@ void animObjectReplacer(string& line, unordered_map<int, string> AnimObject, int
 	{
 		int reference = sameWordCount(line, "@AnimObject/");
 
-		for (int k = 0; k < reference; k++)
+		for (int k = 0; k < reference; ++k)
 		{
 			size_t nextpos = line.find("@AnimObject/");
 			string object = line.substr(nextpos);
@@ -3063,7 +3063,7 @@ void animObjectReplacer(string& line, unordered_map<int, string> AnimObject, int
 
 		reference = sameWordCount(line, "@AnimObject");
 
-		for (int k = 0; k < reference; k++)
+		for (int k = 0; k < reference; ++k)
 		{
 			line.replace(line.find("@AnimObject"), 11, AnimObject[id]);
 		}
