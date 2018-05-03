@@ -35,8 +35,7 @@ vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int en
 	}
 	else
 	{
-		cout << "ERROR(2003): Missing file" << endl << "File: " << filename << endl << "StartLine: " << startline << endl << "EndLine: " << startline + endline << endl << endl;
-		error = true;
+		ErrorMessage(2002, filename, startline, startline + endline);
 		return storage;
 	}
 }
@@ -47,8 +46,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 	if (behaviorPath[behaviorfile].empty())
 	{
-		cout << "ERROR(2006): Missing behavior file. The behavior file name is in this format (\"Nemesis_<file name>.xml\") and it is located in the same path as the hkx counterpart. Please contact the mod author" << endl << "File: " << behaviorfile << endl << endl;
-		error = true;
+		ErrorMessage(2006, behaviorfile);
 		return false;
 	}
 
@@ -182,8 +180,8 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 		}
 		else
 		{
-			cout << "ERROR(2000): Failed to open file" << endl << "File: " << filename << endl << endl;
-			error = true;
+
+			ErrorMessage(2000, filename);
 			return false;
 		}
 		
@@ -267,8 +265,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 							if (error)
 							{
-								cout << "ERROR(2005): Missing edits" << endl << "File: " << "mod\\" << modcode << "\\" << behaviorfile << "\\" << nodefile << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
-								error = true;
+								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[to_string(linecount)]);
 								return false;
 							}
 
@@ -289,8 +286,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 							if (error)
 							{
-								cout << "ERROR(2005): Missing edits" << endl << "File: " << "mod\\" << modcode << "\\" << behaviorfile << "\\" << nodefile << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
-								error = true;
+								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[to_string(linecount)]);
 								return false;
 							}
 
@@ -346,8 +342,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 		}
 		else
 		{
-			cout << "ERROR(2001): Missing node ID" << endl << "Node ID: " << nodeID << endl << endl;
-			error = true;
+			ErrorMessage(2001, nodeID);
 			return false;
 		}
 
@@ -362,15 +357,13 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 		}
 		else
 		{
-			cout << "ERROR(2004): Invalid file name. File name must only contain #<modcode>$<id> or #<id>. Please contact the mod author" << endl << "File: mod\\" << modcode << "\\" + behaviorfile << "\\" << nodefile << endl << endl;
-			error = true;
+			ErrorMessage(2003, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile);
 			return false;
 		}
 	}
 	else
 	{
-		cout << "ERROR(2004): Invalid file name. File name must only contain #<modcode>$<id> or #<id>. Please contact the mod author" << endl << "File: mod\\" << modcode << "\\" + behaviorfile << "\\" << nodefile << endl << endl;
-		error = true;
+		ErrorMessage(2003, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile);
 		return false;
 	}
 
@@ -381,8 +374,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 {
 	if (behaviorPath[animdatafile].empty())
 	{
-		cout << "ERROR(2006): Missing behavior file. The behavior file name is in this format (\"Nemesis_<file name>.xml\") and it is located in the same path as the hkx counterpart. Please contact the mod author" << endl << "File: " << animdatafile << endl << endl;
-		error = true;
+		ErrorMessage(2007, animdatafile);
 		return false;
 	}
 
@@ -508,8 +500,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 			}
 			else
 			{
-				cout << "ERROR(3006): Invalid file name. Please enter a file name that is within the format. Please contact the mod author" << endl << "Character: " << characterfile << endl << "Header: " << fileparts[0] << endl << endl;
-				error = true;
+				ErrorMessage(3006, characterfile, fileparts[0]);
 				return false;
 			}
 
@@ -530,8 +521,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 						if (error)
 						{
-							cout << "ERROR(2005): Missing edits" << endl << "File: " << filepath << endl << "Line: " << modEditLine[to_string(linecount)] << endl << endl;
-							error = true;
+							ErrorMessage(2005, filepath, modEditLine[to_string(linecount)]);
 							return false;
 						}
 
@@ -629,8 +619,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 								if (position != AD::behaviorfilelist && position != AD::eventnamelist && position != AD::motiondatalist && position != AD::rotationdatalist)
 								{
-									cout << "ERROR(3018): Wrong format. Current line cannot be used to run NEW tab function. Only BehaviorFileList, EventNameList, MotionDataList, or RotationDataList can use NEW tab function. Please contact the mod author" << endl << "Mod: " << modcode << endl << "Character: " << characterfile << endl << "Header: " << filename << endl << endl;
-									error = true;
+									ErrorMessage(3018, modcode, characterfile, filename);
 									return false;
 								}
 							}
@@ -669,8 +658,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 					if (fileparts[0] != modcode + "$" + tempID || (!isOnlyNumber(fileparts[0]) && !boost::iequals(fileparts[0], "$header$") && !boost::iequals(fileparts[0], "$info header$")))
 					{
-						cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-						error = true;
+						ErrorMessage(2004, filepath);
 						return false;
 					}
 				}
@@ -680,8 +668,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 					if(fileparts[1] != modcode + "$" + tempID || (!hasAlpha(fileparts[0]) || !isOnlyNumber(fileparts[1])))
 					{
-						cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-						error = true;
+						ErrorMessage(2004, filepath);
 						return false;
 					}
 				}
@@ -691,15 +678,13 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 			}
 			else
 			{
-				cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-				error = true;
+				ErrorMessage(2004, filepath);
 				return false;
 			}
 		}
 		else
 		{
-			cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-			error = true;
+			ErrorMessage(2004, filepath);
 			return false;
 		}
 	}

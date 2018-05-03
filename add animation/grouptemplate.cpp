@@ -6,26 +6,6 @@ using namespace std;
 
 string zeroEvent;
 
-inline int sameWordCount(string line, string word)
-{
-	size_t nextWord = 0;
-	int wordCount = 0;
-
-	while (true)
-	{
-		nextWord = line.find(word, nextWord + 1);
-		if (nextWord != -1)
-		{
-			wordCount++;
-		}
-		else
-		{
-			break;
-		}
-	}
-	return wordCount;
-}
-
 groupTemplate::groupTemplate(vecstr grouptemplateformat)
 {
 	templatelines = grouptemplateformat;
@@ -70,8 +50,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 	// check error before initialization
 	if (subFunctionIDs.size() != groupAnimInfo.size() && groupCount != -1)
 	{
-		cout << ">> ERROR(1156): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Template: " << format << endl << endl;
-		error = true;
+		ErrorMessage(1156, format);
 		return functionline;
 	}
 
@@ -120,8 +99,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 		{
 			if (condition == 0)
 			{
-				cout << "ERROR(1118): Opening of condition is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1119, format, i + 1);
 				functionline.shrink_to_fit();
 				return functionline;
 			}
@@ -160,8 +138,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 		{
 			if (condition == 0)
 			{
-				cout << "ERROR(1120): Opening of condition is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1119, format, i + 1);
 				functionline.shrink_to_fit();
 				return functionline;
 			}
@@ -196,8 +173,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 		}
 		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "^ -->", 0) != string::npos || templatelines[i].find("<!-- NEW ^" + masterFormat + "_group^ -->", 0) != string::npos)
 		{
-			cout << "ERROR(1162): Basic new tab is not supported to access other template. Use multi new tab instead. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-			error = true;
+			ErrorMessage(1164, format, i + 1);
 			functionline.shrink_to_fit();
 			return functionline;
 		}
@@ -214,16 +190,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				}
 				else
 				{
-					cout << "ERROR(1115): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1115, format, i + 1);
 					functionline.shrink_to_fit();
 					return functionline;
 				}
 			}
 			else
 			{
-				cout << "ERROR(1159): Failure to access individual animation template. Master animation template has no access to individual animation template but group animation template. Please contact the template creator" << endl << "Template: " << format << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1159, format, i + 1);
 				functionline.shrink_to_fit();
 				return functionline;
 			}
@@ -243,16 +217,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				}
 				else
 				{
-					cout << "ERROR(1115): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1115, format, i + 1);
 					functionline.shrink_to_fit();
 					return functionline;
 				}
 			}
 			else
 			{
-				cout << "ERROR(1160): Failure to access group animation template. Group animation template has no access to other group animation template but individual animation template. Use import function instead. Please contact the template creator" << endl << "Template: " << format << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1160, format, i + 1);
 				functionline.shrink_to_fit();
 				return functionline;
 			}
@@ -272,8 +244,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				templatename = masterFormat + "_group";
 			}
 
-			cout << "ERROR(1164): Fail to access master animation template. Only existing node has access to master animation template. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-			error = true;
+			ErrorMessage(1163, format, i + 1);
 			functionline.shrink_to_fit();
 			return functionline;
 		}
@@ -375,14 +346,13 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				}
 				else
 				{
-					cout << "WARNING: General AnimObject cannot be used in non-multi new. Use Specific AnimObject instead. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
+					WarningMessage(1004, format, i + 1);
 					skip = true;
 				}
 			}
 			else
 			{
-				cout << "ERROR(1117): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1116, format, i + 1);
 				functionline.shrink_to_fit();
 				return functionline;
 			}
@@ -491,14 +461,13 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				}
 				else
 				{
-					cout << "WARNING: specific AnimObject cannot be used in multi new. Use \"AnimObject\" instead. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
+					WarningMessage(1005, format, i + 1);
 					skip = true;
 				}
 			}
 			else
 			{
-				cout << "ERROR(1115): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1115, format, i + 1);
 				functionline.shrink_to_fit();
 				return functionline;
 			}
@@ -570,8 +539,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 						if (intID >= int(fixedStateID.size()))
 						{
-							cout << "ERROR(1168): Invalid state number. State number must be smaller than number of root state registered in option_list.txt. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << "State: " << templine.substr(0, templine.find(")") + 1) << endl << endl;
-							error = true;
+							ErrorMessage(1168, format, i + 1, templine.substr(0, templine.find(")") + 1));
 							functionline.shrink_to_fit();
 							return functionline;
 						}
@@ -626,8 +594,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					}
 					else
 					{
-						cout << "ERROR(1136): Multiple computation function running concurrently detected. Only 1 computation function can be done at a time" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-						error = true;
+						ErrorMessage(1136, format, i + 1);
 						functionline.shrink_to_fit();
 						return functionline;
 					}
@@ -734,8 +701,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 							{
 								if (subFunctionIDs[0][curID].length() == 0)
 								{
-									cout << "ERROR(2105): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-									error = true;
+									ErrorMessage(2017, format, i + 1);
 									functionline.shrink_to_fit();
 									return functionline;
 								}
@@ -744,8 +710,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 							}
 							else
 							{
-								cout << "ERROR(2106): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << "ID: " << curID << endl << endl;
-								error = true;
+								ErrorMessage(2018, format, i + 1, curID);
 								functionline.shrink_to_fit();
 								return functionline;
 							}
@@ -763,8 +728,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 								{
 									if (subFunctionIDs[k][curID].length() == 0)
 									{
-										cout << "ERROR(2105): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-										error = true;
+										ErrorMessage(2017, format, i + 1);
 										functionline.shrink_to_fit();
 										return functionline;
 									}
@@ -774,8 +738,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 							}
 							else
 							{
-								cout << "ERROR(2106): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << "ID: " << curID << endl << endl;
-								error = true;
+								ErrorMessage(2018, format, i + 1, curID);
 								functionline.shrink_to_fit();
 								return functionline;
 							}
@@ -886,7 +849,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 										if (error)
 										{
-											cout << "ERROR(2113): Invalid equation. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << "Equation: $" << option << "$" << endl << endl;
+											ErrorMessage(2020, format, i + 1, "$" + option + "$");
 											functionline.shrink_to_fit();
 											return functionline;
 										}
@@ -962,8 +925,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 											if (intID >= int(fixedStateID.size()))
 											{
-												cout << "ERROR(1168): Invalid state. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-												error = true;
+												ErrorMessage(1127, format, i + 1);
 												functionline.shrink_to_fit();
 												return functionline;
 											}
@@ -1049,8 +1011,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
-													cout << "ERROR(2105): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-													error = true;
+													ErrorMessage(2017, format, i + 1);
 													functionline.shrink_to_fit();
 													return functionline;
 												}
@@ -1059,8 +1020,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 											}
 											else
 											{
-												cout << "ERROR(2106): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << "ID: " << curID << endl << endl;
-												error = true;
+												ErrorMessage(2018, format, i + 1, curID);
 												functionline.shrink_to_fit();
 												return functionline;
 											}
@@ -1076,8 +1036,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
-													cout << "ERROR(2105): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-													error = true;
+													ErrorMessage(2017, format, i + 1);
 													functionline.shrink_to_fit();
 													return functionline;
 												}
@@ -1086,8 +1045,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 											}
 											else
 											{
-												cout << "ERROR(2106): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << "ID: " << curID << endl << endl;
-												error = true;
+												ErrorMessage(2018, format, i + 1, curID);
 												functionline.shrink_to_fit();
 												return functionline;
 											}
@@ -1142,8 +1100,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 		{
 			if (condition == 0)
 			{
-				cout << "ERROR(1119): Unable to close condition. No opened condition is found. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1118, format, i + 1);
 				functionline.shrink_to_fit();
 				return functionline;
 			}
@@ -1193,8 +1150,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 	{
 		if (it->second)
 		{
-			cout << "ERROR(1108): Unresolved option section. Closing of option is required. Please contact the template creator" << endl << "Template: " << format << endl << endl;
-			error = true;
+			ErrorMessage(1120, format);
 			functionline.shrink_to_fit();
 			return functionline;
 			break;
@@ -1259,8 +1215,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 	// check error before initialization
 	if (subFunctionIDs.size() != groupAnimInfo.size() && !hasGroup && !groupAnimInfo[0]->ignoreGroup)
 	{
-		cout << ">> ERROR(1170): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << endl;
-		error = true;
+		ErrorMessage(1123, format + "(#" + to_string(curFunctionID) + ")");
 		return newFunctionLines;
 	}
 
@@ -1330,8 +1285,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 			}
 			else
 			{
-				cout << "ERROR(1121): Invalid condition. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1121, format, curFunctionID, i + 1);
 				return empty;
 			}
 
@@ -1341,8 +1295,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 		{
 			if (condition == 0)
 			{
-				cout << "ERROR(1118): Opening of condition is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1119, format, i + 1);
 				return empty;
 			}
 
@@ -1383,8 +1336,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 		{
 			if (condition == 0)
 			{
-				cout << "ERROR(1120): Opening of condition is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1119, format, i + 1);
 				return empty;
 			}
 
@@ -1429,15 +1381,13 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				}
 				else
 				{
-					cout << "ERROR(1115): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1115, format, i + 1);
 					return empty;
 				}
 			}
 			else
 			{
-				cout << "ERROR(1161): Failure to access individual animation template. Existing node can only access to the highest level of animation template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1161, format, curFunctionID, i + 1);
 				return empty;
 			}
 
@@ -1456,15 +1406,13 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				}
 				else
 				{
-					cout << "ERROR(1115): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1115, format, i + 1);
 					return empty;
 				}
 			}
 			else
 			{
-				cout << "ERROR(1167): Failure to access group animation template. Existing node can only access to the highest level of animation template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1167, format + "(#" + to_string(curFunctionID) + ")", i + 1);
 				return empty;
 			}
 
@@ -1483,15 +1431,13 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				}
 				else
 				{
-					cout << "ERROR(1115): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1115, format, i + 1);
 					return empty;
 				}
 			}
 			else
 			{
-				cout << "ERROR(1163): Failure to access master animation template. Master animation template not found. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1162, format + "(#" + to_string(curFunctionID) + ")", i + 1);
 				return empty;
 			}
 
@@ -1499,8 +1445,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 		}
 		else if (line.find("<!-- NEW ^" + format + "^ -->", 0) != string::npos || line.find("<!-- NEW ^" + format + "_group^ -->", 0) != string::npos || line.find("<!-- NEW ^" + format + "_master^ -->", 0) != string::npos)
 		{
-			cout << "ERROR(1162): Basic new tab is not supported to access other template. Use multi new tab instead. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-			error = true;
+			ErrorMessage(1164, format + "(#" + to_string(curFunctionID) + ")", i + 1);
 			return empty;
 		}
 		else if (line.find("<!-- NEW ^", 0) != string::npos && line.find("^ -->", 0) != string::npos && IsConditionOpened[condition])
@@ -1528,8 +1473,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 					if (formatInfo[2] == "AnimObject")
 					{
-						cout << "ERROR(1153): Invalid element. Specifying the AnimObject is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << "Option: " << curOption << endl << endl;
-						error = true;
+						ErrorMessage(1129, format, curFunctionID, i + 1, curOption);
 						return empty;
 					}
 
@@ -1561,8 +1505,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 			}
 			else
 			{
-				cout << "ERROR(1117): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1116, format, i + 1);
 				return empty;
 			}
 
@@ -1619,8 +1562,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 			}
 			else
 			{
-				cout << "ERROR(1115): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1115, format, i + 1);
 				return empty;
 			}
 
@@ -1679,8 +1621,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					}
 					else
 					{
-						cout << ">> ERROR(2103): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-						error = true;
+						ErrorMessage(2019, format + "(#" + to_string(curFunctionID) + ")", i + 1);
 						return empty;
 					}
 				}
@@ -1800,8 +1741,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 								if (curLine.find("<hkparam name=\"") != string::npos && curLine.find("numelements=\"") != string::npos && curLine.find("</hkparam>") == string::npos && curLine.find("<!-- COMPUTE -->", 0) != string::npos)
 								{
-									cout << "ERROR(1140): Unable to call computation function within multi new tab. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-									error = true;
+									ErrorMessage(1140, format, curFunctionID, linecount);
 									return empty;
 								}
 
@@ -1856,8 +1796,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
-													cout << "ERROR(2102): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
-													error = true;
+													ErrorMessage(2011, format + "(#" + to_string(curFunctionID) + ")", linecount, curID);
 													return empty;
 												}
 
@@ -1865,8 +1804,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											}
 											else
 											{
-												cout << "ERROR(2104): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
-												error = true;
+												ErrorMessage(2012, format + "(#" + to_string(curFunctionID) + ")", linecount, curID);
 												return empty;
 											}
 										}
@@ -1881,8 +1819,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
-													cout << "ERROR(2102): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
-													error = true;
+													ErrorMessage(2011, format + "(#" + to_string(curFunctionID) + ")", linecount, curID);
 													return empty;
 												}
 
@@ -1890,8 +1827,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											}
 											else
 											{
-												cout << "ERROR(2104): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
-												error = true;
+												ErrorMessage(2012, format + "(#" + to_string(curFunctionID) + ")", linecount, curID);
 												return empty;
 											}
 
@@ -1907,8 +1843,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
-													cout << "ERROR(2102): Unknown ID found in template. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
-													error = true;
+													ErrorMessage(2011, format + "(#" + to_string(curFunctionID) + ")", linecount, curID);
 													return empty;
 												}
 
@@ -1916,8 +1851,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											}
 											else
 											{
-												cout << "ERROR(2104): Incomplete ID found in template. Please contact the template creator " << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "ID: " << curID << endl << endl;
-												error = true;
+												ErrorMessage(2012, format + "(#" + to_string(curFunctionID) + ")", linecount, curID);
 												return empty;
 											}
 
@@ -1982,8 +1916,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 		{
 			if (condition == 0)
 			{
-				cout << "ERROR(1119): Unable to close condition. No opened condition is found. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << i + 1 << endl << endl;
-				error = true;
+				ErrorMessage(1118, format, i + 1);
 				return empty;
 			}
 
@@ -2018,8 +1951,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 	{
 		if (it->second)
 		{
-			cout << "ERROR(1108): Unresolved option section. Closing of option is required. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << endl;
-			error = true;
+			ErrorMessage(1120, format);
 			return empty;
 		}
 	}
@@ -2068,8 +2000,7 @@ void groupTemplate::stateReplacer(string& line, string statenum, int stateID, in
 
 				if (ID >= int((*nextStateID).size()))
 				{
-					cout << "ERROR(1168): Invalid state number. State number must be smaller than number of root state registered in option_list.txt. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << state << endl << endl;
-					error = true;
+					ErrorMessage(1168, format, linecount, state);
 					return;
 				}
 
@@ -2080,7 +2011,7 @@ void groupTemplate::stateReplacer(string& line, string statenum, int stateID, in
 			}
 			else
 			{
-				cout << "ERROR(2108): Invalid state. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << state << endl << endl;
+				ErrorMessage(1137, format, linecount, state);
 				return;
 			}
 		}
@@ -2147,8 +2078,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 
 							if (stoi(equation) > int(groupAnimInfo.size() - 1) || stoi(equation) < 0)
 							{
-								cout << "ERROR(1155): Invalid order number. Enter number from 0 to " << groupAnimInfo.size() - 1 << ". Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
-								error = true;
+								ErrorMessage(1155, groupAnimInfo.size() - 1, format, linecount, change);
 								return;
 							}
 
@@ -2227,8 +2157,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 				{
 					if (bracketCount != altBracketCount)
 					{
-						cout << "ERROR(2109): Invalid import input. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << endl;
-						error = true;
+						ErrorMessage(2013, format, linecount);
 						return;
 					}
 
@@ -2340,8 +2269,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 
 							if (stoi(equation) > int(groupAnimInfo.size() - 1) || stoi(equation) < 0)
 							{
-								cout << "ERROR(1148): \"Minimum\" in option_list.txt must be used and contain larger value than the 1st element being used. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
-								error = true;
+								ErrorMessage(1148, format, linecount, change);
 								return;
 							}
 
@@ -2360,8 +2288,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 				{
 					if (change.find(format + "[][File]", 0) != string::npos)
 					{
-						cout << "ERROR(1052): Invalid element. Only \"F\" or \"L\" is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-						error = true;
+						ErrorMessage(1052, format, linecount, line);
 						return;
 					}
 
@@ -2373,8 +2300,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 
 					if (change.find(format + "[N][File]", 0) != string::npos)
 					{
-						cout << "ERROR(1056): Invalid elmenent. Only \"F\" \"L\", or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-						error = true;
+						ErrorMessage(1056, format, linecount, line);
 						return;
 					}
 
@@ -2397,8 +2323,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 							}
 							else
 							{
-								cout << "ERROR(1148): \"Minimum\" in option_list.txt must be used and contain larger value than the 1st element being used. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
-								error = true;
+								ErrorMessage(1148, format, linecount, change);
 								return;
 							}
 						}
@@ -2413,7 +2338,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 
 				if (error)
 				{
-					cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+					ErrorMessage(2014, format + "(#" + to_string(curFunctionID) + ")", linecount);
 					return;
 				}
 
@@ -2425,7 +2350,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 
 				if (error)
 				{
-					cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+					ErrorMessage(2014, format + "(#" + to_string(curFunctionID) + ")", linecount);
 					return;
 				}
 
@@ -2437,7 +2362,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 
 				if (error)
 				{
-					cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+					ErrorMessage(2014, format + "(#" + to_string(curFunctionID) + ")", linecount);
 					return;
 				}
 
@@ -2449,7 +2374,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 
 				if (error)
 				{
-					cout << "ERROR(2111): Unknown reference. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
+					ErrorMessage(2014, format + "(#" + to_string(curFunctionID) + ")", linecount);
 					return;
 				}
 			}
@@ -2508,8 +2433,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 				{
 					if (bracketCount != altBracketCount)
 					{
-						cout << "ERROR(2109): Invalid import input. Please contact the template creator" << endl << "Template: " << format << "(#" << curFunctionID << ")" << endl << "Line: " << linecount << endl << endl;
-						error = true;
+						ErrorMessage(2013, format + "(#" + to_string(curFunctionID) + ")", linecount);
 						return;
 					}
 
@@ -2582,8 +2506,7 @@ void multiChoice(string& line, vector<unordered_map<string, bool>> groupOptionPi
 
 		if (line.find("*", 0) != string::npos || line.find("@", 0) != string::npos || line.find("%", 0) != string::npos)
 		{
-			cout << "ERROR(2110): Invalid character input detected" << endl << "Template: " << templatename << endl << "Line: " << numline << endl << endl;
-			error = true;
+			ErrorMessage(2015, templatename, numline);
 			return;
 		}
 
@@ -2616,8 +2539,7 @@ void multiChoice(string& line, vector<unordered_map<string, bool>> groupOptionPi
 			}
 			else
 			{
-				cout << "ERROR(2112): Invalid template condition" << endl << "Template: " << templatename << endl << "Line: " << numline << endl << endl;
-				error = true;
+				ErrorMessage(2016, templatename, numline);
 				return;
 			}
 		}
@@ -2646,7 +2568,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 
 		bool inHouseResult;
 
-		if (x == 4294967295 && y == 4294967295)
+		if (x == NOT_FOUND && y == NOT_FOUND)
 		{
 			bool isNot = false;
 
@@ -2673,7 +2595,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				inHouseResult = isNot;
 			}
 		}
-		else if (x == 4294967295 || (x > y && y != 4294967295))
+		else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 		{
 			string firstCondition = inHouse.substr(0, inHouse.find("|"));
 			string secondCondition = inHouse.substr(inHouse.find("|") + 1);
@@ -2706,7 +2628,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				inHouseResult = true;
 			}
 		}
-		else if (y == 4294967295 || (x < y && x != 4294967295))
+		else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
 		{
 			string firstCondition = inHouse.substr(0, inHouse.find("&"));
 			string tempSecondCondition = inHouse.substr(inHouse.find("&") + 1);
@@ -2729,7 +2651,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 			size_t x = tempSecondCondition.find("&");
 			size_t y = tempSecondCondition.find("|");
 
-			if ((x == 4294967295 || x > y) && y != 4294967295)
+			if ((x == NOT_FOUND || x > y) && y != NOT_FOUND)
 			{
 				secondCondition = tempSecondCondition.substr(0, tempSecondCondition.find("|"));
 				tempSecondCondition = tempSecondCondition.substr(tempSecondCondition.find("|") + 1);
@@ -2792,8 +2714,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 		}
 		else
 		{
-			cout << "ERROR(1105): Invalid template condition" << endl << "Template: " << templatename << endl << "Line: " << numline << endl << endl;
-			error = true;
+			ErrorMessage(1105, templatename, numline);
 			return false;
 		}
 
@@ -2802,11 +2723,11 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 		x = outHouse.find("&");
 		y = outHouse.find("|");
 
-		if (x == 4294967295 && y == 4294967295)
+		if (x == NOT_FOUND && y == NOT_FOUND)
 		{
 			return inHouseResult;
 		}
-		else if (x == 4294967295 || (x > y && y != 4294967295))
+		else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 		{
 			string secondCondition = outHouse.substr(outHouse.find("|") + 1);
 
@@ -2815,7 +2736,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				return true;
 			}
 		}
-		else if (y == 4294967295 || (x < y && x != 4294967295))
+		else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
 		{
 			string secondCondition = inHouse.substr(inHouse.find("&") + 1);
 
@@ -2826,8 +2747,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 		}
 		else
 		{
-			cout << "ERROR(1106): Invalid template condition" << endl << "Template: " << templatename << endl << "Line: " << numline << endl << "Condition: " << condition << endl << endl;
-			error = true;
+			ErrorMessage(1106, templatename, numline, condition);
 			return false;
 		}
 	}
@@ -2836,7 +2756,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 		size_t x = condition.find("&");
 		size_t y = condition.find("|");
 
-		if (x == 4294967295 && y == 4294967295)
+		if (x == NOT_FOUND && y == NOT_FOUND)
 		{
 			string conditionOrder = condition;
 			bool isNot = false;
@@ -2863,7 +2783,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				return isNot;
 			}
 		}
-		else if (x == 4294967295 || (x > y && y != 4294967295))
+		else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 		{
 			string firstCondition = condition.substr(0, condition.find("|"));
 			string secondCondition = condition.substr(condition.find("|") + 1);
@@ -2902,7 +2822,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				return true;
 			}
 		}
-		else if (y == 4294967295 || (x < y && x != 4294967295))
+		else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
 		{
 			string firstCondition = condition.substr(0, condition.find("&"));
 			string secondCondition = condition.substr(condition.find("&") + 1);
@@ -2921,7 +2841,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 				return false;
 			}
 
-			if (y != 4294967295)
+			if (y != NOT_FOUND)
 			{
 				if (secondCondition[0] == '(')
 				{
@@ -3020,8 +2940,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 						}
 						else
 						{
-							cout << "ERROR(1101): Invalid template condition" << endl << "Template: " << templatename << endl << "Line: " << numline << endl << endl;
-							error = true;
+							ErrorMessage(1101, templatename, numline);
 							return false;
 						}
 					}
@@ -3031,7 +2950,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 					x = secondCondition.find("&");
 					y = secondCondition.find("|");
 
-					if (x == 4294967295 && y == 4294967295)
+					if (x == NOT_FOUND && y == NOT_FOUND)
 					{
 						if (curOptionPicked[stoi(optionInfo[1])][optionInfo[2]])
 						{
@@ -3104,7 +3023,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 							}
 						}
 					}
-					else if (x == 4294967295 || (x > y && y != 4294967295))
+					else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 					{
 						size_t position = secondCondition.find("|") + 1;
 						string thirdCondition = secondCondition.substr(position);
@@ -3136,7 +3055,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 							return true;
 						}
 					}
-					else if (y == 4294967295 || (x < y && x != 4294967295))
+					else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
 					{
 						size_t position = secondCondition.find("&") + 1;
 						string thirdCondition = secondCondition.substr(position);
@@ -3165,8 +3084,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 					}
 					else
 					{
-						cout << "ERROR(1103): Invalid template condition" << endl << "Template: " << templatename << endl << "Line: " << numline << endl << endl;
-						error = true;
+						ErrorMessage(1103, templatename, numline);
 						return false;
 					}
 				}
@@ -3194,8 +3112,7 @@ bool newCondition(string condition, vector<unordered_map<string, bool>> curOptio
 		}
 		else
 		{
-			cout << "ERROR(1102): Invalid template condition" << endl << "Template: " << templatename << endl << "Line: " << numline << endl << endl;
-			error = true;
+			ErrorMessage(1102, templatename, numline);
 			return false;
 		}
 	}
@@ -3284,8 +3201,7 @@ void formatReplace(string& curline, string format, SSMap subFunctionIDs, vector<
 	{
 		if (optionMulti == -1)
 		{
-			cout << ">> ERROR(1162): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Template: " << format << endl << "Line: " << linecount << endl << endl;
-			error = true;
+			ErrorMessage(1128, format, linecount);
 			return;
 		}
 
@@ -3299,8 +3215,7 @@ void formatReplace(string& curline, string format, SSMap subFunctionIDs, vector<
 
 	if (subFunctionIDs[subFunction].length() == 0 || groupline.size() < 3)
 	{
-		cout << "ERROR(1158): Invalid function call. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Function call: " << curline << endl << endl;
-		error = true;
+		ErrorMessage(1158, format, linecount, curline);
 		return;
 	}
 

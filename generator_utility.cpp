@@ -33,8 +33,7 @@ vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 
 				if (!rightFunction)
 				{
-					cout << ">> ERROR(1077): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Function ID: " << it->second << endl << endl;
-					error = true;
+					ErrorMessage(1077);
 					return stateID;
 				}
 				else if (open)
@@ -74,8 +73,7 @@ vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 	}
 	else
 	{
-		cout << ">> ERROR(1078): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-		error = true;
+		ErrorMessage(1078);
 		return stateID;
 	}
 	
@@ -154,8 +152,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 		if (path.length() == 0)
 		{
-			cout << "ERROR(1050): Unregistered behavior path detected. Perform \"Update Patcher\" operation to fix this" << endl << "Behavior :" << it->first << endl << endl;
-			error = true;
+			ErrorMessage(1050, it->first);
 			return list;
 		}
 
@@ -167,7 +164,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 		}
 		else
 		{
-			cout << "WARNING: Behavior located in non-standard path detected. Following behavior will be ignored" << endl << "Behavior: " << it->first << endl << "Path: " << path << endl << endl;
+			WarningMessage(1007, it->first, path);
 		}
 	}
 
@@ -210,8 +207,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 						if (!isFileExist(modBehavior))
 						{
-							cout << "ERROR(1082): " << behaviorfile << " not found. Please contact the mod author" << endl << "File Path: " << modBehavior << endl << endl;
-							error = true;
+							ErrorMessage(1082, behaviorfile, modBehavior);
 							return list;
 						}
 
@@ -287,8 +283,7 @@ void GetBehaviorPath()
 								}
 								else
 								{
-									cout << "ERROR(1067): Invalid input. Only 2 elements are acceptable with the first element being the file name and second element being the file path" << endl << "File: " << filename << "Line: " << linecount << endl << endl;
-									error = true;
+									ErrorMessage(1067, filename, linecount);
 									fclose(pathFile);
 									return;
 								}
@@ -299,8 +294,7 @@ void GetBehaviorPath()
 						}
 						else
 						{
-							cout << "ERROR(1067): Invalid input. Only 2 elements are acceptable with the first element being the file name and second element being the file path" << endl << "File: " << filename << "Line: " << linecount << endl << endl;
-							error = true;
+							ErrorMessage(1067, filename, linecount);
 							fclose(pathFile);
 							return;
 						}
@@ -310,8 +304,7 @@ void GetBehaviorPath()
 		}
 		else
 		{
-			cout << "ERROR(2602): Unable to open file" << endl << "File: " << filename << endl << endl;
-			error = true;
+			ErrorMessage(2000, filename);
 			return;
 		}
 
@@ -319,8 +312,7 @@ void GetBehaviorPath()
 	}
 	else
 	{
-		cout << "ERROR(1068): Missing \"" << filename << "\" file. Perform \"Update Patcher\" operation to fix this" << endl << "File :" << filename << endl << endl;
-		error = true;
+		ErrorMessage(1068, filename);
 		return;
 	}
 }
@@ -354,8 +346,7 @@ void GetAnimData()
 				{
 					if (line.length() == 0)
 					{
-						cout << "ERROR(3009): Invalid format detected in animationdata_list.txt. Please re-run Update Pathcer to fix it" << endl;
-						error = true;
+						ErrorMessage(3019);
 						return;
 					}
 
@@ -364,8 +355,7 @@ void GetAnimData()
 
 					if (characterHeaders.find(character) != characterHeaders.end())
 					{
-						cout << "ERROR(3010): Duplicated character detected in animationdata_list.txt. Please re-run Update Pathcer to fix it" << endl << "Character: " << character << endl << endl;
-						error = true;
+						ErrorMessage(3010, character);
 						return;
 					}
 				}
@@ -377,8 +367,7 @@ void GetAnimData()
 				{
 					if (characterHeaders[character].find(line) != characterHeaders[character].end())
 					{
-						cout << "ERROR(3008): Duplicated header detected in animationdata_list.txt. Please re-run Update Pathcer to fix it" << endl << "Character: " << character << endl << endl;
-						error = true;
+						ErrorMessage(3008, character);
 						return;
 					}
 					
@@ -388,8 +377,7 @@ void GetAnimData()
 		}
 		else
 		{
-			cout << "ERROR(2602): Unable to open file" << endl << "File: " << filename << endl << endl;
-			error = true;
+			ErrorMessage(2000, filename);
 			return;
 		}
 
@@ -397,8 +385,7 @@ void GetAnimData()
 	}
 	else
 	{
-		cout << "ERROR(1068): Missing \"" << filename << "\" file. Perform \"Update Patcher\" operation to fix this" << endl << "File :" << filename << endl << endl;
-		error = true;
+		ErrorMessage(1068, filename);
 		return;
 	}
 }
@@ -451,8 +438,8 @@ void characterHKX(string directory, string filename)
 	}
 	else
 	{
-		cout << "ERROR(3002): Failed to open behavior template" << endl << "File: " << directory << filename << endl << endl;
-		error = true;
+
+		ErrorMessage(3002, directory + filename);
 		return;
 	}
 }

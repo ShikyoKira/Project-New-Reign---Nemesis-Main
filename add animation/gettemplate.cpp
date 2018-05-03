@@ -20,8 +20,7 @@ getTemplate::getTemplate()
 
 			if (boost::iequals(codelist[k], "t") || boost::iequals(codelist[k], "aaprefix") || boost::iequals(codelist[k], "aaset") || boost::iequals(codelist[k], "md") || boost::iequals(codelist[k], "rd") || boost::iequals(codelist[k], "+"))
 			{
-				cout << "ERROR(3009): Unable to use " << codelist[k] << " as animation code. " << codelist[k] << " has been registered into the engine by default. Please contact the template creator" << endl << "Animation Code: " << codelist[k] << endl << endl;
-				error = true;
+				ErrorMessage(3009, codelist[k]);
 				return;
 			}
 
@@ -98,8 +97,7 @@ getTemplate::getTemplate()
 									}
 									else
 									{
-										cout << "ERROR(1019): Duplicated template file detected. Please contact the template creator" << endl << "File: " << newpath << endl << endl;
-										error = true;
+										ErrorMessage(1019, newpath);
 										return;
 									}
 								}
@@ -117,8 +115,7 @@ getTemplate::getTemplate()
 									}
 									else
 									{
-										cout << "ERROR(1019): Duplicated template file detected. Please contact the template creator" << endl << "File: " << newpath << endl << endl;
-										error = true;
+										ErrorMessage(1019, newpath);
 										return;
 									}
 								}
@@ -138,8 +135,7 @@ getTemplate::getTemplate()
 									}
 									else
 									{
-										cout << "ERROR(1019): Failed to identify template file. Please contact the template creator" << endl << "File: " << newpath << endl << endl;
-										error = true;
+										ErrorMessage(1059, newpath);
 										return;
 									}
 								}
@@ -200,14 +196,12 @@ getTemplate::getTemplate()
 						{
 							if (isStateJoint[lowerBehaviorFolder].size() == 0)
 							{
-								cout << "ERROR(1074): Joint not found. Animation will not work. Please contact the template creator" << endl << "File: " << templateDirectory << codelist[k] << "\\option_list.txt" << endl << endl;
-								error = true;
+								ErrorMessage(1074, templateDirectory + codelist[k]);
 								return;
 							}
 							else if (isStateJoint[lowerBehaviorFolder].size() != optionlist[codelist[k]].multiState[lowerBehaviorFolder].size())
 							{
-								cout << "ERROR(1073): Potential wrong or missing state reference. All joints must be registered in option_list.txt when using multi joints. Please contact the template creator" << endl << "File: " << templateDirectory << codelist[k] << "\\option_list.txt" << endl << endl;
-								error = true;
+								ErrorMessage(1073, templateDirectory + codelist[k]);
 								return;
 							}
 
@@ -219,8 +213,7 @@ getTemplate::getTemplate()
 								}
 								else
 								{
-									cout << "ERROR(1075): Missing state reference detected. All joints must be registered in option_list.txt when using multi joints. Please contact the template creator" << endl << "File: " << templateDirectory << codelist[k] << "\\option_list.txt" << endl << endl;
-									error = true;
+									ErrorMessage(1075, templateDirectory + codelist[k]);
 									return;
 								}
 							}
@@ -229,19 +222,17 @@ getTemplate::getTemplate()
 						{
 							if (optionlist[codelist[k]].multiState[lowerBehaviorFolder].size() == 1)
 							{
-								cout << "WARNING: Only 1 State Machine detected. Multi StateMachine ignored. Please contact the template creator" << endl << "File: " << templateDirectory << codelist[k] << "\\option_list.txt" << endl << endl;
+								WarningMessage(1008, templateDirectory + codelist[k] + "\\option_list.txt");
 							}
 
 							if (isStateJoint[lowerBehaviorFolder].size() > 1)
 							{
-								cout << "ERROR(1072): Potential wrong state reference. Template containing multiple StateMachine joints requires registration in option_list.txt to work. Please contact the template creator" << endl << "File: " << templateDirectory << codelist[k] << "\\option_list.txt" << endl << endl;
-								error = true;
+								ErrorMessage(1072, templateDirectory + codelist[k]);
 								return;
 							}
 							else if (isStateJoint[lowerBehaviorFolder].size() == 0)
 							{
-								cout << "ERROR(1074): Joint not found. Animation will not work. Please contact the template creator" << endl << "File: " << templateDirectory << codelist[k] << "\\option_list.txt" << endl << endl;
-								error = true;
+								ErrorMessage(1074, templateDirectory + codelist[k]);
 								return;
 							}
 
@@ -255,15 +246,13 @@ getTemplate::getTemplate()
 							{
 								if (optionlist[codelist[k]].groupMin != -1 || optionlist[codelist[k]].ruleOne.size() != 0 || optionlist[codelist[k]].ruleTwo.size() != 0)
 								{
-									cout << "ERROR(1061): " << codelist[k] << "_group.txt file cannot be found. Please contact the template creator" << endl << "File Path: " << templateDirectory << behaviorFolder << "\\" << codelist[k] << endl << endl;
-									error = true;
+									ErrorMessage(1061, codelist[k], templateDirectory + behaviorFolder + "\\" + codelist[k]);
 									return;
 								}
 
 								if (behaviortemplate[codelist[k] + "_master"].size() != 0)
 								{
-									cout << "ERROR(1033): Missing group animation template. Master animation template is only available to group animation template. Please contact the template creator" << endl << "File Path: " << templateDirectory << behaviorFolder << "\\" << codelist[k] << endl << endl;
-									error = true;
+									ErrorMessage(1085, templateDirectory + behaviorFolder + "\\" + codelist[k]);
 									return;
 								}
 							}
@@ -272,8 +261,7 @@ getTemplate::getTemplate()
 						{
 							if (optionlist[codelist[k]].ignoreGroup)
 							{
-								cout << "ERROR(1079): " << codelist[k] << "_group.txt detected. Conflict with ignore_group condition in option_list.txt. Please contact the template creator" << endl << "File Path: " << templateDirectory << codelist[k] << "\\option_list.txt" << endl << endl;
-								error = true;
+								ErrorMessage(1079, codelist[k], templateDirectory + codelist[k] + "\\option_list.txt");
 								return;
 							}
 						}
@@ -328,8 +316,7 @@ getTemplate::getTemplate()
 										}
 										else
 										{
-											cout << "ERROR(1019): Failed to identify template file. Please contact the template creator" << endl << "File: " << newpath << endl << endl;
-											error = true;
+											ErrorMessage(1059, newpath);
 											return;
 										}
 									}
@@ -345,21 +332,18 @@ getTemplate::getTemplate()
 										{
 											if (fileparts.size() == 1 && !isOnlyNumber(fileparts[0]))
 											{
-												cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << newpath << endl << endl;
-												error = true;
+												ErrorMessage(2004, newpath);
 												return;
 											}
 											else if (fileparts.size() == 2 && (!hasAlpha(fileparts[0]) || !isOnlyNumber(fileparts[1])))
 											{
-												cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << newpath << endl << endl;
-												error = true;
+												ErrorMessage(2004, newpath);
 												return;
 											}
 
 											if (characterHeaders.find(characlist[l]) == characterHeaders.end())
 											{
-												cout << "ERROR(3011): Unregistered character detected. Please re-run Update Patcher to fix it" << endl << "Character: " << animDataPath << "\\" << characlist[l] << endl << endl;
-												error = true;
+												ErrorMessage(3011, animDataPath + "\\" + characlist[i]);
 												return;
 											}
 
@@ -374,8 +358,7 @@ getTemplate::getTemplate()
 											}
 											else
 											{
-												cout << "ERROR(1019): Duplicated template file detected. Please contact the template creator" << endl << "File: " << newpath << endl << endl;
-												error = true;
+												ErrorMessage(1019, newpath);
 												return;
 											}
 										}
@@ -388,8 +371,7 @@ getTemplate::getTemplate()
 
 				if (!isOptionExist && registered)
 				{
-					cout << "ERROR(1021): Missing option list file. Please contact the template creator" << endl << "File: " << newpath << endl << endl;
-					error = true;
+					ErrorMessage(1021, newpath);
 					return;
 				}
 				

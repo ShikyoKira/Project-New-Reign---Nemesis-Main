@@ -5,7 +5,6 @@
 using namespace std;
 
 bool debug = false;
-bool error = false;
 int memory = 100;
 int fixedkey[257];
 
@@ -73,8 +72,7 @@ size_t fileLineCount(string filepath)
 	}
 	else
 	{
-		cout << "ERROR(1002): Failed to compute file size" << endl << "File: " << filepath << endl << endl;
-		error = true;
+		ErrorMessage(1002, filepath);
 		return 0;
 	}
 }
@@ -116,27 +114,30 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
 	}
 	else
 	{
-		cout << "ERROR(3000): Fail to create bug report. Report to Nemesis' author." << endl;
-		error = true;
+		ErrorMessage(3000);
 	}
 }
 
 inline int sameWordCount(string line, string word)
 {
-	size_t nextWord = 0;
+	size_t nextWord = -1;
 	int wordCount = 0;
+
 	while (true)
 	{
 		nextWord = line.find(word, nextWord + 1);
-		if (nextWord != -1)
+
+		if (nextWord != NOT_FOUND)
 		{
 			wordCount++;
 		}
 		else
 		{
+			nextWord = -1;
 			break;
 		}
 	}
+
 	return wordCount;
 }
 
@@ -176,14 +177,12 @@ vecstr GetFunctionLines(string filename)
 		}
 		else
 		{
-			cout << "ERROR(3002): Failed to open file" << endl << "File: " << filename << endl << endl;
-			error = true;
+			ErrorMessage(3002, filename);
 		}
 	}
 	else
 	{
-		cout << "ERROR(3001): Unknown file format" << endl << "File: " << filename << endl << endl;
-		error = true;
+		ErrorMessage(3001, filename);
 	}
 
 	if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == string::npos && functionlines.back().find("<!-- CLOSE -->") == string::npos)
@@ -196,15 +195,8 @@ vecstr GetFunctionLines(string filename)
 
 size_t wordFind(string line, string word, bool isLast)
 {
-	if (hasAlpha(line))
-	{
-		boost::algorithm::to_lower(line);
-	}
-
-	if (hasAlpha(word))
-	{
-		boost::algorithm::to_lower(word);
-	}
+	boost::algorithm::to_lower(line);
+	boost::algorithm::to_lower(word);
 
 	if (line.find(word) == string::npos)
 	{
@@ -214,9 +206,9 @@ size_t wordFind(string line, string word, bool isLast)
 	if (isLast)
 	{
 		size_t pos = 0;
-		__int64 ref = sameWordCount(line, word);
+		int ref = sameWordCount(line, word);
 
-		for (__int64 i = 0; i < ref; ++i)
+		for (int i = 0; i < ref; ++i)
 		{
 			pos = line.find(word, pos + 1);
 		}
@@ -229,12 +221,13 @@ size_t wordFind(string line, string word, bool isLast)
 
 bool isOnlyNumber(string line)
 {
-	for (unsigned int j = 0; j < line.length(); ++j)
+	try
 	{
-		if (!isalnum(line[j]) || isalpha(line[j]))
-		{
-			return false;
-		}
+		boost::lexical_cast<double>(line);
+	}
+	catch (boost::bad_lexical_cast &)
+	{
+		return false;
 	}
 
 	return true;
@@ -242,12 +235,12 @@ bool isOnlyNumber(string line)
 
 bool hasAlpha(string line)
 {
-	for (unsigned int j = 0; j < line.length(); ++j)
+	string lower = boost::to_lower_copy(line);
+	string upper = boost::to_upper_copy(line);
+
+	if (lower != upper)
 	{
-		if (isalpha(line[j]))
-		{
-			return true;
-		}
+		return true;
 	}
 
 	return false;

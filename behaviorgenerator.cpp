@@ -332,8 +332,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					}
 					else
 					{
-						cout << ">> ERROR(1165): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-						error = true;
+						ErrorMessage(1165);
 						return;
 					}
 				}
@@ -474,7 +473,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 								{
 									if (isExist[*it])
 									{
-										cout << "WARNING: Duplicated event name found" << endl << "Event Name: " << *it << endl << endl;
+										WarningMessage(1010, *it);
 									}
 									else
 									{
@@ -503,8 +502,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 								}
 								else
 								{
-									cout << ">> ERROR(1031): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-									error = true;
+									ErrorMessage(1031);
 									return;
 								}
 							}
@@ -519,7 +517,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 									{
 										if (isExist[*it])
 										{
-											cout << "WARNING: Duplicated event name found" << endl << "Event Name: " << *it << endl << endl;
+											WarningMessage(1010, *it);
 										}
 										else
 										{
@@ -548,8 +546,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 									}
 									else
 									{
-										cout << ">> ERROR(1031): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-										error = true;
+										ErrorMessage(1031);
 										return;
 									}
 								}
@@ -572,7 +569,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 								{
 									if (isExist[variablename])
 									{
-										cout << "WARNING: Duplicated variable name found" << endl << "Event Name: " << variablename << endl << endl;
+										WarningMessage(1011, variablename);
 									}
 									else
 									{
@@ -614,8 +611,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 								}
 								else
 								{
-									cout << ">> ERROR(1032): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-									error = true;
+									ErrorMessage(1032);
 									return;
 								}
 							}
@@ -632,7 +628,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 									{
 										if (isExist[variablename])
 										{
-											cout << "WARNING: Duplicated variable name found" << endl << "Event Name: " << variablename << endl << endl;
+											WarningMessage(1011, variablename);
 										}
 										else
 										{
@@ -674,8 +670,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 									}
 									else
 									{
-										cout << ">> ERROR(1032): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-										error = true;
+										ErrorMessage(1032);
 										return;
 									}
 								}
@@ -751,8 +746,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 														}
 														else
 														{
-															cout << ">> ERROR(1067): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-															error = true;
+															ErrorMessage(1058);
 															return;
 														}
 
@@ -823,9 +817,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 						}
 						else if (modID == "MID")
 						{
-							cout << ">> ERROR(1020): BUG FOUND!! Function ID Leakage. Report to Nemesis' author! <<" << endl;
-							error = true;
-							produceBugReport(directory, chosenBehavior);
+							ErrorMessage(1020);
 							return;
 						}
 					}
@@ -975,8 +967,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					}
 					else
 					{
-						cout << ">> ERROR(1067): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-						error = true;
+						ErrorMessage(1058);
 						return;
 					}
 				}
@@ -1122,8 +1113,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				}
 				else
 				{
-					cout << "ERROR(1026): Missing referencing ID. Could be a bug. Report to Nemesis' author if you are sure" << endl << "File: " << filepath << endl << "Mod ID: " << it->first.substr(0, it->first.find("$")) << endl << endl;
-					error = true;
+					ErrorMessage(1026, filepath, it->first.substr(0, it->first.find("$")));
 					return;
 				}
 			}
@@ -1583,8 +1573,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 						}
 						else
 						{
-							cout << ">> ERROR(3003): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-							error = true;
+							ErrorMessage(3003);
 							return;
 						}
 					}
@@ -1783,8 +1772,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 	if (behaviorPath[lowerBehaviorFile].size() == 0)
 	{
-		cout << "ERROR(1068): Missing \"" << behaviorFile << "\" file. Perform \"Update Patcher\" operation to fix this. If it doesn't fix it, contact mod author not Nemesis' author" << endl << "File :" << behaviorFile << endl << endl;
-		error = true;
+		ErrorMessage(1068, behaviorFile);
 		return;
 	}
 
@@ -1813,8 +1801,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 	}
 	else
 	{
-		cout << "ERROR(1025): Fail to output xml file" << endl << "File: " << filename << endl << endl;
-		error = true;
+		ErrorMessage(1025, filename);
 		return;
 	}
 
@@ -2508,8 +2495,7 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 
 				if (error)
 				{
-					cout << "Fail to register new animation" << endl << endl;
-					error = true;
+					ErrorMessage(5000);
 					return;
 				}
 			}
@@ -2601,8 +2587,7 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 
 	if (animData == -1)
 	{
-		cout << "ERROR(3004): Missing \"animationdatasinglefile.txt\" file in \"temp_behaviors\" folder. Please reinstall Nemesis and/or run update patcher" << endl << endl;
-		error = true;
+		ErrorMessage(3004);
 		return;
 	}
 
@@ -2667,21 +2652,19 @@ void hkxcmdOutput(string xmlfile, string hkxfile)
 
 	if (boost::process::system("hkxcmd " + args) != 0)
 	{
-		cout << "ERROR(1095): Fail to output hkx file" << endl << "File: " << xmlfile << ".xml" << endl << endl;
-		error = true;
+		ErrorMessage(1003, xmlfile);
 		return;
 	}
 	else
 	{
 		if (!isFileExist(hkxfile + ".hkx"))
 		{
-			cout << "ERROR(1095): Fail to output hkx file" << endl << "File: " << xmlfile << ".xml" << endl << endl;
-			error = true;
+			ErrorMessage(1003, xmlfile);
 			return;
 		}
 		else if (remove((xmlfile + ".xml").c_str()) != 0)
 		{
-			cout << "WARNING: Fail to remove xml file" << endl << "File: " << xmlfile << ".xml" << endl << endl;
+			WarningMessage(1009, xmlfile + ".xml");
 		}
 	}
 }

@@ -89,7 +89,6 @@ public:
 
 template <class T>
 inline int numDigits(T number);
-inline int sameWordCount(std::string line, std::string word);
 inline bool isPassed(int condition, std::unordered_map<int, bool> IsConditionOpened);
 inline bool clearGroupNum(std::string option2, std::unordered_map<std::string, bool> optionPicked, bool isNot, std::unordered_map<std::string, bool> groupOption);
 std::string getOption(std::string curline, bool multi);

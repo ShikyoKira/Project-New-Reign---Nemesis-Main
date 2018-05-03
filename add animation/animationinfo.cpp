@@ -14,8 +14,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 
 	if (animInfo.size() < 3)
 	{
-		cout << "ERROR(1142): Missing information" << endl << "File: " << curFilename << endl << "Line: " << linecount << endl << endl;
-		error = true;
+		ErrorMessage(1142, curFilename, linecount);
 		return;
 	}
 
@@ -62,13 +61,13 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 					}
 					else
 					{
-						cout << "WARNING: Option with the same function as previously registered has been detected. Please contact mod author. Patcher will still function as normal" << endl << endl;
+						WarningMessage(1012);
 					}
 
 					break;
 				}
 
-				if (option[0] == 'D' && isalnum(option[1]) && !isalpha(option[1]))
+				if (option[0] == 'D' && isdigit(option[1]))
 				{
 					string time = boost::regex_replace(string(option), boost::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
 
@@ -199,8 +198,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 
 					if (header.length() == 0)
 					{
-						cout << "ERROR(1133): Invalid option" << endl << "File: " << curFilename << endl << "Line: " << linecount << endl << "Option: " << option << endl << endl;
-						error = true;
+						ErrorMessage(1133, curFilename, linecount, option);
 						return;
 					}
 				}
@@ -225,8 +223,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 
 			if (animInfo.size() > k + 5)
 			{
-				cout << "ERROR(1143): Input overload" << endl << "File: " << curFilename << endl << "Line: " << linecount << endl;
-				error = true;
+				ErrorMessage(1143, curFilename, linecount);
 				return;
 			}
 		}
@@ -244,7 +241,7 @@ void animationInfo::addFilename(string curFilename)
 	filename = curFilename;
 }
 
-void animationInfo::storeAnimObject(vecstr animobjects, string listFilename, int lineCount)
+void animationInfo::storeAnimObject(vecstr animobjects, string listFilename, int linecount)
 {
 	size_t position;
 
@@ -257,8 +254,7 @@ void animationInfo::storeAnimObject(vecstr animobjects, string listFilename, int
 
 		if (temp != 1 && temp != 2)
 		{
-			cout << "ERROR(1144): Invalid AnimObject" << endl << "File: " << listFilename << endl << "Line: " << lineCount << endl;
-			error = true;
+			ErrorMessage(1144, listFilename, linecount);
 			return;
 		}
 

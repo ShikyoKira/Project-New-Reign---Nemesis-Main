@@ -125,8 +125,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 			{
 				if (condition == 0)
 				{
-					cout << "ERROR(1118): Opening of condition is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1119, format, i + 1);
 					generatedlines.shrink_to_fit();
 					return generatedlines;
 				}
@@ -171,8 +170,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 			{
 				if (condition == 0)
 				{
-					cout << "ERROR(1120): Opening of condition is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1119, format, i + 1);
 					generatedlines.shrink_to_fit();
 					return generatedlines;
 				}
@@ -303,15 +301,13 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 					}
 					else
 					{
-						cout << "ERROR(1150): General AnimObject cannot be used in non-multi new. Get Specific AnimObject instead. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-						error = true;
+						ErrorMessage(1150, format, i + 1);
 						skip = true;
 					}
 				}
 				else
 				{
-					cout << "ERROR(1117): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1116, format, i + 1);
 					generatedlines.shrink_to_fit();
 					return generatedlines;
 				}
@@ -422,7 +418,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 						}
 						else
 						{
-							cout << "WARNING: Specific AnimObject cannot be used in multi new. Use \"AnimObject\" instead. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
+							WarningMessage(1005, format, i + 1);
 							skip = true;
 						}
 
@@ -431,8 +427,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 				}
 				else
 				{
-					cout << "ERROR(1115): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1115, format, i + 1);
 					generatedlines.shrink_to_fit();
 					return generatedlines;
 				}
@@ -463,7 +458,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 						{
 							word = true;
 						}
-						else if (isalnum(curOrder[j]))
+						else if (isdigit(curOrder[j]))
 						{
 							number = true;
 						}
@@ -475,15 +470,13 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 
 					if (word && number)
 					{
-						cout << "ERROR(1110): Invalid order. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-						error = true;
+						ErrorMessage(1110, format, i + 1);
 						generatedlines.shrink_to_fit();
 						return generatedlines;
 					}
 					else if (unknown)
 					{
-						cout << "ERROR(1111): Invalid order. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-						error = true;
+						ErrorMessage(1111, format, i + 1);
 						generatedlines.shrink_to_fit();
 						return generatedlines;
 					}
@@ -519,8 +512,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 						}
 						else
 						{
-							cout << "ERROR(1112): Invalid order. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-							error = true;
+							ErrorMessage(1112, format, i + 1);
 							generatedlines.shrink_to_fit();
 							return generatedlines;
 						}
@@ -541,16 +533,14 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 					}
 					else
 					{
-						cout << "ERROR(1113): Invalid order. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-						error = true;
+						ErrorMessage(1113, format, i + 1);
 						generatedlines.shrink_to_fit();
 						return generatedlines;
 					}
 				}
 				else
 				{
-					cout << "ERROR(1114): Unresolved order section. Closing of order is required. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1114, format, i + 1);
 					generatedlines.shrink_to_fit();
 					return generatedlines;
 				}
@@ -591,8 +581,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 					}
 					else
 					{
-						cout << "ERROR(1136): Multiple computation function running concurrently detected. Only 1 computation function can be done at a time" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-						error = true;
+						ErrorMessage(1136, format, i + 1);
 						generatedlines.shrink_to_fit();
 						return generatedlines;
 					}
@@ -708,8 +697,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 							}
 							else
 							{
-								cout << "ERROR(1135): Invalid ID. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-								error = true;
+								ErrorMessage(1130, format, i + 1);
 								generatedlines.shrink_to_fit();
 								return generatedlines;
 							}
@@ -844,8 +832,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 												}
 												else
 												{
-													cout << "ERROR(1135): Invalid ID. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-													error = true;
+													ErrorMessage(1130, format, i + 1);
 													generatedlines.shrink_to_fit();
 													return generatedlines;
 												}
@@ -940,8 +927,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 			{
 				if (condition == 0)
 				{
-					cout << "ERROR(1119): Unable to close condition. No opened condition is found. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << i + 1 << endl << endl;
-					error = true;
+					ErrorMessage(1118, format, i + 1);
 					generatedlines.shrink_to_fit();
 					return generatedlines;
 				}
@@ -979,8 +965,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 	{
 		if (it->second)
 		{
-			cout << "ERROR(1145): Unresolved option section. Closing of option is required. Please contact the template creator" << endl << "Template: " << format << endl << endl;
-			error = true;
+			ErrorMessage(1145, format);
 			generatedlines.shrink_to_fit();
 			return generatedlines;
 			break;
@@ -989,8 +974,7 @@ vecstr Furniture::GetFurnitureLine(string behaviorFile, int& nFunctionID, Import
 
 	if (condition != 0)
 	{
-		cout << "ERROR(1122): Unresolved condition. Closure of condition is not found. Please contact the template creator" << endl << "Template: " << format << endl << endl;
-		error = true;
+		ErrorMessage(1122, format);
 		generatedlines.shrink_to_fit();
 		return generatedlines;
 	}
@@ -1184,15 +1168,14 @@ void Furniture::addGroupAnimInfo(vector<shared_ptr<animationInfo>> animInfo)
 {
 	if (animInfo.size() != lastOrder + 1)
 	{
-		cout << ">> ERROR(1147): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-		error = true;
+		ErrorMessage(1147);
 		return;
 	}
 
 	groupAnimInfo = animInfo;
 }
 
-void Furniture::storeAnimObject(vecstr animobjects, string listFilename, int lineCount)
+void Furniture::storeAnimObject(vecstr animobjects, string listFilename, int linecount)
 {
 	size_t position;
 
@@ -1205,8 +1188,7 @@ void Furniture::storeAnimObject(vecstr animobjects, string listFilename, int lin
 
 		if (temp != 1 && temp != 2)
 		{
-			cout << "ERROR(1144): Invalid AnimObject" << endl << "File: " << listFilename << endl << "Line: " << lineCount << endl;
-			error = true;
+			ErrorMessage(1144, listFilename, linecount);
 			return;
 		}
 
@@ -1261,7 +1243,7 @@ void Furniture::multiChoice(string& line, vecstr& storeline, vector<unordered_ma
 		{
 			if (line.find("<!--", nextposition) != string::npos)
 			{
-				choicecount++;
+				++choicecount;
 				nextposition = line.find("<!-- ", nextposition) + 1;
 			}
 			else
@@ -1272,8 +1254,7 @@ void Furniture::multiChoice(string& line, vecstr& storeline, vector<unordered_ma
 
 		if (line.find("*", 0) != string::npos || line.find("@", 0) != string::npos || line.find("%", 0) != string::npos)
 		{
-			cout << "ERROR(1100): Invalid character input detected" << endl << "Template: " << format << endl << "Line: " << numline << endl << endl;
-			error = true;
+			ErrorMessage(1100, format, numline);
 			return;
 		}
 
@@ -1320,8 +1301,7 @@ void Furniture::multiChoice(string& line, vecstr& storeline, vector<unordered_ma
 			}
 			else
 			{
-				cout << "ERROR(1104): Invalid template condition" << endl << "Template: " << format << endl << "Line: " << numline << endl << endl;
-				error = true;
+				ErrorMessage(1104, format, numline);
 				return;
 			}
 		}
@@ -1366,7 +1346,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 
 		bool inHouseResult;
 
-		if (x == 4294967295 && y == 4294967295)
+		if (x == NOT_FOUND && y == NOT_FOUND)
 		{
 			if (inHouse.find("<") == 0 && inHouse.find(">") == inHouse.length() - 1 && (inHouse.find("!=") != string::npos || inHouse.find("==") != string::npos))
 			{
@@ -1402,7 +1382,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 				}
 			}
 		}
-		else if (x == 4294967295 || (x > y && y != 4294967295))
+		else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 		{
 			string firstCondition = inHouse.substr(0, inHouse.find("|"));
 			string secondCondition = inHouse.substr(inHouse.find("|") + 1);
@@ -1446,7 +1426,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 				inHouseResult = true;
 			}
 		}
-		else if (y == 4294967295 || (x < y && x != 4294967295))
+		else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
 		{
 			string firstCondition = inHouse.substr(0, inHouse.find("&"));
 			string tempSecondCondition = inHouse.substr(inHouse.find("&") + 1);
@@ -1458,7 +1438,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 				size_t y = tempSecondCondition.find("|");
 
 				// bool1 & bool2 | bool3 ....
-				if ((x == 4294967295 || x > y) && y != 4294967295)
+				if ((x == NOT_FOUND || x > y) && y != NOT_FOUND)
 				{
 					secondCondition = tempSecondCondition.substr(0, tempSecondCondition.find("|"));
 					tempSecondCondition = tempSecondCondition.substr(tempSecondCondition.find("|") + 1);
@@ -1517,7 +1497,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 				size_t y = tempSecondCondition.find("|");
 
 				// bool1 & bool2 | bool3 ....
-				if ((x == 4294967295 || x > y) && y != 4294967295)
+				if ((x == NOT_FOUND || x > y) && y != NOT_FOUND)
 				{
 					secondCondition = tempSecondCondition.substr(0, tempSecondCondition.find("|"));
 					tempSecondCondition = tempSecondCondition.substr(tempSecondCondition.find("|") + 1);
@@ -1553,8 +1533,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 		}
 		else
 		{
-			cout << "ERROR(1105): Invalid template condition" << endl << "Template: " << format << endl << "Line: " << numline << endl << endl;
-			error = true;
+			ErrorMessage(1105, format, numline);
 			return false;
 		}
 
@@ -1563,11 +1542,11 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 		x = outHouse.find("&");
 		y = outHouse.find("|");
 
-		if (x == 4294967295 && y == 4294967295)
+		if (x == NOT_FOUND && y == NOT_FOUND)
 		{
 			return inHouseResult;
 		}
-		else if (x == 4294967295 || (x > y && y != 4294967295))
+		else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 		{
 			string secondCondition = outHouse.substr(outHouse.find("|") + 1);
 
@@ -1576,7 +1555,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 				return true;
 			}
 		}
-		else if (y == 4294967295 || (x < y && x != 4294967295))
+		else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
 		{
 			string secondCondition = outHouse.substr(outHouse.find("&") + 1);
 
@@ -1587,8 +1566,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 		}
 		else
 		{
-			cout << "ERROR(1106): Invalid template condition" << endl << "Template: " << format << endl << "Line: " << numline << "Condition: " << condition << endl << endl;
-			error = true;
+			ErrorMessage(1106, format, numline, condition);
 			return false;
 		}
 	}
@@ -1597,7 +1575,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 		size_t x = condition.find("&");
 		size_t y = condition.find("|");
 
-		if (x == 4294967295 && y == 4294967295)
+		if (x == NOT_FOUND && y == NOT_FOUND)
 		{
 			string conditionOrder = condition;
 
@@ -1625,7 +1603,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 				return GetFirstCondition(conditionOrder, optionInfo, numline, groupOptionPicked, isNot);
 			}
 		}
-		else if (x == 4294967295 || (x > y && y != 4294967295))
+		else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 		{
 			string firstCondition = condition.substr(0, condition.find("|"));
 			string secondCondition = condition.substr(condition.find("|") + 1);
@@ -1665,19 +1643,19 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 				}
 			}
 
-			if (y != 4294967295 && newCondition(secondCondition, storeline, groupOptionPicked, numline, utility))
+			if (y != NOT_FOUND && newCondition(secondCondition, storeline, groupOptionPicked, numline, utility))
 			{
 				return true;
 			}
 		}
-		else if (y == 4294967295 || (x < y && x != 4294967295))
+		else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
 		{
 			string firstCondition = condition.substr(0, condition.find("&"));
 			string secondCondition = condition.substr(condition.find("&") + 1);
 
 			if (firstCondition.find("<") == 0 && firstCondition.find(">") == firstCondition.length() - 1 && (firstCondition.find("!=") != string::npos || firstCondition.find("==") != string::npos))
 			{
-				if (y != 4294967295)
+				if (y != NOT_FOUND)
 				{
 					if (secondCondition[0] == '(')
 					{
@@ -1747,8 +1725,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 							}
 							else
 							{
-								cout << "ERROR(1101): Invalid template condition" << endl << "Template: " << format << endl << "Line: " << numline << endl << endl;
-								error = true;
+								ErrorMessage(1101, format, numline);
 								return false;
 							}
 						}
@@ -1758,7 +1735,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 						x = secondCondition.find("&");
 						y = secondCondition.find("|");
 
-						if (x == 4294967295 && y == 4294967295)
+						if (x == NOT_FOUND && y == NOT_FOUND)
 						{
 							if (specialCondition(firstCondition, storeline, numline, utility))
 							{
@@ -1773,7 +1750,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 								}
 							}
 						}
-						else if (x == 4294967295 || (x > y && y != 4294967295))
+						else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 						{
 							size_t position = secondCondition.find("|") + 1;
 							string thirdCondition = secondCondition.substr(position);
@@ -1797,7 +1774,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 								return true;
 							}
 						}
-						else if (y == 4294967295 || (x < y && x != 4294967295))
+						else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
 						{
 							size_t position = secondCondition.find("&") + 1;
 							string thirdCondition = secondCondition.substr(position);
@@ -1818,8 +1795,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 						}
 						else
 						{
-							cout << "ERROR(1103): Invalid template condition" << endl << "Template: " << format << endl << "Line: " << numline << endl << endl;
-							error = true;
+							ErrorMessage(1103, format, numline);
 							return false;
 						}
 					}
@@ -1852,7 +1828,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 					return false;
 				}
 
-				if (y != 4294967295)
+				if (y != NOT_FOUND)
 				{
 					if (secondCondition[0] == '(')
 					{
@@ -1922,8 +1898,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 							}
 							else
 							{
-								cout << "ERROR(1101): Invalid template condition" << endl << "Template: " << format << endl << "Line: " << numline << endl << endl;
-								error = true;
+								ErrorMessage(1101, format, numline);
 								return false;
 							}
 						}
@@ -1933,7 +1908,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 						x = secondCondition.find("&");
 						y = secondCondition.find("|");
 
-						if (x == 4294967295 && y == 4294967295)
+						if (x == NOT_FOUND && y == NOT_FOUND)
 						{
 							if (GetFirstCondition(firstCondition, optionInfo, numline, groupOptionPicked, isNot))
 							{
@@ -1943,7 +1918,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 								}
 							}
 						}
-						else if (x == 4294967295 || (x > y && y != 4294967295))
+						else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 						{
 							size_t position = secondCondition.find("|") + 1;
 							string thirdCondition = secondCondition.substr(position);
@@ -1962,7 +1937,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 								return true;
 							}
 						}
-						else if (y == 4294967295 || (x < y && x != 4294967295))
+						else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
 						{
 							size_t position = secondCondition.find("&") + 1;
 							string thirdCondition = secondCondition.substr(position);
@@ -1978,8 +1953,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 						}
 						else
 						{
-							cout << "ERROR(1103): Invalid template condition" << endl << "Template: " << format << endl << "Line: " << numline << endl << endl;
-							error = true;
+							ErrorMessage(1103, format, numline);
 							return false;
 						}
 					}
@@ -1998,8 +1972,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 		}
 		else
 		{
-			cout << "ERROR(1102): Invalid template condition" << endl << "Template: " << format << endl << "Line: " << numline << endl << endl;
-			error = true;
+			ErrorMessage(1102, format, numline);
 			return false;
 		}
 	}
@@ -2088,8 +2061,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 							if (stoi(equation) > int(groupAnimInfo.size() - 1) || stoi(equation) < 0)
 							{
-								cout << "ERROR(1148): \"Minimum\" in option_list.txt must be used and contain larger value than the 1st element being used. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
-								error = true;
+								ErrorMessage(1148, format, linecount, change);
 								return;
 							}
 
@@ -2107,8 +2079,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 			{
 				if (isEnd)
 				{
-					cout << "ERROR(1107): Invalid structure. \"relativeToEndOfClip\" is not found prior to another \"END\" command. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
-					error = true;
+					ErrorMessage(1107, format, linecount, change);
 					return;
 				}
 
@@ -2116,8 +2087,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 				{
 					if (animMulti == -1)
 					{
-						cout << "ERROR(1058): Invalid element. Only \"F\", \"N\", \"L\" or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
-						error = true;
+						ErrorMessage(1057, format, linecount, change);
 						return;
 					}
 
@@ -2216,8 +2186,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 					{
 						if (stoi(number) > int(groupAnimInfo.size() - 1) || stoi(number) < 0)
 						{
-							cout << "ERROR(1155): Invalid order number. Enter number from 0 to " << lastOrder << ". Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Option: " << change << endl << endl;
-							error = true;
+							ErrorMessage(1155, lastOrder , format, linecount, change);
 							return;
 						}
 
@@ -2269,8 +2238,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 					if (intID >= int(fixedStateID.size()))
 					{
-						cout << "ERROR(1168): Invalid state number. State number must be smaller than number of root state registered in option_list.txt. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << templine.substr(0, templine.find(")") + 1) << endl << endl;
-						error = true;
+						ErrorMessage(1168, format, linecount, templine.substr(0, templine.find(")") + 1));
 						return;
 					}
 				}
@@ -2406,8 +2374,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 					}
 					else
 					{
-						cout << "ERROR(1146): Invalid reference. Specifying reference is required" << endl << "Template: " << format << endl << "Line: " << linecount << endl << endl;
-						error = true;
+						ErrorMessage(1146, format, linecount);
 						return;
 					}
 				}
@@ -2582,8 +2549,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 					}
 					else
 					{
-						cout << "ERROR(1134): Error filename" << endl << "Template: " << format << endl << "Line: " << linecount << endl << endl;
-						error = true;
+						ErrorMessage(1134, format, linecount);
 						return;
 					}
 				}
@@ -2635,8 +2601,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 							{
 								if (!multiAnim)
 								{
-									cout << "ERROR(1171): Invalid AnimObject. AnimObject must be specified under non-multi new tab. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Function: " << change << endl << endl;
-									error = true;
+									ErrorMessage(1126, format, linecount, change);
 									return;
 								}
 
@@ -2655,8 +2620,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 							{
 								if (!multiAnim && optionInfo[2] == "@AnimObject")
 								{
-									cout << "ERROR(1171): Invalid AnimObject. AnimObject must be specified under non-multi new tab. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Function: " << change << endl << endl;
-									error = true;
+									ErrorMessage(1126, format, linecount, change);
 									return;
 								}
 
@@ -2690,8 +2654,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 						{
 							if (!multiAnim && change.find("@AnimObject/") == string::npos)
 							{
-								cout << "ERROR(1171): Invalid AnimObject. AnimObject must be specified under non-multi new tab. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Function: " << change << endl << endl;
-								error = true;
+								ErrorMessage(1126, format, linecount, change);
 								return;
 							}
 
@@ -2793,8 +2756,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 						if (ID >= int(fixedStateID.size()))
 						{
-							cout << "ERROR(1168): Invalid state number. State number must be smaller than number of root state registered in option_list.txt. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: LastState" << number << endl << endl;
-							error = true;
+							ErrorMessage(1168, format, linecount, "LastState" + number);
 							return;
 						}
 					}
@@ -2847,8 +2809,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 				{
 					if (bracketCount != altBracketCount)
 					{
-						cout << "ERROR(1139): Invalid import element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Import: " << importer << endl << endl;
-						error = true;
+						ErrorMessage(1139, format, linecount, importer);
 						return;
 					}
 
@@ -2918,8 +2879,7 @@ void addOnReplacer(string& line, unordered_map<string, vecstr> addOn, ImportCont
 					{
 						if (addition[it->first][it->second[j]].length() == 0)
 						{
-							cout << "ERROR(1116): Unknown option. Please contact the template creator" << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-							error = true;
+							ErrorMessage(1117, format, numline, line);
 							return;
 						}
 
@@ -2931,8 +2891,7 @@ void addOnReplacer(string& line, unordered_map<string, vecstr> addOn, ImportCont
 						{
 							if (groupAddition[it->first][it->second[j]][count].length() == 0)
 							{
-								cout << "ERROR(1116): Unknown option. Please contact the template creator" << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-								error = true;
+								ErrorMessage(1117, format, numline, line);
 								return;
 							}
 
@@ -2940,8 +2899,7 @@ void addOnReplacer(string& line, unordered_map<string, vecstr> addOn, ImportCont
 						}
 						else
 						{
-							cout << ">> ERROR(1141): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-							error = true;
+							ErrorMessage(1141);
 							return;
 						}
 					}
@@ -2962,8 +2920,7 @@ void addOnReplacer(string& line, unordered_map<string, vecstr> addOn, ImportCont
 					{
 						if (addition[option][it->second[j]].length() == 0)
 						{
-							cout << "ERROR(1116): Unknown option. Please contact the template creator" << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-							error = true;
+							ErrorMessage(1117, format, numline, line);
 							return;
 						}
 
@@ -2975,8 +2932,7 @@ void addOnReplacer(string& line, unordered_map<string, vecstr> addOn, ImportCont
 						{
 							if (groupAddition[option][it->second[j]][count].length() == 0)
 							{
-								cout << "ERROR(1116): Unknown option. Please contact the template creator" << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-								error = true;
+								ErrorMessage(1117, format, numline, line);
 								return;
 							}
 
@@ -2984,8 +2940,7 @@ void addOnReplacer(string& line, unordered_map<string, vecstr> addOn, ImportCont
 						}
 						else
 						{
-							cout << ">> ERROR(1141): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-							error = true;
+							ErrorMessage(1141);
 							return;
 						}
 					}
@@ -3024,8 +2979,7 @@ void animObjectReplacer(string& line, unordered_map<int, string> AnimObject, int
 			}
 			else
 			{
-				cout << "ERROR(1108): Invalid AnimObject. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << endl;
-				error = true;
+				ErrorMessage(1108, format, linecount);
 				return;
 			}
 		}
@@ -3055,8 +3009,7 @@ void animObjectReplacer(string& line, unordered_map<int, string> AnimObject, int
 			}
 			else
 			{
-				cout << "ERROR(1108): Invalid AnimObject. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << endl;
-				error = true;
+				ErrorMessage(1108, format, linecount);
 				return;
 			}
 		}
@@ -3077,14 +3030,10 @@ void Furniture::stateReplacer(string& line, std::string statenum, int stateID, i
 		string number = boost::regex_replace(string(line.substr(line.find("][(S" + statenum + "+") + 5 + statenum.length())), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 		string state = format + "[" + otherAnimOrder + "][(S" + statenum + "+" + number + ")]";
 
-		for (unsigned int i = 0; i < number.size(); ++i)
+		if (!isOnlyNumber(number))
 		{
-			if (!isalnum(number[i]) || isalpha(number[i]))
-			{
-				cout << "ERROR(1153): Invalid character. Only number is acceptable. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << state << endl << endl;
-				error = true;
-				return;
-			}
+			ErrorMessage(1152, format, linecount, state);
+			return;
 		}
 
 		if (line.find(state, 0) != string::npos)
@@ -3097,8 +3046,7 @@ void Furniture::stateReplacer(string& line, std::string statenum, int stateID, i
 			}
 			else
 			{
-				cout << "ERROR(1137): Invalid state. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << state << endl << endl;
-				error = true;
+				ErrorMessage(1137, format, linecount, state);
 				return;
 			}
 		}
@@ -3109,14 +3057,10 @@ void Furniture::stateReplacer(string& line, std::string statenum, int stateID, i
 		string number = boost::regex_replace(string(templine.substr(statenum.length() + 3)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 		string state = "(S" + statenum + "+" + number + ")";
 
-		for (unsigned int i = 0; i < number.size(); ++i)
+		if (!isOnlyNumber(number))
 		{
-			if (!isalnum(number[i]) || isalpha(number[i]))
-			{
-				cout << "ERROR(1153): Invalid character. Only number is acceptable. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << state << endl << endl;
-				error = true;
-				return;
-			}
+			ErrorMessage(1152, format, linecount, state);
+			return;
 		}
 
 		if (line.find(state, 0) != string::npos)
@@ -3131,8 +3075,7 @@ void Furniture::stateReplacer(string& line, std::string statenum, int stateID, i
 
 				if (error)
 				{
-					cout << "ERROR(1151): Invalid equation. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << state << endl << endl;
-					error = true;
+					ErrorMessage(1151, format, linecount, state);
 					return;
 				}
 
@@ -3149,8 +3092,7 @@ void Furniture::stateReplacer(string& line, std::string statenum, int stateID, i
 
 				if (ID >= int((*lastState).size()))
 				{
-					cout << "ERROR(1168): Invalid state number. State number must be smaller than number of root state registered in option_list.txt. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << state << endl << endl;
-					error = true;
+					ErrorMessage(1168, format, linecount, state);
 					return;
 				}
 
@@ -3174,8 +3116,7 @@ void Furniture::stateReplacer(string& line, std::string statenum, int stateID, i
 			}
 			else
 			{
-				cout << "ERROR(1137): Invalid state. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "State: " << templine.substr(0, templine.find(")")) << endl << endl;
-				error = true;
+				ErrorMessage(1137, format, linecount, templine.substr(0, templine.find(")")));
 				return;
 			}
 		}
@@ -3200,8 +3141,7 @@ bool Furniture::specialCondition(string condition, vecstr& storeline, int lineco
 	{
 		if (condition.find("==") != string::npos || sameWordCount(condition, "!=") > 1)
 		{
-			cout << "ERROR(1171): Invalid condition. Only 1 \"==\" or \"!=\" can be used in at a time. Please contact the template creator" << endl << "Tempalte: " << format << endl << "Line: " << linecount << endl << "Condition: " << condition << endl << endl;
-			error = true;
+			ErrorMessage(1124, format, linecount, condition);
 			return false;
 		}
 
@@ -3212,8 +3152,7 @@ bool Furniture::specialCondition(string condition, vecstr& storeline, int lineco
 	{
 		if (condition.find("!=") != string::npos || sameWordCount(condition, "==") > 1)
 		{
-			cout << "ERROR(1171): Invalid condition. Only 1 \"==\" or \"!=\" can be used in at a time. Please contact the template creator" << endl << "Tempalte: " << format << endl << "Line: " << linecount << endl << "Condition: " << condition << endl << endl;
-			error = true;
+			ErrorMessage(1124, format, linecount, condition);
 			return false;
 		}
 
@@ -3222,8 +3161,7 @@ bool Furniture::specialCondition(string condition, vecstr& storeline, int lineco
 	}
 	else
 	{
-		cout << "ERROR(1171): Invalid condition. Neither \"==\" nor \"!=\" is not found. Please contact the template creator" << endl << "Tempalte: " << format << endl << "Line: " << linecount << endl << "Condition: " << condition << endl << endl;
-		error = true;
+		ErrorMessage(1125, format, linecount, condition);
 		return false;
 	}
 
@@ -3268,14 +3206,12 @@ void eventIDReplacer(string& line, string format, id eventid, string firstEvent,
 		{
 			if (format == "BASE")
 			{
-				cout << ">> ERROR(1166): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Line: " << linecount << endl << endl;
-				error = true;
+				ErrorMessage(1166);
 				return;
 			}
 			else
 			{
-				cout << "ERROR(1131): Non-registrated event ID detected. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << "Event: " << eventName << endl << endl;
-				error = true;
+				ErrorMessage(1131, format, linecount, eventName);
 				return;
 			}
 		}
@@ -3298,14 +3234,12 @@ void variableIDReplacer(string& line, string format, id variableid, int linecoun
 		{
 			if (format == "BASE")
 			{
-				cout << ">> ERROR(1166): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "Line: " << linecount << endl << endl;
-				error = true;
+				ErrorMessage(1166);
 				return;
 			}
 			else
 			{
-				cout << "ERROR(1132): Non-registrated variable ID detected. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << linecount << endl << endl;
-				error = true;
+				ErrorMessage(1132, format, linecount, varName);
 				return;
 			}
 		}
@@ -3334,8 +3268,7 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 	{
 		if (sameWordCount(line, format + "[") > 1)
 		{
-			cout << "ERROR(1157): Function call within a function call is not supported. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Function call: " << line << endl << endl;
-			error = true;
+			ErrorMessage(1157, format, numline, line);
 			return optionInfo;
 		}
 
@@ -3383,8 +3316,7 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 			}
 			else
 			{
-				cout << "ERROR(1052): Invalid element. Only empty, \"F\", \"L\" or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-				error = true;
+				ErrorMessage(1052, format, numline, line);
 				return optionInfo;
 			}
 		}
@@ -3403,8 +3335,7 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 			}
 			else
 			{
-				cout << "ERROR(1052): Invalid element. Only empty, \"F\", \"L\" or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-				error = true;
+				ErrorMessage(1052, format, numline, line);
 				return optionInfo;
 			}
 		}
@@ -3417,8 +3348,7 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 
 			if (isGroup && (Nnum != 0||Bnum))
 			{
-				cout << "ERROR(1052): Invalid element. Only empty, \"F\", \"L\" or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-				error = true;
+				ErrorMessage(1052, format, numline, line);
 				return optionInfo;
 			}
 
@@ -3475,14 +3405,13 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 			{
 				if (!isGroup)
 				{
-					cout << "ERROR(1057): Invalid element. Only \"F\", \"N\", \"L\" or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
+					ErrorMessage(1057, format, numline, line);
 				}
 				else
 				{
-					cout << "ERROR(1059): Invalid element. Only \"F\", \"L\" or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
+					ErrorMessage(1056, format, numline, line);
 				}
 
-				error = true;
 				return optionInfo;
 			}
 			else
@@ -3493,11 +3422,11 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 					{
 						if (!isGroup)
 						{
-							cout << "ERROR(1057): Invalid element. Only \"F\", \"N\", \"L\" or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
+							ErrorMessage(1057, format, numline, line);
 						}
 						else
 						{
-							cout << "ERROR(1059): Invalid element. Only \"F\", \"L\" or number is acceptable for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
+							ErrorMessage(1056, format, numline, line);
 						}
 
 						error = true;
@@ -3518,15 +3447,13 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 
 			if (newtempline == templine)
 			{
-				cout << "ERROR(1055): Invalid element for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-				error = true;
+				ErrorMessage(1055, format, numline, line);
 				return optionInfo;
 			}
 
 			if (stoi(optionInfo[1]) > int(lastOrder))
 			{
-				cout << "ERROR(1148): \"Minimum\" in option_list.txt must be used and contain larger value than the 1st element being used. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-				error = true;
+				ErrorMessage(1148, format, numline, line);
 				return optionInfo;
 			}
 		}			
@@ -3541,8 +3468,7 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 			}
 			else
 			{
-				cout << "ERROR(1109): Invalid link. The said option is not linked to any other option. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-				error = true;
+				ErrorMessage(1109, format, numline, line);
 				return optionInfo;
 			}
 		}
@@ -3557,8 +3483,7 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 				{
 					if (optionMulti == -1)
 					{
-						cout << "ERROR(1060): Invalid element. Specific element is required for the 3rd element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-						error = true;
+						ErrorMessage(1060, format, numline, line);
 						return optionInfo;
 					}
 					else
@@ -3568,14 +3493,10 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 				}
 				else
 				{
-					for (unsigned int i = 0; i < optionInfo[4].size(); ++i)
+					if (!isOnlyNumber(optionInfo[4]))
 					{
-						if (!isalnum(optionInfo[4][i]) || isalpha(optionInfo[4][i]))
-						{
-							cout << "ERROR(1055): Invalid element for the 1st element. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-							error = true;
-							return optionInfo;
-						}
+						ErrorMessage(1055, format, numline, line);
+						return optionInfo;
 					}
 				}
 			}
@@ -3591,38 +3512,28 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 			limiter--;
 		}
 
-		if (int(optionInfo.size()) > limiter)
+		if (int(optionInfo.size()) > limiter || int(optionInfo.size()) < limiter)
 		{
-			cout << "ERROR(1054): Invalid option. Only " << limiter - 1 << " elements are required excluding the header. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-			error = true;
-			return optionInfo;
-		}
-		else if (int(optionInfo.size()) < limiter)
-		{
-			cout << "ERROR(1054): Invalid option. " << limiter - 1 << " elements are required excluding the header. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-			error = true;
+			ErrorMessage(1054, limiter - 1, format, numline, line);
 			return optionInfo;
 		}
 
 		if (optionInfo[2][0] == '^' && isGroup)
 		{
-			cout << "ERROR(1149): Invalid condition. Order condition cannot be used in group template. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-			error = true;
+			ErrorMessage(1149, format, numline, line);
 			return optionInfo;
 		}
 
 		if (optionInfo[0] != format)
 		{
-			cout << "ERROR(1051): Invalid header. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-			error = true;
+			ErrorMessage(1051, format, numline, line);
 		}
 	}
 	else
 	{
 		if (isGroup)
 		{
-			cout << "ERROR(1152): Missing animation specification. Use Special Condition(<format>[<first element>][<second element>]) instead. Please contact the template creator" << endl << "Template: " << format + "_group" << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-			error = true;
+			ErrorMessage(1153, format + "_group", numline, line);
 		}
 		else
 		{
@@ -3639,8 +3550,7 @@ vecstr GetOptionInfo(string line, string format, int numline, size_t lastOrder, 
 				}
 				else
 				{
-					cout << "ERROR(1109): Invalid link. The said option is not linked to any other option. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << endl << "Option: " << line << endl << endl;
-					error = true;
+					ErrorMessage(1109, format, numline, line);
 					return optionInfo;
 				}
 			}
@@ -3685,28 +3595,6 @@ string getOption(string curline, bool multi)
 		size_t nextpoint = curline.find("<!-- NEW ^") + 10;
 		return curline.substr(nextpoint, curline.find("^ +% -->", nextpoint) - nextpoint);
 	}
-}
-
-inline int sameWordCount(string line, string word)
-{
-	size_t nextWord = -1;
-	int wordCount = 0;
-
-	while (true)
-	{
-		nextWord = line.find(word, nextWord + 1);
-
-		if (nextWord != -1)
-		{
-			wordCount++;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	return wordCount;
 }
 
 inline bool isPassed(int condition, unordered_map<int, bool> IsConditionOpened)
@@ -3799,14 +3687,13 @@ bool Furniture::GetSecondCondition(string secondCondition, int numline, vector<u
 				conditionOrder = "0";
 			}
 		}
-		else if (isalnum(optionInfo2[2][1]) && !isalpha(optionInfo2[2][1]))
+		else if (isdigit(optionInfo2[2][1]))
 		{
 			conditionOrder = boost::regex_replace(string(optionInfo2[2]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 		}
 		else
 		{
-			cout << "ERROR(1138): Invalid condition. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << "Condition: " << secondCondition << endl << endl;
-			error = true;
+			ErrorMessage(1138, format, numline, secondCondition);
 			return false;
 		}
 
@@ -3872,14 +3759,13 @@ bool Furniture::GetFirstCondition(string firstCondition, vecstr optionInfo, int 
 				conditionOrder = "0";
 			}
 		}
-		else if (isalnum(optionInfo[2][1]) && !isalpha(optionInfo[2][1]))
+		else if (isdigit(optionInfo[2][1]))
 		{
 			conditionOrder = boost::regex_replace(string(optionInfo[2]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 		}
 		else
 		{
-			cout << "ERROR(1138): Invalid condition. Please contact the template creator" << endl << "Template: " << format << endl << "Line: " << numline << "Condition: " << firstCondition << endl << endl;
-			error = true;
+			ErrorMessage(1138, format, numline, firstCondition);
 			return false;
 		}
 

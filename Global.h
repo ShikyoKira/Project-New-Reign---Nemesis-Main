@@ -6,19 +6,22 @@
 #include <iostream>
 #include <unordered_map>
 #include <ctime>
+#include <codecvt>
 #include <stdlib.h>
 #include <compute.h>
 #include <boost\filesystem.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
+#include "Logging\debugmsg.h"
 
 #pragma warning(disable:4503)
+
+#define NOT_FOUND 4294967295
 
 typedef std::vector<std::string> vecstr;
 typedef std::vector<char> vecchar;
 
 // utility
 extern bool debug;												// if debug is on
-extern bool error;												// get error warning
 extern int memory;												// not used; for setting memory allocation from 100 - 1000
 extern int fixedkey[257];										// AA installation key
 extern boost::posix_time::ptime time1;							// for getting elapsed time
@@ -46,12 +49,15 @@ extern vecstr groupNameList;																								// list of animation group n
 
 size_t fileLineCount(std::string filepath);
 
+// string utilities
 extern bool isOnlyNumber(std::string line);
 extern bool hasAlpha(std::string line);
 extern size_t wordFind(std::string line, std::string word, bool isLast = false);								// case insensitive "string.find"
+inline extern int sameWordCount(std::string line, std::string word);
+
+// general file utilities
 extern void read_directory(const std::string& name, vecstr& fv);
 extern void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
-inline extern int sameWordCount(std::string line, std::string word);
 extern vecstr GetFunctionLines(std::string filename);
 inline extern bool isFileExist(const std::string& filename);
 

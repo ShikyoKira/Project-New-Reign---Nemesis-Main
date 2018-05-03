@@ -46,8 +46,7 @@ void AAInitialize(string AAList)
 						}
 						else
 						{
-							cout << "ERROR(4001): Duplication of animation detected in 2 or more groups. Please contact the template creator" << endl << "Group: " << AAGroupName << ", " << existAAAnim[lowerAnimFile] << endl << endl;
-							error = true;
+							ErrorMessage(4001, AAGroupName, existAAAnim[lowerAnimFile]);
 							fclose(input);
 							return;
 						}
@@ -58,8 +57,7 @@ void AAInitialize(string AAList)
 			}
 			else
 			{
-				cout << "ERROR(4000): Unable to open file. Please make sure " << AAList << " file is in the same directory as this program" << endl << endl;
-				error = true;
+				ErrorMessage(4000, AAList);
 				return;
 			}
 		}
@@ -133,8 +131,7 @@ void AAInstallation()
 
 				if (counter == "0")
 				{
-					cout << "ERROR(3013): Un-registered animation group name detected. Please contact the mod author" << endl << "AAPrefix: " << groupAAPrefix[groupNameList[i]][j] << "Animation Group Name: " << groupNameList[i] << endl << endl;
-					error = true;
+					ErrorMessage(3013, groupAAPrefix[groupNameList[i]][j], groupNameList[i]);
 					return;
 				}
 
@@ -176,8 +173,7 @@ void AAInstallation()
 
 		if (fileLength == 0)
 		{
-			cout << "ERROR(4012): Empty \"alternate animation.script\" detected. Please re-install Nemesis" << endl;
-			error = true;
+			ErrorMessage(4009);
 			return;
 		}
 
@@ -198,8 +194,7 @@ void AAInstallation()
 	}
 	else
 	{
-		cout << "ERROR(3002): Failed to open behavior template" << endl << "File: " << filename << endl << endl;
-		error = true;
+		ErrorMessage(3002, filename);
 		return;
 	}
 }

@@ -18,8 +18,7 @@ void SeparateMod(string directory, string modecode, vecstr behaviorfilelist, uno
 			{
 				if (newAnimData.size() == 0)
 				{
-					cout << "ERROR(3017): Nemesis_animationdatasinglefile.txt not found. Please re-install Nemesis" << endl << endl;
-					error = true;
+					ErrorMessage(3017);
 					return;
 				}
 
@@ -122,8 +121,7 @@ bool newAnimUpdate(string sourcefolder, unordered_map<string, map<string, vecstr
 	}
 	else
 	{
-		cout << "ERROR(2604): Failed to create new folder" << endl << "Folder: " << sourcefolder << endl << endl;
-		error = true;
+		ErrorMessage(2010, sourcefolder);
 		return false;
 	}
 
@@ -304,14 +302,12 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 			{
 				if (fileparts.size() == 1 && !isOnlyNumber(fileparts[0]) && !boost::iequals(fileparts[0], "$header$") && !boost::iequals(fileparts[0], "$info header$"))
 				{
-					cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-					error = true;
+					ErrorMessage(2004, filepath);
 					return false;
 				}
 				else if (fileparts.size() == 2 && (!hasAlpha(fileparts[0]) || !isOnlyNumber(fileparts[1])))
 				{
-					cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-					error = true;
+					ErrorMessage(2004, filepath);
 					return false;
 				}
 
@@ -373,8 +369,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 							{
 								if (!isFileExist(folderpath + "\\$info header$.txt"))
 								{
-									cout << "ERROR(3012): \"$info header\" not found. Info header must exist in order to register any other info header. Please contact the template creator" << endl << "File: " << filepath << endl << endl;
-									error = true;
+									ErrorMessage(3012, filepath);
 									return false;
 								}
 							}
@@ -455,8 +450,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 					}
 					else
 					{
-						cout << "ERROR(3006): Invalid file name. Please enter a file name that is within the format. Please contact the mod author" << endl << "Character: " << characterfile << endl << "Header: " << fileparts[0] << endl << endl;
-						error = true;
+						ErrorMessage(3006, characterfile, fileparts[0]);
 						return false;
 					}
 
@@ -558,8 +552,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 
 									if (position != AD::behaviorfilelist && position != AD::eventnamelist && position != AD::motiondatalist && position != AD::rotationdatalist)
 									{
-										cout << "ERROR(3018): Wrong format. Current line cannot be used to run NEW tab function. Only BehaviorFileList, EventNameList, MotionDataList, or RotationDataList can use NEW tab function. Please contact the mod author" << endl << "Mod: " << modcode << endl << "Character: " << characterfile << endl << "Header: " << filename << endl << endl;
-										error = true;
+										ErrorMessage(3018, modcode, characterfile, filename);
 										return false;
 									}
 								}
@@ -608,8 +601,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 
 								if (fileparts[0] != modcode + "$" + tempID || (!isOnlyNumber(fileparts[0]) && !boost::iequals(fileparts[0], "$header$") && !boost::iequals(fileparts[0], "$info header$")))
 								{
-									cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-									error = true;
+									ErrorMessage(2004, filepath);
 									return false;
 								}
 							}
@@ -619,8 +611,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 
 								if (fileparts[1] != modcode + "$" + tempID || (!hasAlpha(fileparts[0]) || !isOnlyNumber(fileparts[1])))
 								{
-									cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-									error = true;
+									ErrorMessage(2004, filepath);
 									return false;
 								}
 							}
@@ -629,15 +620,13 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 						}
 						else
 						{
-							cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-							error = true;
+							ErrorMessage(2004, filepath);
 							return false;
 						}
 					}
 					else
 					{
-						cout << "ERROR(2004): Invalid file name. File name must only contain  either <modcode>$<id>, <id>, \"$header$\", \"$info header$\" or <animation clip name> <id>. Please contact the mod author" << endl << "File: " << filepath << endl << endl;
-						error = true;
+						ErrorMessage(2004, filepath);
 						return false;
 					}
 				}
@@ -725,8 +714,7 @@ void CombiningFiles(unordered_map<string, map<string, vecstr>>& newFile, unorder
 			}
 			else
 			{
-				cout << ">> ERROR(2605): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << "File: " << it->first << "(" << iter->first << ")" << endl << endl;
-				error = true;
+				ErrorMessage(2008, it->first + "(" + iter->first + ")");
 				return;
 			}
 		}
@@ -765,8 +753,7 @@ void CombiningFiles(unordered_map<string, map<string, vecstr>>& newFile, unorder
 			}
 			else
 			{
-				cout << "ERROR(2600): Unable to create file" << endl << "File: " << filename << endl << endl;
-				error = true;
+				ErrorMessage(2009, filename);
 				return;
 			}
 		}
@@ -815,15 +802,13 @@ void CombiningFiles(unordered_map<string, map<string, vecstr>>& newFile, unorder
 			}
 			else
 			{
-				cout << "ERROR(2600): Unable to create file" << endl << "File: animationdata_list.txt" << endl << endl;
-				error = true;
+				ErrorMessage(2009, "animationdata_list.txt");
 				return;
 			}
 		}
 		else
 		{
-			cout << "ERROR(2600): Unable to create file" << endl << "File: " << filename << endl << endl;
-			error = true;
+			ErrorMessage(2009, filename);
 			return;
 		}
 	}

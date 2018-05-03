@@ -44,8 +44,7 @@ bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, unordere
 			}
 			else
 			{
-				cout << "ERROR(2602): Unable to open file" << endl << "File: behavior_path.txt" << endl << endl;
-				error = true;
+				ErrorMessage(2000, "behavior_path.txt");
 				return false;
 			}			
 		}
@@ -190,7 +189,7 @@ bool VanillaDisassemble(string path, string filename, unordered_map<string, map<
 	}
 	else
 	{
-		cout << "ERROR(2602): Unable to open file" << endl << "File: " << path << endl << endl;
+		ErrorMessage(2000, path);
 		return false;
 	}
 
@@ -214,8 +213,7 @@ bool AnimDataDisassemble(string path, unordered_map<string, unordered_map<string
 
 		if (!isOnlyNumber(strnum) || stoi(strnum) < 10)
 		{
-			cout << "ERROR(3014): Wrong nemesis_animationdatasinglefile detected. Abort processing. Please reinstall Nemesis" << endl << endl;
-			error = true;
+			ErrorMessage(3014);
 			return false;
 		}
 
@@ -409,7 +407,7 @@ void ClearTempBehaviors()
 		{
 			if (remove((tempbehavior + filelist[i]).c_str()) != 0 && !failed)
 			{
-				cout << "WARNING: Fail to clear all files in \"temp_behaviors\"" << endl << endl;
+				WarningMessage(1006);
 			}
 		}
 	}

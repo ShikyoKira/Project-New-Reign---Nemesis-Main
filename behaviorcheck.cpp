@@ -19,7 +19,7 @@ void behaviorCheck()
 
 				if (!registeredAnim[forwardPort[j]][filename])
 				{
-					cout << "WARNING: Animation has not been registered in " << forwardPort[j] << "file. The animation will not work. Please contact the mod author" << endl << "Animation: " << *iter << endl << endl;
+					WarningMessage(1013, forwardPort[j], *iter);
 				}
 			}
 		}
@@ -34,7 +34,6 @@ void behaviorCheck()
 			{
 				if (iter->second[0].size() > 1)
 				{
-					cout << "WARNING: Duplicated animation file detected" << endl << "File: " << it->first << endl << "Animation: " << iter->first << endl << "Mod: ";
 					string warning;
 
 					for (auto iteration = iter->second[1].begin(); iteration != iter->second[1].end(); ++iteration)
@@ -43,13 +42,12 @@ void behaviorCheck()
 					}
 
 					warning.pop_back();
-					cout << warning << endl << endl;
+					WarningMessage(1014, it->first, iter->first, warning);
 				}
 			}
 			else
 			{
-				cout << ">> ERROR(1066): BUG FOUND!! Report to Nemesis' author immediately << " << endl << endl;
-				error = true;
+				ErrorMessage(1066);
 				return;
 			}
 		}

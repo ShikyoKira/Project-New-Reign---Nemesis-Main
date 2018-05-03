@@ -53,8 +53,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 		if (!isOnlyNumber(strnum) || stoi(strnum) < 10)
 		{
-			cout << "ERROR(3014): Wrong nemesis_animationdatasinglefile detected. Abort processing. Please reinstall Nemesis" << endl << endl;
-			error = true;
+			ErrorMessage(3014);
 			return;
 		}
 
@@ -158,8 +157,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 					}
 					else
 					{
-						cout << ">> ERROR(1165): BUG FOUND!! Report to Nemesis' author immediately <<" << endl << endl;
-						error = true;
+						ErrorMessage(1165);
 						return;
 					}
 				}
@@ -548,8 +546,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 						{
 							if (startCount)
 							{
-								cout << "ERROR(3015): Multiple $elements$ running concurrently detected. Please contact the template creator" << endl << "Character: " << character << endl << "Header: " << header << endl << "Line: " << p + 1 << endl << endl;
-								error = true;
+								ErrorMessage(3015, character, header, p + 1);
 								return;
 							}
 
@@ -557,8 +554,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 							if (pos != AnimDataFormat::behaviorfilecount && pos != AnimDataFormat::eventnamecount && pos != AnimDataFormat::motiondatacount && pos != AnimDataFormat::rotationdatacount)
 							{
-								cout << "ERROR(3016): Current line cannot be used for $elements$. Please contact the template creator" << endl << "Character: " << character << endl << "Header: " << header << endl << "Line: " << p + 1 << endl << endl;
-								error = true;
+								ErrorMessage(3016, character, header, p + 1);
 								return;
 							}
 
@@ -662,8 +658,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 	}
 	else
 	{
-		cout << "ERROR(1025): Fail to output xml file" << endl << "File: " << filename << endl << endl;
-		error = true;
+		ErrorMessage(1025, filename);
 		return;
 	}
 
@@ -805,8 +800,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 				{
 					if (!silentError)
 					{
-						cout << "ERROR(3007): Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator" << endl << "Template: " << modcode << endl << "Line: " << linecount << endl << endl;
-						error = true;
+						ErrorMessage(3007, modcode, linecount);
 						return xerror;
 					}
 				}
@@ -854,8 +848,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							{
 								if (!silentError)
 								{
-									cout << "ERROR(3007): Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator" << endl << "Template: " << modcode << endl << "Line: " << linecount << endl << endl;
-									error = true;
+									ErrorMessage(3007, modcode, linecount);
 									return xerror;
 								}
 							}
@@ -907,8 +900,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 				{
 					if (!silentError)
 					{
-						cout << "ERROR(3007): Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator" << endl << "Template: " << modcode << endl << "Line: " << linecount << endl << endl;
-						error = true;
+						ErrorMessage(3007, modcode, linecount);
 						return xerror;
 					}
 				}
@@ -954,8 +946,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 							if (tempid != 7)
 							{
-								cout << "ERROR(3007): Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator" << endl << "Template: " << modcode << endl << "Line: " << linecount << endl << endl;
-								error = true;
+								ErrorMessage(3007, modcode, linecount);
 								return xerror;
 							}
 						}
@@ -1005,8 +996,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 				{
 					if (!silentError)
 					{
-						cout << "ERROR(3007): Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator" << endl << "Template: " << modcode << endl << "Line: " << linecount << endl << endl;
-						error = true;
+						ErrorMessage(3007, modcode, linecount);
 						return xerror;
 					}
 				}
@@ -1055,8 +1045,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							{
 								if (!silentError)
 								{
-									cout << "ERROR(3007): Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator" << endl << "Template: " << modcode << endl << "Line: " << linecount << endl << endl;
-									error = true;
+									ErrorMessage(3007, modcode, linecount);
 									return xerror;
 								}
 							}
@@ -1169,8 +1158,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 						if (tempid != 4 && tempid != 6)
 						{
-							cout << "ERROR(3007): Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator" << endl << "Template: " << modcode << endl << "Line: " << linecount << endl << endl;
-							error = true;
+							ErrorMessage(3007, modcode, linecount);
 							return xerror;
 						}
 					}
@@ -1198,8 +1186,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 	if (!silentError)
 	{
-		cout << "ERROR(3005): Invalid format for \"animationdatasinglefile.txt\" detected. Please contact the template creator" << endl << "Character: " << character << endl << "Header: " << header << endl << endl;
-		error = true;
+		ErrorMessage(3005, character, header);
 	}
 
 	return xerror;

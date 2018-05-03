@@ -8,8 +8,7 @@ bool FileCheck()
 
 	if (!isFileExist(file))
 	{
-		cout << "ERROR(1096): " << file << "folder not found. Please reinstall Nemesis" << endl << endl;
-		error = true;
+		ErrorMessage(1001, file);
 		return false;
 	}
 
@@ -17,8 +16,7 @@ bool FileCheck()
 
 	if (!isFileExist(file))
 	{
-		cout << "ERROR(1096): " << file << "folder not found. Please reinstall Nemesis" << endl << endl;
-		error = true;
+		ErrorMessage(1092, file);
 		return false;
 	}
 
@@ -26,8 +24,7 @@ bool FileCheck()
 
 	if (!isFileExist(file))
 	{
-		cout << "ERROR(1096): " << file << "folder not found. Please reinstall Nemesis" << endl << endl;
-		error = true;
+		ErrorMessage(1001, file);
 		return false;
 	}
 
@@ -42,8 +39,7 @@ bool FileCheck()
 
 	if (!isFileExist(file))
 	{
-		cout << "ERROR(1096): " << file << "folder not found. Please reinstall Nemesis" << endl << endl;
-		error = true;
+		ErrorMessage(1092, file);
 		return false;
 	}
 
@@ -51,8 +47,23 @@ bool FileCheck()
 
 	if (!isFileExist(file))
 	{
-		cout << "ERROR(1096): " << file << "folder not found. Please reinstall Nemesis" << endl << endl;
-		error = true;
+		ErrorMessage(1092, file);
+		return false;
+	}
+
+	file = "languages";
+
+	if (!isFileExist(file))
+	{
+		ErrorMessage(1001, file);
+		return false;
+	}
+
+	file = "languages\\english.txt";
+
+	if (!isFileExist(file))
+	{
+		ErrorMessage(1092, file);
 		return false;
 	}
 

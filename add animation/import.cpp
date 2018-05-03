@@ -17,8 +17,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 
 		if (!isFileExist(filename))
 		{
-			cout << "ERROR(1027): Missing import file. Please contact the template creator" << endl << "File : " << filename << endl << endl;
-			error = true;
+			ErrorMessage(1027, filename);
 			return behaviorlines;
 		}
 
@@ -58,8 +57,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						}
 						else
 						{
-							cout << "ERROR(1136): Multiple computation function running concurrently detected. Only 1 computation function can be done at a time" << endl << "Import File: " << filename << endl << "Line: " << j + 1 << endl << endl;
-							error = true;
+							ErrorMessage(1135, filename , j + 1);
 							behaviorlines.shrink_to_fit();
 							return behaviorlines;
 						}
@@ -151,16 +149,11 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 
 							if (line.find("$import[" + number + "]$", 0) != string::npos)
 							{
-								// check if it is number
-								for (size_t p = 0; p < number.size(); ++p)
+								if (!isOnlyNumber(number))
 								{
-									if (!isalnum(number[p]) || isalpha(number[p]))
-									{
-										cout << "ERROR(1154): Invalid import input. Only number is acceptable. Please contact the template creator" << endl << "Template: " << it->first << endl << "Line: " << j + 1 << endl << endl;
-										error = true;
-										behaviorlines.shrink_to_fit();
-										return behaviorlines;
-									}
+									ErrorMessage(1154, it->first, j + 1);
+									behaviorlines.shrink_to_fit();
+									return behaviorlines;
 								}
 
 								int num = stoi(number);
@@ -172,8 +165,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 
 								if (num - 2 >= int(keywords.size()))
 								{
-									cout << "ERROR(1169): Missing import input. Please contact the template creator" << endl << "Template: " << it->first << endl << "Line: " << j + 1 << endl << endl;
-									error = true;
+									ErrorMessage(1169, it->first, j + 1);
 									behaviorlines.shrink_to_fit();
 									return behaviorlines;
 								}
@@ -194,8 +186,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						{
 							if (bracketCount != altBracketCount)
 							{
-								cout << "ERROR(1139): Invalid import element. Please contact the template creator" << endl << "Template: " << it->first << endl << "Line: " << j + 1 << endl << "Import: " << importer << endl << endl;
-								error = true;
+								ErrorMessage(1139, it->first, j + 1, importer);
 								behaviorlines.shrink_to_fit();
 								return behaviorlines;
 							}
@@ -282,8 +273,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 							}
 							else
 							{
-								cout << "ERROR(1028): Invalid ID. Please contact the template creator" << endl << "File : " << iter->first << "Line: " << j + 1 << endl << endl;
-								error = true;
+								ErrorMessage(1028, iter->first, j + 1);
 								behaviorlines.shrink_to_fit();
 								return behaviorlines;
 							}

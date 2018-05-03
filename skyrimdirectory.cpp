@@ -27,8 +27,7 @@ DataPath::DataPath()
 	}
 	else
 	{
-		cout << "ERROR(1009): Unable to locate Skyrim Data found. This tool must be executed in skyrim's data file." << endl;
-		error = true;
+		ErrorMessage(1008);
 		return;
 	}
 }
