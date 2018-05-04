@@ -99,9 +99,9 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 		string line = catalyst[l];
 		bool skip = false;
 		
-		if (line.find("<!-- ", 0) != string::npos)
+		if (line.find("<!-- ", 0) != NOT_FOUND)
 		{
-			if (line.find("<!-- NEW *", 0) != string::npos)
+			if (line.find("<!-- NEW *", 0) != NOT_FOUND)
 			{
 				size_t tempint = line.find("<!-- NEW *", 0) + 10;
 				string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
@@ -117,11 +117,11 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 				skip = true;
 			}
-			else if (line.find("<!-- NEW ^", 0) != string::npos)
+			else if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
 			{
 				special = true;
 			}
-			else if (line.find("<!-- CLOSE -->", 0) != string::npos)
+			else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
 			{
 				isOpen = true;
 				newMod.clear();
@@ -141,14 +141,14 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 		{
 			while (true)
 			{
-				if (line.find("<!-- *", 0) != string::npos)
+				if (line.find("<!-- *", 0) != NOT_FOUND)
 				{
 					size_t tempint = line.find("<!-- *") + 6;
 					string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
 					chosenLines[modID] = line;
 					break;
 				}
-				else if (line.find("<!-- original -->", 0) != string::npos)
+				else if (line.find("<!-- original -->", 0) != NOT_FOUND)
 				{
 					if (chosenLines.size() != 0)
 					{
@@ -168,7 +168,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 					{
 						if (catalyst[l - 1] == "")
 						{
-							if (catalyst[l + 3].find("Behaviors") != string::npos && catalyst[l + 3].find(".hkx") == catalyst[l + 3].length() - 4)
+							if (catalyst[l + 3].find("Behaviors") != NOT_FOUND && catalyst[l + 3].find(".hkx") == catalyst[l + 3].length() - 4)
 							{
 								newline.shrink_to_fit();
 								catalystMap[character][header] = newline;
@@ -176,7 +176,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 								newline.clear();
 								isInfo = false;
 
-								if (catalyst[l + 3].find("Behaviors\\Behavior00.hkx") != string::npos)
+								if (catalyst[l + 3].find("Behaviors\\Behavior00.hkx") != NOT_FOUND)
 								{
 									end = true;
 									character = "$end$";
@@ -216,7 +216,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 							}
 							else if (!isInfo)
 							{
-								if (wordFind(catalyst[l], "$CLIP$") != -1)
+								if (wordFind(catalyst[l], "$CLIP$") != NOT_FOUND)
 								{
 									newline.shrink_to_fit();
 									catalystMap[character][header] = newline;;
@@ -254,7 +254,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 							}
 							else
 							{
-								if (wordFind(catalyst[l], "$MDRD$") != -1)
+								if (wordFind(catalyst[l], "$MDRD$") != NOT_FOUND)
 								{
 									newline.shrink_to_fit();
 									catalystMap[character][header] = newline;;
@@ -372,7 +372,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 				{
 					infoline = j;
 				}
-				else if (header.find(" ") != string::npos)
+				else if (header.find(" ") != NOT_FOUND)
 				{
 					type = 2;
 				}
@@ -542,7 +542,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 					{
 						string line = catalystMap[character][header][p];
 
-						if (line.find("$elements$") != string::npos)
+						if (line.find("$elements$") != NOT_FOUND)
 						{
 							if (startCount)
 							{
@@ -720,7 +720,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 	for (unsigned int i = 0; i < animData.size(); ++i)
 	{
-		if (animData[i].find("<!-- ") != string::npos)
+		if (animData[i].find("<!-- ") != NOT_FOUND)
 		{
 			if (functionstart == -1)
 			{
@@ -729,11 +729,11 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 			marker[i].skip = true;
 
-			if (animData[i].find("<!-- CLOSE -->") != string::npos)
+			if (animData[i].find("<!-- CLOSE -->") != NOT_FOUND)
 			{
 				isOpen = false;
 			}
-			else if (animData[i].find("<!-- CONDITION END -->") != string::npos)
+			else if (animData[i].find("<!-- CONDITION END -->") != NOT_FOUND)
 			{
 				isCondition[conditionOpen] = false;
 				isConditionOri[conditionOpen] = false;
@@ -758,23 +758,23 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			marker[i].conditionOpen = conditionOpen;
 		}
 
-		if (animData[i].find("<!-- ") != string::npos)
+		if (animData[i].find("<!-- ") != NOT_FOUND)
 		{
-			if (animData[i].find("<!-- NEW") != string::npos)
+			if (animData[i].find("<!-- NEW") != NOT_FOUND)
 			{
 				isOpen = true;
 			}
-			else if (animData[i].find("<!-- CONDITION START ^") != string::npos)
+			else if (animData[i].find("<!-- CONDITION START ^") != NOT_FOUND)
 			{
 				++conditionOpen;
 				isCondition[conditionOpen] = true;
 			}
-			else if (animData[i].find("<!-- CONDITION -->") != string::npos)
+			else if (animData[i].find("<!-- CONDITION -->") != NOT_FOUND)
 			{
 				isCondition[conditionOpen] = false;
 				isConditionOri[conditionOpen] = true;
 			}
-			else if (animData[i].find("<!-- CONDITION ^") != string::npos)
+			else if (animData[i].find("<!-- CONDITION ^") != NOT_FOUND)
 			{
 				marker[i].nextCondition = true;
 			}
@@ -796,7 +796,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			}
 			else
 			{
-				if (animData[linecount].find("<!-- ") != string::npos)
+				if (animData[linecount].find("<!-- ") != NOT_FOUND)
 				{
 					if (!silentError)
 					{
@@ -896,7 +896,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			}
 			else
 			{
-				if (animData[linecount].find("<!-- ") != string::npos)
+				if (animData[linecount].find("<!-- ") != NOT_FOUND)
 				{
 					if (!silentError)
 					{
@@ -992,7 +992,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			}
 			else
 			{
-				if (animData[linecount].find("<!-- ") != string::npos)
+				if (animData[linecount].find("<!-- ") != NOT_FOUND)
 				{
 					if (!silentError)
 					{

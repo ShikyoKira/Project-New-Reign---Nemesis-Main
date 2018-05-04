@@ -22,11 +22,11 @@ vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 			{
 				string curline = functionlist[it->second][j];
 
-				if (curline.find("class=\"hkbStateMachine\" signature=\"") != string::npos)
+				if (curline.find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
 				{
 					rightFunction = true;
 				}
-				else if (curline.find("<hkparam name=\"states\" numelements=\"") != string::npos)
+				else if (curline.find("<hkparam name=\"states\" numelements=\"") != NOT_FOUND)
 				{
 					open = true;
 				}
@@ -38,7 +38,7 @@ vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 				}
 				else if (open)
 				{
-					if (curline.find("#") != string::npos)
+					if (curline.find("#") != NOT_FOUND)
 					{
 						size_t counter = count(curline.begin(), curline.end(), '#');
 						size_t nextpos = 0;
@@ -53,7 +53,7 @@ vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 							{
 								string line = functionlist[ID][l];
 
-								if (line.find("<hkparam name=\"stateId\">", 0) != string::npos)
+								if (line.find("<hkparam name=\"stateId\">", 0) != NOT_FOUND)
 								{
 									int tempStateID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
@@ -86,11 +86,11 @@ int GetStateCount(vecstr templatelines)
 
 	for (unsigned int i = 0; i < templatelines.size(); ++i)
 	{
-		if (templatelines[i].find("\t\t\t<hkparam name=\"stateId\">$(S+") != string::npos && templatelines[i].find(")$</hkparam>", templatelines[i].find("\t\t\t<hkparam name=\"stateId\">$(S+")) != string::npos)
+		if (templatelines[i].find("\t\t\t<hkparam name=\"stateId\">$(S+") != NOT_FOUND && templatelines[i].find(")$</hkparam>", templatelines[i].find("\t\t\t<hkparam name=\"stateId\">$(S+")) != NOT_FOUND)
 		{
 			string number = boost::regex_replace(string(templatelines[i]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-			if (templatelines[i].find("\t\t\t<hkparam name=\"stateId\">$(S+" + number + ")$</hkparam>") != string::npos)
+			if (templatelines[i].find("\t\t\t<hkparam name=\"stateId\">$(S+" + number + ")$</hkparam>") != NOT_FOUND)
 			{
 				if (count <= stoi(number))
 				{
@@ -112,7 +112,7 @@ vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
 		string templine = line;
 		templine.replace(templine.find("##"), 2, element[curNumber][j]);
 
-		if (templine.find("##") != string::npos)
+		if (templine.find("##") != NOT_FOUND)
 		{
 			vecstr tempAnimEvent = newAnimationElement(templine, element, curNumber + 1);
 			animElement.reserve(animElement.size() + tempAnimEvent.size());
@@ -158,7 +158,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 		size_t pos = wordFind(path, "\\behaviors\\", true);
 
-		if (pos != -1)
+		if (pos != NOT_FOUND)
 		{
 			animPath.insert(path.substr(0, pos) + "\\");
 		}
@@ -198,7 +198,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 				for (unsigned int k = 0; k < filelist2.size(); ++k)
 				{
-					if (filelist2[k].find("_" + filelist1[l] + "_List.txt") != string::npos)
+					if (filelist2[k].find("_" + filelist1[l] + "_List.txt") != NOT_FOUND)
 					{
 						string fileToolName = filelist2[k].substr(0, filelist2[k].find("_", 0) + 1);
 						string listword = filelist2[k].substr(filelist2[k].find_last_of("_"));
@@ -277,7 +277,7 @@ void GetBehaviorPath()
 
 							for (unsigned int i = 1; i < path.size(); ++i)
 							{
-								if (path[i].find("\\") != string::npos)
+								if (path[i].find("\\") != NOT_FOUND)
 								{
 									pathline = pathline + path[i] + " ";
 								}
@@ -423,7 +423,7 @@ void characterHKX(string directory, string filename)
 		{
 			line = charline;
 
-			if (line.find("<hkparam name=\"behaviorFilename\">") != string::npos)
+			if (line.find("<hkparam name=\"behaviorFilename\">") != NOT_FOUND)
 			{
 				size_t nextpos = line.find("behaviorFilename\">") + 18;
 				string behaviorName = line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos);
@@ -449,9 +449,9 @@ string GetFileName(string filepath)
 	string filename;
 	size_t nextpos;
 
-	if (filepath.find("/") != string::npos)
+	if (filepath.find("/") != NOT_FOUND)
 	{
-		if (filepath.find("\\") != string::npos)
+		if (filepath.find("\\") != NOT_FOUND)
 		{
 			if (filepath.find_last_of("/") < filepath.find_last_of("\\"))
 			{

@@ -46,7 +46,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 					bool elementCatch = false;
 					string line = exportFormat[j];
 					
-					if (line.find("<hkparam name=\"") != string::npos && line.find("numelements=\"") != string::npos && line.find("</hkparam>") == string::npos && line.find("<!-- COMPUTE -->", line.find("numelements=\"")) != string::npos)
+					if (line.find("<hkparam name=\"") != NOT_FOUND && line.find("numelements=\"") != NOT_FOUND && line.find("</hkparam>") == NOT_FOUND && line.find("<!-- COMPUTE -->", line.find("numelements=\"")) != NOT_FOUND)
 					{
 						if (!norElement)
 						{
@@ -62,7 +62,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 							return behaviorlines;
 						}
 					}
-					else if (line.find("</hkparam>") != string::npos && norElement)
+					else if (line.find("</hkparam>") != NOT_FOUND && norElement)
 					{
 						string templine = line.substr(0, line.find("</hkparam>"));
 						__int64 range = count(templine.begin(), templine.end(), '\t');
@@ -71,7 +71,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						{
 							string oldElement;
 
-							if (exportFormat[elementLine].find("numelements=\"$elements$\">", 0) == string::npos)
+							if (exportFormat[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
 							{
 								size_t position = exportFormat[elementLine].find("numelements=\"") + 13;
 								oldElement = exportFormat[elementLine].substr(position, exportFormat[elementLine].find("\">", position) - position);
@@ -96,7 +96,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 					{
 						string templine = line;
 
-						if (templine.find("<hkobject>") != string::npos)
+						if (templine.find("<hkobject>") != NOT_FOUND)
 						{
 							templine = templine.substr(0, templine.find("<hkobject>"));
 							__int64 range = count(templine.begin(), templine.end(), '\t');
@@ -106,7 +106,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 								eleCounter++;
 							}
 						}
-						else if (templine.find("\t\t\t#") != string::npos)
+						else if (templine.find("\t\t\t#") != NOT_FOUND)
 						{
 							templine = templine.substr(0, templine.find("#", 0));
 							__int64 reference = count(templine.begin(), templine.end(), '\t');
@@ -119,7 +119,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						}
 					}
 
-					if (line.find("$import[1][2]$", 0) != string::npos)
+					if (line.find("$import[1][2]$", 0) != NOT_FOUND)
 					{
 						int reference = sameWordCount(line, "$import[1][2]$");
 
@@ -129,7 +129,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						}
 					}
 
-					if (line.find("$import[1]$", 0) != string::npos)
+					if (line.find("$import[1]$", 0) != NOT_FOUND)
 					{
 						int reference = sameWordCount(line, "$import[1]$");
 
@@ -139,7 +139,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						}
 					}
 
-					if (line.find("$import[", 0) != string::npos && line.find("]$", line.find("$import[" + 1)) != string::npos)
+					if (line.find("$import[", 0) != NOT_FOUND && line.find("]$", line.find("$import[" + 1)) != NOT_FOUND)
 					{
 						int reference = sameWordCount(line, "$import[");
 
@@ -147,7 +147,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						{
 							string number = boost::regex_replace(string(line.substr(line.find("$import["))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-							if (line.find("$import[" + number + "]$", 0) != string::npos)
+							if (line.find("$import[" + number + "]$", 0) != NOT_FOUND)
 							{
 								if (!isOnlyNumber(number))
 								{
@@ -175,7 +175,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						}
 					}
 
-					if (line.find("$import[", 0) != string::npos && line.find("]$", line.find("$import[" + 1)) != string::npos)
+					if (line.find("$import[", 0) != NOT_FOUND && line.find("]$", line.find("$import[" + 1)) != NOT_FOUND)
 					{
 						size_t nextpos = line.find("$import[");
 						string importer = line.substr(nextpos + 1, line.find("]$") - nextpos);
@@ -238,7 +238,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						}
 					}
 
-					if (line.find("MID$", 0) != string::npos)
+					if (line.find("MID$", 0) != NOT_FOUND)
 					{
 						int reference = sameWordCount(line, "MID$");
 
@@ -248,7 +248,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 							string number = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 							string oldID = "MID$" + number;
 
-							if (line.find(oldID) != string::npos)
+							if (line.find(oldID) != NOT_FOUND)
 							{
 								size_t nextpos = line.find(oldID);
 

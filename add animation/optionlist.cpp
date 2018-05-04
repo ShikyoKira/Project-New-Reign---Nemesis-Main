@@ -60,7 +60,7 @@ OptionList::OptionList(string filepath, string format)
 						string first = AnimInfo[1];
 						string second = AnimInfo[2];
 
-						if (strline.find(AnimInfo[0] + " " + first + " " + second) != string::npos)
+						if (strline.find(AnimInfo[0] + " " + first + " " + second) != NOT_FOUND)
 						{
 							// first rule processing
 							__int64 reference = count(first.begin(), first.end(), ',');
@@ -165,7 +165,7 @@ OptionList::OptionList(string filepath, string format)
 					{
 						string number = boost::regex_replace(string(AnimInfo[1]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-						if (strline.find(AnimInfo[0] + " " + number) != string::npos)
+						if (strline.find(AnimInfo[0] + " " + number) != NOT_FOUND)
 						{
 							groupMin = stoi(number);
 						}
@@ -235,7 +235,7 @@ OptionList::OptionList(string filepath, string format)
 
 					isElementExist[templine] = true;
 
-					if (templine.find("<") != string::npos && templine.find(">", templine.find("<")) != string::npos)
+					if (templine.find("<") != NOT_FOUND && templine.find(">", templine.find("<")) != NOT_FOUND)
 					{
 						__int64 opening = count(strline.begin(), strline.end(), '<');
 						__int64 closing = count(strline.begin(), strline.end(), '>');
@@ -325,7 +325,7 @@ OptionList::OptionList(string filepath, string format)
 						return;
 					}
 
-					if (templine.find("<") != string::npos && templine.find(">", templine.find("<")) != string::npos)
+					if (templine.find("<") != NOT_FOUND && templine.find(">", templine.find("<")) != NOT_FOUND)
 					{
 						__int64 opening = count(strline.begin(), strline.end(), '<');
 						__int64 closing = count(strline.begin(), strline.end(), '>');
@@ -407,7 +407,7 @@ OptionList::OptionList(string filepath, string format)
 
 					string templine = AnimInfo[1];
 
-					if (templine.find("<") != string::npos && templine.find(">", templine.find("<")) != string::npos)
+					if (templine.find("<") != NOT_FOUND && templine.find(">", templine.find("<")) != NOT_FOUND)
 					{
 						__int64 opening = count(strline.begin(), strline.end(), '<');
 						__int64 closing = count(strline.begin(), strline.end(), '>');
@@ -485,7 +485,7 @@ OptionList::OptionList(string filepath, string format)
 
 					string templine = AnimInfo[2];
 
-					if (templine.find("<") != string::npos && templine.find(">", templine.find("<")) != string::npos)
+					if (templine.find("<") != NOT_FOUND && templine.find(">", templine.find("<")) != NOT_FOUND)
 					{
 						__int64 opening = count(strline.begin(), strline.end(), '<');
 						__int64 closing = count(strline.begin(), strline.end(), '>');
@@ -601,7 +601,7 @@ OptionList::OptionList(string filepath, string format)
 				}
 				else if (lower == "add")				// Add <option> <addon> <modifier>
 				{
-					if (AnimInfo[3].find("$$$") == string::npos)
+					if (AnimInfo[3].find("$$$") == NOT_FOUND)
 					{
 						ErrorMessage(1006, format, filepath, linecount, strline);
 						fclose(input);
@@ -683,7 +683,7 @@ OptionList::OptionList(string filepath, string format)
 							return;
 						}
 
-						if (strline.find("<", lineplus) != string::npos && strline.find(">", lineplus) != string::npos)
+						if (strline.find("<", lineplus) != NOT_FOUND && strline.find(">", lineplus) != NOT_FOUND)
 						{
 							if (boost::iequals(tempOption, "animobject") || boost::iequals(tempOption, "end"))
 							{

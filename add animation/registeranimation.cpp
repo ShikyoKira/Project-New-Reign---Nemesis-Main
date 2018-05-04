@@ -18,7 +18,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 	{
 		size_t nextpos = wordFind(filepath, "\\animations\\", true);
 
-		if(nextpos == -1)
+		if (nextpos == NOT_FOUND)
 		{
 			ErrorMessage(1081);
 			return;

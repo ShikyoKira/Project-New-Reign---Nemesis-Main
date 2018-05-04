@@ -62,7 +62,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 		bool uniqueskip = false;
 		bool elementCatch = false;
 
-		if (templatelines[i].find("<!-- CONDITION START ^", 0) != string::npos)
+		if (templatelines[i].find("<!-- CONDITION START ^", 0) != NOT_FOUND)
 		{
 			condition++;
 
@@ -95,7 +95,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 			uniqueskip = true;
 		}
-		else if (templatelines[i].find("<!-- CONDITION ^", 0) != string::npos)
+		else if (templatelines[i].find("<!-- CONDITION ^", 0) != NOT_FOUND)
 		{
 			if (condition == 0)
 			{
@@ -134,7 +134,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 			uniqueskip = true;
 		}
-		else if (templatelines[i].find("<!-- CONDITION -->", 0) != string::npos)
+		else if (templatelines[i].find("<!-- CONDITION -->", 0) != NOT_FOUND)
 		{
 			if (condition == 0)
 			{
@@ -171,13 +171,13 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 			uniqueskip = true;
 		}
-		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "^ -->", 0) != string::npos || templatelines[i].find("<!-- NEW ^" + masterFormat + "_group^ -->", 0) != string::npos)
+		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "^ -->", 0) != NOT_FOUND || templatelines[i].find("<!-- NEW ^" + masterFormat + "_group^ -->", 0) != NOT_FOUND)
 		{
 			ErrorMessage(1164, format, i + 1);
 			functionline.shrink_to_fit();
 			return functionline;
 		}
-		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "^ +% -->", 0) != string::npos && IsConditionOpened[condition])
+		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "^ +% -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (groupCount != -1)
 			{
@@ -204,7 +204,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 			uniqueskip = true;
 		}
-		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "_group^ +% -->", 0) != string::npos && IsConditionOpened[condition])
+		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "_group^ +% -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (groupCount == -1)
 			{
@@ -231,7 +231,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 			uniqueskip = true;
 		}
-		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "_master^ -->", 0) != string::npos || templatelines[i].find("<!-- NEW ^" + masterFormat + "_master^ +% -->", 0) != string::npos)
+		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "_master^ -->", 0) != NOT_FOUND || templatelines[i].find("<!-- NEW ^" + masterFormat + "_master^ +% -->", 0) != NOT_FOUND)
 		{
 			string templatename;
 
@@ -248,7 +248,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			functionline.shrink_to_fit();
 			return functionline;
 		}
-		else if (templatelines[i].find("<!-- NEW ^", 0) != string::npos && templatelines[i].find("^ -->", 0) != string::npos && IsConditionOpened[condition])
+		else if (templatelines[i].find("<!-- NEW ^", 0) != NOT_FOUND && templatelines[i].find("^ -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (!open)
 			{
@@ -359,7 +359,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 			uniqueskip = true;
 		}
-		else if (templatelines[i].find("<!-- NEW ^", 0) != string::npos && templatelines[i].find("^ +% -->", 0) != string::npos && IsConditionOpened[condition])
+		else if (templatelines[i].find("<!-- NEW ^", 0) != NOT_FOUND && templatelines[i].find("^ +% -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (!open)
 			{
@@ -474,7 +474,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 			uniqueskip = true;
 		}
-		else if (templatelines[i].find("<!-- CLOSE -->", 0) != string::npos || templatelines[i].find("<!-- CONDITION END -->", 0) != string::npos)
+		else if (templatelines[i].find("<!-- CLOSE -->", 0) != NOT_FOUND || templatelines[i].find("<!-- CONDITION END -->", 0) != NOT_FOUND)
 		{
 			uniqueskip = true;
 		}
@@ -489,7 +489,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					break;
 				}
 
-				if (templatelines[i].find("MID$", 0) != string::npos)
+				if (templatelines[i].find("MID$", 0) != NOT_FOUND)
 				{
 					int counter = sameWordCount(templatelines[i], "MID$");
 
@@ -499,7 +499,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 						string ID = boost::regex_replace(string(templatelines[i].substr(MIDposition)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 						string oldID = "MID$" + ID;
 
-						if (templatelines[i].find(oldID, MIDposition) != string::npos)
+						if (templatelines[i].find(oldID, MIDposition) != NOT_FOUND)
 						{
 							if (IDExist[oldID].length() > 0)
 							{
@@ -522,13 +522,13 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				}
 
 				// set state ID
-				if (templatelines[i].find("$(S", 0) != string::npos)
+				if (templatelines[i].find("$(S", 0) != NOT_FOUND)
 				{
 					string templine = templatelines[i].substr(templatelines[i].find("$(S"));
 					string ID = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 					int intID;
 
-					if (templatelines[i].find("$(S" + ID + "+") == string::npos)
+					if (templatelines[i].find("$(S" + ID + "+") == NOT_FOUND)
 					{
 						ID = "";
 						intID = 0;
@@ -545,7 +545,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 						}
 					}
 
-					if (templatelines[i].find("$(S" + ID + "+") != string::npos)
+					if (templatelines[i].find("$(S" + ID + "+") != NOT_FOUND)
 					{
 						stateReplacer(templatelines[i], ID, fixedStateID[intID], i + 1, groupCount);
 					}
@@ -554,13 +554,13 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				if (groupCount != -1)
 				{
 					// set animation ID
-					if (templatelines[i].find("$%$", 0) != string::npos)
+					if (templatelines[i].find("$%$", 0) != NOT_FOUND)
 					{
 						templatelines[i].replace(templatelines[i].find("$%$"), 3, to_string(groupCount));
 					}
 
 					// multi choice selection
-					if (templatelines[i].find("$MC$", 0) != string::npos)
+					if (templatelines[i].find("$MC$", 0) != NOT_FOUND)
 					{
 						multiChoice(templatelines[i], groupOptionPicked, groupAnimInfo, i + 1, format, masterFormat);
 
@@ -571,7 +571,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 						}
 					}
 
-					if (templatelines[i].find("%") != string::npos && templatelines[i].find("+%") == string::npos)
+					if (templatelines[i].find("%") != NOT_FOUND && templatelines[i].find("+%") == NOT_FOUND)
 					{
 						__int64 counter = count(templatelines[i].begin(), templatelines[i].end(), '%');
 
@@ -583,7 +583,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				}
 
 				// compute numelements
-				if (templatelines[i].find("<hkparam name=\"") != string::npos && templatelines[i].find("numelements=\"") != string::npos && templatelines[i].find("</hkparam>") == string::npos && templatelines[i].find("<!-- COMPUTE -->", templatelines[i].find("numelements=\"")) != string::npos)
+				if (templatelines[i].find("<hkparam name=\"") != NOT_FOUND && templatelines[i].find("numelements=\"") != NOT_FOUND && templatelines[i].find("</hkparam>") == NOT_FOUND && templatelines[i].find("<!-- COMPUTE -->", templatelines[i].find("numelements=\"")) != NOT_FOUND)
 				{
 					if (!norElement)
 					{
@@ -599,7 +599,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 						return functionline;
 					}
 				}
-				else if (templatelines[i].find("</hkparam>") != string::npos && norElement)
+				else if (templatelines[i].find("</hkparam>") != NOT_FOUND && norElement)
 				{
 					string templine = templatelines[i].substr(0, templatelines[i].find("</hkparam>"));
 					__int64 range = count(templine.begin(), templine.end(), '\t');
@@ -608,7 +608,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					{
 						string oldElement;
 
-						if (functionline[elementLine].find("numelements=\"$elements$\">", 0) == string::npos)
+						if (functionline[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
 						{
 							size_t position = functionline[elementLine].find("numelements=\"") + 13;
 							oldElement = functionline[elementLine].substr(position, functionline[elementLine].find("\">", position) - position);
@@ -633,7 +633,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				{
 					string templine = templatelines[i];
 
-					if (templine.find("<hkobject>") != string::npos)
+					if (templine.find("<hkobject>") != NOT_FOUND)
 					{
 						templine = templine.substr(0, templine.find("<hkobject>"));
 						__int64 range = count(templine.begin(), templine.end(), '\t');
@@ -643,7 +643,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 							counter++;
 						}
 					}
-					else if (templine.find("\t\t\t#") != string::npos)
+					else if (templine.find("\t\t\t#") != NOT_FOUND)
 					{
 						templine = templine.substr(0, templine.find("#", 0));
 						__int64 reference = count(templine.begin(), templine.end(), '\t');
@@ -656,12 +656,12 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					}
 				}
 
-				if ((templatelines[i].find("#" + masterFormat + "$") != string::npos || templatelines[i].find("#" + masterFormat + "_group$") != string::npos))
+				if ((templatelines[i].find("#" + masterFormat + "$") != NOT_FOUND || templatelines[i].find("#" + masterFormat + "_group$") != NOT_FOUND))
 				{
 					vecstr generator;
 					size_t nextpos = -1;
 
-					if(templatelines[i].find("\t\t\t#") != string::npos)
+					if(templatelines[i].find("\t\t\t#") != NOT_FOUND)
 					{
 						stringstream sstream(templatelines[i]);
 						istream_iterator<string> ssbegin(sstream);
@@ -690,14 +690,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					{
 						string ID = generator[p];
 
-						if (ID.find("#" + masterFormat + "$") != string::npos && multiOption == masterFormat)
+						if (ID.find("#" + masterFormat + "$") != NOT_FOUND && multiOption == masterFormat)
 						{
 							nextpos = templatelines[i].find("#" + masterFormat + "$", nextpos) + 1;
 							string tempID = templatelines[i].substr(nextpos);
 							string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 							curID = masterFormat + "$" + curID;
 
-							if (tempID.find(curID, 0) != string::npos && nextpos == templatelines[i].find(curID))
+							if (tempID.find(curID, 0) != NOT_FOUND && nextpos == templatelines[i].find(curID))
 							{
 								if (subFunctionIDs[0][curID].length() == 0)
 								{
@@ -715,14 +715,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 								return functionline;
 							}
 						}
-						else if (ID.find("#" + masterFormat + "_group") != string::npos && multiOption == masterFormat + "_group")
+						else if (ID.find("#" + masterFormat + "_group") != NOT_FOUND && multiOption == masterFormat + "_group")
 						{
 							nextpos = templatelines[i].find("#" + masterFormat + "_group$", nextpos) + 1;
 							string tempID = templatelines[i].substr(nextpos);
 							string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 							curID = multiOption + "$" + curID;
 
-							if (tempID.find(curID, 0) != string::npos && nextpos == templatelines[i].find(curID))
+							if (tempID.find(curID, 0) != NOT_FOUND && nextpos == templatelines[i].find(curID))
 							{
 								for (unsigned int k = 0; k < subFunctionIDs.size(); ++k) // number of variation
 								{
@@ -746,7 +746,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					}
 				}
 
-				if (templatelines[i].find("$") != string::npos && groupCount != -1)
+				if (templatelines[i].find("$") != NOT_FOUND && groupCount != -1)
 				{
 					processing(templatelines[i], masterFormat, i + 1, subFunctionIDs, groupAnimInfo, eventid, variableid);
 
@@ -757,14 +757,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					}
 				}
 
-				if (templatelines[i].find("<hkparam name=\"animationName\">") != string::npos)
+				if (templatelines[i].find("<hkparam name=\"animationName\">") != NOT_FOUND)
 				{
 					size_t pos = templatelines[i].find("animationName\">") + 15;
 					string animPath = templatelines[i].substr(pos, templatelines[i].find("</hkparam>", pos) - pos);
 					boost::algorithm::to_lower(animPath);
 					usedAnim[behaviorFile].insert(animPath);
 				}
-				else if (templatelines[i].find("<hkparam name=\"behaviorName\">") != string::npos)
+				else if (templatelines[i].find("<hkparam name=\"behaviorName\">") != NOT_FOUND)
 				{
 					size_t pos = templatelines[i].find("behaviorName\">") + 14;
 					string behaviorName = templatelines[i].substr(pos, templatelines[i].find("</hkparam>", pos) - pos);
@@ -783,7 +783,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			}
 		}
 
-		if (templatelines[i].find("<!-- CLOSE -->", 0) != string::npos && IsConditionOpened[condition])
+		if (templatelines[i].find("<!-- CLOSE -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (skip)
 			{
@@ -819,7 +819,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 								string curLine = tempstore[l];
 								bool storeSkip = false;
 
-								if (curLine.find("<!-- ") != string::npos && curLine.find(" -->", curLine.find("<!-- ")) != string::npos && curLine.find("$MC$") == string::npos)
+								if (curLine.find("<!-- ") != NOT_FOUND && curLine.find(" -->", curLine.find("<!-- ")) != NOT_FOUND && curLine.find("$MC$") == NOT_FOUND)
 								{
 									bool isNot = false;
 									size_t pos = curLine.find("<!-- ") + 5;
@@ -831,17 +831,17 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 										option = option.substr(1);
 									}
 
-									if (option.find("L") != string::npos)
+									if (option.find("L") != NOT_FOUND)
 									{
 										option.replace(option.find("L"), 1, to_string(groupAnimInfo.size() - 1));
 									}
 
-									if (option.find("F") != string::npos)
+									if (option.find("F") != NOT_FOUND)
 									{
 										option.replace(option.find("F"), 1, "0");
 									}
 
-									if (sameWordCount(option, "$") == 2 && option.find("$(") != string::npos && option.find(")$", option.find("$(")) != string::npos)
+									if (sameWordCount(option, "$") == 2 && option.find("$(") != NOT_FOUND && option.find(")$", option.find("$(")) != NOT_FOUND)
 									{
 										pos = option.find("$(") + 1;
 										option = option.substr(pos, option.find(")$") - pos + 1);
@@ -867,15 +867,15 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									storeSkip = true;
 								}
 
-								if (curLine.find("$") != string::npos)
+								if (curLine.find("$") != NOT_FOUND)
 								{
 									// set animation ID
-									if (curLine.find("$%$", 0) != string::npos)
+									if (curLine.find("$%$", 0) != NOT_FOUND)
 									{
 										curLine.replace(curLine.find("$%$"), 3, to_string(groupCount));
 									}
 
-									if (curLine.find("MID$", 0) != string::npos)
+									if (curLine.find("MID$", 0) != NOT_FOUND)
 									{
 										int counter = sameWordCount(curLine, "MID$");
 
@@ -885,7 +885,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 											string ID = boost::regex_replace(string(curLine.substr(MIDposition)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 											string oldID = "MID$" + ID;
 
-											if (curLine.find(oldID, MIDposition) != string::npos)
+											if (curLine.find(oldID, MIDposition) != NOT_FOUND)
 											{
 												if (IDExist[oldID].length() > 0)
 												{
@@ -908,13 +908,13 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									}
 
 									// set state ID
-									if (curLine.find("$(S", 0) != string::npos)
+									if (curLine.find("$(S", 0) != NOT_FOUND)
 									{
 										string templine = curLine.substr(curLine.find("$(S"));
 										string ID = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 										int intID;
 
-										if (curLine.find("$(S" + ID + "+") == string::npos)
+										if (curLine.find("$(S" + ID + "+") == NOT_FOUND)
 										{
 											ID = "";
 											intID = 0;
@@ -931,14 +931,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 											}
 										}
 
-										if (curLine.find("$(S" + ID + "+") != string::npos)
+										if (curLine.find("$(S" + ID + "+") != NOT_FOUND)
 										{
 											stateReplacer(curLine, ID, fixedStateID[intID], i + 1, groupCount);
 										}
 									}
 
 									// multi choice selection
-									if (curLine.find("$MC$", 0) != string::npos)
+									if (curLine.find("$MC$", 0) != NOT_FOUND)
 									{
 										multiChoice(curLine, groupOptionPicked, groupAnimInfo, i + 1, format, masterFormat);
 
@@ -950,7 +950,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									}
 								}
 
-								if (curLine.find("%") != string::npos && curLine.find("+%") == string::npos)
+								if (curLine.find("%") != NOT_FOUND && curLine.find("+%") == NOT_FOUND)
 								{
 									__int64 counter = count(curLine.begin(), curLine.end(), '%');
 
@@ -964,7 +964,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 								{
 									string templine = curLine;
 
-									if (templine.find("<hkobject>") != string::npos)
+									if (templine.find("<hkobject>") != NOT_FOUND)
 									{
 										templine = templine.substr(0, templine.find("<hkobject>"));
 										__int64 range = count(templine.begin(), templine.end(), '\t');
@@ -974,7 +974,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 											counter++;
 										}
 									}
-									else if (templine.find("\t\t\t#") != string::npos)
+									else if (templine.find("\t\t\t#") != NOT_FOUND)
 									{
 										templine = templine.substr(0, templine.find("#", 0));
 										__int64 reference = count(templine.begin(), templine.end(), '\t');
@@ -987,7 +987,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									}
 								}
 
-								if (curLine.find("\t\t\t#") != string::npos && (curLine.find("#" + masterFormat + "$") != string::npos || curLine.find("#" + masterFormat + "_group$") != string::npos))
+								if (curLine.find("\t\t\t#") != NOT_FOUND && (curLine.find("#" + masterFormat + "$") != NOT_FOUND || curLine.find("#" + masterFormat + "_group$") != NOT_FOUND))
 								{
 									stringstream sstream(curLine);
 									istream_iterator<string> ssbegin(sstream);
@@ -1000,14 +1000,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									{
 										string ID = generator[p];
 
-										if (ID.find("#" + masterFormat + "$") != string::npos && multiOption == masterFormat)
+										if (ID.find("#" + masterFormat + "$") != NOT_FOUND && multiOption == masterFormat)
 										{
 											nextpos = curLine.find("#" + masterFormat + "$", nextpos) + 1;
 											string tempID = curLine.substr(nextpos);
 											string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 											curID = masterFormat + "$" + curID;
 
-											if (tempID.find(curID, 0) != string::npos && nextpos == curLine.find(curID))
+											if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
@@ -1025,14 +1025,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 												return functionline;
 											}
 										}
-										else if (ID.find("#" + masterFormat + "_group") != string::npos && multiOption == masterFormat + "_group")
+										else if (ID.find("#" + masterFormat + "_group") != NOT_FOUND && multiOption == masterFormat + "_group")
 										{
 											nextpos = curLine.find("#" + multiOption, nextpos) + 1;
 											string tempID = curLine.substr(nextpos);
 											string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 											curID = multiOption + "$" + curID;
 
-											if (tempID.find(curID, 0) != string::npos && nextpos == curLine.find(curID))
+											if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
@@ -1053,7 +1053,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									}
 								}
 
-								if (curLine.find("$") != string::npos)
+								if (curLine.find("$") != NOT_FOUND)
 								{
 									processing(curLine, masterFormat, i + 1 + l - int(tempstore.size()), subFunctionIDs, groupAnimInfo, eventid, variableid, optionMulti, animMulti, multiOption);
 
@@ -1066,14 +1066,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 								if (!storeSkip)
 								{
-									if (curLine.find("<hkparam name=\"animationName\">") != string::npos)
+									if (curLine.find("<hkparam name=\"animationName\">") != NOT_FOUND)
 									{
 										size_t pos = curLine.find("animationName\">") + 15;
 										string animPath = curLine.substr(pos, curLine.find("</hkparam>", pos) - pos);
 										boost::algorithm::to_lower(animPath);
 										usedAnim[behaviorFile].insert(animPath);
 									}
-									else if (curLine.find("<hkparam name=\"behaviorName\">") != string::npos)
+									else if (curLine.find("<hkparam name=\"behaviorName\">") != NOT_FOUND)
 									{
 										size_t pos = curLine.find("behaviorName\">") + 14;
 										string behaviorName = curLine.substr(pos, curLine.find("</hkparam>", pos) - pos);
@@ -1096,7 +1096,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			multi = false;
 			open = false;
 		}
-		else if (templatelines[i].find("<!-- CONDITION END -->", 0) != string::npos)
+		else if (templatelines[i].find("<!-- CONDITION END -->", 0) != NOT_FOUND)
 		{
 			if (condition == 0)
 			{
@@ -1107,13 +1107,13 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 			if (freeze && IsConditionOpened[condition])
 			{
-				if (templatelines[i].find("<hkparam name=\"animationName\">") != string::npos)
+				if (templatelines[i].find("<hkparam name=\"animationName\">") != NOT_FOUND)
 				{
 					size_t pos = templatelines[i].find("animationName\">") + 15;
 					string animPath = templatelines[i].substr(pos, templatelines[i].find("</hkparam>", pos) - pos);
 					usedAnim[behaviorFile].insert(animPath);
 				}
-				else if (templatelines[i].find("<hkparam name=\"behaviorName\">") != string::npos)
+				else if (templatelines[i].find("<hkparam name=\"behaviorName\">") != NOT_FOUND)
 				{
 					size_t pos = templatelines[i].find("behaviorName\">") + 14;
 					string behaviorName = templatelines[i].substr(pos, templatelines[i].find("</hkparam>", pos) - pos);
@@ -1250,11 +1250,11 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 		string line = existingFunctionLines[i];
 
-		if (line.find("<!-- CONDITION START", 0) != string::npos)
+		if (line.find("<!-- CONDITION START", 0) != NOT_FOUND)
 		{
 			condition++;
 
-			if (line.find("<!-- CONDITION START ^", 0) != string::npos)
+			if (line.find("<!-- CONDITION START ^", 0) != NOT_FOUND)
 			{
 				if (!freeze)
 				{
@@ -1291,7 +1291,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			uniqueskip = true;
 		}
-		else if (line.find("<!-- CONDITION ^", 0) != string::npos)
+		else if (line.find("<!-- CONDITION ^", 0) != NOT_FOUND)
 		{
 			if (condition == 0)
 			{
@@ -1332,7 +1332,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			uniqueskip = true;
 		}
-		else if (line.find("<!-- CONDITION -->", 0) != string::npos)
+		else if (line.find("<!-- CONDITION -->", 0) != NOT_FOUND)
 		{
 			if (condition == 0)
 			{
@@ -1368,7 +1368,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			uniqueskip = true;
 		}
-		else if (line.find("<!-- NEW ^" + format + "^ +% -->", 0) != string::npos && IsConditionOpened[condition])
+		else if (line.find("<!-- NEW ^" + format + "^ +% -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (!hasGroup)
 			{
@@ -1393,7 +1393,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			uniqueskip = true;
 		}
-		else if (line.find("<!-- NEW ^" + format + "_group^ +% -->", 0) != string::npos && IsConditionOpened[condition])
+		else if (line.find("<!-- NEW ^" + format + "_group^ +% -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (hasGroup && !hasMaster)
 			{
@@ -1418,7 +1418,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			uniqueskip = true;
 		}
-		else if (line.find("<!-- NEW ^" + format + "_master^ +% -->", 0) != string::npos && IsConditionOpened[condition])
+		else if (line.find("<!-- NEW ^" + format + "_master^ +% -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (hasMaster)
 			{
@@ -1443,12 +1443,12 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			uniqueskip = true;
 		}
-		else if (line.find("<!-- NEW ^" + format + "^ -->", 0) != string::npos || line.find("<!-- NEW ^" + format + "_group^ -->", 0) != string::npos || line.find("<!-- NEW ^" + format + "_master^ -->", 0) != string::npos)
+		else if (line.find("<!-- NEW ^" + format + "^ -->", 0) != NOT_FOUND || line.find("<!-- NEW ^" + format + "_group^ -->", 0) != NOT_FOUND || line.find("<!-- NEW ^" + format + "_master^ -->", 0) != NOT_FOUND)
 		{
 			ErrorMessage(1164, format + "(#" + to_string(curFunctionID) + ")", i + 1);
 			return empty;
 		}
-		else if (line.find("<!-- NEW ^", 0) != string::npos && line.find("^ -->", 0) != string::npos && IsConditionOpened[condition])
+		else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (!open)
 			{
@@ -1461,7 +1461,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					curOption = curOption.substr(1);
 				}
 
-				if (curOption.find(format + "[") != string::npos && curOption.find("]") != string::npos)
+				if (curOption.find(format + "[") != NOT_FOUND && curOption.find("]") != NOT_FOUND)
 				{
 					int pos = 0;
 					vecstr formatInfo = GetOptionInfo(curOption, format, i + 1, groupAnimInfo.size() - 1, groupAnimInfo, false, true);
@@ -1517,7 +1517,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				uniqueskip = true;
 			}
 		}
-		else if (line.find("<!-- NEW ^", 0) != string::npos && line.find("^ +% -->", 0) != string::npos && IsConditionOpened[condition])
+		else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ +% -->", 0) != NOT_FOUND && IsConditionOpened[condition])
 		{
 			if (!open)
 			{
@@ -1530,7 +1530,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					curOption = curOption.substr(1);
 				}
 
-				if (curOption.find(format + "[") != string::npos && curOption.find("]") != string::npos)
+				if (curOption.find(format + "[") != NOT_FOUND && curOption.find("]") != NOT_FOUND)
 				{
 					int pos = 0;
 					vecstr formatInfo = GetOptionInfo(curOption, format, i + 1, groupAnimInfo.size() - 1, groupAnimInfo, true, true);
@@ -1574,7 +1574,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				uniqueskip = true;
 			}
 		}
-		else if (line.find("<!-- CLOSE -->", 0) != string::npos || line.find("<!-- CONDITION END -->", 0) != string::npos)
+		else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND || line.find("<!-- CONDITION END -->", 0) != NOT_FOUND)
 		{
 			if (open)
 			{
@@ -1593,13 +1593,13 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				}
 
 				// set animation ID
-				if (line.find("$%$", 0) != string::npos)
+				if (line.find("$%$", 0) != NOT_FOUND)
 				{
 					line.replace(line.find("$%$"), 3, "0");
 				}
 
 				// multi choice selection
-				if (line.find("$MC$", 0) != string::npos)
+				if (line.find("$MC$", 0) != NOT_FOUND)
 				{
 					multiChoice(line, groupOptionPicked, groupAnimInfo, i + 1, format, format);
 
@@ -1610,7 +1610,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				}
 
 				// compute numelements
-				if (line.find("<hkparam name=\"") != string::npos && line.find("numelements=\"") != string::npos && line.find("</hkparam>") == string::npos)
+				if (line.find("<hkparam name=\"") != NOT_FOUND && line.find("numelements=\"") != NOT_FOUND && line.find("</hkparam>") == NOT_FOUND)
 				{
 					if (!isElement)
 					{
@@ -1625,7 +1625,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 						return empty;
 					}
 				}
-				else if (line.find("</hkparam>") != string::npos && isElement)
+				else if (line.find("</hkparam>") != NOT_FOUND && isElement)
 				{
 					string templine = line.substr(0, line.find("</hkparam>"));
 					__int64 range = count(templine.begin(), templine.end(), '\t');
@@ -1634,7 +1634,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					{
 						string oldElement;
 
-						if (newFunctionLines[elementLine].find("numelements=\"$elements$\">", 0) == string::npos)
+						if (newFunctionLines[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
 						{
 							size_t position = newFunctionLines[elementLine].find("numelements=\"") + 13;
 							oldElement = newFunctionLines[elementLine].substr(position, newFunctionLines[elementLine].find("\">", position) - position);
@@ -1659,7 +1659,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				{
 					string templine = line;
 
-					if (templine.find("<hkobject>") != string::npos)
+					if (templine.find("<hkobject>") != NOT_FOUND)
 					{
 						templine = templine.substr(0, templine.find("<hkobject>"));
 						__int64 range = count(templine.begin(), templine.end(), '\t');
@@ -1669,7 +1669,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 							elementCount++;
 						}
 					}
-					else if (templine.find("\t\t\t#") != string::npos)
+					else if (templine.find("\t\t\t#") != NOT_FOUND)
 					{
 						templine = templine.substr(0, templine.find("#", 0));
 						__int64 reference = count(templine.begin(), templine.end(), '\t');
@@ -1682,7 +1682,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					}
 				}
 				
-				if (line.find("$") != string::npos && !hasGroup)
+				if (line.find("$") != NOT_FOUND && !hasGroup)
 				{
 					processing(line, curFunctionID, i + 1, subFunctionIDs, groupAnimInfo, eventid, variableid, hasGroup);
 					
@@ -1703,7 +1703,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 			}
 		}
 
-		if (line.find("<!-- CLOSE -->", 0) != string::npos)
+		if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
 		{
 			if (skip)
 			{
@@ -1739,7 +1739,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 								string curLine = tempstore[l];
 								size_t linecount = i + 1 - tempstore.size() + l + (optionMulti * tempstore.size()) + (groupAnimInfo[animMulti]->optionPickedCount[multiOption] * animMulti * tempstore.size());
 
-								if (curLine.find("<hkparam name=\"") != string::npos && curLine.find("numelements=\"") != string::npos && curLine.find("</hkparam>") == string::npos && curLine.find("<!-- COMPUTE -->", 0) != string::npos)
+								if (curLine.find("<hkparam name=\"") != NOT_FOUND && curLine.find("numelements=\"") != NOT_FOUND && curLine.find("</hkparam>") == NOT_FOUND && curLine.find("<!-- COMPUTE -->", 0) != NOT_FOUND)
 								{
 									ErrorMessage(1140, format, curFunctionID, linecount);
 									return empty;
@@ -1749,7 +1749,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 								{
 									string templine = curLine;
 
-									if (templine.find("<hkobject>") != string::npos)
+									if (templine.find("<hkobject>") != NOT_FOUND)
 									{
 										templine = templine.substr(0, templine.find("<hkobject>"));
 										__int64 range = count(templine.begin(), templine.end(), '\t');
@@ -1759,7 +1759,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											elementCount++;
 										}
 									}
-									else if (templine.find("\t\t\t#") != string::npos)
+									else if (templine.find("\t\t\t#") != NOT_FOUND)
 									{
 										templine = templine.substr(0, templine.find("#", 0));
 										__int64 reference = count(templine.begin(), templine.end(), '\t');
@@ -1772,7 +1772,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 									}
 								}
 
-								if (curLine.find("\t\t\t#") != string::npos && (curLine.find("#" + format + "$") != string::npos || curLine.find("#" + format + "_group$") != string::npos || curLine.find("#" + format + "_master") != string::npos))
+								if (curLine.find("\t\t\t#") != NOT_FOUND && (curLine.find("#" + format + "$") != NOT_FOUND || curLine.find("#" + format + "_group$") != NOT_FOUND || curLine.find("#" + format + "_master") != NOT_FOUND))
 								{
 									stringstream sstream(curLine);
 									istream_iterator<string> ssbegin(sstream);
@@ -1785,14 +1785,14 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 									{
 										string ID = generator[p];
 
-										if (ID.find("#" + format + "$") != string::npos && multiOption == format)
+										if (ID.find("#" + format + "$") != NOT_FOUND && multiOption == format)
 										{
 											nextpos = curLine.find("#" + format + "$", nextpos) + 1;
 											string tempID = curLine.substr(nextpos);
 											string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 											curID = format + "$" + curID;
 
-											if (tempID.find(curID, 0) != string::npos && nextpos == curLine.find(curID))
+											if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
@@ -1808,14 +1808,14 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 												return empty;
 											}
 										}
-										else if (ID.find("#" + format + "_group") != string::npos && multiOption == format + "_group")
+										else if (ID.find("#" + format + "_group") != NOT_FOUND && multiOption == format + "_group")
 										{
 											nextpos = curLine.find("#" + multiOption, nextpos) + 1;
 											string tempID = curLine.substr(nextpos);
 											string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 											curID = multiOption + "$" + curID;
 
-											if (tempID.find(curID, 0) != string::npos && nextpos == curLine.find(curID))
+											if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
@@ -1832,14 +1832,14 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											}
 
 										}
-										else if (ID.find("#" + format + "_master") != string::npos && multiOption == format + "_master")
+										else if (ID.find("#" + format + "_master") != NOT_FOUND && multiOption == format + "_master")
 										{
 											nextpos = curLine.find("#" + multiOption, nextpos) + 1;
 											string tempID = curLine.substr(nextpos);
 											string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 											curID = multiOption + "$" + curID;
 
-											if (tempID.find(curID, 0) != string::npos && nextpos == curLine.find(curID))
+											if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
 											{
 												if (subFunctionIDs[animMulti][curID].length() == 0)
 												{
@@ -1859,7 +1859,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 									}
 								}
 
-								if (curLine.find("%") != string::npos)
+								if (curLine.find("%") != NOT_FOUND)
 								{
 									__int64 counter = count(curLine.begin(), curLine.end(), '%');
 
@@ -1870,7 +1870,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 								}
 
 								// multi choice selection
-								if (curLine.find("$MC$", 0) != string::npos)
+								if (curLine.find("$MC$", 0) != NOT_FOUND)
 								{
 									multiChoice(curLine, groupOptionPicked, groupAnimInfo, int(linecount), format, format);
 
@@ -1881,12 +1881,12 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 								}
 
 								// set animation ID
-								if (curLine.find("$%$", 0) != string::npos)
+								if (curLine.find("$%$", 0) != NOT_FOUND)
 								{
 									curLine.replace(curLine.find("$%$"), 3, "0");
 								}
 
-								if (curLine.find("$") != string::npos && !hasGroup)
+								if (curLine.find("$") != NOT_FOUND && !hasGroup)
 								{
 									processing(curLine, curFunctionID, int(i + 1 - tempstore.size() + l + (optionMulti * animMulti * tempstore.size())), subFunctionIDs, groupAnimInfo, eventid, variableid, hasGroup, optionMulti, animMulti, multiOption);
 
@@ -1896,7 +1896,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 									}
 								}
 
-								if (tempstore[l].find("<!-- NEW ^" + format, 0) == string::npos && tempstore[l].find("<!-- CLOSE -->", 0) == string::npos)
+								if (tempstore[l].find("<!-- NEW ^" + format, 0) == NOT_FOUND && tempstore[l].find("<!-- CLOSE -->", 0) == NOT_FOUND)
 								{
 									newFunctionLines.push_back(curLine);
 								}
@@ -1912,7 +1912,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 			open = false;
 			multi = false;
 		}
-		else if (line.find("<!-- CONDITION END -->", 0) != string::npos)
+		else if (line.find("<!-- CONDITION END -->", 0) != NOT_FOUND)
 		{
 			if (condition == 0)
 			{
@@ -1974,7 +1974,7 @@ void groupTemplate::stateReplacer(string& line, string statenum, int stateID, in
 		string number = boost::regex_replace(string(line.substr(line.find("$(S" + statenum + "+") + statenum.length() + 4)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 		string state = "$(S" + statenum + "+" + number + ")$";
 
-		if (line.find(state, 0) != string::npos)
+		if (line.find(state, 0) != NOT_FOUND)
 		{
 			size_t stateposition = line.find(state, 0);
 
@@ -2034,7 +2034,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 
 		while (true)
 		{
-			if (change.find("(") != string::npos && change.find("L", change.find("(")) != string::npos && change.find(")", change.find("(")) != string::npos)
+			if (change.find("(") != NOT_FOUND && change.find("L", change.find("(")) != NOT_FOUND && change.find(")", change.find("(")) != NOT_FOUND)
 			{
 				__int64 maths = count(change.begin(), change.end(), '(');
 
@@ -2048,11 +2048,11 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 						string number = "";
 						string ID = "";
 
-						if (equation.find("(S", 0) != string::npos)
+						if (equation.find("(S", 0) != NOT_FOUND)
 						{
 							ID = boost::regex_replace(string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-							if (change.find("(S" + ID + "+") == string::npos)
+							if (change.find("(S" + ID + "+") == NOT_FOUND)
 							{
 								ID = "";
 							}
@@ -2064,7 +2064,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 						{
 							size_t equationLength = equation.length();
 
-							if (equation.find("L") != string::npos)
+							if (equation.find("L") != NOT_FOUND)
 							{
 								__int64 maths2 = count(change.begin(), change.end(), 'L');
 
@@ -2091,7 +2091,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 				}
 			}
 
-			if (change.find(masterFormat + "[][", 0) != string::npos && change.find("][", change.find(masterFormat + "[][")) != string::npos)
+			if (change.find(masterFormat + "[][", 0) != NOT_FOUND && change.find("][", change.find(masterFormat + "[][")) != NOT_FOUND)
 			{
 				formatReplace(change, masterFormat, subFunctionIDs[animMulti], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
 				isChange = true;
@@ -2102,7 +2102,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 				return;
 			}
 
-			if (change.find(masterFormat + "[F][", 0) != string::npos && change.find("][", change.find(masterFormat + "[F][")) != string::npos)
+			if (change.find(masterFormat + "[F][", 0) != NOT_FOUND && change.find("][", change.find(masterFormat + "[F][")) != NOT_FOUND)
 			{
 				formatReplace(change, masterFormat, subFunctionIDs[0], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
 				isChange = true;
@@ -2113,7 +2113,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 				return;
 			}
 
-			if (change.find(masterFormat + "[L][", 0) != string::npos && change.find("][", change.find(masterFormat + "[L][")) != string::npos)
+			if (change.find(masterFormat + "[L][", 0) != NOT_FOUND && change.find("][", change.find(masterFormat + "[L][")) != NOT_FOUND)
 			{
 				formatReplace(change, masterFormat, subFunctionIDs[groupAnimInfo.size() - 1], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
 				isChange = true;
@@ -2124,7 +2124,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 				return;
 			}
 
-			if (change.find("eventID[", 0) != string::npos &&  change.find("]", 0) != string::npos)
+			if (change.find("eventID[", 0) != NOT_FOUND &&  change.find("]", 0) != NOT_FOUND)
 			{
 				eventIDReplacer(change, format, eventid, zeroEvent, linecount);
 				isChange = true;
@@ -2135,7 +2135,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 				return;
 			}
 
-			if (change.find("variableID[", 0) != string::npos &&  change.find("]", 0) != string::npos)
+			if (change.find("variableID[", 0) != NOT_FOUND &&  change.find("]", 0) != NOT_FOUND)
 			{
 				variableIDReplacer(change, format, variableid, linecount);
 				isChange = true;
@@ -2146,7 +2146,7 @@ void groupTemplate::processing(string& line, string masterFormat, int linecount,
 				return;
 			}
 
-			if (change.find("import[", 0) != string::npos && change.find("]", 0) != string::npos)
+			if (change.find("import[", 0) != NOT_FOUND && change.find("]", 0) != NOT_FOUND)
 			{
 				size_t nextpos = change.find("import[");
 				string importer = change.substr(nextpos, change.find_last_of("]") - nextpos + 1);
@@ -2225,7 +2225,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 		while (true)
 		{
 			// order equation
-			if (change.find("(") != string::npos && change.find("L", change.find("(")) != string::npos && change.find(")", change.find("(")) != string::npos)
+			if (change.find("(") != NOT_FOUND && change.find("L", change.find("(")) != NOT_FOUND && change.find(")", change.find("(")) != NOT_FOUND)
 			{
 				__int64 maths = count(change.begin(), change.end(), '(');
 
@@ -2239,11 +2239,11 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 						string number = "";
 						string ID = "";
 
-						if (equation.find("(S", 0) != string::npos)
+						if (equation.find("(S", 0) != NOT_FOUND)
 						{
 							ID = boost::regex_replace(string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-							if (change.find("(S" + ID + "+") == string::npos)
+							if (change.find("(S" + ID + "+") == NOT_FOUND)
 							{
 								ID = "";
 							}
@@ -2255,7 +2255,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 						{
 							size_t equationLength = equation.length();
 
-							if (equation.find("L") != string::npos)
+							if (equation.find("L") != NOT_FOUND)
 							{
 								__int64 maths2 = count(change.begin(), change.end(), 'L');
 
@@ -2284,37 +2284,37 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 
 			if (hasGroup)
 			{
-				if (change.find("[File]") != string::npos)
+				if (change.find("[File]") != NOT_FOUND)
 				{
-					if (change.find(format + "[][File]", 0) != string::npos)
+					if (change.find(format + "[][File]", 0) != NOT_FOUND)
 					{
 						ErrorMessage(1052, format, linecount, line);
 						return;
 					}
 
-					if (change.find(format + "[F][File]", 0) != string::npos)
+					if (change.find(format + "[F][File]", 0) != NOT_FOUND)
 					{
 						change.replace(change.find(format + "[F][File]"), 9 + format.length(), subFunctionIDs[0][format + "File"]);
 						isChange = true;
 					}
 
-					if (change.find(format + "[N][File]", 0) != string::npos)
+					if (change.find(format + "[N][File]", 0) != NOT_FOUND)
 					{
 						ErrorMessage(1056, format, linecount, line);
 						return;
 					}
 
-					if (change.find(format + "[L][File]", 0) != string::npos)
+					if (change.find(format + "[L][File]", 0) != NOT_FOUND)
 					{
 						change.replace(change.find(format + "[L][File]"), 9 + format.length(), subFunctionIDs[groupAnimInfo.size() - 1][format + "File"]);
 						isChange = true;
 					}
 
-					if (change.find(format + "[", 0) != string::npos)
+					if (change.find(format + "[", 0) != NOT_FOUND)
 					{
 						string number = boost::regex_replace(string(change.substr(change.find(format + "[", 0))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-						if (change.find(format + "[" + number + "][File]", 0) != string::npos)
+						if (change.find(format + "[" + number + "][File]", 0) != NOT_FOUND)
 						{
 							if (unsigned int(stoi(number)) >= groupAnimInfo.size())
 							{
@@ -2330,7 +2330,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 					}
 				}
 
-				if (change.find(format + "[][", 0) != string::npos && change.find("]", change.find(format + "[][")) != string::npos)
+				if (change.find(format + "[][", 0) != NOT_FOUND && change.find("]", change.find(format + "[][")) != NOT_FOUND)
 				{
 					formatReplace(change, format, subFunctionIDs[animMulti], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
 					isChange = true;
@@ -2342,7 +2342,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 					return;
 				}
 
-				if (change.find(format + "[F][", 0) != string::npos && change.find("]", change.find(format + "[F][")) != string::npos)
+				if (change.find(format + "[F][", 0) != NOT_FOUND && change.find("]", change.find(format + "[F][")) != NOT_FOUND)
 				{
 					formatReplace(change, format, subFunctionIDs[0], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
 					isChange = true;
@@ -2354,7 +2354,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 					return;
 				}
 
-				if (change.find(format + "[L][", 0) != string::npos && change.find("]", change.find(format + "[L][")) != string::npos)
+				if (change.find(format + "[L][", 0) != NOT_FOUND && change.find("]", change.find(format + "[L][")) != NOT_FOUND)
 				{
 					formatReplace(change, format, subFunctionIDs[groupAnimInfo.size() - 1], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
 					isChange = true;
@@ -2366,7 +2366,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 					return;
 				}
 
-				if (change.find(format + "_group[][", 0) != string::npos && change.find("]", change.find(format + "_group[][")) != string::npos)
+				if (change.find(format + "_group[][", 0) != NOT_FOUND && change.find("]", change.find(format + "_group[][")) != NOT_FOUND)
 				{
 					formatReplace(change, format + "_group", subFunctionIDs[animMulti], groupAnimInfo, linecount, groupAnimInfo.size() - 1, optionMulti, animMulti);
 					isChange = true;
@@ -2382,7 +2382,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 			{
 				for (auto it = subFunctionIDs[animMulti].begin(); it != subFunctionIDs[animMulti].end(); ++it)
 				{
-					if (change.find(it->first) != string::npos)
+					if (change.find(it->first) != NOT_FOUND)
 					{
 						int counter = sameWordCount(change, it->first);
 
@@ -2400,7 +2400,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 				}
 			}
 
-			if (change.find("eventID[", 0) != string::npos && change.find("]", 0) != string::npos)
+			if (change.find("eventID[", 0) != NOT_FOUND && change.find("]", 0) != NOT_FOUND)
 			{
 				eventIDReplacer(change, format, eventid, zeroEvent, linecount);
 				isChange = true;
@@ -2411,7 +2411,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 				return;
 			}
 
-			if (change.find("variableID[", 0) != string::npos && change.find("]", 0) != string::npos)
+			if (change.find("variableID[", 0) != NOT_FOUND && change.find("]", 0) != NOT_FOUND)
 			{
 				variableIDReplacer(change, format, variableid, linecount);
 				isChange = true;
@@ -2422,7 +2422,7 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 				return;
 			}
 
-			if (change.find("import[", 0) != string::npos && change.find("]", 0) != string::npos)
+			if (change.find("import[", 0) != NOT_FOUND && change.find("]", 0) != NOT_FOUND)
 			{
 				size_t nextpos = change.find("import[");
 				string importer = change.substr(nextpos, change.find_last_of("]") - nextpos + 1);
@@ -2486,14 +2486,14 @@ void ExistingFunction::processing(string& line, int curFunctionID, int linecount
 
 void multiChoice(string& line, vector<unordered_map<string, bool>> groupOptionPicked, vector<shared_ptr<animationInfo>> groupAnimInfo, int numline, string templatename, string masterformat)
 {
-	if (line.find("<!-- ", 0) != string::npos)
+	if (line.find("<!-- ", 0) != NOT_FOUND)
 	{
 		size_t nextposition = 0;
 		int choicecount = 0;
 
 		while (true)
 		{
-			if (line.find("<!--", nextposition) != string::npos)
+			if (line.find("<!--", nextposition) != NOT_FOUND)
 			{
 				choicecount++;
 				nextposition = line.find("<!-- ", nextposition) + 1;
@@ -2504,7 +2504,7 @@ void multiChoice(string& line, vector<unordered_map<string, bool>> groupOptionPi
 			}
 		}
 
-		if (line.find("*", 0) != string::npos || line.find("@", 0) != string::npos || line.find("%", 0) != string::npos)
+		if (line.find("*", 0) != NOT_FOUND || line.find("@", 0) != NOT_FOUND || line.find("%", 0) != NOT_FOUND)
 		{
 			ErrorMessage(2015, templatename, numline);
 			return;
@@ -2520,7 +2520,7 @@ void multiChoice(string& line, vector<unordered_map<string, bool>> groupOptionPi
 			nextposition = line.find("<!-- ", nextposition) + 5;
 			string tempstr = line.substr(nextposition, line.find(" ", nextposition) - nextposition);
 
-			if (line.find("<!-- " + tempstr + " -->", 0) == string::npos)
+			if (line.find("<!-- " + tempstr + " -->", 0) == NOT_FOUND)
 			{
 				if (newCondition(tempstr, groupOptionPicked, groupAnimInfo, numline, templatename, masterformat))
 				{

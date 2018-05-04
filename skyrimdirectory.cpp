@@ -9,13 +9,13 @@ DataPath::DataPath()
 	bf::path path(bf::current_path());
 	string currentPath = path.string();
 
-	if (currentPath.find("\\Data\\", 0) != string::npos || currentPath.find("\\data\\", 0) != string::npos)
+	if (currentPath.find("\\Data\\", 0) != NOT_FOUND || currentPath.find("\\data\\", 0) != NOT_FOUND)
 	{
 		bf::path tempPath = path;
 
 		while (true)
 		{
-			if ((tempPath.parent_path().string()).find("\\Data", 0) == string::npos && (tempPath.parent_path().string()).find("\\data", 0) == string::npos)
+			if ((tempPath.parent_path().string()).find("\\Data", 0) == NOT_FOUND && (tempPath.parent_path().string()).find("\\data", 0) == NOT_FOUND)
 			{
 				break;
 			}

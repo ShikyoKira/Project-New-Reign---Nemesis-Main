@@ -13,7 +13,7 @@ getTemplate::getTemplate()
 
 	for (unsigned int k = 0; k < codelist.size(); ++k)
 	{
-		if (codelist[k].find(".", 0) == string::npos)
+		if (codelist[k].find(".", 0) == NOT_FOUND)
 		{
 			newpath = templateDirectory + codelist[k];
 			boost::filesystem::path FOF(newpath);
@@ -154,19 +154,19 @@ getTemplate::getTemplate()
 
 									for (unsigned int j = 0; j < storeline.size(); ++j)
 									{
-										if (storeline[j].find("class=\"hkbStateMachine\" signature=\"") != string::npos)
+										if (storeline[j].find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
 										{
 											isStateMachine = true;
 										}
 
-										if (isStateMachine && storeline[j].find("<!-- NEW ^" + codelist[k]) != string::npos)
+										if (isStateMachine && storeline[j].find("<!-- NEW ^" + codelist[k]) != NOT_FOUND)
 										{
 											if (!isJoint)
 											{
 												isJoint = true;
 											}
 										}
-										else if (isStateMachine && storeline[j].find("<!-- CLOSE -->") != string::npos)
+										else if (isStateMachine && storeline[j].find("<!-- CLOSE -->") != NOT_FOUND)
 										{
 											if (isJoint)
 											{
@@ -174,7 +174,7 @@ getTemplate::getTemplate()
 											}
 										}
 
-										if (isStateMachine && storeline[j].find("#" + codelist[k]) != string::npos)
+										if (isStateMachine && storeline[j].find("#" + codelist[k]) != NOT_FOUND)
 										{
 											if (isJoint)
 											{

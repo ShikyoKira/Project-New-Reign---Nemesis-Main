@@ -96,7 +96,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 	{
 		string line = catalyst[l];
 
-		if (line.find("<hkobject name=\"", 0) != string::npos && line.find("signature=\"", 0) != string::npos)
+		if (line.find("<hkobject name=\"", 0) != NOT_FOUND && line.find("signature=\"", 0) != NOT_FOUND)
 		{
 			string templine = line.substr(0, line.find("class"));
 			string tempID = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
@@ -107,7 +107,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				lastID = curID + 1;
 			}
 
-			if (line.find("class=\"hkbClipGenerator\" signature=\"", 0) != string::npos)
+			if (line.find("class=\"hkbClipGenerator\" signature=\"", 0) != NOT_FOUND)
 			{
 				isClip = true;
 			}
@@ -116,7 +116,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				isClip = false;
 			}
 
-			if (line.find("class=\"hkbBehaviorReferenceGenerator\" signature=\"", 0) != string::npos)
+			if (line.find("class=\"hkbBehaviorReferenceGenerator\" signature=\"", 0) != NOT_FOUND)
 			{
 				behaviorRef = true;
 			}
@@ -125,7 +125,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				behaviorRef = false;
 			}
 		}
-		else if (isClip && line.find("<hkparam name=\"animationName\">") != string::npos)
+		else if (isClip && line.find("<hkparam name=\"animationName\">") != NOT_FOUND)
 		{
 			size_t pos = line.find("animationName\">") + 15;
 			string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
@@ -157,7 +157,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				}
 			}
 		}
-		else if (behaviorRef && line.find("<hkparam name=\"behaviorName\">") != string::npos)
+		else if (behaviorRef && line.find("<hkparam name=\"behaviorName\">") != NOT_FOUND)
 		{
 			size_t nextpos = line.find("behaviorName\">") + 14;
 			string behaviorName = GetFileName(line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos));
@@ -232,9 +232,9 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 		string line = catalyst[l];
 		bool skip = false;
 
-		if (line.find("<!-- ", 0) != string::npos)
+		if (line.find("<!-- ", 0) != NOT_FOUND)
 		{
-			if (line.find("<!-- NEW *", 0) != string::npos)
+			if (line.find("<!-- NEW *", 0) != NOT_FOUND)
 			{
 				size_t tempint = line.find("<!-- NEW *", 0) + 10;
 				string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
@@ -250,11 +250,11 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 				skip = true;
 			}
-			else if (line.find("<!-- NEW ^", 0) != string::npos)
+			else if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
 			{
 				special = true;
 			}
-			else if (line.find("<!-- CLOSE -->", 0) != string::npos)
+			else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
 			{
 				isOpen = true;
 				newMod.clear();
@@ -279,11 +279,11 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 			while(true)
 			{
-				if (line.find("<hkobject name=\"", 0) != string::npos && line.find("signature=\"", 0) != string::npos)
+				if (line.find("<hkobject name=\"", 0) != NOT_FOUND && line.find("signature=\"", 0) != NOT_FOUND)
 				{
 					string tempID = boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-					if (line.find("\"#" + tempID + "\"") != string::npos)
+					if (line.find("\"#" + tempID + "\"") != NOT_FOUND)
 					{
 						if (catalystMap[curID].size() != 0)
 						{
@@ -310,20 +310,20 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 						isNewID = true;
 					}
 
-					if (line.find("class=\"hkbBehaviorGraphStringData\" signature=\"", 0) != string::npos || line.find("class=\"hkbVariableValueSet\" signature=\"", 0) != string::npos || line.find("class=\"hkbBehaviorGraphData\" signature=\"", 0) != string::npos)
+					if (line.find("class=\"hkbBehaviorGraphStringData\" signature=\"", 0) != NOT_FOUND || line.find("class=\"hkbVariableValueSet\" signature=\"", 0) != NOT_FOUND || line.find("class=\"hkbBehaviorGraphData\" signature=\"", 0) != NOT_FOUND)
 					{
 						behaviorDataNode.push_back(curID);
 					}
 				}
 
-				if (line.find("<!-- *", 0) != string::npos)
+				if (line.find("<!-- *", 0) != NOT_FOUND)
 				{
 					size_t tempint = line.find("<!-- *") + 6;
 					string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
 					chosenLines[modID] = line;
 					break;
 				}
-				else if (line.find("<!-- original -->", 0) != string::npos)
+				else if (line.find("<!-- original -->", 0) != NOT_FOUND)
 				{
 					if (chosenLines.size() != 0)
 					{
@@ -338,11 +338,11 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				}
 
 				// get event id from newAnimation
-				if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != string::npos || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != string::npos)
+				if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != NOT_FOUND || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != NOT_FOUND)
 				{
 					if (eventelements == -1)
 					{
-						if (line.find("</hkparam>") == string::npos)
+						if (line.find("</hkparam>") == NOT_FOUND)
 						{
 							eventOpen = true;
 							elementCatch = true;
@@ -363,11 +363,11 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					size_t position = line.find("<hkparam name=\"") + 15;
 					curNum = line.substr(position, line.find("\" numelements=\"") - position);
 				}
-				else if (line.find("<hkparam name=\"attributeNames\" numelements=") != string::npos || line.find("<hkparam name=\"attributeDefaults\" numelements=") != string::npos)
+				else if (line.find("<hkparam name=\"attributeNames\" numelements=") != NOT_FOUND || line.find("<hkparam name=\"attributeDefaults\" numelements=") != NOT_FOUND)
 				{
 					if (attributeelements == -1)
 					{
-						if (line.find("</hkparam>") == string::npos)
+						if (line.find("</hkparam>") == NOT_FOUND)
 						{
 							attriOpen = true;
 							elementCatch = true;
@@ -385,11 +385,11 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					size_t position = line.find("<hkparam name=\"") + 15;
 					curNum = line.substr(position, line.find("\" numelements=\"") - position);
 				}
-				else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=") != string::npos || line.find("<hkparam name=\"characterPropertyInfos\" numelements=") != string::npos)
+				else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=") != NOT_FOUND || line.find("<hkparam name=\"characterPropertyInfos\" numelements=") != NOT_FOUND)
 				{
 					if (characterelements == -1)
 					{
-						if (line.find("</hkparam>") == string::npos)
+						if (line.find("</hkparam>") == NOT_FOUND)
 						{
 							charOpen = true;
 							elementCatch = true;
@@ -407,11 +407,11 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					size_t position = line.find("<hkparam name=\"") + 15;
 					curNum = line.substr(position, line.find("\" numelements=\"") - position);
 				}
-				else if (line.find("<hkparam name=\"variableNames\" numelements=") != string::npos || line.find("<hkparam name=\"wordVariableValues\" numelements=") != string::npos || line.find("<hkparam name=\"variableInfos\" numelements=") != string::npos)
+				else if (line.find("<hkparam name=\"variableNames\" numelements=") != NOT_FOUND || line.find("<hkparam name=\"wordVariableValues\" numelements=") != NOT_FOUND || line.find("<hkparam name=\"variableInfos\" numelements=") != NOT_FOUND)
 				{
 					if (variableelements == -1)
 					{
-						if (line.find("</hkparam>") == string::npos)
+						if (line.find("</hkparam>") == NOT_FOUND)
 						{
 							varOpen = true;
 							elementCatch = true;
@@ -430,28 +430,28 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					size_t position = line.find("<hkparam name=\"") + 15;
 					curNum = line.substr(position, line.find("\" numelements=\"") - position);
 				}
-				else if (line.find("<hkparam name=\"animationNames\" numelements=\"") != string::npos)
+				else if (line.find("<hkparam name=\"animationNames\" numelements=\"") != NOT_FOUND)
 				{
 					animOpen = true;
 					elementCatch = true;
 					string templine = line.substr(0, line.find("<hkparam name=\"", 0));
 					openRange = count(templine.begin(), templine.end(), '\t');
 				}
-				else if (line.find("<hkparam name=\"deformableSkinNames\" numelements=\"") != string::npos || line.find("<hkparam name=\"rigidSkinNames\" numelements=\"") != string::npos || line.find("<hkparam name=\"animationFilenames\" numelements=\"") != string::npos)
+				else if (line.find("<hkparam name=\"deformableSkinNames\" numelements=\"") != NOT_FOUND || line.find("<hkparam name=\"rigidSkinNames\" numelements=\"") != NOT_FOUND || line.find("<hkparam name=\"animationFilenames\" numelements=\"") != NOT_FOUND)
 				{
 					otherAnimOpen = true;
 					elementCatch = true;
 					string templine = line.substr(0, line.find("<hkparam name=\"", 0));
 					openRange = count(templine.begin(), templine.end(), '\t');
 				}
-				else if (line.find("<hkparam name=\"") != string::npos && line.find("numelements=\"") != string::npos && line.find("</hkparam>") == string::npos)
+				else if (line.find("<hkparam name=\"") != NOT_FOUND && line.find("numelements=\"") != NOT_FOUND && line.find("</hkparam>") == NOT_FOUND)
 				{
 					norElement = true;
 					elementCatch = true;
 					string templine = line.substr(0, line.find("<hkparam name=\"", 0));
 					openRange = count(templine.begin(), templine.end(), '\t');
 				}
-				else if (line.find("</hkparam>") != string::npos && (norElement || eventOpen || varOpen || attriOpen || charOpen || animOpen || otherAnimOpen))
+				else if (line.find("</hkparam>") != NOT_FOUND && (norElement || eventOpen || varOpen || attriOpen || charOpen || animOpen || otherAnimOpen))
 				{
 					string templine = line.substr(0, line.find("</hkparam>"));
 					size_t range = count(templine.begin(), templine.end(), '\t');
@@ -785,12 +785,12 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					}
 				}
 
-				if (line.find("<hkobject name=\"", 0) != string::npos && line.find("signature=\"", 0) != string::npos)
+				if (line.find("<hkobject name=\"", 0) != NOT_FOUND && line.find("signature=\"", 0) != NOT_FOUND)
 				{
 					size_t nextpos = line.find("<hkobject name=\"", 0) + 17;
 					string funcID = line.substr(nextpos, line.find("class=\"", nextpos) - nextpos - 2);
 
-					if (funcID.find("$", 0) != string::npos)
+					if (funcID.find("$", 0) != NOT_FOUND)
 					{
 						string modID = funcID.substr(0, funcID.find("$"));
 
@@ -822,9 +822,9 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 						}
 					}
 				}
-				else if (line.find("$", line.find("#")) != string::npos)
+				else if (line.find("$", line.find("#")) != NOT_FOUND)
 				{
-					if (line.find(">#") != string::npos)
+					if (line.find(">#") != NOT_FOUND)
 					{
 						size_t reference = count(line.begin(), line.end(), '#');
 						size_t nextpos = 0;
@@ -835,7 +835,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 							string numID = boost::regex_replace(string(line.substr(nextpos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 							string ID = line.substr(nextpos, line.find(numID) - nextpos + numID.length());
 
-							if (line.find(ID, 0) != string::npos && ID.find("$") != string::npos)
+							if (line.find(ID, 0) != NOT_FOUND && ID.find("$") != NOT_FOUND)
 							{
 								if (IDExist[ID].length() != 0)
 								{
@@ -849,7 +849,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 							}
 						}
 					}
-					else if (line.find("\t\t\t#") != string::npos)
+					else if (line.find("\t\t\t#") != NOT_FOUND)
 					{
 						stringstream sstream(line);
 						istream_iterator<string> ssbegin(sstream);
@@ -862,11 +862,11 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 							string ID = generator[p];
 							string numID = boost::regex_replace(string(ID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-							if (ID.find("$") != string::npos)
+							if (ID.find("$") != NOT_FOUND)
 							{
 								string masterFormat = ID.substr(1, ID.find("$") - 1);
 
-								if (ID == "#" + masterFormat + "$" + numID && line.find(ID, 0) != string::npos)
+								if (ID == "#" + masterFormat + "$" + numID && line.find(ID, 0) != NOT_FOUND)
 								{
 									ID = ID.substr(1, ID.length() - 1);
 
@@ -886,7 +886,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				}
 
 				// counting for numelement
-				if (eventOpen && line.find("<hkcstring>") != string::npos)
+				if (eventOpen && line.find("<hkcstring>") != NOT_FOUND)
 				{
 					size_t nextpos = line.find("<hkcstring>") + 11;
 					string name = line.substr(nextpos, line.find("</hkcstring>", nextpos) - nextpos);
@@ -902,7 +902,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				}
 				else if (varOpen)
 				{
-					if (curNum == "variableNames" && line.find("<hkcstring>") != string::npos)
+					if (curNum == "variableNames" && line.find("<hkcstring>") != NOT_FOUND)
 					{
 						size_t nextpos = line.find("<hkcstring>") + 11;
 						string name = line.substr(nextpos, line.find("</hkcstring>", nextpos) - nextpos);
@@ -910,16 +910,16 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 						variableid[name] = counter;
 						counter++;
 					}
-					else if (curNum == "wordVariableValues" && line.find("<hkparam name=\"value\">") != string::npos)
+					else if (curNum == "wordVariableValues" && line.find("<hkparam name=\"value\">") != NOT_FOUND)
 					{
 						counter++;
 					}
-					else if (curNum == "variableInfos" && line.find("<hkparam name=\"type\">") != string::npos)
+					else if (curNum == "variableInfos" && line.find("<hkparam name=\"type\">") != NOT_FOUND)
 					{
 						counter++;
 					}
 				}
-				else if (attriOpen && line.find("<hkcstring>") != string::npos)
+				else if (attriOpen && line.find("<hkcstring>") != NOT_FOUND)
 				{
 					size_t nextpos = line.find("<hkcstring>") + 11;
 					string name = line.substr(nextpos, line.find("</hkcstring>", nextpos) - nextpos);
@@ -927,7 +927,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					attriid[name] = counter;
 					counter++;
 				}
-				else if (charOpen && line.find("<hkcstring>") != string::npos)
+				else if (charOpen && line.find("<hkcstring>") != NOT_FOUND)
 				{
 					size_t nextpos = line.find("<hkcstring>") + 11;
 					string name = line.substr(nextpos, line.find("</hkcstring>", nextpos) - nextpos);
@@ -935,7 +935,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					charid[name] = counter;
 					counter++;
 				}
-				else if (animOpen && line.find("<hkcstring>") != string::npos)
+				else if (animOpen && line.find("<hkcstring>") != NOT_FOUND)
 				{
 					size_t nextpos = line.find("<hkcstring>") + 11;
 					string animPath = line.substr(nextpos, line.find("</hkcstring>", nextpos) - nextpos);
@@ -971,7 +971,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 						return;
 					}
 				}
-				else if (otherAnimOpen && line.find("<hkcstring>") != string::npos)
+				else if (otherAnimOpen && line.find("<hkcstring>") != NOT_FOUND)
 				{
 					counter++;
 				}
@@ -979,7 +979,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				{
 					string templine = catalyst[l];
 
-					if (templine.find("<hkobject>") != string::npos)
+					if (templine.find("<hkobject>") != NOT_FOUND)
 					{
 						templine = templine.substr(0, templine.find("<hkobject>"));
 						size_t range = count(templine.begin(), templine.end(), '\t');
@@ -989,7 +989,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 							counter++;
 						}
 					}
-					else if (templine.find("\t\t\t#") != string::npos)
+					else if (templine.find("\t\t\t#") != NOT_FOUND)
 					{
 						templine = templine.substr(0, templine.find("#", 0));
 						size_t reference = count(templine.begin(), templine.end(), '\t');
@@ -1009,7 +1009,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 					newModID++;
 				}
 
-				if (line.find("$") != string::npos)
+				if (line.find("$") != NOT_FOUND)
 				{
 					if (!ignoreFunction[filelist[curList]][curID])
 					{
@@ -1025,7 +1025,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 							change = change.substr(1, change.length() - 2);
 							curPos = line.find("$", curPos + 1);
 
-							if (change.find("eventID[", 0) != string::npos &&  change.find("]", 0) != string::npos)
+							if (change.find("eventID[", 0) != NOT_FOUND &&  change.find("]", 0) != NOT_FOUND)
 							{
 								eventIDReplacer(change, "BASE", eventid, ZeroEvent, l + 1);
 								isChange = true;
@@ -1036,7 +1036,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 								return;
 							}
 
-							if (change.find("variableID[", 0) != string::npos &&  change.find("]", 0) != string::npos)
+							if (change.find("variableID[", 0) != NOT_FOUND &&  change.find("]", 0) != NOT_FOUND)
 							{
 								variableIDReplacer(change, "BASE", variableid, l + 1);
 								isChange = true;
@@ -1559,7 +1559,7 @@ void BehaviorCompilation(string directory, vecstr filelist, int curList, vecstr 
 				{
 					AAlines.push_back(catalystMap[iter->first][i]);
 
-					if (catalystMap[iter->first][i].find("<hkparam name=\"triggers\">") != string::npos)
+					if (catalystMap[iter->first][i].find("<hkparam name=\"triggers\">") != NOT_FOUND)
 					{
 						if (originTrigger == -1)
 						{
@@ -2495,7 +2495,7 @@ void GenerateBehavior(string directory, vecstr behaviorPriority, unordered_map<s
 
 				if (error)
 				{
-					ErrorMessage(5000);
+					ErrorMessage(6000);
 					return;
 				}
 			}
