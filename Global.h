@@ -11,11 +11,11 @@
 #include <compute.h>
 #include <boost\filesystem.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
-#include "Logging\debugmsg.h"
+#include "logging\debugmsg.h"
 
 #pragma warning(disable:4503)
 
-#define NOT_FOUND 4294967295
+#define NOT_FOUND std::string::npos
 
 typedef std::vector<std::string> vecstr;
 typedef std::vector<char> vecchar;

@@ -185,7 +185,7 @@ vecstr GetFunctionLines(string filename)
 		ErrorMessage(3001, filename);
 	}
 
-	if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == string::npos && functionlines.back().find("<!-- CLOSE -->") == string::npos)
+	if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
 	{
 		functionlines.push_back("");
 	}
@@ -197,11 +197,6 @@ size_t wordFind(string line, string word, bool isLast)
 {
 	boost::algorithm::to_lower(line);
 	boost::algorithm::to_lower(word);
-
-	if (line.find(word) == string::npos)
-	{
-		return -1;
-	}
 
 	if (isLast)
 	{
