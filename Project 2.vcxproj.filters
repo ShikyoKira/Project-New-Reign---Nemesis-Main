@@ -78,6 +78,12 @@
     <ClCompile Include="filechecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Logging\debugmsg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="add animation\animationsetdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functions\functionupdate.h">
@@ -144,6 +150,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="filechecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging\debugmsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="add animation\animationsetdata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="alphanum.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

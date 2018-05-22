@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <fstream>
 #include <Windows.h>
@@ -19,6 +19,7 @@
 #include "filechecker.h"
 #include "skyrimdirectory.h"
 #include "add animation\furniture.h"
+#include <alphanum.hpp>
 
 #pragma warning(disable:4503)
 
@@ -28,37 +29,54 @@ unordered_map<string, bool> behaviorlist;
 
 void UpdateFiles(string directory, string newAnimDirectory)
 {
-	unordered_map<string, map<string, vecstr>> newFile;						// behavior file, function/node ID, vector<string>; memory to access each node
-	unordered_map<string, unordered_map<std::string, vecstr>> newAnimData;	// character, unique code, vector<string>; memory to access each node
+	unordered_map<string, map<string, vecstr>> newFile;		// behavior file, function/node ID, vector<string>; memory to access each node
+
+	unordered_map<string, unordered_map<string, vecstr>> newAnimData;		// character, unique code, vector<string>; memory to access each node
 	vecstr animDataChar;													// order of the character
 	unordered_map<string, vecstr> animDataHeader;							// order of the character's header
 
-	// Check the existence of required files
-	if (FileCheck())
+	unordered_map<string, map<string, vecstr, alphanum_less<string>>> newAnimDataSet;	// project, header, vector<string>; memory to access each node
+	vecstr projectList;																	// order of the project
+
+	// unordered_map<string, AnimationDataProject> newAnimDataSet;			// animdataset info
+
+	ClearGlobal();
+
+	try
 	{
-		// clear the temp_behaviors folder to prevent it from bloating
-		ClearTempBehaviors();
-
-		// copy latest vanilla into memory
-		if (VanillaUpdate(newFile, newAnimData, animDataChar, animDataHeader))
+		// Check the existence of required files
+		if (FileCheck())
 		{
-			if (!error)
-			{
-				// check template for association with vanilla nodes
-				if (newAnimUpdate(newAnimDirectory, newFile, newAnimData, animDataChar, animDataHeader))
-				{
-					// comparing if different
-					JoiningEdits(directory, newFile, newAnimData, animDataChar, animDataHeader);
+			// clear the temp_behaviors folder to prevent it from bloating
+			ClearTempBehaviors();
 
-					if (!error)
+			// copy latest vanilla into memory
+			if (VanillaUpdate(newFile, newAnimData, animDataChar, animDataHeader, newAnimDataSet, projectList))
+			{
+				if (!error)
+				{
+					// check template for association with vanilla nodes from behavior template file
+					if (newAnimUpdate(newAnimDirectory, newFile, newAnimData, animDataChar, animDataHeader, newAnimDataSet, projectList))
 					{
-						// compiling all behaviors in "new" to "temp_behaviors" folder
-						CombiningFiles(newFile, newAnimData, animDataChar, animDataHeader);
+						// comparing if different from mod file
+						JoiningEdits(directory, newFile, newAnimData, animDataChar, animDataHeader, newAnimDataSet, projectList);
+
+						if (!error)
+						{
+							// compiling all behaviors in "new" to "temp_behaviors" folder
+							CombiningFiles(newFile, newAnimData, animDataChar, animDataHeader, newAnimDataSet, projectList);
+						}
 					}
 				}
 			}
 		}
 	}
+	catch (exception& ex)
+	{
+		ErrorMessage(6001, ex.what());
+	}
+
+	ClearGlobal();
 }
 
 template<typename T>
@@ -181,18 +199,14 @@ void funcSpeed()
 void test()
 {
 	// for testing function
-	string filename = "Nemesis_magic_readied_direction_behavior.txt";
-	vecstr storeline = GetFunctionLines(filename);
 
-	ofstream out(filename);
 
-	for (unsigned int i = 0; i < storeline.size(); ++i)
-	{
-		if (storeline[i].find("SERIALIZE_IGNORED") == string::npos)
-		{
-			out << storeline[i] << "\n";
-		}
-	}
+	string line = "data\\meshes\\nemesis_animationdatasinglefile.txt";
+
+	vecstr read;
+	GetFunctionLines(line, read, false);
+
+	cout << line << endl;
 }
 
 int main()
@@ -203,17 +217,9 @@ int main()
 	}
 
 	srand(unsigned int(time(NULL)));
-	time1 = boost::posix_time::microsec_clock::local_time();
 
-	// funcSpeed();
-	// test();
-
-	// REMEMBER ADD FILE CHECKER
-	
-
-	// Patcher Update
-	UpdateFiles("mod\\", "behavior templates\\");
-
+	// english language pack
+	NewDebugMessage("english");
 
 	// For Debug purpose
 	// =======================
@@ -228,37 +234,64 @@ int main()
 
 	// =======================
 
+	string input;
 
-	GenerateBehavior("temp_behaviors\\", behaviorPriority, chosenBehavior);
-	
-	if (!error)
+	while (true)
 	{
-		behaviorCheck();
+		cin >> input;
+		time1 = boost::posix_time::microsec_clock::local_time();
+
+		if ((input == "1" || input == "2" || input == "3" || input == "4"))
+		{
+			if (input == "1")
+			{
+				// Patcher Update
+				UpdateFiles("mod\\", "behavior templates\\");
+			}
+			else if (input == "2")
+			{
+				try
+				{
+					GenerateBehavior("temp_behaviors\\", behaviorPriority, chosenBehavior);
+				}
+				catch (exception& ex)
+				{
+					ErrorMessage(6002, ex.what());
+				}
+
+				if (!error)
+				{
+					behaviorCheck();
+				}
+				else
+				{
+					error = false;
+				}
+			}
+			else if (input == "3")
+			{
+				test();
+			}
+			else if (input == "4")
+			{
+				funcSpeed();
+			}
+
+			boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
+			boost::posix_time::time_duration diff = time2 - time1;
+
+			double duration = double(diff.total_milliseconds());
+
+			cout << "Total processing time: " << duration / 1000 << " seconds" << endl;
+
+			system("pause");
+			system("cls");
+		}
+		else
+		{
+			break;
+		}
 	}
-
-	boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
-	boost::posix_time::time_duration diff = time2 - time1;
-
-	double duration = double(diff.total_milliseconds());
-
-	cout << "Total processing time: " << duration / 1000 << " seconds" << endl;
-
-
-	unordered_map<string, string> emptyBehaviorPath;
-	behaviorPath = emptyBehaviorPath;
-
-	unordered_map<string, unordered_map<string, bool>> emptyRegisteredAnim;
-	registeredAnim = emptyRegisteredAnim;
-
-	unordered_map<string, set<string>> emptyUsedAnim;
-	usedAnim = emptyUsedAnim;
-
-	unordered_map<string, unordered_map<string, vector<set<string>>>> emptyAnimModMatch;
-	animModMatch = emptyAnimModMatch;
-
-	unordered_map<string, vector<string>> emptyBehaviorJoints;
-	behaviorJoints = emptyBehaviorJoints;
-
 
 	cin.sync();
 	cin.get();

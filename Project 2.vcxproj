@@ -76,6 +76,9 @@
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -89,7 +92,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:/Program Files/boost/boost_1_66_0/msvc/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -149,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="add animation\alternateanimation.cpp" />
     <ClCompile Include="add animation\animationdata.cpp" />
+    <ClCompile Include="add animation\animationsetdata.cpp" />
     <ClCompile Include="add animation\animationinfo.cpp" />
     <ClCompile Include="add animation\furniture.cpp" />
     <ClCompile Include="add animation\gettemplate.cpp" />
@@ -166,12 +170,14 @@
     <ClCompile Include="animationutility.cpp" />
     <ClCompile Include="generator_utility.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="Logging\debugmsg.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="skyrimdirectory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="add animation\alternateanimation.h" />
     <ClInclude Include="add animation\animationdata.h" />
+    <ClInclude Include="add animation\animationsetdata.h" />
     <ClInclude Include="add animation\animationinfo.h" />
     <ClInclude Include="add animation\furniture.h" />
     <ClInclude Include="add animation\gettemplate.h" />
@@ -191,7 +197,9 @@
     <ClInclude Include="functions\renew.h" />
     <ClInclude Include="generator_utility.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Logging\debugmsg.h" />
     <ClInclude Include="skyrimdirectory.h" />
+    <ClInclude Include="alphanum.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
