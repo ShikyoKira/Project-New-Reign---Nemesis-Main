@@ -14,6 +14,7 @@ struct animationutility
 	int animMulti;
 	std::string multiOption;
 
+	animationutility() {}
 	animationutility(id eventid, id variableid, std::vector<int> stateID, int stateCountMultiplier, bool hasGroup, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
 };
 

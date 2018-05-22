@@ -42,7 +42,7 @@ DebugMsg::DebugMsg(string language)
 
 			if (wordFind(storeline[i], "UIT ") == 0)
 			{
-				if (storeline[i].find("=") != string::npos)
+				if (storeline[i].find("=") != NOT_FOUND)
 				{
 					string code = storeline[i].substr(4, storeline[i].find("=") - 4);
 
@@ -54,7 +54,7 @@ DebugMsg::DebugMsg(string language)
 			}
 			else if (wordFind(storeline[i], "TBT ") == 0)
 			{
-				if (storeline[i].find("=") != string::npos)
+				if (storeline[i].find("=") != NOT_FOUND)
 				{
 					string code = storeline[i].substr(4, storeline[i].find("=") - 4);
 
@@ -66,7 +66,7 @@ DebugMsg::DebugMsg(string language)
 			}
 			else if (wordFind(storeline[i], "ERR ") == 0)
 			{
-				if (storeline[i].find("=") != string::npos)
+				if (storeline[i].find("=") != NOT_FOUND)
 				{
 					string code = storeline[i].substr(4, storeline[i].find("=") - 4);
 
@@ -78,7 +78,7 @@ DebugMsg::DebugMsg(string language)
 			}
 			else if (wordFind(storeline[i], "WAR ") == 0)
 			{
-				if (storeline[i].find("=") != string::npos)
+				if (storeline[i].find("=") != NOT_FOUND)
 				{
 					string code = storeline[i].substr(4, storeline[i].find("=") - 4);
 
