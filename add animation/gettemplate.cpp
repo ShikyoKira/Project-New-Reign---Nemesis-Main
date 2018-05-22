@@ -30,7 +30,6 @@ getTemplate::getTemplate()
 				read_directory(newpath, folderlist);
 				bool isOptionExist = false;
 				bool registered = false;
-				boost::filesystem::path animData;
 				unordered_map<string, unordered_map<int, bool>> isStateJoint;		// behavior, node(function) ID, true/false; is this node(function) joining the animation template with the main branch?
 				vector<boost::filesystem::path> pathVector;
 
@@ -53,14 +52,8 @@ getTemplate::getTemplate()
 						templatelist[codelist[k]] = true;
 						isOptionExist = true;
 					}
-					else if (boost::iequals(folderlist[l], "animationdatasinglefile") && boost::filesystem::is_directory(FOF2))
-					{
-						animData = FOF2;
-					}
-					else
-					{
-						pathVector.push_back(FOF2);
-					}
+
+					pathVector.push_back(FOF2);
 				}
 
 				for (unsigned int l = 0; l < pathVector.size(); ++l)
@@ -78,16 +71,16 @@ getTemplate::getTemplate()
 						{
 							newpath = templateDirectory + codelist[k] + "\\" + behaviorFolder + "\\" + filelist[i];
 							boost::filesystem::path file(newpath);
-							boost::algorithm::to_lower(filelist[i]);
-							boost::algorithm::to_lower(codelist[k]);
+							string lowerfilename = boost::to_lower_copy(filelist[i]);							
+							boost::to_lower(codelist[k]);
 
 							if (!boost::filesystem::is_directory(file))
 							{
-								if ((filelist[i] == codelist[k] + "_group.txt" || filelist[i] == codelist[k] + "_group.nmd"))
+								if (boost::iequals(lowerfilename, codelist[k] + "_group.txt"))
 								{
 									if (behaviortemplate[codelist[k] + "_group"][lowerBehaviorFolder].size() == 0)
 									{
-										behaviortemplate[codelist[k] + "_group"][lowerBehaviorFolder] = GetFunctionLines(newpath);
+										GetFunctionLines(newpath, behaviortemplate[codelist[k] + "_group"][lowerBehaviorFolder]);
 										noGroup = false;
 
 										if (error)
@@ -101,11 +94,11 @@ getTemplate::getTemplate()
 										return;
 									}
 								}
-								else if ((filelist[i] == codelist[k] + "_master.txt" || filelist[i] == codelist[k] + "_master.nmd"))
+								else if (boost::iequals(lowerfilename, codelist[k] + "_master.txt"))
 								{
 									if (behaviortemplate[codelist[k] + "_master"][lowerBehaviorFolder].size() == 0)
 									{
-										behaviortemplate[codelist[k] + "_master"][lowerBehaviorFolder] = GetFunctionLines(newpath);
+										GetFunctionLines(newpath, behaviortemplate[codelist[k] + "_master"][lowerBehaviorFolder]);
 										noGroup = false;
 
 										if (error)
@@ -119,14 +112,14 @@ getTemplate::getTemplate()
 										return;
 									}
 								}
-								else if (filelist[i] == codelist[k] + ".txt")
+								else if (boost::iequals(lowerfilename, codelist[k] + ".txt"))
 								{
 									registered = true;
 									grouplist[lowerBehaviorFolder].push_back(codelist[k]);
 
 									if (behaviortemplate[codelist[k]][lowerBehaviorFolder].size() == 0)
 									{
-										behaviortemplate[codelist[k]][lowerBehaviorFolder] = GetFunctionLines(newpath);
+										GetFunctionLines(newpath, behaviortemplate[codelist[k]][lowerBehaviorFolder]);
 
 										if (error)
 										{
@@ -135,20 +128,21 @@ getTemplate::getTemplate()
 									}
 									else
 									{
-										ErrorMessage(1059, newpath);
+										ErrorMessage(1019, newpath);
 										return;
 									}
 								}
-								else if (filelist[i][0] == '#')
+								else if (lowerfilename[0] == '#')
 								{
-									string number = boost::regex_replace(string(filelist[i]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+									string number = boost::regex_replace(string(lowerfilename), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-									if (filelist[i] == "#" + number + ".txt")
+									if (lowerfilename == "#" + number + ".txt" && isOnlyNumber(number))
 									{
 										existingFunctionID[codelist[k]][lowerBehaviorFolder].push_back(stoi(number));
 									}
 
-									vecstr storeline = GetFunctionLines(newpath);
+									vecstr storeline;
+									GetFunctionLines(newpath, storeline);
 									bool isJoint = false;
 									bool isStateMachine = false;
 
@@ -185,6 +179,74 @@ getTemplate::getTemplate()
 									}
 								}
 							}
+							else if (lowerBehaviorFolder == "animationdatasinglefile")
+							{
+								vecstr headerlist;
+								read_directory(newpath, headerlist);
+								grouplist[lowerBehaviorFolder].push_back(codelist[k]);
+								string project = filelist[i] + ".txt";
+
+								for (unsigned int j = 0; j < headerlist.size(); ++j)
+								{
+									string header = headerlist[j].substr(0, headerlist[j].find_last_of("."));
+
+									if (header[0] == '$' && (header.back() == '$' || header.find_last_of("$UC") == header.length() - 1))
+									{
+										if (animdatatemplate[codelist[k]][project][header].size() == 0)
+										{
+											GetFunctionLines(newpath + "\\" + headerlist[j], animdatatemplate[codelist[k]][project][header], true);
+
+											if (error)
+											{
+												return;
+											}
+										}
+										else
+										{
+											ErrorMessage(1019, newpath);
+											return;
+										}
+									}
+									else
+									{
+										existingAnimDataHeader[codelist[k]][project].insert(header);
+									}
+								}
+							}
+							else if (lowerBehaviorFolder == "animationsetdatasinglefile")
+							{
+								vecstr headerlist;
+								read_directory(newpath, headerlist);
+								grouplist[lowerBehaviorFolder].push_back(codelist[k]);
+								string project = filelist[i] + "\\" + filelist[i].substr(0, wordFind(filelist[i], "data", true)) + ".txt";
+
+								for (unsigned int j = 0; j < headerlist.size(); ++j)
+								{
+									string header = headerlist[j].substr(0, headerlist[j].find_last_of("."));
+
+									if (header[0] == '$' && header.back() == '$')
+									{
+										if (asdtemplate[codelist[k]][project][header].size() == 0)
+										{
+											GetFunctionLines(newpath + "\\" + headerlist[j], asdtemplate[codelist[k]][project][header], false);
+
+											if (error)
+											{
+												return;
+											}
+										}
+										else
+										{
+											ErrorMessage(1019, newpath);
+											return;
+										}
+									}
+									else
+									{
+										existingASDHeader[codelist[k]][project].insert(header);
+									}
+								}
+							}
 
 							if (error)
 							{
@@ -218,7 +280,7 @@ getTemplate::getTemplate()
 								}
 							}
 						}
-						else
+						else if (lowerBehaviorFolder != "animationdatasinglefile" && lowerBehaviorFolder != "animationsetdatasinglefile")
 						{
 							if (optionlist[codelist[k]].multiState[lowerBehaviorFolder].size() == 1)
 							{
@@ -273,100 +335,6 @@ getTemplate::getTemplate()
 				if (error)
 				{
 					return;
-				}
-
-				if (animData.string().length() != 0)
-				{
-					string animDataPath = animData.string();
-					vecstr characlist;
-					read_directory(animDataPath, characlist);
-
-					for (unsigned int l = 0; l < characlist.size(); ++l)
-					{
-						newpath = animDataPath + "\\" + characlist[l];
-						boost::filesystem::path FOF3(newpath);
-
-						if (boost::filesystem::is_directory(FOF3))
-						{
-							vecstr headerlist;
-							read_directory(newpath, headerlist);
-
-							for (unsigned int i = 0; i < headerlist.size(); ++i)
-							{
-								newpath = newpath + "\\" + headerlist[i];
-								boost::filesystem::path FOF4(newpath);
-
-								if (!boost::filesystem::is_directory(FOF4))
-								{
-									string lowerBehaviorFolder = boost::algorithm::to_lower_copy(animData.stem().string()) + " " + characlist[l];
-
-									if (headerlist[i] == codelist[k] + ".txt")
-									{
-										registered = true;
-										grouplist[lowerBehaviorFolder].push_back(codelist[k]);
-
-										if (behaviortemplate[codelist[k]][lowerBehaviorFolder].size() == 0)
-										{
-											behaviortemplate[codelist[k]][lowerBehaviorFolder] = GetFunctionLines(newpath);
-
-											if (error)
-											{
-												return;
-											}
-										}
-										else
-										{
-											ErrorMessage(1059, newpath);
-											return;
-										}
-									}
-									else
-									{
-										stringstream sstream(FOF4.stem().string());
-										istream_iterator<string> ssbegin(sstream);
-										istream_iterator<string> ssend;
-										vecstr fileparts(ssbegin, ssend);
-										copy(fileparts.begin(), fileparts.end(), fileparts.begin());
-
-										if (fileparts.size() < 3 && fileparts.size() != 0)
-										{
-											if (fileparts.size() == 1 && !isOnlyNumber(fileparts[0]))
-											{
-												ErrorMessage(2004, newpath);
-												return;
-											}
-											else if (fileparts.size() == 2 && (!hasAlpha(fileparts[0]) || !isOnlyNumber(fileparts[1])))
-											{
-												ErrorMessage(2004, newpath);
-												return;
-											}
-
-											if (characterHeaders.find(characlist[l]) == characterHeaders.end())
-											{
-												ErrorMessage(3011, animDataPath + "\\" + characlist[i]);
-												return;
-											}
-
-											if (behaviortemplate[codelist[k]][lowerBehaviorFolder].size() == 0)
-											{
-												behaviortemplate[codelist[k]][lowerBehaviorFolder] = GetFunctionLines(newpath);
-
-												if (error)
-												{
-													return;
-												}
-											}
-											else
-											{
-												ErrorMessage(1019, newpath);
-												return;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
 				}
 
 				if (!isOptionExist && registered)

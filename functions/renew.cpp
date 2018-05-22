@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader)
+bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader, unordered_map<string, map<string, vecstr, alphanum_less<string>>>& newAnimDataSet, vecstr& projectList)
 {
 #ifndef DEBUG
 	string path = "data";
@@ -21,9 +21,8 @@ bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, unordere
 	}
 	else
 	{
-		if (!GetPathLoop(path + "\\", newFile, newAnimData, animDataChar, animDataHeader))
+		if (!GetPathLoop(path + "\\", newFile, newAnimData, animDataChar, animDataHeader, newAnimDataSet, projectList))
 		{
-			error = true;
 			return false;
 		}
 
@@ -48,12 +47,41 @@ bool VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, unordere
 				return false;
 			}			
 		}
+
+		if (behaviorProject.size() != 0)
+		{
+			ofstream output("behavior_project.txt");
+
+			if (output.is_open())
+			{
+				FunctionWriter fwriter(&output);
+
+				for (auto it = behaviorProject.begin(); it != behaviorProject.end(); ++it)
+				{
+					fwriter << it->first << "\n";
+
+					for (unsigned int i = 0; i < it->second.size(); ++i)
+					{
+						fwriter << it->second[i] << "\n";
+					}
+
+					fwriter << "\n";
+				}
+
+				output.close();
+			}
+			else
+			{
+				ErrorMessage(2000, "behavior_path.txt");
+				return false;
+			}
+		}
 	}
 
 	return true;
 }
 
-bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader)
+bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader, unordered_map<string, map<string, vecstr, alphanum_less<string>>>& newAnimDataSet, vecstr& projectList)
 {
 	vecstr filelist;
 	read_directory(path, filelist);
@@ -86,7 +114,23 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 					boost::algorithm::to_lower(curFileName);
 					behaviorPath[curFileName] = newPath.substr(0, newPath.find_last_of("."));
 				}
-				else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_List") == -1)
+				else if (boost::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
+				{
+					curFileName = curFileName.substr(8);
+
+					if (!AnimDataSetDisassemble(newPath, newAnimDataSet, projectList))
+					{
+						return false;
+					}
+
+					string parent = curfile.parent_path().filename().string();
+					newPath = path + filelist[i].substr(8);
+					boost::algorithm::to_lower(parent);
+					boost::algorithm::to_lower(newPath);
+					boost::algorithm::to_lower(curFileName);
+					behaviorPath[curFileName] = newPath.substr(0, newPath.find_last_of("."));
+				}
+				else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_List") == NOT_FOUND && wordFind(curFileName, "_Project") == NOT_FOUND)
 				{
 					curFileName = curFileName.substr(8);
 
@@ -108,12 +152,53 @@ bool GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFil
 						registeredAnim[boost::algorithm::to_lower_copy(curFileName)] = empty;
 					}
 				}
+				else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_Project") + 8 == curFileName.length())
+				{
+					curFileName = curFileName.substr(8, curFileName.length() - 16);
+					vecstr storeline;
+					GetFunctionLines(newPath, storeline);
+					bool record = false;
+					
+					if (error)
+					{
+						return false;
+					}
+
+					for (unsigned int j = 0; j < storeline.size(); ++j)
+					{
+						string line = storeline[j];
+
+						if (record && line.find("</hkparam>") != NOT_FOUND)
+						{
+							break;
+						}
+
+						if (record)
+						{
+							if (line.find("<hkcstring>") == NOT_FOUND)
+							{
+								ErrorMessage(1093, newPath, j + 1);
+								return false;
+							}
+
+							int pos = line.find("<hkcstring>") + 11;
+							string characterfile = boost::to_lower_copy(line.substr(pos, line.find("</hkcstring>", pos) - pos));
+							characterfile = GetFileName(characterfile);
+							behaviorProject[characterfile].push_back(boost::to_lower_copy(curFileName));
+						}
+
+						if (line.find("<hkparam name=\"characterFilenames\" numelements=\"") != NOT_FOUND && line.find("</hkparam>") == NOT_FOUND)
+						{
+							record = true;
+						}
+					}
+				}
 			}
 		}
 		else
 		{
 			// look deeper into the folder for behavior file
-			multithreads.emplace_back(GetPathLoop, newPath + "\\", ref(newFile), ref(newAnimData), ref(animDataChar), ref(animDataHeader));
+			multithreads.emplace_back(GetPathLoop, newPath + "\\", ref(newFile), ref(newAnimData), ref(animDataChar), ref(animDataHeader), ref(newAnimDataSet), ref(projectList));
 		}
 	}
 
@@ -147,14 +232,14 @@ bool VanillaDisassemble(string path, string filename, unordered_map<string, map<
 				curline.pop_back();
 			}
 
-			if (curline.find("	</hksection>") != string::npos)
+			if (curline.find("	</hksection>") != NOT_FOUND)
 			{
 				break;
 			}
 
-			if (curline.find("SERIALIZE_IGNORED") == string::npos && !skip)
+			if (curline.find("SERIALIZE_IGNORED") == NOT_FOUND && !skip)
 			{
-				if (curline.find("<hkobject name=\"", 0) != string::npos && curline.find("signature=\"", curline.find("<hkobject name=\"")) != string::npos)
+				if (curline.find("<hkobject name=\"", 0) != NOT_FOUND && curline.find("signature=\"", curline.find("<hkobject name=\"")) != NOT_FOUND)
 				{
 					if (storeline.size() != 0 && curID.length() != 0)
 					{
@@ -170,7 +255,7 @@ bool VanillaDisassemble(string path, string filename, unordered_map<string, map<
 
 				storeline.push_back(curline);
 			}
-			else if (skip && curline.find("<hkobject name=\"#") != string::npos)
+			else if (skip && curline.find("<hkobject name=\"#") != NOT_FOUND)
 			{
 				skip = false;
 				size_t pos = curline.find("<hkobject name=\"#") + 16;
@@ -201,7 +286,8 @@ bool AnimDataDisassemble(string path, unordered_map<string, unordered_map<string
 	int num;
 	vecstr newline;
 	newline.reserve(500);
-	vecstr storeline = GetFunctionLines(path);
+	vecstr storeline;
+	GetFunctionLines(path, storeline);
 
 	if (error)
 	{
@@ -232,14 +318,14 @@ bool AnimDataDisassemble(string path, unordered_map<string, unordered_map<string
 	bool isInfo = false;
 	bool end = false;
 	newAnimData[character][header] = newline;
-	animDataChar.push_back(header);
-	animDataHeader[header].push_back(header);
+	animDataChar.push_back(character);
+	animDataHeader[character].push_back(header);
 	newline.reserve(20);
 	newline.clear();
 
 	for (unsigned int j = num; j < storeline.size(); ++j)
 	{
-		if (wordFind(storeline[j], "Characters") == 0)
+		if (wordFind(storeline[j], ".txt") == storeline[j].length() - 4)
 		{
 			character = GetFileName(boost::algorithm::to_lower_copy(storeline[j]));
 			animDataChar.push_back(character);
@@ -255,7 +341,7 @@ bool AnimDataDisassemble(string path, unordered_map<string, unordered_map<string
 		{
 			if (i + 3 < storeline.size() && (storeline[i - 1] == ""))
 			{
-				if (storeline[i + 3].find("Behaviors") != string::npos && storeline[i + 3].find(".hkx") == storeline[i + 3].length() - 4)
+				if (wordFind(storeline[i + 3], "Behaviors") != NOT_FOUND && storeline[i + 3].find(".hkx") == storeline[i + 3].length() - 4)
 				{
 					newline.shrink_to_fit();
 					newAnimData[character][header] = newline;
@@ -263,7 +349,7 @@ bool AnimDataDisassemble(string path, unordered_map<string, unordered_map<string
 					newline.clear();
 					isInfo = false;
 
-					if (storeline[i + 3].find("Behaviors\\Behavior00.hkx") != string::npos)
+					if (storeline[i + 3].find("Behaviors\\Behavior00.hkx") != NOT_FOUND)
 					{
 						end = true;
 						character = "$end$";
@@ -389,6 +475,124 @@ bool AnimDataDisassemble(string path, unordered_map<string, unordered_map<string
 
 		newline.shrink_to_fit();
 		newAnimData[character][header] = newline;
+	}
+
+	return true;
+}
+
+bool AnimDataSetDisassemble(string path, unordered_map<string, map<string, vecstr, alphanum_less<string>>>& newAnimDataSet, vecstr& projectList)
+{
+	vecstr storeline;
+	GetFunctionLines(path, storeline);
+	int num;
+	vecstr newline;
+	newline.reserve(500);
+
+	if (error)
+	{
+		return false;
+	}
+
+	{
+		string strnum = boost::regex_replace(string(storeline[0]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+		if (!isOnlyNumber(strnum) || stoi(strnum) < 10)
+		{
+			ErrorMessage(3014);
+			return false;
+		}
+
+		num = stoi(strnum) + 1;
+	}
+
+	unordered_map<string, vecstr> animDataSetHeader;
+	string project = "$header$";
+	string header = project;
+	int projectcounter = 1;
+	int headercounter = 0;
+	bool special = false;
+	bool isInfo = false;
+	projectList.push_back(project);
+	animDataSetHeader[project].push_back(header);
+	newline.push_back(storeline[0]);
+
+	for (int i = 1; i < num; ++i)
+	{
+		newline.push_back(storeline[i]);
+		projectList.push_back(storeline[i]);
+	}
+
+	for (unsigned int i = num; i < storeline.size(); ++i)
+	{
+		if (i != storeline.size() - 1 && wordFind(storeline[i + 1], ".txt") != NOT_FOUND)
+		{
+			header = animDataSetHeader[project][headercounter];
+			newline.shrink_to_fit();
+			newAnimDataSet[project][header] = newline;
+			newline.reserve(100);
+			newline.clear();
+			project = projectList[projectcounter];
+			++projectcounter;
+			headercounter = 0;
+			animDataSetHeader[project].push_back("$header$");
+			newline.push_back(storeline[i]);
+			++i;
+
+			if (animDataSetHeader[project].size() != 1)
+			{
+				ErrorMessage(5005, path, i + 1);
+				return false;
+			}
+			
+			while (i < storeline.size())
+			{
+				if (wordFind(storeline[i], ".txt") != NOT_FOUND)
+				{
+					animDataSetHeader[project].push_back(GetFileName(boost::algorithm::to_lower_copy(storeline[i])));
+				}
+				else if (wordFind(storeline[i], "V3") != NOT_FOUND)
+				{
+					header = animDataSetHeader[project][headercounter];
+					++headercounter;
+					newline.shrink_to_fit();
+					newAnimDataSet[project][header] = newline;
+					newline.reserve(100);
+					newline.clear();
+					break;
+				}
+				else
+				{
+					ErrorMessage(5001, path, i + 1);
+					return false;
+				}
+
+				newline.push_back(storeline[i]);
+				++i;
+			}
+		}
+		else if (wordFind(storeline[i], "V3") != NOT_FOUND)
+		{
+			header = animDataSetHeader[project][headercounter];
+			++headercounter;
+			newline.shrink_to_fit();
+			newAnimDataSet[project][header] = newline;
+			newline.reserve(100);
+			newline.clear();
+		}
+
+		newline.push_back(storeline[i]);
+	}
+
+	if (newline.size() != 0)
+	{
+		if (newline.back().length() == 0)
+		{
+			newline.pop_back();
+		}
+
+		header = animDataSetHeader[project][headercounter];
+		newline.shrink_to_fit();
+		newAnimDataSet[project][header] = newline;
 	}
 
 	return true;
