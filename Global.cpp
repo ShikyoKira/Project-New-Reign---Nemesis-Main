@@ -13,21 +13,25 @@ DataPath skyrimDataPath;
 #endif
 
 boost::posix_time::ptime time1;
+mutex addAnimLock;
+
 unordered_map<string, string> behaviorPath;
-unordered_map<string, string> AAGroup;
-unordered_map<string, unordered_map<string, vector<string>>> animList;
-unordered_map<string, unordered_map<string, vector<set<string>>>> animModMatch;
-unordered_map<string, unordered_map<string, bool>> registeredAnim;
+
+unordered_map<string, bool> activatedBehavior;
+unordered_map<string, vecstr> behaviorJoints;
+unordered_map<string, vecstr> behaviorProject;
 unordered_map<string, set<string>> usedAnim;
 unordered_map<string, set<string>> characterHeaders;
-unordered_map<string, vecstr> behaviorJoints;
-unordered_map<string, bool> activatedBehavior;
+unordered_map<string, unordered_map<string, bool>> registeredAnim;
+unordered_map<string, unordered_map<string, vector<string>>> animList;
+unordered_map<string, unordered_map<string, vector<set<string>>>> animModMatch;
 
-unordered_map<string, vecstr> alternateAnim;
-unordered_map<string, vecstr> groupAA;
-unordered_map<string, vecstr> groupAAPrefix;
+unordered_map<string, string> AAGroup;
 unordered_map<string, vecstr> AAEvent;
 unordered_map<string, vecstr> AAHasEvent;
+unordered_map<string, vecstr> groupAA;
+unordered_map<string, vecstr> groupAAPrefix;
+unordered_map<string, vecstr> alternateAnim;
 unordered_map<string, unordered_map<string, int>> AAGroupCount;
 vecstr groupNameList;
 
@@ -141,33 +145,38 @@ inline int sameWordCount(string line, string word)
 	return wordCount;
 }
 
-vecstr GetFunctionLines(string filename)
+void GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 {
-	vecstr functionlines;
+	{
+		vecstr newlines;
+		functionlines = newlines;
+	}
+
 	string fileformat = filename.substr(filename.find_last_of(".") + 1);
 
-	if (fileformat == "txt")
+	if (fileformat == "txt" || fileformat == "xml")
 	{
 		functionlines.reserve(fileLineCount(filename));
 
 		if (error)
 		{
-			return functionlines;
+			return;
 		}
 
-		char line[2000];
+		string line;
+		char charline[2000];
 		FILE* BehaviorFormat;
 		fopen_s(&BehaviorFormat, filename.c_str(), "r");
 
 		if (BehaviorFormat)
 		{
-			while (fgets(line, 2000, BehaviorFormat))
+			while (fgets(charline, 2000, BehaviorFormat))
 			{
-				int size = strlen(line);
+				line = charline;
 
-				if (size != 0 && line[size - 1] == '\n')
+				if (line.back() == '\n')
 				{
-					line[size - 1] = '\0';
+					line.pop_back();
 				}
 
 				functionlines.push_back(line);
@@ -183,14 +192,25 @@ vecstr GetFunctionLines(string filename)
 	else
 	{
 		ErrorMessage(3001, filename);
+		return;
 	}
 
-	if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
+	if (emptylast)
 	{
-		functionlines.push_back("");
+		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
+		{
+			functionlines.push_back("");
+		}
+	}
+	else
+	{
+		if (functionlines.size() != 0 && functionlines.back().length() == 0)
+		{
+			functionlines.pop_back();
+		}
 	}
 
-	return functionlines;
+	return;
 }
 
 size_t wordFind(string line, string word, bool isLast)
@@ -203,12 +223,17 @@ size_t wordFind(string line, string word, bool isLast)
 		size_t pos = 0;
 		int ref = sameWordCount(line, word);
 
-		for (int i = 0; i < ref; ++i)
+		if (ref != 0)
 		{
-			pos = line.find(word, pos + 1);
+			for (int i = 0; i < ref; ++i)
+			{
+				pos = line.find(word, pos + 1);
+			}
+
+			return pos;
 		}
 
-		return pos;
+		return NOT_FOUND;
 	}
 
 	return line.find(word);
@@ -239,4 +264,10 @@ bool hasAlpha(string line)
 	}
 
 	return false;
+}
+
+void addUsedAnim(string behaviorFile, string animPath)
+{
+	lock_guard<mutex> animLock(addAnimLock);
+	usedAnim[behaviorFile].insert(animPath);
 }
