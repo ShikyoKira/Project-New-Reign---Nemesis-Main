@@ -21,7 +21,8 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 			return behaviorlines;
 		}
 
-		vecstr exportFormat = GetFunctionLines(filename);
+		vecstr exportFormat;
+		GetFunctionLines(filename, exportFormat);
 
 		if (error)
 		{
@@ -175,6 +176,11 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						}
 					}
 
+					if (line.find("$crc32[") != NOT_FOUND &&  line.find("]$", line.find("crc32[")) != NOT_FOUND)
+					{
+						CRC32Replacer(line, it->first, j + 1);
+					}
+					
 					if (line.find("$import[", 0) != NOT_FOUND && line.find("]$", line.find("$import[" + 1)) != NOT_FOUND)
 					{
 						size_t nextpos = line.find("$import[");
@@ -236,6 +242,18 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						{
 							line.replace(nextpos, importer.length() + 2, IDExist[importer]);
 						}
+					}
+
+					if (line.find("$MD$") != NOT_FOUND)
+					{
+						ErrorMessage(1096, "import", j + 1);
+						return;
+					}
+
+					if (line.find("$RD$") != NOT_FOUND)
+					{
+						ErrorMessage(1097, "import", j + 1);
+						return;
 					}
 
 					if (line.find("MID$", 0) != NOT_FOUND)
