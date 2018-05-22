@@ -4,618 +4,809 @@
 
 using namespace std;
 
-void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr behaviorPriority, unordered_map<string, bool> chosenBehavior, getTemplate BehaviorTemplate, vector<unique_ptr<registerAnimation>>& animationList, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, unordered_map<string, var> AnimVar, unordered_map<string, vector<string>> modAnimBehavior)
+AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string filepath, string modcode)
+{
+	int startline = 0;
+	BehaviorListProcess(*this, startline, animdatafile, project, modcode);
+
+	if (startline >= animdatafile.size())
+	{
+		return;
+	}
+
+	AnimDataProcess(animdatalist, startline, animdatafile, project, modcode);
+
+	if (startline >= animdatafile.size())
+	{
+		return;
+	}
+
+	InfoDataProcess(infodatalist, startline, animdatafile, project, modcode);
+}
+
+void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, string project, string modcode)
+{
+	if (!isOnlyNumber(animdatafile[startline]))
+	{
+		ErrorMessage(3005, project, "Header");
+		throw 1;
+	}
+
+	int i = startline + 1;
+
+	if (i + 4 >= animdatafile.size())
+	{
+		ErrorMessage(3021, project);
+		throw 1;
+	}
+
+	storeline.unknown1 = animdatafile[i++];
+	++i;
+
+	while (!isOnlyNumber(animdatafile[i]))
+	{
+		if (hasAlpha(animdatafile[i]))
+		{
+			storeline.behaviorlist.push_back(animdatafile[i++]);
+		}
+		else
+		{
+			ErrorMessage(3005, project, "Header");
+			throw 1;
+		}
+	}
+
+	storeline.unknown2 = animdatafile[i++];
+	startline = i;
+
+	if (i < animdatafile.size() && !hasAlpha(animdatafile[i]))
+	{
+		ErrorMessage(3005, project, "Header");
+		throw 1;
+	}
+}
+
+void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode)
+{
+	for (int i = startline; i < int(animdatafile.size()); ++i)
+	{
+		if (!hasAlpha(animdatafile[i]))
+		{
+			ErrorMessage(3014, project, animdatafile[i]);
+			throw 1;
+		}
+
+		string name = animdatafile[i++];
+
+		if (!isOnlyNumber(animdatafile[i]))
+		{
+			ErrorMessage(3005, project, name);
+			throw 1;
+		}
+
+		string uniquecode = animdatafile[i++];
+		AnimDataPack curAP;
+		curAP.name = name;
+		curAP.uniquecode = uniquecode;
+
+		if (!isOnlyNumber(animdatafile[i]))
+		{
+			ErrorMessage(3005, project, name);
+			throw 1;
+		}
+
+		curAP.unknown1 = animdatafile[i++];
+
+		if (!isOnlyNumber(animdatafile[i]))
+		{
+			ErrorMessage(3005, project, name);
+			throw 1;
+		}
+
+		curAP.unknown2 = animdatafile[i++];
+
+		if (!isOnlyNumber(animdatafile[i]))
+		{
+			ErrorMessage(3005, project, name);
+			throw 1;
+		}
+
+		curAP.unknown3 = animdatafile[i++];
+
+		if (!isOnlyNumber(animdatafile[i++]))
+		{
+			ErrorMessage(3005, project, name);
+			throw 1;
+		}
+
+		if (animdatafile[i].length() != 0 && hasAlpha(animdatafile[i]))
+		{
+			while (animdatafile[i].length() != 0)
+			{
+				curAP.eventname.push_back(animdatafile[i++]);
+			}
+		}
+
+		if (animdatafile[i++].length() != 0)
+		{
+			ErrorMessage(3005, project, name);
+			throw 1;
+		}
+
+		storeline.push_back(curAP);
+
+		if (isOnlyNumber(animdatafile[i]))
+		{
+			startline = i;
+			break;
+		}
+		else
+		{
+			--i;
+		}		
+	}
+}
+
+void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode)
+{
+	unordered_map<string, bool> isExist;
+
+	for (int i = startline; i < int(animdatafile.size()); ++i)
+	{
+		if (!isOnlyNumber(animdatafile[i]))
+		{
+			ErrorMessage(3020, project, animdatafile[i]);
+			throw 1;
+		}
+
+		InfoDataPack curIP;
+		string uniquecode = animdatafile[i++];
+		curIP.uniquecode = uniquecode;
+
+		if (isExist[uniquecode])
+		{
+			ErrorMessage(3022, project, uniquecode);
+			throw 1;
+		}
+
+		isExist[uniquecode] = true;
+
+		if (!isOnlyNumber(animdatafile[i]))
+		{
+			ErrorMessage(3020, project, uniquecode);
+			throw 1;
+		}
+
+		curIP.duration = animdatafile[i];
+
+		if (!isOnlyNumber(animdatafile[++i]))
+		{
+			ErrorMessage(3020, project, uniquecode);
+			throw 1;
+		}
+
+		++i;
+
+		while (count(animdatafile[i].begin(), animdatafile[i].end(), ' ') != 0)
+		{
+			curIP.motiondata.push_back(animdatafile[i++]);
+		}
+
+		if (!isOnlyNumber(animdatafile[i++]))
+		{
+			ErrorMessage(3020, project, uniquecode);
+			throw 1;
+		}
+
+		while (count(animdatafile[i].begin(), animdatafile[i].end(), ' ') != 0)
+		{
+			curIP.rotationdata.push_back(animdatafile[i++]);
+		}
+
+		if (animdatafile[i].length() != 0)
+		{
+			ErrorMessage(3020, project, uniquecode);
+			throw 1;
+		}
+
+		storeline.push_back(curIP);
+	}
+}
+
+int AnimDataProject::GetAnimTotalLine()
+{
+	int counter = 3 + int(behaviorlist.size());
+
+	for (auto& it : animdatalist)
+	{
+		counter += 7 + it.eventname.size();
+	}
+
+	return counter;
+}
+
+int AnimDataProject::GetInfoTotalLine()
+{
+	int counter = 0;
+
+	for (auto& it : infodatalist)
+	{
+		counter += 5 + int(it.motiondata.size()) + int(it.rotationdata.size());
+	}
+
+	return counter;
+}
+
+void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr behaviorPriority, unordered_map<string, bool> chosenBehavior, getTemplate BehaviorTemplate, vector<unique_ptr<registerAnimation>>& animationList, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation)
 {
 	string filepath = directory + filelist[curList];
 	string behaviorFile = filelist[curList].substr(0, filelist[curList].find_last_of("."));
 	string lowerBehaviorFile = boost::algorithm::to_lower_copy(behaviorFile);
 
-	int curID = 0;
+	vecstr projectList;		// list of projects
+	unordered_map<string, int> projectNameCount;	// count the occurance of the project name
+	vector<AnimDataProject> ADProject;
+	unordered_map<string, int> nextProject;
 
-	unordered_map<string, unordered_map<string, vecstr>> catalystMap;
-	unordered_map<string, vecstr> animDataHeader;
-	vecstr animDataChar;
+	string project;
+	string header;
 
-	// read behavior file
-	vecstr catalyst = GetFunctionLines(filepath);
-
-	// check for error
-	if (error)
-	{
-		return;
-	}
-
-	boost::posix_time::ptime time2 = boost::posix_time::microsec_clock::local_time();
-	boost::posix_time::time_duration diff = time2 - time1;
-
-	double duration = double(diff.total_milliseconds());
-
-	cout << "Processing time 2: " << duration / 1000 << " seconds" << endl;
-
-	int infoline = 0;
-	int num = 0;
-	size_t openRange = 0;
-	bool isOpen = true;
-	bool special = false;
-	bool newinfo = false;
-	bool isInfo = false;
-	bool end = false;
-	string newMod;
-	string character = "$header$";
-	string header = character;
-	vecstr newline;
-	unordered_map<string, string> chosenLines;
-	unordered_map<string, vecstr> newAnimList = newAnimationList();
-	unordered_map<string, unordered_map<int, bool>> hasAddClip;
+	// timer
+	boost::posix_time::ptime time2;
+	boost::posix_time::time_duration diff;
+	double duration;
 
 	{
-		string strnum = boost::regex_replace(string(catalyst[0]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+		unordered_map<string, int> uCode;		// project, highest unique code
+		unordered_map<string, unordered_map<string, vecstr>> catalystMap;	// project, header, list of lines
+		unordered_map<string, vecstr> animDataHeader;						// project, list of headers
+		unordered_map<string, vecstr> animDataInfo;							// project, list of info headers
 
-		if (!isOnlyNumber(strnum) || stoi(strnum) < 10)
 		{
-			ErrorMessage(3014);
-			return;
-		}
+			// read behavior file
+			vecstr catalyst;
+			GetFunctionLines(filepath, catalyst);
+			vecstr newline;
+			unordered_map<string, string> chosenLines;
 
-		num = stoi(strnum) + 1;
-	}
-
-	newline.reserve(num);
-
-	for (int i = 0; i < num; ++i)
-	{
-		newline.push_back(catalyst[i]);
-	}
-
-	animDataChar.push_back(character);
-	animDataHeader[character].push_back(header);
-	catalystMap[character][header] = newline;;
-	newline.reserve(20);
-	newline.clear();
-
-	for (unsigned int j = num; j < catalyst.size(); ++j)
-	{
-		if (wordFind(catalyst[j], "Characters") == 0)
-		{
-			character = GetFileName(boost::algorithm::to_lower_copy(catalyst[j]));
-			animDataChar.push_back(character);
-			header = "$header$";
-			animDataHeader[character].push_back(header);
-			break;
-		}
-	}
-
-	time2 = boost::posix_time::microsec_clock::local_time();
-	diff = time2 - time1;
-
-	duration = double(diff.total_milliseconds());
-
-	cout << "Processing time 3: " << duration / 1000 << " seconds" << endl;
-
-	// add picked behavior and remove not picked behavior 
-	// separation of all items for easier access and better compatibility
-	for (unsigned int l = num; l < catalyst.size(); ++l)
-	{
-		string line = catalyst[l];
-		bool skip = false;
-		
-		if (line.find("<!-- ", 0) != NOT_FOUND)
-		{
-			if (line.find("<!-- NEW *", 0) != NOT_FOUND)
+			// check for error
+			if (error)
 			{
-				size_t tempint = line.find("<!-- NEW *", 0) + 10;
-				string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-
-				if (!chosenBehavior[modID])
-				{
-					isOpen = false;
-				}
-				else
-				{
-					newMod = modID;
-				}
-
-				skip = true;
+				return;
 			}
-			else if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
-			{
-				special = true;
-			}
-			else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-			{
-				isOpen = true;
-				newMod.clear();
 
-				if (!special)
-				{
-					skip = true;
-				}
-				else
-				{
-					special = false;
-				}
-			}
-		}
+			time2 = boost::posix_time::microsec_clock::local_time();
+			diff = time2 - time1;
 
-		if (isOpen && !skip)
-		{
-			while (true)
+			duration = double(diff.total_milliseconds());
+
+			cout << "Processing time 2: " << duration / 1000 << " seconds" << endl;
+
+			int projectcounter = 0;
+			bool isOpen = true;
+			bool special = false;
+			bool isInfo = false;
+			int num = 0;
+			projectList.reserve(500);
+
+			for (int i = 1; i < catalyst.size(); ++i)
 			{
-				if (line.find("<!-- *", 0) != NOT_FOUND)
+				if (catalyst[i].find(".txt") == NOT_FOUND)
 				{
-					size_t tempint = line.find("<!-- *") + 6;
-					string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-					chosenLines[modID] = line;
+					num = i;
 					break;
 				}
-				else if (line.find("<!-- original -->", 0) != NOT_FOUND)
+
+				projectList.push_back(catalyst[i]);
+			}
+
+			projectList.shrink_to_fit();
+			project = projectList[0] + " " + to_string(++projectNameCount[projectList[0]]);
+			header = "$header$";
+			animDataHeader[project].push_back(header);
+			newline.reserve(20);
+			newline.clear();
+
+			time2 = boost::posix_time::microsec_clock::local_time();
+			diff = time2 - time1;
+
+			duration = double(diff.total_milliseconds());
+
+			cout << "Processing time 3: " << duration / 1000 << " seconds" << endl;
+
+			// add picked behavior and remove not picked behavior 
+			// separation of all items for easier access and better compatibility
+			for (unsigned int l = num; l < catalyst.size(); ++l)
+			{
+				string line = catalyst[l];
+				bool skip = false;
+
+				if (line.find("<!-- ", 0) != NOT_FOUND)
 				{
-					if (chosenLines.size() != 0)
+					if (line.find("<!-- NEW *", 0) != NOT_FOUND)
 					{
-						line = behaviorLineChooser(line, chosenLines, behaviorPriority);
-						chosenLines.clear();
+						size_t tempint = line.find("<!-- NEW *", 0) + 10;
+						string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+
+						if (!chosenBehavior[modID])
+						{
+							isOpen = false;
+						}
+
+						skip = true;
 					}
-					else
+					else if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
 					{
-						ErrorMessage(1165);
-						return;
+						special = true;
+					}
+					else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+					{
+						isOpen = true;
+
+						if (!special)
+						{
+							skip = true;
+						}
+						else
+						{
+							special = false;
+						}
 					}
 				}
 
-				if (!end)
+				if (isOpen && !skip)
 				{
-					if (l + 3 < catalyst.size() && l > 2)
+					while (true)
 					{
-						if (catalyst[l - 1] == "")
+						if (line.find("<!-- *", 0) != NOT_FOUND)
 						{
-							if (catalyst[l + 3].find("Behaviors") != NOT_FOUND && catalyst[l + 3].find(".hkx") == catalyst[l + 3].length() - 4)
+							size_t tempint = line.find("<!-- *") + 6;
+							string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+							chosenLines[modID] = line;
+							break;
+						}
+						else if (line.find("<!-- original -->", 0) != NOT_FOUND)
+						{
+							if (chosenLines.size() != 0)
 							{
-								newline.shrink_to_fit();
-								catalystMap[character][header] = newline;
-								newline.reserve(20);
-								newline.clear();
-								isInfo = false;
+								line = behaviorLineChooser(line, chosenLines, behaviorPriority);
+								chosenLines.clear();
+							}
+							else
+							{
+								ErrorMessage(1165);
+								return;
+							}
+						}
 
-								if (catalyst[l + 3].find("Behaviors\\Behavior00.hkx") != NOT_FOUND)
+						if (l + 3 < catalyst.size() && l > 2)
+						{
+							if (catalyst[l - 1] == "")
+							{
+								bool out = false;
+
+								if (isOnlyNumber(line))
 								{
-									end = true;
-									character = "$end$";
-									header = character;
-									animDataChar.push_back(character);
-									animDataHeader[character].push_back(header);
-								}
-								else
-								{
-									for (unsigned int j = l + 4; j < catalyst.size(); ++j)
+									int next = 1;
+
+									if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
 									{
-										if (wordFind(catalyst[j], "Characters") == 0)
+										++next;
+									}
+
+									if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+									{
+										++next;
+
+										if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
 										{
-											character = GetFileName(boost::algorithm::to_lower_copy(catalyst[j]));
-											animDataChar.push_back(character);
-											header = "$header$";
-											animDataHeader[character].push_back(header);
-											break;
+											++next;
+										}
+
+										if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+										{
+											int nextnext = next + 1;
+
+											if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
+											{
+												++nextnext;
+											}
+
+											if (catalyst[l + next] == "0" || (l + nextnext < catalyst.size() && catalyst[l + nextnext].find("\\") != NOT_FOUND))
+											{
+												newline.shrink_to_fit();
+												catalystMap[project][header] = newline;
+												string newproject = projectList[++projectcounter];
+												header = "$header$";
+												project = newproject + " " + to_string(++projectNameCount[newproject]);
+												animDataHeader[project].push_back(header);
+												newline.reserve(20);
+												newline.clear();
+												isInfo = false;
+												out = true;
+											}
+										}
+									}
+								}
+
+								if (!out)
+								{
+									if (!isInfo)
+									{
+										if (hasAlpha(line))
+										{
+											if (isOnlyNumber(catalyst[l + 1]))
+											{
+												int number = stoi(catalyst[l + 1]);
+												newline.shrink_to_fit();
+												catalystMap[project][header] = newline;
+												newline.reserve(20);
+												newline.clear();
+												header = line + " " + catalyst[l + 1];
+												animDataHeader[project].push_back(header);
+
+												if (number >= uCode[project])
+												{
+													uCode[project] = number;
+												}
+											}
+										}
+										else if (isOnlyNumber(line))
+										{
+											isInfo = true;
+											newline.shrink_to_fit();
+											catalystMap[project][header] = newline;;
+											newline.reserve(20);
+											newline.clear();
+											header = catalyst[++l];
+											line = catalyst[l];
+											animDataInfo[project].push_back(header);
+										}
+									}
+									else if (isOnlyNumber(line))
+									{
+										newline.shrink_to_fit();
+										catalystMap[project][header] = newline;
+										newline.reserve(20);
+										newline.clear();
+										header = line;
+										animDataInfo[project].push_back(header);
+									}
+								}
+							}
+							else if (header == "$header$")
+							{
+								if (hasAlpha(line) && line.find("\\") == NOT_FOUND && l + 1 < catalyst.size())
+								{
+									if (isOnlyNumber(catalyst[l + 1]))	// if it is unique code
+									{
+										int number = stoi(catalyst[l + 1]);
+										newline.shrink_to_fit();
+										catalystMap[project][header] = newline;
+										newline.reserve(20);
+										newline.clear();
+										header = line + " " + catalyst[l + 1];
+										animDataHeader[project].push_back(header);
+
+										if (number >= uCode[project])
+										{
+											uCode[project] = number;
+										}
+									}
+								}
+								else if (isOnlyNumber(catalyst[l - 1]) && catalyst[l - 1] == "0" && isOnlyNumber(line))
+								{
+									int next = 1;
+
+									if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+									{
+										++next;
+
+										if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
+										{
+											++next;
+										}
+
+										if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+										{
+											int nextnext = next + 1;
+
+											if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
+											{
+												++nextnext;
+											}
+
+											if (catalyst[l + next] == "0" || (l + nextnext < catalyst.size() && catalyst[l + nextnext].find("\\") != NOT_FOUND))
+											{
+												newline.shrink_to_fit();
+												catalystMap[project][header] = newline;
+												string newproject = projectList[++projectcounter];
+												project = newproject + " " + to_string(++projectNameCount[newproject]);
+												animDataHeader[project].push_back(header);
+												newline.reserve(20);
+												newline.clear();
+												isInfo = false;
+											}
 										}
 									}
 								}
 							}
-							else if (wordFind(catalyst[l - 3], "Characters") == 0)
-							{
-								if (hasAlpha(line))
-								{
-									if (isOnlyNumber(catalyst[l + 1]))
-									{
-										newline.shrink_to_fit();
-										catalystMap[character][header] = newline;
-										newline.reserve(20);
-										newline.clear();
-										header = line + " " + catalyst[l + 1];
-										animDataHeader[character].push_back(header);
-									}
-								}
-							}
-							else if (!isInfo)
-							{
-								if (wordFind(catalyst[l], "$CLIP$") != NOT_FOUND)
-								{
-									newline.shrink_to_fit();
-									catalystMap[character][header] = newline;;
-									newline.reserve(20);
-									newline.clear();
-									header = "$CLIP$";
-									hasAddClip[character][animDataHeader[character].size()] = true;
-									animDataHeader[character].push_back(header);
-								}
-								else if (isOnlyNumber(line))
-								{
-									isInfo = true;
-									newinfo = true;
-									newline.shrink_to_fit();
-									catalystMap[character][header] = newline;;
-									newline.reserve(20);
-									newline.clear();
-									infoline = animDataHeader[character].size();
-									header = "$info header$";
-									animDataHeader[character].push_back(header);
-
-								}
-								else if (hasAlpha(line))
-								{
-									if (isOnlyNumber(catalyst[l + 1]))
-									{
-										newline.shrink_to_fit();
-										catalystMap[character][header] = newline;
-										newline.reserve(20);
-										newline.clear();
-										header = line + " " + catalyst[l + 1];
-										animDataHeader[character].push_back(header);
-									}
-								}
-							}
-							else
-							{
-								if (wordFind(catalyst[l], "$MDRD$") != NOT_FOUND)
-								{
-									newline.shrink_to_fit();
-									catalystMap[character][header] = newline;;
-									newline.reserve(20);
-									newline.clear();
-									header = "$MDRD$";
-									animDataHeader[character].push_back(header);
-								}
-								else if (isOnlyNumber(line))
-								{
-									newline.shrink_to_fit();
-									catalystMap[character][header] = newline;
-									newline.reserve(20);
-									newline.clear();
-									header = line;
-									animDataHeader[character].push_back(header);
-								}
-							}
 						}
-						else if (wordFind(catalyst[l - 3], "Characters") == 0)
-						{
-							if (hasAlpha(line) && l + 1 != catalyst.size())
-							{
-								if (isOnlyNumber(catalyst[l + 1]))
-								{
-									newline.shrink_to_fit();
-									catalystMap[character][header] = newline;
-									newline.reserve(20);
-									newline.clear();
-									header = line + " " + catalyst[l + 1];
-									animDataHeader[character].push_back(header);
-								}
-							}
-						}
-					}
 
-					if (newinfo)
-					{
-						newinfo = false;
 						newline.push_back(line);
-						newline.shrink_to_fit();
-						catalystMap[character][header] = newline;
-						newline.reserve(20);
-						newline.clear();
-						header = catalyst[l + 1];
-						animDataHeader[character].push_back(header);
-					}
-					else
-					{
-						newline.push_back(line);
+						break;
 					}
 				}
-				else
+
+				if (error)
 				{
-					newline.push_back(line);
+					return;
+				}
+			}
+
+			if (newline.size() != 0)
+			{
+				if (newline.back().length() == 0)
+				{
+					newline.pop_back();
 				}
 
-				break;
+				newline.shrink_to_fit();
+				catalystMap[project][header] = newline;
+				newline.clear();
 			}
 		}
 
-		if (error)
+		time2 = boost::posix_time::microsec_clock::local_time();
+		diff = time2 - time1;
+
+		duration = double(diff.total_milliseconds());
+
+		cout << "Processing time 4: " << duration / 1000 << " seconds" << endl;
+
+		// check for having newAnimation for the file
+		if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
 		{
-			return;
-		}
-	}
+			vecstr templateGroup = BehaviorTemplate.grouplist[lowerBehaviorFile];
+			unordered_map<string, unordered_map<string, vector<map<int, vecstr>>>> editExtract;
+			unordered_map<string, unordered_map<string, int>> ASDCount;
 
-	if (newline.size() != 0)
-	{
-		if (newline.back().length() == 0)
-		{
-			newline.pop_back();
-		}
-
-		newline.shrink_to_fit();
-		catalystMap[character][header] = newline;
-		newline.clear();
-	}
-
-	time2 = boost::posix_time::microsec_clock::local_time();
-	diff = time2 - time1;
-
-	duration = double(diff.total_milliseconds());
-
-	cout << "Processing time 4: " << duration / 1000 << " seconds" << endl;
-
-	for (unsigned int i = 0; i < animDataChar.size(); ++i)
-	{
-		character = animDataChar[i];
-
-		if (character != "$end$")
-		{
-			vector<clipinfo> data;
-			bool start = false;
-			bool hasNewClip = false;
-			int lastID = 0;
-			int infoline = 0;
-
-			if (hasAddClip.find(character) != hasAddClip.end())
+			for (unsigned int j = 0; j < templateGroup.size(); ++j)
 			{
-				hasNewClip = true;
-			}
+				string templateCode = templateGroup[j];
+				bool hasGroup = false;
+				bool hasMaster = false;
+				bool ignoreGroup = false;
 
-			for (unsigned int j = 0; j < animDataHeader[character].size(); ++j)
-			{
-				header = animDataHeader[character][j];
-				newline.reserve(catalystMap[character][header].size() + memory * 5);
-				int type = 0;
-
-				if (header == "$header$")
+				if (newAnimation.find(templateCode) != newAnimation.end() && newAnimation[templateCode].size() != 0)
 				{
-					type = 1;
-				}
-				else if (header == "$info header$")
-				{
-					infoline = j;
-				}
-				else if (header.find(" ") != NOT_FOUND)
-				{
-					type = 2;
-				}
-				else if (isOnlyNumber(header))
-				{
-					type = 3;
-				}
-
-				if (type > 1 && hasNewClip)
-				{
-					for (unsigned int p = 0; p < catalystMap[character][header].size(); ++p)
+					for (unsigned int k = 0; k < newAnimation[templateCode].size(); ++k)
 					{
-						if (AnimDataPosition(catalystMap[character][header], character, header, "not available", p, type, true) == AnimDataFormat::uniquecode)
+						unordered_map<string, unordered_map<string, vecstr>> generatedAnimData;
+						newAnimation[templateCode][k]->GetAnimData(generatedAnimData);
+
+						if (error)
 						{
-							int tempID = stoi(catalystMap[character][header][p]);
-
-							if (tempID <= lastID)
-							{
-								lastID = tempID + 1;
-							}
-
-							break;
+							return;
 						}
-					}
-				}
-				
-				if (header == "$CLIP$")
-				{
-					for (unsigned int k = 0; k < animationList.size(); ++k)
-					{
-						for (unsigned int l = 0; l < newAnimList[character].size(); ++l)
+
+						for (auto it = generatedAnimData.begin(); it != generatedAnimData.end(); ++it)
 						{
-							if (animationList[k]->animInfo.find(newAnimList[character][l]) != animationList[k]->animInfo.end())
+							project = it->first;
+							unordered_map<string, string> isExist;
+
+							for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 							{
-								for (unsigned int j = 0; j < animationList[k]->animInfo[newAnimList[character][l]].size(); ++j)
+								if (iter->first.find_last_of("$UC") != iter->first.length() - 1)
 								{
-									if (animationList[k]->animInfo[newAnimList[character][l]][j]->motionData.size() != 0)
+									if (iter->first[0] == '$' && iter->first.back() == '$')
 									{
-										data.push_back(*new clipinfo);
-										string templine = animationList[k]->animInfo[newAnimList[character][l]][j]->motionData.back();
-										data.back().duration = stoi(templine.substr(0, templine.find(" ")));
-										data.back().motiondata = animationList[k]->animInfo[newAnimList[character][l]][j]->motionData;
-										data.back().rotationdata = animationList[k]->animInfo[newAnimList[character][l]][j]->rotationData;
+										header = iter->first.substr(1, iter->first.length() - 2);
+										header.append("~" + to_string(++ASDCount[project][header]));
+										string uniquecode;
 
-										vecstr tempclip = animationList[k]->animInfo[newAnimList[character][l]][j]->clipname;
-
-										// format:
-										// animation clip name
-										// unique code
-										// constant 1
-										// constant 0
-										// constant 0
-										// event name count
-
-										if (tempclip.size() > 0)
+										if (isExist[header].length() == 0)
 										{
-											for (unsigned int p = 0; p < tempclip.size(); ++p)
-											{
-												data.back().uniqueID.push_back(lastID);		// record unique code
-												newline.push_back(tempclip[p]);
-												newline.push_back(to_string(lastID));
-												newline.push_back("1");
-												newline.push_back("0");
-												newline.push_back("0");
-												newline.push_back("0");
-												newline.push_back("");		// end
-												++lastID;
-											}
+											uniquecode = to_string(++uCode[project]);
+											isExist[header] = uniquecode;
 										}
 										else
 										{
-											string clipname = newAnimList[character][l] + "_" + animationList[k]->animInfo[newAnimList[character][l]][j]->mainAnimEvent;
-
-											data.back().uniqueID.push_back(lastID);		// record unique code
-											newline.push_back(clipname);
-											newline.push_back(to_string(lastID));
-											newline.push_back("1");
-											newline.push_back("0");
-											newline.push_back("0");
-											newline.push_back("0");
-											newline.push_back("");		// end
-											++lastID;
+											uniquecode = isExist[header];
 										}
+
+										iter->second[1] = uniquecode;
+										animDataHeader[project].push_back(header);
 									}
+									else
+									{
+										ErrorMessage(3021, iter->first + ".txt");
+										return;
+									}
+								}
+								else
+								{
+									if (isExist[header].length() == 0)
+									{
+										header = to_string(++uCode[project]);
+										isExist[header] = header;
+									}
+									else
+									{
+										header = isExist[header];
+									}
+
+									iter->second[0] = header;
+									animDataInfo[project].push_back(header);
+								}
+
+								if (catalystMap[project][header].size() > 0)
+								{
+									ErrorMessage(5012, templateCode, project, header);
+									return;
+								}
+
+								if (projectNameCount[project] != 1)
+								{
+									WarningMessage(1020, project, header);
+
+									for (int i = 1; i <= projectNameCount[project]; ++i)
+									{
+										catalystMap[project + to_string(i)][header] = iter->second;
+									}
+								}
+								else
+								{
+									catalystMap[project + "1"][header] = iter->second;
 								}
 							}
 						}
-					}
 
-					// add AA anim data; personally have no idea why it is done but it is done in FNIS so i keep this feature in to ensure that generated file
-					// will be as close as to FNIS generated file
-					for (auto it = alternateAnim.begin(); it != alternateAnim.end(); ++it)
-					{
-						for (unsigned int p = 0; p < it->second.size(); ++p)
+						for (auto it = BehaviorTemplate.existingAnimDataHeader[templateCode].begin(); it != BehaviorTemplate.existingAnimDataHeader[templateCode].end(); ++it)
 						{
-							if (it->second[p] != "x")
+							project = it->first;
+
+							for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 							{
-								newline.push_back(GetFileName(it->second[p]));
-								newline.push_back("1");
-								newline.push_back("0");
-								newline.push_back("0");
-								newline.push_back("0");
-								newline.push_back("");
-							}
-						}
-					}
+								header = *iter;
 
-					newline.shrink_to_fit();
-					catalystMap[character][header] = newline;
-					newline.clear();
-				}
-				else if (header == "$MDRD$")
-				{
-					// format:
-					// unique code
-					// clip length
-					// motion data count
-					// motion data list
-					// rotation data count
-					// rotation data list
+								if (catalystMap[project][header].size() == 0)
+								{
+									ErrorMessage(5011, templateCode, project, header);
+									return;
+								}
 
-					for (unsigned int l = 0; l < data.size(); ++l)
-					{
-						for (unsigned int k = 0; k < data[l].uniqueID.size(); ++k)
-						{
-							newline.push_back(to_string(data[l].uniqueID[k]));			// unique code
-							newline.push_back(to_string(data[l].duration));				// clip length
-							newline.push_back(to_string(data[l].motiondata.size()));	// motion data count
+								map<int, vecstr> extract;
+								newAnimation[templateCode][k]->existingASDProcess(catalystMap[project][header], extract);
 
-							for (unsigned int k = 0; k < data[l].motiondata.size(); ++k)
-							{
-								newline.push_back(data[l].motiondata[k]);		// motion data list
-							}
+								if (error)
+								{
+									return;
+								}
 
-							newline.push_back(to_string(data[l].rotationdata.size()));	// rotation data list
-
-							for (unsigned int k = 0; k < data[l].rotationdata.size(); ++k)
-							{
-								newline.push_back(data[l].rotationdata[k]);		// rotation data list
-							}
-
-							newline.push_back("");
-						}
-					}
-
-					// AA animation doesn't have animation driven function hence omitted
-					if (false != false)
-					{
-						for (auto it = alternateAnim.begin(); it != alternateAnim.end(); ++it)
-						{
-							// empty
-						}
-					}
-
-					newline.shrink_to_fit();
-					catalystMap[character][header] = newline;
-					newline.clear();
-				}
-				else
-				{
-					bool startCount = false;
-					AnimDataFormat::position pos;
-					int elementline;
-					int counter;
-
-					for (unsigned int p = 0; p < catalystMap[character][header].size(); ++p)
-					{
-						string line = catalystMap[character][header][p];
-
-						if (line.find("$elements$") != NOT_FOUND)
-						{
-							if (startCount)
-							{
-								ErrorMessage(3015, character, header, p + 1);
-								return;
-							}
-
-							pos = AnimDataPosition(catalystMap[character][header], character, header, "not available", p, type);
-
-							if (pos != AnimDataFormat::behaviorfilecount && pos != AnimDataFormat::eventnamecount && pos != AnimDataFormat::motiondatacount && pos != AnimDataFormat::rotationdatacount)
-							{
-								ErrorMessage(3016, character, header, p + 1);
-								return;
-							}
-
-							elementline = p;
-							startCount = true;
-							counter = 0;
-						}
-
-						if (startCount)
-						{
-							if (p != AnimDataPosition(catalystMap[character][header], character, header, "not available", p, type, true))
-							{
-								startCount = false;
-								catalystMap[character][header][elementline] = to_string(counter);
-							}
-							else
-							{
-								++counter;
+								editExtract[project][header].push_back(extract);
 							}
 						}
 
-						newline.push_back(line);
+						if (error)
+						{
+							return;
+						}
 					}
-
-					newline.shrink_to_fit();
-					catalystMap[character][header] = newline;
-					newline.clear();
 				}
 			}
 
-			if (catalystMap[character].find("$info header$") != catalystMap[character].end())
+			for (auto it = editExtract.begin(); it != editExtract.end(); ++it)
 			{
-				int counter = 0;
+				string project = it->first;
 
-				for (int j = 0; j < infoline; ++j)
+				for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 				{
-					counter = counter + int(catalystMap[character][animDataHeader[character][j]].size());
+					string header = iter->first;
+					map<int, vecstr> combined;
+					int totalline = 0;
+
+					for (unsigned int i = 0; iter->second.size(); ++i)
+					{
+						vecstr newline;
+						string line;
+
+						for (auto itera = iter->second[i].begin(); itera != iter->second[i].end(); ++itera)
+						{
+							combined[itera->first].insert(combined[itera->first].end(), itera->second.begin(), itera->second.end());
+							totalline += int(itera->second.size());
+						}
+					}
+
+					if (totalline == 0)
+					{
+						ErrorMessage(5014, project, header);
+						return;
+					}
+
+					for (int i = 1; i <= projectNameCount[project]; ++i)
+					{
+						combineExtraction(catalystMap[project + " " + to_string(i)][header], combined, project, header);
+					}
+
+					if (error)
+					{
+						return;
+					}
 				}
+			}
+		}
 
-				catalystMap[character]["$header$"][0] = to_string(counter - 1);
-				counter = 0;
+		{
+			// unsure of the function but is present in FNIS
+			unordered_map<string, bool> isExist;
 
-				for (unsigned int j = infoline; j < animDataHeader[character].size(); ++j)
+			for (auto& it : alternateAnim)
+			{
+				for (auto& iter : it.second)
 				{
-					counter = counter + int(catalystMap[character][animDataHeader[character][j]].size());
-				}
+					header = GetFileName(iter);
 
-				catalystMap[character]["$info header$"][0] = to_string(counter - 1);
+					if (!isExist[header] && header != "x")
+					{
+						vecstr newlines;
+						isExist[header] = true;
+						project = "DefaultFemale.txt 1";
+
+						newlines.push_back(header);
+						newlines.push_back(to_string(++uCode[project]));
+						newlines.push_back("1");
+						newlines.push_back("0");
+						newlines.push_back("0");
+						newlines.push_back("0");
+						newlines.push_back("");
+
+						animDataHeader[project].push_back(header);
+						catalystMap[project][header] = newlines;
+
+						project = "DefaultMale.txt 1";
+						newlines[1] = to_string(++uCode[project]);
+						animDataHeader[project].push_back(header);
+						catalystMap[project][header] = newlines;
+					}
+				}
+			}
+		}
+
+		for (unsigned int i = 0; i < projectList.size(); ++i)
+		{
+			if (projectNameCount[project] > 1)
+			{
+				project = projectList[i] + to_string(++nextProject[project]);
 			}
 			else
 			{
-				int counter = 0;
-
-				for (unsigned int j = 0; j < animDataHeader[character].size(); ++j)
-				{
-					counter = counter + int(catalystMap[character][animDataHeader[character][j]].size());
-				}
-
-				catalystMap[character]["$header$"][0] = to_string(counter - 1);
+				project = projectList[i] + " 1";
 			}
-		}		
+
+			vecstr combined;
+
+			for (unsigned int j = 0; j < animDataHeader[project].size(); ++j)
+			{
+				header = animDataHeader[project][j];
+				combined.insert(combined.end(), catalystMap[project][header].begin(), catalystMap[project][header].end());
+			}
+
+			for (unsigned int j = 0; j < animDataInfo[project].size(); ++j)
+			{
+				header = animDataInfo[project][j];
+				combined.insert(combined.end(), catalystMap[project][header].begin(), catalystMap[project][header].end());
+			}
+
+			if (combined.size() == 0)
+			{
+				ErrorMessage(5017, projectList[i]);
+				return;
+			}
+
+			AnimDataProject newProject(combined, projectList[i], filepath);
+			ADProject.push_back(newProject);
+		}
 	}
 
 	time2 = boost::posix_time::microsec_clock::local_time();
@@ -638,18 +829,67 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 	if (output.is_open())
 	{
 		FunctionWriter fwriter(&output);
+		fwriter << to_string(projectList.size()) << "\n";
 
-		for (unsigned int i = 0; i < animDataChar.size(); ++i)
+		for (unsigned int i = 0; i < projectList.size(); ++i)
 		{
-			string character = animDataChar[i];
+			fwriter << projectList[i] << "\n";
+		}
 
-			for (unsigned int j = 0; j < animDataHeader[character].size(); ++j)
+		for (unsigned int i = 0; i < projectList.size(); ++i)
+		{
+			project = projectList[i];
+			fwriter << to_string(ADProject[i].GetAnimTotalLine()) << "\n";
+			fwriter << ADProject[i].unknown1 << "\n";
+			fwriter << to_string(ADProject[i].behaviorlist.size()) << "\n";
+
+			for (unsigned int j = 0; j < ADProject[i].behaviorlist.size(); ++j)
 			{
-				string header = animDataHeader[character][j];
+				fwriter << ADProject[i].behaviorlist[j] << "\n";
+			}
 
-				for (unsigned int k = 0; k < catalystMap[character][header].size(); ++k)
+			fwriter << ADProject[i].unknown2 << "\n";
+
+			if (ADProject[i].unknown2 != "0")
+			{
+				for (unsigned int j = 0; j < ADProject[i].animdatalist.size(); ++j)
 				{
-					fwriter << catalystMap[character][header][k] << "\n";
+					fwriter << ADProject[i].animdatalist[j].name << "\n";
+					fwriter << ADProject[i].animdatalist[j].uniquecode << "\n";
+					fwriter << ADProject[i].animdatalist[j].unknown1 << "\n";
+					fwriter << ADProject[i].animdatalist[j].unknown2 << "\n";
+					fwriter << ADProject[i].animdatalist[j].unknown3 << "\n";
+					fwriter << to_string(ADProject[i].animdatalist[j].eventname.size()) << "\n";
+
+					for (unsigned int k = 0; k < ADProject[i].animdatalist[j].eventname.size(); ++k)
+					{
+						fwriter << ADProject[i].animdatalist[j].eventname[k] << "\n";
+					}
+
+					fwriter << "\n";
+				}
+
+				fwriter << to_string(ADProject[i].GetInfoTotalLine()) << "\n";
+
+				for (unsigned int j = 0; j < ADProject[i].infodatalist.size(); ++j)
+				{
+					fwriter << ADProject[i].infodatalist[j].uniquecode << "\n";
+					fwriter << ADProject[i].infodatalist[j].duration << "\n";
+					fwriter << to_string(ADProject[i].infodatalist[j].motiondata.size()) << "\n";
+
+					for (unsigned int k = 0; k < ADProject[i].infodatalist[j].motiondata.size(); ++k)
+					{
+						fwriter << ADProject[i].infodatalist[j].motiondata[k] << "\n";
+					}
+
+					fwriter << to_string(ADProject[i].infodatalist[j].rotationdata.size()) << "\n";
+
+					for (unsigned int k = 0; k < ADProject[i].infodatalist[j].rotationdata.size(); ++k)
+					{
+						fwriter << ADProject[i].infodatalist[j].rotationdata[k] << "\n";
+					}
+
+					fwriter << "\n";
 				}
 			}
 		}
@@ -671,44 +911,7 @@ void AnimDataCompilation(string directory, vecstr filelist, int curList, vecstr 
 
 }
 
-unordered_map<string, vecstr> newAnimationList()
-{
-	unordered_map<string, vecstr> list;				// character hkx file, list of templatecode
-	vecstr templatecode;
-	vecstr behaviorlist;
-	string curdirectory = "behavior templates\\";
-	read_directory(curdirectory, templatecode);
-
-	for (unsigned int i = 0; i < templatecode.size(); ++i)
-	{
-		curdirectory = curdirectory + templatecode[i];
-		boost::filesystem::path curTemplate(curdirectory);
-
-		if (boost::filesystem::is_directory(curTemplate))
-		{
-			read_directory(curdirectory, behaviorlist);
-
-			for (unsigned int j = 0; j < behaviorlist.size(); ++j)
-			{
-				boost::filesystem::path curBehavior(curdirectory + behaviorlist[j]);
-
-				if (boost::filesystem::is_directory(curBehavior))
-				{
-					string lowercase = boost::algorithm::to_lower_copy(behaviorlist[j]);
-
-					for (unsigned int k = 0; k < behaviorJoints[lowercase].size(); ++k)
-					{
-						list[behaviorJoints[lowercase][k]].push_back(templatecode[i]);
-					}
-				}
-			}
-		}
-	}
-
-	return list;
-}
-
-AnimDataFormat::position AnimDataPosition(vecstr animData, string character, string header, string modcode, int linecount, int type, bool silentError)
+AnimDataFormat::position AnimDataPosition(vecstr animData, string character, string header, string modcode, int linecount, int type, bool muteError)
 {
 	// has function
 	bool isOpen = false;
@@ -787,9 +990,9 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 	{
 		if (type == 0)
 		{
-			if (linecount < 3 && functionstart > 2)
+			if (linecount < 3 && functionstart == 0)
 			{
-				return AnimDataConvert(type, linecount + 1, silentError);
+				return AnimDataConvert(type, linecount + 1, muteError);
 				// 1. total line count
 				// 2. unknown number
 				// 3. behavior file count
@@ -798,9 +1001,9 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			{
 				if (animData[linecount].find("<!-- ") != NOT_FOUND)
 				{
-					if (!silentError)
+					if (!muteError)
 					{
-						ErrorMessage(3007, modcode, linecount);
+						ErrorMessage(3007, modcode, linecount, header);
 						return xerror;
 					}
 				}
@@ -846,9 +1049,9 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 							if (tempid != 4)
 							{
-								if (!silentError)
+								if (!muteError)
 								{
-									ErrorMessage(3007, modcode, linecount);
+									ErrorMessage(3007, modcode, linecount, header);
 									return xerror;
 								}
 							}
@@ -867,7 +1070,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 				if (id < 4)
 				{
-					return AnimDataConvert(type, id, silentError);
+					return AnimDataConvert(type, id, muteError);
 				}
 			}
 
@@ -886,7 +1089,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 		{
 			if (linecount < 6 && functionstart > 5)
 			{
-				return AnimDataConvert(type, linecount + 1, silentError);
+				return AnimDataConvert(type, linecount + 1, muteError);
 				// 1. animation name (clip)
 				// 2. unique code
 				// 3. unknown number (1)
@@ -898,9 +1101,9 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			{
 				if (animData[linecount].find("<!-- ") != NOT_FOUND)
 				{
-					if (!silentError)
+					if (!muteError)
 					{
-						ErrorMessage(3007, modcode, linecount);
+						ErrorMessage(3007, modcode, linecount, header);
 						return xerror;
 					}
 				}
@@ -946,7 +1149,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 							if (tempid != 7)
 							{
-								ErrorMessage(3007, modcode, linecount);
+								ErrorMessage(3007, modcode, linecount, header);
 								return xerror;
 							}
 						}
@@ -964,7 +1167,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 				if (id < 7)
 				{
-					return AnimDataConvert(type, id, silentError);
+					return AnimDataConvert(type, id, muteError);
 				}
 			}
 
@@ -985,7 +1188,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 			if (linecount < 3 && functionstart > 2)
 			{
-				return AnimDataConvert(type, linecount + 1, silentError);
+				return AnimDataConvert(type, linecount + 1, muteError);
 				// 1. unique code
 				// 2. total animation (clip) length
 				// 3. motion data count
@@ -994,9 +1197,9 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			{
 				if (animData[linecount].find("<!-- ") != NOT_FOUND)
 				{
-					if (!silentError)
+					if (!muteError)
 					{
-						ErrorMessage(3007, modcode, linecount);
+						ErrorMessage(3007, modcode, linecount, header);
 						return xerror;
 					}
 				}
@@ -1043,9 +1246,9 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 							if (tempid != 4 && tempid != 6)
 							{
-								if (!silentError)
+								if (!muteError)
 								{
-									ErrorMessage(3007, modcode, linecount);
+									ErrorMessage(3007, modcode, linecount, header);
 									return xerror;
 								}
 							}
@@ -1064,7 +1267,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 				if (id < 4)
 				{
-					return AnimDataConvert(type, id, silentError);
+					return AnimDataConvert(type, id, muteError);
 				}
 			}
 
@@ -1158,7 +1361,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 						if (tempid != 4 && tempid != 6)
 						{
-							ErrorMessage(3007, modcode, linecount);
+							ErrorMessage(3007, modcode, linecount, header);
 							return xerror;
 						}
 					}
@@ -1176,7 +1379,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 			if (id < 7 && id > 3)
 			{
-				return AnimDataConvert(type, id, silentError);
+				return AnimDataConvert(type, id, muteError);
 				// 4. motion data list
 				// 5. rotation data count
 				// 6. rotation data list
@@ -1184,7 +1387,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 		}
 	}
 
-	if (!silentError)
+	if (!muteError)
 	{
 		ErrorMessage(3005, character, header);
 	}
@@ -1192,7 +1395,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 	return xerror;
 }
 
-AnimDataFormat::position AnimDataConvert(int type, int position, bool silentError)
+AnimDataFormat::position AnimDataConvert(int type, int position, bool muteError)
 {
 	using namespace AnimDataFormat;
 
