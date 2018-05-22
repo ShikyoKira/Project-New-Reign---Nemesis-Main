@@ -162,7 +162,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 		{
 			animPath.insert(path.substr(0, pos) + "\\");
 		}
-		else
+		else if (it->first != "animationdatasinglefile" && it->first != "animationsetdatasinglefile")
 		{
 			WarningMessage(1007, it->first, path);
 		}
@@ -235,6 +235,62 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 	return list;
 }
 
+void GetBehaviorProject()
+{
+	string filename = "behavior_project.txt";
+
+	if (isFileExist(filename))
+	{
+		string characterfile;
+		bool newChar = true;
+		char charline[2000];
+		FILE* pathFile;
+		fopen_s(&pathFile, filename.c_str(), "r");
+
+		if (pathFile)
+		{
+			while (fgets(charline, 2000, pathFile))
+			{
+				string line = charline;
+
+				if (line.back() == '\n')
+				{
+					line.pop_back();
+				}
+
+				if (line.length() == 0)
+				{
+					newChar = true;
+				}
+				else
+				{
+					if (newChar)
+					{
+						characterfile = line;
+						newChar = false;
+					}
+					else
+					{
+						behaviorProject[characterfile].push_back(line);
+					}
+				}
+			}
+		}
+		else
+		{
+			ErrorMessage(2000, filename);
+			throw 1;
+		}
+
+		fclose(pathFile);
+	}
+	else
+	{
+		ErrorMessage(1068, filename);
+		throw 1;
+	}
+}
+
 void GetBehaviorPath()
 {
 	string filename = "behavior_path.txt";
@@ -252,7 +308,7 @@ void GetBehaviorPath()
 			{
 				++linecount;
 
-				if ((line[0] != '\'' || line[0] != '\n') && strlen(line) != 0)
+				if (line[0] != '\'' && line[0] != '\n' && strlen(line) != 0)
 				{
 					stringstream sstream(line);
 					istream_iterator<string> ssbegin(sstream);
@@ -285,7 +341,7 @@ void GetBehaviorPath()
 								{
 									ErrorMessage(1067, filename, linecount);
 									fclose(pathFile);
-									return;
+									throw 1;
 								}
 							}
 
@@ -296,7 +352,7 @@ void GetBehaviorPath()
 						{
 							ErrorMessage(1067, filename, linecount);
 							fclose(pathFile);
-							return;
+							throw 1;
 						}
 					}
 				}
@@ -305,7 +361,7 @@ void GetBehaviorPath()
 		else
 		{
 			ErrorMessage(2000, filename);
-			return;
+			throw 1;
 		}
 
 		fclose(pathFile);
@@ -313,7 +369,7 @@ void GetBehaviorPath()
 	else
 	{
 		ErrorMessage(1068, filename);
-		return;
+		throw 1;
 	}
 }
 
@@ -347,7 +403,8 @@ void GetAnimData()
 					if (line.length() == 0)
 					{
 						ErrorMessage(3019);
-						return;
+						fclose(pathFile);
+						throw 1;
 					}
 
 					character = line;
@@ -356,7 +413,8 @@ void GetAnimData()
 					if (characterHeaders.find(character) != characterHeaders.end())
 					{
 						ErrorMessage(3010, character);
-						return;
+						fclose(pathFile);
+						throw 1;
 					}
 				}
 				else if (line.length() == 0)
@@ -368,7 +426,8 @@ void GetAnimData()
 					if (characterHeaders[character].find(line) != characterHeaders[character].end())
 					{
 						ErrorMessage(3008, character);
-						return;
+						fclose(pathFile);
+						throw 1;
 					}
 					
 					characterHeaders[character].insert(line);
@@ -378,7 +437,7 @@ void GetAnimData()
 		else
 		{
 			ErrorMessage(2000, filename);
-			return;
+			throw 1;
 		}
 
 		fclose(pathFile);
@@ -386,7 +445,7 @@ void GetAnimData()
 	else
 	{
 		ErrorMessage(1068, filename);
-		return;
+		throw 1;
 	}
 }
 
@@ -410,37 +469,67 @@ void FolderCreate(string curBehaviorPath)
 	}
 }
 
-void characterHKX(string directory, string filename)
+void characterHKX()
 {
-	char charline[2000];
-	string line;
-	FILE* file;
-	fopen_s(&file, (directory + filename).c_str(), "r");
+	string filename = "behavior_joints.txt";
 
-	if (file)
+	if (isFileExist(filename))
 	{
-		while (fgets(charline, 2000, file))
-		{
-			line = charline;
+		bool open = false;
+		char charline[2000];
+		string line;
+		string header;
+		FILE* file;
+		fopen_s(&file, (filename).c_str(), "r");
 
-			if (line.find("<hkparam name=\"behaviorFilename\">") != NOT_FOUND)
+		if (file)
+		{
+			while (fgets(charline, 2000, file))
 			{
-				size_t nextpos = line.find("behaviorFilename\">") + 18;
-				string behaviorName = line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos);
-				behaviorName = GetFileName(behaviorName);
-				boost::algorithm::to_lower(behaviorName);
-				string lowerBehaviorFile = boost::algorithm::to_lower_copy(filename.substr(0, filename.find_last_of(".")));
-				behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
+				line = charline;
+
+				if (line.back() == '\n')
+				{
+					line.pop_back();
+				}
+
+				if (line.length() != 0)
+				{
+					if (!open)
+					{
+						open = true;
+						header = line;
+					}
+					else
+					{
+						if (header.length() == 0)
+						{
+							ErrorMessage(1094);
+							return;
+						}
+
+						behaviorJoints[header].push_back(line);
+					}
+				}
+				else
+				{
+					open = false;
+				}
 			}
+
+			fclose(file);
 		}
-		
-		fclose(file);
+		else
+		{
+
+			ErrorMessage(3002, filename);
+			throw 1;
+		}
 	}
 	else
 	{
-
-		ErrorMessage(3002, directory + filename);
-		return;
+		ErrorMessage(1068, filename);
+		throw 1;
 	}
 }
 
@@ -524,4 +613,36 @@ inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, u
 	}
 
 	return false;
+}
+
+void ClearGlobal()
+{
+	unordered_map<string, string> emptySSMap;
+	behaviorPath = emptySSMap;
+	AAGroup = emptySSMap;
+
+	unordered_map<string, unordered_map<string, bool>> emptySSBMap;
+	registeredAnim = emptySSBMap;
+
+	unordered_map<string, set<string>> emptySSSMap;
+	usedAnim = emptySSSMap;
+	characterHeaders = emptySSSMap;
+
+	unordered_map<string, unordered_map<string, vector<set<string>>>> emptySSVSMap;
+	animModMatch = emptySSVSMap;
+
+	unordered_map<string, vecstr> emptySVSMap;
+	behaviorJoints = emptySVSMap;
+	behaviorProject = emptySVSMap;
+	groupAA = emptySVSMap;
+	groupAAPrefix = emptySVSMap;
+
+	unordered_map<string, bool> emptySBMap;
+	activatedBehavior = emptySBMap;
+	
+	unordered_map<string, unordered_map<string, int>> emptySSIMap;
+	AAGroupCount = emptySSIMap;
+
+	vecstr emptyVS;
+	groupNameList = emptyVS;
 }

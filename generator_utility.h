@@ -14,7 +14,9 @@ extern std::string behaviorLineChooser(std::string originalline, std::unordered_
 extern std::string GetFileName(std::string filepath);
 extern std::vector<std::unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate);
 
-extern void GetBehaviorPath();
+extern void ClearGlobal();
 extern void GetAnimData();
+extern void characterHKX();
+extern void GetBehaviorPath();
+extern void GetBehaviorProject();
 extern void FolderCreate(std::string curBehaviorPath);
-extern void characterHKX(std::string directory, std::string filename);
