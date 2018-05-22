@@ -10,7 +10,7 @@
 	- [x] 1hm_locomotion
 	- [x] 0_master
 	- [x] animationdatasinglefile
-	- [ ] animationsetdatasinglefile
+	- [x] animationsetdatasinglefile
 	- [x] bashbehavior
 	- [x] blockbehavior
 	- [x] bow_direction_behavior
