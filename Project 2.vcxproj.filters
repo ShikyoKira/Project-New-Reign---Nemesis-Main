@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dataunification.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,9 +120,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="compute.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="exprtk.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="add animation\import.h">
