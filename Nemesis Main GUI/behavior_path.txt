@@ -1,0 +1,19 @@
+defaultmale data\meshes\actors\character\characters\defaultmale
+defaultfemale data\meshes\actors\character\characters female\defaultfemale
+1hm_behavior data\meshes\actors\character\behaviors\1hm_behavior
+0_master data\meshes\actors\character\behaviors\0_master
+idlebehavior data\meshes\actors\character\behaviors\idlebehavior
+1hm_locomotion data\meshes\actors\character\behaviors\1hm_locomotion
+bashbehavior data\meshes\actors\character\behaviors\bashbehavior
+blockbehavior data\meshes\actors\character\behaviors\blockbehavior
+bow_direction_behavior data\meshes\actors\character\behaviors\bow_direction_behavior
+magicbehavior data\meshes\actors\character\behaviors\magicbehavior
+sprintbehavior data\meshes\actors\character\behaviors\sprintbehavior
+animationdatasinglefile data\meshes\animationdatasinglefile
+magicmountedbehavior data\meshes\actors\character\behaviors\magicmountedbehavior
+magic_readied_direction_behavior data\meshes\actors\character\behaviors\magic_readied_direction_behavior
+animationsetdatasinglefile data\meshes\animationsetdatasinglefile
+mt_behavior data\meshes\actors\character\behaviors\mt_behavior
+shout_behavior data\meshes\actors\character\behaviors\shout_behavior
+staggerbehavior data\meshes\actors\character\behaviors\staggerbehavior
+weapequip data\meshes\actors\character\behaviors\weapequip
