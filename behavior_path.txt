@@ -1,6 +1,0 @@
-mt_behavior data\meshes\actors\character\behaviors\mt_behavior
-defaultmale data\meshes\actors\character\characters\defaultmale
-defaultfemale data\meshes\actors\character\characters female\defaultfemale
-1hm_behavior data\meshes\actors\character\behaviors\1hm_behavior
-0_master data\meshes\actors\character\behaviors\0_master
-animationdatasinglefile data\meshes\animationdatasinglefile
