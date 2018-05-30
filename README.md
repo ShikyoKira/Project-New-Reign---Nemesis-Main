@@ -2,7 +2,7 @@
 
 - [x] Core design
 - [x] Targetting correct data file
-- [ ] UI design + Debug log
+- [x] UI design + Debug log
 
 - Template for each animation type
 	- [x] mt_behavior
