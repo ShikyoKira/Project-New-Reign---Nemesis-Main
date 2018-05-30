@@ -1,16 +1,21 @@
 #include "debugmsg.h"
+#include "Nemesis Main GUI/master.h"
 
 using namespace std;
 
+int filenum;
+atomic<int> progressPercentage;
 bool error = false;
-DebugMsg DLog;
+DebugMsg DMLog;
+UpdateFilesStart* process1;
+BehaviorStart* process2;
 
 void NewDebugMessage(string language)
 {
 	DebugMsg NewLog(language);
-	DLog = NewLog;
+	DMLog = NewLog;
 
-	for (auto it = DLog.uilist.begin(); it != DLog.uilist.end(); ++it)
+	for (auto it = DMLog.uilist.begin(); it != DMLog.uilist.end(); ++it)
 	{
 		// if(it->first < this->buttons->size())
 		// {
@@ -110,7 +115,7 @@ vector<string> readUTF8File(string filename)
 	}
 	else
 	{
-		// this->textbox->append("CRITICAL ERROR: Fail to read language pack. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Fail to read language pack. Please re-install Nemesis");
 		error = true;
 	}
 
@@ -133,17 +138,77 @@ void writeUTF8File(string filename, vector<string> storeline)
 	}
 	else
 	{
-		// this->textbox->append("CRITICAL ERROR: Fail to write file. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Fail to write file. Please re-install Nemesis");
 		error = true;
 	}
 }
 
-string DLogError(int errorcode)
+string DMLogError(int errorcode)
 {
-	return DLog.errorlist[errorcode];
+	return DMLog.errorlist[errorcode];
 }
 
-string DLogWarning(int warningcode)
+string DMLogWarning(int warningcode)
 {
-	return DLog.warninglist[warningcode];
+	return DMLog.warninglist[warningcode];
+}
+
+string TextBoxMessage(int textcode)
+{
+	if (DMLogWarning(textcode).length() == 0)
+	{
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		error = true;
+		return "";
+	}
+
+	return DMLog.textlist[textcode];
+}
+
+string UIMessage(int uicode)
+{
+	if (DMLogWarning(uicode).length() == 0)
+	{
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		error = true;
+		return "";
+	}
+
+	return DMLog.uilist[uicode];
+}
+
+void interMsg(string input)
+{
+	if (process1 != nullptr)
+	{
+		process1->message(input);
+	}
+	else if (process2 != nullptr)
+	{
+		process2->message(input);
+	}
+	else
+	{
+		QMessageBox* msgbox = new QMessageBox;
+		msgbox->setWindowTitle("CRITICAL ERROR");
+		msgbox->setText("Access process violtion. Running process not found. Report to Nemesis' author immediately.");
+		error = true;
+		msgbox->show();
+	}
+}
+
+void connectProcess(UpdateFilesStart* newProcess)
+{
+	process1 = newProcess;
+}
+
+void connectProcess(BehaviorStart* newProcess)
+{
+	process2 = newProcess;
+}
+
+void disconnectProcess()
+{
+	process1 = nullptr;
+	process2 = nullptr;
 }

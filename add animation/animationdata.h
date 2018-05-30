@@ -6,7 +6,6 @@
 #include "add animation\furniture.h"
 #include "add animation\animationsetdata.h"
 #include "functions\functionwriter.h"
-#include <boost\process.hpp>
 
 typedef std::unordered_map<std::string, SSMap> ImportContainer;
 
@@ -96,7 +95,6 @@ struct AnimDataProject
 void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
 void AnimDataProcess(std::vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
 void InfoDataProcess(std::vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
-extern void AnimDataCompilation(std::string directory, vecstr filelist, int curList, vecstr behaviorPriority, std::unordered_map<std::string, bool> chosenBehavior, getTemplate BehaviorTemplate, std::vector<std::unique_ptr<registerAnimation>>& animationList, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation);
 extern AnimDataFormat::position AnimDataPosition(vecstr animData, std::string character, std::string header, std::string modcode, int linecount, int type, bool muteError = false);
 
 AnimDataFormat::position AnimDataConvert(int type, int position, bool muteError);

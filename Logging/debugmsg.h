@@ -1,6 +1,17 @@
 #ifndef DEBUGMSG_H_
 #define DEBUGMSG_H_
 
+#include <unordered_map>
+#include <string>
+#include <vector>
+#include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QProgressBar>
+#include <QtWidgets/QScrollBar>
+#include <QtWidgets/QMessageBox>
+
+class UpdateFilesStart;
+class BehaviorStart;
+
 extern bool error;	// get error warning
 
 // debugging
@@ -15,14 +26,17 @@ struct DebugMsg
 	DebugMsg(std::string language);
 };
 
+// send direct message on log
+void interMsg(std::string);
+
+// add new language pack
 extern void NewDebugMessage(std::string language);
 
 std::vector<std::string> readUTF8File(std::string filename);
 extern void writeUTF8File(std::string filename, std::vector<std::string> storeline);
 
-std::string DLogError(int errorcode);
-
-std::string DLogWarning(int warningcode);
+std::string DMLogError(int errorcode);
+std::string DMLogWarning(int warningcode);
 
 // declaration
 template <typename current>
@@ -48,7 +62,8 @@ void AdditionalInput(std::string& message, int counter, current input)
 	}
 	else
 	{
-		// this->textbox->append("CRITICAL ERROR: Wrong error input. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Wrong error input. Please re-install Nemesis");
+		error = true;
 		return;
 	}
 }
@@ -71,7 +86,8 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
 	}
 	else
 	{
-		// this->textbox->append("CRITICAL ERROR: Wrong error input. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Wrong error input. Please re-install Nemesis");
+		error = true;
 		return;
 	}
 }
@@ -80,68 +96,75 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
 inline void ErrorMessage(int errorcode)
 {
 	error = true;
-	std::string errormsg = "\nERROR(" + std::to_string(errorcode) + "): " + DLogError(errorcode) + "\n\n";
+	std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode) + "\n";
 
-	if (DLogError(errorcode).length() == 0)
+	if (DMLogError(errorcode).length() == 0)
 	{
-		// this->textbox->append("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
 		return;
 	}
-
-	// this->textbox->append(errormsg);
-	std::cout << errormsg << std::endl;
+	
+	interMsg(errormsg);
 }
 
 template <typename ... other>
 inline void ErrorMessage(int errorcode, other... rest)
 {
 	error = true;
-	std::string errormsg = "\nERROR(" + std::to_string(errorcode) + "): " + DLogError(errorcode) + "\n\n";
+	std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode) + "\n";
 
-	if (DLogError(errorcode).length() == 0)
+	if (DMLogError(errorcode).length() == 0)
 	{
-		// this->textbox->append("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
 		return;
 	}
 
 	AdditionalInput(errormsg, 1, rest...);
 
-	// this->textbox->append(errormsg);
-	std::cout << errormsg << std::endl;
+	interMsg(errormsg);
 }
 
 // warning
 inline void WarningMessage(int warningcode)
 {
-	std::string warninmsg = "\nWARNING(" + std::to_string(warningcode) + "): " + DLogWarning(warningcode) + "\n\n";
+	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode) + "\n";
 
-	if (DLogWarning(warningcode).length() == 0)
+	if (DMLogWarning(warningcode).length() == 0)
 	{
-		// this->textbox->append("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		error = true;
 		return;
 	}
 
-	// this->textbox->append(warninmsg);
-	std::cout << warninmsg << std::endl;
+	interMsg(warninmsg);
 }
 
 template <typename ... other>
 inline void WarningMessage(int warningcode, other... rest)
 {
-	std::string warninmsg = "\nWARNING(" + std::to_string(warningcode) + "): " + DLogWarning(warningcode) + "\n\n";
+	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode) + "\n";
 
-	if (DLogWarning(warningcode).length() == 0)
+	if (DMLogWarning(warningcode).length() == 0)
 	{
-		// this->textbox->append("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		error = true;
 		return;
 	}
 
 	AdditionalInput(warninmsg, 1, rest...);
 
-	// this->textbox->append(warninmsg);
-	std::cout << warninmsg << std::endl;
+	interMsg(warninmsg);
 }
 
+// TextBox
+std::string TextBoxMessage(int textcode);
 
+// UI
+std::string UIMessage(int uicode);
+
+// connect, get and disconnect running process
+void connectProcess(UpdateFilesStart* newProcess);
+void connectProcess(BehaviorStart* newProcess);
+void disconnectProcess();
 
 #endif

@@ -76,9 +76,9 @@ struct AnimationDataProject
 {
 	bool isNew = false;					// is this new set of animdata data
 	std::string mod;					// modcode
-	std::map<std::string, datapack, alphanum_less<std::string>> datalist;		// anim data set
+	std::map<std::string, datapack, alphanum_less> datalist;		// anim data set
 
-	std::unordered_map<std::string, std::unordered_map<bool, std::map<std::string, datapack, alphanum_less<std::string>>>> dataMod;		// modcode, add/minus, list of data pack
+	std::unordered_map<std::string, std::unordered_map<bool, std::map<std::string, datapack, alphanum_less>>> dataMod;		// modcode, add/minus, list of data pack
 
 	AnimationDataProject() {}
 	AnimationDataProject(int& startline, vecstr& animdatafile, std::string filename);
@@ -118,14 +118,12 @@ namespace ASDFormat
 	};
 }
 
-void ASDCompilation(std::string directory, vecstr filelist, int curList, vecstr behaviorPriority, std::unordered_map<std::string, bool> chosenBehavior, getTemplate BehaviorTemplate, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation, std::unordered_map<std::string, var> AnimVar);
-
 extern void combineExtraction(vecstr& storeline, std::map<int, vecstr> extract, std::string project, std::string header);
 
 ASDFormat::position ASDPosition(vecstr animData, std::string character, std::string header, std::string modcode, int linecount, bool muteError);
 ASDFormat::position ASDConvert(int position, bool muteError);
 
-void DataPackProcess(std::map<std::string, datapack, alphanum_less<std::string>>& storeline, int& startline, vecstr& animdatafile, std::string filename);
+void DataPackProcess(std::map<std::string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile, std::string filename);
 void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);
 void TypePackProcess(std::vector<typepack>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);
 void AnimPackProcess(std::vector<animpack>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);

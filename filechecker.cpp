@@ -1,8 +1,9 @@
 #include "filechecker.h"
+#include <Windows.h>
 
 using namespace std;
 
-bool FileCheck()
+bool FileCheck(bool isUpdate)
 {
 	string file = "alternate animation";
 
@@ -35,12 +36,15 @@ bool FileCheck()
 		CreateDirectory(file.c_str(), NULL);
 	}
 
-	file = "animationdata_list.txt";
-
-	if (!isFileExist(file))
+	if (!isUpdate)
 	{
-		ErrorMessage(1092, file);
-		return false;
+		file = "animationdata_list.txt";
+
+		if (!isFileExist(file))
+		{
+			ErrorMessage(1092, file);
+			return false;
+		}
 	}
 
 	file = "hkxcmd.exe";

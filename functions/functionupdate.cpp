@@ -40,7 +40,7 @@ vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int en
 	}
 }
 
-bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unordered_map<string, map<string, vecstr>>& newFile)
+bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, string>& lastUpdate)
 {
 	lock_guard<mutex> filelocker(locker[behaviorfile + nodefile]);
 
@@ -81,6 +81,9 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 		vecstr storeline;
 		string line;
 		string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
+
+		saveLastUpdate(filename, lastUpdate);
+
 		char charline[2000];
 		FILE* BehaviorFormat;
 		fopen_s(&BehaviorFormat, filename.c_str(), "r");
@@ -376,7 +379,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 	return true;
 }
 
-bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, string filepath, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader, bool isNewCharacter)
+bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, string filepath, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader, bool isNewCharacter, unordered_map<string, set<string>>& oriADH, unordered_map<string, string>& lastUpdate)
 {
 	if (behaviorPath[animdatafile].empty())
 	{
@@ -415,8 +418,22 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 		vecstr fileparts(ssbegin, ssend);
 		copy(fileparts.begin(), fileparts.end(), fileparts.begin());
 		vecstr storeline;
-		GetFunctionLines(filepath, storeline);
 		string line;
+
+		if (oriADH.find(characterfile) != oriADH.end())
+		{
+			if (oriADH[characterfile].find(filename) != oriADH[characterfile].end())
+			{
+				saveLastUpdate(filepath, lastUpdate);
+			}
+		}
+
+		GetFunctionLines(filepath, storeline);
+
+		if (error)
+		{
+			return false;
+		}
 
 		for (unsigned int i = 0; i < storeline.size(); ++i)
 		{
@@ -596,7 +613,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 							if (!error)
 							{
-								headerline.push_back("<!--NEW *" + modcode + "* -->");
+								headerline.push_back("<!-- NEW *" + modcode + "* -->");
 								headerline.insert(headerline.end(), storage.begin(), storage.end());
 								headerline.push_back("<!-- CLOSE -->");
 							}
@@ -721,7 +738,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 	return true;
 }
 
-bool AnimDataSetUpdate(string modcode, string animdatasetfile, string projectsource, string projectfile, string filepath, unordered_map<string, map<string, vecstr, alphanum_less<string>>>& newAnimDataSet, vecstr& projectList, bool isNewProject)
+bool AnimDataSetUpdate(string modcode, string animdatasetfile, string projectsource, string projectfile, string filepath, unordered_map<string, map<string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList, bool isNewProject, unordered_map<string, set<string>>& oriASDH, unordered_map<string, string>& lastUpdate)
 {
 	if (behaviorPath[animdatasetfile].empty())
 	{
@@ -751,7 +768,6 @@ bool AnimDataSetUpdate(string modcode, string animdatasetfile, string projectsou
 		int editline = 0;
 		int originalline = 0;
 		int linecount = 0;
-		int type;
 
 		stringstream sstream(filename);
 		istream_iterator<string> ssbegin(sstream);
@@ -761,6 +777,14 @@ bool AnimDataSetUpdate(string modcode, string animdatasetfile, string projectsou
 		vecstr storeline;
 		GetFunctionLines(filepath, storeline);
 		string line;
+
+		if (oriASDH.find(projectfile) != oriASDH.end())
+		{
+			if (oriASDH[projectfile].find(filename) != oriASDH[projectfile].end())
+			{
+				saveLastUpdate(filepath, lastUpdate);
+			}
+		}
 
 		for (unsigned int i = 0; i < storeline.size(); ++i)
 		{
@@ -901,7 +925,7 @@ bool AnimDataSetUpdate(string modcode, string animdatasetfile, string projectsou
 
 							if (!error)
 							{
-								headerline.push_back("<!--NEW *" + modcode + "* -->");
+								headerline.push_back("<!-- NEW *" + modcode + "* -->");
 								headerline.insert(headerline.end(), storage.begin(), storage.end());
 								headerline.push_back("<!-- CLOSE -->");
 							}
@@ -1038,7 +1062,11 @@ bool AnimDataSetUpdate(string modcode, string animdatasetfile, string projectsou
 					}
 				}
 
-				GetFunctionLines(filepath, newAnimDataSet[projectfile][filename]);
+				vecstr storeline;
+				storeline.push_back("<!-- NEW *" + modcode + "* -->");
+				GetFunctionLines(filepath, storeline);
+				storeline.push_back("<!-- CLOSE -->");
+				newAnimDataSet[projectfile][filename] = storeline;
 			}
 			else
 			{
