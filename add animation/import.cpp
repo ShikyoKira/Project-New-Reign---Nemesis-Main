@@ -18,6 +18,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 		if (!isFileExist(filename))
 		{
 			ErrorMessage(1027, filename);
+			behaviorlines.shrink_to_fit();
 			return behaviorlines;
 		}
 
@@ -26,6 +27,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 
 		if (error)
 		{
+			behaviorlines.shrink_to_fit();
 			return behaviorlines;
 		}
 
@@ -247,13 +249,15 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 					if (line.find("$MD$") != NOT_FOUND)
 					{
 						ErrorMessage(1096, "import", j + 1);
-						return;
+						behaviorlines.shrink_to_fit();
+						return behaviorlines;
 					}
 
 					if (line.find("$RD$") != NOT_FOUND)
 					{
 						ErrorMessage(1097, "import", j + 1);
-						return;
+						behaviorlines.shrink_to_fit();
+						return behaviorlines;
 					}
 
 					if (line.find("MID$", 0) != NOT_FOUND)

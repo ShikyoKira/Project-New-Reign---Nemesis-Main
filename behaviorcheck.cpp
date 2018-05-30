@@ -6,6 +6,8 @@ using namespace std;
 
 void behaviorCheck()
 {
+	int warningcount = 0;
+
 	// test duplicate anim file
 	for (auto it = usedAnim.begin(); it != usedAnim.end(); ++it)
 	{
@@ -20,6 +22,7 @@ void behaviorCheck()
 				if (!registeredAnim[forwardPort[j]][filename])
 				{
 					WarningMessage(1013, forwardPort[j], *iter);
+					++warningcount;
 				}
 			}
 		}
@@ -43,13 +46,17 @@ void behaviorCheck()
 
 					warning.pop_back();
 					WarningMessage(1014, it->first, iter->first, warning);
+					++warningcount;
 				}
 			}
 			else
 			{
 				ErrorMessage(1066);
+				interMsg("Conflict Test failed!");
 				return;
 			}
 		}
 	}
+	
+	interMsg("Warning Count: " + to_string(warningcount));
 }

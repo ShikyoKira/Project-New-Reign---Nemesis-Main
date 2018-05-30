@@ -4096,7 +4096,7 @@ void Furniture::addAnimData(unordered_map<string, unordered_map<string, vecstr>>
 	animdatalines = animdata;
 }
 
-void Furniture::addAnimSetData(unordered_map<string, map<string, vecstr, alphanum_less<string>>> animsetdata)
+void Furniture::addAnimSetData(unordered_map<string, map<string, vecstr, alphanum_less>> animsetdata)
 {
 	asdlines = animsetdata;
 }
@@ -4140,7 +4140,7 @@ void Furniture::GetAnimData(unordered_map<string, unordered_map<string, vecstr>>
 	return;
 }
 
-void Furniture::GetAnimSetData(unordered_map<string, map<string, vecstr, alphanum_less<string>>>& newASDLines)
+void Furniture::GetAnimSetData(unordered_map<string, map<string, vecstr, alphanum_less>>& newASDLines)
 {
 	unordered_map<int, bool> IsConditionOpened;
 	vector<unordered_map<string, bool>> groupOptionPicked;
@@ -4216,6 +4216,12 @@ void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, stri
 						string conditionLine = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
 						animationutility utility;
 
+						if (conditionLine.find("[") == NOT_FOUND || conditionLine.find("]") == NOT_FOUND)
+						{
+							ErrorMessage(1153, format + "(animationdatasinglefile.txt)", i + 1, conditionLine);
+							return;
+						}
+
 						if (newCondition(conditionLine, newlines, groupOptionPicked, i + 1, utility))
 						{
 							skip = false;
@@ -4258,6 +4264,12 @@ void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, stri
 						size_t optionPosition = line.find("<!-- CONDITION ^") + 16;
 						string option = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
 						animationutility utility;
+
+						if (option.find("[") == NOT_FOUND || option.find("]") == NOT_FOUND)
+						{
+							ErrorMessage(1153, format + "(animationdatasinglefile.txt)", i + 1, option);
+							return;
+						}
 
 						if (newCondition(option, newlines, groupOptionPicked, i + 1, utility))
 						{

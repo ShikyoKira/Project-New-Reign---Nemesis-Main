@@ -1,4 +1,5 @@
 #include "compute.h"
+#include <exprtk.hpp>
 
 using namespace std;
 

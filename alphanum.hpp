@@ -5,13 +5,13 @@
 #include <shlwapi.h>
 #include <locale>
 #include <codecvt>
+#include "compute.h"
 
-template<class Ty>
-struct alphanum_less : public std::binary_function<Ty, Ty, bool>
+struct alphanum_less : public std::binary_function<std::string, std::string, bool>
 {
-	bool operator()(const Ty& left, const Ty& right) const
+	bool operator()(const std::string& left, const std::string& right) const
 	{
-		return StrCmpI(LPCSTR(left.c_str()), LPCSTR(right.c_str())) < 0;
+		return lstrcmpiA(LPCSTR(left.c_str()), LPCSTR(right.c_str())) < 0;
 	}
 };
 

@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <boost\regex.hpp>
 #include <boost\algorithm\string.hpp>
-// #include "tinyexpress.h"
+#include "compute.h"
 #include "furniture.h"
 
 typedef std::vector<std::string> vecstr;

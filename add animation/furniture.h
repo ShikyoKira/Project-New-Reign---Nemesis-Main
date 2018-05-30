@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <boost\regex.hpp>
 #include <boost\algorithm\string.hpp>
-// #include "tinyexpress.h"
+#include "compute.h"
 #include "optionlist.h"
 #include "registeranimation.h"
 #include "animationinfo.h"
@@ -54,7 +54,7 @@ private:
 	std::unordered_map<std::string, vecstr> linkedOption;
 	std::unordered_map<std::string, vecstr> mixOptRever;
 	std::unordered_map<std::string, vecstr> furniturelines;
-	std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less<std::string>>> asdlines;
+	std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>> asdlines;
 	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> animdatalines;
 	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> groupAddition;
 	std::vector<std::shared_ptr<animationInfo>> groupAnimInfo;
@@ -80,11 +80,11 @@ public:
 	std::vector<std::shared_ptr<animationInfo>> GetGroupAnimInfo();
 	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> GetGroupAddition();
 	inline void newID();
-	void GetAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less<std::string>>>& newASDLines);
+	void GetAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newASDLines);
 	void GetAnimData(std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimDataLines);
 	void existingASDProcess(vecstr ASDLines, std::map<int, vecstr>& extract, int ASD = 0);
 	void addAnimData(std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> animdata);
-	void addAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less<std::string>>> animsetdata);
+	void addAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>> animsetdata);
 	void storeAnimObject(vecstr animobjects, std::string listFilename, int lineCount);
 	void addGroupAnimInfo(std::vector<std::shared_ptr<animationInfo>> animInfo);
 	void setZeroEvent(std::string eventname);

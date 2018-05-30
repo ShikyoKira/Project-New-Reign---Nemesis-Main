@@ -1,5 +1,6 @@
 #include "alternateanimation.h"
 #include <boost\algorithm\string.hpp>
+#include <Windows.h>
 
 #pragma warning(disable:4503)
 
