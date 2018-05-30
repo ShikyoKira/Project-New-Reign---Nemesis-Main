@@ -5,10 +5,10 @@
 #include <string>
 #include <iostream>
 #include <unordered_map>
+#include <set>
 #include <ctime>
 #include <codecvt>
 #include <stdlib.h>
-#include <compute.h>
 #include <mutex>
 #include <boost\filesystem.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
@@ -50,8 +50,6 @@ extern std::unordered_map<std::string, std::string> AAGroup;																// A
 extern std::unordered_map<std::string, std::unordered_map<std::string, int>> AAGroupCount;									// AA prefix, animation group name, count; animation group picked count
 extern vecstr groupNameList;																								// list of animation group name; for scripting
 
-size_t fileLineCount(std::string filepath);
-
 // string utilities
 extern bool isOnlyNumber(std::string line);
 extern bool hasAlpha(std::string line);
@@ -59,10 +57,12 @@ extern size_t wordFind(std::string line, std::string word, bool isLast = false);
 inline extern int sameWordCount(std::string line, std::string word);
 
 // general file utilities
+size_t fileLineCount(std::string filepath);
 extern void addUsedAnim(std::string behaviorFile, std::string animPath);
 extern void read_directory(const std::string& name, vecstr& fv);
 extern void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
 extern void GetFunctionLines(std::string filename, vecstr& functionlines, bool emptylast = true);
 inline extern bool isFileExist(const std::string& filename);
+extern void saveLastUpdate(std::string filename, std::unordered_map<std::string, std::string>& lastUpdate);
 
 #endif

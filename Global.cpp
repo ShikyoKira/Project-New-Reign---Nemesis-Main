@@ -1,4 +1,5 @@
 #include "Global.h"
+#include <Windows.h>
 
 #pragma warning(disable:4503)
 
@@ -154,7 +155,7 @@ void GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 
 	string fileformat = filename.substr(filename.find_last_of(".") + 1);
 
-	if (fileformat == "txt" || fileformat == "xml")
+	if (fileformat == "txt" || fileformat == "xml" || fileformat == "ini")
 	{
 		functionlines.reserve(fileLineCount(filename));
 
@@ -270,4 +271,30 @@ void addUsedAnim(string behaviorFile, string animPath)
 {
 	lock_guard<mutex> animLock(addAnimLock);
 	usedAnim[behaviorFile].insert(animPath);
+}
+
+void saveLastUpdate(string filename, unordered_map<string, string>& lastUpdate)
+{
+	HANDLE file;
+	FILETIME lastmodified;
+	SYSTEMTIME sysUTC;
+	file = CreateFile(filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (file == INVALID_HANDLE_VALUE)
+	{
+		ErrorMessage(2023);
+		return;
+	}
+
+	if (!GetFileTime(file, NULL, NULL, &lastmodified))
+	{
+		ErrorMessage(2022);
+		return;
+	}
+
+	FileTimeToSystemTime(&lastmodified, &sysUTC);
+	string time = to_string(sysUTC.wDay) + "/" + to_string(sysUTC.wMonth) + "/" + to_string(sysUTC.wYear) + " " + to_string(sysUTC.wHour) + ":" + to_string(sysUTC.wMinute);
+
+	lock_guard<mutex> fileLock(addAnimLock);
+	lastUpdate[filename] = time;
 }

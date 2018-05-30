@@ -235,6 +235,104 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 	return list;
 }
 
+string GetLastModified(string filename)
+{
+	HANDLE file;
+	FILETIME lastmodified;
+	SYSTEMTIME sysUTC;
+	file = CreateFile(filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (file == INVALID_HANDLE_VALUE)
+	{
+		ErrorMessage(2023);
+		return "";
+	}
+
+	if (!GetFileTime(file, NULL, NULL, &lastmodified))
+	{
+		ErrorMessage(2022);
+		return "";
+	}
+
+	FileTimeToSystemTime(&lastmodified, &sysUTC);
+	return to_string(sysUTC.wDay) + "/" + to_string(sysUTC.wMonth) + "/" + to_string(sysUTC.wYear) + " " + to_string(sysUTC.wHour) + ":" + to_string(sysUTC.wMinute);
+}
+
+bool isEngineUpdated()
+{
+	if (!isFileExist("temp_behaviors"))
+	{
+		return false;
+	}
+
+	vecstr storeline;
+	string filename = "engine_update.txt";
+
+	if (!isFileExist(filename))
+	{
+		return false;
+	}
+
+	GetFunctionLines(filename, storeline, false);
+	
+	for (auto& line : storeline)
+	{
+		if (line.length() > 0)
+		{
+			if (line.find(" ") == NOT_FOUND)
+			{
+				ErrorMessage(2021);
+				return false;
+			}
+
+			stringstream sstream(line);
+			istream_iterator<string> ssbegin(sstream);
+			istream_iterator<string> ssend;
+			vecstr path(ssbegin, ssend);
+			copy(path.begin(), path.end(), path.begin());
+
+			if (path.size() == 3)
+			{
+				if (!isFileExist(path[0]))
+				{
+					return false;
+				}
+				else if (GetLastModified(path[0]) != path[1] + " " + path[2])
+				{
+					return false;
+				}
+			}
+			else if (path.size() > 3)
+			{
+				string pathline = "";
+
+				for (unsigned int i = 0; i < path.size() - 2; ++i)
+				{
+					pathline = pathline + path[i] + " ";
+				}
+
+				pathline.pop_back();
+
+				if (!isFileExist(pathline))
+				{
+					return false;
+				}
+				else if (GetLastModified(pathline) != path[path.size() - 2] + " " + path.back())
+				{
+					return false;
+				}
+			}
+			else
+			{
+				ErrorMessage(2021);
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
 void GetBehaviorProject()
 {
 	string filename = "behavior_project.txt";
@@ -521,7 +619,6 @@ void characterHKX()
 		}
 		else
 		{
-
 			ErrorMessage(3002, filename);
 			throw 1;
 		}
