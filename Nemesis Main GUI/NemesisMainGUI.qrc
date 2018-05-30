@@ -1,6 +1,1 @@
-<RCC>
-    <qresource prefix="/NemesisMainGUI">
-        <file>Resources/UnZialish.ttf</file>
-        <file>Resources/refresh icon.png</file>
-    </qresource>
-</RCC>
+<RCC/>
