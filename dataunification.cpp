@@ -699,7 +699,7 @@ void behaviorJointsOutput()
 		}
 	}
 
-	ofstream output("behavior_joints.txt");
+	ofstream output("behavior_joints");
 
 	if (output.is_open())
 	{

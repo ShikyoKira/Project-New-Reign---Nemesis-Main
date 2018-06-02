@@ -15,7 +15,7 @@ extern std::string GetFileName(std::string filepath);
 extern std::vector<std::unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate);
 
 extern bool isEngineUpdated();
-extern void ClearGlobal();
+extern void ClearGlobal(bool all = true);
 extern void GetAnimData();
 extern void characterHKX();
 extern void GetBehaviorPath();

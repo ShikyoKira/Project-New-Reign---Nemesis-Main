@@ -266,7 +266,7 @@ bool isEngineUpdated()
 	}
 
 	vecstr storeline;
-	string filename = "engine_update.txt";
+	string filename = "engine_update";
 
 	if (!isFileExist(filename))
 	{
@@ -335,7 +335,7 @@ bool isEngineUpdated()
 
 void GetBehaviorProject()
 {
-	string filename = "behavior_project.txt";
+	string filename = "behavior_project";
 
 	if (isFileExist(filename))
 	{
@@ -391,7 +391,7 @@ void GetBehaviorProject()
 
 void GetBehaviorPath()
 {
-	string filename = "behavior_path.txt";
+	string filename = "behavior_path";
 
 	if (isFileExist(filename))
 	{
@@ -473,7 +473,7 @@ void GetBehaviorPath()
 
 void GetAnimData()
 {
-	string filename = "animationdata_list.txt";
+	string filename = "animationdata_list";
 
 	if (isFileExist(filename))
 	{
@@ -555,7 +555,7 @@ void FolderCreate(string curBehaviorPath)
 
 	for (int i = 0; i < counter; ++i)
 	{
-		if (CreateDirectory((curFolder).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+		if (CreateDirectoryA(curFolder.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
 		{
 			pos = curBehaviorPath.find("\\", pos) + 1;
 
@@ -569,7 +569,7 @@ void FolderCreate(string curBehaviorPath)
 
 void characterHKX()
 {
-	string filename = "behavior_joints.txt";
+	string filename = "behavior_joints";
 
 	if (isFileExist(filename))
 	{
@@ -712,27 +712,31 @@ inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, u
 	return false;
 }
 
-void ClearGlobal()
+void ClearGlobal(bool all)
 {
 	unordered_map<string, string> emptySSMap;
 	behaviorPath = emptySSMap;
 	AAGroup = emptySSMap;
 
-	unordered_map<string, unordered_map<string, bool>> emptySSBMap;
-	registeredAnim = emptySSBMap;
-
 	unordered_map<string, set<string>> emptySSSMap;
-	usedAnim = emptySSSMap;
 	characterHeaders = emptySSSMap;
 
-	unordered_map<string, unordered_map<string, vector<set<string>>>> emptySSVSMap;
-	animModMatch = emptySSVSMap;
-
 	unordered_map<string, vecstr> emptySVSMap;
-	behaviorJoints = emptySVSMap;
 	behaviorProject = emptySVSMap;
 	groupAA = emptySVSMap;
 	groupAAPrefix = emptySVSMap;
+
+	if (all)
+	{
+		usedAnim = emptySSSMap;
+
+		unordered_map<string, unordered_map<string, bool>> emptySSBMap;
+		registeredAnim = emptySSBMap;
+
+		unordered_map<string, unordered_map<string, vector<set<string>>>> emptySSVSMap;
+		animModMatch = emptySSVSMap;
+		behaviorJoints = emptySVSMap;
+	}
 
 	unordered_map<string, bool> emptySBMap;
 	activatedBehavior = emptySBMap;

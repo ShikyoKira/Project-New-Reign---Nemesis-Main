@@ -33,12 +33,12 @@ bool FileCheck(bool isUpdate)
 
 	if (!isFileExist(file))
 	{
-		CreateDirectory(file.c_str(), NULL);
+		CreateDirectoryA(file.c_str(), NULL);
 	}
 
 	if (!isUpdate)
 	{
-		file = "animationdata_list.txt";
+		file = "animationdata_list";
 
 		if (!isFileExist(file))
 		{

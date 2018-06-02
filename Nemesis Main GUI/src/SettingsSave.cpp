@@ -6,9 +6,9 @@
 
 void createCache(std::string language, std::vector<std::string> chosenBehavior)
 {
-	if (CreateDirectory(L"cache", NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+	if (CreateDirectoryA("cache", NULL) || ERROR_ALREADY_EXISTS == GetLastError())
 	{
-		std::ofstream cachefile("settings.txt");
+		std::ofstream cachefile("cache\\settings");
 
 		if (cachefile.is_open())
 		{
@@ -42,6 +42,7 @@ void createCache(std::string language, std::vector<std::string> chosenBehavior)
 			QMessageBox* msg = new QMessageBox;
 			msg->setWindowTitle("ERROR");
 			msg->setText("Error: Failed to create cache file. Please ensure Nemesis has permission to create file in current folder");
+			msg->setAttribute(Qt::WA_DeleteOnClose);
 			msg->show();
 		}
 	}
@@ -54,7 +55,7 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
 		return false;
 	}
 
-	std::string filename = "cache\\settings.txt";
+	std::string filename = "cache\\settings";
 
 	if (!isFileExist(filename))
 	{
@@ -76,19 +77,24 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
 				lang = true;
 				++done;
 			}
+			else if (line == "*MODS")
+			{
+				behavior = true;
+				++done;
+			}
 			else if (lang)
 			{
 				language = line;
-			}
-			else if (line == "*MODS")
-			{
-				behavior = false;
-				++done;
 			}
 			else if (behavior)
 			{
 				chosenBehavior[line] = true;
 			}
+		}
+		else
+		{
+			lang = false;
+			behavior = false;
 		}
 	}
 
@@ -101,6 +107,8 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
 		QMessageBox* msg = new QMessageBox;
 		msg->setWindowTitle("WARNING");
 		msg->setText("Warning: Failed to read cache file. Settings are set to default");
+		msg->setAttribute(Qt::WA_DeleteOnClose);
+		msg->setIcon(QMessageBox::Warning);
 		msg->show();
 	}
 
