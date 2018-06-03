@@ -2,8 +2,8 @@
 
 BehaviorListRowDelegate::BehaviorListRowDelegate(QAbstractItemModel* newModel, QModelIndexList* newIndexList)
 {
-	model = newModel;
 	indexList = newIndexList;
+	model = newModel;
 }
 
 void BehaviorListRowDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const

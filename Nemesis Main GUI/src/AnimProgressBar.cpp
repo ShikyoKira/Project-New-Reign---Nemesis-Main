@@ -6,7 +6,7 @@ AnimProgressBar::AnimProgressBar(QWidget * parent)
 
 void AnimProgressBar::newValue(int value)
 {
-	if (value <= 12000)
+	if (value <= 10000)
 	{
 		setValue(value);
 		int red = std::min(value / 5000 * 150, 150);

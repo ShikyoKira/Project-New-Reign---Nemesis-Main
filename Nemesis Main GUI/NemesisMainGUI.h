@@ -38,26 +38,31 @@ private slots:
 		ui.buttonUpdate->setDisabled(true);
 		ui.buttonCheck->setDisabled(true);
 		ui.modView->setDisabled(true);
+		ui.animProgressBar->setTextVisible(true);
+		ui.animProgressBar->setValue(0);
+		ui.animProgressBar->setFormat("0 animation(s)");
 
 		vecstr behaviorPriority;
 		std::unordered_map<std::string, bool> chosenBehavior;
 
 		for (int i = 0; i < ui.modView->model()->rowCount(); ++i)
 		{
-			BehaviorInfo result = ui.modView->model()->data(ui.modView->model()->index(i, 0)).value<BehaviorInfo>();
+			QAbstractItemModel* model = ui.modView->model();
+			QVariant state = model->data(model->index(i, 0), Qt::CheckStateRole);
 			
-			if (result.state == Qt::Checked)
+			if (state == Qt::Checked)
 			{
-				std::string modcode = modConvert[result.modname.toStdString()];
-				behaviorPriority.push_back(modcode);
+				std::string modcode = modConvert[model->data(model->index(i, 0), Qt::DisplayRole).toString().toStdString()];
+				behaviorPriority.insert(behaviorPriority.begin(), modcode);
 				chosenBehavior[modcode] = true;
 			}
 		}
 		
 		QThread* thread = new QThread;
 		BehaviorStart* worker = new BehaviorStart;
-		worker->addBehaviorPick(behaviorPriority, chosenBehavior);
-
+		worker->addBehaviorPick(worker, behaviorPriority, chosenBehavior);
+		
+		connect(worker, SIGNAL(totalAnim(int)), ui.animProgressBar, SLOT(newValue(int)));
 		connect(worker, SIGNAL(progress(int)), ui.progressBar, SLOT(setValue(int)));
 		connect(thread, SIGNAL(started()), worker, SLOT(GenerateBehavior()));
 		connect(worker, SIGNAL(progressUp()), worker, SLOT(milestoneUp()));
@@ -95,12 +100,6 @@ private slots:
 		connect(thread, SIGNAL(started()), worker, SLOT(UpdateFiles()));
 		connect(worker, SIGNAL(progressUp()), worker, SLOT(milestoneUp()));
 		connect(worker, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
-
-		if (usedAnim.size() > 0)
-		{
-			connect(worker, SIGNAL(enableCheck(bool)), ui.buttonCheck, SLOT(setDisabled(bool)));
-		}
-
 		connect(worker, SIGNAL(enable(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(enable(bool)), ui.buttonUpdate, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(enable(bool)), ui.modView, SLOT(setDisabled(bool)));
@@ -120,8 +119,16 @@ private slots:
 		ui.buttonUpdate->setDisabled(true);
 		ui.buttonCheck->setDisabled(true);
 		ui.modView->setDisabled(true);
+		ui.textBrowser->clear();
+
+		DummyLog* DLog = new DummyLog;
+		connectProcess(DLog);
+		QObject::connect(DLog, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
 
 		behaviorCheck();
+
+		disconnectProcess();
+		delete DLog;
 
 		ui.buttonLaunch->setDisabled(false);
 		ui.buttonUpdate->setDisabled(false);
@@ -134,5 +141,12 @@ private slots:
 		ui.textBrowser->append(input);
 		ui.textBrowser->verticalScrollBar()->setValue(ui.textBrowser->verticalScrollBar()->maximum());
 		ui.textBrowser->ensureCursorVisible();
+	}
+
+	void languageChange(QString language)
+	{
+		delete ui.DMsg;
+		ui.DMsg = new DebugMsg(language.toStdString());
+		ui.reset(this);
 	}
 };

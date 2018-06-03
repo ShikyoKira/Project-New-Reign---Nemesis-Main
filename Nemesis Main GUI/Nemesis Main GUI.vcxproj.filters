@@ -23,6 +23,15 @@
     <ClCompile Include="src\SettingsSave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AnimProgressBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BehaviorListRowColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorMsgBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -69,6 +78,9 @@
     <QtMoc Include="master.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\AnimProgressBar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BehaviorInfo.h">
@@ -77,10 +89,13 @@
     <ClInclude Include="src\ScrollBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ErrorMsgBox.h">
+    <ClInclude Include="src\SettingsSave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SettingsSave.h">
+    <ClInclude Include="src\BehaviorListRowColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorMsgBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,8 +10,3 @@ CEMsgBox::~CEMsgBox()
 {
 	exit(1);
 }
-
-void backUpMessageBox::sendError(QString input)
-{
-	emit captureError(input);
-}

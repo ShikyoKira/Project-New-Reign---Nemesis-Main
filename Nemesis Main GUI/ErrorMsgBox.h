@@ -1,17 +1,14 @@
 #ifndef ERRORMSGBOX_H_
 #define ERRORMSGBOX_H_
 
-#include <QMessageBox>
-#include <QWidget>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QWidget>
 
 class CEMsgBox : public QMessageBox
 {
 public:
-	CEMsgBox(QWidget *parent = nullptr) { setAttribute(Qt::WA_DeleteOnClose, true); }
-	~CEMsgBox()
-	{
-		exit(1);
-	}
+	CEMsgBox(QWidget *parent = nullptr);
+	~CEMsgBox();
 };
 
 #endif

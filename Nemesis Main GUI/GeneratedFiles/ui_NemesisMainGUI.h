@@ -11,7 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
@@ -21,9 +20,11 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QWidget>
-#include "behaviorlistview.h"
+#include "BehaviorListView.h"
 #include "ErrorMsgBox.h"
 #include "SettingsSave.h"
+#include "BehaviorListRowColor.h"
+#include "AnimProgressBar.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -31,53 +32,38 @@ class Ui_NemesisMainGUIClass
 {
 public:
     QGridLayout *gridLayout;
-    QSpacerItem *verticalSpacer;
-    QSpacerItem *horizontalSpacer_3;
-    QComboBox *comboBox;
     BehaviorListView *modView;
     QSpacerItem *horizontalSpacer;
+    QSpacerItem *verticalSpacer;
+    QProgressBar *animProgressBar;
+    QTextBrowser *textBrowser;
     QProgressBar *progressBar;
     QLabel *label;
-    QCheckBox *checkBox;
-    QSpacerItem *horizontalSpacer_2;
-    QPushButton *buttonUpdate;
-    QPushButton *buttonCheck;
+    QSpacerItem *horizontalSpacer_3;
     QPushButton *buttonLaunch;
-    QTextBrowser *textBrowser;
+    QComboBox *comboBox;
+    QPushButton *buttonCheck;
+    QPushButton *buttonUpdate;
+	DebugMsg* DMsg;
+	DummyLog* DLog;
 
     void setupUi(QWidget *NemesisMainGUIClass)
     {
         if (NemesisMainGUIClass->objectName().isEmpty())
             NemesisMainGUIClass->setObjectName(QStringLiteral("NemesisMainGUIClass"));
-        NemesisMainGUIClass->resize(526, 740);
+        NemesisMainGUIClass->resize(526, 686);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(NemesisMainGUIClass->sizePolicy().hasHeightForWidth());
         NemesisMainGUIClass->setSizePolicy(sizePolicy);
-        NemesisMainGUIClass->setMinimumSize(QSize(526, 532));
-        NemesisMainGUIClass->setMaximumSize(QSize(526, 800));
+        NemesisMainGUIClass->setMinimumSize(QSize(526, 559));
+        NemesisMainGUIClass->setMaximumSize(QSize(571, 800));
         gridLayout = new QGridLayout(NemesisMainGUIClass);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
-        verticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Fixed);
-
-        gridLayout->addItem(verticalSpacer, 0, 7, 1, 1);
-
-        horizontalSpacer_3 = new QSpacerItem(80, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
-
-        gridLayout->addItem(horizontalSpacer_3, 3, 6, 1, 2);
-
-        comboBox = new QComboBox(NemesisMainGUIClass);
-        comboBox->addItem(QString());
-        comboBox->addItem(QString());
-        comboBox->addItem(QString());
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-        comboBox->setContextMenuPolicy(Qt::ActionsContextMenu);
-
-        gridLayout->addWidget(comboBox, 1, 5, 1, 3);
 
         modView = new BehaviorListView(NemesisMainGUIClass);
         modView->setObjectName(QStringLiteral("modView"));
@@ -99,19 +85,41 @@ public:
         modView->header()->setDefaultSectionSize(20);
         modView->header()->setStretchLastSection(false);
 
-        gridLayout->addWidget(modView, 2, 0, 1, 8);
+        gridLayout->addWidget(modView, 2, 0, 1, 9);
 
         horizontalSpacer = new QSpacerItem(80, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer, 3, 0, 1, 1);
+        gridLayout->addItem(horizontalSpacer, 4, 0, 1, 1);
+
+        verticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        gridLayout->addItem(verticalSpacer, 0, 8, 1, 1);
+
+        animProgressBar = new AnimProgressBar(NemesisMainGUIClass);
+        animProgressBar->setObjectName(QStringLiteral("animProgressBar"));
+        animProgressBar->setMaximum(10000);
+        animProgressBar->setValue(0);
+        animProgressBar->setAlignment(Qt::AlignCenter);
+		animProgressBar->setTextVisible(false);
+
+        gridLayout->addWidget(animProgressBar, 3, 0, 1, 9);
+
+        textBrowser = new QTextBrowser(NemesisMainGUIClass);
+        textBrowser->setObjectName(QStringLiteral("textBrowser"));
+        sizePolicy.setHeightForWidth(textBrowser->sizePolicy().hasHeightForWidth());
+        textBrowser->setSizePolicy(sizePolicy);
+        textBrowser->setMaximumSize(QSize(16777215, 1000));
+        textBrowser->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+
+        gridLayout->addWidget(textBrowser, 10, 0, 1, 9);
 
         progressBar = new QProgressBar(NemesisMainGUIClass);
         progressBar->setObjectName(QStringLiteral("progressBar"));
         progressBar->setValue(0);
         progressBar->setAlignment(Qt::AlignCenter);
-        progressBar->setHidden(true);
+		progressBar->setHidden(true);
 
-        gridLayout->addWidget(progressBar, 10, 0, 1, 8);
+        gridLayout->addWidget(progressBar, 11, 0, 1, 9);
 
         label = new QLabel(NemesisMainGUIClass);
         label->setObjectName(QStringLiteral("label"));
@@ -129,23 +137,47 @@ public:
         label->setFont(font);
         label->setTextFormat(Qt::RichText);
 
-        gridLayout->addWidget(label, 0, 0, 2, 4);
+        gridLayout->addWidget(label, 0, 0, 2, 6);
 
-        checkBox = new QCheckBox(NemesisMainGUIClass);
-        checkBox->setObjectName(QStringLiteral("checkBox"));
-        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(checkBox->sizePolicy().hasHeightForWidth());
-        checkBox->setSizePolicy(sizePolicy3);
-        checkBox->setMinimumSize(QSize(0, 0));
-        checkBox->setMaximumSize(QSize(16777215, 16777215));
+        horizontalSpacer_3 = new QSpacerItem(80, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout->addWidget(checkBox, 4, 5, 1, 3);
+        gridLayout->addItem(horizontalSpacer_3, 4, 8, 1, 1);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        buttonLaunch = new QPushButton(NemesisMainGUIClass);
+        buttonLaunch->setObjectName(QStringLiteral("buttonLaunch"));
+        sizePolicy1.setHeightForWidth(buttonLaunch->sizePolicy().hasHeightForWidth());
+        buttonLaunch->setSizePolicy(sizePolicy1);
+        buttonLaunch->setMinimumSize(QSize(200, 45));
+        QFont font1;
+        font1.setFamily(QStringLiteral("Cambria"));
+        font1.setPointSize(12);
+        font1.setBold(true);
+        font1.setWeight(75);
+        buttonLaunch->setFont(font1);
+        buttonLaunch->setCursor(QCursor(Qt::PointingHandCursor));
 
-        gridLayout->addItem(horizontalSpacer_2, 4, 4, 1, 1);
+        gridLayout->addWidget(buttonLaunch, 4, 1, 1, 7);
+
+        comboBox = new QComboBox(NemesisMainGUIClass);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+        gridLayout->addWidget(comboBox, 1, 7, 1, 2);
+
+        buttonCheck = new QPushButton(NemesisMainGUIClass);
+        buttonCheck->setObjectName(QStringLiteral("buttonCheck"));
+        sizePolicy1.setHeightForWidth(buttonCheck->sizePolicy().hasHeightForWidth());
+        buttonCheck->setSizePolicy(sizePolicy1);
+        buttonCheck->setMinimumSize(QSize(251, 35));
+        buttonCheck->setMaximumSize(QSize(1234, 16777215));
+        QFont font2;
+        font2.setFamily(QStringLiteral("Cambria"));
+        font2.setPointSize(12);
+        buttonCheck->setFont(font2);
+        buttonCheck->setCursor(QCursor(Qt::PointingHandCursor));
+		buttonCheck->setDisabled(true);
+
+        gridLayout->addWidget(buttonCheck, 5, 0, 1, 4);
 
         buttonUpdate = new QPushButton(NemesisMainGUIClass);
         buttonUpdate->setObjectName(QStringLiteral("buttonUpdate"));
@@ -153,46 +185,10 @@ public:
         buttonUpdate->setSizePolicy(sizePolicy1);
         buttonUpdate->setMinimumSize(QSize(165, 35));
         buttonUpdate->setMaximumSize(QSize(1234, 16777215));
-        QFont font1;
-        font1.setFamily(QStringLiteral("Cambria"));
-        font1.setPointSize(12);
-        buttonUpdate->setFont(font1);
+        buttonUpdate->setFont(font2);
+        buttonUpdate->setCursor(QCursor(Qt::PointingHandCursor));
 
-        gridLayout->addWidget(buttonUpdate, 4, 3, 1, 1);
-
-        buttonCheck = new QPushButton(NemesisMainGUIClass);
-        buttonCheck->setObjectName(QStringLiteral("buttonCheck"));
-        sizePolicy1.setHeightForWidth(buttonCheck->sizePolicy().hasHeightForWidth());
-        buttonCheck->setSizePolicy(sizePolicy1);
-        buttonCheck->setMinimumSize(QSize(182, 35));
-        buttonCheck->setMaximumSize(QSize(1234, 16777215));
-        buttonCheck->setFont(font1);
-        buttonCheck->setDisabled(true);
-
-        gridLayout->addWidget(buttonCheck, 4, 0, 1, 3);
-
-        buttonLaunch = new QPushButton(NemesisMainGUIClass);
-        buttonLaunch->setObjectName(QStringLiteral("buttonLaunch"));
-        sizePolicy1.setHeightForWidth(buttonLaunch->sizePolicy().hasHeightForWidth());
-        buttonLaunch->setSizePolicy(sizePolicy1);
-        buttonLaunch->setMinimumSize(QSize(200, 45));
-        QFont font2;
-        font2.setFamily(QStringLiteral("Cambria"));
-        font2.setPointSize(12);
-        font2.setBold(true);
-        font2.setWeight(75);
-        buttonLaunch->setFont(font2);
-
-        gridLayout->addWidget(buttonLaunch, 3, 1, 1, 5);
-
-        textBrowser = new QTextBrowser(NemesisMainGUIClass);
-        textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        sizePolicy.setHeightForWidth(textBrowser->sizePolicy().hasHeightForWidth());
-        textBrowser->setSizePolicy(sizePolicy);
-        textBrowser->setMaximumSize(QSize(16777215, 1000));
-        textBrowser->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
-
-        gridLayout->addWidget(textBrowser, 9, 0, 1, 8);
+        gridLayout->addWidget(buttonUpdate, 5, 4, 1, 5);
 
 
         retranslateUi(NemesisMainGUIClass);
@@ -200,29 +196,46 @@ public:
         QMetaObject::connectSlotsByName(NemesisMainGUIClass);
     } // setupUi
 
-    void retranslateUi(QWidget *NemesisMainGUIClass)
-    {
+	void retranslateUi(QWidget *NemesisMainGUIClass)
+	{
 		NemesisMainGUIClass->setWindowTitle(QApplication::translate("NemesisMainGUIClass", "Nemesis Ultimate Behavior Engine", nullptr));
 
 		GetSettings();
-
-		NemesisMainGUIClass->setWindowTitle(QApplication::translate("NemesisMainGUIClass", UIMessage(1000).c_str(), nullptr));
-		label->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1000).c_str(), nullptr));
-		checkBox->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1004).c_str(), nullptr));
-		buttonUpdate->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1003).c_str(), nullptr));
-		buttonCheck->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1002).c_str(), nullptr));
-		buttonLaunch->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1001).c_str(), nullptr));
+		reset(NemesisMainGUIClass);
+		backUp(NemesisMainGUIClass);
 
 		QObject::connect(buttonLaunch, SIGNAL(released()), NemesisMainGUIClass, SLOT(handleButton1()));
 		QObject::connect(buttonUpdate, SIGNAL(released()), NemesisMainGUIClass, SLOT(handleButton2()));
 		QObject::connect(buttonCheck, SIGNAL(released()), NemesisMainGUIClass, SLOT(handleButton3()));
+		QObject::connect(comboBox, SIGNAL(currentIndexChange(QString)), NemesisMainGUIClass, SLOT(languageChange(QString)));
 
+		QModelIndexList* indexlist = new QModelIndexList();
+
+		for (int j = 0; j < modView->model()->columnCount(); ++j)
+		{
+			for (int i = 0; i < modView->model()->rowCount(); ++i)
+			{
+				indexlist->push_back(modView->model()->index(i, j));
+			}
+		}
+
+		modView->setItemDelegate(new BehaviorListRowDelegate(modView->model(), indexlist));
 		modView->setColumnWidth(0, 380);
 		modView->setColumnWidth(1, 75);
 		modView->setColumnWidth(2, 47);
 		modView->header()->setDefaultAlignment(Qt::AlignCenter);
 		modView->header()->setSectionResizeMode(QHeaderView::Fixed);
 	} // retranslateUi
+
+	void reset(QWidget* NemesisMainGUIClass)
+	{
+		NemesisMainGUIClass->setWindowTitle(QApplication::translate("NemesisMainGUIClass", UIMessage(1000).c_str(), nullptr));
+		label->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1000).c_str(), nullptr));
+		animProgressBar->setToolTip(QApplication::translate("NemesisMainGUIClass", UIMessage(1004).c_str(), nullptr));
+		buttonUpdate->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1003).c_str(), nullptr));
+		buttonCheck->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1002).c_str(), nullptr));
+		buttonLaunch->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1001).c_str(), nullptr));
+	}
 
 	void GetSettings()
 	{
@@ -266,7 +279,7 @@ public:
 				if (curLang == language)
 				{
 					curindex = i;
-					NewDebugMessage(language);
+					DMsg = new DebugMsg(language);
 				}
 				else if (language == "english")
 				{
@@ -274,9 +287,9 @@ public:
 				}
 			}
 
-			if (curindex == -1)
+			if (curindex < 0)
 			{
-				NewDebugMessage("english");
+				DMsg = new DebugMsg("english");
 				interMsg("Previous language pack is not found. Default language is being used instead");
 				comboBox->setCurrentIndex(english);
 			}
@@ -285,6 +298,7 @@ public:
 				comboBox->setCurrentIndex(curindex);
 			}
 
+			// check the check state of mods in previous runtime
 			for (int i = 0; i < modView->model()->rowCount(); ++i)
 			{
 				QAbstractItemModel* model = modView->model();
@@ -314,9 +328,19 @@ public:
 				}
 			}
 
-			NewDebugMessage(language);
+			DMsg = new DebugMsg(language);
 			comboBox->setCurrentIndex(curindex);
 		}
+
+		NewDebugMessage(*DMsg);
+	}
+
+	void backUp(QWidget* NemesisMainGUIClass)
+	{
+		DLog = new DummyLog;
+		connectProcess(DLog);
+
+		QObject::connect(DLog, SIGNAL(incomingMessage(QString)), NemesisMainGUIClass, SLOT(sendMessage(QString)));
 	}
 };
 

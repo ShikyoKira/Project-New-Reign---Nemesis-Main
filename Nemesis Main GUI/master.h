@@ -81,19 +81,18 @@ public:
 	BehaviorStart();
 	virtual ~BehaviorStart();
 	void milestoneStart();
-	void addBehaviorPick(vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
+	void addBehaviorPick(BehaviorStart* newProces, vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
 	void message(std::string input);
 
 public slots:
+	void increaseAnimCount();
 	void milestoneUp();
 	void GenerateBehavior();
-	void BehaviorCompilation(std::string directory, vecstr filelist, int curList, vecstr behaviorPriority, std::unordered_map<std::string, bool> chosenBehavior, getTemplate BehaviorTemplate, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation, mapSetString newAnimEvent, mapSetString newAnimVariable, std::unordered_map<std::string, var> AnimVar, std::unordered_map<std::string, std::unordered_map<int, bool>> ignoreFunction, bool isCharacter);
-	void AnimDataCompilation(std::string directory, vecstr filelist, int curList, vecstr behaviorPriority, std::unordered_map<std::string, bool> chosenBehavior, getTemplate BehaviorTemplate, std::vector<std::unique_ptr<registerAnimation>>& animationList, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation);
-	void ASDCompilation(std::string directory, vecstr filelist, int curList, vecstr behaviorPriority, std::unordered_map<std::string, bool> chosenBehavior, getTemplate BehaviorTemplate, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation, std::unordered_map<std::string, var> AnimVar);
-	void hkxcmdOutput(std::string filename, std::string hkxfile);
 	void unregisterProcess();
+	void EndAttempt();
 
 signals:
+	void totalAnim(int);
 	void progress(int);
 	void end();
 	void enable(bool);
@@ -103,14 +102,75 @@ signals:
 	void incomingMessage(QString);
 
 private:
+	int runningThread = 1;
+	int animCount = 0;
 	int filenum;
 	std::atomic<int> progressPercentage = 0;
 
 	vecstr behaviorPriority;
 	std::unordered_map<std::string, bool> chosenBehavior;
 	std::mutex pLock;
+	BehaviorStart* behaviorProcess;
+	
+	std::string* directory2;
+	vecstr* filelist2;
+	getTemplate* BehaviorTemplate2;
+	std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>* newAnimation2;
+	std::vector<std::unique_ptr<registerAnimation>>* animationList2;
+	mapSetString* newAnimEvent2;
+	mapSetString* newAnimVariable2;
+	std::unordered_map<std::string, var>* AnimVar2;
+	std::unordered_map<std::string, std::unordered_map<int, bool>>* ignoreFunction2;
 };
 
+class BehaviorSub : public QObject
+{
+	Q_OBJECT
+
+public:
+	bool isCharacter;
+
+	void addInfo(std::string& newDirectory, vecstr& newfilelist, int newCurList, vecstr& newBehaviorPriority, std::unordered_map<std::string, bool>& newChosenBehavior, getTemplate& newBehaviorTemplate, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& addAnimation, std::unordered_map<std::string, var>& newAnimVar, mapSetString& addAnimEvent, mapSetString& addAnimVariable, std::unordered_map<std::string, std::unordered_map<int, bool>>& newIgnoreFunction, bool newIsCharacter);
+	void addAnimation();
+	void hkxcmdOutput(std::string filename, std::string hkxfile);
+
+public slots:
+	void BehaviorCompilation();
+	void AnimDataCompilation();
+	void ASDCompilation();
+	
+signals:
+	void newAnim();
+	void progressUp();
+	void done();
+
+private:
+	int base;
+	int animCounter = 0;
+
+	std::string directory;
+	vecstr filelist;
+	int curList;
+	vecstr behaviorPriority;
+	std::unordered_map<std::string, bool> chosenBehavior;
+	getTemplate BehaviorTemplate;
+	std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>> newAnimation;
+	mapSetString newAnimEvent;
+	mapSetString newAnimVariable;
+	std::unordered_map<std::string, var> AnimVar;
+	std::unordered_map<std::string, std::unordered_map<int, bool>> ignoreFunction;
+};
+
+class DummyLog : public QObject
+{
+	Q_OBJECT
+
+public:
+	void message(std::string input);
+
+signals:
+	void incomingMessage(QString);
+};
 
 bool readMod(std::string& errormod);
 

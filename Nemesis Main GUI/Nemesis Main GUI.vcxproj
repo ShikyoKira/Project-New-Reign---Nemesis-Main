@@ -119,11 +119,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BehaviorListView.cpp" />
+    <ClCompile Include="ErrorMsgBox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="master.cpp" />
     <ClCompile Include="NemesisMainGUI.cpp" />
+    <ClCompile Include="src\AnimProgressBar.cpp" />
     <ClCompile Include="src\BehaviorList.cpp" />
     <ClCompile Include="src\BehaviorListModel.cpp" />
+    <ClCompile Include="src\BehaviorListRowColor.cpp" />
     <ClCompile Include="src\ScrollBar.cpp" />
     <ClCompile Include="src\SettingsSave.cpp" />
   </ItemGroup>
@@ -138,6 +141,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ErrorMsgBox.h" />
+    <QtMoc Include="src\AnimProgressBar.h" />
+    <ClInclude Include="src\BehaviorListRowColor.h" />
     <ClInclude Include="src\SettingsSave.h" />
     <QtMoc Include="BehaviorListView.h" />
     <QtMoc Include="master.h" />

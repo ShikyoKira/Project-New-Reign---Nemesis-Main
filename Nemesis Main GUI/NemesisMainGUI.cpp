@@ -13,11 +13,13 @@ NemesisMainGUI::~NemesisMainGUI()
 
 	for (int i = 0; i < ui.modView->model()->rowCount(); ++i)
 	{
-		BehaviorInfo result = ui.modView->model()->data(ui.modView->model()->index(i, 0)).value<BehaviorInfo>();
+		QAbstractItemModel* model = ui.modView->model();
+		QVariant state = model->data(model->index(i, 0), Qt::CheckStateRole);
 
-		if (result.state == Qt::Checked)
+		if (state == Qt::Checked)
 		{
-			chosenBehavior.push_back(result.modname.toStdString());
+			QString modname = model->data(model->index(i, 0), Qt::DisplayRole).toString();
+			chosenBehavior.push_back(modname.toStdString());
 		}
 	}
 
