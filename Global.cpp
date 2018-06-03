@@ -153,9 +153,7 @@ void GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 		functionlines = newlines;
 	}
 
-	string fileformat = filename.substr(filename.find_last_of(".") + 1);
-
-	if (fileformat == "txt" || fileformat == "xml" || fileformat == "ini")
+	if (!boost::filesystem::is_directory(filename))
 	{
 		functionlines.reserve(fileLineCount(filename));
 

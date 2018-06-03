@@ -76,11 +76,11 @@ void AAInstallation()
 	filename = skyrimdataPath.GetDataPath();
 #endif
 
-	if (CreateDirectory((filename).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+	if (CreateDirectoryA((filename).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
 	{
 		filename = filename + "\\scripts";
 
-		if (CreateDirectory((filename).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+		if (CreateDirectoryA((filename).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
 		{
 			filename = filename + "\\Nemesis_AA_Core.pex";
 		}

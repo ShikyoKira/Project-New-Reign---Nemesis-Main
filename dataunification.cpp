@@ -721,7 +721,7 @@ void behaviorJointsOutput()
 	}
 	else
 	{
-		ErrorMessage(2009, "behavior_joint.txt");
+		ErrorMessage(2009, "behavior_joint");
 		return;
 	}
 }

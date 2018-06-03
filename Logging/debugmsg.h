@@ -11,6 +11,7 @@
 
 class UpdateFilesStart;
 class BehaviorStart;
+class DummyLog;
 
 extern bool error;	// get error warning
 
@@ -30,7 +31,7 @@ struct DebugMsg
 void interMsg(std::string);
 
 // add new language pack
-extern void NewDebugMessage(std::string language);
+extern void NewDebugMessage(DebugMsg NewLog);
 
 std::vector<std::string> readUTF8File(std::string filename);
 extern void writeUTF8File(std::string filename, std::vector<std::string> storeline);
@@ -62,7 +63,7 @@ void AdditionalInput(std::string& message, int counter, current input)
 	}
 	else
 	{
-		interMsg("CRITICAL ERROR: Wrong error input. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Wrong error input. Please re-install Nemesis\n");
 		error = true;
 		return;
 	}
@@ -86,7 +87,7 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
 	}
 	else
 	{
-		interMsg("CRITICAL ERROR: Wrong error input. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Wrong error input. Please re-install Nemesis\n");
 		error = true;
 		return;
 	}
@@ -100,7 +101,7 @@ inline void ErrorMessage(int errorcode)
 
 	if (DMLogError(errorcode).length() == 0)
 	{
-		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
 		return;
 	}
 	
@@ -115,7 +116,7 @@ inline void ErrorMessage(int errorcode, other... rest)
 
 	if (DMLogError(errorcode).length() == 0)
 	{
-		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
 		return;
 	}
 
@@ -131,7 +132,7 @@ inline void WarningMessage(int warningcode)
 
 	if (DMLogWarning(warningcode).length() == 0)
 	{
-		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
 		error = true;
 		return;
 	}
@@ -146,7 +147,7 @@ inline void WarningMessage(int warningcode, other... rest)
 
 	if (DMLogWarning(warningcode).length() == 0)
 	{
-		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
 		error = true;
 		return;
 	}
@@ -165,6 +166,7 @@ std::string UIMessage(int uicode);
 // connect, get and disconnect running process
 void connectProcess(UpdateFilesStart* newProcess);
 void connectProcess(BehaviorStart* newProcess);
+void connectProcess(DummyLog* newProcess);
 void disconnectProcess();
 
 #endif

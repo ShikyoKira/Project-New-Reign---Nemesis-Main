@@ -9,19 +9,11 @@ bool error = false;
 DebugMsg DMLog;
 UpdateFilesStart* process1;
 BehaviorStart* process2;
+DummyLog* process3;
 
-void NewDebugMessage(string language)
+void NewDebugMessage(DebugMsg NewLog)
 {
-	DebugMsg NewLog(language);
 	DMLog = NewLog;
-
-	for (auto it = DMLog.uilist.begin(); it != DMLog.uilist.end(); ++it)
-	{
-		// if(it->first < this->buttons->size())
-		// {
-		//		this->buttons[it->first]->Text = it->second;
-		// }
-	}
 }
 
 DebugMsg::DebugMsg(string language)
@@ -115,7 +107,7 @@ vector<string> readUTF8File(string filename)
 	}
 	else
 	{
-		interMsg("CRITICAL ERROR: Fail to read language pack. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Fail to read language pack. Please re-install Nemesis\n");
 		error = true;
 	}
 
@@ -138,7 +130,7 @@ void writeUTF8File(string filename, vector<string> storeline)
 	}
 	else
 	{
-		interMsg("CRITICAL ERROR: Fail to write file. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Fail to write file. Please re-install Nemesis\n");
 		error = true;
 	}
 }
@@ -157,7 +149,7 @@ string TextBoxMessage(int textcode)
 {
 	if (DMLogWarning(textcode).length() == 0)
 	{
-		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
 		error = true;
 		return "";
 	}
@@ -169,7 +161,7 @@ string UIMessage(int uicode)
 {
 	if (DMLogWarning(uicode).length() == 0)
 	{
-		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis");
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
 		error = true;
 		return "";
 	}
@@ -186,6 +178,10 @@ void interMsg(string input)
 	else if (process2 != nullptr)
 	{
 		process2->message(input);
+	}
+	else if (process3 != nullptr)
+	{
+		process3->message(input);
 	}
 	else
 	{
@@ -207,8 +203,14 @@ void connectProcess(BehaviorStart* newProcess)
 	process2 = newProcess;
 }
 
+void connectProcess(DummyLog* newProcess)
+{
+	process3 = newProcess;
+}
+
 void disconnectProcess()
 {
 	process1 = nullptr;
 	process2 = nullptr;
+	process3 = nullptr;
 }
