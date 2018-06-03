@@ -82,13 +82,13 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
 				behavior = true;
 				++done;
 			}
-			else if (lang)
-			{
-				language = line;
-			}
 			else if (behavior)
 			{
 				chosenBehavior[line] = true;
+			}
+			else if (lang)
+			{
+				language = line;
 			}
 		}
 		else
