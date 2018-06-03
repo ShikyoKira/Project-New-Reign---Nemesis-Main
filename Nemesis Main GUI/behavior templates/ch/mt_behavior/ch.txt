@@ -182,7 +182,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_Chair_Base_Clip_$%$</hkparam>
-			<hkparam name="animationName">Animations\$ch[1][File]$</hkparam>
+			<hkparam name="animationName">Animations\$ch[1][FilePath]$</hkparam>
 			<hkparam name="triggers">#1130</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -212,7 +212,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_Chair_Var1_Clip_$%$</hkparam>
-			<hkparam name="animationName">Animations\$ch[2][File]$</hkparam>
+			<hkparam name="animationName">Animations\$ch[2][FilePath]$</hkparam>
 			<hkparam name="triggers">#$import[clip_trigger_3][-0.200000 91 1.000000 20 -1.0 18]$</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -242,7 +242,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_Chair_Var2_$%$</hkparam>
-			<hkparam name="animationName">Animations\$ch[L][File]$</hkparam>
+			<hkparam name="animationName">Animations\$ch[L][FilePath]$</hkparam>
 			<hkparam name="triggers">#$import[clip_trigger_3][-0.200000 91 1.000000 20 -1.0 18]$</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -302,7 +302,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_Chair_Talking_Clip_$%$</hkparam>
-			<hkparam name="animationName">Animations\$ch[1][File]$</hkparam>
+			<hkparam name="animationName">Animations\$ch[1][FilePath]$</hkparam>
 			<hkparam name="triggers">#1114</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>

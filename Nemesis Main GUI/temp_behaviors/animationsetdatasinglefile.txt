@@ -1203,7 +1203,6 @@ AttackPowerStanding
 4072415590
 261631
 7891816
-<!-- NEW *tudm* -->
 374
 _MTSolo.txt
 1HMDual.txt
@@ -24405,7 +24404,6 @@ IdleWriteTableStandingEnterInstant
 3064642194
 925672452
 7891816
-<!-- CLOSE -->
 374
 _MTSolo.txt
 1HMDual.txt

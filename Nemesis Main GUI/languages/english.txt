@@ -221,6 +221,7 @@ ERR 1170=Non-vanilla node detected. Please contact the template creator\nTemplat
 ERR 1171=Origin of new tab is not found. Opening of new tab is required. Please contact the template creator\nTemplate: <1>\nLine: <2>
 ERR 1172=Failed to process line\nTemplate: <1>\nLine: <2>
 ERR 1173=Condition cannot be used in "<1>". Please contact the template creator\nTemplate: <2>\nFile: <1>\nLine: <3>
+ERR 1174=Invalid format. Only numerical character is allowed. Please contact the mod author\nFile: <1>\nLine: <2> (<3>)
 
 '2000s
 ERR 2000=Failed to open file\nFile: <1>
@@ -257,9 +258,9 @@ ERR 3004=Missing "animationdatasinglefile.txt" file in "temp_behaviors" folder. 
 ERR 3005=Invalid format for "animationdatasinglefile.txt" in AnimData section has been detected. Please contact the template creator\nProject: <1>\nHeader: <2>
 ERR 3006=Invalid file name. Please enter a file name that is within the format. Please contact the mod author\nProject: <1>\nHeader: <2>
 ERR 3007=Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator\nTemplate: <1>\nLine: <2>
-ERR 3008=Duplicated header has been detected in "animationdata_list.txt". Update Engine to fix it\nProject: <1>
+ERR 3008=Duplicated header has been detected in "animationdata_list". Update Engine to fix it\nProject: <1>
 ERR 3009=Unable to use <1> as animation code. <1> has been registered into the engine by default. Please contact the template creator\nAnimation Code: <1>
-ERR 3010=Duplicated project has been detected in "animationdata_list.txt". Update Engine to fix it\nProject: <1>
+ERR 3010=Duplicated project has been detected in "animationdata_list". Update Engine to fix it\nProject: <1>
 ERR 3011=Unregistered project has been detected. Update Engine to fix it\nProject: <1>
 ERR 3012="$info header$" is not found. Info header must exist in order to register any other info header. Please contact the template creator\nFile: <1>
 ERR 3013=Un-registered animation group name has been detected. Please contact the mod author\nAAPrefix: <1>\nAnimation Group Name: <2>
@@ -268,7 +269,7 @@ ERR 3015=Invalid format for "animationdatasinglefile.txt" has been detected. Ple
 ERR 3016=BUG FOUND!! Report to Nemesis' author immediately\nProject: <1>\nHeader: <2>
 ERR 3017="<1>" not found. Please re-install Nemesis
 ERR 3018=Wrong format. Current line cannot be used to run NEW tab function. Only BehaviorFileList, EventNameList, MotionDataList, or RotationDataList can use NEW tab function. Please contact the mod author\nMod: <1>\nProject: <2>\nHeader: <3>
-ERR 3019=Invalid format has been detected in "animationdata_list.txt". Update Engine to fix it
+ERR 3019=Invalid format has been detected in "animationdata_list". Update Engine to fix it
 ERR 3020=Invalid format for "animationdatasinglefile.txt" in InfoData section has been detected. Please contact the template creator\nProject: <1>\nUnique Code: <3>
 ERR 3021=Missing project information for a project in "animationdatasinglefile.txt"\nProject: <1>
 ERR 3022=Duplicated unique code detected in InfoData section. Please contact the template creator\nProject: <1>\nUnique Code: <2>
@@ -346,8 +347,8 @@ TBT 1000=Changes in file detected. Engine update is required to be performed
 TBT 1001=Conflict Test failed!
 
 '1000
-UIT 1000=Nemesis Ultimate Behavior Engine
+UIT 1000=Nemesis Unlimited Behavior Engine
 UIT 1001=Launch Nemesis Behavior Engine
 UIT 1002=Conflict Test
 UIT 1003=Update Engine
-UIT 1004=Auto Mod Selection
+UIT 1004=Green = Good\nYellow = OK\nRed = Danger
