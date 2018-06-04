@@ -107,10 +107,10 @@ void UpdateFilesStart::UpdateFiles()
 
 bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, unordered_map<string, vecstr>>& newAnimData, vecstr& animDataChar, unordered_map<string, vecstr>& animDataHeader, unordered_map<string, map<string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList)
 {
-#ifndef DEBUG
+#ifdef DEBUG
 	string path = "data";
 #else
-	string path = skyrimDataPath.dataPath + "\\meshes";
+	string path = skyrimDataPath->GetDataPath() + "\\meshes";
 #endif
 
 	unordered_map<string, string> emptyPath;
@@ -121,7 +121,7 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 		CreateDirectoryA(path.c_str(), NULL);
 		emit progressUp();
 		emit progressUp();
-		emit progressUp();
+		emit progressUp();		// 4
 	}
 	else
 	{
@@ -130,7 +130,7 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 			return false;
 		}
 
-		emit progressUp();
+		emit progressUp();		// 4
 
 		if (behaviorPath.size() != 0)
 		{
@@ -142,7 +142,7 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 
 				for (auto it = behaviorPath.begin(); it != behaviorPath.end(); ++it)
 				{
-					fwriter << it->first << " " << it->second << "\n";
+					fwriter << it->first << "=" << it->second << "\n";
 				}
 
 				output.close();
@@ -178,7 +178,7 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 			}
 			else
 			{
-				ErrorMessage(2009, "behavior_path");
+				ErrorMessage(2009, "behavior_project");
 				return false;
 			}
 		}
@@ -2372,10 +2372,10 @@ void BehaviorSub::BehaviorCompilation()
 					if (!boost::filesystem::is_directory(cachedFile))
 					{
 						// final output
-#ifndef DEBUG
+#ifdef DEBUG
 						string outputdir = "new_behaviors\\" + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
-						string outputdir = behaviorPath[lowerBehaviorFile];
+						string outputdir = behaviorPath[lowerBehaviorFile] + ".hkx";
 #endif
 
 						boost::filesystem::copy_file(cachedFile, outputdir, boost::filesystem::copy_option::overwrite_if_exists);
@@ -4051,7 +4051,7 @@ void BehaviorSub::BehaviorCompilation()
 	}
 
 	// final output
-#ifndef DEBUG
+#ifdef DEBUG
 	string outputdir = "new_behaviors\\" + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
 	string outputdir = behaviorPath[lowerBehaviorFile];
@@ -4683,7 +4683,7 @@ void BehaviorSub::AnimDataCompilation()
 	emit progressUp();
 
 	// final output	
-#ifndef DEBUG
+#ifdef DEBUG
 	string filename = "new_behaviors\\" + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
 	string filename = behaviorPath[lowerBehaviorFile];
@@ -5294,7 +5294,7 @@ void BehaviorSub::ASDCompilation()
 	emit progressUp();
 
 	// final output	
-#ifndef DEBUG
+#ifdef DEBUG
 	string filename = "new_behaviors\\" + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
 	string filename = behaviorPath[lowerBehaviorFile];

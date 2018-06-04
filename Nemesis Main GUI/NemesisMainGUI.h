@@ -13,12 +13,12 @@ class NemesisMainGUI : public QWidget
 	Q_OBJECT
 
 public:
+	Ui::NemesisMainGUIClass ui;
+	std::mutex mLock;
+
 	NemesisMainGUI(QWidget *parent = Q_NULLPTR);
 	~NemesisMainGUI();
 	
-private:
-	Ui::NemesisMainGUIClass ui;
-	std::mutex mLock;
 
 private slots:
 	void handleButton1()
