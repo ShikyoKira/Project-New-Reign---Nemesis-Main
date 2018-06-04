@@ -157,10 +157,11 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 		}
 
 		size_t pos = wordFind(path, "\\behaviors\\", true);
+		size_t nextpos = wordFind(path, "\\data\\") + 5;
 
-		if (pos != NOT_FOUND)
+		if (pos != NOT_FOUND && nextpos != NOT_FOUND && nextpos < pos)
 		{
-			animPath.insert(path.substr(0, pos) + "\\");
+			animPath.insert(path.substr(nextpos, pos - nextpos) + "\\");
 		}
 		else if (it->first != "animationdatasinglefile" && it->first != "animationsetdatasinglefile")
 		{
@@ -170,10 +171,10 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 	for (auto it = animPath.begin(); it != animPath.end(); ++it)
 	{
-#ifndef DEBUG
-		string directory = *it;
+#ifdef DEBUG
+		string directory = "data\\" + *it;
 #else
-		string directory = skyrimdataPath.GetDataPath() + *it;
+		string directory = skyrimDataPath->GetDataPath() + *it;
 #endif
 
 		string animationDirectory = directory + "animations\\";
@@ -395,64 +396,36 @@ void GetBehaviorPath()
 
 	if (isFileExist(filename))
 	{
+		string line;
 		int linecount = 0;
-		char line[2000];
+		char charline[2000];
 		FILE* pathFile;
 		fopen_s(&pathFile, filename.c_str(), "r");
 
 		if (pathFile)
 		{
-			while (fgets(line, 2000, pathFile))
+			while (fgets(charline, 2000, pathFile))
 			{
 				++linecount;
+				line = charline;
 
-				if (line[0] != '\'' && line[0] != '\n' && strlen(line) != 0)
+				if (line.length() > 0 && line.back() == '\n')
 				{
-					stringstream sstream(line);
-					istream_iterator<string> ssbegin(sstream);
-					istream_iterator<string> ssend;
-					vecstr path(ssbegin, ssend);
-					copy(path.begin(), path.end(), path.begin());
+					line.pop_back();
+				}
 
-					for (unsigned int i = 0; i < path.size(); ++i)
-					{
-						boost::algorithm::to_lower(path[i]);
-					}
-
-					if (path.size() == 2)
-					{
-						behaviorPath[path[0]] = path[1];
-					}
-					else
-					{
-						if (path.size() > 2)
-						{
-							string pathline = "";
-
-							for (unsigned int i = 1; i < path.size(); ++i)
-							{
-								if (path[i].find("\\") != NOT_FOUND)
-								{
-									pathline = pathline + path[i] + " ";
-								}
-								else
-								{
-									ErrorMessage(1067, filename, linecount);
-									fclose(pathFile);
-									throw 1;
-								}
-							}
-
-							pathline.pop_back();
-							behaviorPath[path[0]] = pathline;
-						}
-						else
-						{
-							ErrorMessage(1067, filename, linecount);
-							fclose(pathFile);
-							throw 1;
-						}
-					}
+				if (line.find("=") != NOT_FOUND)
+				{
+					size_t pos = line.find("=");
+					string file = line.substr(0, pos);
+					string path = line.substr(pos + 1);
+					behaviorPath[file] = path;
+				}
+				else
+				{
+					ErrorMessage(1067, filename, linecount);
+					fclose(pathFile);
+					throw 1;
 				}
 			}
 		}

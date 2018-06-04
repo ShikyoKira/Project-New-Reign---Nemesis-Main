@@ -70,10 +70,10 @@ void AAInstallation()
 	string filename = "alternate animation\\alternate animation.script";
 	boost::filesystem::path source(filename);
 
-#ifndef DEBUG
+#ifdef DEBUG
 	filename = "data";
 #else
-	filename = skyrimdataPath.GetDataPath();
+	filename = skyrimDataPath->GetDataPath();
 #endif
 
 	if (CreateDirectoryA((filename).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())

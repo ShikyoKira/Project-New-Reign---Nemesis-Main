@@ -14,6 +14,11 @@
 #include <boost\date_time\posix_time\posix_time.hpp>
 #include "logging\debugmsg.h"
 
+#include "skyrimdirectory.h"
+#ifndef DEBUG
+#include "skyrimdirectory.h"
+#endif
+
 #pragma warning(disable:4503)
 
 #define NOT_FOUND std::string::npos
@@ -27,6 +32,9 @@ extern int memory;								// not used; for setting memory allocation from 100 - 
 extern int fixedkey[257];						// AA installation key
 extern boost::posix_time::ptime time1;			// for getting elapsed time
 extern std::mutex addAnimLock;					// locking access to usedAnim
+#ifndef DEBUG
+extern DataPath* skyrimDataPath;					// skyrim data path
+#endif
 
 // update patcher
 extern std::unordered_map<std::string, std::string> behaviorPath;															// hkx file name, file path

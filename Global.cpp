@@ -9,8 +9,8 @@ bool debug = false;
 int memory = 100;
 int fixedkey[257];
 
-#ifdef DEBUG
-DataPath skyrimDataPath;
+#ifndef DEBUG
+DataPath* skyrimDataPath;
 #endif
 
 boost::posix_time::ptime time1;
