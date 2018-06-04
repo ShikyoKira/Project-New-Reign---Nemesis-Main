@@ -86,8 +86,9 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					}
 
 					curAAprefix = newAnimInfo[1];
+					string lowerPrefix = boost::to_lower_copy(newAnimInfo[1]);
 
-					if (!AAprefixExist[curAAprefix])
+					if (!AAprefixExist[lowerPrefix])
 					{
 						if (AAprefixExist.size() > 30)
 						{
@@ -96,7 +97,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 							return;
 						}
 
-						AAprefixExist[curAAprefix] = true;
+						AAprefixExist[lowerPrefix] = true;
 					}
 				}
 				else if (boost::iequals(newAnimInfo[0], "AAset"))
@@ -155,7 +156,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 							else
 							{
 								alternateAnim[lowAnim].push_back(modID + "\\" + animFile);
-								AAAnimFileExist[animFile] = true;
+								AAAnimFileExist[boost::to_lower_copy(animFile)] = true;
 							}
 						}
 
@@ -175,14 +176,15 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						return;
 					}
 
-					if (!AAAnimFileExist[newAnimInfo[1]])
+					string lowerAnimName = boost::algorithm::to_lower_copy(newAnimInfo[1]);
+
+					if (!AAAnimFileExist[lowerAnimName])
 					{
 						ErrorMessage(4011, filename, linecount, newAnimInfo[1]);
 						return;
 					}
 					else
 					{
-						string lowerAnimName = boost::algorithm::to_lower_copy(newAnimInfo[1]);
 						string originalAnim = lowerAnimName.substr(lowerAnimName.find("_") + 1);
 						
 						for (unsigned int j = 2; j < newAnimInfo.size(); ++j)

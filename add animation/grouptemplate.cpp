@@ -856,7 +856,15 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					else if (order == -1)
 					{
 						order = 0;
-						size = int(subFunctionIDs.size());
+
+						if (groupCount == -1 && multiOption == masterFormat + "_group")
+						{
+							size = int(subFunctionIDs.size());
+						}
+						else
+						{
+							size = int(groupAnimInfo.size());
+						}
 					}
 					else
 					{
@@ -865,8 +873,19 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 					for (int animMulti = order; animMulti < size; ++animMulti) // variation for each animation >> multi animation
 					{
-						for (int optionMulti = 0; optionMulti < groupAnimInfo[animMulti]->optionPickedCount[multiOption]; ++optionMulti)
+						int optionMulti = 0;
+
+						while (true)
 						{
+							if (groupCount == -1 && multiOption == masterFormat + "_group")
+							{
+
+							}
+							else if (optionMulti >= groupAnimInfo[animMulti]->optionPickedCount[multiOption])
+							{
+								break;
+							}
+
 							for (unsigned int l = 0; l < tempstore.size(); ++l) // part lines need to add
 							{
 								string curLine = tempstore[l];
@@ -877,7 +896,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									bool isNot = false;
 									size_t pos = curLine.find("<!-- ") + 5;
 									string option = curLine.substr(pos, curLine.find(" -->") - pos);
-									
+
 									if (option[0] == '!')
 									{
 										isNot = true;
@@ -1130,6 +1149,13 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									functionline.push_back(curLine);
 								}
 							}
+
+							if (groupCount == -1 && multiOption == masterFormat + "_group")
+							{
+								break;
+							}
+
+							++optionMulti;
 						}
 					}
 
