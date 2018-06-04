@@ -1,68 +1,68 @@
 0_master
-defaultfemale
 defaultmale
+defaultfemale
 
 magicbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 crossbow_direction_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 bow_direction_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 shout_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 bashbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 blockbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 1hm_locomotion
-defaultfemale
 defaultmale
+defaultfemale
 
 sprintbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 shoutmounted_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 magicmountedbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 staggerbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 1hm_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 weapequip
-defaultfemale
 defaultmale
+defaultfemale
 
 mt_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 horsebehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 idlebehavior
-defaultfemale
 defaultmale
+defaultfemale
 

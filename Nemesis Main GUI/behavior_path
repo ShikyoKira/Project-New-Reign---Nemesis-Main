@@ -1,19 +1,19 @@
-defaultfemale data\meshes\actors\character\characters female\defaultfemale
-defaultmale data\meshes\actors\character\characters\defaultmale
-1hm_behavior data\meshes\actors\character\behaviors\1hm_behavior
-0_master data\meshes\actors\character\behaviors\0_master
-idlebehavior data\meshes\actors\character\behaviors\idlebehavior
-1hm_locomotion data\meshes\actors\character\behaviors\1hm_locomotion
-bashbehavior data\meshes\actors\character\behaviors\bashbehavior
-blockbehavior data\meshes\actors\character\behaviors\blockbehavior
-bow_direction_behavior data\meshes\actors\character\behaviors\bow_direction_behavior
-magicbehavior data\meshes\actors\character\behaviors\magicbehavior
-magicmountedbehavior data\meshes\actors\character\behaviors\magicmountedbehavior
-magic_readied_direction_behavior data\meshes\actors\character\behaviors\magic_readied_direction_behavior
-mt_behavior data\meshes\actors\character\behaviors\mt_behavior
-sprintbehavior data\meshes\actors\character\behaviors\sprintbehavior
-animationdatasinglefile data\meshes\animationdatasinglefile
-shout_behavior data\meshes\actors\character\behaviors\shout_behavior
-staggerbehavior data\meshes\actors\character\behaviors\staggerbehavior
-weapequip data\meshes\actors\character\behaviors\weapequip
-animationsetdatasinglefile data\meshes\animationsetdatasinglefile
+defaultmale=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\characters\defaultmale
+defaultfemale=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\characters female\defaultfemale
+1hm_behavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\1hm_behavior
+0_master=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\0_master
+idlebehavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\idlebehavior
+1hm_locomotion=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\1hm_locomotion
+bashbehavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\bashbehavior
+blockbehavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\blockbehavior
+bow_direction_behavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\bow_direction_behavior
+magicbehavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\magicbehavior
+magicmountedbehavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\magicmountedbehavior
+magic_readied_direction_behavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\magic_readied_direction_behavior
+mt_behavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\mt_behavior
+shout_behavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\shout_behavior
+sprintbehavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\sprintbehavior
+animationdatasinglefile=e:\c++\project 2\nemesis main gui\data\meshes\animationdatasinglefile
+staggerbehavior=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\staggerbehavior
+weapequip=e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\weapequip
+animationsetdatasinglefile=e:\c++\project 2\nemesis main gui\data\meshes\animationsetdatasinglefile
