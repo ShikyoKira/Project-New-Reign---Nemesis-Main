@@ -10,8 +10,8 @@ struct animationutility
 	std::vector<int> fixedStateID;
 	int stateCountMultiplier;
 	bool hasGroup;
-	int optionMulti;
-	int animMulti;
+	int optionMulti = -1;
+	int animMulti = -1;
 	std::string multiOption;
 
 	animationutility() {}
