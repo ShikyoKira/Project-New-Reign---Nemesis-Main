@@ -206,10 +206,13 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 						string behaviorfile = fileToolName + filelist1[l] + "_Behavior.hkx";
 						string modBehavior = directory + "Behaviors\\" + behaviorfile;
 
-						if (!isFileExist(modBehavior))
+						if (isFileExist(modBehavior))
 						{
-							ErrorMessage(1082, behaviorfile, modBehavior);
-							return list;
+							if (!boost::filesystem::remove(modBehavior))
+							{
+								ErrorMessage(1082, behaviorfile, modBehavior);
+								return list;
+							}
 						}
 
 						if (fileToolName == "FNIS_" && listword == "_List.txt")
@@ -696,8 +699,11 @@ void ClearGlobal(bool all)
 
 	unordered_map<string, vecstr> emptySVSMap;
 	behaviorProject = emptySVSMap;
+	alternateAnim = emptySVSMap;
 	groupAA = emptySVSMap;
 	groupAAPrefix = emptySVSMap;
+	AAEvent = emptySVSMap;
+	AAHasEvent = emptySVSMap;
 
 	if (all)
 	{
