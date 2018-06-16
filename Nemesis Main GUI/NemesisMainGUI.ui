@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>526</width>
-    <height>686</height>
+    <width>528</width>
+    <height>796</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,108 +18,27 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>526</width>
+    <width>528</width>
     <height>559</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>571</width>
+    <width>528</width>
     <height>800</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>NemesisMainGUI</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/background/Resources/background.png);</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="sizeConstraint">
     <enum>QLayout::SetDefaultConstraint</enum>
    </property>
-   <item row="2" column="0" colspan="9">
-    <widget class="BehaviorListView" name="modView">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>265</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>300</height>
-      </size>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
-     </property>
-     <property name="dragEnabled">
-      <bool>true</bool>
-     </property>
-     <property name="dragDropMode">
-      <enum>QAbstractItemView::DragDrop</enum>
-     </property>
-     <property name="defaultDropAction">
-      <enum>Qt::MoveAction</enum>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="selectionMode">
-      <enum>QAbstractItemView::ExtendedSelection</enum>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <property name="expandsOnDoubleClick">
-      <bool>false</bool>
-     </property>
-     <attribute name="headerDefaultSectionSize">
-      <number>20</number>
-     </attribute>
-     <attribute name="headerStretchLastSection">
-      <bool>false</bool>
-     </attribute>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>80</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="8">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="0" colspan="9">
+   <item row="3" column="0" colspan="7">
     <widget class="QProgressBar" name="animProgressBar">
      <property name="toolTip">
       <string>Green - Good
@@ -137,7 +56,188 @@ Red - Danger</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="0" colspan="9">
+   <item row="0" column="6">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>80</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="1" colspan="5">
+    <widget class="QPushButton" name="buttonLaunch">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>45</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cambria</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;
+background-image: url(:/background/Resources/button-launch.png);</string>
+     </property>
+     <property name="text">
+      <string>Launch Nemesis Behavior Engine</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="7">
+    <widget class="QFrame" name="frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>265</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-image: url(:/background/Resources/main-log.png);</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="BehaviorListView" name="modView">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>431</width>
+        <height>231</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>510</width>
+        <height>300</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: transparent</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+      </property>
+      <property name="dragEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="dragDropMode">
+       <enum>QAbstractItemView::DragDrop</enum>
+      </property>
+      <property name="defaultDropAction">
+       <enum>Qt::MoveAction</enum>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::ExtendedSelection</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="expandsOnDoubleClick">
+       <bool>false</bool>
+      </property>
+      <attribute name="headerDefaultSectionSize">
+       <number>20</number>
+      </attribute>
+      <attribute name="headerStretchLastSection">
+       <bool>false</bool>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+   <item row="11" column="0" colspan="7">
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="6">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>80</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="10" column="0" colspan="7">
     <widget class="QTextBrowser" name="textBrowser">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -163,17 +263,7 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </item>
-   <item row="11" column="0" colspan="9">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="value">
-      <number>0</number>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" rowspan="2" colspan="6">
+   <item row="0" column="0" rowspan="2" colspan="5">
     <widget class="QLabel" name="label">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -195,6 +285,9 @@ p, li { white-space: pre-wrap; }
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);</string>
+     </property>
      <property name="text">
       <string>Nemesis Ultimate Behavior Engine</string>
      </property>
@@ -203,94 +296,7 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </item>
-   <item row="4" column="8">
-    <spacer name="horizontalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>80</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="1" colspan="7">
-    <widget class="QPushButton" name="buttonLaunch">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>200</width>
-       <height>45</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <family>Cambria</family>
-       <pointsize>12</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="text">
-      <string>Launch Nemesis Behavior Engine</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="7" colspan="2">
-    <widget class="QComboBox" name="comboBox">
-     <property name="contextMenuPolicy">
-      <enum>Qt::ActionsContextMenu</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="4">
-    <widget class="QPushButton" name="buttonCheck">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>251</width>
-       <height>35</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>1234</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <family>Cambria</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="text">
-      <string>Conflict Test</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="4" colspan="5">
+   <item row="5" column="3" colspan="4">
     <widget class="QPushButton" name="buttonUpdate">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -319,8 +325,57 @@ p, li { white-space: pre-wrap; }
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;
+background-image: url(:/background/Resources/button-update-test.png);</string>
+     </property>
      <property name="text">
       <string>Update Engine</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5" colspan="2">
+    <widget class="QComboBox" name="comboBox">
+     <property name="contextMenuPolicy">
+      <enum>Qt::ActionsContextMenu</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="3">
+    <widget class="QPushButton" name="buttonCheck">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>251</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>1234</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Cambria</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;
+background-image: url(:/background/Resources/button-update-test.png);</string>
+     </property>
+     <property name="text">
+      <string>Conflict Test</string>
      </property>
     </widget>
    </item>

@@ -32,6 +32,9 @@
     <ClCompile Include="ErrorMsgBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\MultiInstanceCheck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ErrorMsgBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MultiInstanceCheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -37,6 +37,7 @@ private slots:
 		ui.buttonLaunch->setDisabled(true);
 		ui.buttonUpdate->setDisabled(true);
 		ui.buttonCheck->setDisabled(true);
+		ui.comboBox->setDisabled(true);
 		ui.modView->setDisabled(true);
 		ui.animProgressBar->setTextVisible(true);
 		ui.animProgressBar->setValue(0);
@@ -71,6 +72,7 @@ private slots:
 		connect(worker, SIGNAL(enable(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(enable(bool)), ui.buttonUpdate, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(enableCheck(bool)), ui.buttonCheck, SLOT(setDisabled(bool)));
+		connect(worker, SIGNAL(enable(bool)), ui.comboBox, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(enable(bool)), ui.modView, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(hide(bool)), ui.progressBar, SLOT(setHidden(bool)));
 
@@ -89,6 +91,7 @@ private slots:
 		ui.buttonLaunch->setDisabled(true);
 		ui.buttonUpdate->setDisabled(true);
 		ui.buttonCheck->setDisabled(true);
+		ui.comboBox->setDisabled(true);
 		ui.modView->setDisabled(true);
 		ui.textBrowser->clear();
 		ui.textBrowser->append("Initializing engine update\n");
@@ -102,6 +105,7 @@ private slots:
 		connect(worker, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
 		connect(worker, SIGNAL(enable(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(enable(bool)), ui.buttonUpdate, SLOT(setDisabled(bool)));
+		connect(worker, SIGNAL(enable(bool)), ui.comboBox, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(enable(bool)), ui.modView, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(hide(bool)), ui.progressBar, SLOT(setHidden(bool)));
 
@@ -118,6 +122,7 @@ private slots:
 		ui.buttonLaunch->setDisabled(true);
 		ui.buttonUpdate->setDisabled(true);
 		ui.buttonCheck->setDisabled(true);
+		ui.comboBox->setDisabled(true);
 		ui.modView->setDisabled(true);
 		ui.textBrowser->clear();
 
@@ -133,6 +138,7 @@ private slots:
 		ui.buttonLaunch->setDisabled(false);
 		ui.buttonUpdate->setDisabled(false);
 		ui.buttonCheck->setDisabled(false);
+		ui.comboBox->setDisabled(false);
 		ui.modView->setDisabled(false);
 	}
 

@@ -1,1 +1,10 @@
-<RCC/>
+<RCC>
+  <qresource prefix="/background">
+    <file>Resources/background.png</file>
+    <file>Resources/button-launch.png</file>
+    <file>Resources/button-update-test.png</file>
+    <file>Resources/loading-bar.png</file>
+    <file>Resources/main-log.png</file>
+    <file>Resources/log-report.png</file>
+  </qresource>
+</RCC>

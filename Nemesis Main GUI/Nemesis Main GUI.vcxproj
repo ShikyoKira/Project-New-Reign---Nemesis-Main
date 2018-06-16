@@ -90,16 +90,19 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)src;C:/Program Files/boost/boost_1_66_0/msvc/include/boost-1_66;.\;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat />
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>C:/Program Files/boost/boost_1_66_0/msvc/lib;$(SolutionDir)\Release;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Project 2.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>
+      </OptimizeReferences>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
@@ -129,6 +132,7 @@
     <ClCompile Include="src\BehaviorList.cpp" />
     <ClCompile Include="src\BehaviorListModel.cpp" />
     <ClCompile Include="src\BehaviorListRowColor.cpp" />
+    <ClCompile Include="src\MultiInstanceCheck.cpp" />
     <ClCompile Include="src\ScrollBar.cpp" />
     <ClCompile Include="src\SettingsSave.cpp" />
   </ItemGroup>
@@ -145,6 +149,7 @@
     <ClInclude Include="ErrorMsgBox.h" />
     <QtMoc Include="src\AnimProgressBar.h" />
     <ClInclude Include="src\BehaviorListRowColor.h" />
+    <ClInclude Include="src\MultiInstanceCheck.h" />
     <ClInclude Include="src\SettingsSave.h" />
     <QtMoc Include="BehaviorListView.h" />
     <QtMoc Include="master.h" />
