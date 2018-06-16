@@ -58,7 +58,7 @@ public:
 		sizePolicy.setHeightForWidth(NemesisMainGUIClass->sizePolicy().hasHeightForWidth());
 		NemesisMainGUIClass->setSizePolicy(sizePolicy);
 		NemesisMainGUIClass->setMinimumSize(QSize(526, 559));
-		NemesisMainGUIClass->setMaximumSize(QSize(571, 800));
+		NemesisMainGUIClass->setMaximumSize(QSize(526, 800));
 		gridLayout = new QGridLayout(NemesisMainGUIClass);
 		gridLayout->setSpacing(6);
 		gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -223,6 +223,7 @@ public:
 		modView->setColumnWidth(0, 380);
 		modView->setColumnWidth(1, 75);
 		modView->setColumnWidth(2, 47);
+		modView->header()->setStyleSheet("background: transparent");
 		modView->header()->setDefaultAlignment(Qt::AlignCenter);
 		modView->header()->setSectionResizeMode(QHeaderView::Fixed);
 	} // retranslateUi
