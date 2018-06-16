@@ -90,7 +90,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- o #MID$6 --> <!-- h null --> <!-- #0408 -->
-			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- h&o #2098 --> <!-- h null --> <!-- o #$import[event_property_2][eventID[HeadTrackingOn] null eventID[AnimObjectUnequip] null]$ --> <!-- #0756 -->
+			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- h&o #2098 --> <!-- h null --> <!-- o #$import[event_property_2][eventID[HeadTrackingOn]][null][eventID[AnimObjectUnequip]][null]$ --> <!-- #0756 -->
 			<hkparam name="transitions">null</hkparam>
 			<hkparam name="generator">#MID$7</hkparam>
 			<hkparam name="name">Nemesis_Player_KillMove_State_$%$</hkparam>
@@ -108,7 +108,7 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^AnimObject/1^ -->
+<!-- NEW ^AnimObject/1^ +% -->
 				<hkobject>
 					<hkparam name="id">937</hkparam>
 					<hkparam name="payload">#$import[anim_object][@AnimObject/1]$</hkparam>
@@ -224,7 +224,7 @@
 		<hkobject name="#MID$10" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- ac1 #$import[event_property_2][eventID[StartAnimatedCamera] #0119 eventID[PairedKillTarget] null]$ --> <!-- #0760 -->
+			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- ac1 #$import[event_property_2][eventID[StartAnimatedCamera]][#0119][eventID[PairedKillTarget]][null]$ --> <!-- #0760 -->
 			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- ac0 #0201 --> <!-- null -->
 			<hkparam name="transitions">null</hkparam>
 			<hkparam name="generator">#MID$11</hkparam>
@@ -313,7 +313,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- o #MID$16 --> <!-- h null --> <!-- #0408 -->
-			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- h&o #2098 --> <!-- h null --> <!-- o #$import[event_property_2][eventID[HeadTrackingOn] null eventID[AnimObjectUnequip] null]$ --> <!-- #0756 -->
+			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- h&o #2098 --> <!-- h null --> <!-- o #$import[event_property_2][eventID[HeadTrackingOn]][null][eventID[AnimObjectUnequip]][null]$ --> <!-- #0756 -->
 			<hkparam name="transitions">null</hkparam>
 			<hkparam name="generator">#MID$17</hkparam>
 			<hkparam name="name">Nemesis_NPC_KillMove_$%$</hkparam>
@@ -331,7 +331,7 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^AnimObject/2^ -->
+<!-- NEW ^AnimObject/2^ +% -->
 				<hkobject>
 					<hkparam name="id">937</hkparam>
 					<hkparam name="payload">#$import[anim_object][@AnimObject/2]$</hkparam>

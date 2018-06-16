@@ -15,3 +15,6 @@ AV<variable>[]
 
 'Additional event name
 event_group L <main_anim_event>_DONE
+
+'AnimObject Count
+animobject 1

@@ -82,7 +82,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- o #MID$5 --> <!-- h null --> <!-- #0408 -->
-			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- h&o #2098 --> <!-- h null --> <!-- o #$import[event_property_2][eventID[HeadTrackingOn] null eventID[AnimObjectUnequip] null]$ --> <!-- #0756 -->
+			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- h&o #2098 --> <!-- h null --> <!-- o #$import[event_property_2][eventID[HeadTrackingOn]][null][eventID[AnimObjectUnequip]][null]$ --> <!-- #0756 -->
 			<hkparam name="transitions">null</hkparam>
 			<hkparam name="generator">#MID$6</hkparam>
 			<hkparam name="name">Nemesis_Player_PairedAnim_State_$%$</hkparam>
@@ -100,7 +100,7 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^AnimObject/1^ -->
+<!-- NEW ^AnimObject/1^ +% -->
 				<hkobject>
 					<hkparam name="id">937</hkparam>
 					<hkparam name="payload">#$import[anim_object][@AnimObject/1]$</hkparam>
@@ -273,7 +273,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- o #MID$14 --> <!-- h null --> <!-- #0408 -->
-			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- h&o #2098 --> <!-- h null --> <!-- o #$import[event_property_2][eventID[HeadTrackingOn] null eventID[AnimObjectUnequip] null]$ --> <!-- #0756 -->
+			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- h&o #2098 --> <!-- h null --> <!-- o #$import[event_property_2][eventID[HeadTrackingOn]][null][eventID[AnimObjectUnequip]][null]$ --> <!-- #0756 -->
 			<hkparam name="transitions">null</hkparam>
 			<hkparam name="generator">#MID$15</hkparam>
 			<hkparam name="name">Nemesis_NPC_PairedAnim_$%$</hkparam>
@@ -291,7 +291,7 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^AnimObject/2^ -->
+<!-- NEW ^AnimObject/2^ +% -->
 				<hkobject>
 					<hkparam name="id">937</hkparam>
 					<hkparam name="payload">#$import[anim_object][@AnimObject/2]$</hkparam>

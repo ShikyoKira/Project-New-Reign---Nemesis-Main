@@ -101,7 +101,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#$import[blend_transition]$</hkparam>
+					<hkparam name="transition">#$import[blend_transition][0.600000]$</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[fuo[][main_anim_event]]$</hkparam>
 					<hkparam name="toStateId">$fuo[][(S+0)]$</hkparam>

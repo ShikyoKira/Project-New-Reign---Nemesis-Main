@@ -1,29 +1,8 @@
+b -a,Tn,TAsdf/3.50,AVIDangerous,AVIDangerousF,B0.8 roll_forward roll_forward.hkx
 
-AnimVar Dangerous REAL 10
+s -a,o  zzEstrusTentacle01S5 zzEstrusTentacle01S5.hkx zzEstrusAOTentacle01S5 zzEstrusAOCommon02effect
++ -o  zzEstrusTentacle01S6 zzEstrusTentacle01S61.hkx zzEstrusAOTentacle01S61 zzEstrusAOCommon02effect
 
-fuo -k,a,ac,o,TnpcNoob/2.33000,T2_haha/1.3000,TAsdf/3.50,AVDangerousF roll_forward roll_forward.hkx AnimObjectMace/2
-+ -ac,o,TnpcNoob/2.33000,T2_haha/1.3000,TAsdf/3.50,AVIDangerous,AVIDangerousF roll_right roll_right.hkx AnimObjectMace/2
-+ -a,ac,o,TnpcNoob/2.33000,T2_haha/1.3000,TAsdf/3.50,AVDangerousB,h roll_backward roll_backward.hkx AnimObjectAxe/2
+km -D2.0,o,TAsdf/3.50,AVDangerousF roll_forward roll_forward.hkx AnimObjectMace/2 zzEstrusAOCommon02effect/2
 
-fuo -a,o,TnpcNoob/2.33000,AVDangerousF sidestep_forward sidestep_forward.hkx AnimObjectMace/2
-+ -o,TAsdf/3.50,AVIDangerous,AVIDangerousF sidestep_right sidestep_right.hkx AnimObjectAxe/2
-+ -a,ac,o,TnpcNoob/2.33000,T2_haha/1.3000,TAsdf/3.50,AVDangerousB,h sidestep_backward sidestep_backward.hkx AnimObjectAxe/2
-
-ofa -a,o roll_left roll_left.hkx AnimObjectDagger/1 AnimObjectSword/2
-
-pa -o,D3.0000,Tpa1/0.50,Tpa2/1.2,Tpa3/2.4,T2_fafa/1.2,T2_sasa/2.2,T2_xaxa/2.7,ac sidestep_forward sidestep_forward.hkx AnimObjectKnife/1 AnimObjectHammer/2
-
-km -o,D2.5,Taaa/0.5,Tbbb/1.5,T2_ccc/2.0,h,ac sidestep_backward sidestep_backward.hkx AnimObjectKnife/1 AnimObjectHammer/2
-km -o,D2.5,Taaa/0.5,Tbbb/1.5,T2_ccc/2.0,h,ac fight_backward fight_backward.hkx AnimObjectJam/1 AnimObjectHammer/2
-km -o,D2.5,Taaa/0.5,Tbbb/1.5,T2_ccc/2.0,h,ac kill_backward kill_backward.hkx Mace/1 AnimObjectRagnarok/2
-
-ch roll_forward roll_forward.hkx
-+ -o roll_right roll_right.hkx AnimObjectMace/2
-+ -o roll_backward roll_backward.hkx AnimObjectAxe/2
-+ -o roll_left roll_left.hkx AnimObjectDagger/1 AnimObjectSword/2
-
-ofa -o sidestep_forward sidestep_forward.hkx AnimObjectDagger/1 AnimObjectSword/2
-ofa -a,o roll_backward roll_backward.hkx AnimObjectDagger/1 AnimObjectSword/2
-
-AAprefix abc
-aaSeT _mtidle 3
+pa -D2.5,o,TAsdf/3.50,AVIDangerousF.h roll_forward roll_forward.hkx zzEstrusAOTentacle01S61 zzEstrusAOCommon02effect

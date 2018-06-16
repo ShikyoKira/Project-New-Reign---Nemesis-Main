@@ -4,3 +4,6 @@ ignore_group
 
 'Animation Options
 o
+
+'AnimObject Count
+animobject 1

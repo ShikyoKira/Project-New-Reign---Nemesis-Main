@@ -1,0 +1,120 @@
+		<hkobject name="#MID$0" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- so[F][ac1]|so[F][mdz] #MID$1 --> <!-- null -->
+			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- so[F][ac0]|so[F][mdz] #MID$2 --> <!-- null -->
+			<hkparam name="transitions">#0111</hkparam>
+ 			<hkparam name="generator">$MC$</hkparam>			<!-- so[F][AV] #MID$3 --> <!-- #MID$6 -->
+			<hkparam name="name">$so[F][main_anim_event]$</hkparam>
+			<hkparam name="stateId">$so[F][(S+0)]$</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+<!-- CONDITION START ^so[F][ac1]|so[F][mdz]^ -->
+		<hkobject name="#MID$1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
+<!-- NEW ^so[F][ac1]^ -->
+				<hkobject>
+					<hkparam name="id">4</hkparam>
+					<hkparam name="payload">#0201</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+<!-- NEW ^so[F][mdz]^ -->
+				<hkobject>
+					<hkparam name="id">6</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>
+
+<!-- CONDITION CLOSE -->
+<!-- CONDITION START ^so[F][ac0]|so[F][mdz]^ -->
+		<hkobject name="#MID$2" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
+<!-- NEW ^so[F][mdz]^ -->
+				<hkobject>
+					<hkparam name="id">7</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+<!-- NEW ^so[F][ac0]^ -->
+				<hkobject>
+					<hkparam name="id">5</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>
+
+<!-- CONDITION CLOSE -->
+<!-- CONDITION START ^so[F][AV]|so[F][AVI]^ -->
+		<hkobject name="#MID$3" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">$main_anim_event$_MG</hkparam>
+			<hkparam name="modifier">#MID$4</hkparam>
+			<hkparam name="generator">#MID$6</hkparam>
+		</hkobject>
+
+		<hkobject name="#MID$4" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#MID$5</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">$main_anim_event$_IsActive</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">$MC$</hkparam>			<!-- so[F][AVI0] true --> <!-- false -->
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">$MC$</hkparam>			<!-- so[F][AVI1] true --> <!-- false -->
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">$MC$</hkparam>			<!-- so[F][AVI2] true --> <!-- false -->
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">$MC$</hkparam>			<!-- so[F][AVI3] true --> <!-- false -->
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">$MC$</hkparam>			<!-- so[F][AVI4] true --> <!-- false -->
+		</hkobject>
+
+		<hkobject name="#MID$5" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="$elements$">			<!-- COMPUTE -->
+<!-- NEW ^so[F][AV*]^ +% -->
+				<hkobject>
+					<hkparam name="memberPath">bIsActive%</hkparam>
+					<hkparam name="variableIndex">$variableID[so[F][AV*[variable]]]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+<!-- CONDITION END -->
+		<hkobject name="#MID$6" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">$main_anim_event$_Behavior</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">1</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="$elements$">			<!-- COMPUTE -->
+<!-- NEW ^so^ +% -->
+				#so$0
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
+		</hkobject>

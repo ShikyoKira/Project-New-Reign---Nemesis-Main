@@ -67,14 +67,14 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^AnimObject^ +% -->
+<!-- NEW ^AnimObject/1^ +% -->
 				<hkobject>
 					<hkparam name="id">393</hkparam>
-					<hkparam name="payload">#$import[anim_object][@AnimObject]$</hkparam>
+					<hkparam name="payload">#$import[anim_object][@AnimObject/1]$</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="id">394</hkparam>
-					<hkparam name="payload">#$import[anim_object][@AnimObject]$</hkparam>
+					<hkparam name="payload">#$import[anim_object][@AnimObject/1]$</hkparam>
 				</hkobject>
 <!-- CLOSE -->
 			</hkparam>

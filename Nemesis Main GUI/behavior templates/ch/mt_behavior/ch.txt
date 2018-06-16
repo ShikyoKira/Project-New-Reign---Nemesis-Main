@@ -15,10 +15,10 @@
 <!-- CONDITION START ^o^ -->
 		<hkobject name="#MID$1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^AnimObject^ +% -->
+<!-- NEW ^AnimObject/1^ +% -->
 				<hkobject>
 					<hkparam name="id">393</hkparam>
-					<hkparam name="payload">#$import[anim_object][@AnimObject]$</hkparam>
+					<hkparam name="payload">#$import[anim_object][@AnimObject/1]$</hkparam>
 				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
@@ -108,13 +108,13 @@
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
-<!-- NEW ^AnimObject^ +% -->
+<!-- NEW ^AnimObject/1^ +% -->
 				<hkobject>
 					<hkparam name="localTime">1.0</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">394</hkparam>
-							<hkparam name="payload">#$import[anim_object][@AnimObject]$</hkparam>
+							<hkparam name="payload">#$import[anim_object][@AnimObject/1]$</hkparam>
 						</hkobject>
 					</hkparam>
 					<hkparam name="relativeToEndOfClip">false</hkparam>
@@ -213,7 +213,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_Chair_Var1_Clip_$%$</hkparam>
 			<hkparam name="animationName">Animations\$ch[2][FilePath]$</hkparam>
-			<hkparam name="triggers">#$import[clip_trigger_3][-0.200000 91 1.000000 20 -1.0 18]$</hkparam>
+			<hkparam name="triggers">#$import[clip_trigger_3][-0.200000][91][1.000000][20][-1.0][18]$</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
@@ -243,7 +243,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_Chair_Var2_$%$</hkparam>
 			<hkparam name="animationName">Animations\$ch[L][FilePath]$</hkparam>
-			<hkparam name="triggers">#$import[clip_trigger_3][-0.200000 91 1.000000 20 -1.0 18]$</hkparam>
+			<hkparam name="triggers">#$import[clip_trigger_3][-0.200000][91][1.000000][20][-1.0][18]$</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
