@@ -1,9 +1,11 @@
 #include "NemesisMainGUI.h"
+#include "MultiInstanceCheck.h"
 #include <QtWidgets/QApplication>
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	programInitiateCheck();
 	NemesisMainGUI w;
 
 #ifndef DEBUG
