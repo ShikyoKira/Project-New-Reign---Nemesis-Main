@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void calculate(string& equation, bool& error, bool noDecimal)
+void calculate(string& equation, string format, string filename, int linecount, bool noDecimal)
 {
 	typedef exprtk::expression<double> expression_t;
 	typedef exprtk::parser<double>         parser_t;
@@ -16,7 +16,8 @@ void calculate(string& equation, bool& error, bool noDecimal)
 
 	if (!parser.compile(expression_string, expression))
 	{
-		error = true;
+		ErrorMessage(1151, format, filename, linecount, equation);
+		return;
 	}
 
 	if (noDecimal)
