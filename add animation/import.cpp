@@ -160,11 +160,26 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 								}
 
 								int num = stoi(number);
-								stringstream sstream(iter->first);
-								istream_iterator<string> ssbegin(sstream);
-								istream_iterator<string> ssend;
-								vecstr keywords(ssbegin, ssend);
-								copy(keywords.begin(), keywords.end(), keywords.begin());
+								vecstr keywords;
+								string templine = iter->first;
+								size_t nextWord;
+								size_t previousWord = 0;
+
+								while (true)
+								{
+									nextWord = templine.find("!~^!", previousWord);
+
+									if (nextWord != NOT_FOUND)
+									{
+										keywords.push_back(templine.substr(previousWord, nextWord - previousWord));
+										previousWord = nextWord + 4;
+									}
+									else
+									{
+										keywords.push_back(templine.substr(previousWord));
+										break;
+									}
+								}
 
 								if (num - 2 >= int(keywords.size()))
 								{
@@ -180,7 +195,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 
 					if (line.find("$crc32[") != NOT_FOUND &&  line.find("]$", line.find("crc32[")) != NOT_FOUND)
 					{
-						CRC32Replacer(line, it->first, j + 1);
+						CRC32Replacer(line, "import", it->first, j + 1);
 					}
 					
 					if (line.find("$import[", 0) != NOT_FOUND && line.find("]$", line.find("$import[" + 1)) != NOT_FOUND)
@@ -194,7 +209,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						{
 							if (bracketCount != altBracketCount)
 							{
-								ErrorMessage(1139, it->first, j + 1, importer);
+								ErrorMessage(1139, "import", it->first, j + 1, importer);
 								behaviorlines.shrink_to_fit();
 								return behaviorlines;
 							}
@@ -206,8 +221,45 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 
 							if (bracketCount > 1)
 							{
-								pos = importer.find("[", pos) + 1;
-								keyword = importer.substr(pos, importer.find("]", pos) - pos);
+								pos = importer.find("[", pos);
+								string tempKeyword = importer.substr(pos, importer.find_last_of("]") + 1 - pos);
+								int openBrack = 0;
+
+								for (unsigned int j = 0; j < tempKeyword.length(); ++j)
+								{
+									char curChar = tempKeyword[j];
+
+									if (curChar == '[')
+									{
+										++openBrack;
+									}
+									else if (curChar == ']')
+									{
+										--openBrack;
+
+										if (openBrack == 0)
+										{
+											keyword.append("!~^!");
+										}
+									}
+									else
+									{
+										keyword = keyword + curChar;
+									}
+								}
+
+								pos = keyword.rfind("!~^!");
+
+								if (openBrack != 0 || pos == NOT_FOUND || pos != keyword.length() - 4)
+								{
+									ErrorMessage(1139, "import", it->first, j + 1, importer);
+									behaviorlines.shrink_to_fit();
+									return behaviorlines;
+								}
+								else
+								{
+									keyword = keyword.substr(0, keyword.length() - 4);
+								}
 							}
 							else
 							{
@@ -227,7 +279,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 							{
 								tempID = to_string(lastID);
 
-								for (unsigned int i = 0; i < 4 - tempID.length(); ++i)
+								while (tempID.length() < 4)
 								{
 									tempID = "0" + tempID;
 								}
@@ -248,14 +300,14 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 
 					if (line.find("$MD$") != NOT_FOUND)
 					{
-						ErrorMessage(1096, "import", j + 1);
+						ErrorMessage(1096, "import", filename, j + 1);
 						behaviorlines.shrink_to_fit();
 						return behaviorlines;
 					}
 
 					if (line.find("$RD$") != NOT_FOUND)
 					{
-						ErrorMessage(1097, "import", j + 1);
+						ErrorMessage(1097, "import", filename, j + 1);
 						behaviorlines.shrink_to_fit();
 						return behaviorlines;
 					}
@@ -282,7 +334,7 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 								{
 									tempID = to_string(lastID);
 
-									for (unsigned int i = 0; i < 4 - tempID.length(); ++i)
+									while (tempID.length() < 4)
 									{
 										tempID = "0" + tempID;
 									}
