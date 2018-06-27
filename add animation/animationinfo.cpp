@@ -18,6 +18,9 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 		return;
 	}
 
+	optionPicked[behaviorOption.templatecode] = true;
+	optionPickedCount[behaviorOption.templatecode]++;
+
 	if (!noOption)
 	{
 		++k;
@@ -67,7 +70,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 					break;
 				}
 
-				if (option[0] == 'D' && isdigit(option[1]))
+				if (option[0] == 'D' && isOnlyNumber(option.substr(1)))
 				{
 					string time = boost::regex_replace(string(option), boost::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
 
@@ -83,6 +86,19 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 
 				if (optionList[option] && !groupOption[option])
 				{
+					if (optionPicked[option])
+					{
+						string totalline = "";
+
+						for (auto& curline : newAnimInfo)
+						{
+							totalline = totalline + curline + " ";
+						}
+
+						totalline.pop_back();
+						ErrorMessage(1178, behaviorOption.templatecode, curFilename, linecount, totalline);
+					}
+
 					optionPicked[option] = true;
 					optionPickedCount[option]++;
 				}
@@ -215,22 +231,23 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 	if (animInfo.size() > k + 3)
 	{
 		vecstr animobjects;
-		animobjects.push_back(animInfo[k + 3]);
+		unsigned int add = 3;
 
-		if (animInfo.size() > k + 4)
+		while (k + add < animInfo.size())
 		{
-			animobjects.push_back(animInfo[k + 4]);
+			animobjects.push_back(animInfo[k + add]);
+			++add;
 
-			if (animInfo.size() > k + 5)
+			if (add > 6)
 			{
-				ErrorMessage(1143, curFilename, linecount);
-				return;
+				// ErrorMessage(1143, curFilename, linecount);
+				// return;
 			}
 		}
 
 		// Get animobjects
+		animObjectCount = behaviorOption.animObjectCount;
 		storeAnimObject(animobjects, curFilename, linecount);
-		optionPickedCount["AnimObject"] = int(animobjects.size());
 	}
 
 	optionPickedCount[behaviorOption.templatecode] = 1;
@@ -247,19 +264,30 @@ void animationInfo::storeAnimObject(vecstr animobjects, string listFilename, int
 
 	for (unsigned int i = 0; i < animobjects.size(); ++i)
 	{
-		position = animobjects[i].find("/");
-
-		string ObjectName = animobjects[i].substr(0, animobjects[i].find("/", position));
-		int temp = stoi(animobjects[i].substr(position + 1, 2));
-
-		if (temp != 1 && temp != 2)
+		if (animobjects[i].find("/") == NOT_FOUND)
 		{
-			ErrorMessage(1144, listFilename, linecount);
-			return;
+			optionPicked["AnimObject/1"] = true;
+			AnimObject[1].push_back(animobjects[i]);
+			++optionPickedCount["AnimObject/1"];
 		}
+		else
+		{
+			position = animobjects[i].find("/");
 
-		optionPicked["AnimObject/" + to_string(temp)] = true;
-		AnimObject[temp] = ObjectName;
+			string ObjectName = animobjects[i].substr(0, animobjects[i].find("/", position));
+			int temp = stoi(animobjects[i].substr(position + 1, 2));
+
+			if (temp == 0 || temp > animObjectCount)
+			{
+				ErrorMessage(1144, listFilename, linecount);
+				return;
+			}
+
+			string AO = "AnimObject/" + to_string(temp);
+			optionPicked[AO] = true;
+			AnimObject[temp].push_back(ObjectName);
+			++optionPickedCount[AO];
+		}
 	}
 }
 

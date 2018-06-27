@@ -13,6 +13,7 @@ struct animationInfo
 	bool ignoreGroup = false;
 	bool known = false;
 	bool hasDuration = false;
+	int animObjectCount = 0;
 	double duration = 0;
 	std::string filename = "";
 	std::string mainAnimEvent = "";
@@ -31,7 +32,7 @@ struct animationInfo
 	std::unordered_map<std::string, bool> optionPicked;
 	std::unordered_map<std::string, int> optionPickedCount;
 	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> groupAddition;
-	std::unordered_map<int, std::string> AnimObject;
+	std::unordered_map<int, vecstr> AnimObject;
 
 	animationInfo() {}
 	animationInfo(vecstr newAnimInfo, std::string curFilename, OptionList behaviorOption, int linecount, bool& isOExist, bool noOption = false);
