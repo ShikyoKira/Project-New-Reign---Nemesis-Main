@@ -18,6 +18,8 @@ struct OptionList
 	bool core = false;
 	bool ignoreGroup = false;
 	int groupMin = -1;
+	int animObjectCount = 0;
+	std::string coreBehavior;
 	std::string startStateID;
 	std::string templatecode;
 	vecstr ruleOne;
@@ -45,7 +47,7 @@ struct OptionList
 	std::vector<vecstr> eleVarGroupL;
 	std::vector<std::string> eleVarGroupLLine;
 
-	OptionList(std::string filepath, std::string format);
+	OptionList(std::string filepath, std::string format, std::string behaviorfile);
 	OptionList();
 	void OptionList::setDebug(bool isDebug);
 };

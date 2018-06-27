@@ -14,6 +14,8 @@ struct getTemplate
 	std::unordered_map<std::string, std::unordered_map<std::string, std::vector<int>>> existingFunctionID;		// animation code, behavior, list of node ID(in vector of int); node(function) from the master branch that is/are used in the generation of animation
 	std::unordered_map<std::string, std::unordered_map<std::string, std::map<int, int>>> mainBehaviorJoint;		// animation code, behavior, state number, node(function) ID; record the node that is joint with the master branch
 	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> behaviortemplate;					// animation code, behavior, template file(in vector of string); store template in memory
+	std::unordered_map<std::string, std::string> coreTemplate;													// animation code, core behavior; animation code that uses core behavior
+	std::unordered_map<std::string, std::string> coreBehaviorCode;												// core behavior, proxy animation code; get the proxy animation code using the file name
 
 	// AnimData
 	std::unordered_map<std::string, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>> asdtemplate;	// animation code, project, header, template file; animationsetdatasinglefile template by header

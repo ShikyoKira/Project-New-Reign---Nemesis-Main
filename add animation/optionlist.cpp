@@ -11,7 +11,7 @@ OptionList::OptionList()
 
 }
 
-OptionList::OptionList(string filepath, string format)
+OptionList::OptionList(string filepath, string format, string behaviorfile)
 {
 	templatecode = format;
 	unordered_map<string, bool> isAddOn;
@@ -36,16 +36,16 @@ OptionList::OptionList(string filepath, string format)
 		while (fgets(line, 2000, input))
 		{
 			++linecount;
+			string strline = line;
 
-			if (line[0] != '\'' && line[0] != '\n')
+			if (strline.back() == '\n')
 			{
-				if (line[strlen(line) - 1] == '\n')
-				{
-					line[strlen(line) - 1] = '\0';
-				}
+				strline.pop_back();
+			}
 
-				string strline(line);
-				stringstream sstream(line);
+			if (strline.length() != 0 && strline[0] != '\'')
+			{
+				stringstream sstream(strline);
 				istream_iterator<string> ssbegin(sstream);
 				istream_iterator<string> ssend;
 				vecstr AnimInfo(ssbegin, ssend);
@@ -214,9 +214,9 @@ OptionList::OptionList(string filepath, string format)
 				}
 				else if (lower == "event")
 				{
-					for (unsigned int i = 0; i < strlen(line); ++i)
+					for (unsigned int i = 0; i < strline.length(); ++i)
 					{
-						if (!isalnum(line[i]) && line[i] != '_' && line[i] != '<' && line[i] != '>' && line[i] != ' ')
+						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1036, format, filepath, linecount);
 							fclose(input);
@@ -289,9 +289,9 @@ OptionList::OptionList(string filepath, string format)
 				}
 				else if (lower == "event_group")
 				{
-					for (unsigned int i = 0; i < strlen(line); ++i)
+					for (unsigned int i = 0; i < strline.length(); ++i)
 					{
-						if (!isalnum(line[i]) && line[i] != '_' && line[i] != '<' && line[i] != '>' && line[i] != ' ')
+						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1036, format, filepath, linecount);
 							fclose(input);
@@ -395,9 +395,9 @@ OptionList::OptionList(string filepath, string format)
 				}
 				else if (lower == "variable")
 				{
-					for (unsigned int i = 0; i < strlen(line); ++i)
+					for (unsigned int i = 0; i < strline.length(); ++i)
 					{
-						if (!isalnum(line[i]) && line[i] != '_' && line[i] != '<' && line[i] != '>' && line[i] != ' ')
+						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1043, format, filepath, linecount);
 							fclose(input);
@@ -456,9 +456,9 @@ OptionList::OptionList(string filepath, string format)
 				}
 				else if (lower == "variable_group")
 				{
-					for (unsigned int i = 0; i < strlen(line); ++i)
+					for (unsigned int i = 0; i < strline.length(); ++i)
 					{
-						if (!isalnum(line[i]) && line[i] != '_' && line[i] != '<' && line[i] != '>' && line[i] != ' ')
+						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1043, format, filepath, linecount);
 							fclose(input);
@@ -552,9 +552,9 @@ OptionList::OptionList(string filepath, string format)
 				}
 				else if (lower == "compulsory")
 				{
-					for (unsigned int i = 0; i < strlen(line); ++i)
+					for (unsigned int i = 0; i < strline.length(); ++i)
 					{
-						if (!isalpha(line[i]))
+						if (!isalpha(strline[i]))
 						{
 							ErrorMessage(1044, format, filepath, linecount);
 							fclose(input);
@@ -597,7 +597,16 @@ OptionList::OptionList(string filepath, string format)
 				}
 				else if (lower == "core")
 				{
+					if (AnimInfo.size() < 2)
+					{
+						ErrorMessage(1176, format, filepath, linecount);
+						fclose(input);
+						return;
+					}
+
 					core = true;
+					coreBehavior = strline.substr(5);
+					break;
 				}
 				else if (lower == "add")				// Add <option> <addon> <modifier>
 				{
@@ -616,6 +625,15 @@ OptionList::OptionList(string filepath, string format)
 					}
 
 					modAddOn[AnimInfo[1]][AnimInfo[2]] = AnimInfo[3];
+				}
+				else if (lower == "animobject")
+				{
+					if (AnimInfo.size() != 2 || !isOnlyNumber(AnimInfo.back()))
+					{
+						ErrorMessage(1175, format, filepath, linecount, strline);
+					}
+
+					animObjectCount = stoi(AnimInfo[1]);
 				}
 				else
 				{
@@ -692,9 +710,16 @@ OptionList::OptionList(string filepath, string format)
 								return;
 							}
 
-							if (boost::iequals(tempOption, format))
+							if (tempOption == format)
 							{
 								ErrorMessage(1064, format, filepath, linecount);
+								fclose(input);
+								return;
+							}
+
+							if (storelist[tempOption])
+							{
+								ErrorMessage(1177, format, filepath, linecount, tempOption);
 								fclose(input);
 								return;
 							}
@@ -771,9 +796,9 @@ OptionList::OptionList(string filepath, string format)
 						{
 							bool number = false;
 
-							for (unsigned int i = 0; i < strlen(line); ++i)
+							for (unsigned int i = 0; i < strline.length(); ++i)
 							{
-								if (!isalnum(line[i]) && line[i] != '[' && line[i] != ']')
+								if (!isalnum(strline[i]) && strline[i] != '[' && strline[i] != ']')
 								{
 									ErrorMessage(1012, format, filepath, linecount);
 									fclose(input);
@@ -788,9 +813,16 @@ OptionList::OptionList(string filepath, string format)
 								return;
 							}
 
-							if (boost::iequals(tempOption, format))
+							if (tempOption == format)
 							{
-								ErrorMessage(1064, format, filepath, linecount);
+								ErrorMessage(1064, format, filepath, strline);
+								fclose(input);
+								return;
+							}
+
+							if (storelist[tempOption])
+							{
+								ErrorMessage(1177, format, filepath, linecount, tempOption);
 								fclose(input);
 								return;
 							}
@@ -880,7 +912,7 @@ OptionList::OptionList(string filepath, string format)
 			}
 			else
 			{
-				if (storelist[it->first])
+				if (!storelist[it->first])
 				{
 					ErrorMessage(1017, it->first, format, filepath, linecount);
 					return;

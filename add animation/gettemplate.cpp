@@ -9,6 +9,7 @@ getTemplate::getTemplate()
 	string templateDirectory = "behavior templates\\";
 	string newpath;
 	vecstr codelist;
+	set<string> corelist;
 	read_directory(templateDirectory, codelist);
 
 	for (unsigned int k = 0; k < codelist.size(); ++k)
@@ -28,6 +29,7 @@ getTemplate::getTemplate()
 			{
 				vecstr folderlist;
 				read_directory(newpath, folderlist);
+				bool isCore = false;
 				bool isOptionExist = false;
 				bool registered = false;
 				unordered_map<string, unordered_map<int, bool>> isStateJoint;		// behavior, node(function) ID, true/false; is this node(function) joining the animation template with the main branch?
@@ -40,7 +42,7 @@ getTemplate::getTemplate()
 
 					if (boost::iequals(folderlist[l], "option_list.txt") && !boost::filesystem::is_directory(FOF2))
 					{
-						OptionList option(newpath, codelist[k]);
+						OptionList option(newpath, codelist[k], folderlist[l]);
 
 						if (error)
 						{
@@ -51,6 +53,14 @@ getTemplate::getTemplate()
 						optionlist[codelist[k]] = option;
 						templatelist[codelist[k]] = true;
 						isOptionExist = true;
+
+						if (option.core)
+						{
+							isCore = true;
+							string corefile = boost::to_lower_copy(option.coreBehavior);
+							corelist.insert(corefile);
+							coreBehaviorCode[corefile] = codelist[k];
+						}
 					}
 
 					pathVector.push_back(FOF2);
@@ -66,6 +76,17 @@ getTemplate::getTemplate()
 						string behaviorFolder = pathVector[l].stem().string();
 						string lowerBehaviorFolder = boost::algorithm::to_lower_copy(behaviorFolder);
 						bool noGroup = true;
+
+						if (isCore)
+						{
+							if (behaviorJoints[lowerBehaviorFolder].size() == 0)
+							{
+								ErrorMessage(1182, codelist[k], templateDirectory + codelist[k] + "\\option_list.txt");
+								return;
+							}
+
+							behaviorJoints[boost::to_lower_copy(optionlist[codelist[k]].coreBehavior)] = behaviorJoints[lowerBehaviorFolder];
+						}
 
 						for (unsigned int i = 0; i < filelist.size(); ++i)
 						{
@@ -350,6 +371,18 @@ getTemplate::getTemplate()
 		if (error)
 		{
 			return;
+		}
+	}
+
+	for (auto& animlist : grouplist)
+	{
+		// match behavior file, is the behavior file a core behavior?
+		if (corelist.find(animlist.first) != corelist.end())
+		{
+			for (auto& animcode : animlist.second)
+			{
+				coreTemplate[animcode] = animlist.first;
+			}
 		}
 	}
 }
