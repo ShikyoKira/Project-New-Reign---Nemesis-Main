@@ -4,9 +4,9 @@
 
 using namespace std;
 
-vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
+vector<shared_ptr<int>> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map<int, shared_ptr<int>>& functionState)
 {
-	vector<int> stateID;
+	vector<shared_ptr<int>> stateID;
 	vecstr storeID;
 	bool open = false;
 	bool rightFunction = false;
@@ -16,58 +16,77 @@ vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist)
 	{
 		for (auto it = mainJoint.begin(); it != mainJoint.end(); ++it)
 		{
-			stateID.push_back(0);
-
-			for (unsigned int j = 0; j < functionlist[it->second].size(); ++j)
+			if (functionState.find(it->second) == functionState.end())
 			{
-				string curline = functionlist[it->second][j];
+				shared_ptr<int> curState = make_shared<int>(0);
 
-				if (curline.find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
+				for (unsigned int j = 0; j < functionlist[it->second].size(); ++j)
 				{
-					rightFunction = true;
-				}
-				else if (curline.find("<hkparam name=\"states\" numelements=\"") != NOT_FOUND)
-				{
-					open = true;
-				}
+					string curline = functionlist[it->second][j];
 
-				if (!rightFunction)
-				{
-					ErrorMessage(1077);
-					return stateID;
-				}
-				else if (open)
-				{
-					if (curline.find("#") != NOT_FOUND)
+					if (curline.find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
 					{
-						size_t counter = count(curline.begin(), curline.end(), '#');
-						size_t nextpos = 0;
+						rightFunction = true;
+					}
+					else if (curline.find("<hkparam name=\"states\" numelements=\"") != NOT_FOUND)
+					{
+						open = true;
+					}
 
-						for (size_t k = 0; k < counter; ++k) // multiple IDs in 1 line
+					if (!rightFunction)
+					{
+						ErrorMessage(1077);
+						return stateID;
+					}
+					else if (open)
+					{
+						if (curline.find("#") != NOT_FOUND)
 						{
-							nextpos = curline.find("#", nextpos) + 1;
+							size_t counter = count(curline.begin(), curline.end(), '#');
+							size_t nextpos = 0;
 
-							int ID = stoi(boost::regex_replace(string(curline.substr(nextpos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+							stringstream sstream(curline);
+							istream_iterator<string> ssbegin(sstream);
+							istream_iterator<string> ssend;
+							vecstr generator(ssbegin, ssend);
+							copy(generator.begin(), generator.end(), generator.begin());
 
-							for (unsigned int l = 0; l < functionlist[ID].size(); ++l)
+							for (size_t k = 0; k < generator.size(); ++k) // multiple IDs in 1 line
 							{
-								string line = functionlist[ID][l];
+								curline = generator[k];
 
-								if (line.find("<hkparam name=\"stateId\">", 0) != NOT_FOUND)
+								if (curline.find("#") == 0 && isOnlyNumber(curline.substr(1)))
 								{
-									int tempStateID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+									int ID = stoi(curline.substr(1));
 
-									if (tempStateID >= stateID.back())
+									for (unsigned int l = 0; l < functionlist[ID].size(); ++l)
 									{
-										stateID.back() = tempStateID + 1;
-									}
+										string line = functionlist[ID][l];
 
-									break;
+										if (line.find("<hkparam name=\"stateId\">", 0) != NOT_FOUND)
+										{
+											int tempStateID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+
+											if (tempStateID >= *curState)
+											{
+												curState = make_shared<int>(tempStateID + 1);
+											}
+
+											break;
+										}
+									}
 								}
 							}
 						}
 					}
 				}
+
+				functionState[it->second] = curState;
+				stateID.push_back(curState);
+			}
+			else
+			{
+				stateID.push_back(functionState[it->second]);
 			}
 		}
 	}
@@ -199,19 +218,19 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 				for (unsigned int k = 0; k < filelist2.size(); ++k)
 				{
-					if (filelist2[k].find("_" + filelist1[l] + "_List.txt") != NOT_FOUND)
+					if (wordFind(filelist2[k], "_" + filelist1[l] + "_List.txt") != NOT_FOUND)
 					{
 						string fileToolName = filelist2[k].substr(0, filelist2[k].find("_", 0) + 1);
 						string listword = filelist2[k].substr(filelist2[k].find_last_of("_"));
 						string behaviorfile = fileToolName + filelist1[l] + "_Behavior.hkx";
 						string modBehavior = directory + "Behaviors\\" + behaviorfile;
 
-						if (isFileExist(modBehavior))
+						// if (isFileExist(modBehavior))
 						{
-							if (!boost::filesystem::remove(modBehavior))
+							// if (!boost::filesystem::remove(modBehavior))
 							{
-								ErrorMessage(1082, behaviorfile, modBehavior);
-								return list;
+								// ErrorMessage(1082, behaviorfile, modBehavior);
+								// return list;
 							}
 						}
 
@@ -248,7 +267,7 @@ string GetLastModified(string filename)
 
 	if (file == INVALID_HANDLE_VALUE)
 	{
-		ErrorMessage(2023);
+		ErrorMessage(2020);
 		return "";
 	}
 
@@ -266,6 +285,15 @@ bool isEngineUpdated()
 {
 	if (!isFileExist("temp_behaviors"))
 	{
+		vecstr filelist;
+
+		read_directory("temp_behaviors", filelist);
+
+		if (filelist.size() == 0)
+		{
+			return false;
+		}
+
 		return false;
 	}
 
@@ -381,6 +409,7 @@ void GetBehaviorProject()
 		else
 		{
 			ErrorMessage(2000, filename);
+			fclose(pathFile);
 			throw 1;
 		}
 
@@ -435,6 +464,7 @@ void GetBehaviorPath()
 		else
 		{
 			ErrorMessage(2000, filename);
+			fclose(pathFile);
 			throw 1;
 		}
 
@@ -511,6 +541,7 @@ void GetAnimData()
 		else
 		{
 			ErrorMessage(2000, filename);
+			fclose(pathFile);
 			throw 1;
 		}
 
@@ -725,4 +756,23 @@ void ClearGlobal(bool all)
 
 	vecstr emptyVS;
 	groupNameList = emptyVS;
+}
+
+void ClearTempXml()
+{
+	vecstr filelist;
+	string folder = "temp_behaviors\\xml\\";
+
+	if (isFileExist(folder) && boost::filesystem::is_directory(folder))
+	{
+		read_directory(folder, filelist);
+
+		for (unsigned int i = 0; i < filelist.size(); ++i)
+		{
+			if (remove((folder + filelist[i]).c_str()) != 0)
+			{
+				WarningMessage(1009, filelist[i]);
+			}
+		}
+	}
 }

@@ -433,7 +433,7 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 	{
 		if (!muteError)
 		{
-			ErrorMessage(3007, modcode, linecount, header);
+			ErrorMessage(3007, modcode, "animationsetdatasinglefile.txt", linecount, header);
 			return ASDFormat::xerror;
 		}
 	}
@@ -453,7 +453,7 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 			{
 				if (!isOpen)
 				{
-					ErrorMessage(1171, modcode, i + 1);
+					ErrorMessage(1171, modcode, project + "\\" + header, i + 1);
 					return ASDFormat::xerror;
 				}
 
@@ -490,7 +490,7 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 			{
 				if (isOpen)
 				{
-					ErrorMessage(1115, modcode, i + 1);
+					ErrorMessage(1115, modcode, project + "\\" + header, i + 1);
 					return ASDFormat::xerror;
 				}
 

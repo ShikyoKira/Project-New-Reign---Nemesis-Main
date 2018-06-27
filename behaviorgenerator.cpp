@@ -22,10 +22,6 @@ bool hkxcmdProcess(string xmlfile, string hkxfile)
 			ErrorMessage(1003, xmlfile);
 			return false;
 		}
-		else if (remove((xmlfile + ".xml").c_str()) != 0)
-		{
-			WarningMessage(1009, xmlfile + ".xml");
-		}
 	}
 
 	return true;

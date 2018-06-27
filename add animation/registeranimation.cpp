@@ -173,6 +173,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (newAnimInfo.size() < 4 || newAnimInfo.size() % 2 != 0)
 					{
 						ErrorMessage(4010, filename, linecount);
+						fclose(newAnimationList);
 						return;
 					}
 
@@ -181,6 +182,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (!AAAnimFileExist[lowerAnimName])
 					{
 						ErrorMessage(4011, filename, linecount, newAnimInfo[1]);
+						fclose(newAnimationList);
 						return;
 					}
 					else
@@ -203,48 +205,24 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					string strline(line);
 					size_t nextpos = 0;
 					size_t num = count(strline.begin(), strline.end(), ' ');
-					string name;
-					string type;
-					string value;
+					string name = newAnimInfo[1];
+					string type = newAnimInfo[2];
+					string value = newAnimInfo[3];
 
-					for (unsigned int i = 0; i < num; ++i)
+					if (newAnimInfo.size() > 4)
 					{
-						size_t position = strline.find(" ", nextpos) + 1;
-						nextpos = strline.find(" ", position);
-						string section = strline.substr(position, nextpos - position);
-
-						if (i == 0)
-						{
-							name = section;
-						}
-						else if (i == 1)
-						{
-							type = section;
-						}
-						else if (i == 2)
-						{
-							section.erase(remove_if(section.begin(), section.end(), isspace), section.end());
-							string temp = boost::regex_replace(string(section), boost::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
-
-							if (temp == section && isdigit(temp[0]))
-							{
-								value = section;
-							}
-							else
-							{
-								ErrorMessage(1030, filename, linecount, strline);
-								fclose(newAnimationList);
-								return;
-							}
-						}
-						else
-						{
-							ErrorMessage(1023, filename, linecount, strline);
-							fclose(newAnimationList);
-							return;
-						}
+						ErrorMessage(1023, filename, linecount, strline);
+						fclose(newAnimationList);
+						return;
 					}
 
+					if (!isOnlyNumber(value))
+					{
+						ErrorMessage(1030, filename, linecount, strline);
+						fclose(newAnimationList);
+						return;
+					}
+					
 					var variable(type, value);
 
 					if (!error)
@@ -263,6 +241,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (newAnimInfo.size() != 5)
 					{
 						ErrorMessage(1089, filename, linecount);
+						fclose(newAnimationList);
 						return;
 					}
 
@@ -271,6 +250,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (!isOnlyNumber(newAnimInfo[i]))
 						{
 							ErrorMessage(1091, filename, linecount);
+							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -282,6 +262,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (timer >= stoi(newAnimInfo[1]))
 						{
 							ErrorMessage(1087, filename, linecount);
+							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -293,12 +274,14 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (newAnimInfo.size() != 6)
 					{
 						ErrorMessage(1088, filename, linecount);
+						fclose(newAnimationList);
 						return;
 					}
 
 					if (animInfo[previousShortline].back()->motionData.size() == 0)
 					{
 						ErrorMessage(1090, filename, linecount);
+						fclose(newAnimationList);
 						return;
 					}
 
@@ -309,6 +292,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (timer >= stoi(newAnimInfo[1]))
 						{
 							ErrorMessage(1086, filename, linecount);
+							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -321,12 +305,22 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					{
 						if (behaviortemplate.templatelist[previousShortline])
 						{
-							string anim = newAnimInfo[newAnimInfo.size() - 1];
 							bool isOExist = true;
+							string anim = newAnimInfo[newAnimInfo.size() - 1];
+							string number = boost::regex_replace(string(anim), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-							if (anim[anim.length() - 2] == '/' && (anim[anim.length() - 1] == '1' || anim[anim.length() - 1] == '2'))
+							if (isOnlyNumber(number) && anim.length() > number.length() && anim[anim.length() - number.length() - 1] == '/' && anim.rfind(number) == anim.length() - number.length())
 							{
 								isOExist = false;
+								OptionList* behaviorOption = &behaviortemplate.optionlist[previousShortline];
+
+								if (behaviorOption->storelist.find("o") == behaviorOption->storelist.end() || !behaviorOption->storelist["o"])
+								{
+									if (behaviorOption->animObjectCount > 0)
+									{
+										isOExist = true;
+									}
+								}
 							}
 
 							if (newAnimInfo.size() > 3 && newAnimInfo[1][0] == '-')

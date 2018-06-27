@@ -280,7 +280,7 @@ void saveLastUpdate(string filename, unordered_map<string, string>& lastUpdate)
 
 	if (file == INVALID_HANDLE_VALUE)
 	{
-		ErrorMessage(2023);
+		ErrorMessage(2020);
 		return;
 	}
 

@@ -133,6 +133,7 @@ void AAInstallation()
 				if (counter == "0")
 				{
 					ErrorMessage(3013, groupAAPrefix[groupNameList[i]][j], groupNameList[i]);
+					fclose(f);
 					return;
 				}
 
@@ -175,6 +176,7 @@ void AAInstallation()
 		if (fileLength == 0)
 		{
 			ErrorMessage(4009);
+			fclose(f);
 			return;
 		}
 
