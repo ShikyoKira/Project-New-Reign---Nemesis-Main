@@ -26,3 +26,41 @@ bool hkxcmdProcess(string xmlfile, string hkxfile)
 
 	return true;
 }
+
+bool hkxcmdXmlInput(string hkxfile, vecstr& fileline)
+{
+	string xmlfile = hkxfile + ".xml";
+	string args = "convert -v:xml \"" + hkxfile + ".hkx\" \"" + xmlfile + "\"";
+
+	if (boost::process::system("hkxcmd " + args, boost::process::windows::hide) != 0)
+	{
+		ErrorMessage(1003, hkxfile);
+		return false;
+	}
+	else
+	{
+		if (!isFileExist(xmlfile))
+		{
+			ErrorMessage(1003, hkxfile);
+			return false;
+		}
+		else
+		{
+			GetFunctionLines(xmlfile, fileline);
+
+			if (fileline.size() == 0)
+			{
+				ErrorMessage(3001, xmlfile);
+				return false;
+			}
+
+			if (!boost::filesystem::remove(xmlfile))
+			{
+				ErrorMessage(1082, xmlfile, xmlfile);
+				return false;
+			}
+		}
+	}
+
+	return true;
+}

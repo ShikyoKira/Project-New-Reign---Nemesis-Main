@@ -285,6 +285,10 @@ bool isEngineUpdated()
 {
 	if (!isFileExist("temp_behaviors"))
 	{
+		return false;
+	}
+	else
+	{
 		vecstr filelist;
 
 		read_directory("temp_behaviors", filelist);
@@ -293,8 +297,6 @@ bool isEngineUpdated()
 		{
 			return false;
 		}
-
-		return false;
 	}
 
 	vecstr storeline;
@@ -639,7 +641,6 @@ void characterHKX()
 
 string GetFileName(string filepath)
 {
-	string filename;
 	size_t nextpos;
 
 	if (filepath.find("/") != NOT_FOUND)
@@ -665,11 +666,40 @@ string GetFileName(string filepath)
 		nextpos = filepath.find_last_of("\\") + 1;
 	}
 
-	filename = filepath.substr(nextpos, filepath.find_last_of(".") - nextpos);
-	return filename;
+	return filepath.substr(nextpos, filepath.find_last_of(".") - nextpos);
 }
 
-inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, bool isCharacter)
+string GetFileDirectory(string filepath)
+{
+	size_t nextpos;
+
+	if (filepath.find("/") != NOT_FOUND)
+	{
+		if (filepath.find("\\") != NOT_FOUND)
+		{
+			if (filepath.find_last_of("/") < filepath.find_last_of("\\"))
+			{
+				nextpos = filepath.find_last_of("\\") + 1;
+			}
+			else
+			{
+				nextpos = filepath.find_last_of("/") + 1;
+			}
+		}
+		else
+		{
+			nextpos = filepath.find_last_of("/") + 1;
+		}
+	}
+	else
+	{
+		nextpos = filepath.find_last_of("\\") + 1;
+	}
+
+	return filepath.substr(0, nextpos);
+}
+
+inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, bool isCharacter, string modID)
 {
 	if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
 	{
@@ -677,9 +707,15 @@ inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, u
 
 		for (unsigned int j = 0; j < templateGroup.size(); ++j)
 		{
-			if (newAnimation.find(templateGroup[j]) != newAnimation.end() && newAnimation[templateGroup[j]].size() != 0)
+			if (newAnimation.find(templateGroup[j]) != newAnimation.end())
 			{
-				return true;
+				for (auto& curAnim : newAnimation[templateGroup[j]])
+				{
+					if (modID == curAnim->coreModID)
+					{
+						return true;
+					}
+				}
 			}
 		}
 	}
@@ -702,9 +738,9 @@ inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, u
 
 						if (newAnimation[templatecode].size() != 0 && !BehaviorTemplate.optionlist[templatecode].core)
 						{
-							for (unsigned int k = 0; k < newAnimation[templatecode].size(); ++k)
+							for (auto& curAnim : newAnimation[templatecode])
 							{
-								if (!newAnimation[templatecode][k]->isKnown())
+								if (!curAnim->isKnown() && modID == curAnim->coreModID)
 								{
 									return true;
 								}
@@ -717,6 +753,19 @@ inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, u
 	}
 
 	return false;
+}
+
+bool newAnimSkip(vector<shared_ptr<Furniture>> newAnim, string modID)
+{
+	for (auto& anim : newAnim)
+	{
+		if (anim->coreModID == modID)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void ClearGlobal(bool all)
