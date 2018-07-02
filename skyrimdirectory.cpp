@@ -6,6 +6,7 @@ DataPath::DataPath()
 {
 	namespace bf = boost::filesystem;
 	bf::path path(bf::current_path());
+	// bf::path path("E:\\C++\\Project 2\\Nemesis Main GUI\\data\\meshes");
 
 	if (wordFind(path.string(), "\\Data\\") != NOT_FOUND)
 	{
