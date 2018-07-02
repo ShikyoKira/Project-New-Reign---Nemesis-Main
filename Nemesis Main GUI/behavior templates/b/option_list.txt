@@ -7,7 +7,7 @@ a
 h
 ac1
 ac0
-mdz
+md
 Tn
 T<event>/<time>[]
 AVI<variable>[]

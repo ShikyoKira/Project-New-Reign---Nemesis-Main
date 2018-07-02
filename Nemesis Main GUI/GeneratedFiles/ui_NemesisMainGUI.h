@@ -207,7 +207,7 @@ public:
 		QObject::connect(buttonLaunch, SIGNAL(released()), NemesisMainGUIClass, SLOT(handleButton1()));
 		QObject::connect(buttonUpdate, SIGNAL(released()), NemesisMainGUIClass, SLOT(handleButton2()));
 		QObject::connect(buttonCheck, SIGNAL(released()), NemesisMainGUIClass, SLOT(handleButton3()));
-		QObject::connect(comboBox, SIGNAL(currentIndexChange(QString)), NemesisMainGUIClass, SLOT(languageChange(QString)));
+		QObject::connect(comboBox, SIGNAL(currentIndexChanged(QString)), NemesisMainGUIClass, SLOT(languageChange(QString)));
 
 		QModelIndexList* indexlist = new QModelIndexList();
 

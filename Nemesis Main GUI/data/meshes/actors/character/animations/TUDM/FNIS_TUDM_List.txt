@@ -1,8 +1,11 @@
-b -a,Tn,TAsdf/3.50,AVIDangerous,AVIDangerousF,B0.8 roll_forward roll_forward.hkx
-
-s -a,o  zzEstrusTentacle01S5 zzEstrusTentacle01S5.hkx zzEstrusAOTentacle01S5 zzEstrusAOCommon02effect
-+ -o  zzEstrusTentacle01S6 zzEstrusTentacle01S61.hkx zzEstrusAOTentacle01S61 zzEstrusAOCommon02effect
-
 km -D2.0,o,TAsdf/3.50,AVDangerousF roll_forward roll_forward.hkx AnimObjectMace/2 zzEstrusAOCommon02effect/2
 
 pa -D2.5,o,TAsdf/3.50,AVIDangerousF.h roll_forward roll_forward.hkx zzEstrusAOTentacle01S61 zzEstrusAOCommon02effect
+
+s -a,o,B1.0 zzEstrusMachine01S2DDD zzEstrusMachine01S2.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01base1 zzEstrusAOCommon01effect
++ -a,o,B1.0 zzEstrusMachine01S3DDD zzEstrusMachine01S3.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01base1 zzEstrusAOCommon01effect
++ -o,B1.0 zzEstrusMachine01S4DDD zzEstrusMachine01S41.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01base1 zzEstrusAOCommon01effect
+
+fuo -a,o zzEstrusMachine01S2DDD zzEstrusMachine01S2.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01base1 zzEstrusAOCommon01effect
++ -o zzEstrusMachine01S3DDD zzEstrusMachine01S3.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01base1 zzEstrusAOCommon01effect
++ -a,o zzEstrusMachine01S4DDD zzEstrusMachine01S41.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01base1 zzEstrusAOCommon01effect

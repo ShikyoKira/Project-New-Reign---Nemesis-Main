@@ -1,8 +1,8 @@
 		<hkobject name="#MID$0" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- o|!h|ac1 #MID$1 --> <!-- null -->
-			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- o|!h|ac0|^first^ #MID$2 --> <!-- null -->
+			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- o|(!h&(^first^|fu[B][h]))|ac1 #MID$1 --> <!-- null -->
+			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- o|(!h&(^last^|fu[N][h]))|ac0|^first^ #MID$2 --> <!-- null -->
 			<hkparam name="transitions">$MC$</hkparam>			<!-- ^first^ #$import[transitions][LastState]$ --> <!-- ^last^ null --> <!-- #$import[transitions][LastState]$ -->
  			<hkparam name="generator">$MC$</hkparam>			<!-- !^first^&(AV|AVI) #MID$3 --> <!-- #MID$6 -->
 			<hkparam name="name">$main_anim_event$</hkparam>
@@ -14,12 +14,12 @@
 <!-- CONDITION START ^o|!h|ac1^ -->
 		<hkobject name="#MID$1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^!h^ -->
+<!-- CONDITION START ^!h&(^first^|fu[B][h])^ -->
 				<hkobject>
 					<hkparam name="id">20</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CLOSE -->
+<!-- CONDITION END -->
 <!-- NEW ^ac1^ -->
 				<hkobject>
 					<hkparam name="id">461</hkparam>
@@ -43,12 +43,12 @@
 <!-- CONDITION START ^o|!h|ac0|^first^^ -->
 		<hkobject name="#MID$2" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^!h^ -->
+<!-- CONDITION START ^!h&(^last^|fu[N][h])^ -->
 				<hkobject>
 					<hkparam name="id">18</hkparam>			<!-- HeadTrackingOn -->
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CLOSE -->
+<!-- CONDITION END -->
 <!-- NEW ^o^ -->
 				<hkobject>
 					<hkparam name="id">165</hkparam>		<!-- AnimObjectUnequip -->

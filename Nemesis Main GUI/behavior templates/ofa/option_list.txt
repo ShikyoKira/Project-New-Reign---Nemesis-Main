@@ -2,6 +2,7 @@
 o
 a
 h
+B<duration>
 
 'Multi Root State
 S1 mt_behavior #5138
