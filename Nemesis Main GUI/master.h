@@ -106,6 +106,7 @@ private:
 	int animCount = 0;
 	int filenum;
 	std::atomic<int> progressPercentage = 0;
+	std::unordered_map<std::string, vecstr> coreModList;		// core filename, list of modID;
 
 	vecstr behaviorPriority;
 	std::unordered_map<std::string, bool> chosenBehavior;
@@ -130,7 +131,7 @@ class BehaviorSub : public QObject
 public:
 	bool isCharacter;
 
-	void addInfo(std::string& newDirectory, vecstr& newfilelist, int newCurList, vecstr& newBehaviorPriority, std::unordered_map<std::string, bool>& newChosenBehavior, getTemplate& newBehaviorTemplate, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& addAnimation, std::unordered_map<std::string, var>& newAnimVar, mapSetString& addAnimEvent, mapSetString& addAnimVariable, std::unordered_map<std::string, std::unordered_map<int, bool>>& newIgnoreFunction, bool newIsCharacter);
+	void addInfo(std::string& newDirectory, vecstr& newfilelist, int newCurList, vecstr& newBehaviorPriority, std::unordered_map<std::string, bool>& newChosenBehavior, getTemplate& newBehaviorTemplate, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& addAnimation, std::unordered_map<std::string, var>& newAnimVar, mapSetString& addAnimEvent, mapSetString& addAnimVariable, std::unordered_map<std::string, std::unordered_map<int, bool>>& newIgnoreFunction, bool newIsCharacter, std::string newModID);
 	void addAnimation();
 	void hkxcmdOutput(std::string filename, std::string hkxfile);
 
@@ -148,6 +149,7 @@ private:
 	int base;
 	int animCounter = 0;
 
+	std::string modID;
 	std::string directory;
 	vecstr filelist;
 	int curList;
