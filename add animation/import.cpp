@@ -287,7 +287,12 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 								IDExist[importer] = tempID;
 								newExportID[file][keyword] = tempID;
 								exportID.push_back(newExportID);
-								lastID++;
+								++lastID;
+
+								if (lastID == 9216)
+								{
+									++lastID;
+								}
 							}
 
 							line.replace(nextpos, importer.length() + 2, tempID);
@@ -340,7 +345,12 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 									}
 
 									IDExist[oldID] = tempID;
-									lastID++;
+									++lastID;
+
+									if (lastID == 9216)
+									{
+										++lastID;
+									}
 								}
 
 								line.replace(nextpos, oldID.length(), tempID);
