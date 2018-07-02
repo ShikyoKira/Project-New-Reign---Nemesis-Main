@@ -15,6 +15,7 @@
 #include "animationinfo.h"
 #include "animationutility.h"
 #include "alphanum.hpp"
+#include "templatetree.h"
 
 typedef std::vector<std::string> vecstr;
 typedef std::unordered_map<std::string, std::string> SSMap;
@@ -25,6 +26,7 @@ struct MDException {};
 class Furniture
 {
 private:
+	std::string behaviorFile;
 	std::string filepath;
 	std::string filename;
 	std::string format;
@@ -33,7 +35,7 @@ private:
 	vecstr eventID;
 	vecstr variableID;
 	SSMap IDExist;
-	SSMap subFunctionIDs;
+	single subFunctionIDs;
 	SSMap mixOptRegis;
 	ImportContainer* newImport;
 	ImportContainer addition;
@@ -46,8 +48,8 @@ private:
 	int order = 0;
 	int lastOrder = 0;
 	double duration = 0;
-	std::vector<int>* lastState;
-	std::unordered_map<int, std::string> AnimObject;
+	std::vector<std::shared_ptr<int>> lastState;
+	std::unordered_map<int, vecstr> AnimObject;
 	std::unordered_map<std::string, bool> optionPicked;
 	std::unordered_map<std::string, int> optionPickedCount;
 	std::unordered_map<std::string, vecstr> addOn;
@@ -63,7 +65,8 @@ private:
 	bool newCondition(std::string condition, vecstr& storeline, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, int numline, animationutility utility);
 	bool specialCondition(std::string condition, vecstr& storeline, int linecount, animationutility utility);
 	bool GetFirstCondition(std::string firstCondition, vecstr optionInfo, int numline, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, bool isNot);
-	bool GetSecondCondition(std::string secondCondition, int numline, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked);
+	bool firstConditionProcess(std::string condition, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, bool isNot, int numline, animationutility utility);
+	bool secondConditionProcess(std::string condition, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, int numline, animationutility utility);
 	void stateReplacer(std::string& line, std::string statenum, int stateID, int linecount, bool hasGroup, std::string otherAnimOrder = "", bool otherAnim = false);
 	void processing(std::string& newline, vecstr& storeline, std::string masterFormat, int linecount, id eventid, id variableid, std::vector<int> stateID, int stateCountMultiplier, bool hasGroup, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
 	void AnimDataLineProcess(vecstr originallines, vecstr& newlines, std::string format, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, int ASD = 0);
@@ -71,10 +74,10 @@ private:
 public:
 	Furniture(std::unordered_map<std::string, vecstr> furnitureformat, std::string formatname, int furniturecount, std::string filepath, animationInfo& behaviorOption);
 	std::string GetFilePath();
-	vecstr GetFurnitureLine(std::string behaviorFile, int& ID, ImportContainer& import, id eventid, id variableid, std::vector<int>& stateID, int stateCountMultiplier, bool hasGroup, bool isCore);
+	vecstr GetFurnitureLine(std::string behaviorFile, int& ID, ImportContainer& import, id eventid, id variableid, std::vector<std::shared_ptr<int>>& stateID, int stateCountMultiplier, bool hasGroup, bool isCore, group& groupFunction);
 	vecstr GetEventID();
 	vecstr GetVariableID();
-	SSMap GetNewIDs();
+	single GetSingle();
 	SSMap GetMixOpt();
 	ImportContainer GetAddition();
 	std::vector<std::shared_ptr<animationInfo>> GetGroupAnimInfo();
@@ -96,6 +99,7 @@ public:
 	std::string addOnConverter(std::string curline, vecstr elements);
 
 	std::string mainAnimEvent;
+	std::string coreModID;
 };
 
 template <class T>
@@ -104,13 +108,15 @@ inline unsigned int CRC32Convert(std::string line);
 inline bool isPassed(int condition, std::unordered_map<int, bool> IsConditionOpened);
 inline bool clearGroupNum(std::string option2, std::unordered_map<std::string, bool> optionPicked, bool isNot, std::unordered_map<std::string, bool> groupOption);
 std::string getOption(std::string curline, bool multi);
-extern void motionDataReplacer(std::string& change, std::string format, std::string filename, int linecount, std::vector<std::shared_ptr<animationInfo>>& groupAnimInfo, int order, int lastOrder, bool isLastOrder, int animMulti, bool& isChange);
-extern void rotationDataReplacer(std::string& change, std::string format, std::string filename, int linecount, std::vector<std::shared_ptr<animationInfo>>& groupAnimInfo, int order, int lastOrder, bool isLastOrder, int animMulti, bool& isChange);
-extern void CRC32Replacer(std::string& line, std::string format, int linecount);
-extern void addOnReplacer(std::string& line, std::unordered_map<std::string, vecstr> addOn, ImportContainer addition, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> groupAddition, SSMap mixOpt, unsigned int count, std::string format, int numline);
-extern void animObjectReplacer(std::string& line, std::unordered_map<int, std::string> AnimObject, int id, std::string format, int linecount, bool otherAnim = false, std::string animNum = "");
-extern void eventIDReplacer(std::string& line, std::string format, id eventid, std::string firstEvent, int linecount);
-extern void variableIDReplacer(std::string& line, std::string format, id variableid, int linecount);
-extern vecstr GetOptionInfo(std::string line, std::string templatename, int numline, size_t lastOrder, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, bool allowNoFixAnim, bool isCondition, bool isGroup = true, int animMulti = -1, int optionMulti = -1);
+extern void motionDataReplacer(std::string& change, std::string format, std::string filename, std::string behaviorFile, int linecount, std::vector<std::shared_ptr<animationInfo>>& groupAnimInfo, int order, int lastOrder, bool isLastOrder, int animMulti, bool& isChange);
+extern void rotationDataReplacer(std::string& change, std::string format, std::string filename, std::string behaviorFile, int linecount, std::vector<std::shared_ptr<animationInfo>>& groupAnimInfo, int order, int lastOrder, bool isLastOrder, int animMulti, bool& isChange);
+extern bool isEquation(std::string& line);
+extern int openEndBracket(std::string& line, char openBrac, char closeBrac, std::string format, std::string filename, int linecount);
+extern void CRC32Replacer(std::string& line, std::string format, std::string behaviorFile, int linecount);
+extern void addOnReplacer(std::string& line, std::string filename, std::unordered_map<std::string, vecstr> addOn, ImportContainer addition, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> groupAddition, SSMap mixOpt, unsigned int count, std::string format, int numline);
+extern void animObjectReplacer(std::string& line, std::string filename, std::unordered_map<int, vecstr> AnimObjec, std::string format, int linecount, int optionMulti, bool otherAnim = false, std::string animNum = "");
+extern void eventIDReplacer(std::string& line, std::string format, std::string filename, id eventid, std::string firstEvent, int linecount);
+extern void variableIDReplacer(std::string& line, std::string format, std::string filename, id variableid, int linecount);
+extern vecstr GetOptionInfo(std::string line, std::string format, std::string filename, int numline, size_t lastOrder, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, bool allowNoFixAnim, bool isCondition, int order = -1, int animMulti = -1, int optionMulti = -1);
 
 #endif
