@@ -66,10 +66,14 @@ QVariant BehaviorListModel::headerData(int section, Qt::Orientation orientation,
 		{
 			switch (section)
 			{
-			case COL_NAME:return tr("Mod Name");
-			case COL_AUTHOR:return tr("Mod Author");
-			case COL_PRIORITY:return tr("Priority");
-			default:return tr("unknown");
+			case COL_NAME:
+				return tr("Mod Name");
+			case COL_AUTHOR:
+				return tr("Mod Author");
+			case COL_PRIORITY:
+				return tr("Priority");
+			default:
+				return tr("unknown");
 			}
 		}
 	}
@@ -83,7 +87,7 @@ QVariant BehaviorListModel::headerData(int section, Qt::Orientation orientation,
 
 Qt::ItemFlags BehaviorListModel::flags(const QModelIndex& index) const
 {
-	Qt::ItemFlags curFlags = QAbstractItemModel::flags(index);
+	Qt::ItemFlags defaultflags = QAbstractItemModel::flags(index);
 
 	if (index.internalId() < 0)
 	{
@@ -92,12 +96,19 @@ Qt::ItemFlags BehaviorListModel::flags(const QModelIndex& index) const
 
 	if (index.isValid())
 	{
-		curFlags |= Qt::ItemIsDragEnabled;
-		curFlags |= Qt::ItemIsUserCheckable;
-		curFlags |= Qt::ItemIsDropEnabled;
+		defaultflags |= Qt::ItemIsDragEnabled;
+		defaultflags |= Qt::ItemIsUserCheckable;
+		defaultflags |= Qt::ItemIsDropEnabled;
+	}
+	else
+	{
+		if (!m_DropOnItems)
+		{
+			defaultflags |= Qt::ItemIsDropEnabled;
+		}
 	}
 
-	return curFlags;
+	return defaultflags;
 }
 
 bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value, int role)
@@ -196,7 +207,7 @@ QMimeData* BehaviorListModel::mimeData(const QModelIndexList & indexes) const
 	{
 		if (index.isValid())
 		{
-			if (column == 0)
+			if (index.column() == 2)
 			{
 				if (data(index, Qt::CheckStateRole) == Qt::Checked)
 				{
@@ -210,10 +221,9 @@ QMimeData* BehaviorListModel::mimeData(const QModelIndexList & indexes) const
 				}
 			}
 
-			if (column != 2)
+			if (index.column() != 2)
 			{
 				stream << data(index, Qt::DisplayRole).toString();
-				++column;
 			}
 			else
 			{
@@ -263,6 +273,7 @@ bool BehaviorListModel::dropMimeData(const QMimeData* data, Qt::DropAction actio
 	QList<BehaviorInfo> newItems;
 	int rows = 0;
 	int counter = 0;
+	BehaviorInfo* curBehaviorInfo;
 
 	while (!stream.atEnd())
 	{
@@ -273,26 +284,26 @@ bool BehaviorListModel::dropMimeData(const QMimeData* data, Qt::DropAction actio
 		{
 			BehaviorInfo newInfo;
 			newItems.push_back(newInfo);
-
-			if (text.toInt() != 0)
-			{
-				newItems.back().state = Qt::Checked;
-			}
-			else
-			{
-				newItems.back().state = Qt::Unchecked;
-			}
-
+			curBehaviorInfo = &newItems.back();
+			curBehaviorInfo->modname = text;
 			++counter;
 		}
 		else if (counter == 1)
 		{
-			newItems.back().modname = text;
+			curBehaviorInfo->author = text;
 			++counter;
 		}
 		else
 		{
-			newItems.back().author = text;
+			if (text.toInt() != 0)
+			{
+				curBehaviorInfo->state = Qt::Checked;
+			}
+			else
+			{
+				curBehaviorInfo->state = Qt::Unchecked;
+			}
+
 			counter = 0;
 			++rows;
 		}
@@ -312,4 +323,10 @@ bool BehaviorListModel::dropMimeData(const QMimeData* data, Qt::DropAction actio
 	return true;
 }
 
-
+void BehaviorListModel::dropModeUpdate(bool dropOnItems)
+{
+	if (m_DropOnItems != dropOnItems)
+	{
+		m_DropOnItems = dropOnItems;
+	}
+}

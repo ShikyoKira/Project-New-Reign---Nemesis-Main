@@ -71,7 +71,6 @@ BehaviorListView::BehaviorListView(QWidget *parent)
 void BehaviorListView::dragEnterEvent(QDragEnterEvent *event)
 {
 	emit dropModeUpdate(event->mimeData()->hasUrls());
-
 	QTreeView::dragEnterEvent(event);
 }
 

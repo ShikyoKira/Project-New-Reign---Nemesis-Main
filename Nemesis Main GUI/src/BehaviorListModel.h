@@ -41,8 +41,12 @@ public:
 	bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex());
 	bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
 
+public slots:
+	void dropModeUpdate(bool dropOnItems);
+
 private:
 	QList<BehaviorInfo> behaviorList;
+	bool m_DropOnItems;
 };
 
 #endif
