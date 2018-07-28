@@ -42,7 +42,7 @@ getTemplate::getTemplate()
 
 					if (boost::iequals(folderlist[l], "option_list.txt") && !boost::filesystem::is_directory(FOF2))
 					{
-						OptionList option(newpath, codelist[k], folderlist[l]);
+						OptionList option(newpath, codelist[k]);
 
 						if (error)
 						{

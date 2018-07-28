@@ -11,7 +11,7 @@ OptionList::OptionList()
 
 }
 
-OptionList::OptionList(string filepath, string format, string behaviorfile)
+OptionList::OptionList(string filepath, string format)
 {
 	templatecode = format;
 	unordered_map<string, bool> isAddOn;

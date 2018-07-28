@@ -47,7 +47,7 @@ struct OptionList
 	std::vector<vecstr> eleVarGroupL;
 	std::vector<std::string> eleVarGroupLLine;
 
-	OptionList(std::string filepath, std::string format, std::string behaviorfile);
+	OptionList(std::string filepath, std::string format);
 	OptionList();
 	void OptionList::setDebug(bool isDebug);
 };
