@@ -18,9 +18,8 @@ extern std::vector<std::unique_ptr<registerAnimation>> openFile(getTemplate beha
 
 extern bool isEngineUpdated();
 extern void ClearGlobal(bool all = true);
-extern void ClearTempXml();
 extern void GetAnimData();
 extern void characterHKX();
 extern void GetBehaviorPath();
 extern void GetBehaviorProject();
-extern void FolderCreate(std::string curBehaviorPath);
+extern void GetBehaviorProjectPath();

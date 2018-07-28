@@ -148,12 +148,30 @@ vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
 
 string behaviorLineChooser(string originalline, unordered_map<string, string> chosenLines, vecstr behaviorPriority)
 {
+	int chosen = -1;
+
 	for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
 	{
 		if (chosenLines[behaviorPriority[i]].length() != 0)
 		{
-			return chosenLines[behaviorPriority[i]];
+			if (chosen == -1)
+			{
+				chosen = i;
+			}
+
+			string line = boost::regex_replace(string(chosenLines[behaviorPriority[i]]), boost::regex("[\t]+([^\t]+).*"), string("\\1"));
+			string line2 = boost::regex_replace(string(line), boost::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
+
+			if (line2 != line && line.find("<!-- ") == 0)
+			{
+				return chosenLines[behaviorPriority[i]];
+			}
 		}
+	}
+
+	if (chosen != -1)
+	{
+		return chosenLines[behaviorPriority[chosen]];
 	}
 
 	return originalline;
@@ -225,15 +243,6 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 						string behaviorfile = fileToolName + filelist1[l] + "_Behavior.hkx";
 						string modBehavior = directory + "Behaviors\\" + behaviorfile;
 
-						// if (isFileExist(modBehavior))
-						{
-							// if (!boost::filesystem::remove(modBehavior))
-							{
-								// ErrorMessage(1082, behaviorfile, modBehavior);
-								// return list;
-							}
-						}
-
 						if (fileToolName == "FNIS_" && listword == "_List.txt")
 						{
 							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "\\", filelist2[k], behaviortemplate, modBehavior, behaviorfile));
@@ -256,29 +265,6 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 	}
 
 	return list;
-}
-
-string GetLastModified(string filename)
-{
-	HANDLE file;
-	FILETIME lastmodified;
-	SYSTEMTIME sysUTC;
-	file = CreateFileA(filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	if (file == INVALID_HANDLE_VALUE)
-	{
-		ErrorMessage(2020);
-		return "";
-	}
-
-	if (!GetFileTime(file, NULL, NULL, &lastmodified))
-	{
-		ErrorMessage(2022);
-		return "";
-	}
-
-	FileTimeToSystemTime(&lastmodified, &sysUTC);
-	return to_string(sysUTC.wDay) + "/" + to_string(sysUTC.wMonth) + "/" + to_string(sysUTC.wYear) + " " + to_string(sysUTC.wHour) + ":" + to_string(sysUTC.wMinute);
 }
 
 bool isEngineUpdated()
@@ -367,6 +353,61 @@ bool isEngineUpdated()
 	return true;
 }
 
+void GetBehaviorPath()
+{
+	string filename = "behavior_path";
+
+	if (isFileExist(filename))
+	{
+		string line;
+		int linecount = 0;
+		char charline[2000];
+		FILE* pathFile;
+		fopen_s(&pathFile, filename.c_str(), "r");
+
+		if (pathFile)
+		{
+			while (fgets(charline, 2000, pathFile))
+			{
+				++linecount;
+				line = charline;
+
+				if (line.length() > 0 && line.back() == '\n')
+				{
+					line.pop_back();
+				}
+
+				if (line.find("=") != NOT_FOUND)
+				{
+					size_t pos = line.find("=");
+					string file = line.substr(0, pos);
+					string path = line.substr(pos + 1);
+					behaviorPath[file] = path;
+				}
+				else
+				{
+					ErrorMessage(1067, filename, linecount);
+					fclose(pathFile);
+					throw 1;
+				}
+			}
+		}
+		else
+		{
+			ErrorMessage(2000, filename);
+			fclose(pathFile);
+			throw 1;
+		}
+
+		fclose(pathFile);
+	}
+	else
+	{
+		ErrorMessage(1068, filename);
+		throw 1;
+	}
+}
+
 void GetBehaviorProject()
 {
 	string filename = "behavior_project";
@@ -424,9 +465,9 @@ void GetBehaviorProject()
 	}
 }
 
-void GetBehaviorPath()
+void GetBehaviorProjectPath()
 {
-	string filename = "behavior_path";
+	string filename = "behavior_project_path";
 
 	if (isFileExist(filename))
 	{
@@ -453,7 +494,7 @@ void GetBehaviorPath()
 					size_t pos = line.find("=");
 					string file = line.substr(0, pos);
 					string path = line.substr(pos + 1);
-					behaviorPath[file] = path;
+					behaviorProjectPath[file] = path;
 				}
 				else
 				{
@@ -553,26 +594,6 @@ void GetAnimData()
 	{
 		ErrorMessage(1068, filename);
 		throw 1;
-	}
-}
-
-void FolderCreate(string curBehaviorPath)
-{
-	size_t pos = curBehaviorPath.find("\\") + 1;
-	string curFolder = curBehaviorPath.substr(0, pos);
-	__int64 counter = sameWordCount(curBehaviorPath, "\\");
-
-	for (int i = 0; i < counter; ++i)
-	{
-		if (CreateDirectoryA(curFolder.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
-		{
-			pos = curBehaviorPath.find("\\", pos) + 1;
-
-			if (pos != 0)
-			{
-				curFolder = curBehaviorPath.substr(0, pos);
-			}
-		}
 	}
 }
 
@@ -771,6 +792,7 @@ bool newAnimSkip(vector<shared_ptr<Furniture>> newAnim, string modID)
 void ClearGlobal(bool all)
 {
 	unordered_map<string, string> emptySSMap;
+	behaviorProjectPath = emptySSMap;
 	behaviorPath = emptySSMap;
 	AAGroup = emptySSMap;
 
@@ -803,25 +825,6 @@ void ClearGlobal(bool all)
 	unordered_map<string, unordered_map<string, int>> emptySSIMap;
 	AAGroupCount = emptySSIMap;
 
-	vecstr emptyVS;
+	set<string> emptyVS;
 	groupNameList = emptyVS;
-}
-
-void ClearTempXml()
-{
-	vecstr filelist;
-	string folder = "temp_behaviors\\xml\\";
-
-	if (isFileExist(folder) && boost::filesystem::is_directory(folder))
-	{
-		read_directory(folder, filelist);
-
-		for (unsigned int i = 0; i < filelist.size(); ++i)
-		{
-			if (remove((folder + filelist[i]).c_str()) != 0)
-			{
-				WarningMessage(1009, filelist[i]);
-			}
-		}
-	}
 }

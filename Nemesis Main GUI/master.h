@@ -34,6 +34,31 @@
 
 extern std::unordered_map<std::string, vecstr> modinfo;
 
+struct arguPack
+{
+	arguPack(std::string n_directory, std::string n_modcode, vecstr n_behaviorfilelist, std::unordered_map<std::string, std::map<std::string, vecstr>>& n_newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& n_newAnimData, vecstr& n_animDataChar, std::unordered_map<std::string, vecstr>& n_animDataHeader,
+		std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& n_newAnimDataSet, vecstr& n_projectList, std::unordered_map<std::string, std::set<std::string>>& n_oriADH, std::unordered_map<std::string, std::set<std::string>>& n_oriASDH, std::unordered_map<std::string, std::string>& n_lastUpdate)
+		: newFile(n_newFile), newAnimData(n_newAnimData), animDataChar(n_animDataChar), animDataHeader(n_animDataHeader), newAnimDataSet(n_newAnimDataSet), projectList(n_projectList), oriADH(n_oriADH), oriASDH(n_oriASDH), lastUpdate(n_lastUpdate)
+	{
+		directory = n_directory;
+		modcode = n_modcode;
+		behaviorfilelist = n_behaviorfilelist;
+	}
+
+	std::string directory;
+	std::string modcode;
+	vecstr behaviorfilelist;
+	std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile;
+	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData;
+	vecstr& animDataChar;
+	vecstr& projectList;
+	std::unordered_map<std::string, vecstr>& animDataHeader;
+	std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet;
+	std::unordered_map<std::string, std::set<std::string>>& oriADH;
+	std::unordered_map<std::string, std::set<std::string>>& oriASDH;
+	std::unordered_map<std::string, std::string>& lastUpdate;
+};
+
 class UpdateFilesStart : public QObject
 {
 	Q_OBJECT
@@ -47,12 +72,12 @@ public:
 public slots :
 	void UpdateFiles();
 	bool VanillaUpdate(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList);
-	bool GetPathLoop(std::string newPath, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList);
+	bool GetPathLoop(std::string newPath, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList, bool isFirstPerson);
 	bool VanillaDisassemble(std::string path, std::string filename, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile);
 	bool AnimDataDisassemble(std::string path, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader);
 	bool AnimDataSetDisassemble(std::string path, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList);
 	bool newAnimUpdate(std::string sourcefolder, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList, std::unordered_map<std::string, std::set<std::string>>& oriADH, std::unordered_map<std::string, std::set<std::string>>& oriASDH, std::unordered_map<std::string, std::string>& lastUpdate);
-	void SeparateMod(std::string directory, std::string modecode, vecstr behaviorfilelist, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList, std::unordered_map<std::string, std::set<std::string>>& oriADH, std::unordered_map<std::string, std::set<std::string>>& oriASDH, std::unordered_map<std::string, std::string>& lastUpdate);
+	void SeparateMod(arguPack& pack);
 	void JoiningEdits(std::string directory, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList, std::unordered_map<std::string, std::set<std::string>>& oriADH, std::unordered_map<std::string, std::set<std::string>>& oriASDH, std::unordered_map<std::string, std::string>& lastUpdate);
 	void CombiningFiles(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList);
 	void milestoneUp();
@@ -172,6 +197,17 @@ public:
 
 signals:
 	void incomingMessage(QString);
+};
+
+class InstallAA : public QObject
+{
+	Q_OBJECT
+
+public slots:
+	void Run();
+
+signals:
+	void end();
 };
 
 bool readMod(std::string& errormod);

@@ -1,5 +1,6 @@
 #include "filechecker.h"
 #include <Windows.h>
+#include <boost\algorithm\string.hpp>
 
 using namespace std;
 
@@ -81,29 +82,42 @@ void behaviorActivateMod(vecstr behaviorPriority)
 	string directory = "mod\\";
 	read_directory(directory, modlist);
 
-	for (unsigned int i = 0; i < modlist.size(); ++i)
+	for (auto& modcode : modlist)
 	{
-		string newpath = directory + modlist[i];
+		string newpath = directory + modcode;
 		vecstr behaviorlist;
 
 		if (boost::filesystem::is_directory(newpath))
 		{
 			read_directory(newpath, behaviorlist);
 
-			for (unsigned int j = 0; j < behaviorlist.size(); ++j)
+			for (auto& behavior : behaviorlist)
 			{
-				behaviorActivator[modlist[i]].push_back(behaviorlist[j]);
+				if (!boost::iequals(behavior, "info.ini") && !boost::iequals(behavior, "_1stperson"))
+				{
+					behaviorActivator[modcode].push_back(boost::to_lower_copy(behavior));
+				}
+				else if (boost::iequals(behavior, "_1stperson"))
+				{
+					vecstr fpbehaviorlist;
+					read_directory(newpath + "\\" + behavior, fpbehaviorlist);
+
+					for (auto& fpbehavior : fpbehaviorlist)
+					{
+						behaviorActivator[modcode].push_back("_1stperson\\" + boost::to_lower_copy(fpbehavior));
+					}
+				}
 			}
 		}
 	}
 
-	for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
+	for (auto& modcode : behaviorPriority)
 	{
-		if (behaviorActivator.find(behaviorPriority[i]) != behaviorActivator.end())
+		if (behaviorActivator.find(modcode) != behaviorActivator.end())
 		{
-			for (unsigned int j = 0; j < behaviorActivator[behaviorPriority[i]].size(); ++j)
+			for (auto& file : behaviorActivator[modcode])
 			{
-				activatedBehavior[behaviorActivator[behaviorPriority[i]][j]] = true;
+				activatedBehavior[file] = true;
 			}
 		}
 	}
