@@ -76,6 +76,8 @@ public:
 		modView->setMaximumSize(QSize(16777215, 300));
 		modView->setEditTriggers(QAbstractItemView::EditKeyPressed | QAbstractItemView::SelectedClicked);
 		modView->setDragEnabled(true);
+		modView->setAcceptDrops(true);
+		modView->setDropIndicatorShown(true);
 		modView->setDragDropMode(QAbstractItemView::DragDrop);
 		modView->setDefaultDropAction(Qt::MoveAction);
 		modView->setAlternatingRowColors(true);
@@ -84,6 +86,8 @@ public:
 		modView->setExpandsOnDoubleClick(false);
 		modView->header()->setDefaultSectionSize(20);
 		modView->header()->setStretchLastSection(false);
+
+		QObject::connect(modView, SIGNAL(dropModelUpdate(bool)), modView->model(), SLOT(dropModelUpdate(bool)));
 
 		gridLayout->addWidget(modView, 2, 0, 1, 9);
 
