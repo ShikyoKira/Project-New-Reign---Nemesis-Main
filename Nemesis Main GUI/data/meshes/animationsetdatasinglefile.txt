@@ -1203,7 +1203,7 @@ AttackPowerStanding
 4072415590
 261631
 7891816
-376
+374
 _MTSolo.txt
 1HMDual.txt
 1HMDual2.txt
@@ -1513,7 +1513,6 @@ NPC_Applaud4.txt
 NPC_Applaud5.txt
 NPCBumpedInto.txt
 NPCHugAStart.txt
-NPCNemesisPair_1.txt
 NPCTurnLeft180.txt
 NPCTurnLeft90.txt
 NPCTurnRight180.txt
@@ -1539,7 +1538,6 @@ Pickaxe.txt
 PickaxeFloor.txt
 PickaxeTable.txt
 PlayerHugAStart.txt
-PlayerNemesisPair_1.txt
 PrayCrouched.txt
 RightHandStaffAndH2H.txt
 RightHandStaffAndShield.txt
@@ -21251,15 +21249,6 @@ HugA
 7891816
 V3
 1
-NPC_Nemesis_KillMove_Clip_1
-0
-0
-1
-3329165306
-2351626825
-7891816
-V3
-1
 NPC_TurnLeft180
 0
 0
@@ -21804,15 +21793,6 @@ pa_HugA
 1
 3064642194
 2461741890
-7891816
-V3
-1
-Nemesis_Player_KillMove_Clip_1
-0
-0
-1
-3329165306
-2351626825
 7891816
 V3
 2

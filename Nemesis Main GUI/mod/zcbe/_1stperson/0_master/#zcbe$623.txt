@@ -1,0 +1,26 @@
+		<hkobject name="#zcbe$623" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#zcbe$641</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Behavior83</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">3</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="13">
+				#zcbe$642 #zcbe$586 #zcbe$590 #zcbe$334 #zcbe$394 #zcbe$387 #zcbe$165 #zcbe$159 #zcbe$643 #zcbe$337 #zcbe$380 #zcbe$330 #zcbe$251
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
+		</hkobject>

@@ -1,0 +1,9 @@
+		<hkobject name="#zcbe$210" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$212</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_HeadTrackMagicDWML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="4">
+				#zcbe$70 #zcbe$67 #zcbe$131 #zcbe$9
+			</hkparam>
+		</hkobject>

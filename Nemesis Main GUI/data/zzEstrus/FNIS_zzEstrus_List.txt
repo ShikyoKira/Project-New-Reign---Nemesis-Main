@@ -1,0 +1,335 @@
+'zzEstrus
+'animation
+'common
+Version V2.20
+
+'aa mt_loco_forward 1 vanilla_mt_walkforward.hkx vanilla_mt_walkforward.hkx vanilla_mt_walkforward.hkx 	vanilla_mt_runforward.hkx	vanilla_mt_runforward.hkx
+'aa mt_loco_forward 2 estrus_mt_walkforward.hkx estrus_mt_walkforward.hkx estrus_mt_walkforward.hkx 	estrus_mt_runforward.hkx	estrus_mt_runforward.hkx
+AAprefix est
+AAset _sneakmt 2
+AAset _sneakidle 2
+AAset _mt 2
+AAset _mtidle 2
+
+s -o        zzEstrusCommonX1 zzEstrusCommonX1.hkx zzEstrusAOCommonX1 
++ -a,o,B1.0 zzEstrusCommonX2 zzEstrusCommonX1.hkx zzEstrusAOCommonX1
+
+ofa -B0.5 zzEstrusFleeIdle01  zzEstrusFleeIdle01.hkx
+b -B0.5,a zzEstrusFleeIdle02  zzEstrusFleeIdle02.hkx
+
+o -k,a zzEstrusGetUpFaceUp ..\Mt_GetUpFromBack.hkx zzEstrusAOCommon04effect
+o -k,a zzEstrusGetUpFaceDown ..\MT_GetUpFromFront.hkx zzEstrusAOCommon04effect
+o -B1.0 zzEstrusCommon01Down zzEstrusCommon01Down.hkx zzEstrusAOCommon02effect
+o -B1.0 zzEstrusCommon02Down zzEstrusCommon02Down.hkx zzEstrusAOCommon02effect
+o -B1.0 zzEstrusCommon03Down zzEstrusCommon03Down.hkx zzEstrusAOCommon02effect
+o -B1.0 zzEstrusCommon04Down zzEstrusCommon04Down.hkx zzEstrusAOCommon02effect
+o -B1.0 zzEstrusCommon01Up zzEstrusCommon01Up.hkx zzEstrusAOCommon02effect
+o -B1.0 zzEstrusCommon02Up zzEstrusCommon02Up.hkx zzEstrusAOCommon02effect
+o -B1.0 zzEstrusCommon03Up zzEstrusCommon03Up.hkx zzEstrusAOCommon02effect
+o -B1.0 zzEstrusCommon04Up zzEstrusCommon04Up.hkx zzEstrusAOCommon02effect
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'Machine
+s -a,o  zzEstrusMachine01S1 zzEstrusMachine01S1.hkx zzEstrusAOMachine01init
++ -a,o,B1.0 zzEstrusMachine01S2 zzEstrusMachine01S2.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01base1 zzEstrusAOCommon01effect
++ -a,o,B1.0 zzEstrusMachine01S3 zzEstrusMachine01S3.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01base1 zzEstrusAOCommon01effect
++ -o,B1.0 zzEstrusMachine01S4 zzEstrusMachine01S41.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01base1 zzEstrusAOCommon01effect
++ -o,B1.0 zzEstrusMachine01S41 zzEstrusMachine01S41.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base1 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S42 zzEstrusMachine01S42.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base1 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine01S43 zzEstrusMachine01S43.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base1 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S44 zzEstrusMachine01S44.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base1 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S45 zzEstrusMachine01S45.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base1 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine01S46 zzEstrusMachine01S46.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base1 zzEstrusAOCommon02effect
++ -a,o,B1.0 zzEstrusMachine01S5 zzEstrusMachine01S5.hkx zzEstrusAOMachine01parts1 zzEstrusAOMachine01baseChange zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S6 zzEstrusMachine01S61.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S61 zzEstrusMachine01S61.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S62 zzEstrusMachine01S62.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base2 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine01S63 zzEstrusMachine01S63.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S64 zzEstrusMachine01S64.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S65 zzEstrusMachine01S65.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base2 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine01S66 zzEstrusMachine01S66.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01base2 zzEstrusAOCommon02effect
++ -a,o,B1.0 zzEstrusMachine01S7 zzEstrusMachine01S7.hkx zzEstrusAOMachine01parts2 zzEstrusAOMachine01parts3 zzEstrusAOMachine01baseChange2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S8 zzEstrusMachine01S81.hkx zzEstrusAOMachine01parts4 zzEstrusAOMachine01base3 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S81 zzEstrusMachine01S81.hkx zzEstrusAOMachine01parts4 zzEstrusAOMachine01base3 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S82 zzEstrusMachine01S82.hkx zzEstrusAOMachine01parts4 zzEstrusAOMachine01base3 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine01S83 zzEstrusMachine01S83.hkx zzEstrusAOMachine01parts4 zzEstrusAOMachine01base3 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S84 zzEstrusMachine01S84.hkx zzEstrusAOMachine01parts4 zzEstrusAOMachine01base3 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine01S85 zzEstrusMachine01S85.hkx zzEstrusAOMachine01parts4 zzEstrusAOMachine01base3 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine01S86 zzEstrusMachine01S86.hkx zzEstrusAOMachine01parts4 zzEstrusAOMachine01base3 zzEstrusAOCommon02effect
++ -a,o,B0.1 zzEstrusMachine01E1 zzEstrusMachine01E1.hkx zzEstrusAOMachine01E1 zzEstrusAOMachine01parts1 
++   -B0.1 zzEstrusMachine01E11 zzEstrusCommonMt.hkx
++ -a,o,B0.1 zzEstrusMachine01E4 zzEstrusMachine01E4.hkx zzEstrusAOMachine01E4 zzEstrusAOMachine01parts2
++   -B0.1 zzEstrusMachine01E41 zzEstrusCommon01Up.hkx
++ -a,o,B0.1 zzEstrusMachine01E6 zzEstrusMachine01E6.hkx zzEstrusAOMachine01E6 zzEstrusAOMachine01parts2
++   -B0.1 zzEstrusMachine01E61 zzEstrusCommon01Up.hkx
++ -a,o,B0.1 zzEstrusMachine01E8 zzEstrusMachine01E8.hkx zzEstrusAOMachine01E8 zzEstrusAOMachine01parts4
++   -B0.1 zzEstrusMachine01E81 zzEstrusCommon04Up.hkx
++ -o,B0.5 zzEstrusMachine01S9 zzEstrusCommon04Up.hkx zzEstrusAOCommon02effect
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+s -a,o  zzEstrusMachine02S1 zzEstrusMachine02S1.hkx   zzEstrusAOMachine02init
++ -a,o,B1.0 zzEstrusMachine02S2 zzEstrusMachine02S2.hkx   zzEstrusAOMachine02base1 zzEstrusAOCommon01effect
++ -a,o,B1.0 zzEstrusMachine02S3 zzEstrusMachine02S3.hkx   zzEstrusAOMachine02base1 zzEstrusAOCommon01effect
++ -o,B1.0 zzEstrusMachine02S4 zzEstrusMachine02S41.hkx    zzEstrusAOMachine02base1 zzEstrusAOCommon01effect
++ -o,B1.0 zzEstrusMachine02S41 zzEstrusMachine02S41.hkx zzEstrusAOMachine02base1 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine02S42 zzEstrusMachine02S42.hkx zzEstrusAOMachine02base1 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine02S43 zzEstrusMachine02S43.hkx zzEstrusAOMachine02base1 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine02S44 zzEstrusMachine02S44.hkx zzEstrusAOMachine02base1 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine02S45 zzEstrusMachine02S45.hkx zzEstrusAOMachine02base1 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine02S46 zzEstrusMachine02S46.hkx zzEstrusAOMachine02base1 zzEstrusAOCommon02effect
++ -a,o,B1.0 zzEstrusMachine02S5 zzEstrusMachine02S5.hkx   zzEstrusAOMachine02baseChange zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine02S6 zzEstrusMachine02S61.hkx    zzEstrusAOMachine02base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine02S61 zzEstrusMachine02S61.hkx zzEstrusAOMachine02base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine02S62 zzEstrusMachine02S62.hkx zzEstrusAOMachine02base2 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine02S63 zzEstrusMachine02S63.hkx zzEstrusAOMachine02base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine02S64 zzEstrusMachine02S64.hkx zzEstrusAOMachine02base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusMachine02S65 zzEstrusMachine02S65.hkx zzEstrusAOMachine02base2 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusMachine02S66 zzEstrusMachine02S66.hkx zzEstrusAOMachine02base2 zzEstrusAOCommon02effect
++ -a,o,B0.1 zzEstrusMachine02E1 zzEstrusMachine02E1.hkx zzEstrusAOMachine02E1
++   -B0.1 zzEstrusMachine02E11 zzEstrusCommonMt.hkx
++ -a,o,B0.1 zzEstrusMachine02E4 zzEstrusMachine02E4.hkx zzEstrusAOMachine02E4
++   -B0.1 zzEstrusMachine02E41 zzEstrusCommon01Up.hkx
++ -a,o,B0.1 zzEstrusMachine02E6 zzEstrusMachine02E6.hkx zzEstrusAOMachine02E6
++   -B0.1 zzEstrusMachine02E61 zzEstrusCommon01Up.hkx
++ -o,B0.5 zzEstrusMachine02S9 zzEstrusCommon04Up.hkx zzEstrusAOCommon02effect
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'Tentacle
+s -a,o  zzEstrusTentacle01S1 zzEstrusTentacle01S1.hkx zzEstrusAOTentacle01S1 zzEstrusAOTentacle01S1sub1 zzEstrusAOTentacle01S1subm
++ -a,o  zzEstrusTentacle01S2 zzEstrusTentacle01S2.hkx zzEstrusAOTentacle01S2 zzEstrusAOCommon01effect zzEstrusAOTentacle01S2sub1 zzEstrusAOTentacle01S2subm
++ -a,o  zzEstrusTentacle01S3 zzEstrusTentacle01S3.hkx zzEstrusAOTentacle01S3 zzEstrusAOCommon01effect zzEstrusAOTentacle01S3sub1 zzEstrusAOTentacle01S3subm
++ -o,B0.1 zzEstrusTentacle01S4 zzEstrusTentacle01S41.hkx zzEstrusAOTentacle01S41 zzEstrusAOCommon02effect zzEstrusAOTentacle01S41sub1 zzEstrusAOTentacle01S41subm
++ -o,B0.1 zzEstrusTentacle01S41 zzEstrusTentacle01S41.hkx zzEstrusAOTentacle01S41 zzEstrusAOCommon02effect zzEstrusAOTentacle01S41sub1 zzEstrusAOTentacle01S41subm
++ -o,B0.1 zzEstrusTentacle01S42 zzEstrusTentacle01S42.hkx zzEstrusAOTentacle01S42 zzEstrusAOCommon02effect zzEstrusAOCommon05effect zzEstrusAOTentacle01S41sub1 zzEstrusAOTentacle01S41subm
++ -o,B0.1 zzEstrusTentacle01S43 zzEstrusTentacle01S43.hkx zzEstrusAOTentacle01S43 zzEstrusAOCommon02effect zzEstrusAOTentacle01S41sub1 zzEstrusAOTentacle01S41subm
++ -o,B0.1 zzEstrusTentacle01S44 zzEstrusTentacle01S44.hkx zzEstrusAOTentacle01S44 zzEstrusAOCommon02effect zzEstrusAOTentacle01S41sub1 zzEstrusAOTentacle01S41subm
++ -o,B0.1 zzEstrusTentacle01S45 zzEstrusTentacle01S45.hkx zzEstrusAOTentacle01S45 zzEstrusAOCommon02effect zzEstrusAOCommon05effect zzEstrusAOTentacle01S41sub1 zzEstrusAOTentacle01S41subm
++ -o,B0.1 zzEstrusTentacle01S46 zzEstrusTentacle01S46.hkx zzEstrusAOTentacle01S46 zzEstrusAOCommon02effect zzEstrusAOTentacle01S41sub1 zzEstrusAOTentacle01S41subm
++ -a,o,B0.1  zzEstrusTentacle01S5 zzEstrusTentacle01S5.hkx zzEstrusAOTentacle01S5 zzEstrusAOCommon02effect zzEstrusAOTentacle01S5sub1 zzEstrusAOTentacle01S5subm
++ -o,B0.1 zzEstrusTentacle01S6 zzEstrusTentacle01S61.hkx zzEstrusAOTentacle01S61 zzEstrusAOCommon02effect zzEstrusAOTentacle01S61sub1 zzEstrusAOTentacle01S61subm
++ -o,B0.1 zzEstrusTentacle01S61 zzEstrusTentacle01S61.hkx zzEstrusAOTentacle01S61 zzEstrusAOCommon02effect zzEstrusAOTentacle01S61sub1 zzEstrusAOTentacle01S61subm
++ -o,B0.1 zzEstrusTentacle01S62 zzEstrusTentacle01S62.hkx zzEstrusAOTentacle01S62 zzEstrusAOCommon02effect zzEstrusAOCommon05effect zzEstrusAOTentacle01S61sub1 zzEstrusAOTentacle01S61subm
++ -o,B0.1 zzEstrusTentacle01S63 zzEstrusTentacle01S63.hkx zzEstrusAOTentacle01S63 zzEstrusAOCommon02effect zzEstrusAOTentacle01S61sub1 zzEstrusAOTentacle01S61subm
++ -o,B0.1 zzEstrusTentacle01S64 zzEstrusTentacle01S64.hkx zzEstrusAOTentacle01S64 zzEstrusAOCommon02effect zzEstrusAOTentacle01S61sub1 zzEstrusAOTentacle01S61subm
++ -o,B0.1 zzEstrusTentacle01S65 zzEstrusTentacle01S65.hkx zzEstrusAOTentacle01S65 zzEstrusAOCommon02effect zzEstrusAOCommon05effect zzEstrusAOTentacle01S61sub1 zzEstrusAOTentacle01S61subm
++ -o,B0.1 zzEstrusTentacle01S66 zzEstrusTentacle01S66.hkx zzEstrusAOTentacle01S66 zzEstrusAOCommon02effect zzEstrusAOTentacle01S61sub1 zzEstrusAOTentacle01S61subm
++ -a,o,B0.1  zzEstrusTentacle01S7 zzEstrusTentacle01S7.hkx zzEstrusAOTentacle01S7a zzEstrusAOTentacle01S7b zzEstrusAOTentacle01S7c zzEstrusAOTentacle01S7d zzEstrusAOCommon02effect zzEstrusAOTentacle01S7sub1 zzEstrusAOTentacle01S7subm
++ -o,B0.1 zzEstrusTentacle01S8  zzEstrusTentacle01S81.hkx zzEstrusAOTentacle01S81 zzEstrusAOCommon02effect zzEstrusAOTentacle01S81sub1 zzEstrusAOTentacle01S81subm
++ -o,B0.1 zzEstrusTentacle01S81 zzEstrusTentacle01S81.hkx zzEstrusAOTentacle01S81 zzEstrusAOCommon02effect zzEstrusAOTentacle01S81sub1 zzEstrusAOTentacle01S81subm
++ -o,B0.1 zzEstrusTentacle01S82 zzEstrusTentacle01S82.hkx zzEstrusAOTentacle01S81 zzEstrusAOCommon02effect zzEstrusAOTentacle01S81sub1 zzEstrusAOTentacle01S81subm zzEstrusAOCommon05effect 
++ -o,B0.1 zzEstrusTentacle01S83 zzEstrusTentacle01S83.hkx zzEstrusAOTentacle01S81 zzEstrusAOCommon02effect zzEstrusAOTentacle01S81sub1 zzEstrusAOTentacle01S81subm
++ -o,B0.1 zzEstrusTentacle01S84 zzEstrusTentacle01S84.hkx zzEstrusAOTentacle01S81 zzEstrusAOCommon02effect zzEstrusAOTentacle01S81sub1 zzEstrusAOTentacle01S81subm
++ -o,B0.1 zzEstrusTentacle01S85 zzEstrusTentacle01S85.hkx zzEstrusAOTentacle01S81 zzEstrusAOCommon02effect zzEstrusAOTentacle01S81sub1 zzEstrusAOTentacle01S81subm zzEstrusAOCommon05effect  
++ -o,B0.1 zzEstrusTentacle01S86 zzEstrusTentacle01S86.hkx zzEstrusAOTentacle01S81 zzEstrusAOCommon02effect zzEstrusAOTentacle01S81sub1 zzEstrusAOTentacle01S81subm
++ -a,o,B0.1 zzEstrusTentacle01E1 zzEstrusTentacle01E1.hkx zzEstrusAOTentacle01E1 zzEstrusAOTentacle01E1sub1 zzEstrusAOTentacle01E1subm
++   -B0.1 zzEstrusTentacle01E11 zzEstrusCommonMt.hkx
++ -a,o,B0.1 zzEstrusTentacle01E4 zzEstrusTentacle01E4.hkx zzEstrusAOTentacle01E4 zzEstrusAOTentacle01E4sub1 zzEstrusAOTentacle01E4subm
++   -B0.1 zzEstrusTentacle01E41 zzEstrusCommon01Up.hkx
++ -a,o,B0.1 zzEstrusTentacle01E6 zzEstrusTentacle01E6.hkx zzEstrusAOTentacle01E6 zzEstrusAOTentacle01E6sub1 zzEstrusAOTentacle01E6subm
++   -B0.1 zzEstrusTentacle01E61 zzEstrusCommon01Down.hkx
++ -a,o,B0.1 zzEstrusTentacle01E8 zzEstrusTentacle01E8.hkx zzEstrusAOTentacle01E8 zzEstrusAOTentacle01E8sub1 zzEstrusAOTentacle01E8subm
++   -B0.1 zzEstrusTentacle01E81 zzEstrusCommon04Up.hkx
++ -o,B0.5 zzEstrusTentacle01S9 zzEstrusCommon04Up.hkx zzEstrusAOCommon02effect
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+s -a,o  zzEstrusTentacle02S1 zzEstrusTentacle02S1.hkx zzEstrusAOTentacle02S1 zzEstrusAOTentacle02S1sub zzEstrusAOTentacle02S1subm
++ -a,o  zzEstrusTentacle02S2 zzEstrusTentacle02S2.hkx zzEstrusAOTentacle02S2 zzEstrusAOCommon01effect zzEstrusAOTentacle02S2sub zzEstrusAOTentacle02S2subm
++ -a,o  zzEstrusTentacle02S3 zzEstrusTentacle02S3.hkx zzEstrusAOTentacle02S3 zzEstrusAOCommon01effect zzEstrusAOTentacle02S3sub zzEstrusAOTentacle02S3subm
++ -o,B0.1 zzEstrusTentacle02S4 zzEstrusTentacle02S41.hkx zzEstrusAOTentacle02S41 zzEstrusAOCommon02effect zzEstrusAOTentacle02S41sub zzEstrusAOTentacle02S41subm
++ -o,B0.1 zzEstrusTentacle02S41 zzEstrusTentacle02S41.hkx zzEstrusAOTentacle02S41 zzEstrusAOCommon02effect zzEstrusAOTentacle02S41sub zzEstrusAOTentacle02S41subm
++ -o,B0.1 zzEstrusTentacle02S42 zzEstrusTentacle02S42.hkx zzEstrusAOTentacle02S42 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOTentacle02S41sub zzEstrusAOTentacle02S41subm
++ -o,B0.1 zzEstrusTentacle02S43 zzEstrusTentacle02S43.hkx zzEstrusAOTentacle02S43 zzEstrusAOCommon02effect zzEstrusAOTentacle02S41sub zzEstrusAOTentacle02S41subm
++ -o,B0.1 zzEstrusTentacle02S44 zzEstrusTentacle02S44.hkx zzEstrusAOTentacle02S44 zzEstrusAOCommon02effect zzEstrusAOTentacle02S41sub zzEstrusAOTentacle02S41subm
++ -o,B0.1 zzEstrusTentacle02S45 zzEstrusTentacle02S45.hkx zzEstrusAOTentacle02S45 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOTentacle02S41sub zzEstrusAOTentacle02S41subm
++ -o,B0.1 zzEstrusTentacle02S46 zzEstrusTentacle02S46.hkx zzEstrusAOTentacle02S46 zzEstrusAOCommon02effect zzEstrusAOTentacle02S41sub zzEstrusAOTentacle02S41subm
++ -a,o,B0.1  zzEstrusTentacle02S5 zzEstrusTentacle02S5.hkx zzEstrusAOTentacle02S5 zzEstrusAOCommon02effect zzEstrusAOTentacle02S5sub zzEstrusAOTentacle02S5subm
++ -o,B0.1 zzEstrusTentacle02S6 zzEstrusTentacle02S61.hkx zzEstrusAOTentacle02S61 zzEstrusAOCommon02effect zzEstrusAOTentacle02S61sub zzEstrusAOTentacle02S61subm
++ -o,B0.1 zzEstrusTentacle02S61 zzEstrusTentacle02S61.hkx zzEstrusAOTentacle02S61 zzEstrusAOCommon02effect zzEstrusAOTentacle02S61sub zzEstrusAOTentacle02S61subm
++ -o,B0.1 zzEstrusTentacle02S62 zzEstrusTentacle02S62.hkx zzEstrusAOTentacle02S62 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOTentacle02S61sub zzEstrusAOTentacle02S61subm
++ -o,B0.1 zzEstrusTentacle02S63 zzEstrusTentacle02S63.hkx zzEstrusAOTentacle02S63 zzEstrusAOCommon02effect zzEstrusAOTentacle02S61sub zzEstrusAOTentacle02S61subm
++ -o,B0.1 zzEstrusTentacle02S64 zzEstrusTentacle02S64.hkx zzEstrusAOTentacle02S64 zzEstrusAOCommon02effect zzEstrusAOTentacle02S61sub zzEstrusAOTentacle02S61subm
++ -o,B0.1 zzEstrusTentacle02S65 zzEstrusTentacle02S65.hkx zzEstrusAOTentacle02S65 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOTentacle02S61sub zzEstrusAOTentacle02S61subm
++ -o,B0.1 zzEstrusTentacle02S66 zzEstrusTentacle02S66.hkx zzEstrusAOTentacle02S66 zzEstrusAOCommon02effect zzEstrusAOTentacle02S61sub zzEstrusAOTentacle02S61subm
+'+ -a,o,B0.1  zzEstrusTentacle02S7 zzEstrusTentacle02S7.hkx zzEstrusAOTentacle02S7a zzEstrusAOTentacle02S7b zzEstrusAOTentacle02S7c zzEstrusAOTentacle02S7d zzEstrusAOCommon02effect zzEstrusAOTentacle02S7sub1 zzEstrusAOTentacle02S7subm
+'+ -a,o,B0.1  zzEstrusTentacle02S7 zzEstrusTentacle02S7.hkx zzEstrusAOTentacle02S7 zzEstrusAOCommon02effect zzEstrusAOTentacle02S7sub1 zzEstrusAOTentacle02S7subm
+'+ -o,B0.1 zzEstrusTentacle02S8  zzEstrusTentacle02S81.hkx zzEstrusAOTentacle02S81 zzEstrusAOCommon02effect zzEstrusAOTentacle02S81sub1 zzEstrusAOTentacle02S81subm
+'+ -o,B0.1 zzEstrusTentacle02S81 zzEstrusTentacle02S81.hkx zzEstrusAOTentacle02S81 zzEstrusAOCommon02effect zzEstrusAOTentacle02S81sub1 zzEstrusAOTentacle02S81subm
+'+ -o,B0.1 zzEstrusTentacle02S82 zzEstrusTentacle02S82.hkx zzEstrusAOTentacle02S81 zzEstrusAOCommon02effect zzEstrusAOTentacle02S81sub1 zzEstrusAOTentacle02S81subm zzEstrusAOCommon05effect 
+'+ -o,B0.1 zzEstrusTentacle02S83 zzEstrusTentacle02S83.hkx zzEstrusAOTentacle02S81 zzEstrusAOCommon02effect zzEstrusAOTentacle02S81sub1 zzEstrusAOTentacle02S81subm
+'+ -o,B0.1 zzEstrusTentacle02S84 zzEstrusTentacle02S84.hkx zzEstrusAOTentacle02S81 zzEstrusAOCommon02effect zzEstrusAOTentacle02S81sub1 zzEstrusAOTentacle02S81subm
+'+ -o,B0.1 zzEstrusTentacle02S85 zzEstrusTentacle02S85.hkx zzEstrusAOTentacle02S81 zzEstrusAOCommon02effect zzEstrusAOTentacle02S81sub1 zzEstrusAOTentacle02S81subm zzEstrusAOCommon05effect  
+'+ -o,B0.1 zzEstrusTentacle02S86 zzEstrusTentacle02S86.hkx zzEstrusAOTentacle02S81 zzEstrusAOCommon02effect zzEstrusAOTentacle02S81sub1 zzEstrusAOTentacle02S81subm
++ -a,o,B0.1 zzEstrusTentacle02E1 zzEstrusTentacle02E1.hkx zzEstrusAOTentacle02E1 zzEstrusAOTentacle02E1sub1 zzEstrusAOTentacle02E1subm
++   -B0.1 zzEstrusTentacle02E11 zzEstrusCommonMt.hkx
++ -a,o,B0.1 zzEstrusTentacle02E4 zzEstrusTentacle02E4.hkx zzEstrusAOTentacle02E4 zzEstrusAOTentacle02E4sub1 zzEstrusAOTentacle02E4subm
++   -B0.1 zzEstrusTentacle02E41 zzEstrusCommon01Down.hkx
++ -a,o,B0.1 zzEstrusTentacle02E6 zzEstrusTentacle02E6.hkx zzEstrusAOTentacle02E6 zzEstrusAOTentacle02E6sub1 zzEstrusAOTentacle02E6subm
++   -B0.1 zzEstrusTentacle02E61 zzEstrusCommon01Up.hkx
+'+ -a,o,B0.1 zzEstrusTentacle02E8 zzEstrusTentacle02E8.hkx zzEstrusAOTentacle02E8 zzEstrusAOTentacle02E8sub1 zzEstrusAOTentacle02E8subm
+'+   -B0.1 zzEstrusTentacle02E81 zzEstrusCommon04Up.hkx
++ -o,B0.5 zzEstrusTentacle02S9 zzEstrusCommon04Up.hkx zzEstrusAOCommon02effect
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'ETC
+s -a,o  zzEstrusETC01S1 zzEstrusETC01S1.hkx zzEstrusAOETC01init
++ -a,o  zzEstrusETC01S2 zzEstrusETC01S2.hkx zzEstrusAOETC01parts1 zzEstrusAOETC01base1 zzEstrusAOCommon01effect
++ -a,o  zzEstrusETC01S3 zzEstrusETC01S3.hkx zzEstrusAOETC01parts1 zzEstrusAOETC01base1 zzEstrusAOCommon01effect
++ -o,B1.0 zzEstrusETC01S4 zzEstrusETC01S41.hkx zzEstrusAOETC01parts1 zzEstrusAOETC01base1 zzEstrusAOCommon01effect
++ -o,B1.0 zzEstrusETC01S41 zzEstrusETC01S41.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base1 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusETC01S42 zzEstrusETC01S42.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base1 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusETC01S43 zzEstrusETC01S43.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base1 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusETC01S44 zzEstrusETC01S44.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base1 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusETC01S45 zzEstrusETC01S45.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base1 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusETC01S46 zzEstrusETC01S46.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base1 zzEstrusAOCommon02effect
++ -a,o,B1.0  zzEstrusETC01S5 zzEstrusETC01S5.hkx zzEstrusAOETC01parts1 zzEstrusAOETC01baseChange zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusETC01S6 zzEstrusETC01S61.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusETC01S61 zzEstrusETC01S61.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusETC01S62 zzEstrusETC01S62.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base2 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusETC01S63 zzEstrusETC01S63.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusETC01S64 zzEstrusETC01S64.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base2 zzEstrusAOCommon02effect
++ -o,B1.0 zzEstrusETC01S65 zzEstrusETC01S65.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base2 zzEstrusAOCommon02effect zzEstrusAOCommon04effect
++ -o,B1.0 zzEstrusETC01S66 zzEstrusETC01S66.hkx zzEstrusAOETC01parts2 zzEstrusAOETC01base2 zzEstrusAOCommon02effect
++ -a,o,B0.1 zzEstrusETC01E1 zzEstrusETC01E1.hkx zzEstrusAOETC01E1
++   -B0.1 zzEstrusETC01E11 zzEstrusCommonMt.hkx
++ -a,o,B0.1 zzEstrusETC01E4 zzEstrusETC01E4.hkx zzEstrusAOETC01E4 zzEstrusAOETC01parts2
++   -B0.1 zzEstrusETC01E41 zzEstrusCommon01Up.hkx
++ -a,o,B0.1 zzEstrusETC01E6 zzEstrusETC01E6.hkx zzEstrusAOETC01E6 zzEstrusAOETC01parts2
++   -B0.1 zzEstrusETC01E61 zzEstrusCommon01Up.hkx
++ -o,B0.5 zzEstrusETC01S9 zzEstrusCommon04Up.hkx zzEstrusAOCommon02effect
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+s -a,o  zzEstrusETC02S1 zzEstrusETC02S1.hkx zzEstrusAOETC02init zzEstrusAOETC02parts1 zzEstrusAOETC02S1subm 
++ -a,o  zzEstrusETC02S2 zzEstrusETC02S2.hkx zzEstrusAOETC02parts2 zzEstrusAOETC02base1 zzEstrusAOCommon01effect  zzEstrusAOETC02S2subm
++ -a,o  zzEstrusETC02S3 zzEstrusETC02S3.hkx zzEstrusAOETC02parts2 zzEstrusAOETC02base2 zzEstrusAOCommon01effect  zzEstrusAOETC02S3subm
++ -o,B1.0 zzEstrusETC02S4 zzEstrusETC02S41.hkx zzEstrusAOETC02parts3 zzEstrusAOETC02base3 zzEstrusAOCommon01effect zzEstrusAOETC02S41subm
++ -o,B1.0 zzEstrusETC02S41 zzEstrusETC02S41.hkx zzEstrusAOETC02parts3 zzEstrusAOETC02base3 zzEstrusAOCommon02effect zzEstrusAOETC02S41subm
++ -o,B1.0 zzEstrusETC02S42 zzEstrusETC02S42.hkx zzEstrusAOETC02parts3 zzEstrusAOETC02base3 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC02S41subm
++ -o,B1.0 zzEstrusETC02S43 zzEstrusETC02S43.hkx zzEstrusAOETC02parts3 zzEstrusAOETC02base3 zzEstrusAOCommon02effect zzEstrusAOETC02S41subm
++ -o,B1.0 zzEstrusETC02S44 zzEstrusETC02S44.hkx zzEstrusAOETC02parts3 zzEstrusAOETC02base3 zzEstrusAOCommon02effect zzEstrusAOETC02S41subm
++ -o,B1.0 zzEstrusETC02S45 zzEstrusETC02S45.hkx zzEstrusAOETC02parts3 zzEstrusAOETC02base3 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC02S41subm
++ -o,B1.0 zzEstrusETC02S46 zzEstrusETC02S46.hkx zzEstrusAOETC02parts3 zzEstrusAOETC02base3 zzEstrusAOCommon02effect zzEstrusAOETC02S41subm
++ -a,o,B1.0  zzEstrusETC02S5 zzEstrusETC02S5.hkx zzEstrusAOETC02parts4 zzEstrusAOETC02baseChange zzEstrusAOCommon02effect zzEstrusAOETC02S5subm
++ -o,B1.0 zzEstrusETC02S6 zzEstrusETC02S61.hkx zzEstrusAOETC02parts5 zzEstrusAOETC02base4 zzEstrusAOCommon02effect zzEstrusAOETC02S61subm
++ -o,B1.0 zzEstrusETC02S61 zzEstrusETC02S61.hkx zzEstrusAOETC02parts5 zzEstrusAOETC02base4 zzEstrusAOCommon02effect zzEstrusAOETC02S61subm
++ -o,B1.0 zzEstrusETC02S62 zzEstrusETC02S62.hkx zzEstrusAOETC02parts5 zzEstrusAOETC02base4 zzEstrusAOCommon02effect zzEstrusAOCommon04effect  zzEstrusAOETC02S61subm
++ -o,B1.0 zzEstrusETC02S63 zzEstrusETC02S63.hkx zzEstrusAOETC02parts5 zzEstrusAOETC02base4 zzEstrusAOCommon02effect zzEstrusAOETC02S61subm
++ -o,B1.0 zzEstrusETC02S64 zzEstrusETC02S64.hkx zzEstrusAOETC02parts5 zzEstrusAOETC02base4 zzEstrusAOCommon02effect zzEstrusAOETC02S61subm
++ -o,B1.0 zzEstrusETC02S65 zzEstrusETC02S65.hkx zzEstrusAOETC02parts5 zzEstrusAOETC02base4 zzEstrusAOCommon02effect zzEstrusAOCommon04effect  zzEstrusAOETC02S61subm
++ -o,B1.0 zzEstrusETC02S66 zzEstrusETC02S66.hkx zzEstrusAOETC02parts5 zzEstrusAOETC02base4 zzEstrusAOCommon02effect zzEstrusAOETC02S61subm
++ -a,o,B0.1 zzEstrusETC02E1 zzEstrusETC02E1.hkx zzEstrusAOETC02E1
++   -B0.1 zzEstrusETC02E11 zzEstrusCommonMt.hkx
++ -a,o,B0.1 zzEstrusETC02E4 zzEstrusETC02E4.hkx zzEstrusAOETC02E4 zzEstrusAOETC02parts3
++   -B0.1 zzEstrusETC02E41 zzEstrusCommon01Up.hkx
++ -a,o,B0.1 zzEstrusETC02E6 zzEstrusETC02E6.hkx zzEstrusAOETC02E6 zzEstrusAOETC02parts4
++   -B0.1 zzEstrusETC02E61 zzEstrusCommon01Up.hkx
++ -o,B0.5 zzEstrusETC02S9 zzEstrusCommon04Up.hkx zzEstrusAOCommon02effect
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+s -a,o  zzEstrusETC07S1 zzEstrusETC07S1.hkx zzEstrusAOETC07init zzEstrusAOETC07parts1 zzEstrusAOETC07S1subm
++ -a,o  zzEstrusETC07S2 zzEstrusETC07S2.hkx zzEstrusAOETC07parts2 zzEstrusAOETC07base1 zzEstrusAOCommon01effect zzEstrusAOETC07S2subm
++ -a,o  zzEstrusETC07S3 zzEstrusETC07S3.hkx zzEstrusAOETC07parts3 zzEstrusAOETC07base2 zzEstrusAOCommon01effect zzEstrusAOETC07S3subm
++ -o,B1.0 zzEstrusETC07S4 zzEstrusETC07S41.hkx zzEstrusAOETC07parts4 zzEstrusAOETC07base3 zzEstrusAOCommon01effect zzEstrusAOETC07S41subm
++ -o,B1.0 zzEstrusETC07S41 zzEstrusETC07S41.hkx zzEstrusAOETC07parts4 zzEstrusAOETC07base3 zzEstrusAOCommon02effect zzEstrusAOETC07S41subm
++ -o,B1.0 zzEstrusETC07S42 zzEstrusETC07S42.hkx zzEstrusAOETC07parts4 zzEstrusAOETC07base3 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC07S41subm
++ -o,B1.0 zzEstrusETC07S43 zzEstrusETC07S43.hkx zzEstrusAOETC07parts4 zzEstrusAOETC07base3 zzEstrusAOCommon02effect zzEstrusAOETC07S41subm
++ -o,B1.0 zzEstrusETC07S44 zzEstrusETC07S44.hkx zzEstrusAOETC07parts4 zzEstrusAOETC07base3 zzEstrusAOCommon02effect zzEstrusAOETC07S41subm
++ -o,B1.0 zzEstrusETC07S45 zzEstrusETC07S45.hkx zzEstrusAOETC07parts4 zzEstrusAOETC07base3 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC07S41subm
++ -o,B1.0 zzEstrusETC07S46 zzEstrusETC07S46.hkx zzEstrusAOETC07parts4 zzEstrusAOETC07base3 zzEstrusAOCommon02effect zzEstrusAOETC07S41subm
++ -a,o,B1.0  zzEstrusETC07S5 zzEstrusETC07S5.hkx zzEstrusAOETC07parts5 zzEstrusAOETC07parts51 zzEstrusAOETC07baseChange zzEstrusAOCommon02effect zzEstrusAOETC07S5subm
++ -o,B1.0 zzEstrusETC07S6 zzEstrusETC07S61.hkx zzEstrusAOETC07parts6 zzEstrusAOETC07parts61 zzEstrusAOETC07base4 zzEstrusAOCommon02effect zzEstrusAOETC07S61subm
++ -o,B1.0 zzEstrusETC07S61 zzEstrusETC07S61.hkx zzEstrusAOETC07parts6 zzEstrusAOETC07parts61 zzEstrusAOETC07base4 zzEstrusAOCommon02effect zzEstrusAOETC07S61subm
++ -o,B1.0 zzEstrusETC07S62 zzEstrusETC07S62.hkx zzEstrusAOETC07parts6 zzEstrusAOETC07parts61 zzEstrusAOETC07base4 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC07S61subm
++ -o,B1.0 zzEstrusETC07S63 zzEstrusETC07S63.hkx zzEstrusAOETC07parts6 zzEstrusAOETC07parts61 zzEstrusAOETC07base4 zzEstrusAOCommon02effect zzEstrusAOETC07S61subm
++ -o,B1.0 zzEstrusETC07S64 zzEstrusETC07S64.hkx zzEstrusAOETC07parts6 zzEstrusAOETC07parts61 zzEstrusAOETC07base4 zzEstrusAOCommon02effect zzEstrusAOETC07S61subm
++ -o,B1.0 zzEstrusETC07S65 zzEstrusETC07S65.hkx zzEstrusAOETC07parts6 zzEstrusAOETC07parts61 zzEstrusAOETC07base4 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC07S61subm
++ -o,B1.0 zzEstrusETC07S66 zzEstrusETC07S66.hkx zzEstrusAOETC07parts6 zzEstrusAOETC07parts61 zzEstrusAOETC07base4 zzEstrusAOCommon02effect zzEstrusAOETC07S61subm
++ -o,B0.5 zzEstrusETC07S9 zzEstrusCommon01Up.hkx zzEstrusAOCommon02effect
++ -a,o,B0.1 zzEstrusETC07E1 zzEstrusETC07E1.hkx zzEstrusAOETC07escape1 zzEstrusAOETC07Eparts1
++     -B0.1 zzEstrusETC07E11 zzEstrusCommonMt.hkx
++ -a,o,B0.1 zzEstrusETC07E4 zzEstrusETC07E4.hkx zzEstrusAOETC07escape4 zzEstrusAOETC07Eparts4
++     -B0.1 zzEstrusETC07E41 zzEstrusCommon01Up.hkx
++ -a,o,B0.1 zzEstrusETC07E6 zzEstrusETC07E6.hkx zzEstrusAOETC07escape6 zzEstrusAOETC07Eparts6 zzEstrusAOETC07Eparts61 
++     -B0.1 zzEstrusETC07E61 zzEstrusCommon01Up.hkx
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+'skip
+s -a,o  zzEstrusETC08S1 zzEstrusETC08S1.hkx zzEstrusAOETC08init zzEstrusAOETC08parts1 zzEstrusAOETC08S1subm
++ -a,o  zzEstrusETC08S2 zzEstrusETC08S2.hkx zzEstrusAOETC08parts2 zzEstrusAOETC08base1 zzEstrusAOCommon01effect zzEstrusAOETC08S2subm
++ -a,o  zzEstrusETC08S3 zzEstrusETC08S3.hkx zzEstrusAOETC08parts3 zzEstrusAOETC08base2 zzEstrusAOCommon01effect zzEstrusAOETC08S3subm
++ -o,B1.0 zzEstrusETC08S4 zzEstrusETC08S41.hkx zzEstrusAOETC08parts4 zzEstrusAOETC08base3 zzEstrusAOCommon01effect zzEstrusAOETC08S41subm
++ -o,B1.0 zzEstrusETC08S41 zzEstrusETC08S41.hkx zzEstrusAOETC08parts4 zzEstrusAOETC08base3 zzEstrusAOCommon02effect zzEstrusAOETC08S41subm
++ -o,B1.0 zzEstrusETC08S42 zzEstrusETC08S42.hkx zzEstrusAOETC08parts4 zzEstrusAOETC08base3 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC08S41subm
++ -o,B1.0 zzEstrusETC08S43 zzEstrusETC08S43.hkx zzEstrusAOETC08parts4 zzEstrusAOETC08base3 zzEstrusAOCommon02effect zzEstrusAOETC08S41subm
++ -o,B1.0 zzEstrusETC08S44 zzEstrusETC08S44.hkx zzEstrusAOETC08parts4 zzEstrusAOETC08base3 zzEstrusAOCommon02effect zzEstrusAOETC08S41subm
++ -o,B1.0 zzEstrusETC08S45 zzEstrusETC08S45.hkx zzEstrusAOETC08parts4 zzEstrusAOETC08base3 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC08S41subm
++ -o,B1.0 zzEstrusETC08S46 zzEstrusETC08S46.hkx zzEstrusAOETC08parts4 zzEstrusAOETC08base3 zzEstrusAOCommon02effect zzEstrusAOETC08S41subm
++ -a,o,B1.0  zzEstrusETC08S5 zzEstrusETC08S5.hkx zzEstrusAOETC08parts5 zzEstrusAOETC08parts51 zzEstrusAOETC08baseChange zzEstrusAOCommon02effect zzEstrusAOETC08S5subm
++ -o,B1.0 zzEstrusETC08S6 zzEstrusETC08S61.hkx zzEstrusAOETC08parts6 zzEstrusAOETC08parts61 zzEstrusAOETC08base4 zzEstrusAOCommon02effect zzEstrusAOETC08S61subm
++ -o,B1.0 zzEstrusETC08S61 zzEstrusETC08S61.hkx zzEstrusAOETC08parts6 zzEstrusAOETC08parts61 zzEstrusAOETC08base4 zzEstrusAOCommon02effect zzEstrusAOETC08S61subm
++ -o,B1.0 zzEstrusETC08S62 zzEstrusETC08S62.hkx zzEstrusAOETC08parts6 zzEstrusAOETC08parts61 zzEstrusAOETC08base4 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC08S61subm
++ -o,B1.0 zzEstrusETC08S63 zzEstrusETC08S63.hkx zzEstrusAOETC08parts6 zzEstrusAOETC08parts61 zzEstrusAOETC08base4 zzEstrusAOCommon02effect zzEstrusAOETC08S61subm
++ -o,B1.0 zzEstrusETC08S64 zzEstrusETC08S64.hkx zzEstrusAOETC08parts6 zzEstrusAOETC08parts61 zzEstrusAOETC08base4 zzEstrusAOCommon02effect zzEstrusAOETC08S61subm
++ -o,B1.0 zzEstrusETC08S65 zzEstrusETC08S65.hkx zzEstrusAOETC08parts6 zzEstrusAOETC08parts61 zzEstrusAOETC08base4 zzEstrusAOCommon02effect zzEstrusAOCommon04effect zzEstrusAOETC08S61subm
++ -o,B1.0 zzEstrusETC08S66 zzEstrusETC08S66.hkx zzEstrusAOETC08parts6 zzEstrusAOETC08parts61 zzEstrusAOETC08base4 zzEstrusAOCommon02effect zzEstrusAOETC08S61subm
++ -o,B0.5 zzEstrusETC08S9 zzEstrusCommon01Up.hkx zzEstrusAOCommon02effect
++ -a,o,B0.1 zzEstrusETC08E1 zzEstrusETC08E1.hkx zzEstrusAOETC08escape1 zzEstrusAOETC08Eparts1
++     -B0.1 zzEstrusETC08E11 zzEstrusCommonMt.hkx
++ -a,o,B0.1 zzEstrusETC08E4 zzEstrusETC08E4.hkx zzEstrusAOETC08escape4 zzEstrusAOETC08Eparts4  
++     -B0.1 zzEstrusETC08E41 zzEstrusCommon01Up.hkx
++ -a,o,B0.1 zzEstrusETC08E6 zzEstrusETC08E6.hkx zzEstrusAOETC08escape6 zzEstrusAOETC08Eparts6 zzEstrusAOETC08Eparts61 
++     -B0.1 zzEstrusETC08E61 zzEstrusCommon01Up.hkx

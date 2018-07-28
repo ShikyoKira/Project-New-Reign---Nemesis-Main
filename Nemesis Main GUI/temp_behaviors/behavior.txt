@@ -130,7 +130,7 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="1">
- 				#0100
+				#0100
 <!-- NEW ^s_group^ +% -->
 				#s_group$0
 <!-- CLOSE -->

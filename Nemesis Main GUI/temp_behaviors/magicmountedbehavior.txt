@@ -143,7 +143,8 @@
 				<hkcstring>IsShouting</hkcstring>
 				<hkcstring>iState</hkcstring>
 				<hkcstring>iState_NPCDefault</hkcstring>
-				<hkcstring> iState_NPCSneaking</hkcstring>
+				<hkcstring>iState_NPCSneaking</hkcstring>					<!-- *zcbe* -->
+				<hkcstring> iState_NPCSneaking</hkcstring>				<!-- original -->
 				<hkcstring>InDualMagicState</hkcstring>
 				<hkcstring>iDualMagicState</hkcstring>
 				<hkcstring>bMLh_Ready</hkcstring>
@@ -1620,7 +1621,15 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="9">
-				#0350 #0335 #0293 #0250 #0236 #0222 #0201 #0186 #0087
+				#0350
+				#0335
+				#0293
+				#0250
+				#0236
+				#0222
+				#0201
+				#0186
+				#0087
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0084</hkparam>
 		</hkobject>
@@ -2010,7 +2019,11 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="5">
-				#0170 #0152 #0132 #0112 #0090
+				#0170
+				#0152
+				#0132
+				#0112
+				#0090
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2050,7 +2063,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0101 #0092
+				#0101
+				#0092
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2090,7 +2104,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0098 #0094
+				#0098
+				#0094
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2269,7 +2284,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0107 #0103
+				#0107
+				#0103
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2474,7 +2490,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0123 #0114
+				#0123
+				#0114
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2514,7 +2531,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0120 #0116
+				#0120
+				#0116
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2693,7 +2711,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0129 #0125
+				#0129
+				#0125
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2850,7 +2869,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0143 #0134
+				#0143
+				#0134
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2890,7 +2910,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0140 #0136
+				#0140
+				#0136
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3069,7 +3090,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0149 #0145
+				#0149
+				#0145
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3258,7 +3280,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0161 #0158 #0154
+				#0161
+				#0158
+				#0154
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3473,7 +3497,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0167 #0163
+				#0167
+				#0163
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3652,7 +3677,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0179 #0176 #0172
+				#0179
+				#0176
+				#0172
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -4000,7 +4027,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0196 #0193 #0189
+				#0196
+				#0193
+				#0189
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -4247,7 +4276,10 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="4">
-				#0218 #0214 #0209 #0205
+				#0218
+				#0214
+				#0209
+				#0205
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0204</hkparam>
 		</hkobject>
@@ -4620,7 +4652,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0232 #0229 #0226
+				#0232
+				#0229
+				#0226
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0225</hkparam>
 		</hkobject>
@@ -4870,7 +4904,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0245 #0243 #0239
+				#0245
+				#0243
+				#0239
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -5100,7 +5136,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0274 #0263 #0253
+				#0274
+				#0263
+				#0253
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -5123,7 +5161,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_PreAimedCon_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0258 #0256 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0258
+				#0256
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5288,7 +5337,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_AimedConCharge_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0265 #0194 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0265
+				#0194
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5316,7 +5376,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0268 #0266
+				#0268
+				#0266
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -5490,7 +5551,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_AimedCon_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0285 #0276 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0285
+				#0276
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5501,7 +5573,8 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_AimedCon_1st3rd_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0278 #0277
+				#0278
+				#0277
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5536,7 +5609,9 @@
 			<hkparam name="flags">16</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0282 #0280 #0279
+				#0282
+				#0280
+				#0279
 			</hkparam>
 		</hkobject>
 
@@ -5661,7 +5736,8 @@
 			<hkparam name="name">ModifierList00</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#0290 #0182
+				#0290
+				#0182
 			</hkparam>
 		</hkobject>
 
@@ -5746,7 +5822,11 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="5">
-				#0328 #0318 #0310 #0305 #0297
+				#0328
+				#0318
+				#0310
+				#0305
+				#0297
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0296</hkparam>
 		</hkobject>
@@ -5826,7 +5906,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_AimedPreReady_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0301 #0299 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0301
+				#0299
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5961,7 +6052,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_AimedReady_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0308 #0307 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0308
+				#0307
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -6031,7 +6133,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_AimedPreCharge_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0314 #0312 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0314
+				#0312
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -6166,7 +6279,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_AimedRelease_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0322 #0320 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0322
+				#0320
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -6398,7 +6522,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_AimedCharge_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0267 #0330 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0267
+				#0330
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -6451,7 +6586,8 @@
 			<hkparam name="name">ModifierList02</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#0290 #0182
+				#0290
+				#0182
 			</hkparam>
 		</hkobject>
 
@@ -6499,7 +6635,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0340 #0337
+				#0340
+				#0337
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -6772,7 +6909,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_Ready_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0353 #0353 #0353 #0353 #0353 #0353 #0353 #0353 #0354 #0353 #0353 #0353
+				#0353
+				#0353
+				#0353
+				#0353
+				#0353
+				#0353
+				#0353
+				#0353
+				#0354
+				#0353
+				#0353
+				#0353
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -6964,7 +7112,13 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="7">
-				#0502 #0485 #0455 #0417 #0402 #0381 #0365
+				#0502
+				#0485
+				#0455
+				#0417
+				#0402
+				#0381
+				#0365
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0364</hkparam>
 		</hkobject>
@@ -7043,7 +7197,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0376 #0372 #0368
+				#0376
+				#0372
+				#0368
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -7319,7 +7475,10 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="4">
-				#0398 #0394 #0389 #0385
+				#0398
+				#0394
+				#0389
+				#0385
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0384</hkparam>
 		</hkobject>
@@ -7692,7 +7851,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0412 #0409 #0405
+				#0412
+				#0409
+				#0405
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -7939,7 +8100,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0439 #0428 #0420
+				#0439
+				#0428
+				#0420
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -7962,7 +8125,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_PreAimedCon_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0424 #0422 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0424
+				#0422
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -8097,7 +8271,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_AimedConCharge_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0430 #0373 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0430
+				#0373
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -8125,7 +8310,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0433 #0431
+				#0433
+				#0431
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -8299,7 +8485,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_AimedCon_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0255 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0449 #0441 #0255 #0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0449
+				#0441
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -8310,7 +8507,8 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_AimedCon_1st3rd_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0443 #0442
+				#0443
+				#0442
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -8345,7 +8543,9 @@
 			<hkparam name="flags">16</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0446 #0445 #0444
+				#0446
+				#0445
+				#0444
 			</hkparam>
 		</hkobject>
 
@@ -8453,7 +8653,8 @@
 			<hkparam name="name">ModifierList</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#0290 #0182
+				#0290
+				#0182
 			</hkparam>
 		</hkobject>
 
@@ -8509,7 +8710,10 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="4">
-				#0479 #0473 #0465 #0459
+				#0479
+				#0473
+				#0465
+				#0459
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0458</hkparam>
 		</hkobject>
@@ -8563,7 +8767,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_AimedPreCharge_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0461 #0461 #0461 #0461 #0461 #0461 #0461 #0461 #0434 #0461 #0255 #0255
+				#0461
+				#0461
+				#0461
+				#0461
+				#0461
+				#0461
+				#0461
+				#0461
+				#0434
+				#0461
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -8664,7 +8879,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_AimedRelease_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0467 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0469 #0467 #0255 #0255
+				#0467
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0469
+				#0467
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -8871,7 +9097,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_AimedReady_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0475 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0476 #0475 #0255 #0255
+				#0475
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0476
+				#0475
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -8972,7 +9209,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_AimedCharge_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0461 #0255 #0255 #0255 #0255 #0255 #0255 #0255 #0432 #0373 #0255 #0255
+				#0461
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0255
+				#0432
+				#0373
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -9008,7 +9256,8 @@
 			<hkparam name="name">ModifierList01</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#0290 #0182
+				#0290
+				#0182
 			</hkparam>
 		</hkobject>
 
@@ -9064,7 +9313,10 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="4">
-				#0499 #0496 #0493 #0489
+				#0499
+				#0496
+				#0493
+				#0489
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0488</hkparam>
 		</hkobject>
@@ -9358,7 +9610,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_Ready_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0505 #0505 #0505 #0505 #0505 #0505 #0505 #0505 #0506 #0505 #0255 #0255
+				#0505
+				#0505
+				#0505
+				#0505
+				#0505
+				#0505
+				#0505
+				#0505
+				#0506
+				#0505
+				#0255
+				#0255
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -9620,7 +9883,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0515 #0513
+				#0515
+				#0513
 			</hkparam>
 		</hkobject>
 
@@ -9732,7 +9996,9 @@
 			<hkparam name="flags">16</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0517 #0511 #0079
+				#0517
+				#0511
+				#0079
 			</hkparam>
 		</hkobject>
 
@@ -9819,7 +10085,9 @@
 			<hkparam name="flags">16</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0526 #0525 #0524
+				#0526
+				#0525
+				#0524
 			</hkparam>
 		</hkobject>
 
@@ -9840,7 +10108,16 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">RightHandMagicCast_MSG</hkparam>
 			<hkparam name="generators" numelements="10">
-				#0083 #0083 #0083 #0083 #0083 #0083 #0083 #0083 #0532 #0523
+				#0083
+				#0083
+				#0083
+				#0083
+				#0083
+				#0083
+				#0083
+				#0083
+				#0532
+				#0523
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -9929,7 +10206,9 @@
 			<hkparam name="flags">16</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0541 #0540 #0535
+				#0541
+				#0540
+				#0535
 			</hkparam>
 		</hkobject>
 
@@ -9981,7 +10260,9 @@
 			<hkparam name="flags">16</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0546 #0545 #0544
+				#0546
+				#0545
+				#0544
 			</hkparam>
 		</hkobject>
 
@@ -10002,7 +10283,16 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">LHStaff_RHMagicCast_MSG</hkparam>
 			<hkparam name="generators" numelements="10">
-				#0083 #0083 #0083 #0083 #0083 #0083 #0083 #0083 #0548 #0543
+				#0083
+				#0083
+				#0083
+				#0083
+				#0083
+				#0083
+				#0083
+				#0083
+				#0548
+				#0543
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -10025,7 +10315,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">LeftHandMagicCast_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0363 #0363 #0363 #0363 #0363 #0363 #0363 #0363 #0550 #0534 #0363 #0363
+				#0363
+				#0363
+				#0363
+				#0363
+				#0363
+				#0363
+				#0363
+				#0363
+				#0550
+				#0534
+				#0363
+				#0363
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -10112,7 +10413,8 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">0</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
 		<hkobject name="#0554" class="BSDirectAtModifier" signature="0x19a005c0">
@@ -10249,8 +10551,14 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Casting_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="4">
-				#0560 #0558 #0556 #0554
+			<hkparam name="modifiers" numelements="4">					<!-- numelement *zcbe* +1-->
+				#0560
+				#0558
+				#0556
+				#0554
+<!-- NEW *zcbe* -->
+				#zcbe$0
+<!-- CLOSE -->
 			</hkparam>
 		</hkobject>
 
@@ -10358,7 +10666,16 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicReady_RHSelector_MSG</hkparam>
 			<hkparam name="generators" numelements="10">
-				#0352 #0352 #0352 #0352 #0352 #0352 #0352 #0352 #0568 #0568
+				#0352
+				#0352
+				#0352
+				#0352
+				#0352
+				#0352
+				#0352
+				#0352
+				#0568
+				#0568
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -10381,7 +10698,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicReady_LHSelector_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0504 #0504 #0504 #0504 #0504 #0504 #0504 #0504 #0570 #0570 #0504 #0504
+				#0504
+				#0504
+				#0504
+				#0504
+				#0504
+				#0504
+				#0504
+				#0504
+				#0570
+				#0570
+				#0504
+				#0504
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -10530,7 +10858,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0577 #0564
+				#0577
+				#0564
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -10625,7 +10954,8 @@
 			<hkparam name="name">MagicRootModifierList</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#0582 #0580
+				#0582
+				#0580
 			</hkparam>
 		</hkobject>
 
@@ -10642,7 +10972,7 @@
 		</hkobject>
 
 		<hkobject name="#0586" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-			<hkparam name="transitions" numelements="2">
+			<hkparam name="transitions" numelements="2">					<!-- numelement *zcbe* +1-->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -10695,6 +11025,34 @@
 					<hkparam name="priority">0</hkparam>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
+<!-- NEW *zcbe* -->
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#zcbe$1</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">86</hkparam>
+					<hkparam name="toStateId">3</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
+				</hkobject>
+<!-- CLOSE -->
 			</hkparam>
 		</hkobject>
 
@@ -10733,7 +11091,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0587 #0078
+				#0587
+				#0078
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -10747,6 +11106,35 @@
 			<hkparam name="data">#0073</hkparam>
 		</hkobject>
 
+<!-- NEW *zcbe* -->
+		<hkobject name="#zcbe$0" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ZAR_FixMC_TM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">(0.000000 0.000000 1.000000 0.000000)</hkparam>
+			<hkparam name="twistAngle">-20.000000</hkparam>
+			<hkparam name="startBoneIndex">24</hkparam>
+			<hkparam name="endBoneIndex">26</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$1" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">BlendingTransitionEffect232</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
+			<hkparam name="duration">0.200000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="endMode">END_MODE_NONE</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+		</hkobject>
+
+<!-- CLOSE -->
 	</hksection>
 
 </hkpackfile>

@@ -51,7 +51,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="1826">					<!-- numelement *tudm* +36-->
+			<hkparam name="animationNames" numelements="1656">					<!-- numelement *hmce* +24-->
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1hm_1stP_Walk.hkx</hkcstring>
 				<hkcstring>Animations\1HM_AttackForwardSprint.hkx</hkcstring>
@@ -1708,176 +1708,6 @@
 				<hkcstring>Animations\WW_Stage7.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage8.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage9.hkx</hkcstring>
-				<hkcstring>Animations\TUDM\zzEstrusMachine01S2.hkx</hkcstring>
-				<hkcstring>Animations\TUDM\zzEstrusMachine01S3.hkx</hkcstring>
-				<hkcstring>Animations\TUDM\zzEstrusMachine01S41.hkx</hkcstring>
-				<hkcstring>Animations\PotionAnimatedFix\DrinkPotionRunning.hkx</hkcstring>
-				<hkcstring>Animations\PotionAnimatedFix\NPCDrinkPotionRunning.hkx</hkcstring>
-				<hkcstring>Animations\TUDM\roll_forward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_axe_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe1_axe_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe2_axe_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe3_axe_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe4_axe_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dag_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe1_dag_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe2_dag_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe3_dag_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe4_dag_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe5_dag_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_1hm_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe1_1hm_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe2_1hm_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe3_1hm_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe4_1hm_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_axe_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe1_axe_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe2_axe_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe3_axe_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe4_axe_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_selfchargeloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dag_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe1_dag_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe2_dag_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe3_dag_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe4_dag_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe5_dag_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_1hm_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe1_1hm_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe2_1hm_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe3_1hm_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe4_1hm_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dodgeback.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_2hw_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_selfchargeloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_wardloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_idle.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_2hc_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_aimedconcentration.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_2hc_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_prewardloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_bow_drawlight.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_turnright60.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_2hw_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_wardcharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_bow_release.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_readyloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_sneakbow_drawlight.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_wardcharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_sneakbow_release.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_bow_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_1hm_attackforward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_bow_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_release.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_runforwardleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_bow_idledrawn.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_precharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_telekinesisloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_bow_idleheld.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_release.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_sneakbow_idledrawn.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mac_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe1_mac_equip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_selfprecharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mac_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe1_mac_unequip.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_1hm_attackforwardintro.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_walkleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_aimedconcentration.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_chargeloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_preaimedcon.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_selfconcentration.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_walkforward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_preready.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_runbackward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_prewardloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_selfreadyloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_preselfcon.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_prewardcharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_pretelekinesis.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_readyloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_selfrelease.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_selfconcentration.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_telekinesisloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlh_wardloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_chargeloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mlhmrh_aimedconcentrationloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_preaimedcon.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_precharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_preselfcon.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_runforward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magic_sprintforward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_pretelekinesis.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_prewardcharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_selfrelease.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_selfreadyloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_runbackwrdleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_turnleft60.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_runbckwrdright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_runforwardleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_runfrwrdright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_runleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_runright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_walkbackward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_walkbckwrdleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_walkbckwrdrht.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_walkforward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_walkforwrdleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_walkfrwrdright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_walkright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_turnleft180.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_turnright180.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_magcast_turnright60.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagaimconcharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagaimconloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_walkforwardleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagaimrelease.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mt_shout_exhale_medium.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagpreaimcon.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagpreaimconcharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagpreselfcon.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagpreselfconcharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagselfconcharge.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagselfconloop.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dmagselfrelease.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mrh_idle.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_runbackward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_runbackwardleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_runbackwardright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dw_sprintforwardsword.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_runforward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_runforwardright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_runleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_runright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_turnleft60.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_walkbackward.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_walkbackwardleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_walkbackwardright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_walkforwardright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_walkleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_walkright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_turnleft180.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mag_turnright180.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_2hm_sprintforwardsword.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_2hw_sprintforwardsword.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_bow_sprint.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dodgeleft.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_dodgeright.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mt_shout_exhale_long.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_sneakrun_forwardroll.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mt_sprintforwardsword.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_shd_blockbashsprint.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_staffrightleft_sprint.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_1hm_shout_exhale.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_1hm_shout_exhale_long.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_1hm_shout_exhale_medium.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_1hm_shout_inhale.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mt_shout_exhale.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_mt_shout_inhale.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_sneak1hm_shout_exhale.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_sneak1hm_shout_exhale_long.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_sneak1hm_shout_exhale_medium.hkx</hkcstring>
-				<hkcstring>Animations\XPMSE\xpe0_sneak1hm_shout_inhale.hkx</hkcstring>
 			</hkparam>
 			<hkparam name="animationFilenames" numelements="0"></hkparam>
 			<hkparam name="characterPropertyNames" numelements="39">
@@ -2856,8 +2686,35 @@
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
 			<hkparam name="variantVariableValues" numelements="29">
-				#0059 #0058 #0057 #0056 #0055 #0054 #0053 #0052 #0051 #0050 #0049 #0048 #0047 #0046 #0045 #0044
-				#0043 #0042 #0041 #0040 #0039 #0038 #0037 #0036 #0035 #0034 #0033 #0032 #0031
+				#0059
+				#0058
+				#0057
+				#0056
+				#0055
+				#0054
+				#0053
+				#0052
+				#0051
+				#0050
+				#0049
+				#0048
+				#0047
+				#0046
+				#0045
+				#0044
+				#0043
+				#0042
+				#0041
+				#0040
+				#0039
+				#0038
+				#0037
+				#0036
+				#0035
+				#0034
+				#0033
+				#0032
+				#0031
 			</hkparam>
 		</hkobject>
 

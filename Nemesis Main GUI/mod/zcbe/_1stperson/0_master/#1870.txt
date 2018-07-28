@@ -1,0 +1,18 @@
+		<hkobject name="#1870" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+<!-- MOD_CODE ~zcbe~ OPEN -->
+			<hkparam name="events" numelements="2">
+<!-- ORIGINAL -->
+			<hkparam name="events" numelements="1">
+<!-- CLOSE -->
+				<hkobject>
+					<hkparam name="id">371</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- MOD_CODE ~zcbe~ OPEN -->
+				<hkobject>
+					<hkparam name="id">1219</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>

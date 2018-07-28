@@ -317,7 +317,14 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="8">
-				#0171 #0153 #0138 #0123 #0110 #0092 #0077 #0062
+				#0171
+				#0153
+				#0138
+				#0123
+				#0110
+				#0092
+				#0077
+				#0062
 			</hkparam>
 		</hkobject>
 
@@ -341,7 +348,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0073 #0070 #0067 #0064
+				#0073
+				#0070
+				#0067
+				#0064
 			</hkparam>
 		</hkobject>
 
@@ -593,7 +603,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0088 #0085 #0082 #0079
+				#0088
+				#0085
+				#0082
+				#0079
 			</hkparam>
 		</hkobject>
 
@@ -845,7 +858,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0106 #0103 #0100 #0097 #0094
+				#0106
+				#0103
+				#0100
+				#0097
+				#0094
 			</hkparam>
 		</hkobject>
 
@@ -1151,7 +1168,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0121 #0118 #0115 #0112
+				#0121
+				#0118
+				#0115
+				#0112
 			</hkparam>
 		</hkobject>
 
@@ -1357,7 +1377,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0134 #0131 #0128 #0125
+				#0134
+				#0131
+				#0128
+				#0125
 			</hkparam>
 		</hkobject>
 
@@ -1609,7 +1632,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0149 #0146 #0143 #0140
+				#0149
+				#0146
+				#0143
+				#0140
 			</hkparam>
 		</hkobject>
 
@@ -1861,7 +1887,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0167 #0164 #0161 #0158 #0155
+				#0167
+				#0164
+				#0161
+				#0158
+				#0155
 			</hkparam>
 		</hkobject>
 
@@ -2167,7 +2197,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0182 #0179 #0176 #0173
+				#0182
+				#0179
+				#0176
+				#0173
 			</hkparam>
 		</hkobject>
 
@@ -2506,7 +2539,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0188 #0059
+				#0188
+				#0059
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2566,7 +2600,14 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="8">
-				#0307 #0289 #0274 #0259 #0244 #0226 #0211 #0196
+				#0307
+				#0289
+				#0274
+				#0259
+				#0244
+				#0226
+				#0211
+				#0196
 			</hkparam>
 		</hkobject>
 
@@ -2590,7 +2631,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0207 #0204 #0201 #0198
+				#0207
+				#0204
+				#0201
+				#0198
 			</hkparam>
 		</hkobject>
 
@@ -2842,7 +2886,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0222 #0219 #0216 #0213
+				#0222
+				#0219
+				#0216
+				#0213
 			</hkparam>
 		</hkobject>
 
@@ -3094,7 +3141,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0240 #0237 #0234 #0231 #0228
+				#0240
+				#0237
+				#0234
+				#0231
+				#0228
 			</hkparam>
 		</hkobject>
 
@@ -3400,7 +3451,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0255 #0252 #0249 #0246
+				#0255
+				#0252
+				#0249
+				#0246
 			</hkparam>
 		</hkobject>
 
@@ -3652,7 +3706,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0270 #0267 #0264 #0261
+				#0270
+				#0267
+				#0264
+				#0261
 			</hkparam>
 		</hkobject>
 
@@ -3904,7 +3961,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0285 #0282 #0279 #0276
+				#0285
+				#0282
+				#0279
+				#0276
 			</hkparam>
 		</hkobject>
 
@@ -4156,7 +4216,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0303 #0300 #0297 #0294 #0291
+				#0303
+				#0300
+				#0297
+				#0294
+				#0291
 			</hkparam>
 		</hkobject>
 
@@ -4462,7 +4526,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0318 #0315 #0312 #0309
+				#0318
+				#0315
+				#0312
+				#0309
 			</hkparam>
 		</hkobject>
 
@@ -4723,7 +4790,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Staff_Direction_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0325 #0325 #0325 #0325 #0325 #0325 #0325 #0325 #0336 #0325 #0325 #0325
+				#0325
+				#0325
+				#0325
+				#0325
+				#0325
+				#0325
+				#0325
+				#0325
+				#0336
+				#0325
+				#0325
+				#0325
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -4741,7 +4819,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0334 #0326
+				#0334
+				#0326
 			</hkparam>
 		</hkobject>
 
@@ -4778,7 +4857,8 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0331 #0329
+				#0331
+				#0329
 			</hkparam>
 		</hkobject>
 
@@ -4876,7 +4956,9 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0347 #0345 #0337
+				#0347
+				#0345
+				#0337
 			</hkparam>
 		</hkobject>
 
@@ -4913,7 +4995,8 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0342 #0340
+				#0342
+				#0340
 			</hkparam>
 		</hkobject>
 
@@ -5081,7 +5164,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0350 #0349
+				#0350
+				#0349
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -5103,7 +5187,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaffMagic_Direction_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0060 #0060 #0060 #0060 #0060 #0060 #0060 #0060 #0352 #0060 #0060 #0060
+				#0060
+				#0060
+				#0060
+				#0060
+				#0060
+				#0060
+				#0060
+				#0060
+				#0352
+				#0060
+				#0060
+				#0060
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5126,7 +5221,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">LeftHandMagicLocomotionMSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0354 #0354 #0354 #0354 #0354 #0060 #0060 #0060 #0324 #0060 #0354 #0354
+				#0354
+				#0354
+				#0354
+				#0354
+				#0354
+				#0060
+				#0060
+				#0060
+				#0324
+				#0060
+				#0354
+				#0354
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5164,7 +5270,8 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0357 #0193
+				#0357
+				#0193
 			</hkparam>
 		</hkobject>
 
@@ -5318,7 +5425,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0365 #0363
+				#0365
+				#0363
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -5358,7 +5466,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0368 #0361 #0192
+				#0368
+				#0361
+				#0192
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0057</hkparam>
 		</hkobject>

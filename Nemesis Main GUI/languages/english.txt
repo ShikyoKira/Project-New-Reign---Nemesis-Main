@@ -231,6 +231,8 @@ ERR 1180=Unclosed bracket detected. Please contact the template creator\nTemplat
 ERR 1181=Invalid crc32 format. Possible unclosed bracket detected. Please contact the template create\nTemplate: <1>\nFile: <2>\nLine: <3>\nInput: <4>
 ERR 1182=Core behavior is either linked to a behavior that doesn't exist or is not connected to registered behavior hkx file\nPlease contact the template creator\nTemplate: <1>\nFile: <2>
 ERR 1183=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1184=Character hkx file placement incorrect. Current file must be in character folder\nFile: <1>
+ERR 1185=Failed to output Nemesis_AA_Core.pex
 
 '2000s
 ERR 2000=Failed to open file\nFile: <1>
@@ -324,6 +326,9 @@ ERR 6000=Fail to register new animation
 ERR 6001=An exception has occured while updating. Report to Nemesis' author immediately\nMessage: <1>
 ERR 6002=An exception has occured while patching. Report to Nemesis' author immediately\nMessage: <1>
 ERR 6003="<1>" has already been registered in this ini file. Please contact the mod author\nFile: <2>
+ERR 6004=Template does not support first person animation as the effect is non-existence. Please contact the template creator\nDirectory: <1>
+ERR 6005=Skyrim directory not found. Please make sure that your skyrim is a legal copy
+
 
 '1000
 WAR 1000=Missing animation file\nFile: <1>

@@ -1,0 +1,4 @@
+dragonproject=meshes\actors\dragon
+defaultfemale=meshes\actors\character
+defaultmale=meshes\actors\character
+_1stperson\firstperson=meshes\actors\character\_1stperson

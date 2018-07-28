@@ -1,0 +1,3 @@
+		<hkobject name="#zcbe$39" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">!bIsSynced &amp;&amp; !bIsRiding</hkparam>
+		</hkobject>

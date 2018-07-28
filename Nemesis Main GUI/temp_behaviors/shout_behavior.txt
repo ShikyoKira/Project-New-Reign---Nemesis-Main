@@ -62,8 +62,10 @@
 				<hkcstring>blendDefault</hkcstring>
 				<hkcstring>blendFast</hkcstring>
 				<hkcstring>IsPlayer</hkcstring>
-				<hkcstring>TurnDelta</hkcstring>
-				<hkcstring>TurnDeltaDamped</hkcstring>
+				<hkcstring>Pitch</hkcstring>					<!-- *pscd* -->
+				<hkcstring>TurnDelta</hkcstring>				<!-- original -->
+				<hkcstring>Pitch2</hkcstring>					<!-- *pscd* -->
+				<hkcstring>TurnDeltaDamped</hkcstring>				<!-- original -->
 				<hkcstring>IsNPC</hkcstring>
 				<hkcstring>IsFirstPerson</hkcstring>
 				<hkcstring>blendMoveStop</hkcstring>
@@ -735,7 +737,8 @@
 			<hkparam name="name">WhirlwindSprintModiferList</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#0072 #0070
+				#0072
+				#0070
 			</hkparam>
 		</hkobject>
 
@@ -1072,7 +1075,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0324 #0095
+				#0324
+				#0095
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -1102,7 +1106,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0217 #0097
+				#0217
+				#0097
 			</hkparam>
 		</hkobject>
 
@@ -1149,7 +1154,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_SYNC</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0105 #0100
+				#0105
+				#0100
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -1249,7 +1255,8 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Default_Locomotion_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0132 #0107
+				#0132
+				#0107
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1267,7 +1274,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0120 #0108
+				#0120
+				#0108
 			</hkparam>
 		</hkobject>
 
@@ -1304,7 +1312,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0117 #0115 #0113 #0111
+				#0117
+				#0115
+				#0113
+				#0111
 			</hkparam>
 		</hkobject>
 
@@ -1453,7 +1464,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0129 #0127 #0125 #0123
+				#0129
+				#0127
+				#0125
+				#0123
 			</hkparam>
 		</hkobject>
 
@@ -1603,7 +1617,14 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="8">
-				#0211 #0200 #0189 #0178 #0167 #0156 #0145 #0134
+				#0211
+				#0200
+				#0189
+				#0178
+				#0167
+				#0156
+				#0145
+				#0134
 			</hkparam>
 		</hkobject>
 
@@ -1627,7 +1648,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0142 #0140 #0138 #0136
+				#0142
+				#0140
+				#0138
+				#0136
 			</hkparam>
 		</hkobject>
 
@@ -1763,7 +1787,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0153 #0151 #0149 #0147
+				#0153
+				#0151
+				#0149
+				#0147
 			</hkparam>
 		</hkobject>
 
@@ -1899,7 +1926,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0164 #0162 #0160 #0158
+				#0164
+				#0162
+				#0160
+				#0158
 			</hkparam>
 		</hkobject>
 
@@ -2035,7 +2065,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0175 #0173 #0171 #0169
+				#0175
+				#0173
+				#0171
+				#0169
 			</hkparam>
 		</hkobject>
 
@@ -2171,7 +2204,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0186 #0184 #0182 #0180
+				#0186
+				#0184
+				#0182
+				#0180
 			</hkparam>
 		</hkobject>
 
@@ -2307,7 +2343,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0197 #0195 #0193 #0191
+				#0197
+				#0195
+				#0193
+				#0191
 			</hkparam>
 		</hkobject>
 
@@ -2443,7 +2482,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0208 #0206 #0204 #0202
+				#0208
+				#0206
+				#0204
+				#0202
 			</hkparam>
 		</hkobject>
 
@@ -2706,7 +2748,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
-				#0305 #0247 #0220
+				#0305
+				#0247
+				#0220
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2729,7 +2773,16 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Shout_Inhale_MSG</hkparam>
 			<hkparam name="generators" numelements="10">
-				#0235 #0222 #0222 #0222 #0222 #0222 #0222 #0222 #0222 #0222
+				#0235
+				#0222
+				#0222
+				#0222
+				#0222
+				#0222
+				#0222
+				#0222
+				#0222
+				#0222
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2757,7 +2810,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0231 #0223
+				#0231
+				#0223
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2780,7 +2834,8 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator08</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#0225</hkparam>
+			<hkparam name="generator">#pscd$12</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0225</hkparam>				<!-- original -->
 		</hkobject>
 
 		<hkobject name="#0225" class="hkbClipGenerator" signature="0x333b85b9">
@@ -2891,7 +2946,8 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0233</hkparam>
-			<hkparam name="generator">#0232</hkparam>
+			<hkparam name="generator">#pscd$17</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0232</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
@@ -2980,7 +3036,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0239 #0236
+				#0239
+				#0236
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2991,7 +3048,8 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0238</hkparam>
-			<hkparam name="generator">#0237</hkparam>
+			<hkparam name="generator">#pscd$15</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0237</hkparam>				<!-- original -->
 			<hkparam name="name">SneakMT_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">1</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
@@ -3003,7 +3061,8 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator07</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#0225</hkparam>
+			<hkparam name="generator">#pscd$12</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0225</hkparam>				<!-- original -->
 		</hkobject>
 
 		<hkobject name="#0238" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
@@ -3043,7 +3102,8 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0241</hkparam>
-			<hkparam name="generator">#0240</hkparam>
+			<hkparam name="generator">#pscd$16</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0240</hkparam>				<!-- original -->
 			<hkparam name="name">MT_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
@@ -3369,7 +3429,12 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="6">
-				#0295 #0285 #0277 #0269 #0259 #0249
+				#0295
+				#0285
+				#0277
+				#0269
+				#0259
+				#0249
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3409,7 +3474,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0255 #0251
+				#0255
+				#0251
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3432,7 +3498,8 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator01</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#0253</hkparam>
+			<hkparam name="generator">#pscd$1</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0253</hkparam>				<!-- original -->
 		</hkobject>
 
 		<hkobject name="#0253" class="hkbClipGenerator" signature="0x333b85b9">
@@ -3487,7 +3554,8 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#0256</hkparam>
+			<hkparam name="generator">#pscd$14</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0256</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_ExhaleLongState</hkparam>
 			<hkparam name="stateId">0</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
@@ -3587,7 +3655,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0265 #0261
+				#0265
+				#0261
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3610,7 +3679,8 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator02</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#0263</hkparam>
+			<hkparam name="generator">#pscd$11</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0263</hkparam>				<!-- original -->
 		</hkobject>
 
 		<hkobject name="#0263" class="hkbClipGenerator" signature="0x333b85b9">
@@ -3665,7 +3735,8 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#0266</hkparam>
+			<hkparam name="generator">#pscd$13</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0266</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_ExhaleMediumState</hkparam>
 			<hkparam name="stateId">0</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
@@ -3765,7 +3836,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0273 #0271
+				#0273
+				#0271
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3788,7 +3860,8 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator04</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#0253</hkparam>
+			<hkparam name="generator">#pscd$1</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0253</hkparam>				<!-- original -->
 		</hkobject>
 
 		<hkobject name="#0273" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
@@ -3897,7 +3970,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0281 #0279
+				#0281
+				#0279
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3920,7 +3994,8 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator05</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#0263</hkparam>
+			<hkparam name="generator">#pscd$11</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0263</hkparam>				<!-- original -->
 		</hkobject>
 
 		<hkobject name="#0281" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
@@ -4029,7 +4104,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0291 #0287
+				#0291
+				#0287
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -4052,7 +4128,8 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator00</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#0289</hkparam>
+			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0289</hkparam>				<!-- original -->
 		</hkobject>
 
 		<hkobject name="#0289" class="hkbClipGenerator" signature="0x333b85b9">
@@ -4107,7 +4184,8 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#0292</hkparam>
+			<hkparam name="generator">#pscd$10</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0292</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_ExhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
@@ -4207,7 +4285,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0300 #0297
+				#0300
+				#0297
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -4218,7 +4297,8 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0299</hkparam>
-			<hkparam name="generator">#0298</hkparam>
+			<hkparam name="generator">#pscd$9</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0298</hkparam>				<!-- original -->
 			<hkparam name="name">SneakMT_Shout_ExhaleState</hkparam>
 			<hkparam name="stateId">1</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
@@ -4230,7 +4310,8 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator03</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#0289</hkparam>
+			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0289</hkparam>				<!-- original -->
 		</hkobject>
 
 		<hkobject name="#0299" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
@@ -4270,7 +4351,8 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0303</hkparam>
-			<hkparam name="generator">#0301</hkparam>
+			<hkparam name="generator">#pscd$2</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#0301</hkparam>				<!-- original -->
 			<hkparam name="name">MT_Shout_ExhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
@@ -4401,7 +4483,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0312 #0307
+				#0312
+				#0307
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -4522,7 +4605,16 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Shout_ExhaleSlowTime_MSG</hkparam>
 			<hkparam name="generators" numelements="10">
-				#0316 #0314 #0314 #0314 #0314 #0314 #0314 #0314 #0314 #0314
+				#0316
+				#0314
+				#0314
+				#0314
+				#0314
+				#0314
+				#0314
+				#0314
+				#0314
+				#0314
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -4799,7 +4891,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0093 #0091
+				#0093
+				#0091
 			</hkparam>
 		</hkobject>
 
@@ -4820,7 +4913,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">PlayerShout_MSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0094 #0094 #0094 #0094 #0094 #0094 #0094 #0094 #0094 #0094 #0094 #0094 #0327
+				#0094
+				#0094
+				#0094
+				#0094
+				#0094
+				#0094
+				#0094
+				#0094
+				#0094
+				#0094
+				#0094
+				#0094
+				#0327
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5009,7 +5114,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0336 #0335
+				#0336
+				#0335
 			</hkparam>
 		</hkobject>
 
@@ -5030,7 +5136,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NPCShout_MSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0219 #0219 #0219 #0219 #0219 #0219 #0219 #0219 #0219 #0219 #0219 #0219 #0337
+				#0219
+				#0219
+				#0219
+				#0219
+				#0219
+				#0219
+				#0219
+				#0219
+				#0219
+				#0219
+				#0219
+				#0219
+				#0337
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5120,7 +5238,12 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="6">
-				#0343 #0334 #0090 #0085 #0080 #0075
+				#0343
+				#0334
+				#0090
+				#0085
+				#0080
+				#0075
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -5134,6 +5257,179 @@
 			<hkparam name="data">#0065</hkparam>
 		</hkobject>
 
+<!-- NEW *pscd* -->
+		<hkobject name="#pscd$0" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Sneak1hm_Shout_Exhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0289</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$1" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Sneak1hm_Shout_Exhale_Long_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0253</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$10" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">1hm_Shout_Exhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0292</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$11" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Sneak1hm_Shout_Exhale_Medium_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0263</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$12" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Sneak1HM_Shout_Inhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0225</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$13" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">1hm_Shout_ExhaleMedium_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0266</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$14" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">1hm_Shout_ExhaleLong_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0256</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$15" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakMT_Shout_InhaleState_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0237</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$16" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">MT_Shout_Inhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0240</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$17" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">1HM_Shout_Inhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0232</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$2" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">MT_Shout_ExhaleState_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0301</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$3" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Shout_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="4">
+				#0072 #pscd$4 #pscd$5 #pscd$6
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$4" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Shout_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#pscd$7</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$5" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#pscd$8</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ShoutSpineTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">(1.000000 0.000000 0.000000 0.000000)</hkparam>
+			<hkparam name="twistAngle">0.000000</hkparam>
+			<hkparam name="startBoneIndex">24</hkparam>
+			<hkparam name="endBoneIndex">26</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$6" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#pscd$8</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ShoutNeckTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">(1.000000 0.000000 0.000000 0.000000)</hkparam>
+			<hkparam name="twistAngle">0.000000</hkparam>
+			<hkparam name="startBoneIndex">35</hkparam>
+			<hkparam name="endBoneIndex">37</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$7" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">Pitch2 = Pitch * 0.5</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$8" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="2">
+				<hkobject>
+					<hkparam name="memberPath">enable</hkparam>
+					<hkparam name="variableIndex">2</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="memberPath">twistAngle</hkparam>
+					<hkparam name="variableIndex">4</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$9" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakMT_Shout_ExhaleState_MG</hkparam>
+			<hkparam name="modifier">#pscd$3</hkparam>
+			<hkparam name="generator">#0298</hkparam>
+		</hkobject>
+
+<!-- CLOSE -->
 	</hksection>
 
 </hkpackfile>

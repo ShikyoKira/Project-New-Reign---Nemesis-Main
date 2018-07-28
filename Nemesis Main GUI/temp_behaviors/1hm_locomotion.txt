@@ -353,7 +353,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0068</hkparam>
+					<hkparam name="transition">#zcbe$4</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">0</hkparam>
 					<hkparam name="toStateId">0</hkparam>
@@ -522,7 +523,14 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="8">
-				#0141 #0132 #0123 #0114 #0105 #0096 #0087 #0078
+				#0141
+				#0132
+				#0123
+				#0114
+				#0105
+				#0096
+				#0087
+				#0078
 			</hkparam>
 		</hkobject>
 
@@ -546,7 +554,9 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0084 #0082 #0080
+				#0084
+				#0082
+				#0080
 			</hkparam>
 		</hkobject>
 
@@ -657,7 +667,9 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0093 #0091 #0089
+				#0093
+				#0091
+				#0089
 			</hkparam>
 		</hkobject>
 
@@ -768,7 +780,9 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0102 #0100 #0098
+				#0102
+				#0100
+				#0098
 			</hkparam>
 		</hkobject>
 
@@ -879,7 +893,9 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0111 #0109 #0107
+				#0111
+				#0109
+				#0107
 			</hkparam>
 		</hkobject>
 
@@ -990,7 +1006,9 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0120 #0118 #0116
+				#0120
+				#0118
+				#0116
 			</hkparam>
 		</hkobject>
 
@@ -1101,7 +1119,9 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0129 #0127 #0125
+				#0129
+				#0127
+				#0125
 			</hkparam>
 		</hkobject>
 
@@ -1212,7 +1232,9 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0138 #0136 #0134
+				#0138
+				#0136
+				#0134
 			</hkparam>
 		</hkobject>
 
@@ -1323,7 +1345,9 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0147 #0145 #0143
+				#0147
+				#0145
+				#0143
 			</hkparam>
 		</hkobject>
 
@@ -1438,7 +1462,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0075 #0073
+				#0075
+				#0073
 			</hkparam>
 		</hkobject>
 
@@ -1512,7 +1537,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0156 #0154
+				#0156
+				#0154
 			</hkparam>
 		</hkobject>
 
@@ -1549,7 +1575,9 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#0165 #0163 #0161
+				#0165
+				#0163
+				#0161
 			</hkparam>
 		</hkobject>
 
@@ -1673,7 +1701,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0169 #0159
+				#0169
+				#0159
 			</hkparam>
 		</hkobject>
 
@@ -1710,7 +1739,14 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="8">
-				#0285 #0267 #0252 #0237 #0222 #0204 #0189 #0174
+				#0285
+				#0267
+				#0252
+				#0237
+				#0222
+				#0204
+				#0189
+				#0174
 			</hkparam>
 		</hkobject>
 
@@ -1734,7 +1770,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0185 #0182 #0179 #0176
+				#0185
+				#0182
+				#0179
+				#0176
 			</hkparam>
 		</hkobject>
 
@@ -1986,7 +2025,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0200 #0197 #0194 #0191
+				#0200
+				#0197
+				#0194
+				#0191
 			</hkparam>
 		</hkobject>
 
@@ -2238,7 +2280,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0218 #0215 #0212 #0209 #0206
+				#0218
+				#0215
+				#0212
+				#0209
+				#0206
 			</hkparam>
 		</hkobject>
 
@@ -2532,7 +2578,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0233 #0230 #0227 #0224
+				#0233
+				#0230
+				#0227
+				#0224
 			</hkparam>
 		</hkobject>
 
@@ -2772,7 +2821,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0248 #0245 #0242 #0239
+				#0248
+				#0245
+				#0242
+				#0239
 			</hkparam>
 		</hkobject>
 
@@ -3012,7 +3064,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0263 #0260 #0257 #0254
+				#0263
+				#0260
+				#0257
+				#0254
 			</hkparam>
 		</hkobject>
 
@@ -3264,7 +3319,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0281 #0278 #0275 #0272 #0269
+				#0281
+				#0278
+				#0275
+				#0272
+				#0269
 			</hkparam>
 		</hkobject>
 
@@ -3570,7 +3629,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0296 #0293 #0290 #0287
+				#0296
+				#0293
+				#0290
+				#0287
 			</hkparam>
 		</hkobject>
 
@@ -3835,7 +3897,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0301 #0172
+				#0301
+				#0172
 			</hkparam>
 		</hkobject>
 
@@ -3856,7 +3919,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWeap_DirectionMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0076 #0076 #0076 #0076 #0076 #0302 #0170 #0157 #0076 #0076 #0076 #0076 #0151
+				#0076
+				#0076
+				#0076
+				#0076
+				#0076
+				#0302
+				#0170
+				#0157
+				#0076
+				#0076
+				#0076
+				#0076
+				#0151
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -4201,7 +4276,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0323 #0320 #0317 #0312
+				#0323
+				#0320
+				#0317
+				#0312
 			</hkparam>
 		</hkobject>
 
@@ -4407,7 +4485,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0336 #0333 #0330 #0327
+				#0336
+				#0333
+				#0330
+				#0327
 			</hkparam>
 		</hkobject>
 
@@ -4713,7 +4794,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0354 #0351 #0348 #0345 #0342
+				#0354
+				#0351
+				#0348
+				#0345
+				#0342
 			</hkparam>
 		</hkobject>
 
@@ -4965,7 +5050,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0369 #0366 #0363 #0360
+				#0369
+				#0366
+				#0363
+				#0360
 			</hkparam>
 		</hkobject>
 
@@ -5217,7 +5305,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0384 #0381 #0378 #0375
+				#0384
+				#0381
+				#0378
+				#0375
 			</hkparam>
 		</hkobject>
 
@@ -5469,7 +5560,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0399 #0396 #0393 #0390
+				#0399
+				#0396
+				#0393
+				#0390
 			</hkparam>
 		</hkobject>
 
@@ -5775,7 +5869,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0417 #0414 #0411 #0408 #0405
+				#0417
+				#0414
+				#0411
+				#0408
+				#0405
 			</hkparam>
 		</hkobject>
 
@@ -6027,7 +6125,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0432 #0429 #0426 #0423
+				#0432
+				#0429
+				#0426
+				#0423
 			</hkparam>
 		</hkobject>
 
@@ -6051,7 +6152,14 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="8">
-				#0435 #0420 #0402 #0387 #0372 #0357 #0339 #0326
+				#0435
+				#0420
+				#0402
+				#0387
+				#0372
+				#0357
+				#0339
+				#0326
 			</hkparam>
 		</hkobject>
 
@@ -6167,7 +6275,14 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="8">
-				#0556 #0538 #0523 #0508 #0493 #0475 #0460 #0445
+				#0556
+				#0538
+				#0523
+				#0508
+				#0493
+				#0475
+				#0460
+				#0445
 			</hkparam>
 		</hkobject>
 
@@ -6191,7 +6306,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0456 #0453 #0450 #0447
+				#0456
+				#0453
+				#0450
+				#0447
 			</hkparam>
 		</hkobject>
 
@@ -6207,7 +6325,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardFast</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunForward.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunForward.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunForward.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0449</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6261,7 +6380,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForward</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunForward.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunForward.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunForward.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0452</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6315,7 +6435,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForward</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkForward.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkForward.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0455</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6369,7 +6490,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardSlow</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkForward.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkForward.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0458</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6443,7 +6565,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0471 #0468 #0465 #0462
+				#0471
+				#0468
+				#0465
+				#0462
 			</hkparam>
 		</hkobject>
 
@@ -6459,7 +6584,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardLeftFast</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunForwardLeft.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunForwardLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunForwardLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0464</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6513,7 +6639,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardLeft</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunForwardLeft.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunForwardLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunForwardLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0467</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6567,7 +6694,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardLeft</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkForwardLeft.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkForwardLeft.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkForwardLeft.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0470</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6621,7 +6749,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardLeftSlow</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkForwardLeft.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkForwardLeft.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkForwardLeft.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0473</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6695,7 +6824,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0489 #0486 #0483 #0480 #0477
+				#0489
+				#0486
+				#0483
+				#0480
+				#0477
 			</hkparam>
 		</hkobject>
 
@@ -6711,7 +6844,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunLeftFast</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunLeft.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0479</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6765,7 +6899,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunLeft</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunLeft.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0482</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6819,7 +6954,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunStrafeLeft</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunStrafeLeft.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunStrafeLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunStrafeLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0485</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6873,7 +7009,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkLeft</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkLeft.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkLeft.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkLeft.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0488</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -6927,7 +7064,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkLeftSlow</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkLeft.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkLeft.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkLeft.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0491</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -7001,7 +7139,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0504 #0501 #0498 #0495
+				#0504
+				#0501
+				#0498
+				#0495
 			</hkparam>
 		</hkobject>
 
@@ -7253,7 +7394,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0519 #0516 #0513 #0510
+				#0519
+				#0516
+				#0513
+				#0510
 			</hkparam>
 		</hkobject>
 
@@ -7505,7 +7649,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0534 #0531 #0528 #0525
+				#0534
+				#0531
+				#0528
+				#0525
 			</hkparam>
 		</hkobject>
 
@@ -7757,7 +7904,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0552 #0549 #0546 #0543 #0540
+				#0552
+				#0549
+				#0546
+				#0543
+				#0540
 			</hkparam>
 		</hkobject>
 
@@ -7773,7 +7924,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunRightFast</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunRight.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0542</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -7827,7 +7979,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunRight</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunRight.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0545</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -7881,7 +8034,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunStrafeRight</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunStrafeRight.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunStrafeRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunStrafeRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0548</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -7935,7 +8089,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkRight</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkRight.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkRight.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkRight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0551</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -7989,7 +8144,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkRightSlow</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkRight.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkRight.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkRight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0554</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -8063,7 +8219,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0567 #0564 #0561 #0558
+				#0567
+				#0564
+				#0561
+				#0558
 			</hkparam>
 		</hkobject>
 
@@ -8079,7 +8238,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardRightFast</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunForwardRight.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunForwardRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunForwardRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0560</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -8133,7 +8293,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardRight</hkparam>
-			<hkparam name="animationName">Animations\1HM_RunForwardRight.HKX</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_RunForwardRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_RunForwardRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0563</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -8187,7 +8348,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardRight</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkForwardRight.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkForwardRight.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkForwardRight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0566</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -8241,7 +8403,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardRightSlow</hkparam>
-			<hkparam name="animationName">Animations\1HM_WalkForwardRight.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_WalkForwardRight.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_WalkForwardRight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0569</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -8376,7 +8539,14 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="8">
-				#0686 #0668 #0653 #0638 #0625 #0607 #0592 #0577
+				#0686
+				#0668
+				#0653
+				#0638
+				#0625
+				#0607
+				#0592
+				#0577
 			</hkparam>
 		</hkobject>
 
@@ -8400,7 +8570,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0588 #0585 #0582 #0579
+				#0588
+				#0585
+				#0582
+				#0579
 			</hkparam>
 		</hkobject>
 
@@ -8652,7 +8825,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0603 #0600 #0597 #0594
+				#0603
+				#0600
+				#0597
+				#0594
 			</hkparam>
 		</hkobject>
 
@@ -8904,7 +9080,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0621 #0618 #0615 #0612 #0609
+				#0621
+				#0618
+				#0615
+				#0612
+				#0609
 			</hkparam>
 		</hkobject>
 
@@ -9210,7 +9390,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0636 #0633 #0630 #0627
+				#0636
+				#0633
+				#0630
+				#0627
 			</hkparam>
 		</hkobject>
 
@@ -9416,7 +9599,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0649 #0646 #0643 #0640
+				#0649
+				#0646
+				#0643
+				#0640
 			</hkparam>
 		</hkobject>
 
@@ -9668,7 +9854,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0664 #0661 #0658 #0655
+				#0664
+				#0661
+				#0658
+				#0655
 			</hkparam>
 		</hkobject>
 
@@ -9920,7 +10109,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0682 #0679 #0676 #0673 #0670
+				#0682
+				#0679
+				#0676
+				#0673
+				#0670
 			</hkparam>
 		</hkobject>
 
@@ -10226,7 +10419,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0697 #0694 #0691 #0688
+				#0697
+				#0694
+				#0691
+				#0688
 			</hkparam>
 		</hkobject>
 
@@ -10723,7 +10919,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0714 #0711 #0708 #0703
+				#0714
+				#0711
+				#0708
+				#0703
 			</hkparam>
 		</hkobject>
 
@@ -10929,7 +11128,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0727 #0724 #0721 #0718
+				#0727
+				#0724
+				#0721
+				#0718
 			</hkparam>
 		</hkobject>
 
@@ -11235,7 +11437,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0745 #0742 #0739 #0736 #0733
+				#0745
+				#0742
+				#0739
+				#0736
+				#0733
 			</hkparam>
 		</hkobject>
 
@@ -11487,7 +11693,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0760 #0757 #0754 #0751
+				#0760
+				#0757
+				#0754
+				#0751
 			</hkparam>
 		</hkobject>
 
@@ -11739,7 +11948,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0775 #0772 #0769 #0766
+				#0775
+				#0772
+				#0769
+				#0766
 			</hkparam>
 		</hkobject>
 
@@ -11991,7 +12203,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0790 #0787 #0784 #0781
+				#0790
+				#0787
+				#0784
+				#0781
 			</hkparam>
 		</hkobject>
 
@@ -12297,7 +12512,11 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#0808 #0805 #0802 #0799 #0796
+				#0808
+				#0805
+				#0802
+				#0799
+				#0796
 			</hkparam>
 		</hkobject>
 
@@ -12549,7 +12768,10 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#0823 #0820 #0817 #0814
+				#0823
+				#0820
+				#0817
+				#0814
 			</hkparam>
 		</hkobject>
 
@@ -12573,7 +12795,14 @@
 			<hkparam name="flags">49</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="8">
-				#0826 #0811 #0793 #0778 #0763 #0748 #0730 #0717
+				#0826
+				#0811
+				#0793
+				#0778
+				#0763
+				#0748
+				#0730
+				#0717
 			</hkparam>
 		</hkobject>
 
@@ -12721,7 +12950,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0837 #0833
+				#0837
+				#0833
 			</hkparam>
 		</hkobject>
 
@@ -12868,7 +13098,19 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="13">
-				#0847 #0846 #0845 #0844 #0843 #0842 #0840 #0831 #0702 #0573 #0572 #0441 #0440
+				#0847
+				#0846
+				#0845
+				#0844
+				#0843
+				#0842
+				#0840
+				#0831
+				#0702
+				#0573
+				#0572
+				#0441
+				#0440
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -12927,7 +13169,8 @@
 		</hkobject>
 
 		<hkobject name="#0853" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$0</hkparam>					<!-- *zcbe* -->
+			<hkparam name="variableBindingSet">null</hkparam>				<!-- original -->
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Melee_DirectionType_Behavior</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
@@ -12948,7 +13191,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_SYNC</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_TRANSITION_TO_START_STATE</hkparam>
 			<hkparam name="states" numelements="2">
-				#0852 #0311
+				#0852
+				#0311
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -13015,7 +13259,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0068</hkparam>
+					<hkparam name="transition">#zcbe$2</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">10</hkparam>
 					<hkparam name="toStateId">1</hkparam>
@@ -13041,7 +13286,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0068</hkparam>
+					<hkparam name="transition">#zcbe$1</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">1</hkparam>
@@ -13067,7 +13313,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0068</hkparam>
+					<hkparam name="transition">#zcbe$3</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">12</hkparam>
 					<hkparam name="toStateId">1</hkparam>
@@ -13158,7 +13405,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_FORCE_TRANSITION_TO_START_STATE</hkparam>
 			<hkparam name="states" numelements="2">
-				#0857 #0070
+				#0857
+				#0070
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -13172,6 +13420,72 @@
 			<hkparam name="data">#0065</hkparam>
 		</hkobject>
 
+<!-- NEW *zcbe* -->
+		<hkobject name="#zcbe$0" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">startStateId</hkparam>
+					<hkparam name="variableIndex">8</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$1" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">BlendingTransitionEffect283</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
+			<hkparam name="duration">0.050000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="endMode">END_MODE_NONE</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$2" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">BlendingTransitionEffect282</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
+			<hkparam name="duration">0.050000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="endMode">END_MODE_NONE</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$3" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">BlendingTransitionEffect284</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
+			<hkparam name="duration">0.050000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="endMode">END_MODE_NONE</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$4" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">BlendingTransitionEffect292</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
+			<hkparam name="duration">0.100000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">FLAG_SYNC</hkparam>
+			<hkparam name="endMode">END_MODE_NONE</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_LINEAR_TO_SMOOTH</hkparam>
+		</hkobject>
+
+<!-- CLOSE -->
 	</hksection>
 
 </hkpackfile>

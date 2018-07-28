@@ -1,68 +1,146 @@
 0_master
 defaultmale
 defaultfemale
+_1stperson\firstperson
 
 magicbehavior
-defaultmale
-defaultfemale
+_1stperson\1hm_behavior
+_1stperson\0_master
+_1stperson\0_master
+1hm_behavior
+0_master
+0_master
 
 crossbow_direction_behavior
-defaultmale
-defaultfemale
+_1stperson\1hm_behavior
+1hm_behavior
 
 bow_direction_behavior
-defaultmale
-defaultfemale
+_1stperson\1hm_behavior
+1hm_behavior
 
 shout_behavior
-defaultmale
-defaultfemale
+_1stperson\1hm_behavior
+1hm_behavior
+_1stperson\magicbehavior
+_1stperson\mt_behavior
+magicbehavior
+mt_behavior
 
 bashbehavior
-defaultmale
-defaultfemale
+_1stperson\1hm_behavior
+_1stperson\0_master
+1hm_behavior
+0_master
+_1stperson\magicbehavior
+magicbehavior
 
 blockbehavior
-defaultmale
-defaultfemale
+_1stperson\1hm_behavior
+_1stperson\0_master
+1hm_behavior
+0_master
+_1stperson\magicbehavior
+magicbehavior
+_1stperson\staggerbehavior
+staggerbehavior
 
 1hm_locomotion
-defaultmale
-defaultfemale
+_1stperson\1hm_behavior
+_1stperson\0_master
+1hm_behavior
+0_master
+_1stperson\blockbehavior
+blockbehavior
+_1stperson\weapequip
+weapequip
 
 sprintbehavior
-defaultmale
-defaultfemale
+_1stperson\1hm_behavior
+_1stperson\0_master
+1hm_behavior
+0_master
+_1stperson\1hm_locomotion
+_1stperson\blockbehavior
+1hm_locomotion
+blockbehavior
+_1stperson\magicbehavior
+_1stperson\mt_behavior
+_1stperson\shout_behavior
+magicbehavior
+mt_behavior
+shout_behavior
 
-shoutmounted_behavior
-defaultmale
-defaultfemale
+jumpbehavior
+_1stperson\1hm_behavior
+_1stperson\0_master
+1hm_behavior
+1hm_behavior
+0_master
+_1stperson\magicbehavior
+magicbehavior
 
-magicmountedbehavior
-defaultmale
-defaultfemale
+swimbehavior
+_1stperson\0_master
+0_master
 
 staggerbehavior
-defaultmale
-defaultfemale
+_1stperson\0_master
+0_master
 
 1hm_behavior
-defaultmale
-defaultfemale
+_1stperson\0_master
+_1stperson\0_master
+0_master
+0_master
 
 weapequip
-defaultmale
-defaultfemale
+_1stperson\0_master
+0_master
 
 mt_behavior
-defaultmale
-defaultfemale
+_1stperson\0_master
+0_master
 
 horsebehavior
-defaultmale
-defaultfemale
+_1stperson\0_master
+0_master
+
+shoutmounted_behavior
+_1stperson\0_master
+_1stperson\magicmountedbehavior
+0_master
+magicmountedbehavior
+
+weapunequip
+_1stperson\0_master
+0_master
+
+magicmountedbehavior
+_1stperson\0_master
+0_master
+horsebehavior
+_1stperson\horsebehavior
+
+swimidlebehavior
+_1stperson\0_master
+_1stperson\0_master
+0_master
+0_master
+
+fakeblock
+_1stperson\0_master
+_1stperson\0_master
+0_master
+0_master
+
+attackbehavior
+_1stperson\0_master
+_1stperson\0_master
+0_master
+0_master
 
 idlebehavior
-defaultmale
-defaultfemale
+_1stperson\mt_behavior
+mt_behavior
 

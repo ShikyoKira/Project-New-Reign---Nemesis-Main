@@ -30,7 +30,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="1656">					<!-- numelement *tudm* +36-->
+			<hkparam name="animationNames" numelements="1656">					<!-- numelement *hmce* +24-->
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1hm_1stP_Walk.hkx</hkcstring>
 				<hkcstring>Animations\1HM_AttackForwardSprint.hkx</hkcstring>
@@ -1687,43 +1687,31 @@
 				<hkcstring>Animations\WW_Stage7.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage8.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage9.hkx</hkcstring>
-<!-- NEW *tudm* -->
-				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PL.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PR.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PR2L.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PL2R.hkx</hkcstring>
+<!-- NEW *hmce* -->
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackAnticipate_L.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackAnticipate_R.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackLoop_L.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackLoop_R.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackRelease_L.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackRelease_R.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_Spear_AttackAnticipate.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_SpearLoop.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_Spear_AttackRelease.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_SpearCouchAnticipate.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_SpearCouchLoop.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_SpearCouchReturn.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateFFA.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastLoopFFA.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastReleaseFFA.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastReleaseConAim.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateConAim.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastLoopConAim.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastLoopConSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateConSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastReleaseConSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastLoopFFSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateFFSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastReleaseFFSelf.hkx</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="animationFilenames" numelements="0"></hkparam>
@@ -2328,8 +2316,35 @@
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
 			<hkparam name="variantVariableValues" numelements="29">
-				#0059 #0058 #0057 #0056 #0055 #0054 #0053 #0052 #0051 #0050 #0049 #0048 #0047 #0046 #0045 #0044
-				#0043 #0042 #0041 #0040 #0039 #0038 #0037 #0036 #0035 #0034 #0033 #0032 #0031
+				#0059
+				#0058
+				#0057
+				#0056
+				#0055
+				#0054
+				#0053
+				#0052
+				#0051
+				#0050
+				#0049
+				#0048
+				#0047
+				#0046
+				#0045
+				#0044
+				#0043
+				#0042
+				#0041
+				#0040
+				#0039
+				#0038
+				#0037
+				#0036
+				#0035
+				#0034
+				#0033
+				#0032
+				#0031
 			</hkparam>
 		</hkobject>
 

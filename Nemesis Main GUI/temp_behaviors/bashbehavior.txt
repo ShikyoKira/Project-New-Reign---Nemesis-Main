@@ -247,7 +247,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0090 #0062
+				#0090
+				#0062
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -277,7 +278,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0067 #0064
+				#0067
+				#0064
 			</hkparam>
 		</hkobject>
 
@@ -345,7 +347,22 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockBashIntroMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0076 #0084 #0084 #0084 #0084 #0082 #0080 #0078 #0076 #0076 #0074 #0072 #0070
+				#cbbi$0					<!-- *cbbi* -->
+				#0076				<!-- original -->
+				#0084
+				#0084
+				#0084
+				#0084
+				#0082
+				#0080
+				#0078
+				#cbbi$0					<!-- *cbbi* -->
+				#0076				<!-- original -->
+				#cbbi$0					<!-- *cbbi* -->
+				#0076				<!-- original -->
+				#0074
+				#0072
+				#0070
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -815,7 +832,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0095 #0060
+				#0095
+				#0060
 			</hkparam>
 		</hkobject>
 
@@ -836,7 +854,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BashIntroWeaponTypeMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0061 #0061 #0061 #0061 #0061 #0061 #0061 #0061 #0097 #0061 #0061 #0061 #0061
+				#0061
+				#0061
+				#0061
+				#0061
+				#0061
+				#0061
+				#0061
+				#0061
+				#0097
+				#0061
+				#0061
+				#0061
+				#0061
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1019,7 +1049,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0134 #0108
+				#0134
+				#0108
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -1049,7 +1080,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0112 #0110
+				#0112
+				#0110
 			</hkparam>
 		</hkobject>
 
@@ -1100,7 +1132,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockBashPowerMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0121 #0129 #0129 #0129 #0129 #0127 #0125 #0123 #0121 #0121 #0119 #0117 #0115
+				#0121
+				#0129
+				#0129
+				#0129
+				#0129
+				#0127
+				#0125
+				#0123
+				#0121
+				#0121
+				#0119
+				#0117
+				#0115
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1586,7 +1630,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.267000</hkparam>
+					<hkparam name="localTime">0.167000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.267000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">10</hkparam>
@@ -1598,7 +1643,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.433000</hkparam>
+					<hkparam name="localTime">0.233000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.433000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">4</hkparam>
@@ -1610,7 +1656,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.465000</hkparam>
+					<hkparam name="localTime">0.265000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.465000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -1634,7 +1681,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">1.133000</hkparam>
+					<hkparam name="localTime">0.433000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">1.133000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">9</hkparam>
@@ -1964,7 +2012,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.431000</hkparam>
+					<hkparam name="localTime">0.350000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.431000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">4</hkparam>
@@ -1976,7 +2025,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.464000</hkparam>
+					<hkparam name="localTime">0.364000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.464000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -1988,7 +2038,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.667000</hkparam>
+					<hkparam name="localTime">0.367000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.667000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -2000,7 +2051,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">1.133000</hkparam>
+					<hkparam name="localTime">0.370000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">1.133000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">9</hkparam>
@@ -2164,7 +2216,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0139 #0106
+				#0139
+				#0106
 			</hkparam>
 		</hkobject>
 
@@ -2185,7 +2238,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BashPowerWeaponTypeMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0107 #0107 #0107 #0107 #0107 #0107 #0107 #0107 #0140 #0107 #0107 #0107 #0107
+				#0107
+				#0107
+				#0107
+				#0107
+				#0107
+				#0107
+				#0107
+				#0107
+				#0140
+				#0107
+				#0107
+				#0107
+				#0107
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2247,7 +2312,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0171 #0147
+				#0171
+				#0147
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2277,7 +2343,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0151 #0149
+				#0151
+				#0149
 			</hkparam>
 		</hkobject>
 
@@ -2328,7 +2395,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockBashMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0158 #0166 #0166 #0166 #0166 #0164 #0162 #0160 #0158 #0158 #0156 #0154 #0115
+				#0158
+				#0166
+				#0166
+				#0166
+				#0166
+				#0164
+				#0162
+				#0160
+				#0158
+				#0158
+				#0156
+				#0154
+				#0115
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2460,7 +2539,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.033000</hkparam>
+					<hkparam name="localTime">0.133000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.033000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">3</hkparam>
@@ -2472,7 +2552,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.059000</hkparam>
+					<hkparam name="localTime">0.209000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.059000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">10</hkparam>
@@ -2484,7 +2565,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.099000</hkparam>
+					<hkparam name="localTime">0.219000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.099000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">4</hkparam>
@@ -2496,7 +2578,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.134000</hkparam>
+					<hkparam name="localTime">0.234000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.134000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -2555,7 +2638,8 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -2590,7 +2674,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.033000</hkparam>
+					<hkparam name="localTime">0.113000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.033000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">3</hkparam>
@@ -2602,7 +2687,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.099000</hkparam>
+					<hkparam name="localTime">0.143000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.099000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">4</hkparam>
@@ -2614,7 +2700,8 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.133000</hkparam>
+					<hkparam name="localTime">0.153000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.133000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -2644,12 +2731,15 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_BlockBash</hkparam>
-			<hkparam name="animationName">Animations\Bow_BlockBash.hkx</hkparam>
-			<hkparam name="triggers">#0161</hkparam>
+			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
+			<hkparam name="animationName">Animations\Bow_BlockBash.hkx</hkparam>				<!-- original -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0161</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -2914,12 +3004,15 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW1HM1HMBlockBash</hkparam>
-			<hkparam name="animationName">Animations\DW1HM1HMBlockBash.hkx</hkparam>
-			<hkparam name="triggers">#0167</hkparam>
+			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
+			<hkparam name="animationName">Animations\DW1HM1HMBlockBash.hkx</hkparam>				<!-- original -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0167</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -3130,7 +3223,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0176 #0145
+				#0176
+				#0145
 			</hkparam>
 		</hkobject>
 
@@ -3151,7 +3245,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BashWeaponTypeMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0146 #0146 #0146 #0146 #0146 #0146 #0146 #0146 #0177 #0146 #0146 #0146 #0146
+				#0146
+				#0146
+				#0146
+				#0146
+				#0146
+				#0146
+				#0146
+				#0146
+				#0177
+				#0146
+				#0146
+				#0146
+				#0146
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -3248,7 +3354,9 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_FORCE_TRANSITION_TO_START_STATE</hkparam>
 			<hkparam name="states" numelements="3">
-				#0182 #0143 #0104
+				#0182
+				#0143
+				#0104
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3262,6 +3370,42 @@
 			<hkparam name="data">#0058</hkparam>
 		</hkobject>
 
+<!-- NEW *cbbi* -->
+		<hkobject name="#cbbi$0" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">&#13;&#10;Intro</hkparam>
+			<hkparam name="animationName">Animations\1HM_BlockBashIntro.hkx</hkparam>
+			<hkparam name="triggers">#cbbi$1</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#cbbi$1" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="1">
+				<hkobject>
+					<hkparam name="localTime">0.000000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">2</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
+
+<!-- CLOSE -->
 	</hksection>
 
 </hkpackfile>

@@ -1,0 +1,8 @@
+		<hkobject name="#zcbe$485" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
+				<hkobject>
+					<hkparam name="id">1062</hkparam>
+					<hkparam name="payload">#zcbe$487</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

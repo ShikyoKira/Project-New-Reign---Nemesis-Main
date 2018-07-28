@@ -280,7 +280,8 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1640</hkparam>
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *na1w* -->
+							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1640</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
@@ -289,7 +290,8 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
+							<hkparam name="flags">FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *na1w* -->
+							<hkparam name="flags">0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
@@ -298,7 +300,8 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>
+							<hkparam name="flags">0</hkparam>					<!-- *na1w* -->
+							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
@@ -427,7 +430,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0106 #0062
+				#0106
+				#0062
 			</hkparam>
 		</hkobject>
 
@@ -457,7 +461,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Weap_Equip_MSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0099 #0095 #0089 #0083 #0077 #0075 #0073 #0071 #0069 #0067 #0067 #0067 #0065
+				#0099
+				#0095
+				#0089
+				#0083
+				#0077
+				#0075
+				#0073
+				#0071
+				#0069
+				#0067
+				#0067
+				#0067
+				#0065
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -549,7 +565,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Equip</hkparam>
-			<hkparam name="animationName">Animations\1HM_Equip.hkx</hkparam>
+			<hkparam name="animationName">Animations\male\1HM_Equip.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\1HM_Equip.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0068</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -691,7 +708,7 @@
 		</hkobject>
 
 		<hkobject name="#0072" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">
+			<hkparam name="triggers" numelements="2">					<!-- numelement *agpo* +1-->
 				<hkobject>
 					<hkparam name="localTime">-0.300000</hkparam>
 					<hkparam name="event">
@@ -716,6 +733,20 @@
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
+<!-- NEW *agpo* -->
+				<hkobject>
+					<hkparam name="localTime">0.666666</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">29</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- CLOSE -->
 			</hkparam>
 		</hkobject>
 
@@ -840,7 +871,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MacEquipMSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0078 #0080 #0080 #0080 #0080 #0078 #0078 #0078 #0078 #0078 #0078 #0078
+				#0078
+				#0080
+				#0080
+				#0080
+				#0080
+				#0078
+				#0078
+				#0078
+				#0078
+				#0078
+				#0078
+				#0078
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -991,7 +1033,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">AxeEquipMSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0084 #0086 #0086 #0086 #0086 #0084 #0084 #0084 #0084 #0084 #0084 #0084
+				#0084
+				#0086
+				#0086
+				#0086
+				#0086
+				#0084
+				#0084
+				#0084
+				#0084
+				#0084
+				#0084
+				#0084
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1142,7 +1195,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DagEquipMSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0090 #0092 #0092 #0092 #0092 #0090 #0090 #0090 #0090 #0090 #0090 #0090
+				#0090
+				#0092
+				#0092
+				#0092
+				#0092
+				#0090
+				#0090
+				#0090
+				#0090
+				#0090
+				#0090
+				#0090
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1293,7 +1357,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HEquipMSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0067 #0096 #0096 #0096 #0096 #0067 #0067 #0067 #0067 #0067 #0067 #0067
+				#0067
+				#0096
+				#0096
+				#0096
+				#0096
+				#0067
+				#0067
+				#0067
+				#0067
+				#0067
+				#0067
+				#0067
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1398,7 +1473,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">H2HEquipMSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0100 #0102 #0102 #0102 #0102 #0100 #0100 #0100 #0069 #0100 #0100 #0100
+				#0100
+				#0102
+				#0102
+				#0102
+				#0102
+				#0100
+				#0100
+				#0100
+				#0069
+				#0100
+				#0100
+				#0100
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1672,7 +1758,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0125 #0114
+				#0125
+				#0114
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -1702,7 +1789,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0118 #0116
+				#0118
+				#0116
 			</hkparam>
 		</hkobject>
 
@@ -1907,7 +1995,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0112 #0110
+				#0112
+				#0110
 			</hkparam>
 		</hkobject>
 
@@ -1928,7 +2017,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WeapEquip_LocomotionMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0137 #0129 #0129 #0129 #0129 #0061 #0061 #0132 #0061 #0061 #0061 #0061 #0061
+				#0137
+				#0129
+				#0129
+				#0129
+				#0129
+				#0061
+				#0061
+				#0132
+				#0061
+				#0061
+				#0061
+				#0061
+				#0061
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1946,7 +2047,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0135 #0133
+				#0135
+				#0133
 			</hkparam>
 		</hkobject>
 
@@ -1962,12 +2064,17 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="99">
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 1.000000
-				0.000000 1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 1.000000 1.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000					<!-- *agpo* -->
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000				<!-- original -->
+				1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000					<!-- *agpo* -->
+				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 1.000000				<!-- original -->
+				0.000000 1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 1.000000					<!-- *agpo* -->
+				0.000000 1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 1.000000 1.000000				<!-- original -->
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 1.000000 0.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000					<!-- *agpo* -->
+				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000				<!-- original -->
+				1.000000 1.000000 0.000000					<!-- *agpo* -->
+				0.000000 1.000000 0.000000				<!-- original -->
 			</hkparam>
 		</hkobject>
 
@@ -1983,12 +2090,17 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="98">
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 0.000000
-				1.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 0.000000 0.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000					<!-- *agpo* -->
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000				<!-- original -->
+				0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000					<!-- *agpo* -->
+				1.000000 1.000000 1.000000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 0.000000				<!-- original -->
+				1.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000					<!-- *agpo* -->
+				1.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 0.000000 0.000000				<!-- original -->
 				1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000					<!-- *agpo* -->
+				0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000				<!-- original -->
+				0.000000 0.000000					<!-- *agpo* -->
+				1.000000 0.000000				<!-- original -->
 			</hkparam>
 		</hkobject>
 
@@ -1997,7 +2109,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">H2HEquip_LocomotionMSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0143 #0138 #0138 #0138 #0138 #0138 #0138 #0138 #0138 #0138 #0138 #0138
+				#0143
+				#0138
+				#0138
+				#0138
+				#0138
+				#0138
+				#0138
+				#0138
+				#0138
+				#0138
+				#0138
+				#0138
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2015,7 +2138,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0141 #0139
+				#0141
+				#0139
 			</hkparam>
 		</hkobject>
 
@@ -2073,7 +2197,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0146 #0144
+				#0146
+				#0144
 			</hkparam>
 		</hkobject>
 
@@ -2178,7 +2303,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0149 #0060
+				#0149
+				#0060
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2305,7 +2431,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0155 #0153
+				#0155
+				#0153
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2349,7 +2476,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WeapRightReplace_ForceEquipMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0162 #0067 #0090 #0084 #0078 #0075 #0073 #0071 #0069 #0067 #0067 #0067 #0065
+				#0162
+				#0067
+				#0090
+				#0084
+				#0078
+				#0075
+				#0073
+				#0071
+				#0069
+				#0067
+				#0067
+				#0067
+				#0065
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2360,7 +2499,18 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">H2H_Weap_Equip_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0100 #0100 #0100 #0100 #0100 #0100 #0100 #0100 #0163 #0100 #0100 #0100
+				#0100
+				#0100
+				#0100
+				#0100
+				#0100
+				#0100
+				#0100
+				#0100
+				#0163
+				#0100
+				#0100
+				#0100
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2378,7 +2528,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0167 #0164
+				#0167
+				#0164
 			</hkparam>
 		</hkobject>
 
@@ -2510,7 +2661,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0173 #0160
+				#0173
+				#0160
 			</hkparam>
 		</hkobject>
 
@@ -2581,7 +2733,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0179 #0177
+				#0179
+				#0177
 			</hkparam>
 		</hkobject>
 
@@ -2602,7 +2755,19 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WeapForceEquip_LocomotionMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0137 #0180 #0180 #0180 #0180 #0061 #0061 #0132 #0061 #0061 #0061 #0061 #0061
+				#0137
+				#0180
+				#0180
+				#0180
+				#0180
+				#0061
+				#0061
+				#0132
+				#0061
+				#0061
+				#0061
+				#0061
+				#0061
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2655,7 +2820,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0183 #0175
+				#0183
+				#0175
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2758,7 +2924,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0191 #0189
+				#0191
+				#0189
 			</hkparam>
 		</hkobject>
 
@@ -2902,7 +3069,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0198 #0195
+				#0198
+				#0195
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -2985,7 +3153,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0202 #0187
+				#0202
+				#0187
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3046,7 +3215,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0252 #0209
+				#0252
+				#0209
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3076,7 +3246,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0213 #0211
+				#0213
+				#0211
 			</hkparam>
 		</hkobject>
 
@@ -3144,7 +3315,15 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="9">
-				#0242 #0233 #0232 #0229 #0222 #0221 #0220 #0219 #0216
+				#0242
+				#0233
+				#0232
+				#0229
+				#0222
+				#0221
+				#0220
+				#0219
+				#0216
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3284,7 +3463,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0226 #0224
+				#0226
+				#0224
 			</hkparam>
 		</hkobject>
 
@@ -3455,7 +3635,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0240 #0235
+				#0240
+				#0235
 			</hkparam>
 		</hkobject>
 
@@ -3571,7 +3752,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0246 #0244
+				#0246
+				#0244
 			</hkparam>
 		</hkobject>
 
@@ -3778,7 +3960,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0257 #0207
+				#0257
+				#0207
 			</hkparam>
 		</hkobject>
 
@@ -3904,7 +4087,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0262 #0260
+				#0262
+				#0260
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -3960,7 +4144,16 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicWeapEquip_MSG</hkparam>
 			<hkparam name="generators" numelements="10">
-				#0270 #0270 #0270 #0270 #0270 #0270 #0270 #0272 #0270 #0270
+				#0270
+				#0270
+				#0270
+				#0270
+				#0270
+				#0270
+				#0270
+				#0272
+				#0270
+				#0270
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -4151,7 +4344,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0276 #0268
+				#0276
+				#0268
 			</hkparam>
 		</hkobject>
 
@@ -4252,7 +4446,8 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#0283 #0281
+				#0283
+				#0281
 			</hkparam>
 		</hkobject>
 
@@ -4409,7 +4604,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0291 #0288
+				#0291
+				#0288
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -4492,7 +4688,8 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0295 #0279
+				#0295
+				#0279
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
@@ -4544,7 +4741,10 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="4">
-				#0298 #0265 #0205 #0158
+				#0298
+				#0265
+				#0205
+				#0158
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
