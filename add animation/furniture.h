@@ -9,10 +9,7 @@
 #include <unordered_map>
 #include <boost\regex.hpp>
 #include <boost\algorithm\string.hpp>
-#include "compute.h"
-#include "optionlist.h"
 #include "registeranimation.h"
-#include "animationinfo.h"
 #include "animationutility.h"
 #include "alphanum.hpp"
 #include "templatetree.h"
@@ -104,7 +101,6 @@ public:
 
 template <class T>
 inline int numDigits(T number);
-inline unsigned int CRC32Convert(std::string line);
 inline bool isPassed(int condition, std::unordered_map<int, bool> IsConditionOpened);
 inline bool clearGroupNum(std::string option2, std::unordered_map<std::string, bool> optionPicked, bool isNot, std::unordered_map<std::string, bool> groupOption);
 std::string getOption(std::string curline, bool multi);

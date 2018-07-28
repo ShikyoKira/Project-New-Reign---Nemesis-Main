@@ -3,7 +3,9 @@
 
 extern void AAInitialize(std::string AAList);
 extern void AAInstallation();
-void fixedKeyInitialize();
-unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
+
+extern std::string GetLastModified(std::string filename);
+extern void FolderCreate(std::string curBehaviorPath);
+extern unsigned int CRC32Convert(std::string line);
 
 #endif

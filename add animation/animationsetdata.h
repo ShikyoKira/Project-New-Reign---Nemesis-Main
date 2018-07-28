@@ -81,7 +81,7 @@ struct AnimationDataProject
 	std::unordered_map<std::string, std::unordered_map<bool, std::map<std::string, datapack, alphanum_less>>> dataMod;		// modcode, add/minus, list of data pack
 
 	AnimationDataProject() {}
-	AnimationDataProject(int& startline, vecstr& animdatafile, std::string filename);
+	AnimationDataProject(int& startline, vecstr& animdatafile, std::string filename, std::string projectname);
 };
 
 struct ASDFunct
@@ -127,7 +127,7 @@ void DataPackProcess(std::map<std::string, datapack, alphanum_less>& storeline, 
 void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);
 void TypePackProcess(std::vector<typepack>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);
 void AnimPackProcess(std::vector<animpack>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);
-void CRC32Process(std::vector<crc32>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);
+void CRC32Process(std::vector<crc32>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header, std::unordered_map<std::string, vecstr*> AAList, std::string projectPath);
 
 int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSet, std::unordered_map<int, ASDFunct>& marker, std::string modcode, std::string header, bool last, bool muteError);
 

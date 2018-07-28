@@ -2,11 +2,25 @@
 
 using namespace std;
 
-AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile, string filename)
+AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile, string filename, string projectname)
 {
 	// data list
 	DataPackProcess(datalist, startline, animdatafile, filename);
 	++startline;
+	string projectPath;
+	unordered_map<string, vecstr*> AAList;
+	
+	// assume current project has new alternate animation installed
+	if (behaviorProjectPath[projectname].length() > 0)
+	{
+		projectPath = behaviorProjectPath[projectname] + "\\animations";
+		string projectPathCRC32 = to_string(CRC32Convert(projectPath));
+
+		for (auto& anim : alternateAnim)
+		{
+			AAList[projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(anim.first))) + ",7891816"] = &anim.second;
+		}
+	}
 
 	for (auto it = datalist.begin(); it != datalist.end(); ++it)
 	{
@@ -28,7 +42,7 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 		AnimPackProcess(it->second.animlist, startline, animdatafile, filename, it->first);
 
 		// crc3 list
-		CRC32Process(it->second.crc32list, startline, animdatafile, filename, it->first);
+		CRC32Process(it->second.crc32list, startline, animdatafile, filename, it->first, AAList, projectPath);
 	}
 }
 
@@ -343,7 +357,7 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 	}
 }
 
-void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string filename, string header)
+void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string filename, string header, unordered_map<string, vecstr*> AAList, string projectPath)
 {
 	if (startline >= int(animdatafile.size()))
 	{
@@ -355,6 +369,8 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 		ErrorMessage(5001, filename, header);
 		throw 1;
 	}
+
+	vector<crc32> newCRC;
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
 	{
@@ -410,7 +426,32 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 		{
 			startline = i;
 		}
+
+		// if existing crc32 line match the assumed line, new alternate animations will be converted into crc32 number and added in
+		if (AAList[tempCRC32.filepath + "," + tempCRC32.filename + "," + tempCRC32.fileformat] != nullptr)
+		{
+			for (auto& anim : *AAList[tempCRC32.filepath + "," + tempCRC32.filename + "," + tempCRC32.fileformat])
+			{
+				if (anim != "x")
+				{
+					crc32 newCRC32;
+					string modID = GetFileDirectory(anim);
+					modID.pop_back();
+					string line = to_string(CRC32Convert(boost::to_lower_copy(projectPath + "\\" + modID)));
+					newCRC32.filepath = line;
+
+					line = GetFileName(anim);
+					line = to_string(CRC32Convert(boost::to_lower_copy(line)));
+					newCRC32.filename = line;
+					newCRC32.fileformat = "7891816";
+
+					newCRC.push_back(newCRC32);
+				}
+			}
+		}
 	}
+
+	storeline.insert(storeline.end(), newCRC.begin(), newCRC.end());
 }
 
 ASDFormat::position ASDPosition(vecstr animData, string project, string header, string modcode, int linecount, bool muteError)

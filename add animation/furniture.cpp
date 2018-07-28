@@ -1,5 +1,5 @@
 #include "furniture.h"
-#include <boost\crc.hpp>
+#include "alternateanimation.h"
 
 #pragma warning(disable:4503)
 
@@ -6843,11 +6843,4 @@ void CRC32Replacer(string& line, string format, string behaviorFile, int linecou
 	--nextpos;
 	string crc32line = boost::to_lower_copy(line.substr(pos, nextpos - pos));
 	line.replace(line.find(fullline), fullline.length(), to_string(CRC32Convert(crc32line)));
-}
-
-inline unsigned int CRC32Convert(string line)
-{
-	boost::crc_optimal<32, 0x4C11DB7, 0, 0, true, true> result;
-	result.process_bytes(line.data(), line.length());
-	return result.checksum();
 }
