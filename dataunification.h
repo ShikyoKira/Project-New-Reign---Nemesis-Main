@@ -2,7 +2,7 @@
 #define DATAUNIFICATION_H_
 
 #include <iostream>
-#include <thread>
+#include <boost\thread.hpp>
 #include <boost\regex.hpp>
 #include <boost\filesystem.hpp>
 #include <boost\algorithm\string.hpp>

@@ -16,7 +16,46 @@ void ClearTempBehaviors()
 		{
 			if (remove((tempbehavior + filelist[i]).c_str()) != 0)
 			{
-				WarningMessage(1006);
+				if (boost::filesystem::is_directory(tempbehavior + filelist[i]))
+				{
+					if (!boost::filesystem::remove_all(tempbehavior + filelist[i]))
+					{
+						WarningMessage(1006);
+					}
+				}
+				else
+				{
+					WarningMessage(1006);
+				}
+			}
+		}
+	}
+}
+
+void ClearTempXml()
+{
+	vecstr filelist;
+	string folder = "temp_behaviors\\xml\\";
+
+	if (isFileExist(folder) && boost::filesystem::is_directory(folder))
+	{
+		read_directory(folder, filelist);
+
+		for (unsigned int i = 0; i < filelist.size(); ++i)
+		{
+			if (remove((folder + filelist[i]).c_str()) != 0)
+			{
+				if (boost::filesystem::is_directory(folder + filelist[i]))
+				{
+					if (!boost::filesystem::remove_all(folder + filelist[i]))
+					{
+						WarningMessage(1009, filelist[i]);
+					}
+				}
+				else
+				{
+					WarningMessage(1009, filelist[i]);
+				}
 			}
 		}
 	}

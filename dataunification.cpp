@@ -28,6 +28,53 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 				return false;
 			}
 			
+			{
+				vecstr newline;
+				bool start = false;
+
+				for (auto& curline : storeline)
+				{
+					if (curline.find("SERIALIZE_IGNORED") == NOT_FOUND)
+					{
+						if (curline.find("			#") != NOT_FOUND && newline.back().find("numelements=\"", 0) != NOT_FOUND)
+						{
+							start = true;
+						}
+						else if (start && curline.find("</hkparam>") != NOT_FOUND)
+						{
+							start = false;
+						}
+
+						if (start)
+						{
+							if (curline.find("			#") != NOT_FOUND)
+							{
+								stringstream sstream(curline);
+								istream_iterator<string> ssbegin(sstream);
+								istream_iterator<string> ssend;
+								vector<string> curElements(ssbegin, ssend);
+								copy(curElements.begin(), curElements.end(), curElements.begin());
+
+								for (auto& element : curElements)
+								{
+									newline.push_back("				" + element);
+								}
+							}
+							else
+							{
+								newline.push_back(curline);
+							}
+						}
+						else
+						{
+							newline.push_back(curline);
+						}
+					}
+				}
+
+				storeline = newline;
+			}
+
 			string nodeID = nodelist[k].substr(0, nodelist[k].find_last_of("."));
 			vecstr originallines = newFile[behaviorfile][nodeID];
 

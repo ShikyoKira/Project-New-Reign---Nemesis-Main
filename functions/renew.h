@@ -11,6 +11,6 @@
 #include "add animation\animationsetdata.h"
 
 extern void ClearTempBehaviors();
-
+extern void ClearTempXml();
 
 #endif

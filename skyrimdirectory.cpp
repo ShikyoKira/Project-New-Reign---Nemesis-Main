@@ -1,40 +1,52 @@
 #include "skyrimdirectory.h"
+#include <Windows.h>
 
 using namespace std;
 
 DataPath::DataPath()
 {
 	namespace bf = boost::filesystem;
-	bf::path path;
 
 	if (bf::current_path().string() == "E:\\C++\\Project 2\\Nemesis Main GUI")
 	{
-		path = bf::path("E:\\C++\\Project 2\\Nemesis Main GUI\\data\\meshes");
+		dataPath = "E:\\C++\\Project 2\\Nemesis Main GUI\\data\\";
 	}
 	else
 	{
-		path = bf::path(bf::current_path());
-	}
-
-	if (wordFind(path.string(), "\\Data\\") != NOT_FOUND)
-	{
-		while (true)
+		if (wordFind(bf::current_path().string(), "\\Data\\") != NOT_FOUND)
 		{
-			if (wordFind(path.parent_path().string(), "\\Data") == NOT_FOUND)
+			DWORD dwType = REG_SZ;
+			HKEY hKey = 0;
+			char value[1024];
+			DWORD value_length = 1024;
+			const char* subkey = "SOFTWARE\\Bethesda Softworks\\Skyrim";
+			RegOpenKey(HKEY_LOCAL_MACHINE, subkey, &hKey);
+			RegQueryValueEx(hKey, "installed path", NULL, &dwType, (LPBYTE)&value, &value_length);
+			dataPath = value;
+			dataPath = dataPath + "Dataasd";
+
+			if (!isFileExist(dataPath))
 			{
-				break;
+				const char* subkey = "SOFTWARE\\Wow6432Node\\Bethesda Softworks\\Skyrim";
+				RegOpenKey(HKEY_LOCAL_MACHINE, subkey, &hKey);
+				RegQueryValueEx(hKey, "installed path", NULL, &dwType, (LPBYTE)&value, &value_length);
+				dataPath = value;
+				dataPath = dataPath + "Data\\";
+
+				if (!isFileExist(dataPath))
+				{
+					ErrorMessage(6005);
+					return;
+				}
 			}
-
-			path = path.parent_path();
 		}
+		else
+		{
+			ErrorMessage(1008);
+			return;
+		}
+	}
 
-		dataPath = path.string();
-	}
-	else
-	{
-		ErrorMessage(1008);
-		return;
-	}
 }
 
 string DataPath::GetDataPath()
