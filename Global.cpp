@@ -1,9 +1,14 @@
 #include "Global.h"
+#include <atomic>
 #include <Windows.h>
+#include <boost\thread\mutex.hpp>
+#include <boost\thread\lock_guard.hpp>
 
 #pragma warning(disable:4503)
 
 using namespace std;
+
+atomic_flag atomLock = ATOMIC_FLAG_INIT;
 
 bool debug = false;
 int memory = 100;
@@ -14,11 +19,12 @@ DataPath* skyrimDataPath;
 #endif
 
 boost::posix_time::ptime time1;
-mutex addAnimLock;
+boost::mutex addAnimLock;
 
 unordered_map<string, string> behaviorPath;
 
 unordered_map<string, bool> activatedBehavior;
+unordered_map<string, string> behaviorProjectPath;
 unordered_map<string, vecstr> behaviorJoints;
 unordered_map<string, vecstr> behaviorProject;
 unordered_map<string, set<string>> usedAnim;
@@ -34,7 +40,7 @@ unordered_map<string, vecstr> groupAA;
 unordered_map<string, vecstr> groupAAPrefix;
 unordered_map<string, vecstr> alternateAnim;
 unordered_map<string, unordered_map<string, int>> AAGroupCount;
-vecstr groupNameList;
+set<string> groupNameList;
 
 struct path_leaf_string
 {
@@ -267,8 +273,11 @@ bool hasAlpha(string line)
 
 void addUsedAnim(string behaviorFile, string animPath)
 {
-	lock_guard<mutex> animLock(addAnimLock);
+	// boost::lock_guard<boost::mutex> animLock(addAnimLock);		issue #61
+
+	while (atomLock.test_and_set(memory_order_acquire));
 	usedAnim[behaviorFile].insert(animPath);
+	atomLock.clear(memory_order_release);
 }
 
 void saveLastUpdate(string filename, unordered_map<string, string>& lastUpdate)
@@ -293,6 +302,9 @@ void saveLastUpdate(string filename, unordered_map<string, string>& lastUpdate)
 	FileTimeToSystemTime(&lastmodified, &sysUTC);
 	string time = to_string(sysUTC.wDay) + "/" + to_string(sysUTC.wMonth) + "/" + to_string(sysUTC.wYear) + " " + to_string(sysUTC.wHour) + ":" + to_string(sysUTC.wMinute);
 
-	lock_guard<mutex> fileLock(addAnimLock);
+	// boost::lock_guard<boost::mutex> fileLock(addAnimLock);		issue #61
+
+	while (atomLock.test_and_set(memory_order_acquire));
 	lastUpdate[filename] = time;
+	atomLock.clear(memory_order_release);
 }

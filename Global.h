@@ -31,7 +31,6 @@ extern bool debug;								// if debug is on
 extern int memory;								// not used; for setting memory allocation from 100 - 1000
 extern int fixedkey[257];						// AA installation key
 extern boost::posix_time::ptime time1;			// for getting elapsed time
-extern std::mutex addAnimLock;					// locking access to usedAnim
 #ifndef DEBUG
 extern DataPath* skyrimDataPath;					// skyrim data path
 #endif
@@ -41,6 +40,7 @@ extern std::unordered_map<std::string, std::string> behaviorPath;															
 
 // behavior generator
 extern std::unordered_map<std::string, bool> activatedBehavior;																// behavior file, true/fast; check if the behavior is needed to be edited to character for animationdatasinglefile
+extern std::unordered_map<std::string, std::string> behaviorProjectPath;													// project, project's path; project that has been installed
 extern std::unordered_map<std::string, vecstr> behaviorJoints;																// lower lvl behavior file, higher lvl behavior file
 extern std::unordered_map<std::string, vecstr> behaviorProject;																// character hkx file name, list of project hkx file name; link the project
 extern std::unordered_map<std::string, std::set<std::string>> characterHeaders;												// character, list of headers; use to check if header exist
@@ -56,7 +56,7 @@ extern std::unordered_map<std::string, vecstr> AAEvent;																		// AA a
 extern std::unordered_map<std::string, vecstr> AAHasEvent;																	// original animation name, AA with event; which original animation associated with AA has new event name?
 extern std::unordered_map<std::string, std::string> AAGroup;																// AA file name, animation group name
 extern std::unordered_map<std::string, std::unordered_map<std::string, int>> AAGroupCount;									// AA prefix, animation group name, count; animation group picked count
-extern vecstr groupNameList;																								// list of animation group name; for scripting
+extern std::set<std::string> groupNameList;																					// list of animation group name; for scripting
 
 // string utilities
 extern bool isOnlyNumber(std::string line);

@@ -1,12 +1,16 @@
 #include "functionupdate.h"
+#include <boost\thread.hpp>
+#include <atomic>
 
 #pragma warning(disable:4503)
 
 using namespace std;
 
+atomic_flag filelock = ATOMIC_FLAG_INIT;
+
 typedef vector<string> vecstr;
 
-unordered_map<string, mutex> locker;
+// mutex locker;		issue #61
 
 string GetFunctionEdits(vecstr storeline, int numline)
 {
@@ -42,11 +46,14 @@ vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int en
 
 bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, string>& lastUpdate)
 {
-	lock_guard<mutex> filelocker(locker[behaviorfile + nodefile]);
+	// lock_guard <mutex> filelocker(locker);		issue #61
+
+	while (filelock.test_and_set(memory_order_acquire));
 
 	if (behaviorPath[behaviorfile].empty())
 	{
 		ErrorMessage(2006, behaviorfile);
+		filelock.clear(memory_order_release);
 		return false;
 	}
 
@@ -125,9 +132,9 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 					if (originalopen)
 					{
-						int tempint = editline - originalline;
-						NewCoordinate[linecount] = tempint;
-						modEditLine[to_string(linecount) + "R"] = coordinate - tempint - 2;
+						int addLineCount = editline - originalline;
+						NewCoordinate[linecount] = addLineCount;
+						modEditLine[to_string(linecount) + "R"] = starteditline - startoriline + originalline + 1;
 
 						for (int i = startoriline; i < originalline; ++i)
 						{
@@ -139,9 +146,9 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 					}
 					else
 					{
-						int tempint = editline - starteditline;
-						NewCoordinate[linecount] = tempint;
-						modEditLine[to_string(linecount) + "R"] = coordinate - tempint;
+						int addLineCount = editline - starteditline;
+						NewCoordinate[linecount] = addLineCount;
+						modEditLine[to_string(linecount) + "R"] = coordinate - addLineCount;
 					}
 				}
 				else if (edited)
@@ -183,14 +190,15 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 		}
 		else
 		{
-
 			ErrorMessage(2000, filename);
+			filelock.clear(memory_order_release);
 			return false;
 		}
 
 		if (NewCoordinate.size() == 0)
 		{
 			WarningMessage(1017, filename);
+			filelock.clear(memory_order_release);
 			return false;
 		}
 
@@ -275,6 +283,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 							if (error)
 							{
 								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[to_string(linecount)]);
+								filelock.clear(memory_order_release);
 								return false;
 							}
 
@@ -296,6 +305,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 							if (error)
 							{
 								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[to_string(linecount)]);
+								filelock.clear(memory_order_release);
 								return false;
 							}
 
@@ -334,6 +344,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 						}
 						else
 						{
+							filelock.clear(memory_order_release);
 							return false;
 						}
 					}
@@ -352,6 +363,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 		else
 		{
 			ErrorMessage(2001, nodeID);
+			filelock.clear(memory_order_release);
 			return false;
 		}
 
@@ -367,15 +379,18 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 		else
 		{
 			ErrorMessage(2003, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile);
+			filelock.clear(memory_order_release);
 			return false;
 		}
 	}
 	else
 	{
 		ErrorMessage(2003, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile);
+		filelock.clear(memory_order_release);
 		return false;
 	}
 
+	filelock.clear(memory_order_release);
 	return true;
 }
 
