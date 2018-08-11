@@ -1,44 +1,46 @@
 #ifndef MASTER_H_
 #define MASTER_H_
 
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <direct.h>
-#include <cstring>
-#include <vector>
-#include <memory>
-#include <algorithm>
 #include <map>
+#include <string>
+#include <vector>
 #include <atomic>
+#include <memory>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <direct.h>
+#include <algorithm>
 #include <unordered_map>
 #include <boost\regex.hpp>
 #include <boost\filesystem.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
-#include <QtCore/QObject>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QTreeView>
-#include <QtCore/QTimer>
+#include <QtCore\QTimer>
+#include <QtCore\QObject>
+#include <QtWidgets\QTreeView>
+#include <QtWidgets\QPushButton>
 #include "Global.h"
 #include "alphanum.hpp"
 #include "filechecker.h"
 #include "behaviorcheck.h"
 #include "skyrimdirectory.h"
 #include "dataunification.h"
-#include "functions/renew.h"
+#include "functions\renew.h"
+#include "logging\debugmsg.h"
 #include "behaviorgenerator.h"
+#include "add animation\import.h"
 #include "add animation\furniture.h"
 #include "add animation\grouptemplate.h"
-#include "add animation\import.h"
-#include "logging\debugmsg.h"
+#include "add animation\playerexclusive.h"
 
 extern std::unordered_map<std::string, vecstr> modinfo;
 
 struct arguPack
 {
-	arguPack(std::string n_directory, std::string n_modcode, vecstr n_behaviorfilelist, std::unordered_map<std::string, std::map<std::string, vecstr>>& n_newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& n_newAnimData, vecstr& n_animDataChar, std::unordered_map<std::string, vecstr>& n_animDataHeader,
-		std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& n_newAnimDataSet, vecstr& n_projectList, std::unordered_map<std::string, std::set<std::string>>& n_oriADH, std::unordered_map<std::string, std::set<std::string>>& n_oriASDH, std::unordered_map<std::string, std::string>& n_lastUpdate)
-		: newFile(n_newFile), newAnimData(n_newAnimData), animDataChar(n_animDataChar), animDataHeader(n_animDataHeader), newAnimDataSet(n_newAnimDataSet), projectList(n_projectList), oriADH(n_oriADH), oriASDH(n_oriASDH), lastUpdate(n_lastUpdate)
+	arguPack(std::string n_directory, std::string n_modcode, vecstr n_behaviorfilelist, std::unordered_map<std::string, std::map<std::string, vecstr>>& n_newFile,
+		MasterAnimData& n_animData, MasterAnimSetData& n_animSetData,
+		std::unordered_map<std::string, std::string>& n_lastUpdate)
+		: newFile(n_newFile), animData(n_animData), animSetData(n_animSetData), lastUpdate(n_lastUpdate)
 	{
 		directory = n_directory;
 		modcode = n_modcode;
@@ -49,13 +51,8 @@ struct arguPack
 	std::string modcode;
 	vecstr behaviorfilelist;
 	std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile;
-	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData;
-	vecstr& animDataChar;
-	vecstr& projectList;
-	std::unordered_map<std::string, vecstr>& animDataHeader;
-	std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet;
-	std::unordered_map<std::string, std::set<std::string>>& oriADH;
-	std::unordered_map<std::string, std::set<std::string>>& oriASDH;
+	MasterAnimData& animData;
+	MasterAnimSetData& animSetData;
 	std::unordered_map<std::string, std::string>& lastUpdate;
 };
 
@@ -71,15 +68,18 @@ public:
 
 public slots :
 	void UpdateFiles();
-	bool VanillaUpdate(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList);
-	bool GetPathLoop(std::string newPath, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList, bool isFirstPerson);
+	bool VanillaUpdate(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData);
+	bool GetPathLoop(std::string newPath, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData,
+		MasterAnimSetData& animSetData, bool isFirstPerson);
 	bool VanillaDisassemble(std::string path, std::string filename, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile);
-	bool AnimDataDisassemble(std::string path, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader);
-	bool AnimDataSetDisassemble(std::string path, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList);
-	bool newAnimUpdate(std::string sourcefolder, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList, std::unordered_map<std::string, std::set<std::string>>& oriADH, std::unordered_map<std::string, std::set<std::string>>& oriASDH, std::unordered_map<std::string, std::string>& lastUpdate);
+	bool AnimDataDisassemble(std::string path, MasterAnimData& animData);
+	bool AnimSetDataDisassemble(std::string path, MasterAnimSetData& animSetData);
+	bool newAnimUpdate(std::string sourcefolder, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData,
+		std::unordered_map<std::string, std::string>& lastUpdate);
 	void SeparateMod(arguPack& pack);
-	void JoiningEdits(std::string directory, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList, std::unordered_map<std::string, std::set<std::string>>& oriADH, std::unordered_map<std::string, std::set<std::string>>& oriASDH, std::unordered_map<std::string, std::string>& lastUpdate);
-	void CombiningFiles(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList);
+	void JoiningEdits(std::string directory, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData,
+		std::unordered_map<std::string, std::string>& lastUpdate);
+	void CombiningFiles(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData);
 	void milestoneUp();
 	void unregisterProcess();
 
@@ -199,7 +199,7 @@ signals:
 	void incomingMessage(QString);
 };
 
-class InstallAA : public QObject
+class InstallScripts : public QObject
 {
 	Q_OBJECT
 
