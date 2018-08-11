@@ -30,9 +30,6 @@ struct typepack
 	std::string name;
 	std::string equiptype1;
 	std::string equiptype2;
-
-	std::unordered_map<std::string, std::string> equiptype1Mod;							// modcode, modified equiptype1; modified equiptype1 by the mod
-	std::unordered_map<std::string, std::string> equiptype2Mod;							// modcode, modified equiptype2; modified equiptype2 by the mod
 };
 
 struct animpack
@@ -42,9 +39,6 @@ struct animpack
 	std::string name;
 	std::string unknown;
 	std::vector<attackdata> attack;
-
-	std::unordered_map<std::string, std::string> unknownMod;									// modcode, modified unknown; modified unknown by the mod
-	std::unordered_map<std::string, std::unordered_map<bool, std::set<attackdata>>> attackMod;	// modcode, add/minus, list of attack; add or delete equip list
 };
 
 struct crc32
@@ -62,14 +56,6 @@ struct datapack
 	std::vector<typepack> typelist;		// anim data set, type list
 	std::vector<animpack> animlist;		// anim data set, list of animpack
 	std::vector<crc32> crc32list;		// anim data set, crc32 list
-
-	std::unordered_map<std::string, std::unordered_map<bool, std::vector<equip>>> equipMod;		// modcode, add/minus, list of equip; add or delete equip list
-	std::unordered_map<std::string, std::unordered_map<bool, std::vector<typepack>>> typeMod;	// modcode, add/minus, list of typelist; add or delete typepack list
-	std::unordered_map<std::string, std::unordered_map<bool, std::vector<animpack>>> animMod;	// modcode, add/minus, list of animlist; add or delete animpack list
-	std::unordered_map<std::string, std::unordered_map<bool, std::vector<crc32>>> crc32Mod;		// modcode, add/minus, list of crc32; add or delete crc32 list
-	
-	std::unordered_map<std::string, std::unordered_map<std::string, typepack>> alterTypePackMod;	// original typepack name, modcode, typepack; extraction of modded version
-	std::unordered_map<std::string, std::unordered_map<std::string, animpack>> alterAnimPackMod;	// original animpack name, modcode, animpack; extraction of modded version
 };
 
 struct AnimationDataProject
@@ -77,8 +63,6 @@ struct AnimationDataProject
 	bool isNew = false;					// is this new set of animdata data
 	std::string mod;					// modcode
 	std::map<std::string, datapack, alphanum_less> datalist;		// anim data set
-
-	std::unordered_map<std::string, std::unordered_map<bool, std::map<std::string, datapack, alphanum_less>>> dataMod;		// modcode, add/minus, list of data pack
 
 	AnimationDataProject() {}
 	AnimationDataProject(int& startline, vecstr& animdatafile, std::string filename, std::string projectname);
@@ -117,6 +101,12 @@ namespace ASDFormat
 		null
 	};
 }
+
+struct MasterAnimSetData
+{
+	vecstr projectList;															// order of the project
+	std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>> newAnimSetData;	// project, header, vector<string>; memory to access each node
+};
 
 extern void combineExtraction(vecstr& storeline, std::map<int, vecstr> extract, std::string project, std::string header);
 

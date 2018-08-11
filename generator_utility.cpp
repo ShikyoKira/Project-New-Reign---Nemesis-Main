@@ -1,8 +1,12 @@
 #include "generator_utility.h"
+#include "add animation\playerexclusive.h"
+#include <boost\thread.hpp>
 
 #pragma warning(disable:4503)
 
 using namespace std;
+
+static bool* globalThrow;
 
 vector<shared_ptr<int>> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map<int, shared_ptr<int>>& functionState)
 {
@@ -164,17 +168,41 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 
 			if (line2 != line && line.find("<!-- ") == 0)
 			{
-				return chosenLines[behaviorPriority[i]];
+				string out = chosenLines[behaviorPriority[i]];
+
+				if (out.find("<!-- ") != NOT_FOUND)
+				{
+					out = boost::regex_replace(string(chosenLines[behaviorPriority[i]]), boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+					out = chosenLines[behaviorPriority[i]].substr(0, chosenLines[behaviorPriority[i]].find(out));
+				}
+
+				return out;
 			}
 		}
 	}
 
 	if (chosen != -1)
 	{
-		return chosenLines[behaviorPriority[chosen]];
+		string out = chosenLines[behaviorPriority[chosen]];
+
+		if (out.find("<!-- ") != NOT_FOUND)
+		{
+			out = boost::regex_replace(string(chosenLines[behaviorPriority[chosen]]), boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+			out = chosenLines[behaviorPriority[chosen]].substr(0, chosenLines[behaviorPriority[chosen]].find(out));
+		}
+
+		return out;
 	}
 
-	return originalline;
+	string out = originalline;
+
+	if (out.find("<!-- ") != NOT_FOUND)
+	{
+		out = boost::regex_replace(string(originalline), boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+		out = originalline.substr(0, originalline.find(out));
+	}
+
+	return out;
 }
 
 vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
@@ -267,26 +295,89 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 	return list;
 }
 
+void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
+{
+	vecstr filelist;
+	boost::thread_group multithreads;
+	read_directory(directory, filelist);
+
+	try
+	{
+		for (auto& file : filelist)
+		{
+			string path = directory + "\\" + file;
+
+			if (boost::filesystem::is_directory(path))
+			{
+				multithreads.create_thread(boost::bind(newFileCheck, path, boost::ref(isChecked)));
+			}
+			else if (!boost::iequals(file, "info.ini"))
+			{
+				if (directory.find("animationdatasinglefile") != NOT_FOUND)
+				{
+					size_t pos = directory.find("\\") + 1;
+					string modcode = directory.substr(pos, directory.find("\\", pos) - pos);
+
+					if (file.find(modcode + "$") == NOT_FOUND)
+					{
+						if (!isChecked[path])
+						{
+							throw false;
+						}
+					}
+				}
+				else if (directory.find("animationsetdatasinglefile") != NOT_FOUND)
+				{
+					if (file.find("$") == NOT_FOUND)
+					{
+						if (!isChecked[path])
+						{
+							throw false;
+						}
+					}
+				}
+				else
+				{
+					if (isOnlyNumber(boost::regex_replace(string(file), boost::regex("#([^.txt]+).txt"), string("\\1"))))
+					{
+						if (!isChecked[path])
+						{
+							throw false;
+						}
+					}
+				}
+			}
+
+			if (globalThrow)
+			{
+				break;
+			}
+		}
+	}
+	catch (bool& ex)
+	{
+		globalThrow = &ex;
+	}
+
+	multithreads.join_all();
+}
+
 bool isEngineUpdated()
 {
-	if (!isFileExist("temp_behaviors"))
+	string directory = "temp_behaviors";
+	vecstr filelist;
+
+	read_directory(directory, filelist);
+
+	if (filelist.size() < 3)
 	{
+		ErrorMessage(6006);
 		return false;
-	}
-	else
-	{
-		vecstr filelist;
-
-		read_directory("temp_behaviors", filelist);
-
-		if (filelist.size() == 0)
-		{
-			return false;
-		}
 	}
 
 	vecstr storeline;
 	string filename = "engine_update";
+	unordered_map<string, bool> isChecked;
 
 	if (!isFileExist(filename))
 	{
@@ -321,6 +412,8 @@ bool isEngineUpdated()
 				{
 					return false;
 				}
+
+				isChecked[path[0]] = true;
 			}
 			else if (path.size() > 3)
 			{
@@ -341,6 +434,8 @@ bool isEngineUpdated()
 				{
 					return false;
 				}
+
+				isChecked[pathline] = true;
 			}
 			else
 			{
@@ -350,6 +445,20 @@ bool isEngineUpdated()
 		}
 	}
 
+	globalThrow = nullptr;
+	boost::thread t1(boost::bind(newFileCheck, "mod", boost::ref(isChecked)));
+	boost::thread t2(boost::bind(newFileCheck, "behavior templates", boost::ref(isChecked)));
+
+	t1.join();
+	t2.join();
+
+	if (globalThrow)
+	{
+		globalThrow = nullptr;
+		return false;
+	}
+
+	globalThrow = nullptr;
 	return true;
 }
 
@@ -523,6 +632,7 @@ void GetBehaviorProjectPath()
 void GetAnimData()
 {
 	string filename = "animationdata_list";
+	unordered_map<string, set<string>> characterHeaders;
 
 	if (isFileExist(filename))
 	{
@@ -663,6 +773,8 @@ void characterHKX()
 string GetFileName(string filepath)
 {
 	size_t nextpos;
+	size_t lastpos;
+	string filename;
 
 	if (filepath.find("/") != NOT_FOUND)
 	{
@@ -687,7 +799,19 @@ string GetFileName(string filepath)
 		nextpos = filepath.find_last_of("\\") + 1;
 	}
 
-	return filepath.substr(nextpos, filepath.find_last_of(".") - nextpos);
+
+	lastpos = filepath.find(".", nextpos);
+
+	if (lastpos == NOT_FOUND)
+	{
+		filename = filepath.substr(nextpos);
+	}
+	else
+	{
+		filename = filepath.substr(nextpos, lastpos - nextpos);
+	}
+
+	return filename;
 }
 
 string GetFileDirectory(string filepath)
@@ -795,10 +919,7 @@ void ClearGlobal(bool all)
 	behaviorProjectPath = emptySSMap;
 	behaviorPath = emptySSMap;
 	AAGroup = emptySSMap;
-
-	unordered_map<string, set<string>> emptySSSMap;
-	characterHeaders = emptySSSMap;
-
+	
 	unordered_map<string, vecstr> emptySVSMap;
 	behaviorProject = emptySVSMap;
 	alternateAnim = emptySVSMap;
@@ -809,6 +930,7 @@ void ClearGlobal(bool all)
 
 	if (all)
 	{
+		unordered_map<string, set<string>> emptySSSMap;
 		usedAnim = emptySSSMap;
 
 		unordered_map<string, unordered_map<string, bool>> emptySSBMap;
@@ -818,6 +940,12 @@ void ClearGlobal(bool all)
 		animModMatch = emptySSVSMap;
 		behaviorJoints = emptySVSMap;
 	}
+
+	vector<PCEA> emptyPCEAlist;
+	pcealist = emptyPCEAlist;
+
+	unordered_map<string, vector<PCEAData>> emptyPCEAData;
+	animReplaced = emptyPCEAData;
 
 	unordered_map<string, bool> emptySBMap;
 	activatedBehavior = emptySBMap;

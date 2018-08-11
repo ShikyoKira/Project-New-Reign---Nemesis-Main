@@ -1,4 +1,5 @@
 #include "animationsetdata.h"
+#include "add animation\playerexclusive.h"
 
 using namespace std;
 
@@ -16,9 +17,31 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 		projectPath = behaviorProjectPath[projectname] + "\\animations";
 		string projectPathCRC32 = to_string(CRC32Convert(projectPath));
 
+		// cache all alternate animations
 		for (auto& anim : alternateAnim)
 		{
-			AAList[projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(anim.first))) + ",7891816"] = &anim.second;
+			AAList[projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(anim.first))) + ",7891816"] = new vecstr(anim.second);
+		}
+
+		string pceafolder = skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea";
+
+		if (isFileExist(skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea"))
+		{
+			// cache all pcea animations
+			for (auto& pcea : pcealist)
+			{
+				for (auto& animPath : pcea.animPathList)
+				{
+					string crc32line = projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(animPath.first))) + ",7891816";
+
+					if (!AAList[crc32line])
+					{
+						AAList[crc32line] = new vecstr;
+					}
+
+					AAList[crc32line]->push_back(animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA")));
+				}
+			}
 		}
 	}
 
@@ -428,7 +451,7 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 		}
 
 		// if existing crc32 line match the assumed line, new alternate animations will be converted into crc32 number and added in
-		if (AAList[tempCRC32.filepath + "," + tempCRC32.filename + "," + tempCRC32.fileformat] != nullptr)
+		if (AAList[tempCRC32.filepath + "," + tempCRC32.filename + "," + tempCRC32.fileformat])
 		{
 			for (auto& anim : *AAList[tempCRC32.filepath + "," + tempCRC32.filename + "," + tempCRC32.fileformat])
 			{
@@ -479,6 +502,8 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 		}
 	}
 
+	bool mod = false;
+
 	for (unsigned int i = 0; i < animData.size(); ++i)
 	{
 		if (animData[i].find("<!-- ") != NOT_FOUND)
@@ -492,13 +517,23 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 
 			if (animData[i].find("<!-- CLOSE -->") != NOT_FOUND)
 			{
-				if (!isOpen)
+				if (mod)
 				{
-					ErrorMessage(1171, modcode, project + "\\" + header, i + 1);
-					return ASDFormat::xerror;
+					isCondition[conditionOpen] = false;
+					isConditionOri[conditionOpen] = false;
+					--conditionOpen;
+					mod = false;
 				}
+				else
+				{
+					if (!isOpen)
+					{
+						ErrorMessage(1171, modcode, project + "~" + header.substr(0, header.find_last_of(".")), i + 1);
+						return ASDFormat::xerror;
+					}
 
-				isOpen = false;
+					isOpen = false;
+				}
 			}
 			else if (animData[i].find("<!-- CONDITION END -->") != NOT_FOUND)
 			{
@@ -531,7 +566,7 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 			{
 				if (isOpen)
 				{
-					ErrorMessage(1115, modcode, project + "\\" + header, i + 1);
+					ErrorMessage(1115, modcode, project + "~" + header.substr(0, header.find_last_of(".")), i + 1);
 					return ASDFormat::xerror;
 				}
 
@@ -550,6 +585,17 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 			else if (animData[i].find("<!-- CONDITION ^") != NOT_FOUND)
 			{
 				marker[i].nextCondition = true;
+			}
+			else if (animData[i].find("<!-- MOD_CODE ~") != NOT_FOUND)
+			{
+				++conditionOpen;
+				isCondition[conditionOpen] = true;
+				mod = true;
+			}
+			else if (animData[i].find("<!-- ORIGINAL -->") != NOT_FOUND && mod)
+			{
+				isCondition[conditionOpen] = false;
+				isConditionOri[conditionOpen] = true;
 			}
 		}
 	}
@@ -726,7 +772,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 				{
 					if (!muteError)
 					{
-						ErrorMessage(5007, modcode, i + 1, header);
+						ErrorMessage(5007, modcode, header, i + 1);
 					}
 
 					return -1;
@@ -793,7 +839,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 					{
 						if (!muteError)
 						{
-							ErrorMessage(5007, modcode, linecount);
+							ErrorMessage(5007, modcode, header, linecount);
 						}
 
 						return -1;
@@ -873,7 +919,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 					{
 						if (!muteError)
 						{
-							ErrorMessage(5007, modcode, i + 1, header);
+							ErrorMessage(5007, modcode, header, i + 1);
 						}
 
 						return -1;
@@ -901,6 +947,13 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 		{
 			if (!marker[i].skip)
 			{
+				bool invert = false;
+
+				if (i == linecount && marker[i].isCondition)
+				{
+					invert = true;
+				}
+
 				if (isOnlyNumber(animDataSet[i]) && id == 14)
 				{
 					if (animDataSet[i] == "0")
@@ -918,6 +971,32 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 						if (animDataSet[i + next].find("<!--") != NOT_FOUND)
 						{
 							++next;
+
+							while (true)
+							{
+								bool isCondition;
+
+								if (invert)
+								{
+									isCondition = marker[i + next].isConditionOri;
+								}
+								else
+								{
+									isCondition = marker[i + next].isCondition;
+								}
+
+								if (!isCondition)
+								{
+									if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
+									{
+										++next;
+									}
+
+									break;
+								}
+
+								++next;
+							}
 						}
 
 						if (hasAlpha(animDataSet[i + next]))
@@ -927,6 +1006,32 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							if (animDataSet[i + next].find("<!--") != NOT_FOUND)
 							{
 								++next;
+
+								while (true)
+								{
+									bool isCondition;
+
+									if (invert)
+									{
+										isCondition = marker[i + next].isConditionOri;
+									}
+									else
+									{
+										isCondition = marker[i + next].isCondition;
+									}
+
+									if (!isCondition)
+									{
+										if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
+										{
+											++next;
+										}
+
+										break;
+									}
+
+									++next;
+								}
 							}
 
 							if (isOnlyNumber(animDataSet[i + next]))
@@ -936,6 +1041,32 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								if (animDataSet[i + next].find("<!--") != NOT_FOUND)
 								{
 									++next;
+
+									while (true)
+									{
+										bool isCondition;
+
+										if (invert)
+										{
+											isCondition = marker[i + next].isConditionOri;
+										}
+										else
+										{
+											isCondition = marker[i + next].isCondition;
+										}
+
+										if (!isCondition)
+										{
+											if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
+											{
+												++next;
+											}
+
+											break;
+										}
+
+										++next;
+									}
 								}
 
 								if (isOnlyNumber(animDataSet[i + next]))
@@ -945,6 +1076,32 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 									if (animDataSet[i + next].find("<!--") != NOT_FOUND)
 									{
 										++next;
+
+										while (true)
+										{
+											bool isCondition;
+
+											if (invert)
+											{
+												isCondition = marker[i + next].isConditionOri;
+											}
+											else
+											{
+												isCondition = marker[i + next].isCondition;
+											}
+
+											if (!isCondition)
+											{
+												if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
+												{
+													++next;
+												}
+
+												break;
+											}
+
+											++next;
+										}
 									}
 
 									if (hasAlpha(animDataSet[i + next]))
@@ -986,7 +1143,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1002,7 +1159,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1018,7 +1175,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1028,7 +1185,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 						{
 							if (!muteError)
 							{
-								ErrorMessage(5007, modcode, i + 1, header);
+								ErrorMessage(5007, modcode, header, i + 1);
 							}
 
 							return -1;
@@ -1061,7 +1218,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (!muteError)
 									{
-										ErrorMessage(5007, modcode, i + 1, header);
+										ErrorMessage(5007, modcode, header, i + 1);
 									}
 
 									return -1;
@@ -1077,7 +1234,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (!muteError)
 									{
-										ErrorMessage(5007, modcode, i + 1, header);
+										ErrorMessage(5007, modcode, header, i + 1);
 									}
 
 									return -1;
@@ -1093,7 +1250,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (!muteError)
 									{
-										ErrorMessage(5007, modcode, i + 1, header);
+										ErrorMessage(5007, modcode, header, i + 1);
 									}
 
 									return -1;
@@ -1103,7 +1260,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1118,7 +1275,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 					{
 						if (!muteError)
 						{
-							ErrorMessage(5007, modcode, linecount);
+							ErrorMessage(5007, modcode, header, linecount);
 						}
 
 						return -1;
@@ -1181,7 +1338,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1208,7 +1365,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (!muteError)
 									{
-										ErrorMessage(5007, modcode, i + 1, header);
+										ErrorMessage(5007, modcode, header, i + 1);
 									}
 
 									return -1;
@@ -1221,7 +1378,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 					{
 						if (!muteError)
 						{
-							ErrorMessage(5007, modcode, linecount);
+							ErrorMessage(5007, modcode, header, linecount);
 						}
 
 						return -1;
@@ -1249,6 +1406,13 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 		{
 			if (!marker[i].skip)
 			{
+				bool invert = false;
+
+				if (i == linecount && marker[i].isCondition)
+				{
+					invert = true;
+				}
+
 				if (isOnlyNumber(animDataSet[i]) && id == 10)
 				{
 					if (animDataSet[i] == "0" && (i == int(animDataSet.size()) - 1 || boost::iequals(animDataSet[i + 1], "V3")))
@@ -1263,6 +1427,32 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 						if (animDataSet[i + next].find("<!--") != NOT_FOUND)
 						{
 							++next;
+
+							while (true)
+							{
+								bool isCondition;
+
+								if (invert)
+								{
+									isCondition = marker[i + next].isConditionOri;
+								}
+								else
+								{
+									isCondition = marker[i + next].isCondition;
+								}
+
+								if (!isCondition)
+								{
+									if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
+									{
+										++next;
+									}
+
+									break;
+								}
+
+								++next;
+							}
 						}
 
 						if (isOnlyNumber(animDataSet[i + next]))
@@ -1272,15 +1462,76 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							if (animDataSet[i + next].find("<!--") != NOT_FOUND)
 							{
 								++next;
+
+								while (true)
+								{
+									bool isCondition;
+
+									if (invert)
+									{
+										isCondition = marker[i + next].isConditionOri;
+									}
+									else
+									{
+										isCondition = marker[i + next].isCondition;
+									}
+
+									if (!isCondition)
+									{
+										if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
+										{
+											++next;
+										}
+
+										break;
+									}
+
+									++next;
+								}
 							}
 
 							if (isOnlyNumber(animDataSet[i + next]))
 							{
+								if (invert)
+								{
+									if (animDataSet[i + next] == "7891816")
+									{
+										++id;
+										break;
+									}
+								}
+
 								++next;
 
 								if (animDataSet[i + next].find("<!--") != NOT_FOUND)
 								{
 									++next;
+
+									while (true)
+									{
+										bool isCondition;
+
+										if (invert)
+										{
+											isCondition = marker[i + next].isConditionOri;
+										}
+										else
+										{
+											isCondition = marker[i + next].isCondition;
+										}
+
+										if (!isCondition)
+										{
+											if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
+											{
+												++next;
+											}
+
+											break;
+										}
+
+										++next;
+									}
 								}
 
 								if (isOnlyNumber(animDataSet[i + next]) && animDataSet[i + next] == "7891816")
@@ -1338,7 +1589,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1354,7 +1605,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1370,7 +1621,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1386,7 +1637,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1396,7 +1647,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 						{
 							if (!muteError)
 							{
-								ErrorMessage(5007, modcode, i + 1, header);
+								ErrorMessage(5007, modcode, header, i + 1);
 							}
 
 							return -1;
@@ -1446,7 +1697,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (!muteError)
 									{
-										ErrorMessage(5007, modcode, i + 1, header);
+										ErrorMessage(5007, modcode, header, i + 1);
 									}
 
 									return -1;
@@ -1462,7 +1713,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (!muteError)
 									{
-										ErrorMessage(5007, modcode, i + 1, header);
+										ErrorMessage(5007, modcode, header, i + 1);
 									}
 
 									return -1;
@@ -1478,7 +1729,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (!muteError)
 									{
-										ErrorMessage(5007, modcode, i + 1, header);
+										ErrorMessage(5007, modcode, header, i + 1);
 									}
 
 									return -1;
@@ -1494,7 +1745,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (!muteError)
 									{
-										ErrorMessage(5007, modcode, i + 1, header);
+										ErrorMessage(5007, modcode, header, i + 1);
 									}
 
 									return -1;
@@ -1504,7 +1755,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1519,7 +1770,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 					{
 						if (!muteError)
 						{
-							ErrorMessage(5007, modcode, linecount);
+							ErrorMessage(5007, modcode, header, linecount);
 						}
 
 						return -1;
@@ -1550,6 +1801,13 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 		{
 			while (i < linecount + 1)
 			{
+				bool invert = false;
+
+				if (i == linecount && marker[i].isCondition)
+				{
+					invert = true;
+				}
+
 				if (i + 3 < int(animDataSet.size()) && isOnlyNumber(animDataSet[i]))
 				{
 					int next = 1;
@@ -1557,15 +1815,76 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 					if (animDataSet[i + next].find("<!--") != NOT_FOUND)
 					{
 						++next;
+
+						while (true)
+						{
+							bool isCondition;
+
+							if (invert)
+							{
+								isCondition = marker[i + next].isConditionOri;
+							}
+							else
+							{
+								isCondition = marker[i + next].isCondition;
+							}
+
+							if (!isCondition)
+							{
+								if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
+								{
+									++next;
+								}
+
+								break;
+							}
+
+							++next;
+						}
 					}
 
 					if (isOnlyNumber(animDataSet[i + next]))
 					{
+						if (invert)
+						{
+							if (animDataSet[i + next] == "7891816")
+							{
+								++id;
+								break;
+							}
+						}
+
 						++next;
 
 						if (animDataSet[i + next].find("<!--") != NOT_FOUND)
 						{
 							++next;
+
+							while (true)
+							{
+								bool isCondition;
+
+								if (invert)
+								{
+									isCondition = marker[i + next].isConditionOri;
+								}
+								else
+								{
+									isCondition = marker[i + next].isCondition;
+								}
+
+								if (!isCondition)
+								{
+									if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
+									{
+										++next;
+									}
+
+									break;
+								}
+
+								++next;
+							}
 						}
 
 						if (animDataSet[i + next] == "7891816")
@@ -1601,7 +1920,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 							{
 								if (!muteError)
 								{
-									ErrorMessage(5007, modcode, i + 1, header);
+									ErrorMessage(5007, modcode, header, i + 1);
 								}
 
 								return -1;
@@ -1628,7 +1947,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (!muteError)
 									{
-										ErrorMessage(5007, modcode, i + 1, header);
+										ErrorMessage(5007, modcode, header, i + 1);
 									}
 
 									return -1;
@@ -1641,7 +1960,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 					{
 						if (!muteError)
 						{
-							ErrorMessage(5007, modcode, linecount);
+							ErrorMessage(5007, modcode, header, linecount);
 						}
 
 						return -1;
@@ -1663,7 +1982,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 		{
 			if (!muteError)
 			{
-				ErrorMessage(5007, modcode, i + 1, header);
+				ErrorMessage(5007, modcode, header, i + 1);
 			}
 
 			return -1;

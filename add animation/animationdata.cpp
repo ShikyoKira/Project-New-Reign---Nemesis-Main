@@ -72,7 +72,7 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 	{
 		if (!hasAlpha(animdatafile[i]))
 		{
-			ErrorMessage(3014, project, animdatafile[i]);
+			ErrorMessage(3005, project, "Unknown");
 			throw 1;
 		}
 
@@ -165,7 +165,7 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 
 		if (isExist[uniquecode])
 		{
-			ErrorMessage(3022, project, uniquecode);
+			ErrorMessage(3012, project, uniquecode);
 			throw 1;
 		}
 

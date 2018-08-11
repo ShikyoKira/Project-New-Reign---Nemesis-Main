@@ -8,13 +8,15 @@
 #include <boost\algorithm\string.hpp>
 #include "functions\functionupdate.h"
 #include "functions\functionwriter.h"
+#include "add animation\animationdata.h"
 #include "add animation\animationsetdata.h"
 
 void behaviorJointsOutput();
 
+bool animDataHeaderUpdate(std::string folderpath, std::string modcode, MasterAnimData& animData, std::unordered_map<std::string, std::string>& lastUpdate);
 bool newAnimUpdateExt(std::string folderpath, std::string modcode, std::string behaviorfile, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::string>& lastUpdate);
-bool newAnimDataUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimData, vecstr& animDataChar, std::unordered_map<std::string, vecstr>& animDataHeader, std::unordered_map<std::string, std::set<std::string>>& oriADH, std::unordered_map<std::string, std::string>& lastUpdate);
-bool newAnimDataSetUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newAnimDataSet, vecstr& projectList, std::unordered_map<std::string, std::set<std::string>>& oriASDH, std::unordered_map<std::string, std::string>& lastUpdate);
+bool newAnimDataUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, MasterAnimData& animData, std::unordered_map<std::string, std::string>& lastUpdate);
+bool newAnimDataSetUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, MasterAnimSetData& animSetData, std::unordered_map<std::string, std::string>& lastUpdate);
 
 template<typename list>
 void comparing(std::vector<list>& storeline, std::vector<list>& originallines, std::string filename, int counter);

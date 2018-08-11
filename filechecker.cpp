@@ -1,5 +1,4 @@
 #include "filechecker.h"
-#include <Windows.h>
 #include <boost\algorithm\string.hpp>
 
 using namespace std;
@@ -14,7 +13,39 @@ bool FileCheck(bool isUpdate)
 		return false;
 	}
 
-	file = file + "\\alternate animation.script";
+	file = "alternate animation\\alternate animation.script";
+
+	if (!isFileExist(file))
+	{
+		ErrorMessage(1092, file);
+		return false;
+	}
+
+	file = "alternate animation\\alternate animation 2.script";
+
+	if (!isFileExist(file))
+	{
+		ErrorMessage(1092, file);
+		return false;
+	}
+
+	file = "alternate animation\\nemesis pcea.script";
+
+	if (!isFileExist(file))
+	{
+		ErrorMessage(1092, file);
+		return false;
+	}
+
+	file = skyrimDataPath->GetDataPath() + "Nemesis PCEA.esp";
+
+	if (!isFileExist(file))
+	{
+		ErrorMessage(1092, file);
+		return false;
+	}
+
+	file = skyrimDataPath->GetDataPath() + "scripts\\Nemesis_PCEA_MCM.pex";
 
 	if (!isFileExist(file))
 	{
@@ -30,12 +61,7 @@ bool FileCheck(bool isUpdate)
 		return false;
 	}
 
-	file = "mod";
-
-	if (!isFileExist(file))
-	{
-		CreateDirectoryA(file.c_str(), NULL);
-	}
+	CreateFolder("mod");
 
 	if (!isUpdate)
 	{
@@ -46,6 +72,8 @@ bool FileCheck(bool isUpdate)
 			ErrorMessage(1092, file);
 			return false;
 		}
+
+		file = "temp_behaviors";
 	}
 
 	file = "hkxcmd.exe";

@@ -92,6 +92,14 @@ struct AnimDataProject
 	int GetInfoTotalLine();
 };
 
+struct MasterAnimData
+{
+	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> newAnimData;		// character, unique code, vector<string>; memory to access each node
+	vecstr animDataChar;											// order of the character
+	std::unordered_map<std::string, vecstr> animDataHeader;			// order of the character's header
+	std::unordered_map<std::string, vecstr> animDataInfo;			// order of the character's info data
+};
+
 void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
 void AnimDataProcess(std::vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
 void InfoDataProcess(std::vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);

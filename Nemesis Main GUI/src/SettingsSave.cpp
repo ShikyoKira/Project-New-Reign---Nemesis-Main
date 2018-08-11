@@ -6,7 +6,7 @@
 
 void createCache(std::string language, std::vector<std::string> chosenBehavior)
 {
-	if (CreateDirectoryA("cache", NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+	if (CreateFolder("cache"))
 	{
 		std::ofstream cachefile("cache\\settings");
 
