@@ -43,7 +43,6 @@ extern std::unordered_map<std::string, bool> activatedBehavior;																/
 extern std::unordered_map<std::string, std::string> behaviorProjectPath;													// project, project's path; project that has been installed
 extern std::unordered_map<std::string, vecstr> behaviorJoints;																// lower lvl behavior file, higher lvl behavior file
 extern std::unordered_map<std::string, vecstr> behaviorProject;																// character hkx file name, list of project hkx file name; link the project
-extern std::unordered_map<std::string, std::set<std::string>> characterHeaders;												// character, list of headers; use to check if header exist
 extern std::unordered_map<std::string, std::set<std::string>> usedAnim;														// behavior name, animation path; animation used in behavior file
 extern std::unordered_map<std::string, std::unordered_map<std::string, bool>> registeredAnim;								// characters hkx file name, animation name, bool; is registered in that behavior file?
 extern std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::set<std::string>>>> animModMatch;	// characters hkx file name, animation file, animation paths & mod name; match conflicting mod (duplicated anim file)
@@ -59,18 +58,37 @@ extern std::unordered_map<std::string, std::unordered_map<std::string, int>> AAG
 extern std::set<std::string> groupNameList;																					// list of animation group name; for scripting
 
 // string utilities
-extern bool isOnlyNumber(std::string line);
-extern bool hasAlpha(std::string line);
-extern size_t wordFind(std::string line, std::string word, bool isLast = false);								// case insensitive "string.find"
-inline extern int sameWordCount(std::string line, std::string word);
+bool isOnlyNumber(std::string line);
+bool hasAlpha(std::string line);
+size_t wordFind(std::string line, std::string word, bool isLast = false);								// case insensitive "string.find"
+inline int sameWordCount(std::string line, std::string word);
 
 // general file utilities
 size_t fileLineCount(std::string filepath);
-extern void addUsedAnim(std::string behaviorFile, std::string animPath);
-extern void read_directory(const std::string& name, vecstr& fv);
-extern void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
-extern void GetFunctionLines(std::string filename, vecstr& functionlines, bool emptylast = true);
-inline extern bool isFileExist(const std::string& filename);
-extern void saveLastUpdate(std::string filename, std::unordered_map<std::string, std::string>& lastUpdate);
+void addUsedAnim(std::string behaviorFile, std::string animPath);
+void read_directory(const std::string& name, vecstr& fv);
+void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
+void GetFunctionLines(std::string filename, vecstr& functionlines, bool emptylast = true);
+
+inline bool isFileExist(const std::string& filename)
+{
+	return boost::filesystem::exists(boost::filesystem::path(filename));
+}
+
+inline bool CreateFolder(const std::string& folderpath)
+{
+	if (isFileExist(folderpath))
+	{
+		return true;
+	}
+
+	if (boost::filesystem::create_directory(boost::filesystem::path(folderpath)))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 
 #endif

@@ -150,7 +150,12 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 							if (!isFileExist(curDirectory + animFile))
 							{
-								WarningMessage(1003, modID, animFile);
+								// mute this warning
+								if (true == false)
+								{
+									WarningMessage(1003, modID, animFile);
+								}
+
 								alternateAnim[lowAnim].push_back("x");
 							}
 							else
@@ -841,6 +846,9 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 				}
 			}
 		}
+
+		boost::filesystem::path file(filepath);
+		interMsg(TextBoxMessage(1006) + file.parent_path().stem().string());
 	}
 	else
 	{

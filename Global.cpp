@@ -1,6 +1,5 @@
 #include "Global.h"
 #include <atomic>
-#include <Windows.h>
 #include <boost\thread\mutex.hpp>
 #include <boost\thread\lock_guard.hpp>
 
@@ -28,7 +27,6 @@ unordered_map<string, string> behaviorProjectPath;
 unordered_map<string, vecstr> behaviorJoints;
 unordered_map<string, vecstr> behaviorProject;
 unordered_map<string, set<string>> usedAnim;
-unordered_map<string, set<string>> characterHeaders;
 unordered_map<string, unordered_map<string, bool>> registeredAnim;
 unordered_map<string, unordered_map<string, vector<string>>> animList;
 unordered_map<string, unordered_map<string, vector<set<string>>>> animModMatch;
@@ -56,12 +54,6 @@ void read_directory(const string& name, vecstr& fv)
 	boost::filesystem::directory_iterator start(p);
 	boost::filesystem::directory_iterator end;
 	transform(start, end, back_inserter(fv), path_leaf_string());
-}
-
-inline bool isFileExist(const string& filename)
-{
-	struct stat buffer;
-	return (stat(filename.c_str(), &buffer) == 0);
 }
 
 size_t fileLineCount(string filepath)
@@ -277,34 +269,5 @@ void addUsedAnim(string behaviorFile, string animPath)
 
 	while (atomLock.test_and_set(memory_order_acquire));
 	usedAnim[behaviorFile].insert(animPath);
-	atomLock.clear(memory_order_release);
-}
-
-void saveLastUpdate(string filename, unordered_map<string, string>& lastUpdate)
-{
-	HANDLE file;
-	FILETIME lastmodified;
-	SYSTEMTIME sysUTC;
-	file = CreateFile(filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	if (file == INVALID_HANDLE_VALUE)
-	{
-		ErrorMessage(2020);
-		return;
-	}
-
-	if (!GetFileTime(file, NULL, NULL, &lastmodified))
-	{
-		ErrorMessage(2022);
-		return;
-	}
-
-	FileTimeToSystemTime(&lastmodified, &sysUTC);
-	string time = to_string(sysUTC.wDay) + "/" + to_string(sysUTC.wMonth) + "/" + to_string(sysUTC.wYear) + " " + to_string(sysUTC.wHour) + ":" + to_string(sysUTC.wMinute);
-
-	// boost::lock_guard<boost::mutex> fileLock(addAnimLock);		issue #61
-
-	while (atomLock.test_and_set(memory_order_acquire));
-	lastUpdate[filename] = time;
 	atomLock.clear(memory_order_release);
 }
