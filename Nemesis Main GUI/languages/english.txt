@@ -57,10 +57,10 @@ ERR 1008=Unable to locate Skyrim Data found. This tool must be executed in skyri
 ERR 1009=Unable to open animation format file\nTemplate: <1>\nFile: <2>
 ERR 1010=Option contains no add-on to modify. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
 ERR 1011=Option contains too many characters. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
-ERR 1012=Option contains invalid characters, only alphabets are accepted. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1012=Option contains invalid characters, only alphabetic characters are accepted. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1013=Invalid state characters. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1014=Missing closing bracket for add-on. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
-ERR 1015=Add-on contain invalid characters, only alphabets are accepted. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1015=Add-on contain invalid characters, only alphabetic characters are accepted. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1016=Unable to read line. Please ensure that the animation type has been installed in a proper manner\nFile: <1>\nLine: <2>
 ERR 1017=Invalid modification. "<1>" option does not exist. Please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>\nOption: <1>
 ERR 1018=Unknown Variable Type. Only "BOOL", "INT32" and "REAL" are supported\nFile: <1>\nLine: <2>\nVariable: <3>
@@ -232,14 +232,14 @@ ERR 1181=Invalid crc32 format. Possible unclosed bracket detected. Please contac
 ERR 1182=Core behavior is either linked to a behavior that doesn't exist or is not connected to registered behavior hkx file\nPlease contact the template creator\nTemplate: <1>\nFile: <2>
 ERR 1183=BUG FOUND!! Report to Nemesis' author immediately
 ERR 1184=Character hkx file placement incorrect. Current file must be in character folder\nFile: <1>
-ERR 1185=Failed to output Nemesis_AA_Core.pex
+ERR 1185=Failed to output <1>
 
 '2000s
 ERR 2000=Failed to open file\nFile: <1>
 ERR 2001=Missing node ID\nNode ID: <1>
 ERR 2002=Missing file\nFile: <1>\nStarting line: <2>\nEnding line: <3>
-ERR 2003=Invalid file name. File name must only contain #<modcode>$<id> or #<id>. Please contact the mod author\nFile: <1>
-ERR 2004=Invalid file name. File name must only contain either <modcode>$<id>, <id>, "$header$", "$info header$" or <animation clip name> <id>. Please contact the mod author\nFile: <1>
+ERR 2003=Invalid file name. File name must only be #<modcode>$<id> or #<id>. Please contact the mod author\nFile: <1>
+ERR 2004=Invalid file name. File name must only be either <modcode>$<id>,<modcode>$<id>$UC, <id>, "$header$" or <animation clip name>~<id>. Please contact the mod author\nFile: <1>
 ERR 2005=Missing edits\nFile: <1>\nLine: <2>
 ERR 2006=Missing behavior file. The behavior file name must be in this format ("Nemesis_<file name>.xml") and it must located in the same path as the hkx counterpart. Please contact the mod author\nFile: <1>
 ERR 2007=Missing "nemesis_animationdatasinglefile.txt". It must be located in the original file (data\meshes). Please contact the mod author\nFile: <1>
@@ -273,7 +273,7 @@ ERR 3008=Duplicated header has been detected in "animationdata_list". Update Eng
 ERR 3009=Unable to use <1> as animation code. <1> has been registered into the engine by default. Please contact the template creator\nAnimation Code: <1>
 ERR 3010=Duplicated project has been detected in "animationdata_list". Update Engine to fix it\nProject: <1>
 ERR 3011=Unregistered project has been detected. Update Engine to fix it\nProject: <1>
-ERR 3012="$info header$" is not found. Info header must exist in order to register any other info header. Please contact the template creator\nFile: <1>
+ERR 3012=Duplicated unique code detected in InfoData section. Please contact the template creator\nProject: <1>\nUnique Code: <2>
 ERR 3013=Un-registered animation group name has been detected. Please contact the mod author\nAAPrefix: <1>\nAnimation Group Name: <2>
 ERR 3014=Wrong "nemesis_animationdatasinglefile.txt" has been detected. Abort processing. Please reinstall Nemesis
 ERR 3015=Invalid format for "animationdatasinglefile.txt" has been detected. Please contact the template creator\nProject: <1>\nCurrent Line: <2>
@@ -283,7 +283,8 @@ ERR 3018=Wrong format. Current line cannot be used to run NEW tab function. Only
 ERR 3019=Invalid format has been detected in "animationdata_list". Update Engine to fix it
 ERR 3020=Invalid format for "animationdatasinglefile.txt" in InfoData section has been detected. Please contact the template creator\nProject: <1>\nUnique Code: <3>
 ERR 3021=Missing project information for a project in "animationdatasinglefile.txt"\nProject: <1>
-ERR 3022=Duplicated unique code detected in InfoData section. Please contact the template creator\nProject: <1>\nUnique Code: <2>
+ERR 3022=Invalid file placement. "$header$" project must be a file not a folder. Please contact the mod author\nFile: <1>
+
 
 '4000s
 ERR 4000=Failed to open file. Please make sure <1> file is in the same directory as this program
@@ -307,9 +308,9 @@ ERR 5003=Data deletion has been detected. Data deletion is not supported in Neme
 ERR 5004=Condition function is not applicable for "animationsetdatasinglefile.txt"\nFile: <1>\nLine: <2>
 ERR 5005=BUG FOUND!! Report to Nemesis' author immediately\nFile: <1>\nLine: <2>
 ERR 5006=Un-recognized anim pack treated as vanilla anim pack has been detected. Please contact the template creator\nFile: <1> \nAnim Pack: <2>
-ERR 5007=Wrong format. Current line cannot be used to run NEW tab function. Only EquipList, TypeList, AnimPack, and CRC23List can use NEW tab function. Please contact the mod author\nMod: <1>\nProject: <2>\nHeader: <3>
+ERR 5007=Wrong format. Current line cannot be used to run NEW tab function. Only EquipList, TypeList, AnimPack, and CRC23List can use NEW tab function. Please contact the mod author\nMod: <1>\nHeader: <2>\nLine: <3>
 ERR 5008=BUG FOUND!! Report to Nemesis' author immediately\nMod: <1>\nProject: <2>\nHeader: <3>
-ERR 5009=Invalid format for "animationsetdatasinglefile.txt" has been detected. Please contact the template creator\nProject: <1>\nHeader: <2>
+ERR 5009=Invalid format has been detected in "animationsetdatasinglefile.txt. Please contact the template creator\nProject: <1>\nHeader: <2>
 ERR 5010=BUG FOUND!! Out of line! Report to Nemesis' author immediately\nTemplate\Mod: <1>\nProject: <2>\nHeader: <3>
 ERR 5011=Original header for "animationsetdatasinglefile.txt" is not found. Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
 ERR 5012=Duplicated header is detected in "animationsetdatasinglefile.txt". Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
@@ -320,6 +321,8 @@ ERR 5016=BUG FOUND!! Report to Nemesis' author immediately\nProject: <1>\nHeader
 ERR 5017=Empty project detected. Could be a bug. Report to Nemesis' author if you are sure\nProject: <1>
 ERR 5018=Missing information in "animationsetdatasinglefile.txt". Please contact the template creator or mod author\nProject: <1>\nHeader: <2>
 ERR 5019=Missing information in "animationsetdatasinglefile.txt". Please contact the template creator or mod author\nProject: <1>
+ERR 5020=Invalid format has been detected in "animationsetdatasinglefile.txt. Please contact the template creator\nFile: <1>\nLine: <2>
+ERR 5021=Invalid format has been detected in "animationsetdatasinglefile.txt. Please contact the template creator\nMod: <1>\nFile: <2>\nLine: <3>
 
 '6000
 ERR 6000=Fail to register new animation
@@ -328,6 +331,7 @@ ERR 6002=An exception has occured while patching. Report to Nemesis' author imme
 ERR 6003="<1>" has already been registered in this ini file. Please contact the mod author\nFile: <2>
 ERR 6004=Template does not support first person animation as the effect is non-existence. Please contact the template creator\nDirectory: <1>
 ERR 6005=Skyrim directory not found. Please make sure that your skyrim is a legal copy
+ERR 6006=Missing latest engine files. Update engine to fix it
 
 
 '1000
@@ -353,10 +357,17 @@ WAR 1018=Missing motion data\nTemplate: <1>\nFile: <2>\nLine: <3>
 WAR 1019=Missing rotation data\nTemplate: <1>\nFile: <2>\nLine: <3>
 WAR 1020=Modification to project/header with duplication in "animationdatasinglefile.txt" has been detected. All duplication of the project/header will be subjected to the same modification\nProject: <1>\nHeader: <2>
 WAR 1021=Failed to register mod. Missing required information in the "ini" file of the mod to register mod. Please contact the mod author\nMod: <1>
+WAR 1022=Unnecesary condition detected\nFile: <1>\nLine: <2>
+WAR 1023=An error occur when executing the script\nScript: <1>
 
 '1000
 TBT 1000=Changes in file detected. Engine update is required to be performed
 TBT 1001=Conflict Test failed!
+TBT 1002=Checking engine version
+TBT 1003=Engine is up to date
+TBT 1004=Initializing behavior generation
+TBT 1005=Initializing engine update
+TBT 1006=Mod installed: 
 
 '1000
 UIT 1000=Nemesis Unlimited Behavior Engine

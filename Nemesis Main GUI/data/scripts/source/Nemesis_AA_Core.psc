@@ -1,11 +1,11 @@
 Scriptname Nemesis_AA_Core Hidden
 
 int Function getModID(string curAAPrefix) global
-	if(curAAPrefix == "aa0")
+	if(curAAPrefix == "est")
 		return 0
-	elseif(curAAPrefix == "aa1")
+	elseif(curAAPrefix == "nar")
 		return 1
-	elseif(curAAPrefix == "aa2")
+	elseif(curAAPrefix == "xpe")
 		return 2
 	elseif(curAAPrefix == "aa3")
 		return 3
@@ -68,49 +68,49 @@ endFunction
 
 int[] Function GetAASetList(int nSet) global
 	int[] AASet
-	AASet[0] = 0101000
-	AASet[0] = 0101000
+	AASet = new int[128]
+	AASet[0] = 0100001
 	AASet[1] = 0101001
-	AASet[2] = 0101002
-	AASet[3] = 0101003
-	AASet[4] = 0101004
-	AASet[5] = 0101005
-	AASet[6] = 0101006
-	AASet[7] = 0101007
-	AASet[8] = 0101008
-	AASet[9] = 0101009
+	AASet[2] = 0103001
+	AASet[3] = 0203002
+	AASet[4] = 0104001
+	AASet[5] = 0105001
+	AASet[6] = 0108001
+	AASet[7] = 0210001
+	AASet[8] = 0112001
+	AASet[9] = 0114001
 
 	if(nSet > 10)
-		AASet[10] = 0101010
-		AASet[11] = 0101011
-		AASet[12] = 0101012
-		AASet[13] = 0101013
-		AASet[14] = 0101014
-		AASet[15] = 0101015
-		AASet[16] = 0101016
-		AASet[17] = 0101017
-		AASet[18] = 0101018
-		AASet[19] = 0101019
+		AASet[10] = 0115001
+		AASet[11] = 0116001
+		AASet[12] = 0117001
+		AASet[13] = 0217002
+		AASet[14] = 0118001
+		AASet[15] = 0119001
+		AASet[16] = 0220001
+		AASet[17] = 0221001
+		AASet[18] = 0223001
+		AASet[19] = 0224001
 
 		if(nSet > 20)
-			AASet[20] = 0101020
-			AASet[21] = 0101021
-			AASet[22] = 0101022				
-			AASet[23] = 0101023
-			AASet[24] = 0101024
-			AASet[25] = 0101025
-			AASet[26] = 0101026
-			AASet[27] = 0101027
-			AASet[28] = 0101028
-			AASet[29] = 0101029
+			AASet[20] = 0228001
+			AASet[21] = 0129001
+			AASet[22] = 0236001
+			AASet[23] = 0137001
+			AASet[24] = 0237002
+			AASet[25] = 0238001
+			AASet[26] = 0239001
+			AASet[27] = 0241001
+			AASet[28] = 0242001
+			AASet[29] = 0043001
 
 			if(nSet > 30)
-				AASet[30] = 0101030
-				AASet[31] = 0101031
-				AASet[32] = 0101032
-				AASet[33] = 0101033
-				AASet[34] = 0101034
-				AASet[35] = 0101035
+				AASet[30] = 0044001
+				AASet[31] = 0248001
+				AASet[32] = 0049001
+				AASet[33] = 0050001
+				AASet[34] = 0151001
+				AASet[35] = 0251002
 				AASet[36] = 0101036
 				AASet[37] = 0101037
 				AASet[38] = 0101038
@@ -238,7 +238,7 @@ int[] Function GetAASetList(int nSet) global
 endFunction
 
 int Function GetBaseValue(int AAmodID, int AAgroupID) global
-	int nSet = 0
+	int nSet = 36
 	int[] AASet
 	AASet = GetAASetList(nSet)
 	int i = 0
@@ -264,7 +264,7 @@ int Function GetBaseValue(int AAmodID, int AAgroupID) global
 endFunction
 
 int Function getInstallKey() global
-	return 455112
+	return 53983
 endFunction
 
 int Function _1hmatk() global
