@@ -130,12 +130,15 @@
     <ClCompile Include="master.cpp" />
     <ClCompile Include="NemesisMainGUI.cpp" />
     <ClCompile Include="src\AnimProgressBar.cpp" />
-    <ClCompile Include="src\BehaviorList.cpp" />
+    <ClCompile Include="src\BehaviorInfo.cpp" />
     <ClCompile Include="src\BehaviorListModel.cpp" />
     <ClCompile Include="src\BehaviorListRowColor.cpp" />
     <ClCompile Include="src\MultiInstanceCheck.cpp" />
     <ClCompile Include="src\ScrollBar.cpp" />
     <ClCompile Include="src\SettingsSave.cpp" />
+    <ClCompile Include="src\utilities\addanims.cpp" />
+    <ClCompile Include="src\utilities\addevents.cpp" />
+    <ClCompile Include="src\utilities\addvariables.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="NemesisMainGUI.ui" />
@@ -148,7 +151,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ErrorMsgBox.h" />
+    <ClInclude Include="src\utilities\addanims.h" />
+    <ClInclude Include="src\utilities\addevents.h" />
+    <ClInclude Include="src\utilities\addvariables.h" />
     <QtMoc Include="src\AnimProgressBar.h" />
+    <QtMoc Include="src\BehaviorListModel.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir)\.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DEBUG;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir)\.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
+    </QtMoc>
     <ClInclude Include="src\BehaviorListRowColor.h" />
     <ClInclude Include="src\MultiInstanceCheck.h" />
     <ClInclude Include="src\SettingsSave.h" />
@@ -156,7 +168,6 @@
     <QtMoc Include="master.h" />
     <ClInclude Include="src\BehaviorInfo.h" />
     <ClInclude Include="src\ScrollBar.h" />
-    <QtMoc Include="src\BehaviorListModel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

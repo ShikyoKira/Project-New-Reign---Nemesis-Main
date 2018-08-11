@@ -168,6 +168,7 @@
     <ClCompile Include="add animation\grouptemplate.cpp" />
     <ClCompile Include="add animation\import.cpp" />
     <ClCompile Include="add animation\optionlist.cpp" />
+    <ClCompile Include="add animation\playerexclusive.cpp" />
     <ClCompile Include="add animation\registeranimation.cpp" />
     <ClCompile Include="behaviorcheck.cpp" />
     <ClCompile Include="behaviorgenerator.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="animationutility.cpp" />
     <ClCompile Include="generator_utility.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="lastupdate.cpp" />
     <ClCompile Include="Logging\debugmsg.cpp" />
     <ClCompile Include="skyrimdirectory.cpp" />
   </ItemGroup>
@@ -192,6 +194,7 @@
     <ClInclude Include="add animation\grouptemplate.h" />
     <ClInclude Include="add animation\import.h" />
     <ClInclude Include="add animation\optionlist.h" />
+    <ClInclude Include="add animation\playerexclusive.h" />
     <ClInclude Include="add animation\registeranimation.h" />
     <ClInclude Include="add animation\templatetree.h" />
     <ClInclude Include="alphanum.hpp" />
@@ -206,6 +209,7 @@
     <ClInclude Include="functions\renew.h" />
     <ClInclude Include="generator_utility.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="lastupdate.h" />
     <ClInclude Include="Logging\debugmsg.h" />
     <ClInclude Include="skyrimdirectory.h" />
   </ItemGroup>

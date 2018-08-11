@@ -81,6 +81,12 @@
     <ClCompile Include="add animation\animationsetdata.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="add animation\playerexclusive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lastupdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functions\functionupdate.h">
@@ -156,6 +162,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="add animation\templatetree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="add animation\playerexclusive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lastupdate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
