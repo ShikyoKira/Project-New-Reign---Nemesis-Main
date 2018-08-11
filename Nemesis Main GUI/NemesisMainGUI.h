@@ -24,14 +24,7 @@ private slots:
 	void handleButton1()
 	{
 		ui.textBrowser->clear();
-		ui.textBrowser->append("Initializing behavior generation\n");
-
-		if (!isEngineUpdated())
-		{
-			ui.textBrowser->append(QString::fromStdString(TextBoxMessage(1000)));
-			return;
-		}
-
+		ui.textBrowser->append(QString::fromStdString(TextBoxMessage(1002)));
 		ui.progressBar->setHidden(false);
 		ui.progressBar->setValue(0);
 		ui.buttonLaunch->setDisabled(true);
@@ -94,7 +87,7 @@ private slots:
 		ui.comboBox->setDisabled(true);
 		ui.modView->setDisabled(true);
 		ui.textBrowser->clear();
-		ui.textBrowser->append("Initializing engine update\n");
+		ui.textBrowser->append(QString::fromStdString(TextBoxMessage(1005)));
 
 		QThread* thread = new QThread;
 		UpdateFilesStart* worker = new UpdateFilesStart;
