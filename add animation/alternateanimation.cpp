@@ -10,6 +10,7 @@ using namespace std;
 
 void fixedKeyInitialize();
 unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
+bool PapyrusCompileProcess(string pscfile, string import, string destination, string filepath, boost::filesystem::path compiler);
 
 void AAInitialize(string AAList)
 {
@@ -70,24 +71,26 @@ void AAInitialize(string AAList)
 	}
 }
 
-void AAInstallation()
+bool AAInstallation()
 {
 	if (AAGroup.size() == 0)
 	{
-		return;
+		return true;
 	}
 
 	string filename = "alternate animation\\alternate animation.script";
 	boost::filesystem::path source(filename);
 
 #ifdef DEBUG
-	filename = "data\\";
+	string import = "data\\scripts\\source";
 #else
-	filename = skyrimDataPath->GetDataPath() + "scripts\\source";
+	string import = skyrimDataPath->GetDataPath() + "scripts\\source";
 #endif
 
-	FolderCreate(filename);
-	filename = filename + "\\Nemesis_AA_Core.psc";
+	FolderCreate(import);
+	string destination = skyrimDataPath->GetDataPath() + "scripts";
+	string pscfile = import + "\\Nemesis_AA_Core.psc";
+	string filepath = destination + "\\Nemesis_AA_Core.pex";
 
 	bool AASetDone = false;
 	bool prefixDone = false;
@@ -97,7 +100,7 @@ void AAInstallation()
 
 	fixedKeyInitialize();
 
-	boost::filesystem::path target(filename);
+	boost::filesystem::path target(pscfile);
 	boost::filesystem::copy_file(source, target, boost::filesystem::copy_option::overwrite_if_exists);
 	vecstr storeline;
 	vecstr newline;
@@ -107,7 +110,7 @@ void AAInstallation()
 
 	if (error)
 	{
-		return;
+		return false;
 	}
 
 	int AACounter = 0;
@@ -157,7 +160,7 @@ void AAInstallation()
 										if (AAGroupCount[groupAAPrefix[groupName][j]][groupName] == 0)
 										{
 											ErrorMessage(3013, groupAAPrefix[groupName][j], groupName);
-											return;
+											return false;
 										}
 
 										groupCounter[groupName] += AAGroupCount[groupAAPrefix[groupName][j]][groupName];
@@ -261,12 +264,6 @@ void AAInstallation()
 
 	namespace bf = boost::filesystem;
 
-	string scriptfile = skyrimDataPath->GetDataPath() + "scripts\\source";
-	string destination = skyrimDataPath->GetDataPath() + "scripts";
-	string filepath = destination + "\\Nemesis_AA_Core.pex";
-	string pscfile = scriptfile + "\\Nemesis_AA_Core.psc";
-	string timeline;
-
 	ofstream output(pscfile);
 
 	if (output.is_open())
@@ -281,91 +278,29 @@ void AAInstallation()
 	else
 	{
 		ErrorMessage(3002, pscfile);
-		return;
+		return false;
 	}
 
-	if (isFileExist(filepath))
+	if (isFileExist(import))
 	{
-		if (remove(filepath.c_str()) != 0)
+		if (!PapyrusCompile(pscfile, import, destination, filepath))
 		{
-			timeline = GetLastModified(filepath);
+			return false;
 		}
 	}
 
-	if (isFileExist(scriptfile))
+	filename = "alternate animation\\alternate animation 2.script";
+	source = boost::filesystem::path("alternate animation\\alternate animation 2.script");
+	target = boost::filesystem::path(destination + "\\FNIS_aa.pex");
+	boost::filesystem::copy_file(source, target, boost::filesystem::copy_option::overwrite_if_exists);
+
+	if (!isFileExist(target.string()))
 	{
-		target = bf::path(skyrimDataPath->GetDataPath()).parent_path().parent_path();
-		target = bf::path(target.string() + "\\Papyrus Compiler\\PapyrusCompiler.exe");
-
-		if (isFileExist(target.string()))
-		{
-			vector<string> args{ pscfile, "-f=TESV_Papyrus_Flags.flg" , "-i=" + scriptfile , "-o=" + destination };
-
-			try
-			{
-				try
-				{
-					boost::process::system(target, args, boost::process::windows::hide);
-				}
-				catch (const std::exception& ex)
-				{
-					interMsg(ex.what());
-				}
-			}
-			catch (...)
-			{
-				interMsg("Non conventional exception captured");
-			}
-
-			if (!isFileExist(filepath))
-			{
-				ErrorMessage(1185);
-				return;
-			}
-		}
-		else
-		{
-			string compiler = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Papyrus Compiler\\PapyrusCompiler.exe";
-			string additional = ";C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Data\\scripts\\Source";
-
-			if (isFileExist(compiler))
-			{
-				vector<string> args{ pscfile, "-f=TESV_Papyrus_Flags.flg" , "-i=" + scriptfile + additional , "-o=" + destination };
-
-				try
-				{
-					try
-					{
-						boost::process::system(compiler, args, boost::process::windows::hide);
-					}
-					catch (const std::exception&ex)
-					{
-						interMsg(ex.what());
-					}
-				}
-				catch (...)
-				{
-					interMsg("Non conventional exception captured");
-				}
-
-				if (!isFileExist(filepath))
-				{
-					ErrorMessage(1185);
-					return;
-				}
-			}
-		}
-
-		if (timeline.length() > 0)
-		{
-			if (timeline == GetLastModified(filepath))
-			{
-				ErrorMessage(1185);
-				return;
-			}
-		}
+		ErrorMessage(1185, target.string());
+		return false;
 	}
 
+	return true;
 }
 
 void fixedKeyInitialize()
@@ -427,7 +362,7 @@ void FolderCreate(string curBehaviorPath)
 
 	for (int i = 0; i < counter; ++i)
 	{
-		if (CreateDirectoryA(curFolder.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+		if (CreateFolder(curFolder))
 		{
 			pos = curBehaviorPath.find("\\", pos) + 1;
 
@@ -464,6 +399,77 @@ unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
 	return uniqueKey;
 }
 
+bool PapyrusCompile(string pscfile, string import, string destination, string filepath)
+{
+	string timeline;
+	namespace bf = boost::filesystem;
+	bf::path target = bf::path(skyrimDataPath->GetDataPath()).parent_path().parent_path();
+	target = bf::path(target.string() + "\\Papyrus Compiler\\PapyrusCompiler.exe");
+
+	if (isFileExist(filepath))
+	{
+		if (remove(filepath.c_str()) != 0)
+		{
+			timeline = GetLastModified(filepath);
+		}
+	}
+
+	if (isFileExist(target.string()))
+	{
+		PapyrusCompileProcess(pscfile, import, destination, filepath, target);
+	}
+	else
+	{
+		string compiler = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Papyrus Compiler\\PapyrusCompiler.exe";
+		string additional = ";C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Data\\scripts\\Source";
+
+		if (isFileExist(compiler))
+		{
+			PapyrusCompileProcess(pscfile, import + additional, destination, filepath, compiler);
+		}
+	}
+
+	if (timeline.length() > 0)
+	{
+		if (timeline == GetLastModified(filepath))
+		{
+			ErrorMessage(1185, filepath);
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool PapyrusCompileProcess(string pscfile, string scriptsource, string destination, string filepath, boost::filesystem::path compiler)
+{
+	vector<string> args{ pscfile, "-f=TESV_Papyrus_Flags.flg" , "-i=" + scriptsource , "-o=" + destination };
+
+	try
+	{
+		try
+		{
+			boost::process::system(compiler, args, boost::process::windows::hide);
+		}
+		catch (const std::exception& ex)
+		{
+			interMsg(ex.what());
+		}
+	}
+	catch (...)
+	{
+		interMsg("Non conventional exception captured");
+	}
+
+	if (!isFileExist(filepath))
+	{
+		ErrorMessage(1185, filepath);
+		return false;
+	}
+
+	return true;
+}
+
 namespace keepsake
 {
 	void AAInstallation()
@@ -477,11 +483,11 @@ namespace keepsake
 		filename = skyrimDataPath->GetDataPath();
 #endif
 
-		if (CreateDirectoryA((filename).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+		if (CreateFolder(filename))
 		{
 			filename = filename + "scripts";
 
-			if (CreateDirectoryA((filename).c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
+			if (CreateFolder(filename))
 			{
 				filename = filename + "\\Nemesis_AA_Core.pex";
 			}
@@ -633,7 +639,7 @@ namespace keepsake
 
 				if (!isFileExist(filepath))
 				{
-					ErrorMessage(1185);
+					ErrorMessage(1185, filepath);
 					return;
 				}
 			}
@@ -649,7 +655,7 @@ namespace keepsake
 
 					if (!isFileExist(filepath))
 					{
-						ErrorMessage(1185);
+						ErrorMessage(1185, filepath);
 						return;
 					}
 				}
@@ -659,7 +665,7 @@ namespace keepsake
 			{
 				if (timeline == GetLastModified(filepath))
 				{
-					ErrorMessage(1185);
+					ErrorMessage(1185, filepath);
 					return;
 				}
 			}

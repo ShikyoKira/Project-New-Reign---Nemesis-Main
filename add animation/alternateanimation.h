@@ -1,11 +1,12 @@
 #ifndef ALTERNATEANIMATION_H_
 #define ALTERNATEANIMATION_H_
 
-extern void AAInitialize(std::string AAList);
-extern void AAInstallation();
+void AAInitialize(std::string AAList);
+bool AAInstallation();
 
-extern std::string GetLastModified(std::string filename);
-extern void FolderCreate(std::string curBehaviorPath);
-extern unsigned int CRC32Convert(std::string line);
+std::string GetLastModified(std::string filename);
+void FolderCreate(std::string curBehaviorPath);
+unsigned int CRC32Convert(std::string line);
+bool PapyrusCompile(std::string pscfile, std::string import, std::string destination, std::string filepath);
 
 #endif
