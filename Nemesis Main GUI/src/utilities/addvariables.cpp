@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool AddVariables(string curNum, vecstr& storeline, string variablename, unordered_map<string, bool> orivariable, unordered_map<string, bool>& isExist, int& counter
+bool AddVariables(string curNum, vecstr& storeline, string variablename, unordered_map<string, bool> orivariable, unordered_map<string, bool>& isExist, int& counter, string ZeroVariable
 	, unordered_map<string, int>& variableid, unordered_map<int, string>& varName, bool isInt)
 {
 	if (curNum == "variableNames")
@@ -13,6 +13,11 @@ bool AddVariables(string curNum, vecstr& storeline, string variablename, unorder
 		}
 		else if (!orivariable[variablename])
 		{
+			if (counter == 0)
+			{
+				ZeroVariable = variablename;
+			}
+
 			string curline = "				<hkcstring>" + variablename + "</hkcstring>";
 			varName[counter] = variablename;
 			variableid[variablename] = counter;
