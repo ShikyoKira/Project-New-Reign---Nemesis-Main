@@ -33,9 +33,6 @@ void interMsg(std::string);
 // add new language pack
 extern void NewDebugMessage(DebugMsg NewLog);
 
-std::vector<std::string> readUTF8File(std::string filename);
-extern void writeUTF8File(std::string filename, std::vector<std::string> storeline);
-
 std::string DMLogError(int errorcode);
 std::string DMLogWarning(int warningcode);
 

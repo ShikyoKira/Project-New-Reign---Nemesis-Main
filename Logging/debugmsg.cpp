@@ -11,6 +11,11 @@ UpdateFilesStart* process1;
 BehaviorStart* process2;
 DummyLog* process3;
 
+std::wstring_convert<std::codecvt_utf8<wchar_t>> wstrConv;
+
+std::vector<std::string> readUTF8File(std::wstring filename);
+void writeUTF8File(std::string filename, std::vector<std::string> storeline);
+
 void NewDebugMessage(DebugMsg NewLog)
 {
 	DMLog = NewLog;
@@ -18,8 +23,8 @@ void NewDebugMessage(DebugMsg NewLog)
 
 DebugMsg::DebugMsg(string language)
 {
-	string directory = "languages\\";
-	vector<string> storeline = readUTF8File(directory + language + ".txt");
+	wstring filename = L"languages\\" + wstrConv.from_bytes(language) + L".txt";
+	vector<string> storeline = readUTF8File(filename);
 
 	if (error)
 	{
@@ -89,7 +94,7 @@ DebugMsg::DebugMsg(string language)
 	}
 }
 
-vector<string> readUTF8File(string filename)
+vector<string> readUTF8File(wstring filename)
 {
 	vector<string> storeline;
 	ifstream file(filename);
