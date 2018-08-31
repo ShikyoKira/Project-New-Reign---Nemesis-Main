@@ -1,4 +1,5 @@
 #include "BehaviorListModel.h"
+#include "master.h"
 
 int BehaviorListModel::rowCount(const QModelIndex& parent) const
 {
@@ -67,13 +68,13 @@ QVariant BehaviorListModel::headerData(int section, Qt::Orientation orientation,
 			switch (section)
 			{
 			case COL_NAME:
-				return tr("Mod Name");
+				return tr(UIMessage(1005).c_str());
 			case COL_AUTHOR:
-				return tr("Mod Author");
+				return tr(UIMessage(1006).c_str());
 			case COL_PRIORITY:
-				return tr("Priority");
+				return tr(UIMessage(1007).c_str());
 			default:
-				return tr("unknown");
+				return tr(UIMessage(1008).c_str());
 			}
 		}
 	}

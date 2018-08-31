@@ -88,6 +88,7 @@ public:
 	void storeAnimObject(vecstr animobjects, std::string listFilename, int lineCount);
 	void addGroupAnimInfo(std::vector<std::shared_ptr<animationInfo>> animInfo);
 	void setZeroEvent(std::string eventname);
+	void setZeroVariable(std::string variablename);
 	void setLastOrder(int order);
 	void setOrder(int curOrder);
 	int getOrder();
@@ -112,7 +113,7 @@ extern void CRC32Replacer(std::string& line, std::string format, std::string beh
 extern void addOnReplacer(std::string& line, std::string filename, std::unordered_map<std::string, vecstr> addOn, ImportContainer addition, std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> groupAddition, SSMap mixOpt, unsigned int count, std::string format, int numline);
 extern void animObjectReplacer(std::string& line, std::string filename, std::unordered_map<int, vecstr> AnimObjec, std::string format, int linecount, int optionMulti, bool otherAnim = false, std::string animNum = "");
 extern void eventIDReplacer(std::string& line, std::string format, std::string filename, id eventid, std::string firstEvent, int linecount);
-extern void variableIDReplacer(std::string& line, std::string format, std::string filename, id variableid, int linecount);
+extern void variableIDReplacer(std::string& line, std::string format, std::string filename, id variableid, std::string firstVariable, int linecount);
 extern vecstr GetOptionInfo(std::string line, std::string format, std::string filename, int numline, size_t lastOrder, std::vector<std::shared_ptr<animationInfo>> groupAnimInfo, bool allowNoFixAnim, bool isCondition, int order = -1, int animMulti = -1, int optionMulti = -1);
 
 #endif

@@ -14,13 +14,10 @@ unordered_map<string, vector<PCEAData>> animReplaced;
 void ReadPCEA()
 {
 	vecstr folderlist;
-	string datapath = skyrimDataPath->GetDataPath() + "\\meshes\\actors\\character\\Animations\\Nemesis_PCEA";
+	string datapath = skyrimDataPath->GetDataPath() + "meshes\\actors\\character\\Animations\\Nemesis_PCEA";
 	bf::path pceafolder(datapath + "\\PCEA_animations");
-	read_directory(datapath, folderlist);
-	map<int, PCEA> modlist;
-	map<int, bool> taken;
 
-	if (isFileExist(pceafolder.string()))
+	if (isFileExist(datapath + "\\PCEA_animations"))
 	{
 		if (!bf::remove_all(pceafolder))
 		{
@@ -29,7 +26,10 @@ void ReadPCEA()
 		}
 	}
 
-	bf::create_directory(pceafolder);
+	FolderCreate(datapath + "\\PCEA_animations\\");
+	read_directory(datapath, folderlist);
+	map<int, PCEA> modlist;
+	map<int, bool> taken;
 
 	for (auto& folder : folderlist)
 	{
@@ -149,9 +149,8 @@ bool PCEAInstallation()
 
 		vecstr storeline;
 		vecstr newline;
-		GetFunctionLines(pscfile, storeline);
 
-		if (error)
+		if (!GetFunctionLines(pscfile, storeline))
 		{
 			return false;
 		}

@@ -21,19 +21,18 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 			string line;
 			string filename = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
 
-			if (!saveLastUpdate(filename, lastUpdate))
+			if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate))
 			{
 				return false;
 			}
 
 			vecstr storeline;
-			GetFunctionLines(filename, storeline);
 
-			if (error)
+			if (!GetFunctionLines(filename, storeline))
 			{
 				return false;
 			}
-			
+
 			{
 				vecstr newline;
 				bool start = false;
@@ -228,9 +227,13 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 bool animDataHeaderUpdate(string folderpath, string modcode, MasterAnimData& animData, unordered_map<string, string>& lastUpdate)
 {
 	vecstr storeline;
-	GetFunctionLines(folderpath, storeline);
 
-	if (!saveLastUpdate(folderpath, lastUpdate))
+	if (!GetFunctionLines(folderpath, storeline))
+	{
+		return false;
+	}
+
+	if (!saveLastUpdate(boost::to_lower_copy(folderpath), lastUpdate))
 	{
 		return false;
 	}
@@ -325,10 +328,9 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 					isNew = true;
 				}
 
-				saveLastUpdate(filepath, lastUpdate);
-				GetFunctionLines(filepath, storeline);
+				saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate);
 
-				if (error)
+				if (!GetFunctionLines(filepath, storeline))
 				{
 					return false;
 				}
@@ -393,10 +395,13 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 		if (!boost::filesystem::is_directory(curfile) && curfile.stem().string() == "txt")
 		{
 			vecstr storeline;
-			GetFunctionLines(filename, storeline);
-			saveLastUpdate(filename, lastUpdate);
 
-			if (error)
+			if (!GetFunctionLines(filename, storeline))
+			{
+				return false;
+			}
+
+			if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate))
 			{
 				return false;
 			}

@@ -1404,6 +1404,9 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 
 		while (i < linecount + 1)
 		{
+			if (i == 29 && linecount == 419)
+				i = i;
+
 			if (!marker[i].skip)
 			{
 				bool invert = false;
@@ -1413,7 +1416,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 					invert = true;
 				}
 
-				if (isOnlyNumber(animDataSet[i]) && id == 10)
+				if (isOnlyNumber(animDataSet[i]) && (id == 10 || id == 7))
 				{
 					if (animDataSet[i] == "0" && (i == int(animDataSet.size()) - 1 || boost::iequals(animDataSet[i + 1], "V3")))
 					{
@@ -1496,7 +1499,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 								{
 									if (animDataSet[i + next] == "7891816")
 									{
-										++id;
+										id = 11;
 										break;
 									}
 								}
@@ -1536,7 +1539,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 
 								if (isOnlyNumber(animDataSet[i + next]) && animDataSet[i + next] == "7891816")
 								{
-									++id;
+									id = 11;
 									break;
 								}
 							}

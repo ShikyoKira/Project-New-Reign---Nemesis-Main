@@ -5,6 +5,7 @@
 using namespace std;
 
 string zeroEvent;
+string zeroVariable;
 
 groupTemplate::groupTemplate(vecstr grouptemplateformat)
 {
@@ -2921,7 +2922,7 @@ void groupTemplate::processing(string& line, string filename, string masterForma
 
 			if (position != NOT_FOUND &&  change.find("]", position) != NOT_FOUND)
 			{
-				variableIDReplacer(change, format, filename, variableid, linecount);
+				variableIDReplacer(change, format, filename, variableid, zeroVariable, linecount);
 				isChange = true;
 			}
 
@@ -3316,7 +3317,7 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 
 			if (position != NOT_FOUND &&  change.find("]", position) != NOT_FOUND)
 			{
-				variableIDReplacer(change, format, filename, variableid, linecount);
+				variableIDReplacer(change, format, filename, variableid, zeroVariable, linecount);
 				isChange = true;
 			}
 
@@ -4439,6 +4440,11 @@ void groupTemplate::setZeroEvent(string eventname)
 	zeroEvent = eventname;
 }
 
+void groupTemplate::setZeroVariable(string variablename)
+{
+	zeroVariable = variablename;
+}
+
 inline void ExistingFunction::newID()
 {
 	++(*nextFunctionID);
@@ -4459,6 +4465,11 @@ inline void ExistingFunction::newID()
 void ExistingFunction::setZeroEvent(string eventname)
 {
 	zeroEvent = eventname;
+}
+
+void ExistingFunction::setZeroVariable(string variablename)
+{
+	zeroVariable = variablename;
 }
 
 int formatGroupReplace(string& curline, string oriline, int point, string filename, string format, master subFunctionIDs, vector<vector<shared_ptr<animationInfo>>> groupAnimInfo, int linecount, int groupMulti, int optionMulti, int animMulti, string multiOption)

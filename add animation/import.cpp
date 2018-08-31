@@ -23,9 +23,8 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 		}
 
 		vecstr exportFormat;
-		GetFunctionLines(filename, exportFormat);
 
-		if (error)
+		if (!GetFunctionLines(filename, exportFormat))
 		{
 			behaviorlines.shrink_to_fit();
 			return behaviorlines;

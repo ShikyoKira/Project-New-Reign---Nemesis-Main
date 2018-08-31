@@ -1,4 +1,5 @@
 #include "registeranimation.h"
+#include "readtextfile.h"
 
 using namespace std;
 
@@ -27,10 +28,9 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 		behaviorFile = behavior;
 	}
 
-	FILE* newAnimationList;
-	fopen_s(&newAnimationList, filepath.c_str(), "r");
-	
-	if (newAnimationList)
+	shared_ptr<TextFile> newAnimationList = make_shared<TextFile>(filepath);
+
+	if (newAnimationList->GetFile())
 	{
 		char line[2000];
 		int linecount = 0;
@@ -41,7 +41,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 		unordered_map<string, bool> AAAnimFileExist;
 		unordered_map<string, bool> AAprefixExist;
 
-		while (fgets(line, 2000, newAnimationList))
+		while (fgets(line, 2000, newAnimationList->GetFile()))
 		{
 			++linecount;
 
@@ -61,7 +61,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 				if (newAnimInfo[0].length() == 0)
 				{
 					ErrorMessage(1016, filename, linecount);
-					fclose(newAnimationList);
 					return;
 				}
 
@@ -81,7 +80,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (string(line).substr(wordFind(line, "AAprefix") + 9).length() > 3 || newAnimInfo[1].length() != 3 || newAnimInfo.size() != 2)
 					{
 						ErrorMessage(4002, filename, linecount, line);
-						fclose(newAnimationList);
 						return;
 					}
 
@@ -93,7 +91,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (AAprefixExist.size() > 30)
 						{
 							ErrorMessage(4007, filename, linecount, modID, newAnimInfo[1]);
-							fclose(newAnimationList);
 							return;
 						}
 
@@ -105,14 +102,12 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (curAAprefix.length() == 0)
 					{
 						ErrorMessage(4006, filename, linecount, line);
-						fclose(newAnimationList);
 						return;
 					}
 
 					if (newAnimInfo.size() != 3 )
 					{
 						ErrorMessage(4003, filename, linecount, line);
-						fclose(newAnimationList);
 						return;
 					}
 
@@ -121,7 +116,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (groupSize == 0)
 					{
 						ErrorMessage(4004, filename, linecount, line);
-						fclose(newAnimationList);
 						return;
 					}
 					
@@ -130,7 +124,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (!isOnlyNumber(newAnimInfo[2]))
 						{
 							ErrorMessage(4005, filename, linecount, line);
-							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -168,7 +161,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (alternateAnim[lowAnim].size() > 128)
 						{
 							ErrorMessage(4008, filename, linecount, line);
-							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -178,7 +170,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (newAnimInfo.size() < 4 || newAnimInfo.size() % 2 != 0)
 					{
 						ErrorMessage(4010, filename, linecount);
-						fclose(newAnimationList);
 						return;
 					}
 
@@ -187,7 +178,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (!AAAnimFileExist[lowerAnimName])
 					{
 						ErrorMessage(4011, filename, linecount, newAnimInfo[1]);
-						fclose(newAnimationList);
 						return;
 					}
 					else
@@ -217,14 +207,12 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (newAnimInfo.size() > 4)
 					{
 						ErrorMessage(1023, filename, linecount, strline);
-						fclose(newAnimationList);
 						return;
 					}
 
 					if (!isOnlyNumber(value))
 					{
 						ErrorMessage(1030, filename, linecount, strline);
-						fclose(newAnimationList);
 						return;
 					}
 					
@@ -237,7 +225,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					else
 					{
 						ErrorMessage(1018, filename, linecount, type);
-						fclose(newAnimationList);
 						return;
 					}
 				}
@@ -246,7 +233,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (newAnimInfo.size() != 5)
 					{
 						ErrorMessage(1089, filename, linecount);
-						fclose(newAnimationList);
 						return;
 					}
 
@@ -255,7 +241,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (!isOnlyNumber(newAnimInfo[i]))
 						{
 							ErrorMessage(1091, filename, linecount);
-							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -267,7 +252,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (timer >= stoi(newAnimInfo[1]))
 						{
 							ErrorMessage(1087, filename, linecount);
-							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -279,14 +263,12 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (newAnimInfo.size() != 6)
 					{
 						ErrorMessage(1088, filename, linecount);
-						fclose(newAnimationList);
 						return;
 					}
 
 					if (animInfo[previousShortline].back()->motionData.size() == 0)
 					{
 						ErrorMessage(1090, filename, linecount);
-						fclose(newAnimationList);
 						return;
 					}
 
@@ -297,7 +279,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (timer >= stoi(newAnimInfo[1]))
 						{
 							ErrorMessage(1086, filename, linecount);
-							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -334,7 +315,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 								if (error)
 								{
-									fclose(newAnimationList);
 									return;
 								}
 								
@@ -351,7 +331,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 								if (error)
 								{
-									fclose(newAnimationList);
 									return;
 								}
 								
@@ -376,7 +355,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 							if (!isOExist)
 							{
 								ErrorMessage(1000, filename, linecount);
-								fclose(newAnimationList);
 								return;
 							}
 
@@ -388,7 +366,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					else
 					{
 						ErrorMessage(1065, filename, linecount);
-						fclose(newAnimationList);
 						return;
 					}
 				}
@@ -425,7 +402,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 					if (error)
 					{
-						fclose(newAnimationList);
 						return;
 					}
 
@@ -442,7 +418,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					if (!isOExist)
 					{
 						ErrorMessage(1000, filename, linecount);
-						fclose(newAnimationList);
 						return;
 					}
 
@@ -451,7 +426,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						if (behaviortemplate.optionlist[previousShortline].groupMin > multiCount)
 						{
 							ErrorMessage(1034, behaviortemplate.optionlist[previousShortline].groupMin, previousShortline, filename, linecount - 1);
-							fclose(newAnimationList);
 							return;
 						}
 
@@ -543,7 +517,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 											if (!isMatched)
 											{
 												ErrorMessage(1035, filename, linecount);
-												fclose(newAnimationList);
 												return;
 											}
 										}
@@ -551,7 +524,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 									else
 									{
 										ErrorMessage(1035, filename, linecount);
-										fclose(newAnimationList);
 										return;
 									}
 								}
@@ -641,7 +613,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 								if (!isMatched)
 								{
 									ErrorMessage(1035, filename, linecount);
-									fclose(newAnimationList);
 									return;
 								}
 							}
@@ -696,7 +667,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 								if (!isMatched)
 								{
 									ErrorMessage(1035, filename, linecount);
-									fclose(newAnimationList);
 									return;
 								}
 							}
@@ -704,7 +674,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						else
 						{
 							ErrorMessage(1035, filename, linecount);
-							fclose(newAnimationList);
 							return;
 						}
 					}
@@ -718,7 +687,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 				else
 				{
 					ErrorMessage(1016, filename, linecount);
-					fclose(newAnimationList);
 					return;
 				}
 
@@ -727,7 +695,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 		}
 
 		++linecount;
-		fclose(newAnimationList);
 
 		if (behaviortemplate.optionlist[previousShortline].groupMin > multiCount)
 		{

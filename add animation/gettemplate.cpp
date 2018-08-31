@@ -101,10 +101,9 @@ getTemplate::getTemplate()
 								{
 									if (behaviortemplate[codelist[k] + "_group"][lowerBehaviorFolder].size() == 0)
 									{
-										GetFunctionLines(newpath, behaviortemplate[codelist[k] + "_group"][lowerBehaviorFolder]);
 										noGroup = false;
 
-										if (error)
+										if (!GetFunctionLines(newpath, behaviortemplate[codelist[k] + "_group"][lowerBehaviorFolder]))
 										{
 											return;
 										}
@@ -119,10 +118,9 @@ getTemplate::getTemplate()
 								{
 									if (behaviortemplate[codelist[k] + "_master"][lowerBehaviorFolder].size() == 0)
 									{
-										GetFunctionLines(newpath, behaviortemplate[codelist[k] + "_master"][lowerBehaviorFolder]);
 										noGroup = false;
 
-										if (error)
+										if (!GetFunctionLines(newpath, behaviortemplate[codelist[k] + "_master"][lowerBehaviorFolder]))
 										{
 											return;
 										}
@@ -140,9 +138,7 @@ getTemplate::getTemplate()
 
 									if (behaviortemplate[codelist[k]][lowerBehaviorFolder].size() == 0)
 									{
-										GetFunctionLines(newpath, behaviortemplate[codelist[k]][lowerBehaviorFolder]);
-
-										if (error)
+										if (!GetFunctionLines(newpath, behaviortemplate[codelist[k]][lowerBehaviorFolder]))
 										{
 											return;
 										}
@@ -163,7 +159,12 @@ getTemplate::getTemplate()
 									}
 
 									vecstr storeline;
-									GetFunctionLines(newpath, storeline);
+
+									if (!GetFunctionLines(newpath, storeline))
+									{
+										return;
+									}
+
 									bool isJoint = false;
 									bool isStateMachine = false;
 
@@ -215,9 +216,7 @@ getTemplate::getTemplate()
 									{
 										if (animdatatemplate[codelist[k]][project][header].size() == 0)
 										{
-											GetFunctionLines(newpath + "\\" + headerlist[j], animdatatemplate[codelist[k]][project][header], true);
-
-											if (error)
+											if (!GetFunctionLines(newpath + "\\" + headerlist[j], animdatatemplate[codelist[k]][project][header], true))
 											{
 												return;
 											}
@@ -249,9 +248,7 @@ getTemplate::getTemplate()
 									{
 										if (asdtemplate[codelist[k]][project][header].size() == 0)
 										{
-											GetFunctionLines(newpath + "\\" + headerlist[j], asdtemplate[codelist[k]][project][header], false);
-
-											if (error)
+											if (!GetFunctionLines(newpath + "\\" + headerlist[j], asdtemplate[codelist[k]][project][header], false))
 											{
 												return;
 											}

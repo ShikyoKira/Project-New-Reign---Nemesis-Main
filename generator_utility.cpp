@@ -1,4 +1,5 @@
 #include "generator_utility.h"
+#include "readtextfile.h"
 #include "add animation\playerexclusive.h"
 #include <boost\thread.hpp>
 
@@ -306,6 +307,7 @@ void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
 		for (auto& file : filelist)
 		{
 			string path = directory + "\\" + file;
+			boost::to_lower(path);
 
 			if (boost::filesystem::is_directory(path))
 			{
@@ -384,8 +386,11 @@ bool isEngineUpdated()
 		return false;
 	}
 
-	GetFunctionLines(filename, storeline, false);
-	
+	if (!GetFunctionLines(filename, storeline, false))
+	{
+		return false;
+	}
+
 	for (auto& line : storeline)
 	{
 		if (line.length() > 0)
@@ -471,12 +476,11 @@ void GetBehaviorPath()
 		string line;
 		int linecount = 0;
 		char charline[2000];
-		FILE* pathFile;
-		fopen_s(&pathFile, filename.c_str(), "r");
+		shared_ptr<TextFile> pathFile = make_shared<TextFile>(filename);
 
-		if (pathFile)
+		if (pathFile->GetFile())
 		{
-			while (fgets(charline, 2000, pathFile))
+			while (fgets(charline, 2000, pathFile->GetFile()))
 			{
 				++linecount;
 				line = charline;
@@ -496,7 +500,6 @@ void GetBehaviorPath()
 				else
 				{
 					ErrorMessage(1067, filename, linecount);
-					fclose(pathFile);
 					throw 1;
 				}
 			}
@@ -504,11 +507,8 @@ void GetBehaviorPath()
 		else
 		{
 			ErrorMessage(2000, filename);
-			fclose(pathFile);
 			throw 1;
 		}
-
-		fclose(pathFile);
 	}
 	else
 	{
@@ -526,12 +526,11 @@ void GetBehaviorProject()
 		string characterfile;
 		bool newChar = true;
 		char charline[2000];
-		FILE* pathFile;
-		fopen_s(&pathFile, filename.c_str(), "r");
+		shared_ptr<TextFile> pathFile = make_shared<TextFile>(filename);
 
-		if (pathFile)
+		if (pathFile->GetFile())
 		{
-			while (fgets(charline, 2000, pathFile))
+			while (fgets(charline, 2000, pathFile->GetFile()))
 			{
 				string line = charline;
 
@@ -561,11 +560,8 @@ void GetBehaviorProject()
 		else
 		{
 			ErrorMessage(2000, filename);
-			fclose(pathFile);
 			throw 1;
 		}
-
-		fclose(pathFile);
 	}
 	else
 	{
@@ -583,12 +579,11 @@ void GetBehaviorProjectPath()
 		string line;
 		int linecount = 0;
 		char charline[2000];
-		FILE* pathFile;
-		fopen_s(&pathFile, filename.c_str(), "r");
+		shared_ptr<TextFile> pathFile = make_shared<TextFile>(filename);
 
-		if (pathFile)
+		if (pathFile->GetFile())
 		{
-			while (fgets(charline, 2000, pathFile))
+			while (fgets(charline, 2000, pathFile->GetFile()))
 			{
 				++linecount;
 				line = charline;
@@ -608,7 +603,6 @@ void GetBehaviorProjectPath()
 				else
 				{
 					ErrorMessage(1067, filename, linecount);
-					fclose(pathFile);
 					throw 1;
 				}
 			}
@@ -616,11 +610,8 @@ void GetBehaviorProjectPath()
 		else
 		{
 			ErrorMessage(2000, filename);
-			fclose(pathFile);
 			throw 1;
 		}
-
-		fclose(pathFile);
 	}
 	else
 	{
@@ -638,15 +629,14 @@ void GetAnimData()
 	{
 		int linecount = 0;
 		char charline[2000];
-		FILE* pathFile;
-		fopen_s(&pathFile, filename.c_str(), "r");
+		shared_ptr<TextFile> pathFile = make_shared<TextFile>(filename);
 		bool newCharacter = false;
 		string character;
 		string line;
 
-		if (pathFile)
+		if (pathFile->GetFile())
 		{
-			while (fgets(charline, 2000, pathFile))
+			while (fgets(charline, 2000, pathFile->GetFile()))
 			{
 				line = charline;
 
@@ -660,7 +650,6 @@ void GetAnimData()
 					if (line.length() == 0)
 					{
 						ErrorMessage(3019);
-						fclose(pathFile);
 						throw 1;
 					}
 
@@ -670,7 +659,6 @@ void GetAnimData()
 					if (characterHeaders.find(character) != characterHeaders.end())
 					{
 						ErrorMessage(3010, character);
-						fclose(pathFile);
 						throw 1;
 					}
 				}
@@ -683,7 +671,6 @@ void GetAnimData()
 					if (characterHeaders[character].find(line) != characterHeaders[character].end())
 					{
 						ErrorMessage(3008, character);
-						fclose(pathFile);
 						throw 1;
 					}
 					
@@ -694,11 +681,8 @@ void GetAnimData()
 		else
 		{
 			ErrorMessage(2000, filename);
-			fclose(pathFile);
 			throw 1;
 		}
-
-		fclose(pathFile);
 	}
 	else
 	{
@@ -717,12 +701,11 @@ void characterHKX()
 		char charline[2000];
 		string line;
 		string header;
-		FILE* file;
-		fopen_s(&file, (filename).c_str(), "r");
+		shared_ptr<TextFile> file = make_shared<TextFile>(filename);
 
-		if (file)
+		if (file->GetFile())
 		{
-			while (fgets(charline, 2000, file))
+			while (fgets(charline, 2000, file->GetFile()))
 			{
 				line = charline;
 
@@ -754,8 +737,6 @@ void characterHKX()
 					open = false;
 				}
 			}
-
-			fclose(file);
 		}
 		else
 		{
@@ -850,11 +831,11 @@ inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, u
 	{
 		vecstr templateGroup = BehaviorTemplate.grouplist[lowerBehaviorFile];
 
-		for (unsigned int j = 0; j < templateGroup.size(); ++j)
+		for (auto& templatecode : templateGroup)
 		{
-			if (newAnimation.find(templateGroup[j]) != newAnimation.end())
+			if (newAnimation.find(templatecode) != newAnimation.end())
 			{
-				for (auto& curAnim : newAnimation[templateGroup[j]])
+				for (auto& curAnim : newAnimation[templatecode])
 				{
 					if (modID == curAnim->coreModID)
 					{
@@ -877,15 +858,13 @@ inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, u
 				{
 					vecstr templateGroup = it->second;
 
-					for (unsigned int j = 0; j < templateGroup.size(); ++j)
+					for (auto& templatecode : templateGroup)
 					{
-						string templatecode = templateGroup[j];
-
-						if (newAnimation[templatecode].size() != 0 && !BehaviorTemplate.optionlist[templatecode].core)
+						if (newAnimation.find(templatecode) != newAnimation.end() && !BehaviorTemplate.optionlist[templatecode].core)
 						{
 							for (auto& curAnim : newAnimation[templatecode])
 							{
-								if (!curAnim->isKnown() && modID == curAnim->coreModID)
+								if (!curAnim->isKnown())
 								{
 									return true;
 								}

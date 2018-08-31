@@ -1,5 +1,6 @@
 #include "functionupdate.h"
 #include "lastupdate.h"
+#include "readtextfile.h"
 #include <boost\thread.hpp>
 #include <atomic>
 
@@ -15,18 +16,19 @@ typedef vector<string> vecstr;
 
 bool CombineAnimData(string filepath, string filename, string characterfile, string modcode, vecstr& newline, vecstr& storeline, vector<int> modEditCoordinate,
 	unordered_map<string, int> modEditLine, unordered_map<int, int> NewCoordinate, unordered_map<int, int> Pair, unordered_map<string, string>& lastUpdate);
-bool ClassCheck(vector<int>& modEditCoordinate, unordered_map<string, int>& modEditLine, unordered_map<int, int>& NewCoordinate, int linecount, vecstr& storeline, string filepath,
-	string projectfile, string filename, string modcode);
+bool ClassCheck(vector<int>& modEditCoordinate, unordered_map<string, int>& modEditLine, unordered_map<int, int>& NewCoordinate, int linecount, vecstr& storeline,
+	string filepath, string projectfile, string filename, string modcode);
 
-string GetFunctionEdits(vecstr storeline, int numline)
+bool GetFunctionEdits(string& line, vecstr storeline, int numline)
 {
 	if (numline < int(storeline.size()))
 	{
-		return storeline[numline];
+		line = storeline[numline];
+		return true;
 	}
 
 	error = true;
-	return "null";
+	return false;
 }
 
 vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int endline)
@@ -51,7 +53,8 @@ vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int en
 	}
 }
 
-bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, string>& lastUpdate)
+bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unordered_map<string, map<string, vecstr>>& newFile, SSMap& stateID, SSMap& parent,
+	unordered_map<string, vecstr>& statelist, unordered_map<string, string>& lastUpdate)
 {
 	// lock_guard <mutex> filelocker(locker);		issue #61
 
@@ -85,6 +88,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 		bool edited = false;
 		bool originalopen = false;
 		bool bigger = false;
+		bool isSM = false;
 
 		int startoriline = 0;
 		int starteditline = 0;
@@ -97,20 +101,19 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 		string line;
 		string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
 
-		if (!saveLastUpdate(filename, lastUpdate))
+		if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate))
 		{
 			return false;
 		}
 
 		char charline[2000];
-		FILE* BehaviorFormat;
-		fopen_s(&BehaviorFormat, filename.c_str(), "r");
+		shared_ptr<TextFile> BehaviorFormat = make_shared<TextFile>(filename);
 
-		if (BehaviorFormat)
+		if (BehaviorFormat->GetFile())
 		{
 			bool IsEventVariable = false;
 
-			while (fgets(charline, 2000, BehaviorFormat))
+			while (fgets(charline, 2000, BehaviorFormat->GetFile()))
 			{
 				line = charline;
 
@@ -119,9 +122,41 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 					line.pop_back();
 				}
 				
-				if (line.find("hkbBehaviorGraphStringData", 0) != NOT_FOUND || line.find("hkbVariableValueSet", 0) != NOT_FOUND || line.find("hkbBehaviorGraphData", 0) != NOT_FOUND)
+				if (line.find("hkbBehaviorGraphStringData", 0) != NOT_FOUND || line.find("hkbVariableValueSet", 0) != NOT_FOUND ||
+					line.find("hkbBehaviorGraphData", 0) != NOT_FOUND)
 				{
 					IsEventVariable = true;
+				}
+
+				if (line.find("<hkobject name=\"", 0) != NOT_FOUND && line.find("class=\"hkbStateMachine\" signature=\"", line.find("<hkobject name=\"")) != NOT_FOUND)
+				{
+					isSM = true;
+				}
+				else if (isSM && !originalopen && line.find("			#") != NOT_FOUND)
+				{
+					stringstream sstream(line);
+					istream_iterator<string> ssbegin(sstream);
+					istream_iterator<string> ssend;
+					vector<string> curElements(ssbegin, ssend);
+					copy(curElements.begin(), curElements.end(), curElements.begin());
+
+					if (isSM)
+					{
+						for (auto& element : curElements)
+						{
+							statelist[nodeID].push_back(element);
+							parent[element] = nodeID;
+						}
+					}
+				}
+				else if (!originalopen && line.find("<hkparam name=\"stateId\">") != NOT_FOUND)
+				{
+					string stateIDStr = boost::regex_replace(string(line), boost::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"), string("\\1"));
+
+					if (stateIDStr != line)
+					{
+						stateID[nodeID] = stateIDStr;
+					}
 				}
 
 				if ((line.find("<!-- MOD_CODE", 0) != NOT_FOUND) && (line.find("OPEN -->", 0) != NOT_FOUND) && (!edited))
@@ -170,15 +205,19 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 						{
 							eventcount = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 						}
-						else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND || line.find("<hkparam name=\"attributeDefaults\" numelements=", 0) != NOT_FOUND)
+						else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND ||
+							line.find("<hkparam name=\"attributeDefaults\" numelements=", 0) != NOT_FOUND)
 						{
 							attributecount = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 						}
-						else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0) != NOT_FOUND || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
+						else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND ||
+							line.find("<hkparam name=\"wordVariableValues\" numelements=", 0) != NOT_FOUND ||
+							line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
 						{
 							variablecount = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 						}
-						else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0) != NOT_FOUND || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0) != NOT_FOUND)
+						else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0) != NOT_FOUND || 
+							line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0) != NOT_FOUND)
 						{
 							characterpropertycount = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 						}
@@ -196,8 +235,6 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 				storeline.push_back(line);
 				coordinate++;
 			}
-
-			fclose(BehaviorFormat);
 		}
 		else
 		{
@@ -254,7 +291,8 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 							}
 							else
 							{
-								line.append("   				<!-- EVENT numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append("   				<!-- EVENT numelement " + modcode + " +" + to_string(tempint) +
+									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
 							}
 						}
 						else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND)
@@ -267,47 +305,56 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 							}
 							else
 							{
-								line.append("   				<!-- ATTRIBUTE numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append("   				<!-- ATTRIBUTE numelement " + modcode + " +" + to_string(tempint) +
+									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
 							}
 						}
-						else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0) != NOT_FOUND || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
+						else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND ||
+							line.find("<hkparam name=\"wordVariableValues\" numelements=", 0) != NOT_FOUND ||
+							line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
 						{
 							int tempint = variablecount - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 							
 							if (line.find("<!-- VARIABLE numelement ", 0) != NOT_FOUND)
 							{
-								line.append(" <!-- VARIABLE numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append(" <!-- VARIABLE numelement " + modcode + " +" + to_string(tempint) +
+									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
 							}
 							else
 							{
-								line.append("				<!-- VARIABLE numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append("				<!-- VARIABLE numelement " + modcode + " +" + to_string(tempint) +
+									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
 							}
 						}
-						else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0) != NOT_FOUND || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0) != NOT_FOUND)
+						else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0) != NOT_FOUND ||
+							line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0) != NOT_FOUND)
 						{
 							int tempint = characterpropertycount - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
 							if (line.find("<!-- CHARACTER numelement ", 0) != NOT_FOUND)
 							{
-								line.append(" <!-- CHARACTER numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append(" <!-- CHARACTER numelement " + modcode + " +" + to_string(tempint) + " $" +
+									to_string(modEditLine[to_string(linecount)]) + " -->");
 							}
 							else
 							{
-								line.append("				<!-- CHARACTER numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append("				<!-- CHARACTER numelement " + modcode + " +" + to_string(tempint) +
+									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
 							}
 						}
 						else if (line.find("numelements=\"", 0) != NOT_FOUND)
 						{
-							string templine = GetFunctionEdits(storeline, modEditLine[to_string(linecount)]);
+							string templine;
 
-							if (error)
+							if (!GetFunctionEdits(templine, storeline, modEditLine[to_string(linecount)]))
 							{
 								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[to_string(linecount)]);
 								filelock.clear(memory_order_release);
 								return false;
 							}
 
-							int difference = stoi(boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"))) - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+							int difference = stoi(boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"),
+								string("\\1"))) - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
 							if (line.find("<!-- numelement *", 0) != NOT_FOUND)
 							{
@@ -320,9 +367,9 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 						}
 						else
 						{
-							string templine = GetFunctionEdits(storeline, modEditLine[to_string(linecount)]);
+							string templine;
 
-							if (error)
+							if (!GetFunctionEdits(templine, storeline, modEditLine[to_string(linecount)]))
 							{
 								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[to_string(linecount)]);
 								filelock.clear(memory_order_release);
@@ -353,7 +400,8 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 					{
 						functionline.push_back("<!-- NEW *" + modcode + "* -->");
 
-						vecstr storage = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+						vecstr storage = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline,
+							modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
 
 						if (!error)
 						{
@@ -397,7 +445,8 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 				{
 					functionline.push_back("<!-- NEW *" + modcode + "* -->");
 
-					vecstr storage = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+					vecstr storage = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline
+						, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
 
 					if (!error)
 					{
@@ -426,7 +475,24 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 	{
 		if (nodefile == "#" + modcode + "$" + filecheck)
 		{
-			GetFunctionLines("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, newFile[behaviorfile][nodeID]);
+			if (!GetFunctionLines("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, newFile[behaviorfile][nodeID]))
+			{
+				filelock.clear(memory_order_release);
+				return false;
+			}
+
+			for (auto& line : newFile[behaviorfile][nodeID])
+			{
+				if (line.find("<hkparam name=\"stateId\">") != NOT_FOUND)
+				{
+					string stateIDStr = boost::regex_replace(string(line), boost::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"), string("\\1"));
+
+					if (stateIDStr != line)
+					{
+						stateID[nodeID] = stateIDStr;
+					}
+				}
+			}
 		}
 		else
 		{
@@ -447,9 +513,9 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 }
 
 bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, string filepath, MasterAnimData& animData,
-	bool isNewCharacter, unordered_map<string, string>& lastUpdate)
+	bool isNewCharacter, unordered_map<string, string>& lastUpdate, bool& openAnim, bool& openInfo)
 {
-	if (behaviorPath[animdatafile].empty())
+	if (behaviorPath[boost::to_lower_copy(animdatafile)].empty())
 	{
 		ErrorMessage(2007, animdatafile);
 		return false;
@@ -457,17 +523,25 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 	string filename = GetFileName(filepath);
 
+	if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
+	{
+		return false;
+	}
+
 	if (isNewCharacter)
 	{
 		if (filename.find(modcode + "$") == NOT_FOUND)
 		{
-			if (!saveLastUpdate(filepath, lastUpdate))
+			if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
 			{
 				return false;
 			}
 		}
 
-		GetFunctionLines(filepath, animData.newAnimData[characterfile][filename]);
+		if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename]))
+		{
+			return false;
+		}
 
 		if (isOnlyNumber(filename))		// info data
 		{
@@ -511,9 +585,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 		vecstr storeline;
 		string line;
 
-		GetFunctionLines(filepath, storeline);
-
-		if (error)
+		if (!GetFunctionLines(filepath, storeline))
 		{
 			return false;
 		}
@@ -574,44 +646,60 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 			coordinate++;
 		}
 
-		if (NewCoordinate.size() == 0)
-		{
-			WarningMessage(1017, filepath);
-			return false;
-		}
-
 		if (animData.newAnimData[characterfile].find(filename) != animData.newAnimData[characterfile].end())
 		{
-			if (!saveLastUpdate(filepath, lastUpdate))
+			if (NewCoordinate.size() == 0)
 			{
+				WarningMessage(1017, filepath);
 				return false;
 			}
 
-			CombineAnimData(filepath, filename, characterfile, modcode, animData.newAnimData[characterfile][filename], storeline, modEditCoordinate, modEditLine, NewCoordinate, Pair, lastUpdate);
+			CombineAnimData(filepath, filename, characterfile, modcode, animData.newAnimData[characterfile][filename], storeline, modEditCoordinate,
+				modEditLine, NewCoordinate, Pair, lastUpdate);
 		}
 		else if (filename.find(modcode + "$") != NOT_FOUND)
 		{
-			string tempID = boost::regex_replace(string(filename), boost::regex(modcode + "$([0-9]+)"), string("\\1"));
+			string tempID = boost::regex_replace(string(filename), boost::regex("[^~]*~" + modcode + "[$]([0-9]+)"), string("\\1"));
 
-			if (filename != tempID && isOnlyNumber(tempID))
+			if (filename != tempID && isOnlyNumber(tempID))		// anim data
 			{
-				tempID = boost::regex_replace(string(filename), boost::regex(modcode + "$([0-9]+)$UC"), string("\\1"));
-
-				if (filename == tempID)		// anim data
+				if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename]))
 				{
-					GetFunctionLines(filepath, animData.newAnimData[characterfile][filename]);
-					animData.animDataHeader[characterfile].push_back(filename);
+					return false;
 				}
-				else		// info data
+
+				if (!openAnim)
 				{
-					GetFunctionLines(filepath, animData.newAnimData[characterfile][filename]);
-					animData.animDataInfo[characterfile].push_back(filename);
-				}						
+					animData.newAnimData[characterfile][filename].insert(animData.newAnimData[characterfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
+					openAnim = true;
+				}
+
+				animData.animDataHeader[characterfile].push_back(filename);
 			}
 			else
 			{
-				ErrorMessage(2004, filepath);
-				return false;
+				tempID = boost::regex_replace(string(filename), boost::regex(modcode + "[$]([0-9]+)"), string("\\1"));
+				
+				if (filename != tempID && isOnlyNumber(tempID))		// info data
+				{
+					if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename]))
+					{
+						return false;
+					}
+
+					if (!openInfo)
+					{
+						animData.newAnimData[characterfile][filename].insert(animData.newAnimData[characterfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
+						openInfo = true;
+					}
+
+					animData.animDataInfo[characterfile].push_back(filename);
+				}
+				else
+				{
+					ErrorMessage(2004, filepath);
+					return false;
+				}
 			}
 		}
 		else
@@ -647,7 +735,7 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 	{
 		isHeader = true;
 
-		if (!saveLastUpdate(filepath, lastUpdate))
+		if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
 		{
 			return false;
 		}
@@ -695,9 +783,9 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 		{
 			if (modEditCoordinate.size() > 0 && modEditCoordinate[editcount] == linecount)
 			{
-				string templine = GetFunctionEdits(storeline, modEditLine[to_string(linecount)]);
+				string templine;
 
-				if (error)
+				if (!GetFunctionEdits(templine, storeline, modEditLine[to_string(linecount)]))
 				{
 					ErrorMessage(2005, filepath, modEditLine[to_string(linecount)]);
 					return false;
@@ -904,7 +992,7 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsource, string projectfile, string filepath, MasterAnimSetData& animSetData,
 	bool isNewProject, unordered_map<string, string>& lastUpdate)
 {
-	if (behaviorPath[animdatasetfile].empty())
+	if (behaviorPath[boost::to_lower_copy(animdatasetfile)].empty())
 	{
 		ErrorMessage(2007, animdatasetfile);
 		return false;
@@ -914,8 +1002,11 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 	string lowerfile = boost::to_lower_copy(filename);
 
 	if (isNewProject)
-	{		
-		GetFunctionLines(filepath, animSetData.newAnimSetData[projectfile][lowerfile]);
+	{
+		if (!GetFunctionLines(filepath, animSetData.newAnimSetData[projectfile][lowerfile]))
+		{
+			return false;
+		}
 	}
 	else
 	{
@@ -935,10 +1026,14 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 		int linecount = 0;
 
 		vecstr storeline;
-		GetFunctionLines(filepath, storeline);
 		string line;
 
-		if (!saveLastUpdate(filepath, lastUpdate))
+		if (!GetFunctionLines(filepath, storeline))
+		{
+			return false;
+		}
+
+		if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
 		{
 			return false;
 		}
@@ -999,14 +1094,14 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 			coordinate++;
 		}
 
-		if (NewCoordinate.size() == 0)
-		{
-			WarningMessage(1017, filepath);
-			return false;
-		}
-
 		if (animSetData.newAnimSetData[projectfile].find(lowerfile) != animSetData.newAnimSetData[projectfile].end())
 		{
+			if (NewCoordinate.size() == 0)
+			{
+				WarningMessage(1017, filepath);
+				return false;
+			}
+
 			vecstr newline = animSetData.newAnimSetData[projectfile][lowerfile];
 			vecstr functionline;
 			vecstr headerline;
@@ -1015,7 +1110,6 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 
 			bool skip = false;
 			bool isHeader = false;
-			bool bigger = false;
 
 			functionline.reserve(newline.size());
 			linecount = 0;
@@ -1025,14 +1119,7 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 				isHeader = true;
 			}
 
-			for (auto& counter : NewCoordinate)
-			{
-				if (counter.first >= int(newline.size()))
-				{
-					bigger = true;
-					break;
-				}
-			}
+			newline.push_back("12121332221223212");
 
 			for (unsigned int i = 0; i < newline.size(); ++i)
 			{
@@ -1047,9 +1134,9 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 				{
 					if (modEditCoordinate.size() > 0 && modEditCoordinate[editcount] == linecount)
 					{
-						string templine = GetFunctionEdits(storeline, modEditLine[to_string(linecount)]);
-
-						if (error)
+						string templine;
+						
+						if (!GetFunctionEdits(templine, storeline, modEditLine[to_string(linecount)]))
 						{
 							ErrorMessage(2005, filepath, modEditLine[to_string(linecount)]);
 							return false;
@@ -1129,52 +1216,7 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 				functionline.push_back(line);
 			}
 
-			if (bigger)
-			{
-				for (unsigned int i = newline.size(); i < storeline.size(); ++i)
-				{
-					if (NewCoordinate[linecount] > 0)
-					{
-						if (isHeader)
-						{
-							vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
-
-							if (!error)
-							{
-								headerline.push_back("<!-- NEW *" + modcode + "* -->");
-								headerline.insert(headerline.end(), storage.begin(), storage.end());
-								headerline.push_back("<!-- CLOSE -->");
-							}
-							else
-							{
-								return false;
-							}
-						}
-						else
-						{
-							if (!ClassCheck(modEditCoordinate, modEditLine, NewCoordinate, linecount, storeline, filepath, projectfile, filename, modcode))
-							{
-								return false;
-							}
-
-							functionline.push_back("<!-- NEW *" + modcode + "* -->");
-							vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
-
-							if (!error)
-							{
-								functionline.insert(functionline.end(), storage.begin(), storage.end());
-								functionline.push_back("<!-- CLOSE -->");
-							}
-							else
-							{
-								return false;
-							}
-						}
-					}
-
-					++linecount;
-				}
-			}
+			functionline.pop_back();
 
 			if (isHeader && headerline.size() > 0)
 			{
@@ -1186,16 +1228,15 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 		}
 		else
 		{
-			ErrorMessage(2004, filepath);
-			return false;
+			animSetData.newAnimSetData[projectfile][lowerfile] = storeline;
 		}
 	}
 
 	return true;
 }
 
-bool ClassCheck(vector<int>& modEditCoordinate, unordered_map<string, int>& modEditLine, unordered_map<int, int>& NewCoordinate, int linecount, vecstr& storeline, string filepath,
-	string projectfile,	string filename, string modcode)
+bool ClassCheck(vector<int>& modEditCoordinate, unordered_map<string, int>& modEditLine, unordered_map<int, int>& NewCoordinate, int linecount,
+	vecstr& storeline, string filepath,	string projectfile,	string filename, string modcode)
 {
 	unsigned int endline = modEditLine[to_string(linecount) + "R"] + NewCoordinate[linecount];
 	bool attacknew = false;

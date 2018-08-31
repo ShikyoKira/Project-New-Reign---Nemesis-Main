@@ -48,7 +48,10 @@ bool hkxcmdXmlInput(string hkxfile, vecstr& fileline)
 		}
 		else
 		{
-			GetFunctionLines(xmlfile, fileline);
+			if (!GetFunctionLines(xmlfile, fileline))
+			{
+				return false;
+			}
 
 			if (fileline.size() == 0)
 			{

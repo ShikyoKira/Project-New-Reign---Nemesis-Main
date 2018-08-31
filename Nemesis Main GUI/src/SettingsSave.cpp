@@ -63,7 +63,12 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
 	}
 
 	vecstr storeline;
-	GetFunctionLines(filename, storeline, false);
+
+	if (!GetFunctionLines(filename, storeline, false))
+	{
+		return false;
+	}
+
 	bool lang = false;
 	bool behavior = false;
 	int done = 0;

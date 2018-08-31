@@ -29,30 +29,6 @@ bool FileCheck(bool isUpdate)
 		return false;
 	}
 
-	file = "alternate animation\\nemesis pcea.script";
-
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1092, file);
-		return false;
-	}
-
-	file = skyrimDataPath->GetDataPath() + "Nemesis PCEA.esp";
-
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1092, file);
-		return false;
-	}
-
-	file = skyrimDataPath->GetDataPath() + "scripts\\Nemesis_PCEA_MCM.pex";
-
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1092, file);
-		return false;
-	}
-
 	file = "behavior templates";
 
 	if (!isFileExist(file))
@@ -98,6 +74,32 @@ bool FileCheck(bool isUpdate)
 	{
 		ErrorMessage(1092, file);
 		return false;
+	}
+
+	return true;
+}
+
+bool PCEACheck()
+{
+	string file = skyrimDataPath->GetDataPath() + "Nemesis PCEA.esp";
+
+	if (isFileExist(file))
+	{
+		file = "alternate animation\\nemesis pcea.script";
+
+		if (!isFileExist(file))
+		{
+			ErrorMessage(1092, file);
+			return false;
+		}
+
+		file = skyrimDataPath->GetDataPath() + "scripts\\Nemesis_PCEA_MCM.pex";
+
+		if (!isFileExist(file))
+		{
+			ErrorMessage(1092, file);
+			return false;
+		}
 	}
 
 	return true;

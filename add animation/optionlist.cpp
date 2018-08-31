@@ -1,4 +1,5 @@
 #include "optionlist.h"
+#include "readtextfile.h"
 
 #pragma warning(disable:4503)
 
@@ -16,10 +17,9 @@ OptionList::OptionList(string filepath, string format)
 	templatecode = format;
 	unordered_map<string, bool> isAddOn;
 	unordered_map<string, vecstr> linked;
-	FILE* input;
-	fopen_s(&input, filepath.c_str(), "r");
+	shared_ptr<TextFile> input = make_shared<TextFile>(filepath);
 
-	if (input)
+	if (input->GetFile())
 	{
 		char line[2000];
 		int linecount = 0;
@@ -33,7 +33,7 @@ OptionList::OptionList(string filepath, string format)
 		unordered_map<string, bool> isElementExist;
 		unordered_map<int, bool> isNumExist;
 
-		while (fgets(line, 2000, input))
+		while (fgets(line, 2000, input->GetFile()))
 		{
 			++linecount;
 			string strline = line;
@@ -119,7 +119,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1029, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 
@@ -128,7 +127,6 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1040, format, filepath, linecount);
-						fclose(input);
 						return;
 					}
 				}
@@ -146,7 +144,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1013, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 
@@ -155,7 +152,6 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1041, format, filepath, linecount);
-						fclose(input);
 						return;
 					}
 				}
@@ -175,7 +171,6 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1042, format, filepath, linecount);
-						fclose(input);
 						return;
 					}
 				}
@@ -199,7 +194,6 @@ OptionList::OptionList(string filepath, string format)
 								if (linked[currentTab].size() != 0)
 								{
 									ErrorMessage(1046, currentTab, format, filepath, linecount);
-									fclose(input);
 									return;
 								}
 							}
@@ -219,7 +213,6 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1036, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 					}
@@ -229,7 +222,6 @@ OptionList::OptionList(string filepath, string format)
 					if (isElementExist[templine])
 					{
 						ErrorMessage(1063, templine, format, filepath, linecount, templine);
-						fclose(input);
 						return;
 					}
 
@@ -253,7 +245,6 @@ OptionList::OptionList(string filepath, string format)
 								if (nextpos == NOT_FOUND)
 								{
 									ErrorMessage(1037, format, filepath, linecount);
-									fclose(input);
 									return;
 								}
 
@@ -276,7 +267,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1039, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 					}
@@ -294,7 +284,6 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1036, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 					}
@@ -312,7 +301,6 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1048, format, filepath, linecount);
-						fclose(input);
 						return;
 					}
 
@@ -321,7 +309,6 @@ OptionList::OptionList(string filepath, string format)
 					if (isElementExist[templine])
 					{
 						ErrorMessage(1063, templine, format, filepath, linecount);
-						fclose(input);
 						return;
 					}
 
@@ -343,7 +330,6 @@ OptionList::OptionList(string filepath, string format)
 								if (nextpos == NOT_FOUND)
 								{
 									ErrorMessage(1037, format, filepath, linecount);
-									fclose(input);
 									return;
 								}
 
@@ -373,7 +359,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1039, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 					}
@@ -400,7 +385,6 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1043, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 					}
@@ -425,7 +409,6 @@ OptionList::OptionList(string filepath, string format)
 								if (nextpos == NOT_FOUND)
 								{
 									ErrorMessage(1037, format, filepath, linecount);
-									fclose(input);
 									return;
 								}
 
@@ -443,7 +426,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1039, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 					}
@@ -461,7 +443,6 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1043, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 					}
@@ -479,7 +460,6 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1048, format, filepath, linecount);
-						fclose(input);
 						return;
 					}
 
@@ -503,7 +483,6 @@ OptionList::OptionList(string filepath, string format)
 								if (nextpos == NOT_FOUND)
 								{
 									ErrorMessage(1037, format, filepath, linecount);
-									fclose(input);
 									return;
 								}
 
@@ -530,7 +509,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1039, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 					}
@@ -557,7 +535,6 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalpha(strline[i]))
 						{
 							ErrorMessage(1044, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 					}
@@ -591,7 +568,6 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1045, format, filepath, linecount);
-						fclose(input);
 						return;
 					}
 				}
@@ -600,7 +576,6 @@ OptionList::OptionList(string filepath, string format)
 					if (AnimInfo.size() < 2)
 					{
 						ErrorMessage(1176, format, filepath, linecount);
-						fclose(input);
 						return;
 					}
 
@@ -613,14 +588,12 @@ OptionList::OptionList(string filepath, string format)
 					if (AnimInfo[3].find("$$$") == NOT_FOUND)
 					{
 						ErrorMessage(1006, format, filepath, linecount, strline);
-						fclose(input);
 						return;
 					}
 
 					if (AnimInfo[3] == "$$$")
 					{
 						ErrorMessage(1005, format, filepath, linecount, strline);
-						fclose(input);
 						return;
 					}
 
@@ -644,20 +617,17 @@ OptionList::OptionList(string filepath, string format)
 						if (ID == "0")
 						{
 							ErrorMessage(1076, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 
 						if (AnimInfo.size() < 3)
 						{
 							ErrorMessage(1069, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 						else if (AnimInfo.size() > 3)
 						{
 							ErrorMessage(1070, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 
@@ -666,14 +636,12 @@ OptionList::OptionList(string filepath, string format)
 						if (AnimInfo[2] != "#" + functionID)
 						{
 							ErrorMessage(1071, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 
 						if (behaviorPath[boost::algorithm::to_lower_copy(AnimInfo[1])].length() == 0)
 						{
 							ErrorMessage(1083, AnimInfo[1], format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 
@@ -687,7 +655,6 @@ OptionList::OptionList(string filepath, string format)
 						if (lineplus > 4 || lineplus < 1)
 						{
 							ErrorMessage(1011, format, filepath, linecount, AnimInfo[0]);
-							fclose(input);
 							return;
 						}
 
@@ -697,7 +664,6 @@ OptionList::OptionList(string filepath, string format)
 						if (boost::iequals(tempOption, "k") || boost::iequals(tempOption, "bsa"))
 						{
 							ErrorMessage(1049, tempOption, format, filepath, linecount);
-							fclose(input);
 							return;
 						}
 
@@ -706,21 +672,18 @@ OptionList::OptionList(string filepath, string format)
 							if (boost::iequals(tempOption, "animobject") || boost::iequals(tempOption, "end"))
 							{
 								ErrorMessage(1049, tempOption, format, filepath, linecount);
-								fclose(input);
 								return;
 							}
 
 							if (tempOption == format)
 							{
 								ErrorMessage(1064, format, filepath, linecount);
-								fclose(input);
 								return;
 							}
 
 							if (storelist[tempOption])
 							{
 								ErrorMessage(1177, format, filepath, linecount, tempOption);
-								fclose(input);
 								return;
 							}
 
@@ -744,7 +707,6 @@ OptionList::OptionList(string filepath, string format)
 									if (tempAddOn != addition)
 									{
 										ErrorMessage(1015, format, filepath, linecount);
-										fclose(input);
 										return;
 									}
 									else
@@ -779,7 +741,6 @@ OptionList::OptionList(string filepath, string format)
 							else
 							{
 								ErrorMessage(1014, format, filepath, linecount);
-								fclose(input);
 								return;
 							}
 
@@ -788,7 +749,6 @@ OptionList::OptionList(string filepath, string format)
 							if (recontext != strline)
 							{
 								ErrorMessage(1033, format, filepath, linecount);
-								fclose(input);
 								return;
 							}
 						}
@@ -801,7 +761,6 @@ OptionList::OptionList(string filepath, string format)
 								if (!isalnum(strline[i]) && strline[i] != '[' && strline[i] != ']')
 								{
 									ErrorMessage(1012, format, filepath, linecount);
-									fclose(input);
 									return;
 								}
 							}
@@ -809,21 +768,18 @@ OptionList::OptionList(string filepath, string format)
 							if (boost::iequals(tempOption, "animobject") || tempOption == "D")
 							{
 								ErrorMessage(1049, tempOption, format, filepath, linecount);
-								fclose(input);
 								return;
 							}
 
 							if (tempOption == format)
 							{
 								ErrorMessage(1064, format, filepath, strline);
-								fclose(input);
 								return;
 							}
 
 							if (storelist[tempOption])
 							{
 								ErrorMessage(1177, format, filepath, linecount, tempOption);
-								fclose(input);
 								return;
 							}
 
@@ -833,7 +789,6 @@ OptionList::OptionList(string filepath, string format)
 							if (strline.length() > 2 && strline.substr(strline.length() - 2) == "[]")
 							{
 								ErrorMessage(1022, format, filepath, linecount);
-								fclose(input);
 								return;
 							}
 
@@ -842,7 +797,6 @@ OptionList::OptionList(string filepath, string format)
 							if (recontext != strline)
 							{
 								ErrorMessage(1033, format, filepath, linecount);
-								fclose(input);
 								return;
 							}
 						}
@@ -850,8 +804,6 @@ OptionList::OptionList(string filepath, string format)
 				}
 			}
 		}
-
-		fclose(input);
 
 		for (unsigned int i = 1; i < isNumExist.size(); ++i)
 		{

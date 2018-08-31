@@ -6,6 +6,7 @@
 using namespace std;
 
 string ZeroEvent;
+string ZeroVariable;
 
 Furniture::Furniture(unordered_map<string, vecstr> furnitureformat, string formatname, int furniturecount, string curfilepath, animationInfo& animationinfo)
 {
@@ -33,7 +34,8 @@ Furniture::Furniture(unordered_map<string, vecstr> furnitureformat, string forma
 	filepath = curfilepath;
 }
 
-vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, ImportContainer& import, id eventid, id variableid, vector<shared_ptr<int>>& stateID, int stateCountMultiplier, bool hasGroup, bool isCore, group& groupFunction)
+vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, ImportContainer& import, id eventid, id variableid, vector<shared_ptr<int>>& stateID,
+	int stateCountMultiplier, bool hasGroup, bool isCore, group& groupFunction)
 {
 	vecstr generatedlines;
 	vecstr recorder;
@@ -994,7 +996,6 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 													string ID = boost::regex_replace(string(newline.substr(MIDposition)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 													string oldID = "MID$" + ID;
 
-
 													if (newline.find(oldID, MIDposition) != NOT_FOUND)
 													{
 														if (IDExist[oldID].length() > 0)
@@ -1405,6 +1406,11 @@ void Furniture::storeAnimObject(vecstr animobjects, string listFilename, int lin
 void Furniture::setZeroEvent(string eventname)
 {
 	ZeroEvent = eventname;
+}
+
+void Furniture::setZeroVariable(string variablename)
+{
+	ZeroVariable = variablename;
 }
 
 void Furniture::setLastOrder(int curLastOrder)
@@ -3116,7 +3122,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 			if (position != NOT_FOUND &&  change.find("]", position) != NOT_FOUND)
 			{
-				variableIDReplacer(change, format, behaviorFile, variableid, linecount);
+				variableIDReplacer(change, format, behaviorFile, variableid, ZeroVariable, linecount);
 				isChange = true;
 			}
 
@@ -3783,7 +3789,7 @@ void eventIDReplacer(string& line, string format, string filename, id eventid, s
 	{
 		size_t nextpos = line.find("eventID[");
 		string fullEventName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 1);
-		string eventName = fullEventName.substr(8, fullEventName.length() - 9);
+		string eventName = boost::regex_replace(string(fullEventName), boost::regex(".*eventID[[](.*)[]].*"), string("\\1"));
 		string newEventID = to_string(eventid[eventName]);
 
 		if (newEventID == "0" && eventName != firstEvent)
@@ -3804,17 +3810,18 @@ void eventIDReplacer(string& line, string format, string filename, id eventid, s
 	}
 }
 
-void variableIDReplacer(string& line, string format, string filename, id variableid, int linecount)
+void variableIDReplacer(string& line, string format, string filename, id variableid, string ZeroVariable, int linecount)
 {
 	int count = sameWordCount(line, "variableID[");
 
 	for (int i = 0; i < count; ++i)
 	{
 		size_t nextpos = line.find("variableID[");
-		string varName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 2);
-		string newVarID = to_string(variableid[varName.substr(11, varName.length() - 12)]);
+		string fullVarName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 1);
+		string varName = boost::regex_replace(string(fullVarName), boost::regex(".*variableID[[](.*)[]].*"), string("\\1"));
+		string newVarID = to_string(variableid[varName]);
 
-		if (newVarID == "0")
+		if (newVarID == "0" && ZeroVariable != varName)
 		{
 			if (format == "BASE")
 			{
@@ -3828,7 +3835,7 @@ void variableIDReplacer(string& line, string format, string filename, id variabl
 			}
 		}
 
-		line.replace(line.find(varName), varName.length(), newVarID);
+		line.replace(line.find(fullVarName), fullVarName.length(), newVarID);
 	}
 }
 

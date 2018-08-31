@@ -40,6 +40,7 @@ public:
 	void processing(std::string& line, std::string filename, std::string masterFormat, int linecount, id eventid, id variableid, int groupMulti = -1, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
 	inline void newID();
 	void setZeroEvent(std::string eventname);
+	void setZeroVariable(std::string variablename);
 
 };
 
@@ -61,6 +62,7 @@ public:
 	void processing(std::string& line, std::string filename, int curFunctionID, int linecount, id eventid, id variableid, int groupMulti, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
 	inline void newID();
 	void setZeroEvent(std::string eventname);
+	void setZeroVariable(std::string variablename);
 
 };
 
