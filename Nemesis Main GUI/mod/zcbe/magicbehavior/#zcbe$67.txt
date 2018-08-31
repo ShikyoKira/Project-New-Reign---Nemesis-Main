@@ -4,7 +4,7 @@
 			<hkparam name="name">Z_FixJumpCastBug_EDM</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifier">#zcbe$68</hkparam>
-			<hkparam name="activateEventId">100</hkparam>
+			<hkparam name="activateEventId">$eventID[JumpLandEnd]$</hkparam>
 			<hkparam name="deactivateEventId">12</hkparam>
 			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>

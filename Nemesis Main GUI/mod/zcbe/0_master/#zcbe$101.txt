@@ -1,10 +1,7 @@
-		<hkobject name="#zcbe$101" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$51</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_WoundedOrGetUpMSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0211 #zcbe$97
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#zcbe$101" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$102</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

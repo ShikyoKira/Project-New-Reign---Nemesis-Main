@@ -1,17 +1,10 @@
-		<hkobject name="#zcbe$176" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="2">
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">7</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">offsetPitchDegrees</hkparam>
-					<hkparam name="variableIndex">89</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$176" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$189</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">StaffMagic_TurnRight_MSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$195 #zcbe$194 #zcbe$194 #zcbe$194
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

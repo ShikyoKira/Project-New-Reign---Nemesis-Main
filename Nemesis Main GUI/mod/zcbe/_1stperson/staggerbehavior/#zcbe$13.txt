@@ -1,7 +1,6 @@
-		<hkobject name="#zcbe$13" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+		<hkobject name="#zcbe$13" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_SendBlockIfWantBlock_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$20</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_BlockBRG</hkparam>
+			<hkparam name="behaviorName">Behaviors\BlockBehavior.hkx</hkparam>
 		</hkobject>

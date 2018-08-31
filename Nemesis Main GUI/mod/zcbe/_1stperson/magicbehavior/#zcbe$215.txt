@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaffMagicCast_TurnRightSlow</hkparam>
 			<hkparam name="animationName">Animations\StaffMagicCast_TurnRight60.HKX</hkparam>
-			<hkparam name="triggers">#zcbe$220</hkparam>
+			<hkparam name="triggers">#zcbe$222</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

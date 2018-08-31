@@ -2,7 +2,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">VampireLordChangePlayer</hkparam>
-			<hkparam name="pClipGenerator">#zcbe$573</hkparam>
+			<hkparam name="pClipGenerator">#zcbe$571</hkparam>
 			<hkparam name="SyncAnimPrefix">2_</hkparam>
 			<hkparam name="bSyncClipIgnoreMarkPlacement">false</hkparam>
 			<hkparam name="fGetToMarkTime">0.050000</hkparam>

@@ -3,5 +3,5 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">TKDodgeLeftModifier_EEM</hkparam>
 			<hkparam name="modifier">#tkuc$17</hkparam>
-			<hkparam name="generator">#tkuc$37</hkparam>
+			<hkparam name="generator">#tkuc$36</hkparam>
 		</hkobject>

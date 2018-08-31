@@ -1,11 +1,10 @@
-		<hkobject name="#zcbe$71" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">38</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$71" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$74</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">StaffLocomotionRHandSelectorMSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#zcbe$75 #zcbe$75 #zcbe$75 #zcbe$75 #zcbe$75 #zcbe$75 #zcbe$75 #zcbe$75 #zcbe$76 #zcbe$75 #zcbe$75 #zcbe$75
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

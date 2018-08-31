@@ -1,8 +1,8 @@
 		<hkobject name="#zcbe$100" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
-			<hkparam name="variableBindingSet">#zcbe$297</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$299</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_BSCyclicBlendGen</hkparam>
-			<hkparam name="pBlenderGenerator">#zcbe$298</hkparam>
+			<hkparam name="pBlenderGenerator">#zcbe$301</hkparam>
 			<hkparam name="EventToFreezeBlendValue">
 				<hkobject>
 					<hkparam name="id">77</hkparam>

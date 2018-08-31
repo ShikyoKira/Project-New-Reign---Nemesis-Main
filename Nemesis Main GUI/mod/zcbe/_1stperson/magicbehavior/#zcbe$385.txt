@@ -18,7 +18,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#zcbe$245</hkparam>
-					<hkparam name="condition">#zcbe$387</hkparam>
+					<hkparam name="condition">#zcbe$386</hkparam>
 					<hkparam name="eventId">63</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

@@ -4,7 +4,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="transitions">#zcbe$396</hkparam>
+			<hkparam name="transitions">#zcbe$395</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="transitions">null</hkparam>
 <!-- CLOSE -->

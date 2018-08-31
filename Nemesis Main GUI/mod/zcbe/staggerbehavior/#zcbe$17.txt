@@ -1,28 +1,29 @@
-		<hkobject name="#zcbe$17" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="4">
+		<hkobject name="#zcbe$17" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="4">
 				<hkobject>
-					<hkparam name="expression">iStartBone_Z = 35</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+					<hkparam name="memberPath">startBoneIndex</hkparam>
+					<hkparam name="variableIndex">$variableID[iStartBone_Z]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="expression">iEndBone_Z = 36</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+					<hkparam name="memberPath">endBoneIndex</hkparam>
+					<hkparam name="variableIndex">$variableID[iEndBone_Z]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="expression">fHeading_Z = 0.0</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+					<hkparam name="memberPath">offsetHeadingDegrees</hkparam>
+					<hkparam name="variableIndex">$variableID[fHeading_Z]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="expression">fPitch_Z = 0.0</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+					<hkparam name="memberPath">offsetPitchDegrees</hkparam>
+					<hkparam name="variableIndex">$variableID[fPitch_Z]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

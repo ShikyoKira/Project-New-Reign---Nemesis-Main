@@ -1,9 +1,9 @@
 		<hkobject name="#zcbe$3" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$72</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$73</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_WoundedOrGetUpMSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#zcbe$73 #zcbe$74
+				#zcbe$75 #zcbe$76
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

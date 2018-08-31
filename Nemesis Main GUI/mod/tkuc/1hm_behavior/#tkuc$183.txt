@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TKDodgeRight_MSG</hkparam>
 			<hkparam name="generators" numelements="4">
-				#tkuc$184 #tkuc$185 #tkuc$186 #tkuc$187
+				#tkuc$184 #tkuc$186 #tkuc$187 #tkuc$189
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

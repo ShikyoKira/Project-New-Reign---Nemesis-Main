@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BleedOut_TransOut</hkparam>
 			<hkparam name="animationName">Animations\BleedOut_TransOut.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$25</hkparam>
+			<hkparam name="triggers">#zcbe$26</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

@@ -10,17 +10,7 @@ bool[] PCEA
 string[] PCEAModList
 
 event OnEffectStart(actor akTarget, actor akCaster)
-	PCEAModList = new string[10]
-	PCEAModList[0] = "0yukl_YY2Hander_maleonly"
-	PCEAModList[1] = "1cyh0405_OrientalSwordsmanship"
-	PCEAModList[2] = "2Female_Anim_Pack"
-	PCEAModList[3] = ""
-	PCEAModList[4] = ""
-	PCEAModList[5] = ""
-	PCEAModList[6] = ""
-	PCEAModList[7] = ""
-	PCEAModList[8] = ""
-	PCEAModList[9] = ""
+	PCEAModList = Nemesis_PCEA_Core.GetPCEAList()
 	PCEA = new bool[10]
 	PCEA[0] = (Nemesis_PCEA.GetAt(0) as globalvariable).GetValueInt() as bool
 	PCEA[1] = (Nemesis_PCEA.GetAt(1) as globalvariable).GetValueInt() as bool
@@ -38,23 +28,22 @@ endEvent
 function MainConfiguration(int button = 0)
 	button = aaaNemesisPCEAMain.show()
 
-	if(button >= 3)
-		Debug.MessageBox("Current slot is empty")
-		MainConfiguration()
-	else
+	if(button < PCEAModList.Length)
 		int toggle
 		
-		if(PCEA[button])
+		if(PCEA[button] == true)
 			toggle = 0
-			Debug.notification(PCEAModList[9] + ": Activated")
+			Debug.notification(PCEAModList[button] + ": Deactivated")
 		else
 			toggle = 1
-			Debug.notification(PCEAModList[9] + ": Deactivated")
+			Debug.notification(PCEAModList[button] + ": Activated")
 		endif
 
 		PCEA[button] = !PCEA[button]
 		PlayerRef.SetAnimationVariableInt(PCEAModList[button], toggle)
 		(Nemesis_PCEA.GetAt(button) as globalvariable).SetValueInt(toggle)
+	else
+		Debug.MessageBox("Current slot is empty")
+		MainConfiguration()
 	endIf
 endFunction
-

@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WW_Stage3B.hkx</hkparam>
 			<hkparam name="animationName">Animations\WW_Stage3B.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$242</hkparam>
+			<hkparam name="triggers">#zcbe$240</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

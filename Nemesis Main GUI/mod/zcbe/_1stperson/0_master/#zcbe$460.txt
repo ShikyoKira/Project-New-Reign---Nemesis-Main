@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="4">
-				#zcbe$462 #zcbe$463 #zcbe$464 #zcbe$465
+				#zcbe$463 #zcbe$466 #zcbe$467 #zcbe$468
 			</hkparam>
-			<hkparam name="wildcardTransitions">#zcbe$466</hkparam>
+			<hkparam name="wildcardTransitions">#zcbe$462</hkparam>
 		</hkobject>

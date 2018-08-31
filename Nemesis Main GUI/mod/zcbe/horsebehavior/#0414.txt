@@ -76,7 +76,7 @@
 					</hkparam>
 					<hkparam name="transition">#zcbe$24</hkparam>
 					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">213</hkparam>
+					<hkparam name="eventId">$eventID[Magic_Unequip_Out]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

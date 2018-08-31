@@ -3,14 +3,6 @@
 
 	<hksection name="__data__">
 
-<!-- ======================== NEMESIS import TEMPLATE START ======================== -->
-<!-- ======================== NEMESIS import TEMPLATE END ======================== -->
-
-<!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->
-<!-- ======================== NEMESIS PCEA TEMPLATE END ======================== -->
-
-<!-- ======================== NEMESIS alternate animation TEMPLATE START ======================== -->
-<!-- ======================== NEMESIS alternate animation TEMPLATE END ======================== -->
 		<hkobject name="#0062" class="hkRootLevelContainer" signature="0x2772c11e">
 			<hkparam name="namedVariants" numelements="1">
 				<hkobject>
@@ -335,6 +327,14 @@
 			<hkparam name="stringData">#0063</hkparam>
 		</hkobject>
 
+<!-- ======================== NEMESIS import TEMPLATE START ======================== -->
+<!-- ======================== NEMESIS import TEMPLATE END ======================== -->
+
+<!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->
+<!-- ======================== NEMESIS PCEA TEMPLATE END ======================== -->
+
+<!-- ======================== NEMESIS alternate animation TEMPLATE START ======================== -->
+<!-- ======================== NEMESIS alternate animation TEMPLATE END ======================== -->
 		<hkobject name="#0066" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>

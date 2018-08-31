@@ -18,8 +18,8 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#tkuc$51</hkparam>
-					<hkparam name="condition">#tkuc$50</hkparam>
-					<hkparam name="eventId">101</hkparam>
+					<hkparam name="condition">#tkuc$47</hkparam>
+					<hkparam name="eventId">$eventID[TKDodgeStop]$</hkparam>
 					<hkparam name="toStateId">4</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

@@ -1,26 +1,9 @@
-		<hkobject name="#zcbe$6" class="hkbStateMachine" signature="0x816c1dcb">
+		<hkobject name="#zcbe$6" class="hkbModifierList" signature="0xa4180ca1">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">AnimateToRagdoll_Behavior</hkparam>
-			<hkparam name="eventToSendWhenStateOrTransitionChanges">
-				<hkobject>
-					<hkparam name="id">-1</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">AnimToRagdollModList</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="4">
+				#zcbe$40 #1984 #zcbe$41 #zcbe$30
 			</hkparam>
-			<hkparam name="startStateChooser">null</hkparam>
-			<hkparam name="startStateId">0</hkparam>
-			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
-			<hkparam name="randomTransitionEventId">-1</hkparam>
-			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
-			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
-			<hkparam name="syncVariableIndex">-1</hkparam>
-			<hkparam name="wrapAroundStateId">false</hkparam>
-			<hkparam name="maxSimultaneousTransitions">32</hkparam>
-			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
-			<hkparam name="states" numelements="2">
-				#zcbe$60 #zcbe$61
-			</hkparam>
-			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

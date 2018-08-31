@@ -3,10 +3,10 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$236</hkparam>
-			<hkparam name="generator">#zcbe$299</hkparam>
-			<hkparam name="name">DLC2 PairedDragonMountGrapple</hkparam>
-			<hkparam name="stateId">2</hkparam>
+			<hkparam name="transitions">#zcbe$233</hkparam>
+			<hkparam name="generator">#zcbe$234</hkparam>
+			<hkparam name="name">DLC2 PairedDragonMountBite</hkparam>
+			<hkparam name="stateId">1</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

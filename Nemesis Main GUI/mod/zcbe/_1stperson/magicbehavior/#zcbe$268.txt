@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$268" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
-			<hkparam name="variableBindingSet">#zcbe$269</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$271</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DefaultContinueTransition</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE</hkparam>

@@ -1,5 +1,5 @@
 		<hkobject name="#tkuc$40" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#tkuc$131</hkparam>
+			<hkparam name="variableBindingSet">#tkuc$130</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TKBattleArts_Behavior</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">

@@ -2,7 +2,7 @@
 			<hkparam name="variableBindingSet">#zcbe$202</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bleedout_BSCyclicBlendTransitionGenerator</hkparam>
-			<hkparam name="pBlenderGenerator">#zcbe$114</hkparam>
+			<hkparam name="pBlenderGenerator">#zcbe$99</hkparam>
 			<hkparam name="EventToFreezeBlendValue">
 				<hkobject>
 					<hkparam name="id">776</hkparam>

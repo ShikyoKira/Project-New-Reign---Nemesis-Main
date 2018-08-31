@@ -4,7 +4,7 @@
 					<hkparam name="localTime">-0.200000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">212</hkparam>
+							<hkparam name="id">$eventID[Magic_Equip_Out]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>

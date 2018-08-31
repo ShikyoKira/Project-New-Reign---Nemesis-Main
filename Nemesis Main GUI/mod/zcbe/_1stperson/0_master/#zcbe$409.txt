@@ -4,6 +4,6 @@
 			<hkparam name="name">Z_SwimML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="3">
-				#zcbe$410 #zcbe$408 #zcbe$411
+				#zcbe$410 #zcbe$408 #zcbe$412
 			</hkparam>
 		</hkobject>

@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$323" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$304</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$305</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DragonRider_BSDirectAtModifier_HeadOnly</hkparam>
 			<hkparam name="enable">true</hkparam>

@@ -3,5 +3,5 @@
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">Z_FixJumpCastBug_EEM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$41</hkparam>
+			<hkparam name="expressions">#zcbe$40</hkparam>
 		</hkobject>

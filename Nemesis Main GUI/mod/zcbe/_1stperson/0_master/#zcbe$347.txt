@@ -10,7 +10,7 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#zcbe$356 #zcbe$357 #zcbe$349 #zcbe$353
+				#zcbe$357 #zcbe$358 #zcbe$349 #zcbe$351
 			</hkparam>
 			<hkparam name="worldFromModelRotation">(0.000000 0.000000 0.000000 1.000000)</hkparam>
 			<hkparam name="blendSpeed">1.000000</hkparam>

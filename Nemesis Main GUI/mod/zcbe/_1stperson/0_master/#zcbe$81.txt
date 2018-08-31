@@ -1,9 +1,6 @@
-		<hkobject name="#zcbe$81" class="BSBoneSwitchGenerator" signature="0xf33d3eea">
+		<hkobject name="#zcbe$81" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">DragonRiderMagic_InvisibleRightWeapon</hkparam>
-			<hkparam name="pDefaultGenerator">#zcbe$82</hkparam>
-			<hkparam name="ChildrenA" numelements="1">
-				#zcbe$83
-			</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_WeapUnequipBRG</hkparam>
+			<hkparam name="behaviorName">Behaviors\WeapUnequip.hkx</hkparam>
 		</hkobject>

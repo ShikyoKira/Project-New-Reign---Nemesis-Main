@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_EquipMC</hkparam>
 			<hkparam name="animationName">Animations\MRh_Equip.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$29</hkparam>
+			<hkparam name="triggers">#zcbe$28</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

@@ -1,16 +1,10 @@
-		<hkobject name="#zcbe$295" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
+		<hkobject name="#zcbe$295" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$69</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sneak_TurnLeft60</hkparam>
-			<hkparam name="animationName">Animations\Sneak_TurnLeft60.HKX</hkparam>
-			<hkparam name="triggers">#zcbe$274</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
+			<hkparam name="name">MLhLocomotionRHandSelectorMSG</hkparam>
+			<hkparam name="generators" numelements="10">
+				#zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$99 #zcbe$100
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

@@ -19,7 +19,7 @@
 					</hkparam>
 					<hkparam name="transition">null</hkparam>
 					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">467</hkparam>
+					<hkparam name="eventId">$eventID[ToIdle_Z]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

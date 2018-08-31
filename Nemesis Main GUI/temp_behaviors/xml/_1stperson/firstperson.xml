@@ -3,14 +3,6 @@
 
 	<hksection name="__data__">
 
-<!-- ======================== NEMESIS import TEMPLATE START ======================== -->
-<!-- ======================== NEMESIS import TEMPLATE END ======================== -->
-
-<!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->
-<!-- ======================== NEMESIS PCEA TEMPLATE END ======================== -->
-
-<!-- ======================== NEMESIS alternate animation TEMPLATE START ======================== -->
-<!-- ======================== NEMESIS alternate animation TEMPLATE END ======================== -->
 		<hkobject name="#0027" class="hkRootLevelContainer" signature="0x2772c11e">
 			<hkparam name="namedVariants" numelements="1">
 				<hkobject>
@@ -29,7 +21,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="870">					<!-- numelement *zcbe* +1-->
+			<hkparam name="animationNames" numelements="886">					<!-- numelement *zcbe* +1--> <!-- numelement *tudm* +16-->
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1HM_1stP_TurnLeft.hkx</hkcstring>
 				<hkcstring>Animations\1HM_1stP_TurnRight.hkx</hkcstring>
@@ -900,6 +892,22 @@
 				<hkcstring>Animations\WhirlwindSprint_Medium.hkx</hkcstring>
 				<hkcstring>Animations\WhirlwindSprint_Short.hkx</hkcstring>
 				<hkcstring>Animations\H2H_BlockIdle.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
+				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
 			</hkparam>
 			<hkparam name="animationFilenames" numelements="0"></hkparam>
 			<hkparam name="characterPropertyNames" numelements="37">
@@ -956,6 +964,14 @@
 			<hkparam name="boneWeights" numelements="0"></hkparam>
 		</hkobject>
 
+<!-- ======================== NEMESIS import TEMPLATE START ======================== -->
+<!-- ======================== NEMESIS import TEMPLATE END ======================== -->
+
+<!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->
+<!-- ======================== NEMESIS PCEA TEMPLATE END ======================== -->
+
+<!-- ======================== NEMESIS alternate animation TEMPLATE START ======================== -->
+<!-- ======================== NEMESIS alternate animation TEMPLATE END ======================== -->
 		<hkobject name="#0031" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="0">

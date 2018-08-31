@@ -43,9 +43,9 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$31</hkparam>
+					<hkparam name="transition">#zcbe$29</hkparam>
 					<hkparam name="condition">#zcbe$36</hkparam>
-					<hkparam name="eventId">112</hkparam>
+					<hkparam name="eventId">$eventID[bashStop]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

@@ -19,7 +19,7 @@
 					</hkparam>
 					<hkparam name="transition">#zcbe$17</hkparam>
 					<hkparam name="condition">#zcbe$18</hkparam>
-					<hkparam name="eventId">108</hkparam>
+					<hkparam name="eventId">$eventID[blockStart]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

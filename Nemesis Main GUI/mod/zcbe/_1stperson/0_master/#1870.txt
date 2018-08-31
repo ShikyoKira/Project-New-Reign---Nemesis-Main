@@ -10,7 +10,7 @@
 				</hkobject>
 <!-- MOD_CODE ~zcbe~ OPEN -->
 				<hkobject>
-					<hkparam name="id">1219</hkparam>
+					<hkparam name="id">$eventID[SwimEnter_Z]$</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- CLOSE -->

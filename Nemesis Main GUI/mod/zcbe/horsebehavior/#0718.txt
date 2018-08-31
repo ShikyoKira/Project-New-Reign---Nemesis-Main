@@ -50,7 +50,7 @@
 					</hkparam>
 					<hkparam name="transition">#zcbe$3</hkparam>
 					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">215</hkparam>
+					<hkparam name="eventId">$eventID[Magic_Equip]$</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

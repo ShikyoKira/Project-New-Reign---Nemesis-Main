@@ -4,6 +4,6 @@
 			<hkparam name="name">DragonRiderMagic_InvisibleLeftWeapon</hkparam>
 			<hkparam name="pDefaultGenerator">#zcbe$564</hkparam>
 			<hkparam name="ChildrenA" numelements="1">
-				#zcbe$565
+				#zcbe$563
 			</hkparam>
 		</hkobject>

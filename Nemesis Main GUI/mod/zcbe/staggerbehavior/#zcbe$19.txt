@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$20</hkparam>
+			<hkparam name="transitions">#zcbe$21</hkparam>
 			<hkparam name="generator">#0156</hkparam>
 			<hkparam name="name">Z_StaggerS</hkparam>
 			<hkparam name="stateId">0</hkparam>

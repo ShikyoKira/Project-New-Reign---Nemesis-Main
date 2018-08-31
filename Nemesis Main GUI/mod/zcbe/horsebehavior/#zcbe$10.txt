@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$10" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$11</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$13</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">ZAR_AimMagicMC_DAM</hkparam>
 			<hkparam name="enable">true</hkparam>

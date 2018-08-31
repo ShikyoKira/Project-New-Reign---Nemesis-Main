@@ -1,0 +1,18 @@
+		<hkobject name="#0456" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+<!-- MOD_CODE ~tudm~ OPEN -->
+			<hkparam name="events" numelements="2">
+<!-- ORIGINAL -->
+			<hkparam name="events" numelements="1">
+<!-- CLOSE -->
+				<hkobject>
+					<hkparam name="id">171</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- MOD_CODE ~tudm~ OPEN -->
+				<hkobject>
+					<hkparam name="id">$eventID[NextPowerAttackInitiate]$</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>

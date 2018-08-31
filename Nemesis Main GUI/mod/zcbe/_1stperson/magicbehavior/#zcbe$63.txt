@@ -1,10 +1,7 @@
-		<hkobject name="#zcbe$63" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+		<hkobject name="#zcbe$63" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_FixJumpCastBug_EDM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$60</hkparam>
-			<hkparam name="activateEventId">100</hkparam>
-			<hkparam name="deactivateEventId">12</hkparam>
-			<hkparam name="activeByDefault">false</hkparam>
+			<hkparam name="generator">#zcbe$54</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">0.250000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

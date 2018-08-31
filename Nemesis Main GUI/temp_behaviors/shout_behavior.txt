@@ -3048,7 +3048,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0238</hkparam>
-			<hkparam name="generator">#pscd$15</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$16</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0237</hkparam>				<!-- original -->
 			<hkparam name="name">SneakMT_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">1</hkparam>
@@ -3102,7 +3102,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0241</hkparam>
-			<hkparam name="generator">#pscd$16</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$15</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0240</hkparam>				<!-- original -->
 			<hkparam name="name">MT_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -5317,17 +5317,17 @@
 		<hkobject name="#pscd$15" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">SneakMT_Shout_InhaleState_MG</hkparam>
+			<hkparam name="name">MT_Shout_Inhale_MG</hkparam>
 			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0237</hkparam>
+			<hkparam name="generator">#0240</hkparam>
 		</hkobject>
 
 		<hkobject name="#pscd$16" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">MT_Shout_Inhale_MG</hkparam>
+			<hkparam name="name">SneakMT_Shout_InhaleState_MG</hkparam>
 			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0240</hkparam>
+			<hkparam name="generator">#0237</hkparam>
 		</hkobject>
 
 		<hkobject name="#pscd$17" class="hkbModifierGenerator" signature="0x1f81fae6">
@@ -5352,7 +5352,7 @@
 			<hkparam name="name">Shout_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="4">
-				#0072 #pscd$4 #pscd$5 #pscd$6
+				#0072 #pscd$4 #pscd$5 #pscd$7
 			</hkparam>
 		</hkobject>
 
@@ -5361,7 +5361,7 @@
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">Shout_EEM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#pscd$7</hkparam>
+			<hkparam name="expressions">#pscd$6</hkparam>
 		</hkobject>
 
 		<hkobject name="#pscd$5" class="hkbTwistModifier" signature="0xb6b76b32">
@@ -5378,7 +5378,18 @@
 			<hkparam name="isAdditive">true</hkparam>
 		</hkobject>
 
-		<hkobject name="#pscd$6" class="hkbTwistModifier" signature="0xb6b76b32">
+		<hkobject name="#pscd$6" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">Pitch2 = Pitch * 0.5</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$7" class="hkbTwistModifier" signature="0xb6b76b32">
 			<hkparam name="variableBindingSet">#pscd$8</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ShoutNeckTwistModifier</hkparam>
@@ -5390,17 +5401,6 @@
 			<hkparam name="setAngleMethod">LINEAR</hkparam>
 			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
 			<hkparam name="isAdditive">true</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$7" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="1">
-				<hkobject>
-					<hkparam name="expression">Pitch2 = Pitch * 0.5</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-			</hkparam>
 		</hkobject>
 
 		<hkobject name="#pscd$8" class="hkbVariableBindingSet" signature="0x338ad4ff">

@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$557" class="BSEventOnFalseToTrueModifier" signature="0x81d0777a">
-			<hkparam name="variableBindingSet">#zcbe$559</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$558</hkparam>
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">BeginCastVoice_EventOnFalseToTrueMod</hkparam>
 			<hkparam name="enable">true</hkparam>

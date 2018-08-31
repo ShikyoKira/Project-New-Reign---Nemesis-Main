@@ -28,11 +28,11 @@
 				#0161
 				#0138
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$31
 				#zcbe$32
 				#zcbe$33
 				#zcbe$34
 				#zcbe$35
+				#zcbe$36
 <!-- ORIGINAL -->
 				#0133
 				#0127
@@ -41,7 +41,7 @@
 				#0108
 <!-- CLOSE -->
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$36 #zcbe$37
+				#zcbe$37 #zcbe$38
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0098</hkparam>

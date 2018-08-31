@@ -33,7 +33,7 @@
 					<hkparam name="localTime">0.200000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">12</hkparam>
+							<hkparam name="id">$eventID[ActivateBlockEarly_Z]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
@@ -45,7 +45,7 @@
 					<hkparam name="localTime">0.400000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">11</hkparam>
+							<hkparam name="id">$eventID[ActivateBlockLate_Z]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>

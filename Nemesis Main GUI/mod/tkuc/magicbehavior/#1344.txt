@@ -76,7 +76,7 @@
 					</hkparam>
 					<hkparam name="transition">#0082</hkparam>
 					<hkparam name="condition">#1343</hkparam>
-					<hkparam name="eventId">100</hkparam>
+					<hkparam name="eventId">$eventID[TKDodgeForward]$</hkparam>
 					<hkparam name="toStateId">21</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">4</hkparam>
@@ -102,7 +102,7 @@
 					</hkparam>
 					<hkparam name="transition">#tkuc$6</hkparam>
 					<hkparam name="condition">#1343</hkparam>
-					<hkparam name="eventId">97</hkparam>
+					<hkparam name="eventId">$eventID[TKDodgeRight]$</hkparam>
 					<hkparam name="toStateId">21</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">2</hkparam>
@@ -128,7 +128,7 @@
 					</hkparam>
 					<hkparam name="transition">#tkuc$6</hkparam>
 					<hkparam name="condition">#1343</hkparam>
-					<hkparam name="eventId">98</hkparam>
+					<hkparam name="eventId">$eventID[TKDodgeLeft]$</hkparam>
 					<hkparam name="toStateId">21</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">1</hkparam>
@@ -154,7 +154,7 @@
 					</hkparam>
 					<hkparam name="transition">#tkuc$6</hkparam>
 					<hkparam name="condition">#1343</hkparam>
-					<hkparam name="eventId">99</hkparam>
+					<hkparam name="eventId">$eventID[TKDodgeBack]$</hkparam>
 					<hkparam name="toStateId">21</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">3</hkparam>

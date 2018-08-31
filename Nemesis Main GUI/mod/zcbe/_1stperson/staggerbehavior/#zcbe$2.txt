@@ -4,7 +4,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#zcbe$7</hkparam>
-			<hkparam name="generator">#zcbe$14</hkparam>
+			<hkparam name="generator">#zcbe$13</hkparam>
 			<hkparam name="name">Z_StaggerBlockS</hkparam>
 			<hkparam name="stateId">1</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

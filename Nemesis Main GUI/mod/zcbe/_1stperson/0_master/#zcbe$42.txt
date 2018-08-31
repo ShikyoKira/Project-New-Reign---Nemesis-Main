@@ -1,13 +1,3 @@
-		<hkobject name="#zcbe$42" class="BSRagdollContactListenerModifier" signature="0x8003d8ce">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">CollisionListener</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="contactEvent">
-				<hkobject>
-					<hkparam name="id">0</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="bones">#zcbe$58</hkparam>
+		<hkobject name="#zcbe$42" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">i1stPerson == 0</hkparam>
 		</hkobject>

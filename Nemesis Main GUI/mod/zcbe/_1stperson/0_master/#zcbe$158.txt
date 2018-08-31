@@ -43,7 +43,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$155</hkparam>
+					<hkparam name="transition">#zcbe$154</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">35</hkparam>
 					<hkparam name="toStateId">1</hkparam>

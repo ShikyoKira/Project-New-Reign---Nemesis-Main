@@ -21,7 +21,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="869">					<!-- numelement *zcbe* +1-->
+			<hkparam name="animationNames" numelements="869">					<!-- numelement *zcbe* +1--> <!-- numelement *tudm* +16-->
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1HM_1stP_TurnLeft.hkx</hkcstring>
 				<hkcstring>Animations\1HM_1stP_TurnRight.hkx</hkcstring>
@@ -893,6 +893,24 @@
 				<hkcstring>Animations\WhirlwindSprint_Short.hkx</hkcstring>
 <!-- NEW *zcbe* -->
 				<hkcstring>Animations\H2H_BlockIdle.hkx</hkcstring>
+<!-- CLOSE -->
+<!-- NEW *tudm* -->
+				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
+				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="animationFilenames" numelements="0"></hkparam>

@@ -19,7 +19,7 @@
 					</hkparam>
 					<hkparam name="transition">#tkuc$145</hkparam>
 					<hkparam name="condition">#tkuc$138</hkparam>
-					<hkparam name="eventId">491</hkparam>
+					<hkparam name="eventId">$eventID[TKDodgeStop]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
@@ -45,7 +45,7 @@
 					</hkparam>
 					<hkparam name="transition">#tkuc$145</hkparam>
 					<hkparam name="condition">#tkuc$137</hkparam>
-					<hkparam name="eventId">491</hkparam>
+					<hkparam name="eventId">$eventID[TKDodgeStop]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

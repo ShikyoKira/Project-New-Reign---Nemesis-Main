@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_StaffLeftMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#zcbe$5 #zcbe$6 #zcbe$6 #zcbe$6 #zcbe$6 #zcbe$7 #zcbe$7 #zcbe$7 #zcbe$6 #zcbe$5 #zcbe$7 #zcbe$7 #zcbe$7
+				#zcbe$6 #zcbe$7 #zcbe$7 #zcbe$7 #zcbe$7 #zcbe$8 #zcbe$8 #zcbe$8 #zcbe$7 #zcbe$6 #zcbe$8 #zcbe$8 #zcbe$8
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

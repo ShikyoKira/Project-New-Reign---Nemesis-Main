@@ -8,7 +8,7 @@
 				</hkobject>
 				<hkobject>
 					<hkparam name="memberPath">offsetPitchDegrees</hkparam>
-					<hkparam name="variableIndex">89</hkparam>
+					<hkparam name="variableIndex">$variableID[fNPCPitch_Z]$</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>

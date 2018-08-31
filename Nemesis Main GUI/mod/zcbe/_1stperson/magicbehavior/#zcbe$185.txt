@@ -45,7 +45,7 @@
 					</hkparam>
 					<hkparam name="transition">#zcbe$285</hkparam>
 					<hkparam name="condition">#zcbe$292</hkparam>
-					<hkparam name="eventId">112</hkparam>
+					<hkparam name="eventId">$eventID[bashStop]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

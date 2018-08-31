@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Paired_VampFeedFront</hkparam>
 			<hkparam name="animationName">Animations\DLC01\Paired_VampFeedFront.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$77</hkparam>
+			<hkparam name="triggers">#zcbe$78</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

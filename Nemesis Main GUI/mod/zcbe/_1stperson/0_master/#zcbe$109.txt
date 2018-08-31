@@ -1,12 +1,12 @@
 		<hkobject name="#zcbe$109" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="enterNotifyEvents">#zcbe$531</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$433</hkparam>
-			<hkparam name="generator">#zcbe$434</hkparam>
-			<hkparam name="name">StandingVampireFeed</hkparam>
-			<hkparam name="stateId">54</hkparam>
+			<hkparam name="transitions">#zcbe$532</hkparam>
+			<hkparam name="generator">#zcbe$533</hkparam>
+			<hkparam name="name">KillMoveVampireLordFeedBack</hkparam>
+			<hkparam name="stateId">136</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

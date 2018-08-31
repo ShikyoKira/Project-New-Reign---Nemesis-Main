@@ -17,9 +17,9 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$125</hkparam>
+					<hkparam name="transition">#zcbe$126</hkparam>
 					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">108</hkparam>
+					<hkparam name="eventId">$eventID[blockStart]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

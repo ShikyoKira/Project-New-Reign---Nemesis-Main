@@ -1,6 +1,10 @@
-		<hkobject name="#zcbe$412" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
+		<hkobject name="#zcbe$412" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_SwimBFR</hkparam>
-			<hkparam name="behaviorName">Behaviors\SwimBehavior.hkx</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ZAR_WaterSoundWeaponSwing_EDM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#zcbe$406</hkparam>
+			<hkparam name="activateEventId">53</hkparam>
+			<hkparam name="deactivateEventId">-1</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>

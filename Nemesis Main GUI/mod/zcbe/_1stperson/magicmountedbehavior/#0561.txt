@@ -8,7 +8,10 @@
 <!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="4">
 <!-- CLOSE -->
-				#0560 #0558 #0556 #0554
+				#0560
+				#0558
+				#0556
+				#0554
 <!-- MOD_CODE ~zcbe~ OPEN -->
 				#zcbe$0
 <!-- CLOSE -->

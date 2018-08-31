@@ -1,13 +1,10 @@
-		<hkobject name="#pscd$6" class="hkbTwistModifier" signature="0xb6b76b32">
-			<hkparam name="variableBindingSet">#pscd$8</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ShoutNeckTwistModifier</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="axisOfRotation">(1.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="twistAngle">0.000000</hkparam>
-			<hkparam name="startBoneIndex">35</hkparam>
-			<hkparam name="endBoneIndex">37</hkparam>
-			<hkparam name="setAngleMethod">LINEAR</hkparam>
-			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
-			<hkparam name="isAdditive">true</hkparam>
+		<hkobject name="#pscd$6" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">Pitch2 = Pitch * 0.5</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

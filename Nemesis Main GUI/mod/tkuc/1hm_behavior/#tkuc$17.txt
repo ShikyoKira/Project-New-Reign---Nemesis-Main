@@ -4,7 +4,7 @@
 					<hkparam name="localTime">-0.400000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">491</hkparam>
+							<hkparam name="id">$eventID[TKDodgeStop]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>

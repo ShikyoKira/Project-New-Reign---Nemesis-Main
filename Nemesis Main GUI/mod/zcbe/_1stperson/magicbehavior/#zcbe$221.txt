@@ -1,15 +1,10 @@
-		<hkobject name="#zcbe$221" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#zcbe$66</hkparam>
+		<hkobject name="#zcbe$221" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$294</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Magic_TurnLeft_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">-10.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">17</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="3">
-				#zcbe$223 #zcbe$224 #zcbe$225
+			<hkparam name="name">MagicLocomotionLHandSelectorMSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#zcbe$269 #zcbe$269 #zcbe$269 #zcbe$269 #zcbe$269 #0150 #0150 #0150 #zcbe$71 #zcbe$295 #zcbe$269 #zcbe$269
 			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

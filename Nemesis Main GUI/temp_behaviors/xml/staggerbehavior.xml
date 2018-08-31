@@ -3,13 +3,390 @@
 
 	<hksection name="__data__">
 
+		<hkobject name="#0051" class="hkRootLevelContainer" signature="0x2772c11e">
+			<hkparam name="namedVariants" numelements="1">
+				<hkobject>
+					<hkparam name="name">hkbBehaviorGraph</hkparam>
+					<hkparam name="className">hkbBehaviorGraph</hkparam>
+					<hkparam name="variant">#0162</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#0052" class="hkbBehaviorGraphStringData" signature="0xc713064e">
+			<hkparam name="eventNames" numelements="13">   				<!-- EVENT numelement zcbe +4 $2 -->
+				<hkcstring>staggerStop</hkcstring>
+				<hkcstring>FootScuffLeft</hkcstring>
+				<hkcstring>FootScuffRight</hkcstring>
+				<hkcstring>staggerStart</hkcstring>
+				<hkcstring>WardBreak</hkcstring>
+				<hkcstring>HeadTrackingOff</hkcstring>
+				<hkcstring>HeadTrackingOn</hkcstring>
+				<hkcstring>InitiateWinBegin</hkcstring>
+				<hkcstring>InitiateWinEnd</hkcstring>
+				<hkcstring>blockStart</hkcstring>
+				<hkcstring>blockStop</hkcstring>
+				<hkcstring>ActivateBlockLate_Z</hkcstring>
+				<hkcstring>ActivateBlockEarly_Z</hkcstring>
+			</hkparam>
+			<hkparam name="attributeNames" numelements="0"></hkparam>
+			<hkparam name="variableNames" numelements="22">				<!-- VARIABLE numelement zcbe +7 $24 -->
+				<hkcstring>staggerMagnitude</hkcstring>
+				<hkcstring>IsStaggering</hkcstring>
+				<hkcstring>iRightHandType</hkcstring>
+				<hkcstring>bEquipOK</hkcstring>
+				<hkcstring>bAnimationDriven</hkcstring>
+				<hkcstring>staggerDirection</hkcstring>
+				<hkcstring>IsFirstPerson</hkcstring>
+				<hkcstring>bAllowRotation</hkcstring>
+				<hkcstring>IsPlayer</hkcstring>
+				<hkcstring>bHasPerkQuickRecovery_Z</hkcstring>
+				<hkcstring>bStagModAct_Z</hkcstring>
+				<hkcstring>iStartBone_Z</hkcstring>
+				<hkcstring>iEndBone_Z</hkcstring>
+				<hkcstring>fHeading_Z</hkcstring>
+				<hkcstring>fPitch_Z</hkcstring>
+				<hkcstring>iWantBlock</hkcstring>
+				<hkcstring>Nemesis_AA_2hwstag</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_2hwstag</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_2hwstag_0</hkcstring>
+				<hkcstring>Nemesis_AA_bowidle</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_bowidle</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_bowidle_0</hkcstring>
+			</hkparam>
+			<hkparam name="characterPropertyNames" numelements="0"></hkparam>
+		</hkobject>
+
+		<hkobject name="#0053" class="hkbVariableValueSet" signature="0x27812d8d">
+			<hkparam name="wordVariableValues" numelements="22">				<!-- VARIABLE numelement zcbe +7 $2 -->
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">1065353216</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="quadVariableValues" numelements="0"></hkparam>
+			<hkparam name="variantVariableValues" numelements="0"></hkparam>
+		</hkobject>
+
+		<hkobject name="#0054" class="hkbBehaviorGraphData" signature="0x95aca5d">
+			<hkparam name="attributeDefaults" numelements="0"></hkparam>
+			<hkparam name="variableInfos" numelements="22">				<!-- VARIABLE numelement zcbe +7 $3 -->
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="characterPropertyInfos" numelements="0"></hkparam>
+			<hkparam name="eventInfos" numelements="13">   				<!-- EVENT numelement zcbe +4 $156 -->
+				<hkobject>
+					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="wordMinVariableValues" numelements="0"></hkparam>
+			<hkparam name="wordMaxVariableValues" numelements="0"></hkparam>
+			<hkparam name="variableInitialValues">#0053</hkparam>
+			<hkparam name="stringData">#0052</hkparam>
+		</hkobject>
+
 <!-- ======================== NEMESIS import TEMPLATE START ======================== -->
 
 		<hkobject name="#0186" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">17</hkparam>
+					<hkparam name="variableIndex">19</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -122,331 +499,6 @@
 		</hkobject>
 
 <!-- ======================== NEMESIS alternate animation TEMPLATE END ======================== -->
-		<hkobject name="#0051" class="hkRootLevelContainer" signature="0x2772c11e">
-			<hkparam name="namedVariants" numelements="1">
-				<hkobject>
-					<hkparam name="name">hkbBehaviorGraph</hkparam>
-					<hkparam name="className">hkbBehaviorGraph</hkparam>
-					<hkparam name="variant">#0162</hkparam>
-				</hkobject>
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#0052" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-			<hkparam name="eventNames" numelements="13">   				<!-- EVENT numelement zcbe +4 $2 -->
-				<hkcstring>staggerStop</hkcstring>
-				<hkcstring>FootScuffLeft</hkcstring>
-				<hkcstring>FootScuffRight</hkcstring>
-				<hkcstring>staggerStart</hkcstring>
-				<hkcstring>WardBreak</hkcstring>
-				<hkcstring>HeadTrackingOff</hkcstring>
-				<hkcstring>HeadTrackingOn</hkcstring>
-				<hkcstring>InitiateWinBegin</hkcstring>
-				<hkcstring>InitiateWinEnd</hkcstring>
-				<hkcstring>blockStart</hkcstring>
-				<hkcstring>blockStop</hkcstring>
-				<hkcstring>ActivateBlockLate_Z</hkcstring>
-				<hkcstring>ActivateBlockEarly_Z</hkcstring>
-			</hkparam>
-			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="18">				<!-- VARIABLE numelement zcbe +7 $24 -->
-				<hkcstring>staggerMagnitude</hkcstring>
-				<hkcstring>IsStaggering</hkcstring>
-				<hkcstring>iRightHandType</hkcstring>
-				<hkcstring>bEquipOK</hkcstring>
-				<hkcstring>bAnimationDriven</hkcstring>
-				<hkcstring>staggerDirection</hkcstring>
-				<hkcstring>IsFirstPerson</hkcstring>
-				<hkcstring>bAllowRotation</hkcstring>
-				<hkcstring>IsPlayer</hkcstring>
-				<hkcstring>bHasPerkQuickRecovery_Z</hkcstring>
-				<hkcstring>bStagModAct_Z</hkcstring>
-				<hkcstring>iStartBone_Z</hkcstring>
-				<hkcstring>iEndBone_Z</hkcstring>
-				<hkcstring>fHeading_Z</hkcstring>
-				<hkcstring>fPitch_Z</hkcstring>
-				<hkcstring>iWantBlock</hkcstring>
-				<hkcstring>Nemesis_AA__2hwstag</hkcstring>
-				<hkcstring>Nemesis_AA__bowidle</hkcstring>
-			</hkparam>
-			<hkparam name="characterPropertyNames" numelements="0"></hkparam>
-		</hkobject>
-
-		<hkobject name="#0053" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="18">				<!-- VARIABLE numelement zcbe +7 $2 -->
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">1065353216</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="quadVariableValues" numelements="0"></hkparam>
-			<hkparam name="variantVariableValues" numelements="0"></hkparam>
-		</hkobject>
-
-		<hkobject name="#0054" class="hkbBehaviorGraphData" signature="0x95aca5d">
-			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="18">				<!-- VARIABLE numelement zcbe +7 $3 -->
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="characterPropertyInfos" numelements="0"></hkparam>
-			<hkparam name="eventInfos" numelements="13">   				<!-- EVENT numelement zcbe +4 $156 -->
-				<hkobject>
-					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="wordMinVariableValues" numelements="0"></hkparam>
-			<hkparam name="wordMaxVariableValues" numelements="0"></hkparam>
-			<hkparam name="variableInitialValues">#0053</hkparam>
-			<hkparam name="stringData">#0052</hkparam>
-		</hkobject>
-
 		<hkobject name="#0055" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="4">					<!-- numelement *zcbe* +2-->
 				<hkobject>
@@ -2804,7 +2856,7 @@
 			<hkparam name="enterNotifyEvents">#0158</hkparam>
 			<hkparam name="exitNotifyEvents">#0157</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#0167</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#0183</hkparam>					<!-- *zcbe* -->
 			<hkparam name="name">Stagger_State</hkparam>
 			<hkparam name="stateId">7</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
@@ -2891,57 +2943,92 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#0174 #0165
+				#0174 #0181
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
 
-		<hkobject name="#0165" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>
-			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#0166</hkparam>
-			<hkparam name="name">Z_StaggerBlockS</hkparam>
-			<hkparam name="stateId">1</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
+		<hkobject name="#0165" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">enable</hkparam>
+					<hkparam name="variableIndex">10</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0166" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_BlockBRG</hkparam>
-			<hkparam name="behaviorName">Behaviors\BlockBehavior.hkx</hkparam>
-		</hkobject>
-
-		<hkobject name="#0167" class="hkbModifierGenerator" signature="0x1f81fae6">
+		<hkobject name="#0166" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_Stagger_MG</hkparam>
-			<hkparam name="modifier">#0181</hkparam>
-			<hkparam name="generator">#0168</hkparam>
+			<hkparam name="name">Z_ActStagDAM_EDM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#0171</hkparam>
+			<hkparam name="activateEventId">12</hkparam>
+			<hkparam name="deactivateEventId">0</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>
 
-		<hkobject name="#0168" class="hkbBlenderGenerator" signature="0x22df7147">
+		<hkobject name="#0167" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_StaggerBlockBG</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.500000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="2">
-				#0180 #0163
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_ResetDAMVars_EDM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#0169</hkparam>
+			<hkparam name="activateEventId">7</hkparam>
+			<hkparam name="deactivateEventId">0</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
+		</hkobject>
+
+		<hkobject name="#0168" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Z_SendBlockIfWantBlock_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#0173</hkparam>
+		</hkobject>
+
+		<hkobject name="#0169" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Z_ResetDAMVars_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#0170</hkparam>
+		</hkobject>
+
+		<hkobject name="#0170" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="4">
+				<hkobject>
+					<hkparam name="expression">iStartBone_Z = 35</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">iEndBone_Z = 36</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fHeading_Z = 0.0</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fPitch_Z = 0.0</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0169" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#0170</hkparam>
+		<hkobject name="#0171" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#0172</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_BodyPartReactToHit_DAM</hkparam>
 			<hkparam name="enable">true</hkparam>
@@ -2966,7 +3053,7 @@
 			<hkparam name="currentPitchOffset">0.000000</hkparam>
 		</hkobject>
 
-		<hkobject name="#0170" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#0172" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="4">
 				<hkobject>
 					<hkparam name="memberPath">startBoneIndex</hkparam>
@@ -2996,43 +3083,6 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0171" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_ResetDAMVars_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#0172</hkparam>
-		</hkobject>
-
-		<hkobject name="#0172" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="4">
-				<hkobject>
-					<hkparam name="expression">iStartBone_Z = 35</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="expression">iEndBone_Z = 36</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="expression">fHeading_Z = 0.0</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="expression">fPitch_Z = 0.0</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-			</hkparam>
-		</hkobject>
-
 		<hkobject name="#0173" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
 			<hkparam name="expressionsData" numelements="1">
 				<hkobject>
@@ -3049,7 +3099,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#0176</hkparam>
+			<hkparam name="transitions">#0177</hkparam>
 			<hkparam name="generator">#0156</hkparam>
 			<hkparam name="name">Z_StaggerS</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -3070,7 +3120,11 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0176" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
+		<hkobject name="#0176" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">bHasPerkQuickRecovery_Z == 1</hkparam>
+		</hkobject>
+
+		<hkobject name="#0177" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
 			<hkparam name="transitions" numelements="2">
 				<hkobject>
 					<hkparam name="triggerInterval">
@@ -3089,8 +3143,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0177</hkparam>
-					<hkparam name="condition">#0178</hkparam>
+					<hkparam name="transition">#0178</hkparam>
+					<hkparam name="condition">#0176</hkparam>
 					<hkparam name="eventId">9</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -3115,7 +3169,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0177</hkparam>
+					<hkparam name="transition">#0178</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">9</hkparam>
 					<hkparam name="toStateId">1</hkparam>
@@ -3127,7 +3181,7 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0177" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+		<hkobject name="#0178" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_ToStaggerBlockBTE</hkparam>
@@ -3138,10 +3192,6 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="endMode">END_MODE_NONE</hkparam>
 			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
-		</hkobject>
-
-		<hkobject name="#0178" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">bHasPerkQuickRecovery_Z == 1</hkparam>
 		</hkobject>
 
 		<hkobject name="#0179" class="hkbBoneWeightArray" signature="0xcd902b77">
@@ -3165,56 +3215,58 @@
 			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>
 
-		<hkobject name="#0181" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#0182</hkparam>
+		<hkobject name="#0181" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#0182</hkparam>
+			<hkparam name="name">Z_StaggerBlockS</hkparam>
+			<hkparam name="stateId">1</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#0182" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_BlockBRG</hkparam>
+			<hkparam name="behaviorName">Behaviors\BlockBehavior.hkx</hkparam>
+		</hkobject>
+
+		<hkobject name="#0183" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_Stagger_MG</hkparam>
+			<hkparam name="modifier">#0184</hkparam>
+			<hkparam name="generator">#0185</hkparam>
+		</hkobject>
+
+		<hkobject name="#0184" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#0165</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_Stagger_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="3">
-				#0183 #0184 #0185
+				#0166 #0167 #0168
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0182" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">10</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#0185" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_StaggerBlockBG</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.500000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="2">
+				#0180 #0163
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#0183" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_ActStagDAM_EDM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#0169</hkparam>
-			<hkparam name="activateEventId">12</hkparam>
-			<hkparam name="deactivateEventId">0</hkparam>
-			<hkparam name="activeByDefault">false</hkparam>
-		</hkobject>
-
-		<hkobject name="#0184" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_ResetDAMVars_EDM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#0171</hkparam>
-			<hkparam name="activateEventId">7</hkparam>
-			<hkparam name="deactivateEventId">0</hkparam>
-			<hkparam name="activeByDefault">false</hkparam>
-		</hkobject>
-
-		<hkobject name="#0185" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_SendBlockIfWantBlock_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#0173</hkparam>
 		</hkobject>
 
 		<hkobject name="#0187" class="hkbClipGenerator" signature="0x333b85b9">

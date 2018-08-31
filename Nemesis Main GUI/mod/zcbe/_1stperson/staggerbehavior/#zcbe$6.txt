@@ -1,11 +1,9 @@
-		<hkobject name="#zcbe$6" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">10</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$6" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$8</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_Stagger_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="3">
+				#zcbe$9 #zcbe$10 #zcbe$11
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">0</hkparam>
 		</hkobject>

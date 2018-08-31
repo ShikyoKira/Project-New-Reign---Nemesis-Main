@@ -1,10 +1,12 @@
-		<hkobject name="#tkuc$163" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tkuc$132</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">TKDodgeLeft_MSG</hkparam>
-			<hkparam name="generators" numelements="4">
-				#tkuc$176 #tkuc$177 #tkuc$178 #tkuc$179
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#tkuc$163" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#tkuc$162</hkparam>
+			<hkparam name="name">TKDodgeLeft</hkparam>
+			<hkparam name="stateId">1</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
 		</hkobject>

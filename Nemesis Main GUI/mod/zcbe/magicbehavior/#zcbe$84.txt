@@ -1,9 +1,3 @@
-		<hkobject name="#zcbe$84" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#zcbe$26</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_FixJumpCastCom_ML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="1">
-				#zcbe$37
-			</hkparam>
+		<hkobject name="#zcbe$84" class="hkbStringCondition" signature="0x5ab50487">
+			<hkparam name="conditionString">IsNPC == 1</hkparam>
 		</hkobject>

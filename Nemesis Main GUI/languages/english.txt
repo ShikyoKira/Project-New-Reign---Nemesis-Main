@@ -233,6 +233,12 @@ ERR 1182=Core behavior is either linked to a behavior that doesn't exist or is n
 ERR 1183=BUG FOUND!! Report to Nemesis' author immediately
 ERR 1184=Character hkx file placement incorrect. Current file must be in character folder\nFile: <1>
 ERR 1185=Failed to output <1>
+ERR 1186=Invalid format detected. Please contact the mod author\nFile: <1>\nLine: <2>\nInput: <3>
+ERR 1187=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1188=Node ID has no state ID. Please contact the mod author\nMod: <1>\nFile: <2>
+ERR 1189=Duplicated state ID and incompatibility detected. Please contact the mod author to fix the compatibility issue\nFile: <1>\nState ID: <2>\nMods: <3>
+ERR 1190=Missing state machine info node detected. Please contact the mod author\nMod: <1>\nID: <2>
+ERR 1191=A state machine info not linked to any state machine detected. Please contact the mod author\nMod: <1>\nID: <2>
 
 '2000s
 ERR 2000=Failed to open file\nFile: <1>
@@ -270,7 +276,7 @@ ERR 3005=Invalid format for "animationdatasinglefile.txt" in AnimData section ha
 ERR 3006=Invalid file name. Please enter a file name that is within the format. Please contact the mod author\nProject: <1>\nHeader: <2>
 ERR 3007=Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 3008=Duplicated header has been detected in "animationdata_list". Update Engine to fix it\nProject: <1>
-ERR 3009=Unable to use <1> as animation code. <1> has been registered into the engine by default. Please contact the template creator\nAnimation Code: <1>
+ERR 3009=Unable to use <1> as unique code. <1> has been registered into the engine by default. Please contact the template creator\nUnique Code: <1>
 ERR 3010=Duplicated project has been detected in "animationdata_list". Update Engine to fix it\nProject: <1>
 ERR 3011=Unregistered project has been detected. Update Engine to fix it\nProject: <1>
 ERR 3012=Duplicated unique code detected in InfoData section. Please contact the template creator\nProject: <1>\nUnique Code: <2>
@@ -311,7 +317,7 @@ ERR 5006=Un-recognized anim pack treated as vanilla anim pack has been detected.
 ERR 5007=Wrong format. Current line cannot be used to run NEW tab function. Only EquipList, TypeList, AnimPack, and CRC23List can use NEW tab function. Please contact the mod author\nMod: <1>\nHeader: <2>\nLine: <3>
 ERR 5008=BUG FOUND!! Report to Nemesis' author immediately\nMod: <1>\nProject: <2>\nHeader: <3>
 ERR 5009=Invalid format has been detected in "animationsetdatasinglefile.txt. Please contact the template creator\nProject: <1>\nHeader: <2>
-ERR 5010=BUG FOUND!! Out of line! Report to Nemesis' author immediately\nTemplate\Mod: <1>\nProject: <2>\nHeader: <3>
+ERR 5010=BUG FOUND!! Out of range! Report to Nemesis' author immediately\nTemplate\Mod: <1>\nProject: <2>\nHeader: <3>
 ERR 5011=Original header for "animationsetdatasinglefile.txt" is not found. Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
 ERR 5012=Duplicated header is detected in "animationsetdatasinglefile.txt". Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
 ERR 5013=BUG FOUND!! Report to Nemesis' author immediately\nProject: <1>\nHeader: <2>
@@ -359,6 +365,7 @@ WAR 1020=Modification to project/header with duplication in "animationdatasingle
 WAR 1021=Failed to register mod. Missing required information in the "ini" file of the mod to register mod. Please contact the mod author\nMod: <1>
 WAR 1022=Unnecesary condition detected\nFile: <1>\nLine: <2>
 WAR 1023=An error occur when executing the script\nScript: <1>
+WAR 1024=Empty unique code detected. Current unique code is not connected to any animation. Please contact the mod author\nMod Code: <1>
 
 '1000
 TBT 1000=Changes in file detected. Engine update is required to be performed
@@ -375,3 +382,7 @@ UIT 1001=Launch Nemesis Behavior Engine
 UIT 1002=Conflict Test
 UIT 1003=Update Engine
 UIT 1004=Green = Good\nYellow = OK\nRed = Danger
+UIT 1005=Mod Name
+UIT 1006=Mod Author
+UIT 1007=Priority
+UIT 1008=unknown

@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$56" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#zcbe$71</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$70</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_AimAttackMagH2HML</hkparam>
 			<hkparam name="enable">true</hkparam>

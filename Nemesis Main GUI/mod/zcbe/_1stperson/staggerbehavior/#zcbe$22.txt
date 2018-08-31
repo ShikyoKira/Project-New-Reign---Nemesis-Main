@@ -3,7 +3,7 @@
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
-							<hkparam name="enterEventId">12</hkparam>
+							<hkparam name="enterEventId">$eventID[ActivateBlockEarly_Z]$</hkparam>
 							<hkparam name="exitEventId">-1</hkparam>
 							<hkparam name="enterTime">0.000000</hkparam>
 							<hkparam name="exitTime">0.000000</hkparam>
@@ -17,9 +17,9 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$8</hkparam>
+					<hkparam name="transition">#zcbe$12</hkparam>
 					<hkparam name="condition">#zcbe$23</hkparam>
-					<hkparam name="eventId">9</hkparam>
+					<hkparam name="eventId">$eventID[blockStart]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
@@ -29,7 +29,7 @@
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
-							<hkparam name="enterEventId">11</hkparam>
+							<hkparam name="enterEventId">$eventID[ActivateBlockLate_Z]$</hkparam>
 							<hkparam name="exitEventId">-1</hkparam>
 							<hkparam name="enterTime">0.000000</hkparam>
 							<hkparam name="exitTime">0.000000</hkparam>
@@ -43,9 +43,9 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$8</hkparam>
+					<hkparam name="transition">#zcbe$12</hkparam>
 					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">9</hkparam>
+					<hkparam name="eventId">$eventID[blockStart]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

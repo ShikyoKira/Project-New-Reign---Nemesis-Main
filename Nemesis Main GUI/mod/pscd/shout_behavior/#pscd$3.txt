@@ -4,6 +4,6 @@
 			<hkparam name="name">Shout_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="4">
-				#0072 #pscd$4 #pscd$5 #pscd$6
+				#0072 #pscd$4 #pscd$5 #pscd$7
 			</hkparam>
 		</hkobject>

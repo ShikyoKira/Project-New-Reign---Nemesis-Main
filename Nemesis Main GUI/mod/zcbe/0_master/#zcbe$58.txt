@@ -4,7 +4,7 @@
 			<hkparam name="name">EventDrivenModifier29</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifier">#zcbe$61</hkparam>
-			<hkparam name="activateEventId">1225</hkparam>
-			<hkparam name="deactivateEventId">1224</hkparam>
+			<hkparam name="activateEventId">$eventID[HeadtrackOn_Z]$</hkparam>
+			<hkparam name="deactivateEventId">$eventID[HeadtrackOff_Z]$</hkparam>
 			<hkparam name="activeByDefault">true</hkparam>
 		</hkobject>

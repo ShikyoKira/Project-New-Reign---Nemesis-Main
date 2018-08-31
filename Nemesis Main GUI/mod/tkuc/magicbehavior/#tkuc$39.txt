@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TKDodgeLeft</hkparam>
 			<hkparam name="animationName">animations\TKDodge\StepDodgeLeft.hkx</hkparam>
-			<hkparam name="triggers">#tkuc$36</hkparam>
+			<hkparam name="triggers">#tkuc$37</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

@@ -1,7 +1,9 @@
-		<hkobject name="#pscd$14" class="hkbModifierGenerator" signature="0x1f81fae6">
+		<hkobject name="#pscd$14" class="hkbModifierList" signature="0xa4180ca1">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">DualMagic_AimedConcentration_MG</hkparam>
-			<hkparam name="modifier">#pscd$15</hkparam>
-			<hkparam name="generator">#0338</hkparam>
+			<hkparam name="name">DualMagic_AimedConcentration_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="2">
+				#pscd$13 #pscd$12
+			</hkparam>
 		</hkobject>

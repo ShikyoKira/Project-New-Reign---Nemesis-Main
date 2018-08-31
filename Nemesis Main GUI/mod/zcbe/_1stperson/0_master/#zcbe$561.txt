@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DragonRiderMagic_LeftHand_MSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#zcbe$562 #zcbe$562 #zcbe$562 #zcbe$562 #zcbe$562 #zcbe$81 #zcbe$81 #zcbe$562 #zcbe$563 #zcbe$563 #zcbe$562 #zcbe$562 #zcbe$81
+				#zcbe$562 #zcbe$562 #zcbe$562 #zcbe$562 #zcbe$562 #zcbe$79 #zcbe$79 #zcbe$562 #zcbe$567 #zcbe$567 #zcbe$562 #zcbe$562 #zcbe$79
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

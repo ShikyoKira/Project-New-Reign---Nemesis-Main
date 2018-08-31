@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DLC01TrailerWalkForward</hkparam>
 			<hkparam name="animationName">Animations\DLC01TrailerWalkForward.HKX</hkparam>
-			<hkparam name="triggers">#zcbe$0</hkparam>
+			<hkparam name="triggers">#zcbe$1</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

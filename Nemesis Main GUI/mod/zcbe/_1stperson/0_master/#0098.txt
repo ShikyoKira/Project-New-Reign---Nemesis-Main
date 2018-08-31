@@ -59,8 +59,8 @@
 					<hkparam name="transition">#0099</hkparam>
 					<hkparam name="condition">null</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-					<hkparam name="eventId">1172</hkparam>
-					<hkparam name="toStateId">115</hkparam>
+					<hkparam name="eventId">1188</hkparam>
+					<hkparam name="toStateId">122</hkparam>
 <!-- ORIGINAL -->
 					<hkparam name="eventId">1180</hkparam>
 					<hkparam name="toStateId">116</hkparam>
@@ -90,8 +90,8 @@
 					<hkparam name="transition">#0099</hkparam>
 					<hkparam name="condition">null</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-					<hkparam name="eventId">1188</hkparam>
-					<hkparam name="toStateId">122</hkparam>
+					<hkparam name="eventId">1172</hkparam>
+					<hkparam name="toStateId">115</hkparam>
 <!-- ORIGINAL -->
 					<hkparam name="eventId">1187</hkparam>
 					<hkparam name="toStateId">117</hkparam>
@@ -102,32 +102,6 @@
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0099</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">1010</hkparam>
-					<hkparam name="toStateId">22</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">1</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
-				</hkobject>
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -171,8 +145,34 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
+					<hkparam name="transition">#0099</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">1010</hkparam>
+					<hkparam name="toStateId">22</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">1</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
 					<hkparam name="transition">#0182</hkparam>
-					<hkparam name="condition">#zcbe$40</hkparam>
+					<hkparam name="condition">#zcbe$42</hkparam>
 					<hkparam name="eventId">176</hkparam>
 					<hkparam name="toStateId">23</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

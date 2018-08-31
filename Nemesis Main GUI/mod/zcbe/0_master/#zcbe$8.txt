@@ -4,6 +4,6 @@
 			<hkparam name="name">ModifierList103</hkparam>
 			<hkparam name="enable">false</hkparam>
 			<hkparam name="modifiers" numelements="3">
-				#zcbe$58 #zcbe$49 #zcbe$34
+				#zcbe$58 #zcbe$49 #zcbe$33
 			</hkparam>
 		</hkobject>

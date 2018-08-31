@@ -1,3 +1,3 @@
 		<hkobject name="#zcbe$256" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iLeftHandType &gt; 7) &amp;&amp; (iLeftHandType &lt; 10)</hkparam>
+			<hkparam name="expression">(iLeftHandType &lt; 9) &amp;&amp; (iLeftHandType &gt; 11)</hkparam>
 		</hkobject>

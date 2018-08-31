@@ -4,9 +4,9 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$96</hkparam>
-			<hkparam name="name">Z_1HM_BlockLowRightIdle_FlagMirrored_S</hkparam>
-			<hkparam name="stateId">1</hkparam>
+			<hkparam name="generator">#zcbe$95</hkparam>
+			<hkparam name="name">Z_1HM_BlockRightIdle_FlagMirrored_S</hkparam>
+			<hkparam name="stateId">0</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

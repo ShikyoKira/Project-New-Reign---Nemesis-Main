@@ -27,7 +27,7 @@
 #include "AnimProgressBar.h"
 
 QT_BEGIN_NAMESPACE
-
+	
 class Ui_NemesisMainGUIClass
 {
 public:
@@ -35,7 +35,7 @@ public:
 	BehaviorListView *modView;
 	QSpacerItem *horizontalSpacer;
 	QSpacerItem *verticalSpacer;
-	QProgressBar *animProgressBar;
+	AnimProgressBar *animProgressBar;
 	QTextBrowser *textBrowser;
 	QProgressBar *progressBar;
 	QLabel *label;
@@ -101,7 +101,7 @@ public:
 
 		animProgressBar = new AnimProgressBar(NemesisMainGUIClass);
 		animProgressBar->setObjectName(QStringLiteral("animProgressBar"));
-		animProgressBar->setMaximum(10000);
+		animProgressBar->setMaximum(MAX_ANIM);
 		animProgressBar->setValue(0);
 		animProgressBar->setAlignment(Qt::AlignCenter);
 		animProgressBar->setTextVisible(false);

@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#tkuc$50</hkparam>
-			<hkparam name="generator">#tkuc$51</hkparam>
+			<hkparam name="transitions">#tkuc$51</hkparam>
+			<hkparam name="generator">#tkuc$53</hkparam>
 			<hkparam name="name">UltimateCombatAttackState</hkparam>
 			<hkparam name="stateId">30</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
