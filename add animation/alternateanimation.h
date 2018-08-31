@@ -1,6 +1,8 @@
 #ifndef ALTERNATEANIMATION_H_
 #define ALTERNATEANIMATION_H_
 
+extern std::unordered_map<std::string, int> AAgroupCount;
+
 void AAInitialize(std::string AAList);
 bool AAInstallation();
 
