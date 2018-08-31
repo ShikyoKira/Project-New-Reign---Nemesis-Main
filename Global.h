@@ -68,7 +68,7 @@ size_t fileLineCount(std::string filepath);
 void addUsedAnim(std::string behaviorFile, std::string animPath);
 void read_directory(const std::string& name, vecstr& fv);
 void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
-void GetFunctionLines(std::string filename, vecstr& functionlines, bool emptylast = true);
+bool GetFunctionLines(std::string filename, vecstr& functionlines, bool emptylast = true);
 
 inline bool isFileExist(const std::string& filename)
 {

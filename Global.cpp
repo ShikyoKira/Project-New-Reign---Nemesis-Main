@@ -1,4 +1,5 @@
 #include "Global.h"
+#include "readtextfile.h"
 #include <atomic>
 #include <boost\thread\mutex.hpp>
 #include <boost\thread\lock_guard.hpp>
@@ -19,6 +20,8 @@ DataPath* skyrimDataPath;
 
 boost::posix_time::ptime time1;
 boost::mutex addAnimLock;
+
+std::wstring_convert<std::codecvt_utf8<wchar_t>> wstrconv;
 
 unordered_map<string, string> behaviorPath;
 
@@ -44,7 +47,7 @@ struct path_leaf_string
 {
 	string operator()(const boost::filesystem::directory_entry& entry) const
 	{
-		return entry.path().leaf().string();
+		return wstrconv.to_bytes(entry.path().filename().wstring());
 	}
 };
 
@@ -60,17 +63,15 @@ size_t fileLineCount(string filepath)
 {
 	int linecount = 0;
 	char line[2000];
-	FILE* input;
-	fopen_s(&input, filepath.c_str(), "r");
+	shared_ptr<TextFile> input = make_shared<TextFile>(filepath);
 
-	if (input)
+	if (input->GetFile())
 	{
-		while (fgets(line, 2000, input))
+		while (fgets(line, 2000, input->GetFile()))
 		{
 			++linecount;
 		}
 
-		fclose(input);
 		return linecount;
 	}
 	else
@@ -144,7 +145,7 @@ inline int sameWordCount(string line, string word)
 	return wordCount;
 }
 
-void GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
+bool GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 {
 	{
 		vecstr newlines;
@@ -157,17 +158,16 @@ void GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 
 		if (error)
 		{
-			return;
+			return false;
 		}
 
 		string line;
 		char charline[2000];
-		FILE* BehaviorFormat;
-		fopen_s(&BehaviorFormat, filename.c_str(), "r");
+		shared_ptr<TextFile> BehaviorFormat = make_shared<TextFile>(filename);
 
-		if (BehaviorFormat)
+		if (BehaviorFormat->GetFile())
 		{
-			while (fgets(charline, 2000, BehaviorFormat))
+			while (fgets(charline, 2000, BehaviorFormat->GetFile()))
 			{
 				line = charline;
 
@@ -178,18 +178,17 @@ void GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 
 				functionlines.push_back(line);
 			}
-
-			fclose(BehaviorFormat);
 		}
 		else
 		{
 			ErrorMessage(3002, filename);
+			return false;
 		}
 	}
 	else
 	{
 		ErrorMessage(3001, filename);
-		return;
+		return false;
 	}
 
 	if (emptylast)
@@ -207,7 +206,7 @@ void GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 		}
 	}
 
-	return;
+	return true;
 }
 
 size_t wordFind(string line, string word, bool isLast)
