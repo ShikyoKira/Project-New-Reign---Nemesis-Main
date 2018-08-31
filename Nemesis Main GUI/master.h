@@ -33,14 +33,19 @@
 #include "add animation\grouptemplate.h"
 #include "add animation\playerexclusive.h"
 
+typedef std::unordered_map<std::string, SSMap> SSSMap;
+typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, std::set<std::string>>>> StateIDList;
+
 extern std::unordered_map<std::string, vecstr> modinfo;
 
 struct arguPack
 {
 	arguPack(std::string n_directory, std::string n_modcode, vecstr n_behaviorfilelist, std::unordered_map<std::string, std::map<std::string, vecstr>>& n_newFile,
-		MasterAnimData& n_animData, MasterAnimSetData& n_animSetData,
+		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& n_childrenState, SSSMap& n_stateID, SSSMap& n_parent,
+		StateIDList& n_modStateList, StateIDList& n_duplicatedStateList, MasterAnimData& n_animData, MasterAnimSetData& n_animSetData,
 		std::unordered_map<std::string, std::string>& n_lastUpdate)
-		: newFile(n_newFile), animData(n_animData), animSetData(n_animSetData), lastUpdate(n_lastUpdate)
+		: newFile(n_newFile), childrenState(n_childrenState), stateID(n_stateID), parent(n_parent), modStateList(n_modStateList), duplicatedStateList(n_duplicatedStateList),
+		animData(n_animData), animSetData(n_animSetData), lastUpdate(n_lastUpdate)
 	{
 		directory = n_directory;
 		modcode = n_modcode;
@@ -51,6 +56,11 @@ struct arguPack
 	std::string modcode;
 	vecstr behaviorfilelist;
 	std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile;
+	std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState;
+	SSSMap& stateID;
+	SSSMap& parent;
+	StateIDList& modStateList;
+	StateIDList& duplicatedStateList;
 	MasterAnimData& animData;
 	MasterAnimSetData& animSetData;
 	std::unordered_map<std::string, std::string>& lastUpdate;
@@ -68,17 +78,22 @@ public:
 
 public slots :
 	void UpdateFiles();
-	bool VanillaUpdate(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData);
-	bool GetPathLoop(std::string newPath, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData,
+	bool VanillaUpdate(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
+		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
+		MasterAnimSetData& animSetData);
+	bool GetPathLoop(std::string newPath, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
+		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
 		MasterAnimSetData& animSetData, bool isFirstPerson);
-	bool VanillaDisassemble(std::string path, std::string filename, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile);
+	bool VanillaDisassemble(std::string path, std::string filename, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
+		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSMap& stateID, SSMap& n_parent);
 	bool AnimDataDisassemble(std::string path, MasterAnimData& animData);
 	bool AnimSetDataDisassemble(std::string path, MasterAnimSetData& animSetData);
 	bool newAnimUpdate(std::string sourcefolder, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData,
 		std::unordered_map<std::string, std::string>& lastUpdate);
 	void SeparateMod(arguPack& pack);
-	void JoiningEdits(std::string directory, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData,
-		std::unordered_map<std::string, std::string>& lastUpdate);
+	void JoiningEdits(std::string directory, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
+		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
+		MasterAnimSetData& animSetData, std::unordered_map<std::string, std::string>& lastUpdate);
 	void CombiningFiles(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData);
 	void milestoneUp();
 	void unregisterProcess();
@@ -211,5 +226,6 @@ signals:
 };
 
 bool readMod(std::string& errormod);
+vecstr getHiddenMods();
 
 #endif
