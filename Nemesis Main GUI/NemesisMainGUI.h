@@ -33,11 +33,20 @@ private slots:
 		ui.comboBox->setDisabled(true);
 		ui.modView->setDisabled(true);
 		ui.animProgressBar->setTextVisible(true);
-		ui.animProgressBar->setValue(0);
+		ui.animProgressBar->setStyleSheet("");
+		ui.animProgressBar->font = "";
+		ui.animProgressBar->newValue(0);
 		ui.animProgressBar->setFormat("0 animation(s)");
 
 		vecstr behaviorPriority;
+		vecstr hiddenModList = getHiddenMods();
 		std::unordered_map<std::string, bool> chosenBehavior;
+
+		for (auto& mod : hiddenModList)
+		{
+			behaviorPriority.push_back(mod);
+			chosenBehavior[mod] = true;
+		}
 
 		for (int i = 0; i < ui.modView->model()->rowCount(); ++i)
 		{
@@ -88,6 +97,7 @@ private slots:
 		ui.modView->setDisabled(true);
 		ui.textBrowser->clear();
 		ui.textBrowser->append(QString::fromStdString(TextBoxMessage(1005)));
+		ui.textBrowser->append("");
 
 		QThread* thread = new QThread;
 		UpdateFilesStart* worker = new UpdateFilesStart;
@@ -146,6 +156,8 @@ private slots:
 	{
 		delete ui.DMsg;
 		ui.DMsg = new DebugMsg(language.toStdString());
+		NewDebugMessage(*ui.DMsg);
 		ui.reset(this);
+		emit ui.modView->model()->headerDataChanged(Qt::Horizontal, 0, ui.modView->model()->columnCount());
 	}
 };
