@@ -142,7 +142,6 @@ signals:
 	void incomingMessage(QString);
 
 private:
-	int runningThread = 1;
 	int animCount = 0;
 	int filenum;
 	std::atomic<int> progressPercentage = 0;
@@ -173,7 +172,7 @@ public:
 
 	void addInfo(std::string& newDirectory, vecstr& newfilelist, int newCurList, vecstr& newBehaviorPriority, std::unordered_map<std::string, bool>& newChosenBehavior, getTemplate& newBehaviorTemplate, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& addAnimation, std::unordered_map<std::string, var>& newAnimVar, mapSetString& addAnimEvent, mapSetString& addAnimVariable, std::unordered_map<std::string, std::unordered_map<int, bool>>& newIgnoreFunction, bool newIsCharacter, std::string newModID);
 	void addAnimation();
-	void hkxcmdOutput(std::string filename, std::string hkxfile);
+	bool hkxcmdOutput(std::string filename, std::string hkxfile);
 
 public slots:
 	void BehaviorCompilation();
@@ -202,6 +201,7 @@ private:
 	std::unordered_map<std::string, var> AnimVar;
 	std::unordered_map<std::string, std::unordered_map<int, bool>> ignoreFunction;
 };
+
 
 class DummyLog : public QObject
 {
