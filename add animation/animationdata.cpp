@@ -9,12 +9,22 @@ AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string fil
 	int startline = 0;
 	BehaviorListProcess(*this, startline, animdatafile, project, modcode);
 
+	if (error)
+	{
+		throw 1;
+	}
+
 	if (startline >= int(animdatafile.size()))
 	{
 		return;
 	}
 
 	AnimDataProcess(animdatalist, startline, animdatafile, project, modcode);
+
+	if (error)
+	{
+		throw 1;
+	}
 
 	if (startline >= int(animdatafile.size()))
 	{
@@ -62,6 +72,11 @@ void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& ani
 	if (i < int(animdatafile.size()) && !hasAlpha(animdatafile[i]))
 	{
 		ErrorMessage(3005, project, "Header");
+		throw 1;
+	}
+
+	if (error)
+	{
 		throw 1;
 	}
 }
@@ -135,6 +150,11 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 
 		storeline.push_back(curAP);
 
+		if (error)
+		{
+			throw 1;
+		}
+
 		if (isOnlyNumber(animdatafile[i]))
 		{
 			startline = i;
@@ -143,7 +163,7 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 		else
 		{
 			--i;
-		}		
+		}
 	}
 }
 
@@ -206,6 +226,11 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 		if (animdatafile[i].length() != 0)
 		{
 			ErrorMessage(3020, project, uniquecode);
+			throw 1;
+		}
+
+		if (error)
+		{
 			throw 1;
 		}
 

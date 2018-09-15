@@ -9,13 +9,13 @@ struct single
 struct group
 {
 	std::unordered_map<std::string, std::string> functionIDs;
-	std::vector<single> singlelist;
+	std::vector<std::shared_ptr<single>> singlelist;
 };
 
 struct master
 {
 	std::unordered_map<std::string, std::string> functionIDs;
-	std::vector<group> grouplist;
+	std::vector<std::shared_ptr<group>> grouplist;
 };
 
 #endif

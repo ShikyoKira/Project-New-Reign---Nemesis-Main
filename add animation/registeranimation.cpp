@@ -320,7 +320,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 								
 								animInfo[previousShortline].back()->addFilename(newAnimInfo[3]);
 
-								if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[3]))
+								if (!animInfo[previousShortline].back()->known && !isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[3]))
 								{
 									WarningMessage(1000, newAnimInfo[3]);
 								}
@@ -384,7 +384,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						animInfo[newAnimInfo[0]].push_back(make_shared<animationInfo>(newAnimInfo, filename, behaviortemplate.optionlist[newAnimInfo[0]], linecount, isOExist));
 						animInfo[newAnimInfo[0]].back()->addFilename(newAnimInfo[3]);
 
-						if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[3]))
+						if (!animInfo[newAnimInfo[0]].back()->known && !isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[3]))
 						{
 							WarningMessage(1000, newAnimInfo[3]);
 						}

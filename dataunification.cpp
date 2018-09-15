@@ -14,7 +14,8 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 
 	for (unsigned int k = 0; k < nodelist.size(); ++k)
 	{
-		boost::filesystem::path curfile(folderpath + "\\" + behaviorfile + "\\" + nodelist[k]);
+		string path = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
+		boost::filesystem::path curfile(path);
 
 		if (nodelist[k][0] == '#' && !boost::filesystem::is_directory(curfile))
 		{

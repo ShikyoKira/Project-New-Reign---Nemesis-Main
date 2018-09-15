@@ -803,6 +803,11 @@ OptionList::OptionList(string filepath, string format)
 					}
 				}
 			}
+
+			if (error)
+			{
+				return;
+			}
 		}
 
 		for (unsigned int i = 1; i < isNumExist.size(); ++i)
@@ -831,6 +836,11 @@ OptionList::OptionList(string filepath, string format)
 			if (!isMatched)
 			{
 				ErrorMessage(1038, format, filepath, matchLine[*it], *it);
+				return;
+			}
+
+			if (error)
+			{
 				return;
 			}
 		}
@@ -875,6 +885,11 @@ OptionList::OptionList(string filepath, string format)
 					return;
 				}
 			}
+
+			if (error)
+			{
+				return;
+			}
 		}
 	}
 	else
@@ -917,24 +932,25 @@ OptionList::OptionList(string filepath, string format)
 
 			mixOptRegis[it->first] = mixedOption;
 			mixOptRever[mixedOption].push_back(it->first);
+			bool l_error = false;
 
 			for (unsigned int i = 0; i < it->second.size(); ++i)
 			{
 				if (groupOption[it->first] != groupOption[it->second[i]])
 				{
-					error = true;
+					l_error = true;
 				}
 
 				if (addOn[it->first] != addOn[it->second[i]])
 				{
-					error = true;
+					l_error = true;
 				}
 
 				mixOptRegis[it->second[i]] = mixedOption;
 				mixOptRever[mixedOption].push_back(it->second[i]);
 			}
 
-			if (error)
+			if (l_error)
 			{
 				string errorElements;
 				errorElements.append(it->first);
@@ -977,6 +993,11 @@ OptionList::OptionList(string filepath, string format)
 				else
 				{
 					ErrorMessage(1053, format, filepath);
+					return;
+				}
+
+				if (error)
+				{
 					return;
 				}
 			}

@@ -9,9 +9,9 @@ using namespace std;
 
 static bool* globalThrow;
 
-vector<shared_ptr<int>> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map<int, shared_ptr<int>>& functionState)
+std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map<int, int>& functionState)
 {
-	vector<shared_ptr<int>> stateID;
+	std::vector<int> stateID;
 	vecstr storeID;
 	bool open = false;
 	bool rightFunction = false;
@@ -23,7 +23,7 @@ vector<shared_ptr<int>> GetStateID(map<int, int> mainJoint, map<int, vecstr> fun
 		{
 			if (functionState.find(it->second) == functionState.end())
 			{
-				shared_ptr<int> curState = make_shared<int>(0);
+				int curState = 0;
 
 				for (unsigned int j = 0; j < functionlist[it->second].size(); ++j)
 				{
@@ -72,9 +72,9 @@ vector<shared_ptr<int>> GetStateID(map<int, int> mainJoint, map<int, vecstr> fun
 										{
 											int tempStateID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
-											if (tempStateID >= *curState)
+											if (tempStateID >= curState)
 											{
-												curState = make_shared<int>(tempStateID + 1);
+												curState = tempStateID + 1;
 											}
 
 											break;
@@ -104,27 +104,58 @@ vector<shared_ptr<int>> GetStateID(map<int, int> mainJoint, map<int, vecstr> fun
 	return stateID;
 }
 
-int GetStateCount(vecstr templatelines)
+bool GetStateCount(vector<int>& count, vecstr templatelines, string format, string filename, bool hasGroup)
 {
-	int count = 0;
+	int counter = 1;
 
-	for (unsigned int i = 0; i < templatelines.size(); ++i)
+	for (auto& line : templatelines)
 	{
-		if (templatelines[i].find("\t\t\t<hkparam name=\"stateId\">$(S+") != NOT_FOUND && templatelines[i].find(")$</hkparam>", templatelines[i].find("\t\t\t<hkparam name=\"stateId\">$(S+")) != NOT_FOUND)
-		{
-			string number = boost::regex_replace(string(templatelines[i]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+		size_t pos = line.find("\t\t\t<hkparam name=\"stateId\">$(S");
 
-			if (templatelines[i].find("\t\t\t<hkparam name=\"stateId\">$(S+" + number + ")$</hkparam>") != NOT_FOUND)
+		if (pos != NOT_FOUND && line.find(")$</hkparam>", pos) != NOT_FOUND)
+		{
+			string ID = boost::regex_replace(string(line), boost::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"), string("\\1"));
+			string number = boost::regex_replace(string(line), boost::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"), string("\\2"));
+
+			if (ID != line && number != line)
 			{
-				if (count <= stoi(number))
+				size_t IDSize;
+
+				if (ID.empty())
 				{
-					count = stoi(number) + 1;
+					IDSize = 0;
+				}
+				else
+				{
+					IDSize = static_cast<size_t>(stoi(ID)) - 1;
+				}
+
+				if (IDSize >= count.size())
+				{
+					while (IDSize >= int(count.size()))
+					{
+						count.push_back(0);
+					}
+				}
+
+				string equation = "0" + number;
+
+				if (!calculate(equation, format, filename, counter))
+				{
+					return false;
+				}
+
+				if (count[IDSize] <= stoi(equation))
+				{
+					count[IDSize] = stoi(equation) + 1;
 				}
 			}
 		}
+
+		++counter;
 	}
 
-	return count;
+	return true;
 }
 
 vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
@@ -825,7 +856,7 @@ string GetFileDirectory(string filepath)
 	return filepath.substr(0, nextpos);
 }
 
-inline bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, bool isCharacter, string modID)
+bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, bool isCharacter, string modID)
 {
 	if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
 	{
