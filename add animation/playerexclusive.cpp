@@ -26,7 +26,11 @@ void ReadPCEA()
 		}
 	}
 
-	FolderCreate(datapath + "\\PCEA_animations\\");
+	if (!FolderCreate(datapath + "\\PCEA_animations\\"))
+	{
+		return;
+	}
+
 	read_directory(datapath, folderlist);
 	map<int, PCEA> modlist;
 	map<int, bool> taken;
@@ -84,6 +88,7 @@ void ReadPCEA()
 	for (auto& mod : modlist)
 	{
 		pcealist.push_back(mod.second);
+		PatchDebug("PCEA Mod: " + mod.second.modFile);
 		
 		for (auto& anim : pcealist.back().animPathList)
 		{
@@ -97,12 +102,36 @@ void ReadPCEA()
 	if (pcealist.size() > 0)
 	{
 		interMsg(TextBoxMessage(1006) + "Nemesis PCEA");
+		PatchDebug(TextBoxMessage(1006) + "Nemesis PCEA");
 	}
 }
 
 bool PCEAInstallation()
 {
+	string import;
+
+#ifdef DEBUG
+	if (SSE)
+	{
+		import = "data\\source\\scripts";
+	}
+	else
+	{
+		import = "data\\scripts\\source";
+	}
+#else
+	if (SSE)
+	{
+		import = skyrimDataPath->GetDataPath() + "source";
+	}
+	else
+	{
+		import = skyrimDataPath->GetDataPath() + "scripts\\source";
+	}
+#endif
+
 	string filename = skyrimDataPath->GetDataPath() + "Nemesis PCEA.esp";
+	PatchDebug(filename);
 
 	{
 		FILE* f;
@@ -141,11 +170,15 @@ bool PCEAInstallation()
 		}
 	}
 
+	PatchDebug("PCEA esp modification complete");
+
 	{
 		bf::path source("alternate animation\\nemesis pcea.script");
-		string pscfile = skyrimDataPath->GetDataPath() + "scripts\\source\\Nemesis_PCEA_Core.psc";
+		string pscfile = import + "\\Nemesis_PCEA_Core.psc";
 		bf::path target(pscfile);
 		bf::copy_file(source, target, bf::copy_option::overwrite_if_exists);
+		PatchDebug(source.string());
+		PatchDebug(pscfile);
 
 		vecstr storeline;
 		vecstr newline;
@@ -218,13 +251,11 @@ bool PCEAInstallation()
 			return false;
 		}
 
-#ifdef DEBUG
-		string import = "data\\scripts\\source";
-#else
-		string import = skyrimDataPath->GetDataPath() + "scripts\\source";
-#endif
+		if (!FolderCreate(import))
+		{
+			return false;
+		}
 
-		FolderCreate(import);
 		string destination = skyrimDataPath->GetDataPath() + "scripts";
 		string filepath = destination + "\\Nemesis_PCEA_Core.pex";
 
@@ -234,5 +265,6 @@ bool PCEAInstallation()
 		}
 	}
 
+	PatchDebug("PCEA core script complete");
 	return true;
 }

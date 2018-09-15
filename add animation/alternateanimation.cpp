@@ -6,6 +6,7 @@
 #include <boost/iostreams/device/array.hpp>
 #include <boost/iostreams/stream_buffer.hpp>
 #include <boost\crc.hpp>
+#include "generator_utility.h"
 
 #pragma warning(disable:4503)
 
@@ -89,13 +90,28 @@ bool AAInstallation()
 
 	unsigned int uniquekey;
 
-	string import = skyrimDataPath->GetDataPath() + "scripts\\source";
+	string import;
 	string destination = skyrimDataPath->GetDataPath() + "scripts";
+
+	if (SSE)
+	{
+		import = skyrimDataPath->GetDataPath() + "source\\scripts";
+	}
+	else
+	{
+		import = skyrimDataPath->GetDataPath() + "scripts\\source";
+	}
 
 	string pscfile = import + "\\Nemesis_AA_Core.psc";
 	string filepath = destination + "\\Nemesis_AA_Core.pex";
+	PatchDebug(pscfile);
+	PatchDebug(filepath);
 
-	FolderCreate(import);
+	if (!FolderCreate(import))
+	{
+		return false;
+	}
+
 	fixedKeyInitialize();
 	boost::filesystem::path source("alternate animation\\alternate animation.script");
 	boost::filesystem::path target(pscfile);
@@ -115,6 +131,8 @@ bool AAInstallation()
 
 	pscfile = import + "\\FNIS_aa.psc";
 	filepath = destination + "\\FNIS_aa.pex";
+	PatchDebug(pscfile);
+	PatchDebug(filepath);
 
 	source = boost::filesystem::path("alternate animation\\alternate animation 2.script");
 	target = boost::filesystem::path(pscfile);
@@ -184,6 +202,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 	}
 
 	i = 0;
+	PatchDebug("AA prefix script complete");
 
 	if (groupNameList.size() > 0)		// Assign base value
 	{
@@ -273,6 +292,8 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 			groupIDFunction.push_back("");
 		}
 	}
+
+	PatchDebug("Group base value complete");
 
 	for (unsigned int k = 0; k < storeline.size(); ++k)
 	{
@@ -493,6 +514,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 		return false;
 	}
 
+	PatchDebug("AA core script complete");
 	return true;
 }
 
@@ -610,24 +632,19 @@ string GetLastModified(string filename)
 	return to_string(sysUTC.wDay) + "/" + to_string(sysUTC.wMonth) + "/" + to_string(sysUTC.wYear) + " " + to_string(sysUTC.wHour) + ":" + to_string(sysUTC.wMinute);
 }
 
-void FolderCreate(string curBehaviorPath)
+bool FolderCreate(string curBehaviorPath)
 {
-	size_t pos = curBehaviorPath.find("\\") + 1;
-	string curFolder = curBehaviorPath.substr(0, pos);
-	__int64 counter = sameWordCount(curBehaviorPath, "\\");
-
-	for (int i = 0; i < counter; ++i)
+	try
 	{
-		if (CreateFolder(curFolder))
-		{
-			pos = curBehaviorPath.find("\\", pos) + 1;
-
-			if (pos != 0)
-			{
-				curFolder = curBehaviorPath.substr(0, pos);
-			}
-		}
+		boost::filesystem::create_directories(curBehaviorPath);
 	}
+	catch (const std::exception& ex)
+	{
+		ErrorMessage(6002, ex.what());
+		return false;
+	}
+
+	return true;
 }
 
 unsigned int CRC32Convert(string line)
@@ -676,12 +693,28 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 	}
 	else
 	{
-		string compiler = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Papyrus Compiler\\PapyrusCompiler.exe";
-		string additional = ";C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Data\\scripts\\Source";
+		string compiler;
+		string additional;
+
+		if (SSE)
+		{
+			compiler = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim Special Edition\\Papyrus Compiler\\PapyrusCompiler.exe";
+			additional = ";C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim Special Edition\\Data\\Source\\Scripts;C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim Special Edition\\Data\\Source";
+		}
+		else
+		{
+			compiler = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Papyrus Compiler\\PapyrusCompiler.exe";
+			additional = ";C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Data\\scripts\\Source";
+		}		
 
 		if (isFileExist(compiler))
 		{
 			PapyrusCompileProcess(pscfile, import + additional, destination, filepath, compiler);
+		}
+		else
+		{
+			ErrorMessage(6007);
+			return false;
 		}
 	}
 
@@ -699,14 +732,17 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 
 bool PapyrusCompileProcess(string pscfile, string scriptsource, string destination, string filepath, boost::filesystem::path compiler)
 {
-	vector<string> args{ pscfile, "-f=TESV_Papyrus_Flags.flg" , "-i=" + scriptsource , "-o=" + destination };
-	future<vector<char>> reader, error;
+	vecstr args{ GetFileName(pscfile) + ".psc", "-f=TESV_Papyrus_Flags.flg" , "-i=" + scriptsource , "-o=" + destination};
+	future<vector<char>> p_reader, p_error;
 
 	try
 	{
 		try
 		{
-			boost::process::system(compiler, args, boost::process::std_out > reader, boost::process::std_err > error, boost::process::windows::hide);
+			if (boost::process::system(compiler, args, boost::process::std_out > p_reader, boost::process::std_err > p_error, boost::process::windows::hide) != 0)
+			{
+				// Compilation fail
+			}
 		}
 		catch (const std::exception& ex)
 		{
@@ -720,9 +756,29 @@ bool PapyrusCompileProcess(string pscfile, string scriptsource, string destinati
 
 	if (!isFileExist(filepath))
 	{
-		auto raw = reader.get();
-		vector<string> data;
 		string line;
+		vecstr linelist;
+
+		{
+			auto raw = p_reader.get();
+			vector<string> data;
+			string templine;
+			boost::iostreams::stream_buffer<boost::iostreams::array_source> sb(raw.data(), raw.size());
+			istream is(&sb);
+
+			while (getline(is, templine) && !templine.empty())
+			{
+				linelist.push_back(templine + "\n");
+			}
+
+			for (unsigned int i = 0; i < linelist.size() - 1; ++i)
+			{
+				line.append(linelist[i]);
+			}
+		}
+
+		auto raw = p_error.get();
+		vector<string> data;
 		string templine;
 		boost::iostreams::stream_buffer<boost::iostreams::array_source> sb(raw.data(), raw.size());
 		istream is(&sb);
@@ -730,6 +786,11 @@ bool PapyrusCompileProcess(string pscfile, string scriptsource, string destinati
 		while (getline(is, templine) && !templine.empty())
 		{
 			line.append(templine + "\n");
+		}
+
+		if (linelist.size() > 0)
+		{
+			line.append(linelist.back());
 		}
 
 		ErrorMessage(1185, filepath);

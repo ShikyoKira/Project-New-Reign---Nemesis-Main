@@ -7,7 +7,7 @@ void AAInitialize(std::string AAList);
 bool AAInstallation();
 
 std::string GetLastModified(std::string filename);
-void FolderCreate(std::string curBehaviorPath);
+bool FolderCreate(std::string curBehaviorPath);
 unsigned int CRC32Convert(std::string line);
 bool PapyrusCompile(std::string pscfile, std::string import, std::string destination, std::string filepath);
 
