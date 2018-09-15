@@ -11,6 +11,7 @@
 #include <boost\algorithm\string.hpp>
 #include "registeranimation.h"
 #include "animationutility.h"
+#include "animationthread.h"
 #include "alphanum.hpp"
 #include "templatetree.h"
 
@@ -23,6 +24,9 @@ struct MDException {};
 class Furniture
 {
 private:
+	std::string ZeroEvent;
+	std::string ZeroVariable;
+
 	std::string behaviorFile;
 	std::string filepath;
 	std::string filename;
@@ -32,20 +36,20 @@ private:
 	vecstr eventID;
 	vecstr variableID;
 	SSMap IDExist;
-	single subFunctionIDs;
+	std::shared_ptr<single> subFunctionIDs;
 	SSMap mixOptRegis;
 	ImportContainer* newImport;
+	newAnimLock* atomicLock;
 	ImportContainer addition;
 	bool isLastOrder = false;
 	bool hasDuration = false;
 	bool isEnd = false;
 	bool known;
 	int furnitureCount = 0;
-	int* nextFunctionID;
+	int nextFunctionID;
 	int order = 0;
 	int lastOrder = 0;
 	double duration = 0;
-	std::vector<std::shared_ptr<int>> lastState;
 	std::unordered_map<int, vecstr> AnimObject;
 	std::unordered_map<std::string, bool> optionPicked;
 	std::unordered_map<std::string, int> optionPickedCount;
@@ -65,24 +69,23 @@ private:
 	bool firstConditionProcess(std::string condition, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, bool isNot, int numline, animationutility utility);
 	bool secondConditionProcess(std::string condition, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, int numline, animationutility utility);
 	void stateReplacer(std::string& line, std::string statenum, int stateID, int linecount, bool hasGroup, std::string otherAnimOrder = "", bool otherAnim = false);
-	void processing(std::string& newline, vecstr& storeline, std::string masterFormat, int linecount, id eventid, id variableid, std::vector<int> stateID, int stateCountMultiplier, bool hasGroup, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
-	void AnimDataLineProcess(vecstr originallines, vecstr& newlines, std::string format, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, int ASD = 0);
+	void processing(std::string& newline, vecstr& storeline, std::string masterFormat, int linecount, id eventid, id variableid, std::vector<int> stateID, std::vector<int> stateCountMultiplier, bool hasGroup, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
+	void AnimDataLineProcess(vecstr originallines, vecstr& newlines, std::string format, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, std::vector<int> ASD = { 0 });
 
 public:
 	Furniture(std::unordered_map<std::string, vecstr> furnitureformat, std::string formatname, int furniturecount, std::string filepath, animationInfo& behaviorOption);
 	std::string GetFilePath();
-	vecstr GetFurnitureLine(std::string behaviorFile, int& ID, ImportContainer& import, id eventid, id variableid, std::vector<std::shared_ptr<int>>& stateID, int stateCountMultiplier, bool hasGroup, bool isCore, group& groupFunction);
 	vecstr GetEventID();
 	vecstr GetVariableID();
-	single GetSingle();
 	SSMap GetMixOpt();
 	ImportContainer GetAddition();
 	std::vector<std::shared_ptr<animationInfo>> GetGroupAnimInfo();
 	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> GetGroupAddition();
 	inline void newID();
+	void GetFurnitureLine(std::shared_ptr<vecstr> generatedlines, std::string behaviorFile, int ID, ImportContainer& import, id eventid, id variableid, std::vector<int>& stateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool isCore, std::shared_ptr<group> groupFunction, std::shared_ptr<single> singleFunction, newAnimLock& animLock);
 	void GetAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newASDLines);
 	void GetAnimData(std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimDataLines);
-	void existingASDProcess(vecstr ASDLines, std::map<int, vecstr>& extract, int ASD = 0);
+	void existingASDProcess(vecstr ASDLines, std::map<int, vecstr>& extract, std::vector<int> ASD = { 0 });
 	void addAnimData(std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> animdata);
 	void addAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>> animsetdata);
 	void storeAnimObject(vecstr animobjects, std::string listFilename, int lineCount);
@@ -92,6 +95,7 @@ public:
 	void setLastOrder(int order);
 	void setOrder(int curOrder);
 	int getOrder();
+	int getNextID(std::string behavior);
 	bool isLast();
 	bool isKnown();
 	std::string addOnConverter(std::string curline, vecstr elements);

@@ -5,9 +5,6 @@
 
 using namespace std;
 
-string ZeroEvent;
-string ZeroVariable;
-
 Furniture::Furniture(unordered_map<string, vecstr> furnitureformat, string formatname, int furniturecount, string curfilepath, animationInfo& animationinfo)
 {
 	// import registerAnimation information
@@ -34,16 +31,16 @@ Furniture::Furniture(unordered_map<string, vecstr> furnitureformat, string forma
 	filepath = curfilepath;
 }
 
-vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, ImportContainer& import, id eventid, id variableid, vector<shared_ptr<int>>& stateID,
-	int stateCountMultiplier, bool hasGroup, bool isCore, group& groupFunction)
+void Furniture::GetFurnitureLine(shared_ptr<vecstr> generatedlines, string curBehaviorFile, int nFunctionID, ImportContainer& import, id eventid, id variableid,
+	vector<int>& stateID, vector<int> stateCountMultiplier, bool hasGroup, bool isCore, shared_ptr<group> groupFunction, shared_ptr<single> singleFunction, newAnimLock& animLock)
 {
-	vecstr generatedlines;
 	vecstr recorder;
 
 	behaviorFile = curBehaviorFile;
 	newImport = const_cast<ImportContainer*>(&import);
-	nextFunctionID = const_cast<int*>(&nFunctionID);
-	lastState = stateID;
+	atomicLock = const_cast<newAnimLock*>(&animLock);
+	nextFunctionID = nFunctionID;
+	subFunctionIDs = singleFunction;
 
 	bool negative = false;
 	bool skip = false; // mainly used by NEW
@@ -62,16 +59,16 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 	unordered_map<int, bool> IsConditionOpened;
 	vector<unordered_map<string, bool>> groupOptionPicked;
 
-	strID = to_string(*nextFunctionID);
+	strID = to_string(nextFunctionID);
 
 	while (strID.length() < 4)
 	{
 		strID = "0" + strID;
 	}
 
-	for (auto& ID : stateID)
+	for (auto ID : stateID)
 	{
-		fixedStateID.push_back(*ID);
+		fixedStateID.push_back(ID);
 	}
 
 	groupOptionPicked.reserve(groupAnimInfo.size());
@@ -82,7 +79,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 	}
 
 	IsConditionOpened[0] = true;
-	generatedlines.reserve(furniturelines[behaviorFile].size() + 10 * memory);
+	generatedlines->reserve(furniturelines[behaviorFile].size() + 10 * memory);
 
 	for (unsigned int i = 0; i < furniturelines[behaviorFile].size(); ++i)
 	{
@@ -106,7 +103,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 							string conditionLine = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
 							animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
 
-							if (newCondition(conditionLine, generatedlines, groupOptionPicked, i + 1, utility))
+							if (newCondition(conditionLine, *generatedlines, groupOptionPicked, i + 1, utility))
 							{
 								skip = false;
 								IsConditionOpened[condition] = true;
@@ -118,8 +115,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 							if (error)
 							{
-								generatedlines.shrink_to_fit();
-								return generatedlines;
+								return;
 							}
 						}
 					}
@@ -137,8 +133,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 				if (condition == 0)
 				{
 					ErrorMessage(1119, format, behaviorFile, i + 1);
-					generatedlines.shrink_to_fit();
-					return generatedlines;
+					return;
 				}
 
 				if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
@@ -151,7 +146,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 							string option = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
 							animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
 
-							if (newCondition(option, generatedlines, groupOptionPicked, i + 1, utility))
+							if (newCondition(option, *generatedlines, groupOptionPicked, i + 1, utility))
 							{
 								skip = false;
 								IsConditionOpened[condition] = true;
@@ -163,8 +158,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 							if (error)
 							{
-								generatedlines.shrink_to_fit();
-								return generatedlines;
+								return;
 							}
 						}
 					}
@@ -182,8 +176,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 				if (condition == 0)
 				{
 					ErrorMessage(1119, format, behaviorFile, i + 1);
-					generatedlines.shrink_to_fit();
-					return generatedlines;
+					return;
 				}
 
 				if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
@@ -198,7 +191,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 							size_t conditionPosition = line.find("<!-- CONDITION") + 14;
 							string replacement1 = line.substr(0, conditionPosition + 1);
 							string replacement2 = line.substr(conditionPosition);
-							generatedlines.push_back(replacement1 + "START" + replacement2);
+							generatedlines->push_back(replacement1 + "START" + replacement2);
 						}
 						else
 						{
@@ -219,7 +212,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 				if (newOpen)
 				{
 					ErrorMessage(1116, format, behaviorFile, i + 1);
-					return generatedlines;
+					return;
 				}
 
 				if (IsConditionOpened[condition])
@@ -239,8 +232,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 						if (error)
 						{
-							generatedlines.shrink_to_fit();
-							return generatedlines;
+							return;
 						}
 
 						if (optionInfo[2].find("AnimObject") != NOT_FOUND)
@@ -294,14 +286,12 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 					else
 					{
 						ErrorMessage(1116, format, behaviorFile, i + 1);
-						generatedlines.shrink_to_fit();
-						return generatedlines;
+						return;
 					}
 
 					if (error)
 					{
-						generatedlines.shrink_to_fit();
-						return generatedlines;
+						return;
 					}
 				}
 
@@ -313,7 +303,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 				if (newOpen)
 				{
 					ErrorMessage(1116, format, behaviorFile, i + 1);
-					return generatedlines;
+					return;
 				}
 
 				if (IsConditionOpened[condition])
@@ -333,8 +323,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 						if (error)
 						{
-							generatedlines.shrink_to_fit();
-							return generatedlines;
+							return;
 						}
 
 						if (optionInfo[1].length() == 0)
@@ -391,8 +380,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 					else
 					{
 						ErrorMessage(1115, format, behaviorFile, i + 1);
-						generatedlines.shrink_to_fit();
-						return generatedlines;
+						return;
 					}
 				}
 
@@ -404,7 +392,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 				if (newOpen)
 				{
 					ErrorMessage(1116, format, behaviorFile, i + 1);
-					return generatedlines;
+					return;
 				}
 
 				if (IsConditionOpened[condition])
@@ -460,14 +448,12 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 							if (word & number)
 							{
 								ErrorMessage(1110, format, behaviorFile, i + 1);
-								generatedlines.shrink_to_fit();
-								return generatedlines;
+								return;
 							}
 							else if (unknown)
 							{
 								ErrorMessage(1111, format, behaviorFile, i + 1);
-								generatedlines.shrink_to_fit();
-								return generatedlines;
+								return;
 							}
 							else if (word)
 							{
@@ -502,23 +488,20 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 								else
 								{
 									ErrorMessage(1112, format, behaviorFile, i + 1);
-									generatedlines.shrink_to_fit();
-									return generatedlines;
+									return;
 								}
 							}
 							else
 							{
 								ErrorMessage(1113, format, behaviorFile, i + 1);
-								generatedlines.shrink_to_fit();
-								return generatedlines;
+								return;
 							}
 						}
 					}
 					else
 					{
 						ErrorMessage(1114, format, behaviorFile, i + 1);
-						generatedlines.shrink_to_fit();
-						return generatedlines;
+						return;
 					}
 				}
 
@@ -530,8 +513,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 				if (!newOpen)
 				{
 					ErrorMessage(1171, format, behaviorFile, i + 1);
-					generatedlines.shrink_to_fit();
-					return generatedlines;
+					return;
 				}
 
 				newOpen = false;
@@ -572,8 +554,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 					else
 					{
 						ErrorMessage(1136, format, behaviorFile, i + 1);
-						generatedlines.shrink_to_fit();
-						return generatedlines;
+						return;
 					}
 				}
 				else if (line.find("</hkparam>") != NOT_FOUND && norElement)
@@ -585,10 +566,10 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 					{
 						string oldElement;
 
-						if (generatedlines[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
+						if ((*generatedlines)[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
 						{
-							size_t position = generatedlines[elementLine].find("numelements=\"") + 13;
-							oldElement = generatedlines[elementLine].substr(position, generatedlines[elementLine].find("\">", position) - position);
+							size_t position = (*generatedlines)[elementLine].find("numelements=\"") + 13;
+							oldElement = (*generatedlines)[elementLine].substr(position, (*generatedlines)[elementLine].find("\">", position) - position);
 						}
 						else
 						{
@@ -597,7 +578,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 						if (oldElement != to_string(counter))
 						{
-							generatedlines[elementLine].replace(generatedlines[elementLine].find(oldElement), oldElement.length(), to_string(counter));
+							(*generatedlines)[elementLine].replace((*generatedlines)[elementLine].find(oldElement), oldElement.length(), to_string(counter));
 						}
 
 						norElement = false;
@@ -645,12 +626,11 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 					if (line.find("$MC$", 0) != NOT_FOUND)
 					{
 						animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
-						multiChoice(line, generatedlines, groupOptionPicked, i + 1, utility);
+						multiChoice(line, *generatedlines, groupOptionPicked, i + 1, utility);
 
 						if (error)
 						{
-							generatedlines.shrink_to_fit();
-							return generatedlines;
+							return;
 						}
 					}
 
@@ -664,16 +644,20 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 						if (pos != NOT_FOUND)
 						{
-							if (groupFunction.functionIDs.find(oldID) != groupFunction.functionIDs.end())
+							animLock.lockID();
+
+							if (groupFunction->functionIDs.find(oldID) != groupFunction->functionIDs.end())
 							{
-								line.replace(pos, format.length() + 7 + ID.length(), groupFunction.functionIDs[oldID]);
+								line.replace(pos, format.length() + 7 + ID.length(), groupFunction->functionIDs[oldID]);
 							}
 							else
 							{
-								groupFunction.functionIDs[oldID] = strID;
+								groupFunction->functionIDs[oldID] = strID;
 								line.replace(pos, format.length() + 7 + ID.length(), strID);
 								newID();
 							}
+
+							animLock.releaseID();
 						}
 					}
 
@@ -704,31 +688,28 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 								string templine = line;
 								templine.replace(templine.find("MID$", MIDposition), 3, format);
 								templine = templine.substr(templine.find(format + "$", MIDposition), format.length() + oldID.length() - 3);
-								subFunctionIDs.format[templine] = ID;
+								subFunctionIDs->format[templine] = ID;
 								line.replace(line.find("MID$", MIDposition), oldID.length(), ID);
 							}
 							else
 							{
 								ErrorMessage(1130, format, behaviorFile, i + 1);
-								generatedlines.shrink_to_fit();
-								return generatedlines;
+								return;
 							}
 						}
 					}
 
-					processing(line, generatedlines, format, i + 1, eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
+					processing(line, *generatedlines, format, i + 1, eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
 
 					if (error)
 					{
-						generatedlines.shrink_to_fit();
-						return generatedlines;
+						return;
 					}
 
 					if (line.length() == 0)
 					{
 						ErrorMessage(1172, format, behaviorFile, i + 1);
-						generatedlines.shrink_to_fit();
-						return generatedlines;
+						return;
 					}
 				}
 
@@ -762,11 +743,11 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 					negative = false;
 				}
 
-				generatedlines.push_back(line);
+				generatedlines->push_back(line);
 
 				if (elementCatch)
 				{
-					elementLine = generatedlines.size() - 1;
+					elementLine = generatedlines->size() - 1;
 				}
 
 				break;
@@ -830,7 +811,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 													string conditionLine = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
 													animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup, optionMulti, animMulti);
 
-													if (newCondition(conditionLine, generatedlines, groupOptionPicked, i + 1 - int(recorder.size()) + k, utility))
+													if (newCondition(conditionLine, *generatedlines, groupOptionPicked, i + 1 - int(recorder.size()) + k, utility))
 													{
 														skip2 = false;
 														IsConditionOpened[condition] = true;
@@ -842,8 +823,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 													if (error)
 													{
-														generatedlines.shrink_to_fit();
-														return generatedlines;
+														return;
 													}
 												}
 											}
@@ -861,8 +841,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 										if (condition == 0)
 										{
 											ErrorMessage(1119, format, behaviorFile, i + 1 - int(recorder.size()) + k);
-											generatedlines.shrink_to_fit();
-											return generatedlines;
+											return;
 										}
 
 										if (!freeze2)
@@ -875,7 +854,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 													string option = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
 													animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup, optionMulti, animMulti);
 
-													if (newCondition(option, generatedlines, groupOptionPicked, i + 1 - int(recorder.size()) + k, utility))
+													if (newCondition(option, *generatedlines, groupOptionPicked, i + 1 - int(recorder.size()) + k, utility))
 													{
 														skip2 = false;
 														IsConditionOpened[condition] = true;
@@ -887,8 +866,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 													if (error)
 													{
-														generatedlines.shrink_to_fit();
-														return generatedlines;
+														return;
 													}
 												}
 											}
@@ -906,8 +884,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 										if (condition == 0)
 										{
 											ErrorMessage(1119, format, behaviorFile, i + 1 - int(recorder.size()) + k);
-											generatedlines.shrink_to_fit();
-											return generatedlines;
+											return;
 										}
 
 										if (!freeze2)
@@ -922,7 +899,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 													size_t conditionPosition = line.find("<!-- CONDITION") + 14;
 													string replacement1 = line.substr(0, conditionPosition + 1);
 													string replacement2 = line.substr(conditionPosition);
-													generatedlines.push_back(replacement1 + "START" + replacement2);
+													generatedlines->push_back(replacement1 + "START" + replacement2);
 												}
 												else
 												{
@@ -953,12 +930,11 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 											if (newline.find("$MC$", 0) != NOT_FOUND)
 											{
 												animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup, optionMulti, animMulti, multiOption);
-												multiChoice(newline, generatedlines, groupOptionPicked, i + 1 - int(recorder.size()) + k, utility);
+												multiChoice(newline, *generatedlines, groupOptionPicked, i + 1 - int(recorder.size()) + k, utility);
 
 												if (error)
 												{
-													generatedlines.shrink_to_fit();
-													return generatedlines;
+													return;
 												}
 											}
 
@@ -972,16 +948,20 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 												if (pos != NOT_FOUND)
 												{
-													if (groupFunction.functionIDs.find(oldID) != groupFunction.functionIDs.end())
+													animLock.lockID();
+
+													if (groupFunction->functionIDs.find(oldID) != groupFunction->functionIDs.end())
 													{
-														line.replace(pos, format.length() + 7 + ID.length(), groupFunction.functionIDs[oldID]);
+														line.replace(pos, format.length() + 7 + ID.length(), groupFunction->functionIDs[oldID]);
 													}
 													else
 													{
-														groupFunction.functionIDs[oldID] = strID;
+														groupFunction->functionIDs[oldID] = strID;
 														line.replace(pos, format.length() + 7 + ID.length(), strID);
 														newID();
 													}
+
+													animLock.releaseID();
 												}
 											}
 
@@ -1012,14 +992,13 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 														string templine = newline;
 														templine.replace(templine.find("MID$", MIDposition), 3, format);
 														templine = templine.substr(templine.find(format + "$", MIDposition), format.length() + oldID.length() - 3);
-														subFunctionIDs.format[templine] = ID;
+														subFunctionIDs->format[templine] = ID;
 														newline.replace(newline.find("MID$", MIDposition), oldID.length(), ID);
 													}
 													else
 													{
 														ErrorMessage(1130, format, behaviorFile, i + 1 - int(recorder.size()) + k);
-														generatedlines.shrink_to_fit();
-														return generatedlines;
+														return;
 													}
 												}
 											}
@@ -1069,19 +1048,17 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 										if (newline.find("$") != NOT_FOUND)
 										{
-											processing(newline, generatedlines, format, i + 1 - int(recorder.size()) + k, eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup, optionMulti, animMulti, multiOption);
+											processing(newline, *generatedlines, format, i + 1 - int(recorder.size()) + k, eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup, optionMulti, animMulti, multiOption);
 
 											if (error)
 											{
-												generatedlines.shrink_to_fit();
-												return generatedlines;
+												return;
 											}
 
 											if (newline.length() == 0)
 											{
 												ErrorMessage(1172, format, behaviorFile, i + 1 - int(recorder.size()) + k);
-												generatedlines.shrink_to_fit();
-												return generatedlines;
+												return;
 											}
 										}
 
@@ -1094,8 +1071,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 											if (error)
 											{
-												generatedlines.shrink_to_fit();
-												return generatedlines;
+												return;
 											}
 
 											templine = templine.substr(0, nextpos);
@@ -1104,8 +1080,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 											if (error)
 											{
-												generatedlines.shrink_to_fit();
-												return generatedlines;
+												return;
 											}
 
 											if (oldline != templine)
@@ -1144,7 +1119,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 											negative = false;
 										}
 
-										generatedlines.push_back(newline);
+										generatedlines->push_back(newline);
 									}
 								}
 							}
@@ -1153,8 +1128,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 						if (openClose != condition)
 						{
 							ErrorMessage(1122, format, behaviorFile);
-							generatedlines.shrink_to_fit();
-							return generatedlines;
+							return;
 						}
 
 						multiOption.clear();
@@ -1172,8 +1146,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 				if (condition == 0)
 				{
 					ErrorMessage(1118, format, behaviorFile, i + 1);
-					generatedlines.shrink_to_fit();
-					return generatedlines;
+					return;
 				}
 
 				if (!multi && ((newOpen && !skip) || !newOpen))
@@ -1201,8 +1174,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 		if (error)
 		{
-			generatedlines.shrink_to_fit();
-			return generatedlines;
+			return;
 		}
 	}
 
@@ -1211,7 +1183,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 	if (newOpen)
 	{
 		ErrorMessage(1116, format, behaviorFile, furniturelines[behaviorFile].size());
-		return generatedlines;
+		return;
 	}
 
 	for (auto it = IsConditionOpened.begin(); it != IsConditionOpened.end(); ++it)
@@ -1219,8 +1191,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 		if (it->second)
 		{
 			ErrorMessage(1145, format, behaviorFile);
-			generatedlines.shrink_to_fit();
-			return generatedlines;
+			return;
 			break;
 		}
 	}
@@ -1228,8 +1199,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 	if (condition != 0)
 	{
 		ErrorMessage(1122, format, behaviorFile);
-		generatedlines.shrink_to_fit();
-		return generatedlines;
+		return;
 	}
 
 	for (auto it = addOn.begin(); it != addOn.end(); ++it)
@@ -1241,7 +1211,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 			if (addition[it->first][it->second[i]].length() != 0)
 			{
 				optionName = it->first;
-				subFunctionIDs.format[optionName + "[" + it->second[i] + "]"] = addition[optionName][it->second[i]];
+				subFunctionIDs->format[optionName + "[" + it->second[i] + "]"] = addition[optionName][it->second[i]];
 			}
 			else
 			{
@@ -1253,7 +1223,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 					{
 						for (unsigned int j = 0; j < groupAddition[optionName][it->second[i]].size(); ++j)
 						{
-							subFunctionIDs.format[optionName + "[" + it->second[i] + "][" + to_string(j) + "]"] = groupAddition[optionName][it->second[i]][j];
+							subFunctionIDs->format[optionName + "[" + it->second[i] + "][" + to_string(j) + "]"] = groupAddition[optionName][it->second[i]][j];
 						}
 					}
 				}
@@ -1263,7 +1233,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 
 					for (unsigned int j = 0; j < groupAddition[optionName][it->second[i]].size(); ++j)
 					{
-						subFunctionIDs.format[optionName + "[" + it->second[i] + "][" + to_string(j) + "]"] = groupAddition[optionName][it->second[i]][j];
+						subFunctionIDs->format[optionName + "[" + it->second[i] + "][" + to_string(j) + "]"] = groupAddition[optionName][it->second[i]][j];
 					}
 				}
 
@@ -1277,7 +1247,7 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 		{
 			for (unsigned int i = 0; i < it->second.size(); ++i)
 			{
-				subFunctionIDs.format["@AnimObject/" + to_string(it->first) + "[" + to_string(i) + "]"] = it->second[i];
+				subFunctionIDs->format["@AnimObject/" + to_string(it->first) + "[" + to_string(i) + "]"] = it->second[i];
 			}
 		}
 	}
@@ -1286,31 +1256,47 @@ vecstr Furniture::GetFurnitureLine(string curBehaviorFile, int& nFunctionID, Imp
 	{
 		for (unsigned int i = 0; i < fixedStateID.size(); ++i)
 		{
-			for (int j = 0; j < stateCountMultiplier; ++j)
+			for (int j = 0; j < stateCountMultiplier[i]; ++j)
 			{
-				subFunctionIDs.format["(S" + to_string(i + 1) + "+" + to_string(j) + ")"] = to_string(fixedStateID[i] + j);
+				subFunctionIDs->format["(S" + to_string(i + 1) + "+" + to_string(j) + ")"] = to_string(fixedStateID[i] + j);
 			}
 		}
 	}
 	else
 	{
-		for (int j = 0; j < stateCountMultiplier; ++j)
+		for (int j = 0; j < stateCountMultiplier[0]; ++j)
 		{
-			subFunctionIDs.format["(S+" + to_string(j) + ")"] = to_string(fixedStateID[0] + j);
+			subFunctionIDs->format["(S+" + to_string(j) + ")"] = to_string(fixedStateID[0] + j);
 		}
 	}
 
-	subFunctionIDs.format["main_anim_event"] = mainAnimEvent;
-	subFunctionIDs.format["FilePath"] = filepath + filename;
-	subFunctionIDs.format["FileName"] = filename.substr(0, filename.find_last_of("."));
+	subFunctionIDs->format["main_anim_event"] = mainAnimEvent;
+	subFunctionIDs->format["FilePath"] = filepath + filename;
+	subFunctionIDs->format["FileName"] = filename.substr(0, filename.find_last_of("."));
 
-	if (generatedlines.size() != 0 && generatedlines.back().length() != 0)
+	if (generatedlines->size() != 0)
 	{
-		generatedlines.push_back("");
+		if (!generatedlines->back().empty())
+		{
+			generatedlines->push_back("");
+		}
+		else if (generatedlines->size() > 1)
+		{
+			while (generatedlines->back().empty())
+			{
+				if ((*generatedlines)[generatedlines->size() - 2].empty())
+				{
+					generatedlines->pop_back();
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
 	}
 
-	generatedlines.shrink_to_fit();
-	return generatedlines;
+	generatedlines->shrink_to_fit();
 }
 
 string Furniture::GetFilePath()
@@ -1326,11 +1312,6 @@ vecstr Furniture::GetEventID()
 vecstr Furniture::GetVariableID()
 {
 	return variableID;
-}
-
-single Furniture::GetSingle()
-{
-	return subFunctionIDs;
 }
 
 SSMap Furniture::GetMixOpt()
@@ -1355,14 +1336,14 @@ unordered_map<string, unordered_map<string, vecstr>> Furniture::GetGroupAddition
 
 inline void Furniture::newID()
 {
-	++(*nextFunctionID);
+	++(nextFunctionID);
 
-	if (*nextFunctionID == 9216)
+	if (nextFunctionID == 9216)
 	{
-		++(*nextFunctionID);
+		++(nextFunctionID);
 	}
 
-	strID = to_string(*nextFunctionID);
+	strID = to_string(nextFunctionID);
 
 	while (strID.length() < 4)
 	{
@@ -1431,6 +1412,42 @@ void Furniture::setOrder(int curOrder)
 int Furniture::getOrder()
 {
 	return order;
+}
+
+int Furniture::getNextID(string behavior)
+{
+	unordered_map<int, bool> taken;
+	int IDUsed = 0;
+
+	for (auto& line : furniturelines[behavior])
+	{
+		if (line.find("<hkobject name=\"#MID$") != NOT_FOUND)
+		{
+			string number = boost::regex_replace(string(line), boost::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
+
+			if (number != line && isOnlyNumber(number))
+			{
+				int num = stoi(number);
+
+				if (!taken[num])
+				{
+					taken[stoi(number)] = true;
+					++IDUsed;
+				}
+			}
+		}
+		else
+		{
+			size_t pos = line.find("import[");
+
+			if (pos != NOT_FOUND && line.find("]", pos) != NOT_FOUND)
+			{
+				++IDUsed;
+			}
+		}
+	}
+
+	return IDUsed;
 }
 
 bool Furniture::isLast()
@@ -2174,7 +2191,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 	return false;
 }
 
-void Furniture::processing(string& line, vecstr& storeline, string masterFormat, int linecount, id eventid, id variableid, vector<int> fixedStateID, int stateCountMultiplier, bool hasGroup, int optionMulti, int animMulti, string multiOption)
+void Furniture::processing(string& line, vecstr& storeline, string masterFormat, int linecount, id eventid, id variableid, vector<int> fixedStateID, std::vector<int> stateCountMultiplier, bool hasGroup, int optionMulti, int animMulti, string multiOption)
 {
 	__int64 counter = count(line.begin(), line.end(), '$') / 2;
 	size_t curPos = -1;
@@ -2435,7 +2452,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 				{
 					intID = stoi(ID) - 1;
 
-					if (intID >= int(fixedStateID.size()) || intID < 0)
+					if (intID >= int(fixedStateID.size()) || intID >= int(stateCountMultiplier.size()) || intID < 0)
 					{
 						ErrorMessage(1168, format, behaviorFile, linecount, templine.substr(0, templine.find(")") + 1));
 						return;
@@ -2444,7 +2461,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 				if (change.find(format + "[][(S" + ID + "+", 0) != NOT_FOUND)
 				{
-					stateReplacer(change, ID, fixedStateID[intID] + ((animMulti - order) * stateCountMultiplier), linecount, hasGroup, "", true);
+					stateReplacer(change, ID, fixedStateID[intID] + ((animMulti - order) * stateCountMultiplier[intID]), linecount, hasGroup, "", true);
 					isChange = true;
 
 					if (error)
@@ -2455,7 +2472,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 				if (change.find(format + "[F][(S" + ID + "+", 0) != NOT_FOUND)
 				{
-					stateReplacer(change, ID, fixedStateID[intID] - (order * stateCountMultiplier), linecount, hasGroup, "F", true);
+					stateReplacer(change, ID, fixedStateID[intID] - (order * stateCountMultiplier[intID]), linecount, hasGroup, "F", true);
 					isChange = true;
 
 					if (error)
@@ -2472,7 +2489,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 					}
 					else
 					{
-						stateReplacer(change, ID, fixedStateID[intID] + stateCountMultiplier, linecount, hasGroup, "N", true);
+						stateReplacer(change, ID, fixedStateID[intID] + stateCountMultiplier[intID], linecount, hasGroup, "N", true);
 					}
 
 					isChange = true;
@@ -2491,7 +2508,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 					}
 					else
 					{
-						stateReplacer(change, ID, fixedStateID[intID] - stateCountMultiplier, linecount, hasGroup, "B", true);
+						stateReplacer(change, ID, fixedStateID[intID] - stateCountMultiplier[intID], linecount, hasGroup, "B", true);
 					}
 
 					isChange = true;
@@ -2504,7 +2521,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 				if (change.find(format + "[L][(S" + ID + "+", 0) != NOT_FOUND)
 				{
-					stateReplacer(change, ID, fixedStateID[intID] + ((lastOrder - order) * stateCountMultiplier), linecount, hasGroup, "L", true);
+					stateReplacer(change, ID, fixedStateID[intID] + ((lastOrder - order) * stateCountMultiplier[intID]), linecount, hasGroup, "L", true);
 					isChange = true;
 
 					if (error)
@@ -2523,7 +2540,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 						{
 							if (change.find(format + "[" + number + "][(S" + ID + "+" + number2 + ")]") != NOT_FOUND)
 							{
-								stateReplacer(change, ID, fixedStateID[intID] + ((stoi(number) - order) * stateCountMultiplier), linecount, hasGroup, number, true);
+								stateReplacer(change, ID, fixedStateID[intID] + ((stoi(number) - order) * stateCountMultiplier[intID]), linecount, hasGroup, number, true);
 								isChange = true;
 							}
 						}
@@ -3208,6 +3225,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 						}
 					}
 
+					atomicLock->lockExport();
 
 					if ((*newImport)[file][keyword].length() > 0)
 					{
@@ -3221,6 +3239,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 						newID();
 					}
 
+					atomicLock->releaseExport();
 					change.replace(nextpos, importer.length(), tempID);
 					isChange = true;
 				}
@@ -3238,7 +3257,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 			if (change.find("MD") != NOT_FOUND)
 			{
-				if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0 || stateCountMultiplier != 0)
+				if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0 || stateCountMultiplier.size() != 0)
 				{
 					ErrorMessage(1096, format, behaviorFile, linecount);
 					return;
@@ -3254,7 +3273,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 			if (change.find("RD") != NOT_FOUND)
 			{
-				if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0 || stateCountMultiplier != 0)
+				if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0 || stateCountMultiplier.size() != 0)
 				{
 					ErrorMessage(1097, format, behaviorFile, linecount);
 					return;
@@ -3492,18 +3511,7 @@ void Furniture::stateReplacer(string& line, std::string statenum, int stateID, i
 					ID = 0;
 				}
 
-				if (ID >= int(lastState.size()))
-				{
-					ErrorMessage(1168, format, behaviorFile, linecount, state);
-					return;
-				}
-
-				if (stoi(state) >= *lastState[ID])
-				{
-					*lastState[ID] = stoi(state) + 1;
-				}
-
-				subFunctionIDs.format["(S" + statenum + "+" + number + ")"] = state;
+				subFunctionIDs->format["(S" + statenum + "+" + number + ")"] = state;
 				line.replace(stateposition, stateLength, state);
 			}
 			else
@@ -4455,7 +4463,7 @@ void Furniture::GetAnimSetData(unordered_map<string, map<string, vecstr, alphanu
 		{
 			try
 			{
-				AnimDataLineProcess(iter->second, newASDLines[it->first][iter->first], format, groupOptionPicked, 1);
+				AnimDataLineProcess(iter->second, newASDLines[it->first][iter->first], format, groupOptionPicked, vector<int>(1));
 			}
 			catch (MDException&)
 			{
@@ -4473,7 +4481,7 @@ void Furniture::GetAnimSetData(unordered_map<string, map<string, vecstr, alphanu
 	return;
 }
 
-void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, string format, vector<unordered_map<string, bool>> groupOptionPicked, int ASD)
+void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, string format, vector<unordered_map<string, bool>> groupOptionPicked, vector<int> ASD)
 {
 	{
 		vecstr emptyVS;
@@ -5255,7 +5263,7 @@ void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, stri
 										{
 											id emptyID;
 											vector<int> emptyVI;
-											animationutility utility(emptyID, emptyID, emptyVI, 0, false, optionMulti, animMulti, multiOption);
+											animationutility utility(emptyID, emptyID, emptyVI, ASD, false, optionMulti, animMulti, multiOption);
 											multiChoice(newline, newlines, groupOptionPicked, i + 1, utility);
 
 											if (error)
@@ -5427,7 +5435,7 @@ void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, stri
 		return;
 	}
 
-	if (ASD == 0)
+	if (ASD[0] == 0)
 	{
 		if (newlines.back().length() != 0)
 		{
@@ -5446,7 +5454,7 @@ void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, stri
 	return;
 }
 
-void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, int ASD)
+void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, vector<int> ASD)
 {
 	unordered_map<int, bool> IsConditionOpened;
 	vector<unordered_map<string, bool>> groupOptionPicked;
@@ -6237,7 +6245,7 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, i
 										{
 											id emptyID;
 											vector<int> emptyVI;
-											animationutility utility(emptyID, emptyID, emptyVI, 0, false, optionMulti, animMulti, multiOption);
+											animationutility utility(emptyID, emptyID, emptyVI, ASD, false, optionMulti, animMulti, multiOption);
 											multiChoice(newline, newlines, groupOptionPicked, i + 1, utility);
 
 											if (error)
