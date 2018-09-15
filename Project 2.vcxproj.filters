@@ -87,6 +87,9 @@
     <ClCompile Include="lastupdate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="add animation\animationthread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functions\functionupdate.h">
@@ -168,6 +171,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lastupdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="readtextfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="add animation\animationthread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -217,7 +217,7 @@ ERR 1166=BUG FOUND!! Report to Nemesis' author immediately
 ERR 1167=Failed to access group animation template. Existing node can only access to the highest level of animation template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1168=Invalid state number. State number must be smaller than number of root state registered in "option_list.txt" but not smaller than 0. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nState: <4>
 ERR 1169=Missing import input. Please contact the template creator\nImport File: <1>\nLine: <2>
-ERR 1170=Non-vanilla node detected. Please ensure that the folder name in "behavior_template/" folder is same as one of the behavior file without the extension. Please contact the template creator\nImport File: <1>\nLine: <2>
+ERR 1170=Non-vanilla node detected. Please ensure that the folder name in "behavior_templates/" folder is same as one of the behavior file without the extension. Please contact the template creator\nTemplate: <1>\nFile: <2>
 ERR 1171=Origin of new tab is not found. Opening of new tab is required. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1172=Failed to process line\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1173=Condition cannot be used in "<1>". Please contact the template creator\nTemplate: <2>\nFile: <1>\nLine: <3>
@@ -239,6 +239,7 @@ ERR 1188=Node ID has no state ID. Please contact the mod author\nMod: <1>\nFile:
 ERR 1189=Duplicated state ID and incompatibility detected. Please contact the mod author to fix the compatibility issue\nFile: <1>\nState ID: <2>\nMods: <3>
 ERR 1190=Missing state machine info node detected. Please contact the mod author\nMod: <1>\nID: <2>
 ERR 1191=A state machine info not linked to any state machine detected. Please contact the mod author\nMod: <1>\nID: <2>
+ERR 1192=BUG FOUND!! Report to Nemesis' author immediately
 
 '2000s
 ERR 2000=Failed to open file\nFile: <1>
@@ -338,7 +339,8 @@ ERR 6003="<1>" has already been registered in this ini file. Please contact the 
 ERR 6004=Template does not support first person animation as the effect is non-existence. Please contact the template creator\nDirectory: <1>
 ERR 6005=Skyrim directory not found. Please make sure that your skyrim is a legal copy
 ERR 6006=Missing latest engine files. Update engine to fix it
-
+ERR 6007=Papyrus compiler not found. Please make sure Nemesis is placed in the correct directory
+ERR 6008=An exception has occured while running the script. Please contact the script author\nMessage: <1>
 
 '1000
 WAR 1000=Missing animation file\nFile: <1>

@@ -3,6 +3,7 @@ minimum 4
 ignore_group
 
 'Animation Options
+a
 o
 
 'AnimObject Count

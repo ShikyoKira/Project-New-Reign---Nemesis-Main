@@ -169,7 +169,7 @@
 				<hkcstring>SidestepTrigger</hkcstring>
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="140">				<!-- VARIABLE numelement tkuc +21 $114 --> <!-- VARIABLE numelement zcbe +10 $128 --> <!-- VARIABLE numelement tudm +4 $137 -->
+			<hkparam name="variableNames" numelements="135">				<!-- VARIABLE numelement tkuc +21 $114 --> <!-- VARIABLE numelement zcbe +10 $128 --> <!-- VARIABLE numelement tudm +4 $137 -->
 				<hkcstring>blendDefault</hkcstring>
 				<hkcstring>blendMove1stP</hkcstring>
 				<hkcstring>blendMoveStop</hkcstring>
@@ -286,13 +286,9 @@
 				<hkcstring>DodgeID</hkcstring>
 				<hkcstring>DodgeSpeed</hkcstring>
 				<hkcstring>IsDodging</hkcstring>
-				<hkcstring>Nemesis_AA_1hmidle</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_1hmidle</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_1hmidle_0</hkcstring>
 				<hkcstring>Nemesis_AA_magatk</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_magatk</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_magatk_0</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_magatk_1</hkcstring>
 				<hkcstring>Nemesis_AA_magcastmt</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_magcastmt</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_magcastmt_0</hkcstring>
@@ -308,7 +304,6 @@
 				<hkcstring>Nemesis_AA_sprint</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_sprint</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_sprint_0</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_sprint_1</hkcstring>
 				<hkcstring>2Female_Anim_Pack</hkcstring>
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="7">
@@ -323,7 +318,7 @@
 		</hkobject>
 
 		<hkobject name="#0078" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="140">				<!-- VARIABLE numelement tkuc +21 $2 --> <!-- VARIABLE numelement zcbe +10 $2 --> <!-- VARIABLE numelement tudm +4 $2 -->
+			<hkparam name="wordVariableValues" numelements="135">				<!-- VARIABLE numelement tkuc +21 $2 --> <!-- VARIABLE numelement zcbe +10 $2 --> <!-- VARIABLE numelement tudm +4 $2 -->
 				<hkobject>
 					<hkparam name="value">1045220557</hkparam>
 				</hkobject>
@@ -729,21 +724,6 @@
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
 			<hkparam name="variantVariableValues" numelements="0"></hkparam>
@@ -751,7 +731,7 @@
 
 		<hkobject name="#0079" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="140">				<!-- VARIABLE numelement tkuc +21 $3 --> <!-- VARIABLE numelement zcbe +10 $3 --> <!-- VARIABLE numelement tudm +4 $3 -->
+			<hkparam name="variableInfos" numelements="135">				<!-- VARIABLE numelement tkuc +21 $3 --> <!-- VARIABLE numelement zcbe +10 $3 --> <!-- VARIABLE numelement tudm +4 $3 -->
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -1786,51 +1766,6 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="role">
@@ -2548,31 +2483,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">119</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#1747" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">132</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#1754" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">126</hkparam>
+					<hkparam name="variableIndex">116</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -2584,7 +2495,31 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">139</hkparam>
+					<hkparam name="variableIndex">134</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#1747" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">128</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#1754" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">122</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -2596,7 +2531,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">123</hkparam>
+					<hkparam name="variableIndex">119</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -2608,7 +2543,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">129</hkparam>
+					<hkparam name="variableIndex">125</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -2620,7 +2555,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">135</hkparam>
+					<hkparam name="variableIndex">131</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -10532,8 +10467,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1757
+			<hkparam name="generators" numelements="2">
 				#1757
 				#1758
 			</hkparam>
@@ -10606,8 +10540,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1761
+			<hkparam name="generators" numelements="2">
 				#1761
 				#1762
 			</hkparam>
@@ -10800,8 +10733,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1752
+			<hkparam name="generators" numelements="2">
 				#1752
 				#1753
 			</hkparam>
@@ -10967,8 +10899,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1781
+			<hkparam name="generators" numelements="2">
 				#1781
 				#1782
 			</hkparam>
@@ -11041,8 +10972,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1787
+			<hkparam name="generators" numelements="2">
 				#1787
 				#1788
 			</hkparam>
@@ -11124,8 +11054,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1759
+			<hkparam name="generators" numelements="2">
 				#1759
 				#1760
 			</hkparam>
@@ -11198,8 +11127,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1750
+			<hkparam name="generators" numelements="2">
 				#1750
 				#1751
 			</hkparam>
@@ -11295,8 +11223,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1783
+			<hkparam name="generators" numelements="2">
 				#1783
 				#1784
 			</hkparam>
@@ -11369,8 +11296,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1773
+			<hkparam name="generators" numelements="2">
 				#1773
 				#1774
 			</hkparam>
@@ -11426,8 +11352,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1794
+			<hkparam name="generators" numelements="2">
 				#1794
 				#1795
 			</hkparam>
@@ -11554,8 +11479,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1798
+			<hkparam name="generators" numelements="2">
 				#1798
 				#1799
 			</hkparam>
@@ -11959,8 +11883,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1802
+			<hkparam name="generators" numelements="2">
 				#1802
 				#1803
 			</hkparam>
@@ -12006,8 +11929,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1806
+			<hkparam name="generators" numelements="2">
 				#1806
 				#1807
 			</hkparam>
@@ -12267,8 +12189,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1810
+			<hkparam name="generators" numelements="2">
 				#1810
 				#1811
 			</hkparam>
@@ -12375,8 +12296,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1812
+			<hkparam name="generators" numelements="2">
 				#1812
 				#1813
 			</hkparam>
@@ -12638,8 +12558,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1818
+			<hkparam name="generators" numelements="2">
 				#1818
 				#1819
 			</hkparam>
@@ -12885,8 +12804,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1820
+			<hkparam name="generators" numelements="2">
 				#1820
 				#1821
 			</hkparam>
@@ -12959,8 +12877,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1826
+			<hkparam name="generators" numelements="2">
 				#1826
 				#1827
 			</hkparam>
@@ -13014,8 +12931,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1832
+			<hkparam name="generators" numelements="2">
 				#1832
 				#1833
 			</hkparam>
@@ -16355,8 +16271,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1865
+			<hkparam name="generators" numelements="2">
 				#1865
 				#1866
 			</hkparam>
@@ -16429,8 +16344,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1867
+			<hkparam name="generators" numelements="2">
 				#1867
 				#1868
 			</hkparam>
@@ -16486,8 +16400,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1745
+			<hkparam name="generators" numelements="2">
 				#1745
 				#1746
 			</hkparam>
@@ -16624,8 +16537,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1777
+			<hkparam name="generators" numelements="2">
 				#1777
 				#1778
 			</hkparam>
@@ -16698,8 +16610,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1785
+			<hkparam name="generators" numelements="2">
 				#1785
 				#1786
 			</hkparam>
@@ -16781,8 +16692,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1869
+			<hkparam name="generators" numelements="2">
 				#1869
 				#1870
 			</hkparam>
@@ -16855,8 +16765,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1792
+			<hkparam name="generators" numelements="2">
 				#1792
 				#1793
 			</hkparam>
@@ -16983,8 +16892,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1873
+			<hkparam name="generators" numelements="2">
 				#1873
 				#1874
 			</hkparam>
@@ -17038,8 +16946,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1769
+			<hkparam name="generators" numelements="2">
 				#1769
 				#1770
 			</hkparam>
@@ -17095,8 +17002,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1875
+			<hkparam name="generators" numelements="2">
 				#1875
 				#1876
 			</hkparam>
@@ -17192,8 +17098,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1877
+			<hkparam name="generators" numelements="2">
 				#1877
 				#1878
 			</hkparam>
@@ -17310,8 +17215,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1879
+			<hkparam name="generators" numelements="2">
 				#1879
 				#1880
 			</hkparam>
@@ -17438,8 +17342,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1881
+			<hkparam name="generators" numelements="2">
 				#1881
 				#1882
 			</hkparam>
@@ -17830,8 +17733,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1883
+			<hkparam name="generators" numelements="2">
 				#1883
 				#1884
 			</hkparam>
@@ -18123,8 +18025,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1765
+			<hkparam name="generators" numelements="2">
 				#1765
 				#1766
 			</hkparam>
@@ -18265,8 +18166,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1814
+			<hkparam name="generators" numelements="2">
 				#1814
 				#1815
 			</hkparam>
@@ -18342,8 +18242,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1824
+			<hkparam name="generators" numelements="2">
 				#1824
 				#1825
 			</hkparam>
@@ -18484,8 +18383,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1885
+			<hkparam name="generators" numelements="2">
 				#1885
 				#1886
 			</hkparam>
@@ -18722,8 +18620,7 @@
 			<hkparam name="variableBindingSet">#1744</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__magatk_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1861
+			<hkparam name="generators" numelements="2">
 				#1861
 				#1862
 			</hkparam>
@@ -31733,8 +31630,7 @@
 			<hkparam name="variableBindingSet">#1893</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1894
+			<hkparam name="generators" numelements="2">
 				#1894
 				#1895
 			</hkparam>
@@ -31746,8 +31642,7 @@
 			<hkparam name="variableBindingSet">#1893</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#1904
+			<hkparam name="generators" numelements="2">
 				#1904
 				#1905
 			</hkparam>
@@ -31826,8 +31721,7 @@
 			<hkparam name="variableBindingSet">#1893</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#2020
+			<hkparam name="generators" numelements="2">
 				#2020
 				#2021
 			</hkparam>
@@ -31957,8 +31851,7 @@
 			<hkparam name="variableBindingSet">#1893</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#2022
+			<hkparam name="generators" numelements="2">
 				#2022
 				#2023
 			</hkparam>
@@ -32004,8 +31897,7 @@
 			<hkparam name="variableBindingSet">#1893</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#2024
+			<hkparam name="generators" numelements="2">
 				#2024
 				#2025
 			</hkparam>
@@ -32093,8 +31985,7 @@
 			<hkparam name="variableBindingSet">#1893</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#2026
+			<hkparam name="generators" numelements="2">
 				#2026
 				#2027
 			</hkparam>
@@ -32222,8 +32113,7 @@
 			<hkparam name="variableBindingSet">#1893</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#2028
+			<hkparam name="generators" numelements="2">
 				#2028
 				#2029
 			</hkparam>
@@ -32287,8 +32177,7 @@
 			<hkparam name="variableBindingSet">#1893</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#2030
+			<hkparam name="generators" numelements="2">
 				#2030
 				#2031
 			</hkparam>

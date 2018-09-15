@@ -1,0 +1,788 @@
+b -a,k,o FZWinebottle  ..\idledrinkpotion.hkx AnimObjectMead
+b -a,k,o FZBeerBottle  ..\idledrinkpotion.hkx AnimObjectAle
+b -a,k,o FZBlackBriarPR  ..\idledrinkpotion.hkx animobjectblackbriarprivatereserve
+b -a,k,o FZBlackBriar  ..\idledrinkpotion.hkx animobjectblackbriarmain
+b -a,k,o FZWaterskin  ..\idledrinkpotion.hkx AnimObjectWaterskin
+
+fuo -a,o,k FZSweetRollStart  ..\animobjecteatingidlestart.hkx AnimobjectSweetRoll
++ -a,k,o FZSweetRoll1  ..\animobjecteatingidlebase.hkx AnimobjectSweetRoll
++ -a,k,o FZSweetRoll2  ..\animobjecteatingidlevar1.hkx AnimobjectSweetRoll
++ -a,k,o FZSweetRoll3  ..\animobjecteatingidlevar2.hkx AnimobjectSweetRoll
++ -a,k,o FZSweetRollStop  ..\animobjecteatingidlestop.hkx AnimobjectSweetRoll
+
+ch -a,o,k FZSweetRollChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectSweetRoll
++ -k FZSweetRollChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZSweetRollChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZSweetRollChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZAppleStart  ..\animobjecteatingidlestart.hkx AnimobjectApple
++ -a,k,o FZApple1  ..\animobjecteatingidlebase.hkx AnimobjectApple
++ -a,k,o FZApple2  ..\animobjecteatingidlevar1.hkx AnimobjectApple
++ -a,k,o FZApple3  ..\animobjecteatingidlevar2.hkx AnimobjectApple
++ -a,k,o FZAppleStop  ..\animobjecteatingidlestop.hkx AnimobjectApple
+
+ch -a,o,k FZAppleChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectApple
++ -k FZAppleChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZAppleChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZAppleChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZAppleGreenStart  ..\animobjecteatingidlestart.hkx AnimobjectAppleGreen
++ -a,k,o FZAppleGreen1  ..\animobjecteatingidlebase.hkx AnimobjectAppleGreen
++ -a,k,o FZAppleGreen2  ..\animobjecteatingidlevar1.hkx AnimobjectAppleGreen
++ -a,k,o FZAppleGreen3  ..\animobjecteatingidlevar2.hkx AnimobjectAppleGreen
++ -a,k,o FZAppleGreenStop  ..\animobjecteatingidlestop.hkx AnimobjectAppleGreen
+
+ch -a,o,k FZAppleGreenChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectAppleGreen
++ -k FZAppleGreenChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZAppleGreenChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZAppleGreenChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZAshYamStart  ..\animobjecteatingidlestart.hkx AnimobjectAshYam
++ -a,k,o FZAshYam1  ..\animobjecteatingidlebase.hkx AnimobjectAshYam
++ -a,k,o FZAshYam2  ..\animobjecteatingidlevar1.hkx AnimobjectAshYam
++ -a,k,o FZAshYam3  ..\animobjecteatingidlevar2.hkx AnimobjectAshYam
++ -a,k,o FZAshYamStop  ..\animobjecteatingidlestop.hkx AnimobjectAshYam
+
+ch -a,o,k FZAshYamChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectAshYam
++ -k FZAshYamChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZAshYamChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZAshYamChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZAshHopperMeatStart  ..\animobjecteatingidlestart.hkx AnimobjectAshHopperMeat
++ -a,k,o FZAshHopperMeat1  ..\animobjecteatingidlebase.hkx AnimobjectAshHopperMeat
++ -a,k,o FZAshHopperMeat2  ..\animobjecteatingidlevar1.hkx AnimobjectAshHopperMeat
++ -a,k,o FZAshHopperMeat3  ..\animobjecteatingidlevar2.hkx AnimobjectAshHopperMeat
++ -a,k,o FZAshHopperMeatStop  ..\animobjecteatingidlestop.hkx AnimobjectAshHopperMeat
+
+ch -a,o,k FZAshHopperMeatChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectAshHopperMeat
++ -k FZAshHopperMeatChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZAshHopperMeatChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZAshHopperMeatChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZBeefStart  ..\animobjecteatingidlestart.hkx AnimobjectBeef
++ -a,k,o FZBeef1  ..\animobjecteatingidlebase.hkx AnimobjectBeef
++ -a,k,o FZBeef2  ..\animobjecteatingidlevar1.hkx AnimobjectBeef
++ -a,k,o FZBeef3  ..\animobjecteatingidlevar2.hkx AnimobjectBeef
++ -a,k,o FZBeefStop  ..\animobjecteatingidlestop.hkx AnimobjectBeef
+
+ch -a,o,k FZBeefChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectBeef
++ -k FZBeefChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZBeefChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZBeefChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZBeefRawStart  ..\animobjecteatingidlestart.hkx AnimobjectBeefRaw
++ -a,k,o FZBeefRaw1  ..\animobjecteatingidlebase.hkx AnimobjectBeefRaw
++ -a,k,o FZBeefRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectBeefRaw
++ -a,k,o FZBeefRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectBeefRaw
++ -a,k,o FZBeefRawStop  ..\animobjecteatingidlestop.hkx AnimobjectBeefRaw
+
+ch -a,o,k FZBeefRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectBeefRaw
++ -k FZBeefRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZBeefRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZBeefRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZBeefStewStart  ..\animobjectdrinkingidlestart.hkx AnimobjectBeefStew
++ -a,k,o FZBeefStew1  ..\animobjectdrinkingidlebase.hkx AnimobjectBeefStew
++ -a,k,o FZBeefStew2  ..\animobjectdrinkingidlevar1.hkx AnimobjectBeefStew
++ -a,k,o FZBeefStew3  ..\animobjectdrinkingidlevar2.hkx AnimobjectBeefStew
++ -a,k,o FZBeefStewStop  ..\animobjectdrinkingidlestop.hkx AnimobjectBeefStew
+
+ch -a,o,k FZBeefStewChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectBeefStew
++ -k FZBeefStewChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZBeefStewChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZBeefStewChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZBoarStart  ..\animobjecteatingidlestart.hkx AnimobjectBoar
++ -a,k,o FZBoar1  ..\animobjecteatingidlebase.hkx AnimobjectBoar
++ -a,k,o FZBoar2  ..\animobjecteatingidlevar1.hkx AnimobjectBoar
++ -a,k,o FZBoar3  ..\animobjecteatingidlevar2.hkx AnimobjectBoar
++ -a,k,o FZBoarStop  ..\animobjecteatingidlestop.hkx AnimobjectBoar
+
+ch -a,o,k FZBoarChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectBoar
++ -k FZBoarChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZBoarChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZBoarChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZBoarRawStart  ..\animobjecteatingidlestart.hkx AnimobjectBoarRaw
++ -a,k,o FZBoarRaw1  ..\animobjecteatingidlebase.hkx AnimobjectBoarRaw
++ -a,k,o FZBoarRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectBoarRaw
++ -a,k,o FZBoarRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectBoarRaw
++ -a,k,o FZBoarRawStop  ..\animobjecteatingidlestop.hkx AnimobjectBoarRaw
+
+ch -a,o,k FZBoarRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectBoarRaw
++ -k FZBoarRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZBoarRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZBoarRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZBreadHalfStart  ..\animobjecteatingidlestart.hkx AnimobjectBreadHalf
++ -a,k,o FZBreadHalf1  ..\animobjecteatingidlebase.hkx AnimobjectBreadHalf
++ -a,k,o FZBreadHalf2  ..\animobjecteatingidlevar1.hkx AnimobjectBreadHalf
++ -a,k,o FZBreadHalf3  ..\animobjecteatingidlevar2.hkx AnimobjectBreadHalf
++ -a,k,o FZBreadHalfStop  ..\animobjecteatingidlestop.hkx AnimobjectBreadHalf
+
+ch -a,o,k FZBreadHalfChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectBreadHalf
++ -k FZBreadHalfChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZBreadHalfChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZBreadHalfChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZCabbageStart  ..\animobjecteatingidlestart.hkx AnimobjectCabbage
++ -a,k,o FZCabbage1  ..\animobjecteatingidlebase.hkx AnimobjectCabbage
++ -a,k,o FZCabbage2  ..\animobjecteatingidlevar1.hkx AnimobjectCabbage
++ -a,k,o FZCabbage3  ..\animobjecteatingidlevar2.hkx AnimobjectCabbage
++ -a,k,o FZCabbageStop  ..\animobjecteatingidlestop.hkx AnimobjectCabbage
+
+ch -a,o,k FZCabbageChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectCabbage
++ -k FZCabbageChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZCabbageChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZCabbageChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZCarrotStart  ..\animobjecteatingidlestart.hkx AnimobjectCarrot
++ -a,k,o FZCarrot1  ..\animobjecteatingidlebase.hkx AnimobjectCarrot
++ -a,k,o FZCarrot2  ..\animobjecteatingidlevar1.hkx AnimobjectCarrot
++ -a,k,o FZCarrot3  ..\animobjecteatingidlevar2.hkx AnimobjectCarrot
++ -a,k,o FZCarrotStop  ..\animobjecteatingidlestop.hkx AnimobjectCarrot
+
+ch -a,o,k FZCarrotChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectCarrot
++ -k FZCarrotChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZCarrotChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZCarrotChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZCheeseWedgeStart  ..\animobjecteatingidlestart.hkx AnimobjectCheeseWedge
++ -a,k,o FZCheeseWedge1  ..\animobjecteatingidlebase.hkx AnimobjectCheeseWedge
++ -a,k,o FZCheeseWedge2  ..\animobjecteatingidlevar1.hkx AnimobjectCheeseWedge
++ -a,k,o FZCheeseWedge3  ..\animobjecteatingidlevar2.hkx AnimobjectCheeseWedge
++ -a,k,o FZCheeseWedgeStop  ..\animobjecteatingidlestop.hkx AnimobjectCheeseWedge
+
+ch -a,o,k FZCheeseWedgeChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectCheeseWedge
++ -k FZCheeseWedgeChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZCheeseWedgeChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZCheeseWedgeChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZCheeseWedgeWhiteStart  ..\animobjecteatingidlestart.hkx AnimobjectCheeseWedgeWhite
++ -a,k,o FZCheeseWedgeWhite1  ..\animobjecteatingidlebase.hkx AnimobjectCheeseWedgeWhite
++ -a,k,o FZCheeseWedgeWhite2  ..\animobjecteatingidlevar1.hkx AnimobjectCheeseWedgeWhite
++ -a,k,o FZCheeseWedgeWhite3  ..\animobjecteatingidlevar2.hkx AnimobjectCheeseWedgeWhite
++ -a,k,o FZCheeseWedgeWhiteStop  ..\animobjecteatingidlestop.hkx AnimobjectCheeseWedgeWhite
+
+ch -a,o,k FZCheeseWedgeWhiteChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectCheeseWedgeWhite
++ -k FZCheeseWedgeWhiteChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZCheeseWedgeWhiteChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZCheeseWedgeWhiteChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZChickenStart  ..\animobjecteatingidlestart.hkx AnimobjectChicken
++ -a,k,o FZChicken1  ..\animobjecteatingidlebase.hkx AnimobjectChicken
++ -a,k,o FZChicken2  ..\animobjecteatingidlevar1.hkx AnimobjectChicken
++ -a,k,o FZChicken3  ..\animobjecteatingidlevar2.hkx AnimobjectChicken
++ -a,k,o FZChickenStop  ..\animobjecteatingidlestop.hkx AnimobjectChicken
+
+ch -a,o,k FZChickenChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectChicken
++ -k FZChickenChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZChickenChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZChickenChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZCreamTreatStart  ..\animobjecteatingidlestart.hkx AnimobjectCreamTreat
++ -a,k,o FZCreamTreat1  ..\animobjecteatingidlebase.hkx AnimobjectCreamTreat
++ -a,k,o FZCreamTreat2  ..\animobjecteatingidlevar1.hkx AnimobjectCreamTreat
++ -a,k,o FZCreamTreat3  ..\animobjecteatingidlevar2.hkx AnimobjectCreamTreat
++ -a,k,o FZCreamTreatStop  ..\animobjecteatingidlestop.hkx AnimobjectCreamTreat
+
+ch -a,o,k FZCreamTreatChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectCreamTreat
++ -k FZCreamTreatChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZCreamTreatChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZCreamTreatChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZCrostataStart  ..\animobjecteatingidlestart.hkx AnimobjectCrostata
++ -a,k,o FZCrostata1  ..\animobjecteatingidlebase.hkx AnimobjectCrostata
++ -a,k,o FZCrostata2  ..\animobjecteatingidlevar1.hkx AnimobjectCrostata
++ -a,k,o FZCrostata3  ..\animobjecteatingidlevar2.hkx AnimobjectCrostata
++ -a,k,o FZCrostataStop  ..\animobjecteatingidlestop.hkx AnimobjectCrostata
+
+ch -a,o,k FZCrostataChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectCrostata
++ -k FZCrostataChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZCrostataChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZCrostataChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZDogStart  ..\animobjecteatingidlestart.hkx AnimobjectDog
++ -a,k,o FZDog1  ..\animobjecteatingidlebase.hkx AnimobjectDog
++ -a,k,o FZDog2  ..\animobjecteatingidlevar1.hkx AnimobjectDog
++ -a,k,o FZDog3  ..\animobjecteatingidlevar2.hkx AnimobjectDog
++ -a,k,o FZDogStop  ..\animobjecteatingidlestop.hkx AnimobjectDog
+
+ch -a,o,k FZDogChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectDog
++ -k FZDogChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZDogChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZDogChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZDumplingStart  ..\animobjecteatingidlestart.hkx AnimobjectDumpling
++ -a,k,o FZDumpling1  ..\animobjecteatingidlebase.hkx AnimobjectDumpling
++ -a,k,o FZDumpling2  ..\animobjecteatingidlevar1.hkx AnimobjectDumpling
++ -a,k,o FZDumpling3  ..\animobjecteatingidlevar2.hkx AnimobjectDumpling
++ -a,k,o FZDumplingStop  ..\animobjecteatingidlestop.hkx AnimobjectDumpling
+
+ch -a,o,k FZDumplingChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectDumpling
++ -k FZDumplingChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZDumplingChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZDumplingChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZGoatStart  ..\animobjecteatingidlestart.hkx AnimobjectGoat
++ -a,k,o FZGoat1  ..\animobjecteatingidlebase.hkx AnimobjectGoat
++ -a,k,o FZGoat2  ..\animobjecteatingidlevar1.hkx AnimobjectGoat
++ -a,k,o FZGoat3  ..\animobjecteatingidlevar2.hkx AnimobjectGoat
++ -a,k,o FZGoatStop  ..\animobjecteatingidlestop.hkx AnimobjectGoat
+
+ch -a,o,k FZGoatChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectGoat
++ -k FZGoatChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZGoatChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZGoatChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZGoatRawStart  ..\animobjecteatingidlestart.hkx AnimobjectGoatRaw
++ -a,k,o FZGoatRaw1  ..\animobjecteatingidlebase.hkx AnimobjectGoatRaw
++ -a,k,o FZGoatRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectGoatRaw
++ -a,k,o FZGoatRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectGoatRaw
++ -a,k,o FZGoatRawStop  ..\animobjecteatingidlestop.hkx AnimobjectGoatRaw
+
+ch -a,o,k FZGoatRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectGoatRaw
++ -k FZGoatRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZGoatRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZGoatRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZHoneyNutTreatStart  ..\animobjecteatingidlestart.hkx AnimobjectHoneyNutTreat
++ -a,k,o FZHoneyNutTreat1  ..\animobjecteatingidlebase.hkx AnimobjectHoneyNutTreat
++ -a,k,o FZHoneyNutTreat2  ..\animobjecteatingidlevar1.hkx AnimobjectHoneyNutTreat
++ -a,k,o FZHoneyNutTreat3  ..\animobjecteatingidlevar2.hkx AnimobjectHoneyNutTreat
++ -a,k,o FZHoneyNutTreatStop  ..\animobjecteatingidlestop.hkx AnimobjectHoneyNutTreat
+
+ch -a,o,k FZHoneyNutTreatChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectHoneyNutTreat
++ -k FZHoneyNutTreatChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZHoneyNutTreatChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZHoneyNutTreatChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZHorkerMeatStart  ..\animobjecteatingidlestart.hkx AnimobjectHorkerMeat
++ -a,k,o FZHorkerMeat1  ..\animobjecteatingidlebase.hkx AnimobjectHorkerMeat
++ -a,k,o FZHorkerMeat2  ..\animobjecteatingidlevar1.hkx AnimobjectHorkerMeat
++ -a,k,o FZHorkerMeat3  ..\animobjecteatingidlevar2.hkx AnimobjectHorkerMeat
++ -a,k,o FZHorkerMeatStop  ..\animobjecteatingidlestop.hkx AnimobjectHorkerMeat
+
+ch -a,o,k FZHorkerMeatChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectHorkerMeat
++ -k FZHorkerMeatChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZHorkerMeatChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZHorkerMeatChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZHorkerMeatRawStart  ..\animobjecteatingidlestart.hkx AnimobjectHorkerMeatRaw
++ -a,k,o FZHorkerMeatRaw1  ..\animobjecteatingidlebase.hkx AnimobjectHorkerMeatRaw
++ -a,k,o FZHorkerMeatRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectHorkerMeatRaw
++ -a,k,o FZHorkerMeatRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectHorkerMeatRaw
++ -a,k,o FZHorkerMeatRawStop  ..\animobjecteatingidlestop.hkx AnimobjectHorkerMeatRaw
+
+ch -a,o,k FZHorkerMeatRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectHorkerMeatRaw
++ -k FZHorkerMeatRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZHorkerMeatRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZHorkerMeatRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZHorseStart  ..\animobjecteatingidlestart.hkx AnimobjectHorse
++ -a,k,o FZHorse1  ..\animobjecteatingidlebase.hkx AnimobjectHorse
++ -a,k,o FZHorse2  ..\animobjecteatingidlevar1.hkx AnimobjectHorse
++ -a,k,o FZHorse3  ..\animobjecteatingidlevar2.hkx AnimobjectHorse
++ -a,k,o FZHorseStop  ..\animobjecteatingidlestop.hkx AnimobjectHorse
+
+ch -a,o,k FZHorseChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectHorse
++ -k FZHorseChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZHorseChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZHorseChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZHorseRawStart  ..\animobjecteatingidlestart.hkx AnimobjectHorseRaw
++ -a,k,o FZHorseRaw1  ..\animobjecteatingidlebase.hkx AnimobjectHorseRaw
++ -a,k,o FZHorseRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectHorseRaw
++ -a,k,o FZHorseRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectHorseRaw
++ -a,k,o FZHorseRawStop  ..\animobjecteatingidlestop.hkx AnimobjectHorseRaw
+
+ch -a,o,k FZHorseRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectHorseRaw
++ -k FZHorseRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZHorseRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZHorseRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZLeeksStart  ..\animobjecteatingidlestart.hkx AnimobjectLeeks
++ -a,k,o FZLeeks1  ..\animobjecteatingidlebase.hkx AnimobjectLeeks
++ -a,k,o FZLeeks2  ..\animobjecteatingidlevar1.hkx AnimobjectLeeks
++ -a,k,o FZLeeks3  ..\animobjecteatingidlevar2.hkx AnimobjectLeeks
++ -a,k,o FZLeeksStop  ..\animobjecteatingidlestop.hkx AnimobjectLeeks
+
+ch -a,o,k FZLeeksChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectLeeks
++ -k FZLeeksChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZLeeksChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZLeeksChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZLeeksGrilledStart  ..\animobjecteatingidlestart.hkx AnimobjectLeeksGrilled
++ -a,k,o FZLeeksGrilled1  ..\animobjecteatingidlebase.hkx AnimobjectLeeksGrilled
++ -a,k,o FZLeeksGrilled2  ..\animobjecteatingidlevar1.hkx AnimobjectLeeksGrilled
++ -a,k,o FZLeeksGrilled3  ..\animobjecteatingidlevar2.hkx AnimobjectLeeksGrilled
++ -a,k,o FZLeeksGrilledStop  ..\animobjecteatingidlestop.hkx AnimobjectLeeksGrilled
+
+ch -a,o,k FZLeeksGrilledChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectLeeksGrilled
++ -k FZLeeksGrilledChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZLeeksGrilledChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZLeeksGrilledChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZMammothMeatStart  ..\animobjecteatingidlestart.hkx AnimobjectMammothMeat
++ -a,k,o FZMammothMeat1  ..\animobjecteatingidlebase.hkx AnimobjectMammothMeat
++ -a,k,o FZMammothMeat2  ..\animobjecteatingidlevar1.hkx AnimobjectMammothMeat
++ -a,k,o FZMammothMeat3  ..\animobjecteatingidlevar2.hkx AnimobjectMammothMeat
++ -a,k,o FZMammothMeatStop  ..\animobjecteatingidlestop.hkx AnimobjectMammothMeat
+
+ch -a,o,k FZMammothMeatChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectMammothMeat
++ -k FZMammothMeatChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZMammothMeatChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZMammothMeatChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZMammothMeatRawStart  ..\animobjecteatingidlestart.hkx AnimobjectMammothMeatRaw
++ -a,k,o FZMammothMeatRaw1  ..\animobjecteatingidlebase.hkx AnimobjectMammothMeatRaw
++ -a,k,o FZMammothMeatRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectMammothMeatRaw
++ -a,k,o FZMammothMeatRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectMammothMeatRaw
++ -a,k,o FZMammothMeatRawStop  ..\animobjecteatingidlestop.hkx AnimobjectMammothMeatRaw
+
+ch -a,o,k FZMammothMeatRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectMammothMeatRaw
++ -k FZMammothMeatRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZMammothMeatRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZMammothMeatRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZMudCrabLegStart  ..\animobjecteatingidlestart.hkx AnimobjectMudCrabLeg
++ -a,k,o FZMudCrabLeg1  ..\animobjecteatingidlebase.hkx AnimobjectMudCrabLeg
++ -a,k,o FZMudCrabLeg2  ..\animobjecteatingidlevar1.hkx AnimobjectMudCrabLeg
++ -a,k,o FZMudCrabLeg3  ..\animobjecteatingidlevar2.hkx AnimobjectMudCrabLeg
++ -a,k,o FZMudCrabLegStop  ..\animobjecteatingidlestop.hkx AnimobjectMudCrabLeg
+
+ch -a,o,k FZMudCrabLegChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectMudCrabLeg
++ -k FZMudCrabLegChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZMudCrabLegChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZMudCrabLegChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZMudCrabLegRawStart  ..\animobjecteatingidlestart.hkx AnimobjectMudCrabLegRaw
++ -a,k,o FZMudCrabLegRaw1  ..\animobjecteatingidlebase.hkx AnimobjectMudCrabLegRaw
++ -a,k,o FZMudCrabLegRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectMudCrabLegRaw
++ -a,k,o FZMudCrabLegRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectMudCrabLegRaw
++ -a,k,o FZMudCrabLegRawStop  ..\animobjecteatingidlestop.hkx AnimobjectMudCrabLegRaw
+
+ch -a,o,k FZMudCrabLegRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectMudCrabLegRaw
++ -k FZMudCrabLegRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZMudCrabLegRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZMudCrabLegRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZPheasantStart  ..\animobjecteatingidlestart.hkx AnimobjectPheasant
++ -a,k,o FZPheasant1  ..\animobjecteatingidlebase.hkx AnimobjectPheasant
++ -a,k,o FZPheasant2  ..\animobjecteatingidlevar1.hkx AnimobjectPheasant
++ -a,k,o FZPheasant3  ..\animobjecteatingidlevar2.hkx AnimobjectPheasant
++ -a,k,o FZPheasantStop  ..\animobjecteatingidlestop.hkx AnimobjectPheasant
+
+ch -a,o,k FZPheasantChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectPheasant
++ -k FZPheasantChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZPheasantChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZPheasantChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZPheasantRawStart  ..\animobjecteatingidlestart.hkx AnimobjectPheasantRaw
++ -a,k,o FZPheasantRaw1  ..\animobjecteatingidlebase.hkx AnimobjectPheasantRaw
++ -a,k,o FZPheasantRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectPheasantRaw
++ -a,k,o FZPheasantRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectPheasantRaw
++ -a,k,o FZPheasantRawStop  ..\animobjecteatingidlestop.hkx AnimobjectPheasantRaw
+
+ch -a,o,k FZPheasantRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectPheasantRaw
++ -k FZPheasantRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZPheasantRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZPheasantRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZPieStart  ..\animobjecteatingidlestart.hkx AnimobjectPie
++ -a,k,o FZPie1  ..\animobjecteatingidlebase.hkx AnimobjectPie
++ -a,k,o FZPie2  ..\animobjecteatingidlevar1.hkx AnimobjectPie
++ -a,k,o FZPie3  ..\animobjecteatingidlevar2.hkx AnimobjectPie
++ -a,k,o FZPieStop  ..\animobjecteatingidlestop.hkx AnimobjectPie
+
+ch -a,o,k FZPieChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectPie
++ -k FZPieChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZPieChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZPieChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZPotatoStart  ..\animobjecteatingidlestart.hkx AnimobjectPotato
++ -a,k,o FZPotato1  ..\animobjecteatingidlebase.hkx AnimobjectPotato
++ -a,k,o FZPotato2  ..\animobjecteatingidlevar1.hkx AnimobjectPotato
++ -a,k,o FZPotato3  ..\animobjecteatingidlevar2.hkx AnimobjectPotato
++ -a,k,o FZPotatoStop  ..\animobjecteatingidlestop.hkx AnimobjectPotato
+
+ch -a,o,k FZPotatoChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectPotato
++ -k FZPotatoChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZPotatoChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZPotatoChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZPotatoRawStart  ..\animobjecteatingidlestart.hkx AnimobjectPotatoRaw
++ -a,k,o FZPotatoRaw1  ..\animobjecteatingidlebase.hkx AnimobjectPotatoRaw
++ -a,k,o FZPotatoRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectPotatoRaw
++ -a,k,o FZPotatoRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectPotatoRaw
++ -a,k,o FZPotatoRawStop  ..\animobjecteatingidlestop.hkx AnimobjectPotatoRaw
+
+ch -a,o,k FZPotatoRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectPotatoRaw
++ -k FZPotatoRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZPotatoRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZPotatoRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZRabbitStart  ..\animobjecteatingidlestart.hkx AnimobjectRabbit
++ -a,k,o FZRabbit1  ..\animobjecteatingidlebase.hkx AnimobjectRabbit
++ -a,k,o FZRabbit2  ..\animobjecteatingidlevar1.hkx AnimobjectRabbit
++ -a,k,o FZRabbit3  ..\animobjecteatingidlevar2.hkx AnimobjectRabbit
++ -a,k,o FZRabbitStop  ..\animobjecteatingidlestop.hkx AnimobjectRabbit
+
+ch -a,o,k FZRabbitChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectRabbit
++ -k FZRabbitChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZRabbitChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZRabbitChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZRabbitRawStart  ..\animobjecteatingidlestart.hkx AnimobjectRabbitRaw
++ -a,k,o FZRabbitRaw1  ..\animobjecteatingidlebase.hkx AnimobjectRabbitRaw
++ -a,k,o FZRabbitRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectRabbitRaw
++ -a,k,o FZRabbitRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectRabbitRaw
++ -a,k,o FZRabbitRawStop  ..\animobjecteatingidlestop.hkx AnimobjectRabbitRaw
+
+ch -a,o,k FZRabbitRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectRabbitRaw
++ -k FZRabbitRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZRabbitRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZRabbitRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZSalmonSteakStart  ..\animobjecteatingidlestart.hkx AnimobjectSalmonSteak
++ -a,k,o FZSalmonSteak1  ..\animobjecteatingidlebase.hkx AnimobjectSalmonSteak
++ -a,k,o FZSalmonSteak2  ..\animobjecteatingidlevar1.hkx AnimobjectSalmonSteak
++ -a,k,o FZSalmonSteak3  ..\animobjecteatingidlevar2.hkx AnimobjectSalmonSteak
++ -a,k,o FZSalmonSteakStop  ..\animobjecteatingidlestop.hkx AnimobjectSalmonSteak
+
+ch -a,o,k FZSalmonSteakChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectSalmonSteak
++ -k FZSalmonSteakChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZSalmonSteakChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZSalmonSteakChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZSalmonRawStart  ..\animobjecteatingidlestart.hkx AnimobjectSalmonRaw
++ -a,k,o FZSalmonRaw1  ..\animobjecteatingidlebase.hkx AnimobjectSalmonRaw
++ -a,k,o FZSalmonRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectSalmonRaw
++ -a,k,o FZSalmonRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectSalmonRaw
++ -a,k,o FZSalmonRawStop  ..\animobjecteatingidlestop.hkx AnimobjectSalmonRaw
+
+ch -a,o,k FZSalmonRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectSalmonRaw
++ -k FZSalmonRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZSalmonRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZSalmonRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZSkeeverMeatStart  ..\animobjecteatingidlestart.hkx AnimobjectSkeeverMeat
++ -a,k,o FZSkeeverMeat1  ..\animobjecteatingidlebase.hkx AnimobjectSkeeverMeat
++ -a,k,o FZSkeeverMeat2  ..\animobjecteatingidlevar1.hkx AnimobjectSkeeverMeat
++ -a,k,o FZSkeeverMeat3  ..\animobjecteatingidlevar2.hkx AnimobjectSkeeverMeat
++ -a,k,o FZSkeeverMeatStop  ..\animobjecteatingidlestop.hkx AnimobjectSkeeverMeat
+
+ch -a,o,k FZSkeeverMeatChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectSkeeverMeat
++ -k FZSkeeverMeatChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZSkeeverMeatChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZSkeeverMeatChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZSlaughterFishStart  ..\animobjecteatingidlestart.hkx AnimobjectSlaughterFish
++ -a,k,o FZSlaughterFish1  ..\animobjecteatingidlebase.hkx AnimobjectSlaughterFish
++ -a,k,o FZSlaughterFish2  ..\animobjecteatingidlevar1.hkx AnimobjectSlaughterFish
++ -a,k,o FZSlaughterFish3  ..\animobjecteatingidlevar2.hkx AnimobjectSlaughterFish
++ -a,k,o FZSlaughterFishStop  ..\animobjecteatingidlestop.hkx AnimobjectSlaughterFish
+
+ch -a,o,k FZSlaughterFishChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectSlaughterFish
++ -k FZSlaughterFishChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZSlaughterFishChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZSlaughterFishChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZSlaughterFishRawStart  ..\animobjecteatingidlestart.hkx AnimobjectSlaughterFishRaw
++ -a,k,o FZSlaughterFishRaw1  ..\animobjecteatingidlebase.hkx AnimobjectSlaughterFishRaw
++ -a,k,o FZSlaughterFishRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectSlaughterFishRaw
++ -a,k,o FZSlaughterFishRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectSlaughterFishRaw
++ -a,k,o FZSlaughterFishRawStop  ..\animobjecteatingidlestop.hkx AnimobjectSlaughterFishRaw
+
+ch -a,o,k FZSlaughterFishRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectSlaughterFishRaw
++ -k FZSlaughterFishRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZSlaughterFishRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZSlaughterFishRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZTaffyStart  ..\animobjecteatingidlestart.hkx AnimobjectTaffy
++ -a,k,o FZTaffy1  ..\animobjecteatingidlebase.hkx AnimobjectTaffy
++ -a,k,o FZTaffy2  ..\animobjecteatingidlevar1.hkx AnimobjectTaffy
++ -a,k,o FZTaffy3  ..\animobjecteatingidlevar2.hkx AnimobjectTaffy
++ -a,k,o FZTaffyStop  ..\animobjecteatingidlestop.hkx AnimobjectTaffy
+
+ch -a,o,k FZTaffyChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectTaffy
++ -k FZTaffyChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZTaffyChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZTaffyChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZTomatoStart  ..\animobjecteatingidlestart.hkx AnimobjectTomato
++ -a,k,o FZTomato1  ..\animobjecteatingidlebase.hkx AnimobjectTomato
++ -a,k,o FZTomato2  ..\animobjecteatingidlevar1.hkx AnimobjectTomato
++ -a,k,o FZTomato3  ..\animobjecteatingidlevar2.hkx AnimobjectTomato
++ -a,k,o FZTomatoStop  ..\animobjecteatingidlestop.hkx AnimobjectTomato
+
+ch -a,o,k FZTomatoChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectTomato
++ -k FZTomatoChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZTomatoChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZTomatoChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZVenisonStart  ..\animobjecteatingidlestart.hkx AnimobjectVenison
++ -a,k,o FZVenison1  ..\animobjecteatingidlebase.hkx AnimobjectVenison
++ -a,k,o FZVenison2  ..\animobjecteatingidlevar1.hkx AnimobjectVenison
++ -a,k,o FZVenison3  ..\animobjecteatingidlevar2.hkx AnimobjectVenison
++ -a,k,o FZVenisonStop  ..\animobjecteatingidlestop.hkx AnimobjectVenison
+
+ch -a,o,k FZVenisonChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectVenison
++ -k FZVenisonChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZVenisonChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZVenisonChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZVenisonRawStart  ..\animobjecteatingidlestart.hkx AnimobjectVenisonRaw
++ -a,k,o FZVenisonRaw1  ..\animobjecteatingidlebase.hkx AnimobjectVenisonRaw
++ -a,k,o FZVenisonRaw2  ..\animobjecteatingidlevar1.hkx AnimobjectVenisonRaw
++ -a,k,o FZVenisonRaw3  ..\animobjecteatingidlevar2.hkx AnimobjectVenisonRaw
++ -a,k,o FZVenisonRawStop  ..\animobjecteatingidlestop.hkx AnimobjectVenisonRaw
+
+ch -a,o,k FZVenisonRawChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectVenisonRaw
++ -k FZVenisonRawChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZVenisonRawChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZVenisonRawChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZGourdStart  ..\animobjecteatingidlestart.hkx AnimobjectGourd
++ -a,k,o FZGourd1  ..\animobjecteatingidlebase.hkx AnimobjectGourd
++ -a,k,o FZGourd2  ..\animobjecteatingidlevar1.hkx AnimobjectGourd
++ -a,k,o FZGourd3  ..\animobjecteatingidlevar2.hkx AnimobjectGourd
++ -a,k,o FZGourdStop  ..\animobjecteatingidlestop.hkx AnimobjectGourd
+
+ch -a,o,k FZGourdChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectGourd
++ -k FZGourdChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZGourdChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZGourdChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZMeatPieStart  ..\animobjecteatingidlestart.hkx AnimobjectMeatPie
++ -a,k,o FZMeatPie1  ..\animobjecteatingidlebase.hkx AnimobjectMeatPie
++ -a,k,o FZMeatPie2  ..\animobjecteatingidlevar1.hkx AnimobjectMeatPie
++ -a,k,o FZMeatPie3  ..\animobjecteatingidlevar2.hkx AnimobjectMeatPie
++ -a,k,o FZMeatPieStop  ..\animobjecteatingidlestop.hkx AnimobjectMeatPie
+
+ch -a,o,k FZMeatPieChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectMeatPie
++ -k FZMeatPieChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZMeatPieChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZMeatPieChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZClamMeatStart  ..\animobjecteatingidlestart.hkx AnimobjectClamMeat
++ -a,k,o FZClamMeat1  ..\animobjecteatingidlebase.hkx AnimobjectClamMeat
++ -a,k,o FZClamMeat2  ..\animobjecteatingidlevar1.hkx AnimobjectClamMeat
++ -a,k,o FZClamMeat3  ..\animobjecteatingidlevar2.hkx AnimobjectClamMeat
++ -a,k,o FZClamMeatStop  ..\animobjecteatingidlestop.hkx AnimobjectClamMeat
+
+ch -a,o,k FZClamMeatChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectClamMeat
++ -k FZClamMeatChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZClamMeatChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZClamMeatChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+fuo -a,o,k FZGarlicBreadStart  ..\animobjecteatingidlestart.hkx AnimobjectGarlicBread
++ -a,k,o FZGarlicBread1  ..\animobjecteatingidlebase.hkx AnimobjectGarlicBread
++ -a,k,o FZGarlicBread2  ..\animobjecteatingidlevar1.hkx AnimobjectGarlicBread
++ -a,k,o FZGarlicBread3  ..\animobjecteatingidlevar2.hkx AnimobjectGarlicBread
++ -a,k,o FZGarlicBreadStop  ..\animobjecteatingidlestop.hkx AnimobjectGarlicBread
+
+ch -a,o,k FZGarlicBreadChairStart  ..\animobjectchaireatingidlestart.hkx AnimobjectGarlicBread
++ -k FZGarlicBreadChair_2  ..\animobjectchaireatingidlebase.hkx
++ -k FZGarlicBreadChair_3  ..\animobjectchaireatingidlevar1.hkx
++ -k FZGarlicBreadChair_4  ..\animobjectchaireatingidlevar2.hkx
+
+
+
+fuo -a,o,k FZVenisonStewStart  ..\animobjectdrinkingidlestart.hkx AnimobjectVenisonStew
++ -a,k,o FZVenisonStew1  ..\animobjectdrinkingidlebase.hkx AnimobjectVenisonStew
++ -a,k,o FZVenisonStew2  ..\animobjectdrinkingidlevar1.hkx AnimobjectVenisonStew
++ -a,k,o FZVenisonStew3  ..\animobjectdrinkingidlevar2.hkx AnimobjectVenisonStew
++ -a,k,o FZVenisonStewStop  ..\animobjectdrinkingidlestop.hkx AnimobjectVenisonStew
+
+ch -a,o,k FZVenisonStewChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectVenisonStew
++ -k FZVenisonStewChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZVenisonStewChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZVenisonStewChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZVegetableStewStart  ..\animobjectdrinkingidlestart.hkx AnimobjectVegetableStew
++ -a,k,o FZVegetableStew1  ..\animobjectdrinkingidlebase.hkx AnimobjectVegetableStew
++ -a,k,o FZVegetableStew2  ..\animobjectdrinkingidlevar1.hkx AnimobjectVegetableStew
++ -a,k,o FZVegetableStew3  ..\animobjectdrinkingidlevar2.hkx AnimobjectVegetableStew
++ -a,k,o FZVegetableStewStop  ..\animobjectdrinkingidlestop.hkx AnimobjectVegetableStew
+
+ch -a,o,k FZVegetableStewChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectVegetableStew
++ -k FZVegetableStewChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZVegetableStewChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZVegetableStewChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZTomatoStewStart  ..\animobjectdrinkingidlestart.hkx AnimobjectTomatoStew
++ -a,k,o FZTomatoStew1  ..\animobjectdrinkingidlebase.hkx AnimobjectTomatoStew
++ -a,k,o FZTomatoStew2  ..\animobjectdrinkingidlevar1.hkx AnimobjectTomatoStew
++ -a,k,o FZTomatoStew3  ..\animobjectdrinkingidlevar2.hkx AnimobjectTomatoStew
++ -a,k,o FZTomatoStewStop  ..\animobjectdrinkingidlestop.hkx AnimobjectTomatoStew
+
+ch -a,o,k FZTomatoStewChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectTomatoStew
++ -k FZTomatoStewChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZTomatoStewChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZTomatoStewChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZPotatoStewStart  ..\animobjectdrinkingidlestart.hkx AnimobjectPotatoStew
++ -a,k,o FZPotatoStew1  ..\animobjectdrinkingidlebase.hkx AnimobjectPotatoStew
++ -a,k,o FZPotatoStew2  ..\animobjectdrinkingidlevar1.hkx AnimobjectPotatoStew
++ -a,k,o FZPotatoStew3  ..\animobjectdrinkingidlevar2.hkx AnimobjectPotatoStew
++ -a,k,o FZPotatoStewStop  ..\animobjectdrinkingidlestop.hkx AnimobjectPotatoStew
+
+ch -a,o,k FZPotatoStewChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectPotatoStew
++ -k FZPotatoStewChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZPotatoStewChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZPotatoStewChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZMammothCheeseStart  ..\animobjectdrinkingidlestart.hkx AnimobjectMammothCheese
++ -a,k,o FZMammothCheese1  ..\animobjectdrinkingidlebase.hkx AnimobjectMammothCheese
++ -a,k,o FZMammothCheese2  ..\animobjectdrinkingidlevar1.hkx AnimobjectMammothCheese
++ -a,k,o FZMammothCheese3  ..\animobjectdrinkingidlevar2.hkx AnimobjectMammothCheese
++ -a,k,o FZMammothCheeseStop  ..\animobjectdrinkingidlestop.hkx AnimobjectMammothCheese
+
+ch -a,o,k FZMammothCheeseChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectMammothCheese
++ -k FZMammothCheeseChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZMammothCheeseChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZMammothCheeseChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZHorkerStewStart  ..\animobjectdrinkingidlestart.hkx AnimobjectHorkerStew
++ -a,k,o FZHorkerStew1  ..\animobjectdrinkingidlebase.hkx AnimobjectHorkerStew
++ -a,k,o FZHorkerStew2  ..\animobjectdrinkingidlevar1.hkx AnimobjectHorkerStew
++ -a,k,o FZHorkerStew3  ..\animobjectdrinkingidlevar2.hkx AnimobjectHorkerStew
++ -a,k,o FZHorkerStewStop  ..\animobjectdrinkingidlestop.hkx AnimobjectHorkerStew
+
+ch -a,o,k FZHorkerStewChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectHorkerStew
++ -k FZHorkerStewChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZHorkerStewChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZHorkerStewChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZElsywereFondueStart  ..\animobjectdrinkingidlestart.hkx AnimobjectElsywereFondue
++ -a,k,o FZElsywereFondue1  ..\animobjectdrinkingidlebase.hkx AnimobjectElsywereFondue
++ -a,k,o FZElsywereFondue2  ..\animobjectdrinkingidlevar1.hkx AnimobjectElsywereFondue
++ -a,k,o FZElsywereFondue3  ..\animobjectdrinkingidlevar2.hkx AnimobjectElsywereFondue
++ -a,k,o FZElsywereFondueStop  ..\animobjectdrinkingidlestop.hkx AnimobjectElsywereFondue
+
+ch -a,o,k FZElsywereFondueChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectElsywereFondue
++ -k FZElsywereFondueChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZElsywereFondueChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZElsywereFondueChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZClamChowderStart  ..\animobjectdrinkingidlestart.hkx AnimobjectClamChowder
++ -a,k,o FZClamChowder1  ..\animobjectdrinkingidlebase.hkx AnimobjectClamChowder
++ -a,k,o FZClamChowder2  ..\animobjectdrinkingidlevar1.hkx AnimobjectClamChowder
++ -a,k,o FZClamChowder3  ..\animobjectdrinkingidlevar2.hkx AnimobjectClamChowder
++ -a,k,o FZClamChowderStop  ..\animobjectdrinkingidlestop.hkx AnimobjectClamChowder
+
+ch -a,o,k FZClamChowderChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectClamChowder
++ -k FZClamChowderChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZClamChowderChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZClamChowderChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZCabbageStewStart  ..\animobjectdrinkingidlestart.hkx AnimobjectCabbageStew
++ -a,k,o FZCabbageStew1  ..\animobjectdrinkingidlebase.hkx AnimobjectCabbageCabbageStew
++ -a,k,o FZCabbageStew2  ..\animobjectdrinkingidlevar1.hkx AnimobjectCabbageCabbageStew
++ -a,k,o FZCabbageStew3  ..\animobjectdrinkingidlevar2.hkx AnimobjectCabbageCabbageStew
++ -a,k,o FZCabbageStewStop  ..\animobjectdrinkingidlestop.hkx AnimobjectCabbageCabbageStew
+
+ch -a,o,k FZCabbageStewChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectCabbageStew
++ -k FZCabbageStewChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZCabbageStewChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZCabbageStewChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZAppleCabbageStewStart  ..\animobjectdrinkingidlestart.hkx AnimobjectAppleCabbageStew
++ -a,k,o FZAppleCabbageStew1  ..\animobjectdrinkingidlebase.hkx AnimobjectAppleCabbageStew
++ -a,k,o FZAppleCabbageStew2  ..\animobjectdrinkingidlevar1.hkx AnimobjectAppleCabbageStew
++ -a,k,o FZAppleCabbageStew3  ..\animobjectdrinkingidlevar2.hkx AnimobjectAppleCabbageStew
++ -a,k,o FZAppleCabbageStewStop  ..\animobjectdrinkingidlestop.hkx AnimobjectAppleCabbageStew
+
+ch -a,o,k FZAppleCabbageStewChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectAppleCabbageStew
++ -k FZAppleCabbageStewChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZAppleCabbageStewChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZAppleCabbageStewChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZCabbagePotatoStewStart  ..\animobjectdrinkingidlestart.hkx AnimobjectCabbagePotatoStew
++ -a,k,o FZCabbagePotatoStew1  ..\animobjectdrinkingidlebase.hkx AnimobjectCabbagePotatoStew
++ -a,k,o FZCabbagePotatoStew2  ..\animobjectdrinkingidlevar1.hkx AnimobjectCabbagePotatoStew
++ -a,k,o FZCabbagePotatoStew3  ..\animobjectdrinkingidlevar2.hkx AnimobjectCabbagePotatoStew
++ -a,k,o FZCabbagePotatoStewStop  ..\animobjectdrinkingidlestop.hkx AnimobjectCabbagePotatoStew
+
+ch -a,o,k FZCabbagePotatoStewChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectCabbagePotatoStew
++ -k FZCabbagePotatoStewChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZCabbagePotatoStewChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZCabbagePotatoStewChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZBeerStart  ..\animobjectdrinkingidlestart.hkx AnimobjectBeer
++ -a,k,o FZBeer1  ..\animobjectdrinkingidlebase.hkx AnimobjectBeer
++ -a,k,o FZBeer2  ..\animobjectdrinkingidlevar1.hkx AnimobjectBeer
++ -a,k,o FZBeer3  ..\animobjectdrinkingidlevar2.hkx AnimobjectBeer
++ -a,k,o FZBeerStop  ..\animobjectdrinkingidlestop.hkx AnimobjectBeer
+
+ch -a,o,k FZBeerChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectBeer
++ -k FZBeerChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZBeerChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZBeerChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZMilkStart  ..\animobjectdrinkingidlestart.hkx AnimobjectMilk
++ -a,k,o FZMilk1  ..\animobjectdrinkingidlebase.hkx AnimobjectMilk
++ -a,k,o FZMilk2  ..\animobjectdrinkingidlevar1.hkx AnimobjectMilk
++ -a,k,o FZMilk3  ..\animobjectdrinkingidlevar2.hkx AnimobjectMilk
++ -a,k,o FZMilkStop  ..\animobjectdrinkingidlestop.hkx AnimobjectMilk
+
+ch -a,o,k FZMilkChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectMilk
++ -k FZMilkChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZMilkChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZMilkChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZWaterMugStart  ..\animobjectdrinkingidlestart.hkx AnimobjectWaterMug
++ -a,k,o FZWaterMug1  ..\animobjectdrinkingidlebase.hkx AnimobjectWaterMug
++ -a,k,o FZWaterMug2  ..\animobjectdrinkingidlevar1.hkx AnimobjectWaterMug
++ -a,k,o FZWaterMug3  ..\animobjectdrinkingidlevar2.hkx AnimobjectWaterMug
++ -a,k,o FZWaterMugStop  ..\animobjectdrinkingidlestop.hkx AnimobjectWaterMug
+
+ch -a,o,k FZWaterMugChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectWaterMug
++ -k FZWaterMugChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZWaterMugChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZWaterMugChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZWaterCupStart  ..\animobjectdrinkingidlestart.hkx AnimobjectWaterCup
++ -a,k,o FZWaterCup1  ..\animobjectdrinkingidlebase.hkx AnimobjectWaterCup
++ -a,k,o FZWaterCup2  ..\animobjectdrinkingidlevar1.hkx AnimobjectWaterCup
++ -a,k,o FZWaterCup3  ..\animobjectdrinkingidlevar2.hkx AnimobjectWaterCup
++ -a,k,o FZWaterCupStop  ..\animobjectdrinkingidlestop.hkx AnimobjectWaterCup
+
+ch -a,o,k FZWaterCupChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectWaterCup
++ -k FZWaterCupChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZWaterCupChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZWaterCupChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZWineCupStart  ..\animobjectdrinkingidlestart.hkx AnimobjectWineCup
++ -a,k,o FZWineCup1  ..\animobjectdrinkingidlebase.hkx AnimobjectWineCup
++ -a,k,o FZWineCup2  ..\animobjectdrinkingidlevar1.hkx AnimobjectWineCup
++ -a,k,o FZWineCup3  ..\animobjectdrinkingidlevar2.hkx AnimobjectWineCup
++ -a,k,o FZWineCupStop  ..\animobjectdrinkingidlestop.hkx AnimobjectWineCup
+
+ch -a,o,k FZWineCupChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectWineCup
++ -k FZWineCupChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZWineCupChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZWineCupChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZWineGobletStart  ..\animobjectdrinkingidlestart.hkx AnimobjectWineGoblet
++ -a,k,o FZWineGoblet1  ..\animobjectdrinkingidlebase.hkx AnimobjectWineGoblet
++ -a,k,o FZWineGoblet2  ..\animobjectdrinkingidlevar1.hkx AnimobjectWineGoblet
++ -a,k,o FZWineGoblet3  ..\animobjectdrinkingidlevar2.hkx AnimobjectWineGoblet
++ -a,k,o FZWineGobletStop  ..\animobjectdrinkingidlestop.hkx AnimobjectWineGoblet
+
+ch -a,o,k FZWineGobletChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectWineGoblet
++ -k FZWineGobletChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZWineGobletChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZWineGobletChair_4  ..\animobjectchairdrinkingidlevar2.hkx
+
+fuo -a,o,k FZWineGobletSilverStart  ..\animobjectdrinkingidlestart.hkx AnimobjectWineGobletSilver
++ -a,k,o FZWineGobletSilver1  ..\animobjectdrinkingidlebase.hkx AnimobjectWineGobletSilver
++ -a,k,o FZWineGobletSilver2  ..\animobjectdrinkingidlevar1.hkx AnimobjectWineGobletSilver
++ -a,k,o FZWineGobletSilver3  ..\animobjectdrinkingidlevar2.hkx AnimobjectWineGobletSilver
++ -a,k,o FZWineGobletSilverStop  ..\animobjectdrinkingidlestop.hkx AnimobjectWineGobletSilver
+
+ch -a,o,k FZWineGobletSilverChairStart  ..\animobjectchairdrinkingidlestart.hkx AnimObjectWineGobletSilver
++ -k FZWineGobletSilverChair_2  ..\animobjectchairdrinkingidlebase.hkx
++ -k FZWineGobletSilverChair_3  ..\animobjectchairdrinkingidlevar1.hkx
++ -k FZWineGobletSilverChair_4  ..\animobjectchairdrinkingidlevar2.hkx

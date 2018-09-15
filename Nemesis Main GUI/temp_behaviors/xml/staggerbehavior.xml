@@ -30,7 +30,7 @@
 				<hkcstring>ActivateBlockEarly_Z</hkcstring>
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="22">				<!-- VARIABLE numelement zcbe +7 $24 -->
+			<hkparam name="variableNames" numelements="19">				<!-- VARIABLE numelement zcbe +7 $24 -->
 				<hkcstring>staggerMagnitude</hkcstring>
 				<hkcstring>IsStaggering</hkcstring>
 				<hkcstring>iRightHandType</hkcstring>
@@ -47,9 +47,6 @@
 				<hkcstring>fHeading_Z</hkcstring>
 				<hkcstring>fPitch_Z</hkcstring>
 				<hkcstring>iWantBlock</hkcstring>
-				<hkcstring>Nemesis_AA_2hwstag</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_2hwstag</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_2hwstag_0</hkcstring>
 				<hkcstring>Nemesis_AA_bowidle</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_bowidle</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_bowidle_0</hkcstring>
@@ -58,7 +55,7 @@
 		</hkobject>
 
 		<hkobject name="#0053" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="22">				<!-- VARIABLE numelement zcbe +7 $2 -->
+			<hkparam name="wordVariableValues" numelements="19">				<!-- VARIABLE numelement zcbe +7 $2 -->
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
@@ -116,15 +113,6 @@
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
 			<hkparam name="variantVariableValues" numelements="0"></hkparam>
@@ -132,7 +120,7 @@
 
 		<hkobject name="#0054" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="22">				<!-- VARIABLE numelement zcbe +7 $3 -->
+			<hkparam name="variableInfos" numelements="19">				<!-- VARIABLE numelement zcbe +7 $3 -->
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -267,33 +255,6 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="role">
@@ -386,18 +347,6 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">19</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#0189" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
 					<hkparam name="variableIndex">16</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
@@ -427,74 +376,6 @@
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
 			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0191" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_StaggerBackLarge</hkparam>
-			<hkparam name="animationName">Animations\NAR\nar0_2hw_staggerbacklarge.hkx</hkparam>
-			<hkparam name="triggers">#0102</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0193" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_StaggerBackMedium</hkparam>
-			<hkparam name="animationName">Animations\NAR\nar0_2hw_staggerbackmedium.hkx</hkparam>
-			<hkparam name="triggers">#0105</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0195" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_StaggerBackSmall</hkparam>
-			<hkparam name="animationName">Animations\NAR\nar0_2hw_staggerbacksmall.hkx</hkparam>
-			<hkparam name="triggers">#0108</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0197" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_StaggerBackSmallest</hkparam>
-			<hkparam name="animationName">Animations\NAR\nar0_2hw_staggerbacksmallest.hkx</hkparam>
-			<hkparam name="triggers">#0111</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
@@ -1561,16 +1442,21 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0103" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0189</hkparam>
+		<hkobject name="#0103" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_1__2hwstag_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0190
-				#0191
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+			<hkparam name="name">2HW_StaggerBackLarge</hkparam>
+			<hkparam name="animationName">Animations\2HW_StaggerBackLarge.hkx</hkparam>
+			<hkparam name="triggers">#0102</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
 		<hkobject name="#0104" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
@@ -1634,16 +1520,21 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0106" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0189</hkparam>
+		<hkobject name="#0106" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_1__2hwstag_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0192
-				#0193
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+			<hkparam name="name">2HW_StaggerBackMedium</hkparam>
+			<hkparam name="animationName">Animations\2HW_StaggerBackMedium.hkx</hkparam>
+			<hkparam name="triggers">#0105</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
 		<hkobject name="#0107" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
@@ -1707,16 +1598,21 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0109" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0189</hkparam>
+		<hkobject name="#0109" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_1__2hwstag_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0194
-				#0195
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+			<hkparam name="name">2HW_StaggerBackSmall</hkparam>
+			<hkparam name="animationName">Animations\2HW_StaggerBackSmall.hkx</hkparam>
+			<hkparam name="triggers">#0108</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
 		<hkobject name="#0110" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
@@ -1780,16 +1676,21 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0112" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0189</hkparam>
+		<hkobject name="#0112" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_1__2hwstag_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0196
-				#0197
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+			<hkparam name="name">2HW_StaggerBackSmallest</hkparam>
+			<hkparam name="animationName">Animations\2HW_StaggerBackSmallest.hkx</hkparam>
+			<hkparam name="triggers">#0111</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
 		<hkobject name="#0113" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
@@ -3283,74 +3184,6 @@
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
 			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0190" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_StaggerBackLarge</hkparam>
-			<hkparam name="animationName">Animations\2HW_StaggerBackLarge.hkx</hkparam>
-			<hkparam name="triggers">#0102</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0192" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_StaggerBackMedium</hkparam>
-			<hkparam name="animationName">Animations\2HW_StaggerBackMedium.hkx</hkparam>
-			<hkparam name="triggers">#0105</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0194" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_StaggerBackSmall</hkparam>
-			<hkparam name="animationName">Animations\2HW_StaggerBackSmall.hkx</hkparam>
-			<hkparam name="triggers">#0108</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0196" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_StaggerBackSmallest</hkparam>
-			<hkparam name="animationName">Animations\2HW_StaggerBackSmallest.hkx</hkparam>
-			<hkparam name="triggers">#0111</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 

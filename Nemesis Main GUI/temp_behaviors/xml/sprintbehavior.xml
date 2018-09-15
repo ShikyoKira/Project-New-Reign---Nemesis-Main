@@ -45,7 +45,7 @@
 				<hkcstring>CyclicCrossBlend</hkcstring>
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="24">				<!-- VARIABLE numelement zcbe +3 $39 -->
+			<hkparam name="variableNames" numelements="23">				<!-- VARIABLE numelement zcbe +3 $39 -->
 				<hkcstring>iRightHandType</hkcstring>
 				<hkcstring>IsSprinting</hkcstring>
 				<hkcstring>iState</hkcstring>
@@ -66,7 +66,6 @@
 				<hkcstring>Nemesis_AA_sprint</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_sprint</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_sprint_0</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_sprint_1</hkcstring>
 				<hkcstring>0yukl_YY2Hander_maleonly</hkcstring>
 				<hkcstring>1cyh0405_OrientalSwordsmanship</hkcstring>
 				<hkcstring>2Female_Anim_Pack</hkcstring>
@@ -75,7 +74,7 @@
 		</hkobject>
 
 		<hkobject name="#0058" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="24">				<!-- VARIABLE numelement zcbe +3 $2 -->
+			<hkparam name="wordVariableValues" numelements="23">				<!-- VARIABLE numelement zcbe +3 $2 -->
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
@@ -145,9 +144,6 @@
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
 			<hkparam name="variantVariableValues" numelements="0"></hkparam>
@@ -155,7 +151,7 @@
 
 		<hkobject name="#0059" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="24">				<!-- VARIABLE numelement zcbe +3 $3 -->
+			<hkparam name="variableInfos" numelements="23">				<!-- VARIABLE numelement zcbe +3 $3 -->
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -308,15 +304,6 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="role">
@@ -480,19 +467,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0214" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">23</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#0217" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#0213" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -504,7 +479,19 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0220" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#0216" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">20</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#0219" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -520,7 +507,82 @@
 
 <!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->
 
+		<hkobject name="#0217" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Sprint2HM</hkparam>
+			<hkparam name="animationName">Animations\2HM_SprintForwardSword.hkx</hkparam>
+			<hkparam name="triggers">#0111</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0218" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Sprint2HM</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\0_2hm_sprintforwardsword.HkX</hkparam>
+			<hkparam name="triggers">#0111</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0214" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0216</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_0yukl_YY2Hander_maleonly_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0217
+				#0218
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
 		<hkobject name="#0215" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Sprint2HM</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\1_2hm_sprintforwardsword.HkX</hkparam>
+			<hkparam name="triggers">#0111</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0209" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0213</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_1cyh0405_OrientalSwordsmanship_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0214
+				#0215
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0220" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaffMagic_RunArm</hkparam>
@@ -537,7 +599,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0216" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0221" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaffMagic_RunArm</hkparam>
@@ -555,87 +617,12 @@
 		</hkobject>
 
 		<hkobject name="#0161" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0214</hkparam>
+			<hkparam name="variableBindingSet">#0219</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0215
-				#0216
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0221" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sprint2HM</hkparam>
-			<hkparam name="animationName">Animations\2HM_SprintForwardSword.hkx</hkparam>
-			<hkparam name="triggers">#0111</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0222" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sprint2HM</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\1_2hm_sprintforwardsword.HkX</hkparam>
-			<hkparam name="triggers">#0111</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0218" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0220</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_PCEA_1cyh0405_OrientalSwordsmanship_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
+				#0220
 				#0221
-				#0222
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0219" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sprint2HM</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\0_2hm_sprintforwardsword.HkX</hkparam>
-			<hkparam name="triggers">#0111</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0210" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0217</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_PCEA_0yukl_YY2Hander_maleonly_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0218
-				#0219
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -802,23 +789,6 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Sprint2HW</hkparam>
-			<hkparam name="animationName">Animations\NAR\nar0_2hw_sprintforwardsword.hkx</hkparam>
-			<hkparam name="triggers">#0109</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0209" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sprint2HW</hkparam>
 			<hkparam name="animationName">Animations\XPMSE\xpe0_2hw_sprintforwardsword.hkx</hkparam>
 			<hkparam name="triggers">#0109</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -832,7 +802,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0211" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0210" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Sprint2HM</hkparam>
@@ -849,7 +819,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0213" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0212" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_SprintForwardSword</hkparam>
@@ -871,8 +841,7 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#0189
+			<hkparam name="generators" numelements="2">
 				#0189
 				#0190
 			</hkparam>
@@ -1013,8 +982,7 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#0193
+			<hkparam name="generators" numelements="2">
 				#0193
 				#0194
 			</hkparam>
@@ -1108,8 +1076,7 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#0197
+			<hkparam name="generators" numelements="2">
 				#0197
 				#0198
 			</hkparam>
@@ -1203,8 +1170,7 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#0199
+			<hkparam name="generators" numelements="2">
 				#0199
 				#0200
 			</hkparam>
@@ -1298,8 +1264,7 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#0203
+			<hkparam name="generators" numelements="2">
 				#0203
 				#0204
 			</hkparam>
@@ -1495,8 +1460,7 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#0195
+			<hkparam name="generators" numelements="2">
 				#0195
 				#0196
 			</hkparam>
@@ -1537,8 +1501,7 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#0191
+			<hkparam name="generators" numelements="2">
 				#0191
 				#0192
 			</hkparam>
@@ -1579,8 +1542,7 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#0201
+			<hkparam name="generators" numelements="2">
 				#0201
 				#0202
 			</hkparam>
@@ -1592,8 +1554,7 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#0205
+			<hkparam name="generators" numelements="2">
 				#0205
 				#0206
 			</hkparam>
@@ -1634,10 +1595,9 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
+			<hkparam name="generators" numelements="2">
 				#0207
 				#0208
-				#0209
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1676,10 +1636,9 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
+			<hkparam name="generators" numelements="2">
+				#0209
 				#0210
-				#0210
-				#0211
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1791,10 +1750,9 @@
 			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__sprint_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
+			<hkparam name="generators" numelements="2">
+				#0211
 				#0212
-				#0212
-				#0213
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2911,7 +2869,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0212" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0211" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_SprintForwardSword</hkparam>

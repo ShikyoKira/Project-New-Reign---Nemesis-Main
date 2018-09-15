@@ -136,7 +136,8 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Qt\5.11.0\msvc2015\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Qt\5.11.0\msvc2015\lib;$(SolutionDir)Nemesis Main GUI\lua-5.3.5\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LuaScript.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -163,6 +164,7 @@
     <ClCompile Include="add animation\animationdata.cpp" />
     <ClCompile Include="add animation\animationsetdata.cpp" />
     <ClCompile Include="add animation\animationinfo.cpp" />
+    <ClCompile Include="add animation\animationthread.cpp" />
     <ClCompile Include="add animation\furniture.cpp" />
     <ClCompile Include="add animation\gettemplate.cpp" />
     <ClCompile Include="add animation\grouptemplate.cpp" />
@@ -189,6 +191,7 @@
     <ClInclude Include="add animation\animationdata.h" />
     <ClInclude Include="add animation\animationsetdata.h" />
     <ClInclude Include="add animation\animationinfo.h" />
+    <ClInclude Include="add animation\animationthread.h" />
     <ClInclude Include="add animation\furniture.h" />
     <ClInclude Include="add animation\gettemplate.h" />
     <ClInclude Include="add animation\grouptemplate.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="lastupdate.h" />
     <ClInclude Include="Logging\debugmsg.h" />
+    <ClInclude Include="readtextfile.h" />
     <ClInclude Include="skyrimdirectory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

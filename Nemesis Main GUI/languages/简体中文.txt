@@ -217,7 +217,7 @@ ERR 1166=发现BUG!! 马上报告给Nemesis的作者
 ERR 1167=无法获取组动画模板. 现有的node只能获取最高级别的动画模板. 请与模板创建者联系\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1168=无效的state数字.state数字必须小于在"option_list.txt"中注册的root state的数字但不可小于0. 请与模板创建者联系\nTemplate: <1>\nFile: <2>\nLine: <3>\nState: <4>
 ERR 1169=缺少输入. 请与模板创建者联系\nImport File: <1>\nLine: <2>
-ERR 1170=检测到非原版的node.请确保在 "behavior_template/" 文件夹中的文件夹名与其中一个未拓展的行为文件相同. 请与模板创建者联系\nImport File: <1>\nLine: <2>
+ERR 1170=检测到非原版的node.请确保在 "behavior_templates/" 文件夹中的文件夹名与其中一个未拓展的行为文件相同. 请与模板创建者联系\nMod: <1>\nFile: <2>
 ERR 1171=无法找到new tab的来源. 需要打开new tab. 请与模板创建者联系\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1172=无法处理行\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1173=Condition无法在"<1>"中被使用. 请与模板创建者联系\nTemplate: <2>\nFile: <1>\nLine: <3>
@@ -234,11 +234,12 @@ ERR 1183=发现BUG!! 马上报告给Nemesis的作者
 ERR 1184=角色hkx文件放置错误. 当前文件必须位于character文件夹\nFile: <1>
 ERR 1185=无法输出 <1>
 ERR 1186=Invalid format detected. Please contact the mod author\nFile: <1>\nLine: <2>\nInput: <3>
-ERR 1187=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1187=发现BUG!! 马上报告给Nemesis的作者
 ERR 1188=Node ID has no state ID. Please contact the mod author\nMod: <1>\nFile: <2>
-ERR 1189=Duplicated state ID and incompatibility detected. Please contact the mod author to fix the compatibility issue\nFile: <1>\nID: <2>\nMods: <3>
+ERR 1189=Duplicated state ID and incompatibility detected. Please contact the mod author to fix the compatibility issue\nFile: <1>\nState ID: <2>\nMods: <3>
 ERR 1190=Missing state machine info node detected. Please contact the mod author\nMod: <1>\nID: <2>
 ERR 1191=A state machine info not linked to any state machine detected. Please contact the mod author\nMod: <1>\nID: <2>
+ERR 1192=发现BUG!! 马上报告给Nemesis的作者
 
 '2000s
 ERR 2000=无法打开文件\nFile: <1>
@@ -276,7 +277,7 @@ ERR 3005=检测到位于AnimData部分中的"animationdatasinglefile.txt"的格�
 ERR 3006=无效的文件名称. 请键入符合格式的文件名. 请与mod作者联系\nProject: <1>\nHeader: <2>
 ERR 3007=无效的function call. Function call不能在该行中使用.因为它与格式不符. 请与模板创建者联系\nTemplate: <1>\nLine: <2>
 ERR 3008=在 "animationdata_list.txt"中检测到重复的标题或标题. 请重新运行Update Patcher以修复这个问题\nCharacter: <1>
-ERR 3009=无法使用 <1>作为动画code. <1>已经被默认注册进工具中 . 请与模板创建者联系\nAnimation Code: <1>
+ERR 3009=无法使用 <1>作为唯一代码. <1>已经被默认注册进工具中 . 请与模板创建者联系\nUnique Code: <1>
 ERR 3010=在"animationdata_list"中检测到重复的项目. 更新工具以修复这个问题\nProject: <1>
 ERR 3011=检测到未注册的项目. 更新工具以修复这个问题\nProject: <1>
 ERR 3012=在InfoData部分中检测到重复的唯一代码. 请与模板创建者联系\nProject: <1>\nUnique Code: <2>
@@ -316,7 +317,7 @@ ERR 5006=检测到未识别的动画包被当做原版动画包使用. 请与模
 ERR 5007=错误格式. 当前行不能用于运行NEW tab function. 只有EquipList, TypeList, AnimPack, 和CRC23List可以使用NEW tab function. 请与mod作者联系\nMod: <1>\nHeader: <2>\nLine: <3>
 ERR 5008=发现BUG!! 马上报告给Nemesis的作者\nMod: <1>\nProject: <2>\nHeader: <3>
 ERR 5009=在"animationsetdatasinglefile.txt中检测到无效的格式. 请与模板创建者联系\nProject: <1>\nHeader: <2>
-ERR 5010=发现BUG!! 不相符! 马上报告给Nemesis的作者\nTemplate\Mod: <1>\nProject: <2>\nHeader: <3>
+ERR 5010=发现BUG!! 行数超出! 马上报告给Nemesis的作者\nTemplate\Mod: <1>\nProject: <2>\nHeader: <3>
 ERR 5011=无法找到"animationsetdatasinglefile.txt"的原先标题. 请与模板创建者联系\nTemplate: <1>\nProject: <2>\nHeader: <3>
 ERR 5012=在"animationsetdatasinglefile.txt"中检测到重复的标题. 请与模板创建者联系\nTemplate: <1>\nProject: <2>\nHeader: <3>
 ERR 5013=发现BUG!! 马上报告给Nemesis的作者\nProject: <1>\nHeader: <2>
@@ -337,6 +338,7 @@ ERR 6003="<1>"已经在这个ini文件中被注册. 请与mod作者联系\nFile:
 ERR 6004=模板不支持第一人称动画，因为这是无效的. 请与模板创建者联系\nDirectory: <1>
 ERR 6005=未找到Skyrim的目录.. 请确保你的游戏是正版的
 ERR 6006=丢失最新的工具文件. 更新工具以修复这个问题
+ERR 6007=Papyrus compiler not found. Please make sure Nemesis is placed in the correct directory
 
 '1000
 WAR 1000=缺少动画文件\nFile: <1>
@@ -363,7 +365,7 @@ WAR 1020=在"animationdatasinglefile.txt"中检测到重复的项目/标题的�
 WAR 1021=无法注册mod.丢失位于mod的ini文件中的必需信息而导致无法注册mod. 请与mod作者联系\nMod: <1>
 WAR 1022=检测到不必要的condition\nFile: <1>\nLine: <2>
 WAR 1023=执行脚本时出错\nScript: <1>
-WAR 1024=检测到空 unique code. 当前的 unique code is 未连接到任何的动画. 请与mod作者联系\nMod Code: <1>
+WAR 1024=检测到空的唯一代码. 当前的唯一代码没有联系任何动画. 请与mod作者联系\nMod Code: <1>
 
 '1000
 TBT 1000=检测到文件中的改变. 需要进行工具的更新

@@ -2,6 +2,7 @@
 link AVI AV
 
 'Animation Options
+o
 a
 h
 ac1

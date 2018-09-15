@@ -87,7 +87,7 @@ int[] Function GetAllGroupBaseValues(int AAmodID, string mod, bool debugOutput =
 endFunction
 
 int Function GetInstallationCRC() global
-	return 275586
+	return 412275
 endFunction
 
 Function GetAAsets(int nSets, int[] groupID, int[] modID, int[] animBase, int[] Index, string modname, bool debugOutput = false) global

@@ -47,7 +47,7 @@
 				<hkcstring>arrowAttach</hkcstring>
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="43">
+			<hkparam name="variableNames" numelements="38">
 				<hkcstring>blendDefault</hkcstring>
 				<hkcstring>IsEquipping</hkcstring>
 				<hkcstring>TurnDelta</hkcstring>
@@ -67,17 +67,12 @@
 				<hkcstring>Nemesis_AA_1hmeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_1hmeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_1hmeqp_0</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_1hmeqp_1</hkcstring>
-				<hkcstring>Nemesis_AA_1hmidle</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_1hmidle</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_1hmidle_0</hkcstring>
 				<hkcstring>Nemesis_AA_2hmeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_2hmeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_2hmeqp_0</hkcstring>
 				<hkcstring>Nemesis_AA_2hweqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_2hweqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_2hweqp_0</hkcstring>
-				<hkcstring>Nemesis_AA_Priority_2hweqp_1</hkcstring>
 				<hkcstring>Nemesis_AA_axeeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_axeeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_axeeqp_0</hkcstring>
@@ -100,24 +95,9 @@
 		</hkobject>
 
 		<hkobject name="#0058" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="43">
+			<hkparam name="wordVariableValues" numelements="38">
 				<hkobject>
 					<hkparam name="value">1045220557</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="value">0</hkparam>
@@ -237,7 +217,7 @@
 
 		<hkobject name="#0059" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="43">
+			<hkparam name="variableInfos" numelements="38">
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -381,51 +361,6 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="role">
@@ -759,7 +694,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">23</hkparam>
+					<hkparam name="variableIndex">19</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -767,11 +702,23 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0320" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#0312" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">30</hkparam>
+					<hkparam name="variableIndex">28</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#0359" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">37</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -791,11 +738,11 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0365" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#0315" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">42</hkparam>
+					<hkparam name="variableIndex">22</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -803,11 +750,11 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0313" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#0318" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">33</hkparam>
+					<hkparam name="variableIndex">25</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -815,11 +762,11 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0327" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#0325" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">39</hkparam>
+					<hkparam name="variableIndex">34</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -827,35 +774,11 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0316" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#0338" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">26</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#0340" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">36</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#0362" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">20</hkparam>
+					<hkparam name="variableIndex">31</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -867,7 +790,7 @@
 
 <!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->
 
-		<hkobject name="#0366" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0360" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_BoundBowEquip</hkparam>
@@ -884,7 +807,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0367" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0361" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_BoundBowEquip</hkparam>
@@ -902,18 +825,64 @@
 		</hkobject>
 
 		<hkobject name="#0272" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0365</hkparam>
+			<hkparam name="variableBindingSet">#0359</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0366
-				#0367
+				#0360
+				#0361
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0368" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0362" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">1HM_Idle</hkparam>
+			<hkparam name="animationName">Animations\1HM_Idle.hkx</hkparam>
+			<hkparam name="triggers">null</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0363" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">1HM_Idle</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_1hm_idle.hkx</hkparam>
+			<hkparam name="triggers">null</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0228" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0359</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0362
+				#0363
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0364" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Equip</hkparam>
@@ -930,7 +899,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0369" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0365" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Equip</hkparam>
@@ -948,18 +917,18 @@
 		</hkobject>
 
 		<hkobject name="#0306" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0365</hkparam>
+			<hkparam name="variableBindingSet">#0359</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0368
-				#0369
+				#0364
+				#0365
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0370" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0366" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Staff_Idle</hkparam>
@@ -976,7 +945,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0371" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0367" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Staff_Idle</hkparam>
@@ -994,18 +963,18 @@
 		</hkobject>
 
 		<hkobject name="#0169" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0365</hkparam>
+			<hkparam name="variableBindingSet">#0359</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0370
-				#0371
+				#0366
+				#0367
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0372" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0368" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_Equip</hkparam>
@@ -1022,7 +991,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0373" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0369" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_Equip</hkparam>
@@ -1039,8 +1008,100 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0314" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0365</hkparam>
+		<hkobject name="#0313" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0359</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0368
+				#0369
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0370" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Axe_Dual_Equip</hkparam>
+			<hkparam name="animationName">Animations\Axe_Equip.hkx</hkparam>
+			<hkparam name="triggers">#0087</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0371" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Axe_Dual_Equip</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_axe_equip.hkx</hkparam>
+			<hkparam name="triggers">#0087</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0319" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0359</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0370
+				#0371
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0372" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Axe_Equip</hkparam>
+			<hkparam name="animationName">Animations\Axe_Equip.hkx</hkparam>
+			<hkparam name="triggers">#0085</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0373" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Axe_Equip</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_axe_equip.hkx</hkparam>
+			<hkparam name="triggers">#0085</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0332" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0359</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
@@ -1052,98 +1113,6 @@
 		</hkobject>
 
 		<hkobject name="#0374" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Axe_Dual_Equip</hkparam>
-			<hkparam name="animationName">Animations\Axe_Equip.hkx</hkparam>
-			<hkparam name="triggers">#0087</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0375" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Axe_Dual_Equip</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_axe_equip.hkx</hkparam>
-			<hkparam name="triggers">#0087</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0321" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0365</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0374
-				#0375
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0376" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Axe_Equip</hkparam>
-			<hkparam name="animationName">Animations\Axe_Equip.hkx</hkparam>
-			<hkparam name="triggers">#0085</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0377" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Axe_Equip</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_axe_equip.hkx</hkparam>
-			<hkparam name="triggers">#0085</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0334" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0365</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0376
-				#0377
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0378" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Equip</hkparam>
@@ -1160,7 +1129,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0379" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0375" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Equip</hkparam>
@@ -1177,59 +1146,13 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0355" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0365</hkparam>
+		<hkobject name="#0353" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0359</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0378
-				#0379
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0380" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">1HM_Idle</hkparam>
-			<hkparam name="animationName">Animations\1HM_Idle.hkx</hkparam>
-			<hkparam name="triggers">null</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0381" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">1HM_Idle</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_1hm_idle.hkx</hkparam>
-			<hkparam name="triggers">null</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0363" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0365</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0380
-				#0381
+				#0374
+				#0375
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -1260,7 +1183,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Equip</hkparam>
-			<hkparam name="animationName">Animations\NAR\nar0_1hm_equip.hkx</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe0_1hm_equip.hkx</hkparam>
 			<hkparam name="triggers">#0068</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1277,7 +1200,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe0_1hm_equip.hkx</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe1_1hm_equip.hkx</hkparam>
 			<hkparam name="triggers">#0068</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1294,7 +1217,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe1_1hm_equip.hkx</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe2_1hm_equip.hkx</hkparam>
 			<hkparam name="triggers">#0068</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1311,7 +1234,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe2_1hm_equip.hkx</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe3_1hm_equip.hkx</hkparam>
 			<hkparam name="triggers">#0068</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1328,23 +1251,6 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe3_1hm_equip.hkx</hkparam>
-			<hkparam name="triggers">#0068</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0312" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">1HM_Equip</hkparam>
 			<hkparam name="animationName">Animations\XPMSE\xpe4_1hm_equip.hkx</hkparam>
 			<hkparam name="triggers">#0068</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -1358,7 +1264,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0315" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0314" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_Equip</hkparam>
@@ -1375,24 +1281,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0318" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_Equip</hkparam>
-			<hkparam name="animationName">Animations\NAR\nar0_2hw_equip.hkx</hkparam>
-			<hkparam name="triggers">#0074</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0319" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0317" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HW_Equip</hkparam>
@@ -1409,11 +1298,45 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0322" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0320" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Dual_Equip</hkparam>
 			<hkparam name="animationName">Animations\XPMSE\xpe0_axe_equip.hkx</hkparam>
+			<hkparam name="triggers">#0087</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0321" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Axe_Dual_Equip</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe1_axe_equip.hkx</hkparam>
+			<hkparam name="triggers">#0087</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0322" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Axe_Dual_Equip</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe2_axe_equip.hkx</hkparam>
 			<hkparam name="triggers">#0087</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1430,7 +1353,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Dual_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe1_axe_equip.hkx</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe3_axe_equip.hkx</hkparam>
 			<hkparam name="triggers">#0087</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1447,40 +1370,6 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Dual_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe2_axe_equip.hkx</hkparam>
-			<hkparam name="triggers">#0087</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0325" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Axe_Dual_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe3_axe_equip.hkx</hkparam>
-			<hkparam name="triggers">#0087</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0326" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Axe_Dual_Equip</hkparam>
 			<hkparam name="animationName">Animations\XPMSE\xpe4_axe_equip.hkx</hkparam>
 			<hkparam name="triggers">#0087</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -1494,11 +1383,28 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0329" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0327" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Mac_Equip</hkparam>
 			<hkparam name="animationName">Animations\XPMSE\xpe0_mac_equip.hkx</hkparam>
+			<hkparam name="triggers">#0079</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0328" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Mac_Equip</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe1_mac_equip.hkx</hkparam>
 			<hkparam name="triggers">#0079</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1514,23 +1420,6 @@
 		<hkobject name="#0330" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Mac_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe1_mac_equip.hkx</hkparam>
-			<hkparam name="triggers">#0079</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0332" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Mac_Dual_Equip</hkparam>
 			<hkparam name="animationName">Animations\XPMSE\xpe0_mac_equip.hkx</hkparam>
 			<hkparam name="triggers">#0081</hkparam>
@@ -1545,7 +1434,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0333" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0331" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Mac_Dual_Equip</hkparam>
@@ -1562,7 +1451,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0335" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0333" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Equip</hkparam>
@@ -1579,7 +1468,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0336" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0334" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Equip</hkparam>
@@ -1596,7 +1485,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0337" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0335" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Equip</hkparam>
@@ -1613,7 +1502,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0338" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0336" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Equip</hkparam>
@@ -1630,7 +1519,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0339" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0337" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Equip</hkparam>
@@ -1647,11 +1536,45 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0342" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0340" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Equip</hkparam>
 			<hkparam name="animationName">Animations\XPMSE\xpe0_dag_equip.hkx</hkparam>
+			<hkparam name="triggers">#0091</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0341" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Dag_Equip</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe1_dag_equip.hkx</hkparam>
+			<hkparam name="triggers">#0091</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0342" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Dag_Equip</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe2_dag_equip.hkx</hkparam>
 			<hkparam name="triggers">#0091</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1668,7 +1591,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe1_dag_equip.hkx</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe3_dag_equip.hkx</hkparam>
 			<hkparam name="triggers">#0091</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1685,7 +1608,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe2_dag_equip.hkx</hkparam>
+			<hkparam name="animationName">Animations\XPMSE\xpe4_dag_equip.hkx</hkparam>
 			<hkparam name="triggers">#0091</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1702,40 +1625,6 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe3_dag_equip.hkx</hkparam>
-			<hkparam name="triggers">#0091</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0346" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Dag_Equip</hkparam>
-			<hkparam name="animationName">Animations\XPMSE\xpe4_dag_equip.hkx</hkparam>
-			<hkparam name="triggers">#0091</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0347" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Dag_Equip</hkparam>
 			<hkparam name="animationName">Animations\XPMSE\xpe5_dag_equip.hkx</hkparam>
 			<hkparam name="triggers">#0091</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -1749,7 +1638,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0349" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0347" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Dual_Equip</hkparam>
@@ -1766,7 +1655,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0350" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0348" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Dual_Equip</hkparam>
@@ -1783,7 +1672,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0351" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0349" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Dual_Equip</hkparam>
@@ -1800,7 +1689,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0352" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0350" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Dual_Equip</hkparam>
@@ -1817,7 +1706,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0353" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0351" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Dual_Equip</hkparam>
@@ -1834,7 +1723,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0354" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0352" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Dual_Equip</hkparam>
@@ -1851,24 +1740,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0356" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">1HM_Dual_Equip</hkparam>
-			<hkparam name="animationName">Animations\NAR\nar0_1hm_equip.hkx</hkparam>
-			<hkparam name="triggers">#0097</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0357" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0354" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Equip</hkparam>
@@ -1885,7 +1757,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0358" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0355" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Equip</hkparam>
@@ -1902,7 +1774,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0359" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0356" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Equip</hkparam>
@@ -1919,7 +1791,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0360" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0357" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Equip</hkparam>
@@ -1936,7 +1808,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0361" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0358" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Equip</hkparam>
@@ -1950,23 +1822,6 @@
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
 			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#0364" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">1HM_Idle</hkparam>
-			<hkparam name="animationName">Animations\NAR\nar0_1hm_idle.hkx</hkparam>
-			<hkparam name="triggers">null</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
@@ -2131,14 +1986,13 @@
 			<hkparam name="variableBindingSet">#0305</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__1hmeqp_MSG</hkparam>
-			<hkparam name="generators" numelements="7">
+			<hkparam name="generators" numelements="6">
 				#0306
 				#0307
 				#0308
 				#0309
 				#0310
 				#0311
-				#0312
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2256,12 +2110,12 @@
 		</hkobject>
 
 		<hkobject name="#0071" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0313</hkparam>
+			<hkparam name="variableBindingSet">#0312</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__boweqp_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
+				#0313
 				#0314
-				#0315
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2297,13 +2151,12 @@
 		</hkobject>
 
 		<hkobject name="#0073" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0316</hkparam>
+			<hkparam name="variableBindingSet">#0315</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__2hweqp_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
+			<hkparam name="generators" numelements="2">
+				#0316
 				#0317
-				#0318
-				#0319
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2426,13 +2279,13 @@
 		</hkobject>
 
 		<hkobject name="#0078" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0327</hkparam>
+			<hkparam name="variableBindingSet">#0325</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__maceqp_MSG</hkparam>
 			<hkparam name="generators" numelements="3">
+				#0326
+				#0327
 				#0328
-				#0329
-				#0330
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2480,13 +2333,13 @@
 		</hkobject>
 
 		<hkobject name="#0080" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0327</hkparam>
+			<hkparam name="variableBindingSet">#0325</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__maceqp_MSG</hkparam>
 			<hkparam name="generators" numelements="3">
+				#0329
+				#0330
 				#0331
-				#0332
-				#0333
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2580,16 +2433,16 @@
 		</hkobject>
 
 		<hkobject name="#0084" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0320</hkparam>
+			<hkparam name="variableBindingSet">#0318</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__axeeqp_MSG</hkparam>
 			<hkparam name="generators" numelements="6">
+				#0332
+				#0333
 				#0334
 				#0335
 				#0336
 				#0337
-				#0338
-				#0339
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2637,16 +2490,16 @@
 		</hkobject>
 
 		<hkobject name="#0086" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0320</hkparam>
+			<hkparam name="variableBindingSet">#0318</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__axeeqp_MSG</hkparam>
 			<hkparam name="generators" numelements="6">
+				#0319
+				#0320
 				#0321
 				#0322
 				#0323
 				#0324
-				#0325
-				#0326
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2740,17 +2593,17 @@
 		</hkobject>
 
 		<hkobject name="#0090" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0340</hkparam>
+			<hkparam name="variableBindingSet">#0338</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__dageqp_MSG</hkparam>
 			<hkparam name="generators" numelements="7">
+				#0339
+				#0340
 				#0341
 				#0342
 				#0343
 				#0344
 				#0345
-				#0346
-				#0347
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2798,17 +2651,17 @@
 		</hkobject>
 
 		<hkobject name="#0092" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0340</hkparam>
+			<hkparam name="variableBindingSet">#0338</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__dageqp_MSG</hkparam>
 			<hkparam name="generators" numelements="7">
+				#0346
+				#0347
 				#0348
 				#0349
 				#0350
 				#0351
 				#0352
-				#0353
-				#0354
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2905,14 +2758,13 @@
 			<hkparam name="variableBindingSet">#0305</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__1hmeqp_MSG</hkparam>
-			<hkparam name="generators" numelements="7">
+			<hkparam name="generators" numelements="6">
+				#0353
+				#0354
 				#0355
 				#0356
 				#0357
 				#0358
-				#0359
-				#0360
-				#0361
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -5009,18 +4861,6 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0228" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0362</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_1__1hmidle_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0363
-				#0364
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
 		<hkobject name="#0229" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
@@ -6253,7 +6093,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0317" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0316" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HW_Equip</hkparam>
@@ -6270,7 +6110,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0328" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0326" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Mac_Equip</hkparam>
@@ -6287,7 +6127,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0331" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0329" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Mac_Dual_Equip</hkparam>
@@ -6304,7 +6144,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0341" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0339" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Equip</hkparam>
@@ -6321,7 +6161,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0348" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0346" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dag_Dual_Equip</hkparam>
