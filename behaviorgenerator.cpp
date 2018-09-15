@@ -3,6 +3,7 @@
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include <boost/algorithm/string.hpp>
+#include <Nemesis Main GUI\lua-5.3.5\src\lua.hpp>
 
 #pragma warning(disable:4503)
 
@@ -10,7 +11,17 @@ using namespace std;
 
 bool hkxcmdProcess(string xmlfile, string hkxfile)
 {
-	string args = "convert -v:WIN32 \"" + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"";
+
+	string args;
+
+	if (SSE)
+	{
+		args = "convert -v:AMD64 \"" + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"";
+	}
+	else
+	{
+		args = "convert -v:WIN32 \"" + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"";
+	}
 
 	if (boost::process::system("hkxcmd " + args, boost::process::windows::hide) != 0)
 	{
@@ -82,35 +93,73 @@ void RunScript(string directory)
 	vecstr scriptlist;
 	read_directory(directory, scriptlist);
 
-	for (auto& scriptfile : scriptlist)
+	for (auto& file : scriptlist)
 	{
-		string scriptpath = directory + scriptfile;
-		boost::filesystem::path script(scriptpath);
+		string scriptpath = directory + file;
+		boost::filesystem::path scriptfile(scriptpath);
 
-		if (!boost::filesystem::is_directory(script) && boost::iequals(script.extension().string(), ".bat"))
+		// hidden scripts
+		if (!boost::filesystem::is_directory(scriptfile))
 		{
-			if (boost::process::system(scriptpath, boost::process::windows::hide) != 0)
+			if (boost::iequals(scriptfile.extension().string(), ".bat"))
 			{
-				WarningMessage(1023, scriptpath);
-				warning = true;
+				try
+				{
+					if (boost::process::system(scriptpath, boost::process::windows::hide) != 0)
+					{
+						WarningMessage(1023, scriptpath);
+						warning = true;
+					}
+				}
+				catch (const std::exception& ex)
+				{
+					ErrorMessage(6008, ex.what());
+					return;
+				}
+			}
+			else if (boost::iequals(scriptfile.extension().string(), ".lua"))
+			{
+				lua_State* luascript = luaL_newstate();
+				luaL_openlibs(luascript);
+				luaL_dofile(luascript, scriptpath.c_str());
+				lua_close(luascript);
 			}
 		}
-		else if (boost::iequals(scriptfile, "show") && boost::filesystem::is_directory(script))
+		// visible scripts
+		else if (boost::iequals(file, "show") && boost::filesystem::is_directory(scriptfile))
 		{
-			vecstr hiddenscriptlist;
-			read_directory(scriptpath, hiddenscriptlist);
+			vecstr shownscriptlist;
+			read_directory(scriptpath, shownscriptlist);
 
-			for (auto& hidden : hiddenscriptlist)
+			for (auto& shown : shownscriptlist)
 			{
-				string hiddenpath = scriptpath + "\\" + hidden;
-				boost::filesystem::path hiddenscript(hiddenpath);
+				string shownpath = scriptpath + "\\" + shown;
+				boost::filesystem::path shownscript(shownpath);
 
-				if (!boost::filesystem::is_directory(hiddenscript) && boost::iequals(hiddenscript.extension().string(), ".bat"))
+				if (!boost::filesystem::is_directory(shownscript))
 				{
-					if (boost::process::system(hiddenpath) != 0)
+					if (boost::iequals(shownscript.extension().string(), ".bat"))
 					{
-						WarningMessage(1023, hiddenpath);
-						warning = true;
+						try
+						{
+							if (boost::process::system(shownpath, boost::process::windows::hide) != 0)
+							{
+								WarningMessage(1023, shownscript);
+								warning = true;
+							}
+						}
+						catch (const std::exception& ex)
+						{
+							ErrorMessage(6008, ex.what());
+							return;
+						}
+					}
+					else if (boost::iequals(shownscript.extension().string(), ".lua"))
+					{
+						lua_State* luascript = luaL_newstate();
+						luaL_openlibs(luascript);
+						luaL_dofile(luascript, scriptpath.c_str());
+						lua_close(luascript);
 					}
 				}
 			}
