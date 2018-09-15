@@ -15,10 +15,19 @@ void AnimProgressBar::ForeverLoop()
 
 	if (mRunner >= 1)
 	{
-		double num = 255 - std::fmin(255, std::fmax(0, ((1 + gap - mRunner) / gap * opq)));
-		QString style = font + QString("QProgressBar::chunk {background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:" + QString::number(0.99995 - gap) + " hsv("
-			+ color + "), stop:0.99995 hsv(" + color + ", " + QString::number(num) + "), stop:1 hsv(" + color + "));}");
-		setStyleSheet(style);
+		if (mRunner <= 1 + gap)
+		{
+			double num = 255 - std::fmin(255, std::fmax(0, ((1 + gap - mRunner) / gap * opq)));
+			QString style = font + QString("QProgressBar::chunk {background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:" + QString::number(0.99995 - gap) + " hsv("
+				+ color + "), stop:0.99995 hsv(" + color + ", " + QString::number(num) + "), stop:1 hsv(" + color + "));}");
+			setStyleSheet(style);
+		}
+		else
+		{
+			QString style = font + QString("QProgressBar::chunk {background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:" + QString::number(0.99995 - gap) + " hsv("
+				+ color + "), stop:1 hsv(" + color + "));}");
+			setStyleSheet(style);
+		}
 	}
 	else if (mRunner <= 0)
 	{
@@ -38,7 +47,7 @@ void AnimProgressBar::ForeverLoop()
 
 	mRunner += cTimer;
 
-	if (mRunner > (1 + gap))
+	if (mRunner > (1 + gap + 0.8))
 	{
 		mRunner = 0 - gap;
 	}
