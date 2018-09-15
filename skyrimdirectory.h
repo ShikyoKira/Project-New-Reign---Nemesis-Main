@@ -3,6 +3,8 @@
 #include <iostream>
 #include <boost\filesystem.hpp>
 
+extern bool SSE;
+
 class DataPath
 {
 	std::string dataPath;
