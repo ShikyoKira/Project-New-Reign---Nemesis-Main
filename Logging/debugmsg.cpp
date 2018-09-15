@@ -6,6 +6,7 @@ using namespace std;
 int filenum;
 atomic<int> progressPercentage;
 bool error = false;
+bool isPatch = false;
 DebugMsg DMLog;
 UpdateFilesStart* process1;
 BehaviorStart* process2;

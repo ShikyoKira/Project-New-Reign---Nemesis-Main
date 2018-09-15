@@ -2,18 +2,18 @@
 #define DEBUGMSG_H_
 
 #include <unordered_map>
-#include <string>
-#include <vector>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QMessageBox>
+#include "Nemesis Main GUI/src/DebugLog.h"
 
 class UpdateFilesStart;
 class BehaviorStart;
 class DummyLog;
 
 extern bool error;	// get error warning
+extern bool isPatch;
 
 // debugging
 struct DebugMsg
@@ -60,7 +60,18 @@ void AdditionalInput(std::string& message, int counter, current input)
 	}
 	else
 	{
-		interMsg("CRITICAL ERROR: Wrong error input. Please re-install Nemesis\n");
+		string msg = "CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
+		interMsg(msg + "\n");
+
+		if (isPatch)
+		{
+			PatchDebug(msg);
+		}
+		else
+		{
+			UpdateDebug(msg);
+		}
+
 		error = true;
 		return;
 	}
@@ -84,7 +95,18 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
 	}
 	else
 	{
-		interMsg("CRITICAL ERROR: Wrong error input. Please re-install Nemesis\n");
+		string msg = "CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
+		interMsg(msg + "\n");
+
+		if (isPatch)
+		{
+			PatchDebug(msg);
+		}
+		else
+		{
+			UpdateDebug(msg);
+		}
+
 		error = true;
 		return;
 	}
@@ -93,8 +115,13 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
 // error
 inline void ErrorMessage(int errorcode)
 {
+	if (error)
+	{
+		return;
+	}
+
 	error = true;
-	std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode) + "\n";
+	std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode);
 
 	if (DMLogError(errorcode).length() == 0)
 	{
@@ -102,56 +129,98 @@ inline void ErrorMessage(int errorcode)
 		return;
 	}
 	
-	interMsg(errormsg);
+	if (isPatch)
+	{
+		PatchDebug(errormsg);
+	}
+	else
+	{
+		UpdateDebug(errormsg);
+	}
+
+	interMsg(errormsg + "\n");
 }
 
 template <typename ... other>
 inline void ErrorMessage(int errorcode, other... rest)
 {
+	if (error)
+	{
+		return;
+	}
+
 	error = true;
-	std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode) + "\n";
+	std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode);
 
 	if (DMLogError(errorcode).length() == 0)
 	{
-		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
+		errormsg = "CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis";
+		interMsg(errormsg + "\n");
 		return;
 	}
 
 	AdditionalInput(errormsg, 1, rest...);
+	interMsg(errormsg + "\n");
 
-	interMsg(errormsg);
+	if (isPatch)
+	{
+		PatchDebug(errormsg);
+	}
+	else
+	{
+		UpdateDebug(errormsg);
+	}
 }
 
 // warning
 inline void WarningMessage(int warningcode)
 {
-	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode) + "\n";
+	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode);
 
 	if (DMLogWarning(warningcode).length() == 0)
 	{
-		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
+		warninmsg = "CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis";
+		interMsg(warninmsg + "\n");
 		error = true;
 		return;
 	}
 
-	interMsg(warninmsg);
+	interMsg(warninmsg + "\n");
+
+	if (isPatch)
+	{
+		PatchDebug(warninmsg);
+	}
+	else
+	{
+		UpdateDebug(warninmsg);
+	}
 }
 
 template <typename ... other>
 inline void WarningMessage(int warningcode, other... rest)
 {
-	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode) + "\n";
+	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode);
 
 	if (DMLogWarning(warningcode).length() == 0)
 	{
-		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
+		warninmsg = "CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis";
+		interMsg(warninmsg + "\n");
 		error = true;
 		return;
 	}
 
 	AdditionalInput(warninmsg, 1, rest...);
+	interMsg(warninmsg + "\n");
 
-	interMsg(warninmsg);
+	if (isPatch)
+	{
+		PatchDebug(warninmsg);
+	}
+	else
+	{
+		UpdateDebug(warninmsg);
+	}
 }
 
 // TextBox
