@@ -7,16 +7,17 @@ using namespace std;
 string zeroEvent;
 string zeroVariable;
 
-int formatGroupReplace(std::string& curline, std::string oriline, int point, std::string filename, std::string format, shared_ptr<master> subFunctionIDs, std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo, int linecount, int groupMulti, int optionMulti, int animMulti, std::string multiOption, bool innerError);
+int formatGroupReplace(string& curline, string oriline, int point, string filename, string format, shared_ptr<master> subFunctionIDs,
+	vector<vector<shared_ptr<animationInfo>>> groupAnimInfo, int linecount, int groupMulti, int optionMulti, int animMulti, string multiOption, bool innerError);
 
 groupTemplate::groupTemplate(vecstr grouptemplateformat)
 {
 	templatelines = grouptemplateformat;
 }
 
-vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, vector<int>& stateID, shared_ptr<master> newSubFunctionIDs,
-	vector<vector<shared_ptr<animationInfo>>> newGroupAnimInfo, int& nFunctionID, ImportContainer& import, id newEventID, id newVariableID,
-	string masterFormat, int groupCount)
+void groupTemplate::getFunctionLines(std::shared_ptr<vecstr> functionline, string behaviorFile, string formatname, vector<int>& stateID, shared_ptr<master> newSubFunctionIDs,
+	vector<vector<shared_ptr<animationInfo>>> newGroupAnimInfo, int nFunctionID, ImportContainer& import, id newEventID, id newVariableID,
+	string masterFormat, newAnimLock& animLock, int groupCount)
 {
 	if (groupCount == -1)
 	{
@@ -30,7 +31,6 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 	format = formatname;
 	unordered_map<string, string> IDExist;
 	vecstr tempstore;
-	vecstr functionline;
 	vecstr templateID;
 	string multiOption;
 	bool negative = false;
@@ -48,9 +48,9 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 	int order = -2;
 	int groupOrder = -2;
 	strID = to_string(nFunctionID);
-	nextFunctionID = const_cast<int*>(&nFunctionID);
+	nextFunctionID = nFunctionID;
 	newImport = const_cast<ImportContainer*>(&import);
-	nextStateID = stateID;
+	atomicLock = const_cast<newAnimLock*>(&animLock);
 	subFunctionIDs = newSubFunctionIDs;
 	groupAnimInfo = newGroupAnimInfo;
 	eventid = newEventID;
@@ -85,7 +85,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 	}
 
 	IsConditionOpened[0] = true;
-	functionline.reserve(templatelines.size() + 20 * memory);
+	functionline->reserve(templatelines.size() + 20 * memory);
 
 	for (unsigned int i = 0; i < templatelines.size(); ++i)
 	{
@@ -120,8 +120,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 						if (error)
 						{
-							functionline.shrink_to_fit();
-							return functionline;
+							functionline->shrink_to_fit();
+							return;
 						}
 					}
 				}
@@ -139,8 +139,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			if (condition == 0)
 			{
 				ErrorMessage(1119, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 
 			if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
@@ -168,8 +168,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 						if (error)
 						{
-							functionline.shrink_to_fit();
-							return functionline;
+							functionline->shrink_to_fit();
+							return;
 						}
 					}
 				}
@@ -187,8 +187,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			if (condition == 0)
 			{
 				ErrorMessage(1119, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 
 			if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
@@ -219,21 +219,21 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			if (newOpen)
 			{
 				ErrorMessage(1116, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 
 			ErrorMessage(1164, format, filename, i + 1);
-			functionline.shrink_to_fit();
-			return functionline;
+			functionline->shrink_to_fit();
+			return;
 		}
 		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "^ +% -->", 0) != NOT_FOUND)
 		{
 			if (newOpen)
 			{
 				ErrorMessage(1116, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 
 			if(IsConditionOpened[condition])
@@ -250,15 +250,15 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					else
 					{
 						ErrorMessage(1115, format, filename, i + 1);
-						functionline.shrink_to_fit();
-						return functionline;
+						functionline->shrink_to_fit();
+						return;
 					}
 				}
 				else
 				{
 					ErrorMessage(1159, format, filename, i + 1);
-					functionline.shrink_to_fit();
-					return functionline;
+					functionline->shrink_to_fit();
+					return;
 				}
 			}
 
@@ -270,8 +270,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			if (newOpen)
 			{
 				ErrorMessage(1116, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 
 			if(IsConditionOpened[condition])
@@ -288,15 +288,15 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					else
 					{
 						ErrorMessage(1115, format, filename, i + 1);
-						functionline.shrink_to_fit();
-						return functionline;
+						functionline->shrink_to_fit();
+						return;
 					}
 				}
 				else
 				{
 					ErrorMessage(1160, format, filename, i + 1);
-					functionline.shrink_to_fit();
-					return functionline;
+					functionline->shrink_to_fit();
+					return;
 				}
 			}
 
@@ -308,21 +308,21 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			if (newOpen)
 			{
 				ErrorMessage(1116, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 
 			ErrorMessage(1163, format, filename, i + 1);
-			functionline.shrink_to_fit();
-			return functionline;
+			functionline->shrink_to_fit();
+			return;
 		}
 		else if (templatelines[i].find("<!-- NEW ^", 0) != NOT_FOUND && templatelines[i].find("^ -->", 0) != NOT_FOUND)
 		{
 			if (newOpen)
 			{
 				ErrorMessage(1116, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 
 			if (IsConditionOpened[condition])
@@ -342,8 +342,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 					if (error)
 					{
-						functionline.shrink_to_fit();
-						return functionline;
+						functionline->shrink_to_fit();
+						return;
 					}
 
 					if (optionInfo[3].find("AnimObject") != NOT_FOUND)
@@ -396,8 +396,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				else
 				{
 					ErrorMessage(1116, format, filename, i + 1);
-					functionline.shrink_to_fit();
-					return functionline;
+					functionline->shrink_to_fit();
+					return;
 				}
 			}
 
@@ -409,8 +409,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			if (newOpen)
 			{
 				ErrorMessage(1116, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 
 			if(IsConditionOpened[condition])
@@ -430,8 +430,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 					if (error)
 					{
-						functionline.shrink_to_fit();
-						return functionline;
+						functionline->shrink_to_fit();
+						return;
 					}
 
 					if (!groupAnimInfo[stoi(optionInfo[1])][stoi(optionInfo[2])]->optionPicked[optionInfo[3]])
@@ -485,8 +485,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 				else
 				{
 					ErrorMessage(1115, format, filename, i + 1);
-					functionline.shrink_to_fit();
-					return functionline;
+					functionline->shrink_to_fit();
+					return;
 				}
 			}
 
@@ -498,8 +498,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			if (!newOpen)
 			{
 				ErrorMessage(1171, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 
 			newOpen = false;
@@ -590,14 +590,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 						if (intID >= int(fixedStateID.size()) || intID < 0)
 						{
 							ErrorMessage(1168, format, filename, i + 1, templine.substr(0, templine.find(")") + 1));
-							functionline.shrink_to_fit();
-							return functionline;
+							functionline->shrink_to_fit();
+							return;
 						}
 					}
 
 					if (templatelines[i].find("$(S" + ID + "+") != NOT_FOUND)
 					{
-						stateReplacer(templatelines[i], filename, ID, fixedStateID[intID], i + 1, curGroup);
+						stateReplacer(templatelines[i], filename, ID, intID, fixedStateID[intID], i + 1, curGroup);
 					}
 				}
 
@@ -619,8 +619,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 						if (error)
 						{
-							functionline.shrink_to_fit();
-							return functionline;
+							functionline->shrink_to_fit();
+							return;
 						}
 					}
 
@@ -648,8 +648,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					else
 					{
 						ErrorMessage(1136, format, filename, i + 1);
-						functionline.shrink_to_fit();
-						return functionline;
+						functionline->shrink_to_fit();
+						return;
 					}
 				}
 				else if (templatelines[i].find("</hkparam>") != NOT_FOUND && norElement)
@@ -661,10 +661,10 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					{
 						string oldElement;
 
-						if (functionline[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
+						if ((*functionline)[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
 						{
-							size_t position = functionline[elementLine].find("numelements=\"") + 13;
-							oldElement = functionline[elementLine].substr(position, functionline[elementLine].find("\">", position) - position);
+							size_t position = (*functionline)[elementLine].find("numelements=\"") + 13;
+							oldElement = (*functionline)[elementLine].substr(position, (*functionline)[elementLine].find("\">", position) - position);
 						}
 						else
 						{
@@ -673,7 +673,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 						if (oldElement != to_string(counter))
 						{
-							functionline[elementLine].replace(functionline[elementLine].find(oldElement), oldElement.length(), to_string(counter));
+							(*functionline)[elementLine].replace((*functionline)[elementLine].find(oldElement), oldElement.length(), to_string(counter));
 						}
 
 						norElement = false;
@@ -755,8 +755,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 								if (subFunctionIDs->grouplist[curGroup]->singlelist[0]->format[curID].length() == 0)
 								{
 									ErrorMessage(2017, format, filename, i + 1);
-									functionline.shrink_to_fit();
-									return functionline;
+									functionline->shrink_to_fit();
+									return;
 								}
 
 								templatelines[i].replace(nextpos, curID.length(), subFunctionIDs->grouplist[curGroup]->singlelist[0]->format[curID]);
@@ -764,8 +764,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 							else
 							{
 								ErrorMessage(2018, format, filename, i + 1, curID);
-								functionline.shrink_to_fit();
-								return functionline;
+								functionline->shrink_to_fit();
+								return;
 							}
 						}
 						else if (ID.find("#" + masterFormat + "_group") != NOT_FOUND && multiOption == masterFormat + "_group")
@@ -782,8 +782,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 									if (subFunctionIDs->grouplist[k]->functionIDs[curID].length() == 0)
 									{
 										ErrorMessage(2017, format, filename, i + 1);
-										functionline.shrink_to_fit();
-										return functionline;
+										functionline->shrink_to_fit();
+										return;
 									}
 
 									templatelines[i].replace(nextpos, curID.length(), subFunctionIDs->grouplist[k]->functionIDs[curID]);
@@ -792,8 +792,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 							else
 							{
 								ErrorMessage(2018, format, filename, i + 1, curID);
-								functionline.shrink_to_fit();
-								return functionline;
+								functionline->shrink_to_fit();
+								return;
 							}
 						}
 					}
@@ -805,8 +805,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 					if (error)
 					{
-						functionline.shrink_to_fit();
-						return functionline;
+						functionline->shrink_to_fit();
+						return;
 					}
 				}
 
@@ -819,8 +819,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 					if (error)
 					{
-						functionline.shrink_to_fit();
-						return functionline;
+						functionline->shrink_to_fit();
+						return;
 					}
 
 					templine = templine.substr(0, nextpos);
@@ -829,8 +829,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 					if (error)
 					{
-						functionline.shrink_to_fit();
-						return functionline;
+						functionline->shrink_to_fit();
+						return;
 					}
 
 					if (oldline != templine)
@@ -861,11 +861,11 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 					negative = false;
 				}
 
-				functionline.push_back(templatelines[i]);
+				functionline->push_back(templatelines[i]);
 
 				if (elementCatch)
 				{
-					elementLine = functionline.size() - 1;
+					elementLine = functionline->size() - 1;
 				}
 
 				break;
@@ -974,8 +974,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 													if (error)
 													{
-														functionline.shrink_to_fit();
-														return functionline;
+														functionline->shrink_to_fit();
+														return;
 													}
 												}
 											}
@@ -993,8 +993,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 										if (condition == 0)
 										{
 											ErrorMessage(1119, format, filename, linecount);
-											functionline.shrink_to_fit();
-											return functionline;
+											functionline->shrink_to_fit();
+											return;
 										}
 
 										if (!freeze2)
@@ -1025,8 +1025,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 													if (error)
 													{
-														functionline.shrink_to_fit();
-														return functionline;
+														functionline->shrink_to_fit();
+														return;
 													}
 												}
 											}
@@ -1044,8 +1044,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 										if (condition == 0)
 										{
 											ErrorMessage(1119, format, filename, linecount);
-											functionline.shrink_to_fit();
-											return functionline;
+											functionline->shrink_to_fit();
+											return;
 										}
 
 										if (!freeze2)
@@ -1060,7 +1060,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 													size_t conditionPosition = curLine.find("<!-- CONDITION") + 14;
 													string replacement1 = curLine.substr(0, conditionPosition + 1);
 													string replacement2 = curLine.substr(conditionPosition);
-													functionline.push_back(replacement1 + "START" + replacement2);
+													functionline->push_back(replacement1 + "START" + replacement2);
 												}
 												else
 												{
@@ -1195,14 +1195,14 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 													if (intID >= int(fixedStateID.size()) || intID < 0)
 													{
 														ErrorMessage(1127, format, filename, linecount);
-														functionline.shrink_to_fit();
-														return functionline;
+														functionline->shrink_to_fit();
+														return;
 													}
 												}
 
 												if (curLine.find("$(S" + ID + "+") != NOT_FOUND)
 												{
-													stateReplacer(curLine, filename, ID, fixedStateID[intID], linecount, curGroup);
+													stateReplacer(curLine, filename, ID, intID, fixedStateID[intID], linecount, curGroup);
 												}
 											}
 
@@ -1220,8 +1220,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 												if (error)
 												{
-													functionline.shrink_to_fit();
-													return functionline;
+													functionline->shrink_to_fit();
+													return;
 												}
 											}
 										}
@@ -1288,8 +1288,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 														if (subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format[curID].length() == 0)
 														{
 															ErrorMessage(2017, format, filename, linecount);
-															functionline.shrink_to_fit();
-															return functionline;
+															functionline->shrink_to_fit();
+															return;
 														}
 
 														curLine.replace(nextpos, curID.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format[curID]);
@@ -1297,8 +1297,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 													else
 													{
 														ErrorMessage(2018, format, filename, linecount, curID);
-														functionline.shrink_to_fit();
-														return functionline;
+														functionline->shrink_to_fit();
+														return;
 													}
 												}
 												else if (ID.find("#" + masterFormat + "_group") != NOT_FOUND && multiOption == masterFormat + "_group")
@@ -1313,8 +1313,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 														if (subFunctionIDs->grouplist[groupMulti]->functionIDs[curID].length() == 0)
 														{
 															ErrorMessage(2017, format, filename, linecount);
-															functionline.shrink_to_fit();
-															return functionline;
+															functionline->shrink_to_fit();
+															return;
 														}
 
 														curLine.replace(nextpos, curID.length(), subFunctionIDs->grouplist[groupMulti]->functionIDs[curID]);
@@ -1322,8 +1322,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 													else
 													{
 														ErrorMessage(2018, format, filename, linecount, curID);
-														functionline.shrink_to_fit();
-														return functionline;
+														functionline->shrink_to_fit();
+														return;
 													}
 												}
 											}
@@ -1335,8 +1335,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 											if (error)
 											{
-												functionline.shrink_to_fit();
-												return functionline;
+												functionline->shrink_to_fit();
+												return;
 											}
 										}
 
@@ -1349,8 +1349,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 											if (error)
 											{
-												functionline.shrink_to_fit();
-												return functionline;
+												functionline->shrink_to_fit();
+												return;
 											}
 
 											templine = templine.substr(0, nextpos);
@@ -1359,8 +1359,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 											if (error)
 											{
-												functionline.shrink_to_fit();
-												return functionline;
+												functionline->shrink_to_fit();
+												return;
 											}
 
 											if (oldline != templine)
@@ -1391,7 +1391,7 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 											negative = false;
 										}
 
-										functionline.push_back(curLine);
+										functionline->push_back(curLine);
 									}
 
 									if (curLine.find("<!-- CONDITION END -->", 0) != NOT_FOUND)
@@ -1399,8 +1399,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 										if (condition == 0)
 										{
 											ErrorMessage(1118, format, filename, linecount);
-											functionline.shrink_to_fit();
-											return functionline;
+											functionline->shrink_to_fit();
+											return;
 										}
 
 										if (freeze2 && IsConditionOpened[condition])
@@ -1446,8 +1446,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 			if (condition == 0)
 			{
 				ErrorMessage(1118, format, filename, i + 1);
-				functionline.shrink_to_fit();
-				return functionline;
+				functionline->shrink_to_fit();
+				return;
 			}
 			
 			if (!multi && ((newOpen && !skip) || !newOpen))
@@ -1474,8 +1474,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 
 		if (error)
 		{
-			functionline.shrink_to_fit();
-			return functionline;
+			functionline->shrink_to_fit();
+			return;
 		}
 	}
 
@@ -1484,8 +1484,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 	if (newOpen)
 	{
 		ErrorMessage(1116, format, filename, templatelines.size());
-		functionline.shrink_to_fit();
-		return functionline;
+		functionline->shrink_to_fit();
+		return;
 	}
 
 	for (auto it = IsConditionOpened.begin(); it != IsConditionOpened.end(); ++it)
@@ -1493,25 +1493,25 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 		if (it->second)
 		{
 			ErrorMessage(1120, format, filename);
-			functionline.shrink_to_fit();
-			return functionline;
+			functionline->shrink_to_fit();
+			return;
 			break;
 		}
 	}
 
-	if (functionline.size() != 0)
+	if (functionline->size() != 0)
 	{
-		if (!functionline.back().empty())
+		if (!functionline->back().empty())
 		{
-			functionline.push_back("");
+			functionline->push_back("");
 		}
-		else if (functionline.size() > 1)
+		else if (functionline->size() > 1)
 		{
-			while (functionline.back().empty())
+			while (functionline->back().empty())
 			{
-				if (functionline[functionline.size() - 2].empty())
+				if ((*functionline)[functionline->size() - 2].empty())
 				{
-					functionline.pop_back();
+					functionline->pop_back();
 				}
 				else
 				{
@@ -1521,8 +1521,8 @@ vecstr groupTemplate::getFunctionLines(string behaviorFile, string formatname, v
 		}
 	}
 
-	functionline.shrink_to_fit();
-	return functionline;
+	functionline->shrink_to_fit();
+	return;
 }
 
 vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr existingFunctionLines, shared_ptr<master> newSubFunctionIDs,
@@ -2476,10 +2476,8 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											copy(generator.begin(), generator.end(), generator.begin());
 											size_t nextpos = 0;
 
-											for (unsigned int p = 0; p < generator.size(); p++)
+											for (auto& ID : generator)
 											{
-												string ID = generator[p];
-
 												if (ID.find("#" + format + "$") != NOT_FOUND && multiOption == format)
 												{
 													nextpos = curLine.find("#" + format + "$", nextpos) + 1;
@@ -2749,7 +2747,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 	return newFunctionLines;
 }
 
-void groupTemplate::stateReplacer(string& line, string filename, string statenum, int stateID, int linecount, int groupMulti)
+void groupTemplate::stateReplacer(string& line, string filename, string statenum, int ID, int stateID, int linecount, int groupMulti)
 {
 	int count = sameWordCount(line, "$(S" + statenum + "+");
 
@@ -2768,6 +2766,7 @@ void groupTemplate::stateReplacer(string& line, string filename, string statenum
 				state = state.substr(1, state.length() - 2);
 				state.replace(1, 1 + statenum.length(), to_string(stateID));
 				calculate(state, format, filename, linecount);
+				int stateint = stoi(state);
 
 				if (error)
 				{
@@ -3007,10 +3006,8 @@ void groupTemplate::processing(string& line, string filename, string masterForma
 						string tempKeyword = importer.substr(pos, importer.find_last_of("]") + 1 - pos);
 						int openBrack = 0;
 
-						for (unsigned int j = 0; j < tempKeyword.length(); ++j)
+						for (auto& curChar : tempKeyword)
 						{
-							char curChar = tempKeyword[j];
-
 							if (curChar == '[')
 							{
 								++openBrack;
@@ -3415,10 +3412,8 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 						string tempKeyword = importer.substr(pos, importer.find_last_of("]") + 1 - pos);
 						int openBrack = 0;
 
-						for (unsigned int j = 0; j < tempKeyword.length(); ++j)
+						for (auto& curChar : tempKeyword)
 						{
-							char curChar = tempKeyword[j];
-
 							if (curChar == '[')
 							{
 								++openBrack;
@@ -4482,14 +4477,14 @@ inline bool isPassed(int condition, unordered_map<int, bool> IsConditionOpened)
 
 inline void groupTemplate::newID()
 {
-	++(*nextFunctionID);
+	++nextFunctionID;
 
-	if (*nextFunctionID == 9216)
+	if (nextFunctionID == 9216)
 	{
-		++(*nextFunctionID);
+		++nextFunctionID;
 	}
 
-	strID = to_string(*nextFunctionID);
+	strID = to_string(nextFunctionID);
 
 	while (strID.length() < 4)
 	{

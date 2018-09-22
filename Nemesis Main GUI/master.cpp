@@ -17,6 +17,7 @@ vecstr hiddenMods;
 unordered_map<string, vecstr> modinfo;
 atomic_flag atomic_lock = ATOMIC_FLAG_INIT;
 
+void groupThreadStart(newGroupArgs args);
 void animThreadStart(newAnimArgs args);
 void stateCheck(SSMap& c_parent, string parentID, string lowerbehaviorfile, string sID, SSSMap& stateID, SSMap& n_stateID, vecstr children, string filename,
 	string ID, string modcode, unordered_map<string, map<string, unordered_map<string, set<string>>>>& duplicatedStateList);
@@ -4657,7 +4658,7 @@ void BehaviorSub::BehaviorCompilation()
 				string templateCode = templateGroup[j];
 				vecstr opening;
 				opening.push_back("<!-- ======================== NEMESIS " + templateCode + " TEMPLATE START ======================== -->");
-				allEditLines.push_back(make_shared<vecstr>(opening));
+				allEditLines.emplace_back(make_shared<vecstr>(opening));
 				bool hasGroup = false;
 				bool hasMaster = false;
 				bool ignoreGroup = false;
@@ -4690,7 +4691,7 @@ void BehaviorSub::BehaviorCompilation()
 				{
 					{
 						vecstr space {""};
-						allEditLines.push_back(make_shared<vecstr>(space));
+						allEditLines.emplace_back(make_shared<vecstr>(space));
 					}
 
 					while (true)
@@ -4757,46 +4758,65 @@ void BehaviorSub::BehaviorCompilation()
 							// individual animation
 							if (hasGroup)
 							{
+								size_t threadCount = 0;
+
 								for (unsigned int k = 0; k < newAnimCount; ++k)
 								{
 									boost::thread_group multiThreads;
 
 									for (k; k < newAnimCount; ++k)
 									{
-										subFunctionIDs->singlelist.push_back(make_shared<single>());
-										allEditLines.emplace_back(make_shared<vecstr>());
-										newAnimArgs args(modID, lowerBehaviorFile, lastID, BehaviorTemplate.optionlist[templateCode].core, newAnimation[templateCode][k],
-											dummyAnimation, allEditLines.back(), isCoreDone[newAnimation[templateCode][k]->GetGroupAnimInfo()[0]->filename], functionState,
-											exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, hasGroup, stateID, stateMultiplier,
-											subFunctionIDs->singlelist.back(), subFunctionIDs, groupFunctionIDs, false, groupAnimInfo);
-
-										if (newAnimation[templateCode][k]->isLast())
+										if (newAnimation[templateCode][k]->coreModID != modID)
 										{
-											subFunctionIDs->singlelist.shrink_to_fit();
-											groupFunctionIDs->grouplist.push_back(subFunctionIDs);
-											subFunctionIDs = make_shared<group>();
-											subFunctionIDs->singlelist.reserve(memory);
-											groupAnimInfo.push_back(newAnimation[templateCode][k]->GetGroupAnimInfo());
-
-											for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+											if (dummyAnimation != nullptr && !dummyAnimation->isLast())
 											{
-												stateID[statenum] = 0;
+												ErrorMessage(1183);
+												emit done();
+												return;
 											}
 										}
 										else
 										{
-											for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+											subFunctionIDs->singlelist.emplace_back(make_shared<single>());
+											subFunctionIDs->singlelist.back()->format["Nemesis" + modID + lowerBehaviorFile + to_string(k)] = to_string(k);
+											allEditLines.emplace_back(make_shared<vecstr>());
+											dummyAnimation = newAnimation[templateCode][k];
+
+											newAnimArgs args(modID, lowerBehaviorFile, lastID, BehaviorTemplate.optionlist[templateCode].core, newAnimation[templateCode][k],
+												allEditLines.back(), isCoreDone[newAnimation[templateCode][k]->GetGroupAnimInfo()[0]->filename], functionState,
+												exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, hasGroup, stateID, stateMultiplier,
+												subFunctionIDs->singlelist.back(), subFunctionIDs, groupFunctionIDs, false, groupAnimInfo);
+
+											if (newAnimation[templateCode][k]->isLast())
 											{
-												stateID[statenum] += stateMultiplier[statenum];
+												subFunctionIDs->singlelist.shrink_to_fit();
+												groupFunctionIDs->grouplist.push_back(subFunctionIDs);
+												subFunctionIDs = make_shared<group>();
+												subFunctionIDs->singlelist.reserve(memory);
+												groupAnimInfo.push_back(newAnimation[templateCode][k]->GetGroupAnimInfo());
+
+												for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+												{
+													stateID[statenum] = 0;
+												}
 											}
+											else
+											{
+												for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+												{
+													stateID[statenum] += stateMultiplier[statenum];
+												}
+											}
+
+											lastID += IDMultiplier;
+											multiThreads.create_thread(boost::bind(animThreadStart, args));
+											++threadCount;
 										}
 
-										lastID += IDMultiplier;
-										multiThreads.create_thread(boost::bind(animThreadStart, args));
-
-										if (k % boost::thread::hardware_concurrency() == boost::thread::hardware_concurrency() - 1 || k + 1 == newAnimCount)
+										if (threadCount % boost::thread::hardware_concurrency() == boost::thread::hardware_concurrency() - 1 || k + 1 == newAnimCount)
 										{
 											multiThreads.join_all();
+											threadCount = 0;
 											break;
 										}
 									}
@@ -4804,29 +4824,55 @@ void BehaviorSub::BehaviorCompilation()
 							}
 							else
 							{
+								size_t threadCount = 0;
+
 								for (unsigned int k = 0; k < newAnimCount; ++k)
 								{
 									boost::thread_group multiThreads;
 
 									for (k; k < newAnimCount; ++k)
 									{
-										subFunctionIDs->singlelist.push_back(make_shared<single>());
-										allEditLines.emplace_back(make_shared<vecstr>());
-										newAnimArgs args(modID, lowerBehaviorFile, lastID, BehaviorTemplate.optionlist[templateCode].core, newAnimation[templateCode][k],
-											dummyAnimation, allEditLines.back(), isCoreDone[newAnimation[templateCode][k]->GetGroupAnimInfo()[0]->filename], functionState,
-											exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, hasGroup, stateID, stateMultiplier,
-											subFunctionIDs->singlelist.back(), subFunctionIDs, groupFunctionIDs, ignoreGroup, groupAnimInfo);
-
-										if (ignoreGroup)
+										if (newAnimation[templateCode][k]->coreModID != modID)
 										{
-											if (newAnimation[templateCode][k]->isLast())
+											if (dummyAnimation != nullptr && !dummyAnimation->isLast())
 											{
-												subFunctionIDs->singlelist.shrink_to_fit();
-												groupFunctionIDs->grouplist.push_back(subFunctionIDs);
-												subFunctionIDs = make_shared<group>();
-												subFunctionIDs->singlelist.reserve(memory);
-												// newSubFunctionIDs.singlelist.push_back(subFunctionIDs.singlelist[0]);
-												// subFunctionIDs.singlelist.clear();
+												ErrorMessage(1183);
+												emit done();
+												return;
+											}
+										}
+										else
+										{
+											subFunctionIDs->singlelist.emplace_back(make_shared<single>());
+											subFunctionIDs->singlelist.back()->format["Nemesis" + modID + lowerBehaviorFile + to_string(k)] = to_string(k);
+											allEditLines.emplace_back(make_shared<vecstr>());
+											dummyAnimation = newAnimation[templateCode][k];
+
+											newAnimArgs args(modID, lowerBehaviorFile, lastID, BehaviorTemplate.optionlist[templateCode].core, newAnimation[templateCode][k],
+												allEditLines.back(), isCoreDone[newAnimation[templateCode][k]->GetGroupAnimInfo()[0]->filename], functionState,
+												exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, hasGroup, stateID, stateMultiplier,
+												subFunctionIDs->singlelist.back(), subFunctionIDs, groupFunctionIDs, ignoreGroup, groupAnimInfo);
+
+											if (ignoreGroup)
+											{
+												if (newAnimation[templateCode][k]->isLast())
+												{
+													subFunctionIDs->singlelist.shrink_to_fit();
+													groupFunctionIDs->grouplist.push_back(subFunctionIDs);
+													subFunctionIDs = make_shared<group>();
+													subFunctionIDs->singlelist.reserve(memory);
+													// newSubFunctionIDs.singlelist.push_back(subFunctionIDs.singlelist[0]);
+													// subFunctionIDs.singlelist.clear();
+													groupAnimInfo.push_back(newAnimation[templateCode][k]->GetGroupAnimInfo());
+
+													for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+													{
+														stateID[statenum] += stateMultiplier[statenum];
+													}
+												}
+											}
+											else
+											{
 												groupAnimInfo.push_back(newAnimation[templateCode][k]->GetGroupAnimInfo());
 
 												for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
@@ -4834,23 +4880,16 @@ void BehaviorSub::BehaviorCompilation()
 													stateID[statenum] += stateMultiplier[statenum];
 												}
 											}
-										}
-										else
-										{
-											groupAnimInfo.push_back(newAnimation[templateCode][k]->GetGroupAnimInfo());
 
-											for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
-											{
-												stateID[statenum] += stateMultiplier[statenum];
-											}
+											lastID += IDMultiplier;
+											multiThreads.create_thread(boost::bind(animThreadStart, args));
+											++threadCount;
 										}
 
-										lastID += IDMultiplier;
-										multiThreads.create_thread(boost::bind(animThreadStart, args));
-
-										if (k % boost::thread::hardware_concurrency() == boost::thread::hardware_concurrency() - 1 || k + 1 == newAnimCount)
+										if (threadCount % boost::thread::hardware_concurrency() == boost::thread::hardware_concurrency() - 1 || k + 1 == newAnimCount)
 										{
 											multiThreads.join_all();
+											threadCount = 0;
 											break;
 										}
 									}
@@ -4895,8 +4934,22 @@ void BehaviorSub::BehaviorCompilation()
 							}
 
 							// group animation
-							if (hasGroup)
+							if (hasGroup && groupFunctionIDs->grouplist.size() > 0)
 							{
+								string filename = templateCode + "_group";
+								IDMultiplier = getTemplateNextID(BehaviorTemplate.behaviortemplate[filename][lowerBehaviorFile]);
+
+								{
+									vector<int> newMultiplier;
+									stateMultiplier = newMultiplier;
+								}
+
+								if (!GetStateCount(stateMultiplier, BehaviorTemplate.behaviortemplate[filename][lowerBehaviorFile], templateCode, behaviorFile, hasGroup))
+								{
+									emit done();
+									return;
+								}
+
 								if (!hasMaster)
 								{
 									stateID = GetStateID(BehaviorTemplate.mainBehaviorJoint[templateCode][lowerBehaviorFile], catalystMap, functionState);
@@ -4912,21 +4965,39 @@ void BehaviorSub::BehaviorCompilation()
 									stateID = { 0 };
 								}
 
-								for (unsigned int k = 0; k < groupFunctionIDs->grouplist.size(); ++k)
+								newAnimCount = groupFunctionIDs->grouplist.size();
+
+								for (unsigned int k = 0; k < newAnimCount; ++k)
 								{
-									string filename = templateCode + "_group";
-									groupTemplate group(BehaviorTemplate.behaviortemplate[filename][lowerBehaviorFile]);
-									group.setZeroEvent(ZeroEvent);
-									group.setZeroVariable(ZeroVariable);
-									allEditLines.emplace_back(make_shared<vecstr>(group.getFunctionLines(lowerBehaviorFile, filename, stateID, groupFunctionIDs,
-										groupAnimInfo, lastID, exportID, eventid, variableid, templateCode, k + 1)));
+									boost::thread_group multiThreads;
 
-									if (error)
+									for (k; k < newAnimCount; ++k)
 									{
-										emit done();
-										return;
-									}
+										allEditLines.emplace_back(make_shared<vecstr>());
+										shared_ptr<groupTemplate> groupTemp = make_shared<groupTemplate>(BehaviorTemplate.behaviortemplate[filename][lowerBehaviorFile]);
+										newGroupArgs args(templateCode, lowerBehaviorFile, filename, lastID, k + 1, stateID, groupTemp, allEditLines.back(), exportID, eventid,
+											variableid, animLock, ZeroEvent, ZeroVariable, groupFunctionIDs, groupAnimInfo);
 
+										if (error)
+										{
+											emit done();
+											return;
+										}
+
+										for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+										{
+											stateID[statenum] += stateMultiplier[statenum];
+										}
+
+										lastID += IDMultiplier;
+										multiThreads.create_thread(boost::bind(groupThreadStart, args));
+
+										if (k % boost::thread::hardware_concurrency() == boost::thread::hardware_concurrency() - 1 || k + 1 == newAnimCount)
+										{
+											multiThreads.join_all();
+											break;
+										}
+									}
 								}
 							}
 
@@ -4942,11 +5013,14 @@ void BehaviorSub::BehaviorCompilation()
 									return;
 								}
 
-								groupTemplate master(BehaviorTemplate.behaviortemplate[filename][lowerBehaviorFile]);
-								master.setZeroEvent(ZeroEvent);
-								master.setZeroVariable(ZeroVariable);
-								allEditLines.emplace_back(make_unique<vecstr>(master.getFunctionLines(lowerBehaviorFile, filename, stateID, groupFunctionIDs,
-									groupAnimInfo, lastID, exportID, eventid, variableid, templateCode, -1)));
+								shared_ptr<groupTemplate> masterTemp = make_shared<groupTemplate>(BehaviorTemplate.behaviortemplate[filename][lowerBehaviorFile]);
+								masterTemp->setZeroEvent(ZeroEvent);
+								masterTemp->setZeroVariable(ZeroVariable);
+								allEditLines.emplace_back(make_shared<vecstr>());
+								masterTemp->getFunctionLines(allEditLines.back(), lowerBehaviorFile, filename, stateID, groupFunctionIDs,
+									groupAnimInfo, lastID, exportID, eventid, variableid, templateCode, animLock, -1);
+
+								lastID += getTemplateNextID(BehaviorTemplate.behaviortemplate[filename][lowerBehaviorFile]);
 
 								if (error)
 								{
@@ -5053,7 +5127,7 @@ void BehaviorSub::BehaviorCompilation()
 				vecstr closing;
 				closing.push_back("<!-- ======================== NEMESIS " + templateCode + " TEMPLATE END ======================== -->");
 				closing.push_back("");
-				allEditLines.push_back(make_unique<vecstr>(closing));
+				allEditLines.emplace_back(make_unique<vecstr>(closing));
 			}
 		}
 
@@ -7451,6 +7525,14 @@ bool readMod(string& errormod)
 	return true;
 }
 
+void groupThreadStart(newGroupArgs args)
+{
+	args.groupTemp->setZeroEvent(args.ZeroEvent);
+	args.groupTemp->setZeroVariable(args.ZeroVariable);
+	args.groupTemp->getFunctionLines(args.allEditLines, args.lowerBehaviorFile, args.filename, args.stateID, args.groupFunctionIDs, args. groupAnimInfo, args.lastID,
+		args.exportID, args.eventid, args.variableid, args.templateCode, args.atomicLock, args.groupCount);
+}
+
 void animThreadStart(newAnimArgs args)
 {
 	if (args.core)
@@ -7469,28 +7551,11 @@ void animThreadStart(newAnimArgs args)
 		args.atomicLock.releaseCore();
 	}
 
-	if (args.newAnimation->coreModID != args.modID)
-	{
-		if (args.dummyAnimation != nullptr && !args.dummyAnimation->isLast())
-		{
-			ErrorMessage(1183);
-		}
-
-		return;
-	}
-
 	// getlines from newAnination
-	args.dummyAnimation = args.newAnimation;
 	args.dummyAnimation->setZeroEvent(args.ZeroEvent);
 	args.dummyAnimation->setZeroVariable(args.ZeroVariable);
-
 	args.dummyAnimation->GetFurnitureLine(args.allEditLines, args.lowerBehaviorFile, args.lastID, args.exportID, args.eventid, args.variableid, args.stateID,
 		args.stateMultiplier, args.hasGroup, args.core, args.subFunctionIDs, args.singleFunctionIDs, args.atomicLock);
-
-	if (error)
-	{
-		return;
-	}
 }
 
 vecstr getHiddenMods()
