@@ -14,12 +14,13 @@ getTemplate::getTemplate()
 
 	for (unsigned int k = 0; k < codelist.size(); ++k)
 	{
+		boost::to_lower(codelist[k]);
 		if (codelist[k].find(".", 0) == NOT_FOUND)
 		{
 			newpath = templateDirectory + codelist[k];
 			boost::filesystem::path FOF(newpath);
 
-			if (boost::iequals(codelist[k], "t") || boost::iequals(codelist[k], "aaprefix") || boost::iequals(codelist[k], "aaset") || boost::iequals(codelist[k], "md") || boost::iequals(codelist[k], "rd") || boost::iequals(codelist[k], "+"))
+			if (codelist[k] == "t" || codelist[k] == "aaprefix" || codelist[k] == "aaset" || codelist[k] == "md" || codelist[k] == "rd" || codelist[k] == "+")
 			{
 				ErrorMessage(3009, codelist[k]);
 				return;

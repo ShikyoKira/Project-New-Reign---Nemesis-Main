@@ -9,6 +9,7 @@
 bool isEdited(getTemplate& BehaviorTemplate, std::string& lowerBehaviorFile, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation, bool isCharacter, std::string modID);
 bool newAnimSkip(std::vector<std::shared_ptr<Furniture>> newAnim, std::string modID);
 bool GetStateCount(std::vector<int>& count, vecstr templatelines, std::string format, std::string filename, bool hasGroup);
+int getTemplateNextID(vecstr& templatelines);
 std::vector<int> GetStateID(std::map<int, int> mainJoint, std::map<int, vecstr> functionlist, std::unordered_map<int, int>& functionState);
 vecstr newAnimationElement(std::string line, std::vector<vecstr> element, int curNumber);
 std::string behaviorLineChooser(std::string originalline, std::unordered_map<std::string, std::string> chosenLines, vecstr behaviorPriority);

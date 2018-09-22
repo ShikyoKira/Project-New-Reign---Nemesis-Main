@@ -3902,7 +3902,7 @@ vecstr GetOptionInfo(string line, string format, string filename, int numline, s
 		}
 		else if (optionInfo[1] == "N")
 		{
-			if (lastOrder == animMulti)
+			if (lastOrder == animMulti || lastOrder == order)
 			{
 				optionInfo[1] = to_string(order);
 			}
@@ -3913,7 +3913,7 @@ vecstr GetOptionInfo(string line, string format, string filename, int numline, s
 		}
 		else if (optionInfo[1] == "B")
 		{
-			if (animMulti == 0)
+			if (animMulti == 0 || order == 0)
 			{
 				optionInfo[1] = to_string(order);
 			}

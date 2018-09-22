@@ -876,7 +876,8 @@ OptionList::OptionList(string filepath, string format)
 			{
 				if (!storelist[it->first])
 				{
-					ErrorMessage(1017, it->first, format, filepath, linecount);
+					WarningMessage(1025, it->first, format, filepath, linecount);
+					error = true;
 					return;
 				}
 				else

@@ -13,7 +13,6 @@ struct animationutility
 	int optionMulti = -1;
 	int animMulti = -1;
 	int groupMulti = -1;
-	int order;
 	std::string multiOption;
 
 	animationutility() {}

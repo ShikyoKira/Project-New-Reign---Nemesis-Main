@@ -21,6 +21,10 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 	optionPicked[behaviorOption.templatecode] = true;
 	optionPickedCount[behaviorOption.templatecode]++;
 
+	addOn = behaviorOption.addOn;
+	mixOptRegis = behaviorOption.mixOptRegis;
+	mixOptRever = behaviorOption.mixOptRever;
+
 	if (!noOption)
 	{
 		++k;
@@ -30,10 +34,6 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 		unordered_map<string, vecstr> joint = behaviorOption.joint;
 		vecstr optionOrder = behaviorOption.optionOrder;
 
-		addOn = behaviorOption.addOn;
-		mixOptRegis = behaviorOption.mixOptRegis;
-		mixOptRever = behaviorOption.mixOptRever;
-		
 		for (int i = 0; i < counter; ++i)
 		{
 			size_t pos = anim.find(",");
@@ -214,7 +214,8 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 
 					if (header.length() == 0)
 					{
-						ErrorMessage(1133, curFilename, linecount, option);
+						WarningMessage(1026, curFilename, linecount, option);
+						error = true;
 						return;
 					}
 				}

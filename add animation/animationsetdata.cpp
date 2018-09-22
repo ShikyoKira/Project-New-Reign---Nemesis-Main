@@ -1404,9 +1404,6 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 
 		while (i < linecount + 1)
 		{
-			if (i == 29 && linecount == 419)
-				i = i;
-
 			if (!marker[i].skip)
 			{
 				bool invert = false;

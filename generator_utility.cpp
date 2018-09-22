@@ -856,6 +856,42 @@ string GetFileDirectory(string filepath)
 	return filepath.substr(0, nextpos);
 }
 
+int getTemplateNextID(vecstr& templatelines)
+{
+	unordered_map<int, bool> taken;
+	int IDUsed = 0;
+
+	for (auto& line : templatelines)
+	{
+		if (line.find("<hkobject name=\"#MID$") != NOT_FOUND)
+		{
+			string number = boost::regex_replace(string(line), boost::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
+
+			if (number != line && isOnlyNumber(number))
+			{
+				int num = stoi(number);
+
+				if (!taken[num])
+				{
+					taken[num] = true;
+					++IDUsed;
+				}
+			}
+		}
+		else
+		{
+			size_t pos = line.find("import[");
+
+			if (pos != NOT_FOUND && line.find("]", pos) != NOT_FOUND)
+			{
+				++IDUsed;
+			}
+		}
+	}
+
+	return IDUsed;
+}
+
 bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, bool isCharacter, string modID)
 {
 	if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
