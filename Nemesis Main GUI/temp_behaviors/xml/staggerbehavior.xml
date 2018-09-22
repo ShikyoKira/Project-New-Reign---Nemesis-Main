@@ -30,7 +30,7 @@
 				<hkcstring>ActivateBlockEarly_Z</hkcstring>
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="19">				<!-- VARIABLE numelement zcbe +7 $24 -->
+			<hkparam name="variableNames" numelements="22">				<!-- VARIABLE numelement zcbe +7 $24 -->
 				<hkcstring>staggerMagnitude</hkcstring>
 				<hkcstring>IsStaggering</hkcstring>
 				<hkcstring>iRightHandType</hkcstring>
@@ -50,12 +50,15 @@
 				<hkcstring>Nemesis_AA_bowidle</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_bowidle</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_bowidle_0</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_bowidle_1</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_bowidle_2</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_bowidle_3</hkcstring>
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="0"></hkparam>
 		</hkobject>
 
 		<hkobject name="#0053" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="19">				<!-- VARIABLE numelement zcbe +7 $2 -->
+			<hkparam name="wordVariableValues" numelements="22">				<!-- VARIABLE numelement zcbe +7 $2 -->
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
@@ -113,6 +116,15 @@
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
 			<hkparam name="variantVariableValues" numelements="0"></hkparam>
@@ -120,7 +132,7 @@
 
 		<hkobject name="#0054" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="19">				<!-- VARIABLE numelement zcbe +7 $3 -->
+			<hkparam name="variableInfos" numelements="22">				<!-- VARIABLE numelement zcbe +7 $3 -->
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -255,6 +267,33 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="role">

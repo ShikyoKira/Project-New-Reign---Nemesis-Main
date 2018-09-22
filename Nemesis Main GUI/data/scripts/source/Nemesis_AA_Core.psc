@@ -31,37 +31,37 @@ endFunction
 
 int Function GetGroupOrder(int AAgroupID) global
 	if(AAgroupID == 36)
-		return 1
+		return 4
 	elseif(AAgroupID == 21)
-		return 1
+		return 4
 	elseif(AAgroupID == 10)
-		return 1
+		return 4
 	elseif(AAgroupID == 03)
-		return 1
+		return 4
 	elseif(AAgroupID == 17)
-		return 1
+		return 4
 	elseif(AAgroupID == 28)
-		return 1
+		return 4
 	elseif(AAgroupID == 20)
-		return 1
+		return 4
 	elseif(AAgroupID == 23)
-		return 1
+		return 4
 	elseif(AAgroupID == 24)
-		return 1
+		return 4
 	elseif(AAgroupID == 37)
-		return 1
+		return 4
 	elseif(AAgroupID == 41)
-		return 1
+		return 4
 	elseif(AAgroupID == 38)
-		return 1
+		return 4
 	elseif(AAgroupID == 39)
-		return 1
+		return 4
 	elseif(AAgroupID == 42)
-		return 1
+		return 4
 	elseif(AAgroupID == 48)
-		return 1
+		return 4
 	elseif(AAgroupID == 51)
-		return 1
+		return 4
 	endif
 
 	Debug.Trace("ERROR: Unknown Nemesis AAgroupID. Failed to GetGroupOrder (AA Group ID: " + AAgroupID as string + ")")

@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<hktagfile version="1">
+  <class name="hkRootLevelContainer" version="0">
+    <member name="namedVariants" type="struct" array="true" class="hkRootLevelContainerNamedVariant" />
+  </class>
+  <class name="hkRootLevelContainerNamedVariant" version="0">
+    <member name="name" type="string" />
+    <member name="className" type="string" />
+    <member name="variant" type="ref" class="hkReferencedObject" />
+  </class>
+  <class name="hkBaseObject" version="0"></class>
+  <class name="hkReferencedObject" version="0" parent="hkBaseObject">
+    <member name="memSizeAndFlags" type="void" />
+    <member name="referenceCount" type="void" />
+  </class>
+  <class name="hkaAnimationContainer" version="1" parent="hkReferencedObject">
+    <member name="skeletons" type="ref" array="true" class="hkaSkeleton" />
+    <member name="animations" type="ref" array="true" class="hkaAnimation" />
+    <member name="bindings" type="ref" array="true" class="hkaAnimationBinding" />
+    <member name="attachments" type="ref" array="true" class="hkaBoneAttachment" />
+    <member name="skins" type="ref" array="true" class="hkaMeshBinding" />
+  </class>
+  <class name="hkaSkeleton" version="3" parent="hkReferencedObject">
+    <member name="name" type="string" />
+    <member name="parentIndices" type="int" array="true" />
+    <member name="bones" type="struct" array="true" class="hkaBone" />
+    <member name="referencePose" type="vec12" array="true" />
+    <member name="referenceFloats" type="real" array="true" />
+    <member name="floatSlots" type="string" array="true" />
+    <member name="localFrames" type="struct" array="true" class="hkaSkeletonLocalFrameOnBone" />
+  </class>
+  <class name="hkaBone" version="0">
+    <member name="name" type="string" />
+    <member name="lockTranslation" type="byte" />
+  </class>
+  <class name="hkaSkeletonLocalFrameOnBone" version="0">
+    <member name="localFrame" type="ref" class="hkLocalFrame" />
+    <member name="boneIndex" type="int" />
+  </class>
+  <class name="hkLocalFrame" version="0" parent="hkReferencedObject"></class>
+  <class name="hkaAnimation" version="1" parent="hkReferencedObject">
+    <member name="type" type="int" />
+    <member name="duration" type="real" />
+    <member name="numberOfTransformTracks" type="int" />
+    <member name="numberOfFloatTracks" type="int" />
+    <member name="extractedMotion" type="ref" class="hkaAnimatedReferenceFrame" />
+    <member name="annotationTracks" type="ref" array="true" class="hkaAnnotationTrack" />
+  </class>
+  <class name="hkaAnimatedReferenceFrame" version="0" parent="hkReferencedObject"></class>
+  <class name="hkaAnnotationTrack" version="0">
+    <member name="trackName" type="string" />
+    <member name="annotations" type="struct" array="true" class="hkaAnnotationTrackAnnotation" />
+  </class>
+  <class name="hkaAnnotationTrackAnnotation" version="0">
+    <member name="time" type="real" />
+    <member name="text" type="string" />
+  </class>
+  <class name="hkaAnimationBinding" version="1" parent="hkReferencedObject">
+    <member name="originalSkeletonName" type="string" />
+    <member name="animation" type="ref" class="hkaAnimation" />
+    <member name="transformTrackToBoneIndices" type="int" array="true" />
+    <member name="floatTrackToFloatSlotIndices" type="int" array="true" />
+    <member name="blendHint" type="int" />
+  </class>
+  <class name="hkaBoneAttachment" version="1" parent="hkReferencedObject">
+    <member name="originalSkeletonName" type="string" />
+    <member name="boneFromAttachment" type="vec16" />
+    <member name="attachment" type="ref" class="hkReferencedObject" />
+    <member name="name" type="string" />
+    <member name="boneIndex" type="int" />
+  </class>
+  <class name="hkaMeshBinding" version="1" parent="hkReferencedObject">
+    <member name="mesh" type="ref" class="hkxMesh" />
+    <member name="originalSkeletonName" type="string" />
+    <member name="skeleton" type="ref" class="hkaSkeleton" />
+    <member name="mappings" type="ref" array="true" class="hkaMeshBindingMapping" />
+    <member name="boneFromSkinMeshTransforms" type="vec16" array="true" />
+  </class>
+  <class name="hkxMesh" version="1" parent="hkReferencedObject">
+    <member name="sections" type="ref" array="true" class="hkxMeshSection" />
+    <member name="userChannelInfos" type="ref" array="true" class="hkxMeshUserChannelInfo" />
+  </class>
+  <class name="hkxMeshSection" version="1" parent="hkReferencedObject">
+    <member name="vertexBuffer" type="ref" class="hkxVertexBuffer" />
+    <member name="indexBuffers" type="ref" array="true" class="hkxIndexBuffer" />
+    <member name="material" type="ref" class="hkxMaterial" />
+    <member name="userChannels" type="ref" array="true" class="hkReferencedObject" />
+  </class>
+  <class name="hkxVertexBuffer" version="1" parent="hkReferencedObject">
+    <member name="data" type="struct" class="hkxVertexBufferVertexData" />
+    <member name="desc" type="struct" class="hkxVertexDescription" />
+  </class>
+  <class name="hkxVertexBufferVertexData" version="0">
+    <member name="vectorData" type="vec4" array="true" />
+    <member name="floatData" type="real" array="true" />
+    <member name="uint32Data" type="int" array="true" />
+    <member name="uint16Data" type="int" array="true" />
+    <member name="uint8Data" type="byte" array="true" />
+    <member name="numVerts" type="int" />
+    <member name="vectorStride" type="int" />
+    <member name="floatStride" type="int" />
+    <member name="uint32Stride" type="int" />
+    <member name="uint16Stride" type="int" />
+    <member name="uint8Stride" type="int" />
+  </class>
+  <class name="hkxVertexDescription" version="1">
+    <member name="decls" type="struct" array="true" class="hkxVertexDescriptionElementDecl" />
+  </class>
+  <class name="hkxVertexDescriptionElementDecl" version="2">
+    <member name="byteOffset" type="int" />
+    <member name="type" type="int" />
+    <member name="usage" type="int" />
+    <member name="byteStride" type="int" />
+    <member name="numElements" type="byte" />
+  </class>
+  <class name="hkxIndexBuffer" version="1" parent="hkReferencedObject">
+    <member name="indexType" type="int" />
+    <member name="indices16" type="int" array="true" />
+    <member name="indices32" type="int" array="true" />
+    <member name="vertexBaseOffset" type="int" />
+    <member name="length" type="int" />
+  </class>
+  <class name="hkxAttributeHolder" version="1" parent="hkReferencedObject">
+    <member name="attributeGroups" type="ref" array="true" class="hkxAttributeGroup" />
+  </class>
+  <class name="hkxAttributeGroup" version="0">
+    <member name="name" type="string" />
+    <member name="attributes" type="struct" array="true" class="hkxAttribute" />
+  </class>
+  <class name="hkxAttribute" version="0">
+    <member name="name" type="string" />
+    <member name="value" type="ref" class="hkReferencedObject" />
+  </class>
+  <class name="hkxMaterial" version="1" parent="hkxAttributeHolder">
+    <member name="name" type="string" />
+    <member name="stages" type="struct" array="true" class="hkxMaterialTextureStage" />
+    <member name="diffuseColor" type="vec4" />
+    <member name="ambientColor" type="vec4" />
+    <member name="specularColor" type="vec4" />
+    <member name="emissiveColor" type="vec4" />
+    <member name="subMaterials" type="ref" array="true" class="hkxMaterial" />
+    <member name="extraData" type="ref" class="hkReferencedObject" />
+    <member name="properties" type="struct" array="true" class="hkxMaterialProperty" />
+  </class>
+  <class name="hkxMaterialTextureStage" version="0">
+    <member name="texture" type="ref" class="hkReferencedObject" />
+    <member name="usageHint" type="int" />
+    <member name="tcoordChannel" type="int" />
+  </class>
+  <class name="hkxMaterialProperty" version="0">
+    <member name="key" type="int" />
+    <member name="value" type="int" />
+  </class>
+  <class name="hkxMeshUserChannelInfo" version="0" parent="hkxAttributeHolder">
+    <member name="name" type="string" />
+    <member name="className" type="string" />
+  </class>
+  <class name="hkaMeshBindingMapping" version="0">
+    <member name="mapping" type="int" array="true" />
+  </class>
+  <class name="hkaSplineCompressedAnimation" version="0" parent="hkaAnimation">
+    <member name="numFrames" type="int" />
+    <member name="numBlocks" type="int" />
+    <member name="maxFramesPerBlock" type="int" />
+    <member name="maskAndQuantizationSize" type="int" />
+    <member name="blockDuration" type="real" />
+    <member name="blockInverseDuration" type="real" />
+    <member name="frameDuration" type="real" />
+    <member name="blockOffsets" type="int" array="true" />
+    <member name="floatBlockOffsets" type="int" array="true" />
+    <member name="transformOffsets" type="int" array="true" />
+    <member name="floatOffsets" type="int" array="true" />
+    <member name="data" type="byte" array="true" />
+    <member name="endian" type="int" />
+  </class>
+  <object id="#0001" type="hkRootLevelContainer">
+    <array name="namedVariants" size="1">
+      <struct>
+        <string name="name">Animation Container</string>
+        <string name="className">hkaAnimationContainer</string>
+        <ref name="variant">#0002</ref>
+      </struct>
+    </array>
+  </object>
+  <object id="#0002" type="hkaAnimationContainer">
+    <array name="animations" size="1">
+      <ref>#0003</ref>
+    </array>
+    <array name="bindings" size="1">
+      <ref>#0004</ref>
+    </array>
+  </object>
+  <object id="#0003" type="hkaSplineCompressedAnimation">
+    <int name="type">3</int>
+    <real name="duration">x3f088889 <!-- 0.533333 --></real>
+    <int name="numberOfTransformTracks">99</int>
+    <array name="annotationTracks" size="99">
+      <ref>#0005</ref>
+      <ref>#0006</ref>
+      <ref>#0007</ref>
+      <ref>#0008</ref>
+      <ref>#0009</ref>
+      <ref>#0010</ref>
+      <ref>#0011</ref>
+      <ref>#0012</ref>
+      <ref>#0013</ref>
+      <ref>#0014</ref>
+      <ref>#0015</ref>
+      <ref>#0016</ref>
+      <ref>#0017</ref>
+      <ref>#0018</ref>
+      <ref>#0019</ref>
+      <ref>#0020</ref>
+      <ref>#0021</ref>
+      <ref>#0022</ref>
+      <ref>#0023</ref>
+      <ref>#0024</ref>
+      <ref>#0025</ref>
+      <ref>#0026</ref>
+      <ref>#0027</ref>
+      <ref>#0028</ref>
+      <ref>#0029</ref>
+      <ref>#0030</ref>
+      <ref>#0031</ref>
+      <ref>#0032</ref>
+      <ref>#0033</ref>
+      <ref>#0034</ref>
+      <ref>#0035</ref>
+      <ref>#0036</ref>
+      <ref>#0037</ref>
+      <ref>#0038</ref>
+      <ref>#0039</ref>
+      <ref>#0040</ref>
+      <ref>#0041</ref>
+      <ref>#0042</ref>
+      <ref>#0043</ref>
+      <ref>#0044</ref>
+      <ref>#0045</ref>
+      <ref>#0046</ref>
+      <ref>#0047</ref>
+      <ref>#0048</ref>
+      <ref>#0049</ref>
+      <ref>#0050</ref>
+      <ref>#0051</ref>
+      <ref>#0052</ref>
+      <ref>#0053</ref>
+      <ref>#0054</ref>
+      <ref>#0055</ref>
+      <ref>#0056</ref>
+      <ref>#0057</ref>
+      <ref>#0058</ref>
+      <ref>#0059</ref>
+      <ref>#0060</ref>
+      <ref>#0061</ref>
+      <ref>#0062</ref>
+      <ref>#0063</ref>
+      <ref>#0064</ref>
+      <ref>#0065</ref>
+      <ref>#0066</ref>
+      <ref>#0067</ref>
+      <ref>#0068</ref>
+      <ref>#0069</ref>
+      <ref>#0070</ref>
+      <ref>#0071</ref>
+      <ref>#0072</ref>
+      <ref>#0073</ref>
+      <ref>#0074</ref>
+      <ref>#0075</ref>
+      <ref>#0076</ref>
+      <ref>#0077</ref>
+      <ref>#0078</ref>
+      <ref>#0079</ref>
+      <ref>#0080</ref>
+      <ref>#0081</ref>
+      <ref>#0082</ref>
+      <ref>#0083</ref>
+      <ref>#0084</ref>
+      <ref>#0085</ref>
+      <ref>#0086</ref>
+      <ref>#0087</ref>
+      <ref>#0088</ref>
+      <ref>#0089</ref>
+      <ref>#0090</ref>
+      <ref>#0091</ref>
+      <ref>#0092</ref>
+      <ref>#0093</ref>
+      <ref>#0094</ref>
+      <ref>#0095</ref>
+      <ref>#0096</ref>
+      <ref>#0097</ref>
+      <ref>#0098</ref>
+      <ref>#0099</ref>
+      <ref>#0100</ref>
+      <ref>#0101</ref>
+      <ref>#0102</ref>
+      <ref>#0103</ref>
+    </array>
+    <int name="numFrames">17</int>
+    <int name="numBlocks">1</int>
+    <int name="maxFramesPerBlock">256</int>
+    <int name="maskAndQuantizationSize">396</int>
+    <real name="blockDuration">x41080000 <!-- 8.5 --></real>
+    <real name="blockInverseDuration">x3df0f0f1 <!-- 0.117647 --></real>
+    <real name="frameDuration">x3d088889 <!-- 0.0333333 --></real>
+    <array name="blockOffsets" size="1">
+      0 
+    </array>
+    <array name="floatBlockOffsets" size="1">
+      5336 
+    </array>
+    <array name="data" size="5344">
+      69 2 0 0 69 3 0 0 69 3 0 0 69 3 0 0 
+      69 96 144 0 69 0 144 0 69 1 240 16 69 4 240 16 
+      69 4 240 16 69 1 240 0 69 4 240 0 69 4 240 16 
+      69 7 15 0 69 4 9 0 69 4 9 0 69 7 15 0 
+      69 4 9 0 69 4 9 0 69 6 9 0 69 4 0 0 
+      69 4 0 0 69 6 14 0 69 4 0 0 69 4 0 0 
+      69 6 240 0 69 4 240 0 69 6 240 1 69 7 15 1 
+      69 4 240 0 69 4 144 16 69 7 240 1 69 4 240 1 
+      69 4 148 0 69 1 0 0 69 1 0 0 69 6 240 1 
+      69 4 240 0 69 7 15 0 69 4 240 16 69 4 240 0 
+      69 6 15 0 69 7 15 0 69 6 15 0 69 7 15 0 
+      69 7 15 0 69 7 15 1 69 6 9 0 69 7 0 0 
+      69 7 0 0 69 6 0 0 69 6 105 16 69 6 105 16 
+      69 4 240 16 69 4 240 16 69 0 240 0 69 1 144 0 
+      69 4 240 0 69 4 240 0 69 0 240 0 69 1 144 0 
+      69 7 15 1 69 7 15 0 69 7 15 1 69 7 15 1 
+      69 7 15 0 69 7 15 0 69 7 15 0 69 7 15 0 
+      69 4 15 0 69 4 15 0 69 7 15 0 69 4 9 0 
+      69 4 9 0 69 7 15 0 69 4 9 0 69 4 9 0 
+      69 7 15 0 69 4 9 0 69 4 9 0 69 7 15 0 
+      69 4 9 0 69 4 9 0 69 7 15 0 69 4 15 0 
+      69 4 15 0 69 7 15 0 69 4 9 0 69 4 9 0 
+      69 7 15 0 69 4 9 0 69 4 9 0 69 7 15 0 
+      69 4 9 0 69 4 9 0 69 7 15 0 69 4 9 0 
+      69 4 9 0 69 4 0 0 69 0 0 0 176 142 225 193 
+      230 26 93 190 128 170 210 62 230 26 93 190 128 170 210 62 
+      230 26 93 190 128 170 210 62 14 0 1 0 0 1 2 3 
+      5 6 7 8 9 10 11 13 14 15 16 16 215 137 79 65 
+      242 50 192 65 139 205 64 66 203 131 71 66 255 255 0 0 
+      255 244 255 10 255 215 255 39 255 174 255 80 255 80 255 174 
+      255 39 255 215 255 10 255 244 0 0 255 255 255 10 255 244 
+      255 39 255 215 255 80 255 174 255 174 255 80 255 215 255 39 
+      255 244 255 10 255 255 0 0 16 0 1 0 0 1 2 3 
+      4 5 6 7 8 9 10 11 12 13 14 15 16 16 82 247 
+      127 255 55 69 247 127 255 55 36 247 127 255 55 244 246 127 
+      255 55 190 246 127 255 55 135 246 127 255 55 88 246 127 255 
+      55 55 246 127 255 55 42 246 127 255 55 55 246 127 255 55 
+      88 246 127 255 55 135 246 127 255 55 190 246 127 255 55 244 
+      246 127 255 55 36 247 127 255 55 69 247 127 255 55 82 247 
+      127 255 55 0 16 0 1 0 0 1 2 3 4 5 6 7 
+      8 9 10 11 12 13 14 15 16 16 133 247 127 255 55 156 
+      247 127 255 55 176 247 127 255 55 194 247 127 255 55 209 247 
+      127 255 55 223 247 127 255 55 235 247 127 255 55 244 247 127 
+      255 55 247 247 127 255 55 230 247 127 255 55 192 247 127 255 
+      55 150 247 127 255 55 123 247 127 255 55 113 247 127 255 55 
+      111 247 127 255 55 118 247 127 255 55 133 247 127 255 55 0 
+      169 174 211 192 16 0 1 0 0 1 2 3 4 5 6 7 
+      8 9 10 11 12 13 14 15 16 16 143 245 184 183 20 142 
+      101 185 184 20 128 149 188 194 20 107 165 193 213 20 82 117 
+      199 238 20 59 21 205 11 21 40 213 209 38 21 28 5 213 
+      58 21 24 53 214 65 21 25 181 213 61 21 30 5 212 49 
+      21 40 213 208 29 21 59 245 203 3 21 84 245 197 232 20 
+      110 37 192 209 20 131 117 187 192 20 143 245 184 183 20 0 
+      11 0 1 0 0 2 3 4 6 7 8 11 12 14 15 16 
+      16 0 0 0 241 238 110 63 19 17 145 63 85 85 84 85 
+      169 170 84 85 84 85 255 255 84 85 85 85 0 0 169 170 
+      170 170 85 85 131 97 14 66 16 0 1 0 0 1 2 3 
+      4 5 6 7 8 9 10 11 12 13 14 15 16 16 132 143 
+      128 20 56 134 143 128 19 56 141 143 128 19 56 146 143 128 
+      19 56 149 143 128 19 56 146 143 128 19 56 141 143 128 19 
+      56 135 143 128 19 56 132 143 128 20 56 135 143 128 19 56 
+      141 143 128 19 56 146 143 128 19 56 149 143 128 19 56 146 
+      143 128 19 56 141 143 128 19 56 134 143 128 19 56 132 143 
+      128 20 56 0 12 0 1 0 0 2 3 4 6 7 8 11 
+      12 13 14 15 16 16 0 0 226 225 97 63 144 36 137 63 
+      73 159 73 159 170 74 73 159 73 159 0 0 73 159 73 159 
+      255 255 73 159 170 74 170 74 73 159 0 0 26 153 223 65 
+      16 0 1 0 0 1 2 3 4 5 6 7 8 9 10 11 
+      12 13 14 15 16 16 27 85 129 173 78 34 165 129 183 78 
+      52 69 130 210 78 80 21 131 250 78 112 213 131 41 79 146 
+      117 132 89 79 176 229 132 132 79 198 21 133 162 79 206 37 
+      133 174 79 198 21 133 162 79 176 229 132 132 79 146 117 132 
+      89 79 112 213 131 41 79 80 21 131 250 78 52 69 130 210 
+      78 34 165 129 183 78 27 85 129 173 78 0 13 0 1 0 
+      0 2 3 4 5 6 7 9 10 11 12 13 15 16 16 0 
+      65 62 107 63 221 96 138 63 169 170 0 0 254 255 169 170 
+      0 0 84 85 84 85 255 255 170 170 170 170 85 85 254 255 
+      85 85 169 170 169 174 211 64 16 0 1 0 0 1 2 3 
+      4 5 6 7 8 9 10 11 12 13 14 15 16 16 74 90 
+      186 62 27 75 186 186 61 27 88 250 189 51 27 109 234 194 
+      33 27 132 186 200 8 27 154 74 206 236 26 172 250 210 210 
+      26 184 42 214 191 26 189 90 215 183 26 188 218 214 187 26 
+      183 42 213 200 26 173 26 210 219 26 155 58 205 244 26 131 
+      74 199 15 27 106 122 193 37 27 86 202 188 54 27 74 90 
+      186 62 27 0 142 97 14 66 14 0 1 0 0 1 2 3 
+      4 5 7 8 9 11 12 13 14 15 16 16 137 111 127 234 
+      55 139 111 127 234 55 144 111 127 235 55 149 111 127 235 55 
+      149 111 127 235 55 145 111 127 235 55 131 111 127 234 55 127 
+      111 127 234 55 131 111 127 234 55 145 111 127 235 55 149 111 
+      127 235 55 149 111 127 235 55 144 111 127 235 55 139 111 127 
+      234 55 137 111 127 234 55 0 17 153 223 65 16 0 1 0 
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+      16 16 197 90 126 181 78 190 26 126 192 78 172 122 125 220 
+      78 145 186 124 4 79 114 250 123 52 79 81 106 123 101 79 
+      52 10 123 145 79 32 218 122 176 79 24 202 122 188 79 32 
+      218 122 176 79 52 10 123 145 79 81 106 123 101 79 114 250 
+      123 52 79 145 186 124 4 79 172 122 125 220 78 190 26 126 
+      192 78 197 90 126 181 78 0 12 0 1 0 0 2 4 5 
+      6 7 8 9 11 12 14 15 16 16 0 0 193 78 108 63 
+      112 249 150 63 153 153 50 51 51 51 101 102 102 102 51 51 
+      255 255 102 102 0 0 102 102 102 102 51 51 153 153 0 0 
+      194 82 113 65 166 47 166 191 230 74 234 64 245 255 138 175 
+      8 0 0 0 173 170 78 65 123 248 127 255 55 0 0 0 
+      181 170 78 65 122 248 127 255 55 0 0 0 194 82 113 193 
+      134 47 166 191 231 74 234 64 246 255 138 79 71 0 0 0 
+      170 170 78 65 123 248 127 255 55 0 0 0 178 170 78 65 
+      131 247 127 255 119 0 0 0 195 240 51 193 119 44 15 65 
+      255 247 127 210 8 0 0 0 170 170 78 65 164 170 78 65 
+      188 231 62 65 36 114 183 64 255 87 130 255 23 0 0 0 
+      159 170 78 65 169 170 78 65 215 172 167 192 51 170 114 64 
+      16 0 1 0 0 1 2 3 4 5 6 7 8 9 10 11 
+      12 13 14 15 16 16 96 104 128 69 56 141 104 128 70 56 
+      158 104 128 70 56 138 104 128 69 56 86 104 128 69 56 13 
+      120 128 69 56 185 119 128 69 56 100 135 128 69 56 24 135 
+      128 69 56 225 150 128 69 56 199 150 128 69 56 210 150 128 
+      69 56 251 150 128 69 56 57 135 128 69 56 131 135 128 69 
+      56 211 119 128 69 56 31 120 128 69 56 0 187 250 11 65 
+      16 0 1 0 0 1 2 3 4 5 6 7 8 9 10 11 
+      12 13 14 15 16 16 178 54 137 110 57 157 150 136 114 57 
+      161 214 135 120 57 196 22 135 125 57 253 86 134 129 57 54 
+      199 133 130 57 100 151 133 130 57 136 167 133 128 57 160 247 
+      133 128 57 182 151 134 129 57 196 119 135 129 57 193 71 136 
+      127 57 170 199 136 124 57 130 7 137 120 57 86 23 137 116 
+      57 38 231 136 113 57 241 134 136 114 57 0 241 32 140 188 
+      79 211 29 65 16 0 1 0 0 1 2 3 4 5 6 7 
+      8 9 10 11 12 13 14 15 16 16 253 230 137 117 56 173 
+      22 139 116 56 107 38 140 115 56 61 230 140 114 56 44 38 
+      141 114 56 61 198 140 116 56 106 182 139 119 56 170 54 138 
+      122 56 246 166 136 123 56 75 71 135 122 56 158 55 134 120 
+      56 215 199 133 117 56 226 247 133 117 56 200 135 134 117 56 
+      150 135 135 116 56 81 183 136 116 56 253 230 137 117 56 0 
+      248 254 95 63 3 249 216 191 57 102 188 64 105 162 155 65 
+      117 134 150 200 94 0 0 0 223 74 146 63 55 180 96 65 
+      16 0 1 0 0 1 2 3 4 5 6 7 8 9 10 11 
+      12 13 14 15 16 16 115 77 192 41 119 162 157 189 85 119 
+      213 221 186 134 119 3 142 184 178 119 34 206 182 211 119 47 
+      206 181 229 119 41 94 181 232 119 18 158 181 218 119 237 205 
+      182 187 119 188 45 185 137 119 137 109 188 79 119 96 189 191 
+      31 119 68 45 194 1 119 52 109 195 243 118 51 189 195 242 
+      118 65 237 194 255 118 98 205 192 29 119 0 14 172 182 65 
+      16 0 1 0 0 1 2 3 4 5 6 7 8 9 10 11 
+      12 13 14 15 16 16 195 241 127 255 55 155 241 127 255 55 
+      124 241 127 255 55 95 241 127 255 55 70 241 127 255 55 35 
+      241 127 255 55 243 240 127 255 55 197 240 127 255 55 168 240 
+      127 255 55 188 240 127 255 55 4 241 127 255 55 97 241 127 
+      255 55 168 241 127 255 55 205 241 127 255 55 226 241 127 255 
+      55 219 241 127 255 55 179 241 127 255 55 0 10 0 1 0 
+      0 1 2 4 7 8 9 10 11 15 16 16 0 0 80 63 
+      0 0 128 63 85 85 85 85 255 255 85 85 84 85 0 0 
+      169 170 0 0 84 85 85 85 170 170 0 0 223 248 216 63 
+      61 102 188 64 100 162 155 65 15 0 1 0 0 1 2 3 
+      4 5 6 7 8 9 10 11 12 13 14 16 16 106 200 84 
+      122 30 104 24 85 129 30 98 232 85 147 30 90 8 87 172 
+      30 80 72 88 201 30 70 120 89 229 30 62 136 90 253 30 
+      55 72 91 14 31 53 136 91 21 31 57 24 91 10 31 67 
+      216 89 238 30 80 72 88 201 30 93 152 86 163 30 102 72 
+      85 134 30 106 200 84 122 30 106 200 84 122 30 0 0 0 
+      118 109 91 63 0 180 96 65 16 0 1 0 0 1 2 3 
+      4 5 6 7 8 9 10 11 12 13 14 15 16 16 245 208 
+      176 8 59 232 240 174 67 59 210 128 172 141 59 190 0 170 
+      217 59 124 202 193 38 79 98 26 197 8 79 86 106 199 252 
+      78 88 58 200 0 79 105 218 198 24 79 205 112 168 40 60 
+      193 208 170 196 59 180 64 173 103 59 183 96 175 37 59 205 
+      16 177 249 58 235 64 178 220 58 5 129 178 216 58 10 129 
+      177 250 58 0 166 171 170 63 23 172 182 65 16 0 1 0 
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+      16 16 194 243 127 255 55 166 243 127 255 55 174 243 127 255 
+      55 199 243 127 255 55 232 243 127 255 55 241 243 127 255 55 
+      207 243 127 255 55 150 243 127 255 55 91 243 127 255 55 91 
+      243 127 255 55 170 243 127 255 55 21 244 127 255 55 69 244 
+      127 255 55 45 244 127 255 55 1 244 127 255 55 196 243 127 
+      255 55 133 243 127 255 55 0 255 255 159 192 255 255 159 64 
+      181 216 220 60 219 80 176 65 16 0 1 0 0 1 2 3 
+      4 5 6 7 8 9 10 11 12 13 14 15 16 16 210 37 
+      136 96 55 17 70 136 98 55 74 70 136 97 55 119 22 136 
+      95 55 146 198 135 91 55 159 102 135 85 55 165 246 134 79 
+      55 161 134 134 74 55 143 22 134 69 55 96 166 133 65 55 
+      24 70 133 61 55 207 37 133 62 55 158 149 133 67 55 138 
+      85 134 74 55 133 21 135 83 55 154 181 135 91 55 210 37 
+      136 96 55 0 211 73 146 63 151 145 236 64 16 0 1 0 
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+      16 16 207 25 140 199 54 212 25 140 199 54 204 25 140 198 
+      54 185 9 140 196 54 157 9 140 192 54 126 249 139 188 54 
+      97 233 139 185 54 75 233 139 182 54 63 233 139 180 54 64 
+      233 139 180 54 76 233 139 182 54 95 233 139 184 54 119 249 
+      139 187 54 145 249 139 191 54 170 9 140 194 54 192 9 140 
+      197 54 207 25 140 199 54 0 233 118 168 189 60 138 1 65 
+      183 151 109 64 255 247 127 14 56 0 0 0 142 95 128 65 
+      16 0 1 0 0 1 2 3 4 5 6 7 8 9 10 11 
+      12 13 14 15 16 16 31 156 132 155 34 14 156 129 142 34 
+      5 252 126 134 34 3 204 124 128 34 6 28 123 124 34 11 
+      156 121 119 34 14 12 120 109 34 17 236 118 98 34 24 236 
+      118 93 34 42 76 121 105 34 67 172 125 135 34 85 124 130 
+      166 34 91 12 134 180 34 85 220 135 180 34 72 124 136 176 
+      34 55 140 135 166 34 34 220 132 148 34 0 11 0 1 0 
+      0 1 2 3 4 7 8 9 10 11 15 16 16 0 0 0 
+      208 253 127 63 20 138 157 63 125 158 135 158 0 0 252 73 
+      122 158 120 158 255 255 246 73 254 255 125 158 121 158 250 73 
+      125 95 128 65 16 0 1 0 0 1 2 3 4 5 6 7 
+      8 9 10 11 12 13 14 15 16 16 90 247 80 168 47 116 
+      135 80 163 47 134 7 81 165 47 149 247 81 173 47 160 23 
+      83 187 47 181 119 83 174 63 219 135 82 151 63 3 200 80 
+      127 63 32 184 78 108 63 13 24 78 105 63 204 199 79 116 
+      63 125 135 82 130 63 78 23 84 139 63 66 199 83 146 63 
+      65 167 82 160 63 79 231 80 174 63 109 87 79 170 47 0 
+      106 207 27 192 49 24 229 64 139 158 54 105 67 0 0 0 
+      2 1 128 191 181 158 183 191 249 139 2 65 166 141 37 166 
+      13 0 0 0 106 207 27 192 49 24 229 64 139 158 54 105 
+      67 0 0 0 241 131 102 190 224 2 73 192 255 23 229 64 
+      166 109 218 88 50 0 0 0 75 89 202 191 98 33 226 63 
+      108 236 59 65 252 38 69 101 31 0 0 0 156 91 202 63 
+      201 30 226 63 45 236 59 65 251 230 186 102 95 0 0 0 
+      166 171 170 63 130 159 158 64 121 156 155 64 62 248 127 255 
+      55 0 0 0 173 252 255 190 181 53 137 192 150 249 11 65 
+      26 0 0 63 158 53 137 192 120 249 11 65 174 161 56 65 
+      145 151 81 192 75 201 133 188 2 148 42 65 14 0 1 0 
+      0 1 2 3 4 5 6 7 8 10 11 13 14 15 16 16 
+      170 68 128 251 55 170 68 128 251 55 170 68 128 251 55 170 
+      68 128 251 55 170 68 128 251 55 170 68 128 251 55 170 68 
+      128 251 55 170 68 128 251 55 170 68 128 251 55 170 68 128 
+      251 55 170 68 128 251 55 170 68 128 251 55 170 68 128 251 
+      55 170 68 128 251 55 170 68 128 251 55 0 16 0 1 0 
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+      16 16 0 0 209 204 108 63 78 75 139 63 89 76 46 161 
+      255 255 0 0 89 76 255 255 46 161 46 161 89 76 0 0 
+      89 76 89 76 46 161 0 0 89 76 46 161 89 76 0 0 
+      60 192 133 188 11 148 42 65 9 0 1 0 0 1 7 8 
+      9 10 11 12 15 16 16 172 180 127 2 56 172 180 127 3 
+      56 172 180 127 3 56 172 180 127 2 56 172 180 127 2 56 
+      172 180 127 3 56 172 180 127 2 56 172 180 127 3 56 172 
+      180 127 3 56 172 180 127 2 56 0 0 0 14 0 1 0 
+      0 1 2 4 5 6 7 8 9 10 11 12 14 15 16 16 
+      39 11 89 63 174 170 138 63 197 87 60 138 4 194 4 194 
+      60 138 60 138 4 194 0 0 60 138 4 194 255 255 60 138 
+      60 138 4 194 197 87 0 0 107 224 33 65 16 0 1 0 
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+      16 16 107 135 255 147 8 109 135 255 144 8 112 135 255 142 
+      8 115 151 255 138 8 119 151 255 134 8 125 151 255 129 8 
+      132 167 255 121 8 140 167 255 114 8 145 183 255 108 8 145 
+      183 255 108 8 137 167 255 116 8 125 151 255 128 8 117 151 
+      255 137 8 113 151 255 141 8 110 135 255 144 8 109 135 255 
+      144 8 113 151 255 141 8 0 11 0 1 0 0 1 2 3 
+      4 7 8 9 10 11 15 16 16 0 0 0 18 0 128 63 
+      217 137 157 63 120 158 120 158 0 0 241 73 122 158 121 158 
+      255 255 239 73 253 255 121 158 119 158 244 73 162 111 148 64 
+      15 0 1 0 0 1 2 3 4 5 7 8 9 10 11 12 
+      13 14 15 16 16 42 24 0 213 71 41 24 0 215 71 39 
+      24 0 216 71 38 24 0 218 71 36 24 0 220 71 33 24 
+      0 222 71 26 24 0 230 71 23 24 0 233 71 23 24 0 
+      233 71 27 24 0 229 71 33 24 0 223 71 37 24 0 218 
+      71 39 24 0 216 71 40 24 0 215 71 41 24 0 215 71 
+      39 24 0 216 71 0 0 0 11 0 1 0 0 1 2 3 
+      4 7 8 9 10 11 15 16 16 0 0 0 22 0 128 63 
+      222 137 157 63 120 158 120 158 0 0 241 73 122 158 121 158 
+      255 255 239 73 253 255 121 158 119 158 244 73 16 0 1 0 
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+      16 16 155 169 2 101 70 146 153 2 110 70 134 105 2 122 
+      70 122 73 2 134 70 112 41 2 144 70 105 25 2 151 70 
+      103 9 2 153 70 105 25 2 151 70 114 57 2 142 70 129 
+      89 2 127 70 145 153 2 111 70 157 185 2 99 70 162 201 
+      2 94 70 163 201 2 93 70 163 201 2 93 70 161 201 2 
+      95 70 156 185 2 100 70 0 57 74 225 64 16 0 1 0 
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+      16 16 35 249 127 255 55 29 249 127 255 55 20 249 127 255 
+      55 11 249 127 255 55 4 249 127 255 55 255 248 127 255 55 
+      254 248 127 255 55 255 248 127 255 55 6 249 127 255 55 17 
+      249 127 255 55 28 249 127 255 55 36 249 127 255 55 40 249 
+      127 255 55 41 249 127 255 55 40 249 127 255 55 39 249 127 
+      255 55 36 249 127 255 55 0 32 224 33 65 16 0 1 0 
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+      16 16 49 24 0 49 56 55 24 0 55 56 56 24 0 56 
+      56 51 24 0 51 56 42 24 0 42 56 31 24 0 31 56 
+      22 24 0 22 56 17 24 0 17 56 16 24 0 16 56 16 
+      24 0 16 56 12 24 0 12 56 5 24 0 5 56 2 24 
+      0 2 56 7 24 0 7 56 21 24 0 21 56 38 24 0 
+      38 56 51 24 0 51 56 0 144 112 148 64 16 0 1 0 
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+      16 16 0 24 0 0 56 3 24 0 3 56 3 24 0 3 
+      56 1 24 0 1 56 254 23 0 254 55 248 23 0 248 55 
+      244 23 0 244 55 241 23 0 241 55 241 23 0 241 55 241 
+      23 0 241 55 239 23 0 239 55 235 23 0 235 55 234 23 
+      0 234 55 236 23 0 236 55 243 23 0 243 55 252 23 0 
+      252 55 1 24 0 1 56 0 16 0 1 0 0 1 2 3 
+      4 5 6 7 8 9 10 11 12 13 14 15 16 16 134 103 
+      0 134 55 97 151 0 97 55 52 215 0 53 55 6 39 1 
+      6 55 220 118 1 220 54 185 214 1 185 54 159 22 2 159 
+      54 147 54 2 148 54 158 22 2 159 54 205 166 1 205 54 
+      19 7 1 19 55 86 151 0 86 55 131 103 0 131 55 155 
+      87 0 155 55 166 71 0 166 55 161 87 0 162 55 137 103 
+      0 137 55 0 130 74 225 64 16 0 1 0 0 1 2 3 
+      4 5 6 7 8 9 10 11 12 13 14 15 16 16 77 248 
+      127 255 55 103 248 127 255 55 134 248 127 255 55 168 248 127 
+      255 55 198 248 127 255 55 222 248 127 255 55 241 248 127 255 
+      55 249 248 127 255 55 241 248 127 255 55 208 248 127 255 55 
+      158 248 127 255 55 111 248 127 255 55 79 248 127 255 55 62 
+      248 127 255 55 54 248 127 255 55 57 248 127 255 55 75 248 
+      127 255 55 0 9 233 232 192 188 137 193 192 111 133 134 193 
+      170 105 246 179 89 0 0 0 235 73 146 63 146 238 151 65 
+      145 150 63 192 47 100 152 193 170 30 49 219 53 0 0 0 
+      153 200 72 65 6 12 203 192 78 53 229 65 165 63 105 135 
+      118 0 0 0 238 73 146 63 65 183 99 192 89 62 41 193 
+      71 199 29 64 23 185 250 170 90 0 0 0 233 73 146 63 
+      86 191 9 193 197 50 185 64 73 114 63 64 118 60 15 8 
+      38 0 0 0 153 232 69 65 249 75 89 192 204 194 74 64 
+      237 12 28 169 3 0 0 0 124 67 62 193 196 92 245 63 
+      70 80 213 64 200 67 231 14 5 0 0 0 39 15 55 192 
+      185 146 107 191 33 177 74 64 38 6 228 100 114 0 0 0 
+      149 27 79 64 63 218 141 210 55 0 0 0 52 145 53 64 
+      170 87 132 1 56 0 0 0 102 221 34 192 90 118 223 189 
+      166 81 6 65 85 245 94 26 120 0 0 0 250 82 29 64 
+      11 251 127 255 55 0 0 0 28 69 242 63 26 249 127 255 
+      55 0 0 0 226 74 188 190 60 153 169 189 33 49 4 65 
+      181 68 104 187 120 0 0 0 196 231 76 64 147 251 127 255 
+      55 0 0 0 175 165 254 63 105 249 127 255 55 0 0 0 
+      57 223 184 63 109 159 35 191 60 63 255 64 248 19 107 203 
+      121 0 0 0 190 0 43 64 81 250 127 255 55 0 0 0 
+      15 119 0 64 239 248 127 255 55 0 0 0 66 3 64 64 
+      94 167 202 191 53 121 237 64 39 53 115 119 122 0 0 0 
+      247 96 225 63 45 251 127 255 55 0 0 0 48 68 228 63 
+      200 248 127 255 55 0 0 0 241 17 55 64 96 147 107 191 
+      237 176 74 64 168 232 189 219 49 0 0 0 61 28 79 64 
+      68 26 114 44 56 0 0 0 11 145 53 64 97 94 124 38 
+      56 0 0 0 182 223 34 64 15 122 223 189 129 81 6 65 
+      141 146 123 107 119 0 0 0 3 83 29 64 56 255 127 255 
+      55 0 0 0 207 68 242 63 12 251 127 255 55 0 0 0 
+      8 76 188 62 226 151 169 189 249 48 4 65 81 2 129 241 
+      118 0 0 0 6 232 76 64 42 255 127 255 55 0 0 0 
+      201 165 254 63 73 251 127 255 55 0 0 0 30 226 184 191 
+      232 158 35 191 254 62 255 64 6 226 128 248 117 0 0 0 
+      186 0 43 64 224 254 127 255 55 0 0 0 28 119 0 64 
+      240 250 127 255 55 0 0 0 75 6 64 192 229 165 202 191 
+      0 121 237 64 129 241 127 98 117 0 0 0 36 97 225 63 
+      5 254 127 255 55 0 0 0 51 68 228 63 167 251 127 255 
+      55 0 0 0 0 0 242 66 0 0 0 0 0 0 0 0 
+    </array>
+  </object>
+  <object id="#0004" type="hkaAnimationBinding">
+    <string name="originalSkeletonName">NPC Root [Root]</string>
+    <ref name="animation">#0003</ref>
+  </object>
+  <object id="#0005" type="hkaAnnotationTrack">
+    <string name="trackName">NPC Root [Root]</string>
+    <array name="annotations" size="1">
+      <struct>
+        <string name="text">FootLeft</string>
+      </struct>
+    </array>
+  </object>
+  <object id="#0006" type="hkaAnnotationTrack">
+    <string name="trackName">x_NPC LookNode [Look]</string>
+  </object>
+  <object id="#0007" type="hkaAnnotationTrack">
+    <string name="trackName">x_NPC Translate [Pos ]</string>
+  </object>
+  <object id="#0008" type="hkaAnnotationTrack">
+    <string name="trackName">x_NPC Rotate [Rot ]</string>
+  </object>
+  <object id="#0009" type="hkaAnnotationTrack">
+    <string name="trackName">NPC COM [COM ]</string>
+  </object>
+  <object id="#0010" type="hkaAnnotationTrack">
+    <string name="trackName">NPC Pelvis [Pelv]</string>
+  </object>
+  <object id="#0011" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Thigh [LThg]</string>
+  </object>
+  <object id="#0012" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Calf [LClf]</string>
+  </object>
+  <object id="#0013" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Foot [Lft ]</string>
+  </object>
+  <object id="#0014" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Thigh [RThg]</string>
+  </object>
+  <object id="#0015" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Calf [RClf]</string>
+  </object>
+  <object id="#0016" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Foot [Rft ]</string>
+  </object>
+  <object id="#0017" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtRBone01</string>
+  </object>
+  <object id="#0018" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtRBone02</string>
+  </object>
+  <object id="#0019" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtRBone03</string>
+  </object>
+  <object id="#0020" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtLBone01</string>
+  </object>
+  <object id="#0021" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtLBone02</string>
+  </object>
+  <object id="#0022" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtLBone03</string>
+  </object>
+  <object id="#0023" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtBBone01</string>
+  </object>
+  <object id="#0024" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtBBone02</string>
+  </object>
+  <object id="#0025" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtBBone03</string>
+  </object>
+  <object id="#0026" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtFBone01</string>
+  </object>
+  <object id="#0027" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtFBone02</string>
+  </object>
+  <object id="#0028" type="hkaAnnotationTrack">
+    <string name="trackName">SkirtFBone03</string>
+  </object>
+  <object id="#0029" type="hkaAnnotationTrack">
+    <string name="trackName">NPC Spine [Spn0]</string>
+  </object>
+  <object id="#0030" type="hkaAnnotationTrack">
+    <string name="trackName">NPC Spine1 [Spn1]</string>
+  </object>
+  <object id="#0031" type="hkaAnnotationTrack">
+    <string name="trackName">NPC Spine2 [Spn2]</string>
+  </object>
+  <object id="#0032" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Clavicle [LClv]</string>
+  </object>
+  <object id="#0033" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L UpperArm [LUar]</string>
+  </object>
+  <object id="#0034" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Forearm [LLar]</string>
+  </object>
+  <object id="#0035" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Clavicle [RClv]</string>
+  </object>
+  <object id="#0036" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R UpperArm [RUar]</string>
+  </object>
+  <object id="#0037" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Forearm [RLar]</string>
+  </object>
+  <object id="#0038" type="hkaAnnotationTrack">
+    <string name="trackName">AnimObjectA</string>
+  </object>
+  <object id="#0039" type="hkaAnnotationTrack">
+    <string name="trackName">AnimObjectB</string>
+  </object>
+  <object id="#0040" type="hkaAnnotationTrack">
+    <string name="trackName">NPC Neck [Neck]</string>
+  </object>
+  <object id="#0041" type="hkaAnnotationTrack">
+    <string name="trackName">NPC Head [Head]</string>
+  </object>
+  <object id="#0042" type="hkaAnnotationTrack">
+    <string name="trackName">NPCEyeBone</string>
+  </object>
+  <object id="#0043" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Hand [LHnd]</string>
+  </object>
+  <object id="#0044" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Hand [RHnd]</string>
+  </object>
+  <object id="#0045" type="hkaAnnotationTrack">
+    <string name="trackName">AnimObjectL</string>
+  </object>
+  <object id="#0046" type="hkaAnnotationTrack">
+    <string name="trackName">AnimObjectR</string>
+  </object>
+  <object id="#0047" type="hkaAnnotationTrack">
+    <string name="trackName">SHIELD</string>
+  </object>
+  <object id="#0048" type="hkaAnnotationTrack">
+    <string name="trackName">WEAPON</string>
+  </object>
+  <object id="#0049" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Pauldron</string>
+  </object>
+  <object id="#0050" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Pauldron</string>
+  </object>
+  <object id="#0051" type="hkaAnnotationTrack">
+    <string name="trackName">MagicEffectsNode</string>
+  </object>
+  <object id="#0052" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L MagicNode [LMag]</string>
+  </object>
+  <object id="#0053" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R MagicNode [RMag]</string>
+  </object>
+  <object id="#0054" type="hkaAnnotationTrack">
+    <string name="trackName">NPC Head MagicNode [Hmag]</string>
+  </object>
+  <object id="#0055" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Toe0 [LToe]</string>
+  </object>
+  <object id="#0056" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Toe0 [RToe]</string>
+  </object>
+  <object id="#0057" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L ForearmTwist1 [LLt1]</string>
+  </object>
+  <object id="#0058" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L ForearmTwist2 [LLt2]</string>
+  </object>
+  <object id="#0059" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L UpperarmTwist1 [LUt1]</string>
+  </object>
+  <object id="#0060" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L UpperarmTwist2 [LUt2]</string>
+  </object>
+  <object id="#0061" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R ForearmTwist1 [RLt1]</string>
+  </object>
+  <object id="#0062" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R ForearmTwist2 [RLt2]</string>
+  </object>
+  <object id="#0063" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R UpperarmTwist1 [RUt1]</string>
+  </object>
+  <object id="#0064" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R UpperarmTwist2 [RUt2]</string>
+  </object>
+  <object id="#0065" type="hkaAnnotationTrack">
+    <string name="trackName">QUIVER</string>
+  </object>
+  <object id="#0066" type="hkaAnnotationTrack">
+    <string name="trackName">WeaponAxe</string>
+  </object>
+  <object id="#0067" type="hkaAnnotationTrack">
+    <string name="trackName">WeaponBack</string>
+  </object>
+  <object id="#0068" type="hkaAnnotationTrack">
+    <string name="trackName">WeaponBow</string>
+  </object>
+  <object id="#0069" type="hkaAnnotationTrack">
+    <string name="trackName">WeaponDagger</string>
+  </object>
+  <object id="#0070" type="hkaAnnotationTrack">
+    <string name="trackName">WeaponMace</string>
+  </object>
+  <object id="#0071" type="hkaAnnotationTrack">
+    <string name="trackName">WeaponSword</string>
+  </object>
+  <object id="#0072" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger00 [LF00]</string>
+  </object>
+  <object id="#0073" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger01 [LF01]</string>
+  </object>
+  <object id="#0074" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger02 [LF02]</string>
+  </object>
+  <object id="#0075" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger10 [LF10]</string>
+  </object>
+  <object id="#0076" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger11 [LF11]</string>
+  </object>
+  <object id="#0077" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger12 [LF12]</string>
+  </object>
+  <object id="#0078" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger20 [LF20]</string>
+  </object>
+  <object id="#0079" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger21 [LF21]</string>
+  </object>
+  <object id="#0080" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger22 [LF22]</string>
+  </object>
+  <object id="#0081" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger30 [LF30]</string>
+  </object>
+  <object id="#0082" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger31 [LF31]</string>
+  </object>
+  <object id="#0083" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger32 [LF32]</string>
+  </object>
+  <object id="#0084" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger40 [LF40]</string>
+  </object>
+  <object id="#0085" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger41 [LF41]</string>
+  </object>
+  <object id="#0086" type="hkaAnnotationTrack">
+    <string name="trackName">NPC L Finger42 [LF42]</string>
+  </object>
+  <object id="#0087" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger00 [RF00]</string>
+  </object>
+  <object id="#0088" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger01 [RF01]</string>
+  </object>
+  <object id="#0089" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger02 [RF02]</string>
+  </object>
+  <object id="#0090" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger10 [RF10]</string>
+  </object>
+  <object id="#0091" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger11 [RF11]</string>
+  </object>
+  <object id="#0092" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger12 [RF12]</string>
+  </object>
+  <object id="#0093" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger20 [RF20]</string>
+  </object>
+  <object id="#0094" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger21 [RF21]</string>
+  </object>
+  <object id="#0095" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger22 [RF22]</string>
+  </object>
+  <object id="#0096" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger30 [RF30]</string>
+  </object>
+  <object id="#0097" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger31 [RF31]</string>
+  </object>
+  <object id="#0098" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger32 [RF32]</string>
+  </object>
+  <object id="#0099" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger40 [RF40]</string>
+  </object>
+  <object id="#0100" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger41 [RF41]</string>
+  </object>
+  <object id="#0101" type="hkaAnnotationTrack">
+    <string name="trackName">NPC R Finger42 [RF42]</string>
+  </object>
+  <object id="#0102" type="hkaAnnotationTrack">
+    <string name="trackName">Camera3rd [Cam3]</string>
+  </object>
+  <object id="#0103" type="hkaAnnotationTrack">
+    <string name="trackName">Camera Control</string>
+  </object>
+</hktagfile>

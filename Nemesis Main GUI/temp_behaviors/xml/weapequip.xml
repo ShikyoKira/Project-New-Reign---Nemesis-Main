@@ -47,7 +47,7 @@
 				<hkcstring>arrowAttach</hkcstring>
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="38">
+			<hkparam name="variableNames" numelements="59">
 				<hkcstring>blendDefault</hkcstring>
 				<hkcstring>IsEquipping</hkcstring>
 				<hkcstring>TurnDelta</hkcstring>
@@ -67,24 +67,45 @@
 				<hkcstring>Nemesis_AA_1hmeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_1hmeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_1hmeqp_0</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_1hmeqp_1</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_1hmeqp_2</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_1hmeqp_3</hkcstring>
 				<hkcstring>Nemesis_AA_2hmeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_2hmeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_2hmeqp_0</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_2hmeqp_1</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_2hmeqp_2</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_2hmeqp_3</hkcstring>
 				<hkcstring>Nemesis_AA_2hweqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_2hweqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_2hweqp_0</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_2hweqp_1</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_2hweqp_2</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_2hweqp_3</hkcstring>
 				<hkcstring>Nemesis_AA_axeeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_axeeqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_axeeqp_0</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_axeeqp_1</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_axeeqp_2</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_axeeqp_3</hkcstring>
 				<hkcstring>Nemesis_AA_boweqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_boweqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_boweqp_0</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_boweqp_1</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_boweqp_2</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_boweqp_3</hkcstring>
 				<hkcstring>Nemesis_AA_dageqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_dageqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_dageqp_0</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_dageqp_1</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_dageqp_2</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_dageqp_3</hkcstring>
 				<hkcstring>Nemesis_AA_maceqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_maceqp</hkcstring>
 				<hkcstring>Nemesis_AA_Priority_maceqp_0</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_maceqp_1</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_maceqp_2</hkcstring>
+				<hkcstring>Nemesis_AA_Priority_maceqp_3</hkcstring>
 				<hkcstring>2Female_Anim_Pack</hkcstring>
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="3">
@@ -95,9 +116,72 @@
 		</hkobject>
 
 		<hkobject name="#0058" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="38">
+			<hkparam name="wordVariableValues" numelements="59">
 				<hkobject>
 					<hkparam name="value">1045220557</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="value">0</hkparam>
@@ -217,7 +301,7 @@
 
 		<hkobject name="#0059" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="38">
+			<hkparam name="variableInfos" numelements="59">
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -361,6 +445,195 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="role">
@@ -694,31 +967,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">19</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#0312" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">28</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#0359" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">37</hkparam>
+					<hkparam name="variableIndex">22</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -738,35 +987,35 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#0315" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">22</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#0318" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">25</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
 		<hkobject name="#0325" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">34</hkparam>
+					<hkparam name="variableIndex">52</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#0312" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">40</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#0315" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">28</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -778,7 +1027,31 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">31</hkparam>
+					<hkparam name="variableIndex">46</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#0318" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">34</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#0359" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">58</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>

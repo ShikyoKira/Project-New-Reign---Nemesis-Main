@@ -23,7 +23,7 @@
 					<hkparam name="eventId">$eventID[so[F][main_anim_event]]$</hkparam>
  					<hkparam name="toStateId">$so_group[][(S+0)]$</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">$so[F][(S+0)]$</hkparam>
 					<hkparam name="priority">0</hkparam>
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
