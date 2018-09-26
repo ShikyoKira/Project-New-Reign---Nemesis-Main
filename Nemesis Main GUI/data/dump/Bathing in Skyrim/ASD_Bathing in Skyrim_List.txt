@@ -1,0 +1,30 @@
+' mzinBatheAnimation1.hkx = bend over
+' KNNWashBodyStanding.hkx = wash upper body
+' KNNWashBodyStandingTypeBStart.hkx = wash lower body
+
+
+' custom type 1 with soap
+so -a,h,o mzinBatheA1_S1_Soap mzinBatheAnimation1.hkx  mzinAnimObjectSoap
++  -a,k   mzinBatheA1_S2_Soap IdleStop.hkx
+
+' custom type 1 without soap
+so -a,h,o mzinBatheA1_S1_Cloth mzinBatheAnimation1.hkx  AnimObjectBarRag
++  -a,k   mzinBatheA1_S2_Cloth IdleStop.hkx
+
+' custom type 2 with soap
+so -a,o mzinBatheA2_S1_Soap ..\KuNeruNomu\KNNWashBodyStanding.hkx mzinAnimObjectSoap
++  -a,o mzinBatheA2_S2_Soap ..\KuNeruNomu\KNNWashBodyStandingTypeBStart.hkx mzinAnimObjectSoap
+
+' custom type 2 without soap
+so -a,o mzinBatheA2_S1_Cloth ..\KuNeruNomu\KNNWashBodyStanding.hkx AnimObjectBarRag
++  -a,o mzinBatheA2_S2_Cloth ..\KuNeruNomu\KNNWashBodyStandingTypeBStart.hkx AnimObjectBarRag
+
+' custom type 3 with soap
+so -a,o   mzinBatheA3_S1_Soap ..\KuNeruNomu\KNNWashBodyStanding.hkx mzinAnimObjectSoap
++  -a,o   mzinBatheA3_S2_Soap ..\KuNeruNomu\KNNWashBodyStandingTypeBStart.hkx mzinAnimObjectSoap
++  -a,h,o mzinBatheA3_S3_Soap mzinBatheAnimation1.hkx  mzinAnimObjectSoap
+
+' custom type 3 without soap
+so -a,o   mzinBatheA3_S1_Cloth ..\KuNeruNomu\KNNWashBodyStanding.hkx AnimObjectBarRag
++  -a,o   mzinBatheA3_S2_Cloth ..\KuNeruNomu\KNNWashBodyStandingTypeBStart.hkx AnimObjectBarRag
++  -a,h,o mzinBatheA3_S3_Cloth mzinBatheAnimation1.hkx  AnimObjectBarRag

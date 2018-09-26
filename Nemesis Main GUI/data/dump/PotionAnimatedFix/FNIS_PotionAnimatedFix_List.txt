@@ -1,0 +1,4 @@
+Version V1.0
+
+ofa -o DrinkPotionRun DrinkPotionRunning.hkx AnimObjectDrinkPotion
+ofa -o NPCDrinkPotionRun NPCDrinkPotionRunning.hkx AnimObjectNPCDrinkPotion

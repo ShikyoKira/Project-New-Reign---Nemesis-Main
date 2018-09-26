@@ -1,2 +1,0 @@
-"C:\Program Files (x86)\Steam\steamapps\common\Skyrim\Papyrus Compiler\PapyrusCompiler.exe" "E:\C++\Project 2\Nemesis Main GUI\data\scripts\source\FNIS_aa.psc" -f=TESV_Papyrus_Flags.flg "-i=E:\C++\Project 2\Nemesis Main GUI\data\scripts\source;C:\Program Files (x86)\Steam\steamapps\common\Skyrim\Data\scripts\Source" "-o=E:\C++\Project 2\Nemesis Main GUI\data\scripts"
-pause

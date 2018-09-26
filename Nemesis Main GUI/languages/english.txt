@@ -307,7 +307,7 @@ ERR 4011=Alternate animation file has not been registered. Please contact the mo
 
 '5000
 ERR 5000=Missing project has been detected. Please contact the template creator\nFile: <1>
-ERR 5001=Invalid format has been detected in "animationsetdatasinglefile.txt. Please contact the template creator or mod author"\nProject: <1>\nHeader: <2>
+ERR 5001=Invalid format has been detected in "animationsetdatasinglefile.txt". Please contact the template creator or mod author\nProject: <1>\nHeader: <2>
 ERR 5002=Un-registered data has been detected. Please contact the template creator\nFile: <1>
 ERR 5003=Data deletion has been detected. Data deletion is not supported in Nemesis. Please contact the template creator\nMod: <1>\nFile: <2>\nFrom Line: <3>
 ERR 5004=Condition function is not applicable for "animationsetdatasinglefile.txt"\nFile: <1>\nLine: <2>
