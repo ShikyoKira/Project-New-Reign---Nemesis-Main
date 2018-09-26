@@ -11,3 +11,7 @@ int[] Function GetActivationList() global
 	activation[num] = 
 	return activation
 endFunction
+
+int Function GetPCEAID() global
+	return crc32ID
+endFunction
