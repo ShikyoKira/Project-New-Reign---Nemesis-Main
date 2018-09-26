@@ -10,14 +10,17 @@ struct TextFile
 		fopen_s(&file, filename.c_str(), "r");
 	}
 
+	~TextFile()
+	{
+		if (file)
+		{
+			fclose(file);
+		}
+	}
+
 	FILE* GetFile()
 	{
 		return file;
-	}
-
-	~TextFile()
-	{
-		fclose(file);
 	}
 };
 
