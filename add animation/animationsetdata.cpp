@@ -5,67 +5,74 @@ using namespace std;
 
 AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile, string filename, string projectname)
 {
-	// data list
-	DataPackProcess(datalist, startline, animdatafile, filename);
-	++startline;
-	string projectPath;
-	unordered_map<string, vecstr*> AAList;
-	
-	// assume current project has new alternate animation installed
-	if (behaviorProjectPath[projectname].length() > 0)
+	try
 	{
-		projectPath = behaviorProjectPath[projectname] + "\\animations";
-		string projectPathCRC32 = to_string(CRC32Convert(projectPath));
+		// data list
+		DataPackProcess(datalist, startline, animdatafile, filename);
+		++startline;
+		string projectPath;
+		unordered_map<string, vecstr*> AAList;
 
-		// cache all alternate animations
-		for (auto& anim : alternateAnim)
+		// assume current project has new alternate animation installed
+		if (behaviorProjectPath[projectname].length() > 0)
 		{
-			AAList[projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(anim.first))) + ",7891816"] = new vecstr(anim.second);
-		}
+			projectPath = behaviorProjectPath[projectname] + "\\animations";
+			string projectPathCRC32 = to_string(CRC32Convert(projectPath));
 
-		string pceafolder = skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea";
-
-		if (isFileExist(skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea"))
-		{
-			// cache all pcea animations
-			for (auto& pcea : pcealist)
+			// cache all alternate animations
+			for (auto& anim : alternateAnim)
 			{
-				for (auto& animPath : pcea.animPathList)
+				AAList[projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(anim.first))) + ",7891816"] = new vecstr(anim.second);
+			}
+
+			string pceafolder = skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea";
+
+			if (isFileExist(skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea"))
+			{
+				// cache all pcea animations
+				for (auto& pcea : pcealist)
 				{
-					string crc32line = projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(animPath.first))) + ",7891816";
-
-					if (!AAList[crc32line])
+					for (auto& animPath : pcea.animPathList)
 					{
-						AAList[crc32line] = new vecstr;
-					}
+						string crc32line = projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(animPath.first))) + ",7891816";
 
-					AAList[crc32line]->push_back(animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA")));
+						if (!AAList[crc32line])
+						{
+							AAList[crc32line] = new vecstr;
+						}
+
+						AAList[crc32line]->push_back(animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA")));
+					}
 				}
 			}
 		}
-	}
 
-	for (auto it = datalist.begin(); it != datalist.end(); ++it)
-	{
-		++startline;
-
-		if (startline >= int(animdatafile.size()))
+		for (auto it = datalist.begin(); it != datalist.end(); ++it)
 		{
-			ErrorMessage(5019, filename);
-			throw 1;
+			++startline;
+
+			if (startline >= int(animdatafile.size()))
+			{
+				ErrorMessage(5019, filename);
+				throw 1;
+			}
+
+			// equip list
+			EquipPackProcess(it->second.equiplist, startline, animdatafile, filename, it->first);
+
+			// type list
+			TypePackProcess(it->second.typelist, startline, animdatafile, filename, it->first);
+
+			// anim list
+			AnimPackProcess(it->second.animlist, startline, animdatafile, filename, it->first);
+
+			// crc3 list
+			CRC32Process(it->second.crc32list, startline, animdatafile, filename, it->first, AAList, projectPath);
 		}
-
-		// equip list
-		EquipPackProcess(it->second.equiplist, startline, animdatafile, filename, it->first);
-
-		// type list
-		TypePackProcess(it->second.typelist, startline, animdatafile, filename, it->first);
-
-		// anim list
-		AnimPackProcess(it->second.animlist, startline, animdatafile, filename, it->first);
-
-		// crc3 list
-		CRC32Process(it->second.crc32list, startline, animdatafile, filename, it->first, AAList, projectPath);
+	}
+	catch (int)
+	{
+		// empty
 	}
 }
 
@@ -78,7 +85,7 @@ void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& start
 	}
 	else if (!isOnlyNumber(animdatafile[startline]))
 	{
-		ErrorMessage(5001, filename, startline);
+		ErrorMessage(5001, filename, "Header");
 		throw 1;
 	}
 
@@ -110,7 +117,7 @@ void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& ani
 	}
 	else if (!isOnlyNumber(animdatafile[startline]))
 	{
-		ErrorMessage(5001, filename, startline);
+		ErrorMessage(5001, filename, "Header");
 		throw 1;
 	}
 

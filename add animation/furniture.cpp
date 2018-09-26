@@ -2191,7 +2191,7 @@ bool Furniture::newCondition(string condition, vecstr& storeline, vector<unorder
 	return false;
 }
 
-void Furniture::processing(string& line, vecstr& storeline, string masterFormat, int linecount, id eventid, id variableid, vector<int> fixedStateID, std::vector<int> stateCountMultiplier, bool hasGroup, int optionMulti, int animMulti, string multiOption)
+void Furniture::processing(string& line, vecstr& storeline, string masterFormat, int linecount, id eventid, id variableid, vector<int> fixedStateID, vector<int> stateCountMultiplier, bool hasGroup, int optionMulti, int animMulti, string multiOption)
 {
 	__int64 counter = count(line.begin(), line.end(), '$') / 2;
 	size_t curPos = -1;
@@ -3257,7 +3257,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 			if (change.find("MD") != NOT_FOUND)
 			{
-				if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0 || stateCountMultiplier.size() != 0)
+				if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0)
 				{
 					ErrorMessage(1096, format, behaviorFile, linecount);
 					return;
@@ -3273,7 +3273,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 
 			if (change.find("RD") != NOT_FOUND)
 			{
-				if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0 || stateCountMultiplier.size() != 0)
+				if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0)
 				{
 					ErrorMessage(1097, format, behaviorFile, linecount);
 					return;
@@ -4463,7 +4463,16 @@ void Furniture::GetAnimSetData(unordered_map<string, map<string, vecstr, alphanu
 		{
 			try
 			{
-				AnimDataLineProcess(iter->second, newASDLines[it->first][iter->first], format, groupOptionPicked, vector<int>(1));
+				vecstr dummy;
+				AnimDataLineProcess(iter->second, dummy, format, groupOptionPicked, vector<int>(1));
+
+				for (auto& line : dummy)
+				{
+					if (line.length() > 0)
+					{
+						newASDLines[it->first][iter->first].push_back(line);
+					}
+				}
 			}
 			catch (MDException&)
 			{

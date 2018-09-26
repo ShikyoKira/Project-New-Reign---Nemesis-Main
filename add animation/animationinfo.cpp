@@ -215,8 +215,6 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 					if (header.length() == 0)
 					{
 						WarningMessage(1026, curFilename, linecount, option);
-						error = true;
-						return;
 					}
 				}
 
