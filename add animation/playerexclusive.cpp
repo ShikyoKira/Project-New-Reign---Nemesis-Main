@@ -222,6 +222,18 @@ bool PCEAInstallation()
 
 				skip = true;
 			}
+			else if (line.find("return crc32ID") != NOT_FOUND)
+			{
+				int uniquekey = 0;
+
+				for (auto& curline : newline)
+				{
+					uniquekey = uniquekey + CRC32Convert(curline);
+					uniquekey = uniquekey % 987123;
+				}
+
+				line.replace(line.find("crc32ID"), 7, to_string(uniquekey));
+			}
 			else if (line.find("number") != NOT_FOUND)
 			{
 				size_t pos = line.find("number");
