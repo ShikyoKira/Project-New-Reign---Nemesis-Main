@@ -36,6 +36,8 @@
 typedef std::unordered_map<std::string, SSMap> SSSMap;
 typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, std::set<std::string>>>> StateIDList;
 
+class NemesisMainGUI;
+
 extern std::unordered_map<std::string, vecstr> modinfo;
 
 struct arguPack
@@ -73,11 +75,12 @@ class UpdateFilesStart : public QObject
 public:
 	UpdateFilesStart();
 	virtual ~UpdateFilesStart();
-	void milestoneStart();
+	void milestoneStart(std::string directory);
 	void message(std::string input);
 
 public slots :
 	void UpdateFiles();
+	void GetFileLoop(std::string newPath);
 	bool VanillaUpdate(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
 		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
 		MasterAnimSetData& animSetData);
@@ -95,22 +98,19 @@ public slots :
 		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
 		MasterAnimSetData& animSetData, std::unordered_map<std::string, std::string>& lastUpdate);
 	void CombiningFiles(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData);
-	void milestoneUp();
 	void unregisterProcess();
 
 signals:
-	void progress(int);
+	void progressMax(int);
+	void progressUp();
 	void end();
 	void enable(bool);
 	void enableCheck(bool);
 	void hide(bool);
-	void progressUp();
 	void incomingMessage(QString);
 
 private:
 	int filenum;
-	std::atomic<int> progressPercentage = 0;
-	std::mutex pLock;
 };
 
 class BehaviorStart : public QObject
@@ -121,36 +121,35 @@ public:
 	BehaviorStart();
 	virtual ~BehaviorStart();
 	void milestoneStart();
-	void addBehaviorPick(BehaviorStart* newProces, vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
+	void addBehaviorPick(BehaviorStart* newProces, NemesisMainGUI* newWidget, vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
 	void message(std::string input);
 
 public slots:
+	void newMilestone();
 	void increaseAnimCount();
-	void milestoneUp();
 	void GenerateBehavior();
 	void unregisterProcess();
 	void EndAttempt();
 
 signals:
 	void totalAnim(int);
-	void progress(int);
+	void progressMax(int);
+	void progressUp();
 	void end();
 	void enable(bool);
 	void enableCheck(bool);
 	void hide(bool);
-	void progressUp();
 	void incomingMessage(QString);
 
 private:
 	int animCount = 0;
 	int filenum;
-	std::atomic<int> progressPercentage = 0;
 	std::unordered_map<std::string, vecstr> coreModList;		// core filename, list of modID;
 
 	vecstr behaviorPriority;
 	std::unordered_map<std::string, bool> chosenBehavior;
-	std::mutex pLock;
 	BehaviorStart* behaviorProcess;
+	NemesisMainGUI* widget;
 	
 	std::string* directory2;
 	vecstr* filelist2;
@@ -181,7 +180,7 @@ public slots:
 	
 signals:
 	void newAnim();
-	void progressUp();
+	void progressAdd();
 	void done();
 
 private:

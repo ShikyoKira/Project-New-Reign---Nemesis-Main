@@ -134,5 +134,8 @@
     <ClInclude Include="src\DebugLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

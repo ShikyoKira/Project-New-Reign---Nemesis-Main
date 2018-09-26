@@ -4,7 +4,6 @@
 #include <QtWidgets/QWidget>
 #include <QThread>
 #include <QTimer>
-#include <mutex>
 #include "ui_NemesisMainGUI.h"
 #include "master.h"
 
@@ -14,7 +13,9 @@ class NemesisMainGUI : public QWidget
 
 public:
 	Ui::NemesisMainGUIClass ui;
-	std::mutex mLock;
+	std::atomic_flag lock = ATOMIC_FLAG_INIT;
+	int progressMax;
+	int progressPercentage;
 
 	NemesisMainGUI(QWidget *parent = Q_NULLPTR);
 	~NemesisMainGUI();
@@ -63,12 +64,12 @@ private slots:
 		
 		QThread* thread = new QThread;
 		BehaviorStart* worker = new BehaviorStart;
-		worker->addBehaviorPick(worker, behaviorPriority, chosenBehavior);
+		worker->addBehaviorPick(worker, this, behaviorPriority, chosenBehavior);
 		
 		connect(worker, SIGNAL(totalAnim(int)), ui.animProgressBar, SLOT(newValue(int)));
-		connect(worker, SIGNAL(progress(int)), ui.progressBar, SLOT(setValue(int)));
 		connect(thread, SIGNAL(started()), worker, SLOT(GenerateBehavior()));
-		connect(worker, SIGNAL(progressUp()), worker, SLOT(milestoneUp()));
+		connect(worker, SIGNAL(progressUp()), this, SLOT(setProgressBarValue()));
+		connect(worker, SIGNAL(progressMax(int)), this, SLOT(setProgressBarMax(int)));
 		connect(worker, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
 
 		connect(worker, SIGNAL(enable(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
@@ -102,9 +103,9 @@ private slots:
 		QThread* thread = new QThread;
 		UpdateFilesStart* worker = new UpdateFilesStart;
 
-		connect(worker, SIGNAL(progress(int)), ui.progressBar, SLOT(setValue(int)));
 		connect(thread, SIGNAL(started()), worker, SLOT(UpdateFiles()));
-		connect(worker, SIGNAL(progressUp()), worker, SLOT(milestoneUp()));
+		connect(worker, SIGNAL(progressUp()), this, SLOT(setProgressBarValue()));
+		connect(worker, SIGNAL(progressMax(int)), this, SLOT(setProgressBarMax(int)));
 		connect(worker, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
 		connect(worker, SIGNAL(enable(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(enable(bool)), ui.buttonUpdate, SLOT(setDisabled(bool)));
@@ -159,5 +160,47 @@ private slots:
 		NewDebugMessage(*ui.DMsg);
 		ui.reset(this);
 		emit ui.modView->model()->headerDataChanged(Qt::Horizontal, 0, ui.modView->model()->columnCount());
+	}
+
+	void setProgressBarMax(int number)
+	{
+		progressMax = number;
+		progressPercentage = 0;
+	}
+
+	void setProgressBarValue()
+	{
+		if (!error)
+		{
+			while(lock.test_and_set(std::memory_order_acquire));
+
+			int old = progressPercentage * 100 / progressMax;
+			++progressPercentage;
+			int result = progressPercentage * 100 / progressMax;
+
+			if (result > old)
+			{
+				if (result - old < 2)
+				{
+					ui.progressBar->setValue(old + 1);
+					Sleep(75);
+				}
+				else
+				{
+					for (int i = old + 1; i <= result; ++i)
+					{
+						if (error)
+						{
+							break;
+						}
+
+						ui.progressBar->setValue(i);
+						Sleep(75);
+					}
+				}
+			}
+
+			lock.clear(std::memory_order_release);
+		}
 	}
 };

@@ -156,6 +156,7 @@
     <ClInclude Include="src\utilities\addanims.h" />
     <ClInclude Include="src\utilities\addevents.h" />
     <ClInclude Include="src\utilities\addvariables.h" />
+    <ClInclude Include="src\version.h" />
     <QtMoc Include="src\AnimProgressBar.h" />
     <QtMoc Include="src\BehaviorListModel.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir)\.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
