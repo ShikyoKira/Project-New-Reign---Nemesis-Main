@@ -69,6 +69,12 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 	string filecheck = boost::regex_replace(string(nodefile), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")) + ".txt";
 	string nodeID = nodefile.substr(0, nodefile.find_last_of("."));
+	string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
+
+	if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate))
+	{
+		return false;
+	}
 
 	if ("#" + filecheck == nodefile)
 	{
@@ -99,13 +105,6 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 
 		vecstr storeline;
 		string line;
-		string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
-
-		if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate))
-		{
-			return false;
-		}
-
 		char charline[2000];
 		shared_ptr<TextFile> BehaviorFormat = make_shared<TextFile>(filename);
 
@@ -475,7 +474,7 @@ bool FunctionUpdate(string modcode, string behaviorfile, string nodefile, unorde
 	{
 		if (nodefile == "#" + modcode + "$" + filecheck)
 		{
-			if (!GetFunctionLines("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, newFile[behaviorfile][nodeID]))
+			if (!GetFunctionLines(filename, newFile[behaviorfile][nodeID]))
 			{
 				filelock.clear(memory_order_release);
 				return false;
@@ -530,14 +529,6 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 	if (isNewCharacter)
 	{
-		if (filename.find(modcode + "$") == NOT_FOUND)
-		{
-			if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
-			{
-				return false;
-			}
-		}
-
 		if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename]))
 		{
 			return false;
@@ -731,14 +722,14 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 
 	functionline.reserve(newline.size());
 
+	if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
+	{
+		return false;
+	}
+
 	if (characterfile == "$header$")
 	{
 		isHeader = true;
-
-		if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
-		{
-			return false;
-		}
 	}
 	else
 	{
@@ -1001,6 +992,11 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 	string filename = GetFileName(filepath);
 	string lowerfile = boost::to_lower_copy(filename);
 
+	if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
+	{
+		return false;
+	}
+
 	if (isNewProject)
 	{
 		if (!GetFunctionLines(filepath, animSetData.newAnimSetData[projectfile][lowerfile]))
@@ -1029,11 +1025,6 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 		string line;
 
 		if (!GetFunctionLines(filepath, storeline))
-		{
-			return false;
-		}
-
-		if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
 		{
 			return false;
 		}

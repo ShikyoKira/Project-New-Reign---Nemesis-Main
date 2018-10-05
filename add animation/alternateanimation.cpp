@@ -676,7 +676,14 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 {
 	string timeline;
 	namespace bf = boost::filesystem;
-	bf::path target = bf::path(skyrimDataPath->GetDataPath()).parent_path().parent_path();
+	bf::path target = bf::path(skyrimDataPath->GetDataPath());
+
+	while (!boost::iequals(target.stem().string(), "data"))
+	{
+		target = target.parent_path();
+	}
+
+	target = target.parent_path();
 	target = bf::path(target.string() + "\\Papyrus Compiler\\PapyrusCompiler.exe");
 
 	if (isFileExist(filepath))
@@ -696,14 +703,15 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 		string compiler;
 		string additional;
 
+		//backup compiler
 		if (SSE)
 		{
-			compiler = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim Special Edition\\Papyrus Compiler\\PapyrusCompiler.exe";
+			compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
 			additional = ";C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim Special Edition\\Data\\Source\\Scripts;C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim Special Edition\\Data\\Source";
 		}
 		else
 		{
-			compiler = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Papyrus Compiler\\PapyrusCompiler.exe";
+			compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
 			additional = ";C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Data\\scripts\\Source";
 		}		
 
