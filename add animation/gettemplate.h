@@ -4,10 +4,12 @@
 #include "optionlist.h"
 #include "alphanum.hpp"
 
+typedef std::set<std::string> setstr;
+
 struct getTemplate
 {
 	std::unordered_map<std::string, OptionList> optionlist;														// animation code, option list; access point to option list from animation code
-	std::unordered_map<std::string, vecstr> grouplist;															// behavior file, list of animation code(in vector of string); assign animation to their respective behavior
+	std::unordered_map<std::string, setstr> grouplist;															// behavior file, list of animation code(in vector of string); assign animation to their respective behavior
 	std::unordered_map<std::string, bool> templatelist;															// animation code, true/false; register template
 
 	// Behavior

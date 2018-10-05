@@ -1048,7 +1048,17 @@ void Furniture::GetFurnitureLine(shared_ptr<vecstr> generatedlines, string curBe
 
 										if (newline.find("$") != NOT_FOUND)
 										{
-											processing(newline, *generatedlines, format, i + 1 - int(recorder.size()) + k, eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup, optionMulti, animMulti, multiOption);
+											try
+											{
+												processing(newline, *generatedlines, format, i + 1 - int(recorder.size()) + k, eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup, optionMulti, animMulti, multiOption);
+											}
+											catch (MDException&)
+											{
+												while (newline.find("MD") != NOT_FOUND)
+												{
+													newline.replace(newline.find("MD"), 2, "0");
+												}
+											}
 
 											if (error)
 											{
@@ -3021,29 +3031,42 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 			// get Animation Event Name
 			if (change.find("main_anim_event", 0) != NOT_FOUND)
 			{
-				if (change.find(format + "[][main_anim_event]", 0) != NOT_FOUND)
+				if (change.find("[" + format + "[][main_anim_event]]", 0) != NOT_FOUND && change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND)
+				{
+					change.replace(change.find("[" + format + "[][main_anim_event]]"), 21 + format.length(), groupAnimInfo[animMulti]->mainAnimEvent);
+					isChange = true;
+				}
+				else if (change.find(format + "[][main_anim_event]", 0) != NOT_FOUND)
 				{
 					change.replace(change.find(format + "[][main_anim_event]"), 19 + format.length(), groupAnimInfo[animMulti]->mainAnimEvent);
 					isChange = true;
-
-					if (error)
-					{
-						return;
-					}
 				}
-
-				if (change.find(format + "[F][main_anim_event]", 0) != NOT_FOUND)
+				
+				if (change.find("[" + format + "[F][main_anim_event]]", 0) != NOT_FOUND && change.find("eventID[" + format + "[F][main_anim_event]]", 0) == NOT_FOUND)
+				{
+					change.replace(change.find("[" + format + "[F][main_anim_event]]"), 22 + format.length(), groupAnimInfo[0]->mainAnimEvent);
+					isChange = true;
+				}
+				else if (change.find(format + "[F][main_anim_event]", 0) != NOT_FOUND)
 				{
 					change.replace(change.find(format + "[F][main_anim_event]"), 20 + format.length(), groupAnimInfo[0]->mainAnimEvent);
 					isChange = true;
-
-					if (error)
-					{
-						return;
-					}
 				}
 
-				if (change.find(format + "[N][main_anim_event]", 0) != NOT_FOUND)
+				if (change.find("[" + format + "[N][main_anim_event]]", 0) != NOT_FOUND && change.find("eventID[" + format + "[N][main_anim_event]]", 0) == NOT_FOUND)
+				{
+					if (isLastOrder)
+					{
+						change.replace(change.find("[" + format + "[N][main_anim_event]]"), 22 + format.length(), mainAnimEvent);
+					}
+					else
+					{
+						change.replace(change.find("[" + format + "[N][main_anim_event]]"), 22 + format.length(), groupAnimInfo[order + 1]->mainAnimEvent);
+					}
+
+					isChange = true;
+				}
+				else if (change.find(format + "[N][main_anim_event]", 0) != NOT_FOUND)
 				{
 					if (isLastOrder)
 					{
@@ -3055,28 +3078,65 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 					}
 
 					isChange = true;
-
-					if (error)
-					{
-						return;
-					}
 				}
-
-				if (change.find(format + "[L][main_anim_event]", 0) != NOT_FOUND)
+				
+				if (change.find("[" + format + "[L][main_anim_event]]", 0) != NOT_FOUND && change.find("eventID[" + format + "[L][main_anim_event]]", 0) == NOT_FOUND)
+				{
+					change.replace(change.find("[" + format + "[L][main_anim_event]]"), 22 + format.length(), groupAnimInfo[lastOrder]->mainAnimEvent);
+					isChange = true;
+				}
+				else if (change.find(format + "[L][main_anim_event]", 0) != NOT_FOUND)
 				{
 					change.replace(change.find(format + "[L][main_anim_event]"), 20 + format.length(), groupAnimInfo[lastOrder]->mainAnimEvent);
 					isChange = true;
+				}
 
-					if (error)
+				string test = boost::regex_replace(string(change), boost::regex(".*" + format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"), string("\\1"));
+
+				if (test != change)
+				{
+					if (change.find("[" + format + "[" + test + "][main_anim_event]]", 0) != NOT_FOUND && change.find("eventID[" + format + "[" + test + "][main_anim_event]]", 0) == NOT_FOUND)
 					{
-						return;
+						if (isLastOrder)
+						{
+							change.replace(change.find("[" + format + "[" + test + "][main_anim_event]]"), 21 + format.length() + test.length(), mainAnimEvent);
+						}
+						else
+						{
+							change.replace(change.find("[" + format + "[" + test + "][main_anim_event]]"), 21 + format.length() + test.length(), groupAnimInfo[order + 1]->mainAnimEvent);
+						}
+
+						isChange = true;
+					}
+					else
+					{
+						if (isLastOrder)
+						{
+							change.replace(change.find(format + "[" + test + "][main_anim_event]"), 19 + format.length() + test.length(), mainAnimEvent);
+						}
+						else
+						{
+							change.replace(change.find(format + "[" + test + "][main_anim_event]"), 19 + format.length() + test.length(), groupAnimInfo[order + 1]->mainAnimEvent);
+						}
+
+						isChange = true;
 					}
 				}
 
-				if (change.find("main_anim_event", 0) != NOT_FOUND)
+				if (change.find("[main_anim_event]", 0) != NOT_FOUND && change.find("eventID[main_anim_event]") == NOT_FOUND)
+				{
+					change.replace(change.find("[main_anim_event]"), 17, mainAnimEvent);
+					isChange = true;
+				}
+				else if (change.find("main_anim_event", 0) != NOT_FOUND)
 				{
 					change.replace(change.find("main_anim_event"), 15, mainAnimEvent);
 					isChange = true;
+				}
+
+				if (error)
+				{
+					return;
 				}
 			}
 
@@ -5511,22 +5571,33 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, v
 					{
 						size_t optionPosition = line.find("<!-- CONDITION START ^") + 22;
 						string conditionLine = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
-						animationutility utility;
 
-						if (newCondition(conditionLine, newlines, groupOptionPicked, i + 1, utility))
+						if (conditionLine.find("[") == NOT_FOUND)
 						{
-							skip = false;
-							IsConditionOpened[condition] = true;
+							if (format != conditionLine)
+							{
+								skip = true;
+							}
 						}
 						else
 						{
-							skip = true;
-						}
+							animationutility utility;
 
-						if (error)
-						{
-							newlines.shrink_to_fit();
-							return;
+							if (newCondition(conditionLine, newlines, groupOptionPicked, i + 1, utility))
+							{
+								skip = false;
+								IsConditionOpened[condition] = true;
+							}
+							else
+							{
+								skip = true;
+							}
+
+							if (error)
+							{
+								newlines.shrink_to_fit();
+								return;
+							}
 						}
 					}
 				}
@@ -5555,21 +5626,32 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, v
 					{
 						size_t optionPosition = line.find("<!-- CONDITION ^") + 16;
 						string option = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
-						animationutility utility;
 
-						if (newCondition(option, newlines, groupOptionPicked, i + 1, utility))
+						if (option.find("[") == NOT_FOUND)
 						{
-							skip = false;
-							IsConditionOpened[condition] = true;
+							if (format != option)
+							{
+								skip = true;
+							}
 						}
 						else
 						{
-							skip = true;
-						}
+							animationutility utility;
 
-						if (error)
-						{
-							return;
+							if (newCondition(option, newlines, groupOptionPicked, i + 1, utility))
+							{
+								skip = false;
+								IsConditionOpened[condition] = true;
+							}
+							else
+							{
+								skip = true;
+							}
+
+							if (error)
+							{
+								return;
+							}
 						}
 					}
 				}
@@ -5631,42 +5713,38 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, v
 				if (!open)
 				{
 					string curOption = getOption(ASDLines[i], false);
-					bool isNot = false;
 
-					if (curOption[0] == '!')
+					if (curOption.find("[") == NOT_FOUND)
 					{
-						isNot = true;
-						curOption = curOption.substr(1);
-					}
-
-					vecstr optionInfo = GetOptionInfo(curOption, format, behaviorFile, i + 1, lastOrder, groupAnimInfo, false, true, order);
-
-					if (error)
-					{
-						return;
-					}
-
-					if (optionInfo[2] != "AnimObject")
-					{
-						if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[optionInfo[2]])
+						if (format != curOption)
 						{
-							if (isNot)
-							{
-								skip = true;
-
-							}
-							else
-							{
-								open = true;
-							}
+							skip = true;
 						}
 						else
 						{
-							// clear group number
-							string previous = optionInfo[2];
-							string templine = boost::regex_replace(string(optionInfo[2]), boost::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"), string("\\1"));
+							open = true;
+						}
+					}
+					else
+					{
+						bool isNot = false;
 
-							if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[templine])
+						if (curOption[0] == '!')
+						{
+							isNot = true;
+							curOption = curOption.substr(1);
+						}
+
+						vecstr optionInfo = GetOptionInfo(curOption, format, behaviorFile, i + 1, lastOrder, groupAnimInfo, false, true, order);
+
+						if (error)
+						{
+							return;
+						}
+
+						if (optionInfo[2] != "AnimObject")
+						{
+							if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[optionInfo[2]])
 							{
 								if (isNot)
 								{
@@ -5679,52 +5757,70 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, v
 							}
 							else
 							{
-								string ID = boost::regex_replace(string(previous), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+								// clear group number
+								string previous = optionInfo[2];
+								string templine = boost::regex_replace(string(optionInfo[2]), boost::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"), string("\\1"));
 
-								// animobject bypass
-								if (previous == "AnimObject/" + ID)
+								if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[templine])
 								{
-									if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[previous])
+									if (isNot)
 									{
-										if (isNot)
-										{
-											skip = true;
-										}
-										else
-										{
-											open = true;
-										}
+										skip = true;
 									}
 									else
 									{
-										if (isNot)
-										{
-											open = true;
-										}
-										else
-										{
-											skip = true;
-										}
+										open = true;
 									}
 								}
 								else
 								{
-									if (isNot)
+									string ID = boost::regex_replace(string(previous), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+									// animobject bypass
+									if (previous == "AnimObject/" + ID)
 									{
-										open = true;
+										if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[previous])
+										{
+											if (isNot)
+											{
+												skip = true;
+											}
+											else
+											{
+												open = true;
+											}
+										}
+										else
+										{
+											if (isNot)
+											{
+												open = true;
+											}
+											else
+											{
+												skip = true;
+											}
+										}
 									}
 									else
 									{
-										skip = true;
+										if (isNot)
+										{
+											open = true;
+										}
+										else
+										{
+											skip = true;
+										}
 									}
 								}
 							}
 						}
-					}
-					else
-					{
-						ErrorMessage(1150, format, behaviorFile, i + 1);
-						skip = true;
+						else
+						{
+							ErrorMessage(1150, format, behaviorFile, i + 1);
+							skip = true;
+						}
 					}
 				}
 				else
@@ -5755,37 +5851,87 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, v
 				if (!open)
 				{
 					string curOption = getOption(line, true);
-					bool isNot = false;
 
-					if (curOption[0] == '!')
+					if (curOption.find("[") == NOT_FOUND)
 					{
-						isNot = true;
-						curOption = curOption.substr(1);
-					}
-
-					while (true)
-					{
-						vecstr optionInfo = GetOptionInfo(curOption, format, behaviorFile, i + 1, groupAnimInfo.size() - 1, groupAnimInfo, true, true, order);
-
-						if (error)
+						if (format != curOption)
 						{
-							return;
+							skip = true;
 						}
-
-						if (optionInfo[1].length() == 0)
+						else
 						{
 							recorder.reserve(ASDLines.size() / 5);
 							open = true;
 							multi = true;
+							multiOption = curOption;
 							openOrder = -1;
-							multiOption = optionInfo[2];
 						}
-						else
+					}
+					else
+					{
+						bool isNot = false;
+
+						if (curOption[0] == '!')
 						{
-							if (!groupOptionPicked[stoi(optionInfo[1])][optionInfo[2]])
+							isNot = true;
+							curOption = curOption.substr(1);
+						}
+
+						while (true)
+						{
+							vecstr optionInfo = GetOptionInfo(curOption, format, behaviorFile, i + 1, groupAnimInfo.size() - 1, groupAnimInfo, true, true, order);
+
+							if (error)
 							{
-								// animobject bypass
-								if (optionInfo[2] == "AnimObject")
+								return;
+							}
+
+							if (optionInfo[1].length() == 0)
+							{
+								recorder.reserve(ASDLines.size() / 5);
+								open = true;
+								multi = true;
+								openOrder = -1;
+								multiOption = optionInfo[2];
+							}
+							else
+							{
+								if (!groupOptionPicked[stoi(optionInfo[1])][optionInfo[2]])
+								{
+									// animobject bypass
+									if (optionInfo[2] == "AnimObject")
+									{
+										if (isNot)
+										{
+											skip = true;
+										}
+										else
+										{
+											recorder.reserve(ASDLines.size() / 5);
+											open = true;
+											multi = true;
+											multiOption = optionInfo[2];
+											openOrder = stoi(optionInfo[1]);
+										}
+									}
+									else
+									{
+										// Check if current condition accepts other options that are linked
+										if (isNot)
+										{
+											recorder.reserve(ASDLines.size() / 5);
+											open = true;
+											multi = true;
+											multiOption = optionInfo[2];
+											openOrder = stoi(optionInfo[1]);
+										}
+										else
+										{
+											skip = true;
+										}
+									}
+								}
+								else
 								{
 									if (isNot)
 									{
@@ -5800,49 +5946,10 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, v
 										openOrder = stoi(optionInfo[1]);
 									}
 								}
-								else
-								{
-									// Check if current condition accepts other options that are linked
-									if (isNot)
-									{
-										recorder.reserve(ASDLines.size() / 5);
-										open = true;
-										multi = true;
-										multiOption = optionInfo[2];
+							}
 
-										if (optionInfo[1].length() == 0)
-										{
-											openOrder = -1;
-										}
-										else
-										{
-											openOrder = stoi(optionInfo[1]);
-										}
-									}
-									else
-									{
-										skip = true;
-									}
-								}
-							}
-							else
-							{
-								if (isNot)
-								{
-									skip = true;
-								}
-								else
-								{
-									recorder.reserve(ASDLines.size() / 5);
-									open = true;
-									multi = true;
-									multiOption = optionInfo[2];
-									openOrder = stoi(optionInfo[1]);
-								}
-							}
+							break;
 						}
-
-						break;
 					}
 				}
 				else

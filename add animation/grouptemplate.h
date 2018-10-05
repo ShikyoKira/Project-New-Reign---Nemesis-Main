@@ -12,6 +12,7 @@
 #include "compute.h"
 #include "furniture.h"
 
+typedef std::set<std::string> setstr;
 typedef std::vector<std::string> vecstr;
 typedef std::unordered_map<std::string, int> id;
 typedef std::unordered_map<std::string, std::string> SSMap;
@@ -50,6 +51,7 @@ public:
 struct ExistingFunction
 {
 private:
+	bool m_hasGroup;
 	int* nextFunctionID;
 	ImportContainer* newImport;
 	std::string strID;
@@ -63,7 +65,7 @@ private:
 public:
 	vecstr groupExistingFunctionProcess(int curFunctionID, vecstr existingFunctionLines, std::shared_ptr<master> newSubFunctionIDs,
 		std::vector<std::vector<std::shared_ptr<animationInfo>>> newGroupAnimInfo, std::string format, ImportContainer& import, id newEventID, id newVariableID,
-		int& nFunctionID, bool hasMaster, bool hasGroup, vecstr templateGroup, bool ignoreGroup);
+		int& nFunctionID, bool hasMaster, bool hasGroup, setstr templateGroup, bool ignoreGroup);
 	void processing(std::string& line, std::string filename, int curFunctionID, int linecount, id eventid, id variableid, int groupMulti, int optionMulti = -1,
 		int animMulti = -1, std::string multiOption = "");
 	inline void newID();

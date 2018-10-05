@@ -135,7 +135,7 @@ getTemplate::getTemplate()
 								else if (boost::iequals(lowerfilename, codelist[k] + ".txt"))
 								{
 									registered = true;
-									grouplist[lowerBehaviorFolder].push_back(codelist[k]);
+									grouplist[lowerBehaviorFolder].insert(codelist[k]);
 
 									if (behaviortemplate[codelist[k]][lowerBehaviorFolder].size() == 0)
 									{
@@ -204,65 +204,81 @@ getTemplate::getTemplate()
 							}
 							else if (lowerBehaviorFolder == "animationdatasinglefile")
 							{
-								vecstr headerlist;
-								read_directory(newpath, headerlist);
-								grouplist[lowerBehaviorFolder].push_back(codelist[k]);
-								string project = filelist[i] + ".txt";
-
-								for (unsigned int j = 0; j < headerlist.size(); ++j)
+								if (boost::filesystem::is_directory(newpath))
 								{
-									string header = headerlist[j].substr(0, headerlist[j].find_last_of("."));
+									vecstr headerlist;
+									read_directory(newpath, headerlist);
+									grouplist[lowerBehaviorFolder].insert(codelist[k]);
+									string project = filelist[i] + ".txt";
 
-									if (header[0] == '$' && (header.back() == '$' || header.find_last_of("$UC") == header.length() - 1))
+									for (unsigned int j = 0; j < headerlist.size(); ++j)
 									{
-										if (animdatatemplate[codelist[k]][project][header].size() == 0)
+										string header = headerlist[j].substr(0, headerlist[j].find_last_of("."));
+
+										if (header[0] == '$' && (header.back() == '$' || header.find_last_of("$UC") == header.length() - 1))
 										{
-											if (!GetFunctionLines(newpath + "\\" + headerlist[j], animdatatemplate[codelist[k]][project][header], true))
+											if (animdatatemplate[codelist[k]][project][header].size() == 0)
 											{
+												if (!GetFunctionLines(newpath + "\\" + headerlist[j], animdatatemplate[codelist[k]][project][header], true))
+												{
+													return;
+												}
+											}
+											else
+											{
+												ErrorMessage(1019, newpath);
 												return;
 											}
 										}
 										else
 										{
-											ErrorMessage(1019, newpath);
-											return;
+											existingAnimDataHeader[codelist[k]][project].insert(header);
 										}
-									}
-									else
-									{
-										existingAnimDataHeader[codelist[k]][project].insert(header);
 									}
 								}
 							}
 							else if (lowerBehaviorFolder == "animationsetdatasinglefile")
 							{
-								vecstr headerlist;
-								read_directory(newpath, headerlist);
-								grouplist[lowerBehaviorFolder].push_back(codelist[k]);
-								string project = filelist[i] + "\\" + filelist[i].substr(0, wordFind(filelist[i], "data", true)) + ".txt";
-
-								for (unsigned int j = 0; j < headerlist.size(); ++j)
+								if (boost::filesystem::is_directory(newpath) && filelist[i].find("~") != NOT_FOUND)
 								{
-									string header = headerlist[j].substr(0, headerlist[j].find_last_of("."));
+									vecstr headerlist;
+									read_directory(newpath, headerlist);
+									grouplist[lowerBehaviorFolder].insert(codelist[k]);
+									string project = filelist[i] + ".txt";
 
-									if (header[0] == '$' && header.back() == '$')
+									while (project.find("~") != NOT_FOUND)
 									{
-										if (asdtemplate[codelist[k]][project][header].size() == 0)
+										project.replace(project.find("~"), 1, "\\");
+									}
+
+									for (auto& curheader : headerlist)
+									{
+										boost::filesystem::path thisfile(newpath + "\\" + curheader);
+
+										if (!boost::filesystem::is_directory(thisfile) && thisfile.extension().string() == ".txt")
 										{
-											if (!GetFunctionLines(newpath + "\\" + headerlist[j], asdtemplate[codelist[k]][project][header], false))
+											string header = thisfile.stem().string();
+
+											if (header[0] == '$' && header.back() == '$')
 											{
-												return;
+												if (asdtemplate[codelist[k]][project][header].size() == 0)
+												{
+													if (!GetFunctionLines(thisfile.string(), asdtemplate[codelist[k]][project][header], false))
+													{
+														return;
+													}
+												}
+												else
+												{
+													ErrorMessage(1019, newpath);
+													return;
+												}
+											}
+											else
+											{
+												existingASDHeader[codelist[k]][project].insert(header + ".txt");
 											}
 										}
-										else
-										{
-											ErrorMessage(1019, newpath);
-											return;
-										}
-									}
-									else
-									{
-										existingASDHeader[codelist[k]][project].insert(header);
 									}
 								}
 							}
