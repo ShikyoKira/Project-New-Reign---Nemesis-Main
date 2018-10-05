@@ -339,12 +339,13 @@ void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
 		{
 			string path = directory + "\\" + file;
 			boost::to_lower(path);
+			boost::filesystem::path curfile(path);
 
-			if (boost::filesystem::is_directory(path))
+			if (boost::filesystem::is_directory(curfile))
 			{
 				multithreads.create_thread(boost::bind(newFileCheck, path, boost::ref(isChecked)));
 			}
-			else if (!boost::iequals(file, "info.ini"))
+			else if (curfile.extension().string() == ".txt")
 			{
 				if (directory.find("animationdatasinglefile") != NOT_FOUND)
 				{
@@ -360,8 +361,8 @@ void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
 					}
 				}
 				else if (directory.find("animationsetdatasinglefile") != NOT_FOUND)
-				{
-					if (file.find("$") == NOT_FOUND)
+				{					
+					if (boost::filesystem::path(directory).stem().string().find("~") != NOT_FOUND && file.length() > 0 && file[0] != '$')
 					{
 						if (!isChecked[path])
 						{
@@ -896,9 +897,7 @@ bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordere
 {
 	if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
 	{
-		vecstr templateGroup = BehaviorTemplate.grouplist[lowerBehaviorFile];
-
-		for (auto& templatecode : templateGroup)
+		for (auto& templatecode : BehaviorTemplate.grouplist[lowerBehaviorFile])
 		{
 			if (newAnimation.find(templatecode) != newAnimation.end())
 			{
@@ -923,9 +922,7 @@ bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordere
 			{
 				if (it->second.size() > 0 && lowerBehaviorFile == behaviorNames[k])
 				{
-					vecstr templateGroup = it->second;
-
-					for (auto& templatecode : templateGroup)
+					for (auto& templatecode : it->second)
 					{
 						if (newAnimation.find(templatecode) != newAnimation.end() && !BehaviorTemplate.optionlist[templatecode].core)
 						{

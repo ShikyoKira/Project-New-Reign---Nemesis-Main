@@ -329,7 +329,10 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 					isNew = true;
 				}
 
-				saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate);
+				if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate))
+				{
+					return false;
+				}
 
 				if (!GetFunctionLines(filepath, storeline))
 				{
@@ -378,24 +381,24 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 
 bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfile, MasterAnimSetData& animSetData, unordered_map<string, string>& lastUpdate)
 {
-	vecstr datalist;
-	vecstr headerfile;
-	read_directory(folderpath, headerfile);
-
 	if (animSetData.newAnimSetData.find(projectfile) == animSetData.newAnimSetData.end())
 	{
 		return true;
 	}
 
+	vecstr datalist;
+	vecstr headerfile;
+	read_directory(folderpath, headerfile);
+
 	for (unsigned int k = 0; k < headerfile.size(); ++k)
 	{
 		string filename = folderpath + "\\" + headerfile[k];
-		string lowerheader = boost::to_lower_copy(headerfile[k]);
 		boost::filesystem::path curfile(filename);
 
-		if (!boost::filesystem::is_directory(curfile) && curfile.stem().string() == "txt")
+		if (!boost::filesystem::is_directory(curfile) && curfile.extension().string() == ".txt" && headerfile[k].length() > 0 && headerfile[k][0] != '$')
 		{
 			vecstr storeline;
+			string lowerheader = boost::to_lower_copy(curfile.stem().string());
 
 			if (!GetFunctionLines(filename, storeline))
 			{
@@ -435,7 +438,7 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 
 					if (storeline[k].find("<!-- NEW", 0) == NOT_FOUND && !close)
 					{
-						if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND)
+						if (linecount < int(originallines.size()) && originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND)
 						{
 							combinelines.push_back(originallines[linecount]);
 							++linecount;
@@ -465,7 +468,7 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 							conditionOpen[conditionLvl] = false;
 							--conditionLvl;
 						}
-						else if (conditionOri || !conditionOpen[conditionLvl])
+						else if (linecount < int(originallines.size()) && (conditionOri || !conditionOpen[conditionLvl]))
 						{
 							combinelines.push_back(originallines[linecount]);
 							++linecount;
@@ -477,7 +480,7 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 					}
 					else if (close && storeline[k].find("<!-- CLOSE -->", 0) != NOT_FOUND)
 					{
-						if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND)
+						if (linecount < int(originallines.size()) && originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND)
 						{
 							combinelines.push_back(originallines[linecount]);
 							++linecount;
