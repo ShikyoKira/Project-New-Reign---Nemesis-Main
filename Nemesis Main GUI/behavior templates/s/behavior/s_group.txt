@@ -127,7 +127,7 @@
 					</hkparam>
 					<hkparam name="transition">$MC$</hkparam>			<!-- B #$import[blend_transition][B[duration]]$ --> <!-- #0111 -->
 					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">$eventID[main_anim_event_REENTER]$</hkparam>
+					<hkparam name="eventId">$eventID[[main_anim_event]_REENTER]$</hkparam>
  					<hkparam name="toStateId">$s[][(S+0)]$</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

@@ -12829,6 +12829,11 @@ attackStartSprintLeftHand
 3064642194
 1365593872
 7891816
+<!-- NEW ^km^ +% -->
+$crc32[meshes\actors\character\animations\Path]$
+$crc32[FileName]$
+7891816
+<!-- CLOSE -->
 <!-- NEW *zcbe* -->
 3064642194
 3675759335
@@ -14321,6 +14326,11 @@ H2H_RightHook
 3064642194
 1365593872
 7891816
+<!-- NEW ^km^ +% -->
+$crc32[meshes\actors\character\animations\Path]$
+$crc32[FileName]$
+7891816
+<!-- CLOSE -->
 <!-- NEW *zcbe* -->
 1514263723
 455572075
@@ -38316,6 +38326,11 @@ attackStartSprintLeftHand
 3064642194
 1365593872
 7891816
+<!-- NEW ^km^ +% -->
+$crc32[meshes\actors\character\animations\Path]$
+$crc32[FileName]$
+7891816
+<!-- CLOSE -->
 <!-- NEW *zcbe* -->
 3064642194
 3675759335
@@ -39808,6 +39823,11 @@ H2H_RightHook
 3064642194
 1365593872
 7891816
+<!-- NEW ^km^ +% -->
+$crc32[meshes\actors\character\animations\Path]$
+$crc32[FileName]$
+7891816
+<!-- CLOSE -->
 <!-- NEW *zcbe* -->
 1514263723
 455572075

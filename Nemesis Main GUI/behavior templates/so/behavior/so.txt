@@ -181,7 +181,7 @@
 					<hkparam name="localTime">-0.300000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$eventID[so[L][main_anim_event]_DONE]$</hkparam>
+							<hkparam name="id">$eventID[[so[L][main_anim_event]]_DONE]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>

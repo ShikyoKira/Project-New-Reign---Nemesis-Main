@@ -23,14 +23,13 @@
 				64 65 66 82 83 84 85 86 87 88 89 90 91 92 93 94
 				95 96 67 68 69 70 71 72 73 74 75 76 77 78 79 80
 				81 97 98
-				99			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="1744">					<!-- numelement *hmce* +24--> <!-- numelement *zcbe* +46--> <!-- numelement *tudm* +36-->
+			<hkparam name="animationNames" numelements="1663">					<!-- numelement *hmce* +24--> <!-- numelement *zcbe* +46--> <!-- numelement *tudm* +36-->
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1hm_1stP_Walk.hkx</hkcstring>
 				<hkcstring>Animations\1HM_AttackForwardSprint.hkx</hkcstring>
@@ -1687,88 +1686,7 @@
 				<hkcstring>Animations\WW_Stage7.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage8.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage9.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Mac_Dual_Equip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Axe_Dual_Equip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Dag_Dual_Equip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_Dual_Equip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Mac_Dual_Unequip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Axe_Dual_Unequip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Dag_Dual_Unequip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_Dual_Unequip.hkx</hkcstring>
-				<hkcstring>Animations\Z_H2H\H2H_BlockIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_H2H\H2H_BlockLowIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_BlockRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Shd\shd_BlockIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Shd\shd_BlockLowIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HM\2HM_BlockRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HM\2HM_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HM\2HM_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HM\2HM_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HW\2HW_BlockRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HW\2HW_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HW\2HW_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HW\2HW_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\STF_BlockRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\STF_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\STF_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\STF_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Tor\Tor_BlockIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Tor\Tor_BlockLowIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_CrawlBackward.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_CrawlBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_CrawlLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_CrawlTurnLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_AttackRight.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_AttackLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_BlockRight.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_BlockLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_RollLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_JumpToFeet.hkx</hkcstring>
-				<hkcstring>Animations\Z_Bow\Bow_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Bow\Bow_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Bow\Bow_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\NullClip.hkx</hkcstring>
-				<hkcstring>Animations\H2H_BlockAnticipate.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\stf_bash.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PL.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PR.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PR2L.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PL2R.hkx</hkcstring>
+				<hkcstring>Animations\CriticalHit\sensual_dancing_1.hkx</hkcstring>
 				<hkcstring>Animations\CriticalHit\CH_paired_1hmkillmovebackstab.hkx</hkcstring>
 				<hkcstring>Animations\CriticalHit\CH_paired_1hmkillmove_short_a.hkx</hkcstring>
 				<hkcstring>Animations\CriticalHit\CH_paired_1hmkillmoveshortb.hkx</hkcstring>
@@ -1890,7 +1808,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -1904,7 +1821,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -1918,7 +1834,6 @@
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				1.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -1932,7 +1847,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				1.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -1946,7 +1860,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -1960,7 +1873,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				1.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -1974,7 +1886,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -1988,7 +1899,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2002,7 +1912,6 @@
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000
-				1.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2016,7 +1925,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2030,7 +1938,6 @@
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				1.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2054,7 +1961,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2068,7 +1974,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2082,7 +1987,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2096,7 +2000,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2110,7 +2013,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2124,7 +2026,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2138,7 +2039,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2152,7 +2052,6 @@
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 1.000000
-				1.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2166,7 +2065,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 0.000000 0.000000
-				1.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2180,7 +2078,6 @@
 				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				1.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2194,7 +2091,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2208,7 +2104,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2222,7 +2117,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 
@@ -2236,7 +2130,6 @@
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 				0.000000 0.000000 0.000000
-				0.000000			<!-- Bone$N -->
 			</hkparam>
 		</hkobject>
 

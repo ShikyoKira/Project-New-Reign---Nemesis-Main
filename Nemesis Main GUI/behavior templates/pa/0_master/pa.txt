@@ -117,7 +117,7 @@
 		<hkobject name="#MID$6" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_Player_PairedAnim_BS_$%$</hkparam>
+			<hkparam name="name">pa_$main_anim_event$</hkparam>
 			<hkparam name="pClipGenerator">#MID$7</hkparam>
 			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
 			<hkparam name="bSyncClipIgnoreMarkPlacement">false</hkparam>
@@ -308,7 +308,7 @@
 		<hkobject name="#MID$15" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_NPC_PairedAnim_BS_$%$</hkparam>
+			<hkparam name="name">$main_anim_event$</hkparam>
 			<hkparam name="pClipGenerator">#MID$16</hkparam>
 			<hkparam name="SyncAnimPrefix">2_</hkparam>
 			<hkparam name="bSyncClipIgnoreMarkPlacement">false</hkparam>

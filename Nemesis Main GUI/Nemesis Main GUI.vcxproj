@@ -132,7 +132,6 @@
     <ClCompile Include="src\AnimProgressBar.cpp" />
     <ClCompile Include="src\BehaviorInfo.cpp" />
     <ClCompile Include="src\BehaviorListModel.cpp" />
-    <ClCompile Include="src\BehaviorListRowColor.cpp" />
     <ClCompile Include="src\DebugLog.cpp" />
     <ClCompile Include="src\MultiInstanceCheck.cpp" />
     <ClCompile Include="src\ScrollBar.cpp" />
@@ -164,7 +163,6 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir)\.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
       <Define Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
     </QtMoc>
-    <ClInclude Include="src\BehaviorListRowColor.h" />
     <ClInclude Include="src\MultiInstanceCheck.h" />
     <ClInclude Include="src\SettingsSave.h" />
     <QtMoc Include="BehaviorListView.h" />

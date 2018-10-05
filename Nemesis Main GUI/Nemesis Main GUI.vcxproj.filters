@@ -20,9 +20,6 @@
     <ClCompile Include="src\AnimProgressBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BehaviorListRowColor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ErrorMsgBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -111,9 +108,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SettingsSave.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BehaviorListRowColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ErrorMsgBox.h">

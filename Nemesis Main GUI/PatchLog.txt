@@ -1,438 +1,368 @@
-[2018-Sep-26 21:18:09] Nemesis Behavior Version: v0.73
-[2018-Sep-26 21:18:09] Current Directory: E:\C++\Project 2\Nemesis Main GUI
-[2018-Sep-26 21:18:09] Data Directory: E:\C++\Project 2\Nemesis Main GUI\data\
-[2018-Sep-26 21:18:09] Skyrim Special Edition: FALSE
-[2018-Sep-26 21:18:09] Mod 1: zcbe
-[2018-Sep-26 21:18:09] Mod 2: tkuc
-[2018-Sep-26 21:18:09] Mod 3: cbbi
-[2018-Sep-26 21:18:09] Mod 4: tudm
-[2018-Sep-26 21:18:09] Mod 5: nemesis
-[2018-Sep-26 21:18:11] WARNING(1026): Invalid option
+[2018-Oct-06 03:52:50] Nemesis Behavior Version: v0.75
+[2018-Oct-06 03:52:50] Current Directory: E:\C++\Project 2\Nemesis Main GUI
+[2018-Oct-06 03:52:50] Data Directory: E:\C++\Project 2\Nemesis Main GUI\data\
+[2018-Oct-06 03:52:50] Skyrim Special Edition: FALSE
+[2018-Oct-06 03:52:50] Mod 1: nemesis
+[2018-Oct-06 03:52:53] WARNING(1026): Invalid option
 File: FNIS_CriticalHit_List.txt
 Line: 3
 Option: Tn
-[2018-Sep-26 21:18:11] WARNING(1026): Invalid option
+[2018-Oct-06 03:52:53] WARNING(1026): Invalid option
 File: FNIS_CriticalHit_List.txt
 Line: 5
 Option: Tn
-[2018-Sep-26 21:18:11] WARNING(1026): Invalid option
+[2018-Oct-06 03:52:53] WARNING(1026): Invalid option
 File: FNIS_CriticalHit_List.txt
 Line: 7
 Option: Tn
-[2018-Sep-26 21:18:11] WARNING(1026): Invalid option
+[2018-Oct-06 03:52:53] WARNING(1026): Invalid option
 File: FNIS_CriticalHit_List.txt
 Line: 9
 Option: Tn
-[2018-Sep-26 21:18:11] WARNING(1026): Invalid option
+[2018-Oct-06 03:52:53] WARNING(1026): Invalid option
 File: FNIS_CriticalHit_List.txt
 Line: 11
 Option: Tn
-[2018-Sep-26 21:18:11] WARNING(1026): Invalid option
+[2018-Oct-06 03:52:53] WARNING(1026): Invalid option
 File: FNIS_CriticalHit_List.txt
 Line: 13
 Option: Tn
-[2018-Sep-26 21:18:11] New animations registration complete
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\0_master.txt
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\1hm_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\0_master
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\1hm_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\bashbehavior.txt
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\1hm_locomotion.txt
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\bashbehavior
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\1hm_locomotion
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\bow_direction_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\bow_direction_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\attackbehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\attackbehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\blockbehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\blockbehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\behavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\weapequip.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\weapequip
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\magicmountedbehavior
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\shout_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\shoutmounted_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\staggerbehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\idlebehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\sprintbehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\magicbehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\bashbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\crossbow_direction_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\firstperson.txt
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\characters\firstperson
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\horsebehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (IsCharater: TRUE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 1.5, Character bone identification complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\bow_direction_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\1hm_locomotion
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\blockbehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\1hm_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\weapequip.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\weapequip
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\bashbehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\0_master.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\0_master
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\crossbow_direction_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\mt_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\weapunequip.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\weapunequip
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\sprintbehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\sprintbehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\shout_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\shout_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\sprintbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\staggerbehavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\staggerbehavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\weapunequip.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\weapunequip.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\shoutmounted_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\shoutmounted_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\mt_behavior.txt
-[2018-Sep-26 21:18:12] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\mt_behavior
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:12] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt
-[2018-Sep-26 21:18:13] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\magic_readied_direction_behavior
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\weapunequip.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\weapequip.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\weapequip.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\magicbehavior.txt
-[2018-Sep-26 21:18:13] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\magicbehavior
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\staggerbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\idlebehavior.txt
-[2018-Sep-26 21:18:13] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\idlebehavior
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultfemale.txt
-[2018-Sep-26 21:18:13] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\characters female\defaultfemale
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\weapequip.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\magicmountedbehavior.txt
-[2018-Sep-26 21:18:13] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\magicmountedbehavior
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\shout_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\shout_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\horsebehavior.txt
-[2018-Sep-26 21:18:13] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\horsebehavior
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultmale.txt
-[2018-Sep-26 21:18:13] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\characters\defaultmale
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultmale.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultmale.txt (IsCharater: TRUE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultmale.txt (Check point 1.5, Character bone identification complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultmale.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultfemale.txt (IsCharater: TRUE)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 1.5, Character bone identification complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\weapequip.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:13] Processing behavior: temp_behaviors\weapequip.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\weapunequip.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\weapunequip.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\shout_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\bow_direction_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 1, File extraction complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultmale.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultmale.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultmale.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultmale.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\0_master.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\shout_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\shout_behavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\horsebehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magicbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magicmountedbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultmale.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\1hm_locomotion.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\idlebehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\idlebehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:14] Processing behavior: temp_behaviors\blockbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 2, AnimSetData mod selection complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\animationdatasinglefile.txt (Check point 1, File extraction complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\idlebehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:15] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:16] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:16] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:16] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:16] Processing behavior: temp_behaviors\mt_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:16] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:16] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:16] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:16] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:16] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:17] Processing behavior: temp_behaviors\idlebehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:17] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:17] Processing behavior: temp_behaviors\idlebehavior.txt (Check point 3.4, No changes detected)
-[2018-Sep-26 21:18:17] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:17] Processing behavior: temp_behaviors\attackbehavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:17] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:17] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:17] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:17] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:18] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:19] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:19] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:19] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:19] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:19] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:19] Processing behavior: temp_behaviors\0_master.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:19] Processing behavior: temp_behaviors\0_master.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:20] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:20] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 3, AnimSetData general processing complete)
-[2018-Sep-26 21:18:20] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 4, AnimSetData new animations complete)
-[2018-Sep-26 21:18:20] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:21] Processing behavior: temp_behaviors\0_master.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:23] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 1, File extraction & mod selection complete)
-[2018-Sep-26 21:18:23] Processing behavior: temp_behaviors\1hm_behavior.txt (IsCharater: FALSE)
-[2018-Sep-26 21:18:25] Processing behavior: temp_behaviors\animationdatasinglefile.txt (Check point 2, AnimData general processing complete)
-[2018-Sep-26 21:18:25] Processing behavior: temp_behaviors\animationdatasinglefile.txt (Check point 3, AnimData general new animations complete)
-[2018-Sep-26 21:18:25] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 2, ID replacement & PCEA record complete)
-[2018-Sep-26 21:18:27] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 5, AnimSetData format check complete)
-[2018-Sep-26 21:18:27] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:28] Processing behavior: e:\c++\project 2\nemesis main gui\data\meshes\animationsetdatasinglefile (Check point 6, AnimSetData output complete)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3.8, Mod code: ch, Existing ID count2)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3.8, Mod code: ch, Existing ID count2 COMPLETE)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3.8, Mod code: fu, Existing ID count1)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3.8, Mod code: fu, Existing ID count1 COMPLETE)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3.8, Mod code: fuo, Existing ID count1)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3.8, Mod code: fuo, Existing ID count1 COMPLETE)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3.8, Mod code: ofa, Existing ID count4)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3.8, Mod code: ofa, Existing ID count4 COMPLETE)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:28] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:29] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:29] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:29] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:30] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:30] Processing behavior: temp_behaviors\0_master.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:30] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: core, Existing ID count1)
-[2018-Sep-26 21:18:30] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: core, Existing ID count1 COMPLETE)
-[2018-Sep-26 21:18:30] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: km, Animation count6)
-[2018-Sep-26 21:18:30] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:31] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:33] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:34] Processing behavior: temp_behaviors\animationdatasinglefile.txt (Check point 4, AnimData format check complete)
-[2018-Sep-26 21:18:34] Processing behavior: e:\c++\project 2\nemesis main gui\data\meshes\animationdatasinglefile (Check point 5, AnimData output complete)
-[2018-Sep-26 21:18:34] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: km, Animation count6 COMPLETE)
-[2018-Sep-26 21:18:34] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: pa, Existing ID count2)
-[2018-Sep-26 21:18:34] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: pa, Existing ID count2 COMPLETE)
-[2018-Sep-26 21:18:34] Processing behavior: temp_behaviors\0_master.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:34] Processing behavior: temp_behaviors\0_master.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:34] Processing behavior: temp_behaviors\0_master.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:35] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 3, Behavior general processing complete)
-[2018-Sep-26 21:18:35] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 4, New animation inclusion complete)
-[2018-Sep-26 21:18:35] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 5, Behavior combine complete)
-[2018-Sep-26 21:18:36] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 6, Behavior output complete)
-[2018-Sep-26 21:18:36] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:36] Processing behavior: temp_behaviors\0_master.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:40] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 7, Behavior compile complete)
-[2018-Sep-26 21:18:42] Behavior generate complete
+[2018-Oct-06 03:52:53] WARNING(1000): Missing animation file
+File: sensual_dancing_1.hkx
+[2018-Oct-06 03:52:53] behavior
+[2018-Oct-06 03:52:53] e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\
+[2018-Oct-06 03:52:53] Core Registration: core
+[2018-Oct-06 03:52:53] New animations registration complete
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\0_master.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\0_master
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\horsebehavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\horsebehavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\magicmountedbehavior.txt
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\idlebehavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\magicmountedbehavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultfemale.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\idlebehavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\attackbehavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\magic_readied_direction_behavior
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\attackbehavior
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\characters female\defaultfemale
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\blockbehavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\blockbehavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultmale.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\characters\defaultmale
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultfemale.txt (IsCharater: TRUE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 1.5, Character bone identification complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\crossbow_direction_behavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\1hm_locomotion.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\1hm_locomotion
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultmale.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultmale.txt (IsCharater: TRUE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultmale.txt (Check point 1.5, Character bone identification complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\shoutmounted_behavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\shoutmounted_behavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\1hm_behavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\1hm_behavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\magicbehavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\magicbehavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\Nemesis_CriticalHit_behavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\mt_behavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\mt_behavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\bow_direction_behavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\bow_direction_behavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\shout_behavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\shout_behavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 3.8, Mod code: b, Animation count1)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\bashbehavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\bashbehavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultmale.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\shout_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\shout_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\bow_direction_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\bashbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\sprintbehavior.txt
+[2018-Oct-06 03:52:54] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\sprintbehavior
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultmale.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\shout_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultmale.txt (Check point 4, New animation inclusion complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultmale.txt (Check point 5, Behavior combine complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 4, New animation inclusion complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\sprintbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 5, Behavior combine complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 3.8, Mod code: b, Animation count1 COMPLETE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 3.8, Mod code: o, Existing ID count2)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultmale.txt (Check point 6, Behavior output complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 6, Behavior output complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 3.8, Mod code: o, Existing ID count2 COMPLETE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 3.8, Mod code: s, Existing ID count2)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 3.8, Mod code: s, Existing ID count2 COMPLETE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 3.8, Mod code: so, Existing ID count2)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 3.8, Mod code: so, Existing ID count2 COMPLETE)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 4, New animation inclusion complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 5, Behavior combine complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\behavior.txt (Check point 6, Behavior output complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:54] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapunequip.txt
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\0_master.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\1hm_locomotion
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\0_master
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\weapunequip
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\staggerbehavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\weapequip.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\1hm_behavior
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\weapequip
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\staggerbehavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\horsebehavior
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\staggerbehavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\crossbow_direction_behavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\magicbehavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\firstperson.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\characters\firstperson
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\shout_behavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\bow_direction_behavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapequip.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\behaviors\weapequip
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\blockbehavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\bashbehavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\sprintbehavior
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\mt_behavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\idlebehavior
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\shoutmounted_behavior
+[2018-Oct-06 03:52:55] Behavior output path: e:\c++\project 2\nemesis main gui\data\meshes\actors\character\_1stperson\behaviors\magicmountedbehavior
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\horsebehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\crossbow_direction_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\bashbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\1hm_locomotion.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (IsCharater: TRUE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 1.5, Character bone identification complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\idlebehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\magicmountedbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\shout_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\shout_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\shoutmounted_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapunequip.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapunequip.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\staggerbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 1, File extraction complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapunequip.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\firstperson.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\bow_direction_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\blockbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\staggerbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapequip.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapequip.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapequip.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\magic_readied_direction_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\sprintbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\animationdatasinglefile.txt (Check point 1, File extraction complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\behavior.txt (Check point 7, Behavior compile complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\sprintbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shoutmounted_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\shout_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\defaultmale.txt (Check point 7, Behavior compile complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\defaultfemale.txt (Check point 7, Behavior compile complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\weapequip.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\idlebehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\idlebehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapunequip.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapunequip.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\staggerbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\crossbow_direction_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bow_direction_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\bashbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapequip.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\weapequip.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicmountedbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:55] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\magicbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\0_master.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 2, AnimSetData mod selection complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\horsebehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\1hm_locomotion.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\blockbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\mt_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\magicmountedbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\magicbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\idlebehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:56] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\mt_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\horsebehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\attackbehavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\blockbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\idlebehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:57] Processing behavior: temp_behaviors\idlebehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\magicbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\1hm_locomotion.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\_1stperson\0_master.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\0_master.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:52:58] Processing behavior: temp_behaviors\0_master.txt (IsCharater: FALSE)
+[2018-Oct-06 03:52:59] Processing behavior: temp_behaviors\0_master.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:52:59] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 3, AnimSetData general processing complete)
+[2018-Oct-06 03:52:59] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 4, AnimSetData new animations complete)
+[2018-Oct-06 03:52:59] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:52:59] Processing behavior: temp_behaviors\attackbehavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:53:00] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 1, File extraction & mod selection complete)
+[2018-Oct-06 03:53:00] Processing behavior: temp_behaviors\1hm_behavior.txt (IsCharater: FALSE)
+[2018-Oct-06 03:53:01] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 2, ID replacement & PCEA record complete)
+[2018-Oct-06 03:53:04] Processing behavior: temp_behaviors\animationdatasinglefile.txt (Check point 2, AnimData general processing complete)
+[2018-Oct-06 03:53:04] Processing behavior: temp_behaviors\animationdatasinglefile.txt (Check point 3, AnimData general new animations complete)
+[2018-Oct-06 03:53:05] Processing behavior: temp_behaviors\0_master.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:53:05] Processing behavior: temp_behaviors\animationsetdatasinglefile.txt (Check point 5, AnimSetData format check complete)
+[2018-Oct-06 03:53:05] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: core, Animation count1)
+[2018-Oct-06 03:53:05] Processing behavior: e:\c++\project 2\nemesis main gui\data\meshes\animationsetdatasinglefile (Check point 6, AnimSetData output complete)
+[2018-Oct-06 03:53:05] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: core, Animation count1 COMPLETE)
+[2018-Oct-06 03:53:05] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: km, Animation count6)
+[2018-Oct-06 03:53:06] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:53:06] Processing behavior: temp_behaviors\mt_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:53:06] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:53:06] Processing behavior: temp_behaviors\_1stperson\1hm_behavior.txt (Check point 3.4, No changes detected)
+[2018-Oct-06 03:53:08] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: km, Animation count6 COMPLETE)
+[2018-Oct-06 03:53:08] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: pa, Existing ID count2)
+[2018-Oct-06 03:53:08] Processing behavior: temp_behaviors\0_master.txt (Check point 3.8, Mod code: pa, Existing ID count2 COMPLETE)
+[2018-Oct-06 03:53:08] Processing behavior: temp_behaviors\0_master.txt (Check point 4, New animation inclusion complete)
+[2018-Oct-06 03:53:08] Processing behavior: temp_behaviors\0_master.txt (Check point 5, Behavior combine complete)
+[2018-Oct-06 03:53:09] Processing behavior: temp_behaviors\0_master.txt (Check point 6, Behavior output complete)
+[2018-Oct-06 03:53:09] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 3, Behavior general processing complete)
+[2018-Oct-06 03:53:09] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 4, New animation inclusion complete)
+[2018-Oct-06 03:53:10] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 5, Behavior combine complete)
+[2018-Oct-06 03:53:10] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 6, Behavior output complete)
+[2018-Oct-06 03:53:11] Processing behavior: temp_behaviors\0_master.txt (Check point 7, Behavior compile complete)
+[2018-Oct-06 03:53:11] Processing behavior: temp_behaviors\animationdatasinglefile.txt (Check point 4, AnimData format check complete)
+[2018-Oct-06 03:53:12] Processing behavior: e:\c++\project 2\nemesis main gui\data\meshes\animationdatasinglefile (Check point 5, AnimData output complete)
+[2018-Oct-06 03:53:14] Processing behavior: temp_behaviors\1hm_behavior.txt (Check point 7, Behavior compile complete)
+[2018-Oct-06 03:53:16] Number of animations: 14
+[2018-Oct-06 03:53:16] Behavior generate complete
 Nemesis Patch Log End

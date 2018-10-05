@@ -23,7 +23,6 @@
 #include "BehaviorListView.h"
 #include "ErrorMsgBox.h"
 #include "SettingsSave.h"
-#include "BehaviorListRowColor.h"
 #include "AnimProgressBar.h"
 
 QT_BEGIN_NAMESPACE
@@ -77,8 +76,7 @@ public:
 		modView->setEditTriggers(QAbstractItemView::EditKeyPressed | QAbstractItemView::SelectedClicked);
 		modView->setDragEnabled(true);
 		modView->setAcceptDrops(true);
-		modView->setDropIndicatorShown(true);
-		modView->setDragDropMode(QAbstractItemView::DragDrop);
+		modView->setDropIndicatorShown(false);
 		modView->setDefaultDropAction(Qt::MoveAction);
 		modView->setAlternatingRowColors(true);
 		modView->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -223,7 +221,6 @@ public:
 			}
 		}
 
-		modView->setItemDelegate(new BehaviorListRowDelegate(modView->model(), indexlist));
 		modView->setColumnWidth(0, 380);
 		modView->setColumnWidth(1, 75);
 		modView->setColumnWidth(2, 47);

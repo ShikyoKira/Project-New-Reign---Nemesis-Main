@@ -18,8 +18,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-<!-- CONDITION START ^B^ -->
-					<hkparam name="transition">#$import[blend_transition][B[duration]]$</hkparam>
+<!-- CONDITION START ^b[][B]^ -->
+					<hkparam name="transition">#$import[blend_transition][b[][B][duration]]$</hkparam>
 <!-- CONDITION -->
 					<hkparam name="transition">#0111</hkparam>
 <!-- CONDITION END -->

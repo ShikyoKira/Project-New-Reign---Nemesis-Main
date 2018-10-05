@@ -85,13 +85,13 @@ void UpdateFilesStart::UpdateFiles()
 						UpdateDebug("Data record complete");
 						emit progressUp(); // 5
 
-										   // check template for association with vanilla nodes from behavior template file
+						// check template for association with vanilla nodes from behavior template file
 						if (newAnimUpdate(newAnimDirectory, newFile, animData, animSetData, lastUpdate))
 						{
 							UpdateDebug("New Animations record complete");
 							emit progressUp(); // 6
 
-											   // comparing if different from mod file
+							// comparing if different from mod file
 							JoiningEdits(directory, newFile, childrenState, stateID, parent, animData, animSetData, lastUpdate);
 
 							if (!error)
@@ -1780,7 +1780,7 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 										return false;
 									}
 								}
-								else if (characterfolder.string() == "$header$")
+								else if (characterfolder.stem().string() == "$header$")
 								{
 									if (!animDataHeaderUpdate(folderpath + "\\" + behaviorlist[j] + "\\" + characterlist[k], codelist[i], animData, lastUpdate))
 									{
@@ -1799,19 +1799,19 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 
 							for (unsigned int k = 0; k < projectfile.size(); ++k)
 							{
-								boost::filesystem::path characterfolder(folderpath + "\\" + behaviorlist[j] + "\\" + projectfile[k]);
-
-								if (boost::filesystem::is_directory(characterfolder) && projectfile[k].find("~") != NOT_FOUND)
+								if (boost::filesystem::is_directory(folderpath + "\\" + behaviorlist[j] + "\\" + projectfile[k]) &&
+									projectfile[k].find("~") != NOT_FOUND)
 								{
 									string projectname = projectfile[k];
 									boost::to_lower(projectname);
 
-									while (projectfile[k].find("~") != NOT_FOUND)
+									while (projectname.find("~") != NOT_FOUND)
 									{
 										projectname.replace(projectname.find("~"), 1, "\\");
 									}
 
-									if (!newAnimDataSetUpdateExt(folderpath + "\\" + behaviorlist[j] + "\\" + projectfile[k], codelist[i], projectname, animSetData, lastUpdate))
+									if (!newAnimDataSetUpdateExt(folderpath + "\\" + behaviorlist[j] + "\\" + projectfile[k], codelist[i],
+										projectname + ".txt", animSetData, lastUpdate))
 									{
 										return false;
 									}
@@ -2809,14 +2809,12 @@ void BehaviorStart::GenerateBehavior()
 		// Ignore function in master branch
 		for (auto it = BehaviorTemplate.grouplist.begin(); it != BehaviorTemplate.grouplist.end(); ++it)
 		{
-			vecstr templateGroup = it->second;
-
-			for (unsigned int j = 0; j < templateGroup.size(); ++j)
+			for(auto& templatecode : it->second)
 			{
 				// existing function
-				for (unsigned int k = 0; k < BehaviorTemplate.existingFunctionID[templateGroup[j]][it->first].size(); ++k)
+				for (unsigned int k = 0; k < BehaviorTemplate.existingFunctionID[templatecode][it->first].size(); ++k)
 				{
-					ignoreFunction[it->first + ".txt"][BehaviorTemplate.existingFunctionID[templateGroup[j]][it->first][k]] = true;
+					ignoreFunction[it->first + ".txt"][BehaviorTemplate.existingFunctionID[templatecode][it->first][k]] = true;
 				}
 			}
 		}
@@ -3131,6 +3129,7 @@ void BehaviorStart::unregisterProcess()
 		}
 		else
 		{
+			PatchDebug("Number of animations: " + to_string(animCount));
 			interMsg("Behavior generation complete");
 			PatchDebug("Behavior generate complete");
 			emit enableCheck(false);
@@ -4032,11 +4031,11 @@ void BehaviorSub::BehaviorCompilation()
 								}
 							}
 
-							vecstr codelist = BehaviorTemplate.grouplist[lowerBehaviorFile];
+							setstr codelist = BehaviorTemplate.grouplist[lowerBehaviorFile];
 
-							for (unsigned int j = 0; j < codelist.size(); ++j)
+							for (auto& templatecode : codelist)
 							{
-								for (auto it = newAnimEvent[codelist[j]].begin(); it != newAnimEvent[codelist[j]].end(); ++it)
+								for (auto it = newAnimEvent[templatecode].begin(); it != newAnimEvent[templatecode].end(); ++it)
 								{
 									if (!AddEvents(curNum, catalystMap[curID], *it, orievent, isExist, counter, ZeroEvent, eventid, eventName))
 									{
@@ -4091,11 +4090,11 @@ void BehaviorSub::BehaviorCompilation()
 								}
 							}
 
-							vecstr codelist = BehaviorTemplate.grouplist[lowerBehaviorFile];
+							setstr codelist = BehaviorTemplate.grouplist[lowerBehaviorFile];
 
-							for (unsigned int j = 0; j < codelist.size(); ++j)
+							for (auto& templatecode : codelist)
 							{
-								for (auto it = newAnimVariable[codelist[j]].begin(); it != newAnimVariable[codelist[j]].end(); ++it)
+								for (auto it = newAnimVariable[templatecode].begin(); it != newAnimVariable[templatecode].end(); ++it)
 								{
 									string variablename = *it;
 
@@ -4153,12 +4152,8 @@ void BehaviorSub::BehaviorCompilation()
 								{
 									if (it->second.size() > 0 && lowerBehaviorFile == behaviorNames[k])
 									{
-										vecstr templateGroup = it->second;
-
-										for (unsigned int j = 0; j < templateGroup.size(); ++j)
+										for (auto& templatecode : it->second)
 										{
-											string templatecode = templateGroup[j];
-
 											if (newAnimation[templatecode].size() != 0 && !BehaviorTemplate.optionlist[templatecode].core)
 											{
 												for (unsigned int k = 0; k < newAnimation[templatecode].size(); ++k)
@@ -4454,13 +4449,17 @@ void BehaviorSub::BehaviorCompilation()
 
 				if (line.find("$") != NOT_FOUND)
 				{
-					if (bonenum > 0 && oribone > 0)
-					{
-						size_t pos = line.find("<!-- Bone$N -->");
+					size_t pos = line.find("<!-- Bone$N -->");
 
-						if (pos != NOT_FOUND && pos == line.length() - 15)
+					if (pos != NOT_FOUND && pos == line.length() - 15)
+					{
+						if (newBone)
 						{
 							repeatnum = bonenum;
+						}
+						else
+						{
+							repeatnum = 0;
 						}
 					}
 
@@ -4700,11 +4699,8 @@ void BehaviorSub::BehaviorCompilation()
 		// check for having newAnimation for the file
 		if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
 		{
-			vecstr templateGroup = BehaviorTemplate.grouplist[lowerBehaviorFile];
-
-			for (unsigned int j = 0; j < templateGroup.size(); ++j)
+			for (auto& templateCode : BehaviorTemplate.grouplist[lowerBehaviorFile])
 			{
-				string templateCode = templateGroup[j];
 				vecstr opening;
 				opening.push_back("<!-- ======================== NEMESIS " + templateCode + " TEMPLATE START ======================== -->");
 				allEditLines.emplace_back(make_shared<vecstr>(opening));
@@ -5086,7 +5082,8 @@ void BehaviorSub::BehaviorCompilation()
 								exFunction.setZeroVariable(ZeroVariable);
 								int functionID = BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile][k];
 								catalystMap[functionID] = exFunction.groupExistingFunctionProcess(functionID, catalystMap[functionID], groupFunctionIDs,
-									groupAnimInfo, templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup, templateGroup, ignoreGroup);
+									groupAnimInfo, templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup,
+									BehaviorTemplate.grouplist[lowerBehaviorFile], ignoreGroup);
 
 								if (error)
 								{
@@ -5141,7 +5138,8 @@ void BehaviorSub::BehaviorCompilation()
 						exFunction.setZeroVariable(ZeroVariable);
 						int functionID = BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile][k];
 						catalystMap[functionID] = exFunction.groupExistingFunctionProcess(functionID, catalystMap[functionID], make_shared<master>(),
-							animInfo, templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup, templateGroup, ignoreGroup);
+							animInfo, templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup, BehaviorTemplate.grouplist[lowerBehaviorFile],
+							ignoreGroup);
 
 						if (error)
 						{
@@ -6264,13 +6262,11 @@ void BehaviorSub::AnimDataCompilation()
 			if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() &&
 				BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
 			{
-				vecstr templateGroup = BehaviorTemplate.grouplist[lowerBehaviorFile];
 				unordered_map<string, unordered_map<string, vector<map<int, vecstr>>>> editExtract;
 				unordered_map<string, unordered_map<string, int>> ASDCount;
 
-				for (unsigned int j = 0; j < templateGroup.size(); ++j)
+				for (auto& templateCode : BehaviorTemplate.grouplist[lowerBehaviorFile])
 				{
-					string templateCode = templateGroup[j];
 					bool hasGroup = false;
 					bool hasMaster = false;
 					bool ignoreGroup = false;
@@ -6296,79 +6292,88 @@ void BehaviorSub::AnimDataCompilation()
 
 								if (projectNameCount[project] == 0)
 								{
-									projectplus = project + to_string(++projectNameCount[project]);
+									projectplus = project + " " + to_string(++projectNameCount[project]);
 									projectList.push_back(project);
+								}
+								else
+								{
+									projectplus = project + " " + to_string(projectNameCount[project]);
 								}
 
 								for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 								{
-									if (iter->first.find_last_of("$UC") != iter->first.length() - 1)
+									size_t size = iter->second.size();
+
+									if (size > 0)
 									{
-										if (iter->first[0] == '$' && iter->first.back() == '$')
+										if (size > 2 && iter->first[size - 3] == '$' && iter->first[size - 2] == 'U' && iter->first.back() == 'C')		// info data
 										{
-											header = iter->first.substr(1, iter->first.length() - 2);
-											header.append("~" + to_string(++ASDCount[projectplus][header]));
-											string uniquecode;
+											if (iter->first[0] != '$')
+											{
+												ErrorMessage(3006, project, iter->first);
+												emit done();
+												return;
+											}
+
+											header = iter->first.substr(1, iter->first.length() - 4);
 
 											if (isExist[header].length() == 0)
 											{
-												uniquecode = to_string(++uCode[projectplus]);
-												isExist[header] = uniquecode;
+												header = to_string(++uCode[projectplus]);
+												isExist[header] = header;
+												iter->second[0] = header;
+												animDataInfo[projectplus].push_back(header);
+											}
+										}
+										else	// anim data
+										{
+											if (iter->first[0] == '$' && iter->first.back() == '$')
+											{
+												header = iter->second[0];
+												header.append("~" + to_string(++ASDCount[projectplus][header]));
+												string uniquecode;
+
+												if (isExist[header].length() == 0)
+												{
+													uniquecode = to_string(++uCode[projectplus]);
+													isExist[header] = uniquecode;
+												}
+												else
+												{
+													uniquecode = isExist[header];
+												}
+
+												iter->second[1] = uniquecode;
+												animDataHeader[projectplus].push_back(header);
 											}
 											else
 											{
-												uniquecode = isExist[header];
+												ErrorMessage(3003, iter->first + ".txt");
+												emit done();
+												return;
 											}
+										}
 
-											iter->second[1] = uniquecode;
-											animDataHeader[projectplus].push_back(header);
+										if (catalystMap[projectplus][header].size() > 0)
+										{
+											ErrorMessage(5012, templateCode, project, header);
+											emit done();
+											return;
+										}
+
+										if (projectNameCount[project] != 1)
+										{
+											WarningMessage(1020, project, header);
+
+											for (int i = 1; i <= projectNameCount[project]; ++i)
+											{
+												catalystMap[project + " " + to_string(i)][header] = iter->second;
+											}
 										}
 										else
 										{
-											ErrorMessage(3003, iter->first + ".txt");
-											emit done();
-											return;
+											catalystMap[projectplus][header] = iter->second;
 										}
-									}
-									else
-									{
-										if (iter->first[0] != '$')
-										{
-											ErrorMessage(3006, project, iter->first);
-											emit done();
-											return;
-										}
-
-										header = iter->first.substr(1, iter->first.length() - 4);
-
-										if (isExist[header].length() == 0)
-										{
-											header = to_string(++uCode[projectplus]);
-											isExist[header] = header;
-											iter->second[0] = header;
-											animDataInfo[projectplus].push_back(header);
-										}
-									}
-
-									if (catalystMap[projectplus][header].size() > 0)
-									{
-										ErrorMessage(5012, templateCode, project, header);
-										emit done();
-										return;
-									}
-
-									if (projectNameCount[project] != 1)
-									{
-										WarningMessage(1020, project, header);
-
-										for (int i = 1; i <= projectNameCount[project]; ++i)
-										{
-											catalystMap[project + to_string(i)][header] = iter->second;
-										}
-									}
-									else
-									{
-										catalystMap[projectplus][header] = iter->second;
 									}
 								}
 							}
@@ -6419,38 +6424,35 @@ void BehaviorSub::AnimDataCompilation()
 
 				emit progressAdd();
 
-				for (auto it = editExtract.begin(); it != editExtract.end(); ++it)
+				for (auto& project : editExtract)
 				{
-					string project = it->first;
-
-					for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+					for (auto& header : project.second)
 					{
-						string header = iter->first;
 						map<int, vecstr> combined;
 						int totalline = 0;
 
-						for (unsigned int i = 0; iter->second.size(); ++i)
+						for (auto& list : header.second)
 						{
 							vecstr newline;
 							string line;
 
-							for (auto itera = iter->second[i].begin(); itera != iter->second[i].end(); ++itera)
+							for (auto& data : list)
 							{
-								combined[itera->first].insert(combined[itera->first].end(), itera->second.begin(), itera->second.end());
-								totalline += int(itera->second.size());
+								combined[data.first].insert(combined[data.first].end(), data.second.begin(), data.second.end());
+								totalline += int(data.second.size());
 							}
 						}
 
 						if (totalline == 0)
 						{
-							ErrorMessage(5014, project, header);
+							ErrorMessage(5014, project.first, header.first);
 							emit done();
 							return;
 						}
 
-						for (int i = 1; i <= projectNameCount[project]; ++i)
+						for (int i = 1; i <= projectNameCount[project.first]; ++i)
 						{
-							combineExtraction(catalystMap[project + " " + to_string(i)][header], combined, project, header);
+							combineExtraction(catalystMap[project.first + " " + to_string(i)][header.first], combined, project.first, header.first);
 						}
 
 						if (error)
@@ -7085,14 +7087,12 @@ void BehaviorSub::ASDCompilation()
 		// check for having newAnimation for the file
 		if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
 		{
-			vecstr templateGroup = BehaviorTemplate.grouplist[lowerBehaviorFile];
 			unordered_map<string, unordered_map<string, vector<map<int, vecstr>>>> editExtract;	// project, header, list of extracts, startline, extractions;
 																								// to get all edits done to master branch
 
-			for (unsigned int j = 0; j < templateGroup.size(); ++j)
+			for (auto& templateCode : BehaviorTemplate.grouplist[lowerBehaviorFile])
 			{
-				string templateCode = templateGroup[j];
-				unordered_map<string, int> ASDCount;
+				unordered_map<string, unordered_map<string, int>> ASDCount;
 				bool hasGroup = false;
 				bool hasMaster = false;
 				bool ignoreGroup = false;
@@ -7122,7 +7122,7 @@ void BehaviorSub::ASDCompilation()
 							for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 							{
 								string header = iter->first.substr(1, iter->first.length() - 2);
-								header.append("_" + to_string(++ASDCount[header]) + ".txt");
+								header.append("_" + to_string(++ASDCount[project][header]) + ".txt");
 
 								if (ASDPack[project][header].size() > 0)
 								{
@@ -7186,42 +7186,45 @@ void BehaviorSub::ASDCompilation()
 
 			emit progressAdd();
 
-			for (auto it = editExtract.begin(); it != editExtract.end(); ++it)
+			for (auto& project : editExtract)
 			{
-				string project = it->first;
-
-				for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+				for (auto& header : project.second)
 				{
-					string header = iter->first;
 					map<int, vecstr> combined;
 					int totalline = 0;
 
-					for (unsigned int i = 0; iter->second.size(); ++i)
+					for (auto& list : header.second)
 					{
 						vecstr newline;
 						string line;
 
-						for (auto itera = iter->second[i].begin(); itera != iter->second[i].end(); ++itera)
+						for (auto& data : list)
 						{
-							combined[itera->first].insert(combined[itera->first].end(), itera->second.begin(), itera->second.end());
-							totalline += int(itera->second.size());
+							combined[data.first].insert(combined[data.first].end(), data.second.begin(), data.second.end());
+							totalline += int(data.second.size());
 						}
 					}
 
 					if (totalline == 0)
 					{
-						ErrorMessage(5014, project, header);
+						ErrorMessage(5014, project.first, header.first);
 						emit done();
 						return;
 					}
 
-					combineExtraction(ASDPack[project][header], combined, project, header);
+					combineExtraction(ASDPack[project.first][header.first], combined, project.first, header.first);
 
 					if (error)
 					{
 						emit done();
 						return;
 					}
+				}
+
+				if (error)
+				{
+					emit done();
+					return;
 				}
 			}
 		}
@@ -7580,8 +7583,8 @@ void groupThreadStart(newGroupArgs args)
 	{
 		args.groupTemp->setZeroEvent(args.ZeroEvent);
 		args.groupTemp->setZeroVariable(args.ZeroVariable);
-		args.groupTemp->getFunctionLines(args.allEditLines, args.lowerBehaviorFile, args.filename, args.stateID, args.groupFunctionIDs, args.groupAnimInfo, args.lastID,
-			args.exportID, args.eventid, args.variableid, args.templateCode, args.atomicLock, args.groupCount);
+		args.groupTemp->getFunctionLines(args.allEditLines, args.lowerBehaviorFile, args.filename, args.stateID, args.groupFunctionIDs, args.groupAnimInfo,
+			args.lastID, args.exportID, args.eventid, args.variableid, args.templateCode, args.atomicLock, args.groupCount);
 	}
 	catch (const exception& ex)
 	{
