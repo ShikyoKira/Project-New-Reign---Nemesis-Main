@@ -53,6 +53,10 @@ QVariant BehaviorListModel::data(const QModelIndex& index, int role) const
 	{
 		return Qt::AlignCenter;
 	}
+	else if (index.row() % 2 != 0 && role == Qt::BackgroundColorRole)
+	{
+		return QColor(235, 235, 235);
+	}
 	else
 	{
 		return QVariant();
@@ -208,7 +212,9 @@ QMimeData* BehaviorListModel::mimeData(const QModelIndexList & indexes) const
 	{
 		if (index.isValid())
 		{
-			if (index.column() == 2)
+			stream << data(index, Qt::DisplayRole).toString();
+
+			if (index.column() == 0)
 			{
 				if (data(index, Qt::CheckStateRole) == Qt::Checked)
 				{
@@ -220,15 +226,6 @@ QMimeData* BehaviorListModel::mimeData(const QModelIndexList & indexes) const
 					QString text = "0";
 					stream << text;
 				}
-			}
-
-			if (index.column() != 2)
-			{
-				stream << data(index, Qt::DisplayRole).toString();
-			}
-			else
-			{
-				column = 0;
 			}
 		}
 	}
@@ -291,11 +288,6 @@ bool BehaviorListModel::dropMimeData(const QMimeData* data, Qt::DropAction actio
 		}
 		else if (counter == 1)
 		{
-			curBehaviorInfo->author = text;
-			++counter;
-		}
-		else
-		{
 			if (text.toInt() != 0)
 			{
 				curBehaviorInfo->state = Qt::Checked;
@@ -305,6 +297,15 @@ bool BehaviorListModel::dropMimeData(const QMimeData* data, Qt::DropAction actio
 				curBehaviorInfo->state = Qt::Unchecked;
 			}
 
+			++counter;
+		}
+		else if (counter == 2)
+		{
+			curBehaviorInfo->author = text;
+			++counter;
+		}
+		else
+		{
 			counter = 0;
 			++rows;
 		}
