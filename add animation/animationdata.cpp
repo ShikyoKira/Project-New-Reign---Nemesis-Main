@@ -262,7 +262,7 @@ int AnimDataProject::GetInfoTotalLine()
 	return counter;
 }
 
-AnimDataFormat::position AnimDataPosition(vecstr animData, string character, string header, string modcode, int linecount, int type, bool muteError)
+AnimDataFormat::position AnimDataPosition(vecstr animData, string character, string header, string modcode, string filepath, int linecount, int type, bool muteError)
 {
 	// has function
 	bool isOpen = false;
@@ -281,7 +281,10 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 				functionstart = i;
 			}
 
-			marker[i].skip = true;
+			if (animData[i].find("<!-- original -->") == NOT_FOUND)
+			{
+				marker[i].skip = true;
+			}
 
 			if (animData[i].find("<!-- CLOSE -->") != NOT_FOUND)
 			{
@@ -354,7 +357,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 				{
 					if (!muteError)
 					{
-						ErrorMessage(3007, modcode, "animationdatasinglefile.txt", linecount, header);
+						ErrorMessage(3007, modcode, filepath, linecount, header);
 						return xerror;
 					}
 				}
@@ -402,7 +405,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							{
 								if (!muteError)
 								{
-									ErrorMessage(3007, modcode, "animationdatasinglefile.txt", linecount, header);
+									ErrorMessage(3007, modcode, filepath, linecount, header);
 									return xerror;
 								}
 							}
@@ -454,7 +457,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 				{
 					if (!muteError)
 					{
-						ErrorMessage(3007, modcode, "animationdatasinglefile.txt", linecount, header);
+						ErrorMessage(3007, modcode, filepath, linecount, header);
 						return xerror;
 					}
 				}
@@ -500,7 +503,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 							if (tempid != 7)
 							{
-								ErrorMessage(3007, modcode, "animationdatasinglefile.txt", linecount, header);
+								ErrorMessage(3007, modcode, filepath, linecount, header);
 								return xerror;
 							}
 						}
@@ -550,7 +553,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 				{
 					if (!muteError)
 					{
-						ErrorMessage(3007, modcode, "animationdatasinglefile.txt", linecount, header);
+						ErrorMessage(3007, modcode, filepath, linecount, header);
 						return xerror;
 					}
 				}
@@ -599,7 +602,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							{
 								if (!muteError)
 								{
-									ErrorMessage(3007, modcode, "animationdatasinglefile.txt", linecount, header);
+									ErrorMessage(3007, modcode, filepath, linecount, header);
 									return xerror;
 								}
 							}
@@ -712,7 +715,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 						if (tempid != 4 && tempid != 6)
 						{
-							ErrorMessage(3007, modcode, "animationdatasinglefile.txt", linecount, header);
+							ErrorMessage(3007, modcode, filepath, linecount, header);
 							return xerror;
 						}
 					}
@@ -750,7 +753,7 @@ AnimDataFormat::position AnimDataConvert(int type, int position, bool muteError)
 {
 	using namespace AnimDataFormat;
 
-	if (type == 1)
+	if (type == 0)
 	{
 		if (position == 1)
 		{
@@ -773,7 +776,7 @@ AnimDataFormat::position AnimDataConvert(int type, int position, bool muteError)
 			return unknown5;
 		}
 	}
-	else if (type == 2)
+	else if (type == 1)
 	{
 		if (position == 1)
 		{

@@ -103,7 +103,7 @@ struct MasterAnimData
 void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
 void AnimDataProcess(std::vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
 void InfoDataProcess(std::vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
-extern AnimDataFormat::position AnimDataPosition(vecstr animData, std::string character, std::string header, std::string modcode, int linecount, int type, bool muteError = false);
+extern AnimDataFormat::position AnimDataPosition(vecstr animData, std::string character, std::string header, std::string modcode, std::string filepath, int linecount, int type, bool muteError = false);
 
 AnimDataFormat::position AnimDataConvert(int type, int position, bool muteError);
 
