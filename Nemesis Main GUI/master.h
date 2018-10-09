@@ -39,6 +39,9 @@ typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map
 class NemesisMainGUI;
 
 extern std::unordered_map<std::string, vecstr> modinfo;
+extern std::mutex processlock;
+extern std::condition_variable cv;
+extern bool processdone;
 
 struct arguPack
 {
@@ -73,6 +76,8 @@ class UpdateFilesStart : public QObject
 	Q_OBJECT
 
 public:
+	bool cmdline = false;
+
 	UpdateFilesStart();
 	virtual ~UpdateFilesStart();
 	void milestoneStart(std::string directory);
@@ -122,6 +127,7 @@ public:
 	virtual ~BehaviorStart();
 	void milestoneStart();
 	void addBehaviorPick(BehaviorStart* newProces, NemesisMainGUI* newWidget, vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
+	void addBehaviorPick(BehaviorStart* newProcess, vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
 	void message(std::string input);
 
 public slots:
@@ -142,6 +148,7 @@ signals:
 	void incomingMessage(QString);
 
 private:
+	bool cmdline = false;
 	int animCount = 0;
 	int filenum;
 	std::unordered_map<std::string, vecstr> coreModList;		// core filename, list of modID;
@@ -224,7 +231,7 @@ signals:
 	void end();
 };
 
-bool readMod(std::string& errormod);
+bool readMod(std::string& errormod, std::string& errormsg);
 vecstr getHiddenMods();
 
 #endif

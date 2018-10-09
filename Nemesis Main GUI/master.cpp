@@ -14,9 +14,13 @@
 
 using namespace std;
 
+unordered_map<string, vecstr> modinfo;
+mutex processlock;
+condition_variable cv;
+bool processdone = false;
+
 atomic<int> m_RunningThread;
 vecstr hiddenMods;
-unordered_map<string, vecstr> modinfo;
 atomic_flag atomic_lock = ATOMIC_FLAG_INIT;
 
 void groupThreadStart(newGroupArgs args);
@@ -30,7 +34,7 @@ UpdateFilesStart::UpdateFilesStart()
 
 UpdateFilesStart::~UpdateFilesStart()
 {
-	if (error)
+	if (!cmdline && error)
 	{
 		error = false;
 	}
@@ -117,10 +121,12 @@ void UpdateFilesStart::UpdateFiles()
 
 	ClearGlobal();
 
-	QTimer* timer = new QTimer;
-	timer->setSingleShot(true);
-	connect(timer, SIGNAL(timeout()), this, SLOT(unregisterProcess()));
-	timer->start(1500);
+	if (!cmdline)
+	{
+		Sleep(1500);
+	}
+
+	unregisterProcess();
 }
 
 bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, map<string, unordered_map<string,
@@ -1950,8 +1956,19 @@ void UpdateFilesStart::unregisterProcess()
 
 	UpdateDebugOutput();
 	disconnectProcess();
-	emit enable(false);
-	emit hide(true);
+
+	if (cmdline)
+	{
+		lock_guard<mutex>lock(processlock);
+		processdone = true;
+		cv.notify_one();
+	}
+	else
+	{
+		emit enable(false);
+		emit hide(true);
+	}
+
 	emit end();
 }
 
@@ -1977,7 +1994,7 @@ BehaviorStart::BehaviorStart()
 
 BehaviorStart::~BehaviorStart()
 {
-	if (error)
+	if (!cmdline && error)
 	{
 		error = false;
 	}
@@ -1986,9 +2003,17 @@ BehaviorStart::~BehaviorStart()
 void BehaviorStart::addBehaviorPick(BehaviorStart* newProcess, NemesisMainGUI* newWidget, vecstr behaviorOrder, unordered_map<string, bool> behaviorPick)
 {
 	behaviorPriority = behaviorOrder;
-	widget = newWidget;
 	chosenBehavior = behaviorPick;
 	behaviorProcess = newProcess;
+	widget = newWidget;
+}
+
+void BehaviorStart::addBehaviorPick(BehaviorStart* newProcess, vecstr behaviorOrder, unordered_map<string, bool> behaviorPick)
+{
+	behaviorPriority = behaviorOrder;
+	chosenBehavior = behaviorPick;
+	behaviorProcess = newProcess;
+	cmdline = true;
 }
 
 void BehaviorStart::message(string input)
@@ -2891,7 +2916,12 @@ void BehaviorStart::GenerateBehavior()
 					BehaviorSub* worker = new BehaviorSub;
 					worker->addInfo(directory, filelist, i, behaviorPriority, chosenBehavior, BehaviorTemplate, newAnimation, AnimVar, newAnimEvent, newAnimVariable,
 						ignoreFunction, false, modID);
-					connect(worker, SIGNAL(progressAdd()), widget, SLOT(setProgressBarValue()));
+					
+					if (!cmdline)
+					{
+						connect(worker, SIGNAL(progressAdd()), widget, SLOT(setProgressBarValue()));
+					}
+
 					connect(worker, SIGNAL(done()), behaviorProcess, SLOT(EndAttempt()));
 					connect(worker, SIGNAL(done()), thread, SLOT(quit()));
 					connect(worker, SIGNAL(done()), worker, SLOT(deleteLater()));
@@ -2977,7 +3007,12 @@ void BehaviorStart::GenerateBehavior()
 							BehaviorSub* worker = new BehaviorSub;
 							worker->addInfo(directory, fpfilelist, j, behaviorPriority, chosenBehavior, BehaviorTemplate, newAnimation, AnimVar, newAnimEvent,
 								newAnimVariable, ignoreFunction, false, modID);
-							connect(worker, SIGNAL(progressAdd()), widget, SLOT(setProgressBarValue()));
+
+							if (!cmdline)
+							{
+								connect(worker, SIGNAL(progressAdd()), widget, SLOT(setProgressBarValue()));
+							}
+
 							connect(worker, SIGNAL(done()), behaviorProcess, SLOT(EndAttempt()));
 							connect(worker, SIGNAL(done()), thread, SLOT(quit()));
 							connect(worker, SIGNAL(done()), worker, SLOT(deleteLater()));
@@ -3144,8 +3179,19 @@ void BehaviorStart::unregisterProcess()
 	isPatch = false;
 	PatchDebugOutput();
 	disconnectProcess();
-	emit enable(false);
-	emit hide(true);
+
+	if (cmdline)
+	{
+		lock_guard<mutex>lock(processlock);
+		processdone = true;
+		cv.notify_one();
+	}
+	else
+	{
+		emit enable(false);
+		emit hide(true);
+	}
+
 	emit end();
 }
 
@@ -3158,16 +3204,18 @@ void BehaviorStart::EndAttempt()
 		if (error)
 		{
 			ClearGlobal();
-			unregisterProcess();
 		}
 		else
 		{
 			ClearGlobal(false);
-			QTimer* timer = new QTimer;
-			timer->setSingleShot(true);
-			connect(timer, SIGNAL(timeout()), this, SLOT(unregisterProcess()));
-			timer->start(1500);
+
+			if (!cmdline)
+			{
+				Sleep(1500);
+			}
 		}
+
+		unregisterProcess();
 	}
 }
 
@@ -6414,6 +6462,35 @@ void BehaviorSub::AnimDataCompilation()
 							}
 						}
 					}
+					else
+					{
+						for (auto it = BehaviorTemplate.existingAnimDataHeader[templateCode].begin();
+							it != BehaviorTemplate.existingAnimDataHeader[templateCode].end(); ++it)
+						{
+							project = it->first;
+
+							for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+							{
+								header = *iter;
+
+								if (catalystMap[project][header].size() == 0)
+								{
+									ErrorMessage(5011, templateCode, project, header);
+									emit done();
+									return;
+								}
+
+								editExtract[project][header].push_back(*new map<int, vecstr>());
+
+								if (error)
+								{
+									emit done();
+									return;
+								}
+
+							}
+						}
+					}
 
 					if (error)
 					{
@@ -6443,7 +6520,7 @@ void BehaviorSub::AnimDataCompilation()
 							}
 						}
 
-						if (totalline == 0)
+						if (totalline == 0 && header.second.size() > 0 && header.second[0].size() > 0)
 						{
 							ErrorMessage(5014, project.first, header.first);
 							emit done();
@@ -6828,6 +6905,11 @@ void BehaviorSub::ASDCompilation()
 							}
 						}
 
+						if (line.find("//* delete this line *//") != NOT_FOUND)
+						{
+							break;
+						}
+
 						storeline.push_back(line);
 						break;
 					}
@@ -7112,21 +7194,21 @@ void BehaviorSub::ASDCompilation()
 
 						for (auto it = generatedASD.begin(); it != generatedASD.end(); ++it)
 						{
-							string project = it->first;
+							string interproject = it->first;
 
-							if (ASDPack.find(project) == ASDPack.end())
+							if (ASDPack.find(interproject) == ASDPack.end())
 							{
-								projectList.push_back(project);
+								projectList.push_back(interproject);
 							}
 
 							for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 							{
-								string header = iter->first.substr(1, iter->first.length() - 2);
-								header.append("_" + to_string(++ASDCount[project][header]) + ".txt");
+								string interheader = iter->first.substr(1, iter->first.length() - 2);
+								interheader.append("_" + to_string(++ASDCount[interproject][interheader]) + ".txt");
 
-								if (ASDPack[project][header].size() > 0)
+								if (ASDPack[interproject][interheader].size() > 0)
 								{
-									ErrorMessage(5012, templateCode, project, header);
+									ErrorMessage(5012, templateCode, interproject, interheader);
 									emit done();
 									return;
 								}
@@ -7137,27 +7219,30 @@ void BehaviorSub::ASDCompilation()
 									return;
 								}
 
-								ASDPack[project][header] = iter->second;
+								ASDPack[interproject][interheader] = iter->second;
 							}
 						}
 
+						PatchDebug("Processing behavior: " + filepath + " (Check point 3.5, Mod code: " + templateCode + ", Existing AnimData" +
+							to_string(BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile].size()) + ")");
+
 						for (auto it = BehaviorTemplate.existingASDHeader[templateCode].begin(); it != BehaviorTemplate.existingASDHeader[templateCode].end(); ++it)
 						{
-							string project = it->first;
+							string interproject = it->first;
 
 							for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 							{
-								string header = *iter;
+								string interheader = *iter;
 
-								if (ASDPack[project][header].size() == 0)
+								if (ASDPack[interproject][interheader].size() == 0)
 								{
-									ErrorMessage(5011, templateCode, project, header);
+									ErrorMessage(5011, templateCode, interproject, interheader);
 									emit done();
 									return;
 								}
 
 								map<int, vecstr> extract;
-								newAnimation[templateCode][k]->existingASDProcess(ASDPack[project][header], extract, vector<int>(1));
+								newAnimation[templateCode][k]->existingASDProcess(ASDPack[interproject][interheader], extract, vector<int>(1));
 
 								if (error)
 								{
@@ -7165,7 +7250,7 @@ void BehaviorSub::ASDCompilation()
 									return;
 								}
 
-								editExtract[project][header].push_back(extract);
+								editExtract[interproject][interheader].push_back(extract);
 							}
 						}
 
@@ -7174,13 +7259,38 @@ void BehaviorSub::ASDCompilation()
 							emit done();
 							return;
 						}
+
+						PatchDebug("Processing behavior: " + filepath + " (Check point 3.5, Mod code: " + templateCode + ", Existing AnimData" +
+							to_string(BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile].size()) + " COMPLETE)");
 					}
 				}
-
-				if (error)
+				else
 				{
-					emit done();
-					return;
+					for (auto it = BehaviorTemplate.existingASDHeader[templateCode].begin(); it != BehaviorTemplate.existingASDHeader[templateCode].end(); ++it)
+					{
+						string interproject = it->first;
+
+						for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+						{
+							string interheader = *iter;
+
+							if (ASDPack[interproject][interheader].size() == 0)
+							{
+								ErrorMessage(5011, templateCode, interproject, interheader);
+								emit done();
+								return;
+							}
+
+							editExtract[interproject][interheader].push_back(*new map<int, vecstr>());
+
+							if (error)
+							{
+								emit done();
+								return;
+							}
+						}
+					}
+
 				}
 			}
 
@@ -7205,7 +7315,7 @@ void BehaviorSub::ASDCompilation()
 						}
 					}
 
-					if (totalline == 0)
+					if (totalline == 0 && header.second.size() > 0 && header.second[0].size() > 0)
 					{
 						ErrorMessage(5014, project.first, header.first);
 						emit done();
@@ -7463,7 +7573,7 @@ void stateCheck(SSMap& c_parent, string parentID, string lowerbehaviorfile, stri
 	}
 }
 
-bool readMod(string& errormod)
+bool readMod(string& errormod, string& errormsg)
 {
 	string folder = "mod\\";
 	vecstr modlist;
@@ -7471,105 +7581,83 @@ bool readMod(string& errormod)
 
 	for (auto& modcode : modlist)
 	{
-		if (boost::filesystem::is_directory(folder + modcode))
+		if (boost::filesystem::is_directory(folder + modcode) && isFileExist(folder + modcode + "\\info.ini"))
 		{
-			if (!isFileExist(folder + modcode + "\\info.ini"))
+			string filename = folder + modcode + "\\info.ini";
+			vecstr storeline;
+			string name, author, site, automatic, hide;
+			bool hidden = false;
+
+			if (!GetFunctionLines(filename, storeline, false))
 			{
 				return false;
 			}
 
-			vecstr filelist;
-			read_directory(folder + modcode, filelist);
-
-			for (auto& file : filelist)
+			for (auto& line : storeline)
 			{
-				string filename = folder + modcode + "\\" + file;
-
-				if (!boost::filesystem::is_directory(filename))
+				while (true)
 				{
-					if (boost::iequals(file, "info.ini"))
+					size_t pos = wordFind(line, "name=");
+
+					if (pos == 0)
 					{
-						vecstr storeline;
-						string name, author, site, automatic, hide;
-						bool hidden = false;
-
-						if (!GetFunctionLines(filename, storeline, false))
-						{
-							return false;
-						}
-
-						for (auto& line : storeline)
-						{
-							while (true)
-							{
-								size_t pos = wordFind(line, "name=");
-
-								if (pos == 0)
-								{
-									name = line.substr(line.find("=") + 1);
-									break;
-								}
-
-								pos = wordFind(line, "author=");
-
-								if (pos == 0)
-								{
-									author = line.substr(line.find("=") + 1);
-									break;
-								}
-
-								pos = wordFind(line, "site=");
-
-								if (pos == 0)
-								{
-									site = line.substr(line.find("=") + 1);
-									break;
-								}
-
-								pos = wordFind(line, "auto=");
-
-								if (pos == 0)
-								{
-									automatic = line.substr(line.find("=") + 1);
-								}
-
-								pos = wordFind(line, "hidden=");
-
-								if (pos == 0)
-								{
-									hide = line.substr(line.find("=") + 1);
-									boost::to_lower(hide);
-									istringstream stream(hide);
-									stream >> boolalpha >> hidden;
-								}
-
-								break;
-							}
-						}
-
-						if (name.length() == 0 || author.length() == 0 || site.length() == 0 || automatic.length() == 0)
-						{
-							errormod = modcode;
-							return false;
-						}
-
-						if (!hidden)
-						{
-							modinfo[modcode].push_back(name + " (" + site + ")");
-							modinfo[modcode].push_back(author);
-							modinfo[modcode].push_back(automatic);
-						}
-						else
-						{
-							hiddenMods.push_back(modcode);
-						}
+						name = line.substr(line.find("=") + 1);
+						break;
 					}
-				}
 
-				if (error)
-				{
-					return false;
+					pos = wordFind(line, "author=");
+
+					if (pos == 0)
+					{
+						author = line.substr(line.find("=") + 1);
+						break;
+					}
+
+					pos = wordFind(line, "site=");
+
+					if (pos == 0)
+					{
+						site = line.substr(line.find("=") + 1);
+						break;
+					}
+
+					pos = wordFind(line, "auto=");
+
+					if (pos == 0)
+					{
+						automatic = line.substr(line.find("=") + 1);
+					}
+
+					pos = wordFind(line, "hidden=");
+
+					if (pos == 0)
+					{
+						hide = line.substr(line.find("=") + 1);
+						boost::to_lower(hide);
+						istringstream stream(hide);
+						stream >> boolalpha >> hidden;
+					}
+
+					break;
 				}
+			}
+
+			if (name.length() == 0 || author.length() == 0 || site.length() == 0)
+			{
+				errormsg = "Missing info in \"info.ini\" file. Please contact the mod author\nMod: ";
+				errormod = modcode;
+				return false;
+			}
+
+			if (!hidden)
+			{
+				modinfo[modcode].push_back(name + " (" + site + ")");
+				modinfo[modcode].push_back(author);
+				modinfo[modcode].push_back(automatic);
+			}
+			else
+			{
+				hiddenMods.push_back(modcode);
 			}
 		}
 	}
