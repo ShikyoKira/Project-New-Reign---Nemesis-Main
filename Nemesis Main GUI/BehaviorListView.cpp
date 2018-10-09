@@ -47,14 +47,16 @@ BehaviorListView::BehaviorListView(QWidget *parent)
 	QList<BehaviorInfo> mods;
 
 	std::string modcode;
+	std::string errmsg;
 
-	if (!readMod(modcode))
+	if (!readMod(modcode, errmsg))
 	{
 		CEMsgBox* msgbox = new CEMsgBox;
-		QString msg = "Missing info in \"info.ini\" file. Please contact the mod author\nMod: " + QString::fromStdString(modcode);
+		QString msg = QString::fromStdString(errmsg) + QString::fromStdString(modcode);
 		msgbox->setText(msg);
 		msgbox->setWindowTitle("CRITITAL ERROR");
 		msgbox->show();
+		error = true;
 		return;
 	}
 

@@ -65,6 +65,12 @@ public:
 		gridLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
 
 		modView = new BehaviorListView(NemesisMainGUIClass);
+
+		if (error)
+		{
+			return;
+		}
+
 		modView->setObjectName(QStringLiteral("modView"));
 		QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
 		sizePolicy1.setHorizontalStretch(0);
