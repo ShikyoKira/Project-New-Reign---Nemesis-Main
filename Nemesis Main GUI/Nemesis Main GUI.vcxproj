@@ -132,6 +132,7 @@
     <ClCompile Include="src\AnimProgressBar.cpp" />
     <ClCompile Include="src\BehaviorInfo.cpp" />
     <ClCompile Include="src\BehaviorListModel.cpp" />
+    <ClCompile Include="src\CmdLaunch.cpp" />
     <ClCompile Include="src\DebugLog.cpp" />
     <ClCompile Include="src\MultiInstanceCheck.cpp" />
     <ClCompile Include="src\ScrollBar.cpp" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ErrorMsgBox.h" />
+    <ClInclude Include="src\CmdLaunch.h" />
     <ClInclude Include="src\DebugLog.h" />
     <ClInclude Include="src\utilities\addanims.h" />
     <ClInclude Include="src\utilities\addevents.h" />
