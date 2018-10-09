@@ -695,8 +695,26 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 		}
 		else
 		{
-			ErrorMessage(2004, filepath);
-			return false;
+			string check = boost::regex_replace(string(filename), boost::regex("[^~]*~([0-9]+)"), string("\\1"));
+
+			if (animData.newAnimData[characterfile].find(check) == animData.newAnimData[characterfile].end())
+			{
+				ErrorMessage(2004, filepath);
+				return false;
+			}
+
+			if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename]))
+			{
+				return false;
+			}
+
+			if (!openAnim)
+			{
+				animData.newAnimData[characterfile][filename].insert(animData.newAnimData[characterfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
+				openAnim = true;
+			}
+
+			animData.animDataHeader[characterfile].push_back(filename);
 		}
 	}
 
@@ -784,7 +802,7 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 
 				if (!isHeader)
 				{
-					int position = AnimDataPosition(storeline, characterfile, filename, modcode, modEditLine[to_string(linecount)], type);
+					int position = AnimDataPosition(storeline, characterfile, filename, modcode, filepath, modEditLine[to_string(linecount)], type);
 
 					if (error)
 					{
@@ -960,7 +978,7 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 
 		for (int j = newchecker[i][0]; j < newchecker[i][1]; ++j)
 		{
-			position curPosition = AnimDataPosition(functionline, characterfile, filename, modcode, j, type);
+			position curPosition = AnimDataPosition(functionline, characterfile, filename, modcode, filepath, j, type);
 
 			if (error)
 			{
