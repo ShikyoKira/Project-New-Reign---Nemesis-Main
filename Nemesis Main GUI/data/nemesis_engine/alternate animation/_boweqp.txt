@@ -1,0 +1,2 @@
+bow_equip.hkx
+bow_unequip.hkx

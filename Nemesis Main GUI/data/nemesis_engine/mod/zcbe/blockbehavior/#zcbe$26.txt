@@ -1,0 +1,10 @@
+		<hkobject name="#zcbe$26" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$3</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_1HMLeftMSG</hkparam>
+			<hkparam name="generators" numelements="13">
+				#zcbe$6 #zcbe$7 #zcbe$7 #zcbe$7 #zcbe$7 #zcbe$8 #zcbe$8 #zcbe$8 #zcbe$7 #zcbe$6 #zcbe$8 #zcbe$8 #zcbe$8
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

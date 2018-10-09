@@ -1,9 +1,9 @@
-0_master
-defaultfemale
-defaultmale
-
 _1stperson\magicmountedbehavior
 _1stperson\firstperson
+
+0_master
+defaultmale
+defaultfemale
 
 _1stperson\crossbow_direction_behavior
 _1stperson\firstperson
@@ -18,8 +18,8 @@ _1stperson\shout_behavior
 _1stperson\firstperson
 
 fakeblock
-defaultfemale
 defaultmale
+defaultfemale
 
 _1stperson\bashbehavior
 _1stperson\firstperson
@@ -30,9 +30,6 @@ _1stperson\firstperson
 _1stperson\1hm_locomotion
 _1stperson\firstperson
 
-_1stperson\jumpbehavior
-_1stperson\firstperson
-
 _1stperson\sprintbehavior
 _1stperson\firstperson
 
@@ -40,8 +37,11 @@ _1stperson\magicbehavior
 _1stperson\firstperson
 
 magicmountedbehavior
-defaultfemale
 defaultmale
+defaultfemale
+
+_1stperson\jumpbehavior
+_1stperson\firstperson
 
 _1stperson\staggerbehavior
 _1stperson\firstperson
@@ -59,8 +59,8 @@ _1stperson\shoutmounted_behavior
 _1stperson\firstperson
 
 idlebehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 _1stperson\swimbehavior
 _1stperson\firstperson
@@ -69,86 +69,86 @@ _1stperson\weapunequip
 _1stperson\firstperson
 
 shout_behavior
-defaultfemale
 defaultmale
+defaultfemale
+
+_1stperson\0_master
+_1stperson\firstperson
 
 crossbow_direction_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 bow_direction_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 bashbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 _1stperson\swimidlebehavior
 _1stperson\firstperson
 
 blockbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 1hm_locomotion
-defaultfemale
 defaultmale
+defaultfemale
 
 sprintbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 magicbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 jumpbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 swimbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 swimidlebehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 attackbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 shoutmounted_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 staggerbehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 1hm_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 weapequip
-defaultfemale
 defaultmale
+defaultfemale
 
 mt_behavior
-defaultfemale
 defaultmale
+defaultfemale
 
 horsebehavior
-defaultfemale
 defaultmale
+defaultfemale
 
 weapunequip
-defaultfemale
 defaultmale
-
-_1stperson\0_master
-_1stperson\firstperson
+defaultfemale
 
 _1stperson\idlebehavior
 _1stperson\firstperson

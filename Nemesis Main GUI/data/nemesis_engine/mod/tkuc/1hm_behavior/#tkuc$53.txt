@@ -1,0 +1,26 @@
+		<hkobject name="#tkuc$53" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#tkuc$52</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">UltimateCombatAttack_Behavior</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="16">
+				#tkuc$54 #tkuc$55 #tkuc$56 #tkuc$57 #tkuc$58 #tkuc$59 #tkuc$60 #tkuc$61 #tkuc$62 #tkuc$63 #tkuc$64 #tkuc$65 #tkuc$66 #tkuc$67 #tkuc$68 #tkuc$69
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
+		</hkobject>

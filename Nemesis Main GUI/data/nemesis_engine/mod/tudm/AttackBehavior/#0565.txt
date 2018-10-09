@@ -1,0 +1,25 @@
+		<hkobject name="#0565" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0572</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">WeapIdleMSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#0568
+				#0571
+				#0571
+				#0571
+				#0571
+<!-- MOD_CODE ~tudm~ OPEN -->
+				#tudm$37
+<!-- ORIGINAL -->
+				#0570
+<!-- CLOSE -->
+				#0569
+				#0568
+				#0566
+				#0566
+				#0566
+				#0566
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

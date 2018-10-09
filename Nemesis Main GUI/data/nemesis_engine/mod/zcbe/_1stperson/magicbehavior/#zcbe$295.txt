@@ -1,0 +1,10 @@
+		<hkobject name="#zcbe$295" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$69</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MLhLocomotionRHandSelectorMSG</hkparam>
+			<hkparam name="generators" numelements="10">
+				#zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$100 #zcbe$99 #zcbe$100
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

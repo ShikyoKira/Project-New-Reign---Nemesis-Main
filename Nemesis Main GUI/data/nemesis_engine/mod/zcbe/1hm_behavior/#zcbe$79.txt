@@ -1,0 +1,10 @@
+		<hkobject name="#zcbe$79" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+			<hkparam name="variableBindingSet">#zcbe$82</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_ActSimWeapColl_EDM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#zcbe$83</hkparam>
+			<hkparam name="activateEventId">36</hkparam>
+			<hkparam name="deactivateEventId">30</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
+		</hkobject>

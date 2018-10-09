@@ -3350,6 +3350,10 @@ Camera~1643
 MT WalkingCamera~1104
 VampireLordTransform~1096
 DLC01TrailerWalkForward~623
+TKDodgeBack~tkuc$1
+TKDodgeForward~tkuc$0
+TKDodgeLeft~tkuc$2
+TKDodgeRight~tkuc$3
 BackwardRoll_Clip_B~tudm$8
 BackwardSidestep_Clip_B~tudm$3
 ForwardRoll_Clip_B~tudm$9
@@ -4941,6 +4945,10 @@ Right_ForwardSidestep_Clip_B~tudm$0
 1397
 1398
 1399
+tkuc$0
+tkuc$1
+tkuc$2
+tkuc$3
 tudm$0
 tudm$1
 tudm$10
@@ -7480,6 +7488,10 @@ Camera~1643
 MT WalkingCamera~1104
 VampireLordTransform~1096
 DLC01TrailerWalkForward~623
+TKDodgeBack~tkuc$1
+TKDodgeForward~tkuc$0
+TKDodgeLeft~tkuc$2
+TKDodgeRight~tkuc$3
 BackwardRoll_Clip_B~tudm$8
 BackwardSidestep_Clip_B~tudm$3
 ForwardRoll_Clip_B~tudm$9
@@ -9071,6 +9083,10 @@ Right_ForwardSidestep_Clip_B~tudm$0
 1397
 1398
 1399
+tkuc$0
+tkuc$1
+tkuc$2
+tkuc$3
 tudm$0
 tudm$1
 tudm$10
@@ -10313,6 +10329,11 @@ IdleDLC1BossExplosion1stP~403
 IdleDLC02FallOnKnees~401
 IdleDLC02FallOnKneesLoop~402
 IdleDLC02BoatRide~400
+1HMRunThrust~tkuc$0
+TKDodgeBack~346
+TKDodgeForward~791
+TKDodgeLeft~347
+TKDodgeRight~348
 BackwardRoll_Clip_B~tudm$4
 BackwardSidestep_Clip_B~tudm$11
 ForwardRoll_Clip_B~tudm$5
@@ -11156,6 +11177,7 @@ Right_ForwardSidestep_Clip_B~tudm$13
 755
 756
 863
+tkuc$0
 tudm$0
 tudm$1
 tudm$10
@@ -12782,6 +12804,15 @@ CLIP_Th~135
 CLIP_Death_Default~32
 CLIP_Death_Agony_Start~151
 CLIP_Death_Agony_End~152
+BiteEnrage~tkuc$3
+BiteRunForward~tkuc$0
+BiteTurnLeft~tkuc$5
+BiteTurnRight~tkuc$4
+StampLeft~tkuc$2
+StampRight~tkuc$1
+TailTurnLeft~tkuc$7
+TailTurnRight~tkuc$6
+TailWhip~tkuc$8
 0
 1
 2
@@ -12961,6 +12992,14 @@ CLIP_Death_Agony_End~152
 184
 185
 186
+tkuc$0
+tkuc$1
+tkuc$2
+tkuc$3
+tkuc$4
+tkuc$5
+tkuc$6
+tkuc$7
 
 Dragon_Priest.txt~1
 $header$
@@ -13605,6 +13644,12 @@ ReanimateFaceDown~185
 ReanimateFaceUp~186
 GetUpFaceDown~145
 GetUpFaceUp~146
+1HMRunSlash~tkuc$2
+1HMX3~tkuc$0
+2GSRunThrust~tkuc$3
+2GSThrust~tkuc$1
+2HMStamp~tkuc$4
+2HMTurnSlash~tkuc$5
 22
 23
 24
@@ -13821,6 +13866,12 @@ GetUpFaceUp~146
 19
 20
 21
+tkuc$0
+tkuc$1
+tkuc$2
+tkuc$3
+tkuc$4
+tkuc$5
 
 DraugrSkeletonProject.txt~1
 $header$
@@ -14238,6 +14289,12 @@ ReanimateFaceDown~185
 ReanimateFaceUp~186
 GetUpFaceDown~145
 GetUpFaceUp~146
+1HMRunSlash~tkuc$2
+1HMX3~tkuc$0
+2GSRunThrust~tkuc$3
+2GSThrust~tkuc$1
+2HMStamp~tkuc$4
+2HMTurnSlash~tkuc$5
 22
 23
 24
@@ -14454,6 +14511,12 @@ GetUpFaceUp~146
 19
 20
 21
+tkuc$0
+tkuc$1
+tkuc$2
+tkuc$3
+tkuc$4
+tkuc$5
 
 SphereCenturion.txt~1
 $header$
@@ -14830,6 +14893,9 @@ Death~0
 DeathClip~0
 ReanimateClip~26
 GetUpClip~26
+H2HAttackSpecialChop~tkuc$1
+H2HAttackSpecialRush~tkuc$2
+H2HAttackSpecialSlash~tkuc$0
 0
 1
 2
@@ -14876,6 +14942,9 @@ GetUpClip~26
 43
 44
 45
+tkuc$0
+tkuc$1
+tkuc$2
 
 FalmerProject.txt~1
 $header$
@@ -15069,6 +15138,9 @@ ReanimateFaceDown~44
 ReanimateFaceUp~45
 GetUpFaceDown~44
 GetUpFaceUp~45
+1HMBackStepSlash~tkuc$1
+1HMRunThrust~tkuc$0
+1HMX3~tkuc$2
 7
 8
 9
@@ -15191,6 +15263,9 @@ GetUpFaceUp~45
 119
 120
 121
+tkuc$0
+tkuc$1
+tkuc$2
 
 FrostbiteSpiderProject.txt~1
 $header$
@@ -15413,6 +15488,11 @@ Paired_1HMKillMoveGiantBleedOutA~39
 Paired_2HMKillMoveGiantA~40
 Paired_2HWKillMoveGiantA~41
 DeathAnim~14
+Rage~tkuc$4
+SPBeating~tkuc$3
+SPStamp~tkuc$0
+SPSwingBack~tkuc$1
+SPSwingFront~tkuc$2
 0
 9
 10
@@ -15483,6 +15563,11 @@ DeathAnim~14
 2
 3
 4
+tkuc$0
+tkuc$1
+tkuc$2
+tkuc$3
+tkuc$4
 
 GoatProject.txt~1
 $header$

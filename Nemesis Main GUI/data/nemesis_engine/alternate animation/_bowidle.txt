@@ -1,0 +1,3 @@
+bow_idledrawn.hkx
+bow_idleheld.hkx
+sneakbow_idledrawn.hkx

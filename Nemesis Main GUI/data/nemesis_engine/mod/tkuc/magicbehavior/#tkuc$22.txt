@@ -1,0 +1,10 @@
+		<hkobject name="#tkuc$22" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tkuc$10</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">TKDodgeBack_MSG</hkparam>
+			<hkparam name="generators" numelements="4">
+				#tkuc$23 #tkuc$18 #tkuc$24 #tkuc$25
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

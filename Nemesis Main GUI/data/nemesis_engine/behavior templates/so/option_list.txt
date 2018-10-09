@@ -1,0 +1,22 @@
+'Animation Condition
+link AVI AV
+
+'Animation Options
+o
+a
+h
+ac1
+ac0
+md
+T<event>/<time>[]
+AVI<variable>[]
+AV<variable>[]
+B<duration>
+
+'Additional event name
+event <main_anim_event>
+event_group F <main_anim_event>_REENTER
+event_group L <main_anim_event>_DONE
+
+'AnimObject Count
+animobject 1

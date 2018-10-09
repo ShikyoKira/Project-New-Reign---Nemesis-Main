@@ -1,0 +1,7 @@
+		<hkobject name="#zcbe$304" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">DragonRider_Magic_Behavior_MG</hkparam>
+			<hkparam name="modifier">#zcbe$306</hkparam>
+			<hkparam name="generator">#zcbe$307</hkparam>
+		</hkobject>

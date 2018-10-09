@@ -1,0 +1,35 @@
+		<hkobject name="#0154" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#0153</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Cart</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">2</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+<!-- MOD_CODE ~zcbe~ OPEN -->
+			<hkparam name="states" numelements="16">
+<!-- ORIGINAL -->
+			<hkparam name="states" numelements="3">
+<!-- CLOSE -->
+				#0152
+				#0149
+				#0147
+<!-- MOD_CODE ~zcbe~ OPEN -->
+				#zcbe$584 #zcbe$595 #zcbe$596 #zcbe$597 #zcbe$598 #zcbe$583 #zcbe$599 #zcbe$600 #zcbe$601 #zcbe$25 #zcbe$602 #zcbe$603 #zcbe$591
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="wildcardTransitions">#0140</hkparam>
+		</hkobject>
