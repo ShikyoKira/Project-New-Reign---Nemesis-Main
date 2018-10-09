@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void CombineAnimData(string filename, string characterfile, string modcode, vecstr storeline, vecstr originallines, MasterAnimData& animData, bool isHeader);
+void CombineAnimData(string filename, string characterfile, string modcode, string filepath, vecstr storeline, vecstr originallines, MasterAnimData& animData, bool isHeader);
 
 bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, string>& lastUpdate)
 {
@@ -239,7 +239,7 @@ bool animDataHeaderUpdate(string folderpath, string modcode, MasterAnimData& ani
 		return false;
 	}
 
-	CombineAnimData(folderpath, "$haeder$", modcode, storeline, animData.animDataChar, animData, true);
+	CombineAnimData(folderpath, "$haeder$", modcode, GetFileDirectory(folderpath) + "\\$header$", storeline, animData.animDataChar, animData, true);
 
 	if (error)
 	{
@@ -355,7 +355,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 
 				if (!isNew)
 				{
-					CombineAnimData(filename, characterfile, modcode, storeline, animData.newAnimData[project][filename], animData, false);
+					CombineAnimData(filename, characterfile, modcode, filepath, storeline, animData.newAnimData[project][filename], animData, false);
 					
 					if (error)
 					{
@@ -426,7 +426,7 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 					// condition function is not supported for animationsetdatasinglefile
 					if (storeline[k].find("<!-- CONDITION") != NOT_FOUND)
 					{
-						ErrorMessage(1173, "animationsetdatasinglefile.txt", modcode, k + 1);
+						ErrorMessage(1173, filename, modcode, k + 1);
 						return false;
 					}
 
@@ -579,7 +579,7 @@ void behaviorJointsOutput()
 	}
 }
 
-void CombineAnimData(string filename, string characterfile, string modcode, vecstr storeline, vecstr originallines, MasterAnimData& animData, bool isHeader)
+void CombineAnimData(string filename, string characterfile, string modcode, string filepath, vecstr storeline, vecstr originallines, MasterAnimData& animData, bool isHeader)
 {
 	if (storeline.back().length() != 0 && originallines.back().length() == 0)
 	{
@@ -632,7 +632,7 @@ void CombineAnimData(string filename, string characterfile, string modcode, vecs
 		// condition function is not supported for animationsetdatasinglefile
 		if (storeline[k].find("<!-- CONDITION") != NOT_FOUND)
 		{
-			ErrorMessage(1173, "animationsetdatasinglefile.txt", modcode, k + 1);
+			ErrorMessage(1173, filepath, modcode, k + 1);
 			return;
 		}
 
@@ -723,7 +723,7 @@ void CombineAnimData(string filename, string characterfile, string modcode, vecs
 				for (unsigned int j = startline; j < combinelines.size() - 1; ++j)
 				{
 					namespace AD = AnimDataFormat;
-					AD::position position = AnimDataPosition(storeline, characterfile, filename, modcode, linecount, type);
+					AD::position position = AnimDataPosition(storeline, characterfile, filename, modcode, filepath, linecount, type);
 
 					if (error)
 					{
