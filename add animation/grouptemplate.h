@@ -74,13 +74,6 @@ public:
 
 };
 
-void multiChoice(std::string& line, std::string filename, std::vector<std::vector<std::unordered_map<std::string, bool>>> groupOptionPicked,
-	std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo, int numline, std::string templatename, std::string masterformat, animationutility utility);
-bool newCondition(std::string condition, std::string filename, std::vector<std::vector<std::unordered_map<std::string, bool>>> optionPicked,
-	std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo, int numline, std::string templatename, std::string masterformat, animationutility utility);
-bool conditionProcess(std::string condition, std::string masterformat, std::string filename, int numline,
-	std::vector<std::vector<std::unordered_map<std::string, bool>>> curOptionPicked, std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo, bool isNot,
-	animationutility utility);
 inline bool isPassed(int condition, std::unordered_map<int, bool> IsConditionOpened);
 vecstr GetOptionInfo(std::string line, std::string format, std::string filename, int numline, std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo,
 	bool allowNoFixAnim, bool isCondition, int groupMulti = -1, int animMulti = -1, int optionMulti = -1, std::string multiOption = "");

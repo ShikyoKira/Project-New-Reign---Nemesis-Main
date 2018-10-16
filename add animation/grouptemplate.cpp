@@ -7,6 +7,13 @@ using namespace std;
 string zeroEvent;
 string zeroVariable;
 
+void multiChoice(std::string& line, std::string filename, std::vector<std::vector<std::unordered_map<std::string, bool>>> groupOptionPicked,
+	std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo, int numline, std::string format, std::string masterformat, animationutility utility);
+bool newCondition(std::string condition, std::string filename, std::vector<std::vector<std::unordered_map<std::string, bool>>> optionPicked,
+	std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo, int numline, std::string format, std::string masterformat, animationutility utility);
+bool conditionProcess(std::string condition, std::string masterformat, std::string format, std::string filename, int numline,
+	std::vector<std::vector<std::unordered_map<std::string, bool>>> curOptionPicked, std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo, bool isNot,
+	animationutility utility);
 int formatGroupReplace(string& curline, string oriline, int point, string filename, string format, shared_ptr<master> subFunctionIDs,
 	vector<vector<shared_ptr<animationInfo>>> groupAnimInfo, int linecount, int groupMulti, int optionMulti, int animMulti, string multiOption, bool& innerError);
 
@@ -96,43 +103,46 @@ void groupTemplate::getFunctionLines(std::shared_ptr<vecstr> functionline, strin
 		{
 			condition++;
 
-			if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
+			if (!multi)
 			{
-				if (!IsConditionOpened[condition])
+				if (!freeze && ((newOpen && !skip) || !newOpen))
 				{
-					if (isPassed(condition, IsConditionOpened))
+					if (!IsConditionOpened[condition])
 					{
-						size_t optionPosition = templatelines[i].find("<!-- CONDITION START ^") + 22;
-						string conditionLine = templatelines[i].substr(optionPosition, templatelines[i].find("^ -->", optionPosition) - optionPosition);
-						animationutility utility;
-						utility.hasGroup = true;
-						utility.groupMulti = curGroup;
+						if (isPassed(condition, IsConditionOpened))
+						{
+							size_t optionPosition = templatelines[i].find("<!-- CONDITION START ^") + 22;
+							string conditionLine = templatelines[i].substr(optionPosition, templatelines[i].find("^ -->", optionPosition) - optionPosition);
+							animationutility utility;
+							utility.hasGroup = true;
+							utility.groupMulti = curGroup;
 
-						if (newCondition(conditionLine, filename, groupOptionPicked, groupAnimInfo, i + 1, format, masterFormat, utility))
-						{
-							skip = false;
-							IsConditionOpened[condition] = true;
-						}
-						else
-						{
-							skip = true;
-						}
+							if (newCondition(conditionLine, filename, groupOptionPicked, groupAnimInfo, i + 1, format, masterFormat, utility))
+							{
+								skip = false;
+								IsConditionOpened[condition] = true;
+							}
+							else
+							{
+								skip = true;
+							}
 
-						if (error)
-						{
-							functionline->shrink_to_fit();
-							return;
+							if (error)
+							{
+								functionline->shrink_to_fit();
+								return;
+							}
 						}
 					}
+					else
+					{
+						skip = true;
+						freeze = true;
+					}
 				}
-				else
-				{
-					skip = true;
-					freeze = true;
-				}
-			}
 
-			uniqueskip = true;
+				uniqueskip = true;
+			}
 		}
 		else if (templatelines[i].find("<!-- CONDITION ^", 0) != NOT_FOUND)
 		{
@@ -143,44 +153,47 @@ void groupTemplate::getFunctionLines(std::shared_ptr<vecstr> functionline, strin
 				return;
 			}
 
-			if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
+			if (!multi)
 			{
-				if (!IsConditionOpened[condition])
+				if (!freeze && ((newOpen && !skip) || !newOpen))
 				{
-					if (isPassed(condition, IsConditionOpened))
+					if (!IsConditionOpened[condition])
 					{
-						size_t optionPosition = templatelines[i].find("<!-- CONDITION ^") + 16;
-						string option = templatelines[i].substr(optionPosition, templatelines[i].find("^", optionPosition) - optionPosition);
-						animationutility utility;
-						utility.hasGroup = true;
-						utility.groupMulti = curGroup;
+						if (isPassed(condition, IsConditionOpened))
+						{
+							size_t optionPosition = templatelines[i].find("<!-- CONDITION ^") + 16;
+							string option = templatelines[i].substr(optionPosition, templatelines[i].find("^", optionPosition) - optionPosition);
+							animationutility utility;
+							utility.hasGroup = true;
+							utility.groupMulti = curGroup;
 
-						if (newCondition(option, filename, groupOptionPicked, groupAnimInfo, i + 1, format, masterFormat, utility))
-						{
-							skip = false;
-							IsConditionOpened[condition] = true;
-							uniqueskip = true;
-						}
-						else
-						{
-							skip = true;
-						}
+							if (newCondition(option, filename, groupOptionPicked, groupAnimInfo, i + 1, format, masterFormat, utility))
+							{
+								skip = false;
+								IsConditionOpened[condition] = true;
+								uniqueskip = true;
+							}
+							else
+							{
+								skip = true;
+							}
 
-						if (error)
-						{
-							functionline->shrink_to_fit();
-							return;
+							if (error)
+							{
+								functionline->shrink_to_fit();
+								return;
+							}
 						}
 					}
+					else
+					{
+						skip = true;
+						freeze = true;
+					}
 				}
-				else
-				{
-					skip = true;
-					freeze = true;
-				}
-			}
 
-			uniqueskip = true;
+				uniqueskip = true;
+			}
 		}
 		else if (templatelines[i].find("<!-- CONDITION -->", 0) != NOT_FOUND)
 		{
@@ -191,28 +204,31 @@ void groupTemplate::getFunctionLines(std::shared_ptr<vecstr> functionline, strin
 				return;
 			}
 
-			if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
+			if (!multi)
 			{
-				if (!IsConditionOpened[condition])
+				if (!freeze && ((newOpen && !skip) || !newOpen))
 				{
-					if (isPassed(condition, IsConditionOpened))
+					if (!IsConditionOpened[condition])
 					{
-						skip = false;
-						IsConditionOpened[condition] = true;
+						if (isPassed(condition, IsConditionOpened))
+						{
+							skip = false;
+							IsConditionOpened[condition] = true;
+						}
+						else
+						{
+							skip = true;
+						}
 					}
 					else
 					{
 						skip = true;
+						freeze = true;
 					}
 				}
-				else
-				{
-					skip = true;
-					freeze = true;
-				}
-			}
 
-			uniqueskip = true;
+				uniqueskip = true;
+			}
 		}
 		else if (templatelines[i].find("<!-- NEW ^" + masterFormat + "^ -->", 0) != NOT_FOUND || templatelines[i].find("<!-- NEW ^" + masterFormat + "_group^ -->", 0) != NOT_FOUND)
 		{
@@ -505,7 +521,7 @@ void groupTemplate::getFunctionLines(std::shared_ptr<vecstr> functionline, strin
 			newOpen = false;
 			uniqueskip = true;
 		}
-		else if (templatelines[i].find("<!-- CONDITION END -->", 0) != NOT_FOUND)
+		else if (templatelines[i].find("<!-- CONDITION END -->", 0) != NOT_FOUND && !multi)
 		{
 			uniqueskip = true;
 		}
@@ -1093,23 +1109,26 @@ void groupTemplate::getFunctionLines(std::shared_ptr<vecstr> functionline, strin
 											option = option.substr(1);
 										}
 
-										if (option.find("L") != NOT_FOUND)
+										if (option == "L")
 										{
-											option.replace(option.find("L"), 1, to_string(groupAnimInfo.size() - 1));
+											option = to_string(groupAnimInfo.size() - 1);
 										}
 
-										if (option.find("F") != NOT_FOUND)
+										if (option == "F")
 										{
-											option.replace(option.find("F"), 1, "0");
+											option= "0";
 										}
 
-										if (to_string(animMulti) == option && isNot)
+										if (isOnlyNumber(option))
 										{
-											break;
-										}
-										else if (to_string(animMulti) != option && !isNot)
-										{
-											break;
+											if (to_string(animMulti) == option && isNot)
+											{
+												break;
+											}
+											else if (to_string(animMulti) != option && !isNot)
+											{
+												break;
+											}
 										}
 
 										uniqueskip2 = true;
@@ -2939,102 +2958,218 @@ void groupTemplate::processing(string& line, string filename, string masterForma
 				}
 			}
 
-			if (change.find("main_anim_event") != NOT_FOUND)
+			if (change.find("[FilePath]") != NOT_FOUND)
 			{
-				size_t pos = change.find("[" + format + "[][main_anim_event]]", 0);
-
-				if (pos != NOT_FOUND && change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND)
+				if (change.find(masterFormat + "[][FilePath]", 0) != NOT_FOUND)
 				{
-					if (multiOption != format || animMulti == -1)
-					{
-						ErrorMessage(1052, format, filename, linecount, line);
-						return;
-					}
-
-					change.replace(pos, 21 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
+					change.replace(change.find(masterFormat + "[][FilePath]"), 13 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["FilePath"]);
 					isChange = true;
 				}
-				else
+
+				if (change.find(masterFormat + "[F][FilePath]", 0) != NOT_FOUND)
 				{
-					pos = change.find(format + "[][main_anim_event]", 0);
-
-					if (pos != NOT_FOUND)
-					{
-						if (multiOption != format || animMulti == -1)
-						{
-							ErrorMessage(1052, format, filename, linecount, line);
-							return;
-						}
-
-						change.replace(pos, 19 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
-						isChange = true;
-					}
-				}
-
-				pos = change.find("[" + format + "[F][main_anim_event]]", 0);
-
-				if (pos != NOT_FOUND && change.find("eventID[" + format + "[F][main_anim_event]]") == NOT_FOUND)
-				{
-					change.replace(pos, 22 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[0]->format["main_anim_event"]);
+					change.replace(change.find(masterFormat + "[F][FilePath]"), 13 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[0]->format["FilePath"]);
 					isChange = true;
 				}
-				else
-				{
-					pos = change.find(format + "[F][main_anim_event]", 0);
 
-					if (pos != NOT_FOUND)
-					{
-						change.replace(pos, 20 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[0]->format["main_anim_event"]);
-						isChange = true;
-					}
-				}
-
-				if (change.find(format + "[N][main_anim_event]", 0) != NOT_FOUND)
+				if (change.find(masterFormat + "[N][FilePath]", 0) != NOT_FOUND)
 				{
 					ErrorMessage(1056, format, filename, linecount, line);
 					return;
 				}
 
-				pos = change.find("[" + format + "[L][main_anim_event]]", 0);
-
-				if (pos != NOT_FOUND && change.find("eventID[" + format + "[L][main_anim_event]]") == NOT_FOUND)
+				if (change.find(masterFormat + "[B][FilePath]", 0) != NOT_FOUND)
 				{
-					change.replace(pos, 22 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["main_anim_event"]);
+					ErrorMessage(1056, format, filename, linecount, line);
+					return;
+				}
+
+				if (change.find(masterFormat + "[L][FilePath]", 0) != NOT_FOUND)
+				{
+					change.replace(change.find(masterFormat + "[L][FilePath]"), 13 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["FilePath"]);
+					isChange = true;
+				}
+
+				if (change.find(masterFormat + "[", 0) != NOT_FOUND)
+				{
+					string number = boost::regex_replace(string(change.substr(change.find(masterFormat + "[", 0))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+					if (change.find(masterFormat + "[" + number + "][FilePath]", 0) != NOT_FOUND)
+					{
+						if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
+						{
+							change.replace(change.find(masterFormat + "[" + number + "][FilePath]"), 8 + masterFormat.length() + number.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["FilePath"]);
+							isChange = true;
+						}
+						else
+						{
+							ErrorMessage(1148, format, filename, linecount, change);
+							return;
+						}
+					}
+				}
+			}
+
+			if (change.find("[FileName]") != NOT_FOUND)
+			{
+				if (change.find(masterFormat + "[][FileName]", 0) != NOT_FOUND)
+				{
+					if (multiOption != masterFormat || animMulti == -1)
+					{
+						ErrorMessage(1052, format, filename, linecount, line);
+						return;
+					}
+
+					change.replace(change.find(masterFormat + "[][FileName]"), 12 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["FileName"]);
+				}
+
+				if (change.find(masterFormat + "[F][FileName]", 0) != NOT_FOUND)
+				{
+					change.replace(change.find(masterFormat + "[F][FileName]"), 13 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[0]->format["FileName"]);
+					isChange = true;
+				}
+
+				if (change.find(masterFormat + "[N][FileName]", 0) != NOT_FOUND)
+				{
+					ErrorMessage(1056, format, filename, linecount, line);
+					return;
+				}
+
+				if (change.find(masterFormat + "[B][FileName]", 0) != NOT_FOUND)
+				{
+					ErrorMessage(1056, format, filename, linecount, line);
+					return;
+				}
+
+				if (change.find(masterFormat + "[L][FileName]", 0) != NOT_FOUND)
+				{
+					change.replace(change.find(masterFormat + "[L][FileName]"), 13 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["FileName"]);
+					isChange = true;
+				}
+
+				if (change.find(masterFormat + "[", 0) != NOT_FOUND)
+				{
+					string number = boost::regex_replace(string(change.substr(change.find(masterFormat + "[", 0))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+					if (change.find(masterFormat + "[" + number + "][FileName]", 0) != NOT_FOUND)
+					{
+						if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
+						{
+							change.replace(change.find(masterFormat + "[" + number + "][FileName]"), 8 + masterFormat.length() + number.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["FileName"]);
+							isChange = true;
+						}
+						else
+						{
+							ErrorMessage(1148, format, filename, linecount, change);
+							return;
+						}
+					}
+				}
+			}
+
+			if (change.find("main_anim_event") != NOT_FOUND)
+			{
+				size_t pos = change.find("[" + masterFormat + "[][main_anim_event]]", 0);
+
+				if (pos != NOT_FOUND && (change.find("eventID[" + masterFormat + "[][main_anim_event]]") == NOT_FOUND || change.find("eventID[" + masterFormat + "[][main_anim_event]]") != pos - 7))
+				{
+					if (multiOption != masterFormat || animMulti == -1)
+					{
+						ErrorMessage(1052, format, filename, linecount, line);
+						return;
+					}
+
+					change.replace(pos, 21 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
 					isChange = true;
 				}
 				else
 				{
-					pos = change.find(format + "[L][main_anim_event]", 0);
+					pos = change.find(masterFormat + "[][main_anim_event]", 0);
 
 					if (pos != NOT_FOUND)
 					{
-						change.replace(pos, 20 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["main_anim_event"]);
+						if (multiOption != masterFormat || animMulti == -1)
+						{
+							ErrorMessage(1052, format, filename, linecount, line);
+							return;
+						}
+
+						change.replace(pos, 19 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
 						isChange = true;
 					}
 				}
 
-				if (change.find(format + "[", 0) != NOT_FOUND)
+				pos = change.find("[" + masterFormat + "[F][main_anim_event]]", 0);
+
+				if (pos != NOT_FOUND && (change.find("eventID[" + masterFormat + "[F][main_anim_event]]") == NOT_FOUND || change.find("eventID[" + masterFormat + "[F][main_anim_event]]") != pos - 7))
 				{
-					string number = boost::regex_replace(string(change), boost::regex(format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"), string("\\1"));
+					change.replace(pos, 22 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[0]->format["main_anim_event"]);
+					isChange = true;
+				}
+				else
+				{
+					pos = change.find(masterFormat + "[F][main_anim_event]", 0);
+
+					if (pos != NOT_FOUND)
+					{
+						change.replace(pos, 20 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[0]->format["main_anim_event"]);
+						isChange = true;
+					}
+				}
+
+				if (change.find(masterFormat + "[N][main_anim_event]", 0) != NOT_FOUND)
+				{
+					ErrorMessage(1056, format, filename, linecount, line);
+					return;
+				}
+
+				if (change.find(masterFormat + "[B][main_anim_event]", 0) != NOT_FOUND)
+				{
+					ErrorMessage(1056, format, filename, linecount, line);
+					return;
+				}
+
+				pos = change.find("[" + masterFormat + "[L][main_anim_event]]", 0);
+
+				if (pos != NOT_FOUND && (change.find("eventID[" + masterFormat + "[L][main_anim_event]]") == NOT_FOUND || change.find("eventID[" + masterFormat + "[L][main_anim_event]]") != pos - 7))
+				{
+					change.replace(pos, 22 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["main_anim_event"]);
+					isChange = true;
+				}
+				else
+				{
+					pos = change.find(masterFormat + "[L][main_anim_event]", 0);
+
+					if (pos != NOT_FOUND)
+					{
+						change.replace(pos, 20 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["main_anim_event"]);
+						isChange = true;
+					}
+				}
+
+				if (change.find(masterFormat + "[", 0) != NOT_FOUND)
+				{
+					string number = boost::regex_replace(string(change), boost::regex(masterFormat + "\\[([0-9]+)\\]\\[main_anim_event\\].*"), string("\\1"));
 
 					if (number != change)
 					{
 						if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
 						{
-							pos = change.find("[" + format + "[" + number + "][main_anim_event]]", 0);
+							pos = change.find("[" + masterFormat + "[" + number + "][main_anim_event]]", 0);
 
-							if (pos != NOT_FOUND && change.find("eventID[" + format + "[" + number + "][main_anim_event]]") == NOT_FOUND)
+							if (pos != NOT_FOUND && (change.find("eventID[" + masterFormat + "[" + number + "][main_anim_event]]") == NOT_FOUND
+								|| change.find("eventID[" + masterFormat + "[" + number + "][main_anim_event]]") != pos - 7))
 							{
-								change.replace(pos, 21 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["main_anim_event"]);
+								change.replace(pos, 21 + masterFormat.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["main_anim_event"]);
 								isChange = true;
 							}
 							else
 							{
-								pos = change.find(format + "[" + number + "][main_anim_event]", 0);
+								pos = change.find(masterFormat + "[" + number + "][main_anim_event]", 0);
 
 								if (pos != NOT_FOUND)
 								{
-									change.replace(pos, 19 + format.length() + number.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["main_anim_event"]);
+									change.replace(pos, 19 + masterFormat.length() + number.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["main_anim_event"]);
 									isChange = true;
 								}
 							}
@@ -3352,6 +3487,12 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 						return;
 					}
 
+					if (change.find(format + "[B][FilePath]", 0) != NOT_FOUND)
+					{
+						ErrorMessage(1056, format, filename, linecount, line);
+						return;
+					}
+
 					if (change.find(format + "[L][FilePath]", 0) != NOT_FOUND)
 					{
 						change.replace(change.find(format + "[L][FilePath]"), 13 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["FilePath"]);
@@ -3403,6 +3544,12 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 						return;
 					}
 
+					if (change.find(format + "[B][FileName]", 0) != NOT_FOUND)
+					{
+						ErrorMessage(1056, format, filename, linecount, line);
+						return;
+					}
+
 					if (change.find(format + "[L][FileName]", 0) != NOT_FOUND)
 					{
 						change.replace(change.find(format + "[L][FileName]"), 13 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["FileName"]);
@@ -3433,7 +3580,7 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 				{
 					size_t pos = change.find("[" + format + "[][main_anim_event]]", 0);
 
-					if (pos != NOT_FOUND && change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND)
+					if (pos != NOT_FOUND && (change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND || change.find("eventID[" + format + "[][main_anim_event]]") != pos - 7))
 					{
 						if (multiOption != format || animMulti == -1)
 						{
@@ -3463,7 +3610,7 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 
 					pos = change.find("[" + format + "[F][main_anim_event]]", 0);
 
-					if (pos != NOT_FOUND && change.find("eventID[" + format + "[F][main_anim_event]]") == NOT_FOUND)
+					if (pos != NOT_FOUND && (change.find("eventID[" + format + "[F][main_anim_event]]") == NOT_FOUND || change.find("eventID[" + format + "[F][main_anim_event]]") != pos - 7))
 					{
 						change.replace(pos, 22 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[0]->format["main_anim_event"]);
 						isChange = true;
@@ -3485,9 +3632,15 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 						return;
 					}
 
+					if (change.find(format + "[B][main_anim_event]", 0) != NOT_FOUND)
+					{
+						ErrorMessage(1056, format, filename, linecount, line);
+						return;
+					}
+
 					pos = change.find("[" + format + "[L][main_anim_event]]", 0);
 
-					if (pos != NOT_FOUND && change.find("eventID[" + format + "[L][main_anim_event]]") == NOT_FOUND)
+					if (pos != NOT_FOUND && (change.find("eventID[" + format + "[L][main_anim_event]]") == NOT_FOUND || change.find("eventID[" + format + "[L][main_anim_event]]") != pos - 7))
 					{
 						change.replace(pos, 22 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["main_anim_event"]);
 						isChange = true;
@@ -3513,7 +3666,8 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 							{
 								pos = change.find("[" + format + "[" + number + "][main_anim_event]]", 0);
 
-								if (pos != NOT_FOUND && change.find("eventID[" + format + "[" + number + "][main_anim_event]]") == NOT_FOUND)
+								if (pos != NOT_FOUND && (change.find("eventID[" + format + "[" + number + "][main_anim_event]]") == NOT_FOUND
+									|| change.find("eventID[" + format + "[" + number + "][main_anim_event]]") != pos - 7))
 								{
 									change.replace(pos, 21 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["main_anim_event"]);
 									isChange = true;
@@ -3799,7 +3953,7 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 }
 
 void multiChoice(string& line, string filename, vector<vector<unordered_map<string, bool>>> groupOptionPicked,
-	vector<vector<shared_ptr<animationInfo>>> groupAnimInfo, int numline, string templatename, string masterformat, animationutility utility)
+	vector<vector<shared_ptr<animationInfo>>> groupAnimInfo, int numline, string format, string masterformat, animationutility utility)
 {
 	if (line.find("<!-- ", 0) != NOT_FOUND)
 	{
@@ -3808,7 +3962,7 @@ void multiChoice(string& line, string filename, vector<vector<unordered_map<stri
 
 		while (true)
 		{
-			if (line.find("<!--", nextposition) != NOT_FOUND)
+			if (line.find("<!-- ", nextposition) != NOT_FOUND)
 			{
 				choicecount++;
 				nextposition = line.find("<!-- ", nextposition) + 1;
@@ -3821,7 +3975,7 @@ void multiChoice(string& line, string filename, vector<vector<unordered_map<stri
 
 		if (line.find("*", 0) != NOT_FOUND || line.find("@", 0) != NOT_FOUND || line.find("%", 0) != NOT_FOUND)
 		{
-			ErrorMessage(2015, templatename, filename, numline);
+			ErrorMessage(2015, format, filename, numline);
 			return;
 		}
 
@@ -3837,7 +3991,7 @@ void multiChoice(string& line, string filename, vector<vector<unordered_map<stri
 
 			if (line.find("<!-- " + tempstr + " -->", 0) == NOT_FOUND)
 			{
-				if (newCondition(tempstr, filename, groupOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+				if (newCondition(tempstr, filename, groupOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 				{
 					nextposition = line.find(" ", nextposition) + 1;
 					string output = line.substr(nextposition, line.find(" ", nextposition) - nextposition);
@@ -3859,7 +4013,7 @@ void multiChoice(string& line, string filename, vector<vector<unordered_map<stri
 			}
 			else
 			{
-				ErrorMessage(2016, templatename, filename, numline);
+				ErrorMessage(2016, format, filename, numline);
 				return;
 			}
 		}
@@ -3878,7 +4032,7 @@ void multiChoice(string& line, string filename, vector<vector<unordered_map<stri
 }
 
 bool newCondition(string condition, string filename, vector<vector<unordered_map<string, bool>>> curOptionPicked,
-	vector<vector<shared_ptr<animationInfo>>> groupAnimInfo, int numline, string templatename, string masterformat, animationutility utility)
+	vector<vector<shared_ptr<animationInfo>>> groupAnimInfo, int numline, string format, string masterformat, animationutility utility)
 {
 	if (condition[0] == '(')
 	{
@@ -3899,7 +4053,7 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 				inHouse = inHouse.substr(1);
 			}
 			
-			inHouseResult = conditionProcess(inHouse, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility);
+			inHouseResult = conditionProcess(inHouse, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility);
 		}
 		else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 		{
@@ -3913,9 +4067,9 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 				firstCondition = firstCondition.substr(1);
 			}
 
-			inHouseResult = conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility);
+			inHouseResult = conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility);
 
-			if (!inHouseResult && newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+			if (!inHouseResult && newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 			{
 				inHouseResult = true;
 			}
@@ -3941,14 +4095,14 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 				secondCondition = tempSecondCondition.substr(0, tempSecondCondition.find("|"));
 				tempSecondCondition = tempSecondCondition.substr(tempSecondCondition.find("|") + 1);
 
-				if (conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
+				if (conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
 				{
 					if (error)
 					{
 						return false;
 					}
 
-					inHouseResult = newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility);
+					inHouseResult = newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility);
 				}
 				else
 				{
@@ -3960,7 +4114,7 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 					return false;
 				}
 
-				if (!inHouseResult && newCondition(tempSecondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+				if (!inHouseResult && newCondition(tempSecondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 				{
 					inHouseResult = true;
 				}
@@ -3969,14 +4123,14 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 			{
 				secondCondition = tempSecondCondition;
 
-				if (conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
+				if (conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
 				{
 					if (error)
 					{
 						return false;
 					}
 
-					inHouseResult = newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility);
+					inHouseResult = newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility);
 				}
 				else
 				{
@@ -3991,7 +4145,7 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 		}
 		else
 		{
-			ErrorMessage(1105, templatename, filename, numline);
+			ErrorMessage(1105, format, filename, numline);
 			return false;
 		}
 
@@ -4008,7 +4162,7 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 		{
 			string secondCondition = outHouse.substr(outHouse.find("|") + 1);
 
-			if (inHouseResult || newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+			if (inHouseResult || newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 			{
 				return true;
 			}
@@ -4017,14 +4171,14 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 		{
 			string secondCondition = inHouse.substr(inHouse.find("&") + 1);
 
-			if (inHouseResult && newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+			if (inHouseResult && newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 			{
 				return true;
 			}
 		}
 		else
 		{
-			ErrorMessage(1106, templatename, filename, numline, condition);
+			ErrorMessage(1106, format, filename, numline, condition);
 			return false;
 		}
 	}
@@ -4044,7 +4198,7 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 				conditionOrder = conditionOrder.substr(1);
 			}
 
-			return conditionProcess(conditionOrder, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility);
+			return conditionProcess(conditionOrder, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility);
 		}
 		else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
 		{
@@ -4058,7 +4212,7 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 				firstCondition = firstCondition.substr(1);
 			}
 
-			if (conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
+			if (conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
 			{
 				return true;
 			}
@@ -4068,7 +4222,7 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 				return false;
 			}
 
-			if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+			if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 			{
 				return true;
 			}
@@ -4115,14 +4269,14 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 
 					if (thirdCondition.length() == 0)
 					{
-						if (conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
+						if (conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
 						{
 							if (error)
 							{
 								return false;
 							}
 
-							if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+							if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 							{
 								return true;
 							}
@@ -4140,14 +4294,15 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 
 						if (logic == '&')
 						{
-							if (conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
+							if (conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
 							{
 								if (error)
 								{
 									return false;
 								}
 
-								if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility) && newCondition(thirdCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+								if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility)
+									&& newCondition(thirdCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 								{
 									return true;
 								}
@@ -4155,22 +4310,22 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 						}
 						else if (logic == '|')
 						{
-							if (conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
+							if (conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
 							{
-								if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+								if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 								{
 									return true;
 								}
 							}
 
-							if (newCondition(thirdCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+							if (newCondition(thirdCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 							{
 								return true;
 							}
 						}
 						else
 						{
-							ErrorMessage(1101, templatename, filename, numline);
+							ErrorMessage(1101, format, filename, numline);
 							return false;
 						}
 					}
@@ -4182,7 +4337,7 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 
 					if (x == NOT_FOUND && y == NOT_FOUND)
 					{
-						if (conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
+						if (conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
 						{
 							if (error)
 							{
@@ -4197,7 +4352,7 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 								secondCondition = secondCondition.substr(1);
 							}
 
-							if (conditionProcess(secondCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isAnotherNot, utility))
+							if (conditionProcess(secondCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isAnotherNot, utility))
 							{
 								return true;
 							}
@@ -4209,15 +4364,15 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 						string thirdCondition = secondCondition.substr(position);
 						secondCondition = secondCondition.substr(0, position - 1);
 						
-						if (conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
+						if (conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
 						{
-							if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+							if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 							{
 								return true;
 							}
 						}
 
-						if (newCondition(thirdCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+						if (newCondition(thirdCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 						{
 							return true;
 						}
@@ -4228,9 +4383,10 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 						string thirdCondition = secondCondition.substr(position);
 						secondCondition = secondCondition.substr(0, position - 1);
 
-						if (conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
+						if (conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility))
 						{
-							if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility) && newCondition(thirdCondition, filename, curOptionPicked, groupAnimInfo, numline, templatename, masterformat, utility))
+							if (newCondition(secondCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility)
+								&& newCondition(thirdCondition, filename, curOptionPicked, groupAnimInfo, numline, format, masterformat, utility))
 							{
 								return true;
 							}
@@ -4238,19 +4394,19 @@ bool newCondition(string condition, string filename, vector<vector<unordered_map
 					}
 					else
 					{
-						ErrorMessage(1103, templatename, filename, numline);
+						ErrorMessage(1103, format, filename, numline);
 						return false;
 					}
 				}
 			}
 			else
 			{
-				return conditionProcess(firstCondition, masterformat, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility);
+				return conditionProcess(firstCondition, masterformat, format, filename, numline, curOptionPicked, groupAnimInfo, isNot, utility);
 			}
 		}
 		else
 		{
-			ErrorMessage(1102, templatename, filename, numline);
+			ErrorMessage(1102, format, filename, numline);
 			return false;
 		}
 	}
@@ -4498,16 +4654,26 @@ void optionLimiter(vecstr optionInfo, string line, string format, string filenam
 		}
 	}
 
-	if (int(optionInfo.size()) > limiter || int(optionInfo.size()) < limiter)
+	if (!isCondition && optionInfo.size() > 3 && (optionInfo[3] == "main_anim_event" || optionInfo[3] == "[main_anim_event]" || optionInfo[3] == "FilePath" ||
+		optionInfo[3].find("@AnimObject") != NOT_FOUND || optionInfo[3].find("(S+") != NOT_FOUND))
+	{
+		limiter--;
+	}
+
+	if (int(optionInfo.size()) != limiter)
 	{
 		ErrorMessage(1054, limiter - 1, format, filename, numline, line);
 		return;
 	}
 
-	if (optionInfo[open][0] == '^')
+	// testing for allowing order condition
+	if (limiter != limiter)
 	{
-		ErrorMessage(1149, format, filename, numline, line);
-		return;
+		if (optionInfo[open][0] == '^')
+		{
+			ErrorMessage(1149, format, filename, numline, line);
+			return;
+		}
 	}
 }
 
@@ -4644,7 +4810,7 @@ string optionOrderProcess(string line, string format, string filename, int numli
 	return newline;
 }
 
-bool conditionProcess(string condition, string masterformat, string filename, int numline, vector<vector<unordered_map<string, bool>>> curOptionPicked,
+bool conditionProcess(string condition, string masterformat, string format, string filename, int numline, vector<vector<unordered_map<string, bool>>> curOptionPicked,
 	vector<vector<shared_ptr<animationInfo>>> groupAnimInfo, bool isNot, animationutility utility)
 {
 	if (condition.find(masterformat + "_group[][") != NOT_FOUND)
@@ -4730,7 +4896,56 @@ bool conditionProcess(string condition, string masterformat, string filename, in
 				return false;
 			}
 
-			if (curOptionPicked[stoi(optionInfo[1])][stoi(optionInfo[2])][optionInfo[3]])
+			if (utility.multiOption == masterformat && optionInfo.back()[0] == '^' && optionInfo.back().back() == '^' && optionInfo.back().length() > 2)
+			{
+				string conditionOrder;
+
+				if (isalpha(optionInfo.back()[1]))
+				{
+					conditionOrder = boost::regex_replace(string(optionInfo.back()), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+
+					if (boost::iequals(conditionOrder, "last"))
+					{
+						if (utility.animMulti == groupAnimInfo.size() - 1)
+						{
+							conditionResult = !isNot;
+						}
+						else
+						{
+							conditionResult = isNot;
+						}
+					}
+					else if (boost::iequals(conditionOrder, "first"))
+					{
+						conditionOrder = "0";
+					}
+					else
+					{
+						ErrorMessage(1138, format, filename, numline, condition);
+						return false;
+					}
+				}
+				else
+				{
+					conditionOrder = optionInfo.back().substr(1, optionInfo.back().length() - 2);
+
+					if (!isOnlyNumber(conditionOrder))
+					{
+						ErrorMessage(1138, format, filename, numline, condition);
+						return false;
+					}
+				}
+
+				if (utility.animMulti == stoi(conditionOrder))
+				{
+					conditionResult = !isNot;
+				}
+				else
+				{
+					conditionResult = isNot;
+				}
+			}
+			else if (curOptionPicked[stoi(optionInfo[1])][stoi(optionInfo[2])][optionInfo[3]])
 			{
 				conditionResult = !isNot;
 			}
@@ -4757,7 +4972,56 @@ bool conditionProcess(string condition, string masterformat, string filename, in
 			return false;
 		}
 
-		if (curOptionPicked[stoi(optionInfo[1])][stoi(optionInfo[2])][optionInfo[3]])
+		if (utility.multiOption == masterformat && optionInfo.back()[0] == '^' && optionInfo.back().back() == '^' && optionInfo.back().length() > 2)
+		{
+			string conditionOrder;
+
+			if (isalpha(optionInfo.back()[1]))
+			{
+				conditionOrder = boost::regex_replace(string(optionInfo.back()), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+
+				if (boost::iequals(conditionOrder, "last"))
+				{
+					if (utility.animMulti == groupAnimInfo.size() - 1)
+					{
+						return !isNot;
+					}
+					else
+					{
+						return isNot;
+					}
+				}
+				else if (boost::iequals(conditionOrder, "first"))
+				{
+					conditionOrder = "0";
+				}
+				else
+				{
+					ErrorMessage(1138, format, filename, numline, condition);
+					return false;
+				}
+			}
+			else
+			{
+				conditionOrder = optionInfo.back().substr(1, optionInfo.back().length() - 2);
+
+				if (!isOnlyNumber(conditionOrder))
+				{
+					ErrorMessage(1138, format, filename, numline, condition);
+					return false;
+				}
+			}
+
+			if (utility.animMulti == stoi(conditionOrder))
+			{
+				return !isNot;
+			}
+			else
+			{
+				return isNot;
+			}
+		}
+		else if (curOptionPicked[stoi(optionInfo[1])][stoi(optionInfo[2])][optionInfo[3]])
 		{
 			return !isNot;
 		}

@@ -93,40 +93,43 @@ void Furniture::GetFurnitureLine(shared_ptr<vecstr> generatedlines, string curBe
 			{
 				condition++;
 
-				if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
+				if (!multi)
 				{
-					if (!IsConditionOpened[condition])
+					if (!freeze && ((newOpen && !skip) || !newOpen))
 					{
-						if (isPassed(condition, IsConditionOpened))
+						if (!IsConditionOpened[condition])
 						{
-							size_t optionPosition = line.find("<!-- CONDITION START ^") + 22;
-							string conditionLine = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
-							animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
+							if (isPassed(condition, IsConditionOpened))
+							{
+								size_t optionPosition = line.find("<!-- CONDITION START ^") + 22;
+								string conditionLine = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
+								animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
 
-							if (newCondition(conditionLine, *generatedlines, groupOptionPicked, i + 1, utility))
-							{
-								skip = false;
-								IsConditionOpened[condition] = true;
-							}
-							else
-							{
-								skip = true;
-							}
+								if (newCondition(conditionLine, *generatedlines, groupOptionPicked, i + 1, utility))
+								{
+									skip = false;
+									IsConditionOpened[condition] = true;
+								}
+								else
+								{
+									skip = true;
+								}
 
-							if (error)
-							{
-								return;
+								if (error)
+								{
+									return;
+								}
 							}
 						}
+						else
+						{
+							skip = true;
+							freeze = true;
+						}
 					}
-					else
-					{
-						skip = true;
-						freeze = true;
-					}
-				}
 
-				uniqueskip = true;
+					uniqueskip = true;
+				}
 			}
 			else if (line.find("<!-- CONDITION ^", 0) != NOT_FOUND)
 			{
@@ -136,40 +139,43 @@ void Furniture::GetFurnitureLine(shared_ptr<vecstr> generatedlines, string curBe
 					return;
 				}
 
-				if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
+				if (!multi)
 				{
-					if (!IsConditionOpened[condition])
+					if (!freeze && ((newOpen && !skip) || !newOpen))
 					{
-						if (isPassed(condition, IsConditionOpened))
+						if (!IsConditionOpened[condition])
 						{
-							size_t optionPosition = line.find("<!-- CONDITION ^") + 16;
-							string option = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
-							animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
+							if (isPassed(condition, IsConditionOpened))
+							{
+								size_t optionPosition = line.find("<!-- CONDITION ^") + 16;
+								string option = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
+								animationutility utility(eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
 
-							if (newCondition(option, *generatedlines, groupOptionPicked, i + 1, utility))
-							{
-								skip = false;
-								IsConditionOpened[condition] = true;
-							}
-							else
-							{
-								skip = true;
-							}
+								if (newCondition(option, *generatedlines, groupOptionPicked, i + 1, utility))
+								{
+									skip = false;
+									IsConditionOpened[condition] = true;
+								}
+								else
+								{
+									skip = true;
+								}
 
-							if (error)
-							{
-								return;
+								if (error)
+								{
+									return;
+								}
 							}
 						}
+						else
+						{
+							skip = true;
+							freeze = true;
+						}
 					}
-					else
-					{
-						skip = true;
-						freeze = true;
-					}
-				}
 
-				uniqueskip = true;
+					uniqueskip = true;
+				}
 			}
 			else if (line.find("<!-- CONDITION -->", 0) != NOT_FOUND)
 			{
@@ -179,33 +185,36 @@ void Furniture::GetFurnitureLine(shared_ptr<vecstr> generatedlines, string curBe
 					return;
 				}
 
-				if (!freeze && !multi && ((newOpen && !skip) || !newOpen))
+				if (!multi)
 				{
-					if (!IsConditionOpened[condition])
+					if (!freeze && ((newOpen && !skip) || !newOpen))
 					{
-						if (isPassed(condition, IsConditionOpened))
+						if (!IsConditionOpened[condition])
 						{
-							skip = false;
-							IsConditionOpened[condition] = true;
-							uniqueskip = true;
-							size_t conditionPosition = line.find("<!-- CONDITION") + 14;
-							string replacement1 = line.substr(0, conditionPosition + 1);
-							string replacement2 = line.substr(conditionPosition);
-							generatedlines->push_back(replacement1 + "START" + replacement2);
+							if (isPassed(condition, IsConditionOpened))
+							{
+								skip = false;
+								IsConditionOpened[condition] = true;
+								uniqueskip = true;
+								size_t conditionPosition = line.find("<!-- CONDITION") + 14;
+								string replacement1 = line.substr(0, conditionPosition + 1);
+								string replacement2 = line.substr(conditionPosition);
+								generatedlines->push_back(replacement1 + "START" + replacement2);
+							}
+							else
+							{
+								skip = true;
+							}
 						}
 						else
 						{
 							skip = true;
+							freeze = true;
 						}
 					}
-					else
-					{
-						skip = true;
-						freeze = true;
-					}
-				}
 
-				uniqueskip = true;
+					uniqueskip = true;
+				}
 			}
 			else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND)
 			{
@@ -1281,6 +1290,7 @@ void Furniture::GetFurnitureLine(shared_ptr<vecstr> generatedlines, string curBe
 	}
 
 	subFunctionIDs->format["main_anim_event"] = mainAnimEvent;
+	subFunctionIDs->format["[main_anim_event]"] = mainAnimEvent;
 	subFunctionIDs->format["FilePath"] = filepath + filename;
 	subFunctionIDs->format["FileName"] = filename.substr(0, filename.find_last_of("."));
 
@@ -4122,12 +4132,13 @@ vecstr GetOptionInfo(string line, string format, string filename, int numline, s
 			}
 		}
 		
-		if (optionInfo.size() > 2 && (optionInfo[2] == "main_anim_event" || optionInfo[2] == "FilePath" || optionInfo[2].find("@AnimObject") != NOT_FOUND || optionInfo[2].find("(S+") != NOT_FOUND))
+		if (!isCondition && optionInfo.size() > 2 && (optionInfo[2] == "main_anim_event" || optionInfo[2] == "[main_anim_event]" || optionInfo[2] == "FilePath" ||
+			optionInfo[2].find("@AnimObject") != NOT_FOUND || optionInfo[2].find("(S+") != NOT_FOUND))
 		{
 			limiter--;
 		}
 
-		if (int(optionInfo.size()) > limiter || int(optionInfo.size()) < limiter)
+		if (int(optionInfo.size()) != limiter)
 		{
 			ErrorMessage(1054, limiter - 1, format, filename, numline, line);
 			return optionInfo;
@@ -4387,52 +4398,44 @@ bool Furniture::secondConditionProcess(string condition, vector<unordered_map<st
 
 bool Furniture::GetFirstCondition(string firstCondition, vecstr optionInfo, int numline, vector<unordered_map<string, bool>> groupOptionPicked, bool isNot)
 {
-	if (optionInfo[2][0] == '^')
+	if (optionInfo[2][0] == '^' && optionInfo[2].back() == '^')
 	{
 		string conditionOrder;
 
 		if (isalpha(optionInfo[2][1]))
 		{
-			conditionOrder = boost::regex_replace(string(optionInfo[2]), boost::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"), string("\\1"));
+			conditionOrder = boost::regex_replace(string(optionInfo[2]), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
-			if (conditionOrder == "last")
+			if (boost::iequals(conditionOrder, "last"))
 			{
 				if (isLastOrder)
 				{
-					if (isNot)
-					{
-						return false;
-					}
-					else
-					{
-						return true;
-					}
+					return !isNot;
 				}
 				else
 				{
-					if (isNot)
-					{
-						return true;
-					}
-					else
-					{
-						return false;
-					}
+					return isNot;
 				}
 			}
-			else if (conditionOrder == "first")
+			else if (boost::iequals(conditionOrder, "first"))
 			{
 				conditionOrder = "0";
 			}
-		}
-		else if (isOnlyNumber(optionInfo[2]))
-		{
-			conditionOrder = optionInfo[2];
+			else
+			{
+				ErrorMessage(1138, format, behaviorFile, numline, firstCondition);
+				return false;
+			}
 		}
 		else
 		{
-			ErrorMessage(1138, format, behaviorFile, numline, firstCondition);
-			return false;
+			conditionOrder = optionInfo[2].substr(1, optionInfo[2].length() - 2);
+
+			if (!isOnlyNumber(conditionOrder))
+			{
+				ErrorMessage(1138, format, behaviorFile, numline, firstCondition);
+				return false;
+			}
 		}
 
 		if (order == stoi(conditionOrder))
