@@ -12,7 +12,7 @@
 				#0343
 				#2567
 <!-- MOD_CODE ~tudm~ OPEN -->
-				#tudm$1
+				#tudm$43
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

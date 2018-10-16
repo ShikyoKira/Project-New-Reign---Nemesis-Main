@@ -1,16 +1,7 @@
-		<hkobject name="#tudm$309" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#tudm$309" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">BackwardSidestep_Clip_C</hkparam>
-			<hkparam name="animationName">Animations\Sidestep_Backward.hkx</hkparam>
-			<hkparam name="triggers">#tudm$174</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.850000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">CrossBowReloadModifierGenerator</hkparam>
+			<hkparam name="modifier">#tudm$43</hkparam>
+			<hkparam name="generator">#0092</hkparam>
 		</hkobject>

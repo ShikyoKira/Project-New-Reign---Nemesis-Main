@@ -1,0 +1,3 @@
+		<hkobject name="#tkuc$5" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">IsFirstPerson == 1</hkparam>
+		</hkobject>

@@ -1,16 +1,16 @@
-		<hkobject name="#tudm$260" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#tudm$259</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">DodgeRollAllowRotationModifier</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="bIsActive0">false</hkparam>
-			<hkparam name="bInvertActive0">false</hkparam>
-			<hkparam name="bIsActive1">false</hkparam>
-			<hkparam name="bInvertActive1">false</hkparam>
-			<hkparam name="bIsActive2">false</hkparam>
-			<hkparam name="bInvertActive2">false</hkparam>
-			<hkparam name="bIsActive3">false</hkparam>
-			<hkparam name="bInvertActive3">false</hkparam>
-			<hkparam name="bIsActive4">false</hkparam>
-			<hkparam name="bInvertActive4">false</hkparam>
+		<hkobject name="#tudm$260" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">#tudm$154</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">RightSidestep_Clip_B</hkparam>
+			<hkparam name="animationName">Animations\Sidestep_Right.hkx</hkparam>
+			<hkparam name="triggers">#tudm$264</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.150000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>

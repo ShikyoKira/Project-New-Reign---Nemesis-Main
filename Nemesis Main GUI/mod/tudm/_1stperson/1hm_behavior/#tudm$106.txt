@@ -1,10 +1,3 @@
-		<hkobject name="#tudm$106" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tudm$27</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Weap_AttackLeft_MSG</hkparam>
-			<hkparam name="generators" numelements="7">
-				#2643 #2643 #2643 #2643 #2643 #tudm$105 #tudm$59
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#tudm$106" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">(iRightHandType != 5) &amp;&amp; (iRightHandType != 6) &amp;&amp; (IsNPC == 1)</hkparam>
 		</hkobject>

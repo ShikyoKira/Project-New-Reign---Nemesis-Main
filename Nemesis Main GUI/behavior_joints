@@ -72,9 +72,6 @@ shout_behavior
 defaultmale
 defaultfemale
 
-_1stperson\0_master
-_1stperson\firstperson
-
 crossbow_direction_behavior
 defaultmale
 defaultfemale
@@ -149,6 +146,9 @@ defaultfemale
 weapunequip
 defaultmale
 defaultfemale
+
+_1stperson\0_master
+_1stperson\firstperson
 
 _1stperson\idlebehavior
 _1stperson\firstperson

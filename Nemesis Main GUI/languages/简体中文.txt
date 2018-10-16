@@ -1,5 +1,5 @@
-﻿' Translator: 今天开始杀鸡了
-' Language: Chinese
+﻿' Translator: Shikyo Kira
+' Language: English
 
 ' =========================================================================
 ' 				FORMATTING
@@ -62,7 +62,7 @@ ERR 1013=无效的state字符. 请与模板创建者联系\nTemplate: <1>\nFile:
 ERR 1014=缺少add-on的闭括号. 请与模板创建者联系\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1015=Add-on包含无效字符, 只允许包含字母. 请与模板创建者联系\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1016=无法读取行。请确保已经正确安装动画类型.\nFile: <1>\nLine: <2>
-ERR 1017=无效的修改. "<1>"option不存在. 请与模板创建者联系\nTemplate: <2>\nFile: <3>\nLine: <4>\nOption: <1>
+ERR 1017=发现BUG!! 马上报告给Nemesis的作者
 ERR 1018=未知的变量类型. 只支持 "BOOL", "INT32" 和 "REAL"\nFile: <1>\nLine: <2>\nVariable: <3>
 ERR 1019=已检测到重复的模板文件. 请与模板创建者联系\nFile: <1>
 ERR 1020=发现BUG!! Function ID 泄露. 报告给Nemesis的作者
@@ -281,7 +281,7 @@ ERR 3011=检测到未注册的项目. 更新工具以修复这个问题\nProject
 ERR 3012=在InfoData部分中检测到重复的唯一代码. 请与模板创建者联系\nProject: <1>\nUnique Code: <2>
 ERR 3013=检测到未注册的动画组名称. 请与mod作者联系\nAAPrefix: <1>\nAnimation Group Name: <2>
 ERR 3014=检测到错误的"nemesis_animationdatasinglefile.txt" . 中止进程. 请重装Nemesis
-ERR 3015=检测到"animationdatasinglefile.txt"的无效格式. 请与模板创建者联系\nProject: <1>\nCurrent Line: <2>
+ERR 3015=检测到 "animationdatasinglefile.txt"的无效格式.  请与模板创建者联系\nFile: <1>\nLine: <2>
 ERR 3016=发现BUG!!  马上报告给Nemesis的作者\nProject: <1>\nHeader: <2>
 ERR 3017=无法找到"<1>" .请重装Nemesis
 ERR 3018=错误的格式. 当前的行列无法用来运行NEW tab function. 只有BehaviorFileList, EventNameList, MotionDataList, 或者RotationDataList可以使用 NEW tab function. 请与mod作者联系\nMod: <1>\nProject: <2>\nHeader: <3>
@@ -306,7 +306,7 @@ ERR 4011=可选的动画文件未注册. 请与mod作者联系\nFile: <1>\nLine:
 
 '5000
 ERR 5000=检测到缺失项目. 请与模板创建者联系\nFile: <1>
-ERR 5001=在 "animationsetdatasinglefile.txt"中检测到无效的格式.请与模板创建者或mod作者联系\nFile: <1>\nLine: <2>
+ERR 5001=在"animationsetdatasinglefile.txt"中检测到无效格式. 请与模板创建者或mod作者联系\nProject: <1>\nHeader: <2>
 ERR 5002=检测到未注册的数据. 请与模板创建者联系\nFile: <1>
 ERR 5003=检测到数据删除. Nemesis不支持数据删除. 请与模板创建者联系\nMod: <1>\nFile: <2>\nFrom Line: <3>
 ERR 5004=Condition function不适用于"animationsetdatasinglefile.txt"\nFile: <1>\nLine: <2>
@@ -336,6 +336,8 @@ ERR 6003="<1>"已经在这个ini文件中被注册. 请与mod作者联系\nFile:
 ERR 6004=模板不支持第一人称动画，因为这是无效的. 请与模板创建者联系\nDirectory: <1>
 ERR 6005=未找到Skyrim的目录.. 请确保你的游戏是正版的
 ERR 6006=丢失最新的工具文件. 更新工具以修复这个问题
+ERR 6007=未找到Papyrus编译器. 请确保Nemesis位于正确的目录
+ERR 6008=在运行脚本时发生异常.请与脚本作者联系\nMessage: <1>
 
 '1000
 WAR 1000=缺少动画文件\nFile: <1>

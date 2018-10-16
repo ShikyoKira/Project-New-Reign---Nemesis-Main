@@ -1,7 +1,7 @@
 		<hkobject name="#tudm$164" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#tudm$47</hkparam>
+			<hkparam name="variableBindingSet">#tudm$21</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Left_ForwardDodgeStyle</hkparam>
+			<hkparam name="name">Left_BackwardDodgeStyle</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
 				<hkobject>
 					<hkparam name="id">-1</hkparam>
@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="2">
-				#tudm$165 #tudm$28
+				#tudm$165 #tudm$166
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

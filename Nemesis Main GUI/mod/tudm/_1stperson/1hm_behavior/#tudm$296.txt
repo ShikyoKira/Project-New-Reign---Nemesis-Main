@@ -1,26 +1,12 @@
-		<hkobject name="#tudm$296" class="hkbStateMachine" signature="0x816c1dcb">
+		<hkobject name="#tudm$296" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DodgeDirection_BehaviorB</hkparam>
-			<hkparam name="eventToSendWhenStateOrTransitionChanges">
-				<hkobject>
-					<hkparam name="id">-1</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="startStateChooser">null</hkparam>
-			<hkparam name="startStateId">0</hkparam>
-			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
-			<hkparam name="randomTransitionEventId">-1</hkparam>
-			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
-			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
-			<hkparam name="syncVariableIndex">-1</hkparam>
-			<hkparam name="wrapAroundStateId">false</hkparam>
-			<hkparam name="maxSimultaneousTransitions">32</hkparam>
-			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
-			<hkparam name="states" numelements="8">
-				#tudm$295 #tudm$255 #tudm$286 #tudm$275 #tudm$284 #tudm$172 #tudm$176 #tudm$168
-			</hkparam>
-			<hkparam name="wildcardTransitions">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#tudm$297</hkparam>
+			<hkparam name="name">Post_ForwardDodgeStyle_1</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
 		</hkobject>

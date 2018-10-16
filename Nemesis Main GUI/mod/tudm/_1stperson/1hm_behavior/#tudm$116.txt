@@ -1,12 +1,15 @@
-		<hkobject name="#tudm$116" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
-			<hkparam name="variableBindingSet">null</hkparam>
+		<hkobject name="#tudm$116" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#tudm$39</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DodgeEndTransition</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
-			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
-			<hkparam name="duration">0.100000</hkparam>
-			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
-			<hkparam name="flags">FLAG_IGNORE_FROM_WORLD_FROM_MODEL</hkparam>
-			<hkparam name="endMode">END_MODE_NONE</hkparam>
-			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+			<hkparam name="name">2HM_Right_AttackLeftNPC_Blend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">17</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="3">
+				#tudm$115 #tudm$112 #tudm$18
+			</hkparam>
 		</hkobject>

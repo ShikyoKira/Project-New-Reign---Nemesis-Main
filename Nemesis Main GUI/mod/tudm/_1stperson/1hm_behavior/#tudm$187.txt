@@ -1,15 +1,10 @@
-		<hkobject name="#tudm$187" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#tudm$31</hkparam>
+		<hkobject name="#tudm$187" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tudm$14</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HM_Forward_AttackRightNPC_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">25.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">17</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="3">
-				#tudm$189 #tudm$180 #tudm$190
+			<hkparam name="name">Weap_AttackRight_MSG</hkparam>
+			<hkparam name="generators" numelements="6">
+				#2643 #2643 #2643 #2643 #2643 #tudm$188
 			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

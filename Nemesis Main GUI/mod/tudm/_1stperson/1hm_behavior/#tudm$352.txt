@@ -1,28 +1,16 @@
-		<hkobject name="#tudm$352" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">
-				<hkobject>
-					<hkparam name="localTime">0.100000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[RollLeap]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">0.175000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[Right_ForwardRollStart]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-			</hkparam>
+		<hkobject name="#tudm$352" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Left_ForwardRoll_Clip_A</hkparam>
+			<hkparam name="animationName">Animations\Roll_ForwardLeft.hkx</hkparam>
+			<hkparam name="triggers">#tudm$353</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>

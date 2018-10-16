@@ -1,3 +1,7 @@
-		<hkobject name="#tudm$112" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iRightHandType == 5) || (iRightHandType == 6) &amp;&amp; (IsNPC == 1)</hkparam>
+		<hkobject name="#tudm$112" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#tudm$111</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">87.708504</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

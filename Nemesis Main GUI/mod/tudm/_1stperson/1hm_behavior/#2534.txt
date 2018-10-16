@@ -15,7 +15,7 @@
 				#2535
 				#0343
 <!-- MOD_CODE ~tudm~ OPEN -->
-				#tudm$1
+				#tudm$43
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

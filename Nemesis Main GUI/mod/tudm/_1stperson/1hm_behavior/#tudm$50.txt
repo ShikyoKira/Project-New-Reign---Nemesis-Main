@@ -1,7 +1,16 @@
-		<hkobject name="#tudm$50" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#tudm$45</hkparam>
-			<hkparam name="boneWeights">null</hkparam>
-			<hkparam name="weight">0.250000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		<hkobject name="#tudm$50" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="1">
+				<hkobject>
+					<hkparam name="localTime">1.550000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$eventID[RollContinue]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

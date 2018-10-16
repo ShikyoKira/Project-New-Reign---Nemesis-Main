@@ -289,7 +289,6 @@ ERR 3019=Invalid format has been detected in "animationdata_list". Update Engine
 ERR 3020=Invalid format for "animationdatasinglefile.txt" in InfoData section has been detected. Please contact the template creator\nProject: <1>\nUnique Code: <3>
 ERR 3021=Missing project information for a project in "animationdatasinglefile.txt"\nProject: <1>
 ERR 3022=Invalid file placement. "$header$" project must be a file not a folder. Please contact the mod author\nFile: <1>
-ERR 3023=BUG FOUND!! Report to Nemesis' author immediately
 
 '4000s
 ERR 4000=Failed to open file. Please make sure <1> file is in the same directory as this program
@@ -339,6 +338,7 @@ ERR 6005=Skyrim directory not found. Please make sure that your skyrim is a lega
 ERR 6006=Missing latest engine files. Update engine to fix it
 ERR 6007=Papyrus compiler not found. Please make sure Nemesis is placed in the correct directory
 ERR 6008=An exception has occured while running the script. Please contact the script author\nMessage: <1>
+ERR 6009=Invalid <1> file. Please reinstall <2>
 
 '1000
 WAR 1000=Missing animation file\nFile: <1>
