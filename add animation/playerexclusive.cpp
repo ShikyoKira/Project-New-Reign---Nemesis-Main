@@ -13,6 +13,11 @@ unordered_map<string, vector<PCEAData>> animReplaced;
 
 void ReadPCEA()
 {
+	vector<PCEA> dummyVector;
+	pcealist = dummyVector;
+	unordered_map<string, vector<PCEAData>> dummyMap;
+	animReplaced = dummyMap;
+
 	vecstr folderlist;
 	string datapath = skyrimDataPath->GetDataPath() + "meshes\\actors\\character\\Animations\\Nemesis_PCEA";
 	bf::path pceafolder(datapath + "\\PCEA_animations");
@@ -122,7 +127,7 @@ bool PCEAInstallation()
 #else
 	if (SSE)
 	{
-		import = skyrimDataPath->GetDataPath() + "source";
+		import = skyrimDataPath->GetDataPath() + "source\\scripts";
 	}
 	else
 	{
@@ -139,23 +144,62 @@ bool PCEAInstallation()
 
 		if (f)
 		{
+			int c;
+			string line;
+
+			while ((c = fgetc(f)) != EOF)
+			{
+				line.push_back(c);
+			}
+
+			size_t startnum = line.find("Which animation pack do you wish to activate?");
+
+			if (startnum == NOT_FOUND)
+			{
+				ErrorMessage(6009, "PCEA.esp", "PCEA mod");
+				return false;
+			}
+			else
+			{
+				startnum += 49;
+			}
+
 			for (unsigned int j = 0; j < pcealist.size(); ++j)
 			{
-				unsigned int size = min(pcealist[j].modFile.length(), 112);
+				string number = to_string(j + 1);
+				unsigned int size = min(pcealist[j].modFile.length(), 113 - number.length());
+				unsigned int counter = startnum + (117 * j);
+
+				for (unsigned int i = 0; i < number.length(); ++i)
+				{
+					fseek(f, counter, SEEK_SET);
+					unsigned char charcode = static_cast<unsigned char>(number[i]);
+					fwrite(&charcode, sizeof(charcode), 1, f);
+					++counter;
+				}
+
+				fseek(f, counter, SEEK_SET);
+				unsigned char charcode = 46;
+				fwrite(&charcode, sizeof(charcode), 1, f);
+				++counter;
+				fseek(f, counter, SEEK_SET);
+				charcode = 32;
+				fwrite(&charcode, sizeof(charcode), 1, f);
+				++counter;
 
 				for (unsigned int i = 0; i < size; ++i)
 				{
-					fseek(f, 2304 + (117 * j) + i, SEEK_SET);
-					unsigned char charcode = static_cast<unsigned char>(pcealist[j].modFile[i]);
+					fseek(f, counter + i, SEEK_SET);
+					charcode = static_cast<unsigned char>(pcealist[j].modFile[i]);
 					fwrite(&charcode, sizeof(charcode), 1, f);
 				}
 			}
 
 			for (unsigned int j = pcealist.size(); j < 10; ++j)
 			{
-				for (unsigned int i = 0; i < 112; ++i)
+				for (unsigned int i = 0; i < 115; ++i)
 				{
-					fseek(f, 2304 + (117 * j) + i, SEEK_SET);
+					fseek(f, startnum + (117 * j) + i, SEEK_SET);
 					unsigned char charcode = 32;
 					fwrite(&charcode, sizeof(charcode), 1, f);
 				}
@@ -171,6 +215,13 @@ bool PCEAInstallation()
 	}
 
 	PatchDebug("PCEA esp modification complete");
+
+	if (error)
+	{
+		return false;
+	}
+
+	PatchDebug("PCEA begin script input");
 
 	{
 		bf::path source("alternate animation\\nemesis pcea.script");
@@ -194,30 +245,24 @@ bool PCEAInstallation()
 
 			if (line.find("\tPCEA[num] =") != NOT_FOUND)
 			{
-				unsigned int counter = 0;
-
-				while (counter < pcealist.size())
+				for (unsigned int j = 0; j < pcealist.size(); ++j)
 				{
 					string templine = line;
-					templine.replace(templine.find("num"), 3, to_string(counter));
-					templine.append("\"" + pcealist[counter].modFile + "\"");
+					templine.replace(templine.find("num"), 3, to_string(j));
+					templine.append("\"" + pcealist[j].modFile + "\"");
 					newline.push_back(templine);
-					++counter;
 				}
 
 				skip = true;
 			}
 			else if (line.find("\tactivation[num]") != NOT_FOUND)
 			{
-				unsigned int counter = 0;
-
-				while (counter < pcealist.size())
+				for (unsigned int j = 0; j < pcealist.size(); ++j)
 				{
 					string templine = line;
-					templine.replace(templine.find("num"), 3, to_string(counter));
+					templine.replace(templine.find("num"), 3, to_string(j));
 					templine.append("0");
 					newline.push_back(templine);
-					++counter;
 				}
 
 				skip = true;
@@ -245,6 +290,8 @@ bool PCEAInstallation()
 				newline.push_back(line);
 			}
 		}
+
+		PatchDebug("PCEA script input complete");
 
 		ofstream output(pscfile);
 
