@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 	bool generate = false;
 	bool update = false;
 	vecstr modlist;
+	QApplication a(argc, argv);
 
 	if (argc > 1)
 	{
@@ -40,15 +41,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	skyrimDataPath = new DataPath;
-	bool preError = false;
-
-	if (error)
-	{
-		preError = error;
-		error = false;
-	}
-
 	if (generate)
 	{
 		if (!isFileExist("languages"))
@@ -68,6 +60,7 @@ int main(int argc, char *argv[])
 		else
 		{
 			NewDebugMessage(*new DebugMsg("english"));
+			skyrimDataPath = new DataPath;
 			CmdGenerateInitialize(modlist);
 		}
 
@@ -92,16 +85,24 @@ int main(int argc, char *argv[])
 		else
 		{
 			NewDebugMessage(*new DebugMsg("english"));
+			skyrimDataPath = new DataPath;
 			CmdUpdateInitialize();
 		}
 	}
 	else
 	{
-		QApplication a(argc, argv);
-
 		if (programInitiateCheck())
 		{
-			NemesisMainGUI w;
+			static NemesisMainGUI w;
+
+			skyrimDataPath = new DataPath;
+			bool preError = false;
+
+			if (error)
+			{
+				preError = error;
+				error = false;
+			}
 
 			if (error)
 			{
@@ -118,9 +119,8 @@ int main(int argc, char *argv[])
 			}
 
 			w.show();
-			return a.exec();
 		}
-
-		return a.exec();
 	}
+
+	return a.exec();
 }
