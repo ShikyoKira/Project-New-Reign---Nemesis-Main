@@ -8,44 +8,44 @@ void behaviorCheck()
 {
 	int warningcount = 0;
 
-	// test duplicate anim file
+	// test if anim file used has been registered
 	for (auto it = usedAnim.begin(); it != usedAnim.end(); ++it)
 	{
 		vecstr forwardPort = behaviorJoints[it->first];
 
-		for (unsigned int j = 0; j < forwardPort.size(); ++j)
+		for (auto& behavior : forwardPort)
 		{
-			for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+			for (auto& path : it->second)
 			{
-				string filename = GetFileName(*iter);
+				string filename = GetFileName(path);
 
-				if (!registeredAnim[forwardPort[j]][filename])
+				if (!registeredAnim[behavior][filename])
 				{
-					WarningMessage(1013, forwardPort[j], *iter);
+					WarningMessage(1013, behavior + ".hkx", path);
 					++warningcount;
 				}
 			}
 		}
 	}
 
-	// test if anim file used has been registered
-	for (auto it = animModMatch.begin(); it != animModMatch.end(); ++it)		// first string
+	// test duplicate anim file
+	for (auto& animation : animModMatch)		// first string
 	{
-		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)		// second string
+		for (auto duplicatelist : animation.second)		// second string
 		{
-			if (iter->second.size() == 2)
+			if (duplicatelist.second.size() == 2)
 			{
-				if (iter->second[0].size() > 1)
+				if (duplicatelist.second[0].size() > 1)
 				{
 					string warning;
 
-					for (auto iteration = iter->second[1].begin(); iteration != iter->second[1].end(); ++iteration)
+					for (auto& duplicate : duplicatelist.second[1])
 					{
-						warning = warning + *iteration + ",";
+						warning = warning + duplicate + ",";
 					}
 
 					warning.pop_back();
-					WarningMessage(1014, it->first, iter->first, warning);
+					WarningMessage(1014, animation.first, duplicatelist.first, warning);
 					++warningcount;
 				}
 			}
