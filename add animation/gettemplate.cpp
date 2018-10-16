@@ -93,8 +93,7 @@ getTemplate::getTemplate()
 						{
 							newpath = templateDirectory + codelist[k] + "\\" + behaviorFolder + "\\" + filelist[i];
 							boost::filesystem::path file(newpath);
-							string lowerfilename = boost::to_lower_copy(filelist[i]);							
-							boost::to_lower(codelist[k]);
+							string lowerfilename = boost::to_lower_copy(filelist[i]);
 
 							if (!boost::filesystem::is_directory(file))
 							{

@@ -801,6 +801,11 @@ bool PapyrusCompileProcess(string pscfile, string scriptsource, string destinati
 			line.append(linelist.back());
 		}
 
+		if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND && line.find("0 failed") != NOT_FOUND)
+		{
+			return true;
+		}
+
 		ErrorMessage(1185, filepath);
 		interMsg("Output: \n" + line);
 		return false;
