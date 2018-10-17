@@ -30,7 +30,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="1656">					<!-- numelement *hmce* +24--> <!-- numelement *zcbe* +46--> <!-- numelement *tudm* +36-->
+			<hkparam name="animationNames" numelements="1656">					<!-- numelement *hmce* +24--> <!-- numelement *momo* +2--> <!-- numelement *zcbe* +46--> <!-- numelement *tudm* +36-->
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1hm_1stP_Walk.hkx</hkcstring>
 				<hkcstring>Animations\1HM_AttackForwardSprint.hkx</hkcstring>
@@ -1712,6 +1712,10 @@
 				<hkcstring>Animations\Horsemen\HMMC_CastLoopFFSelf.hkx</hkcstring>
 				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateFFSelf.hkx</hkcstring>
 				<hkcstring>Animations\Horsemen\HMMC_CastReleaseFFSelf.hkx</hkcstring>
+<!-- CLOSE -->
+<!-- NEW *momo* -->
+				<hkcstring>Animations\MomoAJ\mt_jumpfastback.hkx</hkcstring>
+				<hkcstring>Animations\MomoAJ\mt_jumpfallback.hkx</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
 				<hkcstring>Animations\Z_1HM\Mac_Dual_Equip.hkx</hkcstring>
