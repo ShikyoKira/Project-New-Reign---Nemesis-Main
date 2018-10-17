@@ -7,39 +7,13 @@ using namespace std;
 vecstr updatelog;
 vecstr patchlog;
 atomic_flag debuglock = ATOMIC_FLAG_INIT;
+string filename;
 
 string currentTime();
 
-void UpdateDebugOutput()
+void DebugOutput()
 {
-	if (updatelog.size() > 0)
-	{
-		ofstream output("UpdateLog.txt");
-
-		for (auto& line : updatelog)
-		{
-			output << line << "\n";
-		}
-
-		output << "Nemesis Update Log End";
-		output.close();
-	}
-}
-
-void PatchDebugOutput()
-{
-	if (patchlog.size() > 0)
-	{
-		ofstream output("PatchLog.txt");
-
-		for (auto& line : patchlog)
-		{
-			output << line << "\n";
-		}
-
-		output << "Nemesis Patch Log End";
-		output.close();
-	}
+	filename.clear();
 }
 
 string currentTime()
@@ -47,26 +21,33 @@ string currentTime()
 	return boost::posix_time::to_simple_string(boost::posix_time::second_clock::local_time());
 }
 
-void UpdateDebug(string line)
+void DebugLogging(string line)
 {
-	while (debuglock.test_and_set(memory_order_acquire));
-	updatelog.push_back("[" + currentTime() + "] " + line);
-	debuglock.clear(memory_order_release);
-}
+	int size = count(line.begin(), line.end(), '\n');
 
-void PatchDebug(string line)
-{
+	for (unsigned int i = 0; i < size; ++i)
+	{
+		line.replace(line.find("\n"), 1, " | ");
+	}
+
+	string whole = "[" + currentTime() + "] " + line + "\n";
 	while (debuglock.test_and_set(memory_order_acquire));
-	patchlog.push_back("[" + currentTime() + "] " + line);
+	ofstream relog(filename, ios_base::app);
+	relog << whole;
+	relog.close();
 	debuglock.clear(memory_order_release);
 }
 
 void UpdateReset()
 {
-	updatelog.clear();
+	filename = "UpdateLog.txt";
+	ofstream log(filename);
+	log.close();
 }
 
 void PatchReset()
 {
-	patchlog.clear();
+	filename = "PatchLog.txt";
+	ofstream log(filename);
+	log.close();
 }

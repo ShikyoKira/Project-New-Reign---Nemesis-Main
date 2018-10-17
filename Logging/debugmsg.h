@@ -36,6 +36,9 @@ extern void NewDebugMessage(DebugMsg NewLog);
 std::string DMLogError(int errorcode);
 std::string DMLogWarning(int warningcode);
 
+std::string EngLogError(int errorcode);
+std::string EngLogWarning(int warningcode);
+
 // declaration
 template <typename current>
 void AdditionalInput(std::string& message, int counter, current input);
@@ -62,16 +65,7 @@ void AdditionalInput(std::string& message, int counter, current input)
 	{
 		string msg = "CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
 		interMsg(msg + "\n");
-
-		if (isPatch)
-		{
-			PatchDebug(msg);
-		}
-		else
-		{
-			UpdateDebug(msg);
-		}
-
+		DebugLogging(msg);
 		error = true;
 		return;
 	}
@@ -97,16 +91,7 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
 	{
 		string msg = "CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
 		interMsg(msg + "\n");
-
-		if (isPatch)
-		{
-			PatchDebug(msg);
-		}
-		else
-		{
-			UpdateDebug(msg);
-		}
-
+		DebugLogging(msg);
 		error = true;
 		return;
 	}
@@ -128,17 +113,9 @@ inline void ErrorMessage(int errorcode)
 		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
 		return;
 	}
-	
-	if (isPatch)
-	{
-		PatchDebug(errormsg);
-	}
-	else
-	{
-		UpdateDebug(errormsg);
-	}
 
 	interMsg(errormsg + "\n");
+	DebugLogging("ERROR(" + std::to_string(errorcode) + "): " + EngLogError(errorcode));
 }
 
 template <typename ... other>
@@ -151,6 +128,7 @@ inline void ErrorMessage(int errorcode, other... rest)
 
 	error = true;
 	std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode);
+	std::string englog = "ERROR(" + std::to_string(errorcode) + "): " + EngLogError(errorcode);
 
 	if (DMLogError(errorcode).length() == 0)
 	{
@@ -160,16 +138,9 @@ inline void ErrorMessage(int errorcode, other... rest)
 	}
 
 	AdditionalInput(errormsg, 1, rest...);
+	AdditionalInput(englog, 1, rest...);
 	interMsg(errormsg + "\n");
-
-	if (isPatch)
-	{
-		PatchDebug(errormsg);
-	}
-	else
-	{
-		UpdateDebug(errormsg);
-	}
+	DebugLogging(englog);
 }
 
 // warning
@@ -186,21 +157,14 @@ inline void WarningMessage(int warningcode)
 	}
 
 	interMsg(warninmsg + "\n");
-
-	if (isPatch)
-	{
-		PatchDebug(warninmsg);
-	}
-	else
-	{
-		UpdateDebug(warninmsg);
-	}
+	DebugLogging("WARNING(" + std::to_string(warningcode) + "): " + EngLogWarning(warningcode));
 }
 
 template <typename ... other>
 inline void WarningMessage(int warningcode, other... rest)
 {
 	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode);
+	std::string englog = "WARNING(" + std::to_string(warningcode) + "): " + EngLogWarning(warningcode);
 
 	if (DMLogWarning(warningcode).length() == 0)
 	{
@@ -211,16 +175,9 @@ inline void WarningMessage(int warningcode, other... rest)
 	}
 
 	AdditionalInput(warninmsg, 1, rest...);
+	AdditionalInput(englog, 1, rest...);
 	interMsg(warninmsg + "\n");
-
-	if (isPatch)
-	{
-		PatchDebug(warninmsg);
-	}
-	else
-	{
-		UpdateDebug(warninmsg);
-	}
+	DebugLogging(englog);
 }
 
 // TextBox

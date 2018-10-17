@@ -7,10 +7,8 @@
 
 typedef std::vector<std::string> vecstr;
 
-void UpdateDebugOutput();
-void PatchDebugOutput();
-void UpdateDebug(std::string line);
-void PatchDebug(std::string line);
+void DebugOutput();
+void DebugLogging(std::string line);
 void UpdateReset();
 void PatchReset();
 

@@ -67,11 +67,11 @@ void UpdateFilesStart::UpdateFiles()
 			if (FileCheck(true))
 			{
 				RunScript("scripts\\update\\start\\");
-				UpdateDebug("External script run complete");
+				DebugLogging("External script run complete");
 
 				// clear the temp_behaviors folder to prevent it from bloating
 				ClearTempBehaviors();
-				UpdateDebug("Temp behavior clearance complete");
+				DebugLogging("Temp behavior clearance complete");
 
 				// create "temp_behaviors" folder
 				if (!isFileExist(directory))
@@ -86,13 +86,13 @@ void UpdateFilesStart::UpdateFiles()
 				{
 					if (!error)
 					{
-						UpdateDebug("Data record complete");
+						DebugLogging("Data record complete");
 						emit progressUp(); // 5
 
 						// check template for association with vanilla nodes from behavior template file
 						if (newAnimUpdate(newAnimDirectory, newFile, animData, animSetData, lastUpdate))
 						{
-							UpdateDebug("New Animations record complete");
+							DebugLogging("New Animations record complete");
 							emit progressUp(); // 6
 
 							// comparing if different from mod file
@@ -100,7 +100,7 @@ void UpdateFilesStart::UpdateFiles()
 
 							if (!error)
 							{
-								UpdateDebug("Modification successfully extracted");
+								DebugLogging("Modification successfully extracted");
 								emit progressUp();
 
 								// compiling all behaviors in "data/meshes" to "temp_behaviors" folder
@@ -295,14 +295,14 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 					if (boost::iequals(curFileName, "nemesis_animationdatasinglefile"))
 					{
 						curFileName = curFileName.substr(8);
-						UpdateDebug("AnimData Disassemble start (File: " + newPath + ")");
+						DebugLogging("AnimData Disassemble start (File: " + newPath + ")");
 
 						if (!AnimDataDisassemble(newPath, animData))
 						{
 							return false;
 						}
 
-						UpdateDebug("AnimData Disassemble complete (File: " + newPath + ")");
+						DebugLogging("AnimData Disassemble complete (File: " + newPath + ")");
 						string parent = curfile.parent_path().filename().string();
 						newPath = path + file.substr(8);
 						boost::algorithm::to_lower(parent);
@@ -314,14 +314,14 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 					else if (boost::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
 					{
 						curFileName = curFileName.substr(8);
-						UpdateDebug("AnimSetData Disassemble start (File: " + newPath + ")");
+						DebugLogging("AnimSetData Disassemble start (File: " + newPath + ")");
 
 						if (!AnimSetDataDisassemble(newPath, animSetData))
 						{
 							return false;
 						}
 
-						UpdateDebug("AnimSetData Disassemble complete (File: " + newPath + ")");
+						DebugLogging("AnimSetData Disassemble complete (File: " + newPath + ")");
 						string parent = curfile.parent_path().filename().string();
 						newPath = path + file.substr(8);
 						boost::algorithm::to_lower(parent);
@@ -341,14 +341,14 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 
 						curFileName = firstperson + curFileName.substr(8);
 						string smallfile = boost::to_lower_copy(curFileName);
-						UpdateDebug("Behavior Disassemble start (File: " + newPath + ")");
+						DebugLogging("Behavior Disassemble start (File: " + newPath + ")");
 
 						if (!VanillaDisassemble(newPath, smallfile, newFile, childrenState, stateID[smallfile], parent[smallfile]))
 						{
 							return false;
 						}
 
-						UpdateDebug("Behavior Disassemble complete (File: " + newPath + ")");
+						DebugLogging("Behavior Disassemble complete (File: " + newPath + ")");
 						string parent = curfile.parent_path().filename().string();
 						newPath = path + file.substr(8);
 						boost::algorithm::to_lower(parent);
@@ -379,7 +379,7 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 						behaviorProjectPath[boost::to_lower_copy(curFileName)] = curPath;
 						vecstr storeline;
 						bool record = false;
-						UpdateDebug("Nemesis Project Record start (File: " + newPath + ")");
+						DebugLogging("Nemesis Project Record start (File: " + newPath + ")");
 
 						if (!GetFunctionLines(newPath, storeline))
 						{
@@ -416,7 +416,7 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 						}
 
 						emit progressUp();
-						UpdateDebug("Nemesis Project Record complete (File: " + newPath + ")");
+						DebugLogging("Nemesis Project Record complete (File: " + newPath + ")");
 					}
 				}
 			}
@@ -921,7 +921,7 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 
 	directory = pack.directory;
 	modcode = pack.modcode;
-	UpdateDebug("Installing Mod: " + modcode);
+	DebugLogging("Installing Mod: " + modcode);
 
 	for (unsigned int j = 0; j < behaviorfilelist.size(); ++j)
 	{
@@ -1343,7 +1343,7 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 
 	if (!error)
 	{
-		UpdateDebug("Mod Installed sucessfully: " + modcode);
+		DebugLogging("Mod Installed sucessfully: " + modcode);
 	}
 }
 
@@ -1772,7 +1772,7 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 						{
 							vecstr characterlist;
 							read_directory(folderpath + "\\" + behaviorlist[j], characterlist);
-							UpdateDebug("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
+							DebugLogging("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
 
 							for (unsigned int k = 0; k < characterlist.size(); ++k)
 							{
@@ -1795,13 +1795,13 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 								}
 							}
 
-							UpdateDebug("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
+							DebugLogging("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
 						}
 						else if (boost::iequals(behaviorlist[j], "animationsetdatasinglefile"))
 						{
 							vecstr projectfile;
 							read_directory(folderpath + "\\" + behaviorlist[j], projectfile);
-							UpdateDebug("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
+							DebugLogging("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
 
 							for (unsigned int k = 0; k < projectfile.size(); ++k)
 							{
@@ -1825,7 +1825,7 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 								}
 							}
 
-							UpdateDebug("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
+							DebugLogging("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
 						}
 						else
 						{
@@ -1835,14 +1835,14 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 								return false;
 							}
 
-							UpdateDebug("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
+							DebugLogging("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
 
 							if (!newAnimUpdateExt(folderpath, codelist[i], boost::to_lower_copy(behaviorlist[j]), newFile, lastUpdate))
 							{
 								return false;
 							}
 
-							UpdateDebug("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
+							DebugLogging("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
 						}
 					}
 				}
@@ -1864,23 +1864,23 @@ void UpdateFilesStart::milestoneStart(string directory)
 
 	try
 	{
-		UpdateDebug("Nemesis Behavior Version: v" + GetNemesisVersion());
+		DebugLogging("Nemesis Behavior Version: v" + GetNemesisVersion());
 	}
 	catch (int)
 	{
 		return;
 	}
 
-	UpdateDebug("Current Directory: " + boost::filesystem::current_path().string());
-	UpdateDebug("Data Directory: " + skyrimDataPath->GetDataPath());
+	DebugLogging("Current Directory: " + boost::filesystem::current_path().string());
+	DebugLogging("Data Directory: " + skyrimDataPath->GetDataPath());
 
 	if (SSE)
 	{
-		UpdateDebug("Skyrim Special Edition: TRUE");
+		DebugLogging("Skyrim Special Edition: TRUE");
 	}
 	else
 	{
-		UpdateDebug("Skyrim Special Edition: FALSE");
+		DebugLogging("Skyrim Special Edition: FALSE");
 	}
 
 	filenum = 11;
@@ -1939,22 +1939,22 @@ void UpdateFilesStart::unregisterProcess()
 		if (error)
 		{
 			interMsg("Failed to update engine");
-			UpdateDebug("Failed to update engine");
+			DebugLogging("Failed to update engine");
 		}
 		else
 		{
 			interMsg("Engine update complete");
-			UpdateDebug("Engine update complete");
+			DebugLogging("Engine update complete");
 			emit enableCheck(false);
 		}
 	}
 	else
 	{
 		interMsg("Failed to update engine");
-		UpdateDebug("Failed to update engine");
+		DebugLogging("Failed to update engine");
 	}
 
-	UpdateDebugOutput();
+	DebugOutput();
 	disconnectProcess();
 
 	if (cmdline)
@@ -2146,8 +2146,8 @@ void BehaviorStart::GenerateBehavior()
 						string corepath = behaviorPath[BehaviorTemplate.coreTemplate[templatecode]];
 						string corename = GetFileName(corepath);
 						corepath = corepath.substr(0, corepath.length() - corename.length());
-						PatchDebug(corename);
-						PatchDebug(corepath);
+						DebugLogging(corename);
+						DebugLogging(corepath);
 
 						if (!isFileExist(corepath + "nemesis_" + corename + ".txt") && !isFileExist(corepath + "nemesis_" + corename + ".xml"))
 						{
@@ -2159,7 +2159,7 @@ void BehaviorStart::GenerateBehavior()
 
 							if (coreRegistered.find(corecode) == coreRegistered.end())
 							{
-								PatchDebug("Core Registration: " + corecode);
+								DebugLogging("Core Registration: " + corecode);
 								coreRegistered.insert(corecode);
 								unordered_map<string, vecstr>* functionlines = &BehaviorTemplate.behaviortemplate[corecode];
 								shared_ptr<animationInfo> dummy = make_shared<animationInfo>();
@@ -2823,7 +2823,7 @@ void BehaviorStart::GenerateBehavior()
 				emit progressMax(filenum);
 			}
 
-			PatchDebug("New animations registration complete");
+			DebugLogging("New animations registration complete");
 			emit progressUp();
 
 			if (error)
@@ -3082,35 +3082,34 @@ void BehaviorStart::GenerateBehavior()
 
 void BehaviorStart::milestoneStart()
 {
-	isPatch = true;
 	PatchReset();
 
 	try
 	{
-		PatchDebug("Nemesis Behavior Version: v" + GetNemesisVersion());
+		DebugLogging("Nemesis Behavior Version: v" + GetNemesisVersion());
 	}
 	catch (int)
 	{
 		return;
 	}
 
-	PatchDebug("Current Directory: " + boost::filesystem::current_path().string());
-	PatchDebug("Data Directory: " + skyrimDataPath->GetDataPath());
+	DebugLogging("Current Directory: " + boost::filesystem::current_path().string());
+	DebugLogging("Data Directory: " + skyrimDataPath->GetDataPath());
 
 	if (SSE)
 	{
-		PatchDebug("Skyrim Special Edition: TRUE");
+		DebugLogging("Skyrim Special Edition: TRUE");
 	}
 	else
 	{
-		PatchDebug("Skyrim Special Edition: FALSE");
+		DebugLogging("Skyrim Special Edition: FALSE");
 	}
 
 	int counter = 0;
 
 	for (auto& mod : behaviorPriority)
 	{
-		PatchDebug("Mod " + to_string(++counter) + ": " + mod);
+		DebugLogging("Mod " + to_string(++counter) + ": " + mod);
 	}
 
 	m_RunningThread = 1;
@@ -3167,24 +3166,23 @@ void BehaviorStart::unregisterProcess()
 		if (error)
 		{
 			interMsg("Failed to generate behavior");
-			PatchDebug("Failed to generate behavior");
+			DebugLogging("Failed to generate behavior");
 		}
 		else
 		{
-			PatchDebug("Number of animations: " + to_string(animCount));
+			DebugLogging("Number of animations: " + to_string(animCount));
 			interMsg("Behavior generation complete");
-			PatchDebug("Behavior generate complete");
+			DebugLogging("Behavior generate complete");
 			emit enableCheck(false);
 		}
 	}
 	else
 	{
 		interMsg("Failed to generate behavior");
-		PatchDebug("Failed to generate behavior");
+		DebugLogging("Failed to generate behavior");
 	}
 
-	isPatch = false;
-	PatchDebugOutput();
+	DebugOutput();
 	disconnectProcess();
 
 	if (cmdline)
@@ -3308,8 +3306,8 @@ void BehaviorSub::BehaviorCompilation()
 				return;
 			}
 
-			PatchDebug("Processing behavior: " + filepath);
-			PatchDebug("Behavior output path: " + outputdir);
+			DebugLogging("Processing behavior: " + filepath);
+			DebugLogging("Behavior output path: " + outputdir);
 			emit progressAdd();
 
 			if (modID.length() > 0 && isFileExist(outputdir + ".hkx"))
@@ -3520,11 +3518,11 @@ void BehaviorSub::BehaviorCompilation()
 					}
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 1, File extraction & mod selection complete)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction & mod selection complete)");
 
 				if (isCharacter)
 				{
-					PatchDebug("Processing behavior: " + filepath + " (IsCharater: TRUE)");
+					DebugLogging("Processing behavior: " + filepath + " (IsCharater: TRUE)");
 					string rigfile = "<hkparam name=\"rigName\">";
 					string bonemap = "<hkparam name=\"bonePairMap\" numelements=\"";
 					bool found = false;
@@ -3665,11 +3663,11 @@ void BehaviorSub::BehaviorCompilation()
 						}
 					}
 
-					PatchDebug("Processing behavior: " + filepath + " (Check point 1.5, Character bone identification complete)");
+					DebugLogging("Processing behavior: " + filepath + " (Check point 1.5, Character bone identification complete)");
 				}
 				else
 				{
-					PatchDebug("Processing behavior: " + filepath + " (IsCharater: FALSE)");
+					DebugLogging("Processing behavior: " + filepath + " (IsCharater: FALSE)");
 				}
 
 				if (error)
@@ -3787,7 +3785,7 @@ void BehaviorSub::BehaviorCompilation()
 					}
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 2, ID replacement & PCEA record complete)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 2, ID replacement & PCEA record complete)");
 
 				{
 					size_t pos = catalyst[1].find("toplevelobject=");
@@ -4645,7 +4643,7 @@ void BehaviorSub::BehaviorCompilation()
 					}
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 3, Behavior general processing complete)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 3, Behavior general processing complete)");
 
 				if (clipAA.size() == 0 && pceaID.size() == 0 && !activatedBehavior[lowerBehaviorFile] && !characterAA && !newBone)
 				{
@@ -4684,7 +4682,7 @@ void BehaviorSub::BehaviorCompilation()
 							++i;
 						}
 
-						PatchDebug("Processing behavior: " + filepath + " (Check point 3.4, No changes detected)");
+						DebugLogging("Processing behavior: " + filepath + " (Check point 3.4, No changes detected)");
 						emit done();
 						return;
 					}
@@ -4851,7 +4849,7 @@ void BehaviorSub::BehaviorCompilation()
 
 							if (newAnimCount > 0)
 							{
-								PatchDebug("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Animation count" +
+								DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Animation count" +
 									to_string(newAnimCount) + ")");
 								shared_ptr<Furniture> dummyAnimation;
 								int IDMultiplier = newAnimation[templateCode][0]->getNextID(lowerBehaviorFile);
@@ -5174,7 +5172,7 @@ void BehaviorSub::BehaviorCompilation()
 									return;
 								}
 
-								PatchDebug("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Animation count" +
+								DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Animation count" +
 									to_string(newAnimCount) + " COMPLETE)");
 							}
 
@@ -5183,7 +5181,7 @@ void BehaviorSub::BehaviorCompilation()
 					}
 					else
 					{
-						PatchDebug("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count" +
+						DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count" +
 							to_string(BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile].size()) + ")");
 
 						// existing function
@@ -5224,7 +5222,7 @@ void BehaviorSub::BehaviorCompilation()
 							}
 						}
 
-						PatchDebug("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count" +
+						DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count" +
 							to_string(BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile].size()) + " COMPLETE)");
 					}
 
@@ -5242,7 +5240,7 @@ void BehaviorSub::BehaviorCompilation()
 				return;
 			}
 
-			PatchDebug("Processing behavior: " + filepath + " (Check point 4, New animation inclusion complete)");
+			DebugLogging("Processing behavior: " + filepath + " (Check point 4, New animation inclusion complete)");
 			emit progressAdd();
 
 			// AA animation installation
@@ -5250,7 +5248,7 @@ void BehaviorSub::BehaviorCompilation()
 
 			if (clipAA.size() != 0)
 			{
-				PatchDebug("Processing behavior: " + filepath + " (Check point 4.2, AA count " + to_string(clipAA.size()) + ")");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 4.2, AA count " + to_string(clipAA.size()) + ")");
 				unordered_map<string, int> replacerCount;
 
 				for (auto iter = clipAA.begin(); iter != clipAA.end(); ++iter)
@@ -5543,14 +5541,14 @@ void BehaviorSub::BehaviorCompilation()
 					}
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 4.4, AA count " + to_string(clipAA.size()) + " COMPLETE)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 4.4, AA count " + to_string(clipAA.size()) + " COMPLETE)");
 			}
 
 			vecstr PCEALines;
 
 			if (pceaID.size() > 0)
 			{
-				PatchDebug("Processing behavior: " + filepath + " (Check point 4.6, PCEA count " + to_string(pceaID.size()) + ")");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 4.6, PCEA count " + to_string(pceaID.size()) + ")");
 				unordered_map<string, int> replacerCount;
 
 				for (auto& datalist : pceaID)
@@ -5697,7 +5695,7 @@ void BehaviorSub::BehaviorCompilation()
 					catalystMap.erase(catalystMap.find(datalist.first));
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 4.8, PCEA count " + to_string(pceaID.size()) + " COMPLETE)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 4.8, PCEA count " + to_string(pceaID.size()) + " COMPLETE)");
 			}
 
 			emit progressAdd();
@@ -5827,7 +5825,7 @@ void BehaviorSub::BehaviorCompilation()
 				return;
 			}
 
-			PatchDebug("Processing behavior: " + filepath + " (Check point 5, Behavior combine complete)");
+			DebugLogging("Processing behavior: " + filepath + " (Check point 5, Behavior combine complete)");
 			emit progressAdd();
 
 			if (behaviorPath[lowerBehaviorFile].size() == 0)
@@ -5873,12 +5871,12 @@ void BehaviorSub::BehaviorCompilation()
 				return;
 			}
 
-			PatchDebug("Processing behavior: " + filepath + " (Check point 6, Behavior output complete)");
+			DebugLogging("Processing behavior: " + filepath + " (Check point 6, Behavior output complete)");
 			emit progressAdd();
 
 			if (hkxcmdProcess(filename, outputdir))
 			{
-				PatchDebug("Processing behavior: " + filepath + " (Check point 7, Behavior compile complete)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 7, Behavior compile complete)");
 				emit progressAdd();
 			}
 		}
@@ -5934,7 +5932,7 @@ void BehaviorSub::AnimDataCompilation()
 						return;
 					}
 
-					PatchDebug("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
+					DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
 					emit progressAdd();
 
 					int projectcounter = 0;
@@ -6319,7 +6317,7 @@ void BehaviorSub::AnimDataCompilation()
 					}
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 2, AnimData general processing complete)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 2, AnimData general processing complete)");
 				emit progressAdd();
 
 				// check for having newAnimation for the file
@@ -6567,12 +6565,12 @@ void BehaviorSub::AnimDataCompilation()
 					emit progressAdd();
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 3, AnimData general new animations complete)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 3, AnimData general new animations complete)");
 				emit progressAdd();
 
 				if (alternateAnim.size() > 0)
 				{
-					PatchDebug("Processing behavior: " + filepath + " (Check point 3.4, AnimData general new animations complete)");
+					DebugLogging("Processing behavior: " + filepath + " (Check point 3.4, AnimData general new animations complete)");
 
 					// unsure of the function but is present in FNIS
 					unordered_map<string, bool> isExist;
@@ -6620,7 +6618,7 @@ void BehaviorSub::AnimDataCompilation()
 						}
 					}
 
-					PatchDebug("Processing behavior: " + filepath + " (Check point 3.5, AnimData AA complete)");
+					DebugLogging("Processing behavior: " + filepath + " (Check point 3.5, AnimData AA complete)");
 				}
 
 				emit progressAdd();
@@ -6690,7 +6688,7 @@ void BehaviorSub::AnimDataCompilation()
 				}
 			}
 
-			PatchDebug("Processing behavior: " + filepath + " (Check point 4, AnimData format check complete)");
+			DebugLogging("Processing behavior: " + filepath + " (Check point 4, AnimData format check complete)");
 			emit progressAdd();
 
 			// final output	
@@ -6804,7 +6802,7 @@ void BehaviorSub::AnimDataCompilation()
 				return;
 			}
 
-			PatchDebug("Processing behavior: " + filepath + " (Check point 5, AnimData output complete)");
+			DebugLogging("Processing behavior: " + filepath + " (Check point 5, AnimData output complete)");
 			emit progressAdd();
 		}
 		catch (exception& ex)
@@ -6862,7 +6860,7 @@ void BehaviorSub::ASDCompilation()
 					catalyst.pop_back();
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
 				emit progressAdd();
 
 				// add picked behavior and remove not picked behavior 
@@ -6970,7 +6968,7 @@ void BehaviorSub::ASDCompilation()
 					}
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 2, AnimSetData mod selection complete)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 2, AnimSetData mod selection complete)");
 				unordered_map<string, vecstr> animDataSetHeader;
 				animDataSetHeader[project].push_back(header);
 
@@ -7193,7 +7191,7 @@ void BehaviorSub::ASDCompilation()
 					}
 				}
 
-				PatchDebug("Processing behavior: " + filepath + " (Check point 3, AnimSetData general processing complete)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 3, AnimSetData general processing complete)");
 				emit progressAdd();
 			}
 
@@ -7254,7 +7252,7 @@ void BehaviorSub::ASDCompilation()
 								}
 							}
 
-							PatchDebug("Processing behavior: " + filepath + " (Check point 3.5, Mod code: " + templateCode + ", Existing AnimData" +
+							DebugLogging("Processing behavior: " + filepath + " (Check point 3.5, Mod code: " + templateCode + ", Existing AnimData" +
 								to_string(BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile].size()) + ")");
 
 							for (auto it = BehaviorTemplate.existingASDHeader[templateCode].begin(); it != BehaviorTemplate.existingASDHeader[templateCode].end(); ++it)
@@ -7291,7 +7289,7 @@ void BehaviorSub::ASDCompilation()
 								return;
 							}
 
-							PatchDebug("Processing behavior: " + filepath + " (Check point 3.5, Mod code: " + templateCode + ", Existing AnimData" +
+							DebugLogging("Processing behavior: " + filepath + " (Check point 3.5, Mod code: " + templateCode + ", Existing AnimData" +
 								to_string(BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile].size()) + " COMPLETE)");
 						}
 					}
@@ -7374,7 +7372,7 @@ void BehaviorSub::ASDCompilation()
 				emit progressAdd();
 			}
 
-			PatchDebug("Processing behavior: " + filepath + " (Check point 4, AnimSetData new animations complete)");
+			DebugLogging("Processing behavior: " + filepath + " (Check point 4, AnimSetData new animations complete)");
 			emit progressAdd();
 
 			for (unsigned int i = 0; i < projectList.size(); ++i)
@@ -7421,7 +7419,7 @@ void BehaviorSub::ASDCompilation()
 				}
 			}
 
-			PatchDebug("Processing behavior: " + filepath + " (Check point 5, AnimSetData format check complete)");
+			DebugLogging("Processing behavior: " + filepath + " (Check point 5, AnimSetData format check complete)");
 			emit progressAdd();
 
 			// final output	
@@ -7526,7 +7524,7 @@ void BehaviorSub::ASDCompilation()
 				return;
 			}
 
-			PatchDebug("Processing behavior: " + filepath + " (Check point 6, AnimSetData output complete)");
+			DebugLogging("Processing behavior: " + filepath + " (Check point 6, AnimSetData output complete)");
 			emit progressAdd();
 		}
 		catch (exception& ex)

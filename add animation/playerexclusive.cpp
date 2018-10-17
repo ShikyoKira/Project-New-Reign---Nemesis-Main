@@ -93,7 +93,7 @@ void ReadPCEA()
 	for (auto& mod : modlist)
 	{
 		pcealist.push_back(mod.second);
-		PatchDebug("PCEA Mod: " + mod.second.modFile);
+		DebugLogging("PCEA Mod: " + mod.second.modFile);
 		
 		for (auto& anim : pcealist.back().animPathList)
 		{
@@ -107,7 +107,7 @@ void ReadPCEA()
 	if (pcealist.size() > 0)
 	{
 		interMsg(TextBoxMessage(1006) + "Nemesis PCEA");
-		PatchDebug(TextBoxMessage(1006) + "Nemesis PCEA");
+		DebugLogging(TextBoxMessage(1006) + "Nemesis PCEA");
 	}
 }
 
@@ -136,7 +136,7 @@ bool PCEAInstallation()
 #endif
 
 	string filename = skyrimDataPath->GetDataPath() + "Nemesis PCEA.esp";
-	PatchDebug(filename);
+	DebugLogging(filename);
 
 	{
 		FILE* f;
@@ -214,22 +214,22 @@ bool PCEAInstallation()
 		}
 	}
 
-	PatchDebug("PCEA esp modification complete");
+	DebugLogging("PCEA esp modification complete");
 
 	if (error)
 	{
 		return false;
 	}
 
-	PatchDebug("PCEA begin script input");
+	DebugLogging("PCEA begin script input");
 
 	{
 		bf::path source("alternate animation\\nemesis pcea.script");
 		string pscfile = import + "\\Nemesis_PCEA_Core.psc";
 		bf::path target(pscfile);
 		bf::copy_file(source, target, bf::copy_option::overwrite_if_exists);
-		PatchDebug(source.string());
-		PatchDebug(pscfile);
+		DebugLogging(source.string());
+		DebugLogging(pscfile);
 
 		vecstr storeline;
 		vecstr newline;
@@ -291,7 +291,7 @@ bool PCEAInstallation()
 			}
 		}
 
-		PatchDebug("PCEA script input complete");
+		DebugLogging("PCEA script input complete");
 
 		ofstream output(pscfile);
 
@@ -324,6 +324,6 @@ bool PCEAInstallation()
 		}
 	}
 
-	PatchDebug("PCEA core script complete");
+	DebugLogging("PCEA core script complete");
 	return true;
 }

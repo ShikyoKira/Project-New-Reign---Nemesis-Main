@@ -104,8 +104,8 @@ bool AAInstallation()
 
 	string pscfile = import + "\\Nemesis_AA_Core.psc";
 	string filepath = destination + "\\Nemesis_AA_Core.pex";
-	PatchDebug(pscfile);
-	PatchDebug(filepath);
+	DebugLogging(pscfile);
+	DebugLogging(filepath);
 
 	if (!FolderCreate(import))
 	{
@@ -131,8 +131,8 @@ bool AAInstallation()
 
 	pscfile = import + "\\FNIS_aa.psc";
 	filepath = destination + "\\FNIS_aa.pex";
-	PatchDebug(pscfile);
-	PatchDebug(filepath);
+	DebugLogging(pscfile);
+	DebugLogging(filepath);
 
 	source = boost::filesystem::path("alternate animation\\alternate animation 2.script");
 	target = boost::filesystem::path(pscfile);
@@ -202,7 +202,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 	}
 
 	i = 0;
-	PatchDebug("AA prefix script complete");
+	DebugLogging("AA prefix script complete");
 
 	if (groupNameList.size() > 0)		// Assign base value
 	{
@@ -293,7 +293,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 		}
 	}
 
-	PatchDebug("Group base value complete");
+	DebugLogging("Group base value complete");
 
 	for (unsigned int k = 0; k < storeline.size(); ++k)
 	{
@@ -514,7 +514,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 		return false;
 	}
 
-	PatchDebug("AA core script complete");
+	DebugLogging("AA core script complete");
 	return true;
 }
 

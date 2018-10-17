@@ -1,13 +1,14 @@
 #include "debugmsg.h"
 #include "Nemesis Main GUI/master.h"
+#include "Nemesis Main GUI/ErrorMsgBox.h"
 
 using namespace std;
 
 int filenum;
 atomic<int> progressPercentage;
 bool error = false;
-bool isPatch = false;
 DebugMsg DMLog;
+DebugMsg* EnglishLog;
 UpdateFilesStart* process1;
 BehaviorStart* process2;
 DummyLog* process3;
@@ -19,6 +20,11 @@ void writeUTF8File(std::string filename, std::vector<std::string> storeline);
 
 void NewDebugMessage(DebugMsg NewLog)
 {
+	if (!EnglishLog)
+	{
+		EnglishLog = new DebugMsg("english");
+	}
+
 	DMLog = NewLog;
 }
 
@@ -151,6 +157,16 @@ string DMLogWarning(int warningcode)
 	return DMLog.warninglist[warningcode];
 }
 
+string EngLogError(int errorcode)
+{
+	return EnglishLog->errorlist[errorcode];
+}
+
+string EngLogWarning(int warningcode)
+{
+	return EnglishLog->warninglist[warningcode];
+}
+
 string TextBoxMessage(int textcode)
 {
 	if (DMLogWarning(textcode).length() == 0)
@@ -177,25 +193,25 @@ string UIMessage(int uicode)
 
 void interMsg(string input)
 {
-	if (process1 != nullptr)
+	if (process1)
 	{
 		process1->message(input);
 	}
-	else if (process2 != nullptr)
+	else if (process2)
 	{
 		process2->message(input);
 	}
-	else if (process3 != nullptr)
+	else if (process3)
 	{
 		process3->message(input);
 	}
 	else
 	{
-		QMessageBox* msgbox = new QMessageBox;
+		CEMsgBox* msgbox = new CEMsgBox;
 		msgbox->setWindowTitle("CRITICAL ERROR");
 		msgbox->setText("Access process violtion. Running process not found. Report to Nemesis' author immediately.");
-		error = true;
 		msgbox->show();
+		error = true;
 	}
 }
 
