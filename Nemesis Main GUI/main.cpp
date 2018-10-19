@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 	{
 		if (programInitiateCheck())
 		{
-			static NemesisMainGUI w;
+			NemesisMainGUI w;
 
 			skyrimDataPath = new DataPath;
 			bool preError = false;
@@ -119,6 +119,7 @@ int main(int argc, char *argv[])
 			}
 
 			w.show();
+			return a.exec();
 		}
 	}
 
