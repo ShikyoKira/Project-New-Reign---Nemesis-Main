@@ -19,7 +19,6 @@ public:
 
 	NemesisMainGUI(QWidget *parent = Q_NULLPTR);
 	~NemesisMainGUI();
-	
 
 private slots:
 	void handleButton1()
@@ -157,6 +156,7 @@ private slots:
 	{
 		delete ui.DMsg;
 		ui.DMsg = new DebugMsg(language.toStdString());
+		createLanguageCache(language.toStdString());
 		NewDebugMessage(*ui.DMsg);
 		ui.reset(this);
 		emit ui.modView->model()->headerDataChanged(Qt::Horizontal, 0, ui.modView->model()->columnCount());

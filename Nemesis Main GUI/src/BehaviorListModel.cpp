@@ -1,4 +1,5 @@
 #include "BehaviorListModel.h"
+#include "SettingsSave.h"
 #include "master.h"
 
 int BehaviorListModel::rowCount(const QModelIndex& parent) const
@@ -138,6 +139,17 @@ bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value,
 				behaviorList[index.row()].state = Qt::Unchecked;
 			}
 
+			vecstr chosenBehavior;
+
+			for (auto& behavior : behaviorList)
+			{
+				if (behavior.state)
+				{
+					chosenBehavior.push_back(behavior.modname.toStdString());
+				}
+			}
+
+			createModCache(chosenBehavior);
 			emit dataChanged(index, index);
 			return true;
 		}

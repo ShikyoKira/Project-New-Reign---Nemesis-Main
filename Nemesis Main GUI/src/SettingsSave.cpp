@@ -1,48 +1,50 @@
+#include <fstream>
 #include "SettingsSave.h"
 #include "Global.h"
 #include "alphanum.hpp"
-#include <fstream>
-#include <QMessageBox>
+#include "ErrorMsgBox.h"
 
-void createCache(std::string language, std::vector<std::string> chosenBehavior)
+void createLanguageCache(std::string language)
 {
 	if (CreateFolder("cache"))
 	{
-		std::ofstream cachefile("cache\\settings");
+		std::ofstream cachefile("cache\\language setting");
 
 		if (cachefile.is_open())
 		{
-			std::vector<std::string> storeline;
+			cachefile << language;
+			cachefile.close();
+		}
+		else
+		{
+			CEMsgBox* msg = new CEMsgBox;
+			msg->setWindowTitle("ERROR");
+			msg->setText("Error: Failed to create cache file. Please ensure Nemesis has permission to create file in current folder");
+			msg->show();
+		}
+	}
+}
 
-			storeline.push_back("*LANGUAGE");
-			storeline.push_back("\n");
-			storeline.push_back(language);
-			storeline.push_back("\n");
-			storeline.push_back("\n");
-			storeline.push_back("*MODS");
-			storeline.push_back("\n");
+void createModCache(std::vector<std::string> chosenBehavior)
+{
+	if (CreateFolder("cache"))
+	{
+		std::ofstream cachefile("cache\\mod settings");
 
+		if (cachefile.is_open())
+		{
 			for (auto& line : chosenBehavior)
 			{
-				storeline.push_back(line);
-				storeline.push_back("\n");
-			}
-
-			storeline.pop_back();
-
-			for (auto& line : storeline)
-			{
-				cachefile << line;
+				cachefile << line + "\n";
 			}
 
 			cachefile.close();
 		}
 		else
 		{
-			QMessageBox* msg = new QMessageBox;
+			CEMsgBox* msg = new CEMsgBox;
 			msg->setWindowTitle("ERROR");
 			msg->setText("Error: Failed to create cache file. Please ensure Nemesis has permission to create file in current folder");
-			msg->setAttribute(Qt::WA_DeleteOnClose);
 			msg->show();
 		}
 	}
@@ -55,66 +57,72 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
 		return false;
 	}
 
-	std::string filename = "cache\\settings";
-
-	if (!isFileExist(filename))
 	{
-		return false;
-	}
+		std::string filename = "cache\\language setting";
+		vecstr storeline;
 
-	vecstr storeline;
-
-	if (!GetFunctionLines(filename, storeline, false))
-	{
-		return false;
-	}
-
-	bool lang = false;
-	bool behavior = false;
-	int done = 0;
-
-	for (auto& line : storeline)
-	{
-		if (line.length() != 0)
+		if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
 		{
-			if (line == "*LANGUAGE")
-			{
-				lang = true;
-				++done;
-			}
-			else if (line == "*MODS")
-			{
-				behavior = true;
-				++done;
-			}
-			else if (behavior)
-			{
-				chosenBehavior[line] = true;
-			}
-			else if (lang)
-			{
-				language = line;
-			}
+			language = "english";
 		}
 		else
 		{
-			lang = false;
-			behavior = false;
+			for (auto& line : storeline)
+			{
+				if (line.length() > 0)
+				{
+					language = line;
+				}
+			}
+
+			if (language.length() == 0)
+			{
+				QMessageBox* msg = new QMessageBox;
+				msg->setWindowTitle("WARNING");
+				msg->setText("Warning: Failed to read language cache file. Language is set to the default language (english)");
+				msg->setAttribute(Qt::WA_DeleteOnClose);
+				msg->setIcon(QMessageBox::Warning);
+				msg->show();
+				language = "english";
+			}
 		}
 	}
 
-	if (done == 2)
 	{
-		return true;
-	}
-	else
-	{
-		QMessageBox* msg = new QMessageBox;
-		msg->setWindowTitle("WARNING");
-		msg->setText("Warning: Failed to read cache file. Settings are set to default");
-		msg->setAttribute(Qt::WA_DeleteOnClose);
-		msg->setIcon(QMessageBox::Warning);
-		msg->show();
+		std::string filename = "cache\\mod settings";
+		vecstr storeline;
+
+		if (!isFileExist(filename))
+		{
+			return false;
+		}
+
+		if (!GetFunctionLines(filename, storeline, false))
+		{
+			return false;
+		}
+
+		for (auto& line : storeline)
+		{
+			if (line.length() > 0)
+			{
+				chosenBehavior[line] = true;
+			}
+		}
+
+		if (chosenBehavior.size() == 0)
+		{
+			QMessageBox* msg = new QMessageBox;
+			msg->setWindowTitle("WARNING");
+			msg->setText("Warning: Failed to read mod cache file. All mods will be reverted to unchecked state");
+			msg->setAttribute(Qt::WA_DeleteOnClose);
+			msg->setIcon(QMessageBox::Warning);
+			msg->show();
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	return false;

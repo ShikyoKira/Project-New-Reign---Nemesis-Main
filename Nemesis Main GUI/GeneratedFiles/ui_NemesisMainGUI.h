@@ -323,8 +323,6 @@ public:
 		}
 		else
 		{
-			language = "english";
-
 			for (unsigned int i = 0; i < languagelist.size(); ++i)
 			{
 				std::string curLang = GetFileName(languagelist[i]);
