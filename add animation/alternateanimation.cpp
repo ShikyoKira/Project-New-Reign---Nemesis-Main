@@ -31,6 +31,7 @@ void AAInitialize(string AAList)
 	vecstr groupName;
 	char charline[2000];
 	unordered_map<string, string> existAAAnim;			// animation name, animation group name; has the animation been registered for AA?
+	DebugLogging("Caching alternate animation group...");
 	read_directory(AAList, groupName);
 
 	for (unsigned int i = 0; i < groupName.size(); ++i)
@@ -79,6 +80,8 @@ void AAInitialize(string AAList)
 			}
 		}
 	}
+
+	DebugLogging("Caching alternate animation complete");
 }
 
 bool AAInstallation()
@@ -115,8 +118,7 @@ bool AAInstallation()
 	fixedKeyInitialize();
 	boost::filesystem::path source("alternate animation\\alternate animation.script");
 	boost::filesystem::path target(pscfile);
-	boost::filesystem::copy_file(source, target, boost::filesystem::copy_option::overwrite_if_exists);
-	
+	boost::filesystem::copy_file(source, target, boost::filesystem::copy_option::overwrite_if_exists);	
 	vecstr newFunctions;
 	
 	if (!AACoreCompile(pscfile, import, destination, filepath, newFunctions, uniquekey))
@@ -482,8 +484,6 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 		uniquekey = uniquekey % 987123;
 	}
 
-	namespace bf = boost::filesystem;
-
 	ofstream output(filename);
 
 	if (output.is_open())
@@ -547,7 +547,6 @@ bool AAnimAPICompile(string filename, string import, string destination, string 
 	}
 
 	newline.insert(newline.end(), newFunctions.begin(), newFunctions.end());
-	namespace bf = boost::filesystem;
 	ofstream output(filename);
 
 	if (output.is_open())
@@ -693,31 +692,17 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 			timeline = GetLastModified(filepath);
 		}
 	}
-
-	if (isFileExist(target.string()))
+		
+	if (!isFileExist(target.string()) || !PapyrusCompileProcess(pscfile, import, destination, filepath, target))
 	{
-		PapyrusCompileProcess(pscfile, import, destination, filepath, target);
-	}
-	else
-	{
-		string compiler;
-		string additional;
-
-		//backup compiler
-		if (SSE)
-		{
-			compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
-			additional = ";C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim Special Edition\\Data\\Source\\Scripts;C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim Special Edition\\Data\\Source";
-		}
-		else
-		{
-			compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
-			additional = ";C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim\\Data\\scripts\\Source";
-		}		
+		string compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
 
 		if (isFileExist(compiler))
 		{
-			PapyrusCompileProcess(pscfile, import + additional, destination, filepath, compiler);
+			if (!PapyrusCompileProcess(pscfile, import, destination, filepath, compiler))
+			{
+				return false;
+			}
 		}
 		else
 		{
@@ -740,8 +725,14 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 
 bool PapyrusCompileProcess(string pscfile, string scriptsource, string destination, string filepath, boost::filesystem::path compiler)
 {
-	vecstr args{ GetFileName(pscfile) + ".psc", "-f=TESV_Papyrus_Flags.flg" , "-i=" + scriptsource , "-o=" + destination};
+	vecstr args{ GetFileName(pscfile) + ".psc", "-f=TESV_Papyrus_Flags.flg" , "-i=" + scriptsource + ";Papyrus Compiler\\backup scripts" , "-o=" + destination};
 	future<vector<char>> p_reader, p_error;
+	
+	if (isFileExist(filepath) && !boost::filesystem::remove(filepath))
+	{
+		ErrorMessage(1082, filepath);
+		return false;
+	}
 
 	try
 	{
@@ -755,11 +746,14 @@ bool PapyrusCompileProcess(string pscfile, string scriptsource, string destinati
 		catch (const std::exception& ex)
 		{
 			interMsg(ex.what());
+			return false;
 		}
 	}
 	catch (...)
 	{
 		interMsg("Non conventional exception captured");
+		DebugLogging("Non conventional exception captured");
+		return false;
 	}
 
 	if (!isFileExist(filepath))
@@ -801,13 +795,14 @@ bool PapyrusCompileProcess(string pscfile, string scriptsource, string destinati
 			line.append(linelist.back());
 		}
 
-		if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND && line.find("0 failed") != NOT_FOUND)
+		if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND && line.find("0 error") != NOT_FOUND)
 		{
 			return true;
 		}
 
 		ErrorMessage(1185, filepath);
 		interMsg("Output: \n" + line);
+		DebugLogging("\nOutput: \n" + line, false);
 		return false;
 	}
 
