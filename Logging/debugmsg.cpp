@@ -207,6 +207,7 @@ void interMsg(string input)
 	}
 	else
 	{
+		DebugLogging("Non-captured message: " + input);
 		CEMsgBox* msgbox = new CEMsgBox;
 		msgbox->setWindowTitle("CRITICAL ERROR");
 		msgbox->setText("Access process violtion. Running process not found. Report to Nemesis' author immediately.");
@@ -232,6 +233,7 @@ void connectProcess(DummyLog* newProcess)
 
 void disconnectProcess()
 {
+	DebugLogging("Standard log disconnected");
 	process1 = nullptr;
 	process2 = nullptr;
 	process3 = nullptr;

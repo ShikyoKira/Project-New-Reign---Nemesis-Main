@@ -7,7 +7,7 @@ using namespace std;
 vecstr updatelog;
 vecstr patchlog;
 atomic_flag debuglock = ATOMIC_FLAG_INIT;
-string filename;
+string filename = "CriticalLog.txt";
 
 string currentTime();
 
@@ -21,13 +21,16 @@ string currentTime()
 	return boost::posix_time::to_simple_string(boost::posix_time::second_clock::local_time());
 }
 
-void DebugLogging(string line)
+void DebugLogging(string line, bool noEndLine)
 {
 	int size = count(line.begin(), line.end(), '\n');
 
-	for (unsigned int i = 0; i < size; ++i)
+	if (noEndLine)
 	{
-		line.replace(line.find("\n"), 1, " | ");
+		for (unsigned int i = 0; i < size; ++i)
+		{
+			line.replace(line.find("\n"), 1, " | ");
+		}
 	}
 
 	string whole = "[" + currentTime() + "] " + line + "\n";

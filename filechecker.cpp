@@ -6,6 +6,7 @@ using namespace std;
 bool FileCheck(bool isUpdate)
 {
 	string file = "alternate animation";
+	DebugLogging("Initializing file check...");
 
 	if (!isFileExist(file))
 	{
@@ -76,11 +77,13 @@ bool FileCheck(bool isUpdate)
 		return false;
 	}
 
+	DebugLogging("File Check complete");
 	return true;
 }
 
 bool PCEACheck()
 {
+	DebugLogging("Initializing PCEA Check...");
 	string file = skyrimDataPath->GetDataPath() + "Nemesis PCEA.esp";
 
 	if (isFileExist(file))
@@ -102,6 +105,7 @@ bool PCEACheck()
 		}
 	}
 
+	DebugLogging("PCEA Check complete");
 	return true;
 }
 

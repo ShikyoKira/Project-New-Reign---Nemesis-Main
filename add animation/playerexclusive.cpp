@@ -13,6 +13,7 @@ unordered_map<string, vector<PCEAData>> animReplaced;
 
 void ReadPCEA()
 {
+	DebugLogging("Reading PCEA files...");
 	vector<PCEA> dummyVector;
 	pcealist = dummyVector;
 	unordered_map<string, vector<PCEAData>> dummyMap;

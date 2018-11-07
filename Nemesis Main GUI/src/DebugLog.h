@@ -8,7 +8,7 @@
 typedef std::vector<std::string> vecstr;
 
 void DebugOutput();
-void DebugLogging(std::string line);
+void DebugLogging(std::string line, bool noEndLine = true);
 void UpdateReset();
 void PatchReset();
 
