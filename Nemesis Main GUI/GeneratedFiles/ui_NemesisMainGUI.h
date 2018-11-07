@@ -20,6 +20,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QWidget>
+#include <QtGui/QFontDatabase.h>
 #include "BehaviorListView.h"
 #include "ErrorMsgBox.h"
 #include "SettingsSave.h"
@@ -33,7 +34,6 @@ public:
 	QGridLayout *gridLayout;
 	BehaviorListView *modView;
 	QSpacerItem *horizontalSpacer;
-	QSpacerItem *verticalSpacer;
 	AnimProgressBar *animProgressBar;
 	QTextBrowser *textBrowser;
 	QProgressBar *progressBar;
@@ -50,14 +50,14 @@ public:
 	{
 		if (NemesisMainGUIClass->objectName().isEmpty())
 			NemesisMainGUIClass->setObjectName(QStringLiteral("NemesisMainGUIClass"));
-		NemesisMainGUIClass->resize(526, 686);
+		NemesisMainGUIClass->resize(526, 750);
 		QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 		sizePolicy.setHorizontalStretch(0);
 		sizePolicy.setVerticalStretch(0);
 		sizePolicy.setHeightForWidth(NemesisMainGUIClass->sizePolicy().hasHeightForWidth());
 		NemesisMainGUIClass->setSizePolicy(sizePolicy);
 		NemesisMainGUIClass->setMinimumSize(QSize(526, 559));
-		NemesisMainGUIClass->setMaximumSize(QSize(526, 800));
+		NemesisMainGUIClass->setMaximumSize(QSize(526, 950));
 		gridLayout = new QGridLayout(NemesisMainGUIClass);
 		gridLayout->setSpacing(6);
 		gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -99,10 +99,6 @@ public:
 
 		gridLayout->addItem(horizontalSpacer, 4, 0, 1, 1);
 
-		verticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Fixed);
-
-		gridLayout->addItem(verticalSpacer, 0, 8, 1, 1);
-
 		animProgressBar = new AnimProgressBar(NemesisMainGUIClass);
 		animProgressBar->setObjectName(QStringLiteral("animProgressBar"));
 		animProgressBar->setMaximum(MAX_ANIM);
@@ -136,16 +132,11 @@ public:
 		sizePolicy2.setVerticalStretch(0);
 		sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
 		label->setSizePolicy(sizePolicy2);
-		label->setMinimumSize(QSize(0, 40));
-		QFont font;
-		font.setFamily(QStringLiteral("Cambria"));
-		font.setPointSize(16);
-		font.setBold(true);
-		font.setWeight(75);
-		label->setFont(font);
-		label->setTextFormat(Qt::RichText);
+		label->setMinimumSize(QSize(235, 55));
+		label->setMaximumSize(QSize(235, 55));
+		label->setScaledContents(true);
 
-		gridLayout->addWidget(label, 0, 0, 2, 6);
+		gridLayout->addWidget(label, 0, 2, 2, 4);
 
 		horizontalSpacer_3 = new QSpacerItem(80, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
@@ -208,9 +199,9 @@ public:
 	{
 		NemesisMainGUIClass->setWindowTitle(QApplication::translate("NemesisMainGUIClass", "Nemesis Ultimate Behavior Engine", nullptr));
 
+		backUp(NemesisMainGUIClass);
 		GetSettings();
 		reset(NemesisMainGUIClass);
-		backUp(NemesisMainGUIClass);
 
 		QObject::connect(buttonLaunch, SIGNAL(released()), NemesisMainGUIClass, SLOT(handleButton1()));
 		QObject::connect(buttonUpdate, SIGNAL(released()), NemesisMainGUIClass, SLOT(handleButton2()));
@@ -238,7 +229,7 @@ public:
 	void reset(QWidget* NemesisMainGUIClass)
 	{
 		NemesisMainGUIClass->setWindowTitle(QApplication::translate("NemesisMainGUIClass", UIMessage(1000).c_str(), nullptr));
-		label->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1000).c_str(), nullptr));
+		label->setPixmap(QPixmap(":/background/Resources/title header 2.jpg"));
 		animProgressBar->setToolTip(QApplication::translate("NemesisMainGUIClass", UIMessage(1004).c_str(), nullptr));
 		buttonUpdate->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1003).c_str(), nullptr));
 		buttonCheck->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1002).c_str(), nullptr));
@@ -345,7 +336,6 @@ public:
 	{
 		DLog = new DummyLog;
 		connectProcess(DLog);
-
 		QObject::connect(DLog, SIGNAL(incomingMessage(QString)), NemesisMainGUIClass, SLOT(sendMessage(QString)));
 	}
 };
