@@ -17,12 +17,40 @@ DataPath::DataPath()
 	}
 	else
 	{
-		size_t pos = wordFind(bf::current_path().string(), "\\Data\\");
+		string curpath;
+
+		{
+			char buffer[MAX_PATH];
+			GetModuleFileNameA(NULL, buffer, MAX_PATH);
+			curpath = string(buffer).substr(0, string(buffer).find_last_of("\\/"));
+		}
+
+		size_t pos = wordFind(curpath, "\\Data\\");
 
 		if (pos != NOT_FOUND)
 		{
 			vecstr filelist;
-			read_directory(bf::current_path().string().substr(0, pos), filelist);
+			string skyrimDataDirect;
+
+			{
+				bf::path path(curpath);
+				size_t counter = count(curpath.begin(), curpath.end(), '\\');
+				size_t i = 0;
+
+				while (i < counter)
+				{
+					if (boost::iequals(path.stem().string(), "data"))
+					{
+						skyrimDataDirect = path.string();
+						break;
+					}
+
+					path = path.parent_path();
+					++i;
+				}
+
+				read_directory(path.parent_path().string(), filelist);
+			}
 
 			for (auto& file : filelist)
 			{
@@ -42,6 +70,7 @@ DataPath::DataPath()
 				}
 			}
 
+			// get skyrim data directory from registry key
 			DWORD dwType = REG_SZ;
 			HKEY hKey = 0;
 			char value[1024];
@@ -56,11 +85,12 @@ DataPath::DataPath()
 				RegOpenKey(HKEY_LOCAL_MACHINE, "SOFTWARE\\Bethesda Softworks\\Skyrim", &hKey);
 			}
 
-			RegQueryValueEx(hKey, "installed path", NULL, &dwType, (LPBYTE)&value, &value_length);
+			LONG result = RegQueryValueEx(hKey, "installed path", NULL, &dwType, (LPBYTE)&value, &value_length);
+
 			dataPath = value;
 			dataPath = dataPath + "Data\\";
 
-			if (!isFileExist(dataPath))
+			if (result != ERROR_SUCCESS || !isFileExist(dataPath))
 			{
 				if (SSE)
 				{
@@ -71,31 +101,14 @@ DataPath::DataPath()
 					RegOpenKey(HKEY_LOCAL_MACHINE, "SOFTWARE\\Wow6432Node\\Bethesda Softworks\\Skyrim", &hKey);
 				}
 
-				RegQueryValueEx(hKey, "installed path", NULL, &dwType, (LPBYTE)&value, &value_length);
+				result = RegQueryValueEx(hKey, "installed path", NULL, &dwType, (LPBYTE)&value, &value_length);
 				dataPath = value;
 				dataPath = dataPath + "Data\\";
 
-				if (!isFileExist(dataPath))
+				// data path directly from address
+				if (result != ERROR_SUCCESS || !isFileExist(dataPath))
 				{
-					bf::path pirated = bf::current_path();
-
-					size_t counter = count(pirated.string().begin(), pirated.string().end(), '\\');
-					size_t i = 0;
-
-					while (i < counter)
-					{
-						string temp = pirated.string();
-						temp = boost::regex_replace(string(boost::to_lower_copy(temp)), boost::regex(".*\\d(at)a$"), string("\\1"));
-
-						if (temp != pirated.string())
-						{
-							dataPath = pirated.string();
-							break;
-						}
-
-						pirated = pirated.parent_path();
-						++i;
-					}
+					dataPath = skyrimDataDirect;
 
 					if (dataPath.back() == '\\')
 					{
@@ -105,7 +118,7 @@ DataPath::DataPath()
 					}
 					else
 					{
-						dataPath += "\\";
+						dataPath.append("\\");
 					}
 				}
 			}
@@ -113,10 +126,11 @@ DataPath::DataPath()
 		else
 		{
 			ErrorMessage(1008);
+			interMsg("Detected Path: " + curpath);
+			DebugLogging("Detected Path: " + curpath);
 			return;
 		}
 	}
-
 }
 
 string DataPath::GetDataPath()

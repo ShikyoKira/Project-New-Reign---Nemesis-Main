@@ -1861,6 +1861,7 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 void UpdateFilesStart::milestoneStart(string directory)
 {
 	UpdateReset();
+	namespace bf = boost::filesystem;
 
 	try
 	{
@@ -1868,11 +1869,16 @@ void UpdateFilesStart::milestoneStart(string directory)
 	}
 	catch (int)
 	{
+		DebugLogging("Nemesis Behavior Version: Failed to get tool version");
 		return;
 	}
 
-	DebugLogging("Current Directory: " + boost::filesystem::current_path().string());
-	DebugLogging("Data Directory: " + skyrimDataPath->GetDataPath());
+	{
+		char buffer[MAX_PATH];
+		GetModuleFileNameA(NULL, buffer, MAX_PATH);
+		DebugLogging("Current Directory: " + string(buffer).substr(0, string(buffer).find_last_of("\\/")));
+		DebugLogging("Data Directory: " + skyrimDataPath->GetDataPath());
+	}
 
 	if (SSE)
 	{
@@ -1891,18 +1897,19 @@ void UpdateFilesStart::milestoneStart(string directory)
 	string path = skyrimDataPath->GetDataPath() + "meshes";
 #endif
 
+	DebugLogging("Detecting processes...");
 	GetFileLoop(path + "\\");
 
-	if (isFileExist(directory) || boost::filesystem::create_directory(directory))
+	if (isFileExist(directory) || bf::create_directory(directory))
 	{
 		vecstr filelist;
 		read_directory(directory, filelist);
 
 		for (auto& file1 : filelist)
 		{
-			boost::filesystem::path curPath(directory + file1);
+			bf::path curPath(directory + file1);
 
-			if (boost::filesystem::is_directory(curPath))
+			if (bf::is_directory(curPath))
 			{
 				string newPath = directory + file1 + "\\";
 				vecstr filelist2;
@@ -1910,9 +1917,9 @@ void UpdateFilesStart::milestoneStart(string directory)
 
 				for (auto& file2 : filelist2)
 				{
-					boost::filesystem::path curPath(newPath + file2);
+					bf::path curPath(newPath + file2);
 
-					if (boost::filesystem::is_directory(curPath))
+					if (bf::is_directory(curPath))
 					{
 						++filenum;
 					}
@@ -1921,6 +1928,7 @@ void UpdateFilesStart::milestoneStart(string directory)
 		}
 	}
 
+	DebugLogging("Process count: " + to_string(filenum));
 	emit progressMax(filenum);
 	connectProcess(this);
 }
@@ -2100,7 +2108,7 @@ void BehaviorStart::GenerateBehavior()
 			unordered_map<string, var> AnimVar;
 			unordered_map<string, vector<string>> modAnimBehavior;				// behavior directory, list of behavior files; use to get behavior reference
 			unordered_map<string, unordered_map<int, bool>> ignoreFunction;		// behavior file, function ID, true/false; is the function part of animation template?
-
+			
 			if (PCEACheck())
 			{
 				ReadPCEA();
@@ -2117,6 +2125,8 @@ void BehaviorStart::GenerateBehavior()
 			{
 				interMsg("");
 			}
+
+			DebugLogging("Registering new animations...");
 
 			// read each animation list file'
 			for (unsigned int i = 0; i < animationList.size(); ++i)
@@ -2820,6 +2830,7 @@ void BehaviorStart::GenerateBehavior()
 				}
 
 				filenum += (multi * 10);
+				DebugLogging("Process count: " + to_string(filenum));
 				emit progressMax(filenum);
 			}
 
@@ -2853,23 +2864,17 @@ void BehaviorStart::GenerateBehavior()
 				QThread* ScriptThread = new QThread;
 				InstallScripts* ScriptWorker = new InstallScripts;		// install PCEA & AA script
 				connect(ScriptThread, SIGNAL(started()), ScriptWorker, SLOT(Run()));
+				connect(ScriptWorker, SIGNAL(end()), behaviorProcess, SLOT(EndAttempt()));
 				connect(ScriptWorker, SIGNAL(end()), ScriptThread, SLOT(quit()));
 				connect(ScriptWorker, SIGNAL(end()), ScriptWorker, SLOT(deleteLater()));
 				connect(ScriptThread, SIGNAL(finished()), ScriptThread, SLOT(deleteLater()));
 				ScriptWorker->moveToThread(ScriptThread);
 				ScriptThread->start();
+				++m_RunningThread;
 			}
 
 			vecstr filelist;
 			read_directory(directory, filelist);
-
-			if (error)
-			{
-				ClearGlobal();
-				unregisterProcess();
-				return;
-			}
-
 			emit progressUp();
 			vector<QThread*> behaviorThreads;
 
@@ -2959,13 +2964,18 @@ void BehaviorStart::GenerateBehavior()
 					vecstr fpfilelist;
 					read_directory(directory + filelist[i], fpfilelist);
 
-					for (unsigned int j = 0; j < fpfilelist.size(); ++j)
+					for (auto& curfile : fpfilelist)
 					{
-						fpfilelist[j] = filelist[i] + "\\" + fpfilelist[j];
+						curfile = filelist[i] + "\\" + curfile;
 					}
 
 					for (unsigned int j = 0; j < fpfilelist.size(); ++j)
 					{
+						if (error)
+						{
+							break;
+						}
+
 						if (!boost::filesystem::is_directory(directory + fpfilelist[j]))
 						{
 							string modID = "";
@@ -3056,9 +3066,7 @@ void BehaviorStart::GenerateBehavior()
 						thread->start();
 					}
 
-					ClearGlobal();
-					unregisterProcess();
-					return;
+					break;
 				}
 			}
 
@@ -3066,8 +3074,6 @@ void BehaviorStart::GenerateBehavior()
 			{
 				thread->start();
 			}
-
-			EndAttempt();
 		}
 		catch (exception& ex)
 		{
@@ -3078,6 +3084,8 @@ void BehaviorStart::GenerateBehavior()
 	{
 		ErrorMessage(6002, "Unknown");
 	}
+
+	EndAttempt();
 }
 
 void BehaviorStart::milestoneStart()
@@ -3092,9 +3100,13 @@ void BehaviorStart::milestoneStart()
 	{
 		return;
 	}
-
-	DebugLogging("Current Directory: " + boost::filesystem::current_path().string());
-	DebugLogging("Data Directory: " + skyrimDataPath->GetDataPath());
+	
+	{
+		char buffer[MAX_PATH];
+		GetModuleFileNameA(NULL, buffer, MAX_PATH);
+		DebugLogging("Current Directory: " + string(buffer).substr(0, string(buffer).find_last_of("\\/")));
+		DebugLogging("Data Directory: " + skyrimDataPath->GetDataPath());
+	}
 
 	if (SSE)
 	{
@@ -3128,6 +3140,7 @@ void BehaviorStart::milestoneStart()
 	}
 	else
 	{
+		DebugLogging("Detecting processes...");
 		read_directory(directory, filelist);
 
 		if (isFileExist(directory + "\\xml"))
@@ -3202,6 +3215,7 @@ void BehaviorStart::unregisterProcess()
 
 void BehaviorStart::EndAttempt()
 {
+	while (atomic_lock.test_and_set(memory_order_acquire));
 	--m_RunningThread;
 
 	if (m_RunningThread == 0)
@@ -3222,6 +3236,8 @@ void BehaviorStart::EndAttempt()
 
 		unregisterProcess();
 	}
+
+	atomic_lock.clear(memory_order_release);
 }
 
 void BehaviorStart::increaseAnimCount()
@@ -4774,7 +4790,7 @@ void BehaviorSub::BehaviorCompilation()
 							}
 						}
 					}
-
+					
 					if (BehaviorTemplate.behaviortemplate.find(templateCode + "_master") != BehaviorTemplate.behaviortemplate.end())
 					{
 						if (BehaviorTemplate.behaviortemplate[templateCode + "_master"].find(lowerBehaviorFile) != BehaviorTemplate.behaviortemplate[templateCode +
