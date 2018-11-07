@@ -8,6 +8,12 @@ int main(int argc, char *argv[])
 	bool generate = false;
 	bool update = false;
 	vecstr modlist;
+
+	if (isFileExist("CriticalLog.txt"))
+	{
+		boost::filesystem::remove("CriticalLog.txt");
+	}
+
 	QApplication a(argc, argv);
 
 	if (argc > 1)
@@ -19,6 +25,7 @@ int main(int argc, char *argv[])
 				if (generate)
 				{
 					std::cout << "Invalid arguments. \"update\" argument and \"generate\" arugment cannot be used simultaneously";
+					std::cout << "Failed to generate behavior";
 					return 1;
 				}
 
@@ -29,6 +36,7 @@ int main(int argc, char *argv[])
 				if (update)
 				{
 					std::cout << "Invalid arguments. \"update\" argument and \"generate\" arugment cannot be used simultaneously";
+					std::cout << "Failed to generate behavior";
 					return 1;
 				}
 
@@ -63,8 +71,6 @@ int main(int argc, char *argv[])
 			skyrimDataPath = new DataPath;
 			CmdGenerateInitialize(modlist);
 		}
-
-		return 1;
 	}
 	else if (update)
 	{
@@ -89,33 +95,23 @@ int main(int argc, char *argv[])
 			CmdUpdateInitialize();
 		}
 	}
-	else
+	else if (programInitiateCheck())
 	{
-		if (programInitiateCheck())
+		NemesisMainGUI w;
+
+		if (!error)
 		{
-			NemesisMainGUI w;
-
+			w.setWindowIcon(QIcon(":/icon/title icon.png"));
 			skyrimDataPath = new DataPath;
-			bool preError = false;
 
 			if (error)
-			{
-				preError = error;
-				error = false;
-			}
-
-			if (error)
-			{
-				return 1;
-			}
-
-			if (preError)
 			{
 				w.ui.buttonCheck->setDisabled(true);
 				w.ui.buttonLaunch->setDisabled(true);
 				w.ui.buttonUpdate->setDisabled(true);
 				w.ui.modView->setDisabled(true);
 				w.ui.comboBox->setDisabled(true);
+				error = false;
 			}
 
 			w.show();

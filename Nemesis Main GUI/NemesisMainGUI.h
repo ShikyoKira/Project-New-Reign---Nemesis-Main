@@ -10,7 +10,7 @@
 class NemesisMainGUI : public QWidget
 {
 	Q_OBJECT
-
+		
 public:
 	Ui::NemesisMainGUIClass ui;
 	std::atomic_flag lock = ATOMIC_FLAG_INIT;
