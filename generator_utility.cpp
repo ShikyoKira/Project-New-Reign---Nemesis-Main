@@ -242,6 +242,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 	vector<unique_ptr<registerAnimation>> list;
 	set<string> animPath;
 	AAInitialize("alternate animation");
+	DebugLogging("Reading new animations...");
 
 	for (auto it = behaviortemplate.grouplist.begin(); it != behaviortemplate.grouplist.end(); ++it)
 	{
@@ -286,30 +287,31 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 		read_directory(animationDirectory, filelist1);
 
-		for (unsigned int l = 0; l < filelist1.size(); ++l)
+		for(auto& file1 : filelist1)
 		{
-			boost::filesystem::path FOF(animationDirectory + filelist1[l]);
+			boost::filesystem::path FOF(animationDirectory + file1);
 
 			if (boost::filesystem::is_directory(FOF))
 			{
-				read_directory(animationDirectory + filelist1[l], filelist2);
+				read_directory(animationDirectory + file1, filelist2);
 
-				for (unsigned int k = 0; k < filelist2.size(); ++k)
+				for (auto& file2 : filelist2)
 				{
-					if (wordFind(filelist2[k], "_" + filelist1[l] + "_List.txt") != NOT_FOUND)
+					if (wordFind(file2, "_" + file1 + "_List.txt") != NOT_FOUND)
 					{
-						string fileToolName = filelist2[k].substr(0, filelist2[k].find("_", 0) + 1);
-						string listword = filelist2[k].substr(filelist2[k].find_last_of("_"));
-						string behaviorfile = fileToolName + filelist1[l] + "_Behavior.hkx";
+						string fileToolName = file2.substr(0, file2.find("_", 0) + 1);
+						string listword = file2.substr(file2.find_last_of("_"));
+						string behaviorfile = fileToolName + file1 + "_Behavior.hkx";
 						string modBehavior = directory + "Behaviors\\" + behaviorfile;
+						DebugLogging("Reading animation mod: " + file1);
 
 						if (fileToolName == "FNIS_" && listword == "_List.txt")
 						{
-							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "\\", filelist2[k], behaviortemplate, modBehavior, behaviorfile));
+							list.emplace_back(make_unique<registerAnimation>(animationDirectory + file1 + "\\", file2, behaviortemplate, modBehavior, behaviorfile));
 						}
 						else if (fileToolName == "Nemesis_" && listword == "_List.txt")
 						{
-							list.emplace_back(make_unique<registerAnimation>(animationDirectory + filelist1[l] + "\\", filelist2[k], behaviortemplate, modBehavior, behaviorfile, true));
+							list.emplace_back(make_unique<registerAnimation>(animationDirectory + file1 + "\\", file2, behaviortemplate, modBehavior, behaviorfile, true));
 						}
 
 						if (error)
@@ -324,6 +326,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 		}
 	}
 
+	DebugLogging("Reading new animations complete");
 	return list;
 }
 
@@ -785,17 +788,23 @@ void characterHKX()
 
 string GetFileName(string filepath)
 {
-	size_t nextpos;
-	size_t lastpos;
-	string filename;
-
-	if (filepath.find("/") != NOT_FOUND)
+	if (!isFileExist(filepath))
 	{
-		if (filepath.find("\\") != NOT_FOUND)
+		size_t nextpos;
+		size_t lastpos;
+
+		if (filepath.find("/") != NOT_FOUND)
 		{
-			if (filepath.find_last_of("/") < filepath.find_last_of("\\"))
+			if (filepath.find("\\") != NOT_FOUND)
 			{
-				nextpos = filepath.find_last_of("\\") + 1;
+				if (filepath.find_last_of("/") < filepath.find_last_of("\\"))
+				{
+					nextpos = filepath.find_last_of("\\") + 1;
+				}
+				else
+				{
+					nextpos = filepath.find_last_of("/") + 1;
+				}
 			}
 			else
 			{
@@ -804,27 +813,24 @@ string GetFileName(string filepath)
 		}
 		else
 		{
-			nextpos = filepath.find_last_of("/") + 1;
+			nextpos = filepath.find_last_of("\\") + 1;
+		}
+
+		lastpos = filepath.find_last_of(".");
+
+		if (lastpos == NOT_FOUND)
+		{
+			return filepath.substr(nextpos);
+		}
+		else
+		{
+			return filepath.substr(nextpos, lastpos - nextpos);
 		}
 	}
 	else
 	{
-		nextpos = filepath.find_last_of("\\") + 1;
+		return boost::filesystem::path(filepath).stem().string();
 	}
-
-
-	lastpos = filepath.find(".", nextpos);
-
-	if (lastpos == NOT_FOUND)
-	{
-		filename = filepath.substr(nextpos);
-	}
-	else
-	{
-		filename = filepath.substr(nextpos, lastpos - nextpos);
-	}
-
-	return filename;
 }
 
 string GetFileDirectory(string filepath)
@@ -958,21 +964,11 @@ bool newAnimSkip(vector<shared_ptr<Furniture>> newAnim, string modID)
 
 void ClearGlobal(bool all)
 {
-	unordered_map<string, string> emptySSMap;
-	behaviorProjectPath = emptySSMap;
-	behaviorPath = emptySSMap;
-	AAGroup = emptySSMap;
-	
 	unordered_map<string, vecstr> emptySVSMap;
-	behaviorProject = emptySVSMap;
-	alternateAnim = emptySVSMap;
-	groupAA = emptySVSMap;
-	groupAAPrefix = emptySVSMap;
-	AAEvent = emptySVSMap;
-	AAHasEvent = emptySVSMap;
 
 	if (all)
 	{
+		DebugLogging("Global reset all: TRUE");
 		unordered_map<string, set<string>> emptySSSMap;
 		usedAnim = emptySSSMap;
 
@@ -983,6 +979,22 @@ void ClearGlobal(bool all)
 		animModMatch = emptySSVSMap;
 		behaviorJoints = emptySVSMap;
 	}
+	else
+	{
+		DebugLogging("Global reset all: FALSE");
+	}
+
+	unordered_map<string, string> emptySSMap;
+	behaviorProjectPath = emptySSMap;
+	behaviorPath = emptySSMap;
+	AAGroup = emptySSMap;
+	
+	behaviorProject = emptySVSMap;
+	alternateAnim = emptySVSMap;
+	groupAA = emptySVSMap;
+	groupAAPrefix = emptySVSMap;
+	AAEvent = emptySVSMap;
+	AAHasEvent = emptySVSMap;
 
 	vector<PCEA> emptyPCEAlist;
 	pcealist = emptyPCEAlist;
