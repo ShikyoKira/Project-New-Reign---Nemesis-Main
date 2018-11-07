@@ -137,5 +137,20 @@
     <ClInclude Include="src\CmdLaunch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_NemesisMainGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Nemesis Main GUI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
+    <Image Include="title.ico" />
+    <Image Include="title icon.ico" />
+    <Image Include="title.png" />
   </ItemGroup>
 </Project>

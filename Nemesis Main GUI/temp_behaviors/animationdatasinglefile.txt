@@ -8729,7 +8729,7 @@ FootBack:0.333333
 1
 0.4 0 0 0 1
 
-25265
+25312
 1
 19
 Behaviors\0_Master.hkx
@@ -33787,6 +33787,53 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
+<!-- NEW *skice* -->
+1HM_Dual_Equip_Attack
+skice$0
+1
+0
+0
+16
+SoundPlay.WPNLeftHandDraw:0
+PitchOverrideStart:0
+BeginWeaponDraw:0
+FootScuffLeft:0.366667
+FootScuffRight:0.9
+weaponDraw:0.9
+preHitFrame:1.2
+weaponSwing:1.3
+HitFrame:1.45
+AttackWinStart:1.8
+FootScuffRight:2.06667
+FootScuffLeft:2.23333
+AttackWinEnd:2.5
+PitchOverrideEnd:2.90
+WeapEquip_Out:3
+WeapEquip_OutMoving:3
+
+1HM_Equip_Attack
+skice$0
+1
+0
+0
+15
+PitchOverrideStart:0
+BeginWeaponDraw:0
+FootScuffLeft:0.366667
+FootScuffRight:0.9
+weaponDraw:0.9
+preHitFrame:1.2
+weaponSwing:1.3
+HitFrame:1.45
+AttackWinStart:1.8
+FootScuffRight:2.06667
+FootScuffLeft:2.23333
+AttackWinEnd:2.5
+PitchOverrideEnd:2.90
+WeapEquip_Out:3
+WeapEquip_OutMoving:3
+
+<!-- CLOSE -->
 <!-- NEW *tkuc* -->
 TKDodgeBack
 tkuc$1
@@ -33995,7 +34042,7 @@ RollWinEnd:0.50
 RollNext:0.51
 
 <!-- CLOSE -->
-12989
+13011
 100
 1.2
 1
@@ -46710,6 +46757,28 @@ RollNext:0.51
 1
 0.8 0 0 0 1
 
+<!-- NEW *skice* -->
+skice$0
+3
+14
+0.2 0 56.4126 0
+0.4 0 151.7596 0
+0.6 0 238.99 0
+0.8 0 318.82 0
+1.1 0 395.28 0
+1.3 0 472.906 0
+1.5 0 558.531 0
+1.7 0 602.603 0
+2.0 0 632.953 0
+2.2 0 643.674 0
+2.4 0 644.129 0
+2.6 0 644.656 0
+2.8 0 645.079 0
+3 0 645.528 0
+1
+3 0 0 0 1
+
+<!-- CLOSE -->
 <!-- NEW *tkuc* -->
 tkuc$0
 0.866667
@@ -46985,7 +47054,7 @@ tudm$9
 0.933333 0 0 0 1
 
 <!-- CLOSE -->
-25256
+25303
 1
 19
 Behaviors\0_Master.hkx
@@ -72034,6 +72103,53 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
+<!-- NEW *skice* -->
+1HM_Dual_Equip_Attack
+skice$0
+1
+0
+0
+16
+SoundPlay.WPNLeftHandDraw:0
+PitchOverrideStart:0
+BeginWeaponDraw:0
+FootScuffLeft:0.366667
+FootScuffRight:0.9
+weaponDraw:0.9
+preHitFrame:1.2
+weaponSwing:1.3
+HitFrame:1.45
+AttackWinStart:1.8
+FootScuffRight:2.06667
+FootScuffLeft:2.23333
+AttackWinEnd:2.5
+PitchOverrideEnd:2.90
+WeapEquip_Out:3
+WeapEquip_OutMoving:3
+
+1HM_Equip_Attack
+skice$0
+1
+0
+0
+15
+PitchOverrideStart:0
+BeginWeaponDraw:0
+FootScuffLeft:0.366667
+FootScuffRight:0.9
+weaponDraw:0.9
+preHitFrame:1.2
+weaponSwing:1.3
+HitFrame:1.45
+AttackWinStart:1.8
+FootScuffRight:2.06667
+FootScuffLeft:2.23333
+AttackWinEnd:2.5
+PitchOverrideEnd:2.90
+WeapEquip_Out:3
+WeapEquip_OutMoving:3
+
+<!-- CLOSE -->
 <!-- NEW *tkuc* -->
 TKDodgeBack
 tkuc$1
@@ -72242,7 +72358,7 @@ RollWinEnd:0.50
 RollNext:0.51
 
 <!-- CLOSE -->
-13024
+13046
 100
 1.2
 1
@@ -84992,6 +85108,28 @@ RollNext:0.51
 1
 0.8 0 0 0 1
 
+<!-- NEW *skice* -->
+skice$0
+3
+14
+0.2 0 56.4126 0
+0.4 0 151.7596 0
+0.6 0 238.99 0
+0.8 0 318.82 0
+1.1 0 395.28 0
+1.3 0 472.906 0
+1.5 0 558.531 0
+1.7 0 602.603 0
+2.0 0 632.953 0
+2.2 0 643.674 0
+2.4 0 644.129 0
+2.6 0 644.656 0
+2.8 0 645.079 0
+3 0 645.528 0
+1
+3 0 0 0 1
+
+<!-- CLOSE -->
 <!-- NEW *tkuc* -->
 tkuc$0
 0.866667

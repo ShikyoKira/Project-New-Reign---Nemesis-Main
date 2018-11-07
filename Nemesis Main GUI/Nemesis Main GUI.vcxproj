@@ -152,6 +152,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ErrorMsgBox.h" />
+    <ClInclude Include="GeneratedFiles\ui_NemesisMainGUI.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\CmdLaunch.h" />
     <ClInclude Include="src\DebugLog.h" />
     <ClInclude Include="src\utilities\addanims.h" />
@@ -171,6 +173,15 @@
     <QtMoc Include="master.h" />
     <ClInclude Include="src\BehaviorInfo.h" />
     <ClInclude Include="src\ScrollBar.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Nemesis Main GUI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
+    <Image Include="title icon.ico" />
+    <Image Include="title.ico" />
+    <Image Include="title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

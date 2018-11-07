@@ -1,0 +1,188 @@
+FNIS: _1hmeqp
+Swords Default [0], Swords on Hip (FSM) [3], Swords on Left Hip [4]:
+	Single
+		1hm_equip			= Vanilla (Default)
+		1hm_unequip			= Vanilla (Default)
+	Dual
+		xpe0_1hm_equip		= IA Sword at Hip (Dual Sheath)
+		xpe0_1hm_unequip	= IA Sword at Hip (Dual Sheath)
+Swords on Back [1], Swords on Back (SWP) [2]:
+	Single
+		xpe1_1hm_equip		= IA Sword at Back
+		xpe1_1hm_unequip	= IA Sword at Back
+	Dual
+		xpe2_1hm_equip		= IA Sword at Back (Dual Sheath)
+		xpe2_1hm_unequip	= IA Sword at Back (Dual Sheath)
+
+Swords Default [0], Swords on Hip (FSM) [3], Swords on Left Hip [4] + Shield on Back[0]:
+	Single
+		xpe3_1hm_equip		= IA Sword n Board
+		xpe3_1hm_unequip	= IA Sword n Board
+		
+Swords on Back [1], Swords on Back (SWP) [2] + Dagger at Back Hip [1]:
+	Single
+		xpe4_1hm_equip		= IA Sword at Back + Dagger on Back Combo
+		xpe4_1hm_unequip	= IA Sword at Back + Dagger on Back Combo
+
+FNIS: _2hmeqp
+Default Two-Handed [0], Two-Handed (SWP) [1]:
+	Single
+		2hc_equip			= Vanilla (Default)
+		2hc_unequip			= Vanilla (Default)
+Two-Handed at Hip (FSM) [2]:
+	Single
+		xpe0_2hc_equip		= FSM de Gozaru
+		xpe0_2hc_unequip	= FSM de Gozaru
+		
+FNIS: _2hweqp
+Default Two-Handed [0], Two-Handed (SWP) [1]:
+	Single
+		2hw_equip			= Vanilla (Default)
+		2hw_unequip			= Vanilla (Default)
+Two-Handed at Hip (FSM) [2]:
+	Single
+		xpe0_2hw_equip		= FSM de Gozaru
+		xpe0_2hw_unequip	= FSM de Gozaru
+
+FNIS: _axeeqp
+Axes Default [0], Axes Reverse [1]:
+	Single
+		axe_equip			= Vanilla (Default)
+		axe_unequip			= Vanilla (Default)
+	Dual
+		xpe0_axe_equip		= IA Axes at Hip (Dual Sheath)
+		xpe0_axe_unequip	= IA Axes at Hip (Dual Sheath)
+Axes on Back [2]:
+	Single
+		xpe1_axe_equip		= IA Sword at Back
+		xpe1_axe_unequip	= IA Sword at Back
+	Dual
+		xpe2_axe_equip		= IA Sword at Back (Dual Sheath)
+		xpe2_axe_unequip	= IA Sword at Back (Dual Sheath)
+			
+Axes Default [0], Axes Reverse [1] + Shield on Back[0]:
+	Single
+		xpe3_axe_equip		= IA Sword n Board
+		xpe3_axe_unequip	= IA Sword n Board
+		
+Axes on Back [2] + Dagger at Back Hip [1]:
+	Single
+		xpe4_axe_equip		= IA Sword at Back + Dagger on Back Combo
+		xpe4_axe_unequip	= IA Sword at Back + Dagger on Back Combo
+
+FNIS: _bowatk
+Arrow Quiver Default [0]:
+	Single
+		bow_drawheavy		= Vanilla (Default)
+		bow_drawlight		= Vanilla (Default)
+		bow_release			= Vanilla (Default)
+		sneakbow_drawlight	= Vanilla (Default)
+		sneakbow_release	= Vanilla (Default)
+Frostfall Quiver (Chesko) [1], Frostfall Quiver (XP32) [2]:
+	Single
+		xpe0_bow_drawheavy		= Frostfall Quiver Chesko
+		xpe0_bow_drawlight		= Frostfall Quiver Chesko
+		xpe0_bow_release		= Frostfall Quiver Chesko
+		xpe0_sneakbow_drawlight	= Frostfall Quiver Chesko
+		xpe0_sneakbow_release	= Frostfall Quiver Chesko
+		
+FNIS: _boweqp
+Arrow Quiver Default [0]:
+	Single
+		bow_equip			= Vanilla (Default)
+		bow_unequip			= Vanilla (Default)
+Frostfall Quiver (Chesko) [1], Frostfall Quiver (XP32) [2]:
+	Single
+		xpe0_bow_equip		= Vanilla (Default)
+		xpe0_bow_unequip	= Vanilla (Default)
+		
+FNIS: _bowidle
+Default  [0]:
+	Single
+		bow_idledrawn		= Vanilla (Default)
+		bow_idleheld		= Vanilla (Default)
+		sneakbow_idledrawn	= Vanilla (Default)
+Frostfall Quiver (Chesko) [1], Frostfall Quiver (XP32) [2]:
+	Single
+		xpe0_bow_idledrawn		= Frostfall Quiver Chesko
+		xpe0_bow_idleheld		= Frostfall Quiver Chesko
+		xpe0_sneakbow_idledrawn	= Frostfall Quiver Chesko
+
+
+FNIS: _dageqp
+Dagger Default [0]:
+	Single
+		dag_equip			= Vanilla (Default)
+		dag_unequip			= Vanilla (Default)
+	Dual
+		xpe0_dag_equip		= IA Sword at Hip (Dual Sheath)
+		xpe0_dag_unequip	= IA Sword at Hip (Dual Sheath)
+Dagger at Back Hip [1]:
+	Single
+		xpe1_dag_equip		= IA Dagger at Back Hip
+		xpe1_dag_unequip	= IA Dagger at Back Hip
+	Dual
+		xpe2_dag_equip		= IA Dagger at Back Hip (Dual Sheath)
+		xpe2_dag_unequip	= IA Dagger at Back Hip (Dual Sheath)
+Dagger at Ankle [2]:
+	Single
+		xpe3_dag_equip		= SWP Dagger at Ankle
+		xpe3_dag_unequip	= SWP Dagger at Ankle
+	Dual
+		xpe4_dag_equip		= SWP Dagger at Ankle
+		xpe4_dag_unequip	= SWP Dagger at Ankle
+		
+Dagger at Back Hip [1] + Swords on Back [1], Swords on Back (SWP) [2], Axes on Back [2]:
+	Single
+		xpe5_dag_equip		= IA Dagger at Back Hip + Sword at Back Combo
+		xpe5_dag_unequip	= IA Dagger at Back Hip + Sword at Back Combo
+
+FNIS: _maceqp
+Mace Default [0]:
+	Single
+		mac_equip			= Vanilla (Default)
+		mac_unequip			= Vanilla (Default)
+	Dual
+		xpe0_mac_equip		= IA Maces at Hip (Dual Sheath)
+		xpe0_mac_unequip	= IA Maces at Hip (Dual Sheath)
+
+Mace Default [0] + Shield on Back[0]:
+	Single
+		xpe1_mac_equip			= IA Sword n Board
+		xpe1_mac_unequip		= IA Sword n Board
+
+FNIS: _magatk
+FNIS: _magcastmt	
+FNIS: _magcon
+FNIS: _magidle
+FNIS: _magmt
+
+FNIS: _shout
+Shout Default [0]:
+	Single
+		1hm_shout_exhale.hkx				= Vanilla (Default)
+		1hm_shout_exhale_long.hkx			= Vanilla (Default)
+		1hm_shout_exhale_medium.hkx			= Vanilla (Default)
+		1hm_shout_inhale.hkx				= Vanilla (Default)
+		mt_shout_exhale.hkx					= Vanilla (Default)
+		mt_shout_exhale_long.hkx			= Vanilla (Default)
+		mt_shout_exhale_medium.hkx			= Vanilla (Default)
+		mt_shout_inhale.hkx					= Vanilla (Default)
+		sneak1hm_shout_exhale.hkx			= Vanilla (Default)
+		sneak1hm_shout_exhale_long.hkx		= Vanilla (Default)
+		sneak1hm_shout_exhale_medium.hkx	= Vanilla (Default)
+		sneak1hm_shout_inhale.hkx			= Vanilla (Default)
+Schlong Shout [1]:
+	Single
+		xpe0_1hm_shout_exhale.hkx				= Schlong Shout
+		xpe0_1hm_shout_exhale_long.hkx			= Schlong Shout
+		xpe0_1hm_shout_exhale_medium.hkx		= Schlong Shout
+		xpe0_1hm_shout_inhale.hkx				= Schlong Shout
+		xpe0_mt_shout_exhale.hkx				= Schlong Shout
+		xpe0_mt_shout_exhale_long.hkx			= Schlong Shout
+		xpe0_mt_shout_exhale_medium.hkx			= Schlong Shout
+		xpe0_mt_shout_inhale.hkx				= Schlong Shout
+		xpe0_sneak1hm_shout_exhale.hkx			= Schlong Shout
+		xpe0_sneak1hm_shout_exhale_long.hkx		= Schlong Shout
+		xpe0_sneak1hm_shout_exhale_medium.hkx	= Schlong Shout
+		xpe0_sneak1hm_shout_inhale.hkx			= Schlong Shout

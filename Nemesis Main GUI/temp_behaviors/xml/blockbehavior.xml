@@ -774,7 +774,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -791,7 +791,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -1050,7 +1050,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -1067,7 +1067,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -1372,7 +1372,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -1389,7 +1389,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -10303,11 +10303,11 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_BlockHit</hkparam>
 			<hkparam name="animationName">Animations\Bow_BlockHit.hkx</hkparam>
-			<hkparam name="triggers">#0247</hkparam>				<!-- original -->
+			<hkparam name="triggers">#0267</hkparam>					<!-- *cbbi* -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -10594,11 +10594,11 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BlockHitB</hkparam>
 			<hkparam name="animationName">Animations\1HM_BlockHitB.hkx</hkparam>
-			<hkparam name="triggers">#0261</hkparam>				<!-- original -->
+			<hkparam name="triggers">#0267</hkparam>					<!-- *cbbi* -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -10665,11 +10665,11 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BlockHitA</hkparam>
 			<hkparam name="animationName">Animations\1HM_BlockHitA.hkx</hkparam>
-			<hkparam name="triggers">#0264</hkparam>				<!-- original -->
+			<hkparam name="triggers">#0267</hkparam>					<!-- *cbbi* -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -10740,7 +10740,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -10782,7 +10782,7 @@
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>				<!-- original -->
+					<hkparam name="relativeToEndOfClip">true</hkparam>					<!-- *cbbi* -->
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
@@ -11082,7 +11082,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -11153,7 +11153,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -11224,7 +11224,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>

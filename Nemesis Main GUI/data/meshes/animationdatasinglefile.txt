@@ -8729,7 +8729,7 @@ FootBack:0.333333
 1
 0.4 0 0 0 1
 
-25272
+26244
 1
 19
 Behaviors\0_Master.hkx
@@ -33784,225 +33784,1197 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
-BackwardRoll_Clip_B
-1656
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-BackwardSidestep_Clip_B
-1657
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-ForwardRoll_Clip_B
-1658
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-ForwardSidestep_Clip_B
-1659
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-LeftRoll_Clip_B
-1660
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-LeftSidestep_Clip_B
-1661
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Left_BackwardRoll_Clip_B
-1662
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Left_BackwardSidestep_Clip_B
-1663
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Left_ForwardRoll_Clip_B
-1664
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Left_ForwardSidestep_Clip_B
-1665
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-RightRoll_Clip_B
-1666
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-RightSidestep_Clip_B
-1667
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Right_BackwardRoll_Clip_B
-1668
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Right_BackwardSidestep_Clip_B
-1669
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Right_ForwardRoll_Clip_B
-1670
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Right_ForwardSidestep_Clip_B
-1671
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
 NPC_Nemesis_KillMove_Clip_1
-1672
+1656
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_2
-1673
+1657
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_3
-1674
+1658
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_4
-1675
+1659
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_5
-1676
+1660
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_6
+1661
+1
+0
+0
+0
+
+xpe0_axe_equip
+1662
+1
+0
+0
+0
+
+xpe1_axe_equip
+1663
+1
+0
+0
+0
+
+xpe2_axe_equip
+1664
+1
+0
+0
+0
+
+xpe3_axe_equip
+1665
+1
+0
+0
+0
+
+xpe4_axe_equip
+1666
+1
+0
+0
+0
+
+xpe0_dag_equip
+1667
+1
+0
+0
+0
+
+xpe1_dag_equip
+1668
+1
+0
+0
+0
+
+xpe2_dag_equip
+1669
+1
+0
+0
+0
+
+xpe3_dag_equip
+1670
+1
+0
+0
+0
+
+xpe4_dag_equip
+1671
+1
+0
+0
+0
+
+xpe5_dag_equip
+1672
+1
+0
+0
+0
+
+xpe0_1hm_equip
+1673
+1
+0
+0
+0
+
+xpe1_1hm_equip
+1674
+1
+0
+0
+0
+
+xpe2_1hm_equip
+1675
+1
+0
+0
+0
+
+xpe3_1hm_equip
+1676
+1
+0
+0
+0
+
+xpe4_1hm_equip
 1677
 1
 0
 0
 0
 
-12920
+xpe0_axe_unequip
+1678
+1
+0
+0
+0
+
+xpe1_axe_unequip
+1679
+1
+0
+0
+0
+
+xpe2_axe_unequip
+1680
+1
+0
+0
+0
+
+xpe3_axe_unequip
+1681
+1
+0
+0
+0
+
+xpe4_axe_unequip
+1682
+1
+0
+0
+0
+
+xpe0_mlh_selfchargeloop
+1683
+1
+0
+0
+0
+
+xpe0_dag_unequip
+1684
+1
+0
+0
+0
+
+xpe1_dag_unequip
+1685
+1
+0
+0
+0
+
+xpe2_dag_unequip
+1686
+1
+0
+0
+0
+
+xpe3_dag_unequip
+1687
+1
+0
+0
+0
+
+xpe4_dag_unequip
+1688
+1
+0
+0
+0
+
+xpe5_dag_unequip
+1689
+1
+0
+0
+0
+
+xpe0_1hm_unequip
+1690
+1
+0
+0
+0
+
+xpe1_1hm_unequip
+1691
+1
+0
+0
+0
+
+xpe2_1hm_unequip
+1692
+1
+0
+0
+0
+
+xpe3_1hm_unequip
+1693
+1
+0
+0
+0
+
+xpe4_1hm_unequip
+1694
+1
+0
+0
+0
+
+xpe0_dodgeback
+1695
+1
+0
+0
+0
+
+xpe0_2hw_equip
+1696
+1
+0
+0
+0
+
+xpe0_mrh_selfchargeloop
+1697
+1
+0
+0
+0
+
+xpe0_mrh_wardloop
+1698
+1
+0
+0
+0
+
+xpe0_mlh_idle
+1699
+1
+0
+0
+0
+
+xpe0_2hc_equip
+1700
+1
+0
+0
+0
+
+xpe0_mrh_aimedconcentration
+1701
+1
+0
+0
+0
+
+xpe0_2hc_unequip
+1702
+1
+0
+0
+0
+
+xpe0_mlh_prewardloop
+1703
+1
+0
+0
+0
+
+xpe0_bow_drawlight
+1704
+1
+0
+0
+0
+
+xpe0_mag_turnright60
+1705
+1
+0
+0
+0
+
+xpe0_2hw_unequip
+1706
+1
+0
+0
+0
+
+xpe0_mrh_wardcharge
+1707
+1
+0
+0
+0
+
+xpe0_bow_release
+1708
+1
+0
+0
+0
+
+xpe0_mrh_readyloop
+1709
+1
+0
+0
+0
+
+xpe0_sneakbow_drawlight
+1710
+1
+0
+0
+0
+
+xpe0_mlh_wardcharge
+1711
+1
+0
+0
+0
+
+xpe0_sneakbow_release
+1712
+1
+0
+0
+0
+
+xpe0_bow_equip
+1713
+1
+0
+0
+0
+
+xpe0_mlh_1hm_attackforward
+1714
+1
+0
+0
+0
+
+xpe0_bow_unequip
+1715
+1
+0
+0
+0
+
+xpe0_mlh_release
+1716
+1
+0
+0
+0
+
+xpe0_mag_runforwardleft
+1717
+1
+0
+0
+0
+
+xpe0_bow_idledrawn
+1718
+1
+0
+0
+0
+
+xpe0_mlh_precharge
+1719
+1
+0
+0
+0
+
+xpe0_mrh_telekinesisloop
+1720
+1
+0
+0
+0
+
+xpe0_bow_idleheld
+1721
+1
+0
+0
+0
+
+xpe0_mrh_release
+1722
+1
+0
+0
+0
+
+xpe0_sneakbow_idledrawn
+1723
+1
+0
+0
+0
+
+xpe0_mac_equip
+1724
+1
+0
+0
+0
+
+xpe1_mac_equip
+1725
+1
+0
+0
+0
+
+xpe0_mrh_selfprecharge
+1726
+1
+0
+0
+0
+
+xpe0_mac_unequip
+1727
+1
+0
+0
+0
+
+xpe1_mac_unequip
+1728
+1
+0
+0
+0
+
+xpe0_mlh_1hm_attackforwardintro
+1729
+1
+0
+0
+0
+
+xpe0_magcast_walkleft
+1730
+1
+0
+0
+0
+
+xpe0_mlh_aimedconcentration
+1731
+1
+0
+0
+0
+
+xpe0_mlh_chargeloop
+1732
+1
+0
+0
+0
+
+xpe0_mlh_preaimedcon
+1733
+1
+0
+0
+0
+
+xpe0_mrh_selfconcentration
+1734
+1
+0
+0
+0
+
+xpe0_mag_walkforward
+1735
+1
+0
+0
+0
+
+xpe0_mlh_preready
+1736
+1
+0
+0
+0
+
+xpe0_magcast_runbackward
+1737
+1
+0
+0
+0
+
+xpe0_mrh_prewardloop
+1738
+1
+0
+0
+0
+
+xpe0_mlh_selfreadyloop
+1739
+1
+0
+0
+0
+
+xpe0_mlh_preselfcon
+1740
+1
+0
+0
+0
+
+xpe0_mlh_prewardcharge
+1741
+1
+0
+0
+0
+
+xpe0_mlh_pretelekinesis
+1742
+1
+0
+0
+0
+
+xpe0_mlh_readyloop
+1743
+1
+0
+0
+0
+
+xpe0_mlh_selfrelease
+1744
+1
+0
+0
+0
+
+xpe0_mlh_selfconcentration
+1745
+1
+0
+0
+0
+
+xpe0_mlh_telekinesisloop
+1746
+1
+0
+0
+0
+
+xpe0_mlh_wardloop
+1747
+1
+0
+0
+0
+
+xpe0_mrh_chargeloop
+1748
+1
+0
+0
+0
+
+xpe0_mlhmrh_aimedconcentrationloop
+1749
+1
+0
+0
+0
+
+xpe0_mrh_preaimedcon
+1750
+1
+0
+0
+0
+
+xpe0_mrh_precharge
+1751
+1
+0
+0
+0
+
+xpe0_mrh_preselfcon
+1752
+1
+0
+0
+0
+
+xpe0_magcast_runforward
+1753
+1
+0
+0
+0
+
+xpe0_magic_sprintforward
+1754
+1
+0
+0
+0
+
+xpe0_mrh_pretelekinesis
+1755
+1
+0
+0
+0
+
+xpe0_mrh_prewardcharge
+1756
+1
+0
+0
+0
+
+xpe0_mrh_selfrelease
+1757
+1
+0
+0
+0
+
+xpe0_mrh_selfreadyloop
+1758
+1
+0
+0
+0
+
+xpe0_magcast_runbackwrdleft
+1759
+1
+0
+0
+0
+
+xpe0_magcast_turnleft60
+1760
+1
+0
+0
+0
+
+xpe0_magcast_runbckwrdright
+1761
+1
+0
+0
+0
+
+xpe0_magcast_runforwardleft
+1762
+1
+0
+0
+0
+
+xpe0_magcast_runfrwrdright
+1763
+1
+0
+0
+0
+
+xpe0_magcast_runleft
+1764
+1
+0
+0
+0
+
+xpe0_magcast_runright
+1765
+1
+0
+0
+0
+
+xpe0_magcast_walkbackward
+1766
+1
+0
+0
+0
+
+xpe0_magcast_walkbckwrdleft
+1767
+1
+0
+0
+0
+
+xpe0_magcast_walkbckwrdrht
+1768
+1
+0
+0
+0
+
+xpe0_magcast_walkforward
+1769
+1
+0
+0
+0
+
+xpe0_magcast_walkforwrdleft
+1770
+1
+0
+0
+0
+
+xpe0_magcast_walkfrwrdright
+1771
+1
+0
+0
+0
+
+xpe0_magcast_walkright
+1772
+1
+0
+0
+0
+
+xpe0_magcast_turnleft180
+1773
+1
+0
+0
+0
+
+xpe0_magcast_turnright180
+1774
+1
+0
+0
+0
+
+xpe0_magcast_turnright60
+1775
+1
+0
+0
+0
+
+xpe0_dmagaimconcharge
+1776
+1
+0
+0
+0
+
+xpe0_dmagaimconloop
+1777
+1
+0
+0
+0
+
+xpe0_mag_walkforwardleft
+1778
+1
+0
+0
+0
+
+xpe0_dmagaimrelease
+1779
+1
+0
+0
+0
+
+xpe0_mt_shout_exhale_medium
+1780
+1
+0
+0
+0
+
+xpe0_dmagpreaimcon
+1781
+1
+0
+0
+0
+
+xpe0_dmagpreaimconcharge
+1782
+1
+0
+0
+0
+
+xpe0_dmagpreselfcon
+1783
+1
+0
+0
+0
+
+xpe0_dmagpreselfconcharge
+1784
+1
+0
+0
+0
+
+xpe0_dmagselfconcharge
+1785
+1
+0
+0
+0
+
+xpe0_dmagselfconloop
+1786
+1
+0
+0
+0
+
+xpe0_dmagselfrelease
+1787
+1
+0
+0
+0
+
+xpe0_mrh_idle
+1788
+1
+0
+0
+0
+
+xpe0_mag_runbackward
+1789
+1
+0
+0
+0
+
+xpe0_mag_runbackwardleft
+1790
+1
+0
+0
+0
+
+xpe0_mag_runbackwardright
+1791
+1
+0
+0
+0
+
+xpe0_dw_sprintforwardsword
+1792
+1
+0
+0
+0
+
+xpe0_mag_runforward
+1793
+1
+0
+0
+0
+
+xpe0_mag_runforwardright
+1794
+1
+0
+0
+0
+
+xpe0_mag_runleft
+1795
+1
+0
+0
+0
+
+xpe0_mag_runright
+1796
+1
+0
+0
+0
+
+xpe0_mag_turnleft60
+1797
+1
+0
+0
+0
+
+xpe0_mag_walkbackward
+1798
+1
+0
+0
+0
+
+xpe0_mag_walkbackwardleft
+1799
+1
+0
+0
+0
+
+xpe0_mag_walkbackwardright
+1800
+1
+0
+0
+0
+
+xpe0_mag_walkforwardright
+1801
+1
+0
+0
+0
+
+xpe0_mag_walkleft
+1802
+1
+0
+0
+0
+
+xpe0_mag_walkright
+1803
+1
+0
+0
+0
+
+xpe0_mag_turnleft180
+1804
+1
+0
+0
+0
+
+xpe0_mag_turnright180
+1805
+1
+0
+0
+0
+
+xpe0_2hm_sprintforwardsword
+1806
+1
+0
+0
+0
+
+xpe0_2hw_sprintforwardsword
+1807
+1
+0
+0
+0
+
+xpe0_bow_sprint
+1808
+1
+0
+0
+0
+
+xpe0_dodgeleft
+1809
+1
+0
+0
+0
+
+xpe0_dodgeright
+1810
+1
+0
+0
+0
+
+xpe0_mt_shout_exhale_long
+1811
+1
+0
+0
+0
+
+xpe0_sneakrun_forwardroll
+1812
+1
+0
+0
+0
+
+xpe0_mt_sprintforwardsword
+1813
+1
+0
+0
+0
+
+xpe0_shd_blockbashsprint
+1814
+1
+0
+0
+0
+
+xpe0_staffrightleft_sprint
+1815
+1
+0
+0
+0
+
+xpe0_1hm_shout_exhale
+1816
+1
+0
+0
+0
+
+xpe0_1hm_shout_exhale_long
+1817
+1
+0
+0
+0
+
+xpe0_1hm_shout_exhale_medium
+1818
+1
+0
+0
+0
+
+xpe0_1hm_shout_inhale
+1819
+1
+0
+0
+0
+
+xpe0_mt_shout_exhale
+1820
+1
+0
+0
+0
+
+xpe0_mt_shout_inhale
+1821
+1
+0
+0
+0
+
+xpe0_sneak1hm_shout_exhale
+1822
+1
+0
+0
+0
+
+xpe0_sneak1hm_shout_exhale_long
+1823
+1
+0
+0
+0
+
+xpe0_sneak1hm_shout_exhale_medium
+1824
+1
+0
+0
+0
+
+xpe0_sneak1hm_shout_inhale
+1825
+1
+0
+0
+0
+
+12704
 100
 1.2
 1
@@ -46707,223 +47679,7 @@ NPC_Nemesis_KillMove_Clip_6
 1
 0.8 0 0 0 1
 
-1671
-0.933333
-6
-0.18 30.3464 30.3464 0
-0.3 50.5427 50.5427 0
-0.4 112.7839 112.7839 0
-0.65 153.4122 153.4122 0
-0.833333 192.4149 192.4149 0
-0.933333 195.9021 195.9021 0
-1
-0.933333 0 0 0 1
-
-1662
-0.933333
-9
-0.18 -69.3033 -69.3033 0
-0.233333 -131.2536 -131.2536 0
-0.3 -181.1905 -181.1905 0
-0.4 -236.1584 -236.1584 0
-0.466667 -277.296 -277.296 0
-0.566667 -302.5742 -302.5742 0
-0.766667 -310.5367 -310.5367 0
-0.9 -313.6464 -313.6464 0
-0.933333 -318.466 -318.466 0
-1
-0.933333 0 0 0 1
-
-1670
-0.933333
-9
-0.18 69.3033 69.3033 0
-0.233333 131.2536 131.2536 0
-0.3 181.1905 181.1905 0
-0.4 236.1584 236.1584 0
-0.466667 277.296 277.296 0
-0.566667 302.5742 302.5742 0
-0.766667 310.5367 310.5367 0
-0.9 313.6464 313.6464 0
-0.933333 318.466 318.466 0
-1
-0.933333 0 0 0 1
-
-1668
-0.933333
-9
-0.18 69.3033 -69.3033 0
-0.233333 131.2536 -131.2536 0
-0.3 181.1905 -181.1905 0
-0.4 236.1584 -236.1584 0
-0.466667 277.296 -277.296 0
-0.566667 302.5742 -302.5742 0
-0.766667 310.5367 -310.5367 0
-0.9 313.6464 -313.6464 0
-0.933333 318.466 -318.466 0
-1
-0.933333 0 0 0 1
-
-1664
-0.933333
-9
-0.18 -69.3033 69.3033 0
-0.233333 -131.2536 131.2536 0
-0.3 -181.1905 181.1905 0
-0.4 -236.1584 236.1584 0
-0.466667 -277.296 277.296 0
-0.566667 -302.5742 302.5742 0
-0.766667 -310.5367 310.5367 0
-0.9 -313.6464 313.6464 0
-0.933333 -318.466 318.466 0
-1
-0.933333 0 0 0 1
-
-1661
-0.933333
-6
-0.18 -36.6359 0 0
-0.3 -58.8645 0  0
-0.4 -131.3534 0 0
-0.65 -178.6710 0 0
-0.833333 -224.0952 0 0
-0.933333 -228.1573 0 0
-1
-0.933333 0 0 0 1
-
-1667
-0.933333
-6
-0.18 36.6359 0  0
-0.3 58.8645 0  0
-0.4 131.3534 0 0
-0.6 178.6710 0 0
-0.8 224.0952 0 0
-0.933333 228.1573 0 0
-1
-0.933333 0 0 0 1
-
-1663
-0.933333
-6
-0.18 -30.3464 -30.3464 0
-0.3 -50.5427 -50.5427 0
-0.4 -112.7839 -112.7839 0
-0.65 -153.4122 -153.4122 0
-0.833333 -192.4149 -192.4149 0
-0.933333 -195.9021 -195.9021 0
-1
-0.933333 0 0 0 1
-
-1660
-0.933333
-9
-0.18 -98.0097 0  0
-0.233333 -185.6207 0 0
-0.3 -256.242 0 0
-0.4 -333.9783 0 0
-0.466667 -392.1558 0 0
-0.566667 -427.9045 0 0
-0.766667 -439.1652 0 0
-0.9 -443.5631 0 0
-0.933333 -450.3789 0 0
-1
-0.933333 0 0 0 1
-
-1657
-0.933333
-6
-0.18 0 -52.337 0
-0.3 0 -84.0921 0
-0.4 0 -187.6477 0
-0.65 0 -255.2443 0
-0.833333 0 -320.136 0
-0.933333 0 -325.939 0
-1
-0.933333 0 0 0 1
-
-1659
-0.933333
-6
-0.18 0 52.337 0
-0.3 0 84.0921 0
-0.4 0 187.6477 0
-0.65 0 255.2443 0
-0.833333 0 320.136 0
-0.933333 0 325.939 0
-1
-0.933333 0 0 0 1
-
-1665
-0.933333
-6
-0.18 -30.3464 30.3464 0
-0.3 -50.5427 50.5427 0
-0.4 -112.7839 112.7839 0
-0.65 -153.4122 153.4122 0
-0.833333 -192.4149 192.4149 0
-0.933333 -195.9021 195.9021 0
-1
-0.933333 0 0 0 1
-
-1666
-0.933333
-9
-0.18 98.0097 0  0
-0.233333 185.6207 0 0
-0.3 256.242 0 0
-0.4 333.9783 0 0
-0.466667 392.1558 0 0
-0.566667 427.9045 0 0
-0.766667 439.1652 0 0
-0.9 443.5631 0 0
-0.933333 450.3789 0 0
-1
-0.933333 0 0 0 1
-
-1669
-0.933333
-6
-0.18 30.3464 -30.3464 0
-0.3 50.5427 -50.5427 0
-0.4 112.7839 -112.7839 0
-0.65 153.4122 -153.4122 0
-0.833333 192.4149 -192.4149 0
-0.933333 195.9021 -195.9021 0
-1
-0.933333 0 0 0 1
-
-1656
-0.933333
-9
-0.18 0 -98.0097 0
-0.233333 0 -185.6207 0
-0.3 0 -256.242 0
-0.4 0 -333.9783 0
-0.466667 0 -392.1558 0
-0.566667 0 -427.9045 0
-0.766667 0 -439.1652 0
-0.9 0 -443.5631 0
-0.933333 0 -450.3789 0
-1
-0.933333 0 0 0 1
-
-1658
-0.933333
-9
-0.18 0 98.0097 0
-0.233333 0 185.6207 0
-0.3 0 256.242 0
-0.4 0 333.9783 0
-0.466667 0 392.1558 0
-0.566667 0 427.9045 0
-0.766667 0 439.1652 0
-0.9 0 443.5631 0
-0.933333 0 450.3789 0
-1
-0.933333 0 0 0 1
-
-25263
+26235
 1
 19
 Behaviors\0_Master.hkx
@@ -71969,225 +72725,1197 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
-BackwardRoll_Clip_B
-1656
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-BackwardSidestep_Clip_B
-1657
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-ForwardRoll_Clip_B
-1658
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-ForwardSidestep_Clip_B
-1659
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-LeftRoll_Clip_B
-1660
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-LeftSidestep_Clip_B
-1661
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Left_BackwardRoll_Clip_B
-1662
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Left_BackwardSidestep_Clip_B
-1663
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Left_ForwardRoll_Clip_B
-1664
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Left_ForwardSidestep_Clip_B
-1665
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-RightRoll_Clip_B
-1666
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-RightSidestep_Clip_B
-1667
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Right_BackwardRoll_Clip_B
-1668
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Right_BackwardSidestep_Clip_B
-1669
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Right_ForwardRoll_Clip_B
-1670
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Right_ForwardSidestep_Clip_B
-1671
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
 NPC_Nemesis_KillMove_Clip_1
-1672
+1656
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_2
-1673
+1657
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_3
-1674
+1658
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_4
-1675
+1659
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_5
-1676
+1660
 1
 0
 0
 0
 
 NPC_Nemesis_KillMove_Clip_6
+1661
+1
+0
+0
+0
+
+xpe0_axe_equip
+1662
+1
+0
+0
+0
+
+xpe1_axe_equip
+1663
+1
+0
+0
+0
+
+xpe2_axe_equip
+1664
+1
+0
+0
+0
+
+xpe3_axe_equip
+1665
+1
+0
+0
+0
+
+xpe4_axe_equip
+1666
+1
+0
+0
+0
+
+xpe0_dag_equip
+1667
+1
+0
+0
+0
+
+xpe1_dag_equip
+1668
+1
+0
+0
+0
+
+xpe2_dag_equip
+1669
+1
+0
+0
+0
+
+xpe3_dag_equip
+1670
+1
+0
+0
+0
+
+xpe4_dag_equip
+1671
+1
+0
+0
+0
+
+xpe5_dag_equip
+1672
+1
+0
+0
+0
+
+xpe0_1hm_equip
+1673
+1
+0
+0
+0
+
+xpe1_1hm_equip
+1674
+1
+0
+0
+0
+
+xpe2_1hm_equip
+1675
+1
+0
+0
+0
+
+xpe3_1hm_equip
+1676
+1
+0
+0
+0
+
+xpe4_1hm_equip
 1677
 1
 0
 0
 0
 
-12957
+xpe0_axe_unequip
+1678
+1
+0
+0
+0
+
+xpe1_axe_unequip
+1679
+1
+0
+0
+0
+
+xpe2_axe_unequip
+1680
+1
+0
+0
+0
+
+xpe3_axe_unequip
+1681
+1
+0
+0
+0
+
+xpe4_axe_unequip
+1682
+1
+0
+0
+0
+
+xpe0_mlh_selfchargeloop
+1683
+1
+0
+0
+0
+
+xpe0_dag_unequip
+1684
+1
+0
+0
+0
+
+xpe1_dag_unequip
+1685
+1
+0
+0
+0
+
+xpe2_dag_unequip
+1686
+1
+0
+0
+0
+
+xpe3_dag_unequip
+1687
+1
+0
+0
+0
+
+xpe4_dag_unequip
+1688
+1
+0
+0
+0
+
+xpe5_dag_unequip
+1689
+1
+0
+0
+0
+
+xpe0_1hm_unequip
+1690
+1
+0
+0
+0
+
+xpe1_1hm_unequip
+1691
+1
+0
+0
+0
+
+xpe2_1hm_unequip
+1692
+1
+0
+0
+0
+
+xpe3_1hm_unequip
+1693
+1
+0
+0
+0
+
+xpe4_1hm_unequip
+1694
+1
+0
+0
+0
+
+xpe0_dodgeback
+1695
+1
+0
+0
+0
+
+xpe0_2hw_equip
+1696
+1
+0
+0
+0
+
+xpe0_mrh_selfchargeloop
+1697
+1
+0
+0
+0
+
+xpe0_mrh_wardloop
+1698
+1
+0
+0
+0
+
+xpe0_mlh_idle
+1699
+1
+0
+0
+0
+
+xpe0_2hc_equip
+1700
+1
+0
+0
+0
+
+xpe0_mrh_aimedconcentration
+1701
+1
+0
+0
+0
+
+xpe0_2hc_unequip
+1702
+1
+0
+0
+0
+
+xpe0_mlh_prewardloop
+1703
+1
+0
+0
+0
+
+xpe0_bow_drawlight
+1704
+1
+0
+0
+0
+
+xpe0_mag_turnright60
+1705
+1
+0
+0
+0
+
+xpe0_2hw_unequip
+1706
+1
+0
+0
+0
+
+xpe0_mrh_wardcharge
+1707
+1
+0
+0
+0
+
+xpe0_bow_release
+1708
+1
+0
+0
+0
+
+xpe0_mrh_readyloop
+1709
+1
+0
+0
+0
+
+xpe0_sneakbow_drawlight
+1710
+1
+0
+0
+0
+
+xpe0_mlh_wardcharge
+1711
+1
+0
+0
+0
+
+xpe0_sneakbow_release
+1712
+1
+0
+0
+0
+
+xpe0_bow_equip
+1713
+1
+0
+0
+0
+
+xpe0_mlh_1hm_attackforward
+1714
+1
+0
+0
+0
+
+xpe0_bow_unequip
+1715
+1
+0
+0
+0
+
+xpe0_mlh_release
+1716
+1
+0
+0
+0
+
+xpe0_mag_runforwardleft
+1717
+1
+0
+0
+0
+
+xpe0_bow_idledrawn
+1718
+1
+0
+0
+0
+
+xpe0_mlh_precharge
+1719
+1
+0
+0
+0
+
+xpe0_mrh_telekinesisloop
+1720
+1
+0
+0
+0
+
+xpe0_bow_idleheld
+1721
+1
+0
+0
+0
+
+xpe0_mrh_release
+1722
+1
+0
+0
+0
+
+xpe0_sneakbow_idledrawn
+1723
+1
+0
+0
+0
+
+xpe0_mac_equip
+1724
+1
+0
+0
+0
+
+xpe1_mac_equip
+1725
+1
+0
+0
+0
+
+xpe0_mrh_selfprecharge
+1726
+1
+0
+0
+0
+
+xpe0_mac_unequip
+1727
+1
+0
+0
+0
+
+xpe1_mac_unequip
+1728
+1
+0
+0
+0
+
+xpe0_mlh_1hm_attackforwardintro
+1729
+1
+0
+0
+0
+
+xpe0_magcast_walkleft
+1730
+1
+0
+0
+0
+
+xpe0_mlh_aimedconcentration
+1731
+1
+0
+0
+0
+
+xpe0_mlh_chargeloop
+1732
+1
+0
+0
+0
+
+xpe0_mlh_preaimedcon
+1733
+1
+0
+0
+0
+
+xpe0_mrh_selfconcentration
+1734
+1
+0
+0
+0
+
+xpe0_mag_walkforward
+1735
+1
+0
+0
+0
+
+xpe0_mlh_preready
+1736
+1
+0
+0
+0
+
+xpe0_magcast_runbackward
+1737
+1
+0
+0
+0
+
+xpe0_mrh_prewardloop
+1738
+1
+0
+0
+0
+
+xpe0_mlh_selfreadyloop
+1739
+1
+0
+0
+0
+
+xpe0_mlh_preselfcon
+1740
+1
+0
+0
+0
+
+xpe0_mlh_prewardcharge
+1741
+1
+0
+0
+0
+
+xpe0_mlh_pretelekinesis
+1742
+1
+0
+0
+0
+
+xpe0_mlh_readyloop
+1743
+1
+0
+0
+0
+
+xpe0_mlh_selfrelease
+1744
+1
+0
+0
+0
+
+xpe0_mlh_selfconcentration
+1745
+1
+0
+0
+0
+
+xpe0_mlh_telekinesisloop
+1746
+1
+0
+0
+0
+
+xpe0_mlh_wardloop
+1747
+1
+0
+0
+0
+
+xpe0_mrh_chargeloop
+1748
+1
+0
+0
+0
+
+xpe0_mlhmrh_aimedconcentrationloop
+1749
+1
+0
+0
+0
+
+xpe0_mrh_preaimedcon
+1750
+1
+0
+0
+0
+
+xpe0_mrh_precharge
+1751
+1
+0
+0
+0
+
+xpe0_mrh_preselfcon
+1752
+1
+0
+0
+0
+
+xpe0_magcast_runforward
+1753
+1
+0
+0
+0
+
+xpe0_magic_sprintforward
+1754
+1
+0
+0
+0
+
+xpe0_mrh_pretelekinesis
+1755
+1
+0
+0
+0
+
+xpe0_mrh_prewardcharge
+1756
+1
+0
+0
+0
+
+xpe0_mrh_selfrelease
+1757
+1
+0
+0
+0
+
+xpe0_mrh_selfreadyloop
+1758
+1
+0
+0
+0
+
+xpe0_magcast_runbackwrdleft
+1759
+1
+0
+0
+0
+
+xpe0_magcast_turnleft60
+1760
+1
+0
+0
+0
+
+xpe0_magcast_runbckwrdright
+1761
+1
+0
+0
+0
+
+xpe0_magcast_runforwardleft
+1762
+1
+0
+0
+0
+
+xpe0_magcast_runfrwrdright
+1763
+1
+0
+0
+0
+
+xpe0_magcast_runleft
+1764
+1
+0
+0
+0
+
+xpe0_magcast_runright
+1765
+1
+0
+0
+0
+
+xpe0_magcast_walkbackward
+1766
+1
+0
+0
+0
+
+xpe0_magcast_walkbckwrdleft
+1767
+1
+0
+0
+0
+
+xpe0_magcast_walkbckwrdrht
+1768
+1
+0
+0
+0
+
+xpe0_magcast_walkforward
+1769
+1
+0
+0
+0
+
+xpe0_magcast_walkforwrdleft
+1770
+1
+0
+0
+0
+
+xpe0_magcast_walkfrwrdright
+1771
+1
+0
+0
+0
+
+xpe0_magcast_walkright
+1772
+1
+0
+0
+0
+
+xpe0_magcast_turnleft180
+1773
+1
+0
+0
+0
+
+xpe0_magcast_turnright180
+1774
+1
+0
+0
+0
+
+xpe0_magcast_turnright60
+1775
+1
+0
+0
+0
+
+xpe0_dmagaimconcharge
+1776
+1
+0
+0
+0
+
+xpe0_dmagaimconloop
+1777
+1
+0
+0
+0
+
+xpe0_mag_walkforwardleft
+1778
+1
+0
+0
+0
+
+xpe0_dmagaimrelease
+1779
+1
+0
+0
+0
+
+xpe0_mt_shout_exhale_medium
+1780
+1
+0
+0
+0
+
+xpe0_dmagpreaimcon
+1781
+1
+0
+0
+0
+
+xpe0_dmagpreaimconcharge
+1782
+1
+0
+0
+0
+
+xpe0_dmagpreselfcon
+1783
+1
+0
+0
+0
+
+xpe0_dmagpreselfconcharge
+1784
+1
+0
+0
+0
+
+xpe0_dmagselfconcharge
+1785
+1
+0
+0
+0
+
+xpe0_dmagselfconloop
+1786
+1
+0
+0
+0
+
+xpe0_dmagselfrelease
+1787
+1
+0
+0
+0
+
+xpe0_mrh_idle
+1788
+1
+0
+0
+0
+
+xpe0_mag_runbackward
+1789
+1
+0
+0
+0
+
+xpe0_mag_runbackwardleft
+1790
+1
+0
+0
+0
+
+xpe0_mag_runbackwardright
+1791
+1
+0
+0
+0
+
+xpe0_dw_sprintforwardsword
+1792
+1
+0
+0
+0
+
+xpe0_mag_runforward
+1793
+1
+0
+0
+0
+
+xpe0_mag_runforwardright
+1794
+1
+0
+0
+0
+
+xpe0_mag_runleft
+1795
+1
+0
+0
+0
+
+xpe0_mag_runright
+1796
+1
+0
+0
+0
+
+xpe0_mag_turnleft60
+1797
+1
+0
+0
+0
+
+xpe0_mag_walkbackward
+1798
+1
+0
+0
+0
+
+xpe0_mag_walkbackwardleft
+1799
+1
+0
+0
+0
+
+xpe0_mag_walkbackwardright
+1800
+1
+0
+0
+0
+
+xpe0_mag_walkforwardright
+1801
+1
+0
+0
+0
+
+xpe0_mag_walkleft
+1802
+1
+0
+0
+0
+
+xpe0_mag_walkright
+1803
+1
+0
+0
+0
+
+xpe0_mag_turnleft180
+1804
+1
+0
+0
+0
+
+xpe0_mag_turnright180
+1805
+1
+0
+0
+0
+
+xpe0_2hm_sprintforwardsword
+1806
+1
+0
+0
+0
+
+xpe0_2hw_sprintforwardsword
+1807
+1
+0
+0
+0
+
+xpe0_bow_sprint
+1808
+1
+0
+0
+0
+
+xpe0_dodgeleft
+1809
+1
+0
+0
+0
+
+xpe0_dodgeright
+1810
+1
+0
+0
+0
+
+xpe0_mt_shout_exhale_long
+1811
+1
+0
+0
+0
+
+xpe0_sneakrun_forwardroll
+1812
+1
+0
+0
+0
+
+xpe0_mt_sprintforwardsword
+1813
+1
+0
+0
+0
+
+xpe0_shd_blockbashsprint
+1814
+1
+0
+0
+0
+
+xpe0_staffrightleft_sprint
+1815
+1
+0
+0
+0
+
+xpe0_1hm_shout_exhale
+1816
+1
+0
+0
+0
+
+xpe0_1hm_shout_exhale_long
+1817
+1
+0
+0
+0
+
+xpe0_1hm_shout_exhale_medium
+1818
+1
+0
+0
+0
+
+xpe0_1hm_shout_inhale
+1819
+1
+0
+0
+0
+
+xpe0_mt_shout_exhale
+1820
+1
+0
+0
+0
+
+xpe0_mt_shout_inhale
+1821
+1
+0
+0
+0
+
+xpe0_sneak1hm_shout_exhale
+1822
+1
+0
+0
+0
+
+xpe0_sneak1hm_shout_exhale_long
+1823
+1
+0
+0
+0
+
+xpe0_sneak1hm_shout_exhale_medium
+1824
+1
+0
+0
+0
+
+xpe0_sneak1hm_shout_inhale
+1825
+1
+0
+0
+0
+
+12741
 100
 1.2
 1
@@ -84929,223 +86657,7 @@ NPC_Nemesis_KillMove_Clip_6
 1
 0.8 0 0 0 1
 
-1671
-0.933333
-6
-0.18 30.3464 30.3464 0
-0.3 50.5427 50.5427 0
-0.4 112.7839 112.7839 0
-0.65 153.4122 153.4122 0
-0.833333 192.4149 192.4149 0
-0.933333 195.9021 195.9021 0
-1
-0.933333 0 0 0 1
-
-1662
-0.933333
-9
-0.18 -69.3033 -69.3033 0
-0.233333 -131.2536 -131.2536 0
-0.3 -181.1905 -181.1905 0
-0.4 -236.1584 -236.1584 0
-0.466667 -277.296 -277.296 0
-0.566667 -302.5742 -302.5742 0
-0.766667 -310.5367 -310.5367 0
-0.9 -313.6464 -313.6464 0
-0.933333 -318.466 -318.466 0
-1
-0.933333 0 0 0 1
-
-1670
-0.933333
-9
-0.18 69.3033 69.3033 0
-0.233333 131.2536 131.2536 0
-0.3 181.1905 181.1905 0
-0.4 236.1584 236.1584 0
-0.466667 277.296 277.296 0
-0.566667 302.5742 302.5742 0
-0.766667 310.5367 310.5367 0
-0.9 313.6464 313.6464 0
-0.933333 318.466 318.466 0
-1
-0.933333 0 0 0 1
-
-1668
-0.933333
-9
-0.18 69.3033 -69.3033 0
-0.233333 131.2536 -131.2536 0
-0.3 181.1905 -181.1905 0
-0.4 236.1584 -236.1584 0
-0.466667 277.296 -277.296 0
-0.566667 302.5742 -302.5742 0
-0.766667 310.5367 -310.5367 0
-0.9 313.6464 -313.6464 0
-0.933333 318.466 -318.466 0
-1
-0.933333 0 0 0 1
-
-1664
-0.933333
-9
-0.18 -69.3033 69.3033 0
-0.233333 -131.2536 131.2536 0
-0.3 -181.1905 181.1905 0
-0.4 -236.1584 236.1584 0
-0.466667 -277.296 277.296 0
-0.566667 -302.5742 302.5742 0
-0.766667 -310.5367 310.5367 0
-0.9 -313.6464 313.6464 0
-0.933333 -318.466 318.466 0
-1
-0.933333 0 0 0 1
-
-1661
-0.933333
-6
-0.18 -36.6359 0 0
-0.3 -58.8645 0  0
-0.4 -131.3534 0 0
-0.65 -178.6710 0 0
-0.833333 -224.0952 0 0
-0.933333 -228.1573 0 0
-1
-0.933333 0 0 0 1
-
-1667
-0.933333
-6
-0.18 36.6359 0  0
-0.3 58.8645 0  0
-0.4 131.3534 0 0
-0.6 178.6710 0 0
-0.8 224.0952 0 0
-0.933333 228.1573 0 0
-1
-0.933333 0 0 0 1
-
-1663
-0.933333
-6
-0.18 -30.3464 -30.3464 0
-0.3 -50.5427 -50.5427 0
-0.4 -112.7839 -112.7839 0
-0.65 -153.4122 -153.4122 0
-0.833333 -192.4149 -192.4149 0
-0.933333 -195.9021 -195.9021 0
-1
-0.933333 0 0 0 1
-
-1660
-0.933333
-9
-0.18 -98.0097 0  0
-0.233333 -185.6207 0 0
-0.3 -256.242 0 0
-0.4 -333.9783 0 0
-0.466667 -392.1558 0 0
-0.566667 -427.9045 0 0
-0.766667 -439.1652 0 0
-0.9 -443.5631 0 0
-0.933333 -450.3789 0 0
-1
-0.933333 0 0 0 1
-
-1657
-0.933333
-6
-0.18 0 -52.337 0
-0.3 0 -84.0921 0
-0.4 0 -187.6477 0
-0.65 0 -255.2443 0
-0.833333 0 -320.136 0
-0.933333 0 -325.939 0
-1
-0.933333 0 0 0 1
-
-1659
-0.933333
-6
-0.18 0 52.337 0
-0.3 0 84.0921 0
-0.4 0 187.6477 0
-0.65 0 255.2443 0
-0.833333 0 320.136 0
-0.933333 0 325.939 0
-1
-0.933333 0 0 0 1
-
-1665
-0.933333
-6
-0.18 -30.3464 30.3464 0
-0.3 -50.5427 50.5427 0
-0.4 -112.7839 112.7839 0
-0.65 -153.4122 153.4122 0
-0.833333 -192.4149 192.4149 0
-0.933333 -195.9021 195.9021 0
-1
-0.933333 0 0 0 1
-
-1666
-0.933333
-9
-0.18 98.0097 0  0
-0.233333 185.6207 0 0
-0.3 256.242 0 0
-0.4 333.9783 0 0
-0.466667 392.1558 0 0
-0.566667 427.9045 0 0
-0.766667 439.1652 0 0
-0.9 443.5631 0 0
-0.933333 450.3789 0 0
-1
-0.933333 0 0 0 1
-
-1669
-0.933333
-6
-0.18 30.3464 -30.3464 0
-0.3 50.5427 -50.5427 0
-0.4 112.7839 -112.7839 0
-0.65 153.4122 -153.4122 0
-0.833333 192.4149 -192.4149 0
-0.933333 195.9021 -195.9021 0
-1
-0.933333 0 0 0 1
-
-1656
-0.933333
-9
-0.18 0 -98.0097 0
-0.233333 0 -185.6207 0
-0.3 0 -256.242 0
-0.4 0 -333.9783 0
-0.466667 0 -392.1558 0
-0.566667 0 -427.9045 0
-0.766667 0 -439.1652 0
-0.9 0 -443.5631 0
-0.933333 0 -450.3789 0
-1
-0.933333 0 0 0 1
-
-1658
-0.933333
-9
-0.18 0 98.0097 0
-0.233333 0 185.6207 0
-0.3 0 256.242 0
-0.4 0 333.9783 0
-0.466667 0 392.1558 0
-0.566667 0 427.9045 0
-0.766667 0 439.1652 0
-0.9 0 443.5631 0
-0.933333 0 450.3789 0
-1
-0.933333 0 0 0 1
-
-14116
+13940
 1
 17
 Behaviors\0_Master.hkx
@@ -99086,183 +100598,7 @@ SoundPlay.QSTDLC2BoatArrivalCreakC01:35.841
 SoundPlay.QSTDLC2BoatArrivalCreakB04:40.87
 IdleStop:41.6667
 
-BackwardRoll_Clip_B
-869
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-BackwardSidestep_Clip_B
-870
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-ForwardRoll_Clip_B
-871
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-ForwardSidestep_Clip_B
-872
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-LeftRoll_Clip_B
-873
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-LeftSidestep_Clip_B
-874
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Left_BackwardRoll_Clip_B
-875
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Left_BackwardSidestep_Clip_B
-876
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Left_ForwardRoll_Clip_B
-877
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Left_ForwardSidestep_Clip_B
-878
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-RightRoll_Clip_B
-879
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-RightSidestep_Clip_B
-880
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Right_BackwardRoll_Clip_B
-881
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Right_BackwardSidestep_Clip_B
-882
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-Right_ForwardRoll_Clip_B
-883
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.75
-RollWinEnd:0.80
-RollNext:0.85
-
-Right_ForwardSidestep_Clip_B
-884
-1
-0
-0
-4
-RollNext:0.3
-RollWinStart:0.45
-RollWinEnd:0.50
-RollNext:0.51
-
-6179
+5963
 104
 4
 1
@@ -105225,222 +106561,6 @@ RollNext:0.51
 0.333333 0 0 0
 1
 0.333333 0 0 0 1
-
-873
-0.933333
-9
-0.18 -98.0097 0  0
-0.233333 -185.6207 0 0
-0.3 -256.242 0 0
-0.4 -333.9783 0 0
-0.466667 -392.1558 0 0
-0.566667 -427.9045 0 0
-0.766667 -439.1652 0 0
-0.9 -443.5631 0 0
-0.933333 -450.3789 0 0
-1
-0.933333 0 0 0 1
-
-875
-0.933333
-9
-0.18 -69.3033 -69.3033 0
-0.233333 -131.2536 -131.2536 0
-0.3 -181.1905 -181.1905 0
-0.4 -236.1584 -236.1584 0
-0.466667 -277.296 -277.296 0
-0.566667 -302.5742 -302.5742 0
-0.766667 -310.5367 -310.5367 0
-0.9 -313.6464 -313.6464 0
-0.933333 -318.466 -318.466 0
-1
-0.933333 0 0 0 1
-
-880
-0.933333
-6
-0.18 36.6359 0  0
-0.3 58.8645 0  0
-0.4 131.3534 0 0
-0.6 178.6710 0 0
-0.8 224.0952 0 0
-0.933333 228.1573 0 0
-1
-0.933333 0 0 0 1
-
-870
-0.933333
-6
-0.18 0 -52.337 0
-0.3 0 -84.0921 0
-0.4 0 -187.6477 0
-0.65 0 -255.2443 0
-0.833333 0 -320.136 0
-0.933333 0 -325.939 0
-1
-0.933333 0 0 0 1
-
-872
-0.933333
-6
-0.18 0 52.337 0
-0.3 0 84.0921 0
-0.4 0 187.6477 0
-0.65 0 255.2443 0
-0.833333 0 320.136 0
-0.933333 0 325.939 0
-1
-0.933333 0 0 0 1
-
-884
-0.933333
-6
-0.18 30.3464 30.3464 0
-0.3 50.5427 50.5427 0
-0.4 112.7839 112.7839 0
-0.65 153.4122 153.4122 0
-0.833333 192.4149 192.4149 0
-0.933333 195.9021 195.9021 0
-1
-0.933333 0 0 0 1
-
-882
-0.933333
-6
-0.18 30.3464 -30.3464 0
-0.3 50.5427 -50.5427 0
-0.4 112.7839 -112.7839 0
-0.65 153.4122 -153.4122 0
-0.833333 192.4149 -192.4149 0
-0.933333 195.9021 -195.9021 0
-1
-0.933333 0 0 0 1
-
-878
-0.933333
-6
-0.18 -30.3464 30.3464 0
-0.3 -50.5427 50.5427 0
-0.4 -112.7839 112.7839 0
-0.65 -153.4122 153.4122 0
-0.833333 -192.4149 192.4149 0
-0.933333 -195.9021 195.9021 0
-1
-0.933333 0 0 0 1
-
-876
-0.933333
-6
-0.18 -30.3464 -30.3464 0
-0.3 -50.5427 -50.5427 0
-0.4 -112.7839 -112.7839 0
-0.65 -153.4122 -153.4122 0
-0.833333 -192.4149 -192.4149 0
-0.933333 -195.9021 -195.9021 0
-1
-0.933333 0 0 0 1
-
-879
-0.933333
-9
-0.18 98.0097 0  0
-0.233333 185.6207 0 0
-0.3 256.242 0 0
-0.4 333.9783 0 0
-0.466667 392.1558 0 0
-0.566667 427.9045 0 0
-0.766667 439.1652 0 0
-0.9 443.5631 0 0
-0.933333 450.3789 0 0
-1
-0.933333 0 0 0 1
-
-869
-0.933333
-9
-0.18 0 -98.0097 0
-0.233333 0 -185.6207 0
-0.3 0 -256.242 0
-0.4 0 -333.9783 0
-0.466667 0 -392.1558 0
-0.566667 0 -427.9045 0
-0.766667 0 -439.1652 0
-0.9 0 -443.5631 0
-0.933333 0 -450.3789 0
-1
-0.933333 0 0 0 1
-
-871
-0.933333
-9
-0.18 0 98.0097 0
-0.233333 0 185.6207 0
-0.3 0 256.242 0
-0.4 0 333.9783 0
-0.466667 0 392.1558 0
-0.566667 0 427.9045 0
-0.766667 0 439.1652 0
-0.9 0 443.5631 0
-0.933333 0 450.3789 0
-1
-0.933333 0 0 0 1
-
-883
-0.933333
-9
-0.18 69.3033 69.3033 0
-0.233333 131.2536 131.2536 0
-0.3 181.1905 181.1905 0
-0.4 236.1584 236.1584 0
-0.466667 277.296 277.296 0
-0.566667 302.5742 302.5742 0
-0.766667 310.5367 310.5367 0
-0.9 313.6464 313.6464 0
-0.933333 318.466 318.466 0
-1
-0.933333 0 0 0 1
-
-881
-0.933333
-9
-0.18 69.3033 -69.3033 0
-0.233333 131.2536 -131.2536 0
-0.3 181.1905 -181.1905 0
-0.4 236.1584 -236.1584 0
-0.466667 277.296 -277.296 0
-0.566667 302.5742 -302.5742 0
-0.766667 310.5367 -310.5367 0
-0.9 313.6464 -313.6464 0
-0.933333 318.466 -318.466 0
-1
-0.933333 0 0 0 1
-
-877
-0.933333
-9
-0.18 -69.3033 69.3033 0
-0.233333 -131.2536 131.2536 0
-0.3 -181.1905 181.1905 0
-0.4 -236.1584 236.1584 0
-0.466667 -277.296 277.296 0
-0.566667 -302.5742 302.5742 0
-0.766667 -310.5367 310.5367 0
-0.9 -313.6464 313.6464 0
-0.933333 -318.466 318.466 0
-1
-0.933333 0 0 0 1
-
-874
-0.933333
-6
-0.18 -36.6359 0 0
-0.3 -58.8645 0  0
-0.4 -131.3534 0 0
-0.65 -178.6710 0 0
-0.833333 -224.0952 0 0
-0.933333 -228.1573 0 0
-1
-0.933333 0 0 0 1
 
 765
 1

@@ -3350,6 +3350,8 @@ Camera~1643
 MT WalkingCamera~1104
 VampireLordTransform~1096
 DLC01TrailerWalkForward~623
+1HM_Dual_Equip_Attack~skice$0
+1HM_Equip_Attack~skice$0
 TKDodgeBack~tkuc$1
 TKDodgeForward~tkuc$0
 TKDodgeLeft~tkuc$2
@@ -4945,6 +4947,7 @@ Right_ForwardSidestep_Clip_B~tudm$0
 1397
 1398
 1399
+skice$0
 tkuc$0
 tkuc$1
 tkuc$2
@@ -7488,6 +7491,8 @@ Camera~1643
 MT WalkingCamera~1104
 VampireLordTransform~1096
 DLC01TrailerWalkForward~623
+1HM_Dual_Equip_Attack~skice$0
+1HM_Equip_Attack~skice$0
 TKDodgeBack~tkuc$1
 TKDodgeForward~tkuc$0
 TKDodgeLeft~tkuc$2
@@ -9083,6 +9088,7 @@ Right_ForwardSidestep_Clip_B~tudm$0
 1397
 1398
 1399
+skice$0
 tkuc$0
 tkuc$1
 tkuc$2

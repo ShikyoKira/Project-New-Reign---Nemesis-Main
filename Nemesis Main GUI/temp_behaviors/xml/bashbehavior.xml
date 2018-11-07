@@ -232,19 +232,7 @@
 
 <!-- ======================== NEMESIS import TEMPLATE START ======================== -->
 
-		<hkobject name="#0186" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">7</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#0189" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#0188" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -256,11 +244,69 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
+		<hkobject name="#0191" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">7</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
 <!-- ======================== NEMESIS import TEMPLATE END ======================== -->
 
 <!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->
 
-		<hkobject name="#0187" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0189" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">&#13;&#10;Intro</hkparam>
+			<hkparam name="animationName">Animations\1HM_BlockBashIntro.hkx</hkparam>
+			<hkparam name="triggers">#0187</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0190" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">&#13;&#10;Intro</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\1_1hm_blockbashintro.hkx</hkparam>
+			<hkparam name="triggers">#0187</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0186" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0188</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_1cyh0405_OrientalSwordsmanship_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0189
+				#0190
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0192" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">shd_BlockBashIntro</hkparam>
@@ -277,7 +323,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0188" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0193" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">shd_BlockBashIntro</hkparam>
@@ -295,18 +341,18 @@
 		</hkobject>
 
 		<hkobject name="#0074" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0186</hkparam>
+			<hkparam name="variableBindingSet">#0191</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0187
-				#0188
+				#0192
+				#0193
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0190" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0194" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BlockBashIntro</hkparam>
@@ -323,7 +369,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0191" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0195" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BlockBashIntro</hkparam>
@@ -341,18 +387,64 @@
 		</hkobject>
 
 		<hkobject name="#0076" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0189</hkparam>
+			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_1cyh0405_OrientalSwordsmanship_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0190
-				#0191
+				#0194
+				#0195
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0192" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0196" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Bow_BlockBash</hkparam>
+			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0197" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Bow_BlockBash</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\1_1hm_blockbash.hkx</hkparam>
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0160" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0188</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_1cyh0405_OrientalSwordsmanship_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0196
+				#0197
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0198" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaffRight_Idle</hkparam>
@@ -369,7 +461,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0193" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0199" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaffRight_Idle</hkparam>
@@ -387,18 +479,18 @@
 		</hkobject>
 
 		<hkobject name="#0096" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0186</hkparam>
+			<hkparam name="variableBindingSet">#0191</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0192
-				#0193
+				#0198
+				#0199
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0194" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0200" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BashPower</hkparam>
@@ -415,7 +507,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0195" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0201" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BashPower</hkparam>
@@ -433,18 +525,64 @@
 		</hkobject>
 
 		<hkobject name="#0121" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0189</hkparam>
+			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_1cyh0405_OrientalSwordsmanship_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0194
-				#0195
+				#0200
+				#0201
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0196" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0202" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">DW1HM1HMBlockBash</hkparam>
+			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0203" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">DW1HM1HMBlockBash</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\1_1hm_blockbash.hkx</hkparam>
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0166" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0188</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_1cyh0405_OrientalSwordsmanship_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0202
+				#0203
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0204" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BlockBash</hkparam>
@@ -453,7 +591,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -461,7 +599,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0197" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0205" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BlockBash</hkparam>
@@ -470,7 +608,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>
@@ -479,12 +617,12 @@
 		</hkobject>
 
 		<hkobject name="#0158" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#0189</hkparam>
+			<hkparam name="variableBindingSet">#0188</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_1cyh0405_OrientalSwordsmanship_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0196
-				#0197
+				#0204
+				#0205
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -637,7 +775,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockBashIntroMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#0076				<!-- original -->
+				#0186					<!-- *cbbi* -->
 				#0084
 				#0084
 				#0084
@@ -645,8 +783,8 @@
 				#0082
 				#0080
 				#0078
-				#0076				<!-- original -->
-				#0076				<!-- original -->
+				#0186					<!-- *cbbi* -->
+				#0186					<!-- *cbbi* -->
 				#0074
 				#0072
 				#0070
@@ -1849,7 +1987,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.267000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.167000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">10</hkparam>
@@ -1861,7 +1999,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.433000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.233000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">4</hkparam>
@@ -1873,7 +2011,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.465000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.265000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -1897,7 +2035,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">1.133000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.433000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">9</hkparam>
@@ -2227,7 +2365,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.431000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.350000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">4</hkparam>
@@ -2239,7 +2377,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.464000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.364000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -2251,7 +2389,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.667000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.367000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -2263,7 +2401,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">1.133000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.370000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">9</hkparam>
@@ -2750,7 +2888,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.033000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.133000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">3</hkparam>
@@ -2762,7 +2900,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.059000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.209000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">10</hkparam>
@@ -2774,7 +2912,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.099000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.219000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">4</hkparam>
@@ -2786,7 +2924,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.134000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.234000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -2863,7 +3001,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.033000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.113000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">3</hkparam>
@@ -2875,7 +3013,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.099000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.143000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">4</hkparam>
@@ -2887,7 +3025,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.133000</hkparam>				<!-- original -->
+					<hkparam name="localTime">0.153000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">8</hkparam>
@@ -2911,23 +3049,6 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 			</hkparam>
-		</hkobject>
-
-		<hkobject name="#0160" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Bow_BlockBash</hkparam>
-			<hkparam name="animationName">Animations\Bow_BlockBash.hkx</hkparam>				<!-- original -->
-			<hkparam name="triggers">#0161</hkparam>				<!-- original -->
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
 		<hkobject name="#0161" class="hkbClipTriggerArray" signature="0x59c23a0f">
@@ -3181,23 +3302,6 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 			</hkparam>
-		</hkobject>
-
-		<hkobject name="#0166" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DW1HM1HMBlockBash</hkparam>
-			<hkparam name="animationName">Animations\DW1HM1HMBlockBash.hkx</hkparam>				<!-- original -->
-			<hkparam name="triggers">#0167</hkparam>				<!-- original -->
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
 		<hkobject name="#0167" class="hkbClipTriggerArray" signature="0x59c23a0f">
@@ -3548,6 +3652,23 @@
 			<hkparam name="variableMode">VARIABLE_MODE_DISCARD_WHEN_INACTIVE</hkparam>
 			<hkparam name="rootGenerator">#0184</hkparam>
 			<hkparam name="data">#0058</hkparam>
+		</hkobject>
+
+		<hkobject name="#0187" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="1">
+				<hkobject>
+					<hkparam name="localTime">0.000000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">2</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>
 
 	</hksection>
