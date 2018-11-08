@@ -4865,7 +4865,7 @@ void BehaviorSub::BehaviorCompilation()
 
 							if (newAnimCount > 0)
 							{
-								DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Animation count" +
+								DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Animation count: " +
 									to_string(newAnimCount) + ")");
 								shared_ptr<Furniture> dummyAnimation;
 								int IDMultiplier = newAnimation[templateCode][0]->getNextID(lowerBehaviorFile);
@@ -5188,7 +5188,7 @@ void BehaviorSub::BehaviorCompilation()
 									return;
 								}
 
-								DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Animation count" +
+								DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Animation count: " +
 									to_string(newAnimCount) + " COMPLETE)");
 							}
 
@@ -5197,7 +5197,7 @@ void BehaviorSub::BehaviorCompilation()
 					}
 					else
 					{
-						DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count" +
+						DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count: " +
 							to_string(BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile].size()) + ")");
 
 						// existing function
@@ -5238,7 +5238,7 @@ void BehaviorSub::BehaviorCompilation()
 							}
 						}
 
-						DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count" +
+						DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count: " +
 							to_string(BehaviorTemplate.existingFunctionID[templateCode][lowerBehaviorFile].size()) + " COMPLETE)");
 					}
 
@@ -5264,7 +5264,7 @@ void BehaviorSub::BehaviorCompilation()
 
 			if (clipAA.size() != 0)
 			{
-				DebugLogging("Processing behavior: " + filepath + " (Check point 4.2, AA count " + to_string(clipAA.size()) + ")");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 4.2, AA count: " + to_string(clipAA.size()) + ")");
 				unordered_map<string, int> replacerCount;
 
 				for (auto iter = clipAA.begin(); iter != clipAA.end(); ++iter)
@@ -5557,14 +5557,14 @@ void BehaviorSub::BehaviorCompilation()
 					}
 				}
 
-				DebugLogging("Processing behavior: " + filepath + " (Check point 4.4, AA count " + to_string(clipAA.size()) + " COMPLETE)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 4.4, AA count: " + to_string(clipAA.size()) + " COMPLETE)");
 			}
 
 			vecstr PCEALines;
 
 			if (pceaID.size() > 0)
 			{
-				DebugLogging("Processing behavior: " + filepath + " (Check point 4.6, PCEA count " + to_string(pceaID.size()) + ")");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 4.6, PCEA count: " + to_string(pceaID.size()) + ")");
 				unordered_map<string, int> replacerCount;
 
 				for (auto& datalist : pceaID)
@@ -5711,7 +5711,7 @@ void BehaviorSub::BehaviorCompilation()
 					catalystMap.erase(catalystMap.find(datalist.first));
 				}
 
-				DebugLogging("Processing behavior: " + filepath + " (Check point 4.8, PCEA count " + to_string(pceaID.size()) + " COMPLETE)");
+				DebugLogging("Processing behavior: " + filepath + " (Check point 4.8, PCEA count: " + to_string(pceaID.size()) + " COMPLETE)");
 			}
 
 			emit progressAdd();
