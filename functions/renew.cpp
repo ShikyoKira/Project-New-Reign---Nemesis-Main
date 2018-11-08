@@ -4,29 +4,51 @@
 
 using namespace std;
 
+bool DeleteFileFolder(string directory, string file, bool xml)
+{
+	if (boost::filesystem::is_directory(directory + file))
+	{
+		string tempbehavior = directory + file;
+		vecstr filelist;
+		read_directory(tempbehavior, filelist);
+		tempbehavior.append("\\");
+
+		for (auto& curfile : filelist)
+		{
+			DeleteFileFolder(tempbehavior, curfile, xml);
+		}
+	}
+
+	if (!boost::filesystem::remove(directory + file))
+	{
+		if (xml)
+		{
+			WarningMessage(1009, file);
+		}
+		else
+		{
+			WarningMessage(1006);
+		}
+	}
+
+	return true;
+}
+
 void ClearTempBehaviors()
 {
 	vecstr filelist;
-	string tempbehavior = "temp_behaviors\\";
-	read_directory(tempbehavior, filelist);
+	string tempbehavior = "temp_behaviors";
 
-	for (unsigned int i = 0; i < filelist.size(); ++i)
+	if (isFileExist(tempbehavior) && boost::filesystem::is_directory(tempbehavior))
 	{
-		if (!boost::iequals(filelist[i], "xml"))
+		read_directory(tempbehavior, filelist);
+		tempbehavior.append("\\");
+
+		for (auto& file : filelist)
 		{
-			if (remove((tempbehavior + filelist[i]).c_str()) != 0)
+			if (!boost::iequals(file, "xml"))
 			{
-				if (boost::filesystem::is_directory(tempbehavior + filelist[i]))
-				{
-					if (!boost::filesystem::remove_all(tempbehavior + filelist[i]))
-					{
-						WarningMessage(1006);
-					}
-				}
-				else
-				{
-					WarningMessage(1006);
-				}
+				DeleteFileFolder(tempbehavior, file, false);
 			}
 		}
 	}
@@ -35,36 +57,16 @@ void ClearTempBehaviors()
 void ClearTempXml()
 {
 	vecstr filelist;
-	string folder = "temp_behaviors\\xml";
+	string tempbehavior = "temp_behaviors\\xml";
 
-	if (isFileExist(folder) && boost::filesystem::is_directory(folder))
+	if (isFileExist(tempbehavior) && boost::filesystem::is_directory(tempbehavior))
 	{
-		read_directory(folder, filelist);
-		folder.append("\\");
+		read_directory(tempbehavior, filelist);
+		tempbehavior.append("\\");
 
-		for (unsigned int i = 0; i < filelist.size(); ++i)
+		for (auto& file : filelist)
 		{
-			if (boost::filesystem::is_directory(folder + filelist[i]))
-			{
-				try
-				{
-					if (!boost::filesystem::remove_all(folder + filelist[i]))
-					{
-						WarningMessage(1009, filelist[i]);
-					}
-				}
-				catch (const std::exception& ex)
-				{
-					interMsg(ex.what());
-				}
-			}
-			else
-			{
-				if (remove((folder + filelist[i]).c_str()) != 0)
-				{
-					WarningMessage(1009, filelist[i]);
-				}
-			}
+			DeleteFileFolder(tempbehavior, file, true);
 		}
 	}
 }
