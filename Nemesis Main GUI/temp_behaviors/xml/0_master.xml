@@ -14,7 +14,7 @@
 		</hkobject>
 
 		<hkobject name="#0106" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-			<hkparam name="eventNames" numelements="1229">   				<!-- EVENT numelement skice +1 $2 --> <!-- EVENT numelement zcbe +10 $2 --> <!-- EVENT numelement tudm +39 $2 -->
+			<hkparam name="eventNames" numelements="1229">   				<!-- EVENT numelement skice +1 $2 --> <!-- EVENT numelement tudm +39 $2 --> <!-- EVENT numelement zcbe +10 $2 -->
 				<hkcstring>FootLeft</hkcstring>
 				<hkcstring>FootRight</hkcstring>
 				<hkcstring>WeapEquip</hkcstring>
@@ -1246,7 +1246,7 @@
 				<hkcstring>pa_CH_BackStab</hkcstring>
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="273">				<!-- VARIABLE numelement nemesis +1 $1222 --> <!-- VARIABLE numelement zcbe +12 $1238 --> <!-- VARIABLE numelement tudm +6 $1267 -->
+			<hkparam name="variableNames" numelements="273">				<!-- VARIABLE numelement tudm +6 $1267 --> <!-- VARIABLE numelement nemesis +1 $1222 --> <!-- VARIABLE numelement zcbe +12 $1238 -->
 				<hkcstring>Speed</hkcstring>
 				<hkcstring>Direction</hkcstring>
 				<hkcstring>TurnDelta</hkcstring>
@@ -1541,7 +1541,7 @@
 		</hkobject>
 
 		<hkobject name="#0107" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="273">				<!-- VARIABLE numelement zcbe +12 $2 --> <!-- VARIABLE numelement tudm +6 $2 --> <!-- VARIABLE numelement nemesis +1 $2 -->
+			<hkparam name="wordVariableValues" numelements="273">				<!-- VARIABLE numelement tudm +6 $2 --> <!-- VARIABLE numelement nemesis +1 $2 --> <!-- VARIABLE numelement zcbe +12 $2 -->
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
@@ -2373,7 +2373,7 @@
 
 		<hkobject name="#0108" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="273">				<!-- VARIABLE numelement zcbe +12 $3 --> <!-- VARIABLE numelement tudm +6 $3 --> <!-- VARIABLE numelement nemesis +1 $3 -->
+			<hkparam name="variableInfos" numelements="273">				<!-- VARIABLE numelement tudm +6 $3 --> <!-- VARIABLE numelement nemesis +1 $3 --> <!-- VARIABLE numelement zcbe +12 $3 -->
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -4969,7 +4969,7 @@
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="eventInfos" numelements="1229">   				<!-- EVENT numelement zcbe +10 $2326 --> <!-- EVENT numelement tudm +39 $2272 --> <!-- EVENT numelement skice +1 $2212 -->
+			<hkparam name="eventInfos" numelements="1229">   				<!-- EVENT numelement tudm +39 $2272 --> <!-- EVENT numelement skice +1 $2212 --> <!-- EVENT numelement zcbe +10 $2326 -->
 				<hkobject>
 					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
 				</hkobject>

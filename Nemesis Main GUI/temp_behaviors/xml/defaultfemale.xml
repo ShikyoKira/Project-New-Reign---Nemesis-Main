@@ -45,7 +45,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="2969">					<!-- numelement *hmce* +24--> <!-- numelement *momo* +2--> <!-- numelement *skice* +1--> <!-- numelement *zcbe* +46--> <!-- numelement *tudm* +36-->
+			<hkparam name="animationNames" numelements="2969">					<!-- numelement *momo* +2--> <!-- numelement *hmce* +24--> <!-- numelement *skice* +1--> <!-- numelement *zcbe* +46--> <!-- numelement *tudm* +36-->
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1hm_1stP_Walk.hkx</hkcstring>
 				<hkcstring>Animations\1HM_AttackForwardSprint.hkx</hkcstring>

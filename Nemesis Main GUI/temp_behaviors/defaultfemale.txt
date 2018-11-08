@@ -30,7 +30,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="1656">					<!-- numelement *hmce* +24--> <!-- numelement *momo* +2--> <!-- numelement *skice* +1--> <!-- numelement *zcbe* +46--> <!-- numelement *tudm* +36-->
+			<hkparam name="animationNames" numelements="1656">					<!-- numelement *momo* +2--> <!-- numelement *hmce* +24--> <!-- numelement *skice* +1--> <!-- numelement *zcbe* +46--> <!-- numelement *tudm* +36-->
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1hm_1stP_Walk.hkx</hkcstring>
 				<hkcstring>Animations\1HM_AttackForwardSprint.hkx</hkcstring>
@@ -1687,6 +1687,10 @@
 				<hkcstring>Animations\WW_Stage7.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage8.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage9.hkx</hkcstring>
+<!-- NEW *momo* -->
+				<hkcstring>Animations\MomoAJ\mt_jumpfastback.hkx</hkcstring>
+				<hkcstring>Animations\MomoAJ\mt_jumpfallback.hkx</hkcstring>
+<!-- CLOSE -->
 <!-- NEW *hmce* -->
 				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackAnticipate_L.hkx</hkcstring>
 				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackAnticipate_R.hkx</hkcstring>
@@ -1712,10 +1716,6 @@
 				<hkcstring>Animations\Horsemen\HMMC_CastLoopFFSelf.hkx</hkcstring>
 				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateFFSelf.hkx</hkcstring>
 				<hkcstring>Animations\Horsemen\HMMC_CastReleaseFFSelf.hkx</hkcstring>
-<!-- CLOSE -->
-<!-- NEW *momo* -->
-				<hkcstring>Animations\MomoAJ\mt_jumpfastback.hkx</hkcstring>
-				<hkcstring>Animations\MomoAJ\mt_jumpfallback.hkx</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *skice* -->
 				<hkcstring>Animations\1hm_UnsheatheAttack.hkx</hkcstring>
