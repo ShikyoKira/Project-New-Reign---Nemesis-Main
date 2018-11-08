@@ -8,10 +8,18 @@ int main(int argc, char *argv[])
 	bool generate = false;
 	bool update = false;
 	vecstr modlist;
-
-	if (isFileExist("CriticalLog.txt"))
+	std::string logfile = "CriticalLog.txt";
+	
+	try
 	{
-		boost::filesystem::remove("CriticalLog.txt");
+		if (isFileExist(logfile) && !boost::filesystem::is_directory(logfile))
+		{
+			boost::filesystem::remove(logfile);
+		}
+	}
+	catch (const std::exception&)
+	{
+		// empty
 	}
 
 	QApplication a(argc, argv);

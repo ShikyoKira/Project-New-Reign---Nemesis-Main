@@ -57,7 +57,7 @@ bool hkxcmdXmlInput(string hkxfile, vecstr& fileline)
 			ErrorMessage(1003, hkxfile);
 			return false;
 		}
-		else
+		else if (!boost::filesystem::is_directory(xmlfile))
 		{
 			if (!GetFunctionLines(xmlfile, fileline))
 			{

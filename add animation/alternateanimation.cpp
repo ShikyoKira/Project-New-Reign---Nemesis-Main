@@ -728,7 +728,7 @@ bool PapyrusCompileProcess(string pscfile, string scriptsource, string destinati
 	vecstr args{ GetFileName(pscfile) + ".psc", "-f=TESV_Papyrus_Flags.flg" , "-i=" + scriptsource + ";Papyrus Compiler\\backup scripts" , "-o=" + destination};
 	future<vector<char>> p_reader, p_error;
 	
-	if (isFileExist(filepath) && !boost::filesystem::remove(filepath))
+	if (isFileExist(filepath) && !boost::filesystem::is_directory(filepath) && !boost::filesystem::remove(filepath))
 	{
 		ErrorMessage(1082, filepath);
 		return false;
