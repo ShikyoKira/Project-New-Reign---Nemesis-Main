@@ -8,7 +8,7 @@ std::string GetNemesisVersion()
 {
 	std::string line;
 	char charline[2000];
-	std::shared_ptr<TextFile> BehaviorFormat = std::make_shared<TextFile>("version");
+	std::shared_ptr<FileReader> BehaviorFormat = std::make_shared<FileReader>("version");
 
 	if (BehaviorFormat->GetFile())
 	{
@@ -35,7 +35,7 @@ std::string GetNemesisVersion()
 	}
 
 	ErrorMessage(1092, "version");
-	throw -1;
+	return "";
 }
 
 #endif
