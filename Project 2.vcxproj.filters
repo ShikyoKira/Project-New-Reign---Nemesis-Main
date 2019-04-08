@@ -90,12 +90,24 @@
     <ClCompile Include="add animation\animationthread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Nemesis Main GUI\src\utilities\filerelease.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Nemesis Main GUI\src\utilities\wstrconvert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="add animation\singletemplate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="add animation\templateprocessing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="add animation\stringsplit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functions\functionupdate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="functions\functionwriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dataunification.h">
@@ -173,10 +185,31 @@
     <ClInclude Include="lastupdate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="readtextfile.h">
+    <ClInclude Include="add animation\animationthread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="add animation\animationthread.h">
+    <ClInclude Include="Nemesis Main GUI\src\utilities\filerelease.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nemesis Main GUI\src\utilities\wstrconvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="add animation\singletemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\atomiclock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\writetextfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\readtextfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="add animation\templateprocessing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="add animation\stringsplit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
