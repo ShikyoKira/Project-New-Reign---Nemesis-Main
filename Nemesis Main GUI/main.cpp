@@ -76,7 +76,13 @@ int main(int argc, char *argv[])
 		else
 		{
 			NewDebugMessage(*new DebugMsg("english"));
-			skyrimDataPath = new DataPath;
+
+			try
+			{
+				skyrimDataPath = new DataPath;
+			}
+			catch (nemesis::exception) {}
+
 			CmdGenerateInitialize(modlist);
 		}
 	}
@@ -99,7 +105,13 @@ int main(int argc, char *argv[])
 		else
 		{
 			NewDebugMessage(*new DebugMsg("english"));
-			skyrimDataPath = new DataPath;
+
+			try
+			{
+				skyrimDataPath = new DataPath;
+			}
+			catch (nemesis::exception) {}
+
 			CmdUpdateInitialize();
 		}
 	}
@@ -110,18 +122,6 @@ int main(int argc, char *argv[])
 		if (!error)
 		{
 			w.setWindowIcon(QIcon(":/icon/title icon.png"));
-			skyrimDataPath = new DataPath;
-
-			if (error)
-			{
-				w.ui.buttonCheck->setDisabled(true);
-				w.ui.buttonLaunch->setDisabled(true);
-				w.ui.buttonUpdate->setDisabled(true);
-				w.ui.modView->setDisabled(true);
-				w.ui.comboBox->setDisabled(true);
-				error = false;
-			}
-
 			w.show();
 			return a.exec();
 		}
