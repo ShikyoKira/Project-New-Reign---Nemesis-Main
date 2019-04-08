@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- s[F][ac1] #MID$1 --> <!-- null -->
 			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- s[F][ac0] #MID$2 --> <!-- null -->
-			<hkparam name="transitions">#0111</hkparam>
+			<hkparam name="transitions">null</hkparam>
  			<hkparam name="generator">$MC$</hkparam>			<!-- !s[][md] #MID$3 --> <!-- #MID$6 -->
 			<hkparam name="name">$s[F][main_anim_event]$_Group</hkparam>
 			<hkparam name="stateId">$(S+0)$</hkparam>
@@ -67,7 +67,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">bIsActive0</hkparam>
-					<hkparam name="variableIndex">9</hkparam>
+					<hkparam name="variableIndex">0</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -126,7 +126,7 @@
 					</hkparam>
 					<hkparam name="transition">$MC$</hkparam>			<!-- s[F][B] #$import[blend_transition][s[F][B][duration]]$ --> <!-- #0111 -->
 					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">$eventID[[s[F][main_anim_event]]_REENTER]$</hkparam>
+					<hkparam name="eventId">$eventID[{s[F][main_anim_event]}_REENTER]$</hkparam>
  					<hkparam name="toStateId">$s[F][(S+0)]$</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>

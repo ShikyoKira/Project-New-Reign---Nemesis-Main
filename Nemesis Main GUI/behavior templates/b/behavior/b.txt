@@ -117,7 +117,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_Basic_Animation_$%$</hkparam>
 			<hkparam name="animationName">Animations\$FilePath$</hkparam>
-			<hkparam name="triggers">$MC$</hkparam>			<!-- a|T #MID$7 --> <!-- null -->
+			<hkparam name="triggers">$MC$</hkparam>			<!-- T|(a&!Tn) #MID$7 --> <!-- null -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
@@ -129,6 +129,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
+<!-- CONDITION START ^T|(a&!Tn)^ -->
 		<hkobject name="#MID$7" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="$elements$">			<!-- COMPUTE -->
 <!-- CONDITION START ^a&!Tn^ -->
@@ -161,3 +162,5 @@
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
+
+<!-- CONDITION END -->

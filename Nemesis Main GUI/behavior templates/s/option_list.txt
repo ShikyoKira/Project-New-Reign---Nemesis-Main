@@ -1,5 +1,6 @@
 'Animation Condition
 link AVI AV
+minimum 2
 
 'Animation Options
 o

@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- o|(!h&(^first^|fu[B][h]))|ac1 #MID$1 --> <!-- null -->
 			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- o|(!h&(^last^|fu[N][h]))|ac0|^first^ #MID$2 --> <!-- null -->
-			<hkparam name="transitions">$MC$</hkparam>			<!-- ^first^ #$import[transitions][LastState]$ --> <!-- ^last^ null --> <!-- #$import[transitions][LastState]$ -->
+			<hkparam name="transitions">$MC$</hkparam>			<!-- !^last^ #$import[transitions][LastState]$ --> <!-- null -->
  			<hkparam name="generator">$MC$</hkparam>			<!-- !^first^&(AV|AVI) #MID$3 --> <!-- #MID$6 -->
 			<hkparam name="name">$main_anim_event$</hkparam>
 			<hkparam name="stateId">$(S+0)$</hkparam>
@@ -11,7 +11,7 @@
 			<hkparam name="enable">true</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^o|!h|ac1^ -->
+<!-- CONDITION START ^o|(!h&(^first^|fu[B][h]))|ac1^ -->
 		<hkobject name="#MID$1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
 <!-- CONDITION START ^!h&(^first^|fu[B][h])^ -->
@@ -40,7 +40,7 @@
 		</hkobject>
 
 <!-- CONDITION END -->
-<!-- CONDITION START ^o|!h|ac0|^first^^ -->
+<!-- CONDITION START ^o|(!h&(^last^|fu[N][h]))|ac0|^first^^ -->
 		<hkobject name="#MID$2" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
 <!-- CONDITION START ^!h&(^last^|fu[N][h])^ -->
@@ -163,7 +163,7 @@
 					<hkparam name="localTime">-0.200000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$eventID[main_anim_event_DONE]$</hkparam> 				<!-- DONE AnimEvent -->
+							<hkparam name="id">$eventID[{main_anim_event}_DONE]$</hkparam> 				<!-- DONE AnimEvent -->
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>

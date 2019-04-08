@@ -1,16 +1,17 @@
 		<hkobject name="#MID$0" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- o|ac1 #MID$1 --> <!-- !h&(^first^|so[B][h]) #$import[event_property][eventID[HeadTrackingOff]][null]$ --> <!-- null -->
-			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- o|ac0 #MID$2 --> <!-- !h&(^last^|so[N][h]) #$import[event_property][eventID[HeadTrackingOn]][null]$ --> <!-- null -->
+			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- ac1|(o&(^first^|(<so[B][@AnimObject/1]!=@AnimObject/1>|(<so[B][@AnimObject/1]==>&<@AnimObject/1==>)))&AnimObject/1) #MID$1 --> <!-- !h&(^first^|so[B][h]) #$import[event_property][eventID[HeadTrackingOff]][null]$ --> <!-- null -->
+			<hkparam name="exitNotifyEvents">$MC$</hkparam>			<!-- ac0|(o&(^last^|(<so[N][@AnimObject/1]!=@AnimObject/1>|(<so[N][@AnimObject/1]==>&<@AnimObject/1==>)))) #MID$2 --> <!-- !h&(^last^|so[N][h]) #$import[event_property][eventID[HeadTrackingOn]][null]$ --> <!-- null -->
 			<hkparam name="transitions">#so_group$7</hkparam>
- 			<hkparam name="generator">$MC$</hkparam>			<!-- !so[][md]&!AV&!AVI #MID$6 --> <!-- #MID$3 -->
+ 			<hkparam name="generator">$MC$</hkparam>			<!-- (md|!so[][md])&!AV&!AVI #MID$6 --> <!-- #MID$3 -->
 			<hkparam name="name">$main_anim_event$</hkparam>
 			<hkparam name="stateId">$(S+0)$</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>
 
+<!-- CONDITION START ^ac1|(o&(^first^|(<so[B][@AnimObject/1]!=@AnimObject/1>|(<so[B][@AnimObject/1]==>&<@AnimObject/1==>)))&AnimObject/1)^ -->
 		<hkobject name="#MID$1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
 <!-- CONDITION START ^!h&(^first^|so[B][h])^ -->
@@ -25,7 +26,7 @@
 					<hkparam name="payload">#$import[event_payload][Camera3rd [Cam3]]$</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- CONDITION START ^o&(^first^|(<so[B][@AnimObject/1]!=@AnimObject/1>|(<so[B][@AnimObject/1]==>&<@AnimObject/1==>)))^ -->
+<!-- CONDITION START ^o&(^first^|(<so[B][@AnimObject/1]!=@AnimObject/1>|(<so[B][@AnimObject/1]==>&<@AnimObject/1==>)))&AnimObject/1^ -->
 <!-- NEW ^AnimObject/1^ +% -->
 				<hkobject>
 					<hkparam name="id">0</hkparam>
@@ -40,6 +41,8 @@
 			</hkparam>
 		</hkobject>
 
+<!-- CONDITION END -->
+<!-- CONDITION START ^ac0|(o&(^last^|(<so[N][@AnimObject/1]!=@AnimObject/1>|(<so[N][@AnimObject/1]==>&<@AnimObject/1==>))))^ -->
 		<hkobject name="#MID$2" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
 <!-- CONDITION START ^!h&(^last^|so[N][h])^ -->
@@ -48,7 +51,7 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- CONDITION END -->
-<!-- CONDITION START ^o&(^first^|(<so[N][@AnimObject/1]!=@AnimObject/1>|(<so[N][@AnimObject/1]==>&<@AnimObject/1==>)))^ -->
+<!-- CONDITION START ^o&(^last^|(<so[N][@AnimObject/1]!=@AnimObject/1>|(<so[N][@AnimObject/1]==>&<@AnimObject/1==>)))^ -->
 				<hkobject>
 					<hkparam name="id">8</hkparam>
 					<hkparam name="payload">null</hkparam>
@@ -63,7 +66,8 @@
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^!so[][md]&!AV&!AVI^ -->
+<!-- CONDITION END -->
+<!-- CONDITION START ^(md|!so[][md])&!AV&!AVI^ -->
 <!-- CONDITION -->
 		<hkobject name="#MID$3" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
@@ -73,7 +77,39 @@
 			<hkparam name="generator">#MID$6</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^!md^ -->
+<!-- CONDITION START ^md|!so[][md]^ -->
+		<hkobject name="#MID$4" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#MID$5</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">$main_anim_event$_IsActive</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">$MC$</hkparam>			<!-- AVI0 true --> <!-- false -->
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">$MC$</hkparam>			<!-- AVI1 true --> <!-- false -->
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">$MC$</hkparam>			<!-- AVI2 true --> <!-- false -->
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">$MC$</hkparam>			<!-- AVI3 true --> <!-- false -->
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">$MC$</hkparam>			<!-- AVI4 true --> <!-- false -->
+		</hkobject>
+
+		<hkobject name="#MID$5" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="$elements$">			<!-- COMPUTE -->
+<!-- NEW ^AV*^ +% -->
+				<hkobject>
+					<hkparam name="memberPath">bIsActive%</hkparam>
+					<hkparam name="variableIndex">$variableID[AV*[variable]]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+<!-- CONDITION -->
 		<hkobject name="#MID$4" class="BSIsActiveModifier" signature="0xb0fde45a">
 			<hkparam name="variableBindingSet">#MID$5</hkparam>
 			<hkparam name="userData">2</hkparam>
@@ -111,38 +147,6 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-<!-- CONDITION -->
-		<hkobject name="#MID$4" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#MID$5</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">$main_anim_event$_IsActive</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="bIsActive0">false</hkparam>
-			<hkparam name="bInvertActive0">$MC$</hkparam>			<!-- AVI0 true --> <!-- false -->
-			<hkparam name="bIsActive1">false</hkparam>
-			<hkparam name="bInvertActive1">$MC$</hkparam>			<!-- AVI1 true --> <!-- false -->
-			<hkparam name="bIsActive2">false</hkparam>
-			<hkparam name="bInvertActive2">$MC$</hkparam>			<!-- AVI2 true --> <!-- false -->
-			<hkparam name="bIsActive3">false</hkparam>
-			<hkparam name="bInvertActive3">$MC$</hkparam>			<!-- AVI3 true --> <!-- false -->
-			<hkparam name="bIsActive4">false</hkparam>
-			<hkparam name="bInvertActive4">$MC$</hkparam>			<!-- AVI4 true --> <!-- false -->
-		</hkobject>
-
-		<hkobject name="#MID$5" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^AV*^ +% -->
-				<hkobject>
-					<hkparam name="memberPath">bIsActive%</hkparam>
-					<hkparam name="variableIndex">$variableID[AV*[variable]]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-<!-- CLOSE -->
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
 <!-- CONDITION END -->
 <!-- CONDITION END -->
 		<hkobject name="#MID$6" class="hkbClipGenerator" signature="0x333b85b9">
@@ -150,7 +154,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_Sequenced_Animation_$%$</hkparam>
 			<hkparam name="animationName">Animations\$FilePath$</hkparam>
-			<hkparam name="triggers">$MC$</hkparam>			<!-- a|T|^last^ #MID$7 --> <!-- null -->
+			<hkparam name="triggers">$MC$</hkparam>			<!-- a|T #MID$7 --> <!-- null -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
@@ -162,9 +166,24 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
+<!-- CONDITION START ^a|T^ -->
 		<hkobject name="#MID$7" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="$elements">			<!-- COMPUTE -->
-<!-- NEW ORDER last -->
+<!-- CONDITION START ^a^ -->
+<!-- CONDITION START ^!^last^^ -->
+				<hkobject>
+					<hkparam name="localTime">-0.300000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$eventID[so[N][main_anim_event]]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- CONDITION -->
 				<hkobject>
 					<hkparam name="localTime">-0.05000</hkparam>
 					<hkparam name="event">
@@ -181,7 +200,7 @@
 					<hkparam name="localTime">-0.300000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$eventID[[so[L][main_anim_event]]_DONE]$</hkparam>
+							<hkparam name="id">$eventID[{so[L][main_anim_event]}_DONE]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
@@ -189,20 +208,7 @@
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
-<!-- CLOSE -->
-<!-- CONDITION START ^a&!^last^^ -->
-				<hkobject>
-					<hkparam name="localTime">-0.300000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[so[N][main_anim_event]]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
+<!-- CONDITION END -->
 <!-- CONDITION END -->
 <!-- NEW ^T^ +% -->
 				<hkobject>
@@ -220,3 +226,5 @@
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
+
+<!-- CONDITION END -->
