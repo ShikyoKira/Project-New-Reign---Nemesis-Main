@@ -3,16 +3,12 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">GetUpFromRagdollModList</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="modifiers" numelements="4">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="3">
-<!-- CLOSE -->
 				#0204
 				#0208
 				#0206
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$95
+				#zcbe$0
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

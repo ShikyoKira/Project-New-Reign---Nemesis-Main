@@ -1,12 +1,16 @@
-		<hkobject name="#tudm$25" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>
-			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#tudm$26</hkparam>
-			<hkparam name="name">Right_ForwardDodgeStyle_B2</hkparam>
-			<hkparam name="stateId">1</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
+		<hkobject name="#tudm$25" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">#tudm$26</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Left_ForwardRoll_Clip_C</hkparam>
+			<hkparam name="animationName">Animations\Roll_ForwardLeft.hkx</hkparam>
+			<hkparam name="triggers">#tudm$24</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.850000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>

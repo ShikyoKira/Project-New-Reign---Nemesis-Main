@@ -1,16 +1,30 @@
-		<hkobject name="#zcbe$165" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Magic_RunBackwardLeftFast</hkparam>
-			<hkparam name="animationName">Animations\Mag_RunBackwardLeft.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$149</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">16</hkparam>
+		<hkobject name="#zcbe$165" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#zcbe$168</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">DirectAtModifier30</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="directAtTarget">true</hkparam>
+			<hkparam name="sourceBoneIndex">-1</hkparam>
+			<hkparam name="startBoneIndex">25</hkparam>
+			<hkparam name="endBoneIndex">26</hkparam>
+			<hkparam name="limitHeadingDegrees">45.000000</hkparam>
+			<hkparam name="limitPitchDegrees">45.000000</hkparam>
+			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
+			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
+			<hkparam name="onGain">0.550000</hkparam>
+			<hkparam name="offGain">0.550000</hkparam>
+			<hkparam name="axisOfRotation">
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+			</hkparam>
+			<hkparam name="userInfo">-842150451</hkparam>
+			<hkparam name="directAtCamera">true</hkparam>
+			<hkparam name="directAtCameraX">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="directAtCameraY">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="directAtCameraZ">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="active">true</hkparam>
+			<hkparam name="currentHeadingOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="currentPitchOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
 		</hkobject>

@@ -4,9 +4,9 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#tkuc$162</hkparam>
-			<hkparam name="name">TKDodgeLeft</hkparam>
-			<hkparam name="stateId">1</hkparam>
+			<hkparam name="generator">#tkuc$161</hkparam>
+			<hkparam name="name">1HMSpecialAttackF</hkparam>
+			<hkparam name="stateId">15</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

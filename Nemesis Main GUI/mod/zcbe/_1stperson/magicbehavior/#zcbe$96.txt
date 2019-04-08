@@ -1,10 +1,7 @@
-		<hkobject name="#zcbe$96" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$106</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_MagicSwim_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#zcbe$107 #zcbe$108
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#zcbe$96" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$95</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">180.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

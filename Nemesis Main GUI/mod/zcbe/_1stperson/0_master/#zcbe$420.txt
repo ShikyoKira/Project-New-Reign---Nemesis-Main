@@ -1,26 +1,11 @@
-		<hkobject name="#zcbe$420" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Dragon_MRhLeftHandOverride</hkparam>
-			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+		<hkobject name="#zcbe$420" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
 				<hkobject>
-					<hkparam name="id">-1</hkparam>
-					<hkparam name="payload">null</hkparam>
+					<hkparam name="memberPath">fBlendParameter</hkparam>
+					<hkparam name="variableIndex">1</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="startStateChooser">null</hkparam>
-			<hkparam name="startStateId">0</hkparam>
-			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
-			<hkparam name="randomTransitionEventId">-1</hkparam>
-			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
-			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
-			<hkparam name="syncVariableIndex">-1</hkparam>
-			<hkparam name="wrapAroundStateId">false</hkparam>
-			<hkparam name="maxSimultaneousTransitions">32</hkparam>
-			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
-			<hkparam name="states" numelements="1">
-				#zcbe$422
-			</hkparam>
-			<hkparam name="wildcardTransitions">null</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

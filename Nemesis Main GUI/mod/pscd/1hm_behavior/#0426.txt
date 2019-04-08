@@ -8,7 +8,7 @@
 				#0432
 				#0431
 <!-- MOD_CODE ~pscd~ OPEN -->
-				#pscd$2
+				#pscd$0
 <!-- ORIGINAL -->
 				#0429
 <!-- CLOSE -->

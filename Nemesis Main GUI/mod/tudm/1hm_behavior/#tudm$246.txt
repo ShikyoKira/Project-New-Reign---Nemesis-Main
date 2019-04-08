@@ -2,6 +2,6 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="generator">#tudm$245</hkparam>
 			<hkparam name="boneWeights">null</hkparam>
-			<hkparam name="weight">87.708504</hkparam>
+			<hkparam name="weight">0.625000</hkparam>
 			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

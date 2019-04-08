@@ -1,9 +1,5 @@
 		<hkobject name="#4437" class="hkbClipTriggerArray" signature="0x59c23a0f">
-<!-- MOD_CODE ~bcbi~ OPEN -->
-			<hkparam name="triggers" numelements="7">
-<!-- ORIGINAL -->
 			<hkparam name="triggers" numelements="6">
-<!-- CLOSE -->
 				<hkobject>
 <!-- MOD_CODE ~bcbi~ OPEN -->
 					<hkparam name="localTime">-0.013000</hkparam>

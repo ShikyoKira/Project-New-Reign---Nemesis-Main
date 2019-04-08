@@ -3,10 +3,10 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$460</hkparam>
-			<hkparam name="name">WerewolfFeedingDeath</hkparam>
-			<hkparam name="stateId">9</hkparam>
+			<hkparam name="transitions">#zcbe$114</hkparam>
+			<hkparam name="generator">#zcbe$113</hkparam>
+			<hkparam name="name">WW_Stage3.hkx</hkparam>
+			<hkparam name="stateId">5</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

@@ -19,14 +19,10 @@
 			<hkparam name="maxSimultaneousTransitions">32</hkparam>
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="states" numelements="3">
-<!-- ORIGINAL -->
 			<hkparam name="states" numelements="1">
-<!-- CLOSE -->
 				#0738
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$341 #zcbe$288
+				#zcbe$2 #zcbe$3
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>

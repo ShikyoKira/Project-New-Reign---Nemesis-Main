@@ -2,11 +2,7 @@
 			<hkparam name="variableBindingSet">#4173</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakIdleMSG</hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="generators" numelements="13">
-<!-- ORIGINAL -->
 			<hkparam name="generators" numelements="12">
-<!-- CLOSE -->
 				#4160
 				#4160
 				#4160

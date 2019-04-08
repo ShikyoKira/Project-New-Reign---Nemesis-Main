@@ -1,16 +1,10 @@
-		<hkobject name="#tkuc$5" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
+		<hkobject name="#tkuc$5" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tkuc$192</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">H2H_LocomotionPose</hkparam>
-			<hkparam name="animationName">Animations\DD\abc3_H2H_LocoMotionPose.HKX</hkparam>
-			<hkparam name="triggers">null</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
+			<hkparam name="name">FNIS_ABC_MSG</hkparam>
+			<hkparam name="generators" numelements="5">
+				#4531 #tkuc$191 #tkuc$190 #tkuc$189 #tkuc$188
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

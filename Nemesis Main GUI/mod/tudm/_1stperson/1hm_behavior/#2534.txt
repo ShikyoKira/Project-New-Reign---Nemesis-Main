@@ -3,11 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">BowAttackModifierList</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="modifiers" numelements="7">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="6">
-<!-- CLOSE -->
 				#0348
 				#0346
 				#0344
@@ -15,7 +11,7 @@
 				#2535
 				#0343
 <!-- MOD_CODE ~tudm~ OPEN -->
-				#tudm$43
+				#tudm$1
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

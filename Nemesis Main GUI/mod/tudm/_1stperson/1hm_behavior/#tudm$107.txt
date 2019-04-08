@@ -1,3 +1,10 @@
-		<hkobject name="#tudm$107" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iRightHandType == 2) &amp;&amp; (iLeftHandType == 0)</hkparam>
+		<hkobject name="#tudm$107" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">IsDodging = 0</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

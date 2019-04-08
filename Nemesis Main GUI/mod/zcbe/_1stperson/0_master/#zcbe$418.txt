@@ -1,52 +1,17 @@
-		<hkobject name="#zcbe$418" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="4">
+		<hkobject name="#zcbe$418" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="2">
 				<hkobject>
-					<hkparam name="localTime">-0.300000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">813</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
+					<hkparam name="memberPath">enable</hkparam>
+					<hkparam name="variableIndex">21</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">-0.200000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">352</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">-0.083000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">1067</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">0.464000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">811</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
+					<hkparam name="memberPath">offsetPitchDegrees</hkparam>
+					<hkparam name="variableIndex">223</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

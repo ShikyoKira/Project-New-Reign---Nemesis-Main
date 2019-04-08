@@ -1,10 +1,7 @@
-		<hkobject name="#zcbe$3" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="1">
-				<hkobject>
-					<hkparam name="expression">moveStop if ( Speed &lt; 1.0 )</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ON_TRUE</hkparam>
-				</hkobject>
-			</hkparam>
+		<hkobject name="#zcbe$3" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$38</hkparam>
+			<hkparam name="boneWeights">#0219</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

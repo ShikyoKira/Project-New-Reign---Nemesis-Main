@@ -4,7 +4,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="transitions">#tudm$53</hkparam>
+			<hkparam name="transitions">#tudm$32</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="transitions">null</hkparam>
 <!-- CLOSE -->

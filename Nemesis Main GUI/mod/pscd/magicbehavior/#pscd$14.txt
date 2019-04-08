@@ -4,6 +4,6 @@
 			<hkparam name="name">DualMagic_AimedConcentration_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#pscd$13 #pscd$12
+				#pscd$15 #pscd$13
 			</hkparam>
 		</hkobject>

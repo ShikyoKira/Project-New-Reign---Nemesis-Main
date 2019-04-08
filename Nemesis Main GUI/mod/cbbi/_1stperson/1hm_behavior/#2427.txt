@@ -19,11 +19,10 @@
 			<hkparam name="maxSimultaneousTransitions">32</hkparam>
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
-<!-- MOD_CODE ~cbbi~ OPEN -->
-			<hkparam name="states" numelements="48">
-				
-<!-- ORIGINAL -->
 			<hkparam name="states" numelements="49">
+<!-- MOD_CODE ~cbbi~ OPEN -->
+
+<!-- ORIGINAL -->
 				#2426
 <!-- CLOSE -->
 				#2413

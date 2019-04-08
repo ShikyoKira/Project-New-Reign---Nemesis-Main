@@ -1,17 +1,13 @@
-		<hkobject name="#zcbe$80" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="2">
+		<hkobject name="#zcbe$80" class="hkbTimerModifier" signature="0x338b4879">
+			<hkparam name="variableBindingSet">#zcbe$81</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_PLResetToIdleTM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="alarmTimeSeconds">0.600000</hkparam>
+			<hkparam name="alarmEvent">
 				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">10</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">offsetPitchDegrees</hkparam>
-					<hkparam name="variableIndex">71</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+					<hkparam name="id">$eventID[ToIdle_Z]$</hkparam>
+					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

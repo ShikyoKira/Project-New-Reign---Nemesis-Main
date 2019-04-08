@@ -1,10 +1,18 @@
-		<hkobject name="#tudm$178" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tudm$17</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Weap_AttackRight_MSG</hkparam>
-			<hkparam name="generators" numelements="7">
-				#0434 #0434 #0434 #0434 #0434 #tudm$180 #tudm$179
+		<hkobject name="#tudm$178" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#tudm$182</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ProperCastDirectionNeckTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				1.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+			<hkparam name="twistAngle">0.000000</hkparam>
+			<hkparam name="startBoneIndex">35</hkparam>
+			<hkparam name="endBoneIndex">37</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
 		</hkobject>

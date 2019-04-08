@@ -1,8 +1,14 @@
 		<hkobject name="#zcbe$253" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
+			<hkparam name="bindings" numelements="2">
 				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">21</hkparam>
+					<hkparam name="memberPath">bIsActive0</hkparam>
+					<hkparam name="variableIndex">51</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="memberPath">bIsActive1</hkparam>
+					<hkparam name="variableIndex">58</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>

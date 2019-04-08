@@ -1,21 +1,16 @@
-		<hkobject name="#tudm$164" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
-			<hkparam name="variableBindingSet">#tudm$66</hkparam>
+		<hkobject name="#tudm$164" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">#tudm$42</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HM_AttackLeftNPC_BSCyclicBlendTransitionGenerator</hkparam>
-			<hkparam name="pBlenderGenerator">#tudm$166</hkparam>
-			<hkparam name="EventToFreezeBlendValue">
-				<hkobject>
-					<hkparam name="id">194</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="EventToCrossBlend">
-				<hkobject>
-					<hkparam name="id">195</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="fBlendParameter">0.000000</hkparam>
-			<hkparam name="fTransitionDuration">0.200000</hkparam>
-			<hkparam name="eBlendCurve">BLEND_CURVE_SMOOTH</hkparam>
+			<hkparam name="name">2HM_AttackPowerLeftUncropped</hkparam>
+			<hkparam name="animationName">Animations\2HM_AttackPowerLeft.HKX</hkparam>
+			<hkparam name="triggers">#tudm$160</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">1.500000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">16</hkparam>
 		</hkobject>

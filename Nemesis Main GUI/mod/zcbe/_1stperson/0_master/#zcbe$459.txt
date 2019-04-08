@@ -1,3 +1,27 @@
-		<hkobject name="#zcbe$459" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">PairedKillTarget</hkparam>
+		<hkobject name="#zcbe$459" class="hkbComputeDirectionModifier" signature="0xdf358bd3">
+			<hkparam name="variableBindingSet">#zcbe$463</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_NPCGetAim_CDM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="pointIn">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="pointOut">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="groundAngleOut">0.000000</hkparam>
+			<hkparam name="upAngleOut">0.000000</hkparam>
+			<hkparam name="verticalOffset">0.000000</hkparam>
+			<hkparam name="reverseGroundAngle">false</hkparam>
+			<hkparam name="reverseUpAngle">false</hkparam>
+			<hkparam name="projectPoint">false</hkparam>
+			<hkparam name="normalizePoint">false</hkparam>
+			<hkparam name="computeOnlyOnce">false</hkparam>
+			<hkparam name="computedOutput">true</hkparam>
 		</hkobject>

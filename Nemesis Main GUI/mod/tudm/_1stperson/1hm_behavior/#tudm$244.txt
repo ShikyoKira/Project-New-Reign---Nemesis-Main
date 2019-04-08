@@ -1,16 +1,16 @@
-		<hkobject name="#tudm$244" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#tudm$241</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">DodgeRollAllowRotationModifier</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="bIsActive0">false</hkparam>
-			<hkparam name="bInvertActive0">false</hkparam>
-			<hkparam name="bIsActive1">false</hkparam>
-			<hkparam name="bInvertActive1">false</hkparam>
-			<hkparam name="bIsActive2">false</hkparam>
-			<hkparam name="bInvertActive2">false</hkparam>
-			<hkparam name="bIsActive3">false</hkparam>
-			<hkparam name="bInvertActive3">false</hkparam>
-			<hkparam name="bIsActive4">false</hkparam>
-			<hkparam name="bInvertActive4">false</hkparam>
+		<hkobject name="#tudm$244" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">2HW_AttackPowerForwardSprint</hkparam>
+			<hkparam name="animationName">Animations\2HW_AttackPowerForwardSprint.HKX</hkparam>
+			<hkparam name="triggers">#tudm$245</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">1.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>

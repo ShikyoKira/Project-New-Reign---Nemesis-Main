@@ -1,9 +1,5 @@
 		<hkobject name="#0076" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-<!-- MOD_CODE ~bcbi~ OPEN -->
-			<hkparam name="eventNames" numelements="37">
-<!-- ORIGINAL -->
 			<hkparam name="eventNames" numelements="39">
-<!-- CLOSE -->
 				<hkcstring>blockHitStop</hkcstring>
 				<hkcstring>blockStartOut</hkcstring>
 				<hkcstring>blockHitStart</hkcstring>
@@ -50,11 +46,7 @@
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-<!-- MOD_CODE ~bcbi~ OPEN -->
-			<hkparam name="variableNames" numelements="32">
-<!-- ORIGINAL -->
 			<hkparam name="variableNames" numelements="33">
-<!-- CLOSE -->
 				<hkcstring>blendDefault</hkcstring>
 				<hkcstring>blendFast</hkcstring>
 				<hkcstring>IsBlockHit</hkcstring>

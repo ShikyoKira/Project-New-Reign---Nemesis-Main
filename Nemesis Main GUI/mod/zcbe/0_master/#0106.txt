@@ -1,9 +1,5 @@
 		<hkobject name="#0106" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="eventNames" numelements="1227">
-<!-- ORIGINAL -->
 			<hkparam name="eventNames" numelements="1217">
-<!-- CLOSE -->
 				<hkcstring>FootLeft</hkcstring>
 				<hkcstring>FootRight</hkcstring>
 				<hkcstring>WeapEquip</hkcstring>
@@ -1235,11 +1231,7 @@
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="variableNames" numelements="242">
-<!-- ORIGINAL -->
 			<hkparam name="variableNames" numelements="230">
-<!-- CLOSE -->
 				<hkcstring>Speed</hkcstring>
 				<hkcstring>Direction</hkcstring>
 				<hkcstring>TurnDelta</hkcstring>

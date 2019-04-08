@@ -1,9 +1,5 @@
 		<hkobject name="#4875" class="hkbVariableBindingSet" signature="0x338ad4ff">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="bindings" numelements="1">
-<!-- ORIGINAL -->
 			<hkparam name="bindings" numelements="3">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="memberPath">startStateId</hkparam>
 					<hkparam name="variableIndex">37</hkparam>

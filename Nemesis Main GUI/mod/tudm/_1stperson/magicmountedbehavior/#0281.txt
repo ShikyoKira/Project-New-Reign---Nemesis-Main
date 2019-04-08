@@ -4,7 +4,7 @@
 			<hkparam name="name">MLhMRh_AimedCon</hkparam>
 			<hkparam name="animationName">Animations\MLhMRh_AimedConcentrationLoop.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$1</hkparam>
+			<hkparam name="triggers">#tudm$5</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

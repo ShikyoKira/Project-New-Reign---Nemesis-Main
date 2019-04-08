@@ -1,21 +1,10 @@
-		<hkobject name="#tudm$364" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
-			<hkparam name="variableBindingSet">#tudm$367</hkparam>
+		<hkobject name="#tudm$364" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tudm$84</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DodgeDirectionA_CBTG</hkparam>
-			<hkparam name="pBlenderGenerator">#tudm$365</hkparam>
-			<hkparam name="EventToFreezeBlendValue">
-				<hkobject>
-					<hkparam name="id">194</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
+			<hkparam name="name">Weap_AttackLeft_MSG</hkparam>
+			<hkparam name="generators" numelements="7">
+				#3145 #3145 #3145 #3145 #3145 #tudm$363 #tudm$362
 			</hkparam>
-			<hkparam name="EventToCrossBlend">
-				<hkobject>
-					<hkparam name="id">195</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="fBlendParameter">0.000000</hkparam>
-			<hkparam name="fTransitionDuration">0.100000</hkparam>
-			<hkparam name="eBlendCurve">BLEND_CURVE_SMOOTH</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

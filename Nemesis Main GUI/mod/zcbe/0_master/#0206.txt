@@ -28,5 +28,5 @@
 <!-- CLOSE -->
 				</hkobject>
 			</hkparam>
-			<hkparam name="bones">#0207</hkparam>
+			<hkparam name="axisOfRotation">#0207</hkparam>
 		</hkobject>

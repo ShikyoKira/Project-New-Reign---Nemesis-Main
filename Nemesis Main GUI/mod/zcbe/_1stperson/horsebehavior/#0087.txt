@@ -1,9 +1,5 @@
 		<hkobject name="#0087" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="eventNames" numelements="215">
-<!-- ORIGINAL -->
 			<hkparam name="eventNames" numelements="212">
-<!-- CLOSE -->
 				<hkcstring>moveStart</hkcstring>
 				<hkcstring>moveStop</hkcstring>
 				<hkcstring>cannedTurnLeft90</hkcstring>

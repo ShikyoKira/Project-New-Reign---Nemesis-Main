@@ -1,7 +1,16 @@
-		<hkobject name="#zcbe$365" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">#zcbe$48</hkparam>
-			<hkparam name="generator">#zcbe$23</hkparam>
-			<hkparam name="boneWeights">#zcbe$366</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">0.000000</hkparam>
+		<hkobject name="#zcbe$365" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="1">
+				<hkobject>
+					<hkparam name="localTime">-0.200000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">156</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

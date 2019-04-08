@@ -3,16 +3,12 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierList00</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~pscd~ OPEN -->
-			<hkparam name="modifiers" numelements="4">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="3">
-<!-- CLOSE -->
 				#4794
 				#0421
 				#2782
 <!-- MOD_CODE ~pscd~ OPEN -->
-				#pscd$3
+				#pscd$4
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

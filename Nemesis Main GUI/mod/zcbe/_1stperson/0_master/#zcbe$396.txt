@@ -1,20 +1,17 @@
-		<hkobject name="#zcbe$396" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
-			<hkparam name="events" numelements="4">
+		<hkobject name="#zcbe$396" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="2">
 				<hkobject>
-					<hkparam name="id">658</hkparam>
-					<hkparam name="payload">null</hkparam>
+					<hkparam name="memberPath">bIsActive0</hkparam>
+					<hkparam name="variableIndex">81</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="id">36</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="id">371</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="id">306</hkparam>
-					<hkparam name="payload">null</hkparam>
+					<hkparam name="memberPath">bIsActive1</hkparam>
+					<hkparam name="variableIndex">219</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

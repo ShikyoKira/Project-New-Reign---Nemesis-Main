@@ -2,11 +2,7 @@
 			<hkparam name="variableBindingSet">#0818</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockRightHandTypeMSG</hkparam>
-<!-- MOD_CODE ~cbbi~ OPEN -->
-			<hkparam name="generators" numelements="12">
-<!-- ORIGINAL -->
 			<hkparam name="generators" numelements="13">
-<!-- CLOSE -->
 				#0136
 				#0136
 				#0136

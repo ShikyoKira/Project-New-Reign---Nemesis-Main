@@ -1,3 +1,10 @@
-		<hkobject name="#tudm$91" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iWantBlock == 0) || (iLeftHandType == 7)</hkparam>
+		<hkobject name="#tudm$91" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tudm$81</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">2hm_LeftStanceChange_MSG</hkparam>
+			<hkparam name="generators" numelements="3">
+				#tudm$92 #tudm$92 #tudm$92
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

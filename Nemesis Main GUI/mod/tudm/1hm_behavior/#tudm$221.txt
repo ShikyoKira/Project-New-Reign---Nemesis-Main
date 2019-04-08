@@ -1,10 +1,12 @@
-		<hkobject name="#tudm$221" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tudm$66</hkparam>
+		<hkobject name="#tudm$221" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2hm_RightStanceChange_MSG</hkparam>
-			<hkparam name="generators" numelements="3">
-				#tudm$323 #tudm$323 #tudm$323
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+			<hkparam name="name">DodgeRollTransition</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
+			<hkparam name="duration">0.100000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">FLAG_IGNORE_FROM_WORLD_FROM_MODEL</hkparam>
+			<hkparam name="endMode">END_MODE_NONE</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
 		</hkobject>

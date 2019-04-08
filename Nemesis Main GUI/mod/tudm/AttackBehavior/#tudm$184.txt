@@ -1,10 +1,10 @@
-		<hkobject name="#tudm$184" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tudm$17</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Weap_AttackRight_MSG</hkparam>
-			<hkparam name="generators" numelements="7">
-				#0434 #0434 #0434 #0434 #0434 #tudm$119 #tudm$117
+		<hkobject name="#tudm$184" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">Pitch = Pitch * 0.5</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

@@ -1,11 +1,10 @@
-		<hkobject name="#zcbe$152" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">startStateId</hkparam>
-					<hkparam name="variableIndex">3</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$152" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$159</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">PoseMatcherSelectorGen</hkparam>
+			<hkparam name="generators" numelements="3">
+				#zcbe$160 #zcbe$161 #zcbe$154
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

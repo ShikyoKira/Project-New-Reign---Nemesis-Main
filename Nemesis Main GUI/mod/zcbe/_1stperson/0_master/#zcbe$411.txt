@@ -1,6 +1,11 @@
-		<hkobject name="#zcbe$411" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_SwimBFR</hkparam>
-			<hkparam name="behaviorName">Behaviors\SwimBehavior.hkx</hkparam>
+		<hkobject name="#zcbe$411" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">49</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

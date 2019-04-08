@@ -1,7 +1,30 @@
-		<hkobject name="#zcbe$141" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$151</hkparam>
-			<hkparam name="boneWeights">null</hkparam>
-			<hkparam name="weight">-202.500000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		<hkobject name="#zcbe$141" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#zcbe$142</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_AimAttackPlayerTM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="directAtTarget">true</hkparam>
+			<hkparam name="sourceBoneIndex">26</hkparam>
+			<hkparam name="startBoneIndex">24</hkparam>
+			<hkparam name="endBoneIndex">26</hkparam>
+			<hkparam name="limitHeadingDegrees">45.000000</hkparam>
+			<hkparam name="limitPitchDegrees">45.000000</hkparam>
+			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
+			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
+			<hkparam name="onGain">0.550000</hkparam>
+			<hkparam name="offGain">0.550000</hkparam>
+			<hkparam name="axisOfRotation">
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+			</hkparam>
+			<hkparam name="userInfo">-842150451</hkparam>
+			<hkparam name="directAtCamera">true</hkparam>
+			<hkparam name="directAtCameraX">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="directAtCameraY">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="directAtCameraZ">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="active">true</hkparam>
+			<hkparam name="currentHeadingOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="currentPitchOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
 		</hkobject>

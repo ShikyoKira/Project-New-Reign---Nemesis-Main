@@ -1,16 +1,7 @@
-		<hkobject name="#zcbe$117" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_Bow_BlockLeftIdle_CG</hkparam>
-			<hkparam name="animationName">Animations\Z_Bow\Bow_BlockLeftIdle.hkx</hkparam>
-			<hkparam name="triggers">null</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
+		<hkobject name="#zcbe$117" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">#zcbe$118</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Z_PLBlockHeight_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#zcbe$121</hkparam>
 		</hkobject>

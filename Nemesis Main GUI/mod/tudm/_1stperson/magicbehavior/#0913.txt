@@ -3,17 +3,13 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Casting_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="modifiers" numelements="5">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="4">
-<!-- CLOSE -->
 				#0912
 				#0910
 				#0908
 				#0906
 <!-- MOD_CODE ~tudm~ OPEN -->
-				#tudm$11
+				#tudm$15
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

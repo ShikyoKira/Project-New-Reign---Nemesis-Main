@@ -1,10 +1,7 @@
-		<hkobject name="#zcbe$9" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+		<hkobject name="#zcbe$9" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_ActStagDAM_EDM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$16</hkparam>
-			<hkparam name="activateEventId">$eventID[ActivateBlockEarly_Z]$</hkparam>
-			<hkparam name="deactivateEventId">0</hkparam>
-			<hkparam name="activeByDefault">false</hkparam>
+			<hkparam name="generator">#zcbe$12</hkparam>
+			<hkparam name="boneWeights">#zcbe$1</hkparam>
+			<hkparam name="weight">2.000000</hkparam>
+			<hkparam name="worldFromModelWeight">0.000000</hkparam>
 		</hkobject>

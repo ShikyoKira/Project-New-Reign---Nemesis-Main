@@ -1,9 +1,5 @@
 		<hkobject name="#0071" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="eventNames" numelements="97">
-<!-- ORIGINAL -->
 			<hkparam name="eventNames" numelements="95">
-<!-- CLOSE -->
 				<hkcstring>staggerStop</hkcstring>
 				<hkcstring>MRh_Equipped_Event</hkcstring>
 				<hkcstring>shoutStop</hkcstring>

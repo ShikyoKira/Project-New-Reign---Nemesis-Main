@@ -1,11 +1,10 @@
-		<hkobject name="#zcbe$3" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">18</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$3" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$28</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_H2HLeftMSG</hkparam>
+			<hkparam name="generators" numelements="13">
+				#zcbe$29 #zcbe$60 #zcbe$60 #zcbe$60 #zcbe$60 #zcbe$12 #zcbe$12 #zcbe$12 #zcbe$107 #zcbe$29 #zcbe$12 #zcbe$12 #zcbe$12
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

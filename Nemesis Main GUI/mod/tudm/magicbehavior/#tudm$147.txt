@@ -1,28 +1,30 @@
-		<hkobject name="#tudm$147" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">
+		<hkobject name="#tudm$147" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
+			<hkparam name="transitions" numelements="1">
 				<hkobject>
-					<hkparam name="localTime">0.100000</hkparam>
-					<hkparam name="event">
+					<hkparam name="triggerInterval">
 						<hkobject>
-							<hkparam name="id">$eventID[RollTrigger]$</hkparam>
-							<hkparam name="payload">null</hkparam>
+							<hkparam name="enterEventId">$eventID[RollLeap]$</hkparam>
+							<hkparam name="exitEventId">$eventID[RollWinEnd]$</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">0.140000</hkparam>
-					<hkparam name="event">
+					<hkparam name="initiateInterval">
 						<hkobject>
-							<hkparam name="id">$eventID[BackwardRollStart]$</hkparam>
-							<hkparam name="payload">null</hkparam>
+							<hkparam name="enterEventId">$eventID[RollWinStart]$</hkparam>
+							<hkparam name="exitEventId">$eventID[RollWinEnd]$</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
+					<hkparam name="transition">#tudm$148</hkparam>
+					<hkparam name="condition">#tudm$98</hkparam>
+					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
+					<hkparam name="toStateId">0</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>
 				</hkobject>
 			</hkparam>
 		</hkobject>

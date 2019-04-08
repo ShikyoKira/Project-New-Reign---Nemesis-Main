@@ -1,28 +1,21 @@
-		<hkobject name="#tudm$353" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">
+		<hkobject name="#tudm$353" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
+			<hkparam name="variableBindingSet">#tudm$305</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">2HM_AttackRightNPC_BSCyclicBlendTransitionGenerator</hkparam>
+			<hkparam name="pBlenderGenerator">#tudm$354</hkparam>
+			<hkparam name="EventToFreezeBlendValue">
 				<hkobject>
-					<hkparam name="localTime">0.100000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[RollLeap]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">0.175000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[Left_ForwardRollStart]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
+					<hkparam name="id">194</hkparam>
+					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
+			<hkparam name="EventToCrossBlend">
+				<hkobject>
+					<hkparam name="id">195</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="fBlendParameter">0.000000</hkparam>
+			<hkparam name="fTransitionDuration">0.200000</hkparam>
+			<hkparam name="eBlendCurve">BLEND_CURVE_SMOOTH</hkparam>
 		</hkobject>

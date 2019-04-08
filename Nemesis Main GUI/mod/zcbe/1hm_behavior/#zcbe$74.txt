@@ -1,9 +1,7 @@
-		<hkobject name="#zcbe$74" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#zcbe$75</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_TwistSpineML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="2">
-				#zcbe$76 #zcbe$77
-			</hkparam>
+		<hkobject name="#zcbe$74" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$73</hkparam>
+			<hkparam name="boneWeights">#zcbe$72</hkparam>
+			<hkparam name="weight">2.000000</hkparam>
+			<hkparam name="worldFromModelWeight">0.000000</hkparam>
 		</hkobject>

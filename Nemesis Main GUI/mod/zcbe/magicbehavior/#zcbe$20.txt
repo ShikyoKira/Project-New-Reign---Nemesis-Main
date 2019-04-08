@@ -1,30 +1,9 @@
-		<hkobject name="#zcbe$20" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-			<hkparam name="transitions" numelements="1">
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#zcbe$4</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">2</hkparam>
-					<hkparam name="toStateId">4</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$20" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$21</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_FixJumpCastCom_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="1">
+				#zcbe$19
 			</hkparam>
 		</hkobject>

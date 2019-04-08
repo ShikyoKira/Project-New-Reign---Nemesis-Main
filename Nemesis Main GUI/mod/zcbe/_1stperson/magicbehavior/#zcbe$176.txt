@@ -1,10 +1,16 @@
-		<hkobject name="#zcbe$176" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$189</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">StaffMagic_TurnRight_MSG</hkparam>
-			<hkparam name="generators" numelements="12">
-				#zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$194 #zcbe$195 #zcbe$194 #zcbe$194 #zcbe$194
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#zcbe$176" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#zcbe$181</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">IsActiveModifier113</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">true</hkparam>
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">false</hkparam>
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">false</hkparam>
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">false</hkparam>
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">false</hkparam>
 		</hkobject>

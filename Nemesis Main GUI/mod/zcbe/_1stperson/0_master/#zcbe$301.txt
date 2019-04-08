@@ -1,16 +1,7 @@
-		<hkobject name="#zcbe$301" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#zcbe$301" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DLC2 PairedDragonMountGrapple</hkparam>
-			<hkparam name="animationName">Animations\DLC02\DLC2_PairedDragonMountGrapple.HKX</hkparam>
-			<hkparam name="triggers">#zcbe$326</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">DragonRider_Magic_Behavior_MG</hkparam>
+			<hkparam name="modifier">#zcbe$307</hkparam>
+			<hkparam name="generator">#zcbe$302</hkparam>
 		</hkobject>

@@ -1,10 +1,6 @@
 		<hkobject name="#0079" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-<!-- MOD_CODE ~tkuc~ OPEN -->
-			<hkparam name="variableInfos" numelements="83">
-<!-- ORIGINAL -->
 			<hkparam name="variableInfos" numelements="81">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -840,11 +836,7 @@
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
 				</hkobject>
 			</hkparam>
-<!-- MOD_CODE ~tkuc~ OPEN -->
-			<hkparam name="eventInfos" numelements="103">
-<!-- ORIGINAL -->
 			<hkparam name="eventInfos" numelements="97">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
 				</hkobject>

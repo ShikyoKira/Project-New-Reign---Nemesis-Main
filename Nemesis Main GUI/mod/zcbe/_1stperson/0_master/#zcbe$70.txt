@@ -1,17 +1,16 @@
-		<hkobject name="#zcbe$70" class="hkbComputeDirectionModifier" signature="0xdf358bd3">
-			<hkparam name="variableBindingSet">#zcbe$69</hkparam>
+		<hkobject name="#zcbe$70" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_NPCGetAim_CDM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="pointIn">(0.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="pointOut">(0.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="groundAngleOut">0.000000</hkparam>
-			<hkparam name="upAngleOut">0.000000</hkparam>
-			<hkparam name="verticalOffset">0.000000</hkparam>
-			<hkparam name="reverseGroundAngle">false</hkparam>
-			<hkparam name="reverseUpAngle">false</hkparam>
-			<hkparam name="projectPoint">false</hkparam>
-			<hkparam name="normalizePoint">false</hkparam>
-			<hkparam name="computeOnlyOnce">false</hkparam>
-			<hkparam name="computedOutput">true</hkparam>
+			<hkparam name="name">VampireLordTransform</hkparam>
+			<hkparam name="animationName">Animations\DLC01\MT_VampireLord_Transform.HKX</hkparam>
+			<hkparam name="triggers">#zcbe$69</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>

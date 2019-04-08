@@ -1,16 +1,7 @@
-		<hkobject name="#zcbe$207" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#zcbe$210</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">IsBleedingOutTransition_IsActiveModifier</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="bIsActive0">false</hkparam>
-			<hkparam name="bInvertActive0">false</hkparam>
-			<hkparam name="bIsActive1">false</hkparam>
-			<hkparam name="bInvertActive1">false</hkparam>
-			<hkparam name="bIsActive2">false</hkparam>
-			<hkparam name="bInvertActive2">false</hkparam>
-			<hkparam name="bIsActive3">false</hkparam>
-			<hkparam name="bInvertActive3">false</hkparam>
-			<hkparam name="bIsActive4">false</hkparam>
-			<hkparam name="bInvertActive4">false</hkparam>
+		<hkobject name="#zcbe$207" class="hkbBoneIndexArray" signature="0xaa8619">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="boneIndices" numelements="18">
+				0 1 5 7 2 4 8 3 6 9 10 14 16 11 13 12
+				15 17
+			</hkparam>
 		</hkobject>

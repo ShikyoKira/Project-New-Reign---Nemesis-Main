@@ -2209,11 +2209,7 @@
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
 				</hkobject>
 			</hkparam>
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="eventInfos" numelements="1220">
-<!-- ORIGINAL -->
 			<hkparam name="eventInfos" numelements="1217">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
 				</hkobject>

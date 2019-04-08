@@ -1,8 +1,10 @@
-		<hkobject name="#tudm$151" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
-			<hkparam name="events" numelements="1">
-				<hkobject>
-					<hkparam name="id">$eventID[NextAttackInitiate]$</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
+		<hkobject name="#tudm$151" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tudm$48</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Weap_AttackLeft_MSG</hkparam>
+			<hkparam name="generators" numelements="7">
+				#0434 #0434 #0434 #0434 #0434 #tudm$154 #tudm$152
 			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

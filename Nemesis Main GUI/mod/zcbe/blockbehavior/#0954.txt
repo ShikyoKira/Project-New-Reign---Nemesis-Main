@@ -3,15 +3,11 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierList</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="modifiers" numelements="3">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="2">
-<!-- CLOSE -->
 				#0958
 				#0955
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$9
+				#zcbe$13
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

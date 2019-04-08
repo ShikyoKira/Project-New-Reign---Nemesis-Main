@@ -2,11 +2,7 @@
 			<hkparam name="variableBindingSet">#4815</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MeleeRecoilLarge_RHTypeMSG</hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="generators" numelements="13">
-<!-- ORIGINAL -->
 			<hkparam name="generators" numelements="7">
-<!-- CLOSE -->
 				#4814
 				#4812
 				#4812
@@ -15,12 +11,7 @@
 				#4810
 				#4810
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#4814
-				#4812
-				#4812
-				#4812
-				#4812
-				#4812
+				#4814 #4812 #4812 #4812 #4812 #4812
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>

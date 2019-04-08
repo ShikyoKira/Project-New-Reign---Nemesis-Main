@@ -1,11 +1,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="animationNames" numelements="885">
-<!-- ORIGINAL -->
 			<hkparam name="animationNames" numelements="869">
-<!-- CLOSE -->
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1HM_1stP_TurnLeft.hkx</hkcstring>
 				<hkcstring>Animations\1HM_1stP_TurnRight.hkx</hkcstring>

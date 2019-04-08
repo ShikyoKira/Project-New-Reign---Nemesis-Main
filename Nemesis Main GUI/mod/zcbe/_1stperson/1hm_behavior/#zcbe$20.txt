@@ -3,6 +3,6 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_ReadyFwdPowAtt_ISTG</hkparam>
 			<hkparam name="pDefaultGenerator">#zcbe$21</hkparam>
-			<hkparam name="iStateToSetAs">4</hkparam>
+			<hkparam name="iStateToSetAs">0</hkparam>
 			<hkparam name="iPriority">50</hkparam>
 		</hkobject>

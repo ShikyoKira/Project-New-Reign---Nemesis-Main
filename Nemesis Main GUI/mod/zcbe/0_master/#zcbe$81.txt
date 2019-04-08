@@ -1,15 +1,10 @@
-		<hkobject name="#zcbe$81" class="hkbBlenderGenerator" signature="0x22df7147">
+		<hkobject name="#zcbe$81" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_JumpUpFallAttackBG</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">0.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="2">
-				#zcbe$82 #zcbe$83
-			</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ZAR_WaterSoundWeaponSwing_EDM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#zcbe$84</hkparam>
+			<hkparam name="activateEventId">53</hkparam>
+			<hkparam name="deactivateEventId">-1</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>

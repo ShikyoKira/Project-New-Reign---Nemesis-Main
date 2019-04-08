@@ -1,7 +1,9 @@
-		<hkobject name="#zcbe$195" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+		<hkobject name="#zcbe$195" class="hkbModifierList" signature="0xa4180ca1">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">EvaluateBleedoutTurnMult_Left</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">RagdollModList</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$197</hkparam>
+			<hkparam name="modifiers" numelements="3">
+				#zcbe$194 #zcbe$191 #zcbe$140
+			</hkparam>
 		</hkobject>

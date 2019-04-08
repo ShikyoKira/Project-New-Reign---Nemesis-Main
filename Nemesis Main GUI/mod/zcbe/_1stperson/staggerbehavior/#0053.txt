@@ -1,9 +1,5 @@
 		<hkobject name="#0053" class="hkbVariableValueSet" signature="0x27812d8d">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="wordVariableValues" numelements="16">
-<!-- ORIGINAL -->
 			<hkparam name="wordVariableValues" numelements="9">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>

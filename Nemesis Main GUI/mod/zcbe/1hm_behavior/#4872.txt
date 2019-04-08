@@ -1,9 +1,5 @@
 		<hkobject name="#4872" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="transitions" numelements="39">
-<!-- ORIGINAL -->
 			<hkparam name="transitions" numelements="37">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -309,7 +305,7 @@
 					</hkparam>
 					<hkparam name="transition">#0091</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-					<hkparam name="condition">#zcbe$1</hkparam>
+					<hkparam name="condition">#zcbe$31</hkparam>
 <!-- ORIGINAL -->
 					<hkparam name="condition">null</hkparam>
 <!-- CLOSE -->
@@ -988,8 +984,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$2</hkparam>
-					<hkparam name="condition">#zcbe$3</hkparam>
+					<hkparam name="transition">#zcbe$10</hkparam>
+					<hkparam name="condition">#zcbe$32</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -1014,8 +1010,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$0</hkparam>
-					<hkparam name="condition">#zcbe$4</hkparam>
+					<hkparam name="transition">#zcbe$33</hkparam>
+					<hkparam name="condition">#zcbe$34</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

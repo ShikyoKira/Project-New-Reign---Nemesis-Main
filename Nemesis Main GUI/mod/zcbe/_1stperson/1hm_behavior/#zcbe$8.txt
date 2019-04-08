@@ -1,11 +1,10 @@
-		<hkobject name="#zcbe$8" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">duration</hkparam>
-					<hkparam name="variableIndex">0</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$8" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$16</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_ReadyWeap_AttackPowerFwd_MSG</hkparam>
+			<hkparam name="generators" numelements="13">
+				#zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$17 #zcbe$18 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

@@ -19,11 +19,7 @@
 			<hkparam name="maxSimultaneousTransitions">32</hkparam>
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_FORCE_TRANSITION_TO_START_STATE</hkparam>
-<!-- MOD_CODE ~tkuc~ OPEN -->
-			<hkparam name="states" numelements="25">
-<!-- ORIGINAL -->
 			<hkparam name="states" numelements="24">
-<!-- CLOSE -->
 				#4789
 				#3697
 				#3261
@@ -49,7 +45,7 @@
 				#2819
 				#2814
 <!-- MOD_CODE ~tkuc~ OPEN -->
-				#tkuc$38
+				#tkuc$6
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">#2802</hkparam>

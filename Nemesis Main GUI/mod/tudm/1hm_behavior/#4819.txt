@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">RecoilLargeModifierGenerator00</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="modifier">#tudm$43</hkparam>
+			<hkparam name="modifier">#tudm$70</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="modifier">#4820</hkparam>
 <!-- CLOSE -->

@@ -1,9 +1,5 @@
 		<hkobject name="#0081" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="eventNames" numelements="511">
-<!-- ORIGINAL -->
 			<hkparam name="eventNames" numelements="478">
-<!-- CLOSE -->
 				<hkcstring>recoilStop</hkcstring>
 				<hkcstring>shoutStop</hkcstring>
 				<hkcstring>staggerStop</hkcstring>
@@ -519,11 +515,7 @@
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="variableNames" numelements="119">
-<!-- ORIGINAL -->
 			<hkparam name="variableNames" numelements="116">
-<!-- CLOSE -->
 				<hkcstring>blendDefault</hkcstring>
 				<hkcstring>blendFast</hkcstring>
 				<hkcstring>blendMoveStart</hkcstring>

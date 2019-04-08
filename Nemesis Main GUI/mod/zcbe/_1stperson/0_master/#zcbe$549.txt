@@ -1,23 +1,8 @@
-		<hkobject name="#zcbe$549" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="3">
-				<hkobject>
-					<hkparam name="memberPath">bIsActive0</hkparam>
-					<hkparam name="variableIndex">152</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">bIsActive1</hkparam>
-					<hkparam name="variableIndex">206</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">bIsActive2</hkparam>
-					<hkparam name="variableIndex">221</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		<hkobject name="#zcbe$549" class="BSiStateTaggingGenerator" signature="0xf0826fc1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ZAR_Swimming_ISTG</hkparam>
+			<hkparam name="pDefaultGenerator">#zcbe$550</hkparam>
+			<hkparam name="iStateToSetAs">3</hkparam>
+			<hkparam name="iPriority">1000</hkparam>
 		</hkobject>

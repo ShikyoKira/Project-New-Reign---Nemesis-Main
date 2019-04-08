@@ -1,9 +1,5 @@
 		<hkobject name="#2771" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="transitions" numelements="5">
-<!-- ORIGINAL -->
 			<hkparam name="transitions" numelements="4">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -126,8 +122,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$2</hkparam>
-					<hkparam name="condition">#zcbe$49</hkparam>
+					<hkparam name="transition">#zcbe$10</hkparam>
+					<hkparam name="condition">#zcbe$11</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

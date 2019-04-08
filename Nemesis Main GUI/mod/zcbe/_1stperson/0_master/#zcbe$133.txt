@@ -1,10 +1,7 @@
-		<hkobject name="#zcbe$133" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$134</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_CheckPLView1HM_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#zcbe$135 #1574
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#zcbe$133" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$132</hkparam>
+			<hkparam name="boneWeights">#zcbe$80</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

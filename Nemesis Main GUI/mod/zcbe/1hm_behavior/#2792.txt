@@ -1,9 +1,5 @@
 		<hkobject name="#2792" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="transitions" numelements="26">
-<!-- ORIGINAL -->
 			<hkparam name="transitions" numelements="23">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -620,13 +616,13 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$2</hkparam>
-					<hkparam name="condition">#zcbe$87</hkparam>
-					<hkparam name="eventId">11</hkparam>
-					<hkparam name="toStateId">10</hkparam>
+					<hkparam name="transition">#0091</hkparam>
+					<hkparam name="condition">#zcbe$12</hkparam>
+					<hkparam name="eventId">5</hkparam>
+					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">1</hkparam>
-					<hkparam name="priority">10</hkparam>
+					<hkparam name="priority">100</hkparam>
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID</hkparam>
 				</hkobject>
 				<hkobject>
@@ -646,8 +642,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$2</hkparam>
-					<hkparam name="condition">#zcbe$88</hkparam>
+					<hkparam name="transition">#zcbe$10</hkparam>
+					<hkparam name="condition">#zcbe$13</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -672,13 +668,13 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0091</hkparam>
-					<hkparam name="condition">#zcbe$89</hkparam>
-					<hkparam name="eventId">5</hkparam>
-					<hkparam name="toStateId">0</hkparam>
+					<hkparam name="transition">#zcbe$10</hkparam>
+					<hkparam name="condition">#zcbe$14</hkparam>
+					<hkparam name="eventId">11</hkparam>
+					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">1</hkparam>
-					<hkparam name="priority">100</hkparam>
+					<hkparam name="priority">10</hkparam>
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID</hkparam>
 				</hkobject>
 <!-- CLOSE -->

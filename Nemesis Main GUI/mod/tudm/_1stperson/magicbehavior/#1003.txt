@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">MagicReadyRoot_MG</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="modifier">#tudm$9</hkparam>
+			<hkparam name="modifier">#tudm$17</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="modifier">#1002</hkparam>
 <!-- CLOSE -->

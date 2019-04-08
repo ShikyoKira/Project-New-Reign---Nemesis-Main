@@ -1,10 +1,16 @@
-		<hkobject name="#zcbe$60" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$50</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_ReadyWeap_AttackPowerFwd_MSG</hkparam>
-			<hkparam name="generators" numelements="13">
-				#zcbe$61 #zcbe$61 #zcbe$61 #zcbe$61 #zcbe$61 #zcbe$40 #zcbe$57 #zcbe$61 #zcbe$61 #zcbe$61 #zcbe$61 #zcbe$61 #zcbe$61
+		<hkobject name="#zcbe$60" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="1">
+				<hkobject>
+					<hkparam name="localTime">0.800000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">37</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

@@ -1219,11 +1219,7 @@
 				<hkcstring>SoundPlay.NPCKillDLC2HeartStone</hkcstring>
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-<!-- MOD_CODE ~nemesis~ OPEN -->
-			<hkparam name="variableNames" numelements="231">
-<!-- ORIGINAL -->
 			<hkparam name="variableNames" numelements="230">
-<!-- CLOSE -->
 				<hkcstring>Speed</hkcstring>
 				<hkcstring>Direction</hkcstring>
 				<hkcstring>TurnDelta</hkcstring>

@@ -1,12 +1,15 @@
-		<hkobject name="#zcbe$136" class="hkbGetUpModifier" signature="0x61cb7ac0">
+		<hkobject name="#zcbe$136" class="hkbBlenderGenerator" signature="0x22df7147">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">GetUpMod</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="groundNormal">(0.000000 0.000000 1.000000 0.000000)</hkparam>
-			<hkparam name="duration">1.000000</hkparam>
-			<hkparam name="alignWithGroundDuration">0.250000</hkparam>
-			<hkparam name="rootBoneIndex">0</hkparam>
-			<hkparam name="otherBoneIndex">11</hkparam>
-			<hkparam name="anotherBoneIndex">10</hkparam>
+			<hkparam name="name">WerewolfTransformCameraBlend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="2">
+				#zcbe$133 #zcbe$79
+			</hkparam>
 		</hkobject>

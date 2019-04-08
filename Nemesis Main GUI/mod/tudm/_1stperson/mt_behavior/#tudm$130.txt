@@ -1,7 +1,30 @@
-		<hkobject name="#tudm$130" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#tudm$132</hkparam>
-			<hkparam name="boneWeights">null</hkparam>
-			<hkparam name="weight">0.500000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		<hkobject name="#tudm$130" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
+			<hkparam name="transitions" numelements="1">
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">$eventID[RollTrigger]$</hkparam>
+							<hkparam name="exitEventId">$eventID[RollWinEnd]$</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">$eventID[RollWinStart]$</hkparam>
+							<hkparam name="exitEventId">$eventID[RollWinEnd]$</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#tudm$129</hkparam>
+					<hkparam name="condition">#tudm$76</hkparam>
+					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
+					<hkparam name="toStateId">0</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

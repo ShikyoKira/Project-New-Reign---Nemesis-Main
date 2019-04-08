@@ -1,14 +1,18 @@
-		<hkobject name="#tkuc$115" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sync_DWRushB</hkparam>
-			<hkparam name="pClipGenerator">#tkuc$116</hkparam>
-			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
-			<hkparam name="bSyncClipIgnoreMarkPlacement">true</hkparam>
-			<hkparam name="fGetToMarkTime">0.000000</hkparam>
-			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
-			<hkparam name="bLeadCharacter">false</hkparam>
-			<hkparam name="bReorientSupportChar">true</hkparam>
-			<hkparam name="bApplyMotionFromRoot">false</hkparam>
-			<hkparam name="sAnimationBindingIndex">-1</hkparam>
+		<hkobject name="#tkuc$115" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#tkuc$114</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">AimingBowAttackLeftArmTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="twistAngle">0.000000</hkparam>
+			<hkparam name="startBoneIndex">28</hkparam>
+			<hkparam name="endBoneIndex">29</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
 		</hkobject>

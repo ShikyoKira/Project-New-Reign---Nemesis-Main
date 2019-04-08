@@ -3,11 +3,11 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TKDodgeBack</hkparam>
 			<hkparam name="animationName">Animations\DodgeBack.hkx</hkparam>
-			<hkparam name="triggers">#tkuc$20</hkparam>
+			<hkparam name="triggers">#tkuc$19</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">0.750000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
 			<hkparam name="animationBindingIndex">-1</hkparam>

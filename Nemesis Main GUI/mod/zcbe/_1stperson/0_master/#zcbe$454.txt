@@ -1,8 +1,9 @@
-		<hkobject name="#zcbe$454" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
-			<hkparam name="events" numelements="1">
-				<hkobject>
-					<hkparam name="id">915</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$454" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$458</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_HeadTrackMagicDWML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="4">
+				#zcbe$459 #zcbe$461 #zcbe$456 #zcbe$455
 			</hkparam>
 		</hkobject>

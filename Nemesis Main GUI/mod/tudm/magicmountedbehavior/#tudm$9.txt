@@ -1,7 +1,7 @@
 		<hkobject name="#tudm$9" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="12">
 				<hkobject>
-					<hkparam name="localTime">0.400000</hkparam>
+					<hkparam name="localTime">0.350000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -61,7 +61,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">2.300000</hkparam>
+					<hkparam name="localTime">2.250000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -73,7 +73,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">2.650000</hkparam>
+					<hkparam name="localTime">2.600000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -85,7 +85,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">3.000000</hkparam>
+					<hkparam name="localTime">2.950000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -97,7 +97,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">3.350000</hkparam>
+					<hkparam name="localTime">3.200000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -109,7 +109,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">3.700000</hkparam>
+					<hkparam name="localTime">3.550000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -121,7 +121,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">4.100000</hkparam>
+					<hkparam name="localTime">3.950000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -133,7 +133,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">4.500000</hkparam>
+					<hkparam name="localTime">4.300000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>

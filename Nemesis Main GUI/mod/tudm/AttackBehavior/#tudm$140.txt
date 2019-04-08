@@ -1,8 +1,7 @@
-		<hkobject name="#tudm$140" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
-			<hkparam name="events" numelements="1">
-				<hkobject>
-					<hkparam name="id">$eventID[NextPowerAttackInitiate]$</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
+		<hkobject name="#tudm$140" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#tudm$136</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">180.311996</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

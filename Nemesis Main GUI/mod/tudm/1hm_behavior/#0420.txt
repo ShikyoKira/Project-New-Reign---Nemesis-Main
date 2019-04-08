@@ -3,17 +3,13 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">CrossBowAttackModifierList</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="modifiers" numelements="5">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="4">
-<!-- CLOSE -->
 				#0426
 				#0424
 				#0422
 				#0421
 <!-- MOD_CODE ~tudm~ OPEN -->
-				#tudm$28
+				#tudm$7
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

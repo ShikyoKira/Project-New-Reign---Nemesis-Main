@@ -4,7 +4,7 @@
 			<hkparam name="name">CrossBow_IdleDrawn</hkparam>
 			<hkparam name="animationName">Animations\DLC01\CrossBow_IdleDrawn.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$351</hkparam>
+			<hkparam name="triggers">#tudm$5</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

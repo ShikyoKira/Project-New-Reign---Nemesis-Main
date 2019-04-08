@@ -1,11 +1,10 @@
-		<hkobject name="#zcbe$93" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">playbackSpeed</hkparam>
-					<hkparam name="variableIndex">$variableID[fGetUpSpeed_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$93" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$99</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_Is1HM_MSG</hkparam>
+			<hkparam name="generators" numelements="9">
+				#zcbe$94 #zcbe$95 #zcbe$94 #zcbe$94 #zcbe$94 #zcbe$94 #zcbe$94 #zcbe$94 #zcbe$94
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

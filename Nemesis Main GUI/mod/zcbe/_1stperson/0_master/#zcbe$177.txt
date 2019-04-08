@@ -1,16 +1,7 @@
-		<hkobject name="#zcbe$177" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="2">
-				<hkobject>
-					<hkparam name="expression">currentDefaultState = 0</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="expression">weaponSheathe if(1)</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-			</hkparam>
+		<hkobject name="#zcbe$177" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$184</hkparam>
+			<hkparam name="boneWeights">#zcbe$182</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

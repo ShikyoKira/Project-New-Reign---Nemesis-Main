@@ -1,9 +1,5 @@
 		<hkobject name="#3215" class="hkbClipTriggerArray" signature="0x59c23a0f">
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers" numelements="9">
-<!-- ORIGINAL -->
 			<hkparam name="triggers" numelements="5">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="localTime">0.000000</hkparam>
 					<hkparam name="event">
@@ -90,10 +86,10 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.000000</hkparam>
+					<hkparam name="localTime">1.500000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$eventID[DaggerRollWinStart]$</hkparam>
+							<hkparam name="id">31</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
@@ -102,10 +98,10 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">1.500000</hkparam>
+					<hkparam name="localTime">0.000000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">31</hkparam>
+							<hkparam name="id">$eventID[DaggerRollWinStart]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>

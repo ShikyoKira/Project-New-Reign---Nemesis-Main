@@ -4,7 +4,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#tkuc$46</hkparam>
+			<hkparam name="generator">#tkuc$47</hkparam>
 			<hkparam name="name">TKCombat1</hkparam>
 			<hkparam name="stateId">10</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

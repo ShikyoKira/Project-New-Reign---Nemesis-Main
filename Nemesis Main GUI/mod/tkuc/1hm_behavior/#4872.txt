@@ -1,9 +1,5 @@
 		<hkobject name="#4872" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-<!-- MOD_CODE ~tkuc~ OPEN -->
-			<hkparam name="transitions" numelements="38">
-<!-- ORIGINAL -->
 			<hkparam name="transitions" numelements="37">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>

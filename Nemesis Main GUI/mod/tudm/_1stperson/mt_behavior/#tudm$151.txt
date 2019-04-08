@@ -4,9 +4,9 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#tudm$153</hkparam>
-			<hkparam name="name">Right_DodgeStyle_B1</hkparam>
-			<hkparam name="stateId">0</hkparam>
+			<hkparam name="generator">#tudm$148</hkparam>
+			<hkparam name="name">Left_BackwardDodgeStyle_A2</hkparam>
+			<hkparam name="stateId">1</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

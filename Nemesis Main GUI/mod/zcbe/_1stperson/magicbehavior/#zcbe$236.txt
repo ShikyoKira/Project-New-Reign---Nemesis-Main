@@ -1,11 +1,15 @@
-		<hkobject name="#zcbe$236" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">boneWeights</hkparam>
-					<hkparam name="variableIndex">0</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_CHARACTER_PROPERTY</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$236" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#zcbe$240</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Magic_BackwardLeftBlend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">17</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="4">
+				#zcbe$241 #zcbe$242 #zcbe$243 #zcbe$238
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

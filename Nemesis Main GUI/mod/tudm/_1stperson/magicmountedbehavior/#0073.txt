@@ -751,11 +751,7 @@
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
 				</hkobject>
 			</hkparam>
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="eventInfos" numelements="97">
-<!-- ORIGINAL -->
 			<hkparam name="eventInfos" numelements="95">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
 				</hkobject>

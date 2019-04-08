@@ -1030,11 +1030,7 @@
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
 				</hkobject>
 			</hkparam>
-<!-- MOD_CODE ~cbbi~ OPEN -->
-			<hkparam name="eventInfos" numelements="430">
-<!-- ORIGINAL -->
 			<hkparam name="eventInfos" numelements="461">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>

@@ -3,10 +3,10 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$52</hkparam>
-			<hkparam name="name">CartPrisonerBIdle.hkx</hkparam>
-			<hkparam name="stateId">4</hkparam>
+			<hkparam name="transitions">#zcbe$604</hkparam>
+			<hkparam name="generator">#zcbe$605</hkparam>
+			<hkparam name="name">BleedOut_Moving_State</hkparam>
+			<hkparam name="stateId">1</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

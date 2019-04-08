@@ -1,11 +1,9 @@
-		<hkobject name="#zcbe$1" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">startStateId</hkparam>
-					<hkparam name="variableIndex">$variableID[iWantBlock]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$1" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$39</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_PLSpineTwist_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="1">
+				#zcbe$40
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

@@ -2,23 +2,22 @@
 			<hkparam name="variableBindingSet">#0311</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockIdle_MSG</hkparam>
+			<hkparam name="generators" numelements="12">
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="generators" numelements="13">
-				#zcbe$25
-				#zcbe$26
-				#zcbe$26
-				#zcbe$26
-				#zcbe$26
-				#zcbe$27
-				#zcbe$28
-				#zcbe$29
+				#zcbe$3
 				#zcbe$4
-				#zcbe$30
-				#zcbe$31
+				#zcbe$4
+				#zcbe$4
+				#zcbe$4
+				#zcbe$5
+				#zcbe$6
 				#zcbe$7
 				#zcbe$8
+				#zcbe$9
+				#zcbe$10
+				#zcbe$11
+				#zcbe$12
 <!-- ORIGINAL -->
-			<hkparam name="generators" numelements="12">
 				#0299
 				#0310
 				#0310

@@ -4,7 +4,7 @@
 			<hkparam name="name">GetUpFromRagdollModGen</hkparam>
 			<hkparam name="modifier">#0205</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="generator">#zcbe$97</hkparam>
+			<hkparam name="generator">#zcbe$1</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#0211</hkparam>
 <!-- CLOSE -->

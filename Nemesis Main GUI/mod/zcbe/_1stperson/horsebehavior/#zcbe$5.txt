@@ -3,10 +3,10 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$4</hkparam>
-			<hkparam name="generator">#zcbe$2</hkparam>
-			<hkparam name="name">PairedKillState</hkparam>
-			<hkparam name="stateId">16</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#zcbe$26</hkparam>
+			<hkparam name="name">ZAR_MCMRH_S</hkparam>
+			<hkparam name="stateId">9</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

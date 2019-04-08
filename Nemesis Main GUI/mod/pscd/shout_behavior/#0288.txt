@@ -4,7 +4,7 @@
 			<hkparam name="name">ModifierGenerator00</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
 <!-- MOD_CODE ~pscd~ OPEN -->
-			<hkparam name="generator">#pscd$0</hkparam>
+			<hkparam name="generator">#pscd$8</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#0289</hkparam>
 <!-- CLOSE -->

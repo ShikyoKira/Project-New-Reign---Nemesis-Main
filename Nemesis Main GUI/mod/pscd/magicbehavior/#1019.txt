@@ -3,17 +3,13 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Casting_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~pscd~ OPEN -->
-			<hkparam name="modifiers" numelements="7">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="4">
-<!-- CLOSE -->
 				#1018
 				#1016
 				#1014
 				#1012
 <!-- MOD_CODE ~pscd~ OPEN -->
-				#pscd$1 #pscd$3 #pscd$4
+				#pscd$6 #pscd$7 #pscd$8
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

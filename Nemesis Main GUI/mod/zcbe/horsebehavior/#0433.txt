@@ -12,8 +12,8 @@
 				#0423
 				#0421
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$0
-				#zcbe$25
+				#zcbe$2
+				#zcbe$3
 <!-- ORIGINAL -->
 				#0431
 				#0431

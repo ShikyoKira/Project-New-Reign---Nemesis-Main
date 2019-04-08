@@ -1,7 +1,10 @@
-		<hkobject name="#zcbe$70" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_ResetParryVarEEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$71</hkparam>
+		<hkobject name="#zcbe$70" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">bParry_Z = 0</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

@@ -1,9 +1,5 @@
 		<hkobject name="#0982" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="transitions" numelements="4">
-<!-- ORIGINAL -->
 			<hkparam name="transitions" numelements="1">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -48,7 +44,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$286</hkparam>
+					<hkparam name="transition">#zcbe$9</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[DodgeRight]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
@@ -74,7 +70,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$25</hkparam>
+					<hkparam name="transition">#zcbe$10</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[DodgeLeft]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
@@ -100,7 +96,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$291</hkparam>
+					<hkparam name="transition">#zcbe$11</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[DodgeBack]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>

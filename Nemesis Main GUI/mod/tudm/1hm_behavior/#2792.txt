@@ -1,9 +1,5 @@
 		<hkobject name="#2792" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="transitions" numelements="24">
-<!-- ORIGINAL -->
 			<hkparam name="transitions" numelements="23">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -620,7 +616,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tudm$10</hkparam>
+					<hkparam name="transition">#tudm$1</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">25</hkparam>

@@ -1,3 +1,9 @@
-		<hkobject name="#zcbe$68" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iLeftHandType &lt; 9) &amp;&amp; (iLeftHandType &gt; 11)</hkparam>
+		<hkobject name="#zcbe$68" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$76</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ModifierList103</hkparam>
+			<hkparam name="enable">false</hkparam>
+			<hkparam name="modifiers" numelements="3">
+				#zcbe$75 #zcbe$74 #zcbe$71
+			</hkparam>
 		</hkobject>

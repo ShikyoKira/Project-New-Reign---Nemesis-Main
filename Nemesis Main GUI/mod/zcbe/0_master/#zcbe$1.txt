@@ -1,29 +1,10 @@
-		<hkobject name="#zcbe$1" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="4">
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">25</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">pointIn</hkparam>
-					<hkparam name="variableIndex">163</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">upAngleOut</hkparam>
-					<hkparam name="variableIndex">$variableID[fNPCPitch_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">verticalOffset</hkparam>
-					<hkparam name="variableIndex">$variableID[fCharHeight_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$1" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$34</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_WoundedOrGetUpMSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0211 #zcbe$30
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

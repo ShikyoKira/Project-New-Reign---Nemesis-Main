@@ -1,26 +1,40 @@
-		<hkobject name="#tkuc$13" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">TKDodge_Behavior</hkparam>
-			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+		<hkobject name="#tkuc$13" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="3">
 				<hkobject>
-					<hkparam name="id">-1</hkparam>
-					<hkparam name="payload">null</hkparam>
+					<hkparam name="localTime">-0.300000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$eventID[TKDodgeStop]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.300000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">22</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.533333</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">21</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="startStateChooser">null</hkparam>
-			<hkparam name="startStateId">1</hkparam>
-			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
-			<hkparam name="randomTransitionEventId">-1</hkparam>
-			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
-			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
-			<hkparam name="syncVariableIndex">-1</hkparam>
-			<hkparam name="wrapAroundStateId">false</hkparam>
-			<hkparam name="maxSimultaneousTransitions">32</hkparam>
-			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
-			<hkparam name="states" numelements="4">
-				#tkuc$15 #tkuc$14 #tkuc$19 #tkuc$7
-			</hkparam>
-			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

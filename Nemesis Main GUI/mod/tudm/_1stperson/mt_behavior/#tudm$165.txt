@@ -1,15 +1,16 @@
-		<hkobject name="#tudm$165" class="hkbBlenderGenerator" signature="0x22df7147">
+		<hkobject name="#tudm$165" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DodgeDirectionA_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">0.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">49</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="8">
-				#tudm$167 #tudm$168 #tudm$65 #tudm$169 #tudm$130 #tudm$126 #tudm$170 #tudm$171
-			</hkparam>
+			<hkparam name="name">Right_BackwardSidestep_Clip_A</hkparam>
+			<hkparam name="animationName">Animations\Sidestep_BackwardRight.hkx</hkparam>
+			<hkparam name="triggers">#tudm$164</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>

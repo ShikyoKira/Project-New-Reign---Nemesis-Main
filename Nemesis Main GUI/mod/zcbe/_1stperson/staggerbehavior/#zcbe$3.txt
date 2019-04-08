@@ -1,7 +1,6 @@
-		<hkobject name="#zcbe$3" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+		<hkobject name="#zcbe$3" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$0</hkparam>
-			<hkparam name="boneWeights">#zcbe$5</hkparam>
-			<hkparam name="weight">2.000000</hkparam>
-			<hkparam name="worldFromModelWeight">0.000000</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_BlockBRG</hkparam>
+			<hkparam name="behaviorName">Behaviors\BlockBehavior.hkx</hkparam>
 		</hkobject>

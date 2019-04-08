@@ -1,6 +1,6 @@
 		<hkobject name="#0224" class="hkbClipGenerator" signature="0x333b85b9">
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="variableBindingSet">#zcbe$93</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$4</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="variableBindingSet">null</hkparam>
 <!-- CLOSE -->

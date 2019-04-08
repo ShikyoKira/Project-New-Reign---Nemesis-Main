@@ -4,7 +4,7 @@
 			<hkparam name="name">1st3rdPerson_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$83
+				#zcbe$52
 <!-- ORIGINAL -->
 				#0165
 <!-- CLOSE -->

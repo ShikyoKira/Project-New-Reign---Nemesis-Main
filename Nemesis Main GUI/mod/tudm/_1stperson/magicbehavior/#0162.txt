@@ -4,7 +4,7 @@
 			<hkparam name="name">StfMagicRight_ChargeLoop</hkparam>
 			<hkparam name="animationName">Animations\StfMagicRight_ChargeLoop.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$104</hkparam>
+			<hkparam name="triggers">#tudm$1</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

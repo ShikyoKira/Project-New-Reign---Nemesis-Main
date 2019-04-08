@@ -4,7 +4,7 @@
 			<hkparam name="name">1HM_AttackState_Generator</hkparam>
 			<hkparam name="modifier">#4795</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="generator">#zcbe$73</hkparam>
+			<hkparam name="generator">#zcbe$23</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#4791</hkparam>
 <!-- CLOSE -->

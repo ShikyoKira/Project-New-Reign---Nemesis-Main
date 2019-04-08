@@ -1,7 +1,10 @@
-		<hkobject name="#zcbe$642" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+		<hkobject name="#zcbe$642" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$649</hkparam>
-			<hkparam name="boneWeights">#zcbe$648</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Unequip_EDM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#zcbe$643</hkparam>
+			<hkparam name="activateEventId">144</hkparam>
+			<hkparam name="deactivateEventId">37</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>

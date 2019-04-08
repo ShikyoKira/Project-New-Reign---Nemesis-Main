@@ -1,5 +1,5 @@
 		<hkobject name="#tkuc$48" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#tkuc$49</hkparam>
+			<hkparam name="variableBindingSet">#tkuc$47</hkparam>
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">bAllowRotationIsActiveModifier</hkparam>
 			<hkparam name="enable">true</hkparam>

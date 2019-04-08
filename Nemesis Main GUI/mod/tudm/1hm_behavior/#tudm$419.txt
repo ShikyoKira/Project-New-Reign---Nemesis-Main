@@ -1,16 +1,21 @@
-		<hkobject name="#tudm$419" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#tudm$263</hkparam>
+		<hkobject name="#tudm$419" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
+			<hkparam name="variableBindingSet">#tudm$383</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">RightSidestep_Clip_B</hkparam>
-			<hkparam name="animationName">Animations\Sidestep_Right.hkx</hkparam>
-			<hkparam name="triggers">#tudm$329</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.150000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
+			<hkparam name="name">2HM_AttackRightNPC_BSCyclicBlendTransitionGenerator</hkparam>
+			<hkparam name="pBlenderGenerator">#tudm$420</hkparam>
+			<hkparam name="EventToFreezeBlendValue">
+				<hkobject>
+					<hkparam name="id">194</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="EventToCrossBlend">
+				<hkobject>
+					<hkparam name="id">195</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="fBlendParameter">0.000000</hkparam>
+			<hkparam name="fTransitionDuration">0.200000</hkparam>
+			<hkparam name="eBlendCurve">BLEND_CURVE_SMOOTH</hkparam>
 		</hkobject>

@@ -5,7 +5,7 @@
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#2547</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="generator">#tudm$83</hkparam>
+			<hkparam name="generator">#tudm$2</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#2546</hkparam>
 <!-- CLOSE -->

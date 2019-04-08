@@ -1,8 +1,8 @@
 		<hkobject name="#zcbe$28" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
-					<hkparam name="memberPath">blendParameter</hkparam>
-					<hkparam name="variableIndex">5</hkparam>
+					<hkparam name="memberPath">enable</hkparam>
+					<hkparam name="variableIndex">35</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>

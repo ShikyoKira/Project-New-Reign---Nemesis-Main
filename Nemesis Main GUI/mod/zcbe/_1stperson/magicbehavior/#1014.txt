@@ -4,7 +4,7 @@
 			<hkparam name="name">MagicRoot_MG</hkparam>
 			<hkparam name="modifier">#1013</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="generator">#zcbe$12</hkparam>
+			<hkparam name="generator">#zcbe$18</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#1008</hkparam>
 <!-- CLOSE -->

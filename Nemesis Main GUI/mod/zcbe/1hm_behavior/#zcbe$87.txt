@@ -1,3 +1,8 @@
-		<hkobject name="#zcbe$87" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(IsNPC == 1) &amp;&amp; (bLeftAttack_Z == 1)</hkparam>
+		<hkobject name="#zcbe$87" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
+				<hkobject>
+					<hkparam name="id">$eventID[FBEX_Z]$</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

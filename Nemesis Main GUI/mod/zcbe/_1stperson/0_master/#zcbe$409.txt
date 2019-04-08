@@ -1,9 +1,16 @@
-		<hkobject name="#zcbe$409" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_SwimML</hkparam>
+		<hkobject name="#zcbe$409" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#zcbe$410</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">BSIsActiveModifier_DisableFootIK</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="3">
-				#zcbe$410 #zcbe$408 #zcbe$412
-			</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">false</hkparam>
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">false</hkparam>
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">false</hkparam>
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">false</hkparam>
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">false</hkparam>
 		</hkobject>

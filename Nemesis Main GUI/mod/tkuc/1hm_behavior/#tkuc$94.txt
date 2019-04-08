@@ -1,14 +1,7 @@
-		<hkobject name="#tkuc$94" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
+		<hkobject name="#tkuc$94" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sync_2HMSpecialAttackB</hkparam>
-			<hkparam name="pClipGenerator">#tkuc$95</hkparam>
-			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
-			<hkparam name="bSyncClipIgnoreMarkPlacement">true</hkparam>
-			<hkparam name="fGetToMarkTime">0.000000</hkparam>
-			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
-			<hkparam name="bLeadCharacter">false</hkparam>
-			<hkparam name="bReorientSupportChar">true</hkparam>
-			<hkparam name="bApplyMotionFromRoot">false</hkparam>
-			<hkparam name="sAnimationBindingIndex">-1</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">TKDodgeLeftModifier_EEM</hkparam>
+			<hkparam name="modifier">#tkuc$65</hkparam>
+			<hkparam name="generator">#tkuc$93</hkparam>
 		</hkobject>

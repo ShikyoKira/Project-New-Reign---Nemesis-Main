@@ -18,7 +18,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">null</hkparam>
-					<hkparam name="condition">#tudm$25</hkparam>
+					<hkparam name="condition">#tudm$157</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">2</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -44,7 +44,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">null</hkparam>
-					<hkparam name="condition">#tudm$10</hkparam>
+					<hkparam name="condition">#tudm$155</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">3</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -70,7 +70,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">null</hkparam>
-					<hkparam name="condition">#tudm$26</hkparam>
+					<hkparam name="condition">#tudm$158</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">2</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -96,7 +96,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">null</hkparam>
-					<hkparam name="condition">#tudm$9</hkparam>
+					<hkparam name="condition">#tudm$156</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">3</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

@@ -1,9 +1,15 @@
-		<hkobject name="#zcbe$119" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#zcbe$6</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_FixJumpCastCom_ML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="1">
-				#zcbe$26
+		<hkobject name="#zcbe$119" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#zcbe$132</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">StaffMagicCast_TurnRight_Blend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">16</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="4">
+				#zcbe$134 #zcbe$135 #zcbe$131 #zcbe$128
 			</hkparam>
 		</hkobject>

@@ -1,15 +1,3 @@
-		<hkobject name="#zcbe$17" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#zcbe$28</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">MagicCast_TurnRight_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">16</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="3">
-				#zcbe$29 #zcbe$4 #zcbe$7
-			</hkparam>
+		<hkobject name="#zcbe$17" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">bInJumpState == 1</hkparam>
 		</hkobject>

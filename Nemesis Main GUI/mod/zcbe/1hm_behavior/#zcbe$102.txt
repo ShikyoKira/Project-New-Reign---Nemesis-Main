@@ -1,12 +1,10 @@
-		<hkobject name="#zcbe$102" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>
-			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$29</hkparam>
-			<hkparam name="name">Z_CrossBow_AttackJumping_S</hkparam>
-			<hkparam name="stateId">2</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
+		<hkobject name="#zcbe$102" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$99</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_IsSwimming_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#zcbe$98 #zcbe$95
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

@@ -3,7 +3,12 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ZAR_FixMC_TM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="axisOfRotation">(0.000000 0.000000 1.000000 0.000000)</hkparam>
+			<hkparam name="axisOfRotation">
+				0.000000
+				0.000000
+				1.000000
+				0.000000
+			</hkparam>
 			<hkparam name="twistAngle">-20.000000</hkparam>
 			<hkparam name="startBoneIndex">24</hkparam>
 			<hkparam name="endBoneIndex">26</hkparam>

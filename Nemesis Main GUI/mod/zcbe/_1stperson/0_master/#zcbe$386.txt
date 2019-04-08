@@ -17,10 +17,10 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0099</hkparam>
+					<hkparam name="transition">#0351</hkparam>
 					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">96</hkparam>
-					<hkparam name="toStateId">0</hkparam>
+					<hkparam name="eventId">254</hkparam>
+					<hkparam name="toStateId">14</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
 					<hkparam name="priority">0</hkparam>

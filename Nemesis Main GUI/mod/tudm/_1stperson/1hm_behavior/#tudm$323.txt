@@ -1,10 +1,10 @@
-		<hkobject name="#tudm$323" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="1">
-				<hkobject>
-					<hkparam name="expression">IsDodging = 1</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
+		<hkobject name="#tudm$323" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tudm$248</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Weap_AttackRight_MSG</hkparam>
+			<hkparam name="generators" numelements="7">
+				#2643 #2643 #2643 #2643 #2643 #tudm$324 #tudm$321
 			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

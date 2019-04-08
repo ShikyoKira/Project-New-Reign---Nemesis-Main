@@ -1,40 +1,10 @@
-		<hkobject name="#tkuc$75" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="3">
-				<hkobject>
-					<hkparam name="localTime">0.467000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">136</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">0.570000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">133</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">1.900000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">55</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
+		<hkobject name="#tkuc$75" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tkuc$62</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">TKDodgeBack_MSG</hkparam>
+			<hkparam name="generators" numelements="4">
+				#tkuc$74 #tkuc$73 #tkuc$70 #tkuc$69
 			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

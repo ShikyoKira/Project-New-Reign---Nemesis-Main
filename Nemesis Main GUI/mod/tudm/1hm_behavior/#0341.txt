@@ -4,7 +4,7 @@
 			<hkparam name="name">SneakCrossBow_IdleDrawnDwarven</hkparam>
 			<hkparam name="animationName">Animations\DLC01\SneakCrossBow_IdleDrawnDwarven.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$170</hkparam>
+			<hkparam name="triggers">#tudm$2</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

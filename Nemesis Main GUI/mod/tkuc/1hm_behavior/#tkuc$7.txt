@@ -1,9 +1,12 @@
-		<hkobject name="#tkuc$7" class="hkbModifierList" signature="0xa4180ca1">
+		<hkobject name="#tkuc$7" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Aiming_ML</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">#tkuc$112</hkparam>
+			<hkparam name="generator">#tkuc$111</hkparam>
+			<hkparam name="name">TKBattleArtsState</hkparam>
+			<hkparam name="stateId">22</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="5">
-				#tkuc$31 #tkuc$32 #tkuc$33 #tkuc$34 #tkuc$36
-			</hkparam>
 		</hkobject>

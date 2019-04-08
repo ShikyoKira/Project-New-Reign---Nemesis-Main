@@ -1,10 +1,9 @@
-		<hkobject name="#zcbe$412" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
-			<hkparam name="variableBindingSet">null</hkparam>
+		<hkobject name="#zcbe$412" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$414</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ZAR_WaterSoundWeaponSwing_EDM</hkparam>
+			<hkparam name="name">Z_AimAttackMagH2HML</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$406</hkparam>
-			<hkparam name="activateEventId">53</hkparam>
-			<hkparam name="deactivateEventId">-1</hkparam>
-			<hkparam name="activeByDefault">false</hkparam>
+			<hkparam name="modifiers" numelements="2">
+				#zcbe$415 #zcbe$416
+			</hkparam>
 		</hkobject>

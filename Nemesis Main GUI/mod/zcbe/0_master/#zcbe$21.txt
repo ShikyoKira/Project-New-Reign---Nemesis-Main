@@ -1,7 +1,10 @@
-		<hkobject name="#zcbe$21" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_TwistHeadMG</hkparam>
-			<hkparam name="modifier">#zcbe$15</hkparam>
-			<hkparam name="generator">#1926</hkparam>
+		<hkobject name="#zcbe$21" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$61</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_CheckPLView1HM_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#zcbe$60 #1926
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

@@ -1,7 +1,9 @@
-		<hkobject name="#zcbe$13" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">#zcbe$14</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_NPCBlockHeight_EEM</hkparam>
+		<hkobject name="#zcbe$13" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_ChangeBlockHeight_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$16</hkparam>
+			<hkparam name="modifiers" numelements="2">
+				#zcbe$122 #zcbe$117
+			</hkparam>
 		</hkobject>

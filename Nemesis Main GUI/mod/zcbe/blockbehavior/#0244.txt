@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">BlockHit_MG</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="modifier">#zcbe$120</hkparam>
+			<hkparam name="modifier">#zcbe$0</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="modifier">#0289</hkparam>
 <!-- CLOSE -->

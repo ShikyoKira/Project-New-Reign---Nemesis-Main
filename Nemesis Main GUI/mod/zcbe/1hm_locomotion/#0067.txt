@@ -18,7 +18,7 @@
 						</hkobject>
 					</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-					<hkparam name="transition">#zcbe$4</hkparam>
+					<hkparam name="transition">#zcbe$0</hkparam>
 <!-- ORIGINAL -->
 					<hkparam name="transition">#0068</hkparam>
 <!-- CLOSE -->

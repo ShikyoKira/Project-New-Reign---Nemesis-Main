@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">CrossBow_Ready_MG</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="modifier">#tudm$2</hkparam>
+			<hkparam name="modifier">#tudm$35</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="modifier">#0803</hkparam>
 <!-- CLOSE -->

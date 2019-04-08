@@ -3,16 +3,12 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">BlockModifierList</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~tkuc~ OPEN -->
-			<hkparam name="modifiers" numelements="4">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="3">
-<!-- CLOSE -->
 				#2607
 				#2784
 				#2782
 <!-- MOD_CODE ~tkuc~ OPEN -->
-				#tkuc$7
+				#tkuc$1
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

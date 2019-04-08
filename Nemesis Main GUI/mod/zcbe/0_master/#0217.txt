@@ -9,18 +9,19 @@
 			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="children" numelements="4">
-<!-- ORIGINAL -->
 			<hkparam name="children" numelements="2">
-<!-- CLOSE -->
 				#0222
 				#0218
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$104 #zcbe$109
+				#zcbe$2 #zcbe$3
 <!-- CLOSE -->
 			</hkparam>
-			<hkparam name="worldFromModelRotation">(0.000000 0.000000 0.000000 1.000000)</hkparam>
+			<hkparam name="worldFromModelRotation">
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+			</hkparam>
 			<hkparam name="blendSpeed">1.000000</hkparam>
 			<hkparam name="minSpeedToSwitch">0.200000</hkparam>
 			<hkparam name="minSwitchTimeNoError">0.200000</hkparam>

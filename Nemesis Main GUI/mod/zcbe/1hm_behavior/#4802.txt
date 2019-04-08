@@ -1,9 +1,5 @@
 		<hkobject name="#4802" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="transitions" numelements="14">
-<!-- ORIGINAL -->
 			<hkparam name="transitions" numelements="12">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -73,8 +69,13 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
+<!-- MOD_CODE ~zcbe~ OPEN -->
+					<hkparam name="transition">#4800</hkparam>
+					<hkparam name="condition">#4799</hkparam>
+<!-- ORIGINAL -->
 					<hkparam name="transition">#0091</hkparam>
 					<hkparam name="condition">#2611</hkparam>
+<!-- CLOSE -->
 					<hkparam name="eventId">8</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -151,8 +152,13 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
+<!-- MOD_CODE ~zcbe~ OPEN -->
+					<hkparam name="transition">#0091</hkparam>
+					<hkparam name="condition">#2611</hkparam>
+<!-- ORIGINAL -->
 					<hkparam name="transition">#4800</hkparam>
 					<hkparam name="condition">#4799</hkparam>
+<!-- CLOSE -->
 					<hkparam name="eventId">8</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -338,7 +344,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$67</hkparam>
+					<hkparam name="transition">#zcbe$28</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">10</hkparam>
 					<hkparam name="toStateId">1</hkparam>
@@ -365,7 +371,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0091</hkparam>
-					<hkparam name="condition">#zcbe$72</hkparam>
+					<hkparam name="condition">#zcbe$29</hkparam>
 					<hkparam name="eventId">8</hkparam>
 					<hkparam name="toStateId">9</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

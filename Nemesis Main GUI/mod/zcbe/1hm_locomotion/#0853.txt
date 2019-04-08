@@ -1,6 +1,6 @@
 		<hkobject name="#0853" class="hkbStateMachine" signature="0x816c1dcb">
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="variableBindingSet">#zcbe$0</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$1</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="variableBindingSet">null</hkparam>
 <!-- CLOSE -->

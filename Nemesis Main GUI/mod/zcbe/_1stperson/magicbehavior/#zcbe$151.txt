@@ -1,16 +1,8 @@
-		<hkobject name="#zcbe$151" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#zcbe$151" class="BSiStateTaggingGenerator" signature="0xf0826fc1">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sneak_TurnRightFast</hkparam>
-			<hkparam name="animationName">Animations\Sneak_TurnRight180.HKX</hkparam>
-			<hkparam name="triggers">#zcbe$147</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.500000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ZAR_Blocking_ISTG</hkparam>
+			<hkparam name="pDefaultGenerator">#zcbe$153</hkparam>
+			<hkparam name="iStateToSetAs">4</hkparam>
+			<hkparam name="iPriority">17</hkparam>
 		</hkobject>

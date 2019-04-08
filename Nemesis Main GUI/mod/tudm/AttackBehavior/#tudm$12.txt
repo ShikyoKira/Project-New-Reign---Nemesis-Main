@@ -1,11 +1,8 @@
-		<hkobject name="#tudm$12" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
+		<hkobject name="#tudm$12" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
 				<hkobject>
-					<hkparam name="memberPath">playbackSpeed</hkparam>
-					<hkparam name="variableIndex">24</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+					<hkparam name="id">$eventID[NextAttackInitiate]$</hkparam>
+					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

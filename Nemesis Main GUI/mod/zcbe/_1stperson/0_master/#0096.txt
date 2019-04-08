@@ -1,9 +1,5 @@
 		<hkobject name="#0096" class="hkbVariableValueSet" signature="0x27812d8d">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="wordVariableValues" numelements="241">
-<!-- ORIGINAL -->
 			<hkparam name="wordVariableValues" numelements="230">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
@@ -731,10 +727,22 @@
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="4">
-				(0.000000 0.000000 0.000000 0.000000)
-				(0.000000 0.000000 0.000000 0.000000)
-				(0.000000 0.000000 0.000000 1.000000)
-				(0.000000 2000.000000 120.000000 0.000000)
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				0.000000
+				2000.000000
+				120.000000
+				0.000000
 			</hkparam>
 			<hkparam name="variantVariableValues" numelements="0"></hkparam>
 		</hkobject>

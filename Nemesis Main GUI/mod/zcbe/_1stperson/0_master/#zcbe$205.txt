@@ -1,30 +1,6 @@
-		<hkobject name="#zcbe$205" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-			<hkparam name="transitions" numelements="1">
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0351</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">128</hkparam>
-					<hkparam name="toStateId">4</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$205" class="hkbBoneIndexArray" signature="0xaa8619">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="boneIndices" numelements="14">
+				0 1 2 3 6 9 10 14 16 11 13 12 15 17
 			</hkparam>
 		</hkobject>

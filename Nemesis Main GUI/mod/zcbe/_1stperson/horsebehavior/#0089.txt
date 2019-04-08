@@ -1092,11 +1092,7 @@
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
 				</hkobject>
 			</hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="eventInfos" numelements="215">
-<!-- ORIGINAL -->
 			<hkparam name="eventInfos" numelements="212">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>

@@ -1,9 +1,5 @@
 		<hkobject name="#0052" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="eventNames" numelements="13">
-<!-- ORIGINAL -->
 			<hkparam name="eventNames" numelements="9">
-<!-- CLOSE -->
 				<hkcstring>staggerStop</hkcstring>
 				<hkcstring>FootScuffLeft</hkcstring>
 				<hkcstring>FootScuffRight</hkcstring>
@@ -21,11 +17,7 @@
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="variableNames" numelements="16">
-<!-- ORIGINAL -->
 			<hkparam name="variableNames" numelements="9">
-<!-- CLOSE -->
 				<hkcstring>staggerMagnitude</hkcstring>
 				<hkcstring>IsStaggering</hkcstring>
 				<hkcstring>iRightHandType</hkcstring>

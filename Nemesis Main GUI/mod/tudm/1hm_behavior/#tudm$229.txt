@@ -1,15 +1,12 @@
-		<hkobject name="#tudm$229" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#tudm$86</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HM_Forward_AttackLeftNPC_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">17</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="3">
-				#tudm$232 #tudm$233 #tudm$234
-			</hkparam>
+		<hkobject name="#tudm$229" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#tudm$227</hkparam>
+			<hkparam name="name">Left_ForwardDodgeStyle_A1</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
 		</hkobject>

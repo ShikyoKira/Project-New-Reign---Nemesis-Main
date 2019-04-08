@@ -1,9 +1,5 @@
 		<hkobject name="#0755" class="hkbClipTriggerArray" signature="0x59c23a0f">
-<!-- MOD_CODE ~nemesis~ OPEN -->
-			<hkparam name="triggers" numelements="2">
-<!-- ORIGINAL -->
 			<hkparam name="triggers" numelements="4">
-<!-- CLOSE -->
 <!-- MOD_CODE ~nemesis~ OPEN -->
 
 

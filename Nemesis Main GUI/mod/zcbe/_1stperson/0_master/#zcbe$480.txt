@@ -1,14 +1,15 @@
-		<hkobject name="#zcbe$480" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
+		<hkobject name="#zcbe$480" class="hkbBlenderGenerator" signature="0x22df7147">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">KillWerewolfPairedHeadSmash</hkparam>
-			<hkparam name="pClipGenerator">#zcbe$481</hkparam>
-			<hkparam name="SyncAnimPrefix">2_</hkparam>
-			<hkparam name="bSyncClipIgnoreMarkPlacement">false</hkparam>
-			<hkparam name="fGetToMarkTime">0.000000</hkparam>
-			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
-			<hkparam name="bLeadCharacter">false</hkparam>
-			<hkparam name="bReorientSupportChar">true</hkparam>
-			<hkparam name="bApplyMotionFromRoot">false</hkparam>
-			<hkparam name="sAnimationBindingIndex">-1</hkparam>
+			<hkparam name="name">PlayerStaggerMovingBlend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="3">
+				#zcbe$484 #zcbe$485 #zcbe$486
+			</hkparam>
 		</hkobject>

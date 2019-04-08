@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Bash_MG</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="modifier">#zcbe$35</hkparam>
+			<hkparam name="modifier">#zcbe$9</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="modifier">#2768</hkparam>
 <!-- CLOSE -->

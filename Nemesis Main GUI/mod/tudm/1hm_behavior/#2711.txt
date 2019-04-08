@@ -4,7 +4,7 @@
 			<hkparam name="name">BowDrawn_TurnLeft60</hkparam>
 			<hkparam name="animationName">Animations\BowDrawn_TurnLeft60.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$96</hkparam>
+			<hkparam name="triggers">#tudm$14</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

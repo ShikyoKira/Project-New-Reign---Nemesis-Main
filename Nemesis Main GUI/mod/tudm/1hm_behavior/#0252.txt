@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">CrossBowReload_iStateGen</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="pDefaultGenerator">#tudm$27</hkparam>
+			<hkparam name="pDefaultGenerator">#tudm$0</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="pDefaultGenerator">#0095</hkparam>
 <!-- CLOSE -->

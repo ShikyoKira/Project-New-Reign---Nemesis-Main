@@ -84,11 +84,7 @@
 				</hkobject>
 			</hkparam>
 			<hkparam name="characterPropertyInfos" numelements="0"></hkparam>
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="eventInfos" numelements="16">
-<!-- ORIGINAL -->
 			<hkparam name="eventInfos" numelements="15">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
 				</hkobject>

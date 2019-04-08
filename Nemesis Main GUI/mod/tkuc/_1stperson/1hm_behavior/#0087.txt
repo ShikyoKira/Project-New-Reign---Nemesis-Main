@@ -1022,11 +1022,7 @@
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
 				</hkobject>
 			</hkparam>
-<!-- MOD_CODE ~tkuc~ OPEN -->
-			<hkparam name="eventInfos" numelements="476">
-<!-- ORIGINAL -->
 			<hkparam name="eventInfos" numelements="461">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>

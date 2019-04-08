@@ -1,7 +1,10 @@
-		<hkobject name="#zcbe$80" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$16</hkparam>
-			<hkparam name="boneWeights">null</hkparam>
-			<hkparam name="weight">60.000000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		<hkobject name="#zcbe$80" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$84</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MagicCast_TurnLeft_MSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#zcbe$81 #zcbe$81 #zcbe$81 #zcbe$81 #zcbe$81 #zcbe$81 #zcbe$81 #zcbe$81 #zcbe$87 #zcbe$81 #zcbe$81 #zcbe$81
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

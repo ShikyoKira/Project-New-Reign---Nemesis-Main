@@ -1,9 +1,5 @@
 		<hkobject name="#0095" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="eventNames" numelements="1220">
-<!-- ORIGINAL -->
 			<hkparam name="eventNames" numelements="1217">
-<!-- CLOSE -->
 				<hkcstring>FootLeft</hkcstring>
 				<hkcstring>FootRight</hkcstring>
 				<hkcstring>WeapEquip</hkcstring>

@@ -1,8 +1,11 @@
-		<hkobject name="#zcbe$428" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
-			<hkparam name="events" numelements="1">
+		<hkobject name="#zcbe$428" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
 				<hkobject>
-					<hkparam name="id">$eventID[GetUp_Z]$</hkparam>
-					<hkparam name="payload">null</hkparam>
+					<hkparam name="memberPath">playbackSpeed</hkparam>
+					<hkparam name="variableIndex">47</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

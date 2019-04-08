@@ -1,9 +1,10 @@
-		<hkobject name="#zcbe$27" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#zcbe$4</hkparam>
+		<hkobject name="#zcbe$27" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+			<hkparam name="variableBindingSet">#zcbe$115</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_HeadTrackMagicDWML</hkparam>
+			<hkparam name="name">Z_ListenForGameSentEvents_EDM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="4">
-				#zcbe$0 #zcbe$17 #zcbe$18 #zcbe$19
-			</hkparam>
+			<hkparam name="modifier">#zcbe$116</hkparam>
+			<hkparam name="activateEventId">704</hkparam>
+			<hkparam name="deactivateEventId">3</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>

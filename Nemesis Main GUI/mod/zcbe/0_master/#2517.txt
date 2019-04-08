@@ -3,11 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">RootModifierList</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="modifiers" numelements="8">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="6">
-<!-- CLOSE -->
 				#2516
 				#2514
 				#0208
@@ -15,7 +11,7 @@
 				#2512
 				#2510
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$13 #zcbe$10
+				#zcbe$27 #zcbe$28
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

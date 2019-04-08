@@ -1,7 +1,7 @@
 		<hkobject name="#0670" class="BSBoneSwitchGeneratorBoneData" signature="0xc1215be6">
 			<hkparam name="variableBindingSet">#0672</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="pGenerator">#tudm$37</hkparam>
+			<hkparam name="pGenerator">#tudm$36</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="pGenerator">#0570</hkparam>
 <!-- CLOSE -->

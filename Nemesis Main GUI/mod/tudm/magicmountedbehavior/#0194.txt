@@ -4,7 +4,7 @@
 			<hkparam name="name">MLh_ChargeLoop</hkparam>
 			<hkparam name="animationName">Animations\MLh_ChargeLoop.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$13</hkparam>
+			<hkparam name="triggers">#tudm$1</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

@@ -1,9 +1,5 @@
 		<hkobject name="#4344" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-<!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="transitions" numelements="18">
-<!-- ORIGINAL -->
 			<hkparam name="transitions" numelements="12">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -334,8 +330,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tudm$133</hkparam>
-					<hkparam name="condition">#tudm$107</hkparam>
+					<hkparam name="transition">#tudm$33</hkparam>
+					<hkparam name="condition">#tudm$34</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">25</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -360,8 +356,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tudm$133</hkparam>
-					<hkparam name="condition">#tudm$131</hkparam>
+					<hkparam name="transition">#tudm$33</hkparam>
+					<hkparam name="condition">#tudm$8</hkparam>
 					<hkparam name="eventId">$eventID[RollContinue]$</hkparam>
 					<hkparam name="toStateId">25</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -386,8 +382,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tudm$133</hkparam>
-					<hkparam name="condition">#tudm$106</hkparam>
+					<hkparam name="transition">#tudm$33</hkparam>
+					<hkparam name="condition">#tudm$35</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">25</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -412,8 +408,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tudm$133</hkparam>
-					<hkparam name="condition">#tudm$106</hkparam>
+					<hkparam name="transition">#tudm$33</hkparam>
+					<hkparam name="condition">#tudm$35</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">25</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -438,8 +434,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tudm$133</hkparam>
-					<hkparam name="condition">#tudm$108</hkparam>
+					<hkparam name="transition">#tudm$33</hkparam>
+					<hkparam name="condition">#tudm$36</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">25</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -464,8 +460,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tudm$133</hkparam>
-					<hkparam name="condition">#tudm$108</hkparam>
+					<hkparam name="transition">#tudm$33</hkparam>
+					<hkparam name="condition">#tudm$36</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">25</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

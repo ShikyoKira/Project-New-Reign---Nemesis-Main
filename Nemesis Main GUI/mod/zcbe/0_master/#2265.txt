@@ -3,13 +3,13 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">#2331</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="exitNotifyEvents">#zcbe$36</hkparam>
+			<hkparam name="exitNotifyEvents">#zcbe$24</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="exitNotifyEvents">null</hkparam>
 <!-- CLOSE -->
 			<hkparam name="transitions">#2330</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="generator">#zcbe$37</hkparam>
+			<hkparam name="generator">#zcbe$25</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#2266</hkparam>
 <!-- CLOSE -->

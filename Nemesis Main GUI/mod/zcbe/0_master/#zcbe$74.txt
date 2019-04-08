@@ -1,3 +1,20 @@
-		<hkobject name="#zcbe$74" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iLeftHandType &gt; 9) &amp;&amp; (iLeftHandType &lt; 12)</hkparam>
+		<hkobject name="#zcbe$74" class="BSDistTriggerModifier" signature="0xb34d2bbd">
+			<hkparam name="variableBindingSet">#zcbe$77</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">DistTriggerModifier1</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="targetPosition">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="distance">50.000000</hkparam>
+			<hkparam name="distanceTrigger">0.000000</hkparam>
+			<hkparam name="triggerEvent">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

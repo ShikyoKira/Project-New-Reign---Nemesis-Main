@@ -1,16 +1,15 @@
-		<hkobject name="#zcbe$328" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
+		<hkobject name="#zcbe$328" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#zcbe$334</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Magic_WalkRightSlow</hkparam>
-			<hkparam name="animationName">Animations\Mag_WalkRight.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$332</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">0.100000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">16</hkparam>
+			<hkparam name="name">StaffMagicRight_RunWalkArm_Blend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">17</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="2">
+				#zcbe$330 #zcbe$332
+			</hkparam>
 		</hkobject>

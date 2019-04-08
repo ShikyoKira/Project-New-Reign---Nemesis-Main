@@ -3,11 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Casting_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="modifiers" numelements="5">
-<!-- ORIGINAL -->
 			<hkparam name="modifiers" numelements="4">
-<!-- CLOSE -->
 				#0560
 				#0558
 				#0556

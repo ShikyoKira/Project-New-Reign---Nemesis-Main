@@ -1,8 +1,7 @@
-		<hkobject name="#zcbe$413" class="BSiStateTaggingGenerator" signature="0xf0826fc1">
+		<hkobject name="#zcbe$413" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ZAR_Swimming_ISTG</hkparam>
-			<hkparam name="pDefaultGenerator">#zcbe$411</hkparam>
-			<hkparam name="iStateToSetAs">3</hkparam>
-			<hkparam name="iPriority">1000</hkparam>
+			<hkparam name="name">Z_MagicTwistMG</hkparam>
+			<hkparam name="modifier">#zcbe$454</hkparam>
+			<hkparam name="generator">#0505</hkparam>
 		</hkobject>

@@ -1,3 +1,11 @@
-		<hkobject name="#tudm$84" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iRightHandType == 5) || (iRightHandType == 6) &amp;&amp; (IsNPC == 1)</hkparam>
+		<hkobject name="#tudm$84" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">53</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

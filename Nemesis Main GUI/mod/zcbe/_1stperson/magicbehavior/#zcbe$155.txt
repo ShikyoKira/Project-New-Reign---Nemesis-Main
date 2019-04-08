@@ -1,7 +1,6 @@
-		<hkobject name="#zcbe$155" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+		<hkobject name="#zcbe$155" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$142</hkparam>
-			<hkparam name="boneWeights">null</hkparam>
-			<hkparam name="weight">350.987000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">ZAR_Bash_BRG</hkparam>
+			<hkparam name="behaviorName">behaviors\bashbehavior.hkx</hkparam>
 		</hkobject>

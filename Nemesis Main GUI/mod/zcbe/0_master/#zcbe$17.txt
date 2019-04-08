@@ -1,7 +1,3 @@
-		<hkobject name="#zcbe$17" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_NPCSetAim_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$77</hkparam>
+		<hkobject name="#zcbe$17" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">(iLeftHandType &gt; 0) &amp;&amp; (iLeftHandType &lt; 5)</hkparam>
 		</hkobject>

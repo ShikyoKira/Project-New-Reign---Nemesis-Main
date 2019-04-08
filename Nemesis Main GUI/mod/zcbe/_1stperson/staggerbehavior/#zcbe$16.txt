@@ -1,25 +1,28 @@
-		<hkobject name="#zcbe$16" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$18</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_BodyPartReactToHit_DAM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="directAtTarget">true</hkparam>
-			<hkparam name="sourceBoneIndex">26</hkparam>
-			<hkparam name="startBoneIndex">24</hkparam>
-			<hkparam name="endBoneIndex">26</hkparam>
-			<hkparam name="limitHeadingDegrees">90.000000</hkparam>
-			<hkparam name="limitPitchDegrees">90.000000</hkparam>
-			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
-			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
-			<hkparam name="onGain">0.250000</hkparam>
-			<hkparam name="offGain">0.250000</hkparam>
-			<hkparam name="targetLocation">(0.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="userInfo">2</hkparam>
-			<hkparam name="directAtCamera">false</hkparam>
-			<hkparam name="directAtCameraX">0.000000</hkparam>
-			<hkparam name="directAtCameraY">0.000000</hkparam>
-			<hkparam name="directAtCameraZ">0.000000</hkparam>
-			<hkparam name="active">false</hkparam>
-			<hkparam name="currentHeadingOffset">0.000000</hkparam>
-			<hkparam name="currentPitchOffset">0.000000</hkparam>
+		<hkobject name="#zcbe$16" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="4">
+				<hkobject>
+					<hkparam name="expression">iStartBone_Z = 35</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">iEndBone_Z = 36</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fHeading_Z = 0.0</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fPitch_Z = 0.0</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

@@ -1,15 +1,3 @@
-		<hkobject name="#tudm$36" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#tudm$39</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HM_Backward_AttackLeftNPC_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">17</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="3">
-				#tudm$40 #tudm$41 #tudm$42
-			</hkparam>
+		<hkobject name="#tudm$36" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">(iRightHandType != 5) &amp;&amp; (iRightHandType != 6)</hkparam>
 		</hkobject>

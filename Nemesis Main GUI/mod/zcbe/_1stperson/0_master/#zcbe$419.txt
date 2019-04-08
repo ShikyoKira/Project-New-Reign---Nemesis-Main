@@ -1,52 +1,21 @@
-		<hkobject name="#zcbe$419" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="4">
+		<hkobject name="#zcbe$419" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
+			<hkparam name="variableBindingSet">#zcbe$420</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">H2H_AttackLeft_BSCyclicBlendTransitionGenerator</hkparam>
+			<hkparam name="pBlenderGenerator">#zcbe$421</hkparam>
+			<hkparam name="EventToFreezeBlendValue">
 				<hkobject>
-					<hkparam name="localTime">-0.058000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">352</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">-0.058000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">813</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">-0.003000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">1067</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">0.000000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">811</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
+					<hkparam name="id">776</hkparam>
+					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
+			<hkparam name="EventToCrossBlend">
+				<hkobject>
+					<hkparam name="id">777</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="fBlendParameter">0.000000</hkparam>
+			<hkparam name="fTransitionDuration">0.200000</hkparam>
+			<hkparam name="eBlendCurve">BLEND_CURVE_SMOOTH</hkparam>
 		</hkobject>

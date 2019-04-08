@@ -1,7 +1,12 @@
-		<hkobject name="#zcbe$230" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_FixJumpLandMoveBug_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$235</hkparam>
+		<hkobject name="#zcbe$230" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="2">
+				<hkobject>
+					<hkparam name="id">888</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="id">366</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

@@ -4,7 +4,7 @@
 			<hkparam name="name">StfMagic_ReadyLoop</hkparam>
 			<hkparam name="animationName">Animations\StfMagic_ReadyLoop.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$6</hkparam>
+			<hkparam name="triggers">#tudm$7</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

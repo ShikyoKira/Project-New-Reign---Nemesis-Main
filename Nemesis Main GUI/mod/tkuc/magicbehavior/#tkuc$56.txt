@@ -1,3 +1,10 @@
-		<hkobject name="#tkuc$56" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">Camera3rd [Cam3]</hkparam>
+		<hkobject name="#tkuc$56" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">Pitch = Pitch * 0.5</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

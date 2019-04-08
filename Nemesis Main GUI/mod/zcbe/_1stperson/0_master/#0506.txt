@@ -1,9 +1,5 @@
 		<hkobject name="#0506" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-<!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="transitions" numelements="8">
-<!-- ORIGINAL -->
 			<hkparam name="transitions" numelements="3">
-<!-- CLOSE -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -101,7 +97,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0099</hkparam>
-					<hkparam name="condition">#zcbe$255</hkparam>
+					<hkparam name="condition">#zcbe$38</hkparam>
 					<hkparam name="eventId">19</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -127,7 +123,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0099</hkparam>
-					<hkparam name="condition">#zcbe$224</hkparam>
+					<hkparam name="condition">#zcbe$39</hkparam>
 					<hkparam name="eventId">19</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -153,7 +149,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0099</hkparam>
-					<hkparam name="condition">#zcbe$256</hkparam>
+					<hkparam name="condition">#zcbe$40</hkparam>
 					<hkparam name="eventId">18</hkparam>
 					<hkparam name="toStateId">11</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -179,7 +175,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0099</hkparam>
-					<hkparam name="condition">#zcbe$257</hkparam>
+					<hkparam name="condition">#zcbe$41</hkparam>
 					<hkparam name="eventId">19</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -205,7 +201,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0099</hkparam>
-					<hkparam name="condition">#zcbe$258</hkparam>
+					<hkparam name="condition">#zcbe$42</hkparam>
 					<hkparam name="eventId">19</hkparam>
 					<hkparam name="toStateId">8</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

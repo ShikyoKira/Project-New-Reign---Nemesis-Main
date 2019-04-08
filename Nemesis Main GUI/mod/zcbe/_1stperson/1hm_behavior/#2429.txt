@@ -3,7 +3,7 @@
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">VictimState_RagdollListener</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="contactEvent">
+			<hkparam name="event">
 				<hkobject>
 <!-- MOD_CODE ~zcbe~ OPEN -->
 					<hkparam name="id">0</hkparam>
@@ -13,5 +13,5 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="bones">#2428</hkparam>
+			<hkparam name="anotherBoneIndex">#2428</hkparam>
 		</hkobject>
