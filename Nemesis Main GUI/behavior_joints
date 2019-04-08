@@ -62,15 +62,15 @@ idlebehavior
 defaultmale
 defaultfemale
 
-_1stperson\swimbehavior
-_1stperson\firstperson
-
 _1stperson\weapunequip
 _1stperson\firstperson
 
 shout_behavior
 defaultmale
 defaultfemale
+
+_1stperson\swimbehavior
+_1stperson\firstperson
 
 crossbow_direction_behavior
 defaultmale
@@ -103,6 +103,10 @@ magicbehavior
 defaultmale
 defaultfemale
 
+attackbehavior
+defaultmale
+defaultfemale
+
 jumpbehavior
 defaultmale
 defaultfemale
@@ -112,10 +116,6 @@ defaultmale
 defaultfemale
 
 swimidlebehavior
-defaultmale
-defaultfemale
-
-attackbehavior
 defaultmale
 defaultfemale
 

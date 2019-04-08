@@ -14,7 +14,7 @@
 		</hkobject>
 
 		<hkobject name="#0087" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-			<hkparam name="eventNames" numelements="212">   				<!-- EVENT numelement zcbe +4 $2 -->
+			<hkparam name="eventNames" numelements="212">
 				<hkcstring>moveStart</hkcstring>
 				<hkcstring>moveStop</hkcstring>
 				<hkcstring>cannedTurnLeft90</hkcstring>
@@ -1810,7 +1810,7 @@
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="eventInfos" numelements="212">   				<!-- EVENT numelement zcbe +4 $1087 -->
+			<hkparam name="eventInfos" numelements="212">
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
@@ -3508,10 +3508,59 @@
 		<hkobject name="#0144" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="53">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				1.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
 		</hkobject>
 
@@ -5779,12 +5828,102 @@
 		<hkobject name="#0266" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="97">
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 				0.000000
 			</hkparam>
 		</hkobject>
@@ -7087,10 +7226,30 @@
 			<hkparam name="enableVectorDamping">false</hkparam>
 			<hkparam name="rawValue">0.000000</hkparam>
 			<hkparam name="dampedValue">0.000000</hkparam>
-			<hkparam name="rawVector">(0.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="dampedVector">(0.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="vecErrorSum">(0.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="vecPreviousError">(0.000000 0.000000 0.000000 0.000000)</hkparam>
+			<hkparam name="rawVector">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="dampedVector">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="vecErrorSum">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="vecPreviousError">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
 			<hkparam name="errorSum">0.000000</hkparam>
 			<hkparam name="previousError">0.000000</hkparam>
 		</hkobject>
@@ -8453,7 +8612,7 @@
 				#0400
 				#0398
 				#0408
-				#zcbe$2					<!-- *zcbe* -->
+				#zcbe$0					<!-- *zcbe* -->
 				#0408				<!-- original -->
 				#0408
 				#0408
@@ -8501,7 +8660,7 @@
 		</hkobject>
 
 		<hkobject name="#0414" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-			<hkparam name="transitions" numelements="2">					<!-- numelement *zcbe* +1-->
+			<hkparam name="transitions" numelements="2">
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -8572,7 +8731,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$24</hkparam>
+					<hkparam name="transition">#zcbe$1</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[Magic_Unequip_Out]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>
@@ -8601,12 +8760,102 @@
 		<hkobject name="#0416" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="97">
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 				0.000000
 			</hkparam>
 		</hkobject>
@@ -9026,9 +9275,9 @@
 				#0423
 				#0423
 				#0421
-				#zcbe$0					<!-- *zcbe* -->
+				#zcbe$2					<!-- *zcbe* -->
 				#0431				<!-- original -->
-				#zcbe$25					<!-- *zcbe* -->
+				#zcbe$3					<!-- *zcbe* -->
 				#0431				<!-- original -->
 				#0431
 				#0431
@@ -9219,13 +9468,104 @@
 		<hkobject name="#0445" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="98">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
 		</hkobject>
 
@@ -10422,7 +10762,12 @@
 			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
 			<hkparam name="onGain">0.050000</hkparam>
 			<hkparam name="offGain">0.050000</hkparam>
-			<hkparam name="targetLocation">(0.000000 0.000000 0.000000 0.000000)</hkparam>
+			<hkparam name="targetLocation">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
 			<hkparam name="userInfo">2</hkparam>
 			<hkparam name="directAtCamera">false</hkparam>
 			<hkparam name="directAtCameraX">0.000000</hkparam>
@@ -12482,7 +12827,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0620</hkparam>
-			<hkparam name="generator">#zcbe$17</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$4</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0619</hkparam>				<!-- original -->
 			<hkparam name="name">CombatForwardLocomotionState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -12797,7 +13142,7 @@
 			<hkparam name="maxSimultaneousTransitions">32</hkparam>
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
-			<hkparam name="states" numelements="9">					<!-- numelement *zcbe* +1-->
+			<hkparam name="states" numelements="9">
 				#0640
 				#0639
 				#0638
@@ -12808,7 +13153,7 @@
 				#0632
 				#0628
 <!-- NEW *zcbe* -->
-				#zcbe$6
+				#zcbe$5
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
@@ -13159,13 +13504,104 @@
 		<hkobject name="#0656" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="98">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
 		</hkobject>
 
@@ -14623,7 +15059,7 @@
 		</hkobject>
 
 		<hkobject name="#0718" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-			<hkparam name="transitions" numelements="1">					<!-- numelement *zcbe* +1-->
+			<hkparam name="transitions" numelements="1">
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -14668,7 +15104,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$3</hkparam>
+					<hkparam name="transition">#zcbe$6</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[Magic_Equip]$</hkparam>
 					<hkparam name="toStateId">10</hkparam>
@@ -15107,7 +15543,12 @@
 		<hkobject name="#0739" class="hkbBoneIndexArray" signature="0xaa8619">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneIndices" numelements="6">
-				0 4 8 14 20 3
+				0
+				4
+				8
+				14
+				20
+				3
 			</hkparam>
 		</hkobject>
 
@@ -15160,11 +15601,34 @@
 			</hkparam>
 			<hkparam name="legs" numelements="4">
 				<hkobject>
-					<hkparam name="groundPosition">(0.000000 0.000000 0.000000 0.000000)</hkparam>
+					<hkparam name="groundPosition">
+				0.000000					<!-- *zcbe* -->
+						0.000000				<!-- original -->
+						0.000000
+						0.000000
+						0.000000
+					</hkparam>
 					<hkparam name="ungroundedEvent">
 						<hkobject>
-							<hkparam name="id">0</hkparam>					<!-- *zcbe* -->
-							<hkparam name="id">-1</hkparam>				<!-- original -->
+							<hkparam name="id">-1</hkparam>
+				0.000000					<!-- *zcbe* -->
+							<hkparam name="payload">null</hkparam>				<!-- original -->
+						</hkobject>
+					</hkparam>
+					<hkparam name="verticalError">0.000000</hkparam>
+					<hkparam name="hitSomething">false</hkparam>
+					<hkparam name="isPlantedMS">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="groundPosition">
+						0.000000
+						0.000000
+						0.000000
+						0.000000
+					</hkparam>
+					<hkparam name="ungroundedEvent">
+						<hkobject>
+							<hkparam name="id">-1</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
@@ -15173,11 +15637,15 @@
 					<hkparam name="isPlantedMS">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="groundPosition">(0.000000 0.000000 0.000000 0.000000)</hkparam>
+					<hkparam name="groundPosition">
+						0.000000
+						0.000000
+						0.000000
+						0.000000
+					</hkparam>
 					<hkparam name="ungroundedEvent">
 						<hkobject>
-							<hkparam name="id">0</hkparam>					<!-- *zcbe* -->
-							<hkparam name="id">-1</hkparam>				<!-- original -->
+							<hkparam name="id">-1</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
@@ -15186,24 +15654,15 @@
 					<hkparam name="isPlantedMS">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="groundPosition">(0.000000 0.000000 0.000000 0.000000)</hkparam>
-					<hkparam name="ungroundedEvent">
-						<hkobject>
-							<hkparam name="id">0</hkparam>					<!-- *zcbe* -->
-							<hkparam name="id">-1</hkparam>				<!-- original -->
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
+					<hkparam name="groundPosition">
+						0.000000
+						0.000000
+						0.000000
+						0.000000
 					</hkparam>
-					<hkparam name="verticalError">0.000000</hkparam>
-					<hkparam name="hitSomething">false</hkparam>
-					<hkparam name="isPlantedMS">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="groundPosition">(0.000000 0.000000 0.000000 0.000000)</hkparam>
 					<hkparam name="ungroundedEvent">
 						<hkobject>
-							<hkparam name="id">0</hkparam>					<!-- *zcbe* -->
-							<hkparam name="id">-1</hkparam>				<!-- original -->
+							<hkparam name="id">-1</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
@@ -15212,10 +15671,18 @@
 					<hkparam name="isPlantedMS">false</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="errorOutTranslation">(0.000000 0.000000 0.000000 0.000000)</hkparam>					<!-- *zcbe* -->
-			<hkparam name="errorOutTranslation">(0.000000 126824001929478140.000000 0.000000 0.000000)</hkparam>				<!-- original -->
-			<hkparam name="alignWithGroundRotation">(0.000000 0.000000 0.000000 0.000000)</hkparam>					<!-- *zcbe* -->
-			<hkparam name="alignWithGroundRotation">(0.000000 0.000000 0.000000 1.000000)</hkparam>				<!-- original -->
+			<hkparam name="errorOutTranslation">
+				0.000000
+				126824001929478140.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="alignWithGroundRotation">
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+			</hkparam>
 		</hkobject>
 
 		<hkobject name="#0743" class="hkbVariableBindingSet" signature="0x338ad4ff">
@@ -15354,7 +15821,12 @@
 			<hkparam name="bones" numelements="6">
 				<hkobject>
 					<hkparam name="index">6</hkparam>
-					<hkparam name="fwdAxisLS">(0.000000 -0.171292 0.985220 0.000000)</hkparam>
+					<hkparam name="fwdAxisLS">
+						0.000000
+						-0.171292
+						0.985220
+						0.000000
+					</hkparam>
 					<hkparam name="limitAngleDegrees">180.000000</hkparam>
 					<hkparam name="onGain">0.050000</hkparam>
 					<hkparam name="offGain">0.050000</hkparam>
@@ -15362,7 +15834,12 @@
 				</hkobject>
 				<hkobject>
 					<hkparam name="index">8</hkparam>
-					<hkparam name="fwdAxisLS">(0.000000 0.825037 0.565079 0.000000)</hkparam>
+					<hkparam name="fwdAxisLS">
+						0.000000
+						0.825037
+						0.565079
+						0.000000
+					</hkparam>
 					<hkparam name="limitAngleDegrees">180.000000</hkparam>
 					<hkparam name="onGain">0.050000</hkparam>
 					<hkparam name="offGain">0.050000</hkparam>
@@ -15370,7 +15847,12 @@
 				</hkobject>
 				<hkobject>
 					<hkparam name="index">9</hkparam>
-					<hkparam name="fwdAxisLS">(0.000000 0.776376 0.630270 0.000000)</hkparam>
+					<hkparam name="fwdAxisLS">
+						0.000000
+						0.776376
+						0.630270
+						0.000000
+					</hkparam>
 					<hkparam name="limitAngleDegrees">180.000000</hkparam>
 					<hkparam name="onGain">0.050000</hkparam>
 					<hkparam name="offGain">0.050000</hkparam>
@@ -15378,7 +15860,12 @@
 				</hkobject>
 				<hkobject>
 					<hkparam name="index">10</hkparam>
-					<hkparam name="fwdAxisLS">(0.000000 0.744999 0.667065 0.000000)</hkparam>
+					<hkparam name="fwdAxisLS">
+						0.000000
+						0.744999
+						0.667065
+						0.000000
+					</hkparam>
 					<hkparam name="limitAngleDegrees">180.000000</hkparam>
 					<hkparam name="onGain">0.050000</hkparam>
 					<hkparam name="offGain">0.050000</hkparam>
@@ -15386,7 +15873,12 @@
 				</hkobject>
 				<hkobject>
 					<hkparam name="index">11</hkparam>
-					<hkparam name="fwdAxisLS">(0.000000 0.662900 0.748707 0.000000)</hkparam>
+					<hkparam name="fwdAxisLS">
+						0.000000
+						0.662900
+						0.748707
+						0.000000
+					</hkparam>
 					<hkparam name="limitAngleDegrees">180.000000</hkparam>
 					<hkparam name="onGain">0.050000</hkparam>
 					<hkparam name="offGain">0.050000</hkparam>
@@ -15394,7 +15886,12 @@
 				</hkobject>
 				<hkobject>
 					<hkparam name="index">12</hkparam>
-					<hkparam name="fwdAxisLS">(0.000000 0.005774 0.999983 0.000000)</hkparam>
+					<hkparam name="fwdAxisLS">
+						0.000000
+						0.005774
+						0.999983
+						0.000000
+					</hkparam>
 					<hkparam name="limitAngleDegrees">180.000000</hkparam>
 					<hkparam name="onGain">0.050000</hkparam>
 					<hkparam name="offGain">0.050000</hkparam>
@@ -15408,7 +15905,12 @@
 			<hkparam name="onGain">0.050000</hkparam>
 			<hkparam name="offGain">0.050000</hkparam>
 			<hkparam name="useBoneGains">false</hkparam>
-			<hkparam name="targetLocation">(0.000000 0.000000 0.000000 0.000000)</hkparam>
+			<hkparam name="targetLocation">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
 			<hkparam name="targetOutsideLimits">false</hkparam>
 			<hkparam name="targetOutOfLimitEvent">
 				<hkobject>
@@ -15573,9 +16075,9 @@
 		<hkobject name="#zcbe$0" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_StaffRightEquip_CG</hkparam>
-			<hkparam name="animationName">Animations\StaffRight_Equip.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$1</hkparam>
+			<hkparam name="name">MC_MRh_Unequip</hkparam>
+			<hkparam name="animationName">Animations\MRh_Unequip.hkx</hkparam>
+			<hkparam name="triggers">#zcbe$7</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
@@ -15587,7 +16089,58 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$1" class="hkbClipTriggerArray" signature="0x59c23a0f">
+		<hkobject name="#zcbe$1" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">BlendingTransitionEffect231</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
+			<hkparam name="duration">0.200000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="endMode">END_MODE_NONE</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$10" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$12</hkparam>
+			<hkparam name="boneWeights">#zcbe$11</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">0.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$11" class="hkbBoneWeightArray" signature="0xcd902b77">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="boneWeights" numelements="99">
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 1.000000
+				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 0.000000 0.000000
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$12" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MRh_EquipMC</hkparam>
+			<hkparam name="animationName">Animations\MRh_Equip.hkx</hkparam>
+			<hkparam name="triggers">#zcbe$14</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$13" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="1">
 				<hkobject>
 					<hkparam name="localTime">-0.200000</hkparam>
@@ -15604,8 +16157,147 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$10" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$13</hkparam>
+		<hkobject name="#zcbe$14" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="1">
+				<hkobject>
+					<hkparam name="localTime">-0.233000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$eventID[Magic_Equip_Out]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$15" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$18</hkparam>
+			<hkparam name="boneWeights">#zcbe$20</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">0.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$16" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#0619</hkparam>
+			<hkparam name="boneWeights">#zcbe$22</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$17" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">ZAR_MagicMC_BG</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="2">
+				#zcbe$24 #zcbe$19
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$18" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ZAR_MCAimMagic_MG</hkparam>
+			<hkparam name="modifier">#zcbe$23</hkparam>
+			<hkparam name="generator">#zcbe$17</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$19" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#0634</hkparam>
+			<hkparam name="boneWeights">#zcbe$21</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$2" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_StaffRightEquip_CG</hkparam>
+			<hkparam name="animationName">Animations\StaffRight_Equip.hkx</hkparam>
+			<hkparam name="triggers">#zcbe$13</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$20" class="hkbBoneWeightArray" signature="0xcd902b77">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="boneWeights" numelements="99">
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 1.000000
+				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 0.000000 0.000000
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$21" class="hkbBoneWeightArray" signature="0xcd902b77">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="boneWeights" numelements="99">
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000
+				1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 1.000000 1.000000
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$22" class="hkbBoneWeightArray" signature="0xcd902b77">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="boneWeights" numelements="99">
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000
+				1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 1.000000 1.000000
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$23" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ZAR_MCAimMagic_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="1">
+				#zcbe$25
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$24" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$28</hkparam>
+			<hkparam name="boneWeights">#zcbe$29</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">0.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$25" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#zcbe$27</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">ZAR_AimMagicMC_DAM</hkparam>
 			<hkparam name="enable">true</hkparam>
@@ -15619,34 +16311,35 @@
 			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
 			<hkparam name="onGain">0.000000</hkparam>
 			<hkparam name="offGain">0.000000</hkparam>
-			<hkparam name="targetLocation">(0.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="userInfo">2</hkparam>
-			<hkparam name="directAtCamera">false</hkparam>
-			<hkparam name="directAtCameraX">0.000000</hkparam>
-			<hkparam name="directAtCameraY">0.000000</hkparam>
-			<hkparam name="directAtCameraZ">0.000000</hkparam>
-			<hkparam name="active">false</hkparam>
-			<hkparam name="currentHeadingOffset">0.000000</hkparam>
-			<hkparam name="currentPitchOffset">0.000000</hkparam>
+			<hkparam name="axisOfRotation">
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+			</hkparam>
+			<hkparam name="userInfo">-842150451</hkparam>
+			<hkparam name="directAtCamera">true</hkparam>
+			<hkparam name="directAtCameraX">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="directAtCameraY">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="directAtCameraZ">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="active">true</hkparam>
+			<hkparam name="currentHeadingOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="currentPitchOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$11" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$14</hkparam>
-			<hkparam name="boneWeights">#zcbe$15</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">0.000000</hkparam>
+		<hkobject name="#zcbe$26" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">108</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$12" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#0634</hkparam>
-			<hkparam name="boneWeights">#zcbe$16</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$13" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#zcbe$27" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="10">
 				<hkobject>
 					<hkparam name="memberPath">onGain</hkparam>
@@ -15712,14 +16405,14 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$14" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
+		<hkobject name="#zcbe$28" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">ZAR_MagicMounted_BRG</hkparam>
 			<hkparam name="behaviorName">behaviors\magicmountedbehavior.hkx</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$15" class="hkbBoneWeightArray" signature="0xcd902b77">
+		<hkobject name="#zcbe$29" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="99">
 				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
@@ -15732,131 +16425,7 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$16" class="hkbBoneWeightArray" signature="0xcd902b77">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000
-				1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 1.000000 1.000000
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$17" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$18</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">ZAR_MCAimMagicLocomotion_MSG</hkparam>
-			<hkparam name="generators" numelements="13">
-				#0619 #0619 #0619 #0619 #0619 #0619 #0619 #0619 #zcbe$19 #zcbe$19 #0619 #0619 #0619
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$18" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">108</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$19" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">ZAR_MCAimMagicLocomotion_BG</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="2">
-				#zcbe$22 #zcbe$20
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$2" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">MC_MRh_Unequip</hkparam>
-			<hkparam name="animationName">Animations\MRh_Unequip.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$30</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$20" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#0619</hkparam>
-			<hkparam name="boneWeights">#zcbe$21</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$21" class="hkbBoneWeightArray" signature="0xcd902b77">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000
-				1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 1.000000 1.000000
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$22" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$7</hkparam>
-			<hkparam name="boneWeights">#zcbe$23</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">0.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$23" class="hkbBoneWeightArray" signature="0xcd902b77">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 1.000000
-				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 0.000000 0.000000
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$24" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">BlendingTransitionEffect231</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
-			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
-			<hkparam name="duration">0.200000</hkparam>
-			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="endMode">END_MODE_NONE</hkparam>
-			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$25" class="hkbBlenderGenerator" signature="0x22df7147">
+		<hkobject name="#zcbe$3" class="hkbBlenderGenerator" signature="0x22df7147">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">ZAR_MC_MRH_Equip_BG</hkparam>
@@ -15868,66 +16437,51 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#zcbe$29 #zcbe$5
+				#zcbe$10 #zcbe$9
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$26" class="hkbBoneWeightArray" signature="0xcd902b77">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 1.000000
-				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 0.000000 0.000000
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$27" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#zcbe$30" class="hkbBlenderGenerator" signature="0x22df7147">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">MRh_EquipMC</hkparam>
-			<hkparam name="animationName">Animations\MRh_Equip.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$28</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="name">ZAR_MCAimMagicLocomotion_BG</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
 			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$28" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="1">
-				<hkobject>
-					<hkparam name="localTime">-0.233000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[Magic_Equip_Out]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="2">
+				#zcbe$15 #zcbe$16
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$29" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$27</hkparam>
-			<hkparam name="boneWeights">#zcbe$26</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">0.000000</hkparam>
+		<hkobject name="#zcbe$4" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$26</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">ZAR_MCAimMagicLocomotion_MSG</hkparam>
+			<hkparam name="generators" numelements="13">
+				#0619 #0619 #0619 #0619 #0619 #0619 #0619 #0619 #zcbe$30 #zcbe$30 #0619 #0619 #0619
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$3" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+		<hkobject name="#zcbe$5" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#zcbe$18</hkparam>
+			<hkparam name="name">ZAR_MCMRH_S</hkparam>
+			<hkparam name="stateId">9</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$6" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlendingTransitionEffect296</hkparam>
@@ -15940,7 +16494,7 @@
 			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$30" class="hkbClipTriggerArray" signature="0x59c23a0f">
+		<hkobject name="#zcbe$7" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="3">
 				<hkobject>
 					<hkparam name="localTime">-0.200000</hkparam>
@@ -15981,7 +16535,7 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$4" class="hkbBoneWeightArray" signature="0xcd902b77">
+		<hkobject name="#zcbe$8" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="99">
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
@@ -15994,59 +16548,12 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$5" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+		<hkobject name="#zcbe$9" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="generator">#0431</hkparam>
-			<hkparam name="boneWeights">#zcbe$4</hkparam>
+			<hkparam name="boneWeights">#zcbe$8</hkparam>
 			<hkparam name="weight">1.000000</hkparam>
 			<hkparam name="worldFromModelWeight">1.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$6" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>
-			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$7</hkparam>
-			<hkparam name="name">ZAR_MCMRH_S</hkparam>
-			<hkparam name="stateId">9</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$7" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ZAR_MCAimMagic_MG</hkparam>
-			<hkparam name="modifier">#zcbe$8</hkparam>
-			<hkparam name="generator">#zcbe$9</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$8" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ZAR_MCAimMagic_ML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="1">
-				#zcbe$10
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$9" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">ZAR_MagicMC_BG</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="2">
-				#zcbe$11 #zcbe$12
-			</hkparam>
 		</hkobject>
 
 <!-- CLOSE -->

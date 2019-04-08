@@ -1122,13 +1122,105 @@
 		<hkobject name="#0098" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="99">
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000
-				0.500000 1.000000 1.000000 0.500000 0.500000 0.500000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.500000 0.500000 0.500000 0.000000
-				0.000000 0.500000 1.000000 1.000000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				1.000000
+				1.000000
+				0.500000
+				0.500000
+				0.500000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.500000
+				0.500000
+				0.500000
+				0.000000
+				0.000000
+				0.500000
+				1.000000
+				1.000000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
 		</hkobject>
 
@@ -1290,12 +1382,102 @@
 		<hkobject name="#0109" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="97">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 1.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				1.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 				0.000000
 			</hkparam>
 		</hkobject>
@@ -1442,13 +1624,105 @@
 		<hkobject name="#0121" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="99">
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 0.000000 0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
 			</hkparam>
 		</hkobject>
 
@@ -2718,11 +2992,73 @@
 		<hkobject name="#0218" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="67">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000
-				0.500000 0.000000 0.000000 0.500000 0.500000 0.500000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.500000 0.500000 0.500000 1.000000
-				1.000000 0.500000 0.000000 0.000000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 0.500000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.000000
+				0.000000
+				0.500000
+				0.500000
+				0.500000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.500000
+				0.500000
+				0.500000
+				1.000000
+				1.000000
+				0.500000
+				0.000000
+				0.000000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.500000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
 		</hkobject>
 
@@ -2834,7 +3170,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator08</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$12</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0225</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -2946,7 +3282,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0233</hkparam>
-			<hkparam name="generator">#pscd$17</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$2</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0232</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -3048,7 +3384,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0238</hkparam>
-			<hkparam name="generator">#pscd$16</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$1</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0237</hkparam>				<!-- original -->
 			<hkparam name="name">SneakMT_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">1</hkparam>
@@ -3061,7 +3397,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator07</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$12</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0225</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -3102,7 +3438,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0241</hkparam>
-			<hkparam name="generator">#pscd$15</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$3</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0240</hkparam>				<!-- original -->
 			<hkparam name="name">MT_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -3498,7 +3834,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator01</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$1</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$4</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0253</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -3554,7 +3890,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#pscd$14</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$5</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0256</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_ExhaleLongState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -3679,7 +4015,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator02</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$11</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$6</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0263</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -3735,7 +4071,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#pscd$13</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$7</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0266</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_ExhaleMediumState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -3860,7 +4196,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator04</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$1</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$4</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0253</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -3994,7 +4330,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator05</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$11</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$6</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0263</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4128,7 +4464,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator00</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$8</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0289</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4184,7 +4520,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#pscd$10</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$9</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0292</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_ExhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -4297,7 +4633,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0299</hkparam>
-			<hkparam name="generator">#pscd$9</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$11</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0298</hkparam>				<!-- original -->
 			<hkparam name="name">SneakMT_Shout_ExhaleState</hkparam>
 			<hkparam name="stateId">1</hkparam>
@@ -4310,7 +4646,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator03</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$8</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0289</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4351,7 +4687,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0303</hkparam>
-			<hkparam name="generator">#pscd$2</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$10</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0301</hkparam>				<!-- original -->
 			<hkparam name="name">MT_Shout_ExhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -5261,140 +5597,46 @@
 		<hkobject name="#pscd$0" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Sneak1hm_Shout_Exhale_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0289</hkparam>
+			<hkparam name="name">Sneak1HM_Shout_Inhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0225</hkparam>
 		</hkobject>
 
 		<hkobject name="#pscd$1" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Sneak1hm_Shout_Exhale_Long_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0253</hkparam>
+			<hkparam name="name">SneakMT_Shout_InhaleState_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0237</hkparam>
 		</hkobject>
 
 		<hkobject name="#pscd$10" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">1hm_Shout_Exhale_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0292</hkparam>
+			<hkparam name="name">MT_Shout_ExhaleState_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0301</hkparam>
 		</hkobject>
 
 		<hkobject name="#pscd$11" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Sneak1hm_Shout_Exhale_Medium_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0263</hkparam>
+			<hkparam name="name">SneakMT_Shout_ExhaleState_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0298</hkparam>
 		</hkobject>
 
-		<hkobject name="#pscd$12" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Sneak1HM_Shout_Inhale_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0225</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$13" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">1hm_Shout_ExhaleMedium_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0266</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$14" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">1hm_Shout_ExhaleLong_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0256</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$15" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">MT_Shout_Inhale_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0240</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$16" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">SneakMT_Shout_InhaleState_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0237</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$17" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">1HM_Shout_Inhale_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0232</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$2" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">MT_Shout_ExhaleState_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0301</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$3" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Shout_ML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="4">
-				#0072 #pscd$4 #pscd$5 #pscd$7
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$4" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Shout_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#pscd$6</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$5" class="hkbTwistModifier" signature="0xb6b76b32">
-			<hkparam name="variableBindingSet">#pscd$8</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ShoutSpineTwistModifier</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="axisOfRotation">(1.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="twistAngle">0.000000</hkparam>
-			<hkparam name="startBoneIndex">24</hkparam>
-			<hkparam name="endBoneIndex">26</hkparam>
-			<hkparam name="setAngleMethod">LINEAR</hkparam>
-			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
-			<hkparam name="isAdditive">true</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$6" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="1">
-				<hkobject>
-					<hkparam name="expression">Pitch2 = Pitch * 0.5</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#pscd$7" class="hkbTwistModifier" signature="0xb6b76b32">
-			<hkparam name="variableBindingSet">#pscd$8</hkparam>
+		<hkobject name="#pscd$12" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#pscd$14</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ShoutNeckTwistModifier</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="axisOfRotation">(1.000000 0.000000 0.000000 0.000000)</hkparam>
+			<hkparam name="axisOfRotation">
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
 			<hkparam name="twistAngle">0.000000</hkparam>
 			<hkparam name="startBoneIndex">35</hkparam>
 			<hkparam name="endBoneIndex">37</hkparam>
@@ -5403,7 +5645,17 @@
 			<hkparam name="isAdditive">true</hkparam>
 		</hkobject>
 
-		<hkobject name="#pscd$8" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#pscd$13" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Shout_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="4">
+				#0072 #pscd$15 #pscd$16 #pscd$12
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$14" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="2">
 				<hkobject>
 					<hkparam name="memberPath">enable</hkparam>
@@ -5421,12 +5673,106 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
+		<hkobject name="#pscd$15" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Shout_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#pscd$17</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$16" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#pscd$14</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ShoutSpineTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="twistAngle">0.000000</hkparam>
+			<hkparam name="startBoneIndex">24</hkparam>
+			<hkparam name="endBoneIndex">26</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$17" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">Pitch2 = Pitch * 0.5</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$2" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">1HM_Shout_Inhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0232</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$3" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">MT_Shout_Inhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0240</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$4" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Sneak1hm_Shout_Exhale_Long_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0253</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$5" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">1hm_Shout_ExhaleLong_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0256</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$6" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Sneak1hm_Shout_Exhale_Medium_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0263</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$7" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">1hm_Shout_ExhaleMedium_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0266</hkparam>
+		</hkobject>
+
+		<hkobject name="#pscd$8" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Sneak1hm_Shout_Exhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0289</hkparam>
+		</hkobject>
+
 		<hkobject name="#pscd$9" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">SneakMT_Shout_ExhaleState_MG</hkparam>
-			<hkparam name="modifier">#pscd$3</hkparam>
-			<hkparam name="generator">#0298</hkparam>
+			<hkparam name="name">1hm_Shout_Exhale_MG</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
+			<hkparam name="generator">#0292</hkparam>
 		</hkobject>
 
 <!-- CLOSE -->

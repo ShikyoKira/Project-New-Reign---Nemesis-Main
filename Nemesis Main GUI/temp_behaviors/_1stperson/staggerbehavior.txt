@@ -14,7 +14,7 @@
 		</hkobject>
 
 		<hkobject name="#0052" class="hkbBehaviorGraphStringData" signature="0xc713064e">
-			<hkparam name="eventNames" numelements="9">   				<!-- EVENT numelement zcbe +4 $2 -->
+			<hkparam name="eventNames" numelements="9">
 				<hkcstring>staggerStop</hkcstring>
 				<hkcstring>FootScuffLeft</hkcstring>
 				<hkcstring>FootScuffRight</hkcstring>
@@ -32,7 +32,7 @@
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="9">				<!-- VARIABLE numelement zcbe +7 $24 -->
+			<hkparam name="variableNames" numelements="9">
 				<hkcstring>staggerMagnitude</hkcstring>
 				<hkcstring>IsStaggering</hkcstring>
 				<hkcstring>iRightHandType</hkcstring>
@@ -56,7 +56,7 @@
 		</hkobject>
 
 		<hkobject name="#0053" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="9">				<!-- VARIABLE numelement zcbe +7 $2 -->
+			<hkparam name="wordVariableValues" numelements="9">
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
@@ -114,7 +114,7 @@
 
 		<hkobject name="#0054" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="9">				<!-- VARIABLE numelement zcbe +7 $3 -->
+			<hkparam name="variableInfos" numelements="9">
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -263,7 +263,7 @@
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyInfos" numelements="0"></hkparam>
-			<hkparam name="eventInfos" numelements="9">   				<!-- EVENT numelement zcbe +4 $156 -->
+			<hkparam name="eventInfos" numelements="9">
 				<hkobject>
 					<hkparam name="flags">FLAG_SYNC_POINT</hkparam>
 				</hkobject>
@@ -313,7 +313,7 @@
 		</hkobject>
 
 		<hkobject name="#0055" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -393,7 +393,7 @@
 		</hkobject>
 
 		<hkobject name="#0058" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -473,7 +473,7 @@
 		</hkobject>
 
 		<hkobject name="#0061" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -553,7 +553,7 @@
 		</hkobject>
 
 		<hkobject name="#0064" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -674,12 +674,102 @@
 		<hkobject name="#0070" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="97">
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 0.000000 1.000000 1.000000 1.000000 1.000000
-				0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				1.000000
+				0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 				0.000000
 			</hkparam>
 		</hkobject>
@@ -738,7 +828,7 @@
 		</hkobject>
 
 		<hkobject name="#0075" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -818,7 +908,7 @@
 		</hkobject>
 
 		<hkobject name="#0078" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -898,7 +988,7 @@
 		</hkobject>
 
 		<hkobject name="#0081" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -978,7 +1068,7 @@
 		</hkobject>
 
 		<hkobject name="#0084" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="3">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="3">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1070,7 +1160,7 @@
 		</hkobject>
 
 		<hkobject name="#0087" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1139,13 +1229,105 @@
 		<hkobject name="#0089" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="99">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000
-				1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 0.000000 0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				0.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
 			</hkparam>
 		</hkobject>
 
@@ -1194,13 +1376,105 @@
 		<hkobject name="#0093" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="99">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				0.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
 		</hkobject>
 
@@ -1232,12 +1506,88 @@
 		<hkobject name="#0096" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="82">
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 0.000000 1.000000 1.000000 1.000000 1.000000 0.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				1.000000
+				0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
 		</hkobject>
 
@@ -1267,7 +1617,7 @@
 		</hkobject>
 
 		<hkobject name="#0099" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1347,7 +1697,7 @@
 		</hkobject>
 
 		<hkobject name="#0102" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1427,7 +1777,7 @@
 		</hkobject>
 
 		<hkobject name="#0105" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1507,7 +1857,7 @@
 		</hkobject>
 
 		<hkobject name="#0108" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1587,7 +1937,7 @@
 		</hkobject>
 
 		<hkobject name="#0111" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1699,7 +2049,7 @@
 		</hkobject>
 
 		<hkobject name="#0116" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1779,7 +2129,7 @@
 		</hkobject>
 
 		<hkobject name="#0119" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1859,7 +2209,7 @@
 		</hkobject>
 
 		<hkobject name="#0122" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -1939,7 +2289,7 @@
 		</hkobject>
 
 		<hkobject name="#0125" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -2019,7 +2369,7 @@
 		</hkobject>
 
 		<hkobject name="#0128" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="2">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -2131,7 +2481,7 @@
 		</hkobject>
 
 		<hkobject name="#0133" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="3">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="3">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -2223,7 +2573,7 @@
 		</hkobject>
 
 		<hkobject name="#0136" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="3">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="3">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -2315,7 +2665,7 @@
 		</hkobject>
 
 		<hkobject name="#0139" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="3">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="3">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -2407,7 +2757,7 @@
 		</hkobject>
 
 		<hkobject name="#0142" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="3">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="3">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -2499,7 +2849,7 @@
 		</hkobject>
 
 		<hkobject name="#0145" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="3">					<!-- numelement *zcbe* +2-->
+			<hkparam name="triggers" numelements="3">
 				<hkobject>
 					<hkparam name="localTime">-0.100000</hkparam>
 					<hkparam name="event">
@@ -2742,7 +3092,7 @@
 			<hkparam name="enterNotifyEvents">#0158</hkparam>
 			<hkparam name="exitNotifyEvents">#0157</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$14</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$0</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0156</hkparam>				<!-- original -->
 			<hkparam name="name">Stagger_State</hkparam>
 			<hkparam name="stateId">7</hkparam>
@@ -2801,7 +3151,55 @@
 		</hkobject>
 
 <!-- NEW *zcbe* -->
-		<hkobject name="#zcbe$0" class="hkbStateMachine" signature="0x816c1dcb">
+		<hkobject name="#zcbe$0" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_Stagger_MG</hkparam>
+			<hkparam name="modifier">#zcbe$22</hkparam>
+			<hkparam name="generator">#zcbe$10</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$1" class="hkbBoneWeightArray" signature="0xcd902b77">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="boneWeights" numelements="99">
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$10" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_StaggerBlockBG</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.500000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="2">
+				#zcbe$13 #zcbe$9
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$11" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">blockStart if (iWantBlock == 1)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$12" class="hkbStateMachine" signature="0x816c1dcb">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_StaggerBlockSM</hkparam>
@@ -2820,92 +3218,108 @@
 			<hkparam name="syncVariableIndex">-1</hkparam>
 			<hkparam name="wrapAroundStateId">false</hkparam>
 			<hkparam name="maxSimultaneousTransitions">32</hkparam>
-			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="startStateMode">0</hkparam>
+			<hkparam name="selfTransitionMode">0</hkparam>
 			<hkparam name="states" numelements="2">
-				#zcbe$1 #zcbe$2
+				#zcbe$7 #zcbe$8
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$1" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+		<hkobject name="#zcbe$13" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>
-			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$22</hkparam>
 			<hkparam name="generator">#0156</hkparam>
-			<hkparam name="name">Z_StaggerS</hkparam>
-			<hkparam name="stateId">0</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
+			<hkparam name="boneWeights">#zcbe$14</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$10" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+		<hkobject name="#zcbe$14" class="hkbBoneWeightArray" signature="0xcd902b77">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="boneWeights" numelements="99">
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$15" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Z_SendBlockIfWantBlock_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#zcbe$11</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$16" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="4">
+				<hkobject>
+					<hkparam name="expression">iStartBone_Z = 35</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">iEndBone_Z = 36</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fHeading_Z = 0.0</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fPitch_Z = 0.0</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">0</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$17" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_ResetDAMVars_EDM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$19</hkparam>
+			<hkparam name="modifier">#zcbe$18</hkparam>
 			<hkparam name="activateEventId">7</hkparam>
 			<hkparam name="deactivateEventId">0</hkparam>
 			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$11" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+		<hkobject name="#zcbe$18" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_SendBlockIfWantBlock_EEM</hkparam>
+			<hkparam name="name">Z_ResetDAMVars_EEM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$20</hkparam>
+			<hkparam name="expressions">#zcbe$16</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$12" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_ToStaggerBlockBTE</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
-			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
-			<hkparam name="duration">0.200000</hkparam>
-			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="endMode">END_MODE_NONE</hkparam>
-			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$13" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_BlockBRG</hkparam>
-			<hkparam name="behaviorName">Behaviors\BlockBehavior.hkx</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$14" class="hkbModifierGenerator" signature="0x1f81fae6">
+		<hkobject name="#zcbe$19" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_Stagger_MG</hkparam>
-			<hkparam name="modifier">#zcbe$6</hkparam>
-			<hkparam name="generator">#zcbe$15</hkparam>
+			<hkparam name="name">Z_ActStagDAM_EDM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#zcbe$20</hkparam>
+			<hkparam name="activateEventId">$eventID[ActivateBlockEarly_Z]$</hkparam>
+			<hkparam name="deactivateEventId">0</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$15" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_StaggerBlockBG</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.500000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="2">
-				#zcbe$21 #zcbe$3
-			</hkparam>
+		<hkobject name="#zcbe$2" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">bHasPerkQuickRecovery_Z == 1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$16" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$18</hkparam>
+		<hkobject name="#zcbe$20" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#zcbe$23</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_BodyPartReactToHit_DAM</hkparam>
 			<hkparam name="enable">true</hkparam>
@@ -2919,47 +3333,45 @@
 			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
 			<hkparam name="onGain">0.250000</hkparam>
 			<hkparam name="offGain">0.250000</hkparam>
-			<hkparam name="targetLocation">(0.000000 0.000000 0.000000 0.000000)</hkparam>
-			<hkparam name="userInfo">2</hkparam>
-			<hkparam name="directAtCamera">false</hkparam>
-			<hkparam name="directAtCameraX">0.000000</hkparam>
-			<hkparam name="directAtCameraY">0.000000</hkparam>
-			<hkparam name="directAtCameraZ">0.000000</hkparam>
-			<hkparam name="active">false</hkparam>
-			<hkparam name="currentHeadingOffset">0.000000</hkparam>
-			<hkparam name="currentPitchOffset">0.000000</hkparam>
+			<hkparam name="axisOfRotation">
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+			</hkparam>
+			<hkparam name="userInfo">-842150451</hkparam>
+			<hkparam name="directAtCamera">true</hkparam>
+			<hkparam name="directAtCameraX">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="directAtCameraY">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="directAtCameraZ">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="active">true</hkparam>
+			<hkparam name="currentHeadingOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="currentPitchOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$17" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="4">
+		<hkobject name="#zcbe$21" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
 				<hkobject>
-					<hkparam name="expression">iStartBone_Z = 35</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+					<hkparam name="memberPath">enable</hkparam>
+					<hkparam name="variableIndex">$variableID[bStagModAct_Z]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
-				<hkobject>
-					<hkparam name="expression">iEndBone_Z = 36</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="expression">fHeading_Z = 0.0</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="expression">fPitch_Z = 0.0</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
-				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$22" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$21</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_Stagger_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="3">
+				#zcbe$19 #zcbe$17 #zcbe$15
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$18" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#zcbe$23" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="4">
 				<hkobject>
 					<hkparam name="memberPath">startBoneIndex</hkparam>
@@ -2989,47 +3401,45 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$19" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+		<hkobject name="#zcbe$3" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_ResetDAMVars_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$17</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_BlockBRG</hkparam>
+			<hkparam name="behaviorName">Behaviors\BlockBehavior.hkx</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$2" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>
-			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$7</hkparam>
-			<hkparam name="generator">#zcbe$13</hkparam>
-			<hkparam name="name">Z_StaggerBlockS</hkparam>
-			<hkparam name="stateId">1</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$20" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="1">
+		<hkobject name="#zcbe$4" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
+			<hkparam name="transitions" numelements="1">
 				<hkobject>
-					<hkparam name="expression">blockStart if (iWantBlock == 1)</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#zcbe$6</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">$eventID[blockStop]$</hkparam>
+					<hkparam name="toStateId">0</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$21" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#0156</hkparam>
-			<hkparam name="boneWeights">#zcbe$4</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$22" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
+		<hkobject name="#zcbe$5" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
 			<hkparam name="transitions" numelements="2">
 				<hkobject>
 					<hkparam name="triggerInterval">
@@ -3048,8 +3458,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$12</hkparam>
-					<hkparam name="condition">#zcbe$23</hkparam>
+					<hkparam name="transition">#zcbe$6</hkparam>
+					<hkparam name="condition">#zcbe$2</hkparam>
 					<hkparam name="eventId">$eventID[blockStart]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -3074,7 +3484,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$12</hkparam>
+					<hkparam name="transition">#zcbe$6</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[blockStart]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
@@ -3086,106 +3496,51 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$23" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">bHasPerkQuickRecovery_Z == 1</hkparam>
+		<hkobject name="#zcbe$6" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_ToStaggerBlockBTE</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
+			<hkparam name="duration">0.200000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="endMode">END_MODE_NONE</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$3" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+		<hkobject name="#zcbe$7" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$0</hkparam>
-			<hkparam name="boneWeights">#zcbe$5</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">#zcbe$5</hkparam>
+			<hkparam name="generator">#0156</hkparam>
+			<hkparam name="name">Z_StaggerS</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$8" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">#zcbe$4</hkparam>
+			<hkparam name="generator">#zcbe$3</hkparam>
+			<hkparam name="name">Z_StaggerBlockS</hkparam>
+			<hkparam name="stateId">1</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$9" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$12</hkparam>
+			<hkparam name="boneWeights">#zcbe$1</hkparam>
 			<hkparam name="weight">2.000000</hkparam>
 			<hkparam name="worldFromModelWeight">0.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$4" class="hkbBoneWeightArray" signature="0xcd902b77">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 1.000000
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$5" class="hkbBoneWeightArray" signature="0xcd902b77">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
-				1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$6" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#zcbe$8</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_Stagger_ML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="3">
-				#zcbe$9 #zcbe$10 #zcbe$11
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$7" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
-			<hkparam name="transitions" numelements="1">
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#zcbe$12</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">$eventID[blockStop]$</hkparam>
-					<hkparam name="toStateId">0</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
-				</hkobject>
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$8" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">$variableID[bStagModAct_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$9" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_ActStagDAM_EDM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$16</hkparam>
-			<hkparam name="activateEventId">$eventID[ActivateBlockEarly_Z]$</hkparam>
-			<hkparam name="deactivateEventId">0</hkparam>
-			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>
 
 <!-- CLOSE -->
