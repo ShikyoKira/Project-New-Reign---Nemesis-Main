@@ -28,5 +28,4 @@ struct getTemplate
 	getTemplate();
 };
 
-
 #endif

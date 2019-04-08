@@ -7,14 +7,14 @@
 #include <boost\filesystem.hpp>
 #include <boost\algorithm\string.hpp>
 #include "functions\functionupdate.h"
-#include "functions\functionwriter.h"
+#include "functions\writetextfile.h"
 #include "add animation\animationdata.h"
 #include "add animation\animationsetdata.h"
 
 void behaviorJointsOutput();
 
 bool animDataHeaderUpdate(std::string folderpath, std::string modcode, MasterAnimData& animData, std::unordered_map<std::string, std::string>& lastUpdate);
-bool newAnimUpdateExt(std::string folderpath, std::string modcode, std::string behaviorfile, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, std::unordered_map<std::string, std::string>& lastUpdate);
+bool newAnimUpdateExt(std::string folderpath, std::string modcode, std::string behaviorfile, std::map<std::string, vecstr>& newFile, std::unordered_map<std::string, std::string>& lastUpdate);
 bool newAnimDataUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, MasterAnimData& animData, std::unordered_map<std::string, std::string>& lastUpdate);
 bool newAnimDataSetUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, MasterAnimSetData& animSetData, std::unordered_map<std::string, std::string>& lastUpdate);
 
@@ -111,6 +111,5 @@ void comparing(std::vector<list>& storeline, std::vector<list>& originallines, s
 		combinelines.push_back(extract[j]);
 	}
 }
-
 
 #endif

@@ -66,7 +66,6 @@ bool AddVariables(string curNum, vecstr& storeline, string variablename, unorder
 	else
 	{
 		ErrorMessage(1032);
-		return false;
 	}
 
 	return true;

@@ -1,14 +1,14 @@
+#include <boost/atomic.hpp>
 #include "Global.h"
-#include "readtextfile.h"
-#include <atomic>
-#include <boost\thread\mutex.hpp>
-#include <boost\thread\lock_guard.hpp>
+#include "functions\readtextfile.h"
+#include "functions\writetextfile.h"
+#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
 
 #pragma warning(disable:4503)
 
 using namespace std;
 
-atomic_flag atomLock = ATOMIC_FLAG_INIT;
+boost::atomic_flag atomLock = BOOST_ATOMIC_FLAG_INIT;
 
 bool debug = false;
 int memory = 100;
@@ -19,9 +19,6 @@ DataPath* skyrimDataPath;
 #endif
 
 boost::posix_time::ptime time1;
-boost::mutex addAnimLock;
-
-std::wstring_convert<std::codecvt_utf8<wchar_t>> wstrconv;
 
 unordered_map<string, string> behaviorPath;
 
@@ -31,7 +28,7 @@ unordered_map<string, vecstr> behaviorJoints;
 unordered_map<string, vecstr> behaviorProject;
 unordered_map<string, set<string>> usedAnim;
 unordered_map<string, unordered_map<string, bool>> registeredAnim;
-unordered_map<string, unordered_map<string, vector<string>>> animList;
+unordered_map<string, unordered_map<string, vecstr>> animList;
 unordered_map<string, unordered_map<string, vector<set<string>>>> animModMatch;
 
 unordered_map<string, string> AAGroup;
@@ -47,7 +44,7 @@ struct path_leaf_string
 {
 	string operator()(const boost::filesystem::directory_entry& entry) const
 	{
-		return wstrconv.to_bytes(entry.path().filename().wstring());
+		return wstrConv.to_bytes(entry.path().filename().wstring());
 	}
 };
 
@@ -63,7 +60,7 @@ size_t fileLineCount(string filepath)
 {
 	int linecount = 0;
 	char line[2000];
-	shared_ptr<TextFile> input = make_shared<TextFile>(filepath);
+	shared_ptr<FileReader> input = make_shared<FileReader>(filepath);
 
 	if (input->GetFile())
 	{
@@ -71,14 +68,13 @@ size_t fileLineCount(string filepath)
 		{
 			++linecount;
 		}
-
-		return linecount;
 	}
 	else
 	{
 		ErrorMessage(1002, filepath);
-		return 0;
 	}
+
+	return linecount;
 }
 
 void produceBugReport(string directory, unordered_map<string, bool> chosenBehavior)
@@ -95,7 +91,7 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
 		}
 	}
 
-	ofstream bugReport("Bug Report (" + timer + ").txt");
+	FileWriter bugReport("Bug Report (" + timer + ").txt");
 
 	if (bugReport.is_open())
 	{
@@ -104,6 +100,7 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
 		for (auto it = chosenBehavior.begin(); it != chosenBehavior.end(); ++it)
 		{
 			bugReport << it->first << ",";
+
 			if (it->second)
 			{
 				bugReport << "true\n";
@@ -113,8 +110,8 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
 				bugReport << "false\n";
 			}
 		}
+
 		bugReport << "}";
-		bugReport.close();
 	}
 	else
 	{
@@ -155,15 +152,9 @@ bool GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 	if (!boost::filesystem::is_directory(filename))
 	{
 		functionlines.reserve(fileLineCount(filename));
-
-		if (error)
-		{
-			return false;
-		}
-
 		string line;
 		char charline[2000];
-		shared_ptr<TextFile> BehaviorFormat = make_shared<TextFile>(filename);
+		shared_ptr<FileReader> BehaviorFormat = make_shared<FileReader>(filename);
 
 		if (BehaviorFormat->GetFile())
 		{
@@ -176,20 +167,22 @@ bool GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 					line.pop_back();
 				}
 
+				if (error) throw nemesis::exception();
+
 				functionlines.push_back(line);
 			}
 		}
 		else
 		{
 			ErrorMessage(3002, filename);
-			return false;
 		}
 	}
 	else
 	{
 		ErrorMessage(3001, filename);
-		return false;
 	}
+
+	if (functionlines.size() == 0) return false;
 
 	if (emptylast)
 	{
@@ -264,9 +257,7 @@ bool hasAlpha(string line)
 
 void addUsedAnim(string behaviorFile, string animPath)
 {
-	// boost::lock_guard<boost::mutex> animLock(addAnimLock);		issue #61
-
-	while (atomLock.test_and_set(memory_order_acquire));
+	while (atomLock.test_and_set(boost::memory_order_acquire));
 	usedAnim[behaviorFile].insert(animPath);
-	atomLock.clear(memory_order_release);
+	atomLock.clear(boost::memory_order_release);
 }

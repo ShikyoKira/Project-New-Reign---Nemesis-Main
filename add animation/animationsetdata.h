@@ -5,7 +5,7 @@
 #include "furniture.h"
 #include "gettemplate.h"
 #include "generator_utility.h"
-#include "functions\functionwriter.h"
+#include "functions\writetextfile.h"
 #include "add animation\furniture.h"
 #include "alphanum.hpp"
 
@@ -113,12 +113,7 @@ extern void combineExtraction(vecstr& storeline, std::map<int, vecstr> extract, 
 ASDFormat::position ASDPosition(vecstr animData, std::string character, std::string header, std::string modcode, int linecount, bool muteError);
 ASDFormat::position ASDConvert(int position, bool muteError);
 
-void DataPackProcess(std::map<std::string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile, std::string filename);
-void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);
-void TypePackProcess(std::vector<typepack>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);
-void AnimPackProcess(std::vector<animpack>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header);
-void CRC32Process(std::vector<crc32>& storeline, int& startline, vecstr& animdatafile, std::string filename, std::string header, std::unordered_map<std::string, vecstr*> AAList, std::string projectPath);
-
-int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSet, std::unordered_map<int, ASDFunct>& marker, std::string modcode, std::string header, bool last, bool muteError);
+int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSet, std::unordered_map<int, ASDFunct>& marker, std::string modcode, std::string header,
+	bool last, bool muteError);
 
 #endif

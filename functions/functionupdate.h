@@ -4,15 +4,23 @@
 #include <fstream>
 #include <iostream>
 #include <unordered_map>
-#include <mutex>
 #include <boost\regex.hpp>
-#include "functionwriter.h"
+#include "writetextfile.h"
 #include "generator_utility.h"
 #include "add animation\animationdata.h"
 #include "add animation\animationsetdata.h"
 
-bool FunctionUpdate(std::string modcode, std::string f2, std::string f3, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, SSMap& stateID, SSMap& parent,
-	std::unordered_map<std::string, vecstr>& statelist,	std::unordered_map<std::string, std::string>& lastUpdate);
+class NodeU
+{
+	std::atomic_flag nodelock = ATOMIC_FLAG_INIT;
+
+	bool NodeUpdate(std::string modcode, std::string f2, std::string f3, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, SSMap& stateID, SSMap& parent,
+		std::unordered_map<std::string, vecstr>& statelist, std::unordered_map<std::string, std::string>& lastUpdate);
+
+public:
+	bool FunctionUpdate(std::string modcode, std::string f2, std::string f3, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, SSMap& stateID, SSMap& parent,
+	std::unordered_map<std::string, vecstr>& statelist, std::unordered_map<std::string, std::string>& lastUpdate);
+};
 
 bool AnimDataUpdate(std::string modcode, std::string animdatafile, std::string characterfile, std::string filepath, MasterAnimData& animData,
 	bool isNewCharacter, std::unordered_map<std::string, std::string>& lastUpdate, bool& openAnim, bool& openInfo);

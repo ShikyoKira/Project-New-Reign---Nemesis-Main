@@ -15,11 +15,14 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 	if (animInfo.size() < 3)
 	{
 		ErrorMessage(1142, curFilename, linecount);
-		return;
 	}
 
 	optionPicked[behaviorOption.templatecode] = true;
-	optionPickedCount[behaviorOption.templatecode]++;
+	optionPicked[behaviorOption.templatecode + "_group"] = true;
+	optionPicked[behaviorOption.templatecode + "_master"] = true;
+	++optionPickedCount[behaviorOption.templatecode];
+	++optionPickedCount[behaviorOption.templatecode + "_group"];
+	++optionPickedCount[behaviorOption.templatecode + "_master"];
 
 	addOn = behaviorOption.addOn;
 	mixOptRegis = behaviorOption.mixOptRegis;
@@ -240,7 +243,6 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 			if (add > 6)
 			{
 				// ErrorMessage(1143, curFilename, linecount);
-				// return;
 			}
 		}
 
@@ -279,7 +281,6 @@ void animationInfo::storeAnimObject(vecstr animobjects, string listFilename, int
 			if (temp == 0 || temp > animObjectCount)
 			{
 				ErrorMessage(1144, listFilename, linecount);
-				return;
 			}
 
 			string AO = "AnimObject/" + to_string(temp);

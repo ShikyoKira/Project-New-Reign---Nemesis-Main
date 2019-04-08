@@ -1,10 +1,11 @@
 #ifndef ANIMPROGRESSBAR_H_
 #define ANIMPROGRESSBAR_H_
 
+#include "skyrimdirectory.h"
 #include <QProgressBar>
 #include <algorithm>
 
-#define MAX_ANIM 10000
+#define MAX_ANIM maxAnim
 
 class AnimProgressBar : public QProgressBar
 {
@@ -27,6 +28,5 @@ public slots:
 	void ForeverLoop();
 	void newValue(int value);
 };
-
 
 #endif

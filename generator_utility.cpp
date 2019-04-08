@@ -1,5 +1,5 @@
 #include "generator_utility.h"
-#include "readtextfile.h"
+#include "functions\readtextfile.h"
 #include "add animation\playerexclusive.h"
 #include <boost\thread.hpp>
 
@@ -7,7 +7,10 @@
 
 using namespace std;
 
+extern unordered_map<string, string> crc32Cache;
 static bool* globalThrow;
+
+void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, getTemplate& behaviortemplate, bool firstP);
 
 std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map<int, int>& functionState)
 {
@@ -41,7 +44,6 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionli
 					if (!rightFunction)
 					{
 						ErrorMessage(1077);
-						return stateID;
 					}
 					else if (open)
 					{
@@ -49,12 +51,8 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionli
 						{
 							size_t counter = count(curline.begin(), curline.end(), '#');
 							size_t nextpos = 0;
-
-							stringstream sstream(curline);
-							istream_iterator<string> ssbegin(sstream);
-							istream_iterator<string> ssend;
-							vecstr generator(ssbegin, ssend);
-							copy(generator.begin(), generator.end(), generator.begin());
+							vecstr generator;
+							StringSplit(curline, generator);
 
 							for (size_t k = 0; k < generator.size(); ++k) // multiple IDs in 1 line
 							{
@@ -98,7 +96,6 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionli
 	else
 	{
 		ErrorMessage(1078);
-		return stateID;
 	}
 	
 	return stateID;
@@ -139,11 +136,7 @@ bool GetStateCount(vector<int>& count, vecstr templatelines, string format, stri
 				}
 
 				string equation = "0" + number;
-
-				if (!calculate(equation, format, filename, counter))
-				{
-					return false;
-				}
+				calculate(equation, format, filename, counter);
 
 				if (count[IDSize] <= stoi(equation))
 				{
@@ -237,6 +230,43 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 	return out;
 }
 
+void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, getTemplate& behaviortemplate, bool firstP)
+{
+	vecstr filelist;
+
+	if (error) throw nemesis::exception();
+
+	if (!isFileExist(animationDirectory)) return;
+
+	read_directory(animationDirectory, filelist);
+
+	for (auto& file1 : filelist)
+	{
+		if (boost::filesystem::is_directory(animationDirectory + file1))
+		{
+			string targetfile = "FNIS_" + file1 + "_List.txt";
+			string behaviorfile = "FNIS_" + file1 + "_Behavior.hkx";
+			string targetdir = animationDirectory + file1 + "\\";
+			string modBehavior = directory + "Behaviors\\" + behaviorfile;
+
+			if (isFileExist(animationDirectory + file1 + "\\" + targetfile))
+			{
+				list.emplace_back(make_unique<registerAnimation>(targetdir, targetfile, behaviortemplate, modBehavior, behaviorfile, firstP));
+			}
+
+			targetfile = "Nemesis_" + file1 + "_List.txt";
+			behaviorfile = "Nemesis_" + file1 + "_Behavior.hkx";
+
+			if (isFileExist(animationDirectory + file1 + "\\" + targetfile))
+			{
+				list.emplace_back(make_unique<registerAnimation>(targetdir, targetfile, behaviortemplate, modBehavior, behaviorfile, firstP, true));
+			}
+		}
+
+		if (error) throw nemesis::exception();
+	}
+}
+
 vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 {
 	vector<unique_ptr<registerAnimation>> list;
@@ -251,11 +281,10 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 		if (path.length() == 0)
 		{
 			ErrorMessage(1050, it->first);
-			return list;
 		}
 
 		size_t pos = wordFind(path, "\\behaviors\\", true);
-		size_t nextpos = wordFind(path, "\\data\\") + 5;
+		size_t nextpos = wordFind(path, "\\data\\") + 6;
 
 		if (pos != NOT_FOUND && nextpos != NOT_FOUND && nextpos < pos)
 		{
@@ -275,55 +304,8 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 		string directory = skyrimDataPath->GetDataPath() + *it;
 #endif
 
-		string animationDirectory = directory + "animations\\";
-		vecstr filelist1;
-		vecstr filelist2;
-		unordered_map<string, vecstr> animFile;
-
-		if (error)
-		{
-			return list;
-		}
-
-		read_directory(animationDirectory, filelist1);
-
-		for(auto& file1 : filelist1)
-		{
-			boost::filesystem::path FOF(animationDirectory + file1);
-
-			if (boost::filesystem::is_directory(FOF))
-			{
-				read_directory(animationDirectory + file1, filelist2);
-
-				for (auto& file2 : filelist2)
-				{
-					if (wordFind(file2, "_" + file1 + "_List.txt") != NOT_FOUND)
-					{
-						string fileToolName = file2.substr(0, file2.find("_", 0) + 1);
-						string listword = file2.substr(file2.find_last_of("_"));
-						string behaviorfile = fileToolName + file1 + "_Behavior.hkx";
-						string modBehavior = directory + "Behaviors\\" + behaviorfile;
-						DebugLogging("Reading animation mod: " + file1);
-
-						if (fileToolName == "FNIS_" && listword == "_List.txt")
-						{
-							list.emplace_back(make_unique<registerAnimation>(animationDirectory + file1 + "\\", file2, behaviortemplate, modBehavior, behaviorfile));
-						}
-						else if (fileToolName == "Nemesis_" && listword == "_List.txt")
-						{
-							list.emplace_back(make_unique<registerAnimation>(animationDirectory + file1 + "\\", file2, behaviortemplate, modBehavior, behaviorfile, true));
-						}
-
-						if (error)
-						{
-							return list;
-						}
-					}
-				}
-
-				filelist2.clear();
-			}
-		}
+		readList(directory, directory + "animations\\", list, behaviortemplate, false);
+		readList(directory, directory + "_1stperson\\animations\\", list, behaviortemplate, true);
 	}
 
 	DebugLogging("Reading new animations complete");
@@ -409,7 +391,6 @@ bool isEngineUpdated()
 	if (filelist.size() < 3)
 	{
 		ErrorMessage(6006);
-		return false;
 	}
 
 	vecstr storeline;
@@ -430,58 +411,25 @@ bool isEngineUpdated()
 	{
 		if (line.length() > 0)
 		{
-			if (line.find(" ") == NOT_FOUND)
+			if (line.find(">>") == NOT_FOUND)
 			{
 				ErrorMessage(2021);
+			}
+
+			vecstr path;
+			path.push_back(line.substr(0, line.find(">>")));
+			path.push_back(line.substr(line.find(">>") + 2));
+
+			if (!isFileExist(path[0]))
+			{
+				return false;
+			}
+			else if (GetLastModified(path[0]) != path[1])
+			{
 				return false;
 			}
 
-			stringstream sstream(line);
-			istream_iterator<string> ssbegin(sstream);
-			istream_iterator<string> ssend;
-			vecstr path(ssbegin, ssend);
-			copy(path.begin(), path.end(), path.begin());
-
-			if (path.size() == 3)
-			{
-				if (!isFileExist(path[0]))
-				{
-					return false;
-				}
-				else if (GetLastModified(path[0]) != path[1] + " " + path[2])
-				{
-					return false;
-				}
-
-				isChecked[path[0]] = true;
-			}
-			else if (path.size() > 3)
-			{
-				string pathline = "";
-
-				for (unsigned int i = 0; i < path.size() - 2; ++i)
-				{
-					pathline = pathline + path[i] + " ";
-				}
-
-				pathline.pop_back();
-
-				if (!isFileExist(pathline))
-				{
-					return false;
-				}
-				else if (GetLastModified(pathline) != path[path.size() - 2] + " " + path.back())
-				{
-					return false;
-				}
-
-				isChecked[pathline] = true;
-			}
-			else
-			{
-				ErrorMessage(2021);
-				return false;
-			}
+			isChecked[path[0]] = true;
 		}
 	}
 
@@ -511,7 +459,7 @@ void GetBehaviorPath()
 		string line;
 		int linecount = 0;
 		char charline[2000];
-		shared_ptr<TextFile> pathFile = make_shared<TextFile>(filename);
+		shared_ptr<FileReader> pathFile = make_shared<FileReader>(filename);
 
 		if (pathFile->GetFile())
 		{
@@ -535,20 +483,17 @@ void GetBehaviorPath()
 				else
 				{
 					ErrorMessage(1067, filename, linecount);
-					throw 1;
 				}
 			}
 		}
 		else
 		{
 			ErrorMessage(2000, filename);
-			throw 1;
 		}
 	}
 	else
 	{
 		ErrorMessage(1068, filename);
-		throw 1;
 	}
 }
 
@@ -561,7 +506,7 @@ void GetBehaviorProject()
 		string characterfile;
 		bool newChar = true;
 		char charline[2000];
-		shared_ptr<TextFile> pathFile = make_shared<TextFile>(filename);
+		shared_ptr<FileReader> pathFile = make_shared<FileReader>(filename);
 
 		if (pathFile->GetFile())
 		{
@@ -595,13 +540,11 @@ void GetBehaviorProject()
 		else
 		{
 			ErrorMessage(2000, filename);
-			throw 1;
 		}
 	}
 	else
 	{
 		ErrorMessage(1068, filename);
-		throw 1;
 	}
 }
 
@@ -614,7 +557,7 @@ void GetBehaviorProjectPath()
 		string line;
 		int linecount = 0;
 		char charline[2000];
-		shared_ptr<TextFile> pathFile = make_shared<TextFile>(filename);
+		shared_ptr<FileReader> pathFile = make_shared<FileReader>(filename);
 
 		if (pathFile->GetFile())
 		{
@@ -638,20 +581,17 @@ void GetBehaviorProjectPath()
 				else
 				{
 					ErrorMessage(1067, filename, linecount);
-					throw 1;
 				}
 			}
 		}
 		else
 		{
 			ErrorMessage(2000, filename);
-			throw 1;
 		}
 	}
 	else
 	{
 		ErrorMessage(1068, filename);
-		throw 1;
 	}
 }
 
@@ -664,7 +604,7 @@ void GetAnimData()
 	{
 		int linecount = 0;
 		char charline[2000];
-		shared_ptr<TextFile> pathFile = make_shared<TextFile>(filename);
+		shared_ptr<FileReader> pathFile = make_shared<FileReader>(filename);
 		bool newCharacter = false;
 		string character;
 		string line;
@@ -685,7 +625,6 @@ void GetAnimData()
 					if (line.length() == 0)
 					{
 						ErrorMessage(3019);
-						throw 1;
 					}
 
 					character = line;
@@ -694,7 +633,6 @@ void GetAnimData()
 					if (characterHeaders.find(character) != characterHeaders.end())
 					{
 						ErrorMessage(3010, character);
-						throw 1;
 					}
 				}
 				else if (line.length() == 0)
@@ -706,7 +644,6 @@ void GetAnimData()
 					if (characterHeaders[character].find(line) != characterHeaders[character].end())
 					{
 						ErrorMessage(3008, character);
-						throw 1;
 					}
 					
 					characterHeaders[character].insert(line);
@@ -716,13 +653,11 @@ void GetAnimData()
 		else
 		{
 			ErrorMessage(2000, filename);
-			throw 1;
 		}
 	}
 	else
 	{
 		ErrorMessage(1068, filename);
-		throw 1;
 	}
 }
 
@@ -736,7 +671,7 @@ void characterHKX()
 		char charline[2000];
 		string line;
 		string header;
-		shared_ptr<TextFile> file = make_shared<TextFile>(filename);
+		shared_ptr<FileReader> file = make_shared<FileReader>(filename);
 
 		if (file->GetFile())
 		{
@@ -761,7 +696,6 @@ void characterHKX()
 						if (header.length() == 0)
 						{
 							ErrorMessage(1094);
-							return;
 						}
 
 						behaviorJoints[header].push_back(line);
@@ -776,13 +710,11 @@ void characterHKX()
 		else
 		{
 			ErrorMessage(3002, filename);
-			throw 1;
 		}
 	}
 	else
 	{
 		ErrorMessage(1068, filename);
-		throw 1;
 	}
 }
 
@@ -964,50 +896,44 @@ bool newAnimSkip(vector<shared_ptr<Furniture>> newAnim, string modID)
 
 void ClearGlobal(bool all)
 {
-	unordered_map<string, vecstr> emptySVSMap;
-
 	if (all)
 	{
 		DebugLogging("Global reset all: TRUE");
-		unordered_map<string, set<string>> emptySSSMap;
-		usedAnim = emptySSSMap;
 
-		unordered_map<string, unordered_map<string, bool>> emptySSBMap;
-		registeredAnim = emptySSBMap;
+		usedAnim = unordered_map<string, set<string>>();
 
-		unordered_map<string, unordered_map<string, vector<set<string>>>> emptySSVSMap;
-		animModMatch = emptySSVSMap;
-		behaviorJoints = emptySVSMap;
+		registeredAnim = unordered_map<string, unordered_map<string, bool>>();
+
+		animModMatch = unordered_map<string, unordered_map<string, vector<set<string>>>>();
+
+		behaviorJoints = unordered_map<string, vecstr>();
 	}
 	else
 	{
 		DebugLogging("Global reset all: FALSE");
 	}
 
-	unordered_map<string, string> emptySSMap;
-	behaviorProjectPath = emptySSMap;
-	behaviorPath = emptySSMap;
-	AAGroup = emptySSMap;
+	behaviorProjectPath = unordered_map<string, string>();
+	behaviorPath = unordered_map<string, string>();
+	AAGroup = unordered_map<string, string>();
+	crc32Cache = unordered_map<string, string>();
 	
-	behaviorProject = emptySVSMap;
-	alternateAnim = emptySVSMap;
-	groupAA = emptySVSMap;
-	groupAAPrefix = emptySVSMap;
-	AAEvent = emptySVSMap;
-	AAHasEvent = emptySVSMap;
+	behaviorProject = unordered_map<string, vecstr>();
+	alternateAnim = unordered_map<string, vecstr>();
+	groupAA = unordered_map<string, vecstr>();
+	groupAAPrefix = unordered_map<string, vecstr>();
+	AAEvent = unordered_map<string, vecstr>();
+	AAHasEvent = unordered_map<string, vecstr>();
 
-	vector<PCEA> emptyPCEAlist;
-	pcealist = emptyPCEAlist;
+	pcealist = vector<PCEA>();
 
-	unordered_map<string, vector<PCEAData>> emptyPCEAData;
-	animReplaced = emptyPCEAData;
+	animReplaced = unordered_map<string, vector<PCEAData>>();
 
-	unordered_map<string, bool> emptySBMap;
-	activatedBehavior = emptySBMap;
+	activatedBehavior = unordered_map<string, bool>();
 	
-	unordered_map<string, unordered_map<string, int>> emptySSIMap;
-	AAGroupCount = emptySSIMap;
+	AAGroupCount = unordered_map<string, unordered_map<string, int>>();
 
-	set<string> emptyVS;
-	groupNameList = emptyVS;
+	AAgroup_Counter = unordered_map<string, int>();
+
+	groupNameList = set<string>();
 }

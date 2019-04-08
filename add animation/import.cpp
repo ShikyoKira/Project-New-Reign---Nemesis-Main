@@ -4,22 +4,19 @@
 
 using namespace std;
 
-vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, string file)
+vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, string file)
 {
 	vecstr behaviorlines;
 	ImportContainer newExportID;
-	vector<ImportContainer> exportID = ExportID;
 	int lastID = nextID;
 
-	for (auto it = exportID[counter].begin(); it != exportID[counter].end(); ++it)
+	for (auto it = ExportID[counter].begin(); it != ExportID[counter].end(); ++it)
 	{
 		string filename = "behavior templates\\" + it->first + ".txt";
 
 		if (!isFileExist(filename))
 		{
 			ErrorMessage(1027, filename);
-			behaviorlines.shrink_to_fit();
-			return behaviorlines;
 		}
 
 		vecstr exportFormat;
@@ -60,8 +57,6 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 						else
 						{
 							ErrorMessage(1135, filename , j + 1);
-							behaviorlines.shrink_to_fit();
-							return behaviorlines;
 						}
 					}
 					else if (line.find("</hkparam>") != NOT_FOUND && norElement)
@@ -154,8 +149,6 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 								if (!isOnlyNumber(number))
 								{
 									ErrorMessage(1154, it->first, j + 1);
-									behaviorlines.shrink_to_fit();
-									return behaviorlines;
 								}
 
 								int num = stoi(number);
@@ -183,8 +176,6 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 								if (num - 2 >= int(keywords.size()))
 								{
 									ErrorMessage(1169, it->first, j + 1);
-									behaviorlines.shrink_to_fit();
-									return behaviorlines;
 								}
 
 								line.replace(line.find("$import[" + number + "]$"), 10 + number.length(), keywords[num - 2]);
@@ -209,8 +200,6 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 							if (bracketCount != altBracketCount)
 							{
 								ErrorMessage(1139, "import", it->first, j + 1, importer);
-								behaviorlines.shrink_to_fit();
-								return behaviorlines;
 							}
 
 							size_t pos = importer.find("[") + 1;
@@ -252,8 +241,6 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 								if (openBrack != 0 || pos == NOT_FOUND || pos != keyword.length() - 4)
 								{
 									ErrorMessage(1139, "import", it->first, j + 1, importer);
-									behaviorlines.shrink_to_fit();
-									return behaviorlines;
 								}
 								else
 								{
@@ -265,11 +252,11 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 								keyword = "";
 							}
 
-							for (unsigned int i = 0; i < exportID.size(); ++i)
+							for (unsigned int i = 0; i < ExportID.size(); ++i)
 							{
-								if (exportID[i][file][keyword].length() > 0)
+								if (ExportID[i][file][keyword].length() > 0)
 								{
-									tempID = exportID[i][file][keyword];
+									tempID = ExportID[i][file][keyword];
 									break;
 								}
 							}
@@ -285,7 +272,6 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 
 								IDExist[importer] = tempID;
 								newExportID[file][keyword] = tempID;
-								exportID.push_back(newExportID);
 								++lastID;
 
 								if (lastID == 9216)
@@ -305,15 +291,11 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 					if (line.find("$MD$") != NOT_FOUND)
 					{
 						ErrorMessage(1096, "import", filename, j + 1);
-						behaviorlines.shrink_to_fit();
-						return behaviorlines;
 					}
 
 					if (line.find("$RD$") != NOT_FOUND)
 					{
 						ErrorMessage(1097, "import", filename, j + 1);
-						behaviorlines.shrink_to_fit();
-						return behaviorlines;
 					}
 
 					if (line.find("MID$", 0) != NOT_FOUND)
@@ -357,8 +339,6 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 							else
 							{
 								ErrorMessage(1028, iter->first, j + 1);
-								behaviorlines.shrink_to_fit();
-								return behaviorlines;
 							}
 						}
 					}
@@ -381,7 +361,8 @@ vecstr importOutput(vector<ImportContainer> ExportID, int counter, int nextID, s
 
 	if (newExportID.size() != 0)
 	{
-		vecstr additionlines = importOutput(exportID, int(exportID.size() - 1), lastID, file);
+		ExportID.push_back(newExportID);
+		vecstr additionlines = importOutput(ExportID, int(ExportID.size() - 1), lastID, file);
 		behaviorlines.reserve(behaviorlines.size() + additionlines.size());
 		behaviorlines.insert(behaviorlines.end(), additionlines.begin(), additionlines.end());
 	}

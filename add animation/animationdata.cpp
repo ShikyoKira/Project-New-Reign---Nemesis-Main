@@ -9,10 +9,7 @@ AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string fil
 	int startline = 0;
 	BehaviorListProcess(*this, startline, animdatafile, project, modcode);
 
-	if (error)
-	{
-		throw 1;
-	}
+	if (error) throw nemesis::exception();
 
 	if (startline >= int(animdatafile.size()))
 	{
@@ -21,10 +18,7 @@ AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string fil
 
 	AnimDataProcess(animdatalist, startline, animdatafile, project, modcode);
 
-	if (error)
-	{
-		throw 1;
-	}
+	if (error) throw nemesis::exception();
 
 	if (startline >= int(animdatafile.size()))
 	{
@@ -39,7 +33,6 @@ void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& ani
 	if (!isOnlyNumber(animdatafile[startline]))
 	{
 		ErrorMessage(3005, project, "Header");
-		throw 1;
 	}
 
 	int i = startline + 1;
@@ -47,7 +40,6 @@ void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& ani
 	if (i + 4 >= int(animdatafile.size()))
 	{
 		ErrorMessage(3021, project);
-		throw 1;
 	}
 
 	storeline.unknown1 = animdatafile[i++];
@@ -62,7 +54,6 @@ void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& ani
 		else
 		{
 			ErrorMessage(3005, project, "Header");
-			throw 1;
 		}
 	}
 
@@ -72,13 +63,9 @@ void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& ani
 	if (i < int(animdatafile.size()) && !hasAlpha(animdatafile[i]))
 	{
 		ErrorMessage(3005, project, "Header");
-		throw 1;
 	}
 
-	if (error)
-	{
-		throw 1;
-	}
+	if (error) throw nemesis::exception();
 }
 
 void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode)
@@ -88,7 +75,6 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 		if (!hasAlpha(animdatafile[i]))
 		{
 			ErrorMessage(3005, project, "Unknown");
-			throw 1;
 		}
 
 		string name = animdatafile[i++];
@@ -96,7 +82,6 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 		if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(3005, project, name);
-			throw 1;
 		}
 
 		string uniquecode = animdatafile[i++];
@@ -107,7 +92,6 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 		if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(3005, project, name);
-			throw 1;
 		}
 
 		curAP.unknown1 = animdatafile[i++];
@@ -115,7 +99,6 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 		if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(3005, project, name);
-			throw 1;
 		}
 
 		curAP.unknown2 = animdatafile[i++];
@@ -123,7 +106,6 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 		if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(3005, project, name);
-			throw 1;
 		}
 
 		curAP.unknown3 = animdatafile[i++];
@@ -131,7 +113,6 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 		if (!isOnlyNumber(animdatafile[i++]))
 		{
 			ErrorMessage(3005, project, name);
-			throw 1;
 		}
 
 		if (animdatafile[i].length() != 0 && hasAlpha(animdatafile[i]))
@@ -145,15 +126,11 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 		if (animdatafile[i++].length() != 0)
 		{
 			ErrorMessage(3005, project, name);
-			throw 1;
 		}
 
 		storeline.push_back(curAP);
 
-		if (error)
-		{
-			throw 1;
-		}
+		if (error) throw nemesis::exception();
 
 		if (isOnlyNumber(animdatafile[i]))
 		{
@@ -176,7 +153,6 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 		if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(3020, project, animdatafile[i]);
-			throw 1;
 		}
 
 		InfoDataPack curIP;
@@ -186,7 +162,6 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 		if (isExist[uniquecode])
 		{
 			ErrorMessage(3012, project, uniquecode);
-			throw 1;
 		}
 
 		isExist[uniquecode] = true;
@@ -194,7 +169,6 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 		if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(3020, project, uniquecode);
-			throw 1;
 		}
 
 		curIP.duration = animdatafile[i];
@@ -202,7 +176,6 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 		if (!isOnlyNumber(animdatafile[++i]))
 		{
 			ErrorMessage(3020, project, uniquecode);
-			throw 1;
 		}
 
 		++i;
@@ -215,7 +188,6 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 		if (!isOnlyNumber(animdatafile[i++]))
 		{
 			ErrorMessage(3020, project, uniquecode);
-			throw 1;
 		}
 
 		while (count(animdatafile[i].begin(), animdatafile[i].end(), ' ') != 0)
@@ -226,13 +198,9 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 		if (animdatafile[i].length() != 0)
 		{
 			ErrorMessage(3020, project, uniquecode);
-			throw 1;
 		}
 
-		if (error)
-		{
-			throw 1;
-		}
+		if (error) throw nemesis::exception();
 
 		storeline.push_back(curIP);
 	}
@@ -358,7 +326,6 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 					if (!muteError)
 					{
 						ErrorMessage(3007, modcode, filepath, linecount, header);
-						return xerror;
 					}
 				}
 
@@ -406,7 +373,6 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 								if (!muteError)
 								{
 									ErrorMessage(3007, modcode, filepath, linecount, header);
-									return xerror;
 								}
 							}
 						}
@@ -458,7 +424,6 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 					if (!muteError)
 					{
 						ErrorMessage(3007, modcode, filepath, linecount, header);
-						return xerror;
 					}
 				}
 
@@ -504,7 +469,6 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							if (tempid != 7)
 							{
 								ErrorMessage(3007, modcode, filepath, linecount, header);
-								return xerror;
 							}
 						}
 					}
@@ -554,7 +518,6 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 					if (!muteError)
 					{
 						ErrorMessage(3007, modcode, filepath, linecount, header);
-						return xerror;
 					}
 				}
 
@@ -603,7 +566,6 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 								if (!muteError)
 								{
 									ErrorMessage(3007, modcode, filepath, linecount, header);
-									return xerror;
 								}
 							}
 						}
@@ -716,7 +678,6 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 						if (tempid != 4 && tempid != 6)
 						{
 							ErrorMessage(3007, modcode, filepath, linecount, header);
-							return xerror;
 						}
 					}
 				}

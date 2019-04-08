@@ -11,7 +11,6 @@ bool FileCheck(bool isUpdate)
 	if (!isFileExist(file))
 	{
 		ErrorMessage(1001, file);
-		return false;
 	}
 
 	file = "alternate animation\\alternate animation.script";
@@ -19,7 +18,6 @@ bool FileCheck(bool isUpdate)
 	if (!isFileExist(file))
 	{
 		ErrorMessage(1092, file);
-		return false;
 	}
 
 	file = "alternate animation\\alternate animation 2.script";
@@ -27,7 +25,6 @@ bool FileCheck(bool isUpdate)
 	if (!isFileExist(file))
 	{
 		ErrorMessage(1092, file);
-		return false;
 	}
 
 	file = "behavior templates";
@@ -35,7 +32,6 @@ bool FileCheck(bool isUpdate)
 	if (!isFileExist(file))
 	{
 		ErrorMessage(1001, file);
-		return false;
 	}
 
 	CreateFolder("mod");
@@ -47,7 +43,6 @@ bool FileCheck(bool isUpdate)
 		if (!isFileExist(file))
 		{
 			ErrorMessage(1092, file);
-			return false;
 		}
 
 		file = "temp_behaviors";
@@ -58,7 +53,6 @@ bool FileCheck(bool isUpdate)
 	if (!isFileExist(file))
 	{
 		ErrorMessage(1092, file);
-		return false;
 	}
 
 	file = "languages";
@@ -66,7 +60,6 @@ bool FileCheck(bool isUpdate)
 	if (!isFileExist(file))
 	{
 		ErrorMessage(1001, file);
-		return false;
 	}
 
 	file = "languages\\english.txt";
@@ -74,7 +67,6 @@ bool FileCheck(bool isUpdate)
 	if (!isFileExist(file))
 	{
 		ErrorMessage(1092, file);
-		return false;
 	}
 
 	DebugLogging("File Check complete");
@@ -93,7 +85,6 @@ bool PCEACheck()
 		if (!isFileExist(file))
 		{
 			ErrorMessage(1092, file);
-			return false;
 		}
 
 		file = skyrimDataPath->GetDataPath() + "scripts\\Nemesis_PCEA_MCM.pex";
@@ -101,7 +92,6 @@ bool PCEACheck()
 		if (!isFileExist(file))
 		{
 			ErrorMessage(1092, file);
-			return false;
 		}
 	}
 

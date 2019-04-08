@@ -17,7 +17,7 @@ struct animationInfo
 	double duration = 0;
 	std::string filename = "";
 	std::string mainAnimEvent = "";
-	vecstr clipname;
+	// vecstr clipname;		obsolete
 	vecstr eventID;
 	vecstr animInfo;
 	vecstr variableID;

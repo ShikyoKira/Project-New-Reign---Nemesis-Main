@@ -12,5 +12,3 @@ BehaviorInfo::BehaviorInfo(const BehaviorInfo& other)
 	author = other.author;
 	state = other.state;
 }
-
-

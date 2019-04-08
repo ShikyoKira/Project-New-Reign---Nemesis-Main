@@ -41,9 +41,10 @@ void behaviorCheck()
 
 					for (auto& duplicate : duplicatelist.second[1])
 					{
-						warning = warning + duplicate + ",";
+						warning = warning + duplicate + ", ";
 					}
 
+					warning.pop_back();
 					warning.pop_back();
 					WarningMessage(1014, animation.first, duplicatelist.first, warning);
 					++warningcount;
@@ -51,9 +52,8 @@ void behaviorCheck()
 			}
 			else
 			{
-				ErrorMessage(1066);
 				interMsg("Conflict Test failed!");
-				return;
+				ErrorMessage(1066);
 			}
 		}
 	}

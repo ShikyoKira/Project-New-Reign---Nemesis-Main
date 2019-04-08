@@ -20,14 +20,12 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 
 					if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\female\\" + animFile))
 					{
-						size_t nextpos = line.find(animPath);
 						animPath = "Animations\\female\\" + animFile;
 					}
 					else if (boost::iequals(animPath, "Animations\\male\\" + animFile))
 					{
 						if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\" + animFile))
 						{
-							size_t nextpos = line.find(animPath);
 							animPath = "Animations\\" + animFile;
 						}
 					}
@@ -41,14 +39,12 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 
 					if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\male\\" + animFile))
 					{
-						size_t nextpos = line.find(animPath);
 						animPath = "Animations\\male\\" + animFile;
 					}
 					else if (boost::iequals(animPath, "Animations\\female\\" + animFile))
 					{
 						if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\" + animFile))
 						{
-							size_t nextpos = line.find(animPath);
 							animPath = "Animations\\" + animFile;
 						}
 					}
@@ -60,29 +56,25 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 		boost::to_lower(animPath);
 		boost::to_lower(animFile);
 		isAdded[animPath] = true;
-		newMod = animPath.substr(10, animPath.find("\\", 10) - 10);
-		size_t matchSize = animModMatch[behaviorFile][animFile].size();
+		newMod = animPath.substr(11, animPath.find("\\", 11) - 11);
+		vector<set<string>>* match_ptr = &animModMatch[lowerBehaviorFile][animFile];
+		size_t matchSize = match_ptr->size();
 		registeredAnim[lowerBehaviorFile][animFile] = true;
 		addAnim = true;
 
 		if (matchSize == 0)
 		{
-			set<string> tempSetString;
-			tempSetString.insert(animPath);
-			animModMatch[behaviorFile][animFile].push_back(tempSetString);
-			tempSetString.clear();
-			tempSetString.insert(newMod);
-			animModMatch[behaviorFile][animFile].push_back(tempSetString);
+			match_ptr->push_back(set<string>{animPath});
+			match_ptr->push_back(set<string>{newMod});
 		}
 		else if (matchSize == 2)
 		{
-			animModMatch[behaviorFile][animFile][0].insert(animPath);
-			animModMatch[behaviorFile][animFile][1].insert(newMod);
+			match_ptr->at(0).insert(animPath);
+			match_ptr->at(1).insert(newMod);
 		}
 		else
 		{
 			ErrorMessage(1058);
-			return false;
 		}
 
 		++counter;

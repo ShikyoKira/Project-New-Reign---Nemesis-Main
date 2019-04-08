@@ -5,7 +5,7 @@
 #include "animationutility.h"
 #include "add animation\furniture.h"
 #include "add animation\animationsetdata.h"
-#include "functions\functionwriter.h"
+#include "functions\writetextfile.h"
 
 typedef std::unordered_map<std::string, SSMap> ImportContainer;
 

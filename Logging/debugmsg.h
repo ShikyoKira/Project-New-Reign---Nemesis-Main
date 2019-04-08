@@ -15,6 +15,11 @@ class DummyLog;
 extern bool error;	// get error warning
 extern bool isPatch;
 
+namespace nemesis
+{
+	class exception {};
+}
+
 // debugging
 struct DebugMsg
 {
@@ -31,7 +36,11 @@ struct DebugMsg
 void interMsg(std::string);
 
 // add new language pack
-extern void NewDebugMessage(DebugMsg NewLog);
+void NewDebugMessage(DebugMsg NewLog);
+
+// error release/lock
+void ErrorLock();
+void ErrorRelease();
 
 std::string DMLogError(int errorcode);
 std::string DMLogWarning(int warningcode);
@@ -100,9 +109,12 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
 // error
 inline void ErrorMessage(int errorcode)
 {
+	ErrorLock();
+
 	if (error)
 	{
-		return;
+		ErrorRelease();
+		throw nemesis::exception();
 	}
 
 	error = true;
@@ -116,14 +128,19 @@ inline void ErrorMessage(int errorcode)
 
 	interMsg(errormsg + "\n");
 	DebugLogging("ERROR(" + std::to_string(errorcode) + "): " + EngLogError(errorcode));
+	ErrorRelease();
+	throw nemesis::exception();
 }
 
 template <typename ... other>
 inline void ErrorMessage(int errorcode, other... rest)
 {
+	ErrorLock();
+
 	if (error)
 	{
-		return;
+		ErrorRelease();
+		throw nemesis::exception();
 	}
 
 	error = true;
@@ -141,6 +158,8 @@ inline void ErrorMessage(int errorcode, other... rest)
 	AdditionalInput(englog, 1, rest...);
 	interMsg(errormsg + "\n");
 	DebugLogging(englog);
+	ErrorRelease();
+	throw nemesis::exception();
 }
 
 // warning

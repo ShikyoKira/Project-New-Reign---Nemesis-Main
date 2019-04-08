@@ -55,19 +55,18 @@ void AnimProgressBar::ForeverLoop()
 
 void AnimProgressBar::newValue(int value)
 {
-
 	if (value <= MAX_ANIM)
 	{
 		double decivalue = value;
-		double power = decivalue / 10000;
-		opq = std::fmin(155, 55 + (decivalue / 3000 * 100));
-		gap = std::fmax(0.2, 0.9 - (decivalue / 3000 * 0.7));
+		double power = decivalue / MAX_ANIM;
+		opq = std::fmin(155, 55 + (decivalue / (MAX_ANIM * 3 / 10) * 100));
+		gap = std::fmax(0.2, 0.9 - (decivalue / (MAX_ANIM * 3 / 10) * 0.7));
 		cTimer = 0.01 * powf(0.1, power) / 0.1;
 		hue = QString::number(static_cast<int>(120 - (decivalue / MAX_ANIM * 120)));
 		val = QString::number(static_cast<int>(170 + (decivalue / MAX_ANIM * 55)));
 	}
 
-	if (value == 7000)
+	if (value == MAX_ANIM * 7 / 10)
 	{
 		font = "QProgressBar { color: rgb(255, 255, 255); } ";
 	}

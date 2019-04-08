@@ -1,9 +1,10 @@
-#include "behaviorgenerator.h"
-#include "add animation/alternateanimation.h"
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include <boost/algorithm/string.hpp>
 #include <Nemesis Main GUI\lua-5.3.5\src\lua.hpp>
+#include "behaviorgenerator.h"
+#include "add animation/alternateanimation.h"
+#include "Nemesis Main GUI\src\utilities\filerelease.h"
 
 #pragma warning(disable:4503)
 
@@ -11,29 +12,22 @@ using namespace std;
 
 bool hkxcmdProcess(string xmlfile, string hkxfile)
 {
+	string args = SSE ? "convert -v:AMD64 \"" + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"" : "convert -v:WIN32 \"" + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"";
 
-	string args;
-
-	if (SSE)
+	if (error)
 	{
-		args = "convert -v:AMD64 \"" + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"";
-	}
-	else
-	{
-		args = "convert -v:WIN32 \"" + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"";
+		throw nemesis::exception();
 	}
 
 	if (boost::process::system("hkxcmd " + args, boost::process::windows::hide) != 0)
 	{
 		ErrorMessage(1003, xmlfile);
-		return false;
 	}
 	else
 	{
 		if (!isFileExist(hkxfile + ".hkx"))
 		{
 			ErrorMessage(1003, xmlfile);
-			return false;
 		}
 	}
 
@@ -48,33 +42,26 @@ bool hkxcmdXmlInput(string hkxfile, vecstr& fileline)
 	if (boost::process::system("hkxcmd " + args, boost::process::windows::hide) != 0)
 	{
 		ErrorMessage(1003, hkxfile);
-		return false;
 	}
-	else
+	else if (!isFileExist(xmlfile))
 	{
-		if (!isFileExist(xmlfile))
+		ErrorMessage(1003, hkxfile);
+	}
+	else if (!boost::filesystem::is_directory(xmlfile))
+	{
+		if (!GetFunctionLines(xmlfile, fileline))
 		{
-			ErrorMessage(1003, hkxfile);
 			return false;
 		}
-		else if (!boost::filesystem::is_directory(xmlfile))
+
+		if (fileline.size() == 0)
 		{
-			if (!GetFunctionLines(xmlfile, fileline))
-			{
-				return false;
-			}
+			ErrorMessage(3001, xmlfile);
+		}
 
-			if (fileline.size() == 0)
-			{
-				ErrorMessage(3001, xmlfile);
-				return false;
-			}
-
-			if (!boost::filesystem::remove(xmlfile))
-			{
-				ErrorMessage(1082, xmlfile, xmlfile);
-				return false;
-			}
+		if (ReleaseLockedFile(xmlfile) && !boost::filesystem::remove(xmlfile))
+		{
+			ErrorMessage(1082, xmlfile, xmlfile);
 		}
 	}
 
@@ -111,10 +98,9 @@ void RunScript(string directory)
 						warning = true;
 					}
 				}
-				catch (const std::exception& ex)
+				catch (const exception& ex)
 				{
 					ErrorMessage(6008, ex.what());
-					return;
 				}
 			}
 			else if (boost::iequals(scriptfile.extension().string(), ".lua"))
@@ -148,10 +134,9 @@ void RunScript(string directory)
 								warning = true;
 							}
 						}
-						catch (const std::exception& ex)
+						catch (const exception& ex)
 						{
 							ErrorMessage(6008, ex.what());
-							return;
 						}
 					}
 					else if (boost::iequals(shownscript.extension().string(), ".lua"))

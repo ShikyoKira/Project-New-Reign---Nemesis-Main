@@ -7,7 +7,6 @@
 #include <unordered_map>
 #include <set>
 #include <ctime>
-#include <codecvt>
 #include <stdlib.h>
 #include <mutex>
 #include <boost\filesystem.hpp>
@@ -15,9 +14,6 @@
 #include "logging\debugmsg.h"
 
 #include "skyrimdirectory.h"
-#ifndef DEBUG
-#include "skyrimdirectory.h"
-#endif
 
 #pragma warning(disable:4503)
 
@@ -72,7 +68,14 @@ bool GetFunctionLines(std::string filename, vecstr& functionlines, bool emptylas
 
 inline bool isFileExist(const std::string& filename)
 {
-	return boost::filesystem::exists(boost::filesystem::path(filename));
+	try
+	{
+		return boost::filesystem::exists(boost::filesystem::path(filename));
+	}
+	catch (...)
+	{
+		return false;
+	}
 }
 
 inline bool CreateFolder(const std::string& folderpath)
@@ -89,6 +92,5 @@ inline bool CreateFolder(const std::string& folderpath)
 
 	return false;
 }
-
 
 #endif

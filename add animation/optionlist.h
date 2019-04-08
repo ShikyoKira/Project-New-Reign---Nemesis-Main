@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <boost\regex.hpp>
 #include <boost\algorithm\string.hpp>
+#include "stringsplit.h"
 
 typedef std::vector<std::string> vecstr;
 
@@ -53,6 +54,5 @@ struct OptionList
 };
 
 bool optionMatching(std::string option1, std::string option2);
-void throwError(std::string format, std::string filepath);
 
 #endif

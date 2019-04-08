@@ -1,22 +1,23 @@
+#include <boost/atomic.hpp>
 #include "debugmsg.h"
-#include "Nemesis Main GUI/master.h"
-#include "Nemesis Main GUI/ErrorMsgBox.h"
+#include "Nemesis Main GUI\master.h"
+#include "Nemesis Main GUI\ErrorMsgBox.h"
+#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
 
 using namespace std;
 
 int filenum;
 atomic<int> progressPercentage;
 bool error = false;
+boost::atomic_flag errorlock = BOOST_ATOMIC_FLAG_INIT;
 DebugMsg DMLog;
 DebugMsg* EnglishLog;
 UpdateFilesStart* process1;
 BehaviorStart* process2;
 DummyLog* process3;
 
-std::wstring_convert<std::codecvt_utf8<wchar_t>> wstrConv;
-
-std::vector<std::string> readUTF8File(std::wstring filename);
-void writeUTF8File(std::string filename, std::vector<std::string> storeline);
+vecstr readUTF8File(wstring filename);
+void writeUTF8File(string filename, vecstr storeline);
 
 void NewDebugMessage(DebugMsg NewLog)
 {
@@ -28,15 +29,22 @@ void NewDebugMessage(DebugMsg NewLog)
 	DMLog = NewLog;
 }
 
+void ErrorLock()
+{
+	while (errorlock.test_and_set(boost::memory_order_acquire));
+}
+
+void ErrorRelease()
+{
+	errorlock.clear(boost::memory_order_release);
+}
+
 DebugMsg::DebugMsg(string language)
 {
 	wstring filename = L"languages\\" + wstrConv.from_bytes(language) + L".txt";
-	vector<string> storeline = readUTF8File(filename);
+	vecstr storeline = readUTF8File(filename);
 
-	if (error)
-	{
-		return;
-	}
+	if (error) throw nemesis::exception();
 
 	for (unsigned int i = 0; i < storeline.size(); ++i)
 	{
@@ -101,9 +109,9 @@ DebugMsg::DebugMsg(string language)
 	}
 }
 
-vector<string> readUTF8File(wstring filename)
+vecstr readUTF8File(wstring filename)
 {
-	vector<string> storeline;
+	vecstr storeline;
 	ifstream file(filename);
 	file.imbue(locale(locale::empty(), new codecvt_utf8<wchar_t>));
 	string line;
@@ -119,14 +127,14 @@ vector<string> readUTF8File(wstring filename)
 	}
 	else
 	{
-		interMsg("CRITICAL ERROR: Fail to read language pack. Please re-install Nemesis\n");
+		interMsg("CRITICAL ERROR: Failed to read language pack. Please re-install Nemesis\n");
 		error = true;
 	}
 
 	return storeline;
 }
 
-void writeUTF8File(string filename, vector<string> storeline)
+void writeUTF8File(string filename, vecstr storeline)
 {
 	ofstream output(filename);
 	output.imbue(locale(locale::empty(), new codecvt_utf8<wchar_t>));
@@ -142,7 +150,7 @@ void writeUTF8File(string filename, vector<string> storeline)
 	}
 	else
 	{
-		interMsg("CRITICAL ERROR: Fail to write file. Please re-install Nemesis\n");
+		interMsg("CRITICAL ERROR: Failed to write file. Please re-install Nemesis\n");
 		error = true;
 	}
 }

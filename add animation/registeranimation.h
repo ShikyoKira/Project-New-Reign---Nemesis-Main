@@ -26,9 +26,10 @@ public:
 	std::unordered_map<std::string, int> templateType;
 	std::unordered_map<std::string, std::vector<int>> last;
 	std::unordered_map<std::string, std::vector<int>> isMulti;
-	std::unordered_map<std::string, std::vector<std::shared_ptr<animationInfo>>> animInfo;
+	std::unordered_map<std::string, std::vector<std::shared_ptr<animationInfo>>> animInfo;		// template code, list of animinfo
 
-	registerAnimation(std::string filepath, std::string shortfilepath, getTemplate behaviortemplate, std::string behavior, std::string behaviorfile, bool isNemesis = false);
+	registerAnimation(std::string filepath, std::string shortfilepath, getTemplate behaviortemplate, std::string behavior, std::string behaviorfile, bool fstP,
+		bool isNemesis = false);
 	void clear();
 };
 

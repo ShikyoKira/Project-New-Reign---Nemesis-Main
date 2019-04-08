@@ -17,7 +17,6 @@ bool calculate(string& equation, string format, string filename, int linecount, 
 	if (!parser.compile(expression_string, expression))
 	{
 		ErrorMessage(1151, format, filename, linecount, equation);
-		return false;
 	}
 
 	if (noDecimal)

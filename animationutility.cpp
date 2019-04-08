@@ -2,8 +2,9 @@
 
 using namespace std;
 
-animationutility::animationutility(id neweventid, id newvariableid, vector<int> newFixedStateID, std::vector<int> newStateCountMultiplier, bool newHasGroup, int newOptionMulti, int newAnimMulti, string newMultiOption)
+animationutility::animationutility(string condition, id neweventid, id newvariableid, vector<int> newFixedStateID, std::vector<int> newStateCountMultiplier, bool newHasGroup, int newOptionMulti, int newAnimMulti, string newMultiOption)
 {
+	originalCondition = condition;
 	eventid = neweventid;
 	variableid = newvariableid;
 	fixedStateID = newFixedStateID;
@@ -53,7 +54,6 @@ bool newStateID::stateUpdate(int ID, string format, string behaviorFile, int lin
 		else
 		{
 			ErrorMessage(1168, format, behaviorFile, linecount, state);
-			return false;
 		}
 	}
 

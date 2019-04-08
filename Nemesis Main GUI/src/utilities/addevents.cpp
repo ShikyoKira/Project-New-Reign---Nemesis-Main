@@ -2,8 +2,8 @@
 
 using namespace std;
 
-bool AddEvents(string curNum, vecstr& storeline, string input, unordered_map<string, bool> orievent, unordered_map<string, bool>& isExist, int& counter, string& ZeroEvent, unordered_map<string, int>& eventid
-	, unordered_map<int, string>& eventName)
+bool AddEvents(string curNum, vecstr& storeline, string input, unordered_map<string, bool> orievent, unordered_map<string, bool>& isExist, int& counter,
+	string& ZeroEvent, unordered_map<string, int>& eventid, unordered_map<int, string>& eventName)
 {
 	if (curNum == "eventNames")
 	{
@@ -39,7 +39,6 @@ bool AddEvents(string curNum, vecstr& storeline, string input, unordered_map<str
 	else
 	{
 		ErrorMessage(1031);
-		return false;
 	}
 
 	return true;

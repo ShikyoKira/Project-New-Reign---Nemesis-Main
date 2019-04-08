@@ -3,6 +3,15 @@
 
 using namespace std;
 
+unordered_map<string, string> crc32Cache;
+
+void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile, string filename);
+void EquipPackProcess(vector<equip>& storeline, int& startline, vecstr& animdatafile, string filename, string header);
+void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animdatafile, string filename, string header);
+void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animdatafile, string filename, string header);
+void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string filename, string header, unordered_map<string, shared_ptr<vecstr>>& AAList,
+	string projectPath);
+
 AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile, string filename, string projectname)
 {
 	try
@@ -11,37 +20,47 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 		DataPackProcess(datalist, startline, animdatafile, filename);
 		++startline;
 		string projectPath;
-		unordered_map<string, vecstr*> AAList;
+		unordered_map<string, shared_ptr<vecstr>> AAList;
 
 		// assume current project has new alternate animation installed
 		if (behaviorProjectPath[projectname].length() > 0)
 		{
-			projectPath = behaviorProjectPath[projectname] + "\\animations";
-			string projectPathCRC32 = to_string(CRC32Convert(projectPath));
+			projectPath = boost::to_lower_copy(behaviorProjectPath[projectname] + "\\animations");
+			vecstr pathCRC32 = { to_string(CRC32Convert(projectPath)), to_string(CRC32Convert(projectPath + "\\male")), to_string(CRC32Convert(projectPath + "\\female")),
+				to_string(CRC32Convert(projectPath + "\\horse_rider")) };
 
 			// cache all alternate animations
 			for (auto& anim : alternateAnim)
 			{
-				AAList[projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(anim.first))) + ",7891816"] = new vecstr(anim.second);
+				string animCRC32 = to_string(CRC32Convert(boost::to_lower_copy(GetFileName(anim.first))));
+
+				for (auto& path : pathCRC32)
+				{
+					AAList[path + "," + animCRC32 + ",7891816"] = make_shared<vecstr>(anim.second);
+				}
 			}
 
-			string pceafolder = skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea";
-
-			if (isFileExist(skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea"))
+			if (isFileExist(skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea") && pcealist.size() > 0)
 			{
 				// cache all pcea animations
 				for (auto& pcea : pcealist)
 				{
 					for (auto& animPath : pcea.animPathList)
 					{
-						string crc32line = projectPathCRC32 + "," + to_string(CRC32Convert(GetFileName(animPath.first))) + ",7891816";
+						string animCRC32 = to_string(CRC32Convert(boost::to_lower_copy(GetFileName(animPath.first))));
+						string pathline = animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA"));
 
-						if (!AAList[crc32line])
+						for (auto& path : pathCRC32)
 						{
-							AAList[crc32line] = new vecstr;
-						}
+							string crc32line = path + "," + animCRC32 + ",7891816";
 
-						AAList[crc32line]->push_back(animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA")));
+							if (!AAList[crc32line])
+							{
+								AAList[crc32line] = make_shared<vecstr>();
+							}
+
+							AAList[crc32line]->push_back(pathline);
+						}
 					}
 				}
 			}
@@ -54,7 +73,6 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 			if (startline >= int(animdatafile.size()))
 			{
 				ErrorMessage(5019, filename);
-				throw 1;
 			}
 
 			// equip list
@@ -81,12 +99,10 @@ void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& start
 	if (startline >= int(animdatafile.size()))
 	{
 		ErrorMessage(5018, filename, "Header");
-		throw 1;
 	}
 	else if (!isOnlyNumber(animdatafile[startline]))
 	{
 		ErrorMessage(5001, filename, "Header");
-		throw 1;
 	}
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
@@ -97,7 +113,6 @@ void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& start
 		if (i + 4 >= int(animdatafile.size()))
 		{
 			ErrorMessage(5018, filename, "Header");
-			throw 1;
 		}
 
 		if (boost::iequals(animdatafile[i + 1], "V3"))
@@ -113,12 +128,10 @@ void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& ani
 	if (startline >= int(animdatafile.size()))
 	{
 		ErrorMessage(5018, filename, header);
-		throw 1;
 	}
 	else if (!isOnlyNumber(animdatafile[startline]))
 	{
 		ErrorMessage(5001, filename, "Header");
-		throw 1;
 	}
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
@@ -136,7 +149,6 @@ void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& ani
 		if (i + 1 >= int(animdatafile.size()))
 		{
 			ErrorMessage(5018, filename, header);
-			throw 1;
 		}
 	}
 }
@@ -146,12 +158,10 @@ void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animda
 	if (startline >= int(animdatafile.size()))
 	{
 		ErrorMessage(5018, filename, header);
-		throw 1;
 	}
 	else if (!isOnlyNumber(animdatafile[startline]))
 	{
 		ErrorMessage(5001, filename, header);
-		throw 1;
 	}
 
 	int counter = 0;
@@ -187,7 +197,6 @@ void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animda
 		if (isOnlyNumber(animdatafile[i]) || !hasAlpha(animdatafile[i]))
 		{
 			ErrorMessage(5001, filename, header);
-			throw 1;
 		}
 
 		tempTP.name = animdatafile[i];
@@ -195,12 +204,10 @@ void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animda
 		if (++i >= int(animdatafile.size()))
 		{
 			ErrorMessage(5018, filename, header);
-			throw 1;
 		}
 		else if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(5001, filename, header);
-			throw 1;
 		}
 
 		tempTP.equiptype1 = animdatafile[i];
@@ -208,12 +215,10 @@ void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animda
 		if (++i >= int(animdatafile.size()))
 		{
 			ErrorMessage(5018, filename, header);
-			throw 1;
 		}
 		else if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(5001, filename, header);
-			throw 1;
 		}
 
 		tempTP.equiptype2 = animdatafile[i];
@@ -222,7 +227,6 @@ void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animda
 		if (i + 1 >= int(animdatafile.size()))
 		{
 			ErrorMessage(5018, filename, header);
-			throw 1;
 		}
 	}
 }
@@ -232,12 +236,10 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 	if (startline >= int(animdatafile.size()))
 	{
 		ErrorMessage(5018, filename, header);
-		throw 1;
 	}
 	else if (!isOnlyNumber(animdatafile[startline]))
 	{
 		ErrorMessage(5001, filename, header);
-		throw 1;
 	}
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
@@ -291,12 +293,10 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 		if (i >= int(animdatafile.size()))
 		{
 			ErrorMessage(5018, filename, header);
-			throw 1;
 		}
 		else if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(5001, filename, header);
-			throw 1;
 		}
 		
 		while (i < int(animdatafile.size()))
@@ -382,25 +382,24 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 		if (i + 1 >= int(animdatafile.size()))
 		{
 			ErrorMessage(5018, filename, header);
-			throw 1;
 		}
 	}
 }
 
-void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string filename, string header, unordered_map<string, vecstr*> AAList, string projectPath)
+void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string filename, string header, unordered_map<string, shared_ptr<vecstr>>& AAList,
+	string projectPath)
 {
 	if (startline >= int(animdatafile.size()))
 	{
 		ErrorMessage(5018, filename, header);
-		throw 1;
 	}
 	else if (!isOnlyNumber(animdatafile[startline]))
 	{
 		ErrorMessage(5001, filename, header);
-		throw 1;
 	}
 
 	vector<crc32> newCRC;
+	unordered_set<string> isExisted;
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
 	{
@@ -420,7 +419,6 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 		if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(5001, filename, header);
-			throw 1;
 		}
 
 		tempCRC32.filepath = animdatafile[i];
@@ -428,12 +426,10 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 		if (++i >= int(animdatafile.size()))
 		{
 			ErrorMessage(5018, filename, header);
-			throw 1;
 		}
 		else if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(5001, filename, header);
-			throw 1;
 		}
 
 		tempCRC32.filename = animdatafile[i];
@@ -441,12 +437,10 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 		if (++i >= int(animdatafile.size()))
 		{
 			ErrorMessage(5018, filename, header);
-			throw 1;
 		}
 		else if (!isOnlyNumber(animdatafile[i]))
 		{
 			ErrorMessage(5001, filename, header);
-			throw 1;
 		}
 
 		tempCRC32.fileformat = animdatafile[i];
@@ -456,26 +450,53 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 		{
 			startline = i;
 		}
-
+		
 		// if existing crc32 line match the assumed line, new alternate animations will be converted into crc32 number and added in
-		if (AAList[tempCRC32.filepath + "," + tempCRC32.filename + "," + tempCRC32.fileformat])
+		auto it = AAList.find(tempCRC32.filepath + "," + tempCRC32.filename + "," + tempCRC32.fileformat);
+
+		if (it != AAList.end())
 		{
-			for (auto& anim : *AAList[tempCRC32.filepath + "," + tempCRC32.filename + "," + tempCRC32.fileformat])
+			for (auto& anim : *it->second)
 			{
 				if (anim != "x")
 				{
 					crc32 newCRC32;
+					string line;
+					string combined;
 					string modID = GetFileDirectory(anim);
 					modID.pop_back();
-					string line = to_string(CRC32Convert(boost::to_lower_copy(projectPath + "\\" + modID)));
+					modID = boost::to_lower_copy(projectPath + "\\" + modID);
+					auto it = crc32Cache.find(modID);
+
+					if (it != crc32Cache.end()) line = it->second;
+					else
+					{
+						line = to_string(CRC32Convert(modID));
+						crc32Cache[modID] = line;
+					}
+
+					combined.append(line + ",");
 					newCRC32.filepath = line;
 
-					line = GetFileName(anim);
-					line = to_string(CRC32Convert(boost::to_lower_copy(line)));
+					modID = boost::to_lower_copy(GetFileName(anim));
+					it = crc32Cache.find(modID);
+
+					if (it != crc32Cache.end()) line = it->second;
+					else
+					{
+						line = to_string(CRC32Convert(modID));
+						crc32Cache[modID] = line;
+					}
+
+					combined.append(line + ",7891816");
 					newCRC32.filename = line;
 					newCRC32.fileformat = "7891816";
 
-					newCRC.push_back(newCRC32);
+					if (isExisted.find(combined) == isExisted.end())
+					{
+						newCRC.push_back(newCRC32);
+						isExisted.insert(combined);
+					}
 				}
 			}
 		}
@@ -497,7 +518,6 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 	if (linecount >= int(animData.size()))
 	{
 		ErrorMessage(5010, modcode, project, header);
-		return ASDFormat::xerror;
 	}
 
 	if (animData[linecount].find("<!-- ") != NOT_FOUND)
@@ -505,7 +525,6 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 		if (!muteError)
 		{
 			ErrorMessage(3007, modcode, "animationsetdatasinglefile.txt", linecount, header);
-			return ASDFormat::xerror;
 		}
 	}
 
@@ -536,7 +555,6 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 					if (!isOpen)
 					{
 						ErrorMessage(1171, modcode, project + "~" + header.substr(0, header.find_last_of(".")), i + 1);
-						return ASDFormat::xerror;
 					}
 
 					isOpen = false;
@@ -574,7 +592,6 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 				if (isOpen)
 				{
 					ErrorMessage(1115, modcode, project + "~" + header.substr(0, header.find_last_of(".")), i + 1);
-					return ASDFormat::xerror;
 				}
 
 				isOpen = true;
@@ -630,8 +647,6 @@ ASDFormat::position ASDPosition(vecstr animData, string project, string header, 
 				{
 					ErrorMessage(5008, modcode, project, header);
 				}
-
-				return xerror;
 			}
 		}
 		catch (double curID)
@@ -2050,7 +2065,6 @@ void combineExtraction(vecstr& storeline, map<int, vecstr> extract, string proje
 			if (condition == 0 && !newOpen)
 			{
 				ErrorMessage(5013, project, header);
-				return;
 			}
 
 			for (unsigned int k = 0; k < extract[i].size(); ++k)

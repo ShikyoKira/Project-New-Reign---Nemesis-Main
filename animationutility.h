@@ -3,6 +3,10 @@
 
 typedef std::unordered_map<std::string, int> id;
 
+struct jointTemplate;
+struct groupTemplate;
+struct ExistingFunction;
+
 struct animationutility
 {
 	id eventid;
@@ -14,9 +18,12 @@ struct animationutility
 	int animMulti = -1;
 	int groupMulti = -1;
 	std::string multiOption;
+	std::string originalCondition;
+	jointTemplate* currentProcess;
+	bool isExisting = false;
 
 	animationutility() {}
-	animationutility(id eventid, id variableid, std::vector<int> stateID, std::vector<int> stateCountMultiplier, bool hasGroup, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
+	animationutility(std::string condition, id eventid, id variableid, std::vector<int> stateID, std::vector<int> stateCountMultiplier, bool hasGroup, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
 };
 
 class newStateID

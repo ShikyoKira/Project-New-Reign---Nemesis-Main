@@ -1,4 +1,5 @@
 #include "renew.h"
+#include "Nemesis Main GUI\src\utilities\filerelease.h"
 
 #pragma warning(disable:4503)
 
@@ -19,7 +20,7 @@ bool DeleteFileFolder(string directory, string file, bool xml)
 		}
 	}
 
-	if (!boost::filesystem::remove(directory + file))
+	if (ReleaseLockedFile(directory + file) && !boost::filesystem::remove(directory + file))
 	{
 		if (xml)
 		{

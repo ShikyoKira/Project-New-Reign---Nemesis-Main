@@ -18,11 +18,29 @@ typedef std::unordered_map<std::string, int> id;
 typedef std::unordered_map<std::string, std::string> SSMap;
 typedef std::unordered_map<std::string, std::unordered_map<std::string, std::string>> ImportContainer;
 
-struct groupTemplate
+struct master;
+
+struct jointTemplate
 {
-private:
 	id eventid;
 	id variableid;
+
+	std::string zeroEvent;
+	std::string zeroVariable;
+
+	bool specialCondition(std::string condition, std::string filename, std::vector<std::vector<std::unordered_map<std::string, bool>>> curOptionPicked,
+		std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo, int numline, std::string format, std::string masterformat, animationutility utility);
+
+	virtual void processing(std::string& line, std::string filename, std::string masterFormat, int linecount, id eventid, id variableid, int groupMulti = -1,
+		int optionMulti = -1, int animMulti = -1, std::string multiOption = "") {}
+
+	virtual void processing(std::string& line, std::string filename, int curFunctionID, int linecount, id eventid, id variableid, int groupMulti, int optionMulti = -1,
+		int animMulti = -1, std::string multiOption = "") {}
+};
+
+struct groupTemplate : public jointTemplate
+{
+private:
 	std::string filename;
 	vecstr templatelines;
 	newAnimLock* atomicLock;
@@ -32,10 +50,16 @@ private:
 	int nextFunctionID;
 	SSMap IDExist;
 	std::shared_ptr<master> subFunctionIDs;
-	std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo;
+	std::shared_ptr<AnimTemplate> grouptemplate;
+
+	void OutputGroupBackup(std::shared_ptr<vecstr> functionline, std::string format, std::string masterFormat, std::string behaviorFile, int groupCount,
+		vecstr templatelines, std::unordered_map<int, bool>& IsConditionOpened, std::vector<std::vector<std::unordered_map<std::string, bool>>> masterOptionPicked,
+		std::vector<int> fixedStateID);
 
 public:
-	groupTemplate(vecstr groupfunctionformat);
+	std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo;
+
+	groupTemplate(vecstr groupfunctionformat, std::shared_ptr<AnimTemplate> n_grouptemplate);
 	void getFunctionLines(std::shared_ptr<vecstr> functionline, std::string behaviorFile, std::string formatname, std::vector<int>& stateID,
 		std::shared_ptr<master> newSubFunctionIDs, std::vector<std::vector<std::shared_ptr<animationInfo>>> newGroupAnimInfo, int nFunctionID,
 		ImportContainer& import, id eventid, id variableID,
@@ -43,12 +67,12 @@ public:
 	void stateReplacer(std::string& line, std::string filename, std::string statenum, int ID, int stateID, int linecount, int groupMulti);
 	void processing(std::string& line, std::string filename, std::string masterFormat, int linecount, id eventid, id variableid, int groupMulti = -1,
 		int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
-	inline void newID();
+	void newID();
 	void setZeroEvent(std::string eventname);
 	void setZeroVariable(std::string variablename);
 };
 
-struct ExistingFunction
+struct ExistingFunction : public jointTemplate
 {
 private:
 	bool m_hasGroup;
@@ -59,8 +83,6 @@ private:
 	SSMap IDExist;
 	std::shared_ptr<master> subFunctionIDs;
 	std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo;
-	id eventid;
-	id variableid;
 
 public:
 	vecstr groupExistingFunctionProcess(int curFunctionID, vecstr existingFunctionLines, std::shared_ptr<master> newSubFunctionIDs,

@@ -1,12 +1,12 @@
 #include "DebugLog.h"
-#include <boost/thread.hpp>
+#include <boost/atomic.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 using namespace std;
 
 vecstr updatelog;
 vecstr patchlog;
-boost::mutex debugmutex;
+boost::atomic_flag atomlock = BOOST_ATOMIC_FLAG_INIT;;
 string filename = "CriticalLog.txt";
 
 string currentTime();
@@ -33,10 +33,11 @@ void DebugLogging(string line, bool noEndLine)
 		}
 	}
 
-	boost::lock_guard<boost::mutex> locker(debugmutex);
+	while (atomlock.test_and_set(boost::memory_order_acquire));
 	ofstream relog(filename, ios_base::app);
 	relog << "[" + currentTime() + "] " + line + "\n";
 	relog.close();
+	atomlock.clear(boost::memory_order_release);
 }
 
 void UpdateReset()

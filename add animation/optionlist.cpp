@@ -1,5 +1,5 @@
 #include "optionlist.h"
-#include "readtextfile.h"
+#include "functions\readtextfile.h"
 
 #pragma warning(disable:4503)
 
@@ -17,7 +17,7 @@ OptionList::OptionList(string filepath, string format)
 	templatecode = format;
 	unordered_map<string, bool> isAddOn;
 	unordered_map<string, vecstr> linked;
-	shared_ptr<TextFile> input = make_shared<TextFile>(filepath);
+	shared_ptr<FileReader> input = make_shared<FileReader>(filepath);
 
 	if (input->GetFile())
 	{
@@ -45,16 +45,17 @@ OptionList::OptionList(string filepath, string format)
 
 			if (strline.length() != 0 && strline[0] != '\'')
 			{
-				stringstream sstream(strline);
-				istream_iterator<string> ssbegin(sstream);
-				istream_iterator<string> ssend;
-				vecstr AnimInfo(ssbegin, ssend);
-				copy(AnimInfo.begin(), AnimInfo.end(), AnimInfo.begin());
-
+				vecstr AnimInfo;
+				StringSplit(strline, AnimInfo);
 				string lower = boost::algorithm::to_lower_copy(AnimInfo[0]);
 
 				if (lower == "rules")
 				{
+					if (AnimInfo.size() > 3)
+					{
+						ErrorMessage(1029, format, filepath, linecount);
+					}
+
 					if (!ruleDone)
 					{
 						string first = AnimInfo[1];
@@ -119,7 +120,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1029, format, filepath, linecount);
-							return;
 						}
 
 						ruleDone = true;
@@ -127,11 +127,15 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1040, format, filepath, linecount);
-						return;
 					}
 				}
 				else if (lower == "state")
 				{
+					if (AnimInfo.size() > 2)
+					{
+						ErrorMessage(1013, format, filepath, linecount);
+					}
+
 					if (!stateDone)
 					{
 						string startState = AnimInfo[1];
@@ -144,7 +148,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1013, format, filepath, linecount);
-							return;
 						}
 
 						stateDone = true;
@@ -152,11 +155,15 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1041, format, filepath, linecount);
-						return;
 					}
 				}
 				else if (lower == "minimum")
 				{
+					if (AnimInfo.size() > 2)
+					{
+						ErrorMessage(1194, format, filepath, linecount);
+					}
+
 					if (!minDone)
 					{
 						string number = boost::regex_replace(string(AnimInfo[1]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
@@ -164,14 +171,16 @@ OptionList::OptionList(string filepath, string format)
 						if (strline.find(AnimInfo[0] + " " + number) != NOT_FOUND)
 						{
 							groupMin = stoi(number);
+							minDone = true;
 						}
-
-						minDone = true;
+						else
+						{
+							ErrorMessage(1194, format, filepath, linecount);
+						}
 					}
 					else
 					{
 						ErrorMessage(1042, format, filepath, linecount);
-						return;
 					}
 				}
 				else if (lower == "ignore_group")
@@ -194,7 +203,6 @@ OptionList::OptionList(string filepath, string format)
 								if (linked[currentTab].size() != 0)
 								{
 									ErrorMessage(1046, currentTab, format, filepath, linecount);
-									return;
 								}
 							}
 							else
@@ -213,8 +221,12 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1036, format, filepath, linecount);
-							return;
 						}
+					}
+
+					if (AnimInfo.size() > 2)
+					{
+						ErrorMessage(1195, format, filepath, linecount);
 					}
 
 					string templine = AnimInfo[1];
@@ -222,7 +234,6 @@ OptionList::OptionList(string filepath, string format)
 					if (isElementExist[templine])
 					{
 						ErrorMessage(1063, templine, format, filepath, linecount, templine);
-						return;
 					}
 
 					isElementExist[templine] = true;
@@ -245,7 +256,6 @@ OptionList::OptionList(string filepath, string format)
 								if (nextpos == NOT_FOUND)
 								{
 									ErrorMessage(1037, format, filepath, linecount);
-									return;
 								}
 
 								string element = templine.substr(nextpos, templine.find(">", nextpos) - nextpos);
@@ -267,7 +277,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1039, format, filepath, linecount);
-							return;
 						}
 					}
 					else
@@ -284,8 +293,12 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1036, format, filepath, linecount);
-							return;
 						}
+					}
+
+					if (AnimInfo.size() > 3)
+					{
+						ErrorMessage(1196, format, filepath, linecount);
 					}
 
 					bool isLast;
@@ -301,7 +314,6 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1048, format, filepath, linecount);
-						return;
 					}
 
 					string templine = AnimInfo[2];
@@ -309,7 +321,6 @@ OptionList::OptionList(string filepath, string format)
 					if (isElementExist[templine])
 					{
 						ErrorMessage(1063, templine, format, filepath, linecount);
-						return;
 					}
 
 					if (templine.find("<") != NOT_FOUND && templine.find(">", templine.find("<")) != NOT_FOUND)
@@ -330,7 +341,6 @@ OptionList::OptionList(string filepath, string format)
 								if (nextpos == NOT_FOUND)
 								{
 									ErrorMessage(1037, format, filepath, linecount);
-									return;
 								}
 
 								string element = templine.substr(nextpos, templine.find(">", nextpos) - nextpos);
@@ -359,7 +369,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1039, format, filepath, linecount);
-							return;
 						}
 					}
 					else
@@ -385,8 +394,12 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1043, format, filepath, linecount);
-							return;
 						}
+					}
+
+					if (AnimInfo.size() > 2)
+					{
+						ErrorMessage(1197, format, filepath, linecount);
 					}
 
 					string templine = AnimInfo[1];
@@ -409,7 +422,6 @@ OptionList::OptionList(string filepath, string format)
 								if (nextpos == NOT_FOUND)
 								{
 									ErrorMessage(1037, format, filepath, linecount);
-									return;
 								}
 
 								string element = templine.substr(nextpos, templine.find(">", nextpos) - nextpos);
@@ -426,7 +438,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1039, format, filepath, linecount);
-							return;
 						}
 					}
 					else
@@ -443,8 +454,12 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>' && strline[i] != ' ')
 						{
 							ErrorMessage(1043, format, filepath, linecount);
-							return;
 						}
+					}
+
+					if (AnimInfo.size() > 3)
+					{
+						ErrorMessage(1198, format, filepath, linecount);
 					}
 
 					bool isLast;
@@ -460,7 +475,6 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1048, format, filepath, linecount);
-						return;
 					}
 
 					string templine = AnimInfo[2];
@@ -483,7 +497,6 @@ OptionList::OptionList(string filepath, string format)
 								if (nextpos == NOT_FOUND)
 								{
 									ErrorMessage(1037, format, filepath, linecount);
-									return;
 								}
 
 								string element = templine.substr(nextpos, templine.find(">", nextpos) - nextpos);
@@ -509,7 +522,6 @@ OptionList::OptionList(string filepath, string format)
 						else
 						{
 							ErrorMessage(1039, format, filepath, linecount);
-							return;
 						}
 					}
 					else
@@ -535,8 +547,12 @@ OptionList::OptionList(string filepath, string format)
 						if (!isalpha(strline[i]))
 						{
 							ErrorMessage(1044, format, filepath, linecount);
-							return;
 						}
+					}
+
+					if (AnimInfo.size() > 2)
+					{
+						ErrorMessage(1199, format, filepath, linecount);
 					}
 
 					if (!compulsoryDone)
@@ -568,7 +584,6 @@ OptionList::OptionList(string filepath, string format)
 					else
 					{
 						ErrorMessage(1045, format, filepath, linecount);
-						return;
 					}
 				}
 				else if (lower == "core")
@@ -576,7 +591,6 @@ OptionList::OptionList(string filepath, string format)
 					if (AnimInfo.size() < 2)
 					{
 						ErrorMessage(1176, format, filepath, linecount);
-						return;
 					}
 
 					core = true;
@@ -585,23 +599,26 @@ OptionList::OptionList(string filepath, string format)
 				}
 				else if (lower == "add")				// Add <option> <addon> <modifier>
 				{
+					if (AnimInfo.size() > 4)
+					{
+						ErrorMessage(1200, format, filepath, linecount);
+					}
+
 					if (AnimInfo[3].find("$$$") == NOT_FOUND)
 					{
 						ErrorMessage(1006, format, filepath, linecount, strline);
-						return;
 					}
 
 					if (AnimInfo[3] == "$$$")
 					{
 						ErrorMessage(1005, format, filepath, linecount, strline);
-						return;
 					}
 
 					modAddOn[AnimInfo[1]][AnimInfo[2]] = AnimInfo[3];
 				}
 				else if (lower == "animobject")
 				{
-					if (AnimInfo.size() != 2 || !isOnlyNumber(AnimInfo.back()))
+					if (AnimInfo.size() > 2 || !isOnlyNumber(AnimInfo[1]))
 					{
 						ErrorMessage(1175, format, filepath, linecount, strline);
 					}
@@ -617,18 +634,15 @@ OptionList::OptionList(string filepath, string format)
 						if (ID == "0")
 						{
 							ErrorMessage(1076, format, filepath, linecount);
-							return;
 						}
 
 						if (AnimInfo.size() < 3)
 						{
 							ErrorMessage(1069, format, filepath, linecount);
-							return;
 						}
 						else if (AnimInfo.size() > 3)
 						{
 							ErrorMessage(1070, format, filepath, linecount);
-							return;
 						}
 
 						string functionID = boost::regex_replace(string(AnimInfo[2]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
@@ -636,13 +650,11 @@ OptionList::OptionList(string filepath, string format)
 						if (AnimInfo[2] != "#" + functionID)
 						{
 							ErrorMessage(1071, format, filepath, linecount);
-							return;
 						}
 
 						if (behaviorPath[boost::algorithm::to_lower_copy(AnimInfo[1])].length() == 0)
 						{
 							ErrorMessage(1083, AnimInfo[1], format, filepath, linecount);
-							return;
 						}
 
 						multiState[boost::algorithm::to_lower_copy(AnimInfo[1])][stoi(ID)] = stoi(functionID);
@@ -655,36 +667,31 @@ OptionList::OptionList(string filepath, string format)
 						if (lineplus > 4 || lineplus < 1)
 						{
 							ErrorMessage(1011, format, filepath, linecount, AnimInfo[0]);
-							return;
 						}
 
 						string tempOption = strline.substr(0, lineplus);
 						string recontext = tempOption;
 
-						if (boost::iequals(tempOption, "k") || boost::iequals(tempOption, "bsa"))
+						if ((boost::iequals(tempOption, templatecode) && strline == tempOption) || boost::iequals(tempOption, "k") || boost::iequals(tempOption, "bsa"))
 						{
 							ErrorMessage(1049, tempOption, format, filepath, linecount);
-							return;
 						}
 
-						if (strline.find("<", lineplus) != NOT_FOUND && strline.find(">", lineplus) != NOT_FOUND)
+						if (strline.find("<", lineplus) != NOT_FOUND && strline.find(">", lineplus + 1) != NOT_FOUND)
 						{
 							if (boost::iequals(tempOption, "animobject") || boost::iequals(tempOption, "end"))
 							{
 								ErrorMessage(1049, tempOption, format, filepath, linecount);
-								return;
 							}
 
 							if (tempOption == format)
 							{
 								ErrorMessage(1064, format, filepath, linecount);
-								return;
 							}
 
 							if (storelist[tempOption])
 							{
 								ErrorMessage(1177, format, filepath, linecount, tempOption);
-								return;
 							}
 
 							storelist[tempOption] = true;
@@ -707,7 +714,6 @@ OptionList::OptionList(string filepath, string format)
 									if (tempAddOn != addition)
 									{
 										ErrorMessage(1015, format, filepath, linecount);
-										return;
 									}
 									else
 									{
@@ -741,7 +747,6 @@ OptionList::OptionList(string filepath, string format)
 							else
 							{
 								ErrorMessage(1014, format, filepath, linecount);
-								return;
 							}
 
 							boost::algorithm::erase_all(strline, " ");
@@ -749,7 +754,6 @@ OptionList::OptionList(string filepath, string format)
 							if (recontext != strline)
 							{
 								ErrorMessage(1033, format, filepath, linecount);
-								return;
 							}
 						}
 						else
@@ -761,26 +765,22 @@ OptionList::OptionList(string filepath, string format)
 								if (!isalnum(strline[i]) && strline[i] != '[' && strline[i] != ']')
 								{
 									ErrorMessage(1012, format, filepath, linecount);
-									return;
 								}
 							}
 
 							if (boost::iequals(tempOption, "animobject") || tempOption == "D")
 							{
 								ErrorMessage(1049, tempOption, format, filepath, linecount);
-								return;
 							}
 
 							if (tempOption == format)
 							{
 								ErrorMessage(1064, format, filepath, strline);
-								return;
 							}
 
 							if (storelist[tempOption])
 							{
 								ErrorMessage(1177, format, filepath, linecount, tempOption);
-								return;
 							}
 
 							storelist[tempOption] = true;
@@ -789,7 +789,6 @@ OptionList::OptionList(string filepath, string format)
 							if (strline.length() > 2 && strline.substr(strline.length() - 2) == "[]")
 							{
 								ErrorMessage(1022, format, filepath, linecount);
-								return;
 							}
 
 							boost::algorithm::erase_all(strline, " ");
@@ -797,16 +796,10 @@ OptionList::OptionList(string filepath, string format)
 							if (recontext != strline)
 							{
 								ErrorMessage(1033, format, filepath, linecount);
-								return;
 							}
 						}
 					}
 				}
-			}
-
-			if (error)
-			{
-				return;
 			}
 		}
 
@@ -815,7 +808,6 @@ OptionList::OptionList(string filepath, string format)
 			if (!isNumExist[i])
 			{
 				ErrorMessage(1024, isNumExist.size(), format, filepath, linecount);
-				return;
 			}
 		}
 
@@ -836,12 +828,6 @@ OptionList::OptionList(string filepath, string format)
 			if (!isMatched)
 			{
 				ErrorMessage(1038, format, filepath, matchLine[*it], *it);
-				return;
-			}
-
-			if (error)
-			{
-				return;
 			}
 		}
 
@@ -868,7 +854,6 @@ OptionList::OptionList(string filepath, string format)
 					if (!pass)
 					{
 						ErrorMessage(1007, it->first, iter->first, format, filepath, linecount);
-						return;
 					}
 				}
 			}
@@ -877,32 +862,23 @@ OptionList::OptionList(string filepath, string format)
 				if (!storelist[it->first])
 				{
 					WarningMessage(1025, it->first, format, filepath, linecount);
-					error = true;
 					return;
 				}
 				else
 				{
 					ErrorMessage(1010, format, filepath, linecount, it->first);
-					return;
 				}
-			}
-
-			if (error)
-			{
-				return;
 			}
 		}
 	}
 	else
 	{
 		ErrorMessage(1009, format, filepath);
-		return;
 	}
 
 	if (eleEvent.size() != eleEventLine.size() || eleEventGroupF.size() != eleEventGroupFLine.size() || eleEventGroupL.size() != eleEventGroupLLine.size() || eleVar.size() != eleVarLine.size() || eleVarGroupF.size() != eleVarGroupFLine.size() || eleVarGroupL.size() != eleVarGroupLLine.size())
 	{
 		ErrorMessage(1047);
-		return;
 	}
 
 	if (ignoreGroup)
@@ -910,13 +886,11 @@ OptionList::OptionList(string filepath, string format)
 		if (eleEventGroupF.size() != 0 || eleEventGroupL.size() != 0)
 		{
 			ErrorMessage(1080, format, filepath);
-			return;
 		}
 
 		if (eleVarGroupF.size() != 0 || eleVarGroupL.size() != 0)
 		{
 			ErrorMessage(1080, format, filepath);
-			return;
 		}
 	}
 
@@ -962,9 +936,7 @@ OptionList::OptionList(string filepath, string format)
 				}
 
 				ErrorMessage(1062, format, filepath, errorElements);
-				return;
 			}
-
 		}
 	}
 	
@@ -984,7 +956,6 @@ OptionList::OptionList(string filepath, string format)
 						if (addOn[it->first][j] != addOn[it->second[i]][j])
 						{
 							ErrorMessage(1053, format, filepath);
-							return;
 						}
 					}
 
@@ -994,12 +965,6 @@ OptionList::OptionList(string filepath, string format)
 				else
 				{
 					ErrorMessage(1053, format, filepath);
-					return;
-				}
-
-				if (error)
-				{
-					return;
 				}
 			}
 		}
@@ -1010,103 +975,83 @@ OptionList::OptionList(string filepath, string format)
 	{
 		if (ignoreGroup)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (groupMin != -1)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (startStateID.length() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (ruleOne.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (ruleTwo.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (compulsory.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (optionOrder.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (multiState.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (storelist.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (groupOption.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (mixOptRegis.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (mixOptRever.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (addOn.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (joint.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (eleEvent.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (eleEventGroupF.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (eleEventGroupL.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (eleVar.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (eleVarGroupF.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 		else if (eleVarGroupL.size() != 0)
 		{
-			throwError(format, filepath);
-			return;
+			ErrorMessage(1084, format, filepath);
 		}
 	}
 
@@ -1157,9 +1102,4 @@ bool optionMatching(string option1, string option2)
 	}
 
 	return true;
-}
-
-void throwError(string format, string filepath)
-{
-	ErrorMessage(1084, format, filepath);
 }

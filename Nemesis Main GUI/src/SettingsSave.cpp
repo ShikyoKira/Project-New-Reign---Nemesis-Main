@@ -3,17 +3,17 @@
 #include "Global.h"
 #include "alphanum.hpp"
 #include "ErrorMsgBox.h"
+#include "functions\writetextfile.h"
 
 void createLanguageCache(std::string language)
 {
 	if (CreateFolder("cache"))
 	{
-		std::ofstream cachefile("cache\\language setting");
+		FileWriter cachefile("cache\\language setting");
 
 		if (cachefile.is_open())
 		{
 			cachefile << language;
-			cachefile.close();
 		}
 		else
 		{
@@ -29,7 +29,7 @@ void createModCache(std::vector<std::string> chosenBehavior)
 {
 	if (CreateFolder("cache"))
 	{
-		std::ofstream cachefile("cache\\mod settings");
+		FileWriter cachefile("cache\\mod settings");
 
 		if (cachefile.is_open())
 		{
@@ -37,8 +37,6 @@ void createModCache(std::vector<std::string> chosenBehavior)
 			{
 				cachefile << line + "\n";
 			}
-
-			cachefile.close();
 		}
 		else
 		{

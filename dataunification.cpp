@@ -7,7 +7,7 @@ using namespace std;
 
 void CombineAnimData(string filename, string characterfile, string modcode, string filepath, vecstr storeline, vecstr originallines, MasterAnimData& animData, bool isHeader);
 
-bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, string>& lastUpdate)
+bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, map<string, vecstr>& newFile, unordered_map<string, string>& lastUpdate)
 {
 	vecstr nodelist;
 	read_directory(folderpath + "\\" + behaviorfile, nodelist);
@@ -55,11 +55,8 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 						{
 							if (curline.find("			#") != NOT_FOUND)
 							{
-								stringstream sstream(curline);
-								istream_iterator<string> ssbegin(sstream);
-								istream_iterator<string> ssend;
-								vector<string> curElements(ssbegin, ssend);
-								copy(curElements.begin(), curElements.end(), curElements.begin());
+								vecstr curElements;
+								StringSplit(curline, curElements);
 
 								for (auto& element : curElements)
 								{
@@ -82,18 +79,9 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 			}
 
 			string nodeID = nodelist[k].substr(0, nodelist[k].find_last_of("."));
-			vecstr originallines = newFile[behaviorfile][nodeID];
+			vecstr originallines = newFile[nodeID];
 
-			if (error)
-			{
-				return false;
-			}
-
-			if (originallines.size() == 0)
-			{
-				ErrorMessage(1170, modcode, curfile.string());
-				return false;
-			}
+			if (originallines.size() == 0) ErrorMessage(1170, modcode, curfile.string());
 
 			bool close = false;
 			unordered_map<int, bool> conditionOpen;
@@ -103,15 +91,15 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 			vecstr newlines;
 			vecstr combinelines;
 
-			for (unsigned int k = 0; k < storeline.size(); ++k)
+			for (string& curline : storeline)
 			{
-				if (storeline[k].find("<!-- CONDITION START ") != NOT_FOUND)
+				if (curline.find("<!-- CONDITION START ") != NOT_FOUND)
 				{
 					++conditionLvl;
 					conditionOpen[conditionLvl] = true;
 				}
 
-				if (storeline[k].find("<!-- NEW", 0) == NOT_FOUND && !close)
+				if (curline.find("<!-- NEW", 0) == NOT_FOUND && !close)
 				{
 					if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND)
 					{
@@ -135,10 +123,10 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 							}
 						}
 					}
-					else if (storeline[k].find("<!-- ", 0) != NOT_FOUND && storeline[k].find("numelements +", storeline[k].find("<!-- ")) != NOT_FOUND)
+					else if (curline.find("<!-- ", 0) != NOT_FOUND && curline.find("numelements +", curline.find("<!-- ")) != NOT_FOUND)
 					{
-						size_t position = storeline[k].find("<!-- ");
-						string templine = storeline[k].substr(position, storeline[k].find("-->", position) - position + 3);
+						size_t position = curline.find("<!-- ");
+						string templine = curline.substr(position, curline.find("-->", position) - position + 3);
 
 						if (originallines[linecount].find("<!-- ", 0) != NOT_FOUND && originallines[linecount].find("-->", 0) != NOT_FOUND)
 						{
@@ -150,9 +138,9 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 						}
 					}
 
-					if (storeline[k].find("<!-- CONDITION END -->") != NOT_FOUND)
+					if (curline.find("<!-- CONDITION END -->") != NOT_FOUND)
 					{
-						combinelines.push_back(storeline[k]);
+						combinelines.push_back(curline);
 						conditionOri = false;
 						conditionOpen[conditionLvl] = false;
 						--conditionLvl;
@@ -164,10 +152,10 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 					}
 					else
 					{
-						combinelines.push_back(storeline[k]);
+						combinelines.push_back(curline);
 					}
 				}
-				else if (close && storeline[k].find("<!-- CLOSE -->", 0) != NOT_FOUND)
+				else if (close && curline.find("<!-- CLOSE -->", 0) != NOT_FOUND)
 				{
 					if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND)
 					{
@@ -193,7 +181,7 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 					}
 
 					combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
-					combinelines.push_back(storeline[k]);
+					combinelines.push_back(curline);
 					newlines.clear();
 					close = false;
 				}
@@ -202,15 +190,11 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 					close = true;
 				}
 
-				if (storeline[k].find("<!-- CONDITION -->") != NOT_FOUND)
-				{
-					conditionOri = true;
-				}
+				if (curline.find("<!-- CONDITION -->") != NOT_FOUND) conditionOri = true;
 
-				if (close)
-				{
-					newlines.push_back(storeline[k]);
-				}
+				if (error) throw nemesis::exception();
+
+				if (close) newlines.push_back(curline);
 			}
 
 			if (combinelines.size() != 0 && combinelines.back().length() != 0)
@@ -218,7 +202,7 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, un
 				combinelines.push_back("");
 			}
 
-			newFile[behaviorfile][nodeID] = combinelines;
+			newFile[nodeID] = combinelines;
 		}
 	}
 
@@ -241,10 +225,7 @@ bool animDataHeaderUpdate(string folderpath, string modcode, MasterAnimData& ani
 
 	CombineAnimData(folderpath, "$haeder$", modcode, GetFileDirectory(folderpath) + "\\$header$", storeline, animData.animDataChar, animData, true);
 
-	if (error)
-	{
-		return false;
-	}
+	if (error) throw nemesis::exception();
 
 	return true;
 }
@@ -289,7 +270,6 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 						if (!isOnlyNumber(tempname) || !hasAlpha(filename.substr(0, filename.find("~"))))
 						{
 							ErrorMessage(2004, filepath);
-							return false;
 						}
 					}
 				}
@@ -356,20 +336,16 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 				if (!isNew)
 				{
 					CombineAnimData(filename, characterfile, modcode, filepath, storeline, animData.newAnimData[project][filename], animData, false);
-					
-					if (error)
-					{
-						return false;
-					}
 				}
 				else
 				{
 					if (filename[0] == '$' && (filename.back() == '$' || filename.find_last_of("$UC") == filename.length() - 1))
 					{
 						ErrorMessage(2004, filepath);
-						return false;
 					}
 				}
+
+				if (error) throw nemesis::exception();
 
 				break;
 			}
@@ -421,22 +397,21 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 				vecstr newlines;
 				vecstr combinelines;
 
-				for (unsigned int k = 0; k < storeline.size(); ++k)
+				for (string& line : storeline)
 				{
 					// condition function is not supported for animationsetdatasinglefile
-					if (storeline[k].find("<!-- CONDITION") != NOT_FOUND)
+					if (line.find("<!-- CONDITION") != NOT_FOUND)
 					{
 						ErrorMessage(1173, filename, modcode, k + 1);
-						return false;
 					}
 
-					if (storeline[k].find("<!-- CONDITION START ") != NOT_FOUND)
+					if (line.find("<!-- CONDITION START ") != NOT_FOUND)
 					{
 						++conditionLvl;
 						conditionOpen[conditionLvl] = true;
 					}
 
-					if (storeline[k].find("<!-- NEW", 0) == NOT_FOUND && !close)
+					if (line.find("<!-- NEW", 0) == NOT_FOUND && !close)
 					{
 						if (linecount < int(originallines.size()) && originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND)
 						{
@@ -461,9 +436,9 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 							}
 						}
 
-						if (storeline[k].find("<!-- CONDITION END -->") != NOT_FOUND)
+						if (line.find("<!-- CONDITION END -->") != NOT_FOUND)
 						{
-							combinelines.push_back(storeline[k]);
+							combinelines.push_back(line);
 							conditionOri = false;
 							conditionOpen[conditionLvl] = false;
 							--conditionLvl;
@@ -475,10 +450,10 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 						}
 						else
 						{
-							combinelines.push_back(storeline[k]);
+							combinelines.push_back(line);
 						}
 					}
-					else if (close && storeline[k].find("<!-- CLOSE -->", 0) != NOT_FOUND)
+					else if (close && line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
 					{
 						if (linecount < int(originallines.size()) && originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND)
 						{
@@ -504,7 +479,7 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 						}
 
 						combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
-						combinelines.push_back(storeline[k]);
+						combinelines.push_back(line);
 						newlines.clear();
 						close = false;
 					}
@@ -513,15 +488,11 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 						close = true;
 					}
 
-					if (storeline[k].find("<!-- CONDITION -->") != NOT_FOUND)
-					{
-						conditionOri = true;
-					}
+					if (line.find("<!-- CONDITION -->") != NOT_FOUND) conditionOri = true;
 
-					if (close)
-					{
-						newlines.push_back(storeline[k]);
-					}
+					if (error) throw nemesis::exception();
+
+					if (close) newlines.push_back(line);
 				}
 
 				animSetData.newAnimSetData[projectfile][lowerheader] = combinelines;
@@ -534,7 +505,7 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 
 void behaviorJointsOutput()
 {
-	unordered_map<string, vector<string>> combinedBehaviorJoints;
+	unordered_map<string, vecstr> combinedBehaviorJoints;
 
 	for (auto it = behaviorJoints.begin(); it != behaviorJoints.end(); ++it)
 	{
@@ -550,32 +521,31 @@ void behaviorJointsOutput()
 			combinedBehaviorJoints[it->first] = temp;
 			break;
 		}
+
+		if (error) throw nemesis::exception();
 	}
 
-	ofstream output("behavior_joints");
+	FileWriter output("behavior_joints");
 
 	if (output.is_open())
 	{
-		FunctionWriter fwriter(&output);
-
 		for (auto it : combinedBehaviorJoints)
 		{
-			fwriter << it.first << "\n";
+			output << it.first << "\n";
 
 			for (unsigned int i = 0; i < it.second.size(); ++i)
 			{
-				fwriter << it.second[i] << "\n";
+				output << it.second[i] << "\n";
 			}
 
-			fwriter << "\n";
+			output << "\n";
 		}
 
-		output.close();
+		if (error) throw nemesis::exception();
 	}
 	else
 	{
 		ErrorMessage(2009, "behavior_joint");
-		return;
 	}
 }
 
@@ -618,7 +588,6 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 		else
 		{
 			ErrorMessage(3006, characterfile, filename);
-			return;
 		}
 	}
 	else
@@ -633,7 +602,6 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 		if (storeline[k].find("<!-- CONDITION") != NOT_FOUND)
 		{
 			ErrorMessage(1173, filepath, modcode, k + 1);
-			return;
 		}
 
 		if (storeline[k].find("<!-- CONDITION START ") != NOT_FOUND)
@@ -724,17 +692,13 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 				{
 					namespace AD = AnimDataFormat;
 					AD::position position = AnimDataPosition(storeline, characterfile, filename, modcode, filepath, linecount, type);
-
-					if (error)
-					{
-						return;
-					}
-
+					
 					if (position != AD::behaviorfilelist && position != AD::eventnamelist && position != AD::motiondatalist && position != AD::rotationdatalist)
 					{
 						ErrorMessage(3018, modcode, characterfile, filename);
-						return;
 					}
+
+					if (error) throw nemesis::exception();
 				}
 			}
 
@@ -754,6 +718,8 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 		{
 			newlines.push_back(storeline[k]);
 		}
+
+		if (error) throw nemesis::exception();
 	}
 
 	combinelines.shrink_to_fit();
