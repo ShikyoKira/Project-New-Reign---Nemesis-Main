@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QWidget>
+#include <QCloseEvent>
 #include <QThread>
 #include <QTimer>
 #include "ui_NemesisMainGUI.h"
@@ -11,6 +12,9 @@ class NemesisMainGUI : public QWidget
 {
 	Q_OBJECT
 		
+private:
+	bool terminated = false;
+
 public:
 	Ui::NemesisMainGUIClass ui;
 	std::atomic_flag lock = ATOMIC_FLAG_INIT;
@@ -20,9 +24,13 @@ public:
 	NemesisMainGUI(QWidget *parent = Q_NULLPTR);
 	~NemesisMainGUI();
 
+	void closeEvent(QCloseEvent* curEvent);
+
 private slots:
 	void handleButton1()
 	{
+		if (terminated) return;
+
 		ui.textBrowser->clear();
 		ui.textBrowser->append(QString::fromStdString(TextBoxMessage(1002)));
 		ui.progressBar->setHidden(false);
@@ -88,6 +96,8 @@ private slots:
 
 	void handleButton2()
 	{
+		if (terminated) return;
+
 		ui.progressBar->setHidden(false);
 		ui.progressBar->setValue(0);
 		ui.buttonLaunch->setDisabled(true);
@@ -112,6 +122,7 @@ private slots:
 		connect(worker, SIGNAL(enable(bool)), ui.modView, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(hide(bool)), ui.progressBar, SLOT(setHidden(bool)));
 
+		connect(worker, SIGNAL(end()), this, SLOT(firstKeyNull()));
 		connect(worker, SIGNAL(end()), thread, SLOT(quit()));
 		connect(worker, SIGNAL(end()), worker, SLOT(deleteLater()));
 		connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
@@ -122,6 +133,8 @@ private slots:
 
 	void handleButton3()
 	{
+		if (terminated) return;
+
 		ui.buttonLaunch->setDisabled(true);
 		ui.buttonUpdate->setDisabled(true);
 		ui.buttonCheck->setDisabled(true);
@@ -147,6 +160,8 @@ private slots:
 
 	void sendMessage(QString input)
 	{
+		if (terminated) return;
+
 		ui.textBrowser->append(input);
 		ui.textBrowser->verticalScrollBar()->setValue(ui.textBrowser->verticalScrollBar()->maximum());
 		ui.textBrowser->ensureCursorVisible();
@@ -154,6 +169,8 @@ private slots:
 
 	void languageChange(QString language)
 	{
+		if (terminated) return;
+
 		delete ui.DMsg;
 		ui.DMsg = new DebugMsg(language.toStdString());
 		createLanguageCache(language.toStdString());
@@ -202,5 +219,22 @@ private slots:
 
 			lock.clear(std::memory_order_release);
 		}
+	}
+
+	void firstKeyNull()
+	{
+		HKEY hKey;
+		LONG nError = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Nemesis"), NULL, KEY_ALL_ACCESS, &hKey);
+
+		if (nError == ERROR_SUCCESS)
+		{
+			DWORD data = 0;
+			nError = RegSetKeyValue(hKey, LPCWSTR(ui.subkeys.c_str()), TEXT("first"), REG_DWORD, &data, sizeof(DWORD));
+
+			if (nError != ERROR_SUCCESS) DebugLogging("Failed to update registry key value");
+		}
+		else DebugLogging("Failed to open registry key");
+
+		RegCloseKey(hKey);
 	}
 };
