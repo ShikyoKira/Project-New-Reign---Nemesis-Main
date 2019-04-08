@@ -1,24 +1,30 @@
-#include "alternateanimation.h"
-#include "readtextfile.h"
 #include <boost\algorithm\string.hpp>
 #include <boost\process.hpp>
 #include <boost\process\windows.hpp>
-#include <boost/iostreams/device/array.hpp>
-#include <boost/iostreams/stream_buffer.hpp>
+#include <boost\iostreams\device\array.hpp>
+#include <boost\iostreams\stream_buffer.hpp>
 #include <boost\crc.hpp>
+#include <QtCore\QStandardPaths.h>
+#include "functions\readtextfile.h"
+#include "functions\writetextfile.h"
 #include "generator_utility.h"
+#include "alternateanimation.h"
+#include "Nemesis Main GUI\src\utilities\filerelease.h"
 
 #pragma warning(disable:4503)
 
 using namespace std;
 
-unordered_map<string, int> AAgroupCount;
+unordered_map<string, int> AAgroup_Counter;
 
-bool AACoreCompile(string filename, string import, string destination, string filepath, vecstr& newFunctions, unsigned int& uniquekey);
-bool AAnimAPICompile(string filename, string import, string destination, string filepath, vecstr& newFunctions, unsigned int& uniquekey);
+bool AACoreCompile(string filename, string import, string destination, string filepath, string appdata_path, vecstr& newFunctions, unsigned int& maxGroup,
+	unsigned int& uniquekey);
+bool AAnimAPICompile(string filename, string import, string destination, string filepath, string appdata_path, vecstr& newFunctions, unsigned int maxGroup,
+	unsigned int& uniquekey);
 void fixedKeyInitialize();
 unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
-bool PapyrusCompileProcess(string pscfile, string import, string destination, string filepath, boost::filesystem::path compiler);
+bool PapyrusCompileProcess(string pscfile, string import, string destination, string filepath, string appdata_path, boost::filesystem::path compiler, bool tryagain = false);
+void ByteCopyToData(string target, string destination);
 
 struct ModIDByGroup
 {
@@ -28,21 +34,21 @@ struct ModIDByGroup
 
 void AAInitialize(string AAList)
 {
-	vecstr groupName;
+	vecstr groupList;
 	char charline[2000];
 	unordered_map<string, string> existAAAnim;			// animation name, animation group name; has the animation been registered for AA?
 	DebugLogging("Caching alternate animation group...");
-	read_directory(AAList, groupName);
+	read_directory(AAList, groupList);
 
-	for (unsigned int i = 0; i < groupName.size(); ++i)
+	for(string& groupName : groupList)
 	{
-		if (!boost::iequals(groupName[i], "alternate animation.script") && boost::filesystem::path(AAList + "\\" + groupName[i]).extension().string() == ".txt")
+		if (!boost::iequals(groupName, "alternate animation.script") && boost::filesystem::path(AAList + "\\" + groupName).extension().string() == ".txt")
 		{
-			shared_ptr<TextFile> doc = make_shared<TextFile>(AAList + "\\" + groupName[i]);
+			shared_ptr<FileReader> doc = make_shared<FileReader>(AAList + "\\" + groupName);
 
 			if (doc->GetFile())
 			{
-				string AAGroupName = groupName[i].substr(0, groupName[i].find_last_of("."));
+				string AAGroupName = groupName.substr(0, groupName.find_last_of("."));
 
 				while (fgets(charline, 2000, doc->GetFile()))
 				{
@@ -64,11 +70,11 @@ void AAInitialize(string AAList)
 							AAGroup[lowerAnimFile] = lowerGroupName;
 							existAAAnim[lowerAnimFile] = lowerGroupName;
 							groupNameList.insert(lowerGroupName);
+							groupNameList.insert(lowerGroupName + "_1p*");
 						}
 						else
 						{
 							ErrorMessage(4001, AAGroupName, existAAAnim[lowerAnimFile]);
-							return;
 						}
 					}
 				}
@@ -76,7 +82,6 @@ void AAInitialize(string AAList)
 			else
 			{
 				ErrorMessage(4000, AAList);
-				return;
 			}
 		}
 	}
@@ -92,63 +97,71 @@ bool AAInstallation()
 	}
 
 	unsigned int uniquekey;
+	wstring cachedir = QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString() + L"/Nemesis";
+	replace(cachedir.begin(), cachedir.end(), '/', '\\');
 
-	string import;
+	try
+	{
+		boost::filesystem::create_directories(cachedir);
+	}
+	catch (const exception& ex)
+	{
+		ErrorMessage(6002, ex.what());
+	}
+
+	if (error) throw nemesis::exception();
+
+	namespace bf = boost::filesystem;
+	string import = skyrimDataPath->GetDataPath() + (SSE ? "source\\scripts" : "scripts\\source");
 	string destination = skyrimDataPath->GetDataPath() + "scripts";
-
-	if (SSE)
-	{
-		import = skyrimDataPath->GetDataPath() + "source\\scripts";
-	}
-	else
-	{
-		import = skyrimDataPath->GetDataPath() + "scripts\\source";
-	}
-
-	string pscfile = import + "\\Nemesis_AA_Core.psc";
+	bf::path source("alternate animation\\alternate animation.script");
+	bf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
 	string filepath = destination + "\\Nemesis_AA_Core.pex";
-	DebugLogging(pscfile);
+	bf::copy_file(source, pscfile, bf::copy_option::overwrite_if_exists);
+	DebugLogging(pscfile.string());
 	DebugLogging(filepath);
 
 	if (!FolderCreate(import))
 	{
-		return false;
+		ErrorMessage(2010, import);
 	}
 
+	if (!isFileExist(import))
+	{
+		ErrorMessage(2010, import);
+	}
+
+	unsigned int maxGroup;
+	string sCacheDir = bf::path(cachedir).string();
 	fixedKeyInitialize();
-	boost::filesystem::path source("alternate animation\\alternate animation.script");
-	boost::filesystem::path target(pscfile);
-	boost::filesystem::copy_file(source, target, boost::filesystem::copy_option::overwrite_if_exists);	
 	vecstr newFunctions;
 	
-	if (!AACoreCompile(pscfile, import, destination, filepath, newFunctions, uniquekey))
+	if (!AACoreCompile(pscfile.string(), import, destination, filepath, sCacheDir, newFunctions, maxGroup, uniquekey))
 	{
 		return false;
 	}
 
-	if (error)
-	{
-		return false;
-	}
+	if (error) throw nemesis::exception();
 
-	pscfile = import + "\\FNIS_aa.psc";
+	source = bf::path("alternate animation\\alternate animation 2.script");
+	pscfile = bf::path(cachedir + L"\\FNIS_aa.psc");
 	filepath = destination + "\\FNIS_aa.pex";
-	DebugLogging(pscfile);
+	bf::copy_file(source, pscfile, bf::copy_option::overwrite_if_exists);
+	DebugLogging(pscfile.string());
 	DebugLogging(filepath);
 
-	source = boost::filesystem::path("alternate animation\\alternate animation 2.script");
-	target = boost::filesystem::path(pscfile);
-	boost::filesystem::copy_file(source, target, boost::filesystem::copy_option::overwrite_if_exists);
-
-	if (!AAnimAPICompile(pscfile, import, destination, filepath, newFunctions, uniquekey))
+	if (!AAnimAPICompile(pscfile.string(), import, destination, filepath, sCacheDir, newFunctions, maxGroup, uniquekey))
 	{
 		return false;
 	}
+
+	if (error) throw nemesis::exception();
 
 	return true;
 }
 
-bool AACoreCompile(string filename, string import, string destination, string filepath, vecstr& newFunctions, unsigned int& uniquekey)
+bool AACoreCompile(string filename, string import, string destination, string filepath, string appdata_path, vecstr& newFunctions, unsigned int& maxGroup,
+	unsigned int& uniquekey)
 {
 	bool prefixDone = false;
 	set<string> prefixList;
@@ -164,14 +177,10 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 	vecstr storeline;
 	vecstr newline;
 	newline.reserve(storeline.size());
-
-	if (!GetFunctionLines(filename, storeline))
-	{
-		return false;
-	}
+	GetFunctionLines(filename, storeline);
 
 	int AACounter = 0;
-	int i = 0;
+	maxGroup = 0;
 
 	for (auto& groupName : groupNameList)
 	{
@@ -184,26 +193,26 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 	if (prefixList.size() > 0)			// Assign mod ID
 	{
 		auto& nextprefix = prefixList.begin();
-		string templine = "	if(curAAPrefix == \"" + *nextprefix + "\")";
+		string templine = "	if (curAAPrefix == \"" + *nextprefix + "\")";
 		string rr = "		return 0";
-		prefixID[*nextprefix] = i;
+		prefixID[*nextprefix] = maxGroup;
 		prefixlines.push_back(templine);
 		prefixlines.push_back(rr);
 		++nextprefix;
-		++i;
+		++maxGroup;
 
 		for (auto& prefix = nextprefix; prefix != prefixList.end(); ++prefix)
 		{
-			templine = "	elseif(curAAPrefix == \"" + *prefix + "\")";
-			rr = "		return " + to_string(i);
-			prefixID[*prefix] = i;
+			templine = "	elseif (curAAPrefix == \"" + *prefix + "\")";
+			rr = "		return " + to_string(maxGroup);
+			prefixID[*prefix] = maxGroup;
 			prefixlines.push_back(templine);
 			prefixlines.push_back(rr);
-			++i;
+			++maxGroup;
 		}
 	}
 
-	i = 0;
+	maxGroup = 0;
 	DebugLogging("AA prefix script complete");
 
 	if (groupNameList.size() > 0)		// Assign base value
@@ -213,6 +222,10 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 
 		for (auto& groupName : groupNameList)
 		{
+			string adjGN = groupName;
+
+			if (groupName.rfind("_1p*") == groupName.length() - 4) adjGN.pop_back();
+
 			for (auto& prefix : prefixID)
 			{
 				for (unsigned int j = 0; j < groupAAPrefix[groupName].size(); ++j)
@@ -221,15 +234,16 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 					{
 						string templine = "	AASet[num] = ";
 						templine.replace(templine.find("num"), 3, to_string(AACounter));
-						string number = to_string(prefix.second / 10) + to_string(prefix.second % 10) + to_string(i / 10) + to_string(i % 10);
-						string AAgroupID = to_string(i / 10) + to_string(i % 10);
+						string number = to_string(prefix.second / 10) + to_string(prefix.second % 10) + to_string(maxGroup / 100) + to_string(maxGroup % 100 / 10) +
+							to_string(maxGroup % 10);
+						string AAgroupID = to_string(maxGroup / 10) + to_string(maxGroup % 10);
 
-						if (groupIDCounter[groupName] == 0)
+						if (groupIDCounter[adjGN] == 0)
 						{
-							groupIDCounter[groupName] = 1;
+							groupIDCounter[adjGN] = 1;
 						}
 
-						string counter = to_string(groupIDCounter[groupName]);
+						string counter = to_string(groupIDCounter[adjGN]);
 						string base = counter.substr(0, 3);
 						ModIDByGroup mod;
 						mod.groupBase = base;
@@ -239,17 +253,16 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 						if (AAGroupCount[groupAAPrefix[groupName][j]][groupName] == 0)
 						{
 							ErrorMessage(3013, groupAAPrefix[groupName][j], groupName);
-							return false;
 						}
 
-						groupIDCounter[groupName] += AAGroupCount[groupAAPrefix[groupName][j]][groupName];
+						groupIDCounter[adjGN] += AAGroupCount[groupAAPrefix[groupName][j]][groupName];
 
 						while (counter.length() < 3)
 						{
 							counter = "0" + counter;
 						}
 
-						baseOrder["AAgroupID == " + AAgroupID] = "		return " + to_string(++AAgroupCount[groupName]);
+						baseOrder["AAgroupID == " + AAgroupID] = "		return " + to_string(++AAgroup_Counter[adjGN]);
 						baseMatch.push_back("DataCode == " + number + "000");
 						baseMatch.push_back("		return " + base);
 						number = number + counter.substr(0, 3);
@@ -261,25 +274,25 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 			}
 
 			// Assign animation group ID
-			newFunctions.push_back("int Function " + groupName + "() global");
-			groupID.push_back(groupName);
-			groupID.push_back(to_string(i));
-			newFunctions.push_back("	return " + to_string(i));
+			newFunctions.push_back("int Function " + adjGN + "() global");
+			groupID.push_back(adjGN);
+			groupID.push_back(to_string(maxGroup));
+			newFunctions.push_back("	return " + to_string(maxGroup));
 			newFunctions.push_back("endFunction");
 			newFunctions.push_back("");
-			++i;
+			++maxGroup;
 		}
 
 		if (groupID.size() > 0)
 		{
-			groupIDFunction.push_back("	if groupName == \"" + groupID[0] + "\"");
+			groupIDFunction.push_back("	if (groupName == \"" + groupID[0] + "\")");
 			groupIDFunction.push_back("		return " + groupID[1]);
 
 			for (unsigned int k = 2; k < groupID.size(); ++k)
 			{
 				if (k % 2 == 0)
 				{
-					groupIDFunction.push_back("	elseif groupName == \"" + groupID[k] + "\"");
+					groupIDFunction.push_back("	elseif (groupName == \"" + groupID[k] + "\")");
 				}
 				else
 				{
@@ -304,22 +317,14 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 
 		if (line.find("AASet[num] = ") != NOT_FOUND)
 		{
-			for (auto& AALine : groupAAlines)
-			{
-				newline.push_back(AALine);
-			}
-
+			newline.insert(newline.end(), groupAAlines.begin(), groupAAlines.end());
 			skip = true;
 		}
 		else if (line.find("(curAAPrefix == ") != NOT_FOUND)
 		{
 			if (prefixlines.size() > 0)
 			{
-				for (auto& prefix : prefixlines)
-				{
-					newline.push_back(prefix);
-				}
-
+				newline.insert(newline.end(), prefixlines.begin(), prefixlines.end());
 				newline.push_back("	endif");
 			}
 
@@ -329,14 +334,14 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 		{
 			if (baseMatch.size() > 0)
 			{
-				newline.push_back("	if(" + baseMatch[0] + ")");
+				newline.push_back("	if (" + baseMatch[0] + ")");
 				newline.push_back(baseMatch[1]);				
 
 				for (unsigned int j = 2; j < baseMatch.size(); ++j)
 				{
 					if (j % 2 == 0)
 					{
-						newline.push_back("	elseif(" + baseMatch[j] + ")");
+						newline.push_back("	elseif (" + baseMatch[j] + ")");
 					}
 					else
 					{
@@ -355,13 +360,13 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 			{
 				int counter = 0;
 				auto& firstOrder = baseOrder.begin();
-				newline.push_back("	if(" + firstOrder->first + ")");
+				newline.push_back("	if (" + firstOrder->first + ")");
 				newline.push_back(firstOrder->second);
 				++firstOrder;
 
 				for (auto& order = firstOrder; order != baseOrder.end(); ++order)
 				{
-					newline.push_back("	elseif(" + order->first + ")");
+					newline.push_back("	elseif (" + order->first + ")");
 					newline.push_back(order->second);
 
 					++counter;
@@ -378,7 +383,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 			{
 				auto& firstGroup = GetModByGroupValue.begin();
 				string space = "	";
-				newline.push_back(space + "if(AAgroupID == " + firstGroup->first + ")");
+				newline.push_back(space + "if (AAgroupID == " + firstGroup->first + ")");
 				space += "	";
 
 				if (firstGroup->second.size() > 1)
@@ -387,7 +392,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 					{
 						if (j + 1 == firstGroup->second.size() - 1)
 						{
-							newline.push_back(space + "if(groupValue < " + firstGroup->second[j].groupBase + ")");
+							newline.push_back(space + "if (groupValue < " + firstGroup->second[j].groupBase + ")");
 							newline.push_back(space + "	return " + firstGroup->second[j].modID);
 							newline.push_back(space + "else");
 							newline.push_back(space + "	return " + firstGroup->second[j + 1].modID);
@@ -395,7 +400,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 						}
 						else
 						{
-							newline.push_back(space + "if(groupValue < " + firstGroup->second[j + 1].groupBase + ")");
+							newline.push_back(space + "if (groupValue < " + firstGroup->second[j + 1].groupBase + ")");
 							space += "	";
 							newline.push_back(space + "return " + firstGroup->second[j].modID);
 						}
@@ -417,7 +422,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 
 				for (auto& group = firstGroup; group != GetModByGroupValue.end(); ++group)
 				{
-					newline.push_back(space + "elseif(AAgroupID == " + group->first + ")");
+					newline.push_back(space + "elseif (AAgroupID == " + group->first + ")");
 					space += "	";
 
 					if (group->second.size() > 1)
@@ -426,7 +431,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 						{
 							if (j + 1 == group->second.size() - 1)
 							{
-								newline.push_back(space + "if(groupValue < " + group->second[j + 1].groupBase + ")");
+								newline.push_back(space + "if (groupValue < " + group->second[j + 1].groupBase + ")");
 								newline.push_back(space + "	return " + group->second[j].modID);
 								newline.push_back(space + "else");
 								newline.push_back(space + "	return " + group->second[j + 1].modID);
@@ -434,7 +439,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 							}
 							else
 							{
-								newline.push_back(space + "if(groupValue < " + group->second[j + 1].groupBase + ")");
+								newline.push_back(space + "if (groupValue < " + group->second[j + 1].groupBase + ")");
 								space += "	";
 								newline.push_back(space + "return " + group->second[j].modID);
 							}
@@ -484,33 +489,24 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 		uniquekey = uniquekey % 987123;
 	}
 
-	ofstream output(filename);
-
-	if (output.is_open())
 	{
-		for (auto& line : newline)
+		FileWriter output(filename);
+
+		if (output.is_open())
 		{
-			output << line << "\n";
+			for (auto& line : newline)
+			{
+				output << line << "\n";
+			}
 		}
-
-		output.close();
-	}
-	else
-	{
-		ErrorMessage(3002, filename);
-		return false;
-	}
-
-	if (isFileExist(import))
-	{
-		if (!PapyrusCompile(filename, import, destination, filepath))
+		else
 		{
-			return false;
+			ErrorMessage(3002, filename);
 		}
 	}
-	else
+
+	if (!PapyrusCompile(filename, import, destination, filepath, appdata_path))
 	{
-		ErrorMessage(2010, import);
 		return false;
 	}
 
@@ -518,7 +514,8 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 	return true;
 }
 
-bool AAnimAPICompile(string filename, string import, string destination, string filepath, vecstr& newFunctions, unsigned int& uniquekey)
+bool AAnimAPICompile(string filename, string import, string destination, string filepath, string appdata_path, vecstr& newFunctions, unsigned int maxGroup,
+	unsigned int& uniquekey)
 {
 	vecstr storeline;
 	vecstr newline;
@@ -529,13 +526,22 @@ bool AAnimAPICompile(string filename, string import, string destination, string 
 		return false;
 	}
 
-	for (unsigned int k = 0; k < storeline.size(); ++k)
+	for (string& line : storeline)
 	{
-		string line = storeline[k];
+		size_t pos = line.find("$InstallationKey$");
 
-		if (line.find("$InstallationKey$") != NOT_FOUND)
+		if (pos != NOT_FOUND)
 		{
-			line.replace(line.find("$InstallationKey$"), 17, to_string(uniquekey));
+			line.replace(pos, 17, to_string(uniquekey));
+		}
+		else
+		{
+			pos = line.find("$MaxGroup$");
+
+			if (pos != NOT_FOUND)
+			{
+				line.replace(pos, 10, to_string(maxGroup - 1));
+			}
 		}
 
 		newline.push_back(line);
@@ -547,33 +553,25 @@ bool AAnimAPICompile(string filename, string import, string destination, string 
 	}
 
 	newline.insert(newline.end(), newFunctions.begin(), newFunctions.end());
-	ofstream output(filename);
 
-	if (output.is_open())
 	{
-		for (auto& line : newline)
+		FileWriter output(filename);
+
+		if (output.is_open())
 		{
-			output << line << "\n";
+			for (auto& line : newline)
+			{
+				output << line << "\n";
+			}
 		}
-
-		output.close();
-	}
-	else
-	{
-		ErrorMessage(3002, filename);
-		return false;
-	}
-
-	if (isFileExist(import))
-	{
-		if (!PapyrusCompile(filename, import, destination, filepath))
+		else
 		{
-			return false;
+			ErrorMessage(3002, filename);
 		}
 	}
-	else
+
+	if (!PapyrusCompile(filename, import, destination, filepath, appdata_path))
 	{
-		ErrorMessage(2010, import);
 		return false;
 	}
 
@@ -610,25 +608,22 @@ void fixedKeyInitialize()
 
 string GetLastModified(string filename)
 {
-	HANDLE file;
-	FILETIME lastmodified;
-	SYSTEMTIME sysUTC;
-	file = CreateFileA(filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	if (file == INVALID_HANDLE_VALUE)
+	try
 	{
-		ErrorMessage(2020);
-		return "";
-	}
+		std::time_t lastmodified = boost::filesystem::last_write_time(filename);
+		char time1[26];
+		struct tm buf;
+		localtime_s(&buf, &lastmodified);
+		asctime_s(time1, sizeof time1, &buf);
+		string time = time1;
+		time.pop_back();
 
-	if (!GetFileTime(file, NULL, NULL, &lastmodified))
+		return time;
+	}
+	catch (...)
 	{
 		ErrorMessage(2022);
-		return "";
 	}
-
-	FileTimeToSystemTime(&lastmodified, &sysUTC);
-	return to_string(sysUTC.wDay) + "/" + to_string(sysUTC.wMonth) + "/" + to_string(sysUTC.wYear) + " " + to_string(sysUTC.wHour) + ":" + to_string(sysUTC.wMinute);
 }
 
 bool FolderCreate(string curBehaviorPath)
@@ -637,10 +632,9 @@ bool FolderCreate(string curBehaviorPath)
 	{
 		boost::filesystem::create_directories(curBehaviorPath);
 	}
-	catch (const std::exception& ex)
+	catch (const exception& ex)
 	{
 		ErrorMessage(6002, ex.what());
-		return false;
 	}
 
 	return true;
@@ -671,8 +665,11 @@ unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
 	return uniqueKey;
 }
 
-bool PapyrusCompile(string pscfile, string import, string destination, string filepath)
+bool PapyrusCompile(string pscfile, string import, string destination, string filepath, string appdata_path)
 {
+	if (!isFileExist(pscfile)) ErrorMessage(1092, pscfile);
+	if (!isFileExist(destination)) ErrorMessage(1001, destination);
+
 	string timeline;
 	namespace bf = boost::filesystem;
 	bf::path target = bf::path(skyrimDataPath->GetDataPath());
@@ -687,27 +684,26 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 
 	if (isFileExist(filepath))
 	{
-		if (remove(filepath.c_str()) != 0)
+		if (ReleaseLockedFile(filepath) && !boost::filesystem::remove(filepath))
 		{
 			timeline = GetLastModified(filepath);
 		}
 	}
 		
-	if (!isFileExist(target.string()) || !PapyrusCompileProcess(pscfile, import, destination, filepath, target))
+	if (!isFileExist(target.string()) || !PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, target))
 	{
 		string compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
 
 		if (isFileExist(compiler))
 		{
-			if (!PapyrusCompileProcess(pscfile, import, destination, filepath, compiler))
+			if (!PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, compiler, true))
 			{
-				return false;
+				throw nemesis::exception();
 			}
 		}
 		else
 		{
 			ErrorMessage(6007);
-			return false;
 		}
 	}
 
@@ -716,54 +712,47 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 		if (timeline == GetLastModified(filepath))
 		{
 			ErrorMessage(1185, filepath);
-			return false;
 		}
 	}
 
 	return true;
 }
 
-bool PapyrusCompileProcess(string pscfile, string scriptsource, string destination, string filepath, boost::filesystem::path compiler)
+bool PapyrusCompileProcess(string pscfile, string import, string destination, string filepath, string appdata_path, boost::filesystem::path compiler, bool tryagain)
 {
-	vecstr args{ GetFileName(pscfile) + ".psc", "-f=TESV_Papyrus_Flags.flg" , "-i=" + scriptsource + ";Papyrus Compiler\\backup scripts" , "-o=" + destination};
+	pscfile = GetFileName(pscfile) + ".psc";
+	string importedSource = import + "\\" + pscfile;
+	vecstr args{ pscfile, "-f=TESV_Papyrus_Flags.flg" , "-i=" + appdata_path + ";" + import + ";Papyrus Compiler\\backup scripts" ,
+		"-o=" + appdata_path };
 	future<vector<char>> p_reader, p_error;
 	
-	if (isFileExist(filepath) && !boost::filesystem::is_directory(filepath) && !boost::filesystem::remove(filepath))
+	if (isFileExist(filepath) && !boost::filesystem::is_directory(filepath) && ReleaseLockedFile(filepath) && !boost::filesystem::remove(filepath))
 	{
 		ErrorMessage(1082, filepath);
-		return false;
 	}
 
-	try
+	if (isFileExist(importedSource) && !boost::filesystem::is_directory(importedSource) && ReleaseLockedFile(importedSource) && !boost::filesystem::remove(importedSource))
 	{
-		try
-		{
-			if (boost::process::system(compiler, args, boost::process::std_out > p_reader, boost::process::std_err > p_error, boost::process::windows::hide) != 0)
-			{
-				// Compilation fail
-			}
-		}
-		catch (const std::exception& ex)
-		{
-			interMsg(ex.what());
-			return false;
-		}
-	}
-	catch (...)
-	{
-		interMsg("Non conventional exception captured");
-		DebugLogging("Non conventional exception captured");
-		return false;
+		ErrorMessage(1082, importedSource);
 	}
 
-	if (!isFileExist(filepath))
+
+	if (boost::process::system(compiler, args, boost::process::std_out > p_reader, boost::process::std_err > p_error, boost::process::windows::hide) != 0)
+	{
+		// Compilation fail
+	}
+
+	string tempfile = GetFileName(filepath) + ".pex";
+	string tempfilepath = appdata_path + "\\" + tempfile;
+
+	if (!isFileExist(tempfilepath))
 	{
 		string line;
 		vecstr linelist;
 
 		{
 			auto raw = p_reader.get();
-			vector<string> data;
+			vecstr data;
 			string templine;
 			boost::iostreams::stream_buffer<boost::iostreams::array_source> sb(raw.data(), raw.size());
 			istream is(&sb);
@@ -773,14 +762,17 @@ bool PapyrusCompileProcess(string pscfile, string scriptsource, string destinati
 				linelist.push_back(templine + "\n");
 			}
 
-			for (unsigned int i = 0; i < linelist.size() - 1; ++i)
+			if (linelist.size() > 1)
 			{
-				line.append(linelist[i]);
+				for (unsigned int i = 0; i < linelist.size() - 1; ++i)
+				{
+					line.append(linelist[i]);
+				}
 			}
 		}
 
 		auto raw = p_error.get();
-		vector<string> data;
+		vecstr data;
 		string templine;
 		boost::iostreams::stream_buffer<boost::iostreams::array_source> sb(raw.data(), raw.size());
 		istream is(&sb);
@@ -799,12 +791,42 @@ bool PapyrusCompileProcess(string pscfile, string scriptsource, string destinati
 		{
 			return true;
 		}
+		
+		if (!tryagain) return false;
 
-		ErrorMessage(1185, filepath);
-		interMsg("Output: \n" + line);
-		DebugLogging("\nOutput: \n" + line, false);
-		return false;
+		try
+		{
+			interMsg("Output: \n" + line);
+			DebugLogging("\nOutput: \n" + line, false);
+			ErrorMessage(1185, filepath);
+		}
+		catch (nemesis::exception)
+		{
+			return false;
+		}
 	}
 
+	ByteCopyToData(tempfilepath, destination + "\\" + tempfile);
+	ByteCopyToData(appdata_path + "\\" + pscfile, importedSource);
 	return true;
+}
+
+void ByteCopyToData(string target, string destination)
+{
+	ifstream file(target, ios::binary);
+	ofstream paste(destination, ios::binary);
+	copy(istreambuf_iterator<char>(file), istreambuf_iterator<char>(), ostreambuf_iterator<char>(paste));
+	file.close();
+
+	try
+	{
+		if (!boost::filesystem::remove(target))
+		{
+			ErrorMessage(1082, target);
+		}
+	}
+	catch (std::exception& ex)
+	{
+		ErrorMessage(6002, ex.what());
+	}
 }

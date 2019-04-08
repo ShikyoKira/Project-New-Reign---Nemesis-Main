@@ -20,6 +20,5 @@ extern std::unordered_map<std::string, std::vector<PCEAData>> animReplaced;	// a
 
 void ReadPCEA();
 bool PCEAInstallation();
-bool PapyrusCompile(std::string pscfile, std::string import, std::string destination, std::string filepath);
 
 #endif

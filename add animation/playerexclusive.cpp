@@ -1,7 +1,10 @@
-#include "playerexclusive.h"
-#include "alternateanimation.h"
 #include <boost\regex.hpp>
 #include <boost\algorithm\string.hpp>
+#include <QtCore\QStandardPaths.h>
+#include "playerexclusive.h"
+#include "alternateanimation.h"
+#include "functions\writetextfile.h"
+#include "Nemesis Main GUI\src\utilities\filerelease.h"
 
 using namespace std;
 namespace bf = boost::filesystem;
@@ -11,31 +14,42 @@ namespace bf = boost::filesystem;
 vector<PCEA> pcealist;
 unordered_map<string, vector<PCEAData>> animReplaced;
 
+bool Delete(bf::path file)
+{
+	if (boost::filesystem::is_directory(file))
+	{
+		string tempbehavior = file.string();
+		vecstr filelist;
+		read_directory(tempbehavior, filelist);
+		tempbehavior.append("\\");
+
+		for (auto& curfile : filelist)
+		{
+			Delete(tempbehavior + curfile);
+		}
+	}
+
+	if (ReleaseLockedFile(file.string()) && !boost::filesystem::remove(file))
+	{
+		ErrorMessage(1082, "PCEA_animations", file.string());
+	}
+
+	return true;
+}
+
 void ReadPCEA()
 {
 	DebugLogging("Reading PCEA files...");
-	vector<PCEA> dummyVector;
-	pcealist = dummyVector;
-	unordered_map<string, vector<PCEAData>> dummyMap;
-	animReplaced = dummyMap;
+	pcealist = vector<PCEA>();
+	animReplaced = unordered_map<string, vector<PCEAData>>();
 
 	vecstr folderlist;
 	string datapath = skyrimDataPath->GetDataPath() + "meshes\\actors\\character\\Animations\\Nemesis_PCEA";
 	bf::path pceafolder(datapath + "\\PCEA_animations");
 
-	if (isFileExist(datapath + "\\PCEA_animations"))
-	{
-		if (!bf::remove_all(pceafolder))
-		{
-			ErrorMessage(1082, "PCEA_animations", pceafolder);
-			return;
-		}
-	}
+	if (isFileExist(pceafolder.string())) Delete(pceafolder);
 
-	if (!FolderCreate(datapath + "\\PCEA_animations\\"))
-	{
-		return;
-	}
+	if (!FolderCreate(datapath + "\\PCEA_animations\\")) return;
 
 	read_directory(datapath, folderlist);
 	map<int, PCEA> modlist;
@@ -58,12 +72,12 @@ void ReadPCEA()
 
 				for (auto& anim : animlist)
 				{
-					string newFileName = to_string(number) + "_" + anim;
 					bf::path animFile(path + "\\" + anim);
-					bf::path newAnimFile(pceafolder.string() + "\\" + newFileName);
 
 					if (!bf::is_directory(animFile) && boost::iequals(animFile.extension().string(), ".hkx"))
 					{
+						string newFileName = to_string(number) + "_" + anim;
+						bf::path newAnimFile(pceafolder.string() + "\\" + newFileName);
 						string lowerAnim = boost::to_lower_copy(anim);
 						mod.animPathList[lowerAnim] = "Animations\\Nemesis_PCEA\\PCEA_animations\\" + newFileName;
 						bf::copy_file(animFile, newAnimFile, bf::copy_option::overwrite_if_exists);
@@ -71,7 +85,6 @@ void ReadPCEA()
 						if (!bf::exists(animFile))
 						{
 							ErrorMessage(1185, newAnimFile.string());
-							return;
 						}
 					}
 				}
@@ -83,13 +96,11 @@ void ReadPCEA()
 				}
 			}
 		}
+
+		if (error) throw nemesis::exception();
 	}
 
-	if (modlist.size() > 10)
-	{
-		ErrorMessage(7000);
-		return;
-	}
+	if (modlist.size() > 10) ErrorMessage(7000);
 
 	for (auto& mod : modlist)
 	{
@@ -103,37 +114,23 @@ void ReadPCEA()
 			newData.animPath = anim.second;
 			animReplaced[anim.first].push_back(newData);
 		}
+
+		if (error) throw nemesis::exception();
 	}
 
 	if (pcealist.size() > 0)
 	{
-		interMsg(TextBoxMessage(1006) + "Nemesis PCEA");
-		DebugLogging(TextBoxMessage(1006) + "Nemesis PCEA");
+		interMsg(TextBoxMessage(1006) + ": Nemesis PCEA");
+		DebugLogging(TextBoxMessage(1006) + ": Nemesis PCEA");
 	}
 }
 
 bool PCEAInstallation()
 {
-	string import;
-
 #ifdef DEBUG
-	if (SSE)
-	{
-		import = "data\\source\\scripts";
-	}
-	else
-	{
-		import = "data\\scripts\\source";
-	}
+	string import = SSE ? "data\\source\\scripts" : "data\\scripts\\source";
 #else
-	if (SSE)
-	{
-		import = skyrimDataPath->GetDataPath() + "source\\scripts";
-	}
-	else
-	{
-		import = skyrimDataPath->GetDataPath() + "scripts\\source";
-	}
+	string import = skyrimDataPath->GetDataPath() + (SSE ? "source\\scripts" : "scripts\\source");
 #endif
 
 	string filename = skyrimDataPath->GetDataPath() + "Nemesis PCEA.esp";
@@ -158,7 +155,6 @@ bool PCEAInstallation()
 			if (startnum == NOT_FOUND)
 			{
 				ErrorMessage(6009, "PCEA.esp", "PCEA mod");
-				return false;
 			}
 			else
 			{
@@ -194,6 +190,8 @@ bool PCEAInstallation()
 					charcode = static_cast<unsigned char>(pcealist[j].modFile[i]);
 					fwrite(&charcode, sizeof(charcode), 1, f);
 				}
+
+				if (error) throw nemesis::exception();
 			}
 
 			for (unsigned int j = pcealist.size(); j < 10; ++j)
@@ -204,6 +202,8 @@ bool PCEAInstallation()
 					unsigned char charcode = 32;
 					fwrite(&charcode, sizeof(charcode), 1, f);
 				}
+
+				if (error) throw nemesis::exception();
 			}
 
 			fclose(f);
@@ -211,90 +211,98 @@ bool PCEAInstallation()
 		else
 		{
 			ErrorMessage(3002, filename);
-			return false;
 		}
 	}
 
 	DebugLogging("PCEA esp modification complete");
 
-	if (error)
+	if (error) throw nemesis::exception();
+
+	DebugLogging("PCEA begin script input");
+	wstring cachedir = QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString() + L"/Nemesis";
+	replace(cachedir.begin(), cachedir.end(), '/', '\\');
+
+	try
+	{
+		boost::filesystem::create_directories(cachedir);
+	}
+	catch (const exception& ex)
+	{
+		ErrorMessage(6002, ex.what());
+	}
+
+	bf::path source("alternate animation\\nemesis pcea.script");
+	bf::path pscfile(cachedir + L"\\Nemesis_PCEA_Core.psc");
+	bf::copy_file(source, pscfile, bf::copy_option::overwrite_if_exists);
+	DebugLogging(source.string());
+	DebugLogging(pscfile.string());
+
+	vecstr storeline;
+	vecstr newline;
+
+	if (!GetFunctionLines(pscfile.string(), storeline))
 	{
 		return false;
 	}
 
-	DebugLogging("PCEA begin script input");
+	for (auto& line : storeline)
+	{
+		bool skip = false;
+
+		if (line.find("\tPCEA[num] =") != NOT_FOUND)
+		{
+			for (unsigned int j = 0; j < pcealist.size(); ++j)
+			{
+				string templine = line;
+				templine.replace(templine.find("num"), 3, to_string(j));
+				templine.append("\"" + pcealist[j].modFile + "\"");
+				newline.push_back(templine);
+			}
+
+			skip = true;
+		}
+		else if (line.find("\tactivation[num]") != NOT_FOUND)
+		{
+			for (unsigned int j = 0; j < pcealist.size(); ++j)
+			{
+				string templine = line;
+				templine.replace(templine.find("num"), 3, to_string(j));
+				templine.append("0");
+				newline.push_back(templine);
+			}
+
+			skip = true;
+		}
+		else if (line.find("return crc32ID") != NOT_FOUND)
+		{
+			int uniquekey = 0;
+
+			for (auto& curline : newline)
+			{
+				uniquekey = uniquekey + CRC32Convert(curline);
+				uniquekey = uniquekey % 987123;
+			}
+
+			line.replace(line.find("crc32ID"), 7, to_string(uniquekey));
+		}
+		else if (line.find("number") != NOT_FOUND)
+		{
+			size_t pos = line.find("number");
+			line.replace(pos, 6, to_string(pcealist.size()));
+		}
+
+		if (!skip)
+		{
+			newline.push_back(line);
+		}
+
+		if (error) throw nemesis::exception();
+	}
+
+	DebugLogging("PCEA script input complete");
 
 	{
-		bf::path source("alternate animation\\nemesis pcea.script");
-		string pscfile = import + "\\Nemesis_PCEA_Core.psc";
-		bf::path target(pscfile);
-		bf::copy_file(source, target, bf::copy_option::overwrite_if_exists);
-		DebugLogging(source.string());
-		DebugLogging(pscfile);
-
-		vecstr storeline;
-		vecstr newline;
-
-		if (!GetFunctionLines(pscfile, storeline))
-		{
-			return false;
-		}
-
-		for (auto& line : storeline)
-		{
-			bool skip = false;
-
-			if (line.find("\tPCEA[num] =") != NOT_FOUND)
-			{
-				for (unsigned int j = 0; j < pcealist.size(); ++j)
-				{
-					string templine = line;
-					templine.replace(templine.find("num"), 3, to_string(j));
-					templine.append("\"" + pcealist[j].modFile + "\"");
-					newline.push_back(templine);
-				}
-
-				skip = true;
-			}
-			else if (line.find("\tactivation[num]") != NOT_FOUND)
-			{
-				for (unsigned int j = 0; j < pcealist.size(); ++j)
-				{
-					string templine = line;
-					templine.replace(templine.find("num"), 3, to_string(j));
-					templine.append("0");
-					newline.push_back(templine);
-				}
-
-				skip = true;
-			}
-			else if (line.find("return crc32ID") != NOT_FOUND)
-			{
-				int uniquekey = 0;
-
-				for (auto& curline : newline)
-				{
-					uniquekey = uniquekey + CRC32Convert(curline);
-					uniquekey = uniquekey % 987123;
-				}
-
-				line.replace(line.find("crc32ID"), 7, to_string(uniquekey));
-			}
-			else if (line.find("number") != NOT_FOUND)
-			{
-				size_t pos = line.find("number");
-				line.replace(pos, 6, to_string(pcealist.size()));
-			}
-
-			if (!skip)
-			{
-				newline.push_back(line);
-			}
-		}
-
-		DebugLogging("PCEA script input complete");
-
-		ofstream output(pscfile);
+		FileWriter output(pscfile.string());
 
 		if (output.is_open())
 		{
@@ -302,27 +310,33 @@ bool PCEAInstallation()
 			{
 				output << line << "\n";
 			}
-
-			output.close();
 		}
 		else
 		{
 			ErrorMessage(3002, filename);
-			return false;
 		}
 
 		if (!FolderCreate(import))
 		{
-			return false;
+			ErrorMessage(2010, import);
 		}
+	}
 
-		string destination = skyrimDataPath->GetDataPath() + "scripts";
-		string filepath = destination + "\\Nemesis_PCEA_Core.pex";
+	if (!isFileExist(import))
+	{
+		ErrorMessage(2010, import);
+	}
 
-		if (!PapyrusCompile(pscfile, import, destination, filepath))
-		{
-			return false;
-		}
+	if (error) throw nemesis::exception();
+
+	string sCacheDir = bf::path(cachedir).string();
+	import.append(";" + sCacheDir);
+	string destination = skyrimDataPath->GetDataPath() + "scripts";
+	string filepath = destination + "\\Nemesis_PCEA_Core.pex";
+
+	if (!PapyrusCompile(pscfile.string(), import, destination, filepath, sCacheDir))
+	{
+		return false;
 	}
 
 	DebugLogging("PCEA core script complete");
