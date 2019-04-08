@@ -28,7 +28,7 @@ int Function GetModIDByGroupValue(int AAgroupID, int groupValue) global
 endFunction
 
 int Function GetBaseValue(int AAmodID, int AAgroupID) global
-	int DataCode = AAmodID * 100000 + AAgroupID * 1000
+	int DataCode = AAmodID * 1000000 + AAgroupID * 1000
 
 	if(DataCode == num)
 
@@ -47,10 +47,10 @@ int[] Function GetAllBaseValue(int AAmodID) global
 
 	while(i < nSet)
 		int DataCode = AASet[i]
-		int modID = DataCode / 100000
-		int GroupID = (DataCode - modID * 100000) / 1000
+		int modID = DataCode / 1000000
+		int GroupID = (DataCode - modID * 1000000) / 1000
 		if(modID == AAmodID)				
-			GroupBaseValue[GroupID] = (DataCode - modID * 10000 - GroupID * 1000)
+			GroupBaseValue[GroupID] = (DataCode - modID * 1000000 - GroupID * 1000)
 		endif
 
 		i += 1

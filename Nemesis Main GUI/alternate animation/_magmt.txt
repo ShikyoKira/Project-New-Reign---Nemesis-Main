@@ -18,3 +18,5 @@ mag_turnleft180.hkx
 mag_turnleft60.hkx
 mag_turnright180.hkx
 mag_turnright60.hkx
+mag_runstrafeleft.hkx
+mag_runstraferight.hkx
