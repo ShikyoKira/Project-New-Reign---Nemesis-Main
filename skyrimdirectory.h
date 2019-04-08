@@ -4,6 +4,7 @@
 #include <boost\filesystem.hpp>
 
 extern bool SSE;
+extern unsigned int maxAnim;
 
 class DataPath
 {
