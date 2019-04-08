@@ -1,0 +1,3236 @@
+Version V8.00
+
+' Format:
+'			<type> [-<option,option,...>] <AnimEvent> <AnimFile> [<AnimObject> ...]		(FNIS Animation)
+'			AnimVar <AnimVar> [ BOOL | INT32 | REAL ] <numeric_value>					(Behavior Variable)
+'			Version <VersionNumber>
+'
+' <type>:
+'			b	 	basic: simple idle animation with one animation file
+'			o		AnimObject: basic animation with one or more AnimObjects
+'			s		sequenced animation (SA): first of at least 2 animation played as sequence 
+'			so		sequenced optimized: SA with AnimObjects and optimized Equip/UnEquip 
+'			fu		furniture animation: first of at least 3 animations played on a furniture object
+'			fuo		furniture animation optimized: fu with AnimObjects and optimized Equip/UnEquip
+'			+		second to last animation of a s/so/fu/fuo definition 
+'			ofa		offset arm animation: animations modifying arm position while other animations play  
+'			pa		paired animation
+' 			km		killmove
+'
+' <option>: 
+'			a		acyclic animation: 1-time only (default: cyclic)
+'			o		one or more AnimObjects
+'			Tn		transition next: character keeps position after -a animation (no IdleForceDefaultState)
+'			h		headtracking ON (default OFF)
+'			Bn.m	blendtime n.m sec
+'			k		"known" animation file (part of vanilla or different mod) -> excl. from consistance check
+'			bsa		animation file part of bsa file -> excluded from consistence check 
+'			st		sticky AO -> AO will not be unequipped at the end of animation (last animation only)
+'			D<time>	animation duration (pa and km only)
+'			T<AnimEvent>/<time>	triggered AnimEvents during pa/km animations
+'
+' <AnimEvent>		Animation Event, used for Idle Definition (CK) or SendAnimationEvent() (script)
+' <AnimFile>		Animation File for this AnimEvent; path relative to "animations/<mod name>"
+' <AnimObject>		any Animation Object defined in CK (can also be standard or from different mod)
+' <AnimVar>			e.g. used for GetAnimationVariableInt() (Script) or GetGraphVariableInt condition (CK)
+' <VersionNumber>	e.g. V5.0
+'
+' For details please refer to "FNIS for Modders Documentation"
+' 
+'Examples:
+'	b -a,h,Tn,B1.2 MyAnimEvent1 MyAnimFile1.hkx
+'	o -h MyAnimEvent2 AnimationWithAO.hkx MyAnimObject01 MyAnimObject02
+'	s -a SA1entry SAanim1.hkx  
+'	+ -h,o,k SA1loop ..\OtherMod\OtherModAnim.hkx MYAnimObject03
+'	+ -a SA1exit SAanim3.hkx
+'	fu -a FURNITURE1_Enter FURNITURE1_Enter.hkx 
+'	+ FURNITURE1_Loop FURNITURE1_Loop.hkx
+'	+ -a FURNITURE1_Exit FURNITURE1_Exit.hkx
+'	pa -D3.466667 HugB paired_hugb.hkx 
+'	km -o,D4.000000,Tnpcsoundplay.npckillchop/2.555,T2_killactor/3.333 FNISKillmove FNIS_Killmove.hkx AnimObjectSword/1
+'
+' AnimEvents and Animation File names have to be unique through all mods (even for files in different folders)
+' so it's a good idea to use mod specific abbreviations for all your names
+
+
+' 
+' --- BASIC INSTRUCTIONS ---
+' 
+' The following naming convention applies:
+' 
+' Zap + kind of arm bondage + animation name + _A# + _S# + _SS
+' 
+' For a regular pose, _A# and _S# will be left out.
+' 
+' Examples:
+' ZapArmbStruggle01 = Armbinder + Struggle01
+' ZapArmbMissionary01_A1_S1 = Armbinder + Missionary01 + Actor 1 (typically the female/submissive) + Stage 1
+' ZapArmbBlowjob01_A2_S1 = Armbinder + Blowjob01 + Actor 2 (normally the male, in this case also bound) + Stage 1
+' 
+
+
+
+
+
+' 
+' --- OFFSET ANIMATIONS ---
+' 
+' Offset animations can play while the legs move about freely.
+' 
+' Animations marked with three asterixes in the comments are "promoted", which means that
+' they can be connected to the animation selection system. They have SexLab animations connected
+' to them, and they have at least the 15 poses, 3 horny animations, and 8 struggling animations.
+' 
+' See "zbfBondageShell.psc" for more information.
+' 
+ofa -md ZazAPOA001 ZazAPOA001.hkx				' ***	Default animation
+ofa -md ZazAPOA002 ZazAPOA002.hkx				' Slight struggle animation
+ofa -md ZazAPOA003 ZazAPOA003.hkx				' Elbows even closer together
+ofa -md ZazAPOA004 ZazAPOA004.hkx				' Box tied
+ofa -md ZazAPOA005 ZazAPOA005.hkx				' ***	Armbinder position (Devious Devices compatible)
+ofa -md ZazAPOA006 ZazAPOA006.hkx				' Old arms bound animation
+ofa -md ZazAPOA007 ZazAPOA007.hkx				' ***	Yoke
+ofa -md ZazAPOA008 ZazAPOA008.hkx				' Wrists crossed behind the back (fairly loose pose)
+ofa -md ZazAPOA009 ZazAPOA009.hkx				' Fiddle
+ofa -md ZazAPOA010 ZazAPOA010.hkx 				' Hands Behind Neck
+ofa -md ZazAPOA011 ZazAPOA011.hkx 				' Hands Behind Back Ankled
+ofa -md ZazAPOA012 ZazAPOA012.hkx 				' Straight Cross Pole
+ofa -md ZazAPOA013 ZazAPOA013.hkx				' Elbows tied close
+ofa -md ZazAPOA014 ZazAPOA014.hkx				' ArmToBodyCloseBondage
+ofa -md ZazAPOA015 ZazAPOA015.hkx				' Wheeled
+ofa -md ZazAPOA016 ZazAPOA016.hkx				' Wrists crossed behind the back
+ofa -md ZazAPOA017 ZazAPOA017.hkx				' Hands Around Neck
+ofa -md ZazAPOA018 ZazAPOA018.hkx				' Hands In Front In Irons
+ofa -md ZazAPOA019 ZazAPOA019.hkx				' Hands In Front Crossed, Roped
+ofa -md ZazAPOA020 ZazAPOA020.hkx				' Vertical Strictly Poled
+ofa -md ZazAPOA021 ZazAPOA021.hkx				' Box Tied With Elbow Ropes
+ofa -md ZazAPOA022 ZazAPOA022.hkx				' Koffi fiddle (DD-style)
+ofa -md ZazAPOA023 ZazAPOA023.hkx				' ***   Fully Roped arms to backside,     Armbinder position (DD-compatible)
+
+
+
+
+
+
+
+'
+' --- WRISTS ---
+'
+' All animations in this section are made for bound wrists, the default animation.
+' 
+
+' Main  offset
+ofa ZapWriOffset01 ZazAPOA001.hkx		' Wrist bound offset
+
+' Poses - useful for poses standing still
+b -md ZapWriPose01 ZapWriPose01.hkx			' Legs spread
+b -md ZapWriPose02 ZapWriPose02.hkx			' Same as 01 (bug)
+b -md ZapWriPose03 ZapWriPose03.hkx			' Standing bend over
+b -md ZapWriPose04 ZapWriPose04.hkx			' Standing bend over, legs spread
+b -md ZapWriPose05 ZapWriPose05.hkx			' Standing, legs spread
+b -md ZapWriPose06 ZapWriPose06.hkx			' Standing on knees
+b -md ZapWriPose07 ZapWriPose07.hkx			' Standing on knees, legs spread
+b -md ZapWriPose08 ZapWriPose08.hkx			' Standing on knees, bent over
+b -md ZapWriPose09 ZapWriPose09.hkx			' Sitting squat
+b -md ZapWriPose10 ZapWriPose10.hkx			' Sitting squat, legs spread
+b -md ZapWriPose11 ZapWriPose11.hkx			' Hogtie
+b -md ZapWriPose12 ZapWriPose12.hkx			' Hogtie, legs spread
+b -md ZapWriPose13 ZapWriPose13.hkx			' Hogtie, lie on side
+b -md ZapWriPose14 ZapWriPose14.hkx			' Lie on side, sleeping position
+b -md ZapWriPose15 ZapWriPose15.hkx			' Lie on stomach, not sleeping
+
+b -md ZapWriHorny01 ZapWriHorny01.hkx			' Horny, crouching, legs grinding
+b -md ZapWriHorny02 ZapWriHorny02.hkx			' Horny, standing, legs grinding
+b -md ZapWriHorny03 ZapWriHorny03.hkx			' Rubbing crotch in the air
+
+' Struggling animations, correspond to the same numbers from the poses section unless otherwise noted
+b -md ZapWriStruggle01 ZapWriStruggle01.hkx
+b -md ZapWriStruggle02 ZapWriStruggle02.hkx		' Legs together, struggling
+b -md ZapWriStruggle03 ZapWriStruggle03.hkx		' Bent over, legs spread (same as 04)
+b -md ZapWriStruggle04 ZapWriStruggle04.hkx
+b -md ZapWriStruggle05 ZapWriStruggle05.hkx
+b -md ZapWriStruggle06 ZapWriStruggle06.hkx
+b -md ZapWriStruggle07 ZapWriStruggle07.hkx
+b -md ZapWriStruggle08 ZapWriStruggle08.hkx
+b -md ZapWriStruggle09 ZapWriStruggle09.hkx
+b -md ZapWriStruggle10 ZapWriStruggle10.hkx
+b -md ZapWriStruggle11 ZapWriStruggle11.hkx
+b -md ZapWriStruggle12 ZapWriStruggle12.hkx
+b -md ZapWriStruggle13 ZapWriStruggle13.hkx
+b -md ZapWriStruggle14 ZapWriStruggle14.hkx
+b -md ZapWriStruggle15 ZapWriStruggle15.hkx
+
+' Misc animations
+b -md ZapWriBleedoutIdle ZapWriBleedoutIdle.hkx
+b -a,md,Tn ZapWriTurn01 TepiCuffsTurnT.hkx
+
+
+
+' Aggressive Doggy Style
+s -md ZapWriDoggy01_A1_S1 ZapWriDoggy01_A1_S1.hkx
++ -md ZapWriDoggy01_A1_S2 ZapWriDoggy01_A1_S2.hkx
++ -md ZapWriDoggy01_A1_S3 ZapWriDoggy01_A1_S3.hkx
++ -md ZapWriDoggy01_A1_S4 ZapWriDoggy01_A1_S4.hkx
+
+s -md ZapWriDoggy01_A2_S1 ZapWriDoggy01_A2_S1.hkx
++ -md ZapWriDoggy01_A2_S2 ZapWriDoggy01_A2_S2.hkx
++ -md ZapWriDoggy01_A2_S3 ZapWriDoggy01_A2_S3.hkx
++ -md ZapWriDoggy01_A2_S4 ZapWriDoggy01_A2_S4.hkx
+
+' Agressive Missionary
+s -md ZapWriMissionary01_A1_S1 ZapWriMissionary01_A1_S1.hkx
++ -md ZapWriMissionary01_A1_S2 ZapWriMissionary01_A1_S2.hkx
++ -md ZapWriMissionary01_A1_S3 ZapWriMissionary01_A1_S3.hkx
++ -md ZapWriMissionary01_A1_S4 ZapWriMissionary01_A1_S4.hkx
+
+' AP Skullfuck
+s -md ZapWriSkullFuck01_A1_S1 ZapWriSkullFuck01_A1_S1.hkx
++ -md ZapWriSkullFuck01_A1_S2 ZapWriSkullFuck01_A1_S2.hkx
++ -md ZapWriSkullFuck01_A1_S3 ZapWriSkullFuck01_A1_S3.hkx
++ -md ZapWriSkullFuck01_A1_S4 ZapWriSkullFuck01_A1_S4.hkx
++ -md ZapWriSkullFuck01_A1_S5 ZapWriSkullFuck01_A1_S5.hkx
+
+' Arrok Lesbian
+s -md ZapWriLesbian01_A1_S1 ZapWriLesbian01_A1_S1.hkx
++ -md ZapWriLesbian01_A1_S2 ZapWriLesbian01_A1_S2.hkx
++ -md ZapWriLesbian01_A1_S3 ZapWriLesbian01_A1_S3.hkx
++ -md ZapWriLesbian01_A1_S4 ZapWriLesbian01_A1_S4.hkx
+
+s -md ZapWriLesbian01_A2_S1 ZapWriLesbian01_A2_S1.hkx
++ -md ZapWriLesbian01_A2_S2 ZapWriLesbian01_A2_S2.hkx
++ -md ZapWriLesbian01_A2_S3 ZapWriLesbian01_A2_S3.hkx
++ -md ZapWriLesbian01_A2_S4 ZapWriLesbian01_A2_S4.hkx
+
+' Arrok Boobjob
+s -md ZapWriBoobjob01_A1_S1 ZapWriBoobjob01_A1_S1.hkx
++ -md ZapWriBoobjob01_A1_S2 ZapWriBoobjob01_A1_S2.hkx
++ -md ZapWriBoobjob01_A1_S3 ZapWriBoobjob01_A1_S3.hkx
++ -md ZapWriBoobjob01_A1_S4 ZapWriBoobjob01_A1_S4.hkx
+
+' Pillory Bound 01 (sex)
+S -a,md ZapWriPillorySex01_A2_S1 ZazAPPillSXBOEnterA.hkx
++ -md ZapWriPillorySex01_A2_S1b ZazAPPillSXBOEnterLoopA.hkx
+b -md ZapWriPillorySex01_A2_S2 ZazAPPillSXBO01A.hkx
+b -md ZapWriPillorySex01_A2_S3 ZazAPPillSXBO02A.hkx
+b -md ZapWriPillorySex01_A2_S4 ZazAPPillSXBO03A.hkx
+b -md ZapWriPillorySex01_A2_S5 ZazAPPillSXBOEND01A.hkx
+S -a,md ZapWriPillorySex01_A2_S6 ZazAPPillSXBOExitA.hkx
++ -md ZapWriPillorySex01_A2_S6b ZazAPPillSXBOExitLoopA.hkx
+
+' Pillory Bound 02 (lick)
+b -md ZapWriPilloryLick01_A2_S1 ZazAPPillSXBOLick01A.hkx
+
+' Leito Kissing
+s -md ZapWriKissing01_A1_S1 ZapWriKissing01_A1_S1.hkx
++ -md ZapWriKissing01_A1_S2 ZapWriKissing01_A1_S2.hkx
++ -md ZapWriKissing01_A1_S3 ZapWriKissing01_A1_S3.hkx
+
+' Leito Blowjob
+s -md ZapWriBlowjob01_A1_S1 ZapWriBlowjob01_A1_S1.hkx
++ -md ZapWriBlowjob01_A1_S2 ZapWriBlowjob01_A1_S2.hkx
++ -md ZapWriBlowjob01_A1_S3 ZapWriBlowjob01_A1_S3.hkx
++ -md ZapWriBlowjob01_A1_S4 ZapWriBlowjob01_A1_S4.hkx
++ -md ZapWriBlowjob01_A1_S5 ZapWriBlowjob01_A1_S5.hkx
+
+' Arrok Missionary
+s -md ZapWriMissionary03_A1_S1 ZapWriMissionary03_A1_S1.hkx
++ -md ZapWriMissionary03_A1_S2 ZapWriMissionary03_A1_S2.hkx
++ -md ZapWriMissionary03_A1_S3 ZapWriMissionary03_A1_S3.hkx
++ -md ZapWriMissionary03_A1_S4 ZapWriMissionary03_A1_S4.hkx
+
+' Arrok Foreplay
+s -md ZapWriForeplay01_A1_S1 ZapWriForeplay01_A1_S1.hkx
++ -md ZapWriForeplay01_A1_S2 ZapWriForeplay01_A1_S2.hkx
++ -md ZapWriForeplay01_A1_S3 ZapWriForeplay01_A1_S3.hkx
++ -md ZapWriForeplay01_A1_S4 ZapWriForeplay01_A1_S4.hkx
+
+
+
+
+' --- ARMBINDER ---
+'
+' All animations in this section are made armbinder compatible.
+' 
+
+' Main  offset
+ofa ZapArmbOffset01 ZazAPOA005.hkx			' Armbinder bound offset
+ofa ZapRopedArmes02 ZazAPOA023.hkx			' Fully Roped arms to backside
+
+' Poses - useful for poses standing still
+b -md ZapArmbPose01 ZapArmbPose01.hkx			' Legs spread.
+b -md ZapArmbPose02 ZapArmbPose02.hkx			' Same as 01 (bug)
+b -md ZapArmbPose03 ZapArmbPose03.hkx			' Standing bend over
+b -md ZapArmbPose04 ZapArmbPose04.hkx			' Standing bend over, legs spread
+b -md ZapArmbPose05 ZapArmbPose05.hkx			' Standing, legs spread
+b -md ZapArmbPose06 ZapArmbPose06.hkx			' Standing on knees
+b -md ZapArmbPose07 ZapArmbPose07.hkx			' Standing on knees, legs spread
+b -md ZapArmbPose08 ZapArmbPose08.hkx			' Standing on knees, bent over
+b -md ZapArmbPose09 ZapArmbPose09.hkx			' Sitting squat
+b -md ZapArmbPose10 ZapArmbPose10.hkx			' Sitting squat, legs spread
+b -md ZapArmbPose11 ZapArmbPose11.hkx			' Hogtie
+b -md ZapArmbPose12 ZapArmbPose12.hkx			' Hogtie, legs spread
+b -md ZapArmbPose13 ZapArmbPose13.hkx			' Hogtie, lie on side
+b -md ZapArmbPose14 ZapArmbPose14.hkx			' Lie on side, sleeping position
+b -md ZapArmbPose15 ZapArmbPose15.hkx			' Lie on stomach, not sleeping
+
+b -md ZapArmbHorny01 ZapArmbHorny01.hkx			' Horny, crouching, legs grinding
+b -md ZapArmbHorny02 ZapArmbHorny02.hkx			' Horny, standing, legs grinding
+b -md ZapArmbHorny03 ZapArmbHorny03.hkx			' Rubbing crotch in the air
+
+' Struggling animations, correspond to the same numbers from the poses section unless otherwise noted
+b -md ZapArmbStruggle01 ZapArmbStruggle01.hkx
+b -md ZapArmbStruggle02 ZapArmbStruggle02.hkx	' Legs together, struggling
+b -md ZapArmbStruggle03 ZapArmbStruggle03.hkx	' Bent over, legs spread (same as 04)
+b -md ZapArmbStruggle04 ZapArmbStruggle04.hkx
+b -md ZapArmbStruggle05 ZapArmbStruggle05.hkx
+b -md ZapArmbStruggle06 ZapArmbStruggle06.hkx
+b -md ZapArmbStruggle07 ZapArmbStruggle07.hkx
+b -md ZapArmbStruggle08 ZapArmbStruggle08.hkx
+b -md ZapArmbStruggle09 ZapArmbStruggle09.hkx
+b -md ZapArmbStruggle10 ZapArmbStruggle10.hkx
+b -md ZapArmbStruggle11 ZapArmbStruggle11.hkx
+b -md ZapArmbStruggle12 ZapArmbStruggle12.hkx
+b -md ZapArmbStruggle13 ZapArmbStruggle13.hkx
+b -md ZapArmbStruggle14 ZapArmbStruggle14.hkx
+b -md ZapArmbStruggle15 ZapArmbStruggle15.hkx
+
+' Misc animations
+b -md ZapArmbBleedoutIdle ZapArmbBleedoutIdle.hkx
+b -a,Tn ZapArmbTurn01 TepiCuffsTurnT.hkx
+
+
+' Aggressive Doggy Style
+s -md ZapArmbDoggy01_A1_S1 ZapArmbDoggy01_A1_S1.hkx
++ -md ZapArmbDoggy01_A1_S2 ZapArmbDoggy01_A1_S2.hkx
++ -md ZapArmbDoggy01_A1_S3 ZapArmbDoggy01_A1_S3.hkx
++ -md ZapArmbDoggy01_A1_S4 ZapArmbDoggy01_A1_S4.hkx
+
+s -md ZapArmbDoggy01_A2_S1 ZapArmbDoggy01_A2_S1.hkx
++ -md ZapArmbDoggy01_A2_S2 ZapArmbDoggy01_A2_S2.hkx
++ -md ZapArmbDoggy01_A2_S3 ZapArmbDoggy01_A2_S3.hkx
++ -md ZapArmbDoggy01_A2_S4 ZapArmbDoggy01_A2_S4.hkx
+
+' Agressive Missionary
+s -md ZapArmbMissionary01_A1_S1 ZapArmbMissionary01_A1_S1.hkx
++ -md ZapArmbMissionary01_A1_S2 ZapArmbMissionary01_A1_S2.hkx
++ -md ZapArmbMissionary01_A1_S3 ZapArmbMissionary01_A1_S3.hkx
++ -md ZapArmbMissionary01_A1_S4 ZapArmbMissionary01_A1_S4.hkx
+
+' AP Skullfuck
+s -md ZapArmbSkullFuck01_A1_S1 ZapArmbSkullFuck01_A1_S1.hkx
++ -md ZapArmbSkullFuck01_A1_S2 ZapArmbSkullFuck01_A1_S2.hkx
++ -md ZapArmbSkullFuck01_A1_S3 ZapArmbSkullFuck01_A1_S3.hkx
++ -md ZapArmbSkullFuck01_A1_S4 ZapArmbSkullFuck01_A1_S4.hkx
++ -md ZapArmbSkullFuck01_A1_S5 ZapArmbSkullFuck01_A1_S5.hkx
+
+' Arrok Lesbian
+s -md ZapArmbLesbian01_A1_S1 ZapArmbLesbian01_A1_S1.hkx
++ -md ZapArmbLesbian01_A1_S2 ZapArmbLesbian01_A1_S2.hkx
++ -md ZapArmbLesbian01_A1_S3 ZapArmbLesbian01_A1_S3.hkx
++ -md ZapArmbLesbian01_A1_S4 ZapArmbLesbian01_A1_S4.hkx
+
+s -md ZapArmbLesbian01_A2_S1 ZapArmbLesbian01_A2_S1.hkx
++ -md ZapArmbLesbian01_A2_S2 ZapArmbLesbian01_A2_S2.hkx
++ -md ZapArmbLesbian01_A2_S3 ZapArmbLesbian01_A2_S3.hkx
++ -md ZapArmbLesbian01_A2_S4 ZapArmbLesbian01_A2_S4.hkx
+
+' Arrok Boobjob
+s -md ZapArmbBoobjob01_A1_S1 ZapArmbBoobjob01_A1_S1.hkx
++ -md ZapArmbBoobjob01_A1_S2 ZapArmbBoobjob01_A1_S2.hkx
++ -md ZapArmbBoobjob01_A1_S3 ZapArmbBoobjob01_A1_S3.hkx
++ -md ZapArmbBoobjob01_A1_S4 ZapArmbBoobjob01_A1_S4.hkx
+
+' Leito kissing
+s -md ZapArmbKissing01_A1_S1 ZapArmbKissing01_A1_S1.hkx
++ -md ZapArmbKissing01_A1_S2 ZapArmbKissing01_A1_S2.hkx
++ -md ZapArmbKissing01_A1_S3 ZapArmbKissing01_A1_S3.hkx
+
+' Leito Blowjob
+s -md ZapArmbBlowjob01_A1_S1 ZapArmbBlowjob01_A1_S1.hkx
++ -md ZapArmbBlowjob01_A1_S2 ZapArmbBlowjob01_A1_S2.hkx
++ -md ZapArmbBlowjob01_A1_S3 ZapArmbBlowjob01_A1_S3.hkx
++ -md ZapArmbBlowjob01_A1_S4 ZapArmbBlowjob01_A1_S4.hkx
++ -md ZapArmbBlowjob01_A1_S5 ZapArmbBlowjob01_A1_S5.hkx
+
+
+
+'
+' --- YOKE ---
+'
+' All animations in this section are made yoke compatible.
+' 
+
+' Main  offsets
+ofa -md ZapYokeOffset01 ZazAPOA007.hkx			' Yoke bound offset
+ofa -md ZapYokeOffset02 ZazAPCYOff02A.hkx		' Hands position 1, same as ZapYokeOffset01
+ofa -md ZapYokeOffset03 ZazAPCYOff02B.hkx		' Hands position 2, slightly moving
+ofa -md ZapYokeOffset04 ZazAPCYOff03B.hkx		' Hands position 3, slightly moving
+
+' Poses - useful for poses standing still
+b -md ZapYokePose01 ZapYokePose01.hkx			' Legs spread.
+b -md ZapYokePose02 ZapYokePose02.hkx			' Same as 01 (bug)
+b -md ZapYokePose03 ZapYokePose03.hkx			' Standing bend over
+b -md ZapYokePose04 ZapYokePose04.hkx			' Standing bend over, legs spread
+b -md ZapYokePose05 ZapYokePose05.hkx			' Standing, legs spread
+b -md ZapYokePose06 ZapYokePose06.hkx			' Standing on knees
+b -md ZapYokePose07 ZapYokePose07.hkx			' Standing on knees, legs spread
+b -md ZapYokePose08 ZapYokePose08.hkx			' Standing on knees, bent over
+b -md ZapYokePose09 ZapYokePose09.hkx			' Sitting squat
+b -md ZapYokePose10 ZapYokePose10.hkx			' Sitting squat, legs spread
+b -md ZapYokePose11 ZapYokePose11.hkx			' Hogtie
+b -md ZapYokePose12 ZapYokePose12.hkx			' Hogtie, legs spread
+b -md ZapYokePose13 ZapYokePose13.hkx			' Same as 11, can't lie on side with a yoke
+b -md ZapYokePose14 ZapYokePose14.hkx			' Same as pose 15, can't lie on side with a yoke
+b -md ZapYokePose15 ZapYokePose15.hkx			' Lie on stomach, not sleeping
+
+b -md ZapYokeHorny01 ZapYokeHorny01.hkx			' Horny, crouching, legs grinding
+b -md ZapYokeHorny02 ZapYokeHorny02.hkx			' Horny, standing, legs grinding
+b -md ZapYokeHorny03 ZapYokeHorny03.hkx			' Rubbing crotch in the air
+
+' Struggling animations, correspond to the same numbers from the poses section unless otherwise noted
+b -md ZapYokeStruggle01 ZapYokeStruggle01.hkx
+b -md ZapYokeStruggle02 ZapYokeStruggle02.hkx	' Legs together, struggling
+b -md ZapYokeStruggle03 ZapYokeStruggle03.hkx	' Bent over, legs spread (same as 04)
+b -md ZapYokeStruggle04 ZapYokeStruggle04.hkx
+b -md ZapYokeStruggle05 ZapYokeStruggle05.hkx
+b -md ZapYokeStruggle06 ZapYokeStruggle06.hkx
+b -md ZapYokeStruggle07 ZapYokeStruggle07.hkx
+b -md ZapYokeStruggle08 ZapYokeStruggle08.hkx
+b -md ZapYokeStruggle09 ZapYokeStruggle09.hkx
+b -md ZapYokeStruggle10 ZapYokeStruggle10.hkx
+b -md ZapYokeStruggle11 ZapYokeStruggle11.hkx
+b -md ZapYokeStruggle12 ZapYokeStruggle12.hkx
+b -md ZapYokeStruggle13 ZapYokeStruggle13.hkx	' Same as 11, can't lie on side with a yoke
+b -md ZapYokeStruggle14 ZapYokeStruggle14.hkx	' same as 15, can't lie on the side with a yoke
+b -md ZapYokeStruggle15 ZapYokeStruggle15.hkx
+
+' Misc animations
+b -md ZapYokeBleedoutIdle ZapYokeBleedoutIdle.hkx
+b -a,md,Tn ZapYokeTurn01 TepiCuffsTurnT.hkx
+
+
+' Pillory Lick
+b -md ZapYokePilloryLick01_A2_S1 ZapYokePilloryLick01_A2_S1.hkx
+
+' Agressive Missionary
+s -md ZapYokeMissionary01_A1_S1 ZapYokeMissionary01_A1_S1.hkx
++ -md ZapYokeMissionary01_A1_S2 ZapYokeMissionary01_A1_S2.hkx
++ -md ZapYokeMissionary01_A1_S3 ZapYokeMissionary01_A1_S3.hkx
++ -md ZapYokeMissionary01_A1_S4 ZapYokeMissionary01_A1_S4.hkx
+
+' AP Skullfuck
+s -md ZapYokeSkullFuck01_A1_S1 ZapYokeSkullFuck01_A1_S1.hkx
++ -md ZapYokeSkullFuck01_A1_S2 ZapYokeSkullFuck01_A1_S2.hkx
++ -md ZapYokeSkullFuck01_A1_S3 ZapYokeSkullFuck01_A1_S3.hkx
++ -md ZapYokeSkullFuck01_A1_S4 ZapYokeSkullFuck01_A1_S4.hkx
++ -md ZapYokeSkullFuck01_A1_S5 ZapYokeSkullFuck01_A1_S5.hkx
+
+' Zyn Missionary
+s -md ZapYokeMissionary02_A1_S1 ZapYokeMissionary02_A1_S1.hkx
++ -md ZapYokeMissionary02_A1_S2 ZapYokeMissionary02_A1_S2.hkx
++ -md ZapYokeMissionary02_A1_S3 ZapYokeMissionary02_A1_S3.hkx
++ -md ZapYokeMissionary02_A1_S4 ZapYokeMissionary02_A1_S4.hkx
++ -md ZapYokeMissionary02_A1_S5 ZapYokeMissionary02_A1_S5.hkx
+
+' Leito kissing
+s -md ZapYokeKissing01_A1_S1 ZapYokeKissing01_A1_S1.hkx
++ -md ZapYokeKissing01_A1_S2 ZapYokeKissing01_A1_S2.hkx
++ -md ZapYokeKissing01_A1_S3 ZapYokeKissing01_A1_S3.hkx
+
+' Leito Blowjob
+s -md ZapYokeBlowjob01_A1_S1 ZapYokeBlowjob01_A1_S1.hkx
++ -md ZapYokeBlowjob01_A1_S2 ZapYokeBlowjob01_A1_S2.hkx
++ -md ZapYokeBlowjob01_A1_S3 ZapYokeBlowjob01_A1_S3.hkx
++ -md ZapYokeBlowjob01_A1_S4 ZapYokeBlowjob01_A1_S4.hkx
++ -md ZapYokeBlowjob01_A1_S5 ZapYokeBlowjob01_A1_S5.hkx
+
+' Arrok Missionary
+s -md ZapYokeMissionary03_A1_S1 ZapYokeMissionary03_A1_S1.hkx
++ -md ZapYokeMissionary03_A1_S2 ZapYokeMissionary03_A1_S2.hkx
++ -md ZapYokeMissionary03_A1_S3 ZapYokeMissionary03_A1_S3.hkx
++ -md ZapYokeMissionary03_A1_S4 ZapYokeMissionary03_A1_S4.hkx
+
+' Arrok Foreplay
+s -md ZapYokeForeplay01_A2_S1 ZapYokeForeplay01_A2_S1.hkx
++ -md ZapYokeForeplay01_A2_S2 ZapYokeForeplay01_A2_S2.hkx
++ -md ZapYokeForeplay01_A2_S3 ZapYokeForeplay01_A2_S3.hkx
++ -md ZapYokeForeplay01_A2_S4 ZapYokeForeplay01_A2_S4.hkx
+
+' Arrok Lesbian
+s -md ZapYokeLesbian01_A1_S1 ZapYokeLesbian01_A1_S1.hkx
++ -md ZapYokeLesbian01_A1_S2 ZapYokeLesbian01_A1_S2.hkx
++ -md ZapYokeLesbian01_A1_S3 ZapYokeLesbian01_A1_S3.hkx
++ -md ZapYokeLesbian01_A1_S4 ZapYokeLesbian01_A1_S4.hkx
+
+s -md ZapYokeLesbian01_A2_S1 ZapYokeLesbian01_A2_S1.hkx
++ -md ZapYokeLesbian01_A2_S2 ZapYokeLesbian01_A2_S2.hkx
++ -md ZapYokeLesbian01_A2_S3 ZapYokeLesbian01_A2_S3.hkx
++ -md ZapYokeLesbian01_A2_S4 ZapYokeLesbian01_A2_S4.hkx
+
+
+
+' --- FREE ---
+'
+' All animations in this section are with the characters not bound.
+' 
+
+s -a,md ZapKissing01_A1_S1 LeitoKissingM_a1_s1.hkx
++ -md ZapKissing01_A1_S2 LeitoKissingM_a1_s2.hkx
+b -a,md,Tn ZapKissing01_A1_S3 LeitoKissingM_a1_s3.hkx
+s -a,md ZapKissing01_A2_S1 LeitoKissingM_a2_s1.hkx
++ -md ZapKissing01_A2_S2 LeitoKissingM_a2_s2.hkx
+b -a,md,Tn ZapKissing01_A2_S3 LeitoKissingM_a2_s3.hkx
+
+s -a,md ZapKissing02_A1_S1 LeitoKissingF_a1_s1.hkx
++ -md ZapKissing02_A1_S2 LeitoKissingF_a1_s2.hkx
+b -a,md,Tn ZapKissing02_A1_S3 LeitoKissingF_a1_s3.hkx
+s -a,md ZapKissing02_A2_S1 LeitoKissingF_a2_s1.hkx
++ -md ZapKissing02_A2_S2 LeitoKissingF_a2_s2.hkx
+b -a,md,Tn ZapKissing02_A2_S3 LeitoKissingF_a2_s3.hkx
+
+' Aggressive Doggy Style
+b -md ZapDoggy01_A1_S1 ZapDoggy01_A1_S1.hkx
+b -md ZapDoggy01_A1_S2 ZapDoggy01_A1_S2.hkx
+b -md ZapDoggy01_A1_S3 ZapDoggy01_A1_S3.hkx
+b -md ZapDoggy01_A1_S4 ZapDoggy01_A1_S4.hkx
+
+b -md ZapDoggy01_A2_S1 ZapDoggy01_A2_S1.hkx
+b -md ZapDoggy01_A2_S2 ZapDoggy01_A2_S2.hkx
+b -md ZapDoggy01_A2_S3 ZapDoggy01_A2_S3.hkx
+b -md ZapDoggy01_A2_S4 ZapDoggy01_A2_S4.hkx
+
+
+
+
+
+' --- PILLORY ---
+' 
+' Pillory animations redefined to get a more consistent naming scheme. No bindings
+' except in the pillory.
+
+
+' Pillory Lick
+' 
+' A2 is getting licked by A1
+' 
+b -md ZapPilloryLick01_A2_S1 ZazAPPillTorButtLick1A.hkx
+o -md ZapPilloryLick01_A1_S1 ZazAPPillSXBOLick01B.hkx AOZaZPunishmentPillory
+
+' Pillory Sex
+' 
+' A1 is having sex with A2
+' 
+S -a,md,o ZapPillorySex01_A1_S1 ZazAPPillSXBOEnterB.hkx AOZaZPunishmentPillory
++ -o,md ZapPillorySex01_A1_S1b ZazAPPillSXBOEnterLoopB.hkx AOZaZPunishmentPillory
+o -md ZapPillorySex01_A1_S2 ZazAPPillSXBO01B.hkx AOZaZPunishmentPillory
+o -md ZapPillorySex01_A1_S3 ZazAPPillSXBO02B.hkx AOZaZPunishmentPillory
+o -md ZapPillorySex01_A1_S4 ZazAPPillSXBO03B.hkx AOZaZPunishmentPillory
+o -md ZapPillorySex01_A1_S5 ZazAPPillSXBOEND01B.hkx AOZaZPunishmentPillory AOZaZGushStrong
+S -a,md,o ZapPillorySex01_A1_S6 ZazAPPillSXBOExitB.hkx AOZaZPunishmentPillory AOZaZGushWeak
++ -o,md ZapPillorySex01_A1_S6b ZazAPPillSXBOExitLoopB.hkx AOZaZPunishmentPillory
+
+S -a,md ZapPillorySex01_A2_S1 ZazAPPillSXEnterA.hkx
++ -md ZapPillorySex01_A2_S1b ZazAPPillSXEnterLoopA.hkx
+b -md ZapPillorySex01_A2_S2 ZazAPPillSXHip01A.hkx
+b -md ZapPillorySex01_A2_S3 ZazAPPillSXHip02A.hkx
+b -md ZapPillorySex01_A2_S4 ZazAPPillSXHip03A.hkx
+b -md ZapPillorySex01_A2_S5 ZazAPPillSXEND01A.hkx
+S -a,md ZapPillorySex01_A2_S6 ZazAPPillSXExitA.hkx
++ -a,md ZapPillorySex01_A2_S6b ZazAPPillSXExitLoopA.hkx
+
+' 
+' --- MILK O MATIC ---
+' 
+' 
+' Adaption of Milk o Matic for SexLab
+' 
+' Since the furniture is expected to be entered in the beginning, the enter phase is skipped in the SexLab definition.
+' 
+s -a,md ZapMilkMachine01_A1_S1 ZaZMOMBoundFurnEnter.hkx
++ -o,md ZapMilkMachine01_A1_S1b ZaZMOMBoundFurn01.hkx AOZaZMoMB1BCuffs
+b -o,md ZapMilkMachine01_A1_S2 ZaZMOMBoundFurn02.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop 
+b -o,md ZapMilkMachine01_A1_S3 ZaZMOMBoundFurn03.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB2AGag AOZaZMoMB5A1ProbeStop AOZaZ4AMOMFLeakyPussy01
+b -o,md ZapMilkMachine01_A1_S4 ZaZMOMBoundFurn04.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB2AGag AOZaZMoMB5A1ProbeStop AOZaZMoMB5B1FeedStop AOZaZ4AMOMFLeakyPussy01
+b -o,md ZapMilkMachine01_A1_S5 ZaZMOMBoundFurn05.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB2AGag AOZaZMoMB5A1ProbeStop AOZaZMoMB5B2FeedMove AOZaZ4AMOMFLeakyPussy01
+b -o,md ZapMilkMachine01_A1_S6 ZaZMOMBoundFurn06.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB5A1ProbeStop AOZaZ4AMOMFLeakyPussy01
+b -o,md ZapMilkMachine01_A1_S7 ZaZMOMBoundFurn07.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB5A2ProbeSlow AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy01
+b -o,md ZapMilkMachine01_A1_S8 ZaZMOMBoundFurn08.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB5A3ProbeFast AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy01
+b -o,md ZapMilkMachine01_A1_S9 ZaZMOMBoundFurn09.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A1ProbeStop AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO
+b -o,md ZapMilkMachine01_A1_S10 ZaZMOMBoundFurn10.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B3EngineMoveFast AOZaZMoMB5A1ProbeStop AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO
+b -o,md ZapMilkMachine01_A1_S11 ZaZMOMBoundFurn11.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A2ProbeSlow AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
+b -o,md ZapMilkMachine01_A1_S12 ZaZMOMBoundFurn12.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A3ProbeFast AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
+b -o,md ZapMilkMachine01_A1_S13 ZaZMOMBoundFurn13.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A3ProbeFast AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
+b -o ZapMilkMachine01_A1_S14 ZaZMOMBoundFurn14.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A3ProbeFast AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
+
+' Milk o Matic for poses and struggle
+b -o,md ZapMilkMachinePose01 ZaZMOMBoundFurn01.hkx AOZaZMoMB1BCuffs
+b -o,md ZapMilkMachinePose02 ZaZMOMBoundFurn02.hkx AOZaZMoMB1BCuffs
+
+b -o,md ZapMilkMachineStruggle01 ZaZMOMBoundFurn11.hkx AOZaZMoMB1BCuffs
+b -o,md ZapMilkMachineStruggle02 ZaZMOMBoundFurn12.hkx AOZaZMoMB1BCuffs
+b -o,md ZapMilkMachineStruggle03 ZaZMOMBoundFurn13.hkx AOZaZMoMB1BCuffs
+b -o,md ZapMilkMachineStruggle04 ZaZMOMBoundFurn14.hkx AOZaZMoMB1BCuffs
+
+
+' 
+b ZazAPCAOMilk01Massage ZazAPCAOMilk01Massage.hkx
+
+' 
+'--- FURO BATH TUB MONSTER ---
+' 
+' Since the furniture is expected to be entered in the beginning, the enter phase is skipped in the SexLab definition.
+' 
+s -a,md ZapFuro01_A1_S1 ZaZAPFFuro00Enter.hkx
++ -o,md ZapFuro01_A1_S1b ZaZAPFFuro01.hkx AoZaZFuroGrabs1 AoZaZFuroDong01
+b -o,md ZapFuro01_A1_S2 ZaZAPFFuro02.hkx AoZaZFuroGrabs1 AoZaZFuroTents1 AoZaZFuroDong02
+b -o,md ZapFuro01_A1_S3 ZaZAPFFuro03.hkx AoZaZFuroGrabs1 AoZaZFuroTents2 AoZaZFuroRThigh AoZaZFuroLThigh AoZaZFuroDong03 AOZaZGushStrong
+b -o,md ZapFuro01_A1_S4 ZaZAPFFuro04.hkx AoZaZFuroGrabs1 AoZaZFuroTents2 AoZaZFuroRThigh AoZaZFuroLThigh AoZaZFuroDong02
+b -o,md ZapFuro01_A1_S5 ZaZAPFFuro05.hkx AoZaZFuroGrabs1 AoZaZFuroRThigh AoZaZFuroLThigh AoZaZFuroDong02
+b -a,md ZapFuro01_A1_S6 ZaZAPFFuro00Exit.hkx
+
+
+' 
+'--- OVER THE KNEE SPANKING ---
+'
+' Since the furniture is expected to be entered in the begining, the enter phase is skipped in the SexLab definition.
+' 
+' A2 is giving A1 a spanking.
+' 
+s -a,o,md ZapSpank01_A2_S1 ZaZAPFDOTK00AENTER.hkx AOZaZSpankingChair
++ -o,md ZapSpank01_A2_S1b ZaZAPFDOTK00SPA.hkx AOZaZSpankingChair
+b -o,md ZapSpank01_A2_S2 ZaZAPFDOTK01SPA.hkx AOZaZSpankingChair
+b -o,md ZapSpank01_A2_S3 ZaZAPFDOTK02SPA.hkx AOZaZSpankingChair
+b -o,md ZapSpank01_A2_S4 ZaZAPFDOTK03SPA.hkx AOZaZSpankingChair
+b -a,o,md ZapSpank01_A2_S5 ZaZAPFDOTK00AEXIT.hkx AOZaZSpankingChair
+
+s -a,md ZapSpank01_A1_S1 ZaZAPFDOTK00BENTER.hkx
++ -md ZapSpank01_A1_S1b ZaZAPFDOTK00SPB.hkx 
+b -md ZapSpank01_A1_S2 ZaZAPFDOTK01SPB.hkx 
+b -md ZapSpank01_A1_S3 ZaZAPFDOTK02SPB.hkx 
+b -md ZapSpank01_A1_S4 ZaZAPFDOTK03SPB.hkx 
+b -a,md ZapSpank01_A1_S5 ZaZAPFDOTK00BEXIT.hkx
+
+
+
+' 
+' --- FURNITURE OBJECTS ---
+' 
+' This is a rebranding of animations so that they follow easy to use/understand conventions for use with furniture and animated
+' objects.
+' 
+' There is an attempt at logical naming. Pose01(/b/c) will correspond as much as possible to Struggle01(/b/c) where /b/c is
+' the actual animation played, and the index is the overall type of animation. For consistency across types of animations, 'a' is
+' always left out even when several poses are present.
+' 
+' Eg. For the X-Cross, Pose01 is turned from the cross, and Pose02 is turned towards the cross. Struggle01 and Struggle02 follow
+' this style.
+' 
+o -md ZapXCrossPose01 ZazAPCAO025.hkx AOZaZXCross			' facing away from the x-cross (normal pose)
+o -md ZapXCrossPose01b ZaZAPFXCII01B.hkx AOZaZXCross		' facing away from the x-cross (normal pose)
+o -md ZapXCrossPose02 ZaZAPFXCII02B.hkx AOZaZXCross			' facing toward the x-cross
+o -md ZapXCrossStruggle01 ZaZAPFXCII01A.hkx AOZaZXCross		' facing away from the x-cross (normal pose)
+o -md ZapXCrossStruggle02 ZaZAPFXCII02A.hkx AOZaZXCross		' facing toward the x-cross
+
+
+
+'--------------------------------------------------------------------------
+'----------ZaZ YOKES ARMS TO THE SIDE ----------- Wooden Yokes and Metal Yokes  With Cyclic Animations and Offset Sets
+'--------------------------------------------------------------------------
+'
+' Name description:
+' ZazAPC - Zaz Animation Pack Cyclic
+' Y - Yoke
+' STA - standing
+' Off - offset
+' SI - sitting
+' KNA - kneeling
+' A/B/C/D/E etc - leg position, no convention (commented instead)
+' 1/2 - 1 is breathing, 2 is squirming
+
+'----------------------------
+'MAIN OFFSETS
+ofa -md ZazAPCYOff01A ZazAPCYOff01A.hkx		' hands position 1
+ofa -md ZazAPCYOff02A ZazAPCYOff02A.hkx		' hands position 2
+ofa -md ZazAPCYOff02B ZazAPCYOff02B.hkx		' hands position 2, slightly moving
+ofa -md ZazAPCYOff03A ZazAPCYOff03A.hkx		' hands position 3
+ofa -md ZazAPCYOff03B ZazAPCYOff03B.hkx		' hands position 3, slightly moving
+'----------------------------
+
+'----------------------------
+'STANDING
+b -md ZazAPCYSTA1 ZazAPCYSTA1.hkx	' legs together
+b -md ZazAPCYSTA2 ZazAPCYSTA2.hkx
+b -md ZazAPCYSTB1 ZazAPCYSTB1.hkx	' legs spread
+b -md ZazAPCYSTB2 ZazAPCYSTB2.hkx
+b -md ZazAPCYSTC1 ZazAPCYSTC1.hkx	' bent over
+b -md ZazAPCYSTC2 ZazAPCYSTC2.hkx
+b -md ZazAPCYSTD1 ZazAPCYSTD1.hkx	' bent over, legs spread
+b -md ZazAPCYSTD2 ZazAPCYSTD2.hkx
+'----------------------------
+
+'----------------------------
+'SITTING
+b -md ZazAPCYSIA1 ZazAPCYSIA1.hkx	' legs spread
+b -md ZazAPCYSIA2 ZazAPCYSIA2.hkx
+b -md ZazAPCYSIB1 ZazAPCYSIB1.hkx	' legs together
+b -md ZazAPCYSIB2 ZazAPCYSIB2.hkx
+b -md ZazAPCYSIC1 ZazAPCYSIC1.hkx	' legs forward
+b -md ZazAPCYSIC2 ZazAPCYSIC2.hkx
+b -md ZazAPCYSID1 ZazAPCYSID1.hkx	' legs forward, spread
+b -md ZazAPCYSID2 ZazAPCYSID2.hkx
+b -md ZazAPCYSIE1 ZazAPCYSIE1.hkx	' legs bent
+b -md ZazAPCYSIE2 ZazAPCYSIE2.hkx
+'----------------------------
+
+'----------------------------
+'KNEELING
+b -md ZazAPCYKNA1 ZazAPCYKNA1.hkx	' kneeling (standing kneel)
+b -md ZazAPCYKNA2 ZazAPCYKNA2.hkx
+b -md ZazAPCYKNB1 ZazAPCYKNB1.hkx	' legs spread
+b -md ZazAPCYKNB2 ZazAPCYKNB2.hkx
+b -md ZazAPCYKNC1 ZazAPCYKNC1.hkx	' legs spread, lower position (broken knees)
+b -md ZazAPCYKNC2 ZazAPCYKNC2.hkx
+b -md ZazAPCYKND1 ZazAPCYKND1.hkx	' bent over
+b -md ZazAPCYKND2 ZazAPCYKND2.hkx
+b -md ZazAPCYKNE1 ZazAPCYKNE1.hkx	' bent over further
+b -md ZazAPCYKNE2 ZazAPCYKNE2.hkx	' ass up
+b -md ZazAPCYKNE3 ZazAPCYKNE3.hkx	' ass up, legs spread
+'----------------------------
+
+'----------------------------
+'EXTRAS
+b -md ZazAPCYEXA1 ZazAPCYEXA1.hkx	' legs spread, lying on back
+b -md ZazAPCYEXA2 ZazAPCYEXA2.hkx	' legs together, lying on back
+b -md ZazAPCYEXB1 ZazAPCYEXB1.hkx	' legs spread, lying on stomach
+b -md ZazAPCYEXB2 ZazAPCYEXB2.hkx	' legs together, lying on stomach
+b -md ZazAPCYEXC1 ZazAPCYEXC1.hkx	' squatting, legs together
+b -md ZazAPCYEXC2 ZazAPCYEXC2.hkx	' squatting, legs spread
+'----------------------------
+
+
+
+'--------------------------------------------------------------------------
+'----------ZaZ Shamed Male and Female ----------- With Animations Sets
+'--------------------------------------------------------------------------
+
+'----------------------------
+'MAIN OFFSETS Male
+ofa ZaZAPCSHMOFF ZaZAPCSHMOFF.hkx
+'----------------------------
+'----------------------------
+'Male Animations
+b -md ZaZAPCSHMA1 ZaZAPCSHMA1.hkx
+b -md ZaZAPCSHMA2 ZaZAPCSHMA2.hkx
+b -md ZaZAPCSHMB1 ZaZAPCSHMB1.hkx
+b -md ZaZAPCSHMB2 ZaZAPCSHMB2.hkx
+b -md ZaZAPCSHMC1 ZaZAPCSHMC1.hkx
+b -md ZaZAPCSHMC2 ZaZAPCSHMC2.hkx
+b -md ZaZAPCSHMD1 ZaZAPCSHMD1.hkx
+b -md ZaZAPCSHMD2 ZaZAPCSHMD2.hkx
+b -md ZaZAPCSHME1 ZaZAPCSHME1.hkx
+b -md ZaZAPCSHME2 ZaZAPCSHME2.hkx
+'---------------------------- 
+
+'----------------------------
+'MAIN OFFSETS Female
+ofa ZaZAPCSHFOFF ZaZAPCSHFOFF.hkx
+'----------------------------
+'----------------------------
+'Female Animations
+b -md ZaZAPCSHFA1 ZaZAPCSHFA1.hkx
+b -md ZaZAPCSHFA2 ZaZAPCSHFA2.hkx
+b -md ZaZAPCSHFB1 ZaZAPCSHFB1.hkx
+b -md ZaZAPCSHFB2 ZaZAPCSHFB2.hkx
+b -md ZaZAPCSHFC1 ZaZAPCSHFC1.hkx
+b -md ZaZAPCSHFC2 ZaZAPCSHFC2.hkx
+b -md ZaZAPCSHFD1 ZaZAPCSHFD1.hkx
+b -md ZaZAPCSHFD2 ZaZAPCSHFD2.hkx
+b -md ZaZAPCSHFE1 ZaZAPCSHFE1.hkx
+b -md ZaZAPCSHFE2 ZaZAPCSHFE2.hkx
+b -md ZaZAPCSHFE3 ZaZAPCSHFE3.hkx
+'---------------------------- 
+
+
+
+
+'--------------------------------------------------------------------------
+'----------ZaZ Horny or Aroused Male and Female -----------   With Animations Sets
+'--------------------------------------------------------------------------
+
+'----------------------------
+'MAIN OFFSETS Male
+ofa -md ZaZAPCHorMOff01 ZaZAPCHorMOff01.hkx
+ofa -md ZaZAPCHorMOff02 ZaZAPCHorMOff02.hkx
+ofa -md ZaZAPCHorMOff03 ZaZAPCHorMOff03.hkx
+'----------------------------
+'----------------------------
+'Male Animations
+b ZaZAPCHorMA1 ZaZAPCHorMA1.hkx
+b -md ZaZAPCHorMA2 ZaZAPCHorMA2.hkx
+b -md ZaZAPCHorMB1 ZaZAPCHorMB1.hkx
+b -md ZaZAPCHorMB2 ZaZAPCHorMB2.hkx
+b -md ZaZAPCHorMC1 ZaZAPCHorMC1.hkx
+b -md ZaZAPCHorMC2 ZaZAPCHorMC2.hkx
+b -md ZaZAPCHorMD1 ZaZAPCHorMD1.hkx
+b -md ZaZAPCHorMD2 ZaZAPCHorMD2.hkx
+b -md ZaZAPCHorME1 ZaZAPCHorME1.hkx
+b -md ZaZAPCHorME2 ZaZAPCHorME2.hkx
+'----------------------------
+
+
+'----------------------------
+'MAIN OFFSETS Female
+ofa -md ZaZAPCHorFOFF01 ZaZAPCHorFOFF01.hkx
+ofa -md ZaZAPCHorFOFF02 ZaZAPCHorFOFF02.hkx
+ofa -md ZaZAPCHorFOFF03 ZaZAPCHorFOFF03.hkx
+'----------------------------
+'Female Animations
+b -md ZaZAPCHorFA ZaZAPCHorFA.hkx
+b -md ZaZAPCHorFB ZaZAPCHorFB.hkx
+b -md ZaZAPCHorFC ZaZAPCHorFC.hkx
+b -md ZaZAPCHorFD ZaZAPCHorFD.hkx
+b -md ZaZAPCHorFE ZaZAPCHorFE.hkx
+b -md ZaZAPCHorFF ZaZAPCHorFF.hkx
+b -md ZaZAPCHorFG ZaZAPCHorFG.hkx
+b -md ZaZAPCHorFH ZaZAPCHorFH.hkx
+b -md ZaZAPCHorFI ZaZAPCHorFI.hkx
+b -md ZaZAPCHorFJ ZaZAPCHorFJ.hkx
+'----------------------------
+
+
+
+
+'-----------------------------------------------------------------------------------------------------------------------
+'ZaZ Fluidity 2.0 Tinkle AO's USE SAE      SendAnimationEvent
+'-----------------------------------------------------------------------------------------------------------------------
+
+' Small Puddle
+'Female
+o -md ZazF20TF01 ZazAPCAO101.hkx AOZaZF20PeeYellowFI AOZaZF20PF01
+o -md ZazF20TF02 ZazAPCAO102.hkx AOZaZF20PeeYellowFI AOZaZF20PF02
+o -md ZazF20TF03 ZazAPCAO103.hkx AOZaZF20PeeYellowFI AOZaZF20PF03
+o -md ZazF20TF04 ZazAPCAO104.hkx AOZaZF20PeeYellowFI AOZaZF20PF04
+o -md ZazF20TF05 ZazAPCAO105.hkx AOZaZF20PeeYellowFI AOZaZF20PF05
+o -md ZazF20TF06 ZazAPCAO106.hkx AOZaZF20PeeYellowFI AOZaZF20PF06
+
+'Male
+o -md ZazF20TM01 ZazAPCAO107.hkx AOZaZF20PeeYellowMI AOZaZF20PM01
+o -md ZazF20TM02 ZazAPCAO108.hkx AOZaZF20PeeYellowMI AOZaZF20PM02
+o -md ZazF20TM03 ZazAPCAO109.hkx AOZaZF20PeeYellowMI AOZaZF20PM03
+o -md ZazF20TM04 ZazAPCAO110.hkx AOZaZF20PeeYellowMI AOZaZF20PM04
+o -md ZazF20TM05 ZazAPCAO111.hkx AOZaZF20PeeYellowMI AOZaZF20PM05
+o -md ZazF20TM06 ZazAPCAO112.hkx AOZaZF20PeeYellowMI AOZaZF20PM05
+
+'--------------------------
+' Big Puddle
+'Female
+o -md ZazF20TXF01 ZazAPCAO101.hkx AOZaZF20PeeYellowFI AOZaZF20PXF01
+o -md ZazF20TXF02 ZazAPCAO102.hkx AOZaZF20PeeYellowFI AOZaZF20PXF02
+o -md ZazF20TXF03 ZazAPCAO103.hkx AOZaZF20PeeYellowFI AOZaZF20PXF03
+o -md ZazF20TXF04 ZazAPCAO104.hkx AOZaZF20PeeYellowFI AOZaZF20PXF04
+o -md ZazF20TXF05 ZazAPCAO105.hkx AOZaZF20PeeYellowFI AOZaZF20PXF05
+o -md ZazF20TXF06 ZazAPCAO106.hkx AOZaZF20PeeYellowFI AOZaZF20PXF06
+
+'Male
+o -md ZazF20TXM01 ZazAPCAO107.hkx AOZaZF20PeeYellowMI AOZaZF20PXM01
+o -md ZazF20TXM02 ZazAPCAO108.hkx AOZaZF20PeeYellowMI AOZaZF20PXM02
+o -md ZazF20TXM03 ZazAPCAO109.hkx AOZaZF20PeeYellowMI AOZaZF20PXM03
+o -md ZazF20TXM04 ZazAPCAO110.hkx AOZaZF20PeeYellowMI AOZaZF20PXM04
+o -md ZazF20TXM05 ZazAPCAO111.hkx AOZaZF20PeeYellowMI AOZaZF20PXM05
+o -md ZazF20TXM06 ZazAPCAO112.hkx AOZaZF20PeeYellowMI AOZaZF20PXM05
+
+
+
+'-----------------------------------------------------------------------------------------------------------------------
+'------Furniture Animations-----
+'-----------------------------------------------------------------------------------------------------------------------
+
+'---------------------------------------------------------------------------------------
+
+'----------MILK-O-MATIC I ----------- Milking Machine Bound Furniture
+
+fu -a ZaZMOMBoundFurn_00Enter ZaZMOMBoundFurnEnter.hkx
++ -o ZaZMOMBoundFurn_01 ZaZMOMBoundFurn01.hkx AOZaZMoMB1BCuffs
++ -o ZaZMOMBoundFurn_02 ZaZMOMBoundFurn02.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop 
++ -o ZaZMOMBoundFurn_03 ZaZMOMBoundFurn03.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB2AGag AOZaZMoMB5A1ProbeStop AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMBoundFurn_04 ZaZMOMBoundFurn04.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB2AGag AOZaZMoMB5A1ProbeStop AOZaZMoMB5B1FeedStop AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMBoundFurn_05 ZaZMOMBoundFurn05.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB2AGag AOZaZMoMB5A1ProbeStop AOZaZMoMB5B2FeedMove AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMBoundFurn_06 ZaZMOMBoundFurn06.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB5A1ProbeStop AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMBoundFurn_07 ZaZMOMBoundFurn07.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB5A2ProbeSlow AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy01
++ -o ZaZMOMBoundFurn_08 ZaZMOMBoundFurn08.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B1EngineStop AOZaZMoMB5A3ProbeFast AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy01
++ -o ZaZMOMBoundFurn_09 ZaZMOMBoundFurn09.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A1ProbeStop AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO
++ -o ZaZMOMBoundFurn_10 ZaZMOMBoundFurn10.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B3EngineMoveFast AOZaZMoMB5A1ProbeStop AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO
++ -o ZaZMOMBoundFurn_11 ZaZMOMBoundFurn11.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A2ProbeSlow AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
++ -o ZaZMOMBoundFurn_12 ZaZMOMBoundFurn12.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A3ProbeFast AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
++ -o ZaZMOMBoundFurn_13 ZaZMOMBoundFurn13.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A3ProbeFast AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
++ -o ZaZMOMBoundFurn_14 ZaZMOMBoundFurn14.hkx AOZaZMoMB1BCuffs AOZaZMoMB4AAnalDrain AOZaZMoMB4B2EngineMoveSlow AOZaZMoMB5A3ProbeFast AOZaZMoMB3BMilkLAO AOZaZMoMB3AMilkRAO AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
++ -a ZaZMOMBoundFurn_00Exit ZazMOMFurnitureExit.hkx
+
+'---------------------------------------------------------------------------------------
+
+
+
+
+'----------MILK-O-MATIC II ----------- Milking Machine Free -Furniture 
+
+'------------------------------------------
+
+'Milk-O-Matic II  Furniture Version
+
+fu -a ZaZMOMFreeFurn_00Enter ZaZMOMFreeFurnEnter.hkx
++ -o ZaZMOMFreeFurn_01 ZaZMOMFreeFurn01.hkx AOZaZ1DMOMFEngineStop
++ -o ZaZMOMFreeFurn_02 ZaZMOMFreeFurn02.hkx AOZaZ1DMOMFEngineStop
++ -o ZaZMOMFreeFurn_03 ZaZMOMFreeFurn03.hkx AOZaZ1DMOMFEngineStop AOZaZ1BMOMFAnalDrain AOZaZ2CMOMFGag AOZaZ2DMOMFProbeLock AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMFreeFurn_04 ZaZMOMFreeFurn04.hkx AOZaZ1DMOMFEngineStop AOZaZ1BMOMFAnalDrain AOZaZ2CMOMFGag AOZaZ1CMOMFFeeder AOZaZ2DMOMFProbeLock  AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMFreeFurn_05 ZaZMOMFreeFurn05.hkx AOZaZ1DMOMFEngineStop AOZaZ1BMOMFAnalDrain AOZaZ2CMOMFGag AOZaZ1CMOMFFeederMove AOZaZ2DMOMFProbeLock AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMFreeFurn_06 ZaZMOMFreeFurn06.hkx AOZaZ1DMOMFEngineStop AOZaZ1BMOMFAnalDrain AOZaZ2DMOMFProbeLock AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMFreeFurn_07 ZaZMOMFreeFurn07.hkx AOZaZ1DMOMFEngineStop AOZaZ1BMOMFAnalDrain AOZaZ2EMOMFProbeSlow AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy01
++ -o ZaZMOMFreeFurn_08 ZaZMOMFreeFurn08.hkx AOZaZ1DMOMFEngineStop AOZaZ1BMOMFAnalDrain AOZaZ2FMOMFProbeFast AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy01
++ -o ZaZMOMFreeFurn_09 ZaZMOMFreeFurn09.hkx AOZaZ1EMOMFEngineSlow AOZaZ1BMOMFAnalDrain AOZaZ2DMOMFProbeLock AOZaZ3BMOMMilkL AOZaZ3AMOMMilkR AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMFreeFurn_10 ZaZMOMFreeFurn10.hkx AOZaZ1FMOMFEngineFast AOZaZ1BMOMFAnalDrain AOZaZ2DMOMFProbeLock AOZaZ3BMOMMilkL AOZaZ3AMOMMilkR AOZaZ4AMOMFLeakyPussy01
++ -o ZaZMOMFreeFurn_11 ZaZMOMFreeFurn11.hkx AOZaZ1EMOMFEngineSlow AOZaZ1BMOMFAnalDrain AOZaZ2EMOMFProbeSlow AOZaZ3BMOMMilkL AOZaZ3AMOMMilkR AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
++ -o ZaZMOMFreeFurn_12 ZaZMOMFreeFurn12.hkx AOZaZ1FMOMFEngineFast AOZaZ1BMOMFAnalDrain AOZaZ2FMOMFProbeFast AOZaZ3BMOMMilkL AOZaZ3AMOMMilkR AOZaZ4AMOMFLeakyPussy02 AOZaZ4BMOMFSquirtingPussy02
++ -a ZaZMOMFreeFurn_00Exit ZazMOMFurnitureExit.hkx
+
+
+'---------------------------------------------------------------------------------------
+
+
+'---------------------------------------------------------------------------------------
+
+'----------Single Pillory Furniture-----------
+fu -a ZazAPFPillSingle00Enter ZazAPFPillSingle00Enter.hkx
++ ZazAPFPillSingle01 ZazAPFPillSingle01.hkx
++ ZazAPFPillSingle02 ZazAPFPillSingle02.hkx
++ ZazAPFPillSingle03 ZazAPFPillSingle03.hkx
++ ZazAPFPillSingle04 ZazAPFPillSingle04.hkx
++ ZazAPFPillSingle05 ZazAPFPillSingle05.hkx
++ -a ZazAPFPillSingle00Exit ZazAPFPillSingle00Exit.hkx
+
+b ZapPilloryStruggle01 ZazAPPillSXEnterLoopB.hkx		' Struggle animation
+'--------------------------------------------
+
+
+'----------X-Cross II Furniture-----------
+fu -a ZaZAPFXC00IIEnter ZaZAPFXC00IIEnter.hkx
++ ZaZAPFXCII01A ZaZAPFXCII01A.hkx					' struggle, facing forward
++ ZaZAPFXCII01B ZaZAPFXCII01B.hkx					' head down, facing forward
++ ZaZAPFXCII02A ZaZAPFXCII02A.hkx					' struggle, facing back
++ ZaZAPFXCII02B ZaZAPFXCII02B.hkx					' still, facing back
++ -a ZaZAPFXC00IIExit ZazFurnitureExit.hkx
+'-----------------------------------------
+
+
+
+'----------Crux Light Furniture----------
+fu -a ZaZAPFCRL00Enter ZaZAPFCRL00Enter.hkx
++ -o ZaZAPFCRL01A ZaZAPFCRL01A.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZAPCruxLight
++ -o ZaZAPFCRL01B ZaZAPFCRL01B.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZAPCruxLight
++ -o ZaZAPFCRL01C ZaZAPFCRL01C.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZAPCruxLight
++ -a ZaZAPFCRL00Exit ZaZAPFCRL00Exit.hkx
+
+'-------------------------------
+
+
+'----------Crux Heavy Furniture----------
+fu -a ZaZAPFCRH00Enter ZaZAPFCRH00Enter.hkx
++ -o ZaZAPFCRH01A ZaZAPFCRH01A.hkx AOZaZAPCruxHeavyNFL AOZaZAPCruxHeavyNFR AOZaZAPCruxHeavyNHL AOZaZAPCruxHeavyNHR
++ -o ZaZAPFCRH01B ZaZAPFCRH01B.hkx AOZaZAPCruxHeavyNFL AOZaZAPCruxHeavyNFR AOZaZAPCruxHeavyNHL AOZaZAPCruxHeavyNHR
++ -o ZaZAPFCRH01C ZaZAPFCRH01C.hkx AOZaZAPCruxHeavyNFL AOZaZAPCruxHeavyNFR AOZaZAPCruxHeavyNHL AOZaZAPCruxHeavyNHR
++ -a ZaZAPFCRH00Exit ZaZAPFCRH00Exit.hkx
+
+'-------------------------------
+
+
+'----------Wooden Pony I & II Furniture---------- Hands Bound And With Yokes 
+fu -a ZaZAPFWP00ENTER ZaZAPFWP00ENTER.hkx
++ -o ZaZAPFWPA1 ZaZAPFWPA1.hkx AOZaZBallChainLeft AOZaZBallChainRight
++ -o ZaZAPFWPA2 ZaZAPFWPA2.hkx AOZaZBallChainLeft AOZaZBallChainRight
++ -o ZaZAPFWPA3 ZaZAPFWPA3.hkx AOZaZWPIILegCuffs
++ -o ZaZAPFWPA4 ZaZAPFWPA4.hkx AOZaZWPIILegCuffs
++ -o ZaZAPFWPB1 ZaZAPFWPB1.hkx AOZaZBallChainLeft AOZaZBallChainRight AOZaZWPIIYoke
++ -o ZaZAPFWPB2 ZaZAPFWPB2.hkx AOZaZBallChainLeft AOZaZBallChainRight AOZaZWPIIYoke
++ -o ZaZAPFWPB3 ZaZAPFWPB3.hkx AOZaZWPIILegCuffs AOZaZWPIIYoke
++ -o ZaZAPFWPB4 ZaZAPFWPB4.hkx AOZaZWPIILegCuffs AOZaZWPIIYoke
++ -a ZaZAPFWP00EXIT ZaZAPFWP00EXIT.hkx
+
+'-------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'---------------------------------------------------------------------------------------
+
+'----------Spit Roast Furniture-----------
+
+fu -a ZaZAPFSR00Enter ZaZAPFSR00Enter.hkx 
++ -o ZaZAPFSR01A ZaZAPFSR01A.hkx AOZaZAPSpit AOZaZAPSpitFire 
++ -o ZaZAPFSR01B ZaZAPFSR01B.hkx AOZaZAPSpit AOZaZAPSpitFire AOZaZAPSpitBurn AOZaZAPSpitBurnII
++ -o ZaZAPFSR02A ZaZAPFSR02A.hkx AOZaZAPSpit AOZaZAPSpitFire 
++ -o ZaZAPFSR02B ZaZAPFSR02B.hkx AOZaZAPSpit AOZaZAPSpitFire AOZaZAPSpitBurn AOZaZAPSpitBurnII
++ -o ZaZAPFSR03A ZaZAPFSR03A.hkx AOZaZAPSpit AOZaZAPSpitFire 
++ -o ZaZAPFSR03B ZaZAPFSR03B.hkx AOZaZAPSpit AOZaZAPSpitFire AOZaZAPSpitBurn AOZaZAPSpitBurnII
++ -a ZaZAPFSR00Exit ZaZAPFSR00Exit.hkx
+
+'-------------------------------
+
+
+'----------Vertical Stockade X Furniture-----------
+
+fu -a ZaZAPFVS00Enter ZaZAPFVS00Enter.hkx 
++ -o ZaZAPFVS01 ZaZAPFVS01.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR
++ -o ZaZAPFVS02 ZaZAPFVS02.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR
++ -o ZaZAPFVS03 ZaZAPFVS03.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOZaZVerticalStockadeProbe
++ -o ZaZAPFVS04 ZaZAPFVS04.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOZaZVerticalStockadeProbeFuck
++ -a ZaZAPFVS00Exit ZaZAPFVS00Exit.hkx
+
+'-------------------------------
+
+'----------Multiple RestraintPost Pole & Multiple Restraint Wall -----------
+
+fu -a ZaZAPFMPP00Enter ZazAPCAO011.hkx
++ -o ZaZAPFMPP01 ZazAPCAO011.hkx AOZaZMPP01 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR		' standing
++ -o ZaZAPFMPP02 ZazAPCAO012.hkx AOZaZMPP02 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR		' kneeling
++ -o ZaZAPFMPP03 ZazAPCAO013.hkx AOZaZMPP03 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR		' yoke + leg spreader
++ -o ZaZAPFMPP04 ZazAPCAO014.hkx AOZaZMPP04 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR		' hands together + leg spreader
++ -o ZaZAPFMPP05 ZazAPCAO015.hkx AOZaZMPP05 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR		' hanging upside down from spreader bar
++ -o ZaZAPFMPP06 ZazAPCAO016.hkx AOZaZMPP06 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR		' hanging
++ -a ZaZAPFMPP00Exit ZazFurnitureExit.hkx
+
+'-------------------------------
+
+'----------Furo Tub Furniture I----------- OLD
+
+fu -a ZaZAPFFuro00Enter ZaZAPFFuro00Enter.hkx
++ -o ZaZAPFFuro01 ZaZAPFFuro01.hkx AoZaZFuroGrabs1 AoZaZFuroDong01
++ -o ZaZAPFFuro02 ZaZAPFFuro02.hkx AoZaZFuroGrabs1 AoZaZFuroTents1 AoZaZFuroDong02
++ -o ZaZAPFFuro03 ZaZAPFFuro03.hkx AoZaZFuroGrabs1 AoZaZFuroTents2 AoZaZFuroRThigh AoZaZFuroLThigh AoZaZFuroDong03 AOZaZGushStrong
++ -o ZaZAPFFuro04 ZaZAPFFuro04.hkx AoZaZFuroGrabs1 AoZaZFuroTents2 AoZaZFuroRThigh AoZaZFuroLThigh AoZaZFuroDong02
++ -o ZaZAPFFuro05 ZaZAPFFuro05.hkx AoZaZFuroGrabs1 AoZaZFuroRThigh AoZaZFuroLThigh AoZaZFuroDong02
++ -a ZaZAPFFuro00Exit ZaZAPFFuro00Exit.hkx
+
+'-------------------------------
+
+
+
+
+
+
+
+'-------------------------------------------------------------------------------------------------------
+
+'-----------------------------------------------------------------------------------------------------------------------
+'------DUAL Furniture Animations-----
+'--------------------------------------------------------------------------------------------------------
+
+
+
+'-------------------------------------------------------------
+
+'----------OTK SPANKING CHAIR DUAL-INDIVIDUAL FURNITURE----------
+
+
+'-------------------------------DOMINANT
+fu -a ZaZAPFDOTK00AENTER ZaZAPFDOTK00AENTER.hkx
++ ZaZAPFDOTK00SPA ZaZAPFDOTK00SPA.hkx
++ ZaZAPFDOTK01SPA ZaZAPFDOTK01SPA.hkx
++ ZaZAPFDOTK02SPA ZaZAPFDOTK02SPA.hkx
++ ZaZAPFDOTK03SPA ZaZAPFDOTK03SPA.hkx    
++ -a ZaZAPFDOTK00AEXIT ZaZAPFDOTK00AEXIT.hkx
+'-------------------------------
+
+'-------------------------------SUBMISSIVE
+fu -a ZaZAPFDOTK00BENTER ZaZAPFDOTK00BENTER.hkx
++ ZaZAPFDOTK00SPB ZaZAPFDOTK00SPB.hkx 
++ ZaZAPFDOTK01SPB ZaZAPFDOTK01SPB.hkx 
++ ZaZAPFDOTK02SPB ZaZAPFDOTK02SPB.hkx 
++ ZaZAPFDOTK03SPB ZaZAPFDOTK03SPB.hkx 
++ -a ZaZAPFDOTK00BEXIT ZaZAPFDOTK00BEXIT.hkx
+'-------------------------------
+
+
+
+
+'-------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+'--- ZAZ FURNITURE OBJECTS------Static Conversions Older 
+
+'Wooden Horse
+fu -a ZazWoodenHorse01_Enter ZazAPCAO024.hkx
++ ZazWoodenHorse01_Loop ZazAPCAO024.hkx
++ -a ZazWoodenHorse01_Exit ZazFurnitureExit.hkx
+
+'X-Cross
+fu -a ZazXcross01_Enter ZazAPCAO025.hkx
++ ZazXcross01_Loop ZazAPCAO025.hkx
++ -a ZazXcross01_Exit ZazFurnitureExit.hkx
+
+'Rack Front Face
+fu -a ZazRack01_Enter ZazAPCAO211.hkx
++ ZazRack01_Loop ZazAPCAO211.hkx
++ ZazRack02_Loop ZazAPCAO212.hkx
++ -a ZazRack01_Exit ZazFurnitureExit.hkx
+
+'Rack Back Face
+fu -a ZazRack03_Enter ZazAPCAO213.hkx
++ ZazRack03_Loop ZazAPCAO213.hkx
++ -a ZazRack03_Exit ZazFurnitureExit.hkx
+
+'Rack High Front Face
+fu -a ZazRackHighFF_Enter ZazRackHighFF.hkx
++ ZazRackHighFF_Loop ZazRackHighFF.hkx
++ -a ZazRackHighFF_Exit ZazFurnitureExit.hkx
+
+'Rack High Back Face
+fu -a ZazRackHighFB_Enter ZazRackHighFB.hkx
++ ZazRackHighFB_Loop ZazRackHighFB.hkx
++ -a ZazRackHighFB_Exit ZazFurnitureExit.hkx
+
+'Rack Low Back Face
+fu -a ZazRackFlatFB_Enter ZazRackFlatFB.hkx
++ ZazRackFlatFB_Loop ZazRackFlatFB.hkx
++ -a ZazRackFlatFB_Exit ZazFurnitureExit.hkx
+
+'Rack Low Front Face
+fu -a ZazRackFlatFS_Enter ZazRackFlatFS.hkx
++ ZazRackFlatFS_Loop ZazRackFlatFS.hkx
++ -a ZazRackFlatFS_Exit ZazFurnitureExit.hkx
+
+'Rack Round
+fu -a ZazRackRound_Enter ZazRackRound.hkx
++ ZazRackRound_Loop ZazRackRound.hkx
++ -a ZazRackRound_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+'The Real Rack
+fu -a ZazTheRealRack_Enter ZazTheRealRack.hkx
++ -o ZazTheRealRack_Loop ZazTheRealRack.hkx  AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZRackRope
++ -a ZazTheRealRack_Exit ZazFurnitureExit.hkx
+
+'The Torture Rack
+fu -a ZazTortureRack_Enter ZazTortureRack.hkx
++ ZazTortureRack_Loop ZazTortureRack.hkx  
++ -a ZazTortureRack_Exit ZazFurnitureExit.hkx
+
+
+'Garotte
+fu -a ZazGarotte_Enter ZazGarotteStruggle.hkx
++ ZazGarotte_Loop ZazGarotteStruggle.hkx  
++ -a ZazGarotte_Exit ZazFurnitureExit.hkx
+
+
+'Vertical-Stocks
+fu -a ZazVerticalStocks01_Enter ZazAPCAO023.hkx
++ -o ZazVerticalStocks01_Loop ZazAPCAO023.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR
++ -a ZazVerticalStocks01_Exit ZazFurnitureExit.hkx
+
+'Vertical-Stocks II
+fu -a ZazVerticalStocks02_Enter ZazAPCAO031.hkx
++ -o ZazVerticalStocks02_Loop ZazAPCAO031.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR
++ -a ZazVerticalStocks02_Exit ZazFurnitureExit.hkx
+
+'Vertical-Stocks Probe Fucked
+fu -a ZazVerticalStocks_Enter ZazAPCAO031.hkx
++ -o ZazVerticalStocks_Loop ZazAPCAO031.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOZaZVerticalStockadeProbeFuck
++ -o ZazVerticalStocks_StandStill ZazAPCAO031.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR
++ -a ZazVerticalStocks_Exit ZazFurnitureExit.hkx
+
+'Vertical-Stocks X Stockade Probe Fucked
+fu -a ZaZAPFVS00_Enter ZaZAPFVS00Enter.hkx 
++ -o ZaZAPFVS04_Loop ZaZAPFVS04.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOZaZVerticalStockadeProbeFuck
++ -o ZaZAPFVS04_StandStill ZaZAPFVS04.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR
++ -a ZaZAPFVS00_Exit ZaZAPFVS00Exit.hkx
+
+'Vertical-Fuck-Joy Chair - Probe Fucked
+fu -a ZazFuckJoyChair_Enter ZazFuckJoyChair.hkx 
++ -o ZazFuckJoyChair_Loop ZazFuckJoyChair.hkx AOZaZRopeWristL AOZaZRopeWristR AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOZaZVerticalStockadeProbeFuck
++ -o ZazFuckJoyChair_StandStill ZazFuckJoyChair.hkx AOZaZRopeWristL AOZaZRopeWristR AOCuffsZaZAnkleL AOCuffsZaZAnkleR 
++ -a ZazFuckJoyChair_Exit ZazFurnitureExit.hkx
+
+
+'Skyrim-Pillory
+fu -a ZazPillory01_Enter ZazAPCAO009.hkx
++ ZazPillory01_Loop ZazAPCAO009.hkx
++ -a ZazPillory01_Exit ZazFurnitureExit.hkx
+
+
+'X Pillory
+fu -a ZazXPillory_Enter ZazXPillory.hkx
++ ZazXPillory_Loop ZazXPillory.hkx
++ -a ZazXPillory_Exit ZazFurnitureExit.hkx
+
+
+'H Pillory
+fu -a ZazHpillory_Enter ZazHpillory.hkx
++ ZazHpillory_Loop ZazHpillory.hkx
++ -a ZazHpillory_Exit ZazFurnitureExit.hkx
+
+'----------------------------------------------------------------------------
+
+'Wheel 01
+fu -a ZazWheel01_Enter ZazAPCAO261.hkx
++ ZazWheel01_Loop ZazAPCAO261.hkx
++ -a ZazWheel01_Exit ZazFurnitureExit.hkx
+
+'Wheel 02
+fu -a ZazWheel02_Enter ZazAPCAO262.hkx
++ ZazWheel02_Loop ZazAPCAO262.hkx
++ -a ZazWheel02_Exit ZazFurnitureExit.hkx
+
+'Wheel 03
+fu -a ZazWheel03_Enter ZazAPCAO263.hkx
++ ZazWheel03_Loop ZazAPCAO263.hkx
++ -a ZazWheel03_Exit ZazFurnitureExit.hkx
+
+
+'Custom Wheels, Single Animated
+
+fu -a ZazSmallWheel01_Enter ZazSmallWheel01.hkx
++ -o ZazSmallWheel01_Loop ZazSmallWheel01.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazSmallWheel01_Exit ZazFurnitureExit.hkx
+
+fu -a ZazSmallWheel01E_Enter ZazSmallWheel01.hkx
++ -o ZazSmallWheel01E_Loop2 ZazSmallWheel01extreme.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazSmallWheel01E_Exit ZazFurnitureExit.hkx
+
+fu -a ZazSmallWheel02_Enter ZazSmallWheel02.hkx
++ -o ZazSmallWheel02_Loop ZazSmallWheel02.hkx AORopeWristL AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazSmallWheel02_Exit ZazFurnitureExit.hkx
+
+fu -a ZazSmallWheel02E_Enter ZazSmallWheel02.hkx
++ -o ZazSmallWheel02E_Loop2 ZazSmallWheel02extreme.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazSmallWheel02E_Exit ZazFurnitureExit.hkx
+
+fu -a ZazSmallWheel03_Enter ZazSmallWheel03.hkx
++ -o ZazSmallWheel03_Loop ZazSmallWheel03.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazSmallWheel03_Exit ZazFurnitureExit.hkx
+
+fu -a ZazSmallWheel03E_Enter ZazSmallWheel03.hkx
++ -o ZazSmallWheel03E_Loop2 ZazSmallWheel03extreme.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazSmallWheel03E_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+'Custom Wheels, Multi Animated
+
+fu -a ZazCuWheel01_Enter ZazSmallWheel01.hkx
++ -o ZazCuWheel01_Loop ZazSmallWheel01.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -o ZazCuWheel01_Loop2 ZazSmallWheel01extreme.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazCuWheel01_Exit ZazFurnitureExit.hkx
+
+
+fu -a ZazCuWheel02_Enter ZazSmallWheel02.hkx
++ -o ZazCuWheel02_Loop ZazSmallWheel02.hkx AORopeWristL AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazCuWheel02_Loop2 ZazSmallWheel02extreme.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazCuWheel02_Exit ZazFurnitureExit.hkx
+
+
+fu -a ZazCuWheel03_Enter ZazSmallWheel03.hkx
++ -o ZazCuWheel03_Loop ZazSmallWheel03.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -o ZazCuWheel03_Loop2 ZazSmallWheel03extreme.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazCUWheel03_Exit ZazFurnitureExit.hkx
+
+
+'Custom Horses & Ponys-----------------------------------------------------------------------------------------------------
+
+
+'Wooden Horse
+fu -a ZazWoodenHorse_Enter ZazWoodenHorse.hkx
++ ZazWoodenHorse_Loop ZazWoodenHorse.hkx
++ -a ZazWoodenHorse_Exit ZazFurnitureExit.hkx
+
+
+'Wooden Pony Multi-Furniture
+
+fu -a ZazWoodenPonyEnter ZazWoodenPonyEnter.hkx
++ -o ZazWoodenPony01 ZazWoodenPony01.hkx AOZaZBallChainLeft AOZaZBallChainRight AOCuffsZaZWristL AOCuffsZaZWristR
++ -o ZazWoodenPony02 ZazWoodenPony02.hkx AOZaZBallChainLeft AOZaZBallChainRight AOCuffsZaZWristL AOCuffsZaZWristR
++ -o ZazWoodenPony03 ZazWoodenPony03.hkx AOZaZWPIILegCuffs AOCuffsZaZWristL AOCuffsZaZWristR
++ -o ZazWoodenPony04 ZazWoodenPony04.hkx AOZaZWPIILegCuffs AOCuffsZaZWristL AOCuffsZaZWristR
++ -o ZazWoodenPony05 ZazWoodenPony05.hkx AOZaZBallChainLeft AOZaZBallChainRight AOZaZWPIIYoke
++ -o ZazWoodenPony06 ZazWoodenPony06.hkx AOZaZBallChainLeft AOZaZBallChainRight AOZaZWPIIYoke
++ -o ZazWoodenPony07 ZazWoodenPony07.hkx AOZaZWPIILegCuffs AOZaZWPIIYoke
++ -o ZazWoodenPony08 ZazWoodenPony08.hkx AOZaZWPIILegCuffs AOZaZWPIIYoke
++ -a ZazWoodenPonyExit ZazWoodenPonyExit.hkx
+
+
+
+'Wooden Pony Single
+
+fu -a ZazWoodenPonySingle01_Enter ZazWoodenPonyEnter.hkx
++ -o ZazWoodenPonySingle01 ZazWoodenPony01.hkx AOZaZBallChainLeft AOZaZBallChainRight AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazWoodenPonySingle01_Exit ZazWoodenPonyExit.hkx
+
+ 
+fu -a ZazWoodenPonySingle02_Enter ZazWoodenPonyEnter.hkx
++ -o ZazWoodenPonySingle02 ZazWoodenPony02.hkx AOZaZBallChainLeft AOZaZBallChainRight AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazWoodenPonySingle02_Exit ZazWoodenPonyExit.hkx
+
+
+fu -a ZazWoodenPonySingle03_Enter ZazWoodenPonyEnter.hkx
++ -o ZazWoodenPonySingle03 ZazWoodenPony03.hkx AOZaZWPIILegCuffs AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazWoodenPonySingle03_Exit ZazWoodenPonyExit.hkx
+
+
+fu -a ZazWoodenPonySingle04_Enter ZazWoodenPonyEnter.hkx
++ -o ZazWoodenPonySingle04 ZazWoodenPony04.hkx AOZaZWPIILegCuffs AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazWoodenPonySingle04_Exit ZazWoodenPonyExit.hkx
+
+
+fu -a ZazWoodenPonySingle05_Enter ZazWoodenPonyEnter.hkx
++ -o ZazWoodenPonySingle05 ZazWoodenPony05.hkx AOZaZBallChainLeft AOZaZBallChainRight AOZaZWPIIYoke
++ -a ZazWoodenPonySingle05_Exit ZazWoodenPonyExit.hkx
+
+
+fu -a ZazWoodenPonySingle06_Enter ZazWoodenPonyEnter.hkx
++ -o ZazWoodenPonySingle06 ZazWoodenPony06.hkx AOZaZBallChainLeft AOZaZBallChainRight AOZaZWPIIYoke
++ -a ZazWoodenPonySingle06_Exit ZazWoodenPonyExit.hkx
+
+
+fu -a ZazWoodenPonySingle07_Enter ZazWoodenPonyEnter.hkx
++ -o ZazWoodenPonySingle07 ZazWoodenPony07.hkx AOZaZWPIILegCuffs AOZaZWPIIYoke
++ -a ZazWoodenPonySingle07_Exit ZazWoodenPonyExit.hkx
+
+
+fu -a ZazWoodenPonySingle08_Enter ZazWoodenPonyEnter.hkx
++ -o ZazWoodenPonySingle08 ZazWoodenPony08.hkx AOZaZWPIILegCuffs AOZaZWPIIYoke
++ -a ZazWoodenPonySingle08_Exit ZazWoodenPonyExit.hkx
+
+
+
+
+'----------------------------------------------------------------------------
+
+
+'Zap X-Cross Light / All Poses
+
+'X-Cross still /Face Down /FD
+
+fu -a ZaZXcrossFFSTILL_Enter ZaZAPFXC00IIEnter.hkx
++ ZaZXcrossFFSTILL_Loop ZaZAPFXCII01B.hkx					' still
++ -a ZaZXcrossFFSTILL_Exit ZazFurnitureExit.hkx
+
+
+'X-Cross struggling /Facing Front /FF
+
+fu -a ZaZXcrossFFSTRU_Enter ZaZAPFXC00IIEnter.hkx
++ ZaZXcrossFFSTRU_Loop ZaZAPFXCII01A.hkx					' struggle
++ -a ZaZXcrossFFSTRU_Exit ZazFurnitureExit.hkx
+
+
+'X-Cross still facing back /FB
+
+fu -a ZaZXcrossFBSTILL_Enter ZaZAPFXC00IIEnter.hkx
++ ZaZXcrossFBSTILL_Loop ZaZAPFXCII02B.hkx					' still, facing back
++ -a ZaZXcrossFBSTILL_Exit ZazFurnitureExit.hkx
+
+
+'X-Cross struggling facing back /FB
+
+fu -a ZaZXcrossFBSTRU_Enter ZaZAPFXC00IIEnter.hkx
++ ZaZXcrossFBSTRU_Loop ZaZAPFXCII02A.hkx					' struggle, facing back
++ -a ZaZXcrossFBSTRU_Exit ZazFurnitureExit.hkx
+
+
+
+
+'X-Cross-Special / Heavy XXL Xcross
+
+
+
+fu -a ZazXXLXcrossFFstruggle_Enter ZaZAPFXC00IIEnter.hkx
++ ZazXXLXcrossFFstruggle_Loop ZazXXLXcrossFFstruggle.hkx			' struggle, facing to front
++ -a ZazXXLXcrossFFstruggle_Exit ZazFurnitureExit.hkx
+
+fu -a ZazXXLXcrossFDstill_Enter ZaZAPFXC00IIEnter.hkx
++ ZazXXLXcrossFDstill_Loop ZazXXLXcrossFFheaddown.hkx				' still, facing down
++ -a ZazXXLXcrossFDstill_Exit ZazFurnitureExit.hkx
+
+fu -a ZazXXLXcrossFBstruggle_Enter ZaZAPFXC00IIEnter.hkx
++ ZazXXLXcrossFBstruggle_Loop ZazXXLXcrossBFstill.hkx				' still, facing back
++ -a ZazXXLXcrossFBstruggle_Exit ZazFurnitureExit.hkx
+
+fu -a ZazXXLXcrossFBstill_Enter ZaZAPFXC00IIEnter.hkx
++ ZazXXLXcrossFBstill_Loop ZazXXLXcrossBFstruggle.hkx				' struggle, facing back
++ -a ZazXXLXcrossFBstill_Exit ZazFurnitureExit.hkx
+
+
+
+'----------------------------------------------------------------------------
+
+'Cross A Nails
+fu -a ZazCrossA_Enter ZazAPCAO251.hkx
++ -o ZazCrossA_Loop ZazAPCAO251.hkx AOZaZAPCruxHeavyNHL AOZaZAPCruxHeavyNHR AOZaZAPCrossAL
++ -a ZazCrossA_Exit ZazFurnitureExit.hkx
+
+'Cross B Nails
+fu -a ZazCrossB_Enter ZazAPCAO252.hkx
++ -o ZazCrossB_Loop ZazAPCAO252.hkx AOZaZAPCruxHeavyNHL AOZaZAPCruxHeavyNHR AOZaZAPCruxHeavyNFL AOZaZAPCruxHeavyNFR
++ -a ZazCrossB_Exit ZazFurnitureExit.hkx
+
+'Cross C Rope
+fu -a ZazCrossC_Enter ZazAPCAO253.hkx
++ -o ZazCrossC_Loop ZazAPCAO253.hkx  AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazCrossC_Exit ZazFurnitureExit.hkx
+
+'Cross D Rope
+fu -a ZazCrossD_Enter ZazAPCAO254.hkx
++ -o ZazCrossD_Loop ZazAPCAO254.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazCrossD_Exit ZazFurnitureExit.hkx
+
+'Cross E Rope
+fu -a ZazCrossE_Enter ZazAPCAO255.hkx
++ -o ZazCrossE_Loop ZazAPCAO255.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazCrossE_Exit ZazFurnitureExit.hkx
+
+'BuddedTortureCrux
+fu -a ZazBuddedCruxHeavy_Enter ZazBuddedCruxHeavy.hkx
++ ZazBuddedCruxHeavy_Loop ZazBuddedCruxHeavy.hkx
++ -a ZazBuddedCruxHeavy_Exit ZazFurnitureExit.hkx
+
+'----------------------------------------------------------------------------
+
+
+
+
+
+'Gibbet Furnitures
+
+
+'GibbetSmall AnimType A
+fu -a ZazMPGibbetSmallA_Enter ZazAPCAO401.hkx
++ -o ZazMPGibbetSmallA_Loop ZazAPCAO401.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazMPGibbetSmallA_Exit ZazFurnitureExit.hkx
+
+'GibbetSmall AnimType B
+fu -a ZazMPGibbetSmallB_Enter ZazAPCAO402.hkx
++ ZazMPGibbetSmallB_Loop ZazAPCAO402.hkx
++ -a ZazMPGibbetSmallB_Exit ZazFurnitureExit.hkx
+
+'Gibbetlarge AnimType A
+fu -a ZazMPGibbetLargeA_Enter Zazgibbetlarge00.hkx
++ ZazMPGibbetLargeA_Loop Zazgibbetlarge00.hkx
++ -a ZazMPGibbetLargeA_Exit ZazFurnitureExit.hkx
+
+'GibbetLarge AnimType B
+fu -a ZazMPGibbetLargeB_Enter Zazgibbetlarge07.hkx
++ -o ZazMPGibbetLargeB_Loop Zazgibbetlarge07.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazMPGibbetLargeB_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+'GibbetSmall
+fu -a ZazGibbetSmall_Enter Zazgibbetsmall00.hkx
++ -o ZazGibbetSmall_Loop1 Zazgibbetsmall00.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetSmall_Loop5 Zazgibbetsmall01.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetSmall_Loop6 Zazgibbetsmall02.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetSmall_Loop7 Zazgibbetsmall03.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetSmall_Loop8 Zazgibbetsmall04.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetSmall_Loop9 Zazgibbetsmall05.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetSmall_Loop10 Zazgibbetsmall06.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ ZazGibbetSmall_Loop2 Zazgibbetsmall07.hkx
++ -o ZazGibbetSmall_Loop3 Zazgibbetsmall08.hkx AORopeWristL AORopeWristR AORopeAnkleL AORopeAnkleR
++ ZazGibbetSmall_Loop4 Zazgibbetsmall09.hkx
++ -a ZazGibbetSmall_Exit ZazFurnitureExit.hkx
+
+'GibbetLarge
+fu -a ZazGibbetLarge_Enter Zazgibbetlarge00.hkx
++ ZazGibbetLarge_Loop1 Zazgibbetlarge00.hkx
++ -o ZazGibbetLarge_Loop5 Zazgibbetlarge01.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetLarge_Loop6 Zazgibbetlarge02.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetLarge_Loop7 Zazgibbetlarge03.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetLarge_Loop8 Zazgibbetlarge04.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetLarge_Loop9 Zazgibbetlarge05.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetLarge_Loop10 Zazgibbetlarge06.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazGibbetLarge_Loop2 Zazgibbetlarge07.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 'is old ZazAPCAO404
++ ZazGibbetLarge_Loop3 Zazgibbetlarge08.hkx
++ -o ZazGibbetLarge_Loop4 Zazgibbetlarge09.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazGibbetLarge_Exit ZazFurnitureExit.hkx
+
+
+
+
+'NarrowGibbet
+fu -a ZazNarrowGibbet01_Enter ZazUltraNarrowGibbetPose01.hkx
++ ZazNarrowGibbet01_Loop ZazUltraNarrowGibbetPose01.hkx
++ -a ZazNarrowGibbet01_Exit ZazFurnitureExit.hkx
+
+'MicroGibbet
+fu -a zazGibbetMicroSpeciale_Enter zazGibbetMicroSpeciale.hkx
++ zazGibbetMicroSpeciale_Loop zazGibbetMicroSpeciale.hkx
++ -a zazGibbetMicroSpeciale_Exit ZazFurnitureExit.hkx
+
+
+'Bondage Bag
+fu -a zazBondageBag_Enter zazBondageBag.hkx
++ -o zazBondageBag_Loop zazBondageBag.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a zazBondageBag_Exit ZazFurnitureExit.hkx
+
+
+'Jail-Body-Gibbet
+
+fu -a ZazBodyGibbet01_Enter ZazJailBodyGibbetHanging.hkx
++ ZazBodyGibbet01_Loop ZazJailBodyGibbetHanging.hkx
++ -a ZazBodyGibbet01_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+'----------------------------------------------------------------------------
+
+
+'-----CYCLIC ANIMATIONS------
+
+'---SOLO IDLES W/O AO--- 1 to 500
+
+'----------------------------------------------------------------------------
+'--Bound Poses/Idles 001-50--'
+
+b -md ZazAPC001 ZazAPC001.hkx
+b -md ZazAPC002 ZazAPC002.hkx
+b -md ZazAPC003 ZazAPC003.hkx
+b -md ZazAPC004 ZazAPC004.hkx
+b -md ZazAPC005 ZazAPC005.hkx
+b -md ZazAPC006 ZazAPC006.hkx
+b -md ZazAPC007 ZazAPC007.hkx
+b -md ZazAPC008 ZazAPC008.hkx
+b -md ZazAPC009 ZazAPC009.hkx
+b -md ZazAPC010 ZazAPC010.hkx
+b -md ZazAPC011 ZazAPC011.hkx
+b -md ZazAPC012 ZazAPC012.hkx
+b -md ZazAPC013 ZazAPC013.hkx
+b -md ZazAPC014 ZazAPC014.hkx
+b -md ZazAPC015 ZazAPC015.hkx
+b -md ZazAPC016 ZazAPC016.hkx
+b -md ZazAPC017 ZazAPC017.hkx
+b -md ZazAPC018 ZazAPC018.hkx
+b -md ZazAPC019 ZazAPC019.hkx
+b -md ZazAPC020 ZazAPC020.hkx
+
+'--Bound Poses/Idles II 51-100--'
+
+'XaZ
+b -md ZazAPC051 ZazAPC051.hkx
+b -md ZazAPC052 ZazAPC052.hkx
+b -md ZazAPC053 ZazAPC053.hkx
+b -md ZazAPC054 ZazAPC054.hkx
+b -md ZazAPC055 ZazAPC055.hkx
+b -md ZazAPC056 ZazAPC056.hkx
+b -md ZazAPC057 ZazAPC057.hkx
+b -md ZazAPC058 ZazAPC058.hkx
+
+
+'----------------------------------------------------------------------------
+
+
+
+'--Solo Sexual Poses/Idles 101-200--'
+'----------------------------------------------------------------------------
+
+
+'----------------------------------------------------------------------------
+
+
+
+'--Kinky Sexual Poses/Idles 201-300--'
+
+'----------------------------------------------------------------------------
+'-Pee Poses/Idles 201-220 -----	 Requires Animated Armor Equip Or ImpactEffects Provided-'
+'Female
+b -md ZazAPC201 ZazAPC201.hkx
+b -md ZazAPC202 ZazAPC202.hkx
+b -md ZazAPC203 ZazAPC203.hkx
+b -md ZazAPC204 ZazAPC204.hkx
+b -md ZazAPC205 ZazAPC205.hkx
+b -md ZazAPC206 ZazAPC206.hkx
+'Male
+b -md ZazAPC207 ZazAPC207.hkx
+b -md ZazAPC208 ZazAPC208.hkx
+b -md ZazAPC209 ZazAPC209.hkx
+b -md ZazAPC210 ZazAPC210.hkx
+b -md ZazAPC211 ZazAPC211.hkx
+b -md ZazAPC212 ZazAPC212.hkx
+
+'----------------------------------------------------------------------------
+'- ZaZ-Aracnophobia Poses/Idles 221-240 -----  Requires Animated Armor Equip Provided-'
+'Spool
+b -md ZazAPC221 ZazAPC221.hkx
+b -md ZazAPC222 ZazAPC222.hkx
+'Pose
+b -md ZazAPC223 ZazAPC223.hkx
+b -md ZazAPC224 ZazAPC224.hkx
+b -md ZazAPC225 ZazAPC225.hkx
+b -md ZazAPC226 ZazAPC226.hkx
+'Hung
+b -md ZazAPC227 ZazAPC227.hkx
+b -md ZazAPC228 ZazAPC228.hkx
+b -md ZazAPC229 ZazAPC229.hkx
+b -md ZazAPC230 ZazAPC230.hkx
+b -md ZazAPC231 ZazAPC231.hkx
+b -md ZazAPC232 ZazAPC232.hkx
+
+
+'----------------------------------------------------------------------------
+
+'--Gore or Extreme Poses/Idles 301-400--'
+
+'----------------------------------------------------------------------------
+'-Spit Roast Poses/Idles 301-310 -----	Requires Animated Armor Equips Provided-'
+
+b -md ZazAPC301 ZazAPC301.hkx
+b -md ZazAPC302 ZazAPC302.hkx
+b -md ZazAPC303 ZazAPC303.hkx
+b -md ZazAPC304 ZazAPC304.hkx
+b -md ZazAPC305 ZazAPC305.hkx
+b -md ZazAPC306 ZazAPC306.hkx
+
+
+'----------------------------------------------------------------------------
+
+'Other Poses/Idles 401-500
+
+'----------------------------------------------------------------------------
+
+
+'----------------------------------------------------------------------------
+
+'-----CYCLIC ANIMATIONS WITH ANIMATED OBJECTS------
+
+'---SOLO IDLES With AO--- 001 to 500
+
+'----------------------------------------------------------------------------
+
+'Gibbet Post
+o -md ZazAPCAO001 ZazAPCAO001.hkx AOZaZMultiPole AOZaZGibbetSmall
+o -md ZazAPCAO002 ZazAPCAO002.hkx AOZaZMultiPole AOZaZGibbetSmall
+o -md ZazAPCAO003 ZazAPCAO003.hkx AOZaZMultiPole AOZaZGibbetLarge
+o -md ZazAPCAO004 ZazAPC051.hkx AOZaZMultiPole AOZaZGibbetLarge
+
+'Gibbet Wall
+o -md ZazAPCAO005 ZazAPCAO005.hkx AOZaZGibbetSmall
+o -md ZazAPCAO006 ZazAPCAO006.hkx AOZaZGibbetSmall
+o -md ZazAPCAO007 ZazAPCAO007.hkx AOZaZGibbetLarge
+o -md ZazAPCAO008 ZazAPC051.hkx AOZaZGibbetLarge
+
+'Pillory
+o -md ZazAPCAO009 ZazAPCAO009.hkx AOZaZPilloryVanilla
+o -md ZazAPCAO010 ZazAPCAO010.hkx AOZaZPilloryVanilla
+
+'Restraint Post
+o -md ZazAPCAO011 ZazAPCAO011.hkx AOZaZMultiPole AOZaZMPP01 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO012 ZazAPCAO012.hkx AOZaZMultiPole AOZaZMPP02 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO013 ZazAPCAO013.hkx AOZaZMultiPole AOZaZMPP03 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO014 ZazAPCAO014.hkx AOZaZMultiPole AOZaZMPP04 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO015 ZazAPCAO015.hkx AOZaZMultiPole AOZaZMPP05 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO016 ZazAPCAO016.hkx AOZaZMultiPole AOZaZMPP06 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+
+'Restraint Post Gold
+o -md ZazAPCAO011_gold ZazAPCAO011.hkx AOZaZMultiPole zbfAoChainsGold01 zbfAoAnkleCuffGoldL zbfAoAnkleCuffGoldR zbfAoWristCuffGoldL zbfAoWristCuffGoldR
+o -md ZazAPCAO012_gold ZazAPCAO012.hkx AOZaZMultiPole zbfAoChainsGold02 zbfAoAnkleCuffGoldL zbfAoAnkleCuffGoldR zbfAoWristCuffGoldL zbfAoWristCuffGoldR
+o -md ZazAPCAO013_gold ZazAPCAO013.hkx AOZaZMultiPole zbfAoChainsGold03 zbfAoAnkleCuffGoldL zbfAoAnkleCuffGoldR zbfAoWristCuffGoldL zbfAoWristCuffGoldR
+o -md ZazAPCAO014_gold ZazAPCAO014.hkx AOZaZMultiPole zbfAoChainsGold04 zbfAoAnkleCuffGoldL zbfAoAnkleCuffGoldR zbfAoWristCuffGoldL zbfAoWristCuffGoldR
+o -md ZazAPCAO015_gold ZazAPCAO015.hkx AOZaZMultiPole zbfAoChainsGold05 zbfAoAnkleCuffGoldL zbfAoAnkleCuffGoldR zbfAoWristCuffGoldL zbfAoWristCuffGoldR
+o -md ZazAPCAO016_gold ZazAPCAO016.hkx AOZaZMultiPole zbfAoChainsGold06 zbfAoAnkleCuffGoldL zbfAoAnkleCuffGoldR zbfAoWristCuffGoldL zbfAoWristCuffGoldR
+
+'Restraint Post Wall
+o -md ZazAPCAO017 ZazAPCAO017.hkx AOZaZMPP01 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO018 ZazAPCAO018.hkx AOZaZMPP02 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO019 ZazAPCAO019.hkx AOZaZMPP03 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO020 ZazAPCAO020.hkx AOZaZMPP04 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO021 ZazAPCAO021.hkx AOZaZMPP05 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+o -md ZazAPCAO022 ZazAPCAO022.hkx AOZaZMPP06 AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
+
+'Others
+o -md ZazAPCAO023 ZazAPCAO023.hkx AOZaZVstocks
+o -md ZazAPCAO024 ZazAPCAO024.hkx AOZaZWoodenHorse AOZaZBallChainLeft AOZaZBallChainRight
+o -md ZazAPCAO025 ZazAPCAO025.hkx AOZaZXCross
+
+'----------------------------------------------------------------------------
+
+'ZaZ SpecialBinds AO's
+'----------------------------------------------------------------------------
+'HogtieRope
+o -md ZazAPCAO051 ZazAPCAO051.hkx AOHogtieRope
+o -md ZazAPCAO052 ZazAPCAO052.hkx AOHogtieRope
+o -md ZazAPCAO053 ZazAPCAO053.hkx AOHogtieRope
+o -md ZazAPCAO054 ZazAPCAO054.hkx AOHogtieRope
+o -md ZazAPCAO055 ZazAPCAO055.hkx AOHogtieRope
+'----------------------------------------------------------------------------
+
+
+'ZaZ Fluidity Tinkle AO's
+'----------------------------------------------------------------------------
+'Female
+o -md ZazAPCAO101 ZazAPCAO101.hkx AnimObjectZazAPCAO101
+o -md ZazAPCAO102 ZazAPCAO102.hkx AnimObjectZazAPCAO102
+o -md ZazAPCAO103 ZazAPCAO103.hkx AnimObjectZazAPCAO103
+o -md ZazAPCAO104 ZazAPCAO104.hkx AnimObjectZazAPCAO104
+o -md ZazAPCAO105 ZazAPCAO105.hkx AnimObjectZazAPCAO105
+o -md ZazAPCAO106 ZazAPCAO106.hkx AnimObjectZazAPCAO106
+
+'Male
+o -md ZazAPCAO107 ZazAPCAO107.hkx AnimObjectZazAPCAO107
+o -md ZazAPCAO108 ZazAPCAO108.hkx AnimObjectZazAPCAO108
+o -md ZazAPCAO109 ZazAPCAO109.hkx AnimObjectZazAPCAO109
+o -md ZazAPCAO110 ZazAPCAO110.hkx AnimObjectZazAPCAO110
+o -md ZazAPCAO111 ZazAPCAO111.hkx AnimObjectZazAPCAO111
+o -md ZazAPCAO112 ZazAPCAO112.hkx AnimObjectZazAPCAO112
+
+'----------------------------------------------------------------------------
+
+'---Medieval Punishments / Executions----
+'----------------------------------------------------------------------------
+'Torture Pole 201-210
+o -md ZazAPCAO201 ZazAPCAO201.hkx AOZaZTorturePoleMid
+o -md ZazAPCAO202 ZazAPCAO202.hkx AOZaZTorturePoleMid
+o -md ZazAPCAO203 ZazAPCAO203.hkx AOZaZTorturePoleHigh
+o -md ZazAPCAO204 ZazAPCAO204.hkx AOZaZTorturePoleLow
+o -md ZazAPCAO205 ZazAPCAO205.hkx AOZaZTorturePoleVeryLow
+
+
+'Torture Pole Furnitures
+
+'Torture Pole01
+fu -a ZazAPTorturePole01_Enter ZazAPCAO201.hkx
++ ZazAPTorturePole01_Loop ZazAPCAO201.hkx
++ -a ZazAPTorturePole01_Exit ZazFurnitureExit.hkx
+
+'Torture Pole02
+fu -a ZazAPTorturePole02_Enter ZazAPCAO202.hkx
++ ZazAPTorturePole02_Loop ZazAPCAO202.hkx
++ -a ZazAPTorturePole02_Exit ZazFurnitureExit.hkx
+
+'Torture Pole03
+fu -a ZazAPTorturePole03_Enter ZazAPCAO203.hkx
++ ZazAPTorturePole03_Loop ZazAPCAO203.hkx
++ -a ZazAPTorturePole03_Exit ZazFurnitureExit.hkx
+
+'Torture Pole04
+fu -a ZazAPTorturePole04_Enter ZazAPCAO204.hkx
++ ZazAPTorturePole04_Loop ZazAPCAO204.hkx
++ -a ZazAPTorturePole04_Exit ZazFurnitureExit.hkx
+
+'Torture Pole05
+fu -a ZazAPTorturePole05_Enter ZazAPCAO205.hkx
++ ZazAPTorturePole05_Loop ZazAPCAO205.hkx
++ -a ZazAPTorturePole05_Exit ZazFurnitureExit.hkx
+
+
+'Torture Pole Custom
+fu -a ZazAPTorturePoleCustom01_Enter ZazTightUpToBigPole.hkx
++ -o ZazAPTorturePoleCustom01_Loop ZazTightUpToBigPole.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPTorturePoleCustom01_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTorturePoleCustom02_Enter ZazTightUpToBigPole2.hkx
++ -o ZazAPTorturePoleCustom02_Loop ZazTightUpToBigPole2.hkx AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPTorturePoleCustom02_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTorturePoleCustom03_Enter ZazTightUpToBigPole3.hkx
++ -o ZazAPTorturePoleCustom03_Loop ZazTightUpToBigPole3.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPTorturePoleCustom03_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTorturePoleCustom02BF_Enter ZazTightUpToBigPole2BF.hkx
++ -o ZazAPTorturePoleCustom02BF_Loop ZazTightUpToBigPole2BF.hkx AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPTorturePoleCustom02BF_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTorturePoleCustom01BF_Enter ZazTightUpToBigPoleBF.hkx
++ -o ZazAPTorturePoleCustom01BF_Loop ZazTightUpToBigPoleBF.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPTorturePoleCustom01BF_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTorturePoleCustomKneeling_Enter ZazTightUpToBigPoleKneeling.hkx
++ -o ZazAPTorturePoleCustomKneeling_Loop ZazTightUpToBigPoleKneeling.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPTorturePoleCustomKneeling_Exit ZazFurnitureExit.hkx
+
+
+
+'Torture Pole Custom II (more narrow chains versions)
+
+fu -a zazTorturePole01Custom_Enter zazTorturePole01custom.hkx
++ zazTorturePole01Custom_Loop zazTorturePole01custom.hkx
++ -a zazTorturePole01Custom_Exit zazfurnitureExit.hkx
+
+fu -a zazTorturePole02Custom_Enter zazTorturePole02custom.hkx
++ zazTorturePole02Custom_Loop zazTorturePole02custom.hkx
++ -a zazTorturePole02Custom_Exit zazfurnitureExit.hkx
+
+fu -a zazTorturePole03Custom_Enter zazTorturePole03custom.hkx
++ zazTorturePole03Custom_Loop zazTorturePole03custom.hkx
++ -a zazTorturePole03Custom_Exit zazfurnitureExit.hkx
+
+fu -a zazTorturePole04Custom_Enter zazTorturePole04custom.hkx
++ zazTorturePole04Custom_Loop zazTorturePole04custom.hkx
++ -a zazTorturePole04Custom_Exit zazfurnitureExit.hkx
+
+fu -a zazTorturePole05Custom_Enter zazTorturePole05custom.hkx
++ zazTorturePole05Custom_Loop zazTorturePole05custom.hkx
++ -a zazTorturePole05Custom_Exit zazfurnitureExit.hkx
+
+fu -a ZazChainingPole01_Enter ZazChainingPole01.hkx
++ ZazChainingPole01_Loop ZazChainingPole01.hkx
++ -a ZazChainingPole01_Exit zazfurnitureExit.hkx
+
+
+
+
+'Torture Rack 211-212
+o -md ZazAPCAO211 ZazAPCAO211.hkx AOZaZRack
+o -md ZazAPCAO212 ZazAPCAO212.hkx AOZaZRack
+
+'Crux 251-255
+o -md ZazAPCAO251 ZazAPCAO251.hkx AOZaZCrux AOZaZAPCruxHeavyNHL AOZaZAPCruxHeavyNHR AOZaZAPCrossAL
+o -md ZazAPCAO252 ZazAPCAO252.hkx AOZaZCrux AOZaZAPCruxHeavyNHL AOZaZAPCruxHeavyNHR AOZaZAPCruxHeavyNFL AOZaZAPCruxHeavyNFR
+o -md ZazAPCAO253 ZazAPCAO253.hkx AOZaZCrux AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
+o -md ZazAPCAO254 ZazAPCAO254.hkx AOZaZCrux AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
+o -md ZazAPCAO255 ZazAPCAO255.hkx AOZaZCrux AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
+
+'The Wheel 261-263
+o -md ZazAPCAO261 ZazAPCAO261.hkx AOZaZWheelLow
+o -md ZazAPCAO262 ZazAPCAO262.hkx AOZaZWheelHigh
+o -md ZazAPCAO263 ZazAPCAO263.hkx AOZaZWheelTilt
+
+'Hanging 271-280
+
+
+'--- ZaZ Chained Multiple Animated Objects ----
+
+o -md ZazAPCAO301 ZazAPCAO301.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO302 ZazAPCAO302.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO303 ZazAPCAO303.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO304 ZazAPCAO304.hkx AOZaZBallChainLeft AOZaZBallChainRight AOZaZWristL AOZaZWristR
+o -md ZazAPCAO305 ZazAPCAO305.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO306 ZazAPCAO025.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO307 ZazAPCAO020.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO308 ZazAPCAO021.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO309 ZazAPCAO022.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO310 ZazAPC054.hkx AOZaZAnkleL AOZaZAnkleR
+o -md ZazAPCAO311 ZazAPC055.hkx AOZaZAnkleL AOZaZAnkleR
+o -md ZazAPCAO312 ZazAPC051.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO313 ZazAPC053.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO314 ZazAPC052.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
+o -md ZazAPCAO315 ZazAPCAO304.hkx AOZaZWristL AOZaZWristR
+
+
+
+
+'ZaZ Chained Furniture
+
+fu -a ZazChained1_Enter ZazAPCAO301.hkx
++ -o ZazChained1_Loop  ZazAPCAO301.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained1_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained2_Enter ZazAPCAO302.hkx
++ -o ZazChained2_Loop  ZazAPCAO302.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained2_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained3_Enter ZazAPCAO303.hkx
++ -o ZazChained3_Loop  ZazAPCAO303.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained3_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained4_Enter ZazAPCAO304.hkx
++ -o ZazChained4_Loop  ZazAPCAO304.hkx AOZaZBallChainLeft AOZaZBallChainRight AOZaZWristL AOZaZWristR
++ -a ZazChained4_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained5_Enter ZazAPCAO305.hkx
++ -o ZazChained5_Loop  ZazAPCAO305.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained5_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained6_Enter ZazAPCAO025.hkx
++ -o ZazChained6_Loop  ZazAPCAO025.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained6_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained7_Enter ZazAPCAO020.hkx
++ -o ZazChained7_Loop  ZazAPCAO020.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained7_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained8_Enter ZazAPCAO021.hkx
++ -o ZazChained8_Loop  ZazAPCAO021.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained8_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained9_Enter ZazAPCAO022.hkx
++ -o ZazChained9_Loop  ZazAPCAO022.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained9_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained10_Enter ZazAPC054.hkx
++ -o ZazChained10_Loop  ZazAPC054.hkx AOZaZAnkleL AOZaZAnkleR
++ -a ZazChained10_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained11_Enter ZazAPC055.hkx
++ -o ZazChained11_Loop  ZazAPC055.hkx AOZaZAnkleL AOZaZAnkleR
++ -a ZazChained11_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained12_Enter ZazAPC051.hkx
++ -o ZazChained12_Loop  ZazAPC051.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained12_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained13_Enter ZazAPC053.hkx
++ -o ZazChained13_Loop  ZazAPC053.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained13_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained14_Enter ZazAPC052.hkx
++ -o ZazChained14_Loop  ZazAPC052.hkx AOZaZAnkleL AOZaZAnkleR AOZaZWristL AOZaZWristR
++ -a ZazChained14_Exit ZazFurnitureExit.hkx
+
+fu -a ZazChained15_Enter ZazAPCAO304.hkx
++ -o ZazChained15_Loop  ZazAPCAO304.hkx AOZaZWristL AOZaZWristR
++ -a ZazChained15_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+'-----CYCLIC SEQUENCED ANIMATIONS WITHOUT ANIMATED OBJECTS------ TESTING ONLY
+
+s -a,md ZazAPSA001 ZazAPSA001.hkx
++ -a,md ZazAPSA002 ZazAPSA002.hkx
++ -a,md ZazAPSA003 ZazAPSA003.hkx
+
+
+
+'-----CYCLIC SEQUENCED ANIMATIONS WITH ANIMATED OBJECTS------
+
+'---Furo Trap Skyrim Sequenced Animation----
+
+s -a,o,md,Tn ZazAPFSA001 ZazAPFSA001.hkx AnimObjectZazAPFSA001
++ -a,o,md,Tn ZazAPFSA002 ZazAPFSA002.hkx AnimObjectZazAPFSA002
++ -a,o,md,Tn ZazAPFSA003 ZazAPFSA003.hkx AnimObjectZazAPFSA003
++ -o,md ZazAPFSA004 ZazAPFSA004.hkx AnimObjectZazAPFSA004
++ -a,o,md,Tn ZazAPFSA005 ZazAPFSA005.hkx AnimObjectZazAPFSA005
++ -a,o,md,Tn ZazAPFSA006 ZazAPFSA006.hkx AnimObjectZazAPFSA006
++ -a,o,md,Tn ZazAPFSA007 ZazAPFSA007.hkx AnimObjectZazAPFSA007
++ -a,o,md,Tn ZazAPFSA008 ZazAPFSA008.hkx AnimObjectZazAPFSA008
+
+
+
+
+
+'-----------------------------------------------------------------------------------------------------------------------
+'------2PAnimations-----  Offsets 45 For Actor A
+'-----------------------------------------------------------------------------------------------------------------------
+
+'-----PUNISHMENT PILLORY ANIMATIONS ------
+
+'----------SOLOPILLORY----------- ACTORB Locked In Pillory
+
+o -md ZazAPPillSolo01 ZazAPPillSolo01.hkx AOZaZPunishmentPillory
+o -md ZazAPPillSolo02 ZazAPPillSolo02.hkx AOZaZPunishmentPillory
+o -md ZazAPPillSolo03 ZazAPPillSolo03.hkx AOZaZPunishmentPillory
+o -md ZazAPPillSolo04 ZazAPPillSolo04.hkx AOZaZPunishmentPillory
+o -md ZazAPPillSolo05 ZazAPPillSolo05.hkx AOZaZPunishmentPillory
+
+'---------------------------------------------------------------------------------------
+
+'----------PILLORYSEXENTER----------- ACTORA Entering Into Loop , ACTORB Locked In Pillory
+
+S -a,md ZazAPPillSXEnterA ZazAPPillSXEnterA.hkx
++ -md ZazAPPillSXEnterLoopA ZazAPPillSXEnterLoopA.hkx
+
+S -a,o,md ZazAPPillSXEnterB ZazAPPillSXEnterB.hkx AOZaZPunishmentPillory
++ -o,md ZazAPPillSXEnterLoopB ZazAPPillSXEnterLoopB.hkx AOZaZPunishmentPillory
+
+
+'----------PILLORYSEX----------- ACTORA SexAnims , ACTORB SexAnims in Pillory
+
+'------------------------------------------HipGrab
+
+b -md ZazAPPillSXHip01A ZazAPPillSXHip01A.hkx
+o -md ZazAPPillSXHip01B ZazAPPillSXHip01B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillSXHip02A ZazAPPillSXHip02A.hkx
+o -md ZazAPPillSXHip02B ZazAPPillSXHip02B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillSXHip03A ZazAPPillSXHip03A.hkx
+o -md ZazAPPillSXHip03B ZazAPPillSXHip03B.hkx AOZaZPunishmentPillory
+
+'------------------------------------------HandGrab
+
+b -md ZazAPPillSXHand01A ZazAPPillSXHand01A.hkx
+o -md ZazAPPillSXHand01B ZazAPPillSXHand01B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillSXHand02A ZazAPPillSXHand02A.hkx
+o -md ZazAPPillSXHand02B ZazAPPillSXHand02B.hkx AOZaZPunishmentPillory
+
+'------------------------------------------Hold
+
+b -md ZazAPPillSXHold01A ZazAPPillSXHold01A.hkx
+o -md ZazAPPillSXHold01B ZazAPPillSXHold01B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillSXHold02A ZazAPPillSXHold02A.hkx
+o -md ZazAPPillSXHold02B ZazAPPillSXHold02B.hkx AOZaZPunishmentPillory
+
+'------------------------------------------Spank
+
+b -md ZazAPPillSXSpank01A ZazAPPillSXSpank01A.hkx
+o -md ZazAPPillSXSpank01B ZazAPPillSXSpank01B.hkx AOZaZPunishmentPillory
+
+'------------------------------------------Climax
+
+b -md ZazAPPillSXEND01A ZazAPPillSXEND01A.hkx
+o -md ZazAPPillSXEND01B ZazAPPillSXEND01B.hkx AOZaZPunishmentPillory AOZaZGushStrong
+
+
+'----------PILLORYSEXEXIT----------- ACTORA Exiting To DefaultIdle , ACTORB Resetting to ZazAPPillSolo01
+
+S -a,md ZazAPPillSXExitA ZazAPPillSXExitA.hkx
++ -a,md ZazAPPillSXExitLoopA ZazAPPillSXExitLoopA.hkx
+
+S -a,o,md ZazAPPillSXExitB ZazAPPillSXExitB.hkx AOZaZPunishmentPillory AOZaZGushWeak
++ -o,md ZazAPPillSXExitLoopB ZazAPPillSXExitLoopB.hkx AOZaZPunishmentPillory
+
+'---------------------------------------------------------------------------------------
+
+
+
+
+'----------PILLORYSEX-BOUNDACTORS----------- ACTORA BoundSexAnims , ACTORB SexAnims in Pillory , Both Actors are Prisoners
+
+'----------PILLORYBOUNDSEXENTER----------- BOUNDACTORA Entering Into Loop , ACTORB Locked In Pillory
+
+S -a,md ZazAPPillSXBOEnterA ZazAPPillSXBOEnterA.hkx
++ -md ZazAPPillSXBOEnterLoopA ZazAPPillSXBOEnterLoopA.hkx
+
+S -a,o,md ZazAPPillSXBOEnterB ZazAPPillSXBOEnterB.hkx AOZaZPunishmentPillory
++ -o,md ZazAPPillSXBOEnterLoopB ZazAPPillSXBOEnterLoopB.hkx AOZaZPunishmentPillory
+
+'----------PILLORYBOUNDSEX----------- ACTORA BoundSexAnims , ACTORB SexAnims in Pillory
+
+'------------------------------------------Kneel Lick
+
+b -md ZazAPPillSXBOLick01A ZazAPPillSXBOLick01A.hkx
+o -md ZazAPPillSXBOLick01B ZazAPPillSXBOLick01B.hkx AOZaZPunishmentPillory
+
+'------------------------------------------BoundSex ,Bent ,Slam ,Looping
+
+b -md ZazAPPillSXBO01A ZazAPPillSXBO01A.hkx
+o -md ZazAPPillSXBO01B ZazAPPillSXBO01B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillSXBO02A ZazAPPillSXBO02A.hkx
+o -md ZazAPPillSXBO02B ZazAPPillSXBO02B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillSXBO03A ZazAPPillSXBO03A.hkx
+o -md ZazAPPillSXBO03B ZazAPPillSXBO03B.hkx AOZaZPunishmentPillory
+
+'------------------------------------------Climax
+
+b -md ZazAPPillSXBOEND01A ZazAPPillSXBOEND01A.hkx
+o -md ZazAPPillSXBOEND01B ZazAPPillSXBOEND01B.hkx AOZaZPunishmentPillory AOZaZGushStrong
+
+'----------PILLORYBOUNDSEXEXIT----------- ACTORA Exiting To BOUNDPOSE ., ACTORB Resetting to ZazAPPillSolo01
+
+S -a,md ZazAPPillSXBOExitA ZazAPPillSXBOExitA.hkx
++ -md ZazAPPillSXBOExitLoopA ZazAPPillSXBOExitLoopA.hkx
+
+S -a,o,md ZazAPPillSXBOExitB ZazAPPillSXBOExitB.hkx AOZaZPunishmentPillory AOZaZGushWeak
++ -o,md ZazAPPillSXBOExitLoopB ZazAPPillSXBOExitLoopB.hkx AOZaZPunishmentPillory
+
+'---------------------------------------------------------------------------------------
+
+
+
+
+'----------PILLORYTORMENT----------- ACTORA TormentAnims , ACTORB TormentAnims in Pillory
+
+
+'----------PILLORYTORMENTENTER----------- ACTORA Entering Into Loop , ACTORB Locked In Pillory
+
+b -md ZazAPPillTorEnterLoopA ZazAPPillTorEnterLoopA.hkx
+o -md ZazAPPillTorEnterLoopB ZazAPPillTorEnterLoopB.hkx AOZaZPunishmentPillory
+
+'----------PILLORYTORMENTEXIT----------- ACTORA Exiting To DEFAULTIDLE via Transition Next,ACTORB Resetting to ZazAPPillSolo01
+
+b -a,md,Tn ZazAPPillTorExitLoopA ZazAPPillTorExitLoopA.hkx
+o -md ZazAPPillTorExitLoopB ZazAPPillTorExitLoopB.hkx AOZaZPunishmentPillory
+
+
+'----------PILLORYTORMENTS----------- ACTORA TormentAnims , ACTORB TormentAnims in Pillory , Mixed Animations
+
+'------------------------------------------Single AO
+
+b -md ZazAPPillTorButtRub1A ZazAPPillTorButtRub1A.hkx
+o -md ZazAPPillTorButtRub1B ZazAPPillTorButtRub1B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillTorPussRub1A ZazAPPillTorPussRub1A.hkx
+o -md ZazAPPillTorPussRub1B ZazAPPillTorPussRub1B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillTorButtLick1A ZazAPPillTorButtLick1A.hkx
+o -md ZazAPPillTorButtLick1B ZazAPPillTorButtLick1B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillTorSpank1A ZazAPPillTorSpank1A.hkx
+o -md ZazAPPillTorSpank1B ZazAPPillTorSpank1B.hkx AOZaZPunishmentPillory
+
+b -md ZazAPPillTorSpank2A ZazAPPillTorSpank2A.hkx
+o -md ZazAPPillTorSpank2B ZazAPPillTorSpank2B.hkx AOZaZPunishmentPillory
+
+'------------------------------------------Multiple AO's Testing WIP
+
+o -md ZazAPPillTorCandle1A ZazAPPillTorCandle1A.hkx AOZAZCandleA AOZAZCandleWaxA
+o -md ZazAPPillTorCandle1B ZazAPPillTorCandle1B.hkx AOZaZPunishmentPillory
+
+o -md ZazAPPillTorPusBroom1A ZazAPPillTorPusBroom1A.hkx AOZAZBroomA
+o -md ZazAPPillTorPusBroom1B ZazAPPillTorPusBroom1B.hkx AOZaZPunishmentPillory
+
+o -md ZazAPPillTorButtBroom1A ZazAPPillTorButtBroom1A.hkx AOZAZBroomA
+o -md ZazAPPillTorButtBroom1B ZazAPPillTorButtBroom1B.hkx AOZaZPunishmentPillory
+
+
+' 
+' --- TEPI ANIMATIONS ---
+' 
+' These are animations originally made for the Maria Eden mod.
+' 
+
+' Dominant movement, pointing directions, and so on
+' 
+b -a,md ZapPointDown TepiPointGround.hkx
+b -a,md ZapPointLeft TepiPointLeft.hkx
+b -a,md ZapPointRight TepiPointRight.hkx
+b -a,md ZapPointAt TepiPointAt.hkx
+b -md ZapDomHandHips TepiHandsHip.hkx
+b -a,md ZapDomYes TepiFingYes.hkx
+b -a,md ZapDomNo TepiFingNo.hkx
+
+b -a,md ZapAddGag TepiRestHead.hkx
+
+
+' submissive movement and positions
+' 
+b -md ZapLickFeet TepiAllFour.hkx
+b -a,md ZapSurrender ZapSurrender.hkx		' Same as IdleSurrender
+b -md ZapSitSpread TepiSitSpread.hkx
+b -md ZapBedTied TepiTiedBed.hkx
+
+' submissive presenting
+' 
+b -md ZapStandShowArs TepiShowArs.hkx
+b -md ZapStandShowVagina TepiShowVagina.hkx
+b -md ZapLieShowVagina TepiOnBackShowVagina.hkx
+b -md ZapKneelDisplay TepiKneelHandsHead.hkx
+
+
+' Redressing, after sex
+b -a,md ZapRedress01 TepiRedressLow.hkx
+b -a,md ZapRedress02 TepiRedressUp.hkx
+
+
+' Slave auction
+' 
+b -a,md ZapBid01 TepiAucH1.hkx
+b -a,md ZapBid02 TepiAucH2.hkx
+
+
+
+
+
+
+'------------------------------------------
+'------------------------------------------
+'------------------------------------------
+
+
+
+
+'Custom Multi-Animated Pillory------------------
+
+fu -a ZazPillSingleEnter ZazPillSingleEnter.hkx
++ ZazPillSingle01 ZazPillSingle01.hkx
++ ZazPillSingle02 ZazPillSingle02.hkx
++ ZazPillSingle03 ZazPillSingle03.hkx
++ ZazPillSingle04 ZazPillSingle04.hkx
++ -a ZazPillSingleExit ZazPillSingleExit.hkx
+
+
+
+'Custom Single Pillory------------------------
+
+
+fu -a ZazPillorySingle01_Enter ZazPillSingleEnter.hkx
++ ZazPillorySingle01 ZazPillSingle01.hkx
++ -a ZazPillorySingle01_Exit ZazPillSingleExit.hkx
+
+fu -a ZazPillorySingle02_Enter ZazPillSingleEnter.hkx
++ ZazPillorySingle02 ZazPillSingle02.hkx
++ -a ZazPillorySingle02_Exit ZazPillSingleExit.hkx
+
+fu -a ZazPillorySingle03_Enter ZazPillSingleEnter.hkx
++ ZazPillorySingle03 ZazPillSingle03.hkx
++ -a ZazPillorySingle03_Exit ZazPillSingleExit.hkx
+
+fu -a ZazPillorySingle04_Enter ZazPillSingleEnter.hkx
++ ZazPillorySingle04 ZazPillSingle04.hkx
++ -a ZazPillorySingle04_Exit ZazPillSingleExit.hkx
+
+
+
+
+
+'Hanging in Iron Chains
+
+fu -a ZazIronHanging_Enter ZazIronHanging.hkx
++ -o ZazIronHanging_Loop ZazIronHanging.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazironHanging_Exit ZazFurnitureExit.hkx
+
+'Torture Spreader
+fu -a ZazSpreadShackled_Enter ZazSpreadShackled.hkx
++ ZazSpreadShackled_Loop ZazSpreadShackled.hkx
++ -a ZazSpreadShackled_Exit ZazFurnitureExit.hkx
+
+'Bed Bondage 
+fu -a ZazAPBedBound01_Enter ZazAPCAO028.hkx
++ -o ZazAPBedBound01_Loop ZazAPCAO028.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZBedRopes
++ -a ZazAPBedBound01_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+'X-Bed struggling /Facing Front /FF
+
+fu -a ZaZXBedFFSTRU_Enter ZaZAPFXC00IIEnter.hkx
++ -o ZaZXBedFFSTRU_Loop ZaZAPFXCII01A.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR ' struggle
++ -a ZaZXBedFFSTRU_Exit ZazFurnitureExit.hkx
+
+
+'X-Bed struggling facing back /FB
+
+fu -a ZaZXBedFBSTRU_Enter ZaZAPFXC00IIEnter.hkx
++ -o ZaZXBedFBSTRU_Loop ZaZAPFXCII02A.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR ' struggle, facing back
++ -a ZaZXBedFBSTRU_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+'Bed Of Slaves
+fu -a ZazAPBedOfSlaves_Enter ZazAPCAO028.hkx
++ ZazAPBedOfSlaves_Loop ZazAPCAO028.hkx 
++ -a ZazAPBedOfSlaves_Exit ZazFurnitureExit.hkx
+
+'BunkBedDownstairsBound 
+fu -a ZazBBedBound01_Enter ZazBunkBedSpreadEagleStruggleDownstairs.hkx
++ -o ZazBBedBound01_Loop ZazBunkBedSpreadEagleStruggleDownstairs.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZazBedRopesDBDownstairs
++ -a ZazBBedBound01_Exit ZazFurnitureExit.hkx
+
+'BunkBedUpstairsBound
+fu -a ZazBBedBound02_Enter ZazBunkBedSpreadEagleStruggleUpstairs.hkx
++ -o ZazBBedBound02_Loop ZazBunkBedSpreadEagleStruggleUpstairs.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZazBedRopesDBUpstairs
++ -a ZazBBedBound02_Exit ZazFurnitureExit.hkx
+
+
+'Upright Down
+fu -a ZazUprightDown_Enter ZazUprightDown.hkx
++ -o ZazUprightDown_Loop ZazUprightDown.hkx  AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZRopeWristL AOZaZRopeWristR
++ -a ZazUprightDown_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+'Tight Post Pole Bondage Series
+
+fu -a ZazTightPostPoleBondage0_Enter ZazAPC051.hkx
++ -o ZazTightPostPoleBondage0_Loop ZazAPC051.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZRopeCollar01
++ -a ZazTightPostPoleBondage0_Exit ZazFurnitureExit.hkx
+
+fu -a ZazTightPostPoleBondage1_Enter ZazTightPostPoleBondage1.hkx
++ -o ZazTightPostPoleBondage1_Loop ZazTightPostPoleBondage1.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazTightPostPoleBondage1_Exit ZazFurnitureExit.hkx
+
+fu -a ZazTightPostPoleBondage2_Enter ZazTightPostPoleBondage2.hkx
++ -o ZazTightPostPoleBondage2_Loop ZazTightPostPoleBondage2.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazTightPostPoleBondage2_Exit ZazFurnitureExit.hkx
+
+fu -a ZazTightPostPoleBondage3_Enter ZazTightPostPoleBondage3.hkx
++ -o ZazTightPostPoleBondage3_Loop ZazTightPostPoleBondage3.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazTightPostPoleBondage3_Exit ZazFurnitureExit.hkx
+
+fu -a ZazTightPostPoleBondage4_Enter ZazTightPostPoleBondage4.hkx
++ -o ZazTightPostPoleBondage4_Loop ZazTightPostPoleBondage4.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazTightPostPoleBondage4_Exit ZazFurnitureExit.hkx
+
+fu -a ZazTightPostPoleBondage5_Enter ZazTightPostPoleBondage5.hkx
++ -o ZazTightPostPoleBondage5_Loop ZazTightPostPoleBondage5.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazTightPostPoleBondage5_Exit ZazFurnitureExit.hkx
+
+fu -a ZazPoleBondageStandingStruggling_Enter ZazPoleBondageStandingStruggling.hkx
++ -o ZazPoleBondageStandingStruggling_Loop ZazPoleBondageStandingStruggling.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZRopeCollar01
++ -a ZazPoleBondageStandingStruggling_Exit ZazFurnitureExit.hkx
+
+fu -a ZazPoleBondageSittingStruggling_Enter ZazPoleBondageSittingStruggling.hkx
++ -o ZazPoleBondageSittingStruggling_Loop ZazPoleBondageSittingStruggling.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazPoleBondageSittingStruggling_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+'RestraintShacklePostPole & RestraintShackleWall
+
+fu -a ZaZRSPP01_Enter ZazAPCAO011.hkx
++ -o ZaZRSPP01_Loop ZazAPCAO011.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR  'standing
++ -a ZaZRSPP01_Exit ZazFurnitureExit.hkx
+
+fu -a ZaZRSPP02_Enter ZazAPCAO012.hkx
++ -o ZaZRSPP02_Loop ZazAPCAO012.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR  'kneeling
++ -a ZaZRSPP02_Exit ZazFurnitureExit.hkx
+
+fu -a ZaZRSPP03_Enter ZazAPCAO013.hkx
++ -o ZaZRSPP03_Loop ZazAPCAO013.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR  'yoke + leg spreader
++ -a ZaZRSPP03_Exit ZazFurnitureExit.hkx
+
+fu -a ZaZRSPP04_Enter ZazAPCAO014.hkx
++ -o ZaZRSPP04_Loop ZazAPCAO014.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR  'hands together + leg spreader
++ -a ZaZRSPP04_Exit ZazFurnitureExit.hkx
+
+fu -a ZaZRSPP05_Enter ZazAPCAO015.hkx
++ -o ZaZRSPP05_Loop ZazAPCAO015.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR  'hanging upside down from spreader bar
++ -a ZaZRSPP05_Exit ZazFurnitureExit.hkx
+
+fu -a ZaZRSPP06_Enter ZazAPCAO016.hkx
++ -o ZaZRSPP06_Loop ZazAPCAO016.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR  'hanging
++ -a ZaZRSPP06_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+'Restrained Shackle-Chains
+
+
+fu -a ZazShackleChainPrison_Enter ZazShackleChainPrison.hkx
++ -o ZazShackleChainPrison_Loop ZazShackleChainPrison.hkx AOZaZShackleChainPrison
++ -a ZazShackleChainPrison_Exit ZazFurnitureExit.hkx
+
+fu -a ZazShackleChainPrisonBF_Enter ZazShackleChainPrisonBackFaced.hkx
++ -o ZazShackleChainPrisonBF_Loop ZazShackleChainPrisonBackFaced.hkx AOZaZShackleChainPrisonBF
++ -a ZazShackleChainPrisonBF_Exit ZazFurnitureExit.hkx
+
+fu -a ZazShackleChainPrison2_Enter ZazShackleChainPrison2.hkx
++ -o ZazShackleChainPrison2_Loop ZazShackleChainPrison2.hkx AOZaZShackleChainPrison2
++ -a ZazShackleChainPrison2_Exit ZazFurnitureExit.hkx
+
+fu -a ZazShackleChainPrisonHUD_Enter ZazShackleChainPrisonHeadUpsideDown.hkx
++ -o ZazShackleChainPrisonHUD_Loop ZazShackleChainPrisonHeadUpsideDown.hkx AOZaZShackleChainPrisonHUD
++ -a ZazShackleChainPrisonHUD_Exit ZazFurnitureExit.hkx
+
+
+'WallShackles
+
+fu -a ZazAPWallShackleSmall_Enter ZazShackleWall.hkx
++ ZazAPWallShackleSmall_Loop ZazShackleWall.hkx
++ -a ZazAPWallShackleSmall_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPWallShackleCustom_Enter ZazShackleWallcustom.hkx
++ ZazAPWallShackleCustom_Loop ZazShackleWallcustom.hkx
++ -a ZazAPWallShackleCustom_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPStrictWallShacklesCustom_Enter ZazStrictWallShacklesCustom.hkx
++ ZazAPStrictWallShacklesCustom_Loop ZazStrictWallShacklesCustom.hkx
++ -a ZazAPStrictWallShacklesCustom_Exit ZazFurnitureExit.hkx
+
+fu -a ZazShackleWallHeadDownRigid_Enter ZazShackleWallHeadDownRigid.hkx
++ ZazShackleWallHeadDownRigid_Loop ZazShackleWallHeadDownRigid.hkx
++ -a ZazShackleWallHeadDownRigid_Exit ZazFurnitureExit.hkx
+
+fu -a ZazShackleWallRigid_Enter ZazShackleWallRigid.hkx
++ ZazShackleWallRigid_Loop ZazShackleWallRigid.hkx
++ -a ZazShackleWallRigid_Exit ZazFurnitureExit.hkx
+
+fu -a ZazWallShacklesImmersive_Enter ZazWallShacklesImmersive.hkx
++ ZazWallShacklesImmersive_Loop ZazWallShacklesImmersive.hkx
++ -a ZazWallShacklesImmersive_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+
+'HogtieRope Positions
+
+fu -a ZazAPCHogtie01_Enter ZazAPCAO051.hkx
++ -o ZazAPCHogtie01_Loop ZazAPCAO051.hkx AOHogtieRope AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPCHogtie01_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPCHogtie02_Enter ZazAPCAO052.hkx
++ -o ZazAPCHogtie02_Loop ZazAPCAO052.hkx AOHogtieRope AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPCHogtie02_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPCHogtie03_Enter ZazAPCAO053.hkx
++ -o ZazAPCHogtie03_Loop ZazAPCAO053.hkx AOHogtieRope AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPCHogtie03_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPCHogtie04_Enter ZazAPCAO054.hkx
++ -o ZazAPCHogtie04_Loop ZazAPCAO054.hkx AOHogtieRope AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPCHogtie04_Exit ZazFurnitureExit.hkx
+
+
+
+'Bitch Lessons
+
+fu -a ZazBitchLessonsKneeling_Enter ZazBitchLessonsKneeling.hkx
++ ZazBitchLessonsKneeling_Loop  ZazBitchLessonsKneeling.hkx
++ -a ZazBitchLessonsKneeling_Exit ZazFurnitureExit.hkx
+
+
+fu -a Zazboundknees_Enter Zazboundkneesenter.hkx
++ -o Zazboundknees_Loop  Zazboundkneesidle.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a Zazboundknees_Exit Zazboundkneesexit.hkx
+
+
+
+'Bitch On The Ground----------------------------------------------------------------------------------
+
+fu -a ZazGirlStrugglingOnTheGround_Enter ZazGirlTiedOnTheGroundStruggling.hkx
++ -o ZazGirlStrugglingOnTheGround_Loop ZazGirlTiedOnTheGroundStruggling.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazGirlStrugglingOnTheGround_Exit ZazFurnitureExit.hkx
+
+
+'Bitch With Dildo----------------------------------------------------------------------------------
+
+fu -a ZazGirlStandingWithDildo_Enter ZazDildoStanding01.hkx
++ -o ZazGirlStandingWithDildo_Loop ZazDildoStanding01.hkx AOZaZDildo
++ -a ZazGirlStandingWithDildo_Exit ZazFurnitureExit.hkx
+
+
+
+b ZazhornyFemale01 ZazhornyFemale01.hkx
+
+
+
+
+
+
+'Fucking Maschines
+
+fu -a ZaZFuckMaschine_Enter ZazAPCAO016.hkx
++ -o ZaZFuckMaschine_Loop ZazAPCAO016.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR  AOZazSportFucker 'fucked
++ -o ZaZFuckMaschine_StandStill ZazAPCAO016.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZaZFuckMaschine_Exit ZazFurnitureExit.hkx
+
+
+fu -a ZaZFuckMaschine02_Enter ZazSneaking.hkx
++ -o ZaZFuckMaschine02_Loop ZazSneaking.hkx AOCuffsZaZWristL AOCuffsZaZWristR  AOZazForceFucker 'fucked
++ -o ZaZFuckMaschine02_StandStill ZazSneaking.hkx AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZaZFuckMaschine02_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+'Chained in Gallow-Frames: Multiple Animated Furnitures
+
+fu -a ZazAPChains01_Enter ZazAPCAO301.hkx
++ -o ZazAPChains01_Loop  ZazAPCAO301.hkx AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazAPChains01_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPChains02_Enter ZazAPCAO302.hkx
++ -o ZazAPChains02_Loop  ZazAPCAO302.hkx AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazAPChains02_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPChains03_Enter ZazAPCAO303.hkx
++ -o ZazAPChains03_Loop  ZazAPCAO303.hkx AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazAPChains03_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPChains04_Enter ZazAPCAO304.hkx
++ -o ZazAPChains04_Loop  ZazAPCAO304.hkx AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazAPChains04_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPChains05_Enter ZazAPCAO305.hkx
++ -o ZazAPChains05_Loop  ZazAPCAO305.hkx AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazAPChains05_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+'Chair Tied
+
+fu -a ZazAPChairTied01_Enter ZazChairTied.hkx
++ -o ZazAPChairTied01_Loop  ZazChairTied.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazAPChairTied01_Exit ZazFurnitureExit.hkx
+
+
+fu -a ZazAPChairTied02_Enter xchairReverseEnter.hkx
++ -o ZazAPChairTied02_Loop1  xchairReverse1.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazAPChairTied02_Loop2  xchairReverse2.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazAPChairTied02_Loop3  xchairReverse3.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazAPChairTied02_Loop4  xchairKindaReverse4.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazAPChairTied02_Loop5  xchairKindaReverse5.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -o ZazAPChairTied02_Loop6  xchairKindaReverse6.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPChairTied02_Exit xchairReverseExit.hkx
+
+
+
+'Torture Chair
+
+fu -a ZazTortureChair_Enter ZazTortureChair.hkx
++ -o ZazTortureChair_Loop ZazTortureChair.hkx AOZaZRopeTortureChair
++ -a ZazTortureChair_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+'Table Of Sex
+
+fu -a ZazTableOfSex01Enter ZazTableOfSexEnter.hkx
++ -o ZazTableOfSexSpreadBack  ZazTableOfSexSpreadBack.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazTableOfSex01Exit ZazTableOfSexExit.hkx
+
+fu -a ZazTableOfSex02Enter ZazTableOfSexEnter.hkx
++ -o ZazTableOfSexSpreadBelly  ZazTableOfSexSpreadBelly.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazTableOfSex02Exit ZazTableOfSexExit.hkx
+
+fu -a ZazTableOfSex03Enter ZazTableOfSexEnter.hkx
++ -o ZazTableOfSexTeasing  ZazTableOfSexTeasing.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazTableOfSex03Exit ZazTableOfSexExit.hkx
+
+fu -a ZazTableOfSex04Enter ZazTableOfSexEnter.hkx
++ -o ZazTableOfSexChairService  ZazTableOfSexChairService.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazTableOfSex04Exit ZazTableOfSexExit.hkx
+
+
+
+'Tree Bondage
+
+fu -a ZazAPTreeTied01_Enter ZazTreeBondage01.hkx
++ -o ZazAPTreeTied01_Loop ZazTreeBondage01.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazAPTreeTied01_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTreeTied02_Enter ZazTreeBondage02.hkx
++ -o ZazAPTreeTied02_Loop ZazTreeBondage02.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazAPTreeTied02_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTreeTied03_Enter ZazTreeBondage03.hkx
++ ZazAPTreeTied03_Loop ZazTreeBondage03.hkx 
++ -a ZazAPTreeTied03_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTreeTied04_Enter ZazTreeBondage04.hkx
++ -o ZazAPTreeTied04_Loop ZazTreeBondage04.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazAPTreeTied04_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTreeTied05_Enter ZazTreeBondage05.hkx
++ -o ZazAPTreeTied05_Loop ZazTreeBondage05.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazAPTreeTied05_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTreeTied06_Enter ZazTreeBondage06.hkx
++ -o ZazAPTreeTied06_Loop ZazTreeBondage06.hkx AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazAPTreeTied06_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTreeTied07_Enter ZazTreeBondage07.hkx
++ ZazAPTreeTied07_Loop ZazTreeBondage07.hkx
++ -a ZazAPTreeTied07_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTreeTied08_Enter ZazTreeBondage08.hkx
++ -o ZazAPTreeTied08_Loop ZazTreeBondage08.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazAPTreeTied08_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPTreeTied09_Enter ZazTreeBondage09.hkx
++ ZazAPTreeTied09_Loop ZazTreeBondage09.hkx
++ -a ZazAPTreeTied09_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAPCumCumTree_Enter ZazCumCumTreeEnter.hkx
++ -o ZazAPCumCumTree_Loop ZazCumCumTree.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazAPCumCumTree_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+'Outdoor Bondage mixed
+
+fu -a ZazOutdoorTableBondage01_Enter ZazOutdoorTableBondage01.hkx
++ -o ZazOutdoorTableBondage01_Loop ZazOutdoorTableBondage01.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazOutdoorTableBondage01_Exit ZazFurnitureExit.hkx
+
+
+'Outdoor X cross speciale
+
+fu -a ZazOutsideXcross_Enter ZazOutsideXcross.hkx
++ ZazOutsideXcross_Loop ZazOutsideXcross.hkx			
++ -a ZazOutsideXcross_Exit ZazFurnitureExit.hkx
+
+
+'Outdoor SlaveStock ´7731´
+
+fu -a ZazSlaveStockKneeling_Enter ZazSlaveStockKneeling.hkx
++ ZazSlaveStockKneeling_Loop ZazSlaveStockKneeling.hkx			
++ -a ZazSlaveStockKneeling_Exit ZazSlaveStockKneeling.hkx
+
+
+
+
+'The Carriage
+
+fu -a ZazCarriageWheel01_Enter ZazCarriageWheel01.hkx
++ -o ZazCarriageWheel01_Loop  ZazCarriageWheel01.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazCarriageWheel01_Exit ZazFurnitureExit.hkx
+
+fu -a ZazCarriageWheel02_Enter ZazCarriageWheel02.hkx
++ -o ZazCarriageWheel02_Loop  ZazCarriageWheel02.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazCarriageWheel02_Exit ZazFurnitureExit.hkx
+
+fu -a ZazCarriageWheel03_Enter ZazCarriageWheel03.hkx
++ -o ZazCarriageWheel03_Loop  ZazCarriageWheel03.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazCarriageWheel03_Exit ZazFurnitureExit.hkx
+
+fu -a ZazCarriageWheel04_Enter ZazCarriageWheel04.hkx
++ -o ZazCarriageWheel04_Loop  ZazCarriageWheel04.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR 
++ -a ZazCarriageWheel04_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+
+'Nosdregamon´s Speciale
+
+b xDancer xDancer.hkx
+fu -a xRopeDanceEnter xDancerEnter.hkx 
++ -o xRopeDance xDancerIdle.hkx xDancerFloorRope xDancerCeilingRope xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xRopeDanceEnterExit xDancerExit.hkx 
+
+fu -a xHangingChandlierIdleEnter xHangingChandlierIdleEnter.hkx 
++ -o xHangingChandlierIdle xHangingChandlierIdle.hkx xAnimObjectCandle2 xAnimObjectCandle3 xAnimObjectCandle2Lfoot xAnimObjectCandle2Rfoot
++ -o xHangingChandlierStruggle xHangingChandlierStruggle.hkx xAnimObjectCandle2 xAnimObjectCandle3 xAnimObjectCandle2Lfoot xAnimObjectCandle2Rfoot
++ -a xHangingChandlierIdleExit xHangingChandlierIdleExit.hkx
+
+fu -a xImpWallShackleEnter xImpWallShackleEnter.hkx
++ -o xImpWallShackleHanging xImpWallShackleHanging.hkx xCursedCandleLeftHand xCursedCandleRightFoot xCursedCandleLeftFoot xCursedCandleRightHand
++ -a xImpWallShackleExit xImpWallShackleExit.hkx
+
+fu -a xChairSitTiedEnter xChairSitTiedEnter.hkx
++ -o xChairSitTied xChairSitTied.hkx xSitCuffsLegs xSitCuffsArms xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xChairSitTiedExit xChairSitTiedExit.hkx
+
+fu -a xTopWheelEnter xTopWheelEnter.hkx
++ -o xTopWheelIdle xTopWheelIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xTopWheelExit xTopWheelExit.hkx
+
+fu -a xSaddleRackEnter xSaddleRackEnter.hkx
++ -o xSaddleRackIdle xSaddleRackIdle.hkx XCuffrightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xRopeRightArm xRopeLeftArm xRopeLeftLeg xRopeRightLeg
++ -a xSaddleRackExit xSaddleRackExit.hkx
+
+fu -a xBarstoolEnter xBarstoolEnter.hkx
++ -o xBarstoolIdle xBarstoolIdle.hkx xStoolCuffRightLeg xStoolCuffLeftLeg xStoolCuffRightArm xStoolCuffLeftArm xStoolBackCushion xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xBarstoolExit xBarstoolExit.hkx
+
+fuo -a xPunishmentPilloryEnter xPunishmentPilloryEnter.hkx
++ -o xPunishmentPilloryIdle xPunishmentPilloryIdle.hkx xCuffRightArm xCuffLeftArm
++ -a xPunishmentPilloryExit xPunishmentPilloryExit.hkx
+
+fu -a xDoubleChairBottomEnter xDoubleChairBottomEnter.hkx
++ xDoubleChairBottomIdle xDoubleChairBottomIdle.hkx
++ -a xDoubleChairBottomExit xDoubleChairBottomExit.hkx
+
+fu -a xDoubleChairTopEnter xDoubleChairTopEnter.hkx
++ xDoubleChairTopIdle xDoubleChairTopIdle.hkx
++ -a xDoubleChairTopExit xDoubleChairTopExit.hkx
+
+fuo -a xSaddleEnterFemale1 xSaddleEnterFemale1.hkx
++ -o xSaddleIdleFemale1 xSaddleIdleFemale1.hkx XCuffrightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xRopeRightArm xRopeLeftArm xRopeLeftLeg xRopeRightLeg
++ -o xSaddleIdleFemale2 xSaddleIdleFemale2.hkx XCuffrightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xRopeRightArm xRopeLeftArm xRopeLeftLeg xRopeRightLeg
++ -a xSaddleExitFemale1 xSaddleExitFemale1.hkx
+
+fu -a xSaddleEnterMale1 xSaddleEnterMale1.hkx
++ xSaddleIdleMale1 xSaddleIdleMale1.hkx
++ xSaddleIdleMale2 xSaddleIdleMale2.hkx
++ -a xSaddleExitMale1 xSaddleExitMale1.hkx
+
+b xSaddleIdleMale2seq xSaddleIdleMale2seq.hkx
+b -o xSaddleIdleFemale2seq xSaddleIdleFemale2seq.hkx XCuffrightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xRopeRightArm xRopeLeftArm xRopeLeftLeg xRopeRightLeg
+
+fuo -a xSacrificalPillarsEnter xSacrificalPillarsEnter.hkx
++ -o xSacrificalPillarsrIdle xSacrificalPillarsrIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xSacrificalPillarsExit xSacrificalPillarsExit.hkx
+
+fuo -a xImpChandlierEnter xImpChandlierEnter.hkx
++ -o xImpChandlierIdle xImpChandlierIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xCandleBack xCandleSpine xCandleButt
++ -a xImpChandlierExit xImpChandlierExit.hkx
+
+fuo -a xTrophyWifeEnter xTrophyWifeEnter.hkx
++ -o xTrophyWifeIdle xTrophyWifeIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xTophyWifeExit xTophyWifeExit.hkx
+
+fuo -a xWheelIdleEnter xWheelIdleEnter.hkx
++ -o xWheelIdle xWheelIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xRopeLeftLeg xRopeRightLeg
++ -a xWheelIdleExit xWheelIdleExit.hkx
+
+fuo -a xLyingBarrelEnter xLyingBarrelEnter.hkx
++ -o xLyingBarrelIdle xLyingBarrelIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xRopeLeftLeg xRopeRightLeg  xRopeRightArm xRopeLeftArm xRopeLeftLeg xRopeRightLeg
++ -a xLyingBarrelExit xLyingBarrelExit.hkx
+
+fuo -a xCircusWheelEnter xCircusWheelEnter.hkx
++ -o xCircusWheelSpin xCircusWheelSpin.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg 
++ -a xCircusWheelExit xCircusWheelExit.hkx
+
+fuo -a xRuinsSacrificalTableEnter xRuinsSacrificalTableEnter.hkx
++ -o xRuinsSacrificalTableWaiting xRuinsSacrificalTableWaiting.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
++ -o xRuinsSacrificalTableCurious xRuinsSacrificalTableCurious.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
++ -a xRuinsSacrificalTableExit xRuinsSacrificalTableExit.hkx
+
+fuo -a xRuinsSacrificalTable2Enter xRuinsSacrificalTableEnter.hkx
++ -o xRuinsSacrificalTable2Waiting xRuinsSacrificalTableWaiting.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xRopeLeftLeg xRopeRightLeg xRopeRightArm xRopeLeftArm
++ -o xRuinsSacrificalTable2Curious xRuinsSacrificalTableCurious.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xRopeLeftLeg xRopeRightLeg xRopeRightArm xRopeLeftArm
++ -a xRuinsSacrificalTable2Exit xRuinsSacrificalTableExit.hkx
+
+fuo -a xZazWaterbondageWheelIndoorEnter xZazWaterbondageWheelIndoorEnter.hkx
++ -o xZazWaterbondageWheelIndoorSpin xZazWaterbondageWheelIndoorSpin.hkx ZazWheelRightLeg ZazWheelLeftLeg ZazWheelLeftArm ZazWheelRightArm
++ -a xZazWaterbondageWheelIndoorExit xZazWaterbondageWheelIndoorExit.hkx
+
+fuo -a xWaterWheelMiniEnter xWaterWheelMiniEnter.hkx
++ -o xWaterWheelMiniSpin xWaterWheelMiniSpin.hkx AOCuffsZaZAnkleL AOCuffsZaZAnkleR AOCuffsZaZWristL AOCuffsZaZWristR
++ -a xWaterWheelMiniExit xWaterWheelMiniExit.hkx
+
+fuo -a xRopeUpEnter xRopeUpEnter.hkx
++ -o xRopeUpIdle xRopeUpIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xRopeUpExit xRopeUpExit.hkx
+
+fuo -a xRopeDownEnter xRopeDownEnter.hkx
++ -o xRopeDownIdle xRopeDownIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xRopeDownExit xRopeDownExit.hkx
+
+fu -a xVampireSupplyEnter xVampireSupplyEnter.hkx
++ -o xVampireSupplyHang1 xVampireSupplyHang1.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -o xVampireSupplyHang2 xVampireSupplyHang2.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -o xVampireSupplyHang3 xVampireSupplyHang3.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -o xVampireSupplyHang4 xVampireSupplyHang4.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xVampireSupplyExit xVampireSupplyExit.hkx
+
+fu -a xPetHookEnter xPetHookEnter.hkx
++ -o xEstimateing xEstimateing.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -o xFlashingIdle xFlashingIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -o xBrokenLying xBrokenLying.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -o xDayDreaming xDayDreaming.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg
++ -a xPetHookExit xPetHookExit.hkx
+
+fu -a xDreamcatcherEnter xDreamcatcherEnter.hkx
++ -o xDreamcatcherIdle xDreamcatcherIdle.hkx xCuffRightLeg xCuffRightArm xCuffLeftArm xCuffLeftLeg xFeatherWeightLeftLeg xFeatherWeightRightLeg xFeatherWeightLeftArm xFeatherWeightRightArm xFeatherWeightCatch
++ -a xDreamcatcherExit xDreamcatcherExit.hkx
+
+fuo -a xTableSmallEnter xTableSmallEnter.hkx
++ -o xTableSmallIdle xTableSmallIdle.hkx xSilverplatterSpine2
++ -a xTableSmallExit xTableSmallExit.hkx
+
+fu -a xCoffinGlassEnter xCoffinGlassEnter.hkx
++ xCoffinGlassSleeping xCoffinGlassSleeping.hkx
++ xCoffinGlassSleeping2 xCoffinGlassSleeping2.hkx 
++ xCoffinGlassShy xCoffinGlassShy.hkx 
++ xCoffinGlassStruggle xCoffinGlassStruggle.hkx 
++ -a xCoffinGlassExit xCoffinGlassExit.hkx
+
+
+
+
+
+'Whipping ´n Chains 
+
+fu -a WNC_MachineRaped_Enter wnc_MachineRapedEN.hkx
++ WNC_MachineRaped_Loop wnc_MachineRaped.hkx
++ -a WNC_MachineRaped_Exit ZazFurnitureExit.hkx
+
+fu -a WNC_Crucified_Enter wnc_crucified_loop.hkx
++ WNC_Crucified_Loop wnc_crucified_loop.hkx
++ -a WNC_Crucified_Exit ZazFurnitureExit.hkx
+
+fu -a WNC_Impaled_Enter wnc_impaledprone.hkx
++ WNC_Impaled_Loop wnc_impaledprone.hkx
++ -a WNC_Impaled_Exit ZazFurnitureExit.hkx
+
+fu -a WNC_Strappado_Enter wnc_strappado_loop.hkx
++ -o WNC_Strappado_Loop wnc_strappado_loop.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a WNC_Strappado_Exit ZazFurnitureExit.hkx
+
+fu -a WNC_WoodenHorse_Enter wnc_woodenhorse.hkx
++ -o WNC_WoodenHorse_Loop wnc_woodenhorse.hkx AOZaZRopeWristL AOZaZRopeWristR
++ -a WNC_WoodenHorse_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+'Sitting On The Ground In Stocks / Furniture
+
+fu -a ZazAnklesInStockSittingOnTheGroundF_Enter ZazAnklesInStockSittingOnTheGroundF.hkx
++ -o ZazAnklesInStockSittingOnTheGroundF_Loop ZazAnklesInStockSittingOnTheGroundF.hkx AOZaZRopeWristL AOZaZRopeWristR
++ -a ZazAnklesInStockSittingOnTheGroundF_Exit ZazFurnitureExit.hkx
+
+fu -a ZazAnklesAndWristsInStockSittingOnTheGroundF_Enter ZazAnklesAndWristsInStockSittingOnTheGroundF.hkx
++ ZazAnklesAndWristsInStockSittingOnTheGroundF_Loop ZazAnklesAndWristsInStockSittingOnTheGroundF.hkx
++ -a ZazAnklesAndWristsInStockSittingOnTheGroundF_Exit ZazFurnitureExit.hkx
+
+
+'Kneeling In Stocks / Furniture
+
+fu -a ZazKneelingInStocksF_Enter ZazKneelingInStocksF.hkx
++ -o ZazKneelingInStocksF_Loop ZazKneelingInStocksF.hkx AOCuffsZaZWristL AOCuffsZaZWristR
++ -a ZazKneelingInStocksF_Exit ZazFurnitureExit.hkx
+
+
+
+
+'EdgingStocks
+
+fu -a ZazEdgingStocks_Enter ZazEdgingStocks.hkx
++ ZazEdgingStocks_Loop ZazEdgingStocks.hkx
++ -a ZazEdgingStocks_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+'The Wayrest Guiloutine
+
+fu -a ZazWayrestGuiloutine_Enter ZazGuiloutineStill.hkx
++ ZazWayrestGuiloutine_Loop ZazGuiloutineStill.hkx
++ -a ZazWayrestGuiloutine_Exit ZazFurnitureExit.hkx
+
+
+
+
+'The Pyre
+
+fu -a ZazPyre_Enter ZazPyreIdle.hkx
++ ZazPyre_Loop ZazPyreIdle.hkx
++ ZazPyre_Struggling ZazPyreStruggling.hkx
++ ZazPyre_Dying ZazPyreEnd.hkx
++ -a ZazPyre_Exit ZazFurnitureExit.hkx
+
+fu -a ZazFireUpTheFire_Enter ZazFireUpThePyre.hkx
++ -o ZazFireUpTheFire_Loop ZazFireUpThePyre.hkx AOZaZTorch
++ -a ZazFireUpTheFire_Exit ZazFurnitureExit.hkx
+
+
+
+'The Gallow
+
+fu -a ZazGallow_Enter Zazhanging1.hkx
++ -o ZazGallow_Loop  Zazhanging4.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZNoose
++ -o ZazGallow_Waiting  zbfxNoose_Enter.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZNoose
++ -o ZazGallow_Struggle  zbfxNoose_Struggle.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZNoose
++ -o ZazGallow_SlowStruggle  zbfxNoose_SlowStruggle.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZNoose
++ -o ZazGallow_Dead  zbfxNoose_Dead.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR AOZaZNoose
++ -a ZazGallow_Exit ZazFurnitureExit.hkx
+
+
+
+'The Struggle Rope
+
+fu -a zazStruggleRope_Enter zazStruggleRope.hkx
++ -o zazStruggleRope_Loop zazStruggleRope.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZNooseLong
++ -a zazStruggleRope_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+'The Branding Scene
+
+'The Slave
+
+fu -a ZazAnvilOfBrandingSlave_Enter zazBrandingSlaveEnter.hkx
++ ZazAnvilOfBrandingSlave_Loop zazBrandingSlaveLoopE1H2.hkx
++ -a ZazAnvilOfBrandingSlave_Exit zazBrandingSlaveExit.hkx
+
+
+'The Executioneer
+
+fu -a ZazAnvilOfBrandingExecutioner_Enter zazBrandingExecutionerEnter.hkx
++ -o ZazAnvilOfBrandingExecutioner_Loop zazBrandingExecutionerLoop.hkx ZazAOBrandingIron3
++ -a ZazAnvilOfBrandingExecutioner_Exit zazBrandingExecutionerExit.hkx
+
+
+'The Helper
+
+fu -a ZazAnvilOfBrandingHelper_Enter zazBrandingHelperEnter.hkx
++ ZazAnvilOfBrandingHelper_Loop zazBrandingHelperLoop.hkx
++ -a ZazAnvilOfBrandingHelper_Exit zazBrandingHelperExit.hkx
+
+
+
+
+
+
+b  ZazAnvilOfBrandingSlaveLoopWithExecutionerAndHelper zazBrandingSlaveLoopE1H2.hkx
+b  ZazAnvilOfBrandingSlaveLoop zazBrandingSlaveLoop.hkx
+b  ZazAnvilOfBrandingSlaveLoopWithHelper zazBrandingSlaveLoopH2.hkx
+b  ZazAnvilOfBrandingSlaveLoopWithExecutioner zazBrandingSlaveLoopE1.hkx
+b  ZazAnvilOfBrandingSlaveLoopWithExecutionerLegUp zazBrandingSlaveLoopE1LegUp.hkx
+
+
+
+
+'Slave´s Home is Dog´s Home !
+
+fu -a ZazDogsHome_Enter ZazInsideDogsHome.hkx
++ ZazDogsHome_Loop  ZazInsideDogsHome.hkx
++ -a ZazDogsHome_Exit ZazFurnitureExit.hkx
+
+
+'Girl´s Chair
+
+fu -a ZazGirlsChairStruggle_Enter ZazGirlsChairStruggle.hkx
++ ZazGirlsChairStruggle_Loop ZazGirlsChairStruggle.hkx
++ -a ZazGirlsChairStruggle_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+
+
+
+
+'Pole Dance
+
+fu -a ZazPoleDance_Enter ZazPoleDance.hkx
++ ZazPoleDance_Loop  ZazPoleDance.hkx
++ -a ZazPoleDance_Exit ZazFurnitureExit.hkx
+
+
+'Snake Dance
+
+fu -a ZazSnakeDance_Enter SnakeDance.hkx
++ ZazSnakeDance_Loop  SnakeDance.hkx
++ -a ZazSnakeDance_Exit ZazFurnitureExit.hkx
+
+
+'SexyAJDance
+
+fu -a ZazSexyAJDance_Enter SexyAJDance.hkx
++ ZazSexyAJDance_Loop  SexyAJDance.hkx
++ -a ZazSexyAJDance_Exit ZazFurnitureExit.hkx
+
+
+'BellyDance
+
+fu -a ZazBellyDance_Enter BellyDance.hkx
++ ZazBellyDance_Loop  BellyDance.hkx
++ -a ZazBellyDance_Exit ZazFurnitureExit.hkx
+
+
+'ShakeAssDance
+
+fu -a ZazShakeAssDance_Enter ShakeAssDance.hkx
++ ZazShakeAssDance_Loop  ShakeAssDance.hkx
++ -a ZazShakeAssDance_Exit ZazFurnitureExit.hkx
+
+
+'SexyDance
+
+fu -a ZazSexyDance_Enter SexyDance.hkx
++ ZazSexyDance_Loop  SexyDance.hkx
++ -a ZazSexyDance_Exit ZazFurnitureExit.hkx
+
+
+'BreakingPop
+
+fu -a ZazBreakingPop_Enter ZazBreakingPop.hkx
++ ZazBreakingPop_Loop  ZazBreakingPop.hkx
++ -a ZazBreakingPop_Exit ZazFurnitureExit.hkx
+
+
+'Disco_VB
+
+fu -a ZazDisco_VB_Enter ZazDisco_VB.hkx
++ ZazDisco_VB_Loop  ZazDisco_VB.hkx
++ -a ZazDisco_VB_Exit ZazFurnitureExit.hkx
+
+
+'Funky
+
+fu -a ZazFunky_Enter ZazFunky.hkx
++ ZazFunky_Loop  ZazFunky.hkx
++ -a ZazFunky_Exit ZazFurnitureExit.hkx
+
+
+'GrooveGirl
+
+fu -a ZazGrooveGirl_Enter ZazGrooveGirl.hkx
++ ZazGrooveGirl_Loop  ZazGrooveGirl.hkx
++ -a ZazGrooveGirl_Exit ZazFurnitureExit.hkx
+
+
+'KickDance
+
+fu -a ZazKickDance_Enter ZazKickDance.hkx
++ ZazKickDance_Loop  ZazKickDance.hkx
++ -a ZazKickDance_Exit ZazFurnitureExit.hkx
+
+
+'LMFAO_Shuffle
+
+fu -a ZazLMFAO_Shuffle_Enter ZazLMFAO_Shuffle.hkx
++ ZazLMFAO_Shuffle_Loop  ZazLMFAO_Shuffle.hkx
++ -a ZazLMFAO_Shuffle_Exit ZazFurnitureExit.hkx
+
+
+'Model
+
+fu -a ZazModel_Enter ZazModel.hkx
++ ZazModel_Loop  ZazModel.hkx
++ -a ZazModel_Exit ZazFurnitureExit.hkx
+
+
+'Sara_MelbourneShuffle
+
+fu -a ZazSara_MelbourneShuffle_Enter ZazSara_MelbourneShuffle.hkx
++ ZazSara_MelbourneShuffle_Loop  ZazSara_MelbourneShuffle.hkx
++ -a ZazSara_MelbourneShuffle_Exit ZazFurnitureExit.hkx
+
+'Seph05Disco
+
+fu -a ZazSeph05Disco_Enter ZazSeph05Disco.hkx
++ ZazSeph05Disco_Loop  ZazSeph05Disco.hkx
++ -a ZazSeph05Disco_Exit ZazFurnitureExit.hkx
+
+'Shake
+
+fu -a ZazShake_Enter ZazShake.hkx
++ ZazShake_Loop  ZazShake.hkx
++ -a ZazShake_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+'Whipping
+fu -a ZazWhipping_Enter ZazWhipping.hkx
++ -o ZazWhipping_Loop ZazWhipping.hkx AOZaZOldCane
++ -a ZazWhipping_Exit ZazFurnitureExit.hkx
+
+'The Zaz Coffin, Iron Maiden
+fu -a ZazCoffin_Enter ZazCoffinStanding.hkx
++ -o ZazCoffin_Loop  ZazCoffinStanding.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazCoffin_Exit ZazFurnitureExit.hkx
+
+'Zaz Torture Barrel
+fu -a ZazBarrelStruggle_Enter ZazBarrelStruggle.hkx
++ -o ZazBarrelStruggle_Loop  ZazBarrelStruggle.hkx AOZaZRopeWristL AOZaZRopeWristR
++ -a ZazBarrelStruggle_Exit ZazFurnitureExit.hkx
+
+
+'Zaz Vampire Coffin Horizontale & Verticale
+
+fu -a ZazVampireCoffinHoriz_Enter ZazVampireCoffinHorizEnter.hkx
++ ZazVampireCoffinHoriz_Loop  ZazVampireCoffinHorizLoop.hkx
++ -a ZazVampireCoffinHoriz_Exit ZazVampireCoffinHorizExit.hkx
+
+fu -a ZazVampireCoffinVert_Enter ZazVampireCoffinVertEnter.hkx
++ ZazVampireCoffinVert_Loop  ZazVampireCoffinVertLoop.hkx
++ -a ZazVampireCoffinVert_Exit ZazVampireCoffinVertExit.hkx
+
+
+
+
+
+
+
+
+
+
+
+'Bed-Tied and Soft Carressing
+
+
+fu -a ZazBedBoundBF_Enter ZazBedBoundBackFace.hkx
++ -o ZazBedBoundBF_Loop  ZazBedBoundBackFace.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazBedBoundBF_Exit ZazFurnitureExit.hkx
+
+fu -a ZazBedCaressing_Enter ZazBedCaressing.hkx
++ ZazBedCaressing_Loop  ZazBedCaressing.hkx 
++ -a ZazBedCaressing_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+'Standing-Tied Up And Getting Spanked
+
+
+fu -a ZazStraightTiedUpGettingClaps_Enter ZazStandingStraightStrugglingHot.hkx
++ -o ZazStraightTiedUpGettingClaps_Loop ZazStandingStraightStrugglingHot.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazStraightTiedUpGettingClaps_Exit ZazFurnitureExit.hkx
+
+fu -a ZazStandingAndClapAss_Enter ZazStandingInFrontAndClapAss.hkx
++ ZazStandingAndClapAss_Loop  ZazStandingInFrontAndClapAss.hkx
++ -a ZazStandingAndClapAss_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+'Normal Animation Furnitures: Sleeping
+
+
+
+
+fu -a ZazGround_left_Enter ZazGround_leftenter.hkx
++ ZazGround_leftsleepnaughty_Loop  ZazGround_leftsleepnaughty.hkx
++ ZazGround_leftsleep_Loop  ZazGround_leftsleep.hkx
++ -a ZazGround_left_Exit ZazGround_leftexit.hkx
+
+fu -a ZazGround_right_Enter ZazGround_sleepalternativeEnter.hkx
++ ZazGround_rightsleep_Loop  ZazGround_rightsleep.hkx
++ ZazGround_rightsleepnaughty_Loop  ZazGround_rightsleepnaughty.hkx
++ -a ZazGround_right_Exit ZazGround_sleepalternativeExit.hkx
+
+
+
+
+
+
+'Musical Action
+
+fu -a Zazdrumgreen_Enter Zazobjectdrumloop.hkx 
++ -o Zazdrumgreen_Loop  Zazobjectdrumloop.hkx AOZazDrumGreen
++ -a Zazdrumgreen_Exit ZazFurnitureExit.hkx
+
+fu -a Zazdrumred_Enter Zazobjectdrumloop.hkx 
++ -o Zazdrumred_Loop  Zazobjectdrumloop.hkx AOZazDrumRed
++ -a Zazdrumred_Exit ZazFurnitureExit.hkx
+
+fu -a Zazflutegreen_Enter Zazobjectflutelong.hkx
++ -o Zazflutegreen_Loop  Zazobjectflutelong.hkx AOZazFluteGreen
++ -a Zazflutegreen_Exit ZazFurnitureExit.hkx
+
+fu -a Zazflutered_Enter Zazobjectflutelong.hkx
++ -o Zazflutered_Loop  Zazobjectflutelong.hkx AOZazFluteRed
++ -a Zazflutered_Exit ZazFurnitureExit.hkx
+
+fu -a Zazlutegreen_Enter Zazobjectluteloop.hkx
++ -o Zazlutegreen_Loop  Zazobjectluteloop.hkx AOZazLuteGreen
++ -a Zazlutegreen_Exit ZazFurnitureExit.hkx
+
+fu -a Zazlutenatural_Enter Zazobjectluteloop.hkx
++ -o Zazlutenatural_Loop  Zazobjectluteloop.hkx AOZazLuteNatural
++ -a Zazlutenatural_Exit ZazFurnitureExit.hkx
+
+
+
+
+'Standing Poses
+
+fu -a ZazSexyPoseStanding_Enter ZazSexyPoseStanding.hkx
++ Pinups_ST0 ZazSexyPoseStanding.hkx
++ -a ZazSexyPoseStanding_Exit ZazWallLeaningExit.hkx
+
+
+'Sitting Poses
+
+fu -a ZazSexyPoseSitting_Enter ZazSexyPoseSitting.hkx
++ ZazSexyPoseSitting_Loop ZazSexyPoseSitting.hkx
++ -a ZazSexyPoseSitting_Exit ZazLayDownExit.hkx
+
+
+'Laying Poses
+
+fu -a ZazSexyPoseLaying_Enter ZazSexyPoseLaying.hkx
++ Pinups_L1 ZazSexyPoseLaying.hkx
++ -a ZazSexyPoseLaying_Exit ZazLayDownExit.hkx
+
+
+
+'Whipping Pole FF (Face-To-Face)
+
+fu -a ZazWhippingPoleStruggling_Enter ZazWhippingPoleStruggling.hkx
++ -o ZazWhippingPoleStruggling_Loop ZazWhippingPoleStruggling.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazWhippingPoleStruggling_Exit ZazFurnitureExit.hkx
+
+
+'Whipping Pole BF (Back-To-Face)
+
+fu -a ZazWhippingPoleQuietBF_Enter ZazWhippingPoleQuietBF.hkx
++ -o ZazWhippingPoleQuietBF_Loop ZazWhippingPoleQuietBF.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazWhippingPoleQuietBF_Exit ZazFurnitureExit.hkx
+
+
+
+'Slave Pole
+
+fu -a ZazSlavePoleStill_Enter ZazSlavePoleStill.hkx
++ ZazSlavePoleStill_Loop ZazSlavePoleStill.hkx
++ -a ZazSlavePoleStill_Exit ZazFurnitureExit.hkx
+
+
+'Captive Bound Kneeling Pole
+
+fu -a ZazCaptiveBoundKneeling_Enter ZazCaptiveBoundKneeling.hkx
++ -o ZazCaptiveBoundKneeling_Loop ZazCaptiveBoundKneeling.hkx AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazCaptiveBoundKneeling_Exit ZazFurnitureExit.hkx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

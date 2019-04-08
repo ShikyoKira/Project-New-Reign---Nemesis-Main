@@ -1,0 +1,7 @@
+Version V1
+
+AAprefix ewm
+
+AAset _1hmatk 80
+
+T EWM0_1hm_attackleft.HKX bashRelease 0.2

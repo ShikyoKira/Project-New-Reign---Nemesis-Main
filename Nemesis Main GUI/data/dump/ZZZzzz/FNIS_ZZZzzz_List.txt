@@ -1,0 +1,26 @@
+so -a,md,o ZapPillorySex01_A1_S1 ZazAPPillSXBOEnterB.hkx AOZaZPunishmentPillory
++ -o,md ZapPillorySex01_A1_S1b ZazAPPillSXBOEnterLoopB.hkx AOZaZPunishmentPillory
+o -md ZapPillorySex01_A1_S2 ZazAPPillSXBO01B.hkx AOZaZPunishmentPillory
+o -md ZapPillorySex01_A1_S3 ZazAPPillSXBO02B.hkx AOZaZPunishmentPillory
+o -md ZapPillorySex01_A1_S4 ZazAPPillSXBO03B.hkx AOZaZPunishmentPillory
+o -md ZapPillorySex01_A1_S5 ZazAPPillSXBOEND01B.hkx AOZaZPunishmentPillory AOZaZGushStrong
+so -a,md,o ZapPillorySex01_A1_S6 ZazAPPillSXBOExitB.hkx AOZaZPunishmentPillory AOZaZGushWeak
++ -o,md ZapPillorySex01_A1_S6b ZazAPPillSXBOExitLoopB.hkx AOZaZPunishmentPillory
+
+so -a ZapPillorySex01_A2_S1 ZazAPPillSXEnterA.hkx
++ ZapPillorySex01_A2_S1b ZazAPPillSXEnterLoopA.hkx
+b -md ZapPillorySex01_A2_S2 ZazAPPillSXHip01A.hkx
+b -md ZapPillorySex01_A2_S3 ZazAPPillSXHip02A.hkx
+b -md ZapPillorySex01_A2_S4 ZazAPPillSXHip03A.hkx
+b -md ZapPillorySex01_A2_S5 ZazAPPillSXEND01A.hkx
+so -a,md ZapPillorySex01_A2_S6 ZazAPPillSXExitA.hkx
++ -a,md ZapPillorySex01_A2_S6b ZazAPPillSXExitLoopA.hkx
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,5 @@
+Version V1
+
+AAprefix ewm
+
+AAset _1hmatk 21
