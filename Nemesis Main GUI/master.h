@@ -37,6 +37,7 @@ typedef std::unordered_map<std::string, SSMap> SSSMap;
 typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, std::set<std::string>>>> StateIDList;
 
 class NemesisMainGUI;
+class UpdateLock;
 
 extern std::unordered_map<std::string, vecstr> modinfo;
 extern std::mutex processlock;
@@ -48,18 +49,20 @@ struct arguPack
 	arguPack(std::string n_directory, std::string n_modcode, vecstr n_behaviorfilelist, std::unordered_map<std::string, std::map<std::string, vecstr>>& n_newFile,
 		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& n_childrenState, SSSMap& n_stateID, SSSMap& n_parent,
 		StateIDList& n_modStateList, StateIDList& n_duplicatedStateList, MasterAnimData& n_animData, MasterAnimSetData& n_animSetData,
-		std::unordered_map<std::string, std::string>& n_lastUpdate)
+		std::unordered_map<std::string, std::string>& n_lastUpdate, std::shared_ptr<UpdateLock> n_modUpdate)
 		: newFile(n_newFile), childrenState(n_childrenState), stateID(n_stateID), parent(n_parent), modStateList(n_modStateList), duplicatedStateList(n_duplicatedStateList),
 		animData(n_animData), animSetData(n_animSetData), lastUpdate(n_lastUpdate)
 	{
 		directory = n_directory;
 		modcode = n_modcode;
 		behaviorfilelist = n_behaviorfilelist;
+		modUpdate = n_modUpdate;
 	}
 
 	std::string directory;
 	std::string modcode;
 	vecstr behaviorfilelist;
+	std::shared_ptr<UpdateLock> modUpdate;
 	std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile;
 	std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState;
 	SSSMap& stateID;
@@ -82,9 +85,6 @@ public:
 	virtual ~UpdateFilesStart();
 	void milestoneStart(std::string directory);
 	void message(std::string input);
-
-public slots :
-	void UpdateFiles();
 	void GetFileLoop(std::string newPath);
 	bool VanillaUpdate(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
 		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
@@ -92,7 +92,7 @@ public slots :
 	bool GetPathLoop(std::string newPath, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
 		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
 		MasterAnimSetData& animSetData, bool isFirstPerson);
-	bool VanillaDisassemble(std::string path, std::string filename, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
+	bool VanillaDisassemble(std::string path, std::string filename, std::map<std::string, vecstr>& newFile,
 		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSMap& stateID, SSMap& n_parent);
 	bool AnimDataDisassemble(std::string path, MasterAnimData& animData);
 	bool AnimSetDataDisassemble(std::string path, MasterAnimSetData& animSetData);
@@ -105,6 +105,9 @@ public slots :
 	void CombiningFiles(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData);
 	void unregisterProcess();
 
+public slots :
+	void UpdateFiles();
+
 signals:
 	void progressMax(int);
 	void progressUp();
@@ -116,6 +119,9 @@ signals:
 
 private:
 	int filenum;
+
+	// timer
+	boost::posix_time::ptime start_time;
 };
 
 class BehaviorStart : public QObject
@@ -134,7 +140,7 @@ public slots:
 	void newMilestone();
 	void increaseAnimCount();
 	void GenerateBehavior();
-	void unregisterProcess();
+	void unregisterProcess(bool skip = false);
 	void EndAttempt();
 
 signals:
@@ -167,6 +173,9 @@ private:
 	mapSetString* newAnimVariable2;
 	std::unordered_map<std::string, var>* AnimVar2;
 	std::unordered_map<std::string, std::unordered_map<int, bool>>* ignoreFunction2;
+
+	// timer
+	boost::posix_time::ptime start_time;
 };
 
 class BehaviorSub : public QObject
@@ -178,7 +187,9 @@ public:
 
 	void addInfo(std::string& newDirectory, vecstr& newfilelist, int newCurList, vecstr& newBehaviorPriority, std::unordered_map<std::string, bool>& newChosenBehavior, getTemplate& newBehaviorTemplate, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& addAnimation, std::unordered_map<std::string, var>& newAnimVar, mapSetString& addAnimEvent, mapSetString& addAnimVariable, std::unordered_map<std::string, std::unordered_map<int, bool>>& newIgnoreFunction, bool newIsCharacter, std::string newModID);
 	void addAnimation();
-	bool hkxcmdOutput(std::string filename, std::string hkxfile);
+	void CompilingBehavior();
+	void CompilingAnimData();
+	void CompilingASD();
 
 public slots:
 	void BehaviorCompilation();
@@ -208,7 +219,6 @@ private:
 	std::unordered_map<std::string, std::unordered_map<int, bool>> ignoreFunction;
 };
 
-
 class DummyLog : public QObject
 {
 	Q_OBJECT
@@ -231,6 +241,18 @@ signals:
 	void end();
 };
 
+class Terminator : public QObject
+{
+	Q_OBJECT
+
+public:
+	void exitSignal();
+
+signals:
+	void end();
+};
+
+bool isRunning(Terminator*& curEvent);
 bool readMod(std::string& errormod, std::string& errormsg);
 vecstr getHiddenMods();
 
