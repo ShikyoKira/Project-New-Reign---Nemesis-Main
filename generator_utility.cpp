@@ -301,7 +301,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 #ifdef DEBUG
 		string directory = "data\\" + *it;
 #else
-		string directory = skyrimDataPath->GetDataPath() + *it;
+		string directory = nemesisInfo->GetDataPath() + *it;
 #endif
 
 		readList(directory, directory + "animations\\", list, behaviortemplate, false);

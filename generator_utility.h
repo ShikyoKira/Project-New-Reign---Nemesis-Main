@@ -2,7 +2,7 @@
 #include <boost\regex.hpp>
 #include "add animation\registeranimation.h"
 #include "add animation\gettemplate.h"
-#include "skyrimdirectory.h"
+#include "nemesisinfo.h"
 #include "add animation\furniture.h"
 #include "add animation\alternateanimation.h"
 

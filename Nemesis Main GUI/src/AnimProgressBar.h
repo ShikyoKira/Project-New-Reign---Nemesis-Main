@@ -1,11 +1,12 @@
 #ifndef ANIMPROGRESSBAR_H_
 #define ANIMPROGRESSBAR_H_
 
-#include "skyrimdirectory.h"
+#include "nemesisinfo.h"
+#include "Global.h"
 #include <QProgressBar>
 #include <algorithm>
 
-#define MAX_ANIM maxAnim
+#define MAX_ANIM nemesisInfo->GetMaxAnim()
 
 class AnimProgressBar : public QProgressBar
 {

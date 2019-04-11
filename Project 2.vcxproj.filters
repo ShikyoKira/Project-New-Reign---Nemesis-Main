@@ -54,9 +54,6 @@
     <ClCompile Include="add animation\import.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="skyrimdirectory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="generator_utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,6 +102,9 @@
     <ClCompile Include="add animation\stringsplit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="nemesisinfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functions\functionupdate.h">
@@ -144,9 +144,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="add animation\import.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="skyrimdirectory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="generator_utility.h">
@@ -210,6 +207,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="add animation\stringsplit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nemesisinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

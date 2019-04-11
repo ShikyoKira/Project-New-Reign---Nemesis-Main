@@ -6,11 +6,11 @@ using namespace std;
 bool AddAnims(string& line, string animPath, string outputdir,string behaviorFile, string lowerBehaviorFile, string& newMod, vecstr& storeline, int& counter,
 	unordered_map<string, bool>& isAdded, bool& addAnim)
 {
-	string animFile = GetFileName(animPath);
+	string animFile = GetFileName(animPath) + ".hkx";
 
 	if (!isAdded[animPath])
 	{
-		if (activatedBehavior["gender"])
+		if (activatedBehavior["gender*"])
 		{
 			if (lowerBehaviorFile == "defaultfemale")
 			{

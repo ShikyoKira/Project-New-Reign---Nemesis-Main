@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 
 			try
 			{
-				skyrimDataPath = new DataPath;
+				nemesisInfo = new NemesisInfo;
 			}
 			catch (nemesis::exception) {}
 
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 
 			try
 			{
-				skyrimDataPath = new DataPath;
+				nemesisInfo = new NemesisInfo;
 			}
 			catch (nemesis::exception) {}
 

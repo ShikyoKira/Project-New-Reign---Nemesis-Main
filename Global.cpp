@@ -14,9 +14,7 @@ bool debug = false;
 int memory = 100;
 int fixedkey[257];
 
-#ifndef DEBUG
-DataPath* skyrimDataPath;
-#endif
+NemesisInfo* nemesisInfo;
 
 boost::posix_time::ptime time1;
 

@@ -1,6 +1,7 @@
 #include <boost\regex.hpp>
 #include <boost\algorithm\string.hpp>
 #include <QtCore\QStandardPaths.h>
+#include <unordered_set>
 #include "playerexclusive.h"
 #include "alternateanimation.h"
 #include "functions\writetextfile.h"
@@ -37,6 +38,35 @@ bool Delete(bf::path file)
 	return true;
 }
 
+void PCEASubFolder(string path, int number, string pceafolder, string subpath, PCEA& mod)
+{
+	vecstr animlist;
+	read_directory(path, animlist);
+
+	for (auto& anim : animlist)
+	{
+		bf::path animFile(path + "\\" + anim);
+
+		if (!bf::is_directory(animFile) && boost::iequals(animFile.extension().string(), ".hkx"))
+		{
+			string newFileName = to_string(number) + "_" + anim;
+			bf::path newAnimFile(pceafolder + "\\" + newFileName);
+			string lowerAnim = boost::to_lower_copy(anim);
+			mod.animPathList[lowerAnim] = "Animations\\Nemesis_PCEA\\" + subpath + "\\" + newFileName;
+			
+			if (!isFileExist(pceafolder)) bf::create_directories(pceafolder);
+
+			bf::copy_file(animFile, newAnimFile, bf::copy_option::overwrite_if_exists);
+
+			if (!bf::exists(animFile)) ErrorMessage(1185, newAnimFile.string());
+		}
+		else
+		{
+			PCEASubFolder(animFile.string(), number, pceafolder + "\\" + anim, subpath + "\\" + anim, mod);
+		}
+	}
+}
+
 void ReadPCEA()
 {
 	DebugLogging("Reading PCEA files...");
@@ -44,7 +74,7 @@ void ReadPCEA()
 	animReplaced = unordered_map<string, vector<PCEAData>>();
 
 	vecstr folderlist;
-	string datapath = skyrimDataPath->GetDataPath() + "meshes\\actors\\character\\Animations\\Nemesis_PCEA";
+	string datapath = nemesisInfo->GetDataPath() + "meshes\\actors\\character\\Animations\\Nemesis_PCEA";
 	bf::path pceafolder(datapath + "\\PCEA_animations");
 
 	if (isFileExist(pceafolder.string())) Delete(pceafolder);
@@ -52,8 +82,7 @@ void ReadPCEA()
 	if (!FolderCreate(datapath + "\\PCEA_animations\\")) return;
 
 	read_directory(datapath, folderlist);
-	map<int, PCEA> modlist;
-	map<int, bool> taken;
+	map<short, PCEA> modlist;
 
 	for (auto& folder : folderlist)
 	{
@@ -63,44 +92,21 @@ void ReadPCEA()
 		{
 			int number = stoi(boost::regex_replace(string(folder), boost::regex("([0-9])+[^\n]+"), string("\\1")));
 
-			if (number < 10 && !taken[number])
+			if (modlist.find(number) == modlist.end())
 			{
 				PCEA mod;
 				mod.modFile = folder;
-				vecstr animlist;
-				read_directory(path, animlist);
+				PCEASubFolder(path, number, pceafolder.string(), "PCEA_animations", mod);
 
-				for (auto& anim : animlist)
-				{
-					bf::path animFile(path + "\\" + anim);
-
-					if (!bf::is_directory(animFile) && boost::iequals(animFile.extension().string(), ".hkx"))
-					{
-						string newFileName = to_string(number) + "_" + anim;
-						bf::path newAnimFile(pceafolder.string() + "\\" + newFileName);
-						string lowerAnim = boost::to_lower_copy(anim);
-						mod.animPathList[lowerAnim] = "Animations\\Nemesis_PCEA\\PCEA_animations\\" + newFileName;
-						bf::copy_file(animFile, newAnimFile, bf::copy_option::overwrite_if_exists);
-
-						if (!bf::exists(animFile))
-						{
-							ErrorMessage(1185, newAnimFile.string());
-						}
-					}
-				}
-
-				if (mod.animPathList.size() > 0)
-				{
-					modlist[number] = mod;
-					taken[number] = true;
-				}
+				if (mod.animPathList.size() > 0) modlist[number] = mod;
 			}
 		}
 
 		if (error) throw nemesis::exception();
 	}
 
-	if (modlist.size() > 10) ErrorMessage(7000);
+	// limitation lifts
+	// if (modlist.size() > 10) ErrorMessage(7000);
 
 	for (auto& mod : modlist)
 	{
@@ -130,10 +136,10 @@ bool PCEAInstallation()
 #ifdef DEBUG
 	string import = SSE ? "data\\source\\scripts" : "data\\scripts\\source";
 #else
-	string import = skyrimDataPath->GetDataPath() + (SSE ? "source\\scripts" : "scripts\\source");
+	string import = nemesisInfo->GetDataPath() + (SSE ? "source\\scripts" : "scripts\\source");
 #endif
 
-	string filename = skyrimDataPath->GetDataPath() + "Nemesis PCEA.esp";
+	string filename = nemesisInfo->GetDataPath() + "Nemesis PCEA.esp";
 	DebugLogging(filename);
 
 	{
@@ -219,7 +225,8 @@ bool PCEAInstallation()
 	if (error) throw nemesis::exception();
 
 	DebugLogging("PCEA begin script input");
-	wstring cachedir = QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString() + L"/Nemesis";
+	wstring cachedir = boost::filesystem::path(QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString()).parent_path().wstring() +
+		L"/Nemesis";
 	replace(cachedir.begin(), cachedir.end(), '/', '\\');
 
 	try
@@ -330,8 +337,7 @@ bool PCEAInstallation()
 	if (error) throw nemesis::exception();
 
 	string sCacheDir = bf::path(cachedir).string();
-	import.append(";" + sCacheDir);
-	string destination = skyrimDataPath->GetDataPath() + "scripts";
+	string destination = nemesisInfo->GetDataPath() + "scripts";
 	string filepath = destination + "\\Nemesis_PCEA_Core.pex";
 
 	if (!PapyrusCompile(pscfile.string(), import, destination, filepath, sCacheDir))

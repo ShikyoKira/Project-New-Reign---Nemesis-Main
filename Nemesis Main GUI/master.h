@@ -23,7 +23,7 @@
 #include "alphanum.hpp"
 #include "filechecker.h"
 #include "behaviorcheck.h"
-#include "skyrimdirectory.h"
+#include "nemesisinfo.h"
 #include "dataunification.h"
 #include "functions\renew.h"
 #include "logging\debugmsg.h"

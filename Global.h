@@ -13,7 +13,7 @@
 #include <boost\date_time\posix_time\posix_time.hpp>
 #include "logging\debugmsg.h"
 
-#include "skyrimdirectory.h"
+#include "nemesisinfo.h"
 
 #pragma warning(disable:4503)
 
@@ -27,9 +27,7 @@ extern bool debug;								// if debug is on
 extern int memory;								// not used; for setting memory allocation from 100 - 1000
 extern int fixedkey[257];						// AA installation key
 extern boost::posix_time::ptime time1;			// for getting elapsed time
-#ifndef DEBUG
-extern DataPath* skyrimDataPath;					// skyrim data path
-#endif
+extern NemesisInfo* nemesisInfo;				// nemesis ini info
 
 // update patcher
 extern std::unordered_map<std::string, std::string> behaviorPath;															// hkx file name, file path

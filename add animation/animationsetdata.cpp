@@ -40,7 +40,7 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 				}
 			}
 
-			if (isFileExist(skyrimDataPath->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea") && pcealist.size() > 0)
+			if (isFileExist(nemesisInfo->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea") && pcealist.size() > 0)
 			{
 				// cache all pcea animations
 				for (auto& pcea : pcealist)

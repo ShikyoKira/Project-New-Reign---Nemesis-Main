@@ -404,7 +404,7 @@ public:
 
 		try
 		{
-			skyrimDataPath = new DataPath;
+			nemesisInfo = new NemesisInfo;
 		}
 		catch (nemesis::exception)
 		{

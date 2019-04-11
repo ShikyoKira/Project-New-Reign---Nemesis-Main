@@ -189,7 +189,7 @@
     <ClCompile Include="Logging\debugmsg.cpp" />
     <ClCompile Include="Nemesis Main GUI\src\utilities\filerelease.cpp" />
     <ClCompile Include="Nemesis Main GUI\src\utilities\wstrconvert.cpp" />
-    <ClCompile Include="skyrimdirectory.cpp" />
+    <ClCompile Include="nemesisinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="add animation\alternateanimation.h" />
@@ -226,7 +226,7 @@
     <ClInclude Include="Logging\debugmsg.h" />
     <ClInclude Include="Nemesis Main GUI\src\utilities\filerelease.h" />
     <ClInclude Include="Nemesis Main GUI\src\utilities\wstrconvert.h" />
-    <ClInclude Include="skyrimdirectory.h" />
+    <ClInclude Include="nemesisinfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

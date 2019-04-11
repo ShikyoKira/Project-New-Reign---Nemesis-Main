@@ -171,7 +171,7 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 #ifdef DEBUG
 	string path = "data\\";
 #else
-	string path = skyrimDataPath->GetDataPath() + "meshes";
+	string path = nemesisInfo->GetDataPath() + "meshes";
 #endif
 
 	unordered_map<string, string> emptyPath;
@@ -1969,14 +1969,14 @@ void UpdateFilesStart::milestoneStart(string directory)
 	}
 
 	DebugLogging("Current Directory: " + QCoreApplication::applicationDirPath().toStdString());
-	DebugLogging("Data Directory: " + skyrimDataPath->GetDataPath());
+	DebugLogging("Data Directory: " + nemesisInfo->GetDataPath());
 	DebugLogging("Skyrim Special Edition: " + SSE ? "TRUE" : "FALSE");
 	filenum = 11;
 
 #ifdef DEBUG
 	string path = "data\\";
 #else
-	string path = skyrimDataPath->GetDataPath() + "meshes";
+	string path = nemesisInfo->GetDataPath() + "meshes";
 #endif
 
 	DebugLogging("Detecting processes...");
@@ -2963,7 +2963,7 @@ void BehaviorStart::GenerateBehavior()
 				}
 
 				{
-					string filename(skyrimDataPath->GetDataPath() + "scripts\\FNIS.pex");
+					string filename(nemesisInfo->GetDataPath() + "scripts\\FNIS.pex");
 					boost::filesystem::copy_file(boost::filesystem::path("alternate animation\\FNBE.pex"), filename, boost::filesystem::copy_option::overwrite_if_exists);
 					FILE* f;
 					fopen_s(&f, filename.c_str(), "r+b");
@@ -3196,7 +3196,7 @@ void BehaviorStart::milestoneStart()
 	start_time = boost::posix_time::microsec_clock::local_time();
 	DebugLogging("Nemesis Behavior Version: v" + GetNemesisVersion());
 	DebugLogging("Current Directory: " + QCoreApplication::applicationDirPath().toStdString());
-	DebugLogging("Data Directory: " + skyrimDataPath->GetDataPath());
+	DebugLogging("Data Directory: " + nemesisInfo->GetDataPath());
 	DebugLogging("Skyrim Special Edition: " + SSE ? "TRUE" : "FALSE");
 	int counter = 0;
 
@@ -4515,9 +4515,9 @@ void BehaviorSub::CompilingBehavior()
 					{
 						size_t nextpos = line.find("<hkcstring>") + 11;
 						string animPath = line.substr(nextpos, line.find("</hkcstring>", nextpos) - nextpos);
-						string animFile = GetFileName(animPath);
+						string animFile = GetFileName(animPath) + ".hkx";
 
-						if (!fp_animOpen && !characterAA && alternateAnim.find(boost::to_lower_copy(GetFileName(animPath)) + ".hkx") != alternateAnim.end())
+						if (!fp_animOpen && !characterAA && alternateAnim.find(boost::to_lower_copy(animFile)) != alternateAnim.end())
 						{
 							if (!isCharacter)
 							{
@@ -4527,23 +4527,24 @@ void BehaviorSub::CompilingBehavior()
 							characterAA = true;
 						}
 
-						if (activatedBehavior["gender"])
+						if (activatedBehavior["gender*"])
 						{
-							if (lowerBehaviorFile == "defaultfemale" && !boost::iequals(animPath, "Animations\\female\\" + animFile))
+							if (lowerBehaviorFile == "defaultfemale")
 							{
-								boost::filesystem::path animation(GetFileDirectory(outputdir));
+								if (!boost::iequals(animPath, "Animations\\female\\" + animFile))
+								{
+									boost::filesystem::path animation(GetFileDirectory(outputdir));
 
-								if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\female\\" + animFile))
-								{
-									nextpos = line.find(animPath);
-									line.replace(nextpos, animPath.length(), "Animations\\female\\" + animFile);
-								}
-								else if (boost::iequals(animPath, "Animations\\male\\" + animFile))
-								{
-									if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\" + animFile))
+									if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\female\\" + animFile))
 									{
-										nextpos = line.find(animPath);
-										line.replace(nextpos, animPath.length(), "Animations\\" + animFile);
+										line.replace(nextpos, animPath.length(), "Animations\\female\\" + animFile);
+									}
+									else if (boost::iequals(animPath, "Animations\\male\\" + animFile))
+									{
+										if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\" + animFile))
+										{
+											line.replace(nextpos, animPath.length(), "Animations\\" + animFile);
+										}
 									}
 								}
 							}
@@ -4553,14 +4554,12 @@ void BehaviorSub::CompilingBehavior()
 
 								if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\male\\" + animFile))
 								{
-									nextpos = line.find(animPath);
 									line.replace(nextpos, animPath.length(), "Animations\\male\\" + animFile);
 								}
 								else if (boost::iequals(animPath, "Animations\\female\\" + animFile))
 								{
 									if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\" + animFile))
 									{
-										nextpos = line.find(animPath);
 										line.replace(nextpos, animPath.length(), "Animations\\" + animFile);
 									}
 								}

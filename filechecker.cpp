@@ -76,7 +76,7 @@ bool FileCheck(bool isUpdate)
 bool PCEACheck()
 {
 	DebugLogging("Initializing PCEA Check...");
-	string file = skyrimDataPath->GetDataPath() + "Nemesis PCEA.esp";
+	string file = nemesisInfo->GetDataPath() + "Nemesis PCEA.esp";
 
 	if (isFileExist(file))
 	{
@@ -87,7 +87,7 @@ bool PCEACheck()
 			ErrorMessage(1092, file);
 		}
 
-		file = skyrimDataPath->GetDataPath() + "scripts\\Nemesis_PCEA_MCM.pex";
+		file = nemesisInfo->GetDataPath() + "scripts\\Nemesis_PCEA_MCM.pex";
 
 		if (!isFileExist(file))
 		{
@@ -104,44 +104,40 @@ void behaviorActivateMod(vecstr behaviorPriority)
 	unordered_map<string, vecstr> behaviorActivator;	// modcode, behavior; existence of the behavior in any of these
 	vecstr modlist;
 	string directory = "mod\\";
-	read_directory(directory, modlist);
-
-	for (auto& modcode : modlist)
-	{
-		string newpath = directory + modcode;
-		vecstr behaviorlist;
-
-		if (boost::filesystem::is_directory(newpath))
-		{
-			read_directory(newpath, behaviorlist);
-
-			for (auto& behavior : behaviorlist)
-			{
-				if (!boost::iequals(behavior, "info.ini") && !boost::iequals(behavior, "_1stperson"))
-				{
-					behaviorActivator[modcode].push_back(boost::to_lower_copy(behavior));
-				}
-				else if (boost::iequals(behavior, "_1stperson"))
-				{
-					vecstr fpbehaviorlist;
-					read_directory(newpath + "\\" + behavior, fpbehaviorlist);
-
-					for (auto& fpbehavior : fpbehaviorlist)
-					{
-						behaviorActivator[modcode].push_back("_1stperson\\" + boost::to_lower_copy(fpbehavior));
-					}
-				}
-			}
-		}
-	}
 
 	for (auto& modcode : behaviorPriority)
 	{
-		if (behaviorActivator.find(modcode) != behaviorActivator.end())
+		string newpath = directory + modcode;
+
+		if (!isFileExist(newpath) || !boost::filesystem::is_directory(newpath))
 		{
-			for (auto& file : behaviorActivator[modcode])
+			continue;
+		}
+
+		if (modcode == "gender")
+		{
+			activatedBehavior["gender*"] = true;
+			continue;
+		}
+
+		vecstr behaviorlist;
+		read_directory(newpath, behaviorlist);
+
+		for (auto& behavior : behaviorlist)
+		{
+			if (!boost::iequals(behavior, "info.ini") && !boost::iequals(behavior, "_1stperson"))
 			{
-				activatedBehavior[file] = true;
+				activatedBehavior[boost::to_lower_copy(behavior)] = true;
+			}
+			else if (boost::iequals(behavior, "_1stperson"))
+			{
+				vecstr fpbehaviorlist;
+				read_directory(newpath + "\\" + behavior, fpbehaviorlist);
+
+				for (auto& fpbehavior : fpbehaviorlist)
+				{
+					activatedBehavior["_1stperson\\" + boost::to_lower_copy(fpbehavior)] = true;
+				}
 			}
 		}
 	}
