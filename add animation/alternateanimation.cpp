@@ -97,7 +97,8 @@ bool AAInstallation()
 	}
 
 	unsigned int uniquekey;
-	wstring cachedir = QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString() + L"/Nemesis";
+	wstring cachedir = boost::filesystem::path(QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString()).parent_path().wstring() +
+		L"/Nemesis";
 	replace(cachedir.begin(), cachedir.end(), '/', '\\');
 
 	try
@@ -112,8 +113,8 @@ bool AAInstallation()
 	if (error) throw nemesis::exception();
 
 	namespace bf = boost::filesystem;
-	string import = skyrimDataPath->GetDataPath() + (SSE ? "source\\scripts" : "scripts\\source");
-	string destination = skyrimDataPath->GetDataPath() + "scripts";
+	string import = nemesisInfo->GetDataPath() + (SSE ? "source\\scripts" : "scripts\\source");
+	string destination = nemesisInfo->GetDataPath() + "scripts";
 	bf::path source("alternate animation\\alternate animation.script");
 	bf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
 	string filepath = destination + "\\Nemesis_AA_Core.pex";
@@ -542,6 +543,15 @@ bool AAnimAPICompile(string filename, string import, string destination, string 
 			{
 				line.replace(pos, 10, to_string(maxGroup - 1));
 			}
+			else
+			{
+				pos = line.find("FNBE_aa Hidden");
+
+				if (pos != NOT_FOUND)
+				{
+					line.replace(pos + 2, 2, "IS");
+				}
+			}
 		}
 
 		newline.push_back(line);
@@ -672,7 +682,7 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 
 	string timeline;
 	namespace bf = boost::filesystem;
-	bf::path target = bf::path(skyrimDataPath->GetDataPath());
+	bf::path target = bf::path(nemesisInfo->GetDataPath());
 
 	while (!boost::iequals(target.stem().string(), "data"))
 	{
@@ -682,13 +692,11 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 	target = target.parent_path();
 	target = bf::path(target.string() + "\\Papyrus Compiler\\PapyrusCompiler.exe");
 
-	if (isFileExist(filepath))
-	{
-		if (ReleaseLockedFile(filepath) && !boost::filesystem::remove(filepath))
-		{
-			timeline = GetLastModified(filepath);
-		}
-	}
+	if (isFileExist(filepath) && ReleaseLockedFile(filepath) && !boost::filesystem::remove(filepath)) timeline = GetLastModified(filepath);
+
+	string desPsc = import + "\\" + GetFileName(pscfile) + ".psc";
+
+	if (isFileExist(desPsc) && ReleaseLockedFile(desPsc) && !boost::filesystem::remove(desPsc)) ErrorMessage(1082, GetFileName(pscfile) + ".psc", desPsc);
 		
 	if (!isFileExist(target.string()) || !PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, target))
 	{
@@ -709,10 +717,7 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 
 	if (timeline.length() > 0)
 	{
-		if (timeline == GetLastModified(filepath))
-		{
-			ErrorMessage(1185, filepath);
-		}
+		if (timeline == GetLastModified(filepath)) ErrorMessage(1185, filepath);
 	}
 
 	return true;
