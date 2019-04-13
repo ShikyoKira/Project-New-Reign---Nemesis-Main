@@ -1,4 +1,7 @@
 ﻿#include <boost/atomic.hpp>
+#include <QThread>
+#include <QtCore\QCoreApplication.h>
+#include <QtConcurrent\qtconcurrentrun.h>
 #include "master.h"
 #include "NemesisMainGUI.h"
 #include "functions\readtextfile.h"
@@ -11,9 +14,6 @@
 #include "add animation\animationthread.h"
 #include "functions\atomiclock.h"
 #include "src\DebugLog.h"
-#include <QThread>
-#include <QtCore\QCoreApplication.h>
-#include <QtConcurrent\qtconcurrentrun.h>
 
 #pragma warning(disable:4503)
 
@@ -107,8 +107,6 @@ void UpdateFilesStart::UpdateFiles()
 					// copy latest vanilla into memory
 					if (!error && VanillaUpdate(newFile, childrenState, stateID, parent, animData, animSetData))
 					{
-						if (newFile.size() == 0) ErrorMessage(2024);
-
 						if (!error)
 						{
 							DebugLogging("Data record complete");
@@ -195,7 +193,7 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 
 		if (behaviorPath.size() != 0)
 		{
-			FileWriter output("behavior_path");
+			FileWriter output("cache\\behavior_path");
 
 			if (output.is_open())
 			{
@@ -206,13 +204,13 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 			}
 			else
 			{
-				ErrorMessage(2009, "behavior_path");
+				ErrorMessage(2009, "cache\\behavior_path");
 			}
 		}
 
 		if (behaviorProject.size() != 0)
 		{
-			FileWriter output("behavior_project");
+			FileWriter output("cache\\behavior_project");
 
 			if (output.is_open())
 			{
@@ -230,13 +228,13 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 			}
 			else
 			{
-				ErrorMessage(2009, "behavior_project");
+				ErrorMessage(2009, "cache\\behavior_project");
 			}
 		}
 
 		if (behaviorProjectPath.size() != 0)
 		{
-			FileWriter output("behavior_project_path");
+			FileWriter output("cache\\behavior_project_path");
 
 			if (output.is_open())
 			{
@@ -247,7 +245,7 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 			}
 			else
 			{
-				ErrorMessage(2009, "behavior_project_path");
+				ErrorMessage(2009, "cache\\behavior_project_path");
 			}
 		}
 	}
@@ -1526,7 +1524,7 @@ void UpdateFilesStart::JoiningEdits(string directory, unordered_map<string, map<
 				}
 			}
 
-			FileWriter lastmod("engine_update");
+			FileWriter lastmod("cache\\engine_update");
 
 			if (lastmod.is_open())
 			{
@@ -1537,7 +1535,7 @@ void UpdateFilesStart::JoiningEdits(string directory, unordered_map<string, map<
 			}
 			else
 			{
-				ErrorMessage(2009, "engine_update");
+				ErrorMessage(2009, "cache\\engine_update");
 			}
 
 			emit progressUp();
@@ -1702,7 +1700,7 @@ void UpdateFilesStart::CombiningFiles(unordered_map<string, map<string, vecstr>>
 	{
 		string filename = compilingfolder + "animationdatasinglefile.txt";
 		FileWriter output(filename);
-		FileWriter outputlist("animationdata_list");
+		FileWriter outputlist("cache\\animationdata_list");
 
 		if (output.is_open())
 		{
@@ -1769,7 +1767,7 @@ void UpdateFilesStart::CombiningFiles(unordered_map<string, map<string, vecstr>>
 			}
 			else
 			{
-				ErrorMessage(2009, "animationdata_list");
+				ErrorMessage(2009, "cache\\animationdata_list");
 			}
 		}
 		else
@@ -1784,7 +1782,7 @@ void UpdateFilesStart::CombiningFiles(unordered_map<string, map<string, vecstr>>
 	{
 		string filename = compilingfolder + "animationsetdatasinglefile.txt";
 		FileWriter output(filename);
-		FileWriter outputlist("animationsetdata_list");
+		FileWriter outputlist("cache\\animationsetdata_list");
 
 		if (output.is_open())
 		{
@@ -1828,7 +1826,7 @@ void UpdateFilesStart::CombiningFiles(unordered_map<string, map<string, vecstr>>
 			}
 			else
 			{
-				ErrorMessage(2009, "animationsetdata_list");
+				ErrorMessage(2009, "cache\\animationsetdata_list");
 			}
 		}
 		else
@@ -1968,7 +1966,9 @@ void UpdateFilesStart::milestoneStart(string directory)
 		return;
 	}
 
-	DebugLogging("Current Directory: " + QCoreApplication::applicationDirPath().toStdString());
+	string curdir = QCoreApplication::applicationDirPath().toStdString();
+	replace(curdir.begin(), curdir.end(), '/', '\\');
+	DebugLogging("Current Directory: " + curdir);
 	DebugLogging("Data Directory: " + nemesisInfo->GetDataPath());
 	DebugLogging("Skyrim Special Edition: " + SSE ? "TRUE" : "FALSE");
 	filenum = 11;
@@ -3195,7 +3195,9 @@ void BehaviorStart::milestoneStart()
 	PatchReset();
 	start_time = boost::posix_time::microsec_clock::local_time();
 	DebugLogging("Nemesis Behavior Version: v" + GetNemesisVersion());
-	DebugLogging("Current Directory: " + QCoreApplication::applicationDirPath().toStdString());
+	string curdir = QCoreApplication::applicationDirPath().toStdString();
+	replace(curdir.begin(), curdir.end(), '/', '\\');
+	DebugLogging("Current Directory: " + curdir);
 	DebugLogging("Data Directory: " + nemesisInfo->GetDataPath());
 	DebugLogging("Skyrim Special Edition: " + SSE ? "TRUE" : "FALSE");
 	int counter = 0;
@@ -4441,29 +4443,25 @@ void BehaviorSub::CompilingBehavior()
 						{
 							for (auto it = BehaviorTemplate.grouplist.begin(); it != BehaviorTemplate.grouplist.end(); ++it)
 							{
-								vecstr behaviorNames = behaviorJoints[it->first];
-
-								for (unsigned int k = 0; k < behaviorNames.size(); ++k)
+								for (unsigned int k = 0; k < behaviorJoints[it->first].size(); ++k)
 								{
-									if (it->second.size() > 0 && lowerBehaviorFile == behaviorNames[k])
-									{
-										for (auto& templatecode : it->second)
-										{
-											if (newAnimation[templatecode].size() != 0 && !BehaviorTemplate.optionlist[templatecode].core)
-											{
-												for (unsigned int k = 0; k < newAnimation[templatecode].size(); ++k)
-												{
-													if (!newAnimation[templatecode][k]->isKnown())
-													{
-														bool addAnim = false;
-														string animPath = "Animations\\" + newAnimation[templatecode][k]->GetFilePath();
-														AddAnims(line, animPath, outputdir, behaviorFile, lowerBehaviorFile, newMod, catalystMap[curID], counter, isAdded, addAnim);
+									if (lowerBehaviorFile != behaviorJoints[it->first][k]) continue;
 
-														if (addAnim)
-														{
-															addAnimation();
-														}
-													}
+									for (auto& templatecode : it->second)
+									{
+										if (BehaviorTemplate.optionlist[templatecode].core) continue;
+
+										for (unsigned int k = 0; k < newAnimation[templatecode].size(); ++k)
+										{
+											if (!newAnimation[templatecode][k]->isKnown())
+											{
+												bool addAnim = false;
+												string animPath = "Animations\\" + newAnimation[templatecode][k]->GetFilePath();
+												AddAnims(line, animPath, outputdir, behaviorFile, lowerBehaviorFile, newMod, catalystMap[curID], counter, isAdded, addAnim);
+
+												if (addAnim)
+												{
+													addAnimation();
 												}
 											}
 										}

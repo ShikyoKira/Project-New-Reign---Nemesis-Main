@@ -38,7 +38,7 @@ bool FileCheck(bool isUpdate)
 
 	if (!isUpdate)
 	{
-		file = "animationdata_list";
+		file = "cache\\animationdata_list";
 
 		if (!isFileExist(file))
 		{

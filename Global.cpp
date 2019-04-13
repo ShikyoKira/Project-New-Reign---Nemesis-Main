@@ -142,10 +142,7 @@ inline int sameWordCount(string line, string word)
 
 bool GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 {
-	{
-		vecstr newlines;
-		functionlines = newlines;
-	}
+	functionlines = vecstr();
 
 	if (!boost::filesystem::is_directory(filename))
 	{

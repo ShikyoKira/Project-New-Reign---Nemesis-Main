@@ -212,5 +212,8 @@
     <ClInclude Include="nemesisinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="functions\bsasupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

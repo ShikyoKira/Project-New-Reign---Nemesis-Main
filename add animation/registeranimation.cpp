@@ -84,14 +84,8 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 				if (lowerformat == "version")
 				{
-					if (boost::iequals(newAnimInfo[1].substr(0, 1), "V"))
-					{
-						version = newAnimInfo[1];
-					}
-					else
-					{
-						version = "V" + newAnimInfo[1];
-					}
+					if (boost::iequals(newAnimInfo[1].substr(0, 1), "V")) version = line.substr(line.find(newAnimInfo[1]));
+					else version = "V" + line.substr(line.find(newAnimInfo[1]));
 				}
 				else if (lowerformat == "aaprefix")
 				{

@@ -42,14 +42,8 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 				{
 					if (curline.find("SERIALIZE_IGNORED") == NOT_FOUND)
 					{
-						if (curline.find("			#") != NOT_FOUND && newline.back().find("numelements=\"", 0) != NOT_FOUND)
-						{
-							start = true;
-						}
-						else if (start && curline.find("</hkparam>") != NOT_FOUND)
-						{
-							start = false;
-						}
+						if (curline.find("			#") != NOT_FOUND && newline.back().find("numelements=\"", 0) != NOT_FOUND) start = true;
+						else if (start && curline.find("</hkparam>") != NOT_FOUND) start = false;
 
 						if (start)
 						{
@@ -128,14 +122,8 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 						size_t position = curline.find("<!-- ");
 						string templine = curline.substr(position, curline.find("-->", position) - position + 3);
 
-						if (originallines[linecount].find("<!-- ", 0) != NOT_FOUND && originallines[linecount].find("-->", 0) != NOT_FOUND)
-						{
-							originallines[linecount].append(" " + templine);
-						}
-						else
-						{
-							originallines[linecount].append("			" + templine);
-						}
+						if (originallines[linecount].find("<!-- ", 0) != NOT_FOUND && originallines[linecount].find("-->", 0) != NOT_FOUND) originallines[linecount].append(" " + templine);
+						else originallines[linecount].append("			" + templine);
 					}
 
 					if (curline.find("<!-- CONDITION END -->") != NOT_FOUND)
@@ -197,10 +185,7 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 				if (close) newlines.push_back(curline);
 			}
 
-			if (combinelines.size() != 0 && combinelines.back().length() != 0)
-			{
-				combinelines.push_back("");
-			}
+			if (combinelines.size() != 0 && combinelines.back().length() != 0) combinelines.push_back("");
 
 			newFile[nodeID] = combinelines;
 		}
@@ -525,7 +510,7 @@ void behaviorJointsOutput()
 		if (error) throw nemesis::exception();
 	}
 
-	FileWriter output("behavior_joints");
+	FileWriter output("cache\\behavior_joints");
 
 	if (output.is_open())
 	{

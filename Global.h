@@ -83,7 +83,7 @@ inline bool CreateFolder(const std::string& folderpath)
 		return true;
 	}
 
-	if (boost::filesystem::create_directory(boost::filesystem::path(folderpath)))
+	if (boost::filesystem::create_directories(boost::filesystem::path(folderpath)))
 	{
 		return true;
 	}

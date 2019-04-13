@@ -1,7 +1,7 @@
 Scriptname FNBE_aa Hidden
 
 bool Function SetAnimGroup(actor akTarget, string animGroup, int animBaseNumber, int number, string modname, bool debugOutput = false) global
-	return SetAnimGroupEX(akTarget, animGroup, animBaseNumber, number, modname, debugOutput, false)
+	return Nemesis_AA.SetAnimGroupEX(akTarget, animGroup, animBaseNumber, number, modname, debugOutput, false)
 endFunction
 
 bool Function SetAnimGroupEX(actor akTarget, string animGroup, int animBaseNumber, int number, string modname, bool debugOutput = false, bool skipForce3D = false) global

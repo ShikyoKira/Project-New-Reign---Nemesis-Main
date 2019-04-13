@@ -32,14 +32,8 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionli
 				{
 					string curline = functionlist[it->second][j];
 
-					if (curline.find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
-					{
-						rightFunction = true;
-					}
-					else if (curline.find("<hkparam name=\"states\" numelements=\"") != NOT_FOUND)
-					{
-						open = true;
-					}
+					if (curline.find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND) rightFunction = true;
+					else if (curline.find("<hkparam name=\"states\" numelements=\"") != NOT_FOUND) open = true;
 
 					if (!rightFunction)
 					{
@@ -58,25 +52,21 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionli
 							{
 								curline = generator[k];
 
-								if (curline.find("#") == 0 && isOnlyNumber(curline.substr(1)))
+								if (curline.find("#") != 0 || !isOnlyNumber(curline.substr(1))) continue;
+
+								int ID = stoi(curline.substr(1));
+
+								for (unsigned int l = 0; l < functionlist[ID].size(); ++l)
 								{
-									int ID = stoi(curline.substr(1));
+									string line = functionlist[ID][l];
 
-									for (unsigned int l = 0; l < functionlist[ID].size(); ++l)
+									if (line.find("<hkparam name=\"stateId\">", 0) != NOT_FOUND)
 									{
-										string line = functionlist[ID][l];
+										int tempStateID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
-										if (line.find("<hkparam name=\"stateId\">", 0) != NOT_FOUND)
-										{
-											int tempStateID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+										if (tempStateID >= curState) curState = tempStateID + 1;
 
-											if (tempStateID >= curState)
-											{
-												curState = tempStateID + 1;
-											}
-
-											break;
-										}
+										break;
 									}
 								}
 							}
@@ -118,14 +108,8 @@ bool GetStateCount(vector<int>& count, vecstr templatelines, string format, stri
 			{
 				size_t IDSize;
 
-				if (ID.empty())
-				{
-					IDSize = 0;
-				}
-				else
-				{
-					IDSize = static_cast<size_t>(stoi(ID)) - 1;
-				}
+				if (ID.empty()) IDSize = 0;
+				else IDSize = static_cast<size_t>(stoi(ID)) - 1;
 
 				if (IDSize >= count.size())
 				{
@@ -138,10 +122,7 @@ bool GetStateCount(vector<int>& count, vecstr templatelines, string format, stri
 				string equation = "0" + number;
 				calculate(equation, format, filename, counter);
 
-				if (count[IDSize] <= stoi(equation))
-				{
-					count[IDSize] = stoi(equation) + 1;
-				}
+				if (count[IDSize] <= stoi(equation)) count[IDSize] = stoi(equation) + 1;
 			}
 		}
 
@@ -183,10 +164,7 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 	{
 		if (chosenLines[behaviorPriority[i]].length() != 0)
 		{
-			if (chosen == -1)
-			{
-				chosen = i;
-			}
+			if (chosen == -1) chosen = i;
 
 			string line = boost::regex_replace(string(chosenLines[behaviorPriority[i]]), boost::regex("[\t]+([^\t]+).*"), string("\\1"));
 			string line2 = boost::regex_replace(string(line), boost::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
@@ -278,22 +256,13 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 	{
 		string path = behaviorPath[it->first];
 
-		if (path.length() == 0)
-		{
-			ErrorMessage(1050, it->first);
-		}
+		if (path.length() == 0) ErrorMessage(1050, it->first);
 
 		size_t pos = wordFind(path, "\\behaviors\\", true);
 		size_t nextpos = wordFind(path, "\\data\\") + 6;
 
-		if (pos != NOT_FOUND && nextpos != NOT_FOUND && nextpos < pos)
-		{
-			animPath.insert(path.substr(nextpos, pos - nextpos) + "\\");
-		}
-		else if (it->first != "animationdatasinglefile" && it->first != "animationsetdatasinglefile")
-		{
-			WarningMessage(1007, it->first, path);
-		}
+		if (pos != NOT_FOUND && nextpos != NOT_FOUND && nextpos < pos) animPath.insert(path.substr(nextpos, pos - nextpos) + "\\");
+		else if (it->first != "animationdatasinglefile" && it->first != "animationsetdatasinglefile") WarningMessage(1007, it->first, path);
 	}
 
 	for (auto it = animPath.begin(); it != animPath.end(); ++it)
@@ -339,30 +308,21 @@ void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
 
 					if (file.find(modcode + "$") == NOT_FOUND)
 					{
-						if (!isChecked[path])
-						{
-							throw false;
-						}
+						if (!isChecked[path]) throw false;
 					}
 				}
 				else if (directory.find("animationsetdatasinglefile") != NOT_FOUND)
 				{					
 					if (boost::filesystem::path(directory).stem().string().find("~") != NOT_FOUND && file.length() > 0 && file[0] != '$')
 					{
-						if (!isChecked[path])
-						{
-							throw false;
-						}
+						if (!isChecked[path]) throw false;
 					}
 				}
 				else
 				{
 					if (isOnlyNumber(boost::regex_replace(string(file), boost::regex("#([^.txt]+).txt"), string("\\1"))))
 					{
-						if (!isChecked[path])
-						{
-							throw false;
-						}
+						if (!isChecked[path]) throw false;
 					}
 				}
 			}
@@ -388,48 +348,31 @@ bool isEngineUpdated()
 
 	read_directory(directory, filelist);
 
-	if (filelist.size() < 3)
-	{
-		ErrorMessage(6006);
-	}
+	if (filelist.size() < 3) ErrorMessage(6006);
 
 	vecstr storeline;
-	string filename = "engine_update";
+	string filename = "cache\\engine_update";
 	unordered_map<string, bool> isChecked;
 
-	if (!isFileExist(filename))
-	{
-		return false;
-	}
+	if (!isFileExist(filename)) return false;
 
-	if (!GetFunctionLines(filename, storeline, false))
-	{
-		return false;
-	}
+	if (!GetFunctionLines(filename, storeline, false)) return false;
 
 	for (auto& line : storeline)
 	{
 		if (line.length() > 0)
 		{
-			if (line.find(">>") == NOT_FOUND)
-			{
-				ErrorMessage(2021);
-			}
+			size_t pos = line.find(">>");
 
-			vecstr path;
-			path.push_back(line.substr(0, line.find(">>")));
-			path.push_back(line.substr(line.find(">>") + 2));
+			if (pos == NOT_FOUND) ErrorMessage(2021);
 
-			if (!isFileExist(path[0]))
-			{
-				return false;
-			}
-			else if (GetLastModified(path[0]) != path[1])
-			{
-				return false;
-			}
+			string part1 = line.substr(0, pos);
+			string part2 = line.substr(pos + 2);
 
-			isChecked[path[0]] = true;
+			if (!isFileExist(part1)) return false;
+			else if (GetLastModified(part1) != part2) return false;
+
+			isChecked[part1] = true;
 		}
 	}
 
@@ -452,7 +395,7 @@ bool isEngineUpdated()
 
 void GetBehaviorPath()
 {
-	string filename = "behavior_path";
+	string filename = "cache\\behavior_path";
 
 	if (isFileExist(filename))
 	{
@@ -473,17 +416,13 @@ void GetBehaviorPath()
 					line.pop_back();
 				}
 
-				if (line.find("=") != NOT_FOUND)
-				{
-					size_t pos = line.find("=");
-					string file = line.substr(0, pos);
-					string path = line.substr(pos + 1);
-					behaviorPath[file] = path;
-				}
-				else
-				{
-					ErrorMessage(1067, filename, linecount);
-				}
+				size_t pos = line.find("=");
+
+				if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
+
+				string file = line.substr(0, pos);
+				string path = line.substr(pos + 1);
+				behaviorPath[file] = path;
 			}
 		}
 		else
@@ -499,7 +438,7 @@ void GetBehaviorPath()
 
 void GetBehaviorProject()
 {
-	string filename = "behavior_project";
+	string filename = "cache\\behavior_project";
 
 	if (isFileExist(filename))
 	{
@@ -514,10 +453,7 @@ void GetBehaviorProject()
 			{
 				string line = charline;
 
-				if (line.back() == '\n')
-				{
-					line.pop_back();
-				}
+				if (line.back() == '\n') line.pop_back();
 
 				if (line.length() == 0)
 				{
@@ -550,7 +486,7 @@ void GetBehaviorProject()
 
 void GetBehaviorProjectPath()
 {
-	string filename = "behavior_project_path";
+	string filename = "cache\\behavior_project_path";
 
 	if (isFileExist(filename))
 	{
@@ -566,22 +502,15 @@ void GetBehaviorProjectPath()
 				++linecount;
 				line = charline;
 
-				if (line.length() > 0 && line.back() == '\n')
-				{
-					line.pop_back();
-				}
+				if (line.length() > 0 && line.back() == '\n') line.pop_back();
 
-				if (line.find("=") != NOT_FOUND)
-				{
-					size_t pos = line.find("=");
-					string file = line.substr(0, pos);
-					string path = line.substr(pos + 1);
-					behaviorProjectPath[file] = path;
-				}
-				else
-				{
-					ErrorMessage(1067, filename, linecount);
-				}
+				size_t pos = line.find("=");
+
+				if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
+
+				string file = line.substr(0, pos);
+				string path = line.substr(pos + 1);
+				behaviorProjectPath[file] = path;
 			}
 		}
 		else
@@ -597,7 +526,7 @@ void GetBehaviorProjectPath()
 
 void GetAnimData()
 {
-	string filename = "animationdata_list";
+	string filename = "cache\\animationdata_list";
 	unordered_map<string, set<string>> characterHeaders;
 
 	if (isFileExist(filename))
@@ -615,25 +544,16 @@ void GetAnimData()
 			{
 				line = charline;
 
-				if (line.back() == '\n')
-				{
-					line.pop_back();
-				}
+				if (line.back() == '\n') line.pop_back();
 
 				if (!newCharacter)
 				{
-					if (line.length() == 0)
-					{
-						ErrorMessage(3019);
-					}
+					if (line.length() == 0) ErrorMessage(3019);
 
 					character = line;
 					newCharacter = true;
 
-					if (characterHeaders.find(character) != characterHeaders.end())
-					{
-						ErrorMessage(3010, character);
-					}
+					if (characterHeaders.find(character) != characterHeaders.end()) ErrorMessage(3010, character);
 				}
 				else if (line.length() == 0)
 				{
@@ -641,10 +561,7 @@ void GetAnimData()
 				}
 				else if (newCharacter)
 				{
-					if (characterHeaders[character].find(line) != characterHeaders[character].end())
-					{
-						ErrorMessage(3008, character);
-					}
+					if (characterHeaders[character].find(line) != characterHeaders[character].end()) ErrorMessage(3008, character);
 					
 					characterHeaders[character].insert(line);
 				}
@@ -663,7 +580,7 @@ void GetAnimData()
 
 void characterHKX()
 {
-	string filename = "behavior_joints";
+	string filename = "cache\\behavior_joints";
 
 	if (isFileExist(filename))
 	{
@@ -679,10 +596,7 @@ void characterHKX()
 			{
 				line = charline;
 
-				if (line.back() == '\n')
-				{
-					line.pop_back();
-				}
+				if (line.back() == '\n') line.pop_back();
 
 				if (line.length() != 0)
 				{
@@ -693,10 +607,7 @@ void characterHKX()
 					}
 					else
 					{
-						if (header.length() == 0)
-						{
-							ErrorMessage(1094);
-						}
+						if (header.length() == 0) ErrorMessage(1094);
 
 						behaviorJoints[header].push_back(line);
 					}
@@ -729,14 +640,8 @@ string GetFileName(string filepath)
 		{
 			if (filepath.find("\\") != NOT_FOUND)
 			{
-				if (filepath.find_last_of("/") < filepath.find_last_of("\\"))
-				{
-					nextpos = filepath.find_last_of("\\") + 1;
-				}
-				else
-				{
-					nextpos = filepath.find_last_of("/") + 1;
-				}
+				if (filepath.find_last_of("/") < filepath.find_last_of("\\")) nextpos = filepath.find_last_of("\\") + 1;
+				else nextpos = filepath.find_last_of("/") + 1;
 			}
 			else
 			{
@@ -750,14 +655,8 @@ string GetFileName(string filepath)
 
 		lastpos = filepath.find_last_of(".");
 
-		if (lastpos == NOT_FOUND)
-		{
-			return filepath.substr(nextpos);
-		}
-		else
-		{
-			return filepath.substr(nextpos, lastpos - nextpos);
-		}
+		if (lastpos == NOT_FOUND) return filepath.substr(nextpos);
+		else return filepath.substr(nextpos, lastpos - nextpos);
 	}
 	else
 	{
@@ -773,14 +672,8 @@ string GetFileDirectory(string filepath)
 	{
 		if (filepath.find("\\") != NOT_FOUND)
 		{
-			if (filepath.find_last_of("/") < filepath.find_last_of("\\"))
-			{
-				nextpos = filepath.find_last_of("\\") + 1;
-			}
-			else
-			{
-				nextpos = filepath.find_last_of("/") + 1;
-			}
+			if (filepath.find_last_of("/") < filepath.find_last_of("\\")) nextpos = filepath.find_last_of("\\") + 1;
+			else nextpos = filepath.find_last_of("/") + 1;
 		}
 		else
 		{
@@ -837,15 +730,11 @@ bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordere
 	{
 		for (auto& templatecode : BehaviorTemplate.grouplist[lowerBehaviorFile])
 		{
-			if (newAnimation.find(templatecode) != newAnimation.end())
+			if (newAnimation.find(templatecode) == newAnimation.end()) continue;
+
+			for (auto& curAnim : newAnimation[templatecode])
 			{
-				for (auto& curAnim : newAnimation[templatecode])
-				{
-					if (modID == curAnim->coreModID)
-					{
-						return true;
-					}
-				}
+				if (modID == curAnim->coreModID) return true;
 			}
 		}
 	}
@@ -858,20 +747,15 @@ bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordere
 
 			for (unsigned int k = 0; k < behaviorNames.size(); ++k)
 			{
-				if (it->second.size() > 0 && lowerBehaviorFile == behaviorNames[k])
+				if (it->second.size() == 0 || lowerBehaviorFile != behaviorNames[k]) continue;
+
+				for (auto& templatecode : it->second)
 				{
-					for (auto& templatecode : it->second)
+					if (newAnimation.find(templatecode) == newAnimation.end() || BehaviorTemplate.optionlist[templatecode].core) continue;
+
+					for (auto& curAnim : newAnimation[templatecode])
 					{
-						if (newAnimation.find(templatecode) != newAnimation.end() && !BehaviorTemplate.optionlist[templatecode].core)
-						{
-							for (auto& curAnim : newAnimation[templatecode])
-							{
-								if (!curAnim->isKnown())
-								{
-									return true;
-								}
-							}
-						}
+						if (!curAnim->isKnown()) return true;
 					}
 				}
 			}
@@ -885,10 +769,7 @@ bool newAnimSkip(vector<shared_ptr<Furniture>> newAnim, string modID)
 {
 	for (auto& anim : newAnim)
 	{
-		if (anim->coreModID == modID)
-		{
-			return false;
-		}
+		if (anim->coreModID == modID) return false;
 	}
 
 	return true;

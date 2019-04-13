@@ -1232,9 +1232,6 @@
 				<hkcstring>NPCSoundPlay.NPCKillDLC2HeartStone</hkcstring>
 				<hkcstring>NPCKillDLC2HeartStone</hkcstring>
 				<hkcstring>SoundPlay.NPCKillDLC2HeartStone</hkcstring>
-<!-- NEW *skice* -->
-				<hkcstring>RollStart</hkcstring>
-<!-- CLOSE -->
 <!-- NEW *tudm* -->
 				<hkcstring>DodgeLightningStorm</hkcstring>
 				<hkcstring>DodgeCharge</hkcstring>
@@ -1275,6 +1272,9 @@
 				<hkcstring>FootLeftSidestep</hkcstring>
 				<hkcstring>FootRightSidestep</hkcstring>
 				<hkcstring>SidestepTrigger</hkcstring>
+<!-- CLOSE -->
+<!-- NEW *skice* -->
+				<hkcstring>RollStart</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
 				<hkcstring>Is1stPerson_Z</hkcstring>
@@ -4404,6 +4404,17 @@
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
+<!-- NEW *nemesis* -->
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+<!-- CLOSE -->
 <!-- NEW *tudm* -->
 				<hkobject>
 					<hkparam name="role">
@@ -4450,17 +4461,6 @@
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-<!-- CLOSE -->
-<!-- NEW *nemesis* -->
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -8386,11 +8386,6 @@
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
-<!-- NEW *skice* -->
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-<!-- CLOSE -->
 <!-- NEW *tudm* -->
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
@@ -8506,6 +8501,11 @@
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+<!-- NEW *skice* -->
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>

@@ -8410,7 +8410,7 @@
 
 <!-- ======================== NEMESIS import TEMPLATE START ======================== -->
 
-		<hkobject name="#2557" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#2559" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -8422,7 +8422,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#2527" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#2529" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -8434,7 +8434,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#2574" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#2576" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -8446,7 +8446,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#2542" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#2544" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -8458,7 +8458,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#2539" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#2541" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -8470,7 +8470,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#2571" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#2573" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -8482,7 +8482,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#2545" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#2547" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -8494,7 +8494,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#2548" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#2550" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -8506,7 +8506,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#2633" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#2635" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -8522,7 +8522,7 @@
 
 <!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->
 
-		<hkobject name="#2572" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2574" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardLeft</hkparam>
@@ -8539,7 +8539,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2573" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2575" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardLeft</hkparam>
@@ -8557,18 +8557,18 @@
 		</hkobject>
 
 		<hkobject name="#1298" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2572
-				#2573
+				#2574
+				#2575
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2575" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2577" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardRightSlow</hkparam>
@@ -8585,7 +8585,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2576" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2578" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardRightSlow</hkparam>
@@ -8603,18 +8603,18 @@
 		</hkobject>
 
 		<hkobject name="#1591" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2575
-				#2576
+				#2577
+				#2578
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2577" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2579" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLandLeft.hkx</hkparam>
@@ -8631,7 +8631,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2578" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2580" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLandLeft.hkx</hkparam>
@@ -8649,18 +8649,18 @@
 		</hkobject>
 
 		<hkobject name="#0579" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2577
-				#2578
+				#2579
+				#2580
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2579" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2581" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardRight</hkparam>
@@ -8677,7 +8677,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2580" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2582" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardRight</hkparam>
@@ -8695,18 +8695,18 @@
 		</hkobject>
 
 		<hkobject name="#1585" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2579
-				#2580
+				#2581
+				#2582
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2581" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2583" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_SprintForward_CameraControl</hkparam>
@@ -8723,7 +8723,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2582" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2584" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_SprintForward_CameraControl</hkparam>
@@ -8741,18 +8741,18 @@
 		</hkobject>
 
 		<hkobject name="#0589" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2581
-				#2582
+				#2583
+				#2584
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2583" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2585" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardLeft</hkparam>
@@ -8769,7 +8769,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2584" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2586" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardLeft</hkparam>
@@ -8787,18 +8787,18 @@
 		</hkobject>
 
 		<hkobject name="#1280" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2583
-				#2584
+				#2585
+				#2586
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2585" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2587" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLandBack</hkparam>
@@ -8815,7 +8815,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2586" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2588" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLandBack</hkparam>
@@ -8833,18 +8833,18 @@
 		</hkobject>
 
 		<hkobject name="#0581" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2585
-				#2586
+				#2587
+				#2588
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2587" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2589" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForward</hkparam>
@@ -8861,7 +8861,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2588" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2590" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForward</hkparam>
@@ -8879,18 +8879,18 @@
 		</hkobject>
 
 		<hkobject name="#1400" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2587
-				#2588
+				#2589
+				#2590
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2589" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2591" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardRightSlow</hkparam>
@@ -8907,7 +8907,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2590" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2592" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardRightSlow</hkparam>
@@ -8925,18 +8925,18 @@
 		</hkobject>
 
 		<hkobject name="#1336" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2589
-				#2590
+				#2591
+				#2592
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2591" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2593" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLandRight.hkx</hkparam>
@@ -8953,7 +8953,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2592" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2594" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLandRight.hkx</hkparam>
@@ -8971,18 +8971,18 @@
 		</hkobject>
 
 		<hkobject name="#0583" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2591
-				#2592
+				#2593
+				#2594
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2593" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2595" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunStrafeLeft</hkparam>
@@ -8999,7 +8999,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2594" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2596" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunStrafeLeft</hkparam>
@@ -9017,18 +9017,18 @@
 		</hkobject>
 
 		<hkobject name="#1428" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2593
-				#2594
+				#2595
+				#2596
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2595" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2597" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardLeftSlow</hkparam>
@@ -9045,7 +9045,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2596" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2598" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardLeftSlow</hkparam>
@@ -9063,18 +9063,18 @@
 		</hkobject>
 
 		<hkobject name="#1300" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2595
-				#2596
+				#2597
+				#2598
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2597" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2599" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkRight</hkparam>
@@ -9091,7 +9091,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2598" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2600" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkRight</hkparam>
@@ -9109,18 +9109,18 @@
 		</hkobject>
 
 		<hkobject name="#1492" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2597
-				#2598
+				#2599
+				#2600
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2599" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2601" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFallBack</hkparam>
@@ -9137,7 +9137,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2600" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2602" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFallBack</hkparam>
@@ -9155,18 +9155,18 @@
 		</hkobject>
 
 		<hkobject name="#0617" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2599
-				#2600
+				#2601
+				#2602
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2601" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2603" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_ForwardRight</hkparam>
@@ -9183,7 +9183,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2602" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2604" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_ForwardRight</hkparam>
@@ -9201,18 +9201,18 @@
 		</hkobject>
 
 		<hkobject name="#1332" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2601
-				#2602
+				#2603
+				#2604
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2603" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2605" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLand.hkx</hkparam>
@@ -9229,7 +9229,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2604" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2606" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLand.hkx</hkparam>
@@ -9247,18 +9247,18 @@
 		</hkobject>
 
 		<hkobject name="#0585" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2603
-				#2604
+				#2605
+				#2606
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2605" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2607" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_RightSlow</hkparam>
@@ -9275,7 +9275,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2606" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2608" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_RightSlow</hkparam>
@@ -9293,18 +9293,18 @@
 		</hkobject>
 
 		<hkobject name="#1327" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2605
-				#2606
+				#2607
+				#2608
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2607" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2609" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#1026</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_RunForwardAttackRight</hkparam>
@@ -9321,7 +9321,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2608" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2610" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#1026</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_RunForwardAttackRight</hkparam>
@@ -9339,18 +9339,18 @@
 		</hkobject>
 
 		<hkobject name="#1024" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2607
-				#2608
+				#2609
+				#2610
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2609" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2611" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFallLeft.hkx</hkparam>
@@ -9367,7 +9367,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2610" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2612" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFallLeft.hkx</hkparam>
@@ -9385,18 +9385,18 @@
 		</hkobject>
 
 		<hkobject name="#0614" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2609
-				#2610
+				#2611
+				#2612
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2611" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2613" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardSlow</hkparam>
@@ -9413,7 +9413,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2612" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2614" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardSlow</hkparam>
@@ -9431,18 +9431,18 @@
 		</hkobject>
 
 		<hkobject name="#1345" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2611
-				#2612
+				#2613
+				#2614
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2613" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2615" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFallRight.hkx</hkparam>
@@ -9459,7 +9459,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2614" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2616" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFallRight.hkx</hkparam>
@@ -9477,18 +9477,18 @@
 		</hkobject>
 
 		<hkobject name="#0620" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2613
-				#2614
+				#2615
+				#2616
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2615" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2617" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardRightSlow</hkparam>
@@ -9505,7 +9505,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2616" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2618" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardRightSlow</hkparam>
@@ -9523,18 +9523,18 @@
 		</hkobject>
 
 		<hkobject name="#1318" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2615
-				#2616
+				#2617
+				#2618
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2617" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2619" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFall.hkx</hkparam>
@@ -9551,7 +9551,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2618" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2620" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFall.hkx</hkparam>
@@ -9569,18 +9569,18 @@
 		</hkobject>
 
 		<hkobject name="#0623" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2617
-				#2618
+				#2619
+				#2620
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2619" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2621" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLand</hkparam>
@@ -9597,7 +9597,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2620" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2622" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpLand</hkparam>
@@ -9615,18 +9615,18 @@
 		</hkobject>
 
 		<hkobject name="#0646" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2619
-				#2620
+				#2621
+				#2622
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2621" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2623" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFall</hkparam>
@@ -9643,7 +9643,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2622" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2624" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_JumpFall</hkparam>
@@ -9661,18 +9661,18 @@
 		</hkobject>
 
 		<hkobject name="#0676" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2621
-				#2622
+				#2623
+				#2624
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2623" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2625" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwarsSlow</hkparam>
@@ -9689,7 +9689,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2624" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2626" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwarsSlow</hkparam>
@@ -9707,18 +9707,18 @@
 		</hkobject>
 
 		<hkobject name="#1309" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2623
-				#2624
+				#2625
+				#2626
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2625" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2627" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_LeftSlow</hkparam>
@@ -9735,7 +9735,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2626" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2628" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_LeftSlow</hkparam>
@@ -9753,18 +9753,18 @@
 		</hkobject>
 
 		<hkobject name="#1291" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2625
-				#2626
+				#2627
+				#2628
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2627" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2629" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_Idle</hkparam>
@@ -9781,7 +9781,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2628" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2630" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MLh_Idle</hkparam>
@@ -9799,18 +9799,18 @@
 		</hkobject>
 
 		<hkobject name="#0910" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2627
-				#2628
+				#2629
+				#2630
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2629" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2631" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForwardRightSlow</hkparam>
@@ -9827,7 +9827,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2630" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2632" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForwardRightSlow</hkparam>
@@ -9845,18 +9845,18 @@
 		</hkobject>
 
 		<hkobject name="#1624" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2629
-				#2630
+				#2631
+				#2632
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2631" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2633" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Left</hkparam>
@@ -9873,7 +9873,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2632" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2634" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Left</hkparam>
@@ -9891,18 +9891,18 @@
 		</hkobject>
 
 		<hkobject name="#1289" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2631
-				#2632
+				#2633
+				#2634
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2634" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2636" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HM_Idle</hkparam>
@@ -9919,7 +9919,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2635" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2637" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HM_Idle</hkparam>
@@ -9937,18 +9937,18 @@
 		</hkobject>
 
 		<hkobject name="#0915" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2633</hkparam>
+			<hkparam name="variableBindingSet">#2635</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_0yukl_YY2Hander_maleonly_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2634
-				#2635
+				#2636
+				#2637
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2636" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2638" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunBackwardLeftFast</hkparam>
@@ -9965,7 +9965,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2637" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2639" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunBackwardLeftFast</hkparam>
@@ -9983,18 +9983,18 @@
 		</hkobject>
 
 		<hkobject name="#1439" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2636
-				#2637
+				#2638
+				#2639
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2638" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2640" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#0959</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW1HM1HM_PowerAttackStab</hkparam>
@@ -10011,7 +10011,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2639" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2641" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#0959</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW1HM1HM_PowerAttackStab</hkparam>
@@ -10029,18 +10029,18 @@
 		</hkobject>
 
 		<hkobject name="#0957" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2638
-				#2639
+				#2640
+				#2641
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2640" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2642" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackward</hkparam>
@@ -10057,7 +10057,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2641" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2643" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackward</hkparam>
@@ -10075,18 +10075,18 @@
 		</hkobject>
 
 		<hkobject name="#1571" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2640
-				#2641
+				#2642
+				#2643
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2642" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2644" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunLeftFast</hkparam>
@@ -10103,7 +10103,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2643" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2645" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunLeftFast</hkparam>
@@ -10121,18 +10121,18 @@
 		</hkobject>
 
 		<hkobject name="#1422" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2642
-				#2643
+				#2644
+				#2645
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2644" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2646" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#1002</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_RunBackAttackRight</hkparam>
@@ -10149,7 +10149,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2645" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2647" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#1002</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_RunBackAttackRight</hkparam>
@@ -10167,18 +10167,18 @@
 		</hkobject>
 
 		<hkobject name="#1000" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2644
-				#2645
+				#2646
+				#2647
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2646" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2648" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkLeftSlow</hkparam>
@@ -10195,7 +10195,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2647" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2649" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkLeftSlow</hkparam>
@@ -10213,18 +10213,18 @@
 		</hkobject>
 
 		<hkobject name="#1434" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2646
-				#2647
+				#2648
+				#2649
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2648" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2650" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#1006</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_WalkBackAttackRight</hkparam>
@@ -10241,7 +10241,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2649" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2651" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#1006</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_WalkBackAttackRight</hkparam>
@@ -10259,18 +10259,18 @@
 		</hkobject>
 
 		<hkobject name="#1004" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2648
-				#2649
+				#2650
+				#2651
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2650" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2652" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardRight</hkparam>
@@ -10287,7 +10287,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2651" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2653" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardRight</hkparam>
@@ -10305,18 +10305,18 @@
 		</hkobject>
 
 		<hkobject name="#1507" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2650
-				#2651
+				#2652
+				#2653
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2652" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2654" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#1030</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_WalkForwardAttackRight</hkparam>
@@ -10333,7 +10333,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2653" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2655" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#1030</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_WalkForwardAttackRight</hkparam>
@@ -10351,18 +10351,18 @@
 		</hkobject>
 
 		<hkobject name="#1028" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2652
-				#2653
+				#2654
+				#2655
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2654" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2656" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardLeft</hkparam>
@@ -10379,7 +10379,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2655" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2657" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardLeft</hkparam>
@@ -10397,18 +10397,18 @@
 		</hkobject>
 
 		<hkobject name="#1413" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2654
-				#2655
+				#2656
+				#2657
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2656" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2658" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaffRight_Idle</hkparam>
@@ -10425,7 +10425,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2657" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2659" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaffRight_Idle</hkparam>
@@ -10443,18 +10443,18 @@
 		</hkobject>
 
 		<hkobject name="#1246" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2656
-				#2657
+				#2658
+				#2659
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2658" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2660" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_ForwardLeft</hkparam>
@@ -10471,7 +10471,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2659" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2661" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_ForwardLeft</hkparam>
@@ -10489,18 +10489,18 @@
 		</hkobject>
 
 		<hkobject name="#1278" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2658
-				#2659
+				#2660
+				#2661
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2660" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2662" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardLeft</hkparam>
@@ -10517,7 +10517,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2661" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2663" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardLeft</hkparam>
@@ -10535,18 +10535,18 @@
 		</hkobject>
 
 		<hkobject name="#1410" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2660
-				#2661
+				#2662
+				#2663
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2662" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2664" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardLeftSlow</hkparam>
@@ -10563,7 +10563,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2663" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2665" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardLeftSlow</hkparam>
@@ -10581,18 +10581,18 @@
 		</hkobject>
 
 		<hkobject name="#1282" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2662
-				#2663
+				#2664
+				#2665
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2664" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2666" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Left</hkparam>
@@ -10609,7 +10609,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2665" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2667" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Left</hkparam>
@@ -10627,18 +10627,18 @@
 		</hkobject>
 
 		<hkobject name="#1287" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2664
-				#2665
+				#2666
+				#2667
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2666" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2668" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardLeft</hkparam>
@@ -10655,7 +10655,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2667" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2669" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardLeft</hkparam>
@@ -10673,18 +10673,18 @@
 		</hkobject>
 
 		<hkobject name="#1296" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2666
-				#2667
+				#2668
+				#2669
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2668" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2670" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Dual_Unequip</hkparam>
@@ -10701,7 +10701,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2669" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2671" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Dual_Unequip</hkparam>
@@ -10719,18 +10719,18 @@
 		</hkobject>
 
 		<hkobject name="#2007" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2668
-				#2669
+				#2670
+				#2671
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2670" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2672" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Backward</hkparam>
@@ -10747,7 +10747,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2671" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2673" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Backward</hkparam>
@@ -10765,18 +10765,18 @@
 		</hkobject>
 
 		<hkobject name="#1305" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2670
-				#2671
+				#2672
+				#2673
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2672" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2674" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Backward</hkparam>
@@ -10793,7 +10793,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2673" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2675" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Backward</hkparam>
@@ -10811,18 +10811,18 @@
 		</hkobject>
 
 		<hkobject name="#1307" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2672
-				#2673
+				#2674
+				#2675
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2674" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2676" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardRight</hkparam>
@@ -10839,7 +10839,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2675" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2677" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardRight</hkparam>
@@ -10857,18 +10857,18 @@
 		</hkobject>
 
 		<hkobject name="#1314" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2674
-				#2675
+				#2676
+				#2677
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2676" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2678" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardLeft</hkparam>
@@ -10885,7 +10885,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2677" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2679" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardLeft</hkparam>
@@ -10903,18 +10903,18 @@
 		</hkobject>
 
 		<hkobject name="#1557" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2676
-				#2677
+				#2678
+				#2679
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2678" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2680" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForward</hkparam>
@@ -10931,7 +10931,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2679" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2681" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForward</hkparam>
@@ -10949,84 +10949,9 @@
 		</hkobject>
 
 		<hkobject name="#1380" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#2678
-				#2679
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#2682" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\male\MT_Idle.HKX</hkparam>
-			<hkparam name="triggers">#0188</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#2683" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_mt_idle.hkx</hkparam>
-			<hkparam name="triggers">#0188</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#2680" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#2682
-				#2683
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#2681" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_mt_idle.hkx</hkparam>
-			<hkparam name="triggers">#0188</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#2528" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
 				#2680
 				#2681
@@ -11035,7 +10960,7 @@
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2684" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2682" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardRight</hkparam>
@@ -11052,7 +10977,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2685" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2683" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardRight</hkparam>
@@ -11070,18 +10995,18 @@
 		</hkobject>
 
 		<hkobject name="#1316" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2684
-				#2685
+				#2682
+				#2683
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2686" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2684" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Right</hkparam>
@@ -11098,7 +11023,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2687" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2685" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Right</hkparam>
@@ -11116,18 +11041,18 @@
 		</hkobject>
 
 		<hkobject name="#1323" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2686
-				#2687
+				#2684
+				#2685
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2688" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2686" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Right</hkparam>
@@ -11144,7 +11069,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2689" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2687" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Right</hkparam>
@@ -11162,18 +11087,18 @@
 		</hkobject>
 
 		<hkobject name="#1325" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2688
-				#2689
+				#2686
+				#2687
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2690" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2688" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardRight</hkparam>
@@ -11190,7 +11115,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2691" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2689" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardRight</hkparam>
@@ -11208,18 +11133,18 @@
 		</hkobject>
 
 		<hkobject name="#1334" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2690
-				#2691
+				#2688
+				#2689
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2692" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2690" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkLeftSlow</hkparam>
@@ -11236,7 +11161,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2693" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2691" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkLeftSlow</hkparam>
@@ -11254,18 +11179,18 @@
 		</hkobject>
 
 		<hkobject name="#1548" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2692
-				#2693
+				#2690
+				#2691
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2694" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2692" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Forward</hkparam>
@@ -11282,7 +11207,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2695" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2693" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Forward</hkparam>
@@ -11300,18 +11225,18 @@
 		</hkobject>
 
 		<hkobject name="#1341" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2694
-				#2695
+				#2692
+				#2693
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2696" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2694" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Staff_Idle</hkparam>
@@ -11328,7 +11253,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2697" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2695" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Staff_Idle</hkparam>
@@ -11346,18 +11271,18 @@
 		</hkobject>
 
 		<hkobject name="#1754" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2696
-				#2697
+				#2694
+				#2695
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2698" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2696" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardLeftFast</hkparam>
@@ -11374,7 +11299,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2699" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2697" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardLeftFast</hkparam>
@@ -11392,18 +11317,18 @@
 		</hkobject>
 
 		<hkobject name="#1407" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2698
-				#2699
+				#2696
+				#2697
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2700" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2698" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Forward</hkparam>
@@ -11420,7 +11345,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2701" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2699" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Forward</hkparam>
@@ -11438,18 +11363,18 @@
 		</hkobject>
 
 		<hkobject name="#1343" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2700
-				#2701
+				#2698
+				#2699
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2702" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2700" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardFast</hkparam>
@@ -11466,7 +11391,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2703" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2701" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardFast</hkparam>
@@ -11484,18 +11409,18 @@
 		</hkobject>
 
 		<hkobject name="#1374" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2702
-				#2703
+				#2700
+				#2701
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2704" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2702" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForward</hkparam>
@@ -11512,7 +11437,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2705" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2703" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForward</hkparam>
@@ -11530,18 +11455,18 @@
 		</hkobject>
 
 		<hkobject name="#1377" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2704
-				#2705
+				#2702
+				#2703
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2706" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2704" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardSlow</hkparam>
@@ -11558,7 +11483,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2707" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2705" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardSlow</hkparam>
@@ -11576,18 +11501,18 @@
 		</hkobject>
 
 		<hkobject name="#1383" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2706
-				#2707
+				#2704
+				#2705
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2708" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2706" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardFast</hkparam>
@@ -11604,7 +11529,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2709" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2707" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardFast</hkparam>
@@ -11622,18 +11547,18 @@
 		</hkobject>
 
 		<hkobject name="#1394" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2708
-				#2709
+				#2706
+				#2707
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2710" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2708" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForward</hkparam>
@@ -11650,7 +11575,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2711" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2709" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForward</hkparam>
@@ -11668,18 +11593,18 @@
 		</hkobject>
 
 		<hkobject name="#1397" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2710
-				#2711
+				#2708
+				#2709
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2712" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2710" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardLeftSlow</hkparam>
@@ -11696,7 +11621,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2713" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2711" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardLeftSlow</hkparam>
@@ -11714,18 +11639,18 @@
 		</hkobject>
 
 		<hkobject name="#1416" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2712
-				#2713
+				#2710
+				#2711
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2714" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2712" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunLeft</hkparam>
@@ -11742,7 +11667,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2715" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2713" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunLeft</hkparam>
@@ -11760,18 +11685,18 @@
 		</hkobject>
 
 		<hkobject name="#1425" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2714
-				#2715
+				#2712
+				#2713
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2716" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2714" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkLeft</hkparam>
@@ -11788,7 +11713,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2717" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2715" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkLeft</hkparam>
@@ -11806,18 +11731,18 @@
 		</hkobject>
 
 		<hkobject name="#1431" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2716
-				#2717
+				#2714
+				#2715
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2718" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2716" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunBackwardLeft</hkparam>
@@ -11834,7 +11759,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2719" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2717" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunBackwardLeft</hkparam>
@@ -11852,18 +11777,18 @@
 		</hkobject>
 
 		<hkobject name="#1442" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2718
-				#2719
+				#2716
+				#2717
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2720" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2718" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkBackwardLeft</hkparam>
@@ -11880,7 +11805,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2721" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2719" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkBackwardLeft</hkparam>
@@ -11898,18 +11823,18 @@
 		</hkobject>
 
 		<hkobject name="#1445" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2720
-				#2721
+				#2718
+				#2719
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2722" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2720" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkBackwardLeftSlow</hkparam>
@@ -11926,7 +11851,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2723" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2721" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkBackwardLeftSlow</hkparam>
@@ -11944,18 +11869,18 @@
 		</hkobject>
 
 		<hkobject name="#1448" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2722
-				#2723
+				#2720
+				#2721
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2724" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2722" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunBackwardFast</hkparam>
@@ -11972,7 +11897,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2725" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2723" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunBackwardFast</hkparam>
@@ -11990,18 +11915,18 @@
 		</hkobject>
 
 		<hkobject name="#1454" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2724
-				#2725
+				#2722
+				#2723
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2726" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2724" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunBackward</hkparam>
@@ -12018,7 +11943,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2727" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2725" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunBackward</hkparam>
@@ -12036,18 +11961,18 @@
 		</hkobject>
 
 		<hkobject name="#1457" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2726
-				#2727
+				#2724
+				#2725
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2728" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2726" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkBackward</hkparam>
@@ -12064,7 +11989,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2729" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2727" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkBackward</hkparam>
@@ -12082,18 +12007,18 @@
 		</hkobject>
 
 		<hkobject name="#1459" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2728
-				#2729
+				#2726
+				#2727
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2730" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2728" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkBackwardSlow</hkparam>
@@ -12110,7 +12035,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2731" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2729" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkBackwardSlow</hkparam>
@@ -12128,18 +12053,18 @@
 		</hkobject>
 
 		<hkobject name="#1462" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2730
-				#2731
+				#2728
+				#2729
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2732" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2730" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunBackwardRightFast</hkparam>
@@ -12156,7 +12081,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2733" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2731" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunBackwardRightFast</hkparam>
@@ -12174,18 +12099,18 @@
 		</hkobject>
 
 		<hkobject name="#1468" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2732
-				#2733
+				#2730
+				#2731
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2734" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2732" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunBackwardRight</hkparam>
@@ -12202,7 +12127,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2735" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2733" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunBackwardRight</hkparam>
@@ -12220,18 +12145,18 @@
 		</hkobject>
 
 		<hkobject name="#1471" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2734
-				#2735
+				#2732
+				#2733
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2736" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2734" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkBackwardRight</hkparam>
@@ -12248,7 +12173,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2737" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2735" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkBackwardRight</hkparam>
@@ -12266,18 +12191,18 @@
 		</hkobject>
 
 		<hkobject name="#1474" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2736
-				#2737
+				#2734
+				#2735
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2738" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2736" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkBackwardRightSlow</hkparam>
@@ -12294,7 +12219,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2739" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2737" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkBackwardRightSlow</hkparam>
@@ -12312,18 +12237,18 @@
 		</hkobject>
 
 		<hkobject name="#1477" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2738
-				#2739
+				#2736
+				#2737
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2740" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2738" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunRightFast</hkparam>
@@ -12340,7 +12265,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2741" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2739" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunRightFast</hkparam>
@@ -12358,18 +12283,18 @@
 		</hkobject>
 
 		<hkobject name="#1483" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2740
-				#2741
+				#2738
+				#2739
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2742" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2740" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunRight</hkparam>
@@ -12386,7 +12311,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2743" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2741" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_RunRight</hkparam>
@@ -12404,18 +12329,18 @@
 		</hkobject>
 
 		<hkobject name="#1486" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2742
-				#2743
+				#2740
+				#2741
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2744" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2742" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_StrafeRight</hkparam>
@@ -12432,7 +12357,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2745" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2743" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_StrafeRight</hkparam>
@@ -12450,18 +12375,18 @@
 		</hkobject>
 
 		<hkobject name="#1489" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2744
-				#2745
+				#2742
+				#2743
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2746" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2744" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkRightSlow</hkparam>
@@ -12478,7 +12403,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2747" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2745" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagCast_WalkRightSlow</hkparam>
@@ -12496,18 +12421,18 @@
 		</hkobject>
 
 		<hkobject name="#1495" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2746
-				#2747
+				#2744
+				#2745
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2748" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2746" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardRightFast</hkparam>
@@ -12524,7 +12449,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2749" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2747" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardRightFast</hkparam>
@@ -12542,18 +12467,18 @@
 		</hkobject>
 
 		<hkobject name="#1501" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2748
-				#2749
+				#2746
+				#2747
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2750" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2748" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardRight</hkparam>
@@ -12570,7 +12495,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2751" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2749" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_RunForwardRight</hkparam>
@@ -12588,18 +12513,18 @@
 		</hkobject>
 
 		<hkobject name="#1504" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2750
-				#2751
+				#2748
+				#2749
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2752" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2750" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardRightSlow</hkparam>
@@ -12616,7 +12541,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2753" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2751" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicCast_WalkForwardRightSlow</hkparam>
@@ -12634,18 +12559,18 @@
 		</hkobject>
 
 		<hkobject name="#1510" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2752
-				#2753
+				#2750
+				#2751
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2754" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2752" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardLeftFast</hkparam>
@@ -12662,7 +12587,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2755" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2753" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardLeftFast</hkparam>
@@ -12680,18 +12605,18 @@
 		</hkobject>
 
 		<hkobject name="#1521" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2754
-				#2755
+				#2752
+				#2753
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2756" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2754" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardLeft</hkparam>
@@ -12708,7 +12633,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2757" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2755" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardLeft</hkparam>
@@ -12726,18 +12651,18 @@
 		</hkobject>
 
 		<hkobject name="#1524" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2756
-				#2757
+				#2754
+				#2755
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2758" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2756" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForwardLeft</hkparam>
@@ -12754,7 +12679,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2759" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2757" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForwardLeft</hkparam>
@@ -12772,18 +12697,18 @@
 		</hkobject>
 
 		<hkobject name="#1527" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2758
-				#2759
+				#2756
+				#2757
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2760" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2758" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForwardLeftSlow</hkparam>
@@ -12800,7 +12725,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2761" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2759" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForwardLeftSlow</hkparam>
@@ -12818,18 +12743,18 @@
 		</hkobject>
 
 		<hkobject name="#1530" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2760
-				#2761
+				#2758
+				#2759
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2762" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2760" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunLeftFast</hkparam>
@@ -12846,7 +12771,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2763" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2761" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunLeftFast</hkparam>
@@ -12864,18 +12789,18 @@
 		</hkobject>
 
 		<hkobject name="#1536" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2762
-				#2763
+				#2760
+				#2761
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2764" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2762" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunLeft</hkparam>
@@ -12892,7 +12817,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2765" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2763" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunLeft</hkparam>
@@ -12910,18 +12835,18 @@
 		</hkobject>
 
 		<hkobject name="#1539" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2764
-				#2765
+				#2762
+				#2763
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2766" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2764" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunStrafeLeft</hkparam>
@@ -12938,7 +12863,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2767" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2765" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunStrafeLeft</hkparam>
@@ -12956,18 +12881,18 @@
 		</hkobject>
 
 		<hkobject name="#1542" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2766
-				#2767
+				#2764
+				#2765
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2768" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2766" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkLeft</hkparam>
@@ -12984,7 +12909,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2769" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2767" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkLeft</hkparam>
@@ -13002,18 +12927,18 @@
 		</hkobject>
 
 		<hkobject name="#1545" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2768
-				#2769
+				#2766
+				#2767
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2770" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2768" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardLeftFast</hkparam>
@@ -13030,7 +12955,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2771" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2769" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardLeftFast</hkparam>
@@ -13048,18 +12973,18 @@
 		</hkobject>
 
 		<hkobject name="#1554" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2770
-				#2771
+				#2768
+				#2769
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2772" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2770" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardLeft</hkparam>
@@ -13076,7 +13001,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2773" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2771" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardLeft</hkparam>
@@ -13094,18 +13019,18 @@
 		</hkobject>
 
 		<hkobject name="#1560" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2772
-				#2773
+				#2770
+				#2771
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2774" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2772" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardLeftSlow</hkparam>
@@ -13122,7 +13047,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2775" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2773" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardLeftSlow</hkparam>
@@ -13140,18 +13065,18 @@
 		</hkobject>
 
 		<hkobject name="#1563" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2774
-				#2775
+				#2772
+				#2773
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2776" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2774" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardFast</hkparam>
@@ -13168,7 +13093,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2777" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2775" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardFast</hkparam>
@@ -13186,18 +13111,18 @@
 		</hkobject>
 
 		<hkobject name="#1569" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2776
-				#2777
+				#2774
+				#2775
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2778" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2776" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackward</hkparam>
@@ -13214,7 +13139,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2779" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2777" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackward</hkparam>
@@ -13232,18 +13157,18 @@
 		</hkobject>
 
 		<hkobject name="#1573" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2778
-				#2779
+				#2776
+				#2777
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2780" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2778" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardSlow</hkparam>
@@ -13260,7 +13185,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2781" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2779" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardSlow</hkparam>
@@ -13278,18 +13203,18 @@
 		</hkobject>
 
 		<hkobject name="#1576" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2780
-				#2781
+				#2778
+				#2779
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2782" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2780" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardRightFast</hkparam>
@@ -13306,7 +13231,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2783" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2781" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunBackwardRightFast</hkparam>
@@ -13324,18 +13249,18 @@
 		</hkobject>
 
 		<hkobject name="#1582" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2782
-				#2783
+				#2780
+				#2781
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2784" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2782" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardRight</hkparam>
@@ -13352,7 +13277,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2785" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2783" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkBackwardRight</hkparam>
@@ -13370,18 +13295,18 @@
 		</hkobject>
 
 		<hkobject name="#1588" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2784
-				#2785
+				#2782
+				#2783
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2786" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2784" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunRightFast</hkparam>
@@ -13398,7 +13323,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2787" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2785" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunRightFast</hkparam>
@@ -13416,18 +13341,18 @@
 		</hkobject>
 
 		<hkobject name="#1597" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2786
-				#2787
+				#2784
+				#2785
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2788" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2786" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunRight</hkparam>
@@ -13444,7 +13369,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2789" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2787" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunRight</hkparam>
@@ -13462,18 +13387,18 @@
 		</hkobject>
 
 		<hkobject name="#1600" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2788
-				#2789
+				#2786
+				#2787
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2790" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2788" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunStrafeRight</hkparam>
@@ -13490,7 +13415,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2791" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2789" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunStrafeRight</hkparam>
@@ -13508,18 +13433,18 @@
 		</hkobject>
 
 		<hkobject name="#1603" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2790
-				#2791
+				#2788
+				#2789
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2792" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2790" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkRight</hkparam>
@@ -13536,7 +13461,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2793" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2791" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkRight</hkparam>
@@ -13554,18 +13479,18 @@
 		</hkobject>
 
 		<hkobject name="#1606" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2792
-				#2793
+				#2790
+				#2791
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2794" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2792" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkRightSlow</hkparam>
@@ -13582,7 +13507,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2795" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2793" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkRightSlow</hkparam>
@@ -13600,18 +13525,18 @@
 		</hkobject>
 
 		<hkobject name="#1609" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2794
-				#2795
+				#2792
+				#2793
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2796" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2794" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardRightFast</hkparam>
@@ -13628,7 +13553,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2797" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2795" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardRightFast</hkparam>
@@ -13646,18 +13571,18 @@
 		</hkobject>
 
 		<hkobject name="#1615" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2796
-				#2797
+				#2794
+				#2795
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2798" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2796" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardRight</hkparam>
@@ -13674,7 +13599,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2799" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2797" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardRight</hkparam>
@@ -13692,18 +13617,18 @@
 		</hkobject>
 
 		<hkobject name="#1618" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2798
-				#2799
+				#2796
+				#2797
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2800" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2798" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForwardRight</hkparam>
@@ -13720,7 +13645,7 @@
 			<hkparam name="flags">16</hkparam>
 		</hkobject>
 
-		<hkobject name="#2801" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2799" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_WalkForwardRight</hkparam>
@@ -13738,18 +13663,18 @@
 		</hkobject>
 
 		<hkobject name="#1621" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2800
-				#2801
+				#2798
+				#2799
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2802" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2800" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakMTIdle</hkparam>
@@ -13766,7 +13691,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2803" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2801" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakMTIdle</hkparam>
@@ -13784,18 +13709,18 @@
 		</hkobject>
 
 		<hkobject name="#1662" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2802
-				#2803
+				#2800
+				#2801
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2804" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2802" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_Idle</hkparam>
@@ -13812,7 +13737,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2805" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2803" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MRh_Idle</hkparam>
@@ -13830,18 +13755,18 @@
 		</hkobject>
 
 		<hkobject name="#1739" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2804
-				#2805
+				#2802
+				#2803
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2806" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2804" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_Unequip</hkparam>
@@ -13858,7 +13783,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2807" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2805" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_Unequip</hkparam>
@@ -13876,18 +13801,18 @@
 		</hkobject>
 
 		<hkobject name="#1962" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2806
-				#2807
+				#2804
+				#2805
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2808" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2806" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Unequip</hkparam>
@@ -13904,7 +13829,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2809" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2807" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Axe_Unequip</hkparam>
@@ -13922,18 +13847,18 @@
 		</hkobject>
 
 		<hkobject name="#1968" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2808
-				#2809
+				#2806
+				#2807
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2810" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2808" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFastLeft</hkparam>
@@ -13950,7 +13875,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2811" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2809" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFastLeft</hkparam>
@@ -13968,18 +13893,18 @@
 		</hkobject>
 
 		<hkobject name="#2203" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2810
-				#2811
+				#2808
+				#2809
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2812" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2810" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFastBack</hkparam>
@@ -13996,7 +13921,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2813" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2811" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFastBack</hkparam>
@@ -14014,18 +13939,18 @@
 		</hkobject>
 
 		<hkobject name="#2206" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2812
-				#2813
+				#2810
+				#2811
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2814" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2812" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFastRight</hkparam>
@@ -14042,7 +13967,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2815" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2813" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFastRight</hkparam>
@@ -14060,18 +13985,18 @@
 		</hkobject>
 
 		<hkobject name="#2209" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2814
-				#2815
+				#2812
+				#2813
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2816" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2814" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFastForward</hkparam>
@@ -14088,7 +14013,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2817" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2815" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFastForward</hkparam>
@@ -14106,18 +14031,18 @@
 		</hkobject>
 
 		<hkobject name="#2212" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2816
-				#2817
+				#2814
+				#2815
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2818" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2816" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Jump</hkparam>
@@ -14134,7 +14059,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2819" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2817" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Jump</hkparam>
@@ -14152,9 +14077,84 @@
 		</hkobject>
 
 		<hkobject name="#2472" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#2816
+				#2817
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#2820" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MT_Idle.HKX00</hkparam>
+			<hkparam name="animationName">Animations\male\MT_Idle.HKX</hkparam>
+			<hkparam name="triggers">#0188</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#2821" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MT_Idle.HKX00</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_mt_idle.hkx</hkparam>
+			<hkparam name="triggers">#0188</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#2818" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2576</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#2820
+				#2821
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#2819" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MT_Idle.HKX00</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_mt_idle.hkx</hkparam>
+			<hkparam name="triggers">#0188</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#2530" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2573</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
 				#2818
 				#2819
@@ -14163,7 +14163,7 @@
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2820" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2822" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Idle</hkparam>
@@ -14180,7 +14180,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2821" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2823" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Idle</hkparam>
@@ -14197,19 +14197,19 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2540" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+		<hkobject name="#2542" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2820
-				#2821
+				#2822
+				#2823
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2822" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2824" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW1HM1HMIdle</hkparam>
@@ -14226,7 +14226,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2823" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2825" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW1HM1HMIdle</hkparam>
@@ -14243,19 +14243,19 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2543" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+		<hkobject name="#2545" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2822
-				#2823
+				#2824
+				#2825
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2824" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2826" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Unequip</hkparam>
@@ -14272,7 +14272,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2825" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2827" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Unequip</hkparam>
@@ -14289,19 +14289,19 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2546" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+		<hkobject name="#2548" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2824
-				#2825
+				#2826
+				#2827
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2826" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2828" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HW_Idle</hkparam>
@@ -14318,7 +14318,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2827" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2829" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HW_Idle</hkparam>
@@ -14335,19 +14335,19 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2549" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2633</hkparam>
+		<hkobject name="#2551" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2635</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_0yukl_YY2Hander_maleonly_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2826
-				#2827
+				#2828
+				#2829
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2828" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2830" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#0981</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_AttackRight</hkparam>
@@ -14364,7 +14364,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2829" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2831" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#0981</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_AttackRight</hkparam>
@@ -14381,19 +14381,19 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2553" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+		<hkobject name="#2555" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2828
-				#2829
+				#2830
+				#2831
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2830" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2832" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Unequip</hkparam>
@@ -14410,7 +14410,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2831" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2833" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Unequip</hkparam>
@@ -14427,19 +14427,19 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2555" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+		<hkobject name="#2557" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2830
-				#2831
+				#2832
+				#2833
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2834" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2836" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14456,7 +14456,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2835" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2837" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14473,19 +14473,19 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2832" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2574</hkparam>
+		<hkobject name="#2834" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2576</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2834
-				#2835
+				#2836
+				#2837
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2833" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2835" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14502,13 +14502,13 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2560" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2571</hkparam>
+		<hkobject name="#2562" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2573</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2832
-				#2833
+				#2834
+				#2835
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -14518,45 +14518,11 @@
 
 <!-- ======================== NEMESIS alternate animation TEMPLATE START ======================== -->
 
-		<hkobject name="#2529" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\RandomIdleAnimation\ria0_mt_idle.hkx</hkparam>
-			<hkparam name="triggers">#0188</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#2530" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\RandomIdleAnimation\ria1_mt_idle.hkx</hkparam>
-			<hkparam name="triggers">#0188</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
 		<hkobject name="#2531" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\RandomIdleAnimation\ria2_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\RandomIdleAnimation\ria0_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0188</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -14573,7 +14539,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\RandomIdleAnimation\ria3_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\RandomIdleAnimation\ria1_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0188</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -14590,7 +14556,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\RandomIdleAnimation\ria4_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\RandomIdleAnimation\ria2_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0188</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -14607,7 +14573,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\RandomIdleAnimation\ria5_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\RandomIdleAnimation\ria3_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0188</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -14624,7 +14590,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\RandomIdleAnimation\ria6_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\RandomIdleAnimation\ria4_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0188</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -14641,7 +14607,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\RandomIdleAnimation\ria7_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\RandomIdleAnimation\ria5_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0188</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -14658,7 +14624,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX00</hkparam>
-			<hkparam name="animationName">Animations\RandomIdleAnimation\ria8_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\RandomIdleAnimation\ria6_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0188</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -14675,6 +14641,40 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX00</hkparam>
+			<hkparam name="animationName">Animations\RandomIdleAnimation\ria7_mt_idle.hkx</hkparam>
+			<hkparam name="triggers">#0188</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#2539" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MT_Idle.HKX00</hkparam>
+			<hkparam name="animationName">Animations\RandomIdleAnimation\ria8_mt_idle.hkx</hkparam>
+			<hkparam name="triggers">#0188</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#2540" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MT_Idle.HKX00</hkparam>
 			<hkparam name="animationName">Animations\RandomIdleAnimation\ria9_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0188</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -14688,7 +14688,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2541" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2543" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Idle</hkparam>
@@ -14705,7 +14705,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2544" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2546" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW1HM1HMIdle</hkparam>
@@ -14722,7 +14722,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2547" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2549" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Dual_Unequip</hkparam>
@@ -14739,7 +14739,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2550" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2552" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HW_Idle</hkparam>
@@ -14756,7 +14756,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2552" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2554" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">LeftHand_StandingPowerAttack</hkparam>
@@ -14773,7 +14773,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2554" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2556" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#0981</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW_AttackRight</hkparam>
@@ -14790,7 +14790,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2556" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2558" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Unequip</hkparam>
@@ -14807,7 +14807,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2559" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2561" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HW_Unequip</hkparam>
@@ -14824,7 +14824,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2561" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2563" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14841,7 +14841,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2562" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2564" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14858,7 +14858,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2563" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2565" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14875,7 +14875,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2564" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2566" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14892,7 +14892,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2565" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2567" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14909,7 +14909,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2566" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2568" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14926,7 +14926,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2567" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2569" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14943,7 +14943,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2568" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2570" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14960,7 +14960,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2569" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2571" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -14977,7 +14977,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2570" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2572" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">NullClip</hkparam>
@@ -15035,6 +15035,26 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_Root_BFR_2</hkparam>
+			<hkparam name="behaviorName">Behaviors\Nemesis_HAnimations_Behavior.hkx</hkparam>
+		</hkobject>
+
+		<hkobject name="#2527" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#2528</hkparam>
+			<hkparam name="name">Nemesis_New_Behavior_State_3</hkparam>
+			<hkparam name="stateId">173</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#2528" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_Root_BFR_3</hkparam>
 			<hkparam name="behaviorName">Behaviors\Nemesis_ZaZAnimationPack_Behavior.hkx</hkparam>
 		</hkobject>
 
@@ -16750,12 +16770,10 @@
 		</hkobject>
 
 		<hkobject name="#0189" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2527</hkparam>
+			<hkparam name="variableBindingSet">#2529</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__mtidle_MSG</hkparam>
 			<hkparam name="generators" numelements="11">
-				#2528
-				#2529
 				#2530
 				#2531
 				#2532
@@ -16765,6 +16783,8 @@
 				#2536
 				#2537
 				#2538
+				#2539
+				#2540
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -19867,7 +19887,7 @@
 			<hkparam name="maxSimultaneousTransitions">32</hkparam>
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
-			<hkparam name="states" numelements="36">
+			<hkparam name="states" numelements="37">
 				#2458				<!-- original -->
 				#2380
 				#2377
@@ -19904,6 +19924,7 @@
 				#0358
 				#2523
 				#2525
+				#2527
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0341</hkparam>
 		</hkobject>
@@ -32224,12 +32245,12 @@
 		</hkobject>
 
 		<hkobject name="#0895" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2539</hkparam>
+			<hkparam name="variableBindingSet">#2541</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__1hmidle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2540
-				#2541
+				#2542
+				#2543
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -32249,13 +32270,13 @@
 		</hkobject>
 
 		<hkobject name="#0897" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2542</hkparam>
+			<hkparam name="variableBindingSet">#2544</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__dw_MSG</hkparam>
 			<hkparam name="generators" numelements="3">
-				#2543
-				#2544
-				#2543
+				#2545
+				#2546
+				#2545
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -32527,12 +32548,12 @@
 		</hkobject>
 
 		<hkobject name="#0917" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2548</hkparam>
+			<hkparam name="variableBindingSet">#2550</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__2hwidle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2549
-				#2550
+				#2551
+				#2552
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -33182,13 +33203,13 @@
 		</hkobject>
 
 		<hkobject name="#0955" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2542</hkparam>
+			<hkparam name="variableBindingSet">#2544</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__dw_MSG</hkparam>
 			<hkparam name="generators" numelements="3">
-				#2551
-				#2552
-				#2551
+				#2553
+				#2554
+				#2553
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -33702,13 +33723,13 @@
 		</hkobject>
 
 		<hkobject name="#0979" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2542</hkparam>
+			<hkparam name="variableBindingSet">#2544</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__dw_MSG</hkparam>
 			<hkparam name="generators" numelements="3">
-				#2553
-				#2554
-				#2553
+				#2555
+				#2556
+				#2555
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -51985,12 +52006,12 @@
 		</hkobject>
 
 		<hkobject name="#1972" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2545</hkparam>
+			<hkparam name="variableBindingSet">#2547</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__1hmeqp_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2555
-				#2556
+				#2557
+				#2558
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -52795,12 +52816,12 @@
 		</hkobject>
 
 		<hkobject name="#2002" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2557</hkparam>
+			<hkparam name="variableBindingSet">#2559</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__2hweqp_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2558
-				#2559
+				#2560
+				#2561
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -53113,12 +53134,12 @@
 		</hkobject>
 
 		<hkobject name="#2017" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2545</hkparam>
+			<hkparam name="variableBindingSet">#2547</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_1__1hmeqp_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#2546
-				#2547
+				#2548
+				#2549
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -60891,12 +60912,10 @@
 		</hkobject>
 
 		<hkobject name="#2383" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#2527</hkparam>
+			<hkparam name="variableBindingSet">#2529</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_2__mtidle_MSG</hkparam>
 			<hkparam name="generators" numelements="11">
-				#2560
-				#2561
 				#2562
 				#2563
 				#2564
@@ -60906,6 +60925,8 @@
 				#2568
 				#2569
 				#2570
+				#2571
+				#2572
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -63598,7 +63619,7 @@
 			<hkparam name="data">#0108</hkparam>
 		</hkobject>
 
-		<hkobject name="#2551" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2553" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">LeftHand_StandingPowerAttack</hkparam>
@@ -63615,7 +63636,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#2558" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#2560" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HW_Unequip</hkparam>

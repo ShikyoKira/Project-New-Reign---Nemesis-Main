@@ -142,7 +142,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="4584">
+			<hkparam name="animationNames" numelements="4621">
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1hm_1stP_Walk.hkx</hkcstring>
 				<hkcstring>Animations\1HM_AttackForwardSprint.hkx</hkcstring>
@@ -1800,6 +1800,25 @@
 				<hkcstring>Animations\WW_Stage8.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage9.hkx</hkcstring>
 				<hkcstring>Animations\FlowerGirls\sensual_dancing_1.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_HAnimationsStart.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_HAnimationsIdle.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_OpenLegsRidingDildo.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_OpenLegsRidingDildoSlowSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_OpenLegsRidingDildoLowSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_OpenLegsRidingDildoHighSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_OpenLegsRidingDildoExit.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_HAnimationsIdle.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_OpenLegsRidingDildoTransition.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildoStartFirst.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildoStartSecond.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildo.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildoMid.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildoHigh.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildoFlatOnBackStartFirst.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildoFlatOnBackStartSecond.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildoFlatOnBack.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildoFlatOnBackLow.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_SoulgemDildoFlatOnBackHigh.hkx</hkcstring>
 				<hkcstring>Animations\ZaZAnimationPack\ZapWriPose01.hkx</hkcstring>
 				<hkcstring>Animations\ZaZAnimationPack\ZapWriPose02.hkx</hkcstring>
 				<hkcstring>Animations\ZaZAnimationPack\ZapWriPose03.hkx</hkcstring>
@@ -3002,6 +3021,24 @@
 				<hkcstring>Animations\FlowerGirls\Chair_Doggy_a2_s4.hkx</hkcstring>
 				<hkcstring>Animations\FlowerGirls\Chair_Doggy_a2_s5.hkx</hkcstring>
 				<hkcstring>Animations\FlowerGirls\Chair_Doggy_a2_s6.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_Cowgirl.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_CowgirlSlowSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_CowgirlLowSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_CowgirlHighSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_CowgirlExit.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_HAnimationsIdle.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_RidingDildo.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_RidingDildoLowSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_RidingDildoHighSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_RidingDildoSuperHighSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_RidingDildoExit.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_HAnimationsIdle.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_BackRidingDildo.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_BackRidingDildoSlowSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_BackRidingDildoLowSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_BackRidingDildoHighSpeed.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_BackRidingDildoEixt.hkx</hkcstring>
+				<hkcstring>Animations\HAnimations\DA_HAnimationsIdle.hkx</hkcstring>
 				<hkcstring>Animations\ZaZAnimationPack\ZapWriDoggy01_A1_S1.hkx</hkcstring>
 				<hkcstring>Animations\ZaZAnimationPack\ZapWriDoggy01_A1_S2.hkx</hkcstring>
 				<hkcstring>Animations\ZaZAnimationPack\ZapWriDoggy01_A1_S3.hkx</hkcstring>

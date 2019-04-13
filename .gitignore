@@ -263,3 +263,6 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /Nemesis Main GUI/Papyrus Compiler
+/libbsarch
+/Nemesis Main GUI/data/meshes/actors/character/animations/HAnimations
+/Nemesis Main GUI/temp_behaviors/xml/Nemesis_HAnimations_behavior.xml

@@ -282,7 +282,6 @@ ERR 2020=Invalid equation. Please contact the template creator\nTemplate: <1>\nF
 ERR 2021=Invalid format detected in "engine_update.txt". Try Update Engine to fix this issue
 ERR 2022=Something went wrong. Report to Nemesis' author immediately
 ERR 2023=BUG FOUND!! Report to Nemesis' author immediately
-ERR 2024=Invalid Nemesis folder structure detected. Failed to detect vanilla behaviors in Nemesis format. Please reinstall Nemesis correctly
 
 '3000s
 ERR 3000=Failed to create bug report. Report to Nemesis' author
@@ -358,7 +357,7 @@ ERR 6006=Missing latest engine files. Update engine to fix it
 ERR 6007=Papyrus compiler not found. Please make sure Nemesis is placed in the correct directory
 ERR 6008=An exception has occured while running the script. Please contact the script author\nMessage: <1>
 ERR 6009=Invalid <1> file. Please reinstall <2>
-ERR 6010=Detected path does not match expected installation path. Detected path: <1>\n Expected path: <2>
+ERR 6010=Detected path does not match expected installation path. Please reinstall Nemesis correctly\nDetected path: <1>\nExpected path: <2>
 
 '1000
 WAR 1000=Missing animation file\nFile: <1>

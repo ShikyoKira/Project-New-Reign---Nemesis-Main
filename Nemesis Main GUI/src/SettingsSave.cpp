@@ -52,75 +52,71 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
 {
 	if (!isFileExist("cache"))
 	{
+		CreateFolder("cache");
 		return false;
 	}
 
+	std::string filename = "cache\\language setting";
+	vecstr storeline;
+
+	if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
 	{
-		std::string filename = "cache\\language setting";
-		vecstr storeline;
-
-		if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
-		{
-			language = "english";
-		}
-		else
-		{
-			for (auto& line : storeline)
-			{
-				if (line.length() > 0)
-				{
-					language = line;
-				}
-			}
-
-			if (language.length() == 0)
-			{
-				QMessageBox* msg = new QMessageBox;
-				msg->setWindowTitle("WARNING");
-				msg->setText("Warning: Failed to read language cache file. Language is set to the default language (english)");
-				msg->setAttribute(Qt::WA_DeleteOnClose);
-				msg->setIcon(QMessageBox::Warning);
-				msg->show();
-				language = "english";
-			}
-		}
+		language = "english";
 	}
-
+	else
 	{
-		std::string filename = "cache\\mod settings";
-		vecstr storeline;
-
-		if (!isFileExist(filename))
-		{
-			return false;
-		}
-
-		if (!GetFunctionLines(filename, storeline, false))
-		{
-			return false;
-		}
-
 		for (auto& line : storeline)
 		{
 			if (line.length() > 0)
 			{
-				chosenBehavior[line] = true;
+				language = line;
 			}
 		}
 
-		if (chosenBehavior.size() == 0)
+		if (language.length() == 0)
 		{
 			QMessageBox* msg = new QMessageBox;
 			msg->setWindowTitle("WARNING");
-			msg->setText("Warning: Failed to read mod cache file. All mods will be reverted to unchecked state");
+			msg->setText("Warning: Failed to read language cache file. Language is set to the default language (english)");
 			msg->setAttribute(Qt::WA_DeleteOnClose);
 			msg->setIcon(QMessageBox::Warning);
 			msg->show();
+			language = "english";
 		}
-		else
+	}
+
+	filename = "cache\\mod settings";
+
+	if (!isFileExist(filename))
+	{
+		return false;
+	}
+
+	if (!GetFunctionLines(filename, storeline, false))
+	{
+		return false;
+	}
+
+	for (auto& line : storeline)
+	{
+		if (line.length() > 0)
 		{
-			return true;
+			chosenBehavior[line] = true;
 		}
+	}
+
+	if (chosenBehavior.size() == 0)
+	{
+		QMessageBox* msg = new QMessageBox;
+		msg->setWindowTitle("WARNING");
+		msg->setText("Warning: Failed to read mod cache file. All mods will be reverted to unchecked state");
+		msg->setAttribute(Qt::WA_DeleteOnClose);
+		msg->setIcon(QMessageBox::Warning);
+		msg->show();
+	}
+	else
+	{
+		return true;
 	}
 
 	return false;
