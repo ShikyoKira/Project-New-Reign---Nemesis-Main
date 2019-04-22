@@ -46,11 +46,11 @@
 				<hkcstring>SoundPlay.WPNLeftHandDraw</hkcstring>
 				<hkcstring>arrowAttach</hkcstring>
 <!-- NEW *skice* -->
-				<hkcstring>HitFrame</hkcstring>
-				<hkcstring>preHitFrame</hkcstring>
-				<hkcstring>weaponSwing</hkcstring>
-				<hkcstring>AttackWinStart</hkcstring>
-				<hkcstring>AttackWinEnd</hkcstring>
+				<hkcstring>HitFrame</hkcstring>
+				<hkcstring>preHitFrame</hkcstring>
+				<hkcstring>weaponSwing</hkcstring>
+				<hkcstring>AttackWinStart</hkcstring>
+				<hkcstring>AttackWinEnd</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
@@ -72,7 +72,7 @@
 				<hkcstring>iIsInSneak</hkcstring>
 				<hkcstring>IsSneaking</hkcstring>
 <!-- NEW *skice* -->
-				<hkcstring>bAllowRotation</hkcstring>
+				<hkcstring>bAllowRotation</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="3">
@@ -133,9 +133,9 @@
 					<hkparam name="value">0</hkparam>
 				</hkobject>
 <!-- NEW *skice* -->
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
@@ -290,15 +290,15 @@
 					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
 				</hkobject>
 <!-- NEW *skice* -->
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyInfos" numelements="3">
@@ -306,7 +306,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *na1w* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *na1w* -->
 							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1640</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -316,7 +316,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *na1w* -->
+							<hkparam name="flags">FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *na1w* -->
 							<hkparam name="flags">0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -326,7 +326,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>					<!-- *na1w* -->
+							<hkparam name="flags">0</hkparam>					<!-- *na1w* -->
 							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -425,21 +425,21 @@
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
 <!-- NEW *skice* -->
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wordMinVariableValues" numelements="0"></hkparam>
@@ -700,7 +700,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_Equip</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_Equip.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_Equip.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_Equip.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0068</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -869,18 +869,18 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 <!-- NEW *agpo* -->
-				<hkobject>
-					<hkparam name="localTime">0.666666</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">29</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.666666</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">29</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -2684,11 +2684,11 @@
 				1.000000
 				1.000000
 				1.000000
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
 				0.000000
 				0.000000
@@ -2696,45 +2696,41 @@
 				1.000000
 				1.000000
 				1.000000
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
 				1.000000
 				0.000000
 				1.000000
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
 				1.000000
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
 				1.000000
 				1.000000
 				0.000000
 				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000					<!-- *agpo* -->
-				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
-				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
-				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
-				0.000000				<!-- original -->
-				1.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
 				0.000000
 				0.000000
 				1.000000
 				1.000000
 				1.000000
 				1.000000
+				1.000000					<!-- *agpo* -->
+				0.000000				<!-- original -->
+				1.000000					<!-- *agpo* -->
+				0.000000				<!-- original -->
+				1.000000					<!-- *agpo* -->
+				0.000000				<!-- original -->
+				1.000000					<!-- *agpo* -->
+				0.000000				<!-- original -->
+				1.000000
+				0.000000
+				1.000000
+				1.000000
+				0.000000
+				0.000000
+				0.000000
 				1.000000
 				1.000000
 				1.000000
@@ -2746,35 +2742,39 @@
 				1.000000
 				1.000000
 				1.000000
-				1.000000					<!-- *agpo* -->
+				1.000000
+				1.000000
+				1.000000
+				1.000000
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
-				1.000000					<!-- *agpo* -->
+				1.000000					<!-- *agpo* -->
 				0.000000				<!-- original -->
 				1.000000
 				0.000000
@@ -2822,58 +2822,54 @@
 				0.000000
 				0.000000
 				0.000000
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
 				1.000000
 				1.000000
 				0.000000
 				0.000000
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
 				0.000000
-				0.000000					<!-- *agpo* -->
-				1.000000				<!-- original -->
-				0.000000
-				1.000000
-				0.000000
-				0.000000					<!-- *agpo* -->
-				1.000000				<!-- original -->
-				0.000000
-				0.000000					<!-- *agpo* -->
-				1.000000				<!-- original -->
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000					<!-- *agpo* -->
-				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
-				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
-				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
 				0.000000
 				1.000000
 				0.000000
+				0.000000					<!-- *agpo* -->
+				1.000000				<!-- original -->
+				0.000000
+				0.000000					<!-- *agpo* -->
+				1.000000				<!-- original -->
+				0.000000
 				0.000000
 				1.000000
+				0.000000
 				1.000000
 				1.000000
 				0.000000
 				0.000000
 				0.000000
 				0.000000
+				0.000000					<!-- *agpo* -->
+				1.000000				<!-- original -->
+				0.000000					<!-- *agpo* -->
+				1.000000				<!-- original -->
+				0.000000					<!-- *agpo* -->
+				1.000000				<!-- original -->
+				0.000000					<!-- *agpo* -->
+				1.000000				<!-- original -->
+				0.000000
+				1.000000
+				0.000000
+				0.000000
+				1.000000
+				1.000000
+				1.000000
 				0.000000
 				0.000000
 				0.000000
@@ -2885,35 +2881,39 @@
 				0.000000
 				0.000000
 				0.000000
-				0.000000					<!-- *agpo* -->
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
-				0.000000					<!-- *agpo* -->
+				0.000000					<!-- *agpo* -->
 				1.000000				<!-- original -->
 				0.000000
 			</hkparam>
@@ -7797,7 +7797,7 @@
 				#0205
 				#0158
 <!-- NEW *skice* -->
-				#skice$1
+				#skice$1
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>

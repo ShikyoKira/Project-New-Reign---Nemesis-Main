@@ -42,8 +42,8 @@
 				<hkcstring>00NextClip</hkcstring>
 				<hkcstring>EndAnimatedCamera</hkcstring>
 <!-- NEW *zcbe* -->
-				<hkcstring>CyclicFreeze</hkcstring>
-				<hkcstring>CyclicCrossBlend</hkcstring>
+				<hkcstring>CyclicFreeze</hkcstring>
+				<hkcstring>CyclicCrossBlend</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
@@ -63,9 +63,9 @@
 				<hkcstring>weaponSpeedMult</hkcstring>
 				<hkcstring>iSyncSprintState</hkcstring>
 <!-- NEW *zcbe* -->
-				<hkcstring>bAnimationDriven</hkcstring>
-				<hkcstring>Direction</hkcstring>
-				<hkcstring>bIsDodging_Z</hkcstring>
+				<hkcstring>bAnimationDriven</hkcstring>
+				<hkcstring>Direction</hkcstring>
+				<hkcstring>bIsDodging_Z</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="0"></hkparam>
@@ -116,15 +116,15 @@
 					<hkparam name="value">0</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
@@ -261,33 +261,33 @@
 					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyInfos" numelements="0"></hkparam>
@@ -371,12 +371,12 @@
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wordMinVariableValues" numelements="0"></hkparam>
@@ -470,7 +470,7 @@
 		<hkobject name="#0065" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
-					<hkparam name="memberPath">bIsActive0</hkparam>					<!-- *zcbe* -->
+					<hkparam name="memberPath">bIsActive0</hkparam>					<!-- *zcbe* -->
 					<hkparam name="memberPath">bIsActive1</hkparam>				<!-- original -->
 					<hkparam name="variableIndex">11</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
@@ -541,7 +541,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.100000</hkparam>					<!-- *zcbe* -->
+			<hkparam name="playbackSpeed">1.100000</hkparam>					<!-- *zcbe* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -608,7 +608,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$0</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$0</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0074</hkparam>				<!-- original -->
 			<hkparam name="name">DodgeBack</hkparam>
 			<hkparam name="stateId">4</hkparam>
@@ -642,7 +642,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.100000</hkparam>					<!-- *zcbe* -->
+			<hkparam name="playbackSpeed">1.100000</hkparam>					<!-- *zcbe* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -709,7 +709,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$2</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$2</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0080</hkparam>				<!-- original -->
 			<hkparam name="name">DodgeLeft</hkparam>
 			<hkparam name="stateId">3</hkparam>
@@ -743,7 +743,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.100000</hkparam>					<!-- *zcbe* -->
+			<hkparam name="playbackSpeed">1.100000</hkparam>					<!-- *zcbe* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -810,7 +810,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0086</hkparam>				<!-- original -->
 			<hkparam name="name">DodgeRight</hkparam>
 			<hkparam name="stateId">2</hkparam>

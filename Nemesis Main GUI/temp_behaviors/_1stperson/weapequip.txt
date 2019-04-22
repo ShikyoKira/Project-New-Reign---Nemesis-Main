@@ -280,7 +280,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1640</hkparam>					<!-- *zcbe* -->
+							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1640</hkparam>					<!-- *zcbe* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x18c0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -290,7 +290,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>					<!-- *zcbe* -->
+							<hkparam name="flags">0</hkparam>					<!-- *zcbe* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1900</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -300,7 +300,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>					<!-- *zcbe* -->
+							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>					<!-- *zcbe* -->
 							<hkparam name="flags">0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>

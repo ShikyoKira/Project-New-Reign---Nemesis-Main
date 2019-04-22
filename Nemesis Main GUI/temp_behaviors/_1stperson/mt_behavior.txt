@@ -947,33 +947,33 @@
 				<hkcstring>QSTStornDeathLP</hkcstring>
 				<hkcstring>SoundStop</hkcstring>
 <!-- NEW *tudm* -->
-				<hkcstring>RollStart</hkcstring>
-				<hkcstring>RollStop</hkcstring>
-				<hkcstring>RollWinStart</hkcstring>
-				<hkcstring>RollWinEnd</hkcstring>
-				<hkcstring>RollContinue</hkcstring>
-				<hkcstring>RollTrigger</hkcstring>
-				<hkcstring>RollLeap</hkcstring>
-				<hkcstring>ForwardRollStart</hkcstring>
-				<hkcstring>Right_ForwardRollStart</hkcstring>
-				<hkcstring>Right_RollStart</hkcstring>
-				<hkcstring>Right_BackwardRollStart</hkcstring>
-				<hkcstring>BackwardRollStart</hkcstring>
-				<hkcstring>Left_BackwardRollStart</hkcstring>
-				<hkcstring>Left_RollStart</hkcstring>
-				<hkcstring>Left_ForwardRollStart</hkcstring>
-				<hkcstring>Post_ForwardRollStart</hkcstring>
-				<hkcstring>Post_Right_ForwardRollStart</hkcstring>
-				<hkcstring>Post_Right_RollStart</hkcstring>
-				<hkcstring>Post_Right_BackwardRollStart</hkcstring>
-				<hkcstring>Post_BackwardRollStart</hkcstring>
-				<hkcstring>Post_Left_BackwardRollStart</hkcstring>
-				<hkcstring>Post_Left_RollStart</hkcstring>
-				<hkcstring>Post_Left_ForwardRollStart</hkcstring>
-				<hkcstring>RollLand</hkcstring>
-				<hkcstring>FootLeftSidestep</hkcstring>
-				<hkcstring>FootRightSidestep</hkcstring>
-				<hkcstring>SidestepTrigger</hkcstring>
+				<hkcstring>RollStart</hkcstring>
+				<hkcstring>RollStop</hkcstring>
+				<hkcstring>RollWinStart</hkcstring>
+				<hkcstring>RollWinEnd</hkcstring>
+				<hkcstring>RollContinue</hkcstring>
+				<hkcstring>RollTrigger</hkcstring>
+				<hkcstring>RollLeap</hkcstring>
+				<hkcstring>ForwardRollStart</hkcstring>
+				<hkcstring>Right_ForwardRollStart</hkcstring>
+				<hkcstring>Right_RollStart</hkcstring>
+				<hkcstring>Right_BackwardRollStart</hkcstring>
+				<hkcstring>BackwardRollStart</hkcstring>
+				<hkcstring>Left_BackwardRollStart</hkcstring>
+				<hkcstring>Left_RollStart</hkcstring>
+				<hkcstring>Left_ForwardRollStart</hkcstring>
+				<hkcstring>Post_ForwardRollStart</hkcstring>
+				<hkcstring>Post_Right_ForwardRollStart</hkcstring>
+				<hkcstring>Post_Right_RollStart</hkcstring>
+				<hkcstring>Post_Right_BackwardRollStart</hkcstring>
+				<hkcstring>Post_BackwardRollStart</hkcstring>
+				<hkcstring>Post_Left_BackwardRollStart</hkcstring>
+				<hkcstring>Post_Left_RollStart</hkcstring>
+				<hkcstring>Post_Left_ForwardRollStart</hkcstring>
+				<hkcstring>RollLand</hkcstring>
+				<hkcstring>FootLeftSidestep</hkcstring>
+				<hkcstring>FootRightSidestep</hkcstring>
+				<hkcstring>SidestepTrigger</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
@@ -1046,9 +1046,9 @@
 				<hkcstring>IsRomanticFollower</hkcstring>
 				<hkcstring>IsRF_Talk</hkcstring>
 <!-- NEW *tudm* -->
-				<hkcstring>DodgeID</hkcstring>
-				<hkcstring>DodgeSpeed</hkcstring>
-				<hkcstring>IsDodging</hkcstring>
+				<hkcstring>DodgeID</hkcstring>
+				<hkcstring>DodgeSpeed</hkcstring>
+				<hkcstring>IsDodging</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="2">
@@ -1261,15 +1261,15 @@
 					<hkparam name="value">0</hkparam>
 				</hkobject>
 <!-- NEW *tudm* -->
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">1</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">1</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="4">
@@ -1888,33 +1888,33 @@
 					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
 				</hkobject>
 <!-- NEW *tudm* -->
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyInfos" numelements="2">
@@ -4732,87 +4732,87 @@
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
 <!-- NEW *tudm* -->
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wordMinVariableValues" numelements="0"></hkparam>
@@ -21666,32 +21666,32 @@
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
 <!-- NEW *tudm* -->
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">null</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
-					<hkparam name="toStateId">25</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">null</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
+					<hkparam name="toStateId">25</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -21711,7 +21711,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">#0855</hkparam>
 			<hkparam name="transitions">#0854</hkparam>
-			<hkparam name="generator">#tudm$0</hkparam>					<!-- *tudm* -->
+			<hkparam name="generator">#tudm$0</hkparam>					<!-- *tudm* -->
 			<hkparam name="generator">#0851</hkparam>				<!-- original -->
 			<hkparam name="name">MT_State</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -21748,7 +21748,7 @@
 				#0151
 				#0129
 <!-- NEW *tudm* -->
-				#tudm$1 #tudm$2
+				#tudm$1 #tudm$2
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0083</hkparam>

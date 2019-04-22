@@ -473,25 +473,21 @@ bool UpdateFilesStart::VanillaDisassemble(string path, string filename, map<stri
 {
 	vecstr storeline;
 	storeline.reserve(2000);
-	char line[2000];
 
-	shared_ptr<FileReader> vanillafile = make_shared<FileReader>(path);
+	FileReader vanillafile(path);
 	string curID;
 
 	unordered_map<string, vecstr> statelist;		// parent ID, list of children
 
-	if (vanillafile->GetFile())
+	if (vanillafile.GetFile())
 	{
 		bool skip = true;
 		bool start = false;
 		bool isSM = false;
+		string curline;
 
-		while (fgets(line, 2000, vanillafile->GetFile()))
+		while (vanillafile.GetLines(curline))
 		{
-			string curline = line;
-
-			if (curline.length() > 0 && curline.back() == '\n') curline.pop_back();
-
 			if (curline.find("	</hksection>") != NOT_FOUND) break;
 
 			if (!skip)
@@ -2179,7 +2175,7 @@ void BehaviorStart::GenerateBehavior()
 				GetBehaviorProjectPath();
 				behaviorActivateMod(behaviorPriority);
 				ClearTempXml();
-				
+
 				// register animation & organize AE n Var
 				string directory = "temp_behaviors\\";
 				unordered_map<string, int> animationCount;		// animation type counter; use to determine how many of the that type of animation have been installed
@@ -2195,15 +2191,9 @@ void BehaviorStart::GenerateBehavior()
 				unordered_map<string, vector<string>> modAnimBehavior;				// behavior directory, list of behavior files; use to get behavior reference
 				unordered_map<string, unordered_map<int, bool>> ignoreFunction;		// behavior file, function ID, true/false; is the function part of animation template?
 
-				if (PCEACheck())
-				{
-					ReadPCEA();
-				}
+				if (PCEACheck()) ReadPCEA();
 
-				if (animationList.size() > 0 || pcealist.size() > 0)
-				{
-					interMsg("");
-				}
+				if (animationList.size() > 0 || pcealist.size() > 0) interMsg("");
 
 				DebugLogging("Registering new animations...");
 
@@ -3516,129 +3506,121 @@ void BehaviorSub::CompilingBehavior()
 		vecstr catalyst;
 		vecstr modLine;
 
+		if (!boost::filesystem::is_directory(filepath))
 		{
-			if (!boost::filesystem::is_directory(filepath))
+			size_t size = fileLineCount(filepath);
+			catalyst.reserve(size);
+			modLine.reserve(size);
+			FileReader BehaviorFormat(filepath);
+
+			if (BehaviorFormat.GetFile())
 			{
-				size_t size = fileLineCount(filepath);
-				catalyst.reserve(size);
-				modLine.reserve(size);
 				string line;
-				char charline[2000];
-				shared_ptr<FileReader> BehaviorFormat = make_shared<FileReader>(filepath);
 
-				if (BehaviorFormat->GetFile())
+				while (BehaviorFormat.GetLines(line))
 				{
-					while (fgets(charline, 2000, BehaviorFormat->GetFile()))
+					bool skip = false;
+
+					if (line.find("<!-- ", 0) != NOT_FOUND)
 					{
-						bool skip = false;
-						line = charline;
-
-						if (line.back() == '\n')
+						if (line.find("<!-- NEW *", 0) != NOT_FOUND)
 						{
-							line.pop_back();
+							size_t tempint = line.find("<!-- NEW *", 0) + 10;
+							string mod = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+
+							if (!chosenBehavior[mod]) isOpen = false;
+							else newMod = mod;
+
+							skip = true;
 						}
-
-						if (line.find("<!-- ", 0) != NOT_FOUND)
+						else if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
 						{
-							if (line.find("<!-- NEW *", 0) != NOT_FOUND)
+							special = true;
+						}
+						else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+						{
+							if (!special)
 							{
-								size_t tempint = line.find("<!-- NEW *", 0) + 10;
-								string mod = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-
-								if (!chosenBehavior[mod]) isOpen = false;
-								else newMod = mod;
-
+								newMod.clear();
 								skip = true;
 							}
-							else if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
-							{
-								special = true;
-							}
-							else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-							{
-								if (!special)
-								{
-									newMod.clear();
-									skip = true;
-								}
 
-								isOpen = true;
-								special = false;
-							}
+							isOpen = true;
+							special = false;
 						}
-
-						if (isOpen && !skip)
-						{
-							if (line == "	</hksection>")
-							{
-								break;
-							}
-
-							while (true)
-							{
-								if (line.find("<!-- *", 0) != NOT_FOUND)
-								{
-									size_t tempint = line.find("<!-- *") + 6;
-									string mod = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-									chosenLines[mod] = line;
-									break;
-								}
-								else if (line.find("<!-- original -->", 0) != NOT_FOUND)
-								{
-									if (chosenLines.size() != 0)
-									{
-										line = behaviorLineChooser(line, chosenLines, behaviorPriority);
-										chosenLines.clear();
-									}
-									else
-									{
-										ErrorMessage(1165);
-									}
-								}
-
-								size_t pos = line.find("<hkobject name=\"");
-
-								if (pos != NOT_FOUND && line.find("signature=\"", pos) != NOT_FOUND)
-								{
-									string ID = boost::regex_replace(string(line),
-										boost::regex(".*<hkobject name=\"#([0-9]+)\" class=\"[a-zA-Z]+\" signature=\".*\">.*"), string("\\1"));
-
-									if (ID != line)
-									{
-										curID = stoi(ID);
-
-										if (curID >= lastID)
-										{
-											lastID = curID + 1;
-										}
-									}
-								}
-
-								modLine.push_back(newMod);
-								catalyst.push_back(line);
-								break;
-							}
-						}
-
-						if (error) throw nemesis::exception();
 					}
-				}
-				else
-				{
-					ErrorMessage(3002, filepath);
+
+					if (isOpen && !skip)
+					{
+						if (line == "	</hksection>")
+						{
+							break;
+						}
+
+						while (true)
+						{
+							if (line.find("<!-- *", 0) != NOT_FOUND)
+							{
+								size_t tempint = line.find("<!-- *") + 6;
+								string mod = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+								chosenLines[mod] = line;
+								break;
+							}
+							else if (line.find("<!-- original -->", 0) != NOT_FOUND)
+							{
+								if (chosenLines.size() != 0)
+								{
+									line = behaviorLineChooser(line, chosenLines, behaviorPriority);
+									chosenLines.clear();
+								}
+								else
+								{
+									ErrorMessage(1165);
+								}
+							}
+
+							size_t pos = line.find("<hkobject name=\"");
+
+							if (pos != NOT_FOUND && line.find("signature=\"", pos) != NOT_FOUND)
+							{
+								string ID = boost::regex_replace(string(line),
+									boost::regex(".*<hkobject name=\"#([0-9]+)\" class=\"[a-zA-Z]+\" signature=\".*\">.*"), string("\\1"));
+
+								if (ID != line)
+								{
+									curID = stoi(ID);
+
+									if (curID >= lastID)
+									{
+										lastID = curID + 1;
+									}
+								}
+							}
+
+							modLine.push_back(newMod);
+							catalyst.push_back(line);
+							break;
+						}
+					}
+
+					if (error) throw nemesis::exception();
 				}
 			}
 			else
 			{
-				ErrorMessage(3001, filepath);
+				ErrorMessage(3002, filepath);
 			}
+		}
+		else
+		{
+			ErrorMessage(3001, filepath);
+		}
 
-			if (catalyst.size() != 0 && catalyst.back().length() != 0 && catalyst.back().find("<!-- CONDITION END -->") == NOT_FOUND &&
-				catalyst.back().find("<!-- CLOSE -->") == NOT_FOUND)
-			{
-				modLine.push_back(newMod);
-				catalyst.push_back("");
-			}
+		if (catalyst.size() != 0 && catalyst.back().length() != 0 && catalyst.back().find("<!-- CONDITION END -->") == NOT_FOUND &&
+			catalyst.back().find("<!-- CLOSE -->") == NOT_FOUND)
+		{
+			modLine.push_back(newMod);
+			catalyst.push_back("");
 		}
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction & mod selection complete)");

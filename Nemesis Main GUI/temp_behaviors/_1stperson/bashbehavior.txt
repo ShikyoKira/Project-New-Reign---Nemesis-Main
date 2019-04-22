@@ -3501,7 +3501,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Shd_Bash</hkparam>
 			<hkparam name="animationName">Animations\shd_BlockBash.hkx</hkparam>
-			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
 			<hkparam name="triggers">#0157</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -3659,7 +3659,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.113000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.113000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.033000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3672,7 +3672,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.143000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.143000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.099000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3685,7 +3685,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.153000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.153000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.133000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3717,7 +3717,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_BlockBash</hkparam>
 			<hkparam name="animationName">Animations\Bow_BlockBash.hkx</hkparam>
-			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
 			<hkparam name="triggers">#0161</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -3894,7 +3894,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HM_BlockBash</hkparam>
 			<hkparam name="animationName">Animations\2HM_BlockBash.hkx</hkparam>
-			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
 			<hkparam name="triggers">#0165</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -3988,9 +3988,9 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW1HM1HMBlockBash</hkparam>
-			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
+			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
 			<hkparam name="animationName">Animations\DW1HM1HMBlockBash.hkx</hkparam>				<!-- original -->
-			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
 			<hkparam name="triggers">#0167</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>

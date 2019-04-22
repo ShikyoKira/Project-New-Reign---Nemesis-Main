@@ -1232,61 +1232,61 @@
 				<hkcstring>NPCSoundPlay.NPCKillDLC2HeartStone</hkcstring>
 				<hkcstring>NPCKillDLC2HeartStone</hkcstring>
 				<hkcstring>SoundPlay.NPCKillDLC2HeartStone</hkcstring>
-<!-- NEW *tudm* -->
-				<hkcstring>DodgeLightningStorm</hkcstring>
-				<hkcstring>DodgeCharge</hkcstring>
-				<hkcstring>DodgeMasterSpell</hkcstring>
-				<hkcstring>RollStart</hkcstring>
-				<hkcstring>RollStop</hkcstring>
-				<hkcstring>RollWinStart</hkcstring>
-				<hkcstring>RollWinEnd</hkcstring>
-				<hkcstring>RollContinue</hkcstring>
-				<hkcstring>RollLeap</hkcstring>
-				<hkcstring>RollTrigger</hkcstring>
-				<hkcstring>ForwardRollStart</hkcstring>
-				<hkcstring>Right_ForwardRollStart</hkcstring>
-				<hkcstring>Right_RollStart</hkcstring>
-				<hkcstring>Right_BackwardRollStart</hkcstring>
-				<hkcstring>BackwardRollStart</hkcstring>
-				<hkcstring>Left_BackwardRollStart</hkcstring>
-				<hkcstring>Left_RollStart</hkcstring>
-				<hkcstring>Left_ForwardRollStart</hkcstring>
-				<hkcstring>DaggerRollWinStart</hkcstring>
-				<hkcstring>RollWinStartLeft</hkcstring>
-				<hkcstring>RollWinEndLeft</hkcstring>
-				<hkcstring>2hmRollSwingLeft</hkcstring>
-				<hkcstring>2hmRollSwingRight</hkcstring>
-				<hkcstring>BowFullDrawn</hkcstring>
-				<hkcstring>NextAttackInitiate</hkcstring>
-				<hkcstring>NextPowerAttackInitiate</hkcstring>
-				<hkcstring>BowDrawing</hkcstring>
-				<hkcstring>Post_ForwardRollStart</hkcstring>
-				<hkcstring>Post_Right_ForwardRollStart</hkcstring>
-				<hkcstring>Post_Right_RollStart</hkcstring>
-				<hkcstring>Post_Right_BackwardRollStart</hkcstring>
-				<hkcstring>Post_BackwardRollStart</hkcstring>
-				<hkcstring>Post_Left_BackwardRollStart</hkcstring>
-				<hkcstring>Post_Left_RollStart</hkcstring>
-				<hkcstring>Post_Left_ForwardRollStart</hkcstring>
-				<hkcstring>RollLand</hkcstring>
-				<hkcstring>FootLeftSidestep</hkcstring>
-				<hkcstring>FootRightSidestep</hkcstring>
-				<hkcstring>SidestepTrigger</hkcstring>
-<!-- CLOSE -->
 <!-- NEW *skice* -->
-				<hkcstring>RollStart</hkcstring>
+				<hkcstring>RollStart</hkcstring>
+<!-- CLOSE -->
+<!-- NEW *tudm* -->
+				<hkcstring>DodgeLightningStorm</hkcstring>
+				<hkcstring>DodgeCharge</hkcstring>
+				<hkcstring>DodgeMasterSpell</hkcstring>
+				<hkcstring>RollStart</hkcstring>
+				<hkcstring>RollStop</hkcstring>
+				<hkcstring>RollWinStart</hkcstring>
+				<hkcstring>RollWinEnd</hkcstring>
+				<hkcstring>RollContinue</hkcstring>
+				<hkcstring>RollLeap</hkcstring>
+				<hkcstring>RollTrigger</hkcstring>
+				<hkcstring>ForwardRollStart</hkcstring>
+				<hkcstring>Right_ForwardRollStart</hkcstring>
+				<hkcstring>Right_RollStart</hkcstring>
+				<hkcstring>Right_BackwardRollStart</hkcstring>
+				<hkcstring>BackwardRollStart</hkcstring>
+				<hkcstring>Left_BackwardRollStart</hkcstring>
+				<hkcstring>Left_RollStart</hkcstring>
+				<hkcstring>Left_ForwardRollStart</hkcstring>
+				<hkcstring>DaggerRollWinStart</hkcstring>
+				<hkcstring>RollWinStartLeft</hkcstring>
+				<hkcstring>RollWinEndLeft</hkcstring>
+				<hkcstring>2hmRollSwingLeft</hkcstring>
+				<hkcstring>2hmRollSwingRight</hkcstring>
+				<hkcstring>BowFullDrawn</hkcstring>
+				<hkcstring>NextAttackInitiate</hkcstring>
+				<hkcstring>NextPowerAttackInitiate</hkcstring>
+				<hkcstring>BowDrawing</hkcstring>
+				<hkcstring>Post_ForwardRollStart</hkcstring>
+				<hkcstring>Post_Right_ForwardRollStart</hkcstring>
+				<hkcstring>Post_Right_RollStart</hkcstring>
+				<hkcstring>Post_Right_BackwardRollStart</hkcstring>
+				<hkcstring>Post_BackwardRollStart</hkcstring>
+				<hkcstring>Post_Left_BackwardRollStart</hkcstring>
+				<hkcstring>Post_Left_RollStart</hkcstring>
+				<hkcstring>Post_Left_ForwardRollStart</hkcstring>
+				<hkcstring>RollLand</hkcstring>
+				<hkcstring>FootLeftSidestep</hkcstring>
+				<hkcstring>FootRightSidestep</hkcstring>
+				<hkcstring>SidestepTrigger</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
-				<hkcstring>Is1stPerson_Z</hkcstring>
-				<hkcstring>GetUp_Z</hkcstring>
-				<hkcstring>SwimEnter_Z</hkcstring>
-				<hkcstring>SwimExit_Z</hkcstring>
-				<hkcstring>crossbowAttackStart</hkcstring>
-				<hkcstring>castStop</hkcstring>
-				<hkcstring>SoundPlay.FSTSwimTread</hkcstring>
-				<hkcstring>HeadtrackOff_Z</hkcstring>
-				<hkcstring>HeadtrackOn_Z</hkcstring>
-				<hkcstring>activateTimer_z</hkcstring>
+				<hkcstring>Is1stPerson_Z</hkcstring>
+				<hkcstring>GetUp_Z</hkcstring>
+				<hkcstring>SwimEnter_Z</hkcstring>
+				<hkcstring>SwimExit_Z</hkcstring>
+				<hkcstring>crossbowAttackStart</hkcstring>
+				<hkcstring>castStop</hkcstring>
+				<hkcstring>SoundPlay.FSTSwimTread</hkcstring>
+				<hkcstring>HeadtrackOff_Z</hkcstring>
+				<hkcstring>HeadtrackOn_Z</hkcstring>
+				<hkcstring>activateTimer_z</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
@@ -1522,29 +1522,29 @@
 				<hkcstring>AimGainOnDragonMount</hkcstring>
 				<hkcstring>iWantMountedWeaponAnims</hkcstring>
 <!-- NEW *nemesis* -->
-				<hkcstring>Nemesis_IsLocked</hkcstring>
+				<hkcstring>Nemesis_IsLocked</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *tudm* -->
-				<hkcstring>DodgeID</hkcstring>
-				<hkcstring>DodgeSpeed</hkcstring>
-				<hkcstring>StanceID</hkcstring>
-				<hkcstring>NextStanceID</hkcstring>
-				<hkcstring>PreviousStanceID</hkcstring>
-				<hkcstring>IsRunning</hkcstring>
+				<hkcstring>DodgeID</hkcstring>
+				<hkcstring>DodgeSpeed</hkcstring>
+				<hkcstring>StanceID</hkcstring>
+				<hkcstring>NextStanceID</hkcstring>
+				<hkcstring>PreviousStanceID</hkcstring>
+				<hkcstring>IsRunning</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
-				<hkcstring>fNPCPitch_Z</hkcstring>
-				<hkcstring>IsNPC_Z</hkcstring>
-				<hkcstring>iIsWounded_Z</hkcstring>
-				<hkcstring>fGetUpSpeed_Z</hkcstring>
-				<hkcstring>iJumpState_Z</hkcstring>
-				<hkcstring>fCharHeight_Z</hkcstring>
-				<hkcstring>bIsThirdPerson_Z</hkcstring>
-				<hkcstring>bIsSwimming_Z</hkcstring>
-				<hkcstring>fDirectionDamped_Z</hkcstring>
-				<hkcstring>fNPCAim_Z</hkcstring>
-				<hkcstring>bIsInHavok_Z</hkcstring>
-				<hkcstring>Distance_Z</hkcstring>
+				<hkcstring>fNPCPitch_Z</hkcstring>
+				<hkcstring>IsNPC_Z</hkcstring>
+				<hkcstring>iIsWounded_Z</hkcstring>
+				<hkcstring>fGetUpSpeed_Z</hkcstring>
+				<hkcstring>iJumpState_Z</hkcstring>
+				<hkcstring>fCharHeight_Z</hkcstring>
+				<hkcstring>bIsThirdPerson_Z</hkcstring>
+				<hkcstring>bIsSwimming_Z</hkcstring>
+				<hkcstring>fDirectionDamped_Z</hkcstring>
+				<hkcstring>fNPCAim_Z</hkcstring>
+				<hkcstring>bIsInHavok_Z</hkcstring>
+				<hkcstring>Distance_Z</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="15">
@@ -2259,67 +2259,67 @@
 					<hkparam name="value">0</hkparam>
 				</hkobject>
 <!-- NEW *nemesis* -->
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 <!-- NEW *tudm* -->
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">1</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">1</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">1</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">1065353216</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">1</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">1065353216</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="4">
@@ -4405,181 +4405,181 @@
 					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
 <!-- NEW *nemesis* -->
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-<!-- CLOSE -->
-<!-- NEW *tudm* -->
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+<!-- NEW *tudm* -->
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyInfos" numelements="15">
@@ -4587,7 +4587,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NORMALIZED|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NORMALIZED|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NOT_VARIABLE|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4597,7 +4597,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NORMALIZED|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NORMALIZED|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4607,7 +4607,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NORMALIZED|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NORMALIZED|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4617,7 +4617,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">0</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4627,7 +4627,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4637,7 +4637,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4647,7 +4647,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4657,7 +4657,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">0</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NOT_VARIABLE|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4667,7 +4667,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_VARIABLE|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_NOT_VARIABLE|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4677,7 +4677,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NOT_VARIABLE|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4687,7 +4687,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_VARIABLE|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_NOT_VARIABLE|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4697,7 +4697,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">0</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_NONE|<!-- UNKNOWN BITS -->0x1640</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4707,7 +4707,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4717,7 +4717,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_OUTPUT|FLAG_HIDDEN|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x16c0</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_NONE|<!-- UNKNOWN BITS -->0x1640</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -4727,7 +4727,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *momo* -->
 							<hkparam name="flags">0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -8386,161 +8386,161 @@
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
-<!-- NEW *tudm* -->
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-<!-- CLOSE -->
 <!-- NEW *skice* -->
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+<!-- NEW *tudm* -->
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wordMinVariableValues" numelements="0"></hkparam>
@@ -8715,13 +8715,13 @@
 		</hkobject>
 
 		<hkobject name="#0111" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
-			<hkparam name="variableBindingSet">null</hkparam>					<!-- *zcbe* -->
+			<hkparam name="variableBindingSet">null</hkparam>					<!-- *zcbe* -->
 			<hkparam name="variableBindingSet">#0112</hkparam>				<!-- original -->
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DefaultBlendTransition</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_BLEND</hkparam>
 			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
-			<hkparam name="duration">0.200000</hkparam>					<!-- *zcbe* -->
+			<hkparam name="duration">0.200000</hkparam>					<!-- *zcbe* -->
 			<hkparam name="duration">0.000000</hkparam>				<!-- original -->
 			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
 			<hkparam name="flags">0</hkparam>
@@ -10523,15 +10523,15 @@
 				1.000000
 				0.000000
 			</hkparam>
-			<hkparam name="duration">0.250000</hkparam>					<!-- *zcbe* -->
+			<hkparam name="duration">0.250000</hkparam>					<!-- *zcbe* -->
 			<hkparam name="duration">1.000000</hkparam>				<!-- original -->
-			<hkparam name="alignWithGroundDuration">0.100000</hkparam>					<!-- *zcbe* -->
+			<hkparam name="alignWithGroundDuration">0.100000</hkparam>					<!-- *zcbe* -->
 			<hkparam name="alignWithGroundDuration">0.250000</hkparam>				<!-- original -->
-			<hkparam name="rootBoneIndex">3</hkparam>					<!-- *zcbe* -->
+			<hkparam name="rootBoneIndex">3</hkparam>					<!-- *zcbe* -->
 			<hkparam name="rootBoneIndex">0</hkparam>				<!-- original -->
-			<hkparam name="otherBoneIndex">10</hkparam>					<!-- *zcbe* -->
+			<hkparam name="otherBoneIndex">10</hkparam>					<!-- *zcbe* -->
 			<hkparam name="otherBoneIndex">11</hkparam>				<!-- original -->
-			<hkparam name="anotherBoneIndex">12</hkparam>					<!-- *zcbe* -->
+			<hkparam name="anotherBoneIndex">12</hkparam>					<!-- *zcbe* -->
 			<hkparam name="anotherBoneIndex">10</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -10545,7 +10545,7 @@
 				#0208
 				#0206
 <!-- NEW *zcbe* -->
-				#zcbe$0
+				#zcbe$0
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -10573,7 +10573,7 @@
 							<hkparam name="snapMaxAngularDistance">0.100000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="durationToBlend">0.100000</hkparam>					<!-- *zcbe* -->
+					<hkparam name="durationToBlend">0.100000</hkparam>					<!-- *zcbe* -->
 					<hkparam name="durationToBlend">0.500000</hkparam>				<!-- original -->
 				</hkobject>
 			</hkparam>
@@ -10613,7 +10613,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">GetUpFromRagdollModGen</hkparam>
 			<hkparam name="modifier">#0205</hkparam>
-			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0211</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -10761,7 +10761,7 @@
 				#0222
 				#0218
 <!-- NEW *zcbe* -->
-				#zcbe$2 #zcbe$3
+				#zcbe$2 #zcbe$3
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="worldFromModelRotation">
@@ -10797,7 +10797,7 @@
 		</hkobject>
 
 		<hkobject name="#0220" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#zcbe$4</hkparam>					<!-- *zcbe* -->
+			<hkparam name="variableBindingSet">#zcbe$4</hkparam>					<!-- *zcbe* -->
 			<hkparam name="variableBindingSet">null</hkparam>				<!-- original -->
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">GetUpFromBackClip</hkparam>
@@ -10853,7 +10853,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.000000</hkparam>					<!-- *zcbe* -->
+					<hkparam name="localTime">0.000000</hkparam>					<!-- *zcbe* -->
 					<hkparam name="localTime">0.464000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -10861,7 +10861,7 @@
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>					<!-- *zcbe* -->
+					<hkparam name="relativeToEndOfClip">true</hkparam>					<!-- *zcbe* -->
 					<hkparam name="relativeToEndOfClip">false</hkparam>				<!-- original -->
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
@@ -10883,7 +10883,7 @@
 		</hkobject>
 
 		<hkobject name="#0224" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#zcbe$4</hkparam>					<!-- *zcbe* -->
+			<hkparam name="variableBindingSet">#zcbe$4</hkparam>					<!-- *zcbe* -->
 			<hkparam name="variableBindingSet">null</hkparam>				<!-- original -->
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">GetUpFromFaceFront</hkparam>
@@ -10946,7 +10946,7 @@
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>					<!-- *zcbe* -->
+					<hkparam name="relativeToEndOfClip">true</hkparam>					<!-- *zcbe* -->
 					<hkparam name="relativeToEndOfClip">false</hkparam>				<!-- original -->
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
@@ -11200,7 +11200,7 @@
 		<hkobject name="#0237" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">#zcbe$5</hkparam>					<!-- *zcbe* -->
+			<hkparam name="enterNotifyEvents">#zcbe$5</hkparam>					<!-- *zcbe* -->
 			<hkparam name="enterNotifyEvents">null</hkparam>				<!-- original -->
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0236</hkparam>
@@ -11249,7 +11249,7 @@
 					<hkparam name="constantRecoveryVelocity">1.000000</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="bones">null</hkparam>					<!-- *zcbe* -->
+			<hkparam name="bones">null</hkparam>					<!-- *zcbe* -->
 			<hkparam name="bones">#0240</hkparam>				<!-- original -->
 			<hkparam name="worldFromModelModeData">
 				<hkobject>
@@ -11308,7 +11308,7 @@
 					<hkparam name="constantRecoveryVelocity">1.000000</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="bones">null</hkparam>					<!-- *zcbe* -->
+			<hkparam name="bones">null</hkparam>					<!-- *zcbe* -->
 			<hkparam name="bones">#0245</hkparam>				<!-- original -->
 			<hkparam name="worldFromModelModeData">
 				<hkobject>
@@ -11341,7 +11341,7 @@
 				#0247
 				#0243
 <!-- NEW *zcbe* -->
-				#zcbe$0
+				#zcbe$0
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -11351,7 +11351,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">RagdollModGen</hkparam>
 			<hkparam name="modifier">#0248</hkparam>
-			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0211</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -11544,7 +11544,7 @@
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="contactEvent">
 				<hkobject>
-					<hkparam name="id">0</hkparam>					<!-- *zcbe* -->
+					<hkparam name="id">0</hkparam>					<!-- *zcbe* -->
 					<hkparam name="id">176</hkparam>				<!-- original -->
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
@@ -11595,7 +11595,7 @@
 				#0206
 				#0260
 <!-- NEW *zcbe* -->
-				#zcbe$0
+				#zcbe$0
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -13172,7 +13172,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -13399,7 +13399,7 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="34">
-				#zcbe$6					<!-- *zcbe* -->
+				#zcbe$6					<!-- *zcbe* -->
 				#2458				<!-- original -->
 				#2380
 				#2377
@@ -13411,7 +13411,7 @@
 				#2232
 				#2227
 				#2223
-					<!-- *zcbe* -->
+					<!-- *zcbe* -->
 				#2188				<!-- original -->
 				#2166
 				#2142
@@ -13419,13 +13419,13 @@
 				#0697
 				#0690
 				#0684
-					<!-- *zcbe* -->
+					<!-- *zcbe* -->
 				#0662				<!-- original -->
-					<!-- *zcbe* -->
+					<!-- *zcbe* -->
 				#0634				<!-- original -->
-					<!-- *zcbe* -->
+					<!-- *zcbe* -->
 				#0599				<!-- original -->
-					<!-- *zcbe* -->
+					<!-- *zcbe* -->
 				#0563				<!-- original -->
 				#0554
 				#0547
@@ -13544,16 +13544,16 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0113</hkparam>
-					<hkparam name="condition">#zcbe$7</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$7</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">null</hkparam>				<!-- original -->
 					<hkparam name="eventId">639</hkparam>
-					<hkparam name="toStateId">15</hkparam>					<!-- *zcbe* -->
+					<hkparam name="toStateId">15</hkparam>					<!-- *zcbe* -->
 					<hkparam name="toStateId">1</hkparam>				<!-- original -->
 					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">1</hkparam>					<!-- *zcbe* -->
+					<hkparam name="toNestedStateId">1</hkparam>					<!-- *zcbe* -->
 					<hkparam name="toNestedStateId">0</hkparam>				<!-- original -->
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -13580,7 +13580,7 @@
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
 					<hkparam name="priority">5</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -13601,7 +13601,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0351</hkparam>
-					<hkparam name="condition">#zcbe$8</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$8</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">#0355</hkparam>				<!-- original -->
 					<hkparam name="eventId">638</hkparam>
 					<hkparam name="toStateId">14</hkparam>
@@ -13628,21 +13628,21 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0111</hkparam>
-					<hkparam name="condition">#zcbe$7</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$7</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">null</hkparam>				<!-- original -->
 					<hkparam name="eventId">637</hkparam>
-					<hkparam name="toStateId">15</hkparam>					<!-- *zcbe* -->
+					<hkparam name="toStateId">15</hkparam>					<!-- *zcbe* -->
 					<hkparam name="toStateId">0</hkparam>				<!-- original -->
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
-							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
+							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
 							<hkparam name="enterEventId">-1</hkparam>				<!-- original -->
 							<hkparam name="exitEventId">-1</hkparam>
 							<hkparam name="enterTime">0.000000</hkparam>
@@ -13657,24 +13657,24 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0351</hkparam>				<!-- original -->
-					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">#0354</hkparam>				<!-- original -->
-					<hkparam name="eventId">125</hkparam>					<!-- *zcbe* -->
+					<hkparam name="eventId">125</hkparam>					<!-- *zcbe* -->
 					<hkparam name="eventId">638</hkparam>				<!-- original -->
 					<hkparam name="toStateId">14</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>					<!-- *zcbe* -->
+					<hkparam name="toNestedStateId">0</hkparam>					<!-- *zcbe* -->
 					<hkparam name="toNestedStateId">1</hkparam>				<!-- original -->
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
-							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
+							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
 							<hkparam name="enterEventId">-1</hkparam>				<!-- original -->
 							<hkparam name="exitEventId">-1</hkparam>
 							<hkparam name="enterTime">0.000000</hkparam>
@@ -13689,24 +13689,24 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0351</hkparam>				<!-- original -->
-					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">#0353</hkparam>				<!-- original -->
-					<hkparam name="eventId">559</hkparam>					<!-- *zcbe* -->
+					<hkparam name="eventId">559</hkparam>					<!-- *zcbe* -->
 					<hkparam name="eventId">638</hkparam>				<!-- original -->
 					<hkparam name="toStateId">14</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>					<!-- *zcbe* -->
+					<hkparam name="toNestedStateId">0</hkparam>					<!-- *zcbe* -->
 					<hkparam name="toNestedStateId">2</hkparam>				<!-- original -->
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
-							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
+							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
 							<hkparam name="enterEventId">-1</hkparam>				<!-- original -->
 							<hkparam name="exitEventId">-1</hkparam>
 							<hkparam name="enterTime">0.000000</hkparam>
@@ -13721,17 +13721,17 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0351</hkparam>				<!-- original -->
-					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">#0350</hkparam>				<!-- original -->
-					<hkparam name="eventId">23</hkparam>					<!-- *zcbe* -->
+					<hkparam name="eventId">23</hkparam>					<!-- *zcbe* -->
 					<hkparam name="eventId">638</hkparam>				<!-- original -->
 					<hkparam name="toStateId">14</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -13752,7 +13752,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0343</hkparam>
-					<hkparam name="condition">#zcbe$10</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$10</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">#0349</hkparam>				<!-- original -->
 					<hkparam name="eventId">112</hkparam>
 					<hkparam name="toStateId">8</hkparam>
@@ -13935,15 +13935,15 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0347</hkparam>
-					<hkparam name="condition">#zcbe$7</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$7</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">null</hkparam>				<!-- original -->
 					<hkparam name="eventId">690</hkparam>
-					<hkparam name="toStateId">15</hkparam>					<!-- *zcbe* -->
+					<hkparam name="toStateId">15</hkparam>					<!-- *zcbe* -->
 					<hkparam name="toStateId">2</hkparam>				<!-- original -->
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -13964,21 +13964,21 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0347</hkparam>
-					<hkparam name="condition">#zcbe$7</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$7</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">null</hkparam>				<!-- original -->
 					<hkparam name="eventId">697</hkparam>
-					<hkparam name="toStateId">15</hkparam>					<!-- *zcbe* -->
+					<hkparam name="toStateId">15</hkparam>					<!-- *zcbe* -->
 					<hkparam name="toStateId">3</hkparam>				<!-- original -->
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
-							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
+							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
 							<hkparam name="enterEventId">-1</hkparam>				<!-- original -->
 							<hkparam name="exitEventId">-1</hkparam>
 							<hkparam name="enterTime">0.000000</hkparam>
@@ -13993,24 +13993,24 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0346</hkparam>				<!-- original -->
-					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">null</hkparam>				<!-- original -->
-					<hkparam name="eventId">92</hkparam>					<!-- *zcbe* -->
+					<hkparam name="eventId">92</hkparam>					<!-- *zcbe* -->
 					<hkparam name="eventId">691</hkparam>				<!-- original -->
-					<hkparam name="toStateId">14</hkparam>					<!-- *zcbe* -->
+					<hkparam name="toStateId">14</hkparam>					<!-- *zcbe* -->
 					<hkparam name="toStateId">4</hkparam>				<!-- original -->
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
-							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
+							<hkparam name="enterEventId">638</hkparam>					<!-- *zcbe* -->
 							<hkparam name="enterEventId">-1</hkparam>				<!-- original -->
 							<hkparam name="exitEventId">-1</hkparam>
 							<hkparam name="enterTime">0.000000</hkparam>
@@ -14025,18 +14025,18 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#0111</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0345</hkparam>				<!-- original -->
-					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
+					<hkparam name="condition">#zcbe$9</hkparam>					<!-- *zcbe* -->
 					<hkparam name="condition">null</hkparam>				<!-- original -->
-					<hkparam name="eventId">19</hkparam>					<!-- *zcbe* -->
+					<hkparam name="eventId">19</hkparam>					<!-- *zcbe* -->
 					<hkparam name="eventId">698</hkparam>				<!-- original -->
-					<hkparam name="toStateId">14</hkparam>					<!-- *zcbe* -->
+					<hkparam name="toStateId">14</hkparam>					<!-- *zcbe* -->
 					<hkparam name="toStateId">5</hkparam>				<!-- original -->
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -14326,32 +14326,32 @@
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">638</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#zcbe$11</hkparam>
-					<hkparam name="condition">#zcbe$12</hkparam>
-					<hkparam name="eventId">109</hkparam>
-					<hkparam name="toStateId">14</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">638</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#zcbe$11</hkparam>
+					<hkparam name="condition">#zcbe$12</hkparam>
+					<hkparam name="eventId">109</hkparam>
+					<hkparam name="toStateId">14</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -14446,13 +14446,13 @@
 		</hkobject>
 
 		<hkobject name="#0351" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
-			<hkparam name="variableBindingSet">null</hkparam>					<!-- *zcbe* -->
+			<hkparam name="variableBindingSet">null</hkparam>					<!-- *zcbe* -->
 			<hkparam name="variableBindingSet">#0352</hkparam>				<!-- original -->
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpBlendTransitionEffect</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_RESET</hkparam>
 			<hkparam name="eventMode">EVENT_MODE_IGNORE_FROM_GENERATOR</hkparam>
-			<hkparam name="duration">0.050000</hkparam>					<!-- *zcbe* -->
+			<hkparam name="duration">0.050000</hkparam>					<!-- *zcbe* -->
 			<hkparam name="duration">0.000000</hkparam>				<!-- original -->
 			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
 			<hkparam name="flags">0</hkparam>
@@ -22026,7 +22026,7 @@
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">12</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -22053,7 +22053,7 @@
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">1</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -22080,7 +22080,7 @@
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">10</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -22107,7 +22107,7 @@
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">11</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -22134,7 +22134,7 @@
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">4</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -22161,7 +22161,7 @@
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">2</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>					<!-- *zcbe* -->
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>				<!-- original -->
 				</hkobject>
 				<hkobject>
@@ -22830,7 +22830,7 @@
 		<hkobject name="#0748" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>					<!-- *nemesis* -->
+			<hkparam name="enterNotifyEvents">null</hkparam>					<!-- *nemesis* -->
 			<hkparam name="enterNotifyEvents">#0760</hkparam>				<!-- original -->
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
@@ -22955,29 +22955,29 @@
 
 		<hkobject name="#0755" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="4">
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 				<hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="localTime">0.010000</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="event">				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 						<hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 							<hkparam name="id">614</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 							<hkparam name="payload">null</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 						</hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="relativeToEndOfClip">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="acyclic">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="isAnnotation">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 				</hkobject>				<!-- original -->
 				<hkobject>
 					<hkparam name="localTime">3.466667</hkparam>
@@ -23003,29 +23003,29 @@
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 				<hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="localTime">3.466667</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="event">				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 						<hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 							<hkparam name="id">622</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 							<hkparam name="payload">null</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 						</hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="relativeToEndOfClip">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="acyclic">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="isAnnotation">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 				</hkobject>				<!-- original -->
 			</hkparam>
 		</hkobject>
@@ -23208,29 +23208,29 @@
 
 		<hkobject name="#0768" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="4">
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 				<hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="localTime">0.000000</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="event">				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 						<hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 							<hkparam name="id">615</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 							<hkparam name="payload">null</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 						</hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="relativeToEndOfClip">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="acyclic">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="isAnnotation">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 				</hkobject>				<!-- original -->
 				<hkobject>
 					<hkparam name="localTime">3.466667</hkparam>
@@ -23244,29 +23244,29 @@
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 				<hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="localTime">3.466667</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="event">				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 						<hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 							<hkparam name="id">616</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 							<hkparam name="payload">null</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 						</hkobject>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="relativeToEndOfClip">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="acyclic">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 					<hkparam name="isAnnotation">false</hkparam>				<!-- original -->
-					<!-- *nemesis* -->
+					<!-- *nemesis* -->
 				</hkobject>				<!-- original -->
 				<hkobject>
 					<hkparam name="localTime">3.466667</hkparam>
@@ -25561,7 +25561,7 @@
 			<hkparam name="enterNotifyEvents">#1257</hkparam>
 			<hkparam name="exitNotifyEvents">#1256</hkparam>
 			<hkparam name="transitions">#1255</hkparam>
-			<hkparam name="generator">#zcbe$13</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$13</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0863</hkparam>				<!-- original -->
 			<hkparam name="name">Magic_Behavior_State</hkparam>
 			<hkparam name="stateId">2</hkparam>
@@ -25685,136 +25685,136 @@
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION|FLAG_DELAY_STATE_CHANGE</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0111</hkparam>
-					<hkparam name="condition">#zcbe$14</hkparam>
-					<hkparam name="eventId">19</hkparam>
-					<hkparam name="toStateId">0</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0111</hkparam>
-					<hkparam name="condition">#zcbe$15</hkparam>
-					<hkparam name="eventId">19</hkparam>
-					<hkparam name="toStateId">10</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0111</hkparam>
-					<hkparam name="condition">#zcbe$16</hkparam>
-					<hkparam name="eventId">18</hkparam>
-					<hkparam name="toStateId">11</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">1</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0111</hkparam>
-					<hkparam name="condition">#zcbe$17</hkparam>
-					<hkparam name="eventId">19</hkparam>
-					<hkparam name="toStateId">1</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0111</hkparam>
-					<hkparam name="condition">#zcbe$18</hkparam>
-					<hkparam name="eventId">19</hkparam>
-					<hkparam name="toStateId">8</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#0111</hkparam>
+					<hkparam name="condition">#zcbe$14</hkparam>
+					<hkparam name="eventId">19</hkparam>
+					<hkparam name="toStateId">0</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#0111</hkparam>
+					<hkparam name="condition">#zcbe$15</hkparam>
+					<hkparam name="eventId">19</hkparam>
+					<hkparam name="toStateId">10</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#0111</hkparam>
+					<hkparam name="condition">#zcbe$16</hkparam>
+					<hkparam name="eventId">18</hkparam>
+					<hkparam name="toStateId">11</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">1</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#0111</hkparam>
+					<hkparam name="condition">#zcbe$17</hkparam>
+					<hkparam name="eventId">19</hkparam>
+					<hkparam name="toStateId">1</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#0111</hkparam>
+					<hkparam name="condition">#zcbe$18</hkparam>
+					<hkparam name="eventId">19</hkparam>
+					<hkparam name="toStateId">8</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -27036,7 +27036,7 @@
 			<hkparam name="enterNotifyEvents">#1045</hkparam>
 			<hkparam name="exitNotifyEvents">#1044</hkparam>
 			<hkparam name="transitions">#1043</hkparam>
-			<hkparam name="generator">#zcbe$19</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$19</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0940</hkparam>				<!-- original -->
 			<hkparam name="name">MRh_1HM_Attack</hkparam>
 			<hkparam name="stateId">18</hkparam>
@@ -32213,7 +32213,7 @@
 			<hkparam name="enterNotifyEvents">#1253</hkparam>
 			<hkparam name="exitNotifyEvents">#1252</hkparam>
 			<hkparam name="transitions">#1251</hkparam>
-			<hkparam name="generator">#zcbe$20</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$20</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#1169</hkparam>				<!-- original -->
 			<hkparam name="name">H2H_MRh_AttackState</hkparam>
 			<hkparam name="stateId">20</hkparam>
@@ -34092,14 +34092,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">H2H_RStaff_AttackMSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#1243					<!-- *zcbe* -->
+				#1243					<!-- *zcbe* -->
 				#1170				<!-- original -->
-				#1170					<!-- *zcbe* -->
+				#1170					<!-- *zcbe* -->
 				#1243				<!-- original -->
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="selectedGeneratorIndex">1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="selectedGeneratorIndex">0</hkparam>				<!-- original -->
-			<hkparam name="currentGeneratorIndex">1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="currentGeneratorIndex">1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="currentGeneratorIndex">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -46719,7 +46719,7 @@
 			<hkparam name="enterNotifyEvents">#1929</hkparam>
 			<hkparam name="exitNotifyEvents">#1928</hkparam>
 			<hkparam name="transitions">#1927</hkparam>
-			<hkparam name="generator">#zcbe$21</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$21</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#1926</hkparam>				<!-- original -->
 			<hkparam name="name">Weap_Readied_State</hkparam>
 			<hkparam name="stateId">1</hkparam>
@@ -46895,7 +46895,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -46919,7 +46919,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -46997,58 +46997,58 @@
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
 <!-- NEW *skice* -->
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">53</hkparam>
-							<hkparam name="exitEventId">51</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">51</hkparam>
-							<hkparam name="exitEventId">52</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0137</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
-					<hkparam name="toStateId">1</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">25</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_DISABLE_CONDITION|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">53</hkparam>
-							<hkparam name="exitEventId">51</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">51</hkparam>
-							<hkparam name="exitEventId">52</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0137</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">22</hkparam>
-					<hkparam name="toStateId">1</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">10</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_DISABLE_CONDITION|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">53</hkparam>
+							<hkparam name="exitEventId">51</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">51</hkparam>
+							<hkparam name="exitEventId">52</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#0137</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
+					<hkparam name="toStateId">1</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">25</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_DISABLE_CONDITION|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">53</hkparam>
+							<hkparam name="exitEventId">51</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">51</hkparam>
+							<hkparam name="exitEventId">52</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#0137</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">22</hkparam>
+					<hkparam name="toStateId">1</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">10</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_DISABLE_CONDITION|FLAG_USE_INITIATE_INTERVAL|FLAG_USE_TRIGGER_INTERVAL</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -47084,7 +47084,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Weap_UnequipModifierGenerator</hkparam>
 			<hkparam name="modifier">#1933</hkparam>
-			<hkparam name="generator">#zcbe$22</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$22</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#1944</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -49620,32 +49620,32 @@
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
 <!-- NEW *skice* -->
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#2035</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">1077</hkparam>
-					<hkparam name="toStateId">10</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">5</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_DISABLE_CONDITION</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#2035</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">1077</hkparam>
+					<hkparam name="toStateId">10</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">5</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_DISABLE_CONDITION</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -49700,7 +49700,7 @@
 			<hkparam name="enterNotifyEvents">#2099</hkparam>
 			<hkparam name="exitNotifyEvents">#2098</hkparam>
 			<hkparam name="transitions">#2097</hkparam>
-			<hkparam name="generator">#zcbe$23</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$23</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#2039</hkparam>				<!-- original -->
 			<hkparam name="name">MT_Behavior_State</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -50705,32 +50705,32 @@
 					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
 <!-- NEW *skice* -->
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#2035</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">1077</hkparam>
-					<hkparam name="toStateId">10</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">5</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_DISABLE_CONDITION</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#2035</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">1077</hkparam>
+					<hkparam name="toStateId">10</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">5</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_DISABLE_CONDITION</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -53393,7 +53393,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFastBack</hkparam>
-			<hkparam name="animationName">Animations\MomoAJ\MT_JumpFastBack.hkx</hkparam>					<!-- *momo* -->
+			<hkparam name="animationName">Animations\MomoAJ\MT_JumpFastBack.hkx</hkparam>					<!-- *momo* -->
 			<hkparam name="animationName">Animations\MT_JumpFast.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#2207</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -54414,10 +54414,10 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">#2331</hkparam>
-			<hkparam name="exitNotifyEvents">#zcbe$24</hkparam>					<!-- *zcbe* -->
+			<hkparam name="exitNotifyEvents">#zcbe$24</hkparam>					<!-- *zcbe* -->
 			<hkparam name="exitNotifyEvents">null</hkparam>				<!-- original -->
 			<hkparam name="transitions">#2330</hkparam>
-			<hkparam name="generator">#zcbe$25</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$25</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#2266</hkparam>				<!-- original -->
 			<hkparam name="name">Swim_State</hkparam>
 			<hkparam name="stateId">38</hkparam>
@@ -55597,10 +55597,10 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="id">$eventID[SwimEnter_Z]$</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="id">$eventID[SwimEnter_Z]$</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -55716,7 +55716,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DualMagic_AimedConcentration</hkparam>
 			<hkparam name="animationName">Animations\DMagAimConLoop.hkx</hkparam>
-			<hkparam name="triggers">#tudm$0</hkparam>					<!-- *tudm* -->
+			<hkparam name="triggers">#tudm$0</hkparam>					<!-- *tudm* -->
 			<hkparam name="triggers">null</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -55798,18 +55798,18 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 <!-- NEW *tudm* -->
-				<hkobject>
-					<hkparam name="localTime">0.100000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[DodgeLightningStorm]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.100000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$eventID[DodgeLightningStorm]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -55916,7 +55916,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">RitualSpell_ReadyLoop</hkparam>
 			<hkparam name="animationName">Animations\RitualSpell_Ready.hkx</hkparam>
-			<hkparam name="triggers">#tudm$1</hkparam>					<!-- *tudm* -->
+			<hkparam name="triggers">#tudm$1</hkparam>					<!-- *tudm* -->
 			<hkparam name="triggers">null</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -56133,18 +56133,18 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 <!-- NEW *tudm* -->
-				<hkobject>
-					<hkparam name="localTime">0.350000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[DodgeMasterSpell]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.350000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$eventID[DodgeMasterSpell]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -56578,12 +56578,12 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="memberPath">bIsActive3</hkparam>
-					<hkparam name="variableIndex">89</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="memberPath">bIsActive3</hkparam>
+					<hkparam name="variableIndex">89</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
@@ -59018,7 +59018,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1st3rdPerson_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#zcbe$26					<!-- *zcbe* -->
+				#zcbe$26					<!-- *zcbe* -->
 				#0338				<!-- original -->
 				#0340
 			</hkparam>
@@ -59235,7 +59235,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -59267,7 +59267,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -59296,7 +59296,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -59469,7 +59469,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -59627,7 +59627,7 @@
 				#2512
 				#2510
 <!-- NEW *zcbe* -->
-				#zcbe$27 #zcbe$28
+				#zcbe$27 #zcbe$28
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

@@ -619,7 +619,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockBashIntroMSG</hkparam>
 			<hkparam name="generators" numelements="13">
-				#cbbi$0					<!-- *cbbi* -->
+				#cbbi$0					<!-- *cbbi* -->
 				#0076				<!-- original -->
 				#0084
 				#0084
@@ -628,9 +628,9 @@
 				#0082
 				#0080
 				#0078
-				#cbbi$0					<!-- *cbbi* -->
+				#cbbi$0					<!-- *cbbi* -->
 				#0076				<!-- original -->
-				#cbbi$0					<!-- *cbbi* -->
+				#cbbi$0					<!-- *cbbi* -->
 				#0076				<!-- original -->
 				#0074
 				#0072
@@ -2266,7 +2266,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.167000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.167000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.267000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -2279,7 +2279,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.233000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.233000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.433000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -2292,7 +2292,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.265000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.265000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.465000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -2317,7 +2317,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.433000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.433000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">1.133000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -2648,7 +2648,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.350000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.350000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.431000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -2661,7 +2661,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.364000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.364000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.464000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -2674,7 +2674,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.367000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.367000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.667000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -2687,7 +2687,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.370000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.370000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">1.133000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3539,7 +3539,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.133000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.133000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.033000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3552,7 +3552,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.209000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.209000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.059000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3565,7 +3565,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.219000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.219000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.099000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3578,7 +3578,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.234000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.234000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.134000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3638,7 +3638,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -3674,7 +3674,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.113000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.113000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.033000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3687,7 +3687,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.143000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.143000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.099000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3700,7 +3700,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.153000</hkparam>					<!-- *cbbi* -->
+					<hkparam name="localTime">0.153000</hkparam>					<!-- *cbbi* -->
 					<hkparam name="localTime">0.133000</hkparam>				<!-- original -->
 					<hkparam name="event">
 						<hkobject>
@@ -3731,14 +3731,14 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_BlockBash</hkparam>
-			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
+			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
 			<hkparam name="animationName">Animations\Bow_BlockBash.hkx</hkparam>				<!-- original -->
-			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
 			<hkparam name="triggers">#0161</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -4004,14 +4004,14 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DW1HM1HMBlockBash</hkparam>
-			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
+			<hkparam name="animationName">Animations\1HM_BlockBash.hkx</hkparam>					<!-- *cbbi* -->
 			<hkparam name="animationName">Animations\DW1HM1HMBlockBash.hkx</hkparam>				<!-- original -->
-			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0159</hkparam>					<!-- *cbbi* -->
 			<hkparam name="triggers">#0167</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">0.900000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>

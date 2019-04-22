@@ -52,11 +52,11 @@
 				<hkcstring>attackStop</hkcstring>
 				<hkcstring>arrowDetach</hkcstring>
 				<hkcstring>BlockBashSprint</hkcstring>
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				<hkcstring>SoundPlay</hkcstring>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				<hkcstring>blockStopInstant</hkcstring>				<!-- original -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
@@ -93,8 +93,8 @@
 				<hkcstring>iIsInSneak</hkcstring>
 				<hkcstring>IsSneaking</hkcstring>
 				<hkcstring>RotMax</hkcstring>
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				<hkcstring>blendMove1stP</hkcstring>				<!-- original -->
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="3">
@@ -202,14 +202,14 @@
 				<hkobject>
 					<hkparam name="value">1084227584</hkparam>
 				</hkobject>
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				<hkobject>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 					<hkparam name="value">1051931443</hkparam>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				</hkobject>				<!-- original -->
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
@@ -507,32 +507,32 @@
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
 				</hkobject>
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				<hkobject>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 					<hkparam name="role">				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 						<hkobject>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 							<hkparam name="role">ROLE_DEFAULT</hkparam>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 							<hkparam name="flags">0</hkparam>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 						</hkobject>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 					</hkparam>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				</hkobject>				<!-- original -->
 			</hkparam>
 			<hkparam name="characterPropertyInfos" numelements="3">
@@ -540,8 +540,8 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *bcbi* -->
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *cbbi* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *bcbi* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *cbbi* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x18c0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -551,8 +551,8 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *bcbi* -->
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *cbbi* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *bcbi* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *cbbi* -->
 							<hkparam name="flags">0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -562,8 +562,8 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *bcbi* -->
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *cbbi* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *bcbi* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1200</hkparam>					<!-- *cbbi* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1900</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -682,23 +682,23 @@
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				<hkobject>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 					<hkparam name="flags">0</hkparam>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				</hkobject>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				<hkobject>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 					<hkparam name="flags">0</hkparam>				<!-- original -->
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				</hkobject>				<!-- original -->
 			</hkparam>
 			<hkparam name="wordMinVariableValues" numelements="0"></hkparam>
@@ -1479,7 +1479,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -1511,7 +1511,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -1576,7 +1576,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -2392,7 +2392,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockHit_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#0193					<!-- *zcbe* -->
+				#0193					<!-- *zcbe* -->
 				#0175				<!-- original -->
 				#0163
 				#0163
@@ -2761,8 +2761,8 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -2834,8 +2834,8 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -2907,8 +2907,8 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -3585,7 +3585,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockIdle_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#zcbe$0					<!-- *zcbe* -->
+				#zcbe$0					<!-- *zcbe* -->
 				#0216				<!-- original -->
 				#0227
 				#0227
@@ -3594,7 +3594,7 @@
 				#0220
 				#0220
 				#0219
-				#0227					<!-- *zcbe* -->
+				#0227					<!-- *zcbe* -->
 				#0216				<!-- original -->
 				#0216
 				#0215
@@ -3990,7 +3990,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockAnticipate_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#zcbe$1					<!-- *zcbe* -->
+				#zcbe$1					<!-- *zcbe* -->
 				#0249				<!-- original -->
 				#0237
 				#0237
@@ -4118,7 +4118,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4232,7 +4232,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4386,7 +4386,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4500,7 +4500,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4656,7 +4656,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -13978,8 +13978,8 @@
 				#0136
 				#0136
 				#0136
-					<!-- *bcbi* -->
-					<!-- *cbbi* -->
+					<!-- *bcbi* -->
+					<!-- *cbbi* -->
 				#0130				<!-- original -->
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>

@@ -1785,123 +1785,123 @@
 				<hkcstring>Animations\WW_Stage8.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage9.hkx</hkcstring>
 <!-- NEW *hmce* -->
-				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackAnticipate_L.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackAnticipate_R.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackLoop_L.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackLoop_R.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackRelease_L.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackRelease_R.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_Spear_AttackAnticipate.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_SpearLoop.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_Spear_AttackRelease.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_SpearCouchAnticipate.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_SpearCouchLoop.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_SpearCouchReturn.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateFFA.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastLoopFFA.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastReleaseFFA.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastReleaseConAim.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateConAim.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastLoopConAim.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastLoopConSelf.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateConSelf.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastReleaseConSelf.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastLoopFFSelf.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateFFSelf.hkx</hkcstring>
-				<hkcstring>Animations\Horsemen\HMMC_CastReleaseFFSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackAnticipate_L.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackAnticipate_R.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackLoop_L.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackLoop_R.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackRelease_L.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_1HM_AttackRelease_R.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_Spear_AttackAnticipate.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_SpearLoop.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_Spear_AttackRelease.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_SpearCouchAnticipate.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_SpearCouchLoop.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_SpearCouchReturn.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateFFA.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastLoopFFA.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastReleaseFFA.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastReleaseConAim.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateConAim.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastLoopConAim.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastLoopConSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateConSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastReleaseConSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastLoopFFSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastAnticipateFFSelf.hkx</hkcstring>
+				<hkcstring>Animations\Horsemen\HMMC_CastReleaseFFSelf.hkx</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *momo* -->
-				<hkcstring>Animations\MomoAJ\mt_jumpfastback.hkx</hkcstring>
-				<hkcstring>Animations\MomoAJ\mt_jumpfallback.hkx</hkcstring>
+				<hkcstring>Animations\MomoAJ\mt_jumpfastback.hkx</hkcstring>
+				<hkcstring>Animations\MomoAJ\mt_jumpfallback.hkx</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *skice* -->
-				<hkcstring>Animations\1hm_UnsheatheAttack.hkx</hkcstring>
+				<hkcstring>Animations\1hm_UnsheatheAttack.hkx</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
-				<hkcstring>Animations\Z_1HM\Mac_Dual_Equip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Axe_Dual_Equip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Dag_Dual_Equip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_Dual_Equip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Mac_Dual_Unequip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Axe_Dual_Unequip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\Dag_Dual_Unequip.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_Dual_Unequip.hkx</hkcstring>
-				<hkcstring>Animations\Z_H2H\H2H_BlockIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_H2H\H2H_BlockLowIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_BlockRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_1HM\1HM_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Shd\shd_BlockIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Shd\shd_BlockLowIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HM\2HM_BlockRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HM\2HM_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HM\2HM_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HM\2HM_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HW\2HW_BlockRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HW\2HW_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HW\2HW_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_2HW\2HW_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\STF_BlockRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\STF_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\STF_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\STF_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Tor\Tor_BlockIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Tor\Tor_BlockLowIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_CrawlBackward.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_CrawlBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_CrawlLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_CrawlTurnLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_AttackRight.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_AttackLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_BlockRight.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_BlockLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_RollLeft.hkx</hkcstring>
-				<hkcstring>Animations\Z_Ground\Back_JumpToFeet.hkx</hkcstring>
-				<hkcstring>Animations\Z_Bow\Bow_BlockLowRightIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Bow\Bow_BlockLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\Z_Bow\Bow_BlockLowLeftIdle.hkx</hkcstring>
-				<hkcstring>Animations\NullClip.hkx</hkcstring>
-				<hkcstring>Animations\H2H_BlockAnticipate.hkx</hkcstring>
-				<hkcstring>Animations\Z_STF\stf_bash.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\Mac_Dual_Equip.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\Axe_Dual_Equip.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\Dag_Dual_Equip.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\1HM_Dual_Equip.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\Mac_Dual_Unequip.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\Axe_Dual_Unequip.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\Dag_Dual_Unequip.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\1HM_Dual_Unequip.hkx</hkcstring>
+				<hkcstring>Animations\Z_H2H\H2H_BlockIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_H2H\H2H_BlockLowIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\1HM_BlockRightIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\1HM_BlockLowRightIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\1HM_BlockLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_1HM\1HM_BlockLowLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_Shd\shd_BlockIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_Shd\shd_BlockLowIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_2HM\2HM_BlockRightIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_2HM\2HM_BlockLowRightIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_2HM\2HM_BlockLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_2HM\2HM_BlockLowLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_2HW\2HW_BlockRightIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_2HW\2HW_BlockLowRightIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_2HW\2HW_BlockLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_2HW\2HW_BlockLowLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_STF\STF_BlockRightIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_STF\STF_BlockLowRightIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_STF\STF_BlockLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_STF\STF_BlockLowLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_Tor\Tor_BlockIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_Tor\Tor_BlockLowIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_CrawlBackward.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_CrawlBackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_CrawlLeft.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_CrawlTurnLeft.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_AttackRight.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_AttackLeft.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_BlockRight.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_BlockLeft.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_RollLeft.hkx</hkcstring>
+				<hkcstring>Animations\Z_Ground\Back_JumpToFeet.hkx</hkcstring>
+				<hkcstring>Animations\Z_Bow\Bow_BlockLowRightIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_Bow\Bow_BlockLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\Z_Bow\Bow_BlockLowLeftIdle.hkx</hkcstring>
+				<hkcstring>Animations\NullClip.hkx</hkcstring>
+				<hkcstring>Animations\H2H_BlockAnticipate.hkx</hkcstring>
+				<hkcstring>Animations\Z_STF\stf_bash.hkx</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *tudm* -->
-				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PL.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PR.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PR2L.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PL2R.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
+				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkForward.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkBackward.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkBackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkBackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkForward.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkBackward.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkBackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkBackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_Idle_PL.hkx</hkcstring>
+				<hkcstring>Animations\2hm_Idle_PR.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PR2L.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PL2R.hkx</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="animationFilenames" numelements="0"></hkparam>
@@ -5021,7 +5021,7 @@
 				<hkobject>
 					<hkparam name="capsuleHeight">1.700000</hkparam>
 					<hkparam name="capsuleRadius">0.400000</hkparam>
-					<hkparam name="collisionFilterInfo">0</hkparam>					<!-- *zcbe* -->
+					<hkparam name="collisionFilterInfo">0</hkparam>					<!-- *zcbe* -->
 					<hkparam name="collisionFilterInfo">1</hkparam>				<!-- original -->
 					<hkparam name="characterControllerCinfo">null</hkparam>
 				</hkobject>
@@ -5029,19 +5029,19 @@
 			<hkparam name="modelUpMS">
 				0.000000
 				0.000000
-				0.000000					<!-- *zcbe* -->
+				0.000000					<!-- *zcbe* -->
 				1.000000				<!-- original -->
 				0.000000
 			</hkparam>
 			<hkparam name="modelForwardMS">
 				0.000000
-				0.000000					<!-- *zcbe* -->
+				0.000000					<!-- *zcbe* -->
 				1.000000				<!-- original -->
 				0.000000
 				0.000000
 			</hkparam>
 			<hkparam name="modelRightMS">
-				0.000000					<!-- *zcbe* -->
+				0.000000					<!-- *zcbe* -->
 				1.000000				<!-- original -->
 				-0.000000
 				-0.000000

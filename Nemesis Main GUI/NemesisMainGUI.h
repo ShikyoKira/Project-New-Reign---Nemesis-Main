@@ -122,7 +122,7 @@ private slots:
 		connect(worker, SIGNAL(enable(bool)), ui.modView, SLOT(setDisabled(bool)));
 		connect(worker, SIGNAL(hide(bool)), ui.progressBar, SLOT(setHidden(bool)));
 
-		connect(worker, SIGNAL(end()), this, SLOT(firstKeyNull()));
+		connect(worker, SIGNAL(end()), this, SLOT(firstNull()));
 		connect(worker, SIGNAL(end()), thread, SLOT(quit()));
 		connect(worker, SIGNAL(end()), worker, SLOT(deleteLater()));
 		connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
@@ -221,20 +221,9 @@ private slots:
 		}
 	}
 
-	void firstKeyNull()
+	void firstNull()
 	{
-		HKEY hKey;
-		LONG nError = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Nemesis"), NULL, KEY_ALL_ACCESS, &hKey);
-
-		if (nError == ERROR_SUCCESS)
-		{
-			DWORD data = 0;
-			nError = RegSetKeyValue(hKey, LPCWSTR(ui.subkeys.c_str()), TEXT("first"), REG_DWORD, &data, sizeof(DWORD));
-
-			if (nError != ERROR_SUCCESS) DebugLogging("Failed to update registry key value");
-		}
-		else DebugLogging("Failed to open registry key");
-
-		RegCloseKey(hKey);
+		nemesisInfo->setFirst(false);
+		nemesisInfo->iniFileUpdate();
 	}
 };
