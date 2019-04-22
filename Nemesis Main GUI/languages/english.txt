@@ -402,6 +402,7 @@ TBT 1009=Behavior generation complete
 TBT 1010=Failed to generate behavior
 TBT 1011=millisecond(s) taken
 TBT 1012=second(s) taken
+TBT 1013=Mod Checked
 
 '1000
 UIT 1000=Nemesis Unlimited Behavior Engine
