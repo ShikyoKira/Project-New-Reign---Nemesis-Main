@@ -225,5 +225,6 @@ private slots:
 	{
 		nemesisInfo->setFirst(false);
 		nemesisInfo->iniFileUpdate();
+
 	}
 };
