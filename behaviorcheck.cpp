@@ -4,10 +4,10 @@
 
 using namespace std;
 
+vecstr warningMsges;
+
 void behaviorCheck()
 {
-	int warningcount = 0;
-
 	// test if anim file used has been registered
 	for (auto it = usedAnim.begin(); it != usedAnim.end(); ++it)
 	{
@@ -22,7 +22,6 @@ void behaviorCheck()
 				if (!registeredAnim[behavior][filename])
 				{
 					WarningMessage(1013, behavior + ".hkx", path);
-					++warningcount;
 				}
 			}
 		}
@@ -47,16 +46,25 @@ void behaviorCheck()
 					warning.pop_back();
 					warning.pop_back();
 					WarningMessage(1014, animation.first, duplicatelist.first, warning);
-					++warningcount;
 				}
 			}
 			else
 			{
-				interMsg("Conflict Test failed!");
 				ErrorMessage(1066);
 			}
 		}
 	}
-	
+}
+
+void warningCheck()
+{
+	int warningcount = 0;
+
+	for (auto& warn : warningMsges)
+	{
+		interMsg(warn);
+		++warningcount;
+	}
+
 	interMsg("Warning Count: " + to_string(warningcount));
 }

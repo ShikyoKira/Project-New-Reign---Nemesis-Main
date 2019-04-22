@@ -131,6 +131,8 @@ void ReadPCEA()
 
 		if (error) throw nemesis::exception();
 	}
+
+	if (modlist.size() > 0) interMsg("");
 }
 
 bool PCEAInstallation()

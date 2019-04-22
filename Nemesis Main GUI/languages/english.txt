@@ -390,7 +390,7 @@ WAR 1026=Invalid option\nFile: <1>\nLine: <2>\nOption: <3>
 
 '1000
 TBT 1000=Changes in file detected. Engine update is required to be performed
-TBT 1001=Conflict Test failed!
+TBT 1001=Warning Check failed!
 TBT 1002=Checking engine version
 TBT 1003=Engine is up to date
 TBT 1004=Initializing behavior generation
@@ -407,7 +407,7 @@ TBT 1013=Mod Checked
 '1000
 UIT 1000=Nemesis Unlimited Behavior Engine
 UIT 1001=Launch Nemesis Behavior Engine
-UIT 1002=Conflict Test
+UIT 1002=Warning Check
 UIT 1003=Update Engine
 UIT 1004=Green = Good\nYellow = OK\nRed = Danger
 UIT 1005=Mod Name

@@ -144,4 +144,6 @@ void behaviorActivateMod(vecstr behaviorPriority)
 			}
 		}
 	}
+
+	if (behaviorPriority.size() > 0) interMsg("");
 }

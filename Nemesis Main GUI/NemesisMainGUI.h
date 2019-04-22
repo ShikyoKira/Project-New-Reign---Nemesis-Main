@@ -146,7 +146,7 @@ private slots:
 		connectProcess(DLog);
 		QObject::connect(DLog, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
 
-		behaviorCheck();
+		warningCheck();
 
 		disconnectProcess();
 		delete DLog;
@@ -225,6 +225,5 @@ private slots:
 	{
 		nemesisInfo->setFirst(false);
 		nemesisInfo->iniFileUpdate();
-
 	}
 };

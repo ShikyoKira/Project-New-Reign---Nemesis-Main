@@ -4,5 +4,6 @@
 #include "generator_utility.h"
 
 void behaviorCheck();
+void warningCheck();
 
 #endif

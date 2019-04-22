@@ -15,6 +15,8 @@ class DummyLog;
 extern bool error;	// get error warning
 extern bool isPatch;
 
+extern vecstr warningMsges;
+
 namespace nemesis
 {
 	class exception {};
@@ -175,7 +177,7 @@ inline void WarningMessage(int warningcode)
 		return;
 	}
 
-	interMsg(warninmsg + "\n");
+	warningMsges.push_back(warninmsg + "\n");
 	DebugLogging("WARNING(" + std::to_string(warningcode) + "): " + EngLogWarning(warningcode));
 }
 
@@ -195,7 +197,7 @@ inline void WarningMessage(int warningcode, other... rest)
 
 	AdditionalInput(warninmsg, 1, rest...);
 	AdditionalInput(englog, 1, rest...);
-	interMsg(warninmsg + "\n");
+	warningMsges.push_back(warninmsg + "\n");
 	DebugLogging(englog);
 }
 

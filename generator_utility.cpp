@@ -8,6 +8,7 @@
 using namespace std;
 
 extern unordered_map<string, string> crc32Cache;
+extern vecstr warningMsges;
 static bool* globalThrow;
 
 void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, getTemplate& behaviortemplate, bool firstP);
@@ -769,6 +770,8 @@ void ClearGlobal(bool all)
 		animModMatch = unordered_map<string, unordered_map<string, vector<set<string>>>>();
 
 		behaviorJoints = unordered_map<string, vecstr>();
+
+		warningMsges = vecstr();
 	}
 	else
 	{

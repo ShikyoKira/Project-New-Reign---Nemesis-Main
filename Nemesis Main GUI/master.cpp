@@ -3317,6 +3317,12 @@ void BehaviorStart::EndAttempt()
 
 	if (m_RunningThread == 0)
 	{
+		try
+		{
+			behaviorCheck();
+		}
+		catch (nemesis::exception&) {}
+
 		if (error)
 		{
 			ClearGlobal();
