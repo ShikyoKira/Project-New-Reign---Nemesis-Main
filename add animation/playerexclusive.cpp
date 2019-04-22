@@ -108,10 +108,18 @@ void ReadPCEA()
 	// limitation lifts
 	// if (modlist.size() > 10) ErrorMessage(7000);
 
+	if (modlist.size() > 0)
+	{
+		interMsg(TextBoxMessage(1006) + ": Nemesis PCEA\n");
+		DebugLogging(TextBoxMessage(1006) + ": Nemesis PCEA");
+	}
+
 	for (auto& mod : modlist)
 	{
 		pcealist.push_back(mod.second);
-		DebugLogging("PCEA Mod: " + mod.second.modFile);
+		string msg = "PCEA Mod: " + mod.second.modFile;
+		interMsg(msg);
+		DebugLogging(msg);
 		
 		for (auto& anim : pcealist.back().animPathList)
 		{
@@ -122,12 +130,6 @@ void ReadPCEA()
 		}
 
 		if (error) throw nemesis::exception();
-	}
-
-	if (pcealist.size() > 0)
-	{
-		interMsg(TextBoxMessage(1006) + ": Nemesis PCEA");
-		DebugLogging(TextBoxMessage(1006) + ": Nemesis PCEA");
 	}
 }
 

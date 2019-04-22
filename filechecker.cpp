@@ -105,9 +105,12 @@ void behaviorActivateMod(vecstr behaviorPriority)
 	vecstr modlist;
 	string directory = "mod\\";
 
-	for (auto& modcode : behaviorPriority)
+	for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
 	{
+		string modcode = behaviorPriority[i];
 		string newpath = directory + modcode;
+		DebugLogging("Mod Checked " + to_string(i + 1) + ": " + modcode);
+		interMsg(TextBoxMessage(1013) + to_string(i + 1) + ": " + modcode);
 
 		if (!isFileExist(newpath) || !boost::filesystem::is_directory(newpath))
 		{
