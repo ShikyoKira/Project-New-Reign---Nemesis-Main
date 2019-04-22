@@ -17,11 +17,10 @@ OptionList::OptionList(string filepath, string format)
 	templatecode = format;
 	unordered_map<string, bool> isAddOn;
 	unordered_map<string, vecstr> linked;
-	shared_ptr<FileReader> input = make_shared<FileReader>(filepath);
+	FileReader input(filepath);
 
-	if (input->GetFile())
+	if (input.GetFile())
 	{
-		char line[2000];
 		int linecount = 0;
 		bool minDone = false;
 		bool ruleDone = false;
@@ -32,16 +31,11 @@ OptionList::OptionList(string filepath, string format)
 		unordered_map<string, int> matchLine;
 		unordered_map<string, bool> isElementExist;
 		unordered_map<int, bool> isNumExist;
+		string strline;
 
-		while (fgets(line, 2000, input->GetFile()))
+		while (input.GetLines(strline))
 		{
 			++linecount;
-			string strline = line;
-
-			if (strline.back() == '\n')
-			{
-				strline.pop_back();
-			}
 
 			if (strline.length() != 0 && strline[0] != '\'')
 			{

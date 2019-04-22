@@ -6,21 +6,14 @@
 
 std::string GetNemesisVersion()
 {
-	std::string line;
-	char charline[2000];
-	std::shared_ptr<FileReader> BehaviorFormat = std::make_shared<FileReader>("version");
+	FileReader BehaviorFormat("version");
 
-	if (BehaviorFormat->GetFile())
+	if (BehaviorFormat.GetFile())
 	{
-		while (fgets(charline, 2000, BehaviorFormat->GetFile()))
+		std::string line;
+
+		while (BehaviorFormat.GetLines(line))
 		{
-			line = charline;
-
-			if (line.back() == '\n')
-			{
-				line.pop_back();
-			}
-
 			boost::to_lower(line);
 
 			if (line.find("version") == 0)

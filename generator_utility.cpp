@@ -401,21 +401,15 @@ void GetBehaviorPath()
 	{
 		string line;
 		int linecount = 0;
-		char charline[2000];
-		shared_ptr<FileReader> pathFile = make_shared<FileReader>(filename);
+		FileReader pathFile(filename);
 
-		if (pathFile->GetFile())
+		if (pathFile.GetFile())
 		{
-			while (fgets(charline, 2000, pathFile->GetFile()))
+			string line;
+
+			while (pathFile.GetLines(line))
 			{
 				++linecount;
-				line = charline;
-
-				if (line.length() > 0 && line.back() == '\n')
-				{
-					line.pop_back();
-				}
-
 				size_t pos = line.find("=");
 
 				if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
@@ -444,17 +438,14 @@ void GetBehaviorProject()
 	{
 		string characterfile;
 		bool newChar = true;
-		char charline[2000];
-		shared_ptr<FileReader> pathFile = make_shared<FileReader>(filename);
+		FileReader pathFile(filename);
 
-		if (pathFile->GetFile())
+		if (pathFile.GetFile())
 		{
-			while (fgets(charline, 2000, pathFile->GetFile()))
+			string line;
+
+			while (pathFile.GetLines(line))
 			{
-				string line = charline;
-
-				if (line.back() == '\n') line.pop_back();
-
 				if (line.length() == 0)
 				{
 					newChar = true;
@@ -492,18 +483,15 @@ void GetBehaviorProjectPath()
 	{
 		string line;
 		int linecount = 0;
-		char charline[2000];
-		shared_ptr<FileReader> pathFile = make_shared<FileReader>(filename);
+		FileReader pathFile(filename);
 
-		if (pathFile->GetFile())
+		if (pathFile.GetFile())
 		{
-			while (fgets(charline, 2000, pathFile->GetFile()))
+			string line;
+
+			while (pathFile.GetLines(line))
 			{
 				++linecount;
-				line = charline;
-
-				if (line.length() > 0 && line.back() == '\n') line.pop_back();
-
 				size_t pos = line.find("=");
 
 				if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
@@ -532,20 +520,16 @@ void GetAnimData()
 	if (isFileExist(filename))
 	{
 		int linecount = 0;
-		char charline[2000];
-		shared_ptr<FileReader> pathFile = make_shared<FileReader>(filename);
+		FileReader pathFile(filename);
 		bool newCharacter = false;
 		string character;
-		string line;
 
-		if (pathFile->GetFile())
+		if (pathFile.GetFile())
 		{
-			while (fgets(charline, 2000, pathFile->GetFile()))
+			string line;
+
+			while (pathFile.GetLines(line))
 			{
-				line = charline;
-
-				if (line.back() == '\n') line.pop_back();
-
 				if (!newCharacter)
 				{
 					if (line.length() == 0) ErrorMessage(3019);
@@ -585,19 +569,16 @@ void characterHKX()
 	if (isFileExist(filename))
 	{
 		bool open = false;
-		char charline[2000];
 		string line;
 		string header;
-		shared_ptr<FileReader> file = make_shared<FileReader>(filename);
+		FileReader file(filename);
 
-		if (file->GetFile())
+		if (file.GetFile())
 		{
-			while (fgets(charline, 2000, file->GetFile()))
+			string line;
+
+			while (file.GetLines(line))
 			{
-				line = charline;
-
-				if (line.back() == '\n') line.pop_back();
-
 				if (line.length() != 0)
 				{
 					if (!open)

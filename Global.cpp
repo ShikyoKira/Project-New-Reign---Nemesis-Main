@@ -57,12 +57,14 @@ void read_directory(const string& name, vecstr& fv)
 size_t fileLineCount(string filepath)
 {
 	int linecount = 0;
-	char line[2000];
-	shared_ptr<FileReader> input = make_shared<FileReader>(filepath);
+	string line;
+	FileReader input(filepath);
 
-	if (input->GetFile())
+	if (input.GetFile())
 	{
-		while (fgets(line, 2000, input->GetFile()))
+		string line;
+
+		while (input.GetLines(line))
 		{
 			++linecount;
 		}
@@ -147,21 +149,14 @@ bool GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 	if (!boost::filesystem::is_directory(filename))
 	{
 		functionlines.reserve(fileLineCount(filename));
-		string line;
-		char charline[2000];
-		shared_ptr<FileReader> BehaviorFormat = make_shared<FileReader>(filename);
+		FileReader BehaviorFormat(filename);
 
-		if (BehaviorFormat->GetFile())
+		if (BehaviorFormat.GetFile())
 		{
-			while (fgets(charline, 2000, BehaviorFormat->GetFile()))
+			string line;
+
+			while (BehaviorFormat.GetLines(line))
 			{
-				line = charline;
-
-				if (line.back() == '\n')
-				{
-					line.pop_back();
-				}
-
 				if (error) throw nemesis::exception();
 
 				functionlines.push_back(line);

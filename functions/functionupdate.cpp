@@ -91,23 +91,15 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 		int characterpropertycount;
 
 		vecstr storeline;
-		string line;
-		char charline[2000];
-		shared_ptr<FileReader> BehaviorFormat = make_shared<FileReader>(filename);
+		FileReader BehaviorFormat(filename);
 
-		if (BehaviorFormat->GetFile())
+		if (BehaviorFormat.GetFile())
 		{
+			string line;
 			bool IsEventVariable = false;
 
-			while (fgets(charline, 2000, BehaviorFormat->GetFile()))
+			while (BehaviorFormat.GetLines(line))
 			{
-				line = charline;
-
-				if (line.back() == '\n')
-				{
-					line.pop_back();
-				}
-
 				if (line.find("hkbBehaviorGraphStringData", 0) != NOT_FOUND || line.find("hkbVariableValueSet", 0) != NOT_FOUND ||
 					line.find("hkbBehaviorGraphData", 0) != NOT_FOUND)
 				{
@@ -247,10 +239,8 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 				}
 			}
 
-			for (unsigned int i = 0; i < newline.size(); ++i)
+			for (string& line : newline)
 			{
-				line = newline[i];
-
 				if (line.find("<!-- NEW", 0) != NOT_FOUND)
 				{
 					skip = true;

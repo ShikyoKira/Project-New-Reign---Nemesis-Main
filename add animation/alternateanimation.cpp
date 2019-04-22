@@ -35,7 +35,6 @@ struct ModIDByGroup
 void AAInitialize(string AAList)
 {
 	vecstr groupList;
-	char charline[2000];
 	unordered_map<string, string> existAAAnim;			// animation name, animation group name; has the animation been registered for AA?
 	DebugLogging("Caching alternate animation group...");
 	read_directory(AAList, groupList);
@@ -44,23 +43,17 @@ void AAInitialize(string AAList)
 	{
 		if (!boost::iequals(groupName, "alternate animation.script") && boost::filesystem::path(AAList + "\\" + groupName).extension().string() == ".txt")
 		{
-			shared_ptr<FileReader> doc = make_shared<FileReader>(AAList + "\\" + groupName);
+			FileReader doc(AAList + "\\" + groupName);
 
-			if (doc->GetFile())
+			if (doc.GetFile())
 			{
 				string AAGroupName = groupName.substr(0, groupName.find_last_of("."));
+				string animFile;
 
-				while (fgets(charline, 2000, doc->GetFile()))
+				while (doc.GetLines(animFile))
 				{
-					string animFile = charline;
-
 					if (animFile.length() != 0)
 					{
-						if (animFile[animFile.size() - 1] == '\n')
-						{
-							animFile.pop_back();
-						}
-
 						string lowerAnimFile = boost::algorithm::to_lower_copy(animFile);
 
 						if (existAAAnim[lowerAnimFile].length() == 0)
