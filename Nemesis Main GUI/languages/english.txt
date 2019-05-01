@@ -256,6 +256,7 @@ ERR 1203=Master template does not support order new tab. Please contact the temp
 ERR 1204=Failed to call option. Only master template can access to anim info from all group. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
 ERR 1205=Master template cannot access to import function\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1206=Master and group template does not support this function. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1207=Failed to output xml file. Please ensure that the hkx file is readable and valid by contacting the mod author\nHkx File: <1>
 
 '2000s
 ERR 2000=Failed to open file\nFile: <1>
@@ -332,7 +333,7 @@ ERR 5005=BUG FOUND!! Report to Nemesis' author immediately\nFile: <1>\nLine: <2>
 ERR 5006=Un-recognized anim pack treated as vanilla anim pack has been detected. Please contact the template creator\nFile: <1> \nAnim Pack: <2>
 ERR 5007=Wrong format. Current line cannot be used to run NEW tab function. Only EquipList, TypeList, AnimPack, and CRC23List can use NEW tab function. Please contact the mod author\nMod: <1>\nHeader: <2>\nLine: <3>
 ERR 5008=BUG FOUND!! Report to Nemesis' author immediately\nMod: <1>\nProject: <2>\nHeader: <3>
-ERR 5009=Invalid format has been detected in "animationsetdatasinglefile.txt. Please contact the template creator\nProject: <1>\nHeader: <2>
+ERR 5009=Invalid format has been detected in "animationsetdatasinglefile.txt". Please contact the template creator\nProject: <1>\nHeader: <2>
 ERR 5010=BUG FOUND!! Out of range! Report to Nemesis' author immediately\nTemplate\Mod: <1>\nProject: <2>\nHeader: <3>
 ERR 5011=Original header for "animationsetdatasinglefile.txt" is not found. Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
 ERR 5012=Duplicated header is detected in "animationsetdatasinglefile.txt". Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
@@ -343,8 +344,8 @@ ERR 5016=BUG FOUND!! Report to Nemesis' author immediately\nProject: <1>\nHeader
 ERR 5017=Empty project detected. Could be a bug. Report to Nemesis' author if you are sure\nProject: <1>
 ERR 5018=Missing information in "animationsetdatasinglefile.txt". Please contact the template creator or mod author\nProject: <1>\nHeader: <2>
 ERR 5019=Missing information in "animationsetdatasinglefile.txt". Please contact the template creator or mod author\nProject: <1>
-ERR 5020=Invalid format has been detected in "animationsetdatasinglefile.txt. Please contact the template creator\nFile: <1>\nLine: <2>
-ERR 5021=Invalid format has been detected in "animationsetdatasinglefile.txt. Please contact the template creator\nMod: <1>\nFile: <2>\nLine: <3>
+ERR 5020=Invalid format has been detected in "animationsetdatasinglefile.txt". Please contact the template creator\nFile: <1>\nLine: <2>
+ERR 5021=Invalid format has been detected in "animationsetdatasinglefile.txt". Please contact the template creator\nMod: <1>\nFile: <2>\nLine: <3>
 
 '6000
 ERR 6000=Fail to register new animation
