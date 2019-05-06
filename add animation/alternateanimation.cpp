@@ -41,7 +41,7 @@ void AAInitialize(string AAList)
 
 	for(string& groupName : groupList)
 	{
-		if (!boost::iequals(groupName, "alternate animation.script") && boost::filesystem::path(AAList + "\\" + groupName).extension().string() == ".txt")
+		if (!boost::iequals(groupName, "alternate animation.script") && boost::iequals(boost::filesystem::path(AAList + "\\" + groupName).extension().string(), ".txt"))
 		{
 			FileReader doc(AAList + "\\" + groupName);
 
@@ -106,7 +106,7 @@ bool AAInstallation()
 	if (error) throw nemesis::exception();
 
 	namespace bf = boost::filesystem;
-	string import = nemesisInfo->GetDataPath() + (SSE ? "source\\scripts" : "scripts\\source");
+	string import = nemesisInfo->GetDataPath() + string(SSE ? "source\\scripts" : "scripts\\source");
 	string destination = nemesisInfo->GetDataPath() + "scripts";
 	bf::path source("alternate animation\\alternate animation.script");
 	bf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
@@ -218,7 +218,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 		{
 			string adjGN = groupName;
 
-			if (groupName.rfind("_1p*") == groupName.length() - 4) adjGN.pop_back();
+			if (groupName.length() > 4 && groupName.rfind("_1p*") == groupName.length() - 4) adjGN.pop_back();
 
 			for (auto& prefix : prefixID)
 			{
@@ -573,12 +573,7 @@ bool AAnimAPICompile(string filename, string import, string destination, string 
 		}
 	}
 
-	if (!PapyrusCompile(filename, import, destination, filepath, appdata_path))
-	{
-		return false;
-	}
-
-	return true;
+	return PapyrusCompile(filename, import, destination, filepath, appdata_path);
 }
 
 void fixedKeyInitialize()
@@ -697,10 +692,7 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 
 		if (isFileExist(compiler))
 		{
-			if (!PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, compiler, true))
-			{
-				throw nemesis::exception();
-			}
+			if (!PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, compiler, true)) throw nemesis::exception();
 		}
 		else
 		{
@@ -724,15 +716,10 @@ bool PapyrusCompileProcess(string pscfile, string import, string destination, st
 		"-o=" + appdata_path };
 	future<vector<char>> p_reader, p_error;
 	
-	if (isFileExist(filepath) && !boost::filesystem::is_directory(filepath) && ReleaseLockedFile(filepath) && !boost::filesystem::remove(filepath))
-	{
-		ErrorMessage(1082, filepath);
-	}
+	if (isFileExist(filepath) && !boost::filesystem::is_directory(filepath) && ReleaseLockedFile(filepath) && !boost::filesystem::remove(filepath)) ErrorMessage(1082, filepath);
 
 	if (isFileExist(importedSource) && !boost::filesystem::is_directory(importedSource) && ReleaseLockedFile(importedSource) && !boost::filesystem::remove(importedSource))
-	{
 		ErrorMessage(1082, importedSource);
-	}
 
 
 	if (boost::process::system(compiler, args, boost::process::std_out > p_reader, boost::process::std_err > p_error, boost::process::windows::hide) != 0)
@@ -780,16 +767,10 @@ bool PapyrusCompileProcess(string pscfile, string import, string destination, st
 			line.append(templine + "\n");
 		}
 
-		if (linelist.size() > 0)
-		{
-			line.append(linelist.back());
-		}
+		if (linelist.size() > 0) line.append(linelist.back());
 
-		if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND && line.find("0 error") != NOT_FOUND)
-		{
-			return true;
-		}
-		
+		if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND && line.find("0 error") != NOT_FOUND) return true;
+
 		if (!tryagain) return false;
 
 		try
