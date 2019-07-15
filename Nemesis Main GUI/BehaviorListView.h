@@ -17,14 +17,21 @@ public:
 	virtual void dragEnterEvent(QDragEnterEvent *event);
 	virtual void setModel(QAbstractItemModel *model);
 
+	bool eventFilter(QObject* object, QEvent* event);
+
 signals:
 	void dropModeUpdate(bool dropOnRows);
 
 public slots:
+	void resizeHeader(int logicalIndex, int oldSize, int newSize);
 
 private:
-
 	ScrollBar *m_Scrollbar;
+	unsigned int modNameWidth;
+	unsigned int authorWidth;
+	unsigned int priorityWidth;
+
+	bool mouse_dragging = false;
 };
 
 #endif

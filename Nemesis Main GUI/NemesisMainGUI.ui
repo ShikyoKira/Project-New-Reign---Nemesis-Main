@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>528</width>
-    <height>800</height>
+    <height>782</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+   <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -24,7 +24,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>528</width>
+    <width>700</width>
     <height>800</height>
    </size>
   </property>
@@ -38,23 +38,7 @@
    <property name="sizeConstraint">
     <enum>QLayout::SetDefaultConstraint</enum>
    </property>
-   <item row="4" column="0">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>80</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="0" colspan="9">
+   <item row="6" column="0" colspan="10">
     <widget class="QProgressBar" name="animProgressBar">
      <property name="toolTip">
       <string>Green - Good
@@ -72,17 +56,23 @@ Red - Danger</string>
      </property>
     </widget>
    </item>
-   <item row="11" column="0" colspan="9">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="value">
-      <number>0</number>
+   <item row="7" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
      </property>
-    </widget>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>80</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item row="10" column="0" colspan="9">
+   <item row="15" column="0" colspan="10">
     <widget class="QTextBrowser" name="textBrowser">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -108,7 +98,7 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="4">
+   <item row="10" column="0" colspan="5">
     <widget class="QPushButton" name="buttonCheck">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -124,7 +114,7 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="maximumSize">
       <size>
-       <width>250</width>
+       <width>500</width>
        <height>16777215</height>
       </size>
      </property>
@@ -146,7 +136,62 @@ background-image: url(:/background/Resources/button-update-test.png);</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="4" colspan="5">
+   <item row="16" column="0" colspan="10">
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" rowspan="2">
+    <spacer name="horizontalSpacer_14">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>80</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1" rowspan="2">
+    <spacer name="horizontalSpacer_13">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="7" column="9">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>80</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="10" column="5" colspan="5">
     <widget class="QPushButton" name="buttonUpdate">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -162,7 +207,7 @@ background-image: url(:/background/Resources/button-update-test.png);</string>
      </property>
      <property name="maximumSize">
       <size>
-       <width>250</width>
+       <width>500</width>
        <height>16777215</height>
       </size>
      </property>
@@ -184,7 +229,7 @@ background-image: url(:/background/Resources/button-update-test.png);</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="9">
+   <item row="5" column="0" colspan="10">
     <widget class="BehaviorListView" name="modView">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -242,7 +287,7 @@ background-image: url(:/background/Resources/button-update-test.png);</string>
      </attribute>
     </widget>
    </item>
-   <item row="4" column="1" colspan="7">
+   <item row="7" column="1" colspan="8">
     <widget class="QPushButton" name="buttonLaunch">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -276,8 +321,21 @@ background-image: url(:/background/Resources/button-launch.png);</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="8">
-    <spacer name="horizontalSpacer_3">
+   <item row="0" column="8">
+    <spacer name="horizontalSpacer_15">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="9">
+    <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -292,30 +350,8 @@ background-image: url(:/background/Resources/button-launch.png);</string>
      </property>
     </spacer>
    </item>
-   <item row="1" column="7" colspan="2">
+   <item row="1" column="8" colspan="2">
     <widget class="QComboBox" name="comboBox">
-     <property name="minimumSize">
-      <size>
-       <width>126</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>137</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="contextMenuPolicy">
-      <enum>Qt::ActionsContextMenu</enum>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2" rowspan="2" colspan="5">
-    <widget class="QLabel" name="label">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -325,7 +361,61 @@ background-image: url(:/background/Resources/button-launch.png);</string>
      <property name="minimumSize">
       <size>
        <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>500</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::ActionsContextMenu</enum>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>english</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dutch</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>chinese</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>japanese</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="0" column="3" rowspan="2" colspan="4">
+    <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
        <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>240</width>
+       <height>55</height>
       </size>
      </property>
      <property name="font">
@@ -340,13 +430,48 @@ background-image: url(:/background/Resources/button-launch.png);</string>
       <string notr="true">color: rgb(255, 255, 255);
 background-image: url(:/background/Resources/title.png);</string>
      </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <property name="pixmap">
+      <pixmap resource="NemesisMainGUI.qrc">:/background/Resources/title header 2.jpg</pixmap>
      </property>
-     <property name="textFormat">
-      <enum>Qt::RichText</enum>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
+   </item>
+   <item row="0" column="2" rowspan="2">
+    <spacer name="horizontalSpacer_5">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="7" rowspan="2">
+    <spacer name="horizontalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
