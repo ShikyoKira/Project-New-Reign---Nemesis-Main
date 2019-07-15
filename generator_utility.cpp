@@ -264,6 +264,8 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
 
 		if (pos != NOT_FOUND && nextpos != NOT_FOUND && nextpos < pos) animPath.insert(path.substr(nextpos, pos - nextpos) + "\\");
 		else if (it->first != "animationdatasinglefile" && it->first != "animationsetdatasinglefile") WarningMessage(1007, it->first, path);
+
+		if (error) throw nemesis::exception();
 	}
 
 	for (auto it = animPath.begin(); it != animPath.end(); ++it)
@@ -300,7 +302,7 @@ void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
 			{
 				multithreads.create_thread(boost::bind(newFileCheck, path, boost::ref(isChecked)));
 			}
-			else if (curfile.extension().string() == ".txt")
+			else if (boost::iequals(curfile.extension().string(), ".txt"))
 			{
 				if (directory.find("animationdatasinglefile") != NOT_FOUND)
 				{
@@ -309,29 +311,29 @@ void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
 
 					if (file.find(modcode + "$") == NOT_FOUND)
 					{
-						if (!isChecked[path]) throw false;
+						if (!isChecked[path])
+							throw false;
 					}
 				}
 				else if (directory.find("animationsetdatasinglefile") != NOT_FOUND)
 				{					
 					if (boost::filesystem::path(directory).stem().string().find("~") != NOT_FOUND && file.length() > 0 && file[0] != '$')
 					{
-						if (!isChecked[path]) throw false;
+						if (!isChecked[path])
+							throw false;
 					}
 				}
 				else
 				{
 					if (isOnlyNumber(boost::regex_replace(string(file), boost::regex("#([^.txt]+).txt"), string("\\1"))))
 					{
-						if (!isChecked[path]) throw false;
+						if (!isChecked[path]) 
+							throw false;
 					}
 				}
 			}
 
-			if (globalThrow)
-			{
-				break;
-			}
+			if (globalThrow) break;
 		}
 	}
 	catch (bool& ex)
@@ -451,17 +453,14 @@ void GetBehaviorProject()
 				{
 					newChar = true;
 				}
+				else if (newChar)
+				{
+					characterfile = line;
+					newChar = false;
+				}
 				else
 				{
-					if (newChar)
-					{
-						characterfile = line;
-						newChar = false;
-					}
-					else
-					{
-						behaviorProject[characterfile].push_back(line);
-					}
+					behaviorProject[characterfile].push_back(line);
 				}
 			}
 		}
@@ -613,61 +612,13 @@ void characterHKX()
 
 string GetFileName(string filepath)
 {
-	if (!isFileExist(filepath))
-	{
-		size_t nextpos;
-		size_t lastpos;
-
-		if (filepath.find("/") != NOT_FOUND)
-		{
-			if (filepath.find("\\") != NOT_FOUND)
-			{
-				if (filepath.find_last_of("/") < filepath.find_last_of("\\")) nextpos = filepath.find_last_of("\\") + 1;
-				else nextpos = filepath.find_last_of("/") + 1;
-			}
-			else
-			{
-				nextpos = filepath.find_last_of("/") + 1;
-			}
-		}
-		else
-		{
-			nextpos = filepath.find_last_of("\\") + 1;
-		}
-
-		lastpos = filepath.find_last_of(".");
-
-		if (lastpos == NOT_FOUND) return filepath.substr(nextpos);
-		else return filepath.substr(nextpos, lastpos - nextpos);
-	}
-	else
-	{
-		return boost::filesystem::path(filepath).stem().string();
-	}
+	return boost::filesystem::path(filepath).stem().string();
 }
 
 string GetFileDirectory(string filepath)
 {
-	size_t nextpos;
-
-	if (filepath.find("/") != NOT_FOUND)
-	{
-		if (filepath.find("\\") != NOT_FOUND)
-		{
-			if (filepath.find_last_of("/") < filepath.find_last_of("\\")) nextpos = filepath.find_last_of("\\") + 1;
-			else nextpos = filepath.find_last_of("/") + 1;
-		}
-		else
-		{
-			nextpos = filepath.find_last_of("/") + 1;
-		}
-	}
-	else
-	{
-		nextpos = filepath.find_last_of("\\") + 1;
-	}
-
-	return filepath.substr(0, nextpos);
+	string dir = boost::filesystem::path(filepath).parent_path().string();
+	return filepath.substr(0, dir.length() + 1);
 }
 
 int getTemplateNextID(vecstr& templatelines)
@@ -696,10 +647,7 @@ int getTemplateNextID(vecstr& templatelines)
 		{
 			size_t pos = line.find("import[");
 
-			if (pos != NOT_FOUND && line.find("]", pos) != NOT_FOUND)
-			{
-				++IDUsed;
-			}
+			if (pos != NOT_FOUND && line.find("]", pos) != NOT_FOUND) ++IDUsed;
 		}
 	}
 

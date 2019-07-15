@@ -9,10 +9,10 @@ void CmdGenerateInitialize(vecstr modlist)
 {
 	string modcode, errmsg;
 
-	if (!readMod(modcode, errmsg))
+	if (!readMod(errmsg))
 	{
 		CEMsgBox* msgbox = new CEMsgBox;
-		QString msg = QString::fromStdString(errmsg) + QString::fromStdString(modcode);
+		QString msg = QString::fromStdString(errmsg);
 		msgbox->setText(msg);
 		msgbox->setWindowTitle("CRITITAL ERROR");
 		msgbox->show();
@@ -41,7 +41,7 @@ void CmdGenerateInitialize(vecstr modlist)
 
 	QThread* thread = new QThread;
 	BehaviorStart* worker = new BehaviorStart;
-	worker->addBehaviorPick(worker, behaviorPriority, chosenBehavior);
+	worker->addBehaviorPick(behaviorPriority, chosenBehavior);
 
 	QObject::connect(thread, SIGNAL(started()), worker, SLOT(GenerateBehavior()));
 	QObject::connect(worker, SIGNAL(end()), thread, SLOT(quit()));

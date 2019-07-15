@@ -6,6 +6,7 @@
 #include "alternateanimation.h"
 #include "functions\writetextfile.h"
 #include "Nemesis Main GUI\src\utilities\filerelease.h"
+#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
 
 using namespace std;
 namespace bf = boost::filesystem;
@@ -38,7 +39,7 @@ bool Delete(bf::path file)
 	return true;
 }
 
-void PCEASubFolder(string path, int number, string pceafolder, string subpath, PCEA& mod)
+void PCEASubFolder(string path, unsigned short number, string pceafolder, string subpath, PCEA& mod)
 {
 	vecstr animlist;
 	read_directory(path, animlist);
@@ -47,9 +48,15 @@ void PCEASubFolder(string path, int number, string pceafolder, string subpath, P
 	{
 		bf::path animFile(path + "\\" + anim);
 
-		if (!bf::is_directory(animFile) && boost::iequals(animFile.extension().string(), ".hkx"))
+		if (!bf::is_directory(animFile))
 		{
-			string newFileName = to_string(number) + "_" + anim;
+			if (!boost::iequals(animFile.extension().string(), ".hkx")) continue;
+
+			int numb = 0;
+			string newFileName = "fp2" + to_string(numb++) + "_" + anim;
+
+			while (isFileExist(pceafolder + "\\" + newFileName)) newFileName = "fp2" + to_string(numb++) + "_" + anim;
+
 			bf::path newAnimFile(pceafolder + "\\" + newFileName);
 			string lowerAnim = boost::to_lower_copy(anim);
 			mod.animPathList[lowerAnim] = "Animations\\Nemesis_PCEA\\" + subpath + "\\" + newFileName;
@@ -82,7 +89,8 @@ void ReadPCEA()
 	if (!FolderCreate(datapath + "\\PCEA_animations\\")) return;
 
 	read_directory(datapath, folderlist);
-	map<short, PCEA> modlist;
+	map<unsigned short, PCEA> modlist;
+	map<unsigned short, string> pceaFolderMapList;
 
 	for (auto& folder : folderlist)
 	{
@@ -90,19 +98,29 @@ void ReadPCEA()
 
 		if (isdigit(folder[0]) && bf::is_directory(path))
 		{
-			int number = stoi(boost::regex_replace(string(folder), boost::regex("([0-9])+[^\n]+"), string("\\1")));
-
-			if (modlist.find(number) == modlist.end())
-			{
-				PCEA mod;
-				mod.modFile = folder;
-				PCEASubFolder(path, number, pceafolder.string(), "PCEA_animations", mod);
-
-				if (mod.animPathList.size() > 0) modlist[number] = mod;
-			}
+			unsigned short number = static_cast<unsigned short>(stoi(boost::regex_replace(string(folder), boost::regex("([0-9])+[^\n]+"), string("\\1"))));
+			pceaFolderMapList[number] = path + "|" + folder;
 		}
 
 		if (error) throw nemesis::exception();
+	}
+
+	for (auto& pceaFolderMap : pceaFolderMapList)
+	{
+		string folder = pceaFolderMap.second;
+		unsigned short number = pceaFolderMap.first;
+
+		if (modlist.find(number) == modlist.end())
+		{
+			PCEA mod;
+			mod.modFile = folder.substr(folder.find("|") + 1);
+			PCEASubFolder(folder.substr(0, folder.find("|")), number, pceafolder.string(), "PCEA_animations", mod);
+
+			if (mod.animPathList.size() > 0)
+			{
+				modlist[number] = mod;
+			}
+		}
 	}
 
 	// limitation lifts
@@ -140,7 +158,7 @@ bool PCEAInstallation()
 #ifdef DEBUG
 	string import = SSE ? "data\\source\\scripts" : "data\\scripts\\source";
 #else
-	string import = nemesisInfo->GetDataPath() + (SSE ? "source\\scripts" : "scripts\\source");
+	string import = nemesisInfo->GetDataPath() + string(SSE ? "source\\scripts" : "scripts\\source");
 #endif
 
 	string filename = nemesisInfo->GetDataPath() + "Nemesis PCEA.esp";
@@ -239,7 +257,7 @@ bool PCEAInstallation()
 	}
 	catch (const exception& ex)
 	{
-		ErrorMessage(6002, ex.what());
+		ErrorMessage(6002, wstrConv.to_bytes(cachedir), ex.what());
 	}
 
 	bf::path source("alternate animation\\nemesis pcea.script");

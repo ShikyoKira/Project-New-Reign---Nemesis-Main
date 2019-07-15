@@ -59,6 +59,8 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 
 			while (true)
 			{
+				if (error) throw nemesis::exception();
+
 				if (option == "k" || option == "bsa")
 				{
 					if (!known)
@@ -220,6 +222,8 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 						WarningMessage(1026, curFilename, linecount, option);
 					}
 				}
+
+				if (error) throw nemesis::exception();
 
 				break;
 			}

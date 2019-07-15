@@ -49,19 +49,13 @@ vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int en
 bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, unordered_map<string, map<string, vecstr>>& newFile, SSMap& stateID, SSMap& parent,
 	unordered_map<string, vecstr>& statelist, unordered_map<string, string>& lastUpdate)
 {
-	if (behaviorPath[behaviorfile].empty())
-	{
-		ErrorMessage(2006, behaviorfile);
-	}
+	if (behaviorPath[behaviorfile].empty()) ErrorMessage(2006, behaviorfile);
 
 	string filecheck = boost::regex_replace(string(nodefile), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")) + ".txt";
 	string nodeID = nodefile.substr(0, nodefile.find_last_of("."));
 	string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
 
-	if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate))
-	{
-		return false;
-	}
+	if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate)) return false;
 
 	if ("#" + filecheck == nodefile)
 	{
@@ -128,10 +122,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 				{
 					string stateIDStr = boost::regex_replace(string(line), boost::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"), string("\\1"));
 
-					if (stateIDStr != line)
-					{
-						stateID[nodeID] = stateIDStr;
-					}
+					if (stateIDStr != line) stateID[nodeID] = stateIDStr;
 				}
 
 				if ((line.find("<!-- MOD_CODE", 0) != NOT_FOUND) && (line.find("OPEN -->", 0) != NOT_FOUND) && (!edited))
@@ -216,10 +207,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 			ErrorMessage(2000, filename);
 		}
 
-		if (NewCoordinate.size() == 0)
-		{
-			WarningMessage(1017, filename);
-		}
+		if (NewCoordinate.size() == 0) WarningMessage(1017, filename);
 
 		vecstr newline = newFile[behaviorfile][nodeID];
 		vecstr functionline;
@@ -241,10 +229,9 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 
 			for (string& line : newline)
 			{
-				if (line.find("<!-- NEW", 0) != NOT_FOUND)
-				{
-					skip = true;
-				}
+				if (error) throw nemesis::exception();
+
+				if (line.find("<!-- NEW", 0) != NOT_FOUND) skip = true;
 
 				if (line.find("<!-- *", 0) == NOT_FOUND && !skip)
 				{
@@ -323,14 +310,8 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 							int difference = stoi(boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"),
 								string("\\1"))) - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
-							if (line.find("<!-- numelement *", 0) != NOT_FOUND)
-							{
-								line.append(" <!-- numelement *" + modcode + "* +" + to_string(difference) + "-->");
-							}
-							else
-							{
-								line.append("					<!-- numelement *" + modcode + "* +" + to_string(difference) + "-->");
-							}
+							if (line.find("<!-- numelement *", 0) != NOT_FOUND) line.append(" <!-- numelement *" + modcode + "* +" + to_string(difference) + "-->");
+							else line.append("					<!-- numelement *" + modcode + "* +" + to_string(difference) + "-->");
 						}
 						else
 						{
@@ -350,16 +331,10 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 							templine.append("					<!-- *" + modcode + "* -->");
 							functionline.push_back(templine);
 
-							if (line.find("<!-- original -->", 0) == NOT_FOUND)
-							{
-								line.append("				<!-- original -->");
-							}
+							if (line.find("<!-- original -->", 0) == NOT_FOUND) line.append("				<!-- original -->");
 						}
 
-						if (editcount != modEditCoordinate.size() - 1)
-						{
-							editcount++;
-						}
+						if (editcount != modEditCoordinate.size() - 1) editcount++;
 					}
 					else if (NewCoordinate[linecount] > 0)
 					{
@@ -379,10 +354,9 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 					++linecount;
 				}
 
-				if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-				{
-					skip = false;
-				}
+				if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND) skip = false;
+
+				if (error) throw nemesis::exception();
 
 				functionline.push_back(line);
 			}
@@ -420,10 +394,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 	}
 	else if (nodefile == "#" + modcode + "$" + filecheck)
 	{
-		if (!GetFunctionLines(filename, newFile[behaviorfile][nodeID]))
-		{
-			return false;
-		}
+		if (!GetFunctionLines(filename, newFile[behaviorfile][nodeID])) return false;
 
 		for (auto& line : newFile[behaviorfile][nodeID])
 		{
@@ -431,10 +402,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 			{
 				string stateIDStr = boost::regex_replace(string(line), boost::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"), string("\\1"));
 
-				if (stateIDStr != line)
-				{
-					stateID[nodeID] = stateIDStr;
-				}
+				if (stateIDStr != line) stateID[nodeID] = stateIDStr;
 			}
 		}
 	}
@@ -449,10 +417,28 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uno
 bool NodeU::FunctionUpdate(string modcode, string behaviorfile, string nodefile, unordered_map<string, map<string, vecstr>>& newFile, SSMap& stateID, SSMap& parent,
 	unordered_map<string, vecstr>& statelist, unordered_map<string, string>& lastUpdate)
 {
+	bool result;
 	while (nodelock.test_and_set(memory_order_acquire));
-	bool result = NodeUpdate(modcode, behaviorfile, nodefile, newFile, stateID, parent, statelist, lastUpdate);
-	nodelock.clear(memory_order_release);
 
+	try
+	{
+		try
+		{
+			result = NodeUpdate(modcode, behaviorfile, nodefile, newFile, stateID, parent, statelist, lastUpdate);
+		}
+		catch (nemesis::exception&)
+		{
+			nodelock.clear(memory_order_release);
+			throw nemesis::exception();
+		}
+	}
+	catch (const std::exception& ex)
+	{
+		nodelock.clear(memory_order_release);
+		throw ex;
+	}
+
+	nodelock.clear(memory_order_release);
 	return result;
 }
 
@@ -1032,6 +1018,8 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 			coordinate++;
 		}
 
+		if (error) throw nemesis::exception();
+
 		if (animSetData.newAnimSetData[projectfile].find(lowerfile) != animSetData.newAnimSetData[projectfile].end())
 		{
 			if (NewCoordinate.size() == 0)
@@ -1163,6 +1151,8 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 			animSetData.newAnimSetData[projectfile][lowerfile] = storeline;
 		}
 	}
+
+	if (error) throw nemesis::exception();
 
 	return true;
 }

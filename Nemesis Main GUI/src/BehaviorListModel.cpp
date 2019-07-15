@@ -14,40 +14,19 @@ int BehaviorListModel::columnCount(const QModelIndex& parent) const
 
 QVariant BehaviorListModel::data(const QModelIndex& index, int role) const
 {
-	if (!index.isValid())
-	{
-		return QVariant();
-	}
-
-	if (index.row() >= behaviorList.size())
-	{
-		return QVariant();
-	}
+	if (!index.isValid() || index.row() >= behaviorList.size()) return QVariant();
 
 	if (role == Qt::DisplayRole || role == Qt::EditRole || role == Qt::CheckStateRole || role == Qt::ToolTipRole)
 	{
 		if (index.column() == 0)
 		{
-			if (role == Qt::DisplayRole || role == Qt::EditRole || role == Qt::ToolTipRole)
-			{
-				return behaviorList.at(index.row()).modname;
-			}
-			else
-			{
-				return behaviorList.at(index.row()).state;
-			}
+			if (role == Qt::DisplayRole || role == Qt::EditRole || role == Qt::ToolTipRole) return behaviorList.at(index.row()).modname;
+			else return behaviorList.at(index.row()).state;
 		}
-		else if (index.column() == 1 && role != Qt::CheckStateRole && role != Qt::ToolTipRole)
+		else if (role != Qt::CheckStateRole && role != Qt::ToolTipRole)
 		{
-			return behaviorList.at(index.row()).author;
-		}
-		else if (index.column() == 2 && role != Qt::CheckStateRole && role != Qt::ToolTipRole)
-		{
-			return index.row();
-		}
-		else
-		{
-			return QVariant();
+			if (index.column() == 1) return behaviorList.at(index.row()).author;
+			else if (index.column() == 2) return index.row();
 		}
 	}
 	else if (index.column() == 2 && role == Qt::TextAlignmentRole)
@@ -58,10 +37,8 @@ QVariant BehaviorListModel::data(const QModelIndex& index, int role) const
 	{
 		return QColor(235, 235, 235);
 	}
-	else
-	{
-		return QVariant();
-	}
+
+	return QVariant();
 }
 
 QVariant BehaviorListModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -72,14 +49,10 @@ QVariant BehaviorListModel::headerData(int section, Qt::Orientation orientation,
 		{
 			switch (section)
 			{
-			case COL_NAME:
-				return tr(UIMessage(1005).c_str());
-			case COL_AUTHOR:
-				return tr(UIMessage(1006).c_str());
-			case COL_PRIORITY:
-				return tr(UIMessage(1007).c_str());
-			default:
-				return tr(UIMessage(1008).c_str());
+				case COL_NAME: return tr(UIMessage(1005).c_str());
+				case COL_AUTHOR: return tr(UIMessage(1006).c_str());
+				case COL_PRIORITY: return tr(UIMessage(1007).c_str());
+				default: return tr(UIMessage(1008).c_str());
 			}
 		}
 	}
@@ -95,26 +68,10 @@ Qt::ItemFlags BehaviorListModel::flags(const QModelIndex& index) const
 {
 	Qt::ItemFlags defaultflags = QAbstractItemModel::flags(index);
 
-	if (index.internalId() < 0)
-	{
-		return Qt::ItemIsEnabled;
-	}
+	if (index.internalId() < 0) return Qt::ItemIsEnabled;
 
-	if (index.isValid())
-	{
-		defaultflags |= Qt::ItemIsDragEnabled;
-		defaultflags |= Qt::ItemIsUserCheckable;
-		defaultflags |= Qt::ItemIsDropEnabled;
-	}
-	else
-	{
-		if (!m_DropOnItems)
-		{
-			defaultflags |= Qt::ItemIsDropEnabled;
-		}
-	}
-
-	return defaultflags;
+	if (index.isValid()) return defaultflags | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsDropEnabled;
+	else return defaultflags | Qt::ItemIsDropEnabled;
 }
 
 bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value, int role)
@@ -130,15 +87,7 @@ bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value,
 		}
 		else if (role == Qt::CheckStateRole)
 		{
-			if (behaviorList[index.row()].state == Qt::Unchecked)
-			{
-				behaviorList[index.row()].state = Qt::Checked;
-			}
-			else
-			{
-				behaviorList[index.row()].state = Qt::Unchecked;
-			}
-
+			behaviorList[index.row()].state = behaviorList[index.row()].state == Qt::Unchecked ? Qt::Checked : Qt::Unchecked;
 			vecstr chosenBehavior;
 
 			for (auto& behavior : behaviorList)
@@ -188,9 +137,7 @@ bool BehaviorListModel::removeRows(int position, int rows, const QModelIndex& pa
 
 QModelIndex BehaviorListModel::index(int row, int column, const QModelIndex&) const
 {
-	if ((row < 0) || (row >= rowCount()) || (column < 0) || (column >= columnCount())) {
-		return QModelIndex();
-	}
+	if ((row < 0) || (row >= rowCount()) || (column < 0) || (column >= columnCount())) QModelIndex();
 
 	QModelIndex res = createIndex(row, column, row);
 	return res;
@@ -248,35 +195,15 @@ QMimeData* BehaviorListModel::mimeData(const QModelIndexList & indexes) const
 
 bool BehaviorListModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {
-	if (action == Qt::IgnoreAction)
-	{
-		return true;
-	}
+	if (action == Qt::IgnoreAction) return true;
 
-	if (!data->hasFormat("application/vnd.text.list"))
-	{
-		return false;
-	}
-
-	if (column > 0)
-	{
-		return false;
-	}
+	if (!data->hasFormat("application/vnd.text.list") || column > 0) return false;
 
 	int beginRow;
 
-	if (row != -1)
-	{
-		beginRow = row;
-	}
-	else if (parent.isValid())
-	{
-		beginRow = parent.row();
-	}
-	else
-	{
-		beginRow = rowCount(QModelIndex());
-	}
+	if (row != -1) beginRow = row;
+	else if (parent.isValid())beginRow = parent.row();
+	else beginRow = rowCount(QModelIndex());
 
 	QByteArray encodedData = data->data("application/vnd.text.list");
 	QDataStream stream(&encodedData, QIODevice::ReadOnly);
@@ -300,15 +227,7 @@ bool BehaviorListModel::dropMimeData(const QMimeData* data, Qt::DropAction actio
 		}
 		else if (counter == 1)
 		{
-			if (text.toInt() != 0)
-			{
-				curBehaviorInfo->state = Qt::Checked;
-			}
-			else
-			{
-				curBehaviorInfo->state = Qt::Unchecked;
-			}
-
+			curBehaviorInfo->state = text.toInt() != 0 ? Qt::Checked : Qt::Unchecked;
 			++counter;
 		}
 		else if (counter == 2)
@@ -339,8 +258,5 @@ bool BehaviorListModel::dropMimeData(const QMimeData* data, Qt::DropAction actio
 
 void BehaviorListModel::dropModeUpdate(bool dropOnItems)
 {
-	if (m_DropOnItems != dropOnItems)
-	{
-		m_DropOnItems = dropOnItems;
-	}
+	if (m_DropOnItems != dropOnItems) m_DropOnItems = dropOnItems;
 }

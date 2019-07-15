@@ -21,7 +21,17 @@ bool saveLastUpdate(string filename, unordered_map<string, string>& lastUpdate)
 		time.pop_back();
 
 		while (updateLock.test_and_set(memory_order_acquire));
-		lastUpdate[filename] = time;
+
+		try
+		{
+			lastUpdate[filename] = time;
+		}
+		catch (exception& ex)
+		{
+			updateLock.clear(memory_order_release);
+			throw ex;
+		}
+
 		updateLock.clear(memory_order_release);
 	}
 	catch (...)

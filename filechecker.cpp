@@ -94,6 +94,7 @@ bool PCEACheck()
 			ErrorMessage(1092, file);
 		}
 	}
+	else return false;
 
 	DebugLogging("PCEA Check complete");
 	return true;
@@ -102,20 +103,18 @@ bool PCEACheck()
 void behaviorActivateMod(vecstr behaviorPriority)
 {
 	unordered_map<string, vecstr> behaviorActivator;	// modcode, behavior; existence of the behavior in any of these
-	vecstr modlist;
 	string directory = "mod\\";
+	vecstr modlist;
+	unsigned int i = 1;
 
-	for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
+	for (vecstr::reverse_iterator itr = behaviorPriority.rbegin(); itr != behaviorPriority.rend(); ++itr)
 	{
-		string modcode = behaviorPriority[i];
+		string modcode = *itr;
 		string newpath = directory + modcode;
-		DebugLogging("Mod Checked " + to_string(i + 1) + ": " + modcode);
-		interMsg(TextBoxMessage(1013) + to_string(i + 1) + ": " + modcode);
+		DebugLogging("Mod Checked " + to_string(i) + ": " + modcode);
+		interMsg(TextBoxMessage(1013) + " " + to_string(i++) + ": " + modcode);
 
-		if (!isFileExist(newpath) || !boost::filesystem::is_directory(newpath))
-		{
-			continue;
-		}
+		if (!isFileExist(newpath) || !boost::filesystem::is_directory(newpath)) continue;
 
 		if (modcode == "gender")
 		{

@@ -22,8 +22,7 @@ public:
 		COL_LASTCOL = COL_PRIORITY
 	};
 
-	BehaviorListModel(const QList<BehaviorInfo>& string, QObject* parent = nullptr)
-		: QAbstractItemModel(parent), behaviorList(string) {}
+	BehaviorListModel(const QList<BehaviorInfo>& string, QObject* parent = nullptr) : QAbstractItemModel(parent), behaviorList(string) {}
 
 	int rowCount(const QModelIndex& parent = QModelIndex()) const;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const;

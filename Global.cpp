@@ -224,7 +224,7 @@ bool isOnlyNumber(string line)
 	{
 		boost::lexical_cast<double>(line);
 	}
-	catch (boost::bad_lexical_cast &)
+	catch (boost::bad_lexical_cast&)
 	{
 		return false;
 	}
@@ -248,6 +248,16 @@ bool hasAlpha(string line)
 void addUsedAnim(string behaviorFile, string animPath)
 {
 	while (atomLock.test_and_set(boost::memory_order_acquire));
-	usedAnim[behaviorFile].insert(animPath);
+
+	try
+	{
+		usedAnim[behaviorFile].insert(animPath);
+	}
+	catch (const std::exception& ex)
+	{
+		atomLock.clear(boost::memory_order_release);
+		throw ex;
+	}
+
 	atomLock.clear(boost::memory_order_release);
 }

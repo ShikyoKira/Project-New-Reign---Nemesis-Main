@@ -67,4 +67,6 @@ void warningCheck()
 	}
 
 	interMsg("Warning Count: " + to_string(warningcount));
+	interMsg("");
+	interMsg(TextBoxMessage(1015));
 }

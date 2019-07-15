@@ -167,6 +167,8 @@ inline void ErrorMessage(int errorcode, other... rest)
 // warning
 inline void WarningMessage(int warningcode)
 {
+	if (error) throw nemesis::exception();
+
 	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode);
 
 	if (DMLogWarning(warningcode).length() == 0)
@@ -184,6 +186,8 @@ inline void WarningMessage(int warningcode)
 template <typename ... other>
 inline void WarningMessage(int warningcode, other... rest)
 {
+	if (error) throw nemesis::exception();
+
 	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode);
 	std::string englog = "WARNING(" + std::to_string(warningcode) + "): " + EngLogWarning(warningcode);
 

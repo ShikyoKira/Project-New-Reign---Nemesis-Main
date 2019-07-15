@@ -14,20 +14,14 @@ getTemplate::getTemplate()
 
 	for (auto& code : codelist)
 	{
-		if (boost::to_lower_copy(code) != code)
-		{
-			ErrorMessage(1191, code, boost::to_lower_copy(code));
-		}
+		if (boost::to_lower_copy(code) != code) ErrorMessage(1191, code, boost::to_lower_copy(code));
 
 		if (code.find(".", 0) == NOT_FOUND)
 		{
 			newpath = templateDirectory + code;
 			boost::filesystem::path FOF(newpath);
 
-			if (code == "t" || code == "aaprefix" || code == "aaset" || code == "md" || code == "rd" || code == "+")
-			{
-				ErrorMessage(3009, code);
-			}
+			if (code == "t" || code == "aaprefix" || code == "aaset" || code == "md" || code == "rd" || code == "+") ErrorMessage(3009, code);
 
 			if (boost::filesystem::is_directory(FOF))
 			{
@@ -77,10 +71,7 @@ getTemplate::getTemplate()
 
 						if (isCore)
 						{
-							if (behaviorJoints[lowerBehaviorFolder].size() == 0)
-							{
-								ErrorMessage(1182, code, templateDirectory + code + "\\option_list.txt");
-							}
+							if (behaviorJoints[lowerBehaviorFolder].size() == 0) ErrorMessage(1182, code, templateDirectory + code + "\\option_list.txt");
 
 							behaviorJoints[boost::to_lower_copy(optionlist[code].coreBehavior)] = behaviorJoints[lowerBehaviorFolder];
 						}
@@ -99,10 +90,7 @@ getTemplate::getTemplate()
 									{
 										noGroup = false;
 
-										if (!GetFunctionLines(newpath, behaviortemplate[code + "_group"][lowerBehaviorFolder]))
-										{
-											return;
-										}
+										if (!GetFunctionLines(newpath, behaviortemplate[code + "_group"][lowerBehaviorFolder])) return;
 									}
 									else
 									{
@@ -115,10 +103,7 @@ getTemplate::getTemplate()
 									{
 										noGroup = false;
 
-										if (!GetFunctionLines(newpath, behaviortemplate[code + "_master"][lowerBehaviorFolder]))
-										{
-											return;
-										}
+										if (!GetFunctionLines(newpath, behaviortemplate[code + "_master"][lowerBehaviorFolder])) return;
 									}
 									else
 									{
@@ -132,10 +117,7 @@ getTemplate::getTemplate()
 
 									if (behaviortemplate[code][lowerBehaviorFolder].size() == 0)
 									{
-										if (!GetFunctionLines(newpath, behaviortemplate[code][lowerBehaviorFolder]))
-										{
-											return;
-										}
+										if (!GetFunctionLines(newpath, behaviortemplate[code][lowerBehaviorFolder])) return;
 									}
 									else
 									{
@@ -153,37 +135,28 @@ getTemplate::getTemplate()
 
 									vecstr storeline;
 
-									if (!GetFunctionLines(newpath, storeline))
-									{
-										return;
-									}
+									if (!GetFunctionLines(newpath, storeline)) return;
 
 									bool isJoint = false;
 									bool isStateMachine = false;
-
-									for (unsigned int j = 0; j < storeline.size(); ++j)
+									
+									for (string line : storeline)
 									{
-										if (storeline[j].find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
+										if (line.find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
 										{
 											isStateMachine = true;
 										}
 
-										if (isStateMachine && storeline[j].find("<!-- NEW ^" + code) != NOT_FOUND)
+										if (isStateMachine && line.find("<!-- FOREACH ^" + code) != NOT_FOUND)
 										{
-											if (!isJoint)
-											{
-												isJoint = true;
-											}
+											if (!isJoint) isJoint = true;
 										}
-										else if (isStateMachine && storeline[j].find("<!-- CLOSE -->") != NOT_FOUND)
+										else if (isStateMachine && line.find("<!-- CLOSE -->") != NOT_FOUND)
 										{
-											if (isJoint)
-											{
-												isJoint = false;
-											}
+											if (isJoint) isJoint = false;
 										}
 
-										if (isStateMachine && storeline[j].find("#" + code) != NOT_FOUND)
+										if (isStateMachine && line.find("#" + code) != NOT_FOUND)
 										{
 											if (isJoint)
 											{
@@ -207,14 +180,11 @@ getTemplate::getTemplate()
 									{
 										string header = headerlist[j].substr(0, headerlist[j].find_last_of("."));
 
-										if (header[0] == '$' && (header.back() == '$' || header.find_last_of("$UC") == header.length() - 1))
+										if (header[0] == '$' && (header.back() == '$' || (header.length() > 3 && header.rfind("$UC") == header.length() - 3)))
 										{
 											if (animdatatemplate[code][project][header].size() == 0)
 											{
-												if (!GetFunctionLines(newpath + "\\" + headerlist[j], animdatatemplate[code][project][header], true))
-												{
-													return;
-												}
+												if (!GetFunctionLines(newpath + "\\" + headerlist[j], animdatatemplate[code][project][header], true)) return;
 											}
 											else
 											{
@@ -227,6 +197,8 @@ getTemplate::getTemplate()
 										}
 									}
 								}
+
+								noGroup = false;
 							}
 							else if (lowerBehaviorFolder == "animationsetdatasinglefile")
 							{
@@ -246,7 +218,7 @@ getTemplate::getTemplate()
 									{
 										boost::filesystem::path thisfile(newpath + "\\" + curheader);
 
-										if (!boost::filesystem::is_directory(thisfile) && thisfile.extension().string() == ".txt")
+										if (!boost::filesystem::is_directory(thisfile) && boost::iequals(thisfile.extension().string(), ".txt"))
 										{
 											string header = thisfile.stem().string();
 
@@ -254,10 +226,7 @@ getTemplate::getTemplate()
 											{
 												if (asdtemplate[code][project][header].size() == 0)
 												{
-													if (!GetFunctionLines(thisfile.string(), asdtemplate[code][project][header], false))
-													{
-														return;
-													}
+													if (!GetFunctionLines(thisfile.string(), asdtemplate[code][project][header], false)) return;
 												}
 												else
 												{
@@ -271,47 +240,29 @@ getTemplate::getTemplate()
 										}
 									}
 								}
+
+								noGroup = false;
 							}
 						}
 
 						if (optionlist[code].multiState[lowerBehaviorFolder].size() > 1)
 						{
-							if (isStateJoint[lowerBehaviorFolder].size() == 0)
-							{
-								ErrorMessage(1074, templateDirectory + code);
-							}
+							if (isStateJoint[lowerBehaviorFolder].size() == 0) ErrorMessage(1074, templateDirectory + code);
 							else if (isStateJoint[lowerBehaviorFolder].size() != optionlist[code].multiState[lowerBehaviorFolder].size())
-							{
 								ErrorMessage(1073, templateDirectory + code);
-							}
 
 							for (auto it = optionlist[code].multiState[lowerBehaviorFolder].begin(); it != optionlist[code].multiState[lowerBehaviorFolder].end(); ++it)
 							{
-								if (isStateJoint[lowerBehaviorFolder][it->second])
-								{
-									mainBehaviorJoint[code][lowerBehaviorFolder][it->first] = it->second;
-								}
-								else
-								{
-									ErrorMessage(1075, templateDirectory + code);
-								}
+								if (isStateJoint[lowerBehaviorFolder][it->second]) mainBehaviorJoint[code][lowerBehaviorFolder][it->first] = it->second;
+								else ErrorMessage(1075, templateDirectory + code);
 							}
 						}
 						else if (lowerBehaviorFolder != "animationdatasinglefile" && lowerBehaviorFolder != "animationsetdatasinglefile")
 						{
-							if (optionlist[code].multiState[lowerBehaviorFolder].size() == 1)
-							{
-								WarningMessage(1008, templateDirectory + code + "\\option_list.txt");
-							}
+							if (optionlist[code].multiState[lowerBehaviorFolder].size() == 1) WarningMessage(1008, templateDirectory + code + "\\option_list.txt");
 
-							if (isStateJoint[lowerBehaviorFolder].size() > 1)
-							{
-								ErrorMessage(1072, templateDirectory + code);
-							}
-							else if (isStateJoint[lowerBehaviorFolder].size() == 0)
-							{
-								ErrorMessage(1074, templateDirectory + code);
-							}
+							if (isStateJoint[lowerBehaviorFolder].size() > 1) ErrorMessage(1072, templateDirectory + code);
+							else if (isStateJoint[lowerBehaviorFolder].size() == 0) ErrorMessage(1074, templateDirectory + code);
 
 							mainBehaviorJoint[code][lowerBehaviorFolder][0] = isStateJoint[lowerBehaviorFolder].begin()->first;
 						}
@@ -322,32 +273,25 @@ getTemplate::getTemplate()
 							if (!optionlist[code].ignoreGroup)
 							{
 								if (optionlist[code].groupMin != -1 || optionlist[code].ruleOne.size() != 0 || optionlist[code].ruleTwo.size() != 0)
-								{
-									ErrorMessage(1061, code, templateDirectory + behaviorFolder + "\\" + code);
-								}
+									ErrorMessage(1061, code, templateDirectory + code + "\\" + behaviorFolder + "\\" + code + "_group.txt");
 
-								if (behaviortemplate[code + "_master"].size() != 0)
-								{
-									ErrorMessage(1085, templateDirectory + behaviorFolder + "\\" + code);
-								}
+								if (behaviortemplate[code + "_master"].size() != 0) ErrorMessage(1085, templateDirectory + code + "\\" + behaviorFolder + "\\" + code + "_group.txt");
 							}
 						}
-						else
+						else if (optionlist[code].ignoreGroup)
 						{
-							if (optionlist[code].ignoreGroup)
-							{
-								ErrorMessage(1079, code, templateDirectory + code + "\\option_list.txt");
-							}
+							ErrorMessage(1079, code, templateDirectory + code + "\\option_list.txt");
 						}
+
+						if (error) throw nemesis::exception();
 
 						filelist.clear();
 					}
 				}
 
-				if (!isOptionExist && registered)
-				{
-					ErrorMessage(1021, newpath);
-				}
+				if (!isOptionExist && registered) ErrorMessage(1021, newpath);
+
+				if (error) throw nemesis::exception();
 				
 				folderlist.clear();
 			}

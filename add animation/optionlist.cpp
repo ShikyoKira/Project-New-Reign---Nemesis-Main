@@ -730,6 +730,8 @@ OptionList::OptionList(string filepath, string format)
 										joint[tempOption].push_back(jointStr);
 										recontext = recontext + jointStr;
 									}
+
+									if (error) throw nemesis::exception();
 								}
 
 								if (strline.length() > 2 && strline.substr(strline.length() - 2) == "[]")
@@ -863,6 +865,8 @@ OptionList::OptionList(string filepath, string format)
 					ErrorMessage(1010, format, filepath, linecount, it->first);
 				}
 			}
+
+			if (error) throw nemesis::exception();
 		}
 	}
 	else
@@ -1061,7 +1065,11 @@ OptionList::OptionList(string filepath, string format)
 				{
 					WarningMessage(1002, it->first, iter->first, filepath);
 				}
+
+				if (error) throw nemesis::exception();
 			}
+
+			if (error) throw nemesis::exception();
 		}
 	}
 }

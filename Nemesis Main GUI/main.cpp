@@ -76,13 +76,7 @@ int main(int argc, char *argv[])
 		else
 		{
 			NewDebugMessage(*new DebugMsg("english"));
-
-			try
-			{
-				nemesisInfo = new NemesisInfo;
-			}
-			catch (nemesis::exception) {}
-
+			nemesisInfo = new NemesisInfo;
 			CmdGenerateInitialize(modlist);
 		}
 	}
@@ -105,13 +99,7 @@ int main(int argc, char *argv[])
 		else
 		{
 			NewDebugMessage(*new DebugMsg("english"));
-
-			try
-			{
-				nemesisInfo = new NemesisInfo;
-			}
-			catch (nemesis::exception) {}
-
+			nemesisInfo = new NemesisInfo;
 			CmdUpdateInitialize();
 		}
 	}
@@ -119,7 +107,7 @@ int main(int argc, char *argv[])
 	{
 		NemesisMainGUI w;
 
-		if (!error)
+		// if (!error)
 		{
 			w.setWindowIcon(QIcon(":/icon/title icon.png"));
 			w.show();

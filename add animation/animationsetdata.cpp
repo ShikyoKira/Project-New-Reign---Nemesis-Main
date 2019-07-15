@@ -20,27 +20,62 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 		DataPackProcess(datalist, startline, animdatafile, filename);
 		++startline;
 		string projectPath;
+		string projectPath_fp;
 		unordered_map<string, shared_ptr<vecstr>> AAList;
 
 		// assume current project has new alternate animation installed
 		if (behaviorProjectPath[projectname].length() > 0)
 		{
 			projectPath = boost::to_lower_copy(behaviorProjectPath[projectname] + "\\animations");
-			vecstr pathCRC32 = { to_string(CRC32Convert(projectPath)), to_string(CRC32Convert(projectPath + "\\male")), to_string(CRC32Convert(projectPath + "\\female")),
-				to_string(CRC32Convert(projectPath + "\\horse_rider")) };
+			projectPath_fp = projectPath + "\\_1stperson";
+			vecstr pathList = { projectPath, projectPath + "\\male", projectPath + "\\female", projectPath + "\\horse_rider", projectPath + "\\dlc01" ,
+				projectPath + "\\dlc02" };
+			vecstr pathCRC32;
+			vecstr pathCRC32_fp;
+			vecstr pathList_fp = { projectPath_fp, projectPath_fp + "\\male", projectPath_fp + "\\female", projectPath_fp + "\\horse_rider", projectPath_fp + "\\dlc01" ,
+				projectPath_fp + "\\dlc02" };
+			pathCRC32.reserve(pathList.size());
+			pathCRC32_fp.reserve(pathList.size());
+
+			for (auto& path : pathList)
+			{
+				pathCRC32.push_back(to_string(CRC32Convert(path)));
+			}
+
+			for (auto& path : pathList_fp)
+			{
+				pathCRC32_fp.push_back(to_string(CRC32Convert(path)));
+			}
+
+			vecstr* pathListPoint;
+			vecstr* pathCRC32Point;
 
 			// cache all alternate animations
 			for (auto& anim : alternateAnim)
 			{
-				string animCRC32 = to_string(CRC32Convert(boost::to_lower_copy(GetFileName(anim.first))));
+				size_t pos = anim.first.rfind("_1p*");
+				bool fp = pos == anim.first.length() - 4;
+				string animFile = fp ? anim.first.substr(0, pos) : anim.first;
+				string animCRC32 = to_string(CRC32Convert(boost::to_lower_copy(GetFileName(animFile))));
 
-				for (auto& path : pathCRC32)
+				if (fp)
 				{
-					AAList[path + "," + animCRC32 + ",7891816"] = make_shared<vecstr>(anim.second);
+					pathListPoint = &pathList_fp;
+					pathCRC32Point = &pathCRC32_fp;
+				}
+				else
+				{
+					pathListPoint = &pathList;
+					pathCRC32Point = &pathCRC32;
+				}
+
+				for (unsigned int i = 0; i < pathCRC32Point->size(); ++i)
+				{
+					AAList[pathCRC32Point->at(i) + "," + animCRC32 + ",7891816"] = make_shared<vecstr>(anim.second);
 				}
 			}
 
-			if (isFileExist(nemesisInfo->GetDataPath() + behaviorProjectPath[projectname] + "\\animations\\nemesis_pcea") && pcealist.size() > 0)
+			if (isFileExist(nemesisInfo->GetDataPath() + projectPath + "\\nemesis_pcea\\pcea_animations") && pcealist.size() > 0)
 			{
 				// cache all pcea animations
 				for (auto& pcea : pcealist)
@@ -50,14 +85,11 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 						string animCRC32 = to_string(CRC32Convert(boost::to_lower_copy(GetFileName(animPath.first))));
 						string pathline = animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA"));
 
-						for (auto& path : pathCRC32)
+						for (unsigned int i = 0; i < pathCRC32.size(); ++i)
 						{
-							string crc32line = path + "," + animCRC32 + ",7891816";
+							string crc32line = pathCRC32[i] + "," + animCRC32 + ",7891816";
 
-							if (!AAList[crc32line])
-							{
-								AAList[crc32line] = make_shared<vecstr>();
-							}
+							if (!AAList[crc32line]) AAList[crc32line] = make_shared<vecstr>();
 
 							AAList[crc32line]->push_back(pathline);
 						}
@@ -70,10 +102,7 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 		{
 			++startline;
 
-			if (startline >= int(animdatafile.size()))
-			{
-				ErrorMessage(5019, filename);
-			}
+			if (startline >= int(animdatafile.size())) ErrorMessage(5019, filename);
 
 			// equip list
 			EquipPackProcess(it->second.equiplist, startline, animdatafile, filename, it->first);
@@ -96,73 +125,49 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 
 void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile, string filename)
 {
-	if (startline >= int(animdatafile.size()))
-	{
-		ErrorMessage(5018, filename, "Header");
-	}
-	else if (!isOnlyNumber(animdatafile[startline]))
-	{
-		ErrorMessage(5001, filename, "Header");
-	}
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, "Header");
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, "Header");
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
 	{
 		datapack newDataPack;
 		storeline[animdatafile[i]] = newDataPack;
 
-		if (i + 4 >= int(animdatafile.size()))
-		{
-			ErrorMessage(5018, filename, "Header");
-		}
+		if (i + 4 >= int(animdatafile.size())) ErrorMessage(5018, filename, "Header");
 
 		if (boost::iequals(animdatafile[i + 1], "V3"))
 		{
 			startline = i;
-			break;
+			return;
 		}
 	}
 }
 
 void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& animdatafile, string filename, string header)
 {
-	if (startline >= int(animdatafile.size()))
-	{
-		ErrorMessage(5018, filename, header);
-	}
-	else if (!isOnlyNumber(animdatafile[startline]))
-	{
-		ErrorMessage(5001, filename, "Header");
-	}
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, "Header");
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
 	{
 		if (isOnlyNumber(animdatafile[i]))
 		{
 			startline = i;
-			break;
+			return;
 		}
 
 		equip tempEquip;
 		tempEquip.name = animdatafile[i];
 		storeline.push_back(tempEquip);
 
-		if (i + 1 >= int(animdatafile.size()))
-		{
-			ErrorMessage(5018, filename, header);
-		}
+		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
 	}
 }
 
 void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animdatafile, string filename, string header)
 {
-	if (startline >= int(animdatafile.size()))
-	{
-		ErrorMessage(5018, filename, header);
-	}
-	else if (!isOnlyNumber(animdatafile[startline]))
-	{
-		ErrorMessage(5001, filename, header);
-	}
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, header);
 
 	int counter = 0;
 
@@ -170,88 +175,45 @@ void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animda
 	{
 		if (isOnlyNumber(animdatafile[i]))
 		{
-			if (i + 1 < int(animdatafile.size()) && hasAlpha(animdatafile[i + 1]))
+			if (i + 1 < int(animdatafile.size()) && hasAlpha(animdatafile[i + 1]) || (i + 4 < int(animdatafile.size()) && animdatafile[i + 4] == "7891816") ||
+				(i + 2 < int(animdatafile.size()) && boost::iequals(animdatafile[i + 2], "V3")) || (i + 2 == animdatafile.size()))
 			{
 				startline = i;
-				break;
-			}
-			else if (i + 4 < int(animdatafile.size()) && animdatafile[i + 4] == "7891816")
-			{
-				startline = i;
-				break;
-			}
-			else if (i + 2 < int(animdatafile.size()) && boost::iequals(animdatafile[i + 2], "V3"))
-			{
-				startline = i;
-				break;
-			}
-			else if (i + 2 == animdatafile.size())
-			{
-				startline = i;
-				break;
+				return;
 			}
 		}
 
 		typepack tempTP;
 
-		if (isOnlyNumber(animdatafile[i]) || !hasAlpha(animdatafile[i]))
-		{
-			ErrorMessage(5001, filename, header);
-		}
+		if (isOnlyNumber(animdatafile[i]) || !hasAlpha(animdatafile[i])) ErrorMessage(5001, filename, header);
 
 		tempTP.name = animdatafile[i];
 
-		if (++i >= int(animdatafile.size()))
-		{
-			ErrorMessage(5018, filename, header);
-		}
-		else if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(5001, filename, header);
-		}
+		if (++i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
 
 		tempTP.equiptype1 = animdatafile[i];
 		
-		if (++i >= int(animdatafile.size()))
-		{
-			ErrorMessage(5018, filename, header);
-		}
-		else if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(5001, filename, header);
-		}
+		if (++i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
 
 		tempTP.equiptype2 = animdatafile[i];
 		storeline.push_back(tempTP);
 
-		if (i + 1 >= int(animdatafile.size()))
-		{
-			ErrorMessage(5018, filename, header);
-		}
+		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
 	}
 }
 
 void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animdatafile, string filename, string header)
 {
-	if (startline >= int(animdatafile.size()))
-	{
-		ErrorMessage(5018, filename, header);
-	}
-	else if (!isOnlyNumber(animdatafile[startline]))
-	{
-		ErrorMessage(5001, filename, header);
-	}
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, header);
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
 	{
 		if (animdatafile[i] == "0")
 		{
-			if (i + 1 < int(animdatafile.size()) && animdatafile[i + 1] == "V3")
-			{
-				startline = i;
-				break;
-			}
-			else if (i + 2 < int(animdatafile.size()) && animdatafile[i + 2].find(".txt") != NOT_FOUND)
+			if ((i + 1 < int(animdatafile.size()) && animdatafile[i + 1] == "V3") || (i + 2 < int(animdatafile.size()) && animdatafile[i + 2].find(".txt") != NOT_FOUND))
 			{
 				startline = i;
 				break;
@@ -260,12 +222,7 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 		
 		if (animdatafile[i] == "1")
 		{
-			if (i + 4 < int(animdatafile.size()) && animdatafile[i + 4] == "V3")
-			{
-				startline = i;
-				break;
-			}
-			else if (i + 5 < int(animdatafile.size()) && animdatafile[i + 5].find(".txt") != NOT_FOUND)
+			if ((i + 4 < int(animdatafile.size()) && animdatafile[i + 4] == "V3") || (i + 5 < int(animdatafile.size()) && animdatafile[i + 5].find(".txt") != NOT_FOUND))
 			{
 				startline = i;
 				break;
@@ -274,12 +231,7 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 		
 		if (isOnlyNumber(animdatafile[i]))
 		{
-			if (i + 3 < int(animdatafile.size()) && animdatafile[i + 3] == "7891816")
-			{
-				startline = i;
-				break;
-			}
-			else if (i + 1 == animdatafile.size())
+			if ((i + 3 < int(animdatafile.size()) && animdatafile[i + 3] == "7891816") || i + 1 == animdatafile.size())
 			{
 				startline = i;
 				break;
@@ -290,14 +242,8 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 		tempAP.name = animdatafile[i++];
 		tempAP.unknown = animdatafile[i++];
 
-		if (i >= int(animdatafile.size()))
-		{
-			ErrorMessage(5018, filename, header);
-		}
-		else if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(5001, filename, header);
-		}
+		if (i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
 		
 		while (i < int(animdatafile.size()))
 		{
@@ -305,12 +251,7 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 
 			if (animdatafile[i] == "0")
 			{
-				if (i + 1 < int(animdatafile.size()) && animdatafile[i + 1] == "V3")
-				{
-					--i;
-					break;
-				}
-				else if (i + 2 < int(animdatafile.size()) && animdatafile[i + 2].find(".txt") != NOT_FOUND)
+				if ((i + 1 < int(animdatafile.size()) && animdatafile[i + 1] == "V3") || (i + 2 < int(animdatafile.size()) && animdatafile[i + 2].find(".txt") != NOT_FOUND))
 				{
 					--i;
 					break;
@@ -319,12 +260,7 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 			
 			if (animdatafile[i] == "1")
 			{
-				if (i + 4 < int(animdatafile.size()) && animdatafile[i + 4] == "V3")
-				{
-					--i;
-					break;
-				}
-				else if (i + 5 < int(animdatafile.size()) && animdatafile[i + 5].find(".txt") != NOT_FOUND)
+				if ((i + 4 < int(animdatafile.size()) && animdatafile[i + 4] == "V3") || (i + 5 < int(animdatafile.size()) && animdatafile[i + 5].find(".txt") != NOT_FOUND))
 				{
 					--i;
 					break;
@@ -379,24 +315,15 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 
 		storeline.push_back(tempAP);
 
-		if (i + 1 >= int(animdatafile.size()))
-		{
-			ErrorMessage(5018, filename, header);
-		}
+		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
 	}
 }
 
 void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string filename, string header, unordered_map<string, shared_ptr<vecstr>>& AAList,
 	string projectPath)
 {
-	if (startline >= int(animdatafile.size()))
-	{
-		ErrorMessage(5018, filename, header);
-	}
-	else if (!isOnlyNumber(animdatafile[startline]))
-	{
-		ErrorMessage(5001, filename, header);
-	}
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, header);
 
 	vector<crc32> newCRC;
 	unordered_set<string> isExisted;
@@ -414,45 +341,26 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 			break;
 		}
 
-		crc32 tempCRC32;
+		storeline.push_back(crc32());
 
-		if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(5001, filename, header);
-		}
+		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
 
-		tempCRC32.filepath = animdatafile[i];
+		storeline.back().filepath = animdatafile[i];
 
-		if (++i >= int(animdatafile.size()))
-		{
-			ErrorMessage(5018, filename, header);
-		}
-		else if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(5001, filename, header);
-		}
+		if (++i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
 
-		tempCRC32.filename = animdatafile[i];
+		storeline.back().filename = animdatafile[i];
 
-		if (++i >= int(animdatafile.size()))
-		{
-			ErrorMessage(5018, filename, header);
-		}
-		else if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(5001, filename, header);
-		}
+		if (++i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
 
-		tempCRC32.fileformat = animdatafile[i];
-		storeline.push_back(tempCRC32);
+		storeline.back().fileformat = animdatafile[i];
 		
-		if (i + 1 >= int(animdatafile.size()))
-		{
-			startline = i;
-		}
-		
+		if (i + 1 >= int(animdatafile.size())) startline = i;
+
 		// if existing crc32 line match the assumed line, new alternate animations will be converted into crc32 number and added in
-		auto it = AAList.find(tempCRC32.filepath + "," + tempCRC32.filename + "," + tempCRC32.fileformat);
+		auto it = AAList.find(storeline.back().filepath + "," + storeline.back().filename + "," + storeline.back().fileformat);
 
 		if (it != AAList.end())
 		{
@@ -2033,15 +1941,9 @@ void combineExtraction(vecstr& storeline, map<int, vecstr> extract, string proje
 		{
 			condition++;
 		}
-		else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND)
-		{
-			newOpen = true;
-		}
-		else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ +% -->", 0) != NOT_FOUND)
-		{
-			newOpen = true;
-		}
-		else if (line.find("<!-- NEW ORDER ", 0) != NOT_FOUND && line.find(" -->", 0) != NOT_FOUND)
+		else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND
+			|| line.find("<!-- FOREACH ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND
+			|| line.find("<!-- NEW ORDER ", 0) != NOT_FOUND && line.find(" -->", 0) != NOT_FOUND)
 		{
 			newOpen = true;
 		}
