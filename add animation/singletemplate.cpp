@@ -256,7 +256,7 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 				newOpen = true;
 				uniqueskip = true;
 			}
-			else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ +% -->", 0) != NOT_FOUND)
+			else if (line.find("<!-- FOREACH ^", 0) != NOT_FOUND)
 			{
 				if (newOpen)
 				{
@@ -627,7 +627,7 @@ addOnInfo::addOnInfo(string n_h, string n_a, int n_om)
 
 string getOption(string curline)
 {
-	return boost::regex_replace(string(curline), boost::regex(".*<!-- NEW \\^(.+?)\\^ (?:\\+% |)-->.*"), string("\\1"));
+	return boost::regex_replace(string(curline), boost::regex(".*<!-- (?:FOREACH|NEW) \\^(.+?)\\^ -->.*"), string("\\1"));
 }
 
 void stateInstall(string line, string change, string format, string behaviorFile, int numline, size_t curPos, string animOrder, bool isMC,

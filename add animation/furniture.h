@@ -6,6 +6,7 @@
 #include <vector>
 #include <locale>
 #include <sstream>
+#include <map>
 #include <unordered_map>
 #include <boost\regex.hpp>
 #include <boost\algorithm\string.hpp>
@@ -35,6 +36,7 @@ private:
 	std::string filename;
 	std::string format;
 	std::string strID;
+
 	// vecstr clipname;		obsolete
 	vecstr eventID;
 	vecstr variableID;
@@ -43,17 +45,20 @@ private:
 	ImportContainer* newImport;
 	newAnimLock* atomicLock;
 	ImportContainer addition;
+
 	bool isLastOrder = false;
 	bool hasDuration = false;
 	bool isEnd = false;
 	bool elementCatch = false;
 	bool known;
+
 	size_t templatesize;
 	int furnitureCount = 0;
 	int nextFunctionID;
 	int order = 0;
 	int lastOrder = 0;
 	double duration = 0;
+
 	std::unordered_map<int, vecstr> AnimObject;
 	std::unordered_map<std::string, bool> optionPicked;
 	std::unordered_map<std::string, int> optionPickedCount;
@@ -84,6 +89,7 @@ private:
 	bool GetFirstCondition(std::string firstCondition, vecstr optionInfo, int numline, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, bool isNot);
 	bool conditionProcess(std::string condition, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, bool isNot, int numline, animationutility utility);
 	void stateReplacer(std::string& line, std::string statenum, int stateID, int linecount, std::string otherAnimOrder = "", bool otherAnim = false);
+	bool addOnConverter(int& optionMulti, int& endMulti, vecstr& optionInfo, std::shared_ptr<animationInfo> animInfo, bool second);
 	void processing(std::string& newline, vecstr& storeline, std::string masterFormat, int linecount, id eventid, id variableid, std::vector<int> stateID,
 		std::vector<int> stateCountMultiplier, bool hasGroup, int optionMulti = -1, int animMulti = -1);
 	void AnimDataLineProcess(vecstr originallines, vecstr& newlines, std::string format, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked,
@@ -92,6 +98,7 @@ private:
 public:
 	Furniture(std::shared_ptr<std::unordered_map<std::string, AnimTemplate>> animlines, std::string formatname, std::unordered_map<std::string, vecstr> furnituretemplate,
 		int furniturecount, std::string filepath, animationInfo& behaviorOption);
+
 	std::string GetFilePath();
 	std::string GetFormatName();
 	vecstr GetEventID();
@@ -100,18 +107,20 @@ public:
 	ImportContainer GetAddition();
 	std::vector<std::shared_ptr<animationInfo>> GetGroupAnimInfo();
 	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> GetGroupAddition();
+
 	inline void newID();
+
 	void OutputCheck(std::shared_ptr<vecstr> generatedlines, proc& process, condset* curset, bool& norElement, int& openRange, size_t& elementLine, int& counter,
-		int furnitureCount, id& eventid, id&variableid, std::vector<int> fixedStateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool& negative,
+		id& eventid, id&variableid, std::vector<int> fixedStateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool& negative,
 		std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, std::shared_ptr<group> groupFunction, int optionMulti = -1, int animMulti = -1);
 	void GetFurnitureLine(std::shared_ptr<vecstr> generatedlines, std::string behaviorFile, int ID, ImportContainer& import, id eventid, id variableid,
 		std::vector<int>& stateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool isCore, std::shared_ptr<group> groupFunction,
 		std::shared_ptr<single> singleFunction, newAnimLock& animLock);
 	void GetAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newASDLines);
-	void GetAnimData(std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& newAnimDataLines);
+	void GetAnimData(std::unordered_map<std::string, std::map<std::string, vecstr>>& newAnimDataLines);
 	void existingASDProcess(vecstr ASDLines, std::map<int, vecstr>& extract, std::vector<int> ASD = { 0 });
-	void hasProcessing(std::string& line, bool& norElement, int& openRange, int i, std::shared_ptr<vecstr> generatedlines, size_t& elementLine,
-		int& counter, int furnitureCount, id& eventid, id& variableid, std::vector<int> fixedStateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool& negative,
+	void hasProcessing(std::string& line, bool& norElement, int& openRange, int i, std::shared_ptr<vecstr> generatedlines, size_t& elementLine, int& counter, id& eventid,
+		id& variableid, std::vector<int> fixedStateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool& negative,
 		std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, std::shared_ptr<group> groupFunction, int optionMulti = -1, int animMulti = -1);
 	void multiChoice(std::string& line, vecstr& storeline, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, int numline, animationutility utility);
 	void addAnimData(std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> animdata);
@@ -122,11 +131,12 @@ public:
 	void setZeroVariable(std::string variablename);
 	void setLastOrder(int order);
 	void setOrder(int curOrder);
+
 	int getOrder();
 	int getNextID(std::string behavior);
+
 	bool isLast();
 	bool isKnown();
-	std::string addOnConverter(std::string curline, vecstr elements);
 };
 
 inline bool isPassed(int condition, std::unordered_map<int, bool> IsConditionOpened)
