@@ -4,16 +4,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project 2", "Project 2.vcxproj", "{72A34AD2-13D0-4BCC-872A-440B280C2629}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26} = {CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nemesis Main GUI", "Nemesis Main GUI\Nemesis Main GUI.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{72A34AD2-13D0-4BCC-872A-440B280C2629} = {72A34AD2-13D0-4BCC-872A-440B280C2629}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pythoncore", "..\Python-3.5.6\PCbuild\pythoncore.vcxproj", "{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
+		PGInstrument|Win32 = PGInstrument|Win32
+		PGInstrument|x64 = PGInstrument|x64
+		PGUpdate|Win32 = PGUpdate|Win32
+		PGUpdate|x64 = PGUpdate|x64
 		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
 	EndGlobalSection
@@ -22,6 +31,14 @@ Global
 		{72A34AD2-13D0-4BCC-872A-440B280C2629}.Debug|Win32.Build.0 = Debug|Win32
 		{72A34AD2-13D0-4BCC-872A-440B280C2629}.Debug|x64.ActiveCfg = Debug|x64
 		{72A34AD2-13D0-4BCC-872A-440B280C2629}.Debug|x64.Build.0 = Debug|x64
+		{72A34AD2-13D0-4BCC-872A-440B280C2629}.PGInstrument|Win32.ActiveCfg = Release|Win32
+		{72A34AD2-13D0-4BCC-872A-440B280C2629}.PGInstrument|Win32.Build.0 = Release|Win32
+		{72A34AD2-13D0-4BCC-872A-440B280C2629}.PGInstrument|x64.ActiveCfg = Release|x64
+		{72A34AD2-13D0-4BCC-872A-440B280C2629}.PGInstrument|x64.Build.0 = Release|x64
+		{72A34AD2-13D0-4BCC-872A-440B280C2629}.PGUpdate|Win32.ActiveCfg = Release|Win32
+		{72A34AD2-13D0-4BCC-872A-440B280C2629}.PGUpdate|Win32.Build.0 = Release|Win32
+		{72A34AD2-13D0-4BCC-872A-440B280C2629}.PGUpdate|x64.ActiveCfg = Release|x64
+		{72A34AD2-13D0-4BCC-872A-440B280C2629}.PGUpdate|x64.Build.0 = Release|x64
 		{72A34AD2-13D0-4BCC-872A-440B280C2629}.Release|Win32.ActiveCfg = Release|Win32
 		{72A34AD2-13D0-4BCC-872A-440B280C2629}.Release|Win32.Build.0 = Release|Win32
 		{72A34AD2-13D0-4BCC-872A-440B280C2629}.Release|x64.ActiveCfg = Release|x64
@@ -29,9 +46,33 @@ Global
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|Win32.Build.0 = Debug|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.ActiveCfg = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.PGInstrument|Win32.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.PGInstrument|Win32.Build.0 = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.PGInstrument|x64.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.PGInstrument|x64.Build.0 = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.PGUpdate|Win32.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.PGUpdate|Win32.Build.0 = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.PGUpdate|x64.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.PGUpdate|x64.Build.0 = Release|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|Win32.ActiveCfg = Release|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|Win32.Build.0 = Release|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|Win32
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.Debug|Win32.Build.0 = Debug|Win32
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.Debug|x64.ActiveCfg = Debug|x64
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.Debug|x64.Build.0 = Debug|x64
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.PGInstrument|Win32.ActiveCfg = PGInstrument|Win32
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.PGInstrument|Win32.Build.0 = PGInstrument|Win32
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.PGInstrument|x64.ActiveCfg = PGInstrument|x64
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.PGInstrument|x64.Build.0 = PGInstrument|x64
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.PGUpdate|Win32.ActiveCfg = PGUpdate|Win32
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.PGUpdate|Win32.Build.0 = PGUpdate|Win32
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.PGUpdate|x64.ActiveCfg = PGUpdate|x64
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.PGUpdate|x64.Build.0 = PGUpdate|x64
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.Release|Win32.ActiveCfg = Release|Win32
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.Release|Win32.Build.0 = Release|Win32
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.Release|x64.ActiveCfg = Release|x64
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

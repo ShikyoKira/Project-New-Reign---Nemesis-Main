@@ -89,7 +89,7 @@
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;C:/Program Files/boost/boost_1_66_0/msvc/include/boost-1_66;.\;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;C:\Program Files\boost\boost_1_70_0\msvc-14.0\include;.\;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -98,17 +98,17 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>C:/Program Files/boost/boost_1_66_0/msvc/lib;$(SolutionDir)\Release;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>E:\C++\Python-3.5.6\PCbuild\win32;C:\Program Files\boost\boost_1_70_0\msvc-14.0\lib;$(SolutionDir)\Release;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Project 2.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
-      <Version>0.77</Version>
+      <Version>0.83</Version>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <IncludePath>$(ProjectDir)src;C:/Program Files/boost/boost_1_66_0/msvc/include/boost-1_66;.\;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>$(ProjectDir)src;C:\Program Files\boost\boost_1_70_0\msvc-14.0\include;.\;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</Define>
       <QTDIR>$(QTDIR)</QTDIR>
     </QtMoc>
@@ -126,9 +126,11 @@
   <ItemGroup>
     <ClCompile Include="BehaviorListView.cpp" />
     <ClCompile Include="ErrorMsgBox.cpp" />
+    <ClCompile Include="GeneratedFiles\ui_NemesisMainGUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="master.cpp" />
     <ClCompile Include="NemesisMainGUI.cpp" />
+    <ClCompile Include="progressup.cpp" />
     <ClCompile Include="src\AnimProgressBar.cpp" />
     <ClCompile Include="src\BehaviorInfo.cpp" />
     <ClCompile Include="src\BehaviorListModel.cpp" />
@@ -140,6 +142,7 @@
     <ClCompile Include="src\utilities\addanims.cpp" />
     <ClCompile Include="src\utilities\addevents.cpp" />
     <ClCompile Include="src\utilities\addvariables.cpp" />
+    <ClCompile Include="src\utilities\Terminator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="NemesisMainGUI.ui" />
@@ -153,12 +156,18 @@
   <ItemGroup>
     <ClInclude Include="ErrorMsgBox.h" />
     <ClInclude Include="GeneratedFiles\ui_NemesisMainGUI.h" />
+    <ClInclude Include="progressup.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\CmdLaunch.h" />
     <ClInclude Include="src\DebugLog.h" />
     <ClInclude Include="src\utilities\addanims.h" />
     <ClInclude Include="src\utilities\addevents.h" />
     <ClInclude Include="src\utilities\addvariables.h" />
+    <QtMoc Include="src\utilities\Terminator.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+    </QtMoc>
+    <ClInclude Include="src\utilities\BehaviorHeaderView.h" />
     <ClInclude Include="src\version.h" />
     <QtMoc Include="src\AnimProgressBar.h" />
     <QtMoc Include="src\BehaviorListModel.h">

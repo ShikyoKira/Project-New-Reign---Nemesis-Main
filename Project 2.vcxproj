@@ -122,11 +122,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Qt\5.11.0\msvc2015\include;.\;C:/Program Files/boost/boost_1_66_0/msvc/include/boost-1_66;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\C++\Python-3.5.6\Python;E:\C++\Python-3.5.6\PC;E:\C++\Python-3.5.6\Include;C:\Qt\5.11.0\msvc2015\include;.\;C:\Program Files\boost\boost_1_70_0\msvc-14.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>Global.h</ForcedIncludeFiles>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -136,8 +137,8 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Qt\5.11.0\msvc2015\lib;$(SolutionDir)libbsarch\lib;$(SolutionDir)Nemesis Main GUI\lua-5.3.5\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaScript.lib;libbsarch.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Qt\5.11.0\msvc2015\lib;$(SolutionDir)libbsarch\lib;E:\C++\Python-3.5.6\PCbuild\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python35.lib;libbsarch.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -187,6 +188,7 @@
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="lastupdate.cpp" />
     <ClCompile Include="Logging\debugmsg.cpp" />
+    <ClCompile Include="Nemesis Main GUI\src\utilities\externalscript.cpp" />
     <ClCompile Include="Nemesis Main GUI\src\utilities\filerelease.cpp" />
     <ClCompile Include="Nemesis Main GUI\src\utilities\wstrconvert.cpp" />
     <ClCompile Include="nemesisinfo.cpp" />
@@ -225,6 +227,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="lastupdate.h" />
     <ClInclude Include="Logging\debugmsg.h" />
+    <ClInclude Include="Nemesis Main GUI\src\utilities\externalscript.h" />
     <ClInclude Include="Nemesis Main GUI\src\utilities\filerelease.h" />
     <ClInclude Include="Nemesis Main GUI\src\utilities\wstrconvert.h" />
     <ClInclude Include="nemesisinfo.h" />

@@ -135,6 +135,9 @@
     <ClCompile Include="add animation\optionlist.cpp">
       <Filter>Source Files\generate</Filter>
     </ClCompile>
+    <ClCompile Include="Nemesis Main GUI\src\utilities\externalscript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="add animation\optionlist.h">
       <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="Nemesis Main GUI\src\utilities\externalscript.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
