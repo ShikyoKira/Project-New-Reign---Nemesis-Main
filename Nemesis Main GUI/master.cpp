@@ -1,19 +1,20 @@
-﻿#include <boost/atomic.hpp>
+﻿#include <boost\atomic.hpp>
 #include <QThread>
 #include <QtCore\QCoreApplication.h>
 #include <QtConcurrent\qtconcurrentrun.h>
 #include "master.h"
-#include "NemesisMainGUI.h"
 #include "functions\readtextfile.h"
 #include "version.h"
-#include "utilities\addanims.h"
-#include "utilities\addevents.h"
-#include "utilities\addvariables.h"
 #include "add animation\templatetree.h"
 #include "add animation\singletemplate.h"
 #include "add animation\animationthread.h"
 #include "functions\atomiclock.h"
 #include "src\DebugLog.h"
+#include "utilities\addanims.h"
+#include "utilities\addevents.h"
+#include "utilities\addvariables.h"
+#include "utilities\Terminator.h"
+#include "utilities\externalscript.h"
 
 #pragma warning(disable:4503)
 
@@ -43,6 +44,8 @@ public:
 	}
 };
 
+void addOnInstall(string templine, string& elementLine, vector<vecstr>& groupAddOnElement, ImportContainer& addOn,
+	unordered_map<string, unordered_map<string, vecstr>>& groupAddOn);
 void groupThreadStart(newGroupArgs args);
 void animThreadStart(newAnimArgs args);
 void stateCheck(SSMap& c_parent, string parentID, string lowerbehaviorfile, string sID, SSSMap& stateID, SSMap& n_stateID, vecstr children, string filename,
@@ -55,10 +58,7 @@ UpdateFilesStart::UpdateFilesStart()
 
 UpdateFilesStart::~UpdateFilesStart()
 {
-	if (!cmdline && error)
-	{
-		error = false;
-	}
+	if (!cmdline && error) error = false;
 }
 
 void UpdateFilesStart::UpdateFiles()
@@ -67,88 +67,82 @@ void UpdateFilesStart::UpdateFiles()
 	{
 		try
 		{
-			try
+			string directory = "mod\\";
+			string newAnimDirectory = "behavior templates\\";
+			milestoneStart(directory);
+
+			unordered_map<string, map<string, vecstr>> newFile;								// behavior file, node ID, node data lines; memory to access each node
+			unordered_map<string, map<string, unordered_map<string, bool>>> childrenState;	// behavior file, node ID, children of state machine; ensure no state conflict
+
+			SSSMap stateID;		// behavior file, children state machine info, state ID
+			SSSMap parent;		// behavior file, children state machine info, parent state machine
+
+			MasterAnimData animData;
+			MasterAnimSetData animSetData;
+
+			unordered_map<string, string> lastUpdate;
+
+			ClearGlobal();
+
+			// Check the existence of required files
+			if (FileCheck(true))
 			{
-				string directory = "mod\\";
-				string newAnimDirectory = "behavior templates\\";
-				milestoneStart(directory);
+				RunScript("scripts\\update\\start\\");
+				DebugLogging("External script run complete");
 
-				unordered_map<string, map<string, vecstr>> newFile;								// behavior file, node ID, node data lines; memory to access each node
-				unordered_map<string, map<string, unordered_map<string, bool>>> childrenState;	// behavior file, node ID, children of state machine; ensure no state conflict
+				// clear the temp_behaviors folder to prevent it from bloating
+				ClearTempBehaviors();
+				DebugLogging("Temp behavior clearance complete");
 
-				SSSMap stateID;		// behavior file, children state machine info, state ID
-				SSSMap parent;		// behavior file, children state machine info, parent state machine
+				// create "temp_behaviors" folder
+				if (!isFileExist(directory)) boost::filesystem::create_directory(directory);
 
-				MasterAnimData animData;
-				MasterAnimSetData animSetData;
+				emit progressUp();
 
-				unordered_map<string, string> lastUpdate;
-
-				ClearGlobal();
-
-				// Check the existence of required files
-				if (FileCheck(true))
+				// copy latest vanilla into memory
+				if (!error && VanillaUpdate(newFile, childrenState, stateID, parent, animData, animSetData))
 				{
-					RunScript("scripts\\update\\start\\");
-					DebugLogging("External script run complete");
-
-					// clear the temp_behaviors folder to prevent it from bloating
-					ClearTempBehaviors();
-					DebugLogging("Temp behavior clearance complete");
-
-					// create "temp_behaviors" folder
-					if (!isFileExist(directory))
+					if (!error)
 					{
-						boost::filesystem::create_directory(directory);
-					}
+						DebugLogging("Data record complete");
+						emit progressUp(); // 5
 
-					emit progressUp();
-
-					// copy latest vanilla into memory
-					if (!error && VanillaUpdate(newFile, childrenState, stateID, parent, animData, animSetData))
-					{
-						if (!error)
+										   // check template for association with vanilla nodes from behavior template file
+						if (newAnimUpdate(newAnimDirectory, newFile, animData, animSetData, lastUpdate))
 						{
-							DebugLogging("Data record complete");
-							emit progressUp(); // 5
+							DebugLogging("New Animations record complete");
+							emit progressUp(); // 6
 
-											   // check template for association with vanilla nodes from behavior template file
-							if (newAnimUpdate(newAnimDirectory, newFile, animData, animSetData, lastUpdate))
+											   // comparing if different from mod file
+							JoiningEdits(directory, newFile, childrenState, stateID, parent, animData, animSetData, lastUpdate);
+
+							if (!error)
 							{
-								DebugLogging("New Animations record complete");
-								emit progressUp(); // 6
+								DebugLogging("Modification successfully extracted");
+								emit progressUp();
 
-												   // comparing if different from mod file
-								JoiningEdits(directory, newFile, childrenState, stateID, parent, animData, animSetData, lastUpdate);
+								// compiling all behaviors in "data/meshes" to "temp_behaviors" folder
+								CombiningFiles(newFile, animData, animSetData);
 
-								if (!error)
-								{
-									DebugLogging("Modification successfully extracted");
-									emit progressUp();
-
-									// compiling all behaviors in "data/meshes" to "temp_behaviors" folder
-									CombiningFiles(newFile, animData, animSetData);
-
-									emit progressUp();
-								}
+								emit progressUp();
 							}
 						}
 					}
 				}
-
-				ClearGlobal();
-
-				if (!cmdline)
-				{
-					Sleep(1500);
-				}
 			}
-			catch (exception& ex)
-			{
-				ErrorMessage(6001, ex.what());
-			}
+
+			ClearGlobal();
+
+			if (!cmdline) Sleep(1500);
 		}
-		catch (nemesis::exception) {}
+		catch (exception& ex)
+		{
+			ErrorMessage(6001, ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
 	}
 	catch (...)
 	{
@@ -156,15 +150,18 @@ void UpdateFilesStart::UpdateFiles()
 		{
 			ErrorMessage(6001, "Unknown: Update Failed");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 
 	unregisterProcess();
 	p_terminate->exitSignal();
 }
 
-bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, map<string, unordered_map<string,
-	bool>>>& childrenState, SSSMap& stateID, SSSMap& parent, MasterAnimData& animData, MasterAnimSetData& animSetData)
+bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>& newFile, MapChildState& childrenState, SSSMap& stateID, SSSMap& parent,
+	MasterAnimData& animData, MasterAnimSetData& animSetData)
 {
 #ifdef DEBUG
 	string path = "data\\";
@@ -184,10 +181,7 @@ bool UpdateFilesStart::VanillaUpdate(unordered_map<string, map<string, vecstr>>&
 	}
 	else
 	{
-		if (!GetPathLoop(path + "\\", newFile, childrenState, stateID, parent, animData, animSetData, false))
-		{
-			return false;
-		}
+		if (!GetPathLoop(path + "\\", &newFile, childrenState, stateID, parent, animData, animSetData, false)) return false;
 
 		emit progressUp();		// 4
 
@@ -269,18 +263,9 @@ void UpdateFilesStart::GetFileLoop(string path)
 			{
 				string curFileName = curfile.stem().string();
 
-				if (boost::iequals(curFileName, "nemesis_animationdatasinglefile") || boost::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
-				{
-					++filenum;
-				}
-				else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_List") == NOT_FOUND && wordFind(curFileName, "_Project") == NOT_FOUND)
-				{
-					++filenum;
-				}
-				else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_Project") + 8 == curFileName.length())
-				{
-					++filenum;
-				}
+				if ((boost::iequals(curFileName, "nemesis_animationdatasinglefile") || boost::iequals(curFileName, "nemesis_animationsetdatasinglefile")) ||
+					(wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_List") == NOT_FOUND && wordFind(curFileName, "_Project") == NOT_FOUND) ||
+					(wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_Project") + 8 == curFileName.length())) ++filenum;
 			}
 		}
 		else
@@ -290,8 +275,8 @@ void UpdateFilesStart::GetFileLoop(string path)
 	}
 }
 
-bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string, map<string,
-	unordered_map<string, bool>>>& childrenState, SSSMap& stateID, SSSMap& parent, MasterAnimData& animData, MasterAnimSetData& animSetData, bool isFirstPerson)
+bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string, vecstr>>* newFile, MapChildState& childrenState, SSSMap& stateID, SSSMap& parent,
+	MasterAnimData& animData, MasterAnimSetData& animSetData, bool isFirstPerson)
 {
 	boost::thread_group multithreads;
 
@@ -357,7 +342,7 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 								string smallfile = boost::to_lower_copy(curFileName);
 								DebugLogging("Behavior Disassemble start (File: " + newPath + ")");
 
-								if (!VanillaDisassemble(newPath, smallfile, newFile[smallfile], childrenState, stateID[smallfile], parent[smallfile])) return false;
+								if (!VanillaDisassemble(newPath, smallfile, &(*newFile)[smallfile], childrenState, stateID[smallfile], parent[smallfile])) return false;
 
 								DebugLogging("Behavior Disassemble complete (File: " + newPath + ")");
 								string parent = curfile.parent_path().filename().string();
@@ -422,7 +407,7 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 							// look deeper into the folder for behavior file
 							try
 							{
-								multithreads.create_thread(boost::bind(&UpdateFilesStart::GetPathLoop, this, newPath + "\\", boost::ref(newFile), boost::ref(childrenState),
+								multithreads.create_thread(boost::bind(&UpdateFilesStart::GetPathLoop, this, newPath + "\\", newFile, boost::ref(childrenState),
 									boost::ref(stateID), boost::ref(parent), boost::ref(animData), boost::ref(animSetData), true));
 							}
 							catch (boost::thread_exception&)
@@ -435,7 +420,7 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 							// look deeper into the folder for behavior file
 							try
 							{
-								multithreads.create_thread(boost::bind(&UpdateFilesStart::GetPathLoop, this, newPath + "\\", boost::ref(newFile), boost::ref(childrenState),
+								multithreads.create_thread(boost::bind(&UpdateFilesStart::GetPathLoop, this, newPath + "\\", newFile, boost::ref(childrenState),
 									boost::ref(stateID), boost::ref(parent), boost::ref(animData), boost::ref(animSetData), isFirstPerson));
 							}
 							catch (boost::thread_exception&)
@@ -453,7 +438,10 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 				ErrorMessage(6001, ex.what());
 			}
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 	catch (...)
 	{
@@ -461,15 +449,17 @@ bool UpdateFilesStart::GetPathLoop(string path, unordered_map<string, map<string
 		{
 			ErrorMessage(6001, "Unknown: GetPathLoop");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 	
 	multithreads.join_all();
 	return true;
 }
 
-bool UpdateFilesStart::VanillaDisassemble(string path, string filename, map<string, vecstr>& newFile,
-	unordered_map<string, map<string, unordered_map<string, bool>>>& childrenState, SSMap& stateID, SSMap& parent)
+bool UpdateFilesStart::VanillaDisassemble(string path, string filename, map<string, vecstr>* newFile, MapChildState& childrenState, SSMap& stateID, SSMap& parent)
 {
 	vecstr storeline;
 	storeline.reserve(2000);
@@ -607,58 +597,56 @@ bool UpdateFilesStart::VanillaDisassemble(string path, string filename, map<stri
 
 								if (curline.find("<!-- Bone$N -->") == NOT_FOUND)
 								{
-									for (auto& it = boost::sregex_iterator(curline.begin(), curline.end(), boost::regex("([0-9]+(\\.[0-9]+)?)")); it != boost::sregex_iterator(); ++it)
+									for (auto& it = boost::sregex_iterator(curline.begin(), curline.end(), boost::regex("([0-9]+(\\.[0-9]+)?)"));
+										it != boost::sregex_iterator(); ++it)
 									{
 										storeline.push_back(spaces + it->str(1));
 										bone = true;
 									}
 								}
 							}
+							else if (isVector4)
+							{
+								bone = true;
+								string spaces = "\t";
+
+								for (auto& ch : curline)
+								{
+									if (ch == '\t') spaces.push_back(ch);
+									else break;
+								}
+
+								storeline.push_back(curline.substr(0, match.position()));
+
+								for (auto& it = boost::sregex_iterator(curline.begin(), curline.end(), vector4); it != boost::sregex_iterator(); ++it)
+								{
+									storeline.push_back(spaces + it->str(1));
+									storeline.push_back(spaces + it->str(2));
+									storeline.push_back(spaces + it->str(3));
+									storeline.push_back(spaces + it->str(4));
+								}
+
+								spaces.pop_back();
+								storeline.push_back(spaces + curline.substr(match.position() + match.str().length()));
+								start = false;
+							}
 							else
 							{
-								if (isVector4)
+								bone = true;
+								string spaces;
+
+								for (auto& ch : curline)
 								{
-									bone = true;
-									string spaces = "\t";
-
-									for (auto& ch : curline)
-									{
-										if (ch == '\t') spaces.push_back(ch);
-										else break;
-									}
-
-									storeline.push_back(curline.substr(0, match.position()));
-
-									for (auto& it = boost::sregex_iterator(curline.begin(), curline.end(), vector4); it != boost::sregex_iterator(); ++it)
-									{
-										storeline.push_back(spaces + it->str(1));
-										storeline.push_back(spaces + it->str(2));
-										storeline.push_back(spaces + it->str(3));
-										storeline.push_back(spaces + it->str(4));
-									}
-
-									spaces.pop_back();
-									storeline.push_back(spaces + curline.substr(match.position() + match.str().length()));
-									start = false;
+									if (ch == '\t') spaces.push_back(ch);
+									else break;
 								}
-								else
+
+								for (auto& it = boost::sregex_iterator(curline.begin(), curline.end(), vector4); it != boost::sregex_iterator(); ++it)
 								{
-									bone = true;
-									string spaces;
-
-									for (auto& ch : curline)
-									{
-										if (ch == '\t') spaces.push_back(ch);
-										else break;
-									}
-
-									for (auto& it = boost::sregex_iterator(curline.begin(), curline.end(), vector4); it != boost::sregex_iterator(); ++it)
-									{
-										storeline.push_back(spaces + it->str(1));
-										storeline.push_back(spaces + it->str(2));
-										storeline.push_back(spaces + it->str(3));
-										storeline.push_back(spaces + it->str(4));
-									}
+									storeline.push_back(spaces + it->str(1));
+									storeline.push_back(spaces + it->str(2));
+									storeline.push_back(spaces + it->str(3));
+									storeline.push_back(spaces + it->str(4));
 								}
 							}
 
@@ -677,7 +665,17 @@ bool UpdateFilesStart::VanillaDisassemble(string path, string filename, map<stri
 								storeline.shrink_to_fit();
 
 								while (atomic_lock.test_and_set(boost::memory_order_acquire));
-								newFile[curID] = storeline;
+
+								try
+								{
+									(*newFile)[curID] = storeline;
+								}
+								catch (exception& ex)
+								{
+									atomic_lock.clear(boost::memory_order_release);
+									throw ex;
+								}
+
 								atomic_lock.clear(boost::memory_order_release);
 
 								storeline.reserve(2000);
@@ -706,7 +704,17 @@ bool UpdateFilesStart::VanillaDisassemble(string path, string filename, map<stri
 			storeline.shrink_to_fit();
 
 			while (atomic_lock.test_and_set(boost::memory_order_acquire));
-			newFile[curID] = storeline;
+
+			try
+			{
+				(*newFile)[curID] = storeline;
+			}
+			catch (exception& ex)
+			{
+				atomic_lock.clear(boost::memory_order_release);
+				throw ex;
+			}
+
 			atomic_lock.clear(boost::memory_order_release);
 		}
 	}
@@ -745,18 +753,12 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 	bool end = false;
 	bool out = true;
 
-	if (!GetFunctionLines(path, storeline))
-	{
-		return false;
-	}
+	if (!GetFunctionLines(path, storeline)) return false;
 	
 	{
 		string strnum = boost::regex_replace(string(storeline[0]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-		if (!isOnlyNumber(strnum) || stoi(strnum) < 10)
-		{
-			ErrorMessage(3014);
-		}
+		if (!isOnlyNumber(strnum) || stoi(strnum) < 10) ErrorMessage(3014);
 
 		num = stoi(strnum) + 1;
 	}
@@ -792,25 +794,19 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 		{
 			if (storeline[i - 1] == "")
 			{
-				if (isOnlyNumber(line))
+				if (isOnlyNumber(line) && isOnlyNumber(storeline[i + 1]) && isOnlyNumber(storeline[i + 2]))
 				{
-					if (isOnlyNumber(storeline[i + 1]))
+					if (storeline[i + 2] == "0" || (i + 3 < storeline.size() && storeline[i + 3].find("\\") != NOT_FOUND))
 					{
-						if (isOnlyNumber(storeline[i + 2]))
-						{
-							if (storeline[i + 2] == "0" || (i + 3 < storeline.size() && storeline[i + 3].find("\\") != NOT_FOUND))
-							{
-								newline.shrink_to_fit();
-								animData.newAnimData[project][header] = newline;
-								project = animData.animDataChar[++projectcounter];
-								header = "$header$";
-								animData.animDataHeader[project].push_back(header);
-								newline.reserve(20);
-								newline.clear();
-								isInfo = false;
-								out = true;
-							}
-						}
+						newline.shrink_to_fit();
+						animData.newAnimData[project][header] = newline;
+						project = animData.animDataChar[++projectcounter];
+						header = "$header$";
+						animData.animDataHeader[project].push_back(header);
+						newline.reserve(20);
+						newline.clear();
+						isInfo = false;
+						out = true;
 					}
 				}
 
@@ -869,41 +865,32 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 				}
 				else if (isOnlyNumber(storeline[i - 1]) && storeline[i - 1] == "0" && isOnlyNumber(line) && i + 3 < storeline.size())
 				{
-					if (isOnlyNumber(storeline[i + 1]))
+					if (isOnlyNumber(storeline[i + 1]) && isOnlyNumber(storeline[i + 2]))
 					{
-						if (isOnlyNumber(storeline[i + 2]))
+						if (storeline[i + 2] == "0" || storeline[i + 3].find("\\") != NOT_FOUND)
 						{
-							if (storeline[i + 2] == "0" || storeline[i + 3].find("\\") != NOT_FOUND)
-							{
-								newline.shrink_to_fit();
-								animData.newAnimData[project][header] = newline;
-								project = animData.animDataChar[++projectcounter];
-								animData.animDataHeader[project].push_back(header);
-								newline.reserve(20);
-								newline.clear();
-								isInfo = false;
-								out = true;
-							}
+							newline.shrink_to_fit();
+							animData.newAnimData[project][header] = newline;
+							project = animData.animDataChar[++projectcounter];
+							animData.animDataHeader[project].push_back(header);
+							newline.reserve(20);
+							newline.clear();
+							isInfo = false;
+							out = true;
 						}
 					}
 				}
 			}
 		}
 
-		if (!out)
-		{
-			newline.push_back(line);
-		}
+		if (!out) newline.push_back(line);
 
 		out = false;
 	}
 
 	if (newline.size() != 0)
 	{
-		if (newline.back().length() == 0)
-		{
-			newline.pop_back();
-		}
+		if (newline.back().length() == 0) newline.pop_back();
 
 		newline.shrink_to_fit();
 		animData.newAnimData[project][header] = newline;
@@ -919,18 +906,12 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
 	vecstr newline;
 	newline.reserve(500);
 
-	if (!GetFunctionLines(path, storeline))
-	{
-		return false;
-	}
+	if (!GetFunctionLines(path, storeline)) return false;
 
 	{
 		string strnum = boost::regex_replace(string(storeline[0]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
-		if (!isOnlyNumber(strnum) || stoi(strnum) < 10)
-		{
-			ErrorMessage(3014);
-		}
+		if (!isOnlyNumber(strnum) || stoi(strnum) < 10) ErrorMessage(3014);
 
 		num = stoi(strnum) + 1;
 	}
@@ -967,10 +948,7 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
 			newline.push_back(storeline[i]);
 			++i;
 
-			if (animDataSetHeader[project].size() != 1)
-			{
-				ErrorMessage(5005, path, i + 1);
-			}
+			if (animDataSetHeader[project].size() != 1) ErrorMessage(5005, path, i + 1);
 
 			while (i < storeline.size())
 			{
@@ -1012,10 +990,7 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
 
 	if (newline.size() != 0)
 	{
-		if (newline.back().length() == 0)
-		{
-			newline.pop_back();
-		}
+		if (newline.back().length() == 0) newline.pop_back();
 
 		header = animDataSetHeader[project][headercounter];
 		newline.shrink_to_fit();
@@ -1060,10 +1035,7 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 
 					if (boost::iequals(behaviorfile, "animationdatasinglefile"))
 					{
-						if (animData.newAnimData.size() == 0)
-						{
-							ErrorMessage(3017, "nemesis_animationdatasinglefile.txt");
-						}
+						if (animData.newAnimData.size() == 0) ErrorMessage(3017, "nemesis_animationdatasinglefile.txt");
 
 						for (string& node : nodelist)
 						{
@@ -1098,15 +1070,9 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 									}
 								}
 
-								if (openAnim)
-								{
-									animData.newAnimData[projectname][animData.animDataHeader[projectname].back()].push_back("<!-- CLOSE -->");
-								}
+								if (openAnim) animData.newAnimData[projectname][animData.animDataHeader[projectname].back()].push_back("<!-- CLOSE -->");
 
-								if (openInfo)
-								{
-									animData.newAnimData[projectname][animData.animDataInfo[projectname].back()].push_back("<!-- CLOSE -->");
-								}
+								if (openInfo) animData.newAnimData[projectname][animData.animDataInfo[projectname].back()].push_back("<!-- CLOSE -->");
 
 								if (newChar)
 								{
@@ -1126,14 +1092,8 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 										{
 											if (!boost::iequals(it.first, "$header$"))
 											{
-												if (isOnlyNumber(it.first))
-												{
-													infoheader.push_back(it.first);
-												}
-												else
-												{
-													header.push_back(it.first);
-												}
+												if (isOnlyNumber(it.first)) infoheader.push_back(it.first);
+												else header.push_back(it.first);
 											}
 										}
 
@@ -1168,10 +1128,7 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 					}
 					else if (boost::iequals(behaviorfile, "animationsetdatasinglefile"))
 					{
-						if (animSetData.newAnimSetData.size() == 0)
-						{
-							ErrorMessage(3017, "nemesis_animationsetdatasinglefile.txt");
-						}
+						if (animSetData.newAnimSetData.size() == 0) ErrorMessage(3017, "nemesis_animationsetdatasinglefile.txt");
 
 						for (string& node : nodelist)
 						{
@@ -1247,10 +1204,7 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 										string sID = n_stateID[ID];
 										skipped[ID] = true;
 
-										if (sID.empty())
-										{
-											ErrorMessage(1188, modcode, filename);
-										}
+										if (sID.empty()) ErrorMessage(1188, modcode, filename);
 
 										if (stateID[lowerbehaviorfile][ID] != sID)
 										{
@@ -1294,14 +1248,8 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 
 									if (parentID.empty())
 									{
-										if (ID.first.find("$") != NOT_FOUND)
-										{
-											skip = true;
-										}
-										else
-										{
-											ErrorMessage(1191, modcode, ID.first);
-										}
+										if (ID.first.find("$") != NOT_FOUND) skip = true;
+										else ErrorMessage(1191, modcode, ID.first);
 									}
 
 									if (!skip)
@@ -1347,8 +1295,8 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 
 						for (string& node : nodelist)
 						{
-							if (!(*modUpdate)[lowerbehaviorfile + node.substr(0, node.find_last_of("."))].FunctionUpdate(modcode, lowerbehaviorfile, node, ref(newFile), n_stateID,
-								c_parent, statelist, ref(lastUpdate)))
+							if (!(*modUpdate)[lowerbehaviorfile + node.substr(0, node.find_last_of("."))].FunctionUpdate(modcode, lowerbehaviorfile, node, ref(newFile),
+								n_stateID, c_parent, statelist, ref(lastUpdate)))
 							{
 								if (error) throw nemesis::exception();
 							}
@@ -1365,10 +1313,7 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 									string sID = n_stateID[ID];
 									skipped[ID] = true;
 
-									if (sID.empty())
-									{
-										ErrorMessage(1188, modcode, filename);
-									}
+									if (sID.empty()) ErrorMessage(1188, modcode, filename);
 
 									if (childrenState[lowerbehaviorfile][state.first][sID])
 									{
@@ -1407,14 +1352,8 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 
 								if (parentID.empty())
 								{
-									if (ID.first.find("$") != NOT_FOUND)
-									{
-										skip = true;
-									}
-									else
-									{
-										ErrorMessage(1191, modcode, ID.first);
-									}
+									if (ID.first.find("$") != NOT_FOUND) skip = true;
+									else ErrorMessage(1191, modcode, ID.first);
 								}
 
 								if (!skip)
@@ -1458,9 +1397,8 @@ void UpdateFilesStart::SeparateMod(arguPack& pack)
 	catch (nemesis::exception&) {}
 }
 
-void UpdateFilesStart::JoiningEdits(string directory, unordered_map<string, map<string, vecstr>>& newFile, unordered_map<string,
-	map<string, unordered_map<string, bool>>>& childrenState,  SSSMap& stateID, SSSMap& parent, MasterAnimData& animData, MasterAnimSetData& animSetData,
-	unordered_map<string, string>& lastUpdate)
+void UpdateFilesStart::JoiningEdits(string directory, unordered_map<string, map<string, vecstr>>& newFile, MapChildState& childrenState,  SSSMap& stateID, SSSMap& parent,
+	MasterAnimData& animData, MasterAnimSetData& animSetData, unordered_map<string, string>& lastUpdate)
 {
 	try
 	{
@@ -1485,8 +1423,8 @@ void UpdateFilesStart::JoiningEdits(string directory, unordered_map<string, map<
 					{
 						vecstr filelist2;
 						read_directory(directory + filelist[i] + "\\", filelist2);
-						arguPack pack(directory, filelist[i], filelist2, newFile, childrenState, stateID, parent, modStateList, duplicatedStateList, animData, animSetData, lastUpdate,
-							modUpPtr);
+						arguPack pack(directory, filelist[i], filelist2, newFile, childrenState, stateID, parent, modStateList, duplicatedStateList, animData, animSetData,
+							lastUpdate, modUpPtr);
 						threads.create_thread(boost::bind(&UpdateFilesStart::SeparateMod, this, pack));
 					}
 				}
@@ -1511,10 +1449,7 @@ void UpdateFilesStart::JoiningEdits(string directory, unordered_map<string, map<
 							mods.pop_back();
 							mods.pop_back();
 
-							if (mods.length() > 0)
-							{
-								ErrorMessage(1189, duplicates.first, modlist.first, mods);
-							}
+							if (mods.length() > 0) ErrorMessage(1189, duplicates.first, modlist.first, mods);
 						}
 					}
 				}
@@ -1536,7 +1471,10 @@ void UpdateFilesStart::JoiningEdits(string directory, unordered_map<string, map<
 
 			emit progressUp();
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 	catch (exception& ex)
 	{
@@ -1544,7 +1482,10 @@ void UpdateFilesStart::JoiningEdits(string directory, unordered_map<string, map<
 		{
 			ErrorMessage(6001, ex.what());
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 }
 
@@ -1613,10 +1554,7 @@ void UpdateFilesStart::CombiningFiles(unordered_map<string, map<string, vecstr>>
 			string lowerBehaviorFile = it->first;
 			string filename = compilingfolder + lowerBehaviorFile + ".txt";
 
-			if (lowerBehaviorFile.find("_1stperson\\") == 0)
-			{
-				boost::filesystem::create_directory(boost::filesystem::path(compilingfolder + "_1stperson\\"));
-			}
+			if (lowerBehaviorFile.find("_1stperson\\") == 0) boost::filesystem::create_directory(boost::filesystem::path(compilingfolder + "_1stperson\\"));
 
 			FileWriter output(filename);
 
@@ -1637,14 +1575,7 @@ void UpdateFilesStart::CombiningFiles(unordered_map<string, map<string, vecstr>>
 
 					if (pos != NOT_FOUND && fileline[linecount].find("signature=\"", pos) != NOT_FOUND)
 					{
-						if (fileline[linecount].find("class=\"hkbBehaviorReferenceGenerator\" signature=\"", pos) != NOT_FOUND)
-						{
-							behaviorRef = true;
-						}
-						else
-						{
-							behaviorRef = false;
-						}
+						behaviorRef = fileline[linecount].find("class=\"hkbBehaviorReferenceGenerator\" signature=\"", pos) != NOT_FOUND;
 					}
 
 					if (behaviorRef && fileline[linecount].find("<hkparam name=\"behaviorName\">") != NOT_FOUND)
@@ -1653,10 +1584,7 @@ void UpdateFilesStart::CombiningFiles(unordered_map<string, map<string, vecstr>>
 						string behaviorName = GetFileName(fileline[linecount].substr(nextpos, fileline[linecount].find("</hkparam>", nextpos) - nextpos));
 						boost::algorithm::to_lower(behaviorName);
 
-						if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND)
-						{
-							behaviorName = "_1stperson\\" + behaviorName;
-						}
+						if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND) behaviorName = "_1stperson\\" + behaviorName;
 
 						behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
 						behaviorRef = false;
@@ -1668,10 +1596,7 @@ void UpdateFilesStart::CombiningFiles(unordered_map<string, map<string, vecstr>>
 						behaviorName = GetFileName(behaviorName);
 						boost::algorithm::to_lower(behaviorName);
 
-						if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND)
-						{
-							behaviorName = "_1stperson\\" + behaviorName;
-						}
+						if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND) behaviorName = "_1stperson\\" + behaviorName;
 
 						behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
 					}
@@ -1870,17 +1795,20 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 
 								if (boost::filesystem::is_directory(characterfolder))
 								{
-									if (!newAnimDataUpdateExt(folderpath + "\\" + behaviorlist[j] + "\\" + characterlist[k], codelist[i], characterlist[k],
-										animData, lastUpdate))
-									{
-										return false;
-									}
+									if (!newAnimDataUpdateExt(folderpath + "\\" + behaviorlist[j] + "\\" + characterlist[k], codelist[i], characterlist[k], animData,
+										lastUpdate)) return false;
 								}
-								else if (characterfolder.stem().string() == "$header$")
+								else
 								{
-									if (!animDataHeaderUpdate(folderpath + "\\" + behaviorlist[j] + "\\" + characterlist[k], codelist[i], animData, lastUpdate))
+									string stemTemp = characterfolder.stem().string();
+									
+									if (stemTemp == "$header$")
 									{
-										return false;
+										if (!animDataHeaderUpdate(folderpath + "\\" + behaviorlist[j] + "\\" + characterlist[k], codelist[i], animData, lastUpdate)) return false;
+									}
+									else if (boost::regex_match(stemTemp, boost::regex("^\\$(?!" + codelist[i] + ").+\\$(?:UC|)$")))
+									{
+										ErrorMessage(3023, "$" + codelist[i] + "$" + (stemTemp.find("$UC") != NOT_FOUND ? "UC" : ""));
 									}
 								}
 							}
@@ -1906,11 +1834,8 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 										projectname.replace(projectname.find("~"), 1, "\\");
 									}
 
-									if (!newAnimDataSetUpdateExt(folderpath + "\\" + behaviorlist[j] + "\\" + projectfile[k], codelist[i],
-										projectname + ".txt", animSetData, lastUpdate))
-									{
-										return false;
-									}
+									if (!newAnimDataSetUpdateExt(folderpath + "\\" + behaviorlist[j] + "\\" + projectfile[k], codelist[i], projectname + ".txt",
+										animSetData, lastUpdate)) return false;
 								}
 							}
 
@@ -1918,17 +1843,12 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder, unordered_map<string, 
 						}
 						else
 						{
-							if (boost::iequals(behaviorlist[j], "_1stperson"))
-							{
-								ErrorMessage(6004, folderpath + "\\" + behaviorlist[j]);
-							}
+							if (boost::iequals(behaviorlist[j], "_1stperson")) ErrorMessage(6004, folderpath + "\\" + behaviorlist[j]);
 
 							DebugLogging("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
 
 							if (!newAnimUpdateExt(folderpath, codelist[i], boost::to_lower_copy(behaviorlist[j]), newFile[boost::to_lower_copy(behaviorlist[j])], lastUpdate))
-							{
 								return false;
-							}
 
 							DebugLogging("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
 						}
@@ -1966,7 +1886,7 @@ void UpdateFilesStart::milestoneStart(string directory)
 	replace(curdir.begin(), curdir.end(), '/', '\\');
 	DebugLogging("Current Directory: " + curdir);
 	DebugLogging("Data Directory: " + nemesisInfo->GetDataPath());
-	DebugLogging("Skyrim Special Edition: " + SSE ? "TRUE" : "FALSE");
+	DebugLogging("Skyrim Special Edition: " + string(SSE ? "TRUE" : "FALSE"));
 	filenum = 11;
 
 #ifdef DEBUG
@@ -1997,10 +1917,7 @@ void UpdateFilesStart::milestoneStart(string directory)
 				{
 					bf::path curPath(newPath + file2);
 
-					if (bf::is_directory(curPath))
-					{
-						++filenum;
-					}
+					if (bf::is_directory(curPath)) ++filenum;
 				}
 			}
 		}
@@ -2106,31 +2023,57 @@ int IDCatcher::getLine()
 	return line;
 }
 
+void addOnInstall(string templine, string& elementLine, vector<vecstr>& groupAddOnElement, ImportContainer& addOn,
+	unordered_map<string, unordered_map<string, vecstr>>& groupAddOn)
+{
+	for (auto it = addOn.begin(); it != addOn.end(); ++it)
+	{
+		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+		{
+			if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+			{
+				elementLine.replace(elementLine.find("$$"), 2, iter->second);
+				return;
+			}
+		}
+	}
+
+	for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
+	{
+		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+		{
+			if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+			{
+				elementLine.replace(elementLine.find("$$"), 2, "##");
+				groupAddOnElement.push_back(iter->second);
+				return;
+			}
+
+			groupAddOnElement.push_back(iter->second);
+		}
+	}
+}
+
 BehaviorStart::BehaviorStart()
 {
 }
 
 BehaviorStart::~BehaviorStart()
 {
-	if (!cmdline && error)
-	{
-		error = false;
-	}
+	if (!cmdline && error) error = false;
 }
 
-void BehaviorStart::addBehaviorPick(BehaviorStart* newProcess, NemesisMainGUI* newWidget, vecstr behaviorOrder, unordered_map<string, bool> behaviorPick)
+void BehaviorStart::addBehaviorPick(NemesisMainGUI* newWidget, vecstr behaviorOrder, unordered_map<string, bool> behaviorPick)
 {
 	behaviorPriority = behaviorOrder;
 	chosenBehavior = behaviorPick;
-	behaviorProcess = newProcess;
-	widget = newWidget;
+	behaviorProcess.newWidget(newWidget);
 }
 
-void BehaviorStart::addBehaviorPick(BehaviorStart* newProcess, vecstr behaviorOrder, unordered_map<string, bool> behaviorPick)
+void BehaviorStart::addBehaviorPick(vecstr behaviorOrder, unordered_map<string, bool> behaviorPick)
 {
 	behaviorPriority = behaviorOrder;
 	chosenBehavior = behaviorPick;
-	behaviorProcess = newProcess;
 	cmdline = true;
 }
 
@@ -2163,6 +2106,8 @@ void BehaviorStart::GenerateBehavior()
 				interMsg(TextBoxMessage(1004));
 				interMsg("");
 
+				if (error) throw nemesis::exception();
+
 				// Check the existence of required files
 				FileCheck();
 
@@ -2175,6 +2120,8 @@ void BehaviorStart::GenerateBehavior()
 				GetBehaviorProjectPath();
 				behaviorActivateMod(behaviorPriority);
 				ClearTempXml();
+
+				if (error) throw nemesis::exception();
 
 				// register animation & organize AE n Var
 				string directory = "temp_behaviors\\";
@@ -2191,9 +2138,9 @@ void BehaviorStart::GenerateBehavior()
 				unordered_map<string, vector<string>> modAnimBehavior;				// behavior directory, list of behavior files; use to get behavior reference
 				unordered_map<string, unordered_map<int, bool>> ignoreFunction;		// behavior file, function ID, true/false; is the function part of animation template?
 
-				if (PCEACheck()) ReadPCEA();
+				if (error) throw nemesis::exception();
 
-				if (animationList.size() > 0 || pcealist.size() > 0) interMsg("");
+				if (PCEACheck()) ReadPCEA();
 
 				DebugLogging("Registering new animations...");
 
@@ -2206,6 +2153,8 @@ void BehaviorStart::GenerateBehavior()
 					// read each animation in a group of the same type
 					for (auto it = animationList[i]->templateType.begin(); it != animationList[i]->templateType.end(); ++it)
 					{
+						if (error) throw nemesis::exception();
+
 						string firstAE;
 						string coreModName = "";
 						string templatecode = it->first;
@@ -2258,7 +2207,7 @@ void BehaviorStart::GenerateBehavior()
 									dummy->ignoreGroup = false;
 									dummy->optionPickedCount[corecode] = 1;
 									animationCount[corecode]++;
-									
+
 									if (BehaviorTemplate.optionlist[corecode].core)
 									{
 										newAnimation[corecode].emplace_back(make_unique<Furniture>(make_shared<unordered_map<string, AnimTemplate>>(), corecode,
@@ -2361,54 +2310,7 @@ void BehaviorStart::GenerateBehavior()
 												}
 												else
 												{
-													bool isDone = false;
-
-													for (auto it = addOn.begin(); it != addOn.end(); ++it)
-													{
-														bool isBreak = false;
-
-														for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-														{
-															if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-															{
-																elementLine.replace(elementLine.find("$$"), 2, iter->second);
-																isBreak = true;
-																isDone = true;
-																break;
-															}
-														}
-
-														if (isBreak)
-														{
-															break;
-														}
-													}
-
-													if (!isDone)
-													{
-														for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
-														{
-															bool isBreak = false;
-
-															for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-															{
-																if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-																{
-																	elementLine.replace(elementLine.find("$$"), 2, "##");
-																	isBreak = true;
-																	isDone = true;
-																	break;
-																}
-
-																groupAddOnElement.push_back(iter->second);
-															}
-
-															if (isBreak)
-															{
-																break;
-															}
-														}
-													}
+													addOnInstall(templine, elementLine, groupAddOnElement, addOn, groupAddOn);
 												}
 											}
 
@@ -2459,10 +2361,7 @@ void BehaviorStart::GenerateBehavior()
 														}
 													}
 
-													if (isBreak)
-													{
-														break;
-													}
+													if (isBreak) break;
 												}
 
 												if (!isBreak)
@@ -2483,10 +2382,7 @@ void BehaviorStart::GenerateBehavior()
 															groupAddOnElement.push_back(iter->second);
 														}
 
-														if (isDone)
-														{
-															break;
-														}
+														if (isDone) break;
 													}
 												}
 											}
@@ -2511,10 +2407,7 @@ void BehaviorStart::GenerateBehavior()
 								newAnimation[templatecode].back()->setLastOrder(lastOrder);
 								animInfoGroup.push_back(move(animationList[i]->animInfo[templatecode][j]));
 
-								if (!ignoreGroup)
-								{
-									animationCount[templatecode]++;
-								}
+								if (!ignoreGroup) animationCount[templatecode]++;
 
 								if (lastOrder == order)
 								{
@@ -2560,54 +2453,7 @@ void BehaviorStart::GenerateBehavior()
 													}
 													else
 													{
-														bool isDone = false;
-
-														for (auto it = addOn.begin(); it != addOn.end(); ++it)
-														{
-															bool isBreak = false;
-
-															for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-															{
-																if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-																{
-																	elementLine.replace(elementLine.find("$$"), 2, iter->second);
-																	isBreak = true;
-																	isDone = true;
-																	break;
-																}
-															}
-
-															if (isBreak)
-															{
-																break;
-															}
-														}
-
-														if (!isDone)
-														{
-															for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
-															{
-																bool isBreak = false;
-
-																for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-																{
-																	if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-																	{
-																		elementLine.replace(elementLine.find("$$"), 2, "##");
-																		isBreak = true;
-																		isDone = true;
-																		break;
-																	}
-
-																	groupAddOnElement.push_back(iter->second);
-																}
-
-																if (isBreak)
-																{
-																	break;
-																}
-															}
-														}
+														addOnInstall(templine, elementLine, groupAddOnElement, addOn, groupAddOn);
 													}
 												}
 
@@ -2644,54 +2490,7 @@ void BehaviorStart::GenerateBehavior()
 												for (unsigned int l = 0; l < element->size(); ++l)
 												{
 													string templine = (*element)[l];
-													bool isDone = false;
-
-													for (auto it = addOn.begin(); it != addOn.end(); ++it)
-													{
-														bool isBreak = false;
-
-														for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-														{
-															if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-															{
-																elementLine.replace(elementLine.find("$$"), 2, iter->second);
-																isBreak = true;
-																isDone = true;
-																break;
-															}
-														}
-
-														if (isBreak)
-														{
-															break;
-														}
-													}
-
-													if (!isDone)
-													{
-														for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
-														{
-															bool isBreak = false;
-
-															for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-															{
-																if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-																{
-																	elementLine.replace(elementLine.find("$$"), 2, "##");
-																	isBreak = true;
-																	isDone = true;
-																	break;
-																}
-
-																groupAddOnElement.push_back(iter->second);
-															}
-
-															if (isBreak)
-															{
-																break;
-															}
-														}
-													}
+													addOnInstall(templine, elementLine, groupAddOnElement, addOn, groupAddOn);
 												}
 
 												if (groupAddOnElement.size() != 0)
@@ -2737,54 +2536,7 @@ void BehaviorStart::GenerateBehavior()
 											}
 											else
 											{
-												bool isDone = false;
-
-												for (auto it = addOn.begin(); it != addOn.end(); ++it)
-												{
-													bool isBreak = false;
-
-													for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-													{
-														if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-														{
-															elementLine.replace(elementLine.find("$$"), 2, iter->second);
-															isBreak = true;
-															isDone = true;
-															break;
-														}
-													}
-
-													if (isBreak)
-													{
-														break;
-													}
-												}
-
-												if (!isDone)
-												{
-													for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
-													{
-														bool isBreak = false;
-
-														for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-														{
-															if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-															{
-																elementLine.replace(elementLine.find("$$"), 2, "##");
-																isBreak = true;
-																isDone = true;
-																break;
-															}
-
-															groupAddOnElement.push_back(iter->second);
-														}
-
-														if (isBreak)
-														{
-															break;
-														}
-													}
-												}
+												addOnInstall(templine, elementLine, groupAddOnElement, addOn, groupAddOn);
 											}
 										}
 
@@ -2829,54 +2581,7 @@ void BehaviorStart::GenerateBehavior()
 											}
 											else
 											{
-												bool isDone = false;
-
-												for (auto it = addOn.begin(); it != addOn.end(); ++it)
-												{
-													bool isBreak = false;
-
-													for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-													{
-														if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-														{
-															elementLine.replace(elementLine.find("$$"), 2, iter->second);
-															isBreak = true;
-															isDone = true;
-															break;
-														}
-													}
-
-													if (isBreak)
-													{
-														break;
-													}
-												}
-
-												if (!isDone)
-												{
-													for (auto it = groupAddOn.begin(); it != groupAddOn.end(); ++it)
-													{
-														bool isBreak = false;
-
-														for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-														{
-															if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
-															{
-																elementLine.replace(elementLine.find("$$"), 2, "##");
-																isBreak = true;
-																isDone = true;
-																break;
-															}
-
-															groupAddOnElement.push_back(iter->second);
-														}
-
-														if (isBreak)
-														{
-															break;
-														}
-													}
-												}
+												addOnInstall(templine, elementLine, groupAddOnElement, addOn, groupAddOn);
 											}
 										}
 
@@ -2909,8 +2614,12 @@ void BehaviorStart::GenerateBehavior()
 						}
 
 						newAnimation[templatecode].shrink_to_fit();
+
+						if (error) throw nemesis::exception();
 					}
 				}
+
+				if (error) throw nemesis::exception();
 
 				{
 					int multi = 0;
@@ -2942,12 +2651,13 @@ void BehaviorStart::GenerateBehavior()
 					}
 				}
 
+				if (error) throw nemesis::exception();
 				emit progressUp();
 
 				if (pcealist.size() > 0 || alternateAnim.size() > 0)
 				{
 					InstallScripts* ScriptWorker = new InstallScripts;		// install PCEA & AA script
-					connect(ScriptWorker, SIGNAL(end()), behaviorProcess, SLOT(EndAttempt()));
+					connect(ScriptWorker, SIGNAL(end()), this, SLOT(EndAttempt()));
 					connect(ScriptWorker, SIGNAL(end()), ScriptWorker, SLOT(deleteLater()));
 					QtConcurrent::run(ScriptWorker, &InstallScripts::Run);
 				}
@@ -2988,12 +2698,16 @@ void BehaviorStart::GenerateBehavior()
 					}
 				}
 
+				if (error) throw nemesis::exception();
+
 				vecstr filelist;
 				read_directory(directory, filelist);
 				emit progressUp();
 
 				for (unsigned int i = 0; i < filelist.size(); ++i)
 				{
+					if (error) throw nemesis::exception();
+
 					if (!boost::filesystem::is_directory(directory + filelist[i]))
 					{
 						string modID = "";
@@ -3010,10 +2724,9 @@ void BehaviorStart::GenerateBehavior()
 
 						while (repeatcount < repeat)
 						{
-							if (isCore)
-							{
-								modID = coreModList[lowerFileName][repeatcount];
-							}
+							if (error) throw nemesis::exception();
+
+							if (isCore) modID = coreModList[lowerFileName][repeatcount];
 
 							bool skip = false;
 							string tempfilename = filelist[i].substr(0, filelist[i].find_last_of("."));
@@ -3041,10 +2754,11 @@ void BehaviorStart::GenerateBehavior()
 
 							if (!cmdline)
 							{
-								connect(worker, SIGNAL(progressAdd()), widget, SLOT(setProgressBarValue()));
+								behaviorProcess.newProcess(worker);
+								behaviorProcess.connect();
 							}
 
-							connect(worker, SIGNAL(done()), behaviorProcess, SLOT(EndAttempt()));
+							connect(worker, SIGNAL(done()), this, SLOT(EndAttempt()));
 							connect(worker, SIGNAL(done()), worker, SLOT(deleteLater()));
 
 							if (boost::iequals(filelist[i], "animationdatasinglefile.txt"))
@@ -3062,7 +2776,7 @@ void BehaviorStart::GenerateBehavior()
 							else
 							{
 								worker->isCharacter = true;
-								connect(worker, SIGNAL(newAnim()), behaviorProcess, SLOT(increaseAnimCount()));
+								connect(worker, SIGNAL(newAnim()), this, SLOT(increaseAnimCount()));
 								QtConcurrent::run(worker, &BehaviorSub::BehaviorCompilation);
 							}
 
@@ -3099,10 +2813,9 @@ void BehaviorStart::GenerateBehavior()
 
 								while (repeatcount < repeat)
 								{
-									if (isCore)
-									{
-										modID = coreModList[lowerFileName][repeatcount];
-									}
+									if (error) throw nemesis::exception();
+
+									if (isCore) modID = coreModList[lowerFileName][repeatcount];
 
 									bool skip = false;
 									string tempfilename = fpfilelist[j].substr(0, fpfilelist[j].find_last_of("."));
@@ -3128,10 +2841,11 @@ void BehaviorStart::GenerateBehavior()
 
 									if (!cmdline)
 									{
-										connect(worker, SIGNAL(progressAdd()), widget, SLOT(setProgressBarValue()));
+										behaviorProcess.newProcess(worker);
+										behaviorProcess.connect();
 									}
 
-									connect(worker, SIGNAL(done()), behaviorProcess, SLOT(EndAttempt()));
+									connect(worker, SIGNAL(done()), this, SLOT(EndAttempt()));
 									connect(worker, SIGNAL(done()), worker, SLOT(deleteLater()));
 
 									if (boost::iequals(fpfilelist[j], "animationdatasinglefile.txt"))
@@ -3149,7 +2863,7 @@ void BehaviorStart::GenerateBehavior()
 									else
 									{
 										worker->isCharacter = true;
-										connect(worker, SIGNAL(newAnim()), behaviorProcess, SLOT(increaseAnimCount()));
+										connect(worker, SIGNAL(newAnim()), this, SLOT(increaseAnimCount()));
 										QtConcurrent::run(worker, &BehaviorSub::BehaviorCompilation);
 									}
 
@@ -3162,18 +2876,24 @@ void BehaviorStart::GenerateBehavior()
 			}
 			catch (exception& ex)
 			{
-				ErrorMessage(6002, ex.what(), "None");
+				ErrorMessage(6002, "None", ex.what());
 			}
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 	catch (...)
 	{
 		try
 		{
-			ErrorMessage(6002, "Unknown", "None");
+			ErrorMessage(6002, "None", "Unknown");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 
 	EndAttempt();
@@ -3189,7 +2909,7 @@ void BehaviorStart::milestoneStart()
 	replace(curdir.begin(), curdir.end(), '/', '\\');
 	DebugLogging("Current Directory: " + curdir);
 	DebugLogging("Data Directory: " + nemesisInfo->GetDataPath());
-	DebugLogging("Skyrim Special Edition: " + SSE ? "TRUE" : "FALSE");
+	DebugLogging("Skyrim Special Edition: " + string(SSE ? "TRUE" : "FALSE"));
 	int counter = 0;
 
 	for (auto& mod : behaviorPriority)
@@ -3238,7 +2958,10 @@ void BehaviorStart::unregisterProcess(bool skip)
 	{
 		if (!error)
 		{
-			RunScript("scripts\\launcher\\end\\");
+			bool hasScripts = false;
+			RunScript("scripts\\launcher\\end\\", hasScripts);
+
+			if (hasScripts) interMsg("");
 
 			if (error)
 			{
@@ -3313,6 +3036,7 @@ void BehaviorStart::unregisterProcess(bool skip)
 void BehaviorStart::EndAttempt()
 {
 	while (atomic_lock.test_and_set(boost::memory_order_acquire));
+
 	--m_RunningThread;
 
 	if (m_RunningThread == 0)
@@ -3321,7 +3045,7 @@ void BehaviorStart::EndAttempt()
 		{
 			behaviorCheck();
 		}
-		catch (nemesis::exception&) {}
+		catch (...) {}
 
 		if (error)
 		{
@@ -3331,14 +3055,15 @@ void BehaviorStart::EndAttempt()
 		{
 			ClearGlobal(false);
 
-			if (!cmdline)
-			{
-				Sleep(1500);
-			}
+			if (!cmdline) Sleep(1500);
 		}
 
-		unregisterProcess();
-		p_terminate->exitSignal();
+		try
+		{
+			unregisterProcess();
+			p_terminate->exitSignal();
+		}
+		catch (...) {}
 	}
 
 	atomic_lock.clear(boost::memory_order_release);
@@ -3376,18 +3101,24 @@ void BehaviorSub::BehaviorCompilation()
 			}
 			catch (exception& ex)
 			{
-				ErrorMessage(6002, ex.what(), filelist[curList]);
+				ErrorMessage(6002, filelist[curList], ex.what());
 			}
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 	catch (...)
 	{
 		try
 		{
-			ErrorMessage(6002, "Unknown", filelist[curList]);
+			ErrorMessage(6002, filelist[curList], "Unknown");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 
 	emit done();
@@ -3440,14 +3171,8 @@ void BehaviorSub::CompilingBehavior()
 		outputdir = "new_behaviors\\" + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 	}
 #else
-	if (modID.length() > 0)
-	{
-		outputdir = GetFileDirectory(behaviorPath[lowerBehaviorFile]) + modID + lowerBehaviorFile;
-	}
-	else
-	{
-		outputdir = behaviorPath[lowerBehaviorFile];
-	}
+	if (modID.length() > 0) outputdir = GetFileDirectory(behaviorPath[lowerBehaviorFile]) + modID + lowerBehaviorFile;
+	else outputdir = behaviorPath[lowerBehaviorFile];
 #endif
 	if (error) throw nemesis::exception();
 
@@ -3539,7 +3264,7 @@ void BehaviorSub::CompilingBehavior()
 
 							skip = true;
 						}
-						else if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
+						else if (line.find("<!-- NEW ^", 0) != NOT_FOUND || line.find("<!-- FOREACH ^") != NOT_FOUND)
 						{
 							special = true;
 						}
@@ -3558,10 +3283,7 @@ void BehaviorSub::CompilingBehavior()
 
 					if (isOpen && !skip)
 					{
-						if (line == "	</hksection>")
-						{
-							break;
-						}
+						if (line == "	</hksection>") break;
 
 						while (true)
 						{
@@ -3596,10 +3318,7 @@ void BehaviorSub::CompilingBehavior()
 								{
 									curID = stoi(ID);
 
-									if (curID >= lastID)
-									{
-										lastID = curID + 1;
-									}
+									if (curID >= lastID) lastID = curID + 1;
 								}
 							}
 
@@ -3712,15 +3431,10 @@ void BehaviorSub::CompilingBehavior()
 							}
 							else if (startCount)
 							{
-								if (chlist[i] == unsigned char(0x0))
-								{
-									i += 15;
-									++num;
-								}
-								else
-								{
-									break;
-								}
+								if (chlist[i] != unsigned char(0x0)) break;
+
+								i += 15;
+								++num;
 							}
 
 							if (error) throw nemesis::exception();
@@ -3812,10 +3526,7 @@ void BehaviorSub::CompilingBehavior()
 							curID = lastID;
 							++lastID;
 
-							if (lastID == 9216)
-							{
-								++lastID;
-							}
+							if (lastID == 9216) ++lastID;
 						}
 						else if (mod == "MID")
 						{
@@ -3824,14 +3535,7 @@ void BehaviorSub::CompilingBehavior()
 					}
 				}
 
-				if (line.find("class=\"hkbClipGenerator\" signature=\"") != NOT_FOUND)
-				{
-					isClip = true;
-				}
-				else
-				{
-					isClip = false;
-				}
+				isClip = line.find("class=\"hkbClipGenerator\" signature=\"") != NOT_FOUND;
 			}
 			else if (isClip && line.find("<hkparam name=\"animationName\">") != NOT_FOUND)
 			{
@@ -3902,10 +3606,7 @@ void BehaviorSub::CompilingBehavior()
 					}
 				}
 
-				if (firstID == -1)
-				{
-					ErrorMessage(1095, filepath);
-				}
+				if (firstID == -1) ErrorMessage(1095, filepath);
 			}
 			else
 			{
@@ -3957,14 +3658,8 @@ void BehaviorSub::CompilingBehavior()
 
 				if (line.find("<!-- ", 0) != NOT_FOUND)
 				{
-					if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
-					{
-						special = true;
-					}
-					else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-					{
-						special = false;
-					}
+					if (line.find("<!-- NEW ^", 0) != NOT_FOUND || line.find("<!-- FOREACH ^") != NOT_FOUND) special = true;
+					else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND) special = false;
 				}
 
 				if (line.find("<hkobject name=\"", 0) != NOT_FOUND && line.find("signature=\"", 0) != NOT_FOUND)
@@ -3976,10 +3671,7 @@ void BehaviorSub::CompilingBehavior()
 					{
 						curID = stoi(match[1]);
 						
-						if (match[2] == "hkbClipTriggerArray")
-						{
-							isClipTrigger = true;
-						}
+						if (match[2] == "hkbClipTriggerArray") isClipTrigger = true;
 					}
 				}
 
@@ -4174,10 +3866,7 @@ void BehaviorSub::CompilingBehavior()
 				}
 				else if (!doneAnimName && line.find("<hkparam name=\"animationNames\" numelements=\"") != NOT_FOUND)
 				{
-					if (filelist[curList].find("_1stperson\\") != NOT_FOUND)
-					{
-						fp_animOpen = true;
-					}
+					if (filelist[curList].find("_1stperson\\") != NOT_FOUND) fp_animOpen = true;
 
 					doneAnimName = true;
 					nemesis::smatch match;
@@ -4194,10 +3883,7 @@ void BehaviorSub::CompilingBehavior()
 							string number = match[2];
 							curNum = match[1];
 
-							if (!isOnlyNumber(number))
-							{
-								ErrorMessage(1174, filepath, l + 1, line.substr(line.find("<hkparam name=\"animationNames\" numelements=\"")));
-							}
+							if (!isOnlyNumber(number)) ErrorMessage(1174, filepath, l + 1, line.substr(line.find("<hkparam name=\"animationNames\" numelements=\"")));
 
 							base = stoi(number);
 						}
@@ -4260,10 +3946,7 @@ void BehaviorSub::CompilingBehavior()
 								}
 							}
 
-							if (eventelements == -1)
-							{
-								eventelements = counter;
-							}
+							if (eventelements == -1) eventelements = counter;
 
 							eventOpen = false;
 							replacedNum ? replacedNum = false : elementUpdate(elementLine, counter, curID, catalystMap);
@@ -4279,10 +3962,7 @@ void BehaviorSub::CompilingBehavior()
 							eventid[name] = counter;
 							orievent[name] = true;
 
-							if (counter == 0)
-							{
-								ZeroEvent = name;
-							}
+							if (counter == 0) ZeroEvent = name;
 
 							++counter;
 						}
@@ -4330,10 +4010,7 @@ void BehaviorSub::CompilingBehavior()
 								AddVariables(curNum, catalystMap[curID], modname, orivariable, isExist, counter, ZeroVariable, variableid, varName);
 							}
 
-							if (variableelements == -1)
-							{
-								variableelements = counter;
-							}
+							if (variableelements == -1) variableelements = counter;
 
 							varOpen = false;
 							replacedNum ? replacedNum = false : elementUpdate(elementLine, counter, curID, catalystMap);
@@ -4349,10 +4026,7 @@ void BehaviorSub::CompilingBehavior()
 							variableid[name] = counter;
 							orivariable[name] = true;
 
-							if (counter == 0)
-							{
-								ZeroVariable = name;
-							}
+							if (counter == 0) ZeroVariable = name;
 
 							++counter;
 						}
@@ -4375,10 +4049,7 @@ void BehaviorSub::CompilingBehavior()
 
 						if (openRange == range)
 						{
-							if (attributeelements == -1)
-							{
-								attributeelements = counter;
-							}
+							if (attributeelements == -1) attributeelements = counter;
 
 							attriOpen = false;
 							elementUpdate(elementLine, counter, curID, catalystMap);
@@ -4402,10 +4073,7 @@ void BehaviorSub::CompilingBehavior()
 
 						if (openRange == range)
 						{
-							if (characterelements == -1)
-							{
-								characterelements = counter;
-							}
+							if (characterelements == -1) characterelements = counter;
 
 							charOpen = false;
 							elementUpdate(elementLine, counter, curID, catalystMap);
@@ -4447,10 +4115,7 @@ void BehaviorSub::CompilingBehavior()
 												string animPath = "Animations\\" + newAnimation[templatecode][k]->GetFilePath();
 												AddAnims(line, animPath, outputdir, behaviorFile, lowerBehaviorFile, newMod, catalystMap[curID], counter, isAdded, addAnim);
 
-												if (addAnim)
-												{
-													addAnimation();
-												}
+												if (addAnim) addAnimation();
 											}
 										}
 									}
@@ -4469,10 +4134,7 @@ void BehaviorSub::CompilingBehavior()
 											string animPath = "Animations\\" + anim;
 											AddAnims(line, animPath, outputdir, behaviorFile, lowerBehaviorFile, newMod, catalystMap[curID], counter, isAdded, addAnim);
 
-											if (addAnim)
-											{
-												addAnimation();
-											}
+											if (addAnim) addAnimation();
 										}
 									}
 								}
@@ -4484,10 +4146,7 @@ void BehaviorSub::CompilingBehavior()
 										bool addAnim = false;
 										AddAnims(line, animPath.second, outputdir, behaviorFile, lowerBehaviorFile, newMod, catalystMap[curID], counter, isAdded, addAnim);
 
-										if (addAnim)
-										{
-											addAnimation();
-										}
+										if (addAnim) addAnimation();
 									}
 								}
 							}
@@ -4505,10 +4164,7 @@ void BehaviorSub::CompilingBehavior()
 
 						if (!fp_animOpen && !characterAA && alternateAnim.find(boost::to_lower_copy(animFile)) != alternateAnim.end())
 						{
-							if (!isCharacter)
-							{
-								ErrorMessage(1184, behaviorFile);
-							}
+							if (!isCharacter) ErrorMessage(1184, behaviorFile);
 
 							characterAA = true;
 						}
@@ -4559,10 +4215,7 @@ void BehaviorSub::CompilingBehavior()
 						addAnimation();
 						++counter;
 
-						if (newMod.length() == 0)
-						{
-							newMod = "Skyrim";
-						}
+						if (newMod.length() == 0) newMod = "Skyrim";
 
 						vector<set<string>>* match_ptr = &animModMatch[lowerBehaviorFile][animFile];
 						size_t matchSize = match_ptr->size();
@@ -4625,10 +4278,7 @@ void BehaviorSub::CompilingBehavior()
 							string templine = line.substr(0, pos);
 							size_t range = count(templine.begin(), templine.end(), '\t');
 
-							if (range == openRange + 1)
-							{
-								++counter;
-							}
+							if (range == openRange + 1) ++counter;
 						}
 						else if (line.find("\t\t\t#") != NOT_FOUND)
 						{
@@ -4654,14 +4304,8 @@ void BehaviorSub::CompilingBehavior()
 
 					if (pos != NOT_FOUND && pos == line.length() - 15)
 					{
-						if (newBone)
-						{
-							repeatnum = bonenum;
-						}
-						else
-						{
-							repeatnum = 0;
-						}
+						if (newBone) repeatnum = bonenum;
+						else repeatnum = 0;
 					}
 
 					if (!ignoreFunction[filelist[curList]][curID])
@@ -4714,14 +4358,8 @@ void BehaviorSub::CompilingBehavior()
 								string base = boost::regex_replace(string(line), boost::regex(".*[$]stateID[[](.*)[]][[]([0-9]+)[]][[].*[]][[][0-9]+[]][$].*"),
 									string("\\2"));
 
-								if (stateStrID[node + base] == 0)
-								{
-									stateStrID[node + base] = stoi(base) + 1;
-								}
-								else
-								{
-									base = to_string(stateStrID[node + base]++);
-								}
+								if (stateStrID[node + base] == 0) stateStrID[node + base] = stoi(base) + 1;
+								else base = to_string(stateStrID[node + base]++);
 
 								line.replace(line.find(oldChange), oldChange.length(), base);
 								registeredStateID[change] = base;
@@ -4767,10 +4405,7 @@ void BehaviorSub::CompilingBehavior()
 					++repeated;
 				}
 
-				if (elementCatch)
-				{
-					elementLine = catalystMap[curID].size() - 1;
-				}
+				if (elementCatch) elementLine = catalystMap[curID].size() - 1;
 			}
 
 			if (error) throw nemesis::exception();
@@ -4788,10 +4423,7 @@ void BehaviorSub::CompilingBehavior()
 #else
 				outputdir = behaviorPath[lowerBehaviorFile] + ".hkx";
 #endif
-				if (SSE)
-				{
-					lowerBehaviorFile = "SSE\\" + lowerBehaviorFile;
-				}
+				if (SSE) lowerBehaviorFile = "SSE\\" + lowerBehaviorFile;
 
 				string cachedFile = "cached_behaviors\\" + lowerBehaviorFile + ".hkx";
 
@@ -4801,10 +4433,7 @@ void BehaviorSub::CompilingBehavior()
 				}
 				else if (isFileExist(outputdir) && !boost::filesystem::is_directory(outputdir))
 				{
-					if (!boost::filesystem::remove(outputdir))
-					{
-						WarningMessage(1005, outputdir);
-					}
+					if (!boost::filesystem::remove(outputdir))WarningMessage(1005, outputdir);
 				}
 
 				int i = 0;
@@ -4825,10 +4454,7 @@ void BehaviorSub::CompilingBehavior()
 	{
 		if (catalystMap[curID].back().empty())
 		{
-			if (catalystMap[curID].size() > 1 && catalystMap[curID][catalystMap[curID].size() - 2].empty())
-			{
-				catalystMap[curID].pop_back();
-			}
+			if (catalystMap[curID].size() > 1 && catalystMap[curID][catalystMap[curID].size() - 2].empty()) catalystMap[curID].pop_back();
 		}
 		else
 		{
@@ -4896,10 +4522,7 @@ void BehaviorSub::CompilingBehavior()
 				if (BehaviorTemplate.behaviortemplate[templateCode + "_group"].find(lowerBehaviorFile) != BehaviorTemplate.behaviortemplate[templateCode +
 					"_group"].end())
 				{
-					if (BehaviorTemplate.behaviortemplate[templateCode + "_group"][lowerBehaviorFile].size() > 0)
-					{
-						hasGroup = true;
-					}
+					if (BehaviorTemplate.behaviortemplate[templateCode + "_group"][lowerBehaviorFile].size() > 0) hasGroup = true;
 				}
 			}
 
@@ -4908,10 +4531,7 @@ void BehaviorSub::CompilingBehavior()
 				if (BehaviorTemplate.behaviortemplate[templateCode + "_master"].find(lowerBehaviorFile) != BehaviorTemplate.behaviortemplate[templateCode +
 					"_master"].end())
 				{
-					if (BehaviorTemplate.behaviortemplate[templateCode + "_master"][lowerBehaviorFile].size() > 0)
-					{
-						hasMaster = true;
-					}
+					if (BehaviorTemplate.behaviortemplate[templateCode + "_master"][lowerBehaviorFile].size() > 0) hasMaster = true;
 				}
 			}
 
@@ -4925,13 +4545,8 @@ void BehaviorSub::CompilingBehavior()
 					allEditLines.emplace_back(make_shared<vecstr>(space));
 				}
 
-				while (true)
+				if (newAnimation[templateCode].size() != 0 && !newAnimSkip(newAnimation[templateCode], modID))
 				{
-					if (newAnimation[templateCode].size() == 0 || newAnimSkip(newAnimation[templateCode], modID))
-					{
-						break;
-					}
-
 					shared_ptr<group> subFunctionIDs = make_shared<group>();
 					subFunctionIDs->singlelist.reserve(memory);
 					group newSubFunctionIDs;
@@ -4958,10 +4573,7 @@ void BehaviorSub::CompilingBehavior()
 
 					if (error) throw nemesis::exception();
 
-					if (stateMultiplier.size() != stateID.size() || stateMultiplier.size() == 0)
-					{
-						ErrorMessage(1192);
-					}
+					if (stateMultiplier.size() != stateID.size() || stateMultiplier.size() == 0) ErrorMessage(1192);
 
 					size_t newAnimCount = newAnimation[templateCode].size();
 
@@ -4975,10 +4587,7 @@ void BehaviorSub::CompilingBehavior()
 						size_t n_core = boost::thread::hardware_concurrency();
 						boost::posix_time::ptime start_time = boost::posix_time::microsec_clock::local_time();
 
-						if (newAnimCount > 500)
-						{
-							n_core = n_core * 3 / 4;
-						}
+						if (newAnimCount > 500) n_core = n_core * 3 / 4;
 
 						// individual animation
 						if (hasGroup)
@@ -4993,10 +4602,7 @@ void BehaviorSub::CompilingBehavior()
 									{
 										if (newAnimation[templateCode][k]->coreModID != modID)
 										{
-											if (dummyAnimation != nullptr && !dummyAnimation->isLast())
-											{
-												ErrorMessage(1183);
-											}
+											if (dummyAnimation != nullptr && !dummyAnimation->isLast()) ErrorMessage(1183);
 										}
 										else
 										{
@@ -5043,20 +4649,17 @@ void BehaviorSub::CompilingBehavior()
 											}
 										}
 
-										if (multiThreads.size() + m_RunningThread >= n_core + extraCore)
-										{
-											break;
-										}
+										if (multiThreads.size() + m_RunningThread >= n_core + extraCore) break;
 
 										if (error) throw nemesis::exception();
 									}
 
-									if (multiThreads.size() > 0)
-									{
-										multiThreads.join_all();
-									}
+									if (multiThreads.size() > 0) multiThreads.join_all();
 								}
-								catch (nemesis::exception) {}
+								catch (nemesis::exception&)
+								{
+									// resolved exception
+								}
 							}
 						}
 						else
@@ -5071,10 +4674,7 @@ void BehaviorSub::CompilingBehavior()
 									{
 										if (newAnimation[templateCode][k]->coreModID != modID)
 										{
-											if (dummyAnimation != nullptr && !dummyAnimation->isLast())
-											{
-												ErrorMessage(1183);
-											}
+											if (dummyAnimation != nullptr && !dummyAnimation->isLast()) ErrorMessage(1183);
 										}
 										else
 										{
@@ -5130,18 +4730,15 @@ void BehaviorSub::CompilingBehavior()
 											}
 										}
 
-										if (multiThreads.size() + m_RunningThread >= n_core + extraCore)
-										{
-											break;
-										}
+										if (multiThreads.size() + m_RunningThread >= n_core + extraCore) break;
 									}
 								}
-								catch (nemesis::exception) {}
-
-								if (multiThreads.size() > 0)
+								catch (nemesis::exception&)
 								{
-									multiThreads.join_all();
+									// resolved exception
 								}
+
+								if (multiThreads.size() > 0) multiThreads.join_all();
 							}
 						}
 
@@ -5173,10 +4770,7 @@ void BehaviorSub::CompilingBehavior()
 							// check error before initialization
 							for (unsigned int curGroup = 0; curGroup < groupFunctionIDs->grouplist.size(); ++curGroup)
 							{
-								if (groupFunctionIDs->grouplist[curGroup]->singlelist.size() != groupAnimInfo[curGroup].size())
-								{
-									ErrorMessage(1156, templateCode);
-								}
+								if (groupFunctionIDs->grouplist[curGroup]->singlelist.size() != groupAnimInfo[curGroup].size())ErrorMessage(1156, templateCode);
 							}
 						}
 
@@ -5233,18 +4827,15 @@ void BehaviorSub::CompilingBehavior()
 											groupThreadStart(args);
 										}
 
-										if (multiThreads.size() + m_RunningThread >= n_core + extraCore)
-										{
-											break;
-										}
+										if (multiThreads.size() + m_RunningThread >= n_core + extraCore) break;
 									}
 								}
-								catch (nemesis::exception) {}
-
-								if (multiThreads.size() > 0)
+								catch (nemesis::exception&)
 								{
-									multiThreads.join_all();
+									// resolved exception
 								}
+
+								if (multiThreads.size() > 0) multiThreads.join_all();
 							}
 						}
 
@@ -5274,8 +4865,6 @@ void BehaviorSub::CompilingBehavior()
 						DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Animation count: " +
 							to_string(newAnimCount) + " COMPLETE)");
 					}
-
-					break;
 				}
 
 				DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count: " +
@@ -5294,17 +4883,11 @@ void BehaviorSub::CompilingBehavior()
 
 					if (error) throw nemesis::exception();
 
-					if (catalystMap[functionID].size() == 0)
-					{
-						ErrorMessage(1099);
-					}
+					if (catalystMap[functionID].size() == 0) ErrorMessage(1099);
 
 					if (catalystMap[functionID].back().empty())
 					{
-						if (catalystMap[functionID].size() > 1 && catalystMap[functionID][catalystMap[functionID].size() - 2].empty())
-						{
-							catalystMap[functionID].pop_back();
-						}
+						if (catalystMap[functionID].size() > 1 && catalystMap[functionID][catalystMap[functionID].size() - 2].empty()) catalystMap[functionID].pop_back();
 					}
 					else
 					{
@@ -5334,17 +4917,11 @@ void BehaviorSub::CompilingBehavior()
 						animInfo, templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup, BehaviorTemplate.grouplist[lowerBehaviorFile],
 						ignoreGroup);
 					
-					if (catalystMap[functionID].size() == 0)
-					{
-						ErrorMessage(1099);
-					}
+					if (catalystMap[functionID].size() == 0) ErrorMessage(1099);
 
 					if (catalystMap[functionID].back().empty())
 					{
-						if (catalystMap[functionID].size() > 1 && catalystMap[functionID][catalystMap[functionID].size() - 2].empty())
-						{
-							catalystMap[functionID].pop_back();
-						}
+						if (catalystMap[functionID].size() > 1 && catalystMap[functionID][catalystMap[functionID].size() - 2].empty()) catalystMap[functionID].pop_back();
 					}
 					else
 					{
@@ -5399,10 +4976,7 @@ void BehaviorSub::CompilingBehavior()
 					}
 				}
 
-				if (!isChange)
-				{
-					break;
-				}
+				if (!isChange) break;
 
 				vecstr children;
 				string groupName = AAGroup[it->first];
@@ -5432,10 +5006,7 @@ void BehaviorSub::CompilingBehavior()
 					importline = "			<hkparam name=\"variableBindingSet\">#" + tempID + "</hkparam>";
 					++lastID;
 
-					if (lastID == 9216)
-					{
-						++lastID;
-					}
+					if (lastID == 9216) ++lastID;
 				}
 				else
 				{
@@ -5459,10 +5030,7 @@ void BehaviorSub::CompilingBehavior()
 				msglines.push_back("				#" + baseID);
 				++lastID;
 
-				if (lastID == 9216)
-				{
-					++lastID;
-				}
+				if (lastID == 9216) ++lastID;
 
 				for (unsigned int i = 0; i < it->second.size(); ++i)
 				{
@@ -5479,10 +5047,7 @@ void BehaviorSub::CompilingBehavior()
 						children.push_back(tempID);
 						++lastID;
 
-						if (lastID == 9216)
-						{
-							++lastID;
-						}
+						if (lastID == 9216) ++lastID;
 					}
 					else
 					{
@@ -5509,10 +5074,7 @@ void BehaviorSub::CompilingBehavior()
 						catalystMap[i_baseID].push_back(catalystMap[iter->first][i]);
 					}
 
-					if (catalystMap[i_baseID].back().length() != 0)
-					{
-						catalystMap[i_baseID].push_back("");
-					}
+					if (catalystMap[i_baseID].back().length() != 0) catalystMap[i_baseID].push_back("");
 
 					if (pceaBaseIter != pceaID.end())
 					{
@@ -5555,10 +5117,7 @@ void BehaviorSub::CompilingBehavior()
 							triggerID[tempID] = aaEvent_itr->second;
 							++lastID;
 
-							if (lastID == 9216)
-							{
-								++lastID;
-							}
+							if (lastID == 9216) ++lastID;
 						}
 						else
 						{
@@ -5575,10 +5134,7 @@ void BehaviorSub::CompilingBehavior()
 						AAlines.push_back(catalystMap[iter->first][j]);
 					}
 
-					if (AAlines.back().length() != 0)
-					{
-						AAlines.push_back("");
-					}
+					if (AAlines.back().length() != 0) AAlines.push_back("");
 
 					if (error) throw nemesis::exception();
 
@@ -5601,10 +5157,7 @@ void BehaviorSub::CompilingBehavior()
 							negative = true;
 							string signTime = time.substr(1);
 
-							if (isOnlyNumber(signTime) && stod(signTime) == 0)
-							{
-								time = signTime;
-							}
+							if (isOnlyNumber(signTime) && stod(signTime) == 0) time = signTime;
 						}
 
 						AAlines.push_back("				<hkobject>");
@@ -5622,14 +5175,7 @@ void BehaviorSub::CompilingBehavior()
 						AAlines.push_back("						</hkobject>");
 						AAlines.push_back("					</hkparam>");
 
-						if (negative)
-						{
-							AAlines.push_back("					<hkparam name=\"relativeToEndOfClip\">true</hkparam>");
-						}
-						else
-						{
-							AAlines.push_back("					<hkparam name=\"relativeToEndOfClip\">false</hkparam>");
-						}
+						AAlines.push_back("					<hkparam name=\"relativeToEndOfClip\">" + string(negative ? "true" : "false") + "</hkparam>");
 
 						AAlines.push_back("					<hkparam name=\"acyclic\">false</hkparam>");
 						AAlines.push_back("					<hkparam name=\"isAnnotation\">false</hkparam>");
@@ -5648,10 +5194,7 @@ void BehaviorSub::CompilingBehavior()
 				if (error) throw nemesis::exception();
 			}
 
-			if (isChange)
-			{
-				catalystMap[iter->first] = msglines;
-			}
+			if (isChange) catalystMap[iter->first] = msglines;
 		}
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 4.4, AA count: " + to_string(clipAA.size()) + " COMPLETE)");
@@ -5697,10 +5240,7 @@ void BehaviorSub::CompilingBehavior()
 					importline = "			<hkparam name=\"variableBindingSet\">#" + tempID + "</hkparam>";
 					++lastID;
 
-					if (lastID == 9216)
-					{
-						++lastID;
-					}
+					if (lastID == 9216) ++lastID;
 				}
 				else
 				{
@@ -5724,10 +5264,7 @@ void BehaviorSub::CompilingBehavior()
 				msglines.push_back("				#" + importline);
 				++lastID;
 
-				if (lastID == 9216)
-				{
-					++lastID;
-				}
+				if (lastID == 9216) ++lastID;
 
 				string baseID = to_string(lastID);
 
@@ -5739,10 +5276,7 @@ void BehaviorSub::CompilingBehavior()
 				msglines.push_back("				#" + baseID);
 				++lastID;
 
-				if (lastID == 9216)
-				{
-					++lastID;
-				}
+				if (lastID == 9216) ++lastID;
 
 				msglines.push_back("			</hkparam>");
 				msglines.push_back("			<hkparam name=\"selectedGeneratorIndex\">0</hkparam>");
@@ -5765,10 +5299,7 @@ void BehaviorSub::CompilingBehavior()
 					msglines.push_back(catalystMap[datalist.first][j]);
 				}
 
-				if (msglines.back().length() != 0)
-				{
-					msglines.push_back("");
-				}
+				if (msglines.back().length() != 0) msglines.push_back("");
 
 				if (error) throw nemesis::exception();
 
@@ -5779,10 +5310,7 @@ void BehaviorSub::CompilingBehavior()
 			msglines.push_back("		<hkobject name=\"#" + importline + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
 			msglines.insert(msglines.end(), catalystMap[datalist.first].begin() + 1, catalystMap[datalist.first].end());
 
-			if (msglines.back().length() != 0)
-			{
-				msglines.push_back("");
-			}
+			if (msglines.back().length() != 0) msglines.push_back("");
 
 			lineRe.push_back(msglines);
 
@@ -5815,31 +5343,15 @@ void BehaviorSub::CompilingBehavior()
 	DebugLogging("Processing behavior: " + filepath + " (Check point 5, Prepare to output)");
 	emit progressAdd();
 
-	if (behaviorPath[lowerBehaviorFile].size() == 0)
-	{
-		ErrorMessage(1068, behaviorFile);
-	}
+	if (behaviorPath[lowerBehaviorFile].size() == 0) ErrorMessage(1068, behaviorFile);
 
 	string filename = "temp_behaviors\\xml\\" + modID + lowerBehaviorFile;
 
-	if (!FolderCreate(GetFileDirectory(filename)))
-	{
-		return;
-	}
-	else
-	{
-		if (!FolderCreate(GetFileDirectory(outputdir)))
-		{
-			return;
-		}
-	}
+	if (!FolderCreate(GetFileDirectory(filename)) || !FolderCreate(GetFileDirectory(outputdir))) return;
 
 	ofstream output(filename + ".xml");
 
-	if (!output.is_open())
-	{
-		ErrorMessage(1025, filename);
-	}
+	if (!output.is_open()) ErrorMessage(1025, filename);
 
 	for (int i = firstID; i < firstID + 4; ++i)
 	{
@@ -5920,10 +5432,7 @@ void BehaviorSub::CompilingBehavior()
 		if (error) throw nemesis::exception();
 	}
 
-	if (catalystMap.rbegin()->second.back().length() != 0)
-	{
-		output << "\n";
-	}
+	if (catalystMap.rbegin()->second.back().length() != 0) output << "\n";
 
 	output << "	</hksection>" << "\n\n";
 	output << "</hkpackfile>" << "\n";
@@ -5952,24 +5461,27 @@ void BehaviorSub::AnimDataCompilation()
 
 		try
 		{
-			try
-			{
-				CompilingAnimData();
-			}
-			catch (exception& ex)
-			{
-				ErrorMessage(6002, ex.what(), filelist[curList]);
-			}
+			CompilingAnimData();
 		}
-		catch (nemesis::exception) {}
+		catch (exception& ex)
+		{
+			ErrorMessage(6002, filelist[curList], ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
 	}
 	catch (...)
 	{
 		try
 		{
-			ErrorMessage(6002, "New animation: Unknown", filelist[curList]);
+			ErrorMessage(6002, filelist[curList], "New animation: Unknown");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 
 	emit done();
@@ -6004,10 +5516,7 @@ void BehaviorSub::CompilingAnimData()
 			vecstr newline;
 			unordered_map<string, string> chosenLines;
 
-			if (!GetFunctionLines(filepath, catalyst))
-			{
-				return;
-			}
+			if (!GetFunctionLines(filepath, catalyst)) return;
 
 			DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
 			emit progressAdd();
@@ -6053,14 +5562,11 @@ void BehaviorSub::CompilingAnimData()
 						size_t tempint = line.find("<!-- NEW *", 0) + 10;
 						string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
 
-						if (!chosenBehavior[modID])
-						{
-							isOpen = false;
-						}
+						if (!chosenBehavior[modID]) isOpen = false;
 
 						skip = true;
 					}
-					else if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
+					else if (line.find("<!-- NEW ^", 0) != NOT_FOUND || line.find("<!-- FOREACH ^") != NOT_FOUND)
 					{
 						special = true;
 					}
@@ -6068,14 +5574,8 @@ void BehaviorSub::CompilingAnimData()
 					{
 						isOpen = true;
 
-						if (!special)
-						{
-							skip = true;
-						}
-						else
-						{
-							special = false;
-						}
+						if (!special) skip = true;
+						else special = false;
 					}
 				}
 
@@ -6092,21 +5592,13 @@ void BehaviorSub::CompilingAnimData()
 						}
 						else if (line.find("<!-- original -->", 0) != NOT_FOUND)
 						{
-							if (chosenLines.size() != 0)
-							{
-								line = behaviorLineChooser(line, chosenLines, behaviorPriority);
-								chosenLines.clear();
-							}
-							else
-							{
-								ErrorMessage(1165);
-							}
+							if (chosenLines.size() == 0) ErrorMessage(1165);
+
+							line = behaviorLineChooser(line, chosenLines, behaviorPriority);
+							chosenLines.clear();
 						}
 
-						if (line.find("//* delete this line *//") != NOT_FOUND)
-						{
-							break;
-						}
+						if (line.find("//* delete this line *//") != NOT_FOUND) break;
 
 						if (l + 3 < catalyst.size() && l > 2)
 						{
@@ -6125,10 +5617,7 @@ void BehaviorSub::CompilingAnimData()
 									--next;
 								}
 
-								if (catalyst[l + next] == "")
-								{
-									empty = true;
-								}
+								if (catalyst[l + next] == "") empty = true;
 							}
 
 							if (empty)
@@ -6139,28 +5628,19 @@ void BehaviorSub::CompilingAnimData()
 								{
 									int next = 1;
 
-									if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
-									{
-										++next;
-									}
+									if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++next;
 
 									if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
 									{
 										++next;
 
-										if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
-										{
-											++next;
-										}
+										if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++next;
 
 										if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
 										{
 											int nextnext = next + 1;
 
-											if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
-											{
-												++nextnext;
-											}
+											if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++nextnext;
 
 											if (catalyst[l + next] == "0" || (l + nextnext < catalyst.size() &&
 												catalyst[l + nextnext].find("\\") != NOT_FOUND))
@@ -6196,10 +5676,7 @@ void BehaviorSub::CompilingAnimData()
 												header = line + " " + catalyst[l + 1];
 												animDataHeader[project].push_back(header);
 
-												if (number > uCode[project])
-												{
-													uCode[project] = number;
-												}
+												if (number > uCode[project]) uCode[project] = number;
 											}
 											else		// new anim header added by mod
 											{
@@ -6298,10 +5775,7 @@ void BehaviorSub::CompilingAnimData()
 										header = line + " " + catalyst[l + 1];
 										animDataHeader[project].push_back(header);
 
-										if (number > uCode[project])
-										{
-											uCode[project] = number;
-										}
+										if (number > uCode[project]) uCode[project] = number;
 									}
 									else
 									{
@@ -6329,19 +5803,13 @@ void BehaviorSub::CompilingAnimData()
 									{
 										++next;
 
-										if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
-										{
-											++next;
-										}
+										if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++next;
 
 										if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
 										{
 											int nextnext = next + 1;
 
-											if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
-											{
-												++nextnext;
-											}
+											if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++nextnext;
 
 											if (catalyst[l + next] == "0" || (l + nextnext < catalyst.size() &&
 												catalyst[l + nextnext].find("\\") != NOT_FOUND))	// next project
@@ -6373,10 +5841,7 @@ void BehaviorSub::CompilingAnimData()
 
 			if (newline.size() != 0)
 			{
-				if (newline.back().length() == 0)
-				{
-					newline.pop_back();
-				}
+				if (newline.back().length() == 0) newline.pop_back();
 
 				newline.shrink_to_fit();
 				catalystMap[project][header] = newline;
@@ -6388,8 +5853,7 @@ void BehaviorSub::CompilingAnimData()
 		emit progressAdd();
 
 		// check for having newAnimation for the file
-		if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() &&
-			BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
+		if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
 		{
 			unordered_map<string, unordered_map<string, vector<map<int, vecstr>>>> editExtract;
 			unordered_map<string, unordered_map<string, int>> ASDCount;
@@ -6402,14 +5866,15 @@ void BehaviorSub::CompilingAnimData()
 
 				if (newAnimation.find(templateCode) != newAnimation.end() && newAnimation[templateCode].size() != 0)
 				{
-					for (unsigned int k = 0; k < newAnimation[templateCode].size(); ++k)
+					for (auto& eachNewAnim : newAnimation[templateCode])
 					{
-						unordered_map<string, unordered_map<string, vecstr>> generatedAnimData;
-						newAnimation[templateCode][k]->GetAnimData(generatedAnimData);
+						unordered_map<string, map<string, vecstr>> generatedAnimData;
+						eachNewAnim->GetAnimData(generatedAnimData);
 						
-						for (auto it = generatedAnimData.begin(); it != generatedAnimData.end(); ++it)
+						for (auto& _animData : generatedAnimData)
 						{
-							project = it->first;
+							project = _animData.first;
+							string uniquecode;
 							string projectplus;
 							unordered_map<string, string> isExist;
 
@@ -6423,60 +5888,50 @@ void BehaviorSub::CompilingAnimData()
 								projectplus = project + " " + to_string(projectNameCount[project]);
 							}
 
-							for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+							for (auto data : _animData.second)
 							{
-								size_t size = iter->second.size();
+								size_t size = data.first.size();
 
-								if (size > 0)
+								if (data.second.size() > 0)
 								{
-									if (size > 2 && iter->first[size - 3] == '$' && iter->first[size - 2] == 'U' && iter->first.back() == 'C')		// info data
+									if (size > 2 && data.first[size - 3] == '$' && data.first[size - 2] == 'U' && data.first.back() == 'C')		// info data
 									{
-										if (iter->first[0] != '$')
-										{
-											ErrorMessage(3006, project, iter->first);
-										}
+										if (data.first[0] != '$') ErrorMessage(3006, project, data.first);
 
-										header = iter->first.substr(1, iter->first.length() - 4);
+										header = data.first.substr(1, data.first.length() - 4);
 
 										if (isExist[header].length() == 0)
 										{
 											header = to_string(++uCode[projectplus]);
 											isExist[header] = header;
-											iter->second[0] = header;
+											data.second[0] = header;
 											animDataInfo[projectplus].push_back(header);
 										}
 									}
-									else	// anim data
+									else if (data.first[0] == '$' && data.first.back() == '$')	// anim data 
 									{
-										if (iter->first[0] == '$' && iter->first.back() == '$')
+										header = data.second[0];
+										header.append("~" + to_string(++ASDCount[projectplus][header]));
+
+										if (isExist[header].length() == 0)
 										{
-											header = iter->second[0];
-											header.append("~" + to_string(++ASDCount[projectplus][header]));
-											string uniquecode;
-
-											if (isExist[header].length() == 0)
-											{
-												uniquecode = to_string(++uCode[projectplus]);
-												isExist[header] = uniquecode;
-											}
-											else
-											{
-												uniquecode = isExist[header];
-											}
-
-											iter->second[1] = uniquecode;
-											animDataHeader[projectplus].push_back(header);
+											uniquecode = to_string(++uCode[projectplus]);
+											isExist[header] = uniquecode;
 										}
 										else
 										{
-											ErrorMessage(3003, iter->first + ".txt");
+											uniquecode = isExist[header];
 										}
+
+										data.second[1] = uniquecode;
+										animDataHeader[projectplus].push_back(header);
+									}
+									else
+									{
+										ErrorMessage(3003, data.first + ".txt");
 									}
 
-									if (catalystMap[projectplus][header].size() > 0)
-									{
-										ErrorMessage(5012, templateCode, project, header);
-									}
+									if (catalystMap[projectplus][header].size() > 0) ErrorMessage(5012, templateCode, project, header);
 
 									if (projectNameCount[project] != 1)
 									{
@@ -6484,14 +5939,16 @@ void BehaviorSub::CompilingAnimData()
 
 										for (int i = 1; i <= projectNameCount[project]; ++i)
 										{
-											catalystMap[project + " " + to_string(i)][header] = iter->second;
+											catalystMap[project + " " + to_string(i)][header] = data.second;
 										}
 									}
 									else
 									{
-										catalystMap[projectplus][header] = iter->second;
+										catalystMap[projectplus][header] = data.second;
 									}
 								}
+
+								if (error) throw nemesis::exception();
 							}
 						}
 
@@ -6504,13 +5961,10 @@ void BehaviorSub::CompilingAnimData()
 							{
 								header = *iter;
 
-								if (catalystMap[project][header].size() == 0)
-								{
-									ErrorMessage(5011, templateCode, project, header);
-								}
+								if (catalystMap[project][header].size() == 0) ErrorMessage(5011, templateCode, project, header);
 
 								map<int, vecstr> extract;
-								newAnimation[templateCode][k]->existingASDProcess(catalystMap[project][header], extract);
+								eachNewAnim->existingASDProcess(catalystMap[project][header], extract);
 
 								if (error) throw nemesis::exception();
 
@@ -6532,10 +5986,7 @@ void BehaviorSub::CompilingAnimData()
 						{
 							header = *iter;
 
-							if (catalystMap[project][header].size() == 0)
-							{
-								ErrorMessage(5011, templateCode, project, header);
-							}
+							if (catalystMap[project][header].size() == 0) ErrorMessage(5011, templateCode, project, header);
 
 							editExtract[project][header].push_back(*new map<int, vecstr>());
 
@@ -6568,10 +6019,7 @@ void BehaviorSub::CompilingAnimData()
 						}
 					}
 
-					if (totalline == 0 && header.second.size() > 0 && header.second[0].size() > 0)
-					{
-						ErrorMessage(5014, project.first, header.first);
-					}
+					if (totalline == 0 && header.second.size() > 0 && header.second[0].size() > 0) ErrorMessage(5014, project.first, header.first);
 
 					for (int i = 1; i <= projectNameCount[project.first]; ++i)
 					{
@@ -6643,14 +6091,8 @@ void BehaviorSub::CompilingAnimData()
 		{
 			for (unsigned int i = 0; i < projectList.size(); ++i)
 			{
-				if (projectNameCount[projectList[i]] > 1)
-				{
-					project = projectList[i] + " " + to_string(++nextProject[projectList[i]]);
-				}
-				else
-				{
-					project = projectList[i] + " 1";
-				}
+				if (projectNameCount[projectList[i]] > 1) project = projectList[i] + " " + to_string(++nextProject[projectList[i]]);
+				else project = projectList[i] + " 1";
 
 				vecstr combined;
 
@@ -6666,10 +6108,7 @@ void BehaviorSub::CompilingAnimData()
 					combined.insert(combined.end(), catalystMap[project][header].begin(), catalystMap[project][header].end());
 				}
 
-				if (combined.size() == 0)
-				{
-					ErrorMessage(5017, projectList[i]);
-				}
+				if (combined.size() == 0) ErrorMessage(5017, projectList[i]);
 
 				if (error) throw nemesis::exception();
 
@@ -6702,12 +6141,7 @@ void BehaviorSub::CompilingAnimData()
 	filepath = behaviorPath[lowerBehaviorFile];
 #endif
 
-	{
-		if (!FolderCreate(GetFileDirectory(filepath)))
-		{
-			return;
-		}
-	}
+	if (!FolderCreate(GetFileDirectory(filepath))) return;
 
 	FileWriter output(filepath + ".txt");
 
@@ -6800,24 +6234,27 @@ void BehaviorSub::ASDCompilation()
 
 		try
 		{
-			try
-			{
-				CompilingASD();
-			}
-			catch (exception& ex)
-			{
-				ErrorMessage(6002, ex.what(), filelist[curList]);
-			}
+			CompilingASD();
 		}
-		catch (nemesis::exception) {}
+		catch (exception& ex)
+		{
+			ErrorMessage(6002, filelist[curList], ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
 	}
 	catch (...)
 	{
 		try
 		{
-			ErrorMessage(6002, "New animation: Unknown", filelist[curList]);
+			ErrorMessage(6002, filelist[curList], "New animation: Unknown");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 
 	emit done();
@@ -6850,10 +6287,7 @@ void BehaviorSub::CompilingASD()
 		vecstr newline;
 		vecstr storeline;
 
-		if (!GetFunctionLines(filepath, catalyst, false))
-		{
-			return;
-		}
+		if (!GetFunctionLines(filepath, catalyst, false)) return;
 
 		while (catalyst.back().length() == 0)
 		{
@@ -6877,18 +6311,12 @@ void BehaviorSub::CompilingASD()
 					size_t tempint = line.find("<!-- NEW *", 0) + 10;
 					string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
 
-					if (!chosenBehavior[modID])
-					{
-						isOpen = false;
-					}
-					else
-					{
-						newMod = modID;
-					}
+					if (!chosenBehavior[modID]) isOpen = false;
+					else newMod = modID;
 
 					skip = true;
 				}
-				else if (line.find("<!-- NEW ^", 0) != NOT_FOUND)
+				else if (line.find("<!-- NEW ^", 0) != NOT_FOUND || line.find("<!-- FOREACH ^") != NOT_FOUND)
 				{
 					special = true;
 				}
@@ -6897,14 +6325,8 @@ void BehaviorSub::CompilingASD()
 					isOpen = true;
 					newMod.clear();
 
-					if (!special)
-					{
-						skip = true;
-					}
-					else
-					{
-						special = false;
-					}
+					if (!special) skip = true;
+					else special = false;
 				}
 			}
 
@@ -6932,10 +6354,7 @@ void BehaviorSub::CompilingASD()
 						}
 					}
 
-					if (line.find("//* delete this line *//") != NOT_FOUND)
-					{
-						break;
-					}
+					if (line.find("//* delete this line *//") != NOT_FOUND) break;
 
 					storeline.push_back(line);
 					break;
@@ -6947,10 +6366,7 @@ void BehaviorSub::CompilingASD()
 
 		for (int i = 1; i < catalyst.size(); ++i)
 		{
-			if (isOnlyNumber(catalyst[i]))
-			{
-				break;
-			}
+			if (isOnlyNumber(catalyst[i])) break;
 
 			projectList.push_back(catalyst[i]);
 			newline.push_back(catalyst[i]);
@@ -6977,22 +6393,17 @@ void BehaviorSub::CompilingASD()
 					num = i;
 					break;
 				}
-				else
-				{
-					newline.reserve(100);
-					newline.clear();
-					project = projectList[projectcounter];
-					++projectcounter;
-					headercounter = 0;
-					animDataSetHeader[project].push_back("	");
-					newline.push_back(storeline[i]);
-					++i;
-				}
 
-				if (animDataSetHeader[project].size() != 1)
-				{
-					ErrorMessage(5005, filepath, i + 1);
-				}
+				newline.reserve(100);
+				newline.clear();
+				project = projectList[projectcounter];
+				++projectcounter;
+				headercounter = 0;
+				animDataSetHeader[project].push_back("	");
+				newline.push_back(storeline[i]);
+				++i;
+
+				if (animDataSetHeader[project].size() != 1) ErrorMessage(5005, filepath, i + 1);
 
 				while (i < storeline.size())
 				{
@@ -7003,10 +6414,7 @@ void BehaviorSub::CompilingASD()
 					}
 					else if (wordFind(storeline[i], "V3") != NOT_FOUND)
 					{
-						if (headercounter >= animDataSetHeader[project].size())
-						{
-							ErrorMessage(5015, filepath, i + 1);
-						}
+						if (headercounter >= animDataSetHeader[project].size()) ErrorMessage(5015, filepath, i + 1);
 
 						header = animDataSetHeader[project][headercounter];
 						++headercounter;
@@ -7032,10 +6440,7 @@ void BehaviorSub::CompilingASD()
 			}
 			else if (wordFind(storeline[i], "V3") != NOT_FOUND)
 			{
-				if (headercounter >= animDataSetHeader[project].size())
-				{
-					ErrorMessage(5015, filepath, i + 1);
-				}
+				if (headercounter >= animDataSetHeader[project].size()) ErrorMessage(5015, filepath, i + 1);
 
 				header = animDataSetHeader[project][headercounter];
 				++headercounter;
@@ -7080,10 +6485,7 @@ void BehaviorSub::CompilingASD()
 				newline.push_back(storeline[i]);
 				++i;
 
-				if (animDataSetHeader[project].size() != 1)
-				{
-					ErrorMessage(5005, filepath, i + 1);
-				}
+				if (animDataSetHeader[project].size() != 1) ErrorMessage(5005, filepath, i + 1);
 
 				while (i < storeline.size())
 				{
@@ -7094,10 +6496,7 @@ void BehaviorSub::CompilingASD()
 					}
 					else if (wordFind(storeline[i], "V3") != NOT_FOUND)
 					{
-						if (headercounter >= animDataSetHeader[project].size())
-						{
-							ErrorMessage(5015, filepath, i + 1);
-						}
+						if (headercounter >= animDataSetHeader[project].size()) ErrorMessage(5015, filepath, i + 1);
 
 						header = animDataSetHeader[project][headercounter];
 						++headercounter;
@@ -7123,10 +6522,7 @@ void BehaviorSub::CompilingASD()
 			}
 			else if (wordFind(storeline[i], "V3") != NOT_FOUND)
 			{
-				if (headercounter >= animDataSetHeader[project].size() - 1)
-				{
-					ErrorMessage(5015, filepath, i + 1);
-				}
+				if (headercounter >= animDataSetHeader[project].size() - 1) ErrorMessage(5015, filepath, i + 1);
 
 				header = animDataSetHeader[project][headercounter];
 				++headercounter;
@@ -7184,20 +6580,14 @@ void BehaviorSub::CompilingASD()
 						{
 							string interproject = it->first;
 
-							if (ASDPack.find(interproject) == ASDPack.end())
-							{
-								projectList.push_back(interproject);
-							}
+							if (ASDPack.find(interproject) == ASDPack.end()) projectList.push_back(interproject);
 
 							for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 							{
 								string interheader = iter->first.substr(1, iter->first.length() - 2);
 								interheader.append("_" + to_string(++ASDCount[interproject][interheader]) + ".txt");
 
-								if (ASDPack[interproject][interheader].size() > 0)
-								{
-									ErrorMessage(5012, templateCode, interproject, interheader);
-								}
+								if (ASDPack[interproject][interheader].size() > 0) ErrorMessage(5012, templateCode, interproject, interheader);
 
 								if (error) throw nemesis::exception();
 
@@ -7216,10 +6606,7 @@ void BehaviorSub::CompilingASD()
 							{
 								string interheader = *iter;
 
-								if (ASDPack[interproject][interheader].size() == 0)
-								{
-									ErrorMessage(5011, templateCode, interproject, interheader);
-								}
+								if (ASDPack[interproject][interheader].size() == 0) ErrorMessage(5011, templateCode, interproject, interheader);
 
 								map<int, vecstr> extract;
 								newAnimation[templateCode][k]->existingASDProcess(ASDPack[interproject][interheader], extract, vector<int>(1));
@@ -7243,10 +6630,7 @@ void BehaviorSub::CompilingASD()
 						{
 							string interheader = *iter;
 
-							if (ASDPack[interproject][interheader].size() == 0)
-							{
-								ErrorMessage(5011, templateCode, interproject, interheader);
-							}
+							if (ASDPack[interproject][interheader].size() == 0) ErrorMessage(5011, templateCode, interproject, interheader);
 
 							editExtract[interproject][interheader].push_back(*new map<int, vecstr>());
 
@@ -7277,10 +6661,7 @@ void BehaviorSub::CompilingASD()
 						}
 					}
 
-					if (totalline == 0 && header.second.size() > 0 && header.second[0].size() > 0)
-					{
-						ErrorMessage(5014, project.first, header.first);
-					}
+					if (totalline == 0 && header.second.size() > 0 && header.second[0].size() > 0) ErrorMessage(5014, project.first, header.first);
 
 					combineExtraction(ASDPack[project.first][header.first], combined, project.first, header.first);
 
@@ -7333,12 +6714,7 @@ void BehaviorSub::CompilingASD()
 		filepath = behaviorPath[lowerBehaviorFile];
 #endif
 
-		{
-			if (!FolderCreate(GetFileDirectory(filepath)))
-			{
-				return;
-			}
-		}
+		if (!FolderCreate(GetFileDirectory(filepath))) return;
 
 		FileWriter output(filepath + ".txt");
 
@@ -7443,10 +6819,7 @@ void BehaviorSub::addAnimation()
 {
 	++animCounter;
 
-	if (animCounter > base)
-	{
-		emit newAnim();
-	}
+	if (animCounter > base) emit newAnim();
 }
 
 void stateCheck(SSMap& c_parent, string parentID, string lowerbehaviorfile, string sID, SSSMap& stateID, SSMap& n_stateID, vecstr children,
@@ -7466,12 +6839,7 @@ void stateCheck(SSMap& c_parent, string parentID, string lowerbehaviorfile, stri
 					{
 						if (n_stateID.find(match) != n_stateID.end())
 						{
-							if (n_stateID[match] == sID && ID == match)
-							{
-								skip = true;
-								break;
-							}
-							else if (ID != match)
+							if (ID != match || (n_stateID[match] == sID && ID == match))
 							{
 								skip = true;
 								break;
@@ -7500,7 +6868,7 @@ bool isRunning(Terminator*& curEvent)
 	return true;
 }
 
-bool readMod(string& errormod, string& errormsg)
+bool readMod(string& errormsg)
 {
 	string folder = "mod\\";
 	vecstr modlist;
@@ -7515,10 +6883,7 @@ bool readMod(string& errormod, string& errormsg)
 			string name, author, site, automatic, hide;
 			bool hidden = false;
 
-			if (!GetFunctionLines(filename, storeline, false))
-			{
-				return false;
-			}
+			if (!GetFunctionLines(filename, storeline, false)) return false;
 
 			for (auto& line : storeline)
 			{
@@ -7571,8 +6936,7 @@ bool readMod(string& errormod, string& errormsg)
 
 			if (name.length() == 0 || author.length() == 0 || site.length() == 0)
 			{
-				errormsg = "Missing info in \"info.ini\" file. Please contact the mod author\nMod: ";
-				errormod = modcode;
+				errormsg = TextBoxMessage(1014) + " " + modcode;
 				return false;
 			}
 
@@ -7598,27 +6962,30 @@ void groupThreadStart(newGroupArgs args)
 	{
 		try
 		{
-			try
-			{
-				args.groupTemp->setZeroEvent(args.ZeroEvent);
-				args.groupTemp->setZeroVariable(args.ZeroVariable);
-				args.groupTemp->getFunctionLines(args.allEditLines, args.lowerBehaviorFile, args.filename, args.stateID, args.groupFunctionIDs, args.groupAnimInfo,
-					args.lastID, args.exportID, args.eventid, args.variableid, args.templateCode, args.atomicLock, args.groupCount);
-			}
-			catch (const exception& ex)
-			{
-				ErrorMessage(6002, ex.what(), args.filename);
-			}
+			args.groupTemp->setZeroEvent(args.ZeroEvent);
+			args.groupTemp->setZeroVariable(args.ZeroVariable);
+			args.groupTemp->getFunctionLines(args.allEditLines, args.lowerBehaviorFile, args.filename, args.stateID, args.groupFunctionIDs, args.groupAnimInfo,
+				args.lastID, args.exportID, args.eventid, args.variableid, args.templateCode, args.atomicLock, args.groupCount);
 		}
-		catch (nemesis::exception) {}
+		catch (const exception& ex)
+		{
+			ErrorMessage(6002, args.filename, ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
 	}
 	catch (...)
 	{
 		try
 		{
-			ErrorMessage(6002, "New animation: Unknown", args.filename);
+			ErrorMessage(6002, args.filename, "New animation: Unknown");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 }
 
@@ -7628,44 +6995,41 @@ void animThreadStart(newAnimArgs args)
 	{
 		try
 		{
-			try
+			if (args.core)
 			{
-				if (args.core)
-				{
-					args.atomicLock.lockCore();
+				args.atomicLock.lockCore();
 
-					if (args.isCoreDone)
-					{
-						return;
-					}
-					else
-					{
-						args.isCoreDone = true;
-					}
+				if (args.isCoreDone) return;
+				else args.isCoreDone = true;
 
-					args.atomicLock.releaseCore();
-				}
-
-				// getlines from newAnination
-				args.dummyAnimation->setZeroEvent(args.ZeroEvent);
-				args.dummyAnimation->setZeroVariable(args.ZeroVariable);
-				args.dummyAnimation->GetFurnitureLine(args.allEditLines, args.lowerBehaviorFile, args.lastID, args.exportID, args.eventid, args.variableid, args.stateID,
-					args.stateMultiplier, args.hasGroup, args.core, args.subFunctionIDs, args.singleFunctionIDs, args.atomicLock);
+				args.atomicLock.releaseCore();
 			}
-			catch (exception& ex)
-			{
-				ErrorMessage(6002, ex.what(), args.dummyAnimation->GetFormatName());
-			}
+
+			// getlines from newAnination
+			args.dummyAnimation->setZeroEvent(args.ZeroEvent);
+			args.dummyAnimation->setZeroVariable(args.ZeroVariable);
+			args.dummyAnimation->GetFurnitureLine(args.allEditLines, args.lowerBehaviorFile, args.lastID, args.exportID, args.eventid, args.variableid, args.stateID,
+				args.stateMultiplier, args.hasGroup, args.core, args.subFunctionIDs, args.singleFunctionIDs, args.atomicLock);
 		}
-		catch (nemesis::exception) {}
+		catch (exception& ex)
+		{
+			ErrorMessage(6002, args.dummyAnimation->GetFormatName(), ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
 	}
 	catch (...)
 	{
 		try
 		{
-			ErrorMessage(6002, "New animation: Unknown", args.dummyAnimation->GetFormatName());
+			ErrorMessage(6002, args.dummyAnimation->GetFormatName(), "New animation: Unknown");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 }
 
@@ -7682,71 +7046,66 @@ void InstallScripts::Run()
 
 		try
 		{
-			try
+			if (alternateAnim.size() > 0)
 			{
-				if (alternateAnim.size() > 0)
+				if (!AAInstallation())
 				{
-					if (!AAInstallation())
-					{
-						emit end();
-						return;
-					}
+					emit end();
+					return;
 				}
 			}
-			catch (exception& ex)
-			{
-				ErrorMessage(6002, ex.what(), "Alternate Animation");
-			}
 		}
-		catch (nemesis::exception)
+		catch (exception& ex)
 		{
-			emit end();
-			return;
+			ErrorMessage(6002, "Alternate Animation", ex.what());
 		}
+	}
+	catch (nemesis::exception)
+	{
+		emit end();
+		return;
 	}
 	catch (...)
 	{
 		try
 		{
-			ErrorMessage(6002, "AA animation: Unknown", "Alternate Animation");
+			ErrorMessage(6002, "Alternate Animation", "AA animation: Unknown");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
-	
+
 	try
 	{
+		if (error) throw nemesis::exception();
+
 		try
 		{
-			if (error) throw nemesis::exception();
-
-			try
-			{
-				if (pcealist.size() > 0)
-				{
-					PCEAInstallation();
-				}
-			}
-			catch (exception& ex)
-			{
-				ErrorMessage(6002, ex.what(), "PCEA Animation");
-			}
+			if (pcealist.size() > 0) PCEAInstallation();
 		}
-		catch (nemesis::exception) {}
+		catch (exception& ex)
+		{
+			ErrorMessage(6002, "PCEA Animation", ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
 	}
 	catch (...)
 	{
 		try
 		{
-			ErrorMessage(6002, "PCEA animation: Unknown", "PCEA Animation");
+			ErrorMessage(6002, "PCEA Animation", "PCEA animation: Unknown");
 		}
-		catch (nemesis::exception) {}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
 	}
 
-	emit end();
-}
-
-void Terminator::exitSignal()
-{
 	emit end();
 }
 

@@ -20,6 +20,7 @@
 #include <QtWidgets\QTreeView>
 #include <QtWidgets\QPushButton>
 #include "Global.h"
+#include "progressup.h"
 #include "alphanum.hpp"
 #include "filechecker.h"
 #include "behaviorcheck.h"
@@ -35,6 +36,7 @@
 
 typedef std::unordered_map<std::string, SSMap> SSSMap;
 typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, std::set<std::string>>>> StateIDList;
+typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>> MapChildState;
 
 class NemesisMainGUI;
 class UpdateLock;
@@ -47,7 +49,7 @@ extern bool processdone;
 struct arguPack
 {
 	arguPack(std::string n_directory, std::string n_modcode, vecstr n_behaviorfilelist, std::unordered_map<std::string, std::map<std::string, vecstr>>& n_newFile,
-		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& n_childrenState, SSSMap& n_stateID, SSSMap& n_parent,
+		MapChildState& n_childrenState, SSSMap& n_stateID, SSSMap& n_parent,
 		StateIDList& n_modStateList, StateIDList& n_duplicatedStateList, MasterAnimData& n_animData, MasterAnimSetData& n_animSetData,
 		std::unordered_map<std::string, std::string>& n_lastUpdate, std::shared_ptr<UpdateLock> n_modUpdate)
 		: newFile(n_newFile), childrenState(n_childrenState), stateID(n_stateID), parent(n_parent), modStateList(n_modStateList), duplicatedStateList(n_duplicatedStateList),
@@ -64,7 +66,7 @@ struct arguPack
 	vecstr behaviorfilelist;
 	std::shared_ptr<UpdateLock> modUpdate;
 	std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile;
-	std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState;
+	MapChildState& childrenState;
 	SSSMap& stateID;
 	SSSMap& parent;
 	StateIDList& modStateList;
@@ -86,22 +88,18 @@ public:
 	void milestoneStart(std::string directory);
 	void message(std::string input);
 	void GetFileLoop(std::string newPath);
-	bool VanillaUpdate(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
-		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
-		MasterAnimSetData& animSetData);
-	bool GetPathLoop(std::string newPath, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
-		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
-		MasterAnimSetData& animSetData, bool isFirstPerson);
-	bool VanillaDisassemble(std::string path, std::string filename, std::map<std::string, vecstr>& newFile,
-		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSMap& stateID, SSMap& n_parent);
+	bool VanillaUpdate(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MapChildState& childrenState, SSSMap& stateID, SSSMap& n_parent,
+		MasterAnimData& animData, MasterAnimSetData& animSetData);
+	bool GetPathLoop(std::string newPath, std::unordered_map<std::string, std::map<std::string, vecstr>>* newFile, MapChildState& childrenState, SSSMap& stateID,
+		SSSMap& n_parent, MasterAnimData& animData, MasterAnimSetData& animSetData, bool isFirstPerson);
+	bool VanillaDisassemble(std::string path, std::string filename, std::map<std::string, vecstr>* newFile, MapChildState& childrenState, SSMap& stateID, SSMap& n_parent);
 	bool AnimDataDisassemble(std::string path, MasterAnimData& animData);
 	bool AnimSetDataDisassemble(std::string path, MasterAnimSetData& animSetData);
 	bool newAnimUpdate(std::string sourcefolder, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData,
 		std::unordered_map<std::string, std::string>& lastUpdate);
 	void SeparateMod(arguPack& pack);
-	void JoiningEdits(std::string directory, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile,
-		std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState, SSSMap& stateID, SSSMap& n_parent, MasterAnimData& animData,
-		MasterAnimSetData& animSetData, std::unordered_map<std::string, std::string>& lastUpdate);
+	void JoiningEdits(std::string directory, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MapChildState& childrenState, SSSMap& stateID,
+		SSSMap& n_parent, MasterAnimData& animData, MasterAnimSetData& animSetData, std::unordered_map<std::string, std::string>& lastUpdate);
 	void CombiningFiles(std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, MasterAnimData& animData, MasterAnimSetData& animSetData);
 	void unregisterProcess();
 
@@ -119,6 +117,7 @@ signals:
 
 private:
 	int filenum;
+	ProgressUp behaviorProcess;
 
 	// timer
 	boost::posix_time::ptime start_time;
@@ -132,8 +131,8 @@ public:
 	BehaviorStart();
 	virtual ~BehaviorStart();
 	void milestoneStart();
-	void addBehaviorPick(BehaviorStart* newProces, NemesisMainGUI* newWidget, vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
-	void addBehaviorPick(BehaviorStart* newProcess, vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
+	void addBehaviorPick(NemesisMainGUI* newWidget, vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
+	void addBehaviorPick(vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
 	void message(std::string input);
 
 public slots:
@@ -161,8 +160,7 @@ private:
 
 	vecstr behaviorPriority;
 	std::unordered_map<std::string, bool> chosenBehavior;
-	BehaviorStart* behaviorProcess;
-	NemesisMainGUI* widget;
+	ProgressUp behaviorProcess;
 	
 	std::string* directory2;
 	vecstr* filelist2;
@@ -241,19 +239,7 @@ signals:
 	void end();
 };
 
-class Terminator : public QObject
-{
-	Q_OBJECT
-
-public:
-	void exitSignal();
-
-signals:
-	void end();
-};
-
-bool isRunning(Terminator*& curEvent);
-bool readMod(std::string& errormod, std::string& errormsg);
+bool readMod(std::string& errormsg);
 vecstr getHiddenMods();
 
 #endif
