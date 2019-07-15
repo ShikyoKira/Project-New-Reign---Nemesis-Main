@@ -12,7 +12,7 @@ struct var
 	std::string var_type = "BOOL";
 	std::string init_value = "0";
 
-	var(std::string inputtype, std::string inputvalue);
+	var(std::string inputtype, std::string inputvalue, bool& failed);
 	var() {}
 };
 

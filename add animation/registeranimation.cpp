@@ -6,36 +6,74 @@
 
 using namespace std;
 
+bool ruleCheck(vecstr rules, vecstr curList, getTemplate& behaviortemplate, string lowerformat)
+{
+	for (auto& rule : rules)
+	{
+		bool isMatched = false;
+
+		for (auto& cur : curList)
+		{
+			bool matching = false;
+			string number = boost::regex_replace(string(cur), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+			if (cur.length() == rule.length() || (behaviortemplate.optionlist[lowerformat].addOn[rule].size() != 0 && cur.length() > rule.length()) ||
+				cur == rule + number)
+			{
+				for (unsigned int k = 0; k < rule.length(); ++k)
+				{
+					if (k != rule.length() - 1)
+					{
+						if (cur[k] == rule[k])
+						{
+							matching = true;
+						}
+						else
+						{
+							matching = false;
+							break;
+						}
+					}
+					else
+					{
+						if (cur[k] == rule[k]) matching = true;
+
+						break;
+					}
+				}
+			}
+
+			if (matching)
+			{
+				isMatched = true;
+				break;
+			}
+		}
+
+		if (!isMatched) return false;
+
+		if (error) throw nemesis::exception();
+	}
+
+	return true;
+}
+
 registerAnimation::registerAnimation(string curDirectory, string filename, getTemplate behaviortemplate, string behaviorpath, string behavior, bool fstP, bool isNemesis)
 {
-	if (isNemesis)
-	{
-		modID = filename.substr(8, filename.find("_List.txt") - 8);
-	}
-	else
-	{
-		modID = filename.substr(5, filename.find("_List.txt") - 5);
-	}
-	
+	int linecount = isNemesis ? 8 : 5;
+	modID = filename.substr(linecount, filename.find("_List.txt") - linecount);
 	string filepath = curDirectory + filename;
+	linecount = wordFind(filepath, "\\animations\\", true);
 
-	{
-		size_t nextpos = wordFind(filepath, "\\animations\\", true);
+	if (linecount == NOT_FOUND) ErrorMessage(1081);
 
-		if (nextpos == NOT_FOUND)
-		{
-			ErrorMessage(1081);
-		}
-		
-		behaviorFile = behavior;
-	}
-
+	behaviorFile = behavior;
 	QFile file(QString::fromStdString(filepath));
 	string line;
 
 	if (file.open(QIODevice::ReadOnly))
 	{
-		int linecount = 0;
+		linecount = 0;
 		int multiCount = -1;
 		string previousShortline;
 		string previousLine;
@@ -46,6 +84,8 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 		while (!in.atEnd())
 		{
+			if (error) throw nemesis::exception();
+
 			QString qline = in.readLine();
 			string temp = qline.toStdString();
 			string temp2;
@@ -54,19 +94,11 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 			for (auto& chr : temp)
 			{
-				if (chr == L'\'' || chr == L'\n' || chr == L'\0')
-				{
-					break;
-				}
-				else
-				{
-					temp2.push_back(chr);
+				if (chr == L'\'' || chr == L'\n' || chr == L'\0') break;
 
-					if (isalnum(chr))
-					{
-						hasInfo = true;
-					}
-				}
+				temp2.push_back(chr);
+
+				if (isalnum(chr)) hasInfo = true;
 			}
 
 			if (temp2.length() != 0 && hasInfo)
@@ -75,10 +107,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 				vecstr newAnimInfo;
 				StringSplit(line, newAnimInfo);
 
-				if (newAnimInfo[0].length() == 0)
-				{
-					ErrorMessage(1016, filename, linecount);
-				}
+				if (newAnimInfo[0].length() == 0) ErrorMessage(1016, filename, linecount);
 
 				string lowerformat = boost::to_lower_copy(newAnimInfo[0]);
 
@@ -99,41 +128,23 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 					if (!AAprefixExist[lowerPrefix])
 					{
-						if (AAprefixExist.size() > 30)
-						{
-							ErrorMessage(4007, filename, linecount, modID, newAnimInfo[1]);
-						}
+						if (AAprefixExist.size() > 30) ErrorMessage(4007, filename, linecount, modID, newAnimInfo[1]);
 
 						AAprefixExist[lowerPrefix] = true;
 					}
 				}
 				else if (lowerformat == "aaset")
 				{
-					if (curAAprefix.length() == 0)
-					{
-						ErrorMessage(4006, filename, linecount, line);
-					}
+					if (curAAprefix.length() == 0) ErrorMessage(4006, filename, linecount, line);
 
-					if (newAnimInfo.size() != 3)
-					{
-						ErrorMessage(4003, filename, linecount, line);
-					}
+					if (newAnimInfo.size() != 3) ErrorMessage(4003, filename, linecount, line);
 
 					string lowGroupName = boost::algorithm::to_lower_copy(newAnimInfo[1]);
 					size_t groupSize = groupAA[lowGroupName].size();
 
-					if (groupSize == 0)
-					{
-						ErrorMessage(4004, filename, linecount, line);
-					}
+					if (groupSize == 0) ErrorMessage(4004, filename, linecount, line);
 					
-					if (newAnimInfo[2].length() > 0)
-					{
-						if (!isOnlyNumber(newAnimInfo[2]))
-						{
-							ErrorMessage(4005, filename, linecount, line);
-						}
-					}
+					if (newAnimInfo[2].length() > 0 && !isOnlyNumber(newAnimInfo[2])) ErrorMessage(4005, filename, linecount, line);
 
 					int num = stoi(newAnimInfo[2]);
 					string lowGN = fstP ? lowGroupName + "_1p*" : lowGroupName;
@@ -151,12 +162,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 							if (!isFileExist(curDirectory + animFile))
 							{
-								// mute this warning
-								if (true == false)
-								{
-									WarningMessage(1003, modID, animFile);
-								}
-
+								WarningMessage(1003, modID, animFile);
 								alternateAnim[lowAnimPerson].push_back("x");
 							}
 							else
@@ -166,20 +172,14 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 							}
 						}
 
-						if (alternateAnim[lowAnimPerson].size() > 128)
-						{
-							ErrorMessage(4008, filename, linecount, line);
-						}
+						if (alternateAnim[lowAnimPerson].size() > 128) ErrorMessage(4008, filename, linecount, line);
 					}
 
 					if (error) throw nemesis::exception();
 				}
 				else if (lowerformat == "t")
 				{
-					if (newAnimInfo.size() < 4 || newAnimInfo.size() % 2 != 0)
-					{
-						ErrorMessage(4010, filename, linecount);
-					}
+					if (newAnimInfo.size() < 4 || newAnimInfo.size() % 2 != 0) ErrorMessage(4010, filename, linecount);
 
 					string lowerAnimName = boost::algorithm::to_lower_copy(fstP ? newAnimInfo[1] + "_1p*" : newAnimInfo[1]) ;
 
@@ -197,10 +197,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						{
 							AAEvent[lowerAnimName].push_back(newAnimInfo[j]);
 
-							if (j == 2)
-							{
-								AAHasEvent[originalAnim].push_back(lowerAnimName);
-							}
+							if (j == 2) AAHasEvent[originalAnim].push_back(lowerAnimName);
 						}
 					}
 				}
@@ -212,80 +209,73 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					string type = newAnimInfo[2];
 					string value = newAnimInfo[3];
 
-					if (newAnimInfo.size() > 4)
-					{
-						ErrorMessage(1023, filename, linecount, line);
-					}
+					if (newAnimInfo.size() > 4) ErrorMessage(1023, filename, linecount, line);
 
-					if (!isOnlyNumber(value))
-					{
-						ErrorMessage(1030, filename, linecount, line);
-					}
+					if (!isOnlyNumber(value)) ErrorMessage(1030, filename, linecount, line);
 					
-					var variable(type, value);
+					bool failed = false;
 
-					if (!error)
-					{
-						AnimVar[name] = variable;
-					}
-					else
-					{
-						ErrorMessage(1018, filename, linecount, type);
-					}
+					var variable(type, value, failed);
+
+					if (failed) ErrorMessage(1018, filename, linecount, type);
+
+					AnimVar[name] = variable;
 				}
 				else if (newAnimInfo[0] == "MD")
 				{
-					if (newAnimInfo.size() != 5)
-					{
-						ErrorMessage(1089, filename, linecount);
-					}
+					if (newAnimInfo.size() != 5) ErrorMessage(1089, filename, linecount);
 
 					for (unsigned int i = 1; i < newAnimInfo.size(); ++i)
 					{
-						if (!isOnlyNumber(newAnimInfo[i]))
-						{
-							ErrorMessage(1091, filename, linecount);
-						}
+						if (!isOnlyNumber(newAnimInfo[i])) ErrorMessage(1091, filename, linecount);
 					}
+
+					double timer = stod(newAnimInfo[1]);
 
 					if (animInfo[previousShortline].back()->motionData.size() > 0)
 					{
-						int timer = stoi(animInfo[previousShortline].back()->motionData.back().substr(0,
-							animInfo[previousShortline].back()->motionData.back().find(" ")));
+						string* strptr = &animInfo[previousShortline].back()->motionData.back();
 
-						if (timer >= stoi(newAnimInfo[1]))
-						{
-							ErrorMessage(1087, filename, linecount);
-						}
+						if (stod(strptr->substr(0, strptr->find(" "))) >= timer) ErrorMessage(1087, filename, linecount);
 					}
 
-					animInfo[previousShortline].back()->motionData.push_back(newAnimInfo[1] + " " + newAnimInfo[2] + " " + newAnimInfo[3] + " " + newAnimInfo[4]);
+					shared_ptr<animationInfo> animInfo_ptr = animInfo[previousShortline].back();
+					animInfo_ptr->motionData.push_back(newAnimInfo[1] + " " + newAnimInfo[2] + " " + newAnimInfo[3] + " " + newAnimInfo[4]);
+
+					if (animInfo_ptr->duration < timer && (animInfo_ptr->optionPicked.find("D") == animInfo_ptr->optionPicked.end() || !animInfo_ptr->optionPicked["D"]))
+					{
+						animInfo_ptr->duration = timer;
+						animInfo_ptr->hasDuration = true;
+					}
 				}
 				else if (newAnimInfo[0] == "RD")
 				{
-					if (newAnimInfo.size() != 6)
+					if (newAnimInfo.size() != 6) ErrorMessage(1088, filename, linecount);
+
+					for (unsigned int i = 1; i < newAnimInfo.size(); ++i)
 					{
-						ErrorMessage(1088, filename, linecount);
+						if (!isOnlyNumber(newAnimInfo[i])) ErrorMessage(1088, filename, linecount);
 					}
 
-					if (animInfo[previousShortline].back()->motionData.size() == 0)
-					{
-						ErrorMessage(1090, filename, linecount);
-					}
+					if (animInfo[previousShortline].back()->motionData.size() == 0) ErrorMessage(1090, filename, linecount);
+
+					double timer = stod(newAnimInfo[1]);
 
 					if (animInfo[previousShortline].back()->rotationData.size() > 0)
 					{
-						int timer = stoi(animInfo[previousShortline].back()->rotationData.back().substr(0,
-							animInfo[previousShortline].back()->rotationData.back().find(" ")));
+						string* strptr = &animInfo[previousShortline].back()->rotationData.back();
 
-						if (timer >= stoi(newAnimInfo[1]))
-						{
-							ErrorMessage(1086, filename, linecount);
-						}
+						if (stod(strptr->substr(0, strptr->find(" "))) >= timer) ErrorMessage(1086, filename, linecount);
 					}
 
-					animInfo[previousShortline].back()->rotationData.push_back(newAnimInfo[1] + " " + newAnimInfo[2] + " " + newAnimInfo[3] +
-						" " + newAnimInfo[4] + " " + newAnimInfo[5]);
+					shared_ptr<animationInfo> animInfo_ptr = animInfo[previousShortline].back();
+					animInfo_ptr->rotationData.push_back(newAnimInfo[1] + " " + newAnimInfo[2] + " " + newAnimInfo[3] + " " + newAnimInfo[4] + " " + newAnimInfo[5]);
+
+					if (animInfo_ptr->duration < timer && (animInfo_ptr->optionPicked.find("D") == animInfo_ptr->optionPicked.end() || !animInfo_ptr->optionPicked["D"]))
+					{
+						animInfo_ptr->duration = timer;
+						animInfo_ptr->hasDuration = true;
+					}
 				}
 				else if (newAnimInfo[0] == "+")
 				{
@@ -305,10 +295,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 								if (behaviorOption->storelist.find("o") == behaviorOption->storelist.end() || !behaviorOption->storelist["o"])
 								{
-									if (behaviorOption->animObjectCount > 0)
-									{
-										isOExist = true;
-									}
+									if (behaviorOption->animObjectCount > 0) isOExist = true;
 								}
 							}
 
@@ -331,10 +318,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 								
 								animInfo[previousShortline].back()->addFilename(newAnimInfo[2]);
 
-								if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[2]))
-								{
-									WarningMessage(1000, newAnimInfo[2]);
-								}
+								if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[2])) WarningMessage(1000, newAnimInfo[2]);
 							}
 
 							if (behaviortemplate.behaviortemplate.find(previousShortline + "_group") != behaviortemplate.behaviortemplate.end() &&
@@ -349,10 +333,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 								animInfo[previousShortline].back()->optionPickedCount[previousShortline + "_master"] = 1;
 							}
 
-							if (!isOExist)
-							{
-								ErrorMessage(1000, filename, linecount);
-							}
+							if (!isOExist) ErrorMessage(1000, filename, linecount);
 
 							templateType[previousShortline]++;
 							isMulti[previousShortline].push_back(multiCount);
@@ -369,10 +350,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					string anim = newAnimInfo[newAnimInfo.size() - 1];
 					bool isOExist = true;
 
-					if (anim[anim.length() - 2] == '/' && (anim[anim.length() - 1] == '1' || anim[anim.length() - 1] == '2'))
-					{
-						isOExist = false;
-					}
+					if (anim[anim.length() - 2] == '/' && (anim[anim.length() - 1] == '1' || anim[anim.length() - 1] == '2')) isOExist = false;
 
 					if (newAnimInfo.size() > 3 && newAnimInfo[1][0] == '-')
 					{
@@ -391,10 +369,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 							isOExist, true));
 						animInfo[lowerformat].back()->addFilename(newAnimInfo[2]);
 
-						if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[2]))
-						{
-							WarningMessage(1000, newAnimInfo[2]);
-						}
+						if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[2])) WarningMessage(1000, newAnimInfo[2]);
 					}
 
 					if (error) throw nemesis::exception();
@@ -411,10 +386,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 						animInfo[lowerformat].back()->optionPickedCount[lowerformat + "_master"] = 1;
 					}
 
-					if (!isOExist)
-					{
-						ErrorMessage(1000, filename, linecount);
-					}
+					if (!isOExist) ErrorMessage(1000, filename, linecount);
 
 					if (previousShortline.length() > 0)
 					{
@@ -457,61 +429,9 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 											}
 										}
 
-										size_t ruleTwoSize = behaviortemplate.optionlist[previousShortline].ruleTwo.size();
-										vecstr* rule = &behaviortemplate.optionlist[previousShortline].ruleTwo;
-
-										for (size_t i = 0; i < ruleTwoSize; ++i)
+										if (!ruleCheck(behaviortemplate.optionlist[previousShortline].ruleTwo, curList, behaviortemplate, previousShortline))
 										{
-											bool isMatched = false;
-
-											for (unsigned int j = 0; j < curList.size(); ++j)
-											{
-												bool matching = false;
-												string number = boost::regex_replace(string(curList[j]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-
-												if (curList[j].length() == (*rule)[i].length() ||
-													(behaviortemplate.optionlist[previousShortline].addOn[(*rule)[i]].size() != 0 &&
-														curList[j].length() > (*rule)[i].length()) || curList[j] == (*rule)[i] + number)
-												{
-													for (unsigned int k = 0; k < (*rule)[i].length(); ++k)
-													{
-														if (k != (*rule)[i].length() - 1)
-														{
-															if (curList[j][k] == (*rule)[i][k])
-															{
-																matching = true;
-															}
-															else
-															{
-																matching = false;
-																break;
-															}
-														}
-														else
-														{
-															if (curList[j][k] == (*rule)[i][k])
-															{
-																matching = true;
-															}
-
-															break;
-														}
-													}
-												}
-
-												if (matching)
-												{
-													isMatched = true;
-													break;
-												}
-											}
-
-											if (!isMatched)
-											{
-												ErrorMessage(1035, filename, linecount);
-											}
-
-											if (error) throw nemesis::exception();
+											ErrorMessage(1035, filename, linecount);
 										}
 									}
 									else
@@ -553,114 +473,14 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 								}
 							}
 
-							size_t compulsorySize = behaviortemplate.optionlist[lowerformat].compulsory.size();
-							vecstr* compulsory = &behaviortemplate.optionlist[lowerformat].compulsory;
-
-							for (size_t i = 0; i < compulsorySize; ++i)
+							if (!ruleCheck(behaviortemplate.optionlist[lowerformat].compulsory, curList, behaviortemplate, lowerformat))
 							{
-								bool isMatched = false;
-
-								for (unsigned int j = 0; j < curList.size(); ++j)
-								{
-									bool matching = false;
-									string number = boost::regex_replace(string(curList[j]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-
-									if (curList[j].length() == (*compulsory)[i].length() ||
-										(behaviortemplate.optionlist[lowerformat].addOn[(*compulsory)[i]].size() != 0 &&
-											curList[j].length() > (*compulsory)[i].length()) || curList[j] == (*compulsory)[i] + number)
-									{
-										for (unsigned int k = 0; k < (*compulsory)[i].length(); ++k)
-										{
-											if (k != (*compulsory)[i].length() - 1)
-											{
-												if (curList[j][k] == (*compulsory)[i][k])
-												{
-													matching = true;
-												}
-												else
-												{
-													matching = false;
-													break;
-												}
-											}
-											else
-											{
-												if (curList[j][k] == (*compulsory)[i][k])
-												{
-													matching = true;
-												}
-
-												break;
-											}
-										}
-									}
-
-									if (matching)
-									{
-										isMatched = true;
-										break;
-									}
-								}
-
-								if (!isMatched)
-								{
-									ErrorMessage(1035, filename, linecount);
-								}
+								ErrorMessage(1035, filename, linecount);
 							}
 
-							size_t ruleOneSize = behaviortemplate.optionlist[lowerformat].ruleOne.size();
-							vecstr* rule = &behaviortemplate.optionlist[lowerformat].ruleOne;
-
-							for (size_t i = 0; i < ruleOneSize; ++i)
+							if (!ruleCheck(behaviortemplate.optionlist[lowerformat].ruleOne, curList, behaviortemplate, lowerformat))
 							{
-								bool isMatched = false;
-
-								for (unsigned int j = 0; j < curList.size(); ++j)
-								{
-									bool matching = false;
-									string number = boost::regex_replace(string(curList[j]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-
-									if (curList[j].length() == (*rule)[i].length() ||
-										(behaviortemplate.optionlist[lowerformat].addOn[(*rule)[i]].size() != 0 && curList[j].length() >(*rule)[i].length()) ||
-										curList[j] == (*rule)[i] + number)
-									{
-										for (unsigned int k = 0; k < (*rule)[i].length(); ++k)
-										{
-											if (k != (*rule)[i].length() - 1)
-											{
-												if (curList[j][k] == (*rule)[i][k])
-												{
-													matching = true;
-												}
-												else
-												{
-													matching = false;
-													break;
-												}
-											}
-											else
-											{
-												if (curList[j][k] == (*rule)[i][k])
-												{
-													matching = true;
-												}
-
-												break;
-											}
-										}
-									}
-
-									if (matching)
-									{
-										isMatched = true;
-										break;
-									}
-								}
-
-								if (!isMatched)
-								{
-									ErrorMessage(1035, filename, linecount);
-								}
+								ErrorMessage(1035, filename, linecount);
 							}
 						}
 						else
@@ -684,6 +504,8 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 				previousLine = line;
 			}
+
+			if (error) throw nemesis::exception();
 		}
 
 		file.close();
@@ -705,16 +527,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 			{
 				if (behaviortemplate.optionlist[previousShortline].ruleTwo.size() != 0)
 				{
-					string tempPreviousShortline;
-
-					if (multiCount > 1)
-					{
-						tempPreviousShortline = "+";
-					}
-					else
-					{
-						tempPreviousShortline = previousShortline;
-					}
+					string tempPreviousShortline = multiCount > 1 ? "+" : previousShortline;
 
 					if (line[tempPreviousShortline.length() + 1] == '-')
 					{
@@ -742,58 +555,9 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 							}
 						}
 
-						size_t ruleTwoSize = behaviortemplate.optionlist[previousShortline].ruleTwo.size();
-						vecstr* rule = &behaviortemplate.optionlist[previousShortline].ruleTwo;
-
-						for (unsigned int i = 0; i < ruleTwoSize; ++i)
+						if (!ruleCheck(behaviortemplate.optionlist[previousShortline].ruleTwo, curList, behaviortemplate, previousShortline))
 						{
-							bool isMatched = false;
-
-							for (unsigned int j = 0; j < curList.size(); ++j)
-							{
-								bool matching = false;
-								string number = boost::regex_replace(string(curList[j]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-
-								if (curList[j].length() == (*rule)[i].length() || (behaviortemplate.optionlist[previousShortline].addOn[(*rule)[i]].size() != 0 &&
-									curList[j].length() >(*rule)[i].length()) || curList[j] == (*rule)[i] + number)
-								{
-									for (unsigned int k = 0; k < (*rule)[i].length(); ++k)
-									{
-										if (k != (*rule)[i].length() - 1)
-										{
-											if (curList[j][k] == (*rule)[i][k])
-											{
-												matching = true;
-											}
-											else
-											{
-												matching = false;
-												break;
-											}
-										}
-										else
-										{
-											if (curList[j][k] == (*rule)[i][k])
-											{
-												matching = true;
-											}
-
-											break;
-										}
-									}
-								}
-
-								if (matching)
-								{
-									isMatched = true;
-									break;
-								}
-							}
-
-							if (!isMatched)
-							{
-								ErrorMessage(1035, filename, linecount);
-							}
+							ErrorMessage(1035, filename, linecount);
 						}
 					}
 					else
@@ -823,24 +587,14 @@ void registerAnimation::clear()
 	last.clear();
 }
 
-var::var(string inputtype, string inputvalue)
+var::var(string inputtype, string inputvalue, bool& failed)
 {
-	if (boost::iequals(inputtype, "bool"))
-	{
-		var_type = "BOOL";
-	}
-	else if (boost::iequals(inputtype, "int32"))
-	{
-		var_type = "INT32";
-	}
-	else if (boost::iequals(inputtype, "real"))
-	{
-		var_type = "REAL";
-	}
-	else
-	{
-		error = true;
-	}
+	boost::to_lower(inputtype);
+
+	if (inputtype == "bool") var_type = "BOOL";
+	else if (inputtype == "int32") var_type = "INT32";
+	else if (inputtype == "real") var_type = "REAL";
+	else failed = true;
 
 	init_value = inputvalue;
 }
