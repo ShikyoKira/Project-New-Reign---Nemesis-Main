@@ -21,7 +21,7 @@
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="$elements$">			<!-- COMPUTE -->
  				#0100
-<!-- NEW ^s_group^ +% -->
+<!-- FOREACH ^s_group^ -->
 				#s_group$0
 <!-- CLOSE -->
 			</hkparam>

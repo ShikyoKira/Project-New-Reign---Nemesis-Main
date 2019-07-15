@@ -449,7 +449,7 @@ H2H_RightHook
 3064642194
 1365593872
 7891816
-<!-- NEW ^km^ +% -->
+<!-- FOREACH ^km^ -->
 $crc32[meshes\actors\character\animations\Path]$
 $crc32[FileName]$
 7891816

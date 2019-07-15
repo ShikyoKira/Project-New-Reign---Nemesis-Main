@@ -33787,6 +33787,36 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
+<!-- NEW *tkuc* -->
+TKDodgeBack
+tkuc$1
+1
+0
+0
+0
+
+TKDodgeForward
+tkuc$0
+1
+0
+0
+0
+
+TKDodgeLeft
+tkuc$2
+1
+0
+0
+0
+
+TKDodgeRight
+tkuc$3
+1
+0
+0
+0
+
+<!-- CLOSE -->
 <!-- NEW *skice* -->
 1HM_Dual_Equip_Attack
 skice$0
@@ -33832,36 +33862,6 @@ AttackWinEnd:2.5
 PitchOverrideEnd:2.90
 WeapEquip_Out:3
 WeapEquip_OutMoving:3
-
-<!-- CLOSE -->
-<!-- NEW *tkuc* -->
-TKDodgeBack
-tkuc$1
-1
-0
-0
-0
-
-TKDodgeForward
-tkuc$0
-1
-0
-0
-0
-
-TKDodgeLeft
-tkuc$2
-1
-0
-0
-0
-
-TKDodgeRight
-tkuc$3
-1
-0
-0
-0
 
 <!-- CLOSE -->
 <!-- NEW *tudm* -->
@@ -46757,28 +46757,6 @@ RollNext:0.51
 1
 0.8 0 0 0 1
 
-<!-- NEW *skice* -->
-skice$0
-3
-14
-0.2 0 56.4126 0
-0.4 0 151.7596 0
-0.6 0 238.99 0
-0.8 0 318.82 0
-1.1 0 395.28 0
-1.3 0 472.906 0
-1.5 0 558.531 0
-1.7 0 602.603 0
-2.0 0 632.953 0
-2.2 0 643.674 0
-2.4 0 644.129 0
-2.6 0 644.656 0
-2.8 0 645.079 0
-3 0 645.528 0
-1
-3 0 0 0 1
-
-<!-- CLOSE -->
 <!-- NEW *tkuc* -->
 tkuc$0
 0.866667
@@ -46834,6 +46812,28 @@ tkuc$3
 0.7 251.2 0 0
 1
 0.7 0 0 0 1
+
+<!-- CLOSE -->
+<!-- NEW *skice* -->
+skice$0
+3
+14
+0.2 0 56.4126 0
+0.4 0 151.7596 0
+0.6 0 238.99 0
+0.8 0 318.82 0
+1.1 0 395.28 0
+1.3 0 472.906 0
+1.5 0 558.531 0
+1.7 0 602.603 0
+2.0 0 632.953 0
+2.2 0 643.674 0
+2.4 0 644.129 0
+2.6 0 644.656 0
+2.8 0 645.079 0
+3 0 645.528 0
+1
+3 0 0 0 1
 
 <!-- CLOSE -->
 <!-- NEW *tudm* -->
@@ -72103,6 +72103,36 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
+<!-- NEW *tkuc* -->
+TKDodgeBack
+tkuc$1
+1
+0
+0
+0
+
+TKDodgeForward
+tkuc$0
+1
+0
+0
+0
+
+TKDodgeLeft
+tkuc$2
+1
+0
+0
+0
+
+TKDodgeRight
+tkuc$3
+1
+0
+0
+0
+
+<!-- CLOSE -->
 <!-- NEW *skice* -->
 1HM_Dual_Equip_Attack
 skice$0
@@ -72148,36 +72178,6 @@ AttackWinEnd:2.5
 PitchOverrideEnd:2.90
 WeapEquip_Out:3
 WeapEquip_OutMoving:3
-
-<!-- CLOSE -->
-<!-- NEW *tkuc* -->
-TKDodgeBack
-tkuc$1
-1
-0
-0
-0
-
-TKDodgeForward
-tkuc$0
-1
-0
-0
-0
-
-TKDodgeLeft
-tkuc$2
-1
-0
-0
-0
-
-TKDodgeRight
-tkuc$3
-1
-0
-0
-0
 
 <!-- CLOSE -->
 <!-- NEW *tudm* -->
@@ -85108,28 +85108,6 @@ RollNext:0.51
 1
 0.8 0 0 0 1
 
-<!-- NEW *skice* -->
-skice$0
-3
-14
-0.2 0 56.4126 0
-0.4 0 151.7596 0
-0.6 0 238.99 0
-0.8 0 318.82 0
-1.1 0 395.28 0
-1.3 0 472.906 0
-1.5 0 558.531 0
-1.7 0 602.603 0
-2.0 0 632.953 0
-2.2 0 643.674 0
-2.4 0 644.129 0
-2.6 0 644.656 0
-2.8 0 645.079 0
-3 0 645.528 0
-1
-3 0 0 0 1
-
-<!-- CLOSE -->
 <!-- NEW *tkuc* -->
 tkuc$0
 0.866667
@@ -85185,6 +85163,28 @@ tkuc$3
 0.7 251.2 0 0
 1
 0.7 0 0 0 1
+
+<!-- CLOSE -->
+<!-- NEW *skice* -->
+skice$0
+3
+14
+0.2 0 56.4126 0
+0.4 0 151.7596 0
+0.6 0 238.99 0
+0.8 0 318.82 0
+1.1 0 395.28 0
+1.3 0 472.906 0
+1.5 0 558.531 0
+1.7 0 602.603 0
+2.0 0 632.953 0
+2.2 0 643.674 0
+2.4 0 644.129 0
+2.6 0 644.656 0
+2.8 0 645.079 0
+3 0 645.528 0
+1
+3 0 0 0 1
 
 <!-- CLOSE -->
 <!-- NEW *tudm* -->

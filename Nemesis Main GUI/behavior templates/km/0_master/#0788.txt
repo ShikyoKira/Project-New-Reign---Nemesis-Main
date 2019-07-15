@@ -21,7 +21,7 @@
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="$elements$">			<!-- COMPUTE -->
 				#0845 #0835 #0823 #0812 #0801 #0790
-<!-- NEW ^km^ +% -->
+<!-- FOREACH ^km^ -->
 				#km$0 #km$10
 <!-- CLOSE -->
 			</hkparam>

@@ -228,9 +228,9 @@
 				<hkcstring>ReloadFast</hkcstring>
 				<hkcstring>reloadStart</hkcstring>
 <!-- NEW *zcbe* -->
-				<hkcstring>Magic_Equip_Out</hkcstring>
-				<hkcstring>Magic_Unequip_Out</hkcstring>
-				<hkcstring>tailUnequip</hkcstring>
+				<hkcstring>Magic_Equip_Out</hkcstring>
+				<hkcstring>Magic_Unequip_Out</hkcstring>
+				<hkcstring>tailUnequip</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
@@ -1794,7 +1794,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *zcbe* -->
+							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>					<!-- *zcbe* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_NORMALIZED|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x18c0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -1804,7 +1804,7 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>					<!-- *zcbe* -->
+							<hkparam name="flags">0</hkparam>					<!-- *zcbe* -->
 							<hkparam name="flags">FLAG_NOT_CHARACTER_PROPERTY|FLAG_OUTPUT|FLAG_HIDDEN|FLAG_NOT_VARIABLE|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x18c0</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>
@@ -2449,15 +2449,15 @@
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wordMinVariableValues" numelements="0"></hkparam>
@@ -2693,7 +2693,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Saddle offset.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Saddle_offset.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Saddle_offset.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Saddle_offset.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.166667</hkparam>
@@ -2731,7 +2731,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SwimForward</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\SwimF.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\SwimF.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\SwimF.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -3188,7 +3188,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Dismount</hkparam>
-			<hkparam name="animationName">..\SharedKillMoves\Human&amp;Horse\Paired_Dismount.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">..\SharedKillMoves\Human&amp;Horse\Paired_Dismount.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\..\SharedKillMoves\Human&amp;Horse\Paired_Dismount.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -3403,7 +3403,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Mount</hkparam>
-			<hkparam name="animationName">..\SharedKillMoves\Human&amp;Horse\Paired_Mount.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">..\SharedKillMoves\Human&amp;Horse\Paired_Mount.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\..\SharedKillMoves\Human&amp;Horse\Paired_Mount.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -3700,32 +3700,32 @@
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#0091</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">38</hkparam>
-					<hkparam name="toStateId">16</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#0091</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">38</hkparam>
+					<hkparam name="toStateId">16</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -3751,7 +3751,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Idle RearUp.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Idle_RearUp.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Idle_RearUp.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Idle_RearUp.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0152</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -3894,7 +3894,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpLand Sprint.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\JumpLand_Sprint.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\JumpLand_Sprint.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\JumpLand_Sprint.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0160</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -3925,7 +3925,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM JumpLand</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_JumpLand.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_JumpLand.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_JumpLand.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -3960,7 +3960,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpLand.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\JumpLand.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\JumpLand.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\JumpLand.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0164</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -4206,7 +4206,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_IdleRearUp</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_Idle_RearUp.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_Idle_RearUp.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_Idle_RearUp.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0175</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -4241,7 +4241,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Idle_RearUp</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Idle_RearUp.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Idle_RearUp.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Idle_RearUp.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0177</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -4361,7 +4361,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFall Sprint.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\JumpFall_Sprint.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\JumpFall_Sprint.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\JumpFall_Sprint.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0185</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -4392,7 +4392,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM JumpFall</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_JumpFall.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_JumpFall.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_JumpFall.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -4427,7 +4427,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpFall.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\JumpFall.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\JumpFall.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\JumpFall.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0189</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -4597,7 +4597,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Idle.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Idle.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Idle.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Idle.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0200</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -4666,7 +4666,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">JumpStart Sprint.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\JumpStart_Sprint.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\JumpStart_Sprint.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\JumpStart_Sprint.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0204</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -4697,7 +4697,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM JumpStart</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_JumpStart.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_JumpStart.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_JumpStart.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -4744,7 +4744,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">ForwardJumpBegin.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\JumpStart.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\JumpStart.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\JumpStart.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0208</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5136,7 +5136,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM StaggerBackLarge.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_StaggerBackLarge.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_StaggerBackLarge.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_StaggerBackLarge.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0224</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5179,7 +5179,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM StaggerBackSmall.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_StaggerBackSmall.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_StaggerBackSmall.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_StaggerBackSmall.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0227</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5251,7 +5251,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaggerBackLarge</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\StaggerBackLarge.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\StaggerBackLarge.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\StaggerBackLarge.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0232</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5294,7 +5294,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaggerBackSmall</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\StaggerBackSmall.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\StaggerBackSmall.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\StaggerBackSmall.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0235</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5414,7 +5414,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_StaggerForward</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_StaggerForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_StaggerForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_StaggerForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0243</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5449,7 +5449,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaggerForward.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\StaggerForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\StaggerForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\StaggerForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0245</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5853,7 +5853,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TurnCannedR90</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TurnCannedR90.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TurnCannedR90.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TurnCannedR90.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0265</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5901,7 +5901,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TurnCannedR180</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TurnCannedR180.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TurnCannedR180.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TurnCannedR180.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0268</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5949,7 +5949,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TurnCannedL90</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TurnCannedL90.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TurnCannedL90.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TurnCannedL90.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0271</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -5997,7 +5997,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TurnCannedL180</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TurnCannedL180.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TurnCannedL180.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TurnCannedL180.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0274</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6220,7 +6220,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SprintForward</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\SprintForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\SprintForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\SprintForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6422,7 +6422,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">RunForward_R</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\RunForwardR.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\RunForwardR.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\RunForwardR.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6448,7 +6448,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">RunForward</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\RunForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\RunForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\RunForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6474,7 +6474,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">RunForward_L</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\RunForwardL.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\RunForwardL.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\RunForwardL.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6538,7 +6538,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TrotForward_R</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TrotForwardR.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TrotForwardR.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TrotForwardR.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6564,7 +6564,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TrotForward</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TrotForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TrotForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TrotForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6590,7 +6590,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TrotForward_L</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TrotForwardL.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TrotForwardL.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TrotForwardL.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6654,7 +6654,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TrotForwardSlow_R</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TrotForwardR.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TrotForwardR.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TrotForwardR.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6680,7 +6680,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TrotForwardSlow</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TrotForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TrotForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TrotForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6706,7 +6706,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TrotForwardSlow_L</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TrotForwardL.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TrotForwardL.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TrotForwardL.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6770,7 +6770,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WalkForward_R</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6796,7 +6796,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WalkForward</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6822,7 +6822,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WalkForward_L</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6886,7 +6886,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WalkForwardSlow_R</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6912,7 +6912,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WalkForwardSlow</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -6938,7 +6938,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">WalkForwardSlow_L</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7210,7 +7210,7 @@
 			<hkparam name="variableBindingSet">#0354</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TurnLoopingLeft</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TurnLoopingL.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TurnLoopingL.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TurnLoopingL.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7351,7 +7351,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Idle</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Idle.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Idle.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Idle.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7558,7 +7558,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Idle Pet.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Idle_Pet.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Idle_Pet.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Idle_Pet.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0371</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7781,7 +7781,7 @@
 			<hkparam name="variableBindingSet">#0381</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">TurnLoopingRight</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\TurnLoopingR.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\TurnLoopingR.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\TurnLoopingR.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8077,7 +8077,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_Crossbow_Unequip</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Equip.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Equip.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Equip.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0387</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8136,7 +8136,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_Bow_Unequip</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_Unequip.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_Unequip.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_Bow_Unequip.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0389</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8195,7 +8195,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_2HM_Unequip</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_2HM_Unequip.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_2HM_Unequip.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_2HM_Unequip.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0391</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8254,7 +8254,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_UnequipMace</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_UnequipMace.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_UnequipMace.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_UnequipMace.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0393</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8313,7 +8313,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_UnequipAxe</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_UnequipAxe.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_UnequipAxe.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_UnequipAxe.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0395</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8372,7 +8372,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_UnequipDagger</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_UnequipDagger.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_UnequipDagger.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_UnequipDagger.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0397</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8431,7 +8431,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM Unequip</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_Unequip.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_Unequip.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_Unequip.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0399</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8471,7 +8471,7 @@
 				#0392
 				#0390
 				#0400
-				#zcbe$0					<!-- *zcbe* -->
+				#zcbe$0					<!-- *zcbe* -->
 				#0400				<!-- original -->
 				#0400
 				#0400
@@ -8573,32 +8573,32 @@
 					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="triggerInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="initiateInterval">
-						<hkobject>
-							<hkparam name="enterEventId">-1</hkparam>
-							<hkparam name="exitEventId">-1</hkparam>
-							<hkparam name="enterTime">0.000000</hkparam>
-							<hkparam name="exitTime">0.000000</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="transition">#zcbe$1</hkparam>
-					<hkparam name="condition">null</hkparam>
-					<hkparam name="eventId">$eventID[Magic_Unequip_Out]$</hkparam>
-					<hkparam name="toStateId">0</hkparam>
-					<hkparam name="fromNestedStateId">0</hkparam>
-					<hkparam name="toNestedStateId">0</hkparam>
-					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="triggerInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="initiateInterval">
+						<hkobject>
+							<hkparam name="enterEventId">-1</hkparam>
+							<hkparam name="exitEventId">-1</hkparam>
+							<hkparam name="enterTime">0.000000</hkparam>
+							<hkparam name="exitTime">0.000000</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="transition">#zcbe$1</hkparam>
+					<hkparam name="condition">null</hkparam>
+					<hkparam name="eventId">$eventID[Magic_Unequip_Out]$</hkparam>
+					<hkparam name="toStateId">0</hkparam>
+					<hkparam name="fromNestedStateId">0</hkparam>
+					<hkparam name="toNestedStateId">0</hkparam>
+					<hkparam name="priority">0</hkparam>
+					<hkparam name="flags">FLAG_DISABLE_CONDITION</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -8748,7 +8748,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_Crossbow_Equip</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Equip.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Equip.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Equip.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0410</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8807,7 +8807,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_Bow_Equip</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_Equip.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_Equip.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_Bow_Equip.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0412</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8866,7 +8866,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_2HM_Equip</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_2HM_Equip.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_2HM_Equip.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_2HM_Equip.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0414</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8925,7 +8925,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_EquipMace</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_EquipMace.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_EquipMace.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_EquipMace.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0416</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8984,7 +8984,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_EquipAxe</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_EquipAxe.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_EquipAxe.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_EquipAxe.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0418</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -9043,7 +9043,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_EquipDagger</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_EquipDagger.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_EquipDagger.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_EquipDagger.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0420</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -9102,7 +9102,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM Equip</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_Equip.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_Equip.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_Equip.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0422</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -9142,7 +9142,7 @@
 				#0415
 				#0413
 				#0423
-				#zcbe$2					<!-- *zcbe* -->
+				#zcbe$2					<!-- *zcbe* -->
 				#0423				<!-- original -->
 				#0423
 				#0423
@@ -9549,7 +9549,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow_ReleaseDwarvenFast</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0447</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -9642,7 +9642,7 @@
 			<hkparam name="variableBindingSet">#0452</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow_ReleaseDwarven</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0451</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -9771,7 +9771,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow_ReleaseFast</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0458</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -9850,7 +9850,7 @@
 			<hkparam name="variableBindingSet">#0462</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow_Release</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Release.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0461</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -10023,7 +10023,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow_IdleDrawnDwarven</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_IdleDrawn.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_IdleDrawn.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_IdleDrawn.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -10041,7 +10041,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow_IdleDrawn</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_IdleDrawn.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_IdleDrawn.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_IdleDrawn.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -10105,7 +10105,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow AimDwarven</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Aim.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Aim.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Aim.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0476</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -10140,7 +10140,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow Aim</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Aim.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Aim.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Aim.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0478</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -10615,7 +10615,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -10737,7 +10737,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -10988,7 +10988,7 @@
 			<hkparam name="variableBindingSet">#0519</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_ChargeRelease_R_SLOW.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeRelease_R.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeRelease_R.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_ChargeRelease_R.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0518</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -11095,7 +11095,7 @@
 			<hkparam name="variableBindingSet">#0522</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_ChargeRelease_R.hkx00</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeRelease_R.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeRelease_R.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_ChargeRelease_R.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0521</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -11155,7 +11155,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_ChargeLoop_R.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeLoop_R.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeLoop_R.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_ChargeLoop_R.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -11283,7 +11283,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_ChargePre_R.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargePre_R.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargePre_R.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_ChargePre_R.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0532</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -11397,7 +11397,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_ChargeLoop_L.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeLoop_L.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeLoop_L.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_ChargeLoop_L.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -11500,7 +11500,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_ChargePre_L.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargePre_L.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargePre_L.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_ChargePre_L.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0541</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -11677,7 +11677,7 @@
 			<hkparam name="variableBindingSet">#0546</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_ChargeRelease_L_SLOW.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeRelease_L.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeRelease_L.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_ChargeRelease_L.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0545</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -11784,7 +11784,7 @@
 			<hkparam name="variableBindingSet">#0549</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_ChargeRelease_L.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeRelease_L.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_ChargeRelease_L.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_ChargeRelease_L.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0548</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -11967,7 +11967,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_1HM_SprintForward</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_SprintForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_SprintForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_SprintForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12078,7 +12078,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM RunForwardR.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_RunForwardR.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_RunForwardR.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_RunForwardR.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12104,7 +12104,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM RunForward.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_RunForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_RunForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_RunForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12130,7 +12130,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM RunForwardL.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_RunForwardL.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_RunForwardL.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_RunForwardL.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12194,7 +12194,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM TrotForwardR.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForwardR.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForwardR.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_TrotForwardR.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12220,7 +12220,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM TrotForward.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_TrotForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12246,7 +12246,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM TrotForwardL.hkx</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForwardL.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForwardL.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_TrotForwardL.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12310,7 +12310,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM TrotForwardSlowR</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForwardR.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForwardR.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_TrotForwardR.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12336,7 +12336,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM TrotForwardSlow</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_TrotForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12362,7 +12362,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM TrotForwardSlowL</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForwardL.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_TrotForwardL.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_TrotForwardL.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12426,7 +12426,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM WalkForwardR</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12452,7 +12452,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM WalkForward</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12478,7 +12478,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM WalkForwardL</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12542,7 +12542,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM WalkForwardSlowR</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12568,7 +12568,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM WalkForwardSlow</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12594,7 +12594,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM WalkForwardSlowL</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12723,7 +12723,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0612</hkparam>
-			<hkparam name="generator">#zcbe$3</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$3</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0611</hkparam>				<!-- original -->
 			<hkparam name="name">CombatForwardLocomotionState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -12807,7 +12807,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Crossbow_IdleHeld</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_IdleHeld.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_IdleHeld.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_IdleHeld.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12855,7 +12855,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_Bow_IdleDrawn</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_IdleHeld.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_IdleHeld.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_Bow_IdleHeld.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -12916,7 +12916,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC 1HM Idle</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_Idle.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_1HM_Idle.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_1HM_Idle.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -13052,7 +13052,7 @@
 				#0624
 				#0620
 <!-- NEW *zcbe* -->
-				#zcbe$4 #zcbe$5
+				#zcbe$4 #zcbe$5
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
@@ -13637,7 +13637,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_Release</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_Release.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_Release.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_Bow_Release.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0657</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -13732,7 +13732,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_IdleDrawn</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_IdleDrawn.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_IdleDrawn.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_Bow_IdleDrawn.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -13913,7 +13913,7 @@
 			<hkparam name="variableBindingSet">#0664</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_DrawLight</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_DrawLight.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_DrawLight.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_Bow_DrawLight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0663</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -14045,7 +14045,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_DrawNock_QuickShot</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_DrawLight.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_DrawLight.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_Bow_DrawLight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0667</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -14164,7 +14164,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_DrawNock</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_DrawLight.hkx</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\Patch\MC_Bow_DrawLight.hkx</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\Patch\MC_Bow_DrawLight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0669</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -14642,7 +14642,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow_ReloadFast</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Reload.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Reload.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Reload.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0696</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -14689,7 +14689,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">CrossBow_Reload</hkparam>
-			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Reload.HKX</hkparam>					<!-- *zcbe* -->
+			<hkparam name="animationName">Animations\horse_rider\DLC01\MC_CrossBow_Reload.HKX</hkparam>					<!-- *zcbe* -->
 			<hkparam name="animationName">..\Animations\horse_rider\DLC01\MC_CrossBow_Reload.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0698</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -15222,7 +15222,7 @@
 				#0173
 				#0159
 <!-- NEW *zcbe* -->
-				#zcbe$6
+				#zcbe$6
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0151</hkparam>
@@ -15450,7 +15450,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -15482,7 +15482,7 @@
 			<hkparam name="legs" numelements="4">
 				<hkobject>
 					<hkparam name="groundPosition">
-				0.000000					<!-- *zcbe* -->
+				0.000000					<!-- *zcbe* -->
 						0.000000				<!-- original -->
 						0.000000
 						0.000000
@@ -15491,7 +15491,7 @@
 					<hkparam name="ungroundedEvent">
 						<hkobject>
 							<hkparam name="id">-1</hkparam>
-				0.000000					<!-- *zcbe* -->
+				0.000000					<!-- *zcbe* -->
 							<hkparam name="payload">null</hkparam>				<!-- original -->
 						</hkobject>
 					</hkparam>

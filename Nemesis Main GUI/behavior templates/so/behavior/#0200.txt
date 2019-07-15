@@ -1,6 +1,6 @@
 		<hkobject name="#0200" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
 			<hkparam name="transitions" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^so_group^ +% -->
+<!-- FOREACH ^so_group^ -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>

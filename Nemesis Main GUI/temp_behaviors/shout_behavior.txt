@@ -62,9 +62,9 @@
 				<hkcstring>blendDefault</hkcstring>
 				<hkcstring>blendFast</hkcstring>
 				<hkcstring>IsPlayer</hkcstring>
-				<hkcstring>Pitch</hkcstring>					<!-- *pscd* -->
+				<hkcstring>Pitch</hkcstring>					<!-- *pscd* -->
 				<hkcstring>TurnDelta</hkcstring>				<!-- original -->
-				<hkcstring>Pitch2</hkcstring>					<!-- *pscd* -->
+				<hkcstring>Pitch2</hkcstring>					<!-- *pscd* -->
 				<hkcstring>TurnDeltaDamped</hkcstring>				<!-- original -->
 				<hkcstring>IsNPC</hkcstring>
 				<hkcstring>IsFirstPerson</hkcstring>
@@ -3170,7 +3170,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator08</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0225</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -3282,7 +3282,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0233</hkparam>
-			<hkparam name="generator">#pscd$2</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$2</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0232</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -3384,7 +3384,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0238</hkparam>
-			<hkparam name="generator">#pscd$1</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$1</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0237</hkparam>				<!-- original -->
 			<hkparam name="name">SneakMT_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">1</hkparam>
@@ -3397,7 +3397,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator07</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$0</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0225</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -3438,7 +3438,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0241</hkparam>
-			<hkparam name="generator">#pscd$3</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$3</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0240</hkparam>				<!-- original -->
 			<hkparam name="name">MT_Shout_InhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -3834,7 +3834,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator01</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$4</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$4</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0253</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -3890,7 +3890,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#pscd$5</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$5</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0256</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_ExhaleLongState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -4015,7 +4015,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator02</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$6</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$6</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0263</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4071,7 +4071,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#pscd$7</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$7</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0266</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_ExhaleMediumState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -4196,7 +4196,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator04</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$4</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$4</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0253</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4330,7 +4330,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator05</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$6</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$6</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0263</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4464,7 +4464,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator00</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$8</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$8</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0289</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4520,7 +4520,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#pscd$9</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$9</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0292</hkparam>				<!-- original -->
 			<hkparam name="name">1HM_Shout_ExhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -4633,7 +4633,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0299</hkparam>
-			<hkparam name="generator">#pscd$11</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$11</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0298</hkparam>				<!-- original -->
 			<hkparam name="name">SneakMT_Shout_ExhaleState</hkparam>
 			<hkparam name="stateId">1</hkparam>
@@ -4646,7 +4646,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator03</hkparam>
 			<hkparam name="modifier">#0226</hkparam>
-			<hkparam name="generator">#pscd$8</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$8</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0289</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4687,7 +4687,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0303</hkparam>
-			<hkparam name="generator">#pscd$10</hkparam>					<!-- *pscd* -->
+			<hkparam name="generator">#pscd$10</hkparam>					<!-- *pscd* -->
 			<hkparam name="generator">#0301</hkparam>				<!-- original -->
 			<hkparam name="name">MT_Shout_ExhaleState</hkparam>
 			<hkparam name="stateId">0</hkparam>

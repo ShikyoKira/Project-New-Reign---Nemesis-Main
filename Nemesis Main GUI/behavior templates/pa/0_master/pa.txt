@@ -100,7 +100,7 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^AnimObject/1^ +% -->
+<!-- FOREACH ^AnimObject/1^ -->
 				<hkobject>
 					<hkparam name="id">937</hkparam>
 					<hkparam name="payload">#$import[anim_object][@AnimObject/1]$</hkparam>
@@ -148,7 +148,7 @@
 
 		<hkobject name="#MID$8" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^T^ +% -->
+<!-- FOREACH ^T^ -->
 				<hkobject>
 					<hkparam name="localTime">$T[time]$</hkparam>
 					<hkparam name="event">
@@ -291,7 +291,7 @@
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^AnimObject/2^ +% -->
+<!-- FOREACH ^AnimObject/2^ -->
 				<hkobject>
 					<hkparam name="id">937</hkparam>
 					<hkparam name="payload">#$import[anim_object][@AnimObject/2]$</hkparam>
@@ -339,7 +339,7 @@
 
 		<hkobject name="#MID$17" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^T2_^ +% -->
+<!-- FOREACH ^T2_^ -->
 				<hkobject>
 					<hkparam name="localTime">$T2_[time]$</hkparam>
 					<hkparam name="event">

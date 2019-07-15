@@ -22,7 +22,7 @@
 			<hkparam name="states" numelements="20">
 				#5194 #4006 #2198 #1761 #1106 #1074 #0880 #0859 #0796 #0759 #0723 #0690 #0646 #0594 #0588 #0578
 				#0568 #0180 #0111 #0105
-<!-- NEW ^fu_master^ +% -->
+<!-- FOREACH ^fu_master^ -->
 				#fu_master$0
 <!-- CLOSE -->
 			</hkparam>

@@ -437,7 +437,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX02</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0196</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -466,7 +466,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX02</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp21_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#0196</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -512,7 +512,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\2_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#1420</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -541,7 +541,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MT_Idle.HKX</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_mt_idle.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp21_mt_idle.hkx</hkparam>
 			<hkparam name="triggers">#1420</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>

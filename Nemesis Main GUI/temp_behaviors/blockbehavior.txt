@@ -55,18 +55,18 @@
 				<hkcstring>SoundPlay</hkcstring>
 				<hkcstring>blockStopInstant</hkcstring>
 <!-- NEW *zcbe* -->
-				<hkcstring>BlockHigh_Z</hkcstring>
-				<hkcstring>BlockLow_Z</hkcstring>
-				<hkcstring>DEPRECATED1_Z</hkcstring>
-				<hkcstring>DEPRECATED2_Z</hkcstring>
-				<hkcstring>DEPRECATED3_Z</hkcstring>
-				<hkcstring>JumpStandingStart</hkcstring>
-				<hkcstring>JumpLandEnd</hkcstring>
-				<hkcstring>JumpDirectionalStart</hkcstring>
-				<hkcstring>JumpFall</hkcstring>
-				<hkcstring>JumpLand</hkcstring>
-				<hkcstring>JumpFallDirectional</hkcstring>
-				<hkcstring>JumpLandDirectional</hkcstring>
+				<hkcstring>BlockHigh_Z</hkcstring>
+				<hkcstring>BlockLow_Z</hkcstring>
+				<hkcstring>DEPRECATED1_Z</hkcstring>
+				<hkcstring>DEPRECATED2_Z</hkcstring>
+				<hkcstring>DEPRECATED3_Z</hkcstring>
+				<hkcstring>JumpStandingStart</hkcstring>
+				<hkcstring>JumpLandEnd</hkcstring>
+				<hkcstring>JumpDirectionalStart</hkcstring>
+				<hkcstring>JumpFall</hkcstring>
+				<hkcstring>JumpLand</hkcstring>
+				<hkcstring>JumpFallDirectional</hkcstring>
+				<hkcstring>JumpLandDirectional</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
@@ -105,12 +105,12 @@
 				<hkcstring>RotMax</hkcstring>
 				<hkcstring>blendMove1stP</hkcstring>
 <!-- NEW *zcbe* -->
-				<hkcstring>Pitch</hkcstring>
-				<hkcstring>bPerkDWFBlockLeft_Z</hkcstring>
-				<hkcstring>bPerkAmdex_Z</hkcstring>
-				<hkcstring>iBlockDirection_Z</hkcstring>
-				<hkcstring>bInJumpState</hkcstring>
-				<hkcstring>fNPCPitch_Z</hkcstring>
+				<hkcstring>Pitch</hkcstring>
+				<hkcstring>bPerkDWFBlockLeft_Z</hkcstring>
+				<hkcstring>bPerkAmdex_Z</hkcstring>
+				<hkcstring>iBlockDirection_Z</hkcstring>
+				<hkcstring>bInJumpState</hkcstring>
+				<hkcstring>fNPCPitch_Z</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="3">
@@ -222,24 +222,24 @@
 					<hkparam name="value">1051931443</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">1</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">1</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
@@ -547,60 +547,60 @@
 					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_REAL</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyInfos" numelements="3">
@@ -751,42 +751,42 @@
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
 <!-- NEW *zcbe* -->
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="flags">0</hkparam>
-				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wordMinVariableValues" numelements="0"></hkparam>
@@ -3338,7 +3338,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -3370,7 +3370,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -3435,7 +3435,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -4242,7 +4242,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">BlockHit_MG</hkparam>
-			<hkparam name="modifier">#zcbe$0</hkparam>					<!-- *zcbe* -->
+			<hkparam name="modifier">#zcbe$0</hkparam>					<!-- *zcbe* -->
 			<hkparam name="modifier">#0289</hkparam>				<!-- original -->
 			<hkparam name="generator">#0245</hkparam>
 		</hkobject>
@@ -4274,14 +4274,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Bow_BlockHit</hkparam>
 			<hkparam name="animationName">Animations\Bow_BlockHit.hkx</hkparam>
-			<hkparam name="triggers">#0267</hkparam>					<!-- *bcbi* -->
-			<hkparam name="triggers">#0267</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0267</hkparam>					<!-- *bcbi* -->
+			<hkparam name="triggers">#0267</hkparam>					<!-- *cbbi* -->
 			<hkparam name="triggers">#0247</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -4382,7 +4382,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -4454,7 +4454,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -4526,7 +4526,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -4623,14 +4623,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BlockHitB</hkparam>
 			<hkparam name="animationName">Animations\1HM_BlockHitB.hkx</hkparam>
-			<hkparam name="triggers">#0267</hkparam>					<!-- *bcbi* -->
-			<hkparam name="triggers">#0267</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0267</hkparam>					<!-- *bcbi* -->
+			<hkparam name="triggers">#0267</hkparam>					<!-- *cbbi* -->
 			<hkparam name="triggers">#0261</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -4698,14 +4698,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_BlockHitA</hkparam>
 			<hkparam name="animationName">Animations\1HM_BlockHitA.hkx</hkparam>
-			<hkparam name="triggers">#0267</hkparam>					<!-- *bcbi* -->
-			<hkparam name="triggers">#0267</hkparam>					<!-- *cbbi* -->
+			<hkparam name="triggers">#0267</hkparam>					<!-- *bcbi* -->
+			<hkparam name="triggers">#0267</hkparam>					<!-- *cbbi* -->
 			<hkparam name="triggers">#0264</hkparam>				<!-- original -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -4777,8 +4777,8 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *bcbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -4821,8 +4821,8 @@
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="relativeToEndOfClip">true</hkparam>					<!-- *bcbi* -->
-					<hkparam name="relativeToEndOfClip">true</hkparam>					<!-- *cbbi* -->
+					<hkparam name="relativeToEndOfClip">true</hkparam>					<!-- *bcbi* -->
+					<hkparam name="relativeToEndOfClip">true</hkparam>					<!-- *cbbi* -->
 					<hkparam name="relativeToEndOfClip">false</hkparam>				<!-- original -->
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
@@ -5123,7 +5123,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -5195,7 +5195,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -5267,7 +5267,7 @@
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
+			<hkparam name="playbackSpeed">2.800000</hkparam>					<!-- *cbbi* -->
 			<hkparam name="playbackSpeed">1.000000</hkparam>				<!-- original -->
 			<hkparam name="enforcedDuration">0.000000</hkparam>
 			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
@@ -5460,32 +5460,32 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockIdle_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#zcbe$3					<!-- *zcbe* -->
+				#zcbe$3					<!-- *zcbe* -->
 				#0299				<!-- original -->
-				#zcbe$4					<!-- *zcbe* -->
+				#zcbe$4					<!-- *zcbe* -->
 				#0310				<!-- original -->
-				#zcbe$4					<!-- *zcbe* -->
+				#zcbe$4					<!-- *zcbe* -->
 				#0310				<!-- original -->
-				#zcbe$4					<!-- *zcbe* -->
+				#zcbe$4					<!-- *zcbe* -->
 				#0310				<!-- original -->
-				#zcbe$4					<!-- *zcbe* -->
+				#zcbe$4					<!-- *zcbe* -->
 				#0310				<!-- original -->
-				#zcbe$5					<!-- *zcbe* -->
+				#zcbe$5					<!-- *zcbe* -->
 				#0303				<!-- original -->
-				#zcbe$6					<!-- *zcbe* -->
+				#zcbe$6					<!-- *zcbe* -->
 				#0303				<!-- original -->
-				#zcbe$7					<!-- *zcbe* -->
+				#zcbe$7					<!-- *zcbe* -->
 				#0302				<!-- original -->
-				#zcbe$8					<!-- *zcbe* -->
+				#zcbe$8					<!-- *zcbe* -->
 				#0299				<!-- original -->
-				#zcbe$9					<!-- *zcbe* -->
+				#zcbe$9					<!-- *zcbe* -->
 				#0299				<!-- original -->
-				#zcbe$10					<!-- *zcbe* -->
+				#zcbe$10					<!-- *zcbe* -->
 				#0298				<!-- original -->
-				#zcbe$11					<!-- *zcbe* -->
+				#zcbe$11					<!-- *zcbe* -->
 				#0297				<!-- original -->
 <!-- NEW *zcbe* -->
-				#zcbe$12
+				#zcbe$12
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
@@ -5749,13 +5749,13 @@
 			<hkparam name="name">Weap_BlockIdle_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
 				#0296
-				#0296					<!-- *zcbe* -->
+				#0296					<!-- *zcbe* -->
 				#0313				<!-- original -->
-				#0296					<!-- *zcbe* -->
+				#0296					<!-- *zcbe* -->
 				#0313				<!-- original -->
-				#0296					<!-- *zcbe* -->
+				#0296					<!-- *zcbe* -->
 				#0313				<!-- original -->
-				#0296					<!-- *zcbe* -->
+				#0296					<!-- *zcbe* -->
 				#0313				<!-- original -->
 				#0296
 				#0296
@@ -5963,7 +5963,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0365</hkparam>
-			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0323</hkparam>				<!-- original -->
 			<hkparam name="name">BlockAnticipate</hkparam>
 			<hkparam name="stateId">0</hkparam>
@@ -5976,7 +5976,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BlockAnticipate_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#zcbe$2					<!-- *zcbe* -->
+				#zcbe$2					<!-- *zcbe* -->
 				#0336				<!-- original -->
 				#0324
 				#0324
@@ -6104,7 +6104,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -6218,7 +6218,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -6372,7 +6372,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -6486,7 +6486,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -6642,7 +6642,7 @@
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="indexOfBindingToEnable">0</hkparam>				<!-- original -->
 		</hkobject>
 
@@ -17292,7 +17292,7 @@
 				#0958
 				#0955
 <!-- NEW *zcbe* -->
-				#zcbe$13
+				#zcbe$13
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>
@@ -17405,7 +17405,7 @@
 				#0219
 				#0219
 				#0219
-				#0219					<!-- *zcbe* -->
+				#0219					<!-- *zcbe* -->
 				#0961				<!-- original -->
 				#0219
 				#0219

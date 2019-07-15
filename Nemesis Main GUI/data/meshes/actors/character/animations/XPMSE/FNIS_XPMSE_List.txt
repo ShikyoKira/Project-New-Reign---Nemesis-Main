@@ -1,0 +1,22 @@
+Version V7.2
+
+AAprefix xpe
+AAset _1hmeqp 5
+AAset _2hmeqp 1
+AAset _2hweqp 1
+AAset _axeeqp 5
+AAset _bowatk 1
+AAset _boweqp 1
+AAset _bowidle 1
+AAset _maceqp 2
+AAset _dageqp 6
+AAset _magatk 1
+AAset _magcastmt 1
+AAset _magcon 1
+AAset _magidle 1
+AAset _magmt 1
+AAset _sprint 1
+AAset _shout 1
+
+T xpe3_Dag_Unequip.hkx Unequip_OutMoving -0.333 Unequip_Out -0.00 BeginWeaponSheathe 0.00
+T xpe4_Dag_Unequip.hkx Unequip_OutMoving -0.333 Unequip_Out -0.00 BeginWeaponSheathe 0.00

@@ -131,10 +131,10 @@
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="1">
 				#0100
-<!-- NEW ^s_group^ +% -->
+<!-- FOREACH ^s_group^ -->
 				#s_group$0
 <!-- CLOSE -->
-<!-- NEW ^so_group^ +% -->
+<!-- FOREACH ^so_group^ -->
 				#so_group$0
 <!-- CLOSE -->
 			</hkparam>
@@ -176,10 +176,10 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="0">
-<!-- NEW ^b^ +% -->
+<!-- FOREACH ^b^ -->
 				#b$0
 <!-- CLOSE -->
-<!-- NEW ^o^ +% -->
+<!-- FOREACH ^o^ -->
 				#o$0
 <!-- CLOSE -->
 			</hkparam>
@@ -188,7 +188,7 @@
 
 		<hkobject name="#0110" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
 			<hkparam name="transitions" numelements="0">
-<!-- NEW ^b^ +% -->
+<!-- FOREACH ^b^ -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -220,7 +220,7 @@
 					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^o^ +% -->
+<!-- FOREACH ^o^ -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -270,7 +270,7 @@
 
 		<hkobject name="#0200" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
 			<hkparam name="transitions" numelements="0">
-<!-- NEW ^s_group^ +% -->
+<!-- FOREACH ^s_group^ -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>
@@ -298,7 +298,7 @@
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^so_group^ +% -->
+<!-- FOREACH ^so_group^ -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>

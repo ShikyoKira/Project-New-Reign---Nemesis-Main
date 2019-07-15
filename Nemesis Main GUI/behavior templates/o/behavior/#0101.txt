@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^o^ +% -->
+<!-- FOREACH ^o^ -->
 				#o$0
 <!-- CLOSE -->
 			</hkparam>

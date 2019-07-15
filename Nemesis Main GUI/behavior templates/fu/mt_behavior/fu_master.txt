@@ -213,7 +213,7 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_FORCE_TRANSITION_TO_START_STATE</hkparam>
 			<hkparam name="states" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^fu_group^ +% -->
+<!-- FOREACH ^fu_group^ -->
 				#fu_group$0
 <!-- CLOSE -->
 			</hkparam>

@@ -32,7 +32,7 @@
 				<hkcstring>tailCombatLocomotion</hkcstring>
 			</hkparam>
 			<hkparam name="attributeNames" numelements="0"></hkparam>
-			<hkparam name="variableNames" numelements="11">
+			<hkparam name="variableNames" numelements="12">
 				<hkcstring>Direction</hkcstring>
 				<hkcstring>SpeedSampled</hkcstring>
 				<hkcstring>blendDefault</hkcstring>
@@ -43,13 +43,14 @@
 				<hkcstring>IsSneaking</hkcstring>
 				<hkcstring>bPerkQuickShot</hkcstring>
 				<hkcstring>i1stPerson</hkcstring>
+				<hkcstring>2Female_Anim_Pack</hkcstring>
 				<hkcstring>3_FeuerTin RAP Idle</hkcstring>
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="0"></hkparam>
 		</hkobject>
 
 		<hkobject name="#0061" class="hkbVariableValueSet" signature="0x27812d8d">
-			<hkparam name="wordVariableValues" numelements="11">
+			<hkparam name="wordVariableValues" numelements="12">
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
@@ -83,6 +84,9 @@
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
 			</hkparam>
 			<hkparam name="quadVariableValues" numelements="0"></hkparam>
 			<hkparam name="variantVariableValues" numelements="0"></hkparam>
@@ -90,7 +94,7 @@
 
 		<hkobject name="#0062" class="hkbBehaviorGraphData" signature="0x95aca5d">
 			<hkparam name="attributeDefaults" numelements="0"></hkparam>
-			<hkparam name="variableInfos" numelements="11">
+			<hkparam name="variableInfos" numelements="12">
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -190,6 +194,15 @@
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
 			</hkparam>
 			<hkparam name="characterPropertyInfos" numelements="0"></hkparam>
 			<hkparam name="eventInfos" numelements="15">
@@ -251,6 +264,18 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">11</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#0312" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
 					<hkparam name="variableIndex">10</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
@@ -284,7 +309,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_ForwardLeftFast</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_frwrdleft.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_frwrdleft.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -330,7 +355,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_ForwardRightFast</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_frwrdright.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_frwrdright.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -376,7 +401,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_ForwardLeft00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_frwrdleft.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_frwrdleft.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -422,7 +447,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_ForwardRight</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_frwrdright.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_frwrdright.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -468,7 +493,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardLeft00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_fwrwrdleft.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_fwrwrdleft.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -514,7 +539,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardLeftFast</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_bckwrdleft.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_bckwrdleft.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -560,7 +585,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardRight</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_frwrdright.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_frwrdright.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -606,7 +631,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardLeftSlow00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_fwrwrdleft.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_fwrwrdleft.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -652,7 +677,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_LeftFast</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_left.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_left.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -698,7 +723,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_ForwardFast</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_forward.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_forward.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -744,7 +769,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Left00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_left.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_left.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -790,7 +815,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Forward</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_forward.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_forward.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -836,7 +861,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Left00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_left.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_left.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -882,7 +907,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Forward</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_forward.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_forward.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -928,7 +953,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_LeftSlow00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_left.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_left.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -974,7 +999,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardLeft00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_bckwrdleft.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_bckwrdleft.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1020,7 +1045,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardLeft00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_bckwrdleft.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_bckwrdleft.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1066,7 +1091,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardLeftSlow00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_bckwrdleft.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_bckwrdleft.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1112,7 +1137,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardFast</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_backward.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_backward.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1158,7 +1183,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Backward00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_backward.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_backward.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1183,7 +1208,53 @@
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0312" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0313" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">CrossBow_WalkForward</hkparam>
+			<hkparam name="animationName">Animations\DLC01\CrossBow_WalkForward.hkx</hkparam>
+			<hkparam name="triggers">#0170</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">16</hkparam>
+		</hkobject>
+
+		<hkobject name="#0314" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">CrossBow_WalkForward</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\dlc01\fp20_crossbow_walkforward.hkx</hkparam>
+			<hkparam name="triggers">#0170</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">16</hkparam>
+		</hkobject>
+
+		<hkobject name="#0171" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0312</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0313
+				#0314
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0315" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Backward00</hkparam>
@@ -1200,11 +1271,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0313" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0316" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Backward00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_bckward.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_bckward.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1222,14 +1293,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0312
-				#0313
+				#0315
+				#0316
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0314" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0317" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwarsSlow00</hkparam>
@@ -1246,11 +1317,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0315" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0318" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwarsSlow00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_bckward.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_bckward.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1268,14 +1339,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0314
-				#0315
+				#0317
+				#0318
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0316" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0319" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardRightFast</hkparam>
@@ -1292,11 +1363,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0317" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0320" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardRightFast</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_bckwrdright.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_bckwrdright.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1314,14 +1385,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0316
-				#0317
+				#0319
+				#0320
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0318" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0321" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardRight00</hkparam>
@@ -1338,11 +1409,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0319" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0322" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_BackwardRight00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_bckwrdright.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_bckwrdright.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1360,14 +1431,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0318
-				#0319
+				#0321
+				#0322
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0320" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0323" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardRight00</hkparam>
@@ -1384,11 +1455,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0321" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0324" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardRight00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_bckwrdright.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_bckwrdright.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1406,14 +1477,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0320
-				#0321
+				#0323
+				#0324
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0322" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0325" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardRightSlow00</hkparam>
@@ -1430,11 +1501,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0323" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0326" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_BackwardRightSlow00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_bckwrdright.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_bckwrdright.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1452,14 +1523,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0322
-				#0323
+				#0325
+				#0326
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0324" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0327" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_RightFast</hkparam>
@@ -1476,11 +1547,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0325" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0328" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_RightFast</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_right.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_right.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1498,14 +1569,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0324
-				#0325
+				#0327
+				#0328
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0326" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0329" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Right00</hkparam>
@@ -1522,11 +1593,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0327" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0330" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakRun_Right00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakrun_right.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakrun_right.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1544,14 +1615,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0326
-				#0327
+				#0329
+				#0330
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0328" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0331" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Right00</hkparam>
@@ -1568,11 +1639,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0329" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0332" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_Right00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_right.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_right.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1590,14 +1661,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0328
-				#0329
+				#0331
+				#0332
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0330" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0333" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_RightSlow00</hkparam>
@@ -1614,11 +1685,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0331" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0334" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_RightSlow00</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_right.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_right.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1636,14 +1707,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0330
-				#0331
+				#0333
+				#0334
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0332" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0335" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardRightSlow</hkparam>
@@ -1660,11 +1731,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0333" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0336" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardRightSlow</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_frwrdright.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_frwrdright.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1682,14 +1753,14 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0332
-				#0333
+				#0335
+				#0336
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0334" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0337" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardSlow</hkparam>
@@ -1706,11 +1777,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#0335" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#0338" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">SneakWalk_ForwardSlow</hkparam>
-			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\3_sneakwalk_forward.hkx</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\fp20_sneakwalk_forward.hkx</hkparam>
 			<hkparam name="triggers">null</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
@@ -1728,8 +1799,100 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Nemesis_PCEA_3_FeuerTin RAP Idle_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#0334
-				#0335
+				#0337
+				#0338
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0339" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">CrossBow_WalkForwardFast</hkparam>
+			<hkparam name="animationName">Animations\DLC01\CrossBow_WalkForward.hkx</hkparam>
+			<hkparam name="triggers">#0167</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.750000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0340" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">CrossBow_WalkForwardFast</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\dlc01\fp20_crossbow_walkforward.hkx</hkparam>
+			<hkparam name="triggers">#0167</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.750000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0168" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0312</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0339
+				#0340
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0341" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">CrossBow_WalkForwardSlow</hkparam>
+			<hkparam name="animationName">Animations\DLC01\CrossBow_WalkForward.hkx</hkparam>
+			<hkparam name="triggers">#0173</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">0.100000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0342" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">CrossBow_WalkForwardSlow</hkparam>
+			<hkparam name="animationName">Animations\Nemesis_PCEA\PCEA_animations\dlc01\fp20_crossbow_walkforward.hkx</hkparam>
+			<hkparam name="triggers">#0173</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">0.100000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#0174" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0312</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_PCEA_2Female_Anim_Pack_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0341
+				#0342
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -2584,23 +2747,6 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0168" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">CrossBow_WalkForwardFast</hkparam>
-			<hkparam name="animationName">Animations\DLC01\CrossBow_WalkForward.hkx</hkparam>
-			<hkparam name="triggers">#0167</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.750000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
-		</hkobject>
-
 		<hkobject name="#0169" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="generator">#0168</hkparam>
@@ -2638,23 +2784,6 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#0171" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">CrossBow_WalkForward</hkparam>
-			<hkparam name="animationName">Animations\DLC01\CrossBow_WalkForward.hkx</hkparam>
-			<hkparam name="triggers">#0170</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">16</hkparam>
-		</hkobject>
-
 		<hkobject name="#0172" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="generator">#0171</hkparam>
@@ -2690,23 +2819,6 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 			</hkparam>
-		</hkobject>
-
-		<hkobject name="#0174" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">CrossBow_WalkForwardSlow</hkparam>
-			<hkparam name="animationName">Animations\DLC01\CrossBow_WalkForward.hkx</hkparam>
-			<hkparam name="triggers">#0173</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">0.100000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_LOOPING</hkparam>
-			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
 		<hkobject name="#0175" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">

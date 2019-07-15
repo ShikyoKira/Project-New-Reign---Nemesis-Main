@@ -106,7 +106,7 @@ ERR 1057=Invalid element. Only "F", "N", "B", "L" or digit is acceptable as inpu
 ERR 1058=BUG FOUND!! Report to Nemesis' author immediately
 ERR 1059=Failed to identify template file. Please contact the template creator\nFile: <1>
 ERR 1060=Invalid element. Specific element is required for the 3rd element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
-ERR 1061="<1>_group.txt" file cannot be found. Please contact the template creator\nFile: <2>
+ERR 1061="<1>_group.txt" file cannot be found. Please contact the template creator\nExpected file: <2>
 ERR 1062=Different element has been detected across linked options. All linked options must have the same elements including grouping/non-grouping. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1063=Duplicated <1> registration has been detected. Please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>\nEvent: <1>
 ERR 1064=Invalid option name. The option name must not share the same name as the format of the animation. Please contact the template creator\nTemplate: <1>\nFile: <2>\nElement: <3>
@@ -130,7 +130,7 @@ ERR 1081=BUG FOUND!! Report to Nemesis' author immediately
 ERR 1082=Failed to remove <1>. Please ensure that Nemesis has permission to create, edit and remove files\nFile: <2>
 ERR 1083=<1> not found. Update Engine to fix it. If it doesn't, please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>
 ERR 1084=Other input has been detected with CORE activated. No other input can exist when CORE is activated in "option_list.txt". Please contact the template creator\nTemplate: <1>\nFile: <2>
-ERR 1085=Missing group animation template. Master animation template is only available to group animation template. Please contact the template creator\nFile: <1>
+ERR 1085=Missing group animation template. Master animation template is only available to group animation template. Please contact the template creator\nExpected file: <1>
 ERR 1086=Invalid rotation data time frame. Previous motion data time frame must be before the current rotation time frame\nFile: <1>\nLine: <2>
 ERR 1087=Invalid motion data time frame. Previous motion data time frame must be before the current motion time frame\nFile: <1>\nLine: <2>
 ERR 1088=Rotation data only accepts 5 numerical values. Please contact the mod author\nFile: <1>\nLine: <2>
@@ -308,6 +308,7 @@ ERR 3019=Invalid format has been detected in "animationdata_list". Update Engine
 ERR 3020=Invalid format for "animationdatasinglefile.txt" in InfoData section has been detected. Please contact the template creator\nProject: <1>\nUnique Code: <3>
 ERR 3021=Missing project information for a project in "animationdatasinglefile.txt"\nProject: <1>
 ERR 3022=Invalid file placement. "$header$" project must be a file not a folder. Please contact the mod author\nFile: <1>
+ERR 3023=Invalid filename. Do you mean this "<1>"?\nFile: <2>
 
 '4000s
 ERR 4000=Failed to open file. Please make sure <1> file is in the same directory as this program
@@ -350,15 +351,16 @@ ERR 5021=Invalid format has been detected in "animationsetdatasinglefile.txt". P
 '6000
 ERR 6000=Fail to register new animation
 ERR 6001=An exception has occured while updating. Report to Nemesis' author immediately\nMessage: <1>
-ERR 6002=An exception has occured while patching. Report to Nemesis' author immediately\nMessage: <1>\nFile: <2>
+ERR 6002=An exception has occured while patching. Report to Nemesis' author immediately\nFile: <1>\nMessage: <2>
 ERR 6003="<1>" has already been registered in this ini file. Please contact the mod author\nFile: <2>
 ERR 6004=Template does not support first person animation as the effect is non-existence. Please contact the template creator\nDirectory: <1>
 ERR 6005=Skyrim directory not found. Please make sure that your skyrim is a legal copy
 ERR 6006=Missing latest engine files. Update engine to fix it
 ERR 6007=Papyrus compiler not found. Please make sure Nemesis is placed in the correct directory
-ERR 6008=An exception has occured while running the script. Please contact the script author\nMessage: <1>
+ERR 6008=An exception has occured while running the script. Please contact the script author\nScript: <1>\nMessage: <2>
 ERR 6009=Invalid <1> file. Please reinstall <2>
 ERR 6010=Detected path does not match expected installation path. Please reinstall Nemesis correctly\nDetected path: <1>\nExpected path: <2>
+ERR 6011=Failed to execute <1> python script\nFile path: <1>
 
 '1000
 WAR 1000=Missing animation file\nFile: <1>
@@ -404,6 +406,9 @@ TBT 1010=Failed to generate behavior
 TBT 1011=millisecond(s) taken
 TBT 1012=second(s) taken
 TBT 1013=Mod Checked
+TBT 1014=Missing info in "info.ini" file. Please contact the mod author\nMod: 
+TBT 1015=IGNORE THE WARNING MESSAGE(S) IF YOU ARE NOT THE MOD AUTHOR. IT IS FOR DEBUGGING PURPOSES
+TBT 1016=Running script
 
 '1000
 UIT 1000=Nemesis Unlimited Behavior Engine

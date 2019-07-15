@@ -39,7 +39,7 @@
 
 		<hkobject name="#MID$3" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^fuo[F][AV*]^ +% -->
+<!-- FOREACH ^fuo[F][AV*]^ -->
 				<hkobject>
 					<hkparam name="memberPath">bIsActive%</hkparam>
 					<hkparam name="variableIndex">$variableID[fuo[F][AV*][variable][]]$</hkparam>
@@ -74,7 +74,7 @@
 			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^fuo^ +% -->
+<!-- FOREACH ^fuo^ -->
 				#fuo$0
 <!-- CLOSE -->
 			</hkparam>
@@ -83,7 +83,7 @@
 
 		<hkobject name="#MID$5" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
 			<hkparam name="transitions" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^fuo^ +% -->
+<!-- FOREACH ^fuo^ -->
 				<hkobject>
 					<hkparam name="triggerInterval">
 						<hkobject>

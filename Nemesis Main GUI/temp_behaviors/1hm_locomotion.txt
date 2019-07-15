@@ -353,7 +353,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$0</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#zcbe$0</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">0</hkparam>
@@ -7039,7 +7039,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardFast</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunForward.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunForward.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunForward.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0449</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7094,7 +7094,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForward</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunForward.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunForward.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunForward.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0452</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7149,7 +7149,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForward</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkForward.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkForward.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0455</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7204,7 +7204,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardSlow</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkForward.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkForward.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkForward.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0458</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7298,7 +7298,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardLeftFast</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunForwardLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunForwardLeft.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunForwardLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0464</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7353,7 +7353,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardLeft</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunForwardLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunForwardLeft.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunForwardLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0467</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7408,7 +7408,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardLeft</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkForwardLeft.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkForwardLeft.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkForwardLeft.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0470</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7463,7 +7463,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardLeftSlow</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkForwardLeft.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkForwardLeft.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkForwardLeft.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0473</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7558,7 +7558,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunLeftFast</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunLeft.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0479</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7613,7 +7613,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunLeft</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunLeft.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0482</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7668,7 +7668,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunStrafeLeft</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunStrafeLeft.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunStrafeLeft.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunStrafeLeft.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0485</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7723,7 +7723,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkLeft</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkLeft.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkLeft.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkLeft.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0488</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -7778,7 +7778,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkLeftSlow</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkLeft.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkLeft.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkLeft.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0491</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8638,7 +8638,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunRightFast</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunRight.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0542</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8693,7 +8693,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunRight</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunRight.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0545</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8748,7 +8748,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunStrafeRight</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunStrafeRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunStrafeRight.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunStrafeRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0548</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8803,7 +8803,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkRight</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkRight.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkRight.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkRight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0551</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8858,7 +8858,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkRightSlow</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkRight.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkRight.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkRight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0554</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -8952,7 +8952,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardRightFast</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunForwardRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunForwardRight.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunForwardRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0560</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -9007,7 +9007,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_RunForwardRight</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_RunForwardRight.HKX</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_RunForwardRight.HKX</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_RunForwardRight.HKX</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0563</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -9062,7 +9062,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardRight</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkForwardRight.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkForwardRight.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkForwardRight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0566</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -9117,7 +9117,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_WalkForwardRightSlow</hkparam>
-			<hkparam name="animationName">Animations\male\1HM_WalkForwardRight.hkx</hkparam>					<!-- *na1w* -->
+			<hkparam name="animationName">Animations\male\1HM_WalkForwardRight.hkx</hkparam>					<!-- *na1w* -->
 			<hkparam name="animationName">Animations\1HM_WalkForwardRight.hkx</hkparam>				<!-- original -->
 			<hkparam name="triggers">#0569</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
@@ -14065,7 +14065,7 @@
 		</hkobject>
 
 		<hkobject name="#0853" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#zcbe$1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="variableBindingSet">#zcbe$1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="variableBindingSet">null</hkparam>				<!-- original -->
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Melee_DirectionType_Behavior</hkparam>
@@ -14155,7 +14155,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$2</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#zcbe$2</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">10</hkparam>
@@ -14182,7 +14182,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$3</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#zcbe$3</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">11</hkparam>
@@ -14209,7 +14209,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$4</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#zcbe$4</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">12</hkparam>

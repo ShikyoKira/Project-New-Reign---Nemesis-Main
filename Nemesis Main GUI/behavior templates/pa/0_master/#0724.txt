@@ -21,7 +21,7 @@
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="5">
 				#0771 #0761 #0748 #0737 #0726
-<!-- NEW ^pa^ +% -->
+<!-- FOREACH ^pa^ -->
 				#pa$0 #pa$9
 <!-- CLOSE -->
 			</hkparam>

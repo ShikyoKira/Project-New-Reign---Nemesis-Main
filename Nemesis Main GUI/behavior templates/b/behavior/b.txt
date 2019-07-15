@@ -26,7 +26,7 @@
 					<hkparam name="payload">#$import[event_payload][Camera3rd [Cam3]]$</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- NEW ^AnimObject/1^ +% -->
+<!-- FOREACH ^AnimObject/1^ -->
 				<hkobject>
 					<hkparam name="id">0</hkparam>
 					<hkparam name="payload">#$import[anim_object][@AnimObject/1]$</hkparam>
@@ -99,7 +99,7 @@
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
-<!-- NEW ^AV*^ +% -->
+<!-- FOREACH ^AV*^ -->
 				<hkobject>
 					<hkparam name="memberPath">bIsActive(%+1)</hkparam>
 					<hkparam name="variableIndex">$variableID[AV*[variable]]$</hkparam>
@@ -146,7 +146,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 <!-- CONDITION END -->
-<!-- NEW ^T^ +% -->
+<!-- FOREACH ^T^ -->
 				<hkobject>
 					<hkparam name="localTime">$T[time]$</hkparam>
 					<hkparam name="event">
