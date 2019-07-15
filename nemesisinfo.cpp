@@ -21,7 +21,12 @@ void NemesisInfo::iniFileUpdate()
 		QTextStream stream(&file);
 		stream << QString::fromStdString("SkyrimDataDirectory=" + dataPath + "\r\n");
 		stream << QString::fromStdString("MaxAnimation=" + to_string(maxAnim) + "\r\n");
-		stream << QString::fromStdString("first=" + string(first ? "true\r\n" : "false\r\n"));
+		stream << QString::fromStdString("first=" + string(first ? "true" : "false") + "\r\n");
+		stream << QString::fromStdString("width=" + to_string(width) + "\r\n");
+		stream << QString::fromStdString("height=" + to_string(height) + "\r\n");
+		stream << QString::fromStdString("modNameWidth=" + to_string(modNameWidth) + "\r\n");
+		stream << QString::fromStdString("authorWidth=" + to_string(authorWidth) + "\r\n");
+		stream << QString::fromStdString("priorityWidth=" + to_string(priorityWidth) + "\r\n");
 		stream.flush();
 		file.close();
 	}
@@ -29,7 +34,29 @@ void NemesisInfo::iniFileUpdate()
 
 NemesisInfo::NemesisInfo()
 {
+	try
+	{
+		setup();
+	}
+	catch (nemesis::exception&) {}
+}
+
+NemesisInfo::NemesisInfo(bool& exception)
+{
+	try
+	{
+		setup();
+	}
+	catch (nemesis::exception&)
+	{
+		exception = true;
+	}
+}
+
+void NemesisInfo::setup()
+{
 	set<string> hasAuto;
+	bool force = false;
 
 	if (isFileExist("nemesis.ini"))
 	{
@@ -44,12 +71,55 @@ NemesisInfo::NemesisInfo()
 
 				if (!boost::iequals(path, "auto"))
 				{
-					if (input == "skyrimdatadirectory")
+					if (boost::iequals(input, "skyrimdatadirectory"))
 					{
-						if (isFileExist(path)) dataPath = path;
+						if (isFileExist(path) && wordFind(path, "data") != NOT_FOUND)
+						{
+							dataPath = path;
+							force = true;
+
+							if (dataPath.back() != '\\' && dataPath.back() != '/')
+							{
+								if (dataPath.find("\\") != NOT_FOUND) dataPath.push_back('\\');
+								else dataPath.push_back('/');
+							}
+
+							vecstr filelist;
+							boost::filesystem::path fspath(dataPath);
+
+							while (!boost::iequals(fspath.stem().string(), "data"))
+							{
+								fspath = fspath.parent_path();
+							}
+
+							read_directory(fspath.parent_path().string(), filelist);
+
+							for (auto& file : filelist)
+							{
+								if (boost::iequals(file, "SkyrimSE.exe"))
+								{
+									SSE = true;
+									break;
+								}
+								else if (boost::iequals(file, "binkw64.dll"))
+								{
+									SSE = true;
+									break;
+								}
+								else if (boost::iequals(file, "binkw32.dll"))
+								{
+									break;
+								}
+							}
+						}
 					}
-					else if (input == "maxanimation" && isOnlyNumber(path)) maxAnim = stoi(path);
-					else if (input == "first") first = path != "false";
+					else if (boost::iequals(input, "maxanimation") && isOnlyNumber(path)) maxAnim = stoi(path);
+					else if (boost::iequals(input, "first")) first = path != "false";
+					else if (boost::iequals(input, "height")) height = stoi(path);
+					else if (boost::iequals(input, "width")) width = stoi(path);
+					else if (boost::iequals(input, "modNameWidth")) modNameWidth = stoi(path);
+					else if (boost::iequals(input, "authorWidth")) authorWidth = stoi(path);
+					else if (boost::iequals(input, "priorityWidth")) priorityWidth = stoi(path);
 				}
 				else if (input == "skyrimdatadirectory" || input == "maxanimation" || input == "first")
 				{
@@ -164,7 +234,7 @@ NemesisInfo::NemesisInfo()
 		}
 	}
 
-	if (boost::to_lower_copy(dataPath + "nemesis_engine") != boost::to_lower_copy(curpath)) ErrorMessage(6010, curpath, dataPath + "nemesis_engine");
+	if (!force && boost::to_lower_copy(dataPath + "nemesis_engine") != boost::to_lower_copy(curpath)) ErrorMessage(6010, curpath, dataPath + "nemesis_engine");
 
 	iniFileUpdate();
 }
@@ -179,12 +249,62 @@ unsigned int NemesisInfo::GetMaxAnim()
 	return maxAnim;
 }
 
+unsigned int NemesisInfo::GetAuthorWidth()
+{
+	return authorWidth;
+}
+
+unsigned int NemesisInfo::GetPriorityWidth()
+{
+	return priorityWidth;
+}
+
 void NemesisInfo::setFirst(bool _first)
 {
 	first = _first;
 }
 
+void NemesisInfo::setWidth(unsigned int _width)
+{
+	width = _width;
+}
+
+void NemesisInfo::setHeight(unsigned int _height)
+{
+	height = _height;
+}
+
+void NemesisInfo::setModNameWidth(unsigned int _width)
+{
+	modNameWidth = _width;
+}
+
+void NemesisInfo::setAuthorWidth(unsigned int _width)
+{
+	authorWidth = _width;
+}
+
+void NemesisInfo::setPriorityWidth(unsigned int _width)
+{
+	priorityWidth = _width;
+}
+
 bool NemesisInfo::IsFirst()
 {
 	return first;
+}
+
+unsigned int NemesisInfo::GetWidth()
+{
+	return width;
+}
+
+unsigned int NemesisInfo::GetHeight()
+{
+	return height;
+}
+
+unsigned int NemesisInfo::GetModNameWidth()
+{
+	return modNameWidth;
 }
