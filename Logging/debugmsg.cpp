@@ -1,5 +1,7 @@
 #include <boost/atomic.hpp>
+
 #include "debugmsg.h"
+
 #include "Nemesis Main GUI\master.h"
 #include "Nemesis Main GUI\ErrorMsgBox.h"
 #include "Nemesis Main GUI\src\utilities\wstrconvert.h"
@@ -7,14 +9,17 @@
 using namespace std;
 
 int filenum;
-atomic<int> progressPercentage;
 bool error = false;
+
+atomic<int> progressPercentage;
 boost::atomic_flag errorlock = BOOST_ATOMIC_FLAG_INIT;
+
 DebugMsg DMLog;
 DebugMsg* EnglishLog;
-UpdateFilesStart* process1;
-BehaviorStart* process2;
+
 DummyLog* process3;
+BehaviorStart* process2;
+UpdateFilesStart* process1;
 
 vecstr readUTF8File(wstring filename);
 void writeUTF8File(string filename, vecstr storeline);
@@ -185,6 +190,18 @@ string TextBoxMessage(int textcode)
 	}
 
 	return DMLog.textlist[textcode];
+}
+
+string EngTextBoxMessage(int textcode)
+{
+	if (DMLogWarning(textcode).length() == 0)
+	{
+		interMsg("CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
+		error = true;
+		return "";
+	}
+
+	return EnglishLog->textlist[textcode];
 }
 
 string UIMessage(int uicode)

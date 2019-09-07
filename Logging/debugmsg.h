@@ -207,6 +207,7 @@ inline void WarningMessage(int warningcode, other... rest)
 
 // TextBox
 std::string TextBoxMessage(int textcode);
+std::string EngTextBoxMessage(int textcode);
 
 // UI
 std::string UIMessage(int uicode);
