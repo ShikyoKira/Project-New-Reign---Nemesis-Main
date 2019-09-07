@@ -1,174 +1,174 @@
-[2019-Jul-03 00:14:28] Nemesis Behavior Version: v0.79
-[2019-Jul-03 00:14:28] Current Directory: E:\C++\Project 2\Win32\Release\data\nemesis_engine
-[2019-Jul-03 00:14:28] Data Directory: E:\C++\Project 2\Nemesis Main GUI\data\
-[2019-Jul-03 00:14:28] Skyrim Special Edition: FALSE
-[2019-Jul-03 00:14:28] Detecting processes...
-[2019-Jul-03 00:14:28] Process count: 117
-[2019-Jul-03 00:14:28] Global reset all: TRUE
-[2019-Jul-03 00:14:28] Initializing file check...
-[2019-Jul-03 00:14:28] File Check complete
-[2019-Jul-03 00:14:28] External script run complete
-[2019-Jul-03 00:14:29] Temp behavior clearance complete
-[2019-Jul-03 00:14:29] AnimData Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\nemesis_animationdatasinglefile.txt)
-[2019-Jul-03 00:14:29] Nemesis Project Record start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\dragon\Nemesis_dragonproject_Project.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\characters\Nemesis_defaultmale.xml)
-[2019-Jul-03 00:14:29] Nemesis Project Record complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\dragon\Nemesis_dragonproject_Project.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_0_master.xml)
-[2019-Jul-03 00:14:29] Nemesis Project Record start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\Nemesis_defaultfemale_Project.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\characters female\Nemesis_defaultfemale.xml)
-[2019-Jul-03 00:14:29] Nemesis Project Record complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\Nemesis_defaultfemale_Project.xml)
-[2019-Jul-03 00:14:29] Nemesis Project Record start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\Nemesis_defaultmale_Project.xml)
-[2019-Jul-03 00:14:29] Nemesis Project Record complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\Nemesis_defaultmale_Project.xml)
-[2019-Jul-03 00:14:29] Nemesis Project Record start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\Nemesis_firstperson_Project.xml)
-[2019-Jul-03 00:14:29] Nemesis Project Record complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\Nemesis_firstperson_Project.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\characters\Nemesis_firstperson.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_0_master.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\characters\Nemesis_defaultmale.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\characters\Nemesis_firstperson.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\characters female\Nemesis_defaultfemale.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_0_master.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_1hm_behavior.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_0_master.xml)
-[2019-Jul-03 00:14:29] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_1hm_behavior.xml)
-[2019-Jul-03 00:14:32] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_1hm_behavior.xml)
-[2019-Jul-03 00:14:32] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_1hm_locomotion.xml)
-[2019-Jul-03 00:14:33] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_1hm_locomotion.xml)
-[2019-Jul-03 00:14:33] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_bashbehavior.xml)
-[2019-Jul-03 00:14:33] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_bashbehavior.xml)
-[2019-Jul-03 00:14:33] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_blockbehavior.xml)
-[2019-Jul-03 00:14:33] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_1hm_behavior.xml)
-[2019-Jul-03 00:14:33] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_1hm_locomotion.xml)
-[2019-Jul-03 00:14:34] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_blockbehavior.xml)
-[2019-Jul-03 00:14:34] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_bow_direction_behavior.xml)
-[2019-Jul-03 00:14:34] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_bow_direction_behavior.xml)
-[2019-Jul-03 00:14:34] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_crossbow_direction_behavior.xml)
-[2019-Jul-03 00:14:34] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_1hm_locomotion.xml)
-[2019-Jul-03 00:14:34] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_AttackBehavior.xml)
-[2019-Jul-03 00:14:34] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_crossbow_direction_behavior.xml)
-[2019-Jul-03 00:14:34] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_horsebehavior.xml)
-[2019-Jul-03 00:14:35] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_horsebehavior.xml)
-[2019-Jul-03 00:14:35] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_idlebehavior.xml)
-[2019-Jul-03 00:14:35] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_idlebehavior.xml)
-[2019-Jul-03 00:14:35] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_magicbehavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_magicbehavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_magicmountedbehavior.xml)
-[2019-Jul-03 00:14:37] AnimData Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\nemesis_animationdatasinglefile.txt)
-[2019-Jul-03 00:14:37] AnimSetData Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\nemesis_animationsetdatasinglefile.txt)
-[2019-Jul-03 00:14:37] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_AttackBehavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_bashbehavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_magicmountedbehavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_mt_behavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_bashbehavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_behavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_behavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_blockbehavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_blockbehavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_bow_direction_behavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_mt_behavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_shoutmounted_behavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_bow_direction_behavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_crossbow_direction_behavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_shoutmounted_behavior.xml)
-[2019-Jul-03 00:14:37] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_shout_behavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_crossbow_direction_behavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_horsebehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_shout_behavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_sprintbehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_sprintbehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_staggerbehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_staggerbehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_weapequip.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_horsebehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_idlebehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_weapequip.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_idlebehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magicbehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magicbehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magicmountedbehavior.xml)
-[2019-Jul-03 00:14:38] AnimSetData Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\nemesis_animationsetdatasinglefile.txt)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magicmountedbehavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magic_readied_direction_behavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magic_readied_direction_behavior.xml)
-[2019-Jul-03 00:14:38] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_mt_behavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_mt_behavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_shoutmounted_behavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_shoutmounted_behavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_shout_behavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_shout_behavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_sprintbehavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_sprintbehavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_staggerbehavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_staggerbehavior.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_weapequip.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_weapequip.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_WeapUnequip.xml)
-[2019-Jul-03 00:14:39] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_WeapUnequip.xml)
-[2019-Jul-03 00:14:39] Data record complete
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\b\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\b\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\b\behavior)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\b\behavior)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\ch\mt_behavior)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\ch\mt_behavior)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\core\0_master)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\core\0_master)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\fu\mt_behavior)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\fu\mt_behavior)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\fuo\mt_behavior)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\fuo\mt_behavior)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\km\0_master)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\km\0_master)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\km\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\km\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\km\animationsetdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\km\animationsetdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\o\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\o\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\o\behavior)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\o\behavior)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\ofa\mt_behavior)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\ofa\mt_behavior)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\pa\0_master)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\pa\0_master)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\s\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\s\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\s\behavior)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\s\behavior)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\so\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\so\animationdatasinglefile)
-[2019-Jul-03 00:14:39] New Animations extraction start (Folder: behavior templates\so\behavior)
-[2019-Jul-03 00:14:39] New Animations extraction complete (Folder: behavior templates\so\behavior)
-[2019-Jul-03 00:14:39] New Animations record complete
-[2019-Jul-03 00:14:39] Installing Mod: agpo
-[2019-Jul-03 00:14:39] Installing Mod: bcbi
-[2019-Jul-03 00:14:39] Installing Mod: cbbi
-[2019-Jul-03 00:14:39] Installing Mod: gender
-[2019-Jul-03 00:14:39] Installing Mod: hmce
-[2019-Jul-03 00:14:39] Mod Installed sucessfully: gender
-[2019-Jul-03 00:14:39] Installing Mod: momo
-[2019-Jul-03 00:14:39] Installing Mod: na1w
-[2019-Jul-03 00:14:39] Installing Mod: nemesis
-[2019-Jul-03 00:14:39] Installing Mod: pscd
-[2019-Jul-03 00:14:39] Installing Mod: sscb
-[2019-Jul-03 00:14:39] Installing Mod: skice
-[2019-Jul-03 00:14:39] Installing Mod: tkuc
-[2019-Jul-03 00:14:39] Installing Mod: turn
-[2019-Jul-03 00:14:39] Mod Installed sucessfully: agpo
-[2019-Jul-03 00:14:39] Installing Mod: tudm
-[2019-Jul-03 00:14:39] Mod Installed sucessfully: turn
-[2019-Jul-03 00:14:39] Installing Mod: zcbe
-[2019-Jul-03 00:14:39] Mod Installed sucessfully: pscd
-[2019-Jul-03 00:14:39] Mod Installed sucessfully: hmce
-[2019-Jul-03 00:14:39] Mod Installed sucessfully: na1w
-[2019-Jul-03 00:14:39] Mod Installed sucessfully: bcbi
-[2019-Jul-03 00:14:40] Mod Installed sucessfully: sscb
-[2019-Jul-03 00:14:40] Mod Installed sucessfully: momo
-[2019-Jul-03 00:14:40] Mod Installed sucessfully: nemesis
-[2019-Jul-03 00:14:40] Mod Installed sucessfully: skice
-[2019-Jul-03 00:14:40] Mod Installed sucessfully: tkuc
-[2019-Jul-03 00:14:43] Mod Installed sucessfully: cbbi
-[2019-Jul-03 00:14:46] Mod Installed sucessfully: zcbe
-[2019-Jul-03 00:14:47] Mod Installed sucessfully: tudm
-[2019-Jul-03 00:14:47] Modification successfully extracted
-[2019-Jul-03 00:14:56] Global reset all: TRUE
-[2019-Jul-03 00:14:57] Engine update complete: 29 second(s) taken
+[2019-Aug-31 00:46:07] Nemesis Behavior Version: v0.79
+[2019-Aug-31 00:46:07] Current Directory: E:\C++\Project 2\Win32\Release\data\nemesis_engine
+[2019-Aug-31 00:46:07] Data Directory: E:\C++\Project 2\Nemesis Main GUI\data\
+[2019-Aug-31 00:46:07] Skyrim Special Edition: FALSE
+[2019-Aug-31 00:46:07] Detecting processes...
+[2019-Aug-31 00:46:07] Process count: 117
+[2019-Aug-31 00:46:07] Global reset all: TRUE
+[2019-Aug-31 00:46:07] Initializing file check...
+[2019-Aug-31 00:46:07] File Check complete
+[2019-Aug-31 00:46:07] External script run complete
+[2019-Aug-31 00:46:07] Temp behavior clearance complete
+[2019-Aug-31 00:46:07] AnimData Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\nemesis_animationdatasinglefile.txt)
+[2019-Aug-31 00:46:07] Nemesis Project Record start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\dragon\Nemesis_dragonproject_Project.xml)
+[2019-Aug-31 00:46:07] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_0_master.xml)
+[2019-Aug-31 00:46:07] Nemesis Project Record start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\Nemesis_defaultfemale_Project.xml)
+[2019-Aug-31 00:46:07] Nemesis Project Record complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\dragon\Nemesis_dragonproject_Project.xml)
+[2019-Aug-31 00:46:07] Nemesis Project Record complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\Nemesis_defaultfemale_Project.xml)
+[2019-Aug-31 00:46:07] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\characters female\Nemesis_defaultfemale.xml)
+[2019-Aug-31 00:46:07] Nemesis Project Record start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\Nemesis_defaultmale_Project.xml)
+[2019-Aug-31 00:46:07] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\characters\Nemesis_defaultmale.xml)
+[2019-Aug-31 00:46:07] Nemesis Project Record complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\Nemesis_defaultmale_Project.xml)
+[2019-Aug-31 00:46:07] Nemesis Project Record start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\Nemesis_firstperson_Project.xml)
+[2019-Aug-31 00:46:07] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\characters\Nemesis_firstperson.xml)
+[2019-Aug-31 00:46:07] Nemesis Project Record complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\Nemesis_firstperson_Project.xml)
+[2019-Aug-31 00:46:07] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_0_master.xml)
+[2019-Aug-31 00:46:08] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\characters\Nemesis_firstperson.xml)
+[2019-Aug-31 00:46:08] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\characters female\Nemesis_defaultfemale.xml)
+[2019-Aug-31 00:46:08] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\characters\Nemesis_defaultmale.xml)
+[2019-Aug-31 00:46:08] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_0_master.xml)
+[2019-Aug-31 00:46:08] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_1hm_behavior.xml)
+[2019-Aug-31 00:46:08] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_0_master.xml)
+[2019-Aug-31 00:46:08] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_1hm_behavior.xml)
+[2019-Aug-31 00:46:11] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_1hm_behavior.xml)
+[2019-Aug-31 00:46:11] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_1hm_locomotion.xml)
+[2019-Aug-31 00:46:12] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_1hm_locomotion.xml)
+[2019-Aug-31 00:46:12] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_bashbehavior.xml)
+[2019-Aug-31 00:46:12] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_bashbehavior.xml)
+[2019-Aug-31 00:46:12] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_blockbehavior.xml)
+[2019-Aug-31 00:46:12] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_1hm_behavior.xml)
+[2019-Aug-31 00:46:12] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_1hm_locomotion.xml)
+[2019-Aug-31 00:46:13] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_blockbehavior.xml)
+[2019-Aug-31 00:46:13] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_bow_direction_behavior.xml)
+[2019-Aug-31 00:46:13] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_1hm_locomotion.xml)
+[2019-Aug-31 00:46:13] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_AttackBehavior.xml)
+[2019-Aug-31 00:46:13] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_bow_direction_behavior.xml)
+[2019-Aug-31 00:46:13] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_crossbow_direction_behavior.xml)
+[2019-Aug-31 00:46:13] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_crossbow_direction_behavior.xml)
+[2019-Aug-31 00:46:13] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_horsebehavior.xml)
+[2019-Aug-31 00:46:14] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_horsebehavior.xml)
+[2019-Aug-31 00:46:14] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_idlebehavior.xml)
+[2019-Aug-31 00:46:14] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_idlebehavior.xml)
+[2019-Aug-31 00:46:14] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_magicbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_magicbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_magicmountedbehavior.xml)
+[2019-Aug-31 00:46:16] AnimData Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\nemesis_animationdatasinglefile.txt)
+[2019-Aug-31 00:46:16] AnimSetData Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\nemesis_animationsetdatasinglefile.txt)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_AttackBehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_bashbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_bashbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_blockbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_magicmountedbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_mt_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_blockbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_bow_direction_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_mt_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_shoutmounted_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_bow_direction_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_crossbow_direction_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_shoutmounted_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_shout_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_crossbow_direction_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_horsebehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_shout_behavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_sprintbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_sprintbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_staggerbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_staggerbehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_weapequip.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_horsebehavior.xml)
+[2019-Aug-31 00:46:16] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_idlebehavior.xml)
+[2019-Aug-31 00:46:17] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\_1stperson\behaviors\Nemesis_weapequip.xml)
+[2019-Aug-31 00:46:17] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_idlebehavior.xml)
+[2019-Aug-31 00:46:17] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magicbehavior.xml)
+[2019-Aug-31 00:46:17] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magicbehavior.xml)
+[2019-Aug-31 00:46:17] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magicmountedbehavior.xml)
+[2019-Aug-31 00:46:17] AnimSetData Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\nemesis_animationsetdatasinglefile.txt)
+[2019-Aug-31 00:46:17] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magicmountedbehavior.xml)
+[2019-Aug-31 00:46:17] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magic_readied_direction_behavior.xml)
+[2019-Aug-31 00:46:17] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_magic_readied_direction_behavior.xml)
+[2019-Aug-31 00:46:17] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_mt_behavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_mt_behavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_shoutmounted_behavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_shoutmounted_behavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_shout_behavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_shout_behavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_sprintbehavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_sprintbehavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_staggerbehavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_staggerbehavior.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_weapequip.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_weapequip.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble start (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_WeapUnequip.xml)
+[2019-Aug-31 00:46:18] Behavior Disassemble complete (File: E:\C++\Project 2\Nemesis Main GUI\data\meshes\actors\character\behaviors\Nemesis_WeapUnequip.xml)
+[2019-Aug-31 00:46:18] Data record complete
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\b\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\b\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\b\behavior)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\b\behavior)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\ch\mt_behavior)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\ch\mt_behavior)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\core\0_master)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\core\0_master)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\fu\mt_behavior)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\fu\mt_behavior)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\fuo\mt_behavior)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\fuo\mt_behavior)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\km\0_master)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\km\0_master)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\km\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\km\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\km\animationsetdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\km\animationsetdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\o\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\o\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\o\behavior)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\o\behavior)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\ofa\mt_behavior)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\ofa\mt_behavior)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\pa\0_master)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\pa\0_master)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\s\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\s\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\s\behavior)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\s\behavior)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\so\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\so\animationdatasinglefile)
+[2019-Aug-31 00:46:18] New Animations extraction start (Folder: behavior templates\so\behavior)
+[2019-Aug-31 00:46:18] New Animations extraction complete (Folder: behavior templates\so\behavior)
+[2019-Aug-31 00:46:19] New Animations record complete
+[2019-Aug-31 00:46:19] Installing Mod: agpo
+[2019-Aug-31 00:46:19] Installing Mod: bcbi
+[2019-Aug-31 00:46:19] Installing Mod: cbbi
+[2019-Aug-31 00:46:19] Installing Mod: gender
+[2019-Aug-31 00:46:19] Installing Mod: hmce
+[2019-Aug-31 00:46:19] Mod Installed sucessfully: gender
+[2019-Aug-31 00:46:19] Installing Mod: momo
+[2019-Aug-31 00:46:19] Installing Mod: na1w
+[2019-Aug-31 00:46:19] Installing Mod: nemesis
+[2019-Aug-31 00:46:19] Installing Mod: pscd
+[2019-Aug-31 00:46:19] Installing Mod: skice
+[2019-Aug-31 00:46:19] Installing Mod: sscb
+[2019-Aug-31 00:46:19] Installing Mod: tkuc
+[2019-Aug-31 00:46:19] Installing Mod: tudm
+[2019-Aug-31 00:46:19] Installing Mod: turn
+[2019-Aug-31 00:46:19] Installing Mod: zcbe
+[2019-Aug-31 00:46:19] Mod Installed sucessfully: agpo
+[2019-Aug-31 00:46:19] Mod Installed sucessfully: turn
+[2019-Aug-31 00:46:19] Mod Installed sucessfully: hmce
+[2019-Aug-31 00:46:19] Mod Installed sucessfully: momo
+[2019-Aug-31 00:46:19] Mod Installed sucessfully: sscb
+[2019-Aug-31 00:46:19] Mod Installed sucessfully: nemesis
+[2019-Aug-31 00:46:20] Mod Installed sucessfully: skice
+[2019-Aug-31 00:46:20] Mod Installed sucessfully: pscd
+[2019-Aug-31 00:46:21] Mod Installed sucessfully: bcbi
+[2019-Aug-31 00:46:23] Mod Installed sucessfully: na1w
+[2019-Aug-31 00:46:24] Mod Installed sucessfully: cbbi
+[2019-Aug-31 00:46:29] Mod Installed sucessfully: tkuc
+[2019-Aug-31 00:46:45] Mod Installed sucessfully: zcbe
+[2019-Aug-31 00:46:54] Mod Installed sucessfully: tudm
+[2019-Aug-31 00:46:54] Modification successfully extracted
+[2019-Aug-31 00:47:02] Global reset all: TRUE
+[2019-Aug-31 00:47:03] Engine update complete: 56 second(s) taken

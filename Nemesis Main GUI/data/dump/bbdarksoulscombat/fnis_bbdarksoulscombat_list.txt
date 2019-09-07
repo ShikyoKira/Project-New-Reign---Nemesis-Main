@@ -1,0 +1,123 @@
+b -a,TSprintStop/0.0,TIdleForceDefaultState/0.599,TWeapEquip/0.6,TWeapEquip_Out/0.601 BB_DSC_Backstep_Fast Backstep_Fast.hkx
+MD 0.488 0 -150 0
+MD 0.599 0 -175 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.899,TWeapEquip/0.9,TWeapEquip_Out/0.901 BB_DSC_ForwardRoll_Fast ForwardRoll_Fast.hkx
+MD 0.72 0 330 0
+MD 0.899 0 350 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.899,TWeapEquip/0.9,TWeapEquip_Out/0.901 BB_DSC_BackwardRoll_Fast BackwardRoll_Fast.hkx
+MD 0.72 0 -330 0
+MD 0.899 0 -350 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.899,TWeapEquip/0.9,TWeapEquip_Out/0.901 BB_DSC_LeftRoll_Fast LeftRoll_Fast.hkx
+MD 0.72 -330 0 0
+MD 0.899 -350 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.899,TWeapEquip/0.9,TWeapEquip_Out/0.901 BB_DSC_RightRoll_Fast RightRoll_Fast.hkx
+MD 0.72 330 0 0
+MD 0.899 350 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.699,TWeapEquip/0.7,TWeapEquip_Out/0.701 BB_DSC_Backstep_Med Backstep.hkx
+MD 0.569 0 -125 0
+MD 0.699 0 -150 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.124,TWeapEquip/1.125,TWeapEquip_Out/1.126 BB_DSC_ForwardRoll_Med ForwardRoll.hkx
+MD 0.9 0 280 0
+MD 1.124 0 300 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.124,TWeapEquip/1.125,TWeapEquip_Out/1.126 BB_DSC_BackwardRoll_Med BackwardRoll.hkx
+MD 0.9 0 -280 0
+MD 1.124 0 -300 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.124,TWeapEquip/1.125,TWeapEquip_Out/1.126 BB_DSC_LeftRoll_Med LeftRoll.hkx
+MD 0.9 -280 0 0
+MD 1.124 -300 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.124,TWeapEquip/1.125,TWeapEquip_Out/1.126 BB_DSC_RightRoll_Med RightRoll.hkx
+MD 0.9 280 0 0
+MD 1.124 300 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.799,TWeapEquip/0.8,TWeapEquip_Out/0.801 BB_DSC_Backstep_Fat Backstep_Fat.hkx
+MD 0.65 0 -100 0
+MD 0.799 0 -125 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.349,TWeapEquip/1.35,TWeapEquip_Out/1.351 BB_DSC_ForwardRoll_Fat ForwardRoll_Fat.hkx
+MD 1.08 0 230 0
+MD 1.349 0 250 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.349,TWeapEquip/1.35,TWeapEquip_Out/1.351 BB_DSC_BackwardRoll_Fat BackwardRoll_Fat.hkx
+MD 1.08 0 -230 0
+MD 1.349 0 -250 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.349,TWeapEquip/1.35,TWeapEquip_Out/1.351 BB_DSC_LeftRoll_Fat LeftRoll_Fat.hkx
+MD 1.08 -230 0 0
+MD 1.349 -250 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.349,TWeapEquip/1.35,TWeapEquip_Out/1.351 BB_DSC_RightRoll_Fat RightRoll_Fat.hkx
+MD 1.08 230 0 0
+MD 1.349 250 0 0
+
+b -a,TSprintStop/0.0,TIdleForceDefaultState/0.599,TMagic_Equip/0.6,TMagic_Equip_Out/0.601 BB_DSC_Backstep_Fast_MAG Backstep_Fast_MAG.hkx
+MD 0.488 0 -150 0
+MD 0.599 0 -175 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.899,TMagic_Equip/0.9,TMagic_Equip_Out/0.901 BB_DSC_ForwardRoll_Fast_MAG ForwardRoll_Fast_MAG.hkx
+MD 0.72 0 330 0
+MD 0.899 0 350 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.899,TMagic_Equip/0.9,TMagic_Equip_Out/0.901 BB_DSC_BackwardRoll_Fast_MAG BackwardRoll_Fast_MAG.hkx
+MD 0.72 0 -330 0
+MD 0.899 0 -350 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.899,TMagic_Equip/0.9,TMagic_Equip_Out/0.901 BB_DSC_LeftRoll_Fast_MAG LeftRoll_Fast_MAG.hkx
+MD 0.72 -330 0 0
+MD 0.899 -350 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.899,TMagic_Equip/0.9,TMagic_Equip_Out/0.901 BB_DSC_RightRoll_Fast_MAG RightRoll_Fast_MAG.hkx
+MD 0.72 330 0 0
+MD 0.899 350 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.699,TMagic_Equip/0.7,TMagic_Equip_Out/0.701 BB_DSC_Backstep_Med_MAG Backstep_MAG.hkx
+MD 0.569 0 -125 0
+MD 0.699 0 -150 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.124,TMagic_Equip/1.125,TMagic_Equip_Out/1.126 BB_DSC_ForwardRoll_Med_MAG ForwardRoll_MAG.hkx
+MD 0.9 0 280 0
+MD 1.124 0 300 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.124,TMagic_Equip/1.125,TMagic_Equip_Out/1.126 BB_DSC_BackwardRoll_Med_MAG BackwardRoll_MAG.hkx
+MD 0.9 0 -280 0
+MD 1.124 0 -300 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.124,TMagic_Equip/1.125,TMagic_Equip_Out/1.126 BB_DSC_LeftRoll_Med_MAG LeftRoll_MAG.hkx
+MD 0.9 -280 0 0
+MD 1.124 -300 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.124,TMagic_Equip/1.125,TMagic_Equip_Out/1.126 BB_DSC_RightRoll_Med_MAG RightRoll_MAG.hkx
+MD 0.9 280 0 0
+MD 1.124 300 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/0.799,TMagic_Equip/0.8,TMagic_Equip_Out/0.801 BB_DSC_Backstep_Fat_MAG Backstep_Fat_MAG.hkx
+MD 0.65 0 -100 0
+MD 0.799 0 -125 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.349,TMagic_Equip/1.35,TMagic_Equip_Out/1.351 BB_DSC_ForwardRoll_Fat_MAG ForwardRoll_Fat_MAG.hkx
+MD 1.08 0 230 0
+MD 1.349 0 250 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.349,TMagic_Equip/1.35,TMagic_Equip_Out/1.351 BB_DSC_BackwardRoll_Fat_MAG BackwardRoll_Fat_MAG.hkx
+MD 1.08 0 -230 0
+MD 1.349 0 -250 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.349,TMagic_Equip/1.35,TMagic_Equip_Out/1.351 BB_DSC_LeftRoll_Fat_MAG LeftRoll_Fat_MAG.hkx
+MD 1.08 -230 0 0
+MD 1.349 -250 0 0
+
+b -a,Tn,TSprintStop/0.0,TIdleForceDefaultState/1.349,TMagic_Equip/1.35,TMagic_Equip_Out/1.351 BB_DSC_RightRoll_Fat_MAG RightRoll_Fat_MAG.hkx
+MD 1.08 230 0 0
+MD 1.349 250 0 0
+
+pa -D3.333,Tn,TNPCSoundPlay.NPCKillStruggle/0.028,TNPCSoundPlay.NPCKillStruggle/0.532,TNPCSoundPlay.NPCKillShove/1.126,TNPCSoundPlay.NPCKillChop/1.197,TNPCSoundPlay.NPCKillSlash/1.257,TNPCSoundPlay.NPCKillStabIn/1.34,TNPCSoundPlay.NPCKillBodyfall/1.473,TNPCSoundPlay.NPCKillStruggle/1.991,TNPCSoundPlay.NPCKillStabOut/2.594,T2_SoundPlay.NPCKillS1OASD/2.596,TNPCSoundPlay.NPCKillGore/2.725 BB_DSC_pa_1HMKillMoveBleedOutKill Paired_1HMBleedOutKill.hkx
+
+pa -D3.5,Tn,TNPCSoundPlay.NPCKillStruggle/0.039,TNPCSoundPlay.NPCKillShove/0.367,TNPCSoundPlay.NPCKillMeleeB/1.12,TNPCSoundPlay.NPCKillStruggle/1.604,TNPCSoundPlay.NPCKillMeleeB/1.837,TNPCSoundPlay.NPCKillMelee/2.485,TNPCSoundPlay.NPCKillBodyfall/2.84,TNPCSoundPlay.NPCKillStruggle/2.876 BB_DSC_pa_KillMoveH2HComboA Paired_H2HKillMoveComboA.hkx

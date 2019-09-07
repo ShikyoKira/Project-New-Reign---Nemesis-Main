@@ -1,0 +1,17 @@
+'Animation Condition
+link AVI AV
+
+'Animation Options
+a
+h
+ac1
+ac0
+md
+Tn
+T<event>/<time>
+AVI<variable>
+AV<variable>
+B<duration>
+
+'Additional event name
+event attackStart_<main_anim_event>

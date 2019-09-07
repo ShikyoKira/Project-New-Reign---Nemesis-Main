@@ -1,12 +1,13 @@
 #pragma once
 
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QWidget>
-#include <QCloseEvent>
-#include <QThread>
 #include <QTimer>
+#include <QThread>
+#include <QCloseEvent>
+
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QMessageBox>
+
 #include "ui_NemesisMainGUI.h"
-#include "master.h"
 
 class NemesisMainGUI : public QWidget
 {

@@ -1451,7 +1451,8 @@
 				<hkcstring>AimGainOnDragonMount</hkcstring>
 				<hkcstring>iWantMountedWeaponAnims</hkcstring>
 <!-- MOD_CODE ~nemesis~ OPEN -->
-				<hkcstring>Nemesis_IsLocked</hkcstring>
+				<hkcstring>bIsNemesisLocked</hkcstring>
+				<hkcstring>bIsNemesisGenerated</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="15">
