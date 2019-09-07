@@ -6,12 +6,18 @@
 #include <Python.h>
 #define slots
 
+#include <QtCore\QProcess>
+
 #include "externalscript.h"
+
 #include "add animation/alternateanimation.h"
 
 using namespace std;
 
 bool dummyScript = false;
+
+void BatchScriptThread(string filename, string filepath, bool hidden);
+void PythonScriptThread(string filename, const char* filepath);
 
 void RunScript(string directory, bool& hasScript)
 {
@@ -36,62 +42,14 @@ void RunScript(string directory, bool& hasScript)
 			// bat script
 			if (boost::iequals(scriptfile.extension().string(), ".bat"))
 			{
-				try
-				{
-					hasScript = true;
-					interMsg(TextBoxMessage(1016) + ": " + scriptfile.filename().string());
-
-					if (boost::process::system(scriptpath, boost::process::windows::hide) != 0) WarningMessage(1023, scriptpath);
-				}
-				catch (const exception& ex)
-				{
-					ErrorMessage(6008, scriptfile.filename().string(), ex.what());
-				}
-				catch (...)
-				{
-					ErrorMessage(6008, scriptfile.filename().string(), "Unknown exception");
-				}
+				hasScript = true;
+				BatchScriptThread(scriptfile.filename().string(), scriptpath, false);
 			}
 			// python script
 			else if (boost::iequals(scriptfile.extension().string(), ".py"))
 			{
-				try
-				{
-					FILE* f;
-					hasScript = true;
-					interMsg(TextBoxMessage(1016) + ": " + scriptfile.filename().string());
-
-					const char* pyScript = scriptfile.string().c_str();
-					fopen_s(&f, pyScript, "r");
-
-					if (f)
-					{
-						try
-						{
-							Py_Initialize();
-							PyRun_SimpleFile(f, pyScript);
-							Py_Finalize();
-						}
-						catch (const exception& ex)
-						{
-							ErrorMessage(6008, scriptfile.filename().string(), ex.what());
-						}
-						catch (...)
-						{
-							ErrorMessage(6008, scriptfile.filename().string(), "Unknown exception");
-						}
-
-						fclose(f);
-					}
-				}
-				catch (const exception& ex)
-				{
-					ErrorMessage(6008, scriptfile.filename().string(), ex.what());
-				}
-				catch (...)
-				{
-					ErrorMessage(6008, scriptfile.filename().string(), "Unknown exception");
-				}
+				hasScript = true;
+				PythonScriptThread(scriptfile.filename().string(), scriptpath.c_str());
 			}
 		}
 		// visible scripts
@@ -110,62 +68,14 @@ void RunScript(string directory, bool& hasScript)
 					// bat script
 					if (boost::iequals(shownscript.extension().string(), ".bat"))
 					{
-						try
-						{
-							hasScript = true;
-							interMsg(TextBoxMessage(1016) + ": " + shownscript.filename().string());
-
-							if (boost::process::system(shownpath) != 0) WarningMessage(1023, shownscript);
-						}
-						catch (const exception& ex)
-						{
-							ErrorMessage(6008, shownscript.filename().string(), ex.what());
-						}
-						catch (...)
-						{
-							ErrorMessage(6008, shownscript.filename().string(), "Unknown exception");
-						}
+						hasScript = true;
+						BatchScriptThread(shownscript.filename().string(), shownpath, true);
 					}
 					// python script
 					else if (boost::iequals(shownscript.extension().string(), ".py"))
 					{
-						try
-						{
-							FILE* f;
-							hasScript = true;
-							interMsg(TextBoxMessage(1016) + ": " + scriptfile.filename().string());
-
-							const char* pyScript = scriptfile.string().c_str();
-							fopen_s(&f, pyScript, "r");
-
-							if (f)
-							{
-								try
-								{
-									Py_Initialize();
-									PyRun_SimpleFile(f, pyScript);
-									Py_Finalize();
-								}
-								catch (const exception& ex)
-								{
-									ErrorMessage(6008, scriptfile.filename().string(), ex.what());
-								}
-								catch (...)
-								{
-									ErrorMessage(6008, scriptfile.filename().string(), "Unknown exception");
-								}
-
-								fclose(f);
-							}
-						}
-						catch (const exception& ex)
-						{
-							ErrorMessage(6008, scriptfile.filename().string(), ex.what());
-						}
-						catch (...)
-						{
-							ErrorMessage(6008, scriptfile.filename().string(), "Unknown exception");
-						}
+						hasScript = true;
+						PythonScriptThread(shownscript.filename().string(), shownpath.c_str());
 					}
 				}
 			}
@@ -173,4 +83,70 @@ void RunScript(string directory, bool& hasScript)
 	}
 
 	if (hasScript) interMsg("");
+}
+
+void BatchScriptThread(string filename, string filepath, bool hidden)
+{
+	try
+	{
+		interMsg(TextBoxMessage(1016) + ": " + filename);
+		
+		if (hidden)
+		{
+			QProcess* p = new QProcess();
+			p->start(filepath.c_str());
+			p->waitForFinished();
+			delete p;
+		}
+		else
+		{
+			if (QProcess::execute(QString::fromStdString(filepath)) != 0) WarningMessage(1023, filepath);
+		}
+	}
+	catch (const exception& ex)
+	{
+		ErrorMessage(6008, filename, ex.what());
+	}
+	catch (...)
+	{
+		ErrorMessage(6008, filename, "Unknown exception");
+	}
+}
+
+void PythonScriptThread(string filename, const char* filepath)
+{
+	try
+	{
+		FILE* f;
+		interMsg(TextBoxMessage(1016) + ": " + filename);
+		fopen_s(&f, filepath, "r");
+
+		if (f)
+		{
+			try
+			{
+				Py_Initialize();
+				PyRun_SimpleFile(f, filepath);
+				Py_Finalize();
+			}
+			catch (const exception& ex)
+			{
+				ErrorMessage(6008, filename, ex.what());
+			}
+			catch (...)
+			{
+				ErrorMessage(6008, filename, "Unknown exception");
+			}
+
+			fclose(f);
+		}
+	}
+	catch (const exception& ex)
+	{
+		ErrorMessage(6008, filename, ex.what());
+	}
+	catch (...)
+	{
+		ErrorMessage(6008, filename, "Unknown exception");
+	}
 }
