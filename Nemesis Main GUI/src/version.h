@@ -1,10 +1,11 @@
 #ifndef VERSION_H_
 #define VERSION_H_
 
-#include <boost/regex.hpp>
 #include "Global.h"
 
-std::string GetNemesisVersion()
+#include "functions\readtextfile.h"
+
+inline std::string GetNemesisVersion()
 {
 	FileReader BehaviorFormat("version");
 

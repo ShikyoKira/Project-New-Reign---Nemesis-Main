@@ -1,5 +1,10 @@
 #include <boost\atomic.hpp>
+#include <boost\thread.hpp>
+
+#include "master.h"
+#include "behaviorcheck.h"
 #include "NemesisMainGUI.h"
+
 #include "utilities\Terminator.h"
 
 std::atomic<unsigned int> resizeCount = 0;
@@ -250,7 +255,7 @@ void NemesisMainGUI::setProgressBarValue()
 				if (result - old < 2)
 				{
 					ui.progressBar->setValue(old + 1);
-					Sleep(75);
+					std::this_thread::sleep_for(std::chrono::milliseconds(75));
 				}
 				else
 				{
@@ -262,7 +267,7 @@ void NemesisMainGUI::setProgressBarValue()
 						}
 
 						ui.progressBar->setValue(i);
-						Sleep(75);
+						std::this_thread::sleep_for(std::chrono::milliseconds(75));
 					}
 				}
 			}

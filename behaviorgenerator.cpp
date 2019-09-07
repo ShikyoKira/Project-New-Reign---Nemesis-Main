@@ -1,22 +1,35 @@
-#include <boost/process.hpp>
-#include <boost/process/windows.hpp>
-#include <boost/algorithm/string.hpp>
+#include <boost\atomic.hpp>
+
+#include <QtCore\QProcess>
+
 #include "behaviorgenerator.h"
-#include "add animation/alternateanimation.h"
-#include "Nemesis Main GUI\src\utilities\filerelease.h"
+
+#include "add animation\alternateanimation.h"
 
 #pragma warning(disable:4503)
 
 using namespace std;
 
-bool hkxcmdProcess(string xmlfile, string hkxfile)
+boost::atomic_flag failedBehaviorFlag = BOOST_ATOMIC_FLAG_INIT;
+vecstr failedBehaviors;
+
+bool hkxcmdProcess(string xmlfile, string hkxfile, bool last)
 {
 	string args = string(SSE ? "convert -v:AMD64 \"" : "convert -v:WIN32 \"") + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"";
 
 	if (error) throw nemesis::exception();
 
-	if (boost::process::system("hkxcmd " + args, boost::process::windows::hide) != 0) ErrorMessage(1003, xmlfile);
-	else if (!isFileExist(hkxfile + ".hkx")) ErrorMessage(1003, xmlfile);
+	if (QProcess::execute("hkxcmd " + QString::fromStdString(args)) != 0 || !isFileExist(hkxfile + ".hkx"))
+	{
+		if (last) ErrorMessage(1003, xmlfile);
+		
+		while (failedBehaviorFlag.test_and_set(boost::memory_order_acquire));
+		failedBehaviors.push_back(xmlfile);
+		failedBehaviors.push_back(hkxfile); 
+		failedBehaviorFlag.clear(boost::memory_order_release);
+
+		return false;
+	}
 
 	return true;
 }
@@ -26,11 +39,7 @@ bool hkxcmdXmlInput(string hkxfile, vecstr& fileline)
 	string xmlfile = hkxfile + ".xml";
 	string args = "convert -v:xml \"" + hkxfile + ".hkx\" \"" + xmlfile + "\"";
 
-	if (boost::process::system("hkxcmd " + args, boost::process::windows::hide) != 0)
-	{
-		ErrorMessage(1207, hkxfile);
-	}
-	else if (!isFileExist(xmlfile))
+	if (QProcess::execute("hkxcmd " + QString::fromStdString(args)) != 0 || !isFileExist(xmlfile))
 	{
 		ErrorMessage(1207, hkxfile);
 	}
@@ -40,7 +49,7 @@ bool hkxcmdXmlInput(string hkxfile, vecstr& fileline)
 
 		if (fileline.size() == 0) ErrorMessage(3001, xmlfile);
 
-		if (ReleaseLockedFile(xmlfile) && !boost::filesystem::remove(xmlfile)) ErrorMessage(1082, xmlfile, xmlfile);
+		if (!boost::filesystem::remove(xmlfile)) ErrorMessage(1082, xmlfile, xmlfile);
 	}
 
 	return true;

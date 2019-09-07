@@ -1548,9 +1548,10 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 	{
 		if (templatecode != format)
 		{
-			otherAnimType[templatecode] = true;
-			otherAnimType[templatecode + "_group"] = true;
-			otherAnimType[templatecode + "_master"] = true;
+			string lowercode = boost::to_lower_copy(templatecode);
+			otherAnimType[lowercode] = true;
+			otherAnimType[lowercode + "_group"] = true;
+			otherAnimType[lowercode + "_master"] = true;
 		}
 	}
 
@@ -1703,8 +1704,8 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			if (IsConditionOpened[condition])
 			{
-				if (!hasGroup)
-				{
+				/*if (!hasGroup)
+				{*/
 					if (!open)
 					{
 						if (groupAnimInfo.size() > 0)
@@ -1726,11 +1727,11 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					{
 						ErrorMessage(1115, format, IDFileName, i + 1);
 					}
-				}
+				/*}
 				else
 				{
 					ErrorMessage(1161, format, IDFileName, i + 1);
-				}
+				}*/
 			}
 
 			newOpen = true;
@@ -1743,7 +1744,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			if (IsConditionOpened[condition])
 			{
-				if (hasGroup && !hasMaster)
+				if (hasGroup)
 				{
 					if (!open)
 					{
@@ -1824,7 +1825,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			newOpen = true;
 			size_t pos = line.find("<!-- NEW ^") + 10;
-			string checker = line.substr(pos, line.find("^", pos) - pos);
+			string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 
 			if (!otherAnimType[checker])
 			{
@@ -1887,8 +1888,8 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 			if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
 
 			newOpen = true;
-			size_t pos = line.find("<!-- FOREACH ^") + 10;
-			string checker = line.substr(pos, line.find("^", pos) - pos);
+			size_t pos = line.find("<!-- FOREACH ^") + 14;
+			string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 
 			if (!otherAnimType[checker])
 			{
@@ -2542,6 +2543,972 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 	newFunctionLines.shrink_to_fit();
 	return newFunctionLines;
+}
+
+void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vecstr& newFunctionLines, bool isGroup, bool isMaster, bool ignoreGroup, string IDFileName,
+	vector<vector<unordered_map<string, bool>>>& masterOptionPicked, unordered_map<string, bool>& otherAnimType, int order, int groupOrder, bool& isElement, int& elementLine,
+	__int64& openRange, string& multiOption, int& elementCount, int curFunctionID, int curLine)
+{
+	bool multi = false;
+	bool skipTemplate = false;
+	bool newOpen = false;
+	bool open = false;
+	bool skip = false;
+	bool freeze = false;
+	bool formatOpen = false;
+	int condition = 0;
+	int scope = 0;
+
+	vecstr tempstore;
+	unordered_map<int, bool> IsConditionOpened;
+	IsConditionOpened[0] = true;
+
+	for (unsigned int i = curLine; i < existingFunctionLines.size(); ++i)
+	{
+		bool uniqueskip = false;
+		bool elementCatch = false;
+		string line = existingFunctionLines[i];
+
+		if (!isMaster)
+		{
+			if (line.find("<!-- CONDITION START ^", 0) != NOT_FOUND && !multi)
+			{
+				condition++;
+
+				if (!skipTemplate && ((newOpen && !skip) || !newOpen))
+				{
+					if (!freeze)
+					{
+						if (!IsConditionOpened[condition])
+						{
+							if (isPassed(condition, IsConditionOpened))
+							{
+								size_t optionPosition = line.find("<!-- CONDITION START ^") + 22;
+								string conditionLine = line.substr(optionPosition, line.find("^ -->", optionPosition) - optionPosition);
+
+								if (conditionLine.find("[") == NOT_FOUND)
+								{
+									if (format != conditionLine) skip = true;
+								}
+								else
+								{
+									animationutility utility;
+									utility.originalCondition = conditionLine;
+									utility.currentProcess = this;
+									utility.isExisting = true;
+									utility.hasGroup = isGroup;
+
+									if (newCondition(conditionLine, IDFileName, masterOptionPicked, groupAnimInfo, i + 1, format, format, utility))
+									{
+										skip = false;
+										IsConditionOpened[condition] = true;
+									}
+									else
+									{
+										skip = true;
+									}
+
+									if (error) throw nemesis::exception();
+								}
+							}
+						}
+						else
+						{
+							skip = true;
+						}
+					}
+
+					uniqueskip = true;
+				}
+			}
+			else if (line.find("<!-- CONDITION ^", 0) != NOT_FOUND && !multi)
+			{
+				if (condition == 0) ErrorMessage(1119, format, IDFileName, i + 1);
+
+				if (!skipTemplate && ((newOpen && !skip) || !newOpen))
+				{
+					if (!freeze)
+					{
+						if (!IsConditionOpened[condition])
+						{
+							if (isPassed(condition, IsConditionOpened))
+							{
+								size_t optionPosition = line.find("<!-- CONDITION ^") + 16;
+								string option = line.substr(optionPosition, line.find("^", optionPosition) - optionPosition);
+
+								if (option.find("[") == NOT_FOUND)
+								{
+									if (format != option) skip = true;
+								}
+								else
+								{
+									animationutility utility;
+									utility.originalCondition = option;
+									utility.currentProcess = this;
+									utility.isExisting = true;
+									utility.hasGroup = isGroup;
+
+									if (newCondition(option, "#" + IDFileName, masterOptionPicked, groupAnimInfo, i + 1, format, format, utility))
+									{
+										skip = false;
+										IsConditionOpened[condition] = true;
+									}
+									else
+									{
+										skip = true;
+									}
+
+									if (error) throw nemesis::exception();
+								}
+							}
+						}
+						else
+						{
+							skip = true;
+							freeze = true;
+						}
+					}
+
+					uniqueskip = true;
+				}
+			}
+			else if (line.find("<!-- CONDITION -->", 0) != NOT_FOUND && !multi)
+			{
+				if (condition == 0) ErrorMessage(1119, format, IDFileName, i + 1);
+
+				if (!skipTemplate && ((newOpen && !skip) || !newOpen))
+				{
+					if (!freeze)
+					{
+						if (!IsConditionOpened[condition])
+						{
+							if (isPassed(condition, IsConditionOpened))
+							{
+								skip = false;
+								IsConditionOpened[condition] = true;
+							}
+							else
+							{
+								skip = true;
+							}
+						}
+						else
+						{
+							skip = true;
+							freeze = true;
+						}
+					}
+
+					uniqueskip = true;
+				}
+			}
+			else if (line.find("<!-- FOREACH ^" + format + "^ -->", 0) != NOT_FOUND)
+			{
+				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
+
+				if (IsConditionOpened[condition])
+				{
+					if (!isGroup)
+					{
+						if (!open)
+						{
+							if (groupAnimInfo.size() > 0)
+							{
+								if (ignoreGroup) groupOrder = -1;
+								else order = -1;
+
+								open = true;
+								multi = true;
+								multiOption = format;
+								formatOpen = true;
+							}
+							else
+							{
+								skip = true;
+							}
+						}
+						else
+						{
+							ErrorMessage(1115, format, IDFileName, i + 1);
+						}
+					}
+					else
+					{
+						ErrorMessage(1161, format, IDFileName, i + 1);
+					}
+				}
+
+				newOpen = true;
+				uniqueskip = true;
+			}
+			else if (line.find("<!-- FOREACH ^" + format + "_group^ -->", 0) != NOT_FOUND)
+			{
+				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
+
+				if (IsConditionOpened[condition])
+				{
+					if (isGroup)
+					{
+						if (!open)
+						{
+							if (groupAnimInfo.size() > 0)
+							{
+								open = true;
+								multi = true;
+								groupOrder = -1;
+								multiOption = format + "_group";
+								formatOpen = true;
+							}
+							else
+							{
+								skip = true;
+							}
+						}
+						else
+						{
+							ErrorMessage(1115, format, IDFileName, i + 1);
+						}
+					}
+					else
+					{
+						ErrorMessage(1167, format, IDFileName, i + 1);
+					}
+				}
+
+				newOpen = true;
+				uniqueskip = true;
+			}
+			else if (line.find("<!-- NEW ^" + format + "^ -->", 0) != NOT_FOUND || line.find("<!-- NEW ^" + format + "_group^ -->", 0) != NOT_FOUND
+				|| line.find("<!-- NEW ^" + format + "_master^ -->", 0) != NOT_FOUND)
+			{
+				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
+
+				ErrorMessage(1164, format, IDFileName, i + 1);
+			}
+			else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND)
+			{
+				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
+
+				newOpen = true;
+				size_t pos = line.find("<!-- NEW ^") + 10;
+				string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+
+				if (!otherAnimType[checker])
+				{
+					uniqueskip = true;
+
+					if (IsConditionOpened[condition])
+					{
+						if (!open)
+						{
+							string curOption = getOption(line);
+
+							if (curOption.find("[") == NOT_FOUND)
+							{
+								if (format != curOption) skip = true;
+								else open = true;
+							}
+							else
+							{
+								bool isNot = false;
+
+								if (curOption[0] == '!')
+								{
+									isNot = true;
+									curOption = curOption.substr(1);
+								}
+
+								if (curOption.find(format + "[") != NOT_FOUND && curOption.find("]") != NOT_FOUND)
+								{
+									int pos = 0;
+									vecstr formatInfo = GetOptionInfo(curOption, format, IDFileName, i + 1, groupAnimInfo, false, true);
+
+									if (formatInfo[2].find("AnimObject") != NOT_FOUND) ErrorMessage(1129, format, IDFileName, i + 1);
+
+									if (masterOptionPicked[stoi(formatInfo[1])][stoi(formatInfo[2])][formatInfo[3]])
+									{
+										if (isNot) skip = true;
+										else open = true;
+									}
+									else
+									{
+										if (isNot) open = true;
+										else skip = true;
+									}
+								}
+							}
+						}
+						else
+						{
+							ErrorMessage(1116, format, IDFileName, i + 1);
+						}
+					}
+				}
+				else
+				{
+					skipTemplate = true;
+				}
+			}
+			else if (line.find("<!-- FOREACH ^", 0) != NOT_FOUND)
+			{
+				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
+
+				newOpen = true;
+				size_t pos = line.find("<!-- FOREACH ^") + 14;
+				string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+
+				if (!otherAnimType[checker])
+				{
+					uniqueskip = true;
+
+					if (IsConditionOpened[condition])
+					{
+						if (!open)
+						{
+							string curOption = getOption(line);
+
+							if (curOption.find("[") == NOT_FOUND)
+							{
+								if (format != curOption)
+								{
+									skip = true;
+								}
+								else
+								{
+									if (ignoreGroup) groupOrder = -1;
+									else order = -1;
+
+									open = true;
+									multi = true;
+									multiOption = format;
+									formatOpen = true;
+								}
+							}
+							else
+							{
+								bool isNot = false;
+
+								if (curOption[0] == '!')
+								{
+									isNot = true;
+									curOption = curOption.substr(1);
+								}
+
+								if (curOption.find(format + "[") != NOT_FOUND && curOption.find("]") != NOT_FOUND)
+								{
+									int pos = 0;
+									vecstr formatInfo = GetOptionInfo(curOption, format, IDFileName, i + 1, groupAnimInfo, true, true);
+
+									if (isNot)
+									{
+										skip = true;
+									}
+									else
+									{
+										open = true;
+										multi = true;
+										groupOrder = formatInfo[1].length() == 0 ? -1 : stoi(formatInfo[1]);
+										order = formatInfo[2].length() == 0 ? -1 : stoi(formatInfo[2]);
+									}
+								}
+							}
+						}
+						else
+						{
+							ErrorMessage(1115, format, IDFileName, i + 1);
+						}
+					}
+				}
+				else
+				{
+					skipTemplate = true;
+				}
+			}
+			else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+			{
+				if (!newOpen)
+				{
+					ErrorMessage(1171, format, IDFileName, i + 1);
+				}
+
+				newOpen = false;
+
+				if (skipTemplate) skipTemplate = false;
+				else uniqueskip = true;
+			}
+			else if (line.find("<!-- CONDITION END -->", 0) != NOT_FOUND && !multi && !skipTemplate && ((newOpen && !skip) || !newOpen))
+			{
+				uniqueskip = true;
+			}
+		}
+		else if (line.find("<!-- FOREACH ^" + format + "_master^ -->", 0) != NOT_FOUND)
+		{
+			if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
+
+			if (IsConditionOpened[condition])
+			{
+				if (isMaster)
+				{
+					if (!open)
+					{
+						if (groupAnimInfo.size() > 0)
+						{
+							open = true;
+							multi = true;
+							groupOrder = -2;
+							multiOption = format + "_master";
+							formatOpen = true;
+						}
+						else
+						{
+							skip = true;
+						}
+					}
+					else
+					{
+						ErrorMessage(1115, format, IDFileName, i + 1);
+					}
+				}
+				else
+				{
+					ErrorMessage(1162, format, IDFileName, i + 1);
+				}
+			}
+
+			newOpen = true;
+			uniqueskip = true;
+		}
+
+		if (error) throw nemesis::exception();
+
+		if (!uniqueskip && !skip && !freeze)
+		{
+			while (true)
+			{
+				if (skipTemplate)
+				{
+					newFunctionLines.push_back(line);
+					break;
+				}
+
+				if (multi)
+				{
+					tempstore.push_back(line);
+					break;
+				}
+
+				// set animation ID
+				while (line.find("$%$", 0) != NOT_FOUND)
+				{
+					line.replace(line.find("$%$"), 3, "0");
+				}
+
+				// multi choice selection
+				if (line.find("$MC$", 0) != NOT_FOUND)
+				{
+					animationutility utility;
+					utility.originalCondition = line;
+					utility.currentProcess = this;
+					utility.isExisting = true;
+					utility.hasGroup = isGroup;
+
+					multiChoice(line, IDFileName, masterOptionPicked, groupAnimInfo, i + 1, format, format, utility);
+				}
+
+				// compute numelements
+				if (line.find("<hkparam name=\"") != NOT_FOUND && line.find("numelements=\"") != NOT_FOUND && line.find("</hkparam>") == NOT_FOUND)
+				{
+					if (!isElement)
+					{
+						isElement = true;
+						elementCatch = true;
+						string templine = line.substr(0, line.find("<hkparam name=\"", 0));
+						openRange = count(templine.begin(), templine.end(), '\t');
+					}
+					else
+					{
+						ErrorMessage(2019, format, IDFileName, i + 1);
+					}
+				}
+				else if (line.find("</hkparam>") != NOT_FOUND && isElement)
+				{
+					string templine = line.substr(0, line.find("</hkparam>"));
+					__int64 range = count(templine.begin(), templine.end(), '\t');
+
+					if (openRange == range)
+					{
+						string oldElement;
+
+						if (newFunctionLines[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
+						{
+							size_t position = newFunctionLines[elementLine].find("numelements=\"") + 13;
+							oldElement = newFunctionLines[elementLine].substr(position, newFunctionLines[elementLine].find("\">", position) - position);
+						}
+						else
+						{
+							oldElement = "$elements$";
+						}
+
+						if (oldElement != to_string(elementCount))
+						{
+							newFunctionLines[elementLine].replace(newFunctionLines[elementLine].find(oldElement), oldElement.length(), to_string(elementCount));
+						}
+
+						isElement = false;
+						elementCount = 0;
+						elementLine = NULL;
+					}
+				}
+
+				if (isElement)
+				{
+					string templine = line;
+
+					if (templine.find("<hkobject>") != NOT_FOUND)
+					{
+						templine = templine.substr(0, templine.find("<hkobject>"));
+						__int64 range = count(templine.begin(), templine.end(), '\t');
+
+						if (range == openRange + 1) elementCount++;
+					}
+					else if (templine.find("\t\t\t#") != NOT_FOUND)
+					{
+						templine = templine.substr(0, templine.find("#", 0));
+						__int64 reference = count(templine.begin(), templine.end(), '\t');
+
+						if (reference == openRange + 1)
+						{
+							__int64 number = count(line.begin(), line.end(), '#');
+							elementCount += number;
+						}
+					}
+				}
+
+				if (error) throw nemesis::exception();
+
+				if (line.find("$") != NOT_FOUND && !isGroup)
+				{
+					processing(line, IDFileName, curFunctionID, i + 1, eventid, variableid, 0);
+				}
+
+				size_t pos = line.find("(");
+
+				if (pos != NOT_FOUND && line.find(")", pos) != NOT_FOUND)
+				{
+					string templine = line.substr(pos);
+					int nextpos = openEndBracket(templine, '(', ')', format, IDFileName, i + 1) + 1;
+					templine = templine.substr(0, nextpos);
+					string oldline = templine;
+					calculate(templine, format, IDFileName, i + 1);
+
+					if (oldline != templine) line.replace(pos, oldline.length(), templine);
+				}
+
+				if (error) throw nemesis::exception();
+
+				newFunctionLines.push_back(line);
+
+				if (elementCatch) elementLine = newFunctionLines.size() - 1;
+
+				break;
+			}
+		}
+
+		if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+		{
+			if (skip)
+			{
+				skip = false;
+			}
+			else
+			{
+				if (multi)
+				{
+					int size;
+					int tempOrder;
+					int groupSize;
+
+					if (groupOrder == -2)
+					{
+						groupOrder = 0;
+						groupSize = 1;
+					}
+					else if (groupOrder == -1)
+					{
+						groupOrder = 0;
+						groupSize = int(groupAnimInfo.size());
+					}
+					else
+					{
+						groupSize = groupOrder + 1;
+					}
+
+					for (int groupMulti = groupOrder; groupMulti < groupSize; ++groupMulti)
+					{
+						if (order == -2)
+						{
+							tempOrder = 0;
+							size = 1;
+						}
+						else if (order == -1)
+						{
+							tempOrder = 0;
+							size = int(subFunctionIDs->grouplist[groupMulti]->singlelist.size());
+						}
+						else
+						{
+							tempOrder = order;
+							size = order + 1;
+						}
+
+						for (int animMulti = tempOrder; animMulti < size; ++animMulti) // each animation in a group
+						{
+							int repeatCount;
+
+							if (formatOpen) repeatCount = 1;
+							else repeatCount = groupAnimInfo[groupMulti][animMulti]->optionPickedCount[multiOption];
+
+							for (int optionMulti = 0; optionMulti < repeatCount; ++optionMulti)		// option with different add-ons
+							{
+								bool skip2 = false;
+								bool freeze2 = false;
+
+								for (unsigned int l = 0; l < tempstore.size(); ++l) // part lines need to add
+								{
+									string curLine = tempstore[l];
+									size_t linecount = i + 1 + l - int(tempstore.size());
+									bool uniqueskip2 = false;
+
+									if (curLine.find("<!-- CONDITION START ^", 0) != NOT_FOUND)
+									{
+										condition++;
+
+										if (!freeze2)
+										{
+											if (!IsConditionOpened[condition])
+											{
+												if (isPassed(condition, IsConditionOpened))
+												{
+													size_t optionPosition = curLine.find("<!-- CONDITION START ^") + 22;
+													string conditionLine = curLine.substr(optionPosition, curLine.find("^ -->", optionPosition) - optionPosition);
+													animationutility utility;
+													utility.originalCondition = conditionLine;
+													utility.currentProcess = this;
+													utility.isExisting = true;
+													utility.hasGroup = isGroup;
+													utility.groupMulti = groupMulti;
+													utility.animMulti = animMulti;
+													utility.optionMulti = optionMulti;
+													utility.multiOption = multiOption;
+
+													if (newCondition(conditionLine, IDFileName, masterOptionPicked, groupAnimInfo, linecount, format, format, utility))
+													{
+														skip2 = false;
+														IsConditionOpened[condition] = true;
+													}
+													else
+													{
+														skip2 = true;
+													}
+												}
+											}
+											else
+											{
+												skip2 = true;
+											}
+										}
+
+										uniqueskip2 = true;
+									}
+									else if (curLine.find("<!-- CONDITION ^", 0) != NOT_FOUND)
+									{
+										if (condition == 0)
+										{
+											ErrorMessage(1119, format, IDFileName, linecount);
+										}
+
+										if (!freeze2)
+										{
+											if (!IsConditionOpened[condition])
+											{
+												if (isPassed(condition, IsConditionOpened))
+												{
+													size_t optionPosition = curLine.find("<!-- CONDITION ^") + 16;
+													string option = curLine.substr(optionPosition, curLine.find("^", optionPosition) - optionPosition);
+													animationutility utility;
+													utility.originalCondition = option;
+													utility.currentProcess = this;
+													utility.isExisting = true;
+													utility.hasGroup = isGroup;
+													utility.groupMulti = groupMulti;
+													utility.animMulti = animMulti;
+													utility.optionMulti = optionMulti;
+													utility.multiOption = multiOption;
+
+													if (newCondition(option, "#" + IDFileName, masterOptionPicked, groupAnimInfo, linecount, format, format, utility))
+													{
+														skip2 = false;
+														IsConditionOpened[condition] = true;
+													}
+													else
+													{
+														skip2 = true;
+													}
+												}
+											}
+											else
+											{
+												skip2 = true;
+												freeze2 = true;
+											}
+										}
+
+										uniqueskip2 = true;
+									}
+									else if (curLine.find("<!-- CONDITION -->", 0) != NOT_FOUND)
+									{
+										if (condition == 0)
+										{
+											ErrorMessage(1119, format, IDFileName, linecount);
+										}
+
+										if (!freeze2)
+										{
+											if (!IsConditionOpened[condition])
+											{
+												if (isPassed(condition, IsConditionOpened))
+												{
+													skip2 = false;
+													IsConditionOpened[condition] = true;
+												}
+												else
+												{
+													skip2 = true;
+												}
+											}
+											else
+											{
+												skip2 = true;
+												freeze2 = true;
+											}
+										}
+
+										uniqueskip2 = true;
+									}
+									else if (curLine.find("<!-- CONDITION END -->", 0) != NOT_FOUND)
+									{
+										uniqueskip2 = true;
+									}
+
+									if (error) throw nemesis::exception();
+
+									if (!skip2 && !freeze2 && !uniqueskip2)
+									{
+										if (curLine.find("<hkparam name=\"") != NOT_FOUND && curLine.find("numelements=\"") != NOT_FOUND
+											&& curLine.find("</hkparam>") == NOT_FOUND && curLine.find("<!-- COMPUTE -->", 0) != NOT_FOUND)
+										{
+											ErrorMessage(1140, format, IDFileName, linecount);
+										}
+
+										if (curLine.find("\t\t\t#") != NOT_FOUND && (curLine.find("#" + format + "$") != NOT_FOUND
+											|| curLine.find("#" + format + "_group$") != NOT_FOUND || curLine.find("#" + format + "_master") != NOT_FOUND))
+										{
+											vecstr generator;
+											StringSplit(curLine, generator);
+											size_t nextpos = 0;
+
+											for (auto& ID : generator)
+											{
+												if (ID.find("#" + format + "$") != NOT_FOUND && multiOption == format)
+												{
+													nextpos = curLine.find("#" + format + "$", nextpos) + 1;
+													string tempID = curLine.substr(nextpos);
+													string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+													curID = format + "$" + curID;
+
+													if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
+													{
+														if (subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format[curID].length() == 0)
+														{
+															ErrorMessage(2011, format, IDFileName, linecount, curID);
+														}
+
+														curLine.replace(nextpos, curID.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format[curID]);
+													}
+													else
+													{
+														ErrorMessage(2012, format, IDFileName, linecount, curID);
+													}
+												}
+												else if (ID.find("#" + format + "_group") != NOT_FOUND && multiOption == format + "_group")
+												{
+													nextpos = curLine.find("#" + multiOption, nextpos) + 1;
+													string tempID = curLine.substr(nextpos);
+													string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+													curID = multiOption + "$" + curID;
+
+													if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
+													{
+														if (subFunctionIDs->grouplist[groupMulti]->functionIDs[curID].length() == 0)
+														{
+															ErrorMessage(2011, format, IDFileName, linecount, curID);
+														}
+
+														curLine.replace(nextpos, curID.length(), subFunctionIDs->grouplist[groupMulti]->functionIDs[curID]);
+													}
+													else
+													{
+														ErrorMessage(2012, format, IDFileName, linecount, curID);
+													}
+												}
+												else if (ID.find("#" + format + "_master") != NOT_FOUND && multiOption == format + "_master")
+												{
+													nextpos = curLine.find("#" + multiOption, nextpos) + 1;
+													string tempID = curLine.substr(nextpos);
+													string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+													curID = multiOption + "$" + curID;
+
+													if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
+													{
+														if (subFunctionIDs->functionIDs[curID].length() == 0)
+														{
+															ErrorMessage(2011, format, IDFileName, linecount, curID);
+														}
+
+														curLine.replace(nextpos, curID.length(), subFunctionIDs->functionIDs[curID]);
+													}
+													else
+													{
+														ErrorMessage(2012, format, IDFileName, linecount, curID);
+													}
+												}
+											}
+										}
+
+										if (isElement)
+										{
+											string templine = curLine;
+
+											if (templine.find("<hkobject>") != NOT_FOUND)
+											{
+												templine = templine.substr(0, templine.find("<hkobject>"));
+												__int64 range = count(templine.begin(), templine.end(), '\t');
+
+												if (range == openRange + 1) elementCount++;
+											}
+											else if (templine.find("\t\t\t#") != NOT_FOUND)
+											{
+												templine = templine.substr(0, templine.find("#", 0));
+												__int64 reference = count(templine.begin(), templine.end(), '\t');
+
+												if (reference == openRange + 1)
+												{
+													__int64 number = count(curLine.begin(), curLine.end(), '#');
+													elementCount += number;
+												}
+											}
+										}
+
+										if (curLine.find("%") != NOT_FOUND)
+										{
+											__int64 counter = count(curLine.begin(), curLine.end(), '%');
+
+											for (int p = 0; p < counter; ++p)
+											{
+												curLine.replace(curLine.find("%"), 1, to_string(l));
+											}
+										}
+
+										// multi choice selection
+										if (curLine.find("$MC$", 0) != NOT_FOUND)
+										{
+											animationutility utility;
+											utility.originalCondition = curLine;
+											utility.currentProcess = this;
+											utility.isExisting = true;
+											utility.hasGroup = isGroup;
+											utility.groupMulti = groupMulti;
+											utility.animMulti = animMulti;
+											utility.optionMulti = optionMulti;
+											utility.multiOption = multiOption;
+
+											multiChoice(curLine, IDFileName, masterOptionPicked, groupAnimInfo, linecount, format, format, utility);
+										}
+
+										// set animation ID
+										while (curLine.find("$%$", 0) != NOT_FOUND)
+										{
+											curLine.replace(curLine.find("$%$"), 3, "0");
+										}
+
+										if (error) throw nemesis::exception();
+
+										if (curLine.find("$") != NOT_FOUND)
+										{
+											processing(curLine, IDFileName, curFunctionID, linecount, eventid, variableid, groupMulti, optionMulti, animMulti, multiOption);
+										}
+
+										size_t pos = curLine.find("(");
+
+										if (pos != NOT_FOUND && curLine.find(")", pos) != NOT_FOUND)
+										{
+											string templine = curLine.substr(pos);
+											int nextpos = openEndBracket(templine, '(', ')', format, IDFileName, linecount) + 1;
+											templine = templine.substr(0, nextpos);
+											string oldline = templine;
+											calculate(templine, format, IDFileName, linecount);
+
+											if (oldline != templine) curLine.replace(pos, oldline.length(), templine);
+										}
+
+										if (curLine.find("<!-- NEW ^" + format, 0) == NOT_FOUND && curLine.find("<!-- FOREACH ^" + format, 0) == NOT_FOUND
+											&& curLine.find("<!-- CLOSE -->", 0) == NOT_FOUND) newFunctionLines.push_back(curLine);
+									}
+
+									if (curLine.find("<!-- CONDITION END -->", 0) != NOT_FOUND)
+									{
+										if (condition == 0) ErrorMessage(1118, format, IDFileName, linecount);
+										if (freeze2 && IsConditionOpened[condition]) freeze2 = false;
+
+										skip2 = !isPassed(condition, IsConditionOpened);
+										IsConditionOpened[condition] = false;
+										condition--;
+									}
+
+									if (error) throw nemesis::exception();
+								}
+							}
+						}
+					}
+
+					groupOrder = -2;
+				}
+
+				tempstore.clear();
+				tempstore.reserve(existingFunctionLines.size() / 10);
+			}
+
+			open = false;
+			multi = false;
+			formatOpen = false;
+		}
+		else if (line.find("<!-- CONDITION END -->", 0) != NOT_FOUND && !multi)
+		{
+			if (condition == 0) ErrorMessage(1118, format, IDFileName, i + 1);
+
+			if (!skipTemplate && ((newOpen && !skip) || !newOpen))
+			{
+				if (freeze && IsConditionOpened[condition]) freeze = false;
+
+				skip = !isPassed(condition, IsConditionOpened);
+				IsConditionOpened[condition] = false;
+			}
+
+			condition--;
+		}
+
+		if (error) return;
+	}
 }
 
 void groupTemplate::stateReplacer(string& line, string filename, string statenum, int ID, int stateID, int linecount, int groupMulti)

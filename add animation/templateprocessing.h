@@ -191,9 +191,9 @@ struct proc
 
 	// master to group
 	void stateMultiMasterToGroup(range blok, vecstr& blocks);
-	void stateFirstMasterToGroup(range blok, vecstr& blocks);
-	void stateLastMasterToGroup(range blok, vecstr& blocks);
-	void stateNumMasterToGroup(range blok, vecstr& blocks);
+	/*void stateFirstMasterToGroup(range blok, vecstr& blocks);
+	void stateLastMasterToGroup(range blok, vecstr& blocks);		Not needed
+	void stateNumMasterToGroup(range blok, vecstr& blocks);*/
 
 	// master
 	void stateMultiMaster(range blok, vecstr& blocks);

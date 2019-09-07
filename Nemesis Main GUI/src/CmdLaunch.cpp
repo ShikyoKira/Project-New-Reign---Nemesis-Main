@@ -1,9 +1,18 @@
-#include "CmdLaunch.h"
-#include "ErrorMsgBox.h"
 #include <QThread>
 #include <QObject>
 
+#include "CmdLaunch.h"
+#include "ErrorMsgBox.h"
+
+#include "process\updateprocess.h"
+#include "process\behaviorprocess.h"
+
 using namespace std;
+
+extern mutex processlock;
+extern condition_variable cv;
+extern bool processdone;
+extern unordered_map<string, vecstr> modinfo;
 
 void CmdGenerateInitialize(vecstr modlist)
 {

@@ -94,7 +94,10 @@ bool PCEACheck()
 			ErrorMessage(1092, file);
 		}
 	}
-	else return false;
+	else
+	{
+		return false;
+	}
 
 	DebugLogging("PCEA Check complete");
 	return true;

@@ -1,12 +1,15 @@
-#pragma once
+#ifndef GENERATOR_UTILITY_H_
+#define GENERATOR_UTILITY_H_
+
 #include <boost\regex.hpp>
-#include "add animation\registeranimation.h"
-#include "add animation\gettemplate.h"
+
 #include "nemesisinfo.h"
+
 #include "add animation\furniture.h"
+#include "add animation\registeranimation.h"
 #include "add animation\alternateanimation.h"
 
-bool isEdited(getTemplate& BehaviorTemplate, std::string& lowerBehaviorFile, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation, bool isCharacter, std::string modID);
+bool isEdited(getTemplate* BehaviorTemplate, std::string& lowerBehaviorFile, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation, bool isCharacter, std::string modID);
 bool newAnimSkip(std::vector<std::shared_ptr<Furniture>> newAnim, std::string modID);
 bool GetStateCount(std::vector<int>& count, vecstr templatelines, std::string format, std::string filename, bool hasGroup);
 int getTemplateNextID(vecstr& templatelines);
@@ -15,7 +18,7 @@ vecstr newAnimationElement(std::string line, std::vector<vecstr> element, int cu
 std::string behaviorLineChooser(std::string originalline, std::unordered_map<std::string, std::string> chosenLines, vecstr behaviorPriority);
 std::string GetFileName(std::string filepath);
 std::string GetFileDirectory(std::string filepath);
-std::vector<std::unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate);
+std::vector<std::unique_ptr<registerAnimation>> openFile(getTemplate* behaviortemplate);
 
 bool isEngineUpdated();
 void ClearGlobal(bool all = true);
@@ -24,3 +27,5 @@ void characterHKX();
 void GetBehaviorPath();
 void GetBehaviorProject();
 void GetBehaviorProjectPath();
+
+#endif

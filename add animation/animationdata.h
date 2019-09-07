@@ -9,18 +9,6 @@
 
 typedef std::unordered_map<std::string, SSMap> ImportContainer;
 
-struct IDCatcher
-{
-private:
-	int ID;
-	int line;
-
-public:
-	IDCatcher(int id, int curline);
-	int getID();
-	int getLine();
-};
-
 struct AnimDataFunct
 {
 	bool isNew = false;

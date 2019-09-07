@@ -1,7 +1,11 @@
-#include "generator_utility.h"
-#include "functions\readtextfile.h"
-#include "add animation\playerexclusive.h"
 #include <boost\thread.hpp>
+
+#include "generator_utility.h"
+
+#include "functions\readtextfile.h"
+
+#include "add animation\gettemplate.h"
+#include "add animation\playerexclusive.h"
 
 #pragma warning(disable:4503)
 
@@ -246,48 +250,51 @@ void readList(string directory, string animationDirectory, vector<unique_ptr<reg
 	}
 }
 
-vector<unique_ptr<registerAnimation>> openFile(getTemplate behaviortemplate)
+vector<unique_ptr<registerAnimation>> openFile(getTemplate* behaviortemplate)
 {
 	vector<unique_ptr<registerAnimation>> list;
 	set<string> animPath;
 	AAInitialize("alternate animation");
 	DebugLogging("Reading new animations...");
 
-	for (auto it = behaviortemplate.grouplist.begin(); it != behaviortemplate.grouplist.end(); ++it)
+	for (auto& behaviorGroup : behaviortemplate->grouplist)
+	for (auto it = behaviortemplate->grouplist.begin(); it != behaviortemplate->grouplist.end(); ++it)
 	{
-		string path = behaviorPath[it->first];
+		string path = behaviorPath[behaviorGroup.first];
 
-		if (path.length() == 0) ErrorMessage(1050, it->first);
+		if (path.length() == 0) ErrorMessage(1050, behaviorGroup.first);
 
 		size_t pos = wordFind(path, "\\behaviors\\", true);
 		size_t nextpos = wordFind(path, "\\data\\") + 6;
 
 		if (pos != NOT_FOUND && nextpos != NOT_FOUND && nextpos < pos) animPath.insert(path.substr(nextpos, pos - nextpos) + "\\");
-		else if (it->first != "animationdatasinglefile" && it->first != "animationsetdatasinglefile") WarningMessage(1007, it->first, path);
+		else if (behaviorGroup.first != "animationdatasinglefile" && behaviorGroup.first != "animationsetdatasinglefile") WarningMessage(1007, behaviorGroup.first, path);
 
 		if (error) throw nemesis::exception();
 	}
 
-	for (auto it = animPath.begin(); it != animPath.end(); ++it)
+	for (string path : animPath)
 	{
 #ifdef DEBUG
-		string directory = "data\\" + *it;
+		string directory = "data\\" + path;
 #else
-		string directory = nemesisInfo->GetDataPath() + *it;
+		string directory = nemesisInfo->GetDataPath() + path;
 #endif
 
-		readList(directory, directory + "animations\\", list, behaviortemplate, false);
-		readList(directory, directory + "_1stperson\\animations\\", list, behaviortemplate, true);
+		readList(directory, directory + "animations\\", list, *behaviortemplate, false);
+		readList(directory, directory + "_1stperson\\animations\\", list, *behaviortemplate, true);
 	}
+
+	if (list.size() > 0) interMsg("");
 
 	DebugLogging("Reading new animations complete");
 	return list;
 }
 
-void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
+void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 {
 	vecstr filelist;
-	boost::thread_group multithreads;
+	vector<boost::thread> multiThreads;
 	read_directory(directory, filelist);
 
 	try
@@ -300,7 +307,7 @@ void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
 
 			if (boost::filesystem::is_directory(curfile))
 			{
-				multithreads.create_thread(boost::bind(newFileCheck, path, boost::ref(isChecked)));
+				multiThreads.emplace_back(boost::thread(&newFileCheck, path, isChecked));
 			}
 			else if (boost::iequals(curfile.extension().string(), ".txt"))
 			{
@@ -311,24 +318,21 @@ void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
 
 					if (file.find(modcode + "$") == NOT_FOUND)
 					{
-						if (!isChecked[path])
-							throw false;
+						if (isChecked->find(path) == isChecked->end()) throw false;
 					}
 				}
 				else if (directory.find("animationsetdatasinglefile") != NOT_FOUND)
 				{					
 					if (boost::filesystem::path(directory).stem().string().find("~") != NOT_FOUND && file.length() > 0 && file[0] != '$')
 					{
-						if (!isChecked[path])
-							throw false;
+						if (isChecked->find(path) == isChecked->end()) throw false;
 					}
 				}
 				else
 				{
 					if (isOnlyNumber(boost::regex_replace(string(file), boost::regex("#([^.txt]+).txt"), string("\\1"))))
 					{
-						if (!isChecked[path]) 
-							throw false;
+						if (isChecked->find(path) == isChecked->end()) throw false;
 					}
 				}
 			}
@@ -341,7 +345,13 @@ void newFileCheck(string directory, unordered_map<string, bool>& isChecked)
 		globalThrow = &ex;
 	}
 
-	multithreads.join_all();
+	if (multiThreads.size() > 0)
+	{
+		for (boost::thread& thrd : multiThreads)
+		{
+			thrd.join();
+		}
+	}
 }
 
 bool isEngineUpdated()
@@ -380,8 +390,8 @@ bool isEngineUpdated()
 	}
 
 	globalThrow = nullptr;
-	boost::thread t1(boost::bind(newFileCheck, "mod", boost::ref(isChecked)));
-	boost::thread t2(boost::bind(newFileCheck, "behavior templates", boost::ref(isChecked)));
+	std::thread t1(newFileCheck, "mod", &isChecked);
+	std::thread t2(newFileCheck, "behavior templates", &isChecked);
 
 	t1.join();
 	t2.join();
@@ -654,11 +664,11 @@ int getTemplateNextID(vecstr& templatelines)
 	return IDUsed;
 }
 
-bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, bool isCharacter, string modID)
+bool isEdited(getTemplate* BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<Furniture>>>& newAnimation, bool isCharacter, string modID)
 {
-	if (BehaviorTemplate.grouplist.find(lowerBehaviorFile) != BehaviorTemplate.grouplist.end() && BehaviorTemplate.grouplist[lowerBehaviorFile].size() > 0)
+	if (BehaviorTemplate->grouplist.find(lowerBehaviorFile) != BehaviorTemplate->grouplist.end() && BehaviorTemplate->grouplist[lowerBehaviorFile].size() > 0)
 	{
-		for (auto& templatecode : BehaviorTemplate.grouplist[lowerBehaviorFile])
+		for (auto& templatecode : BehaviorTemplate->grouplist[lowerBehaviorFile])
 		{
 			if (newAnimation.find(templatecode) == newAnimation.end()) continue;
 
@@ -671,7 +681,7 @@ bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordere
 
 	if (isCharacter)
 	{
-		for (auto it = BehaviorTemplate.grouplist.begin(); it != BehaviorTemplate.grouplist.end(); ++it)
+		for (auto it = BehaviorTemplate->grouplist.begin(); it != BehaviorTemplate->grouplist.end(); ++it)
 		{
 			vecstr behaviorNames = behaviorJoints[it->first];
 
@@ -681,7 +691,7 @@ bool isEdited(getTemplate& BehaviorTemplate, string& lowerBehaviorFile, unordere
 
 				for (auto& templatecode : it->second)
 				{
-					if (newAnimation.find(templatecode) == newAnimation.end() || BehaviorTemplate.optionlist[templatecode].core) continue;
+					if (newAnimation.find(templatecode) == newAnimation.end() || BehaviorTemplate->optionlist[templatecode].core) continue;
 
 					for (auto& curAnim : newAnimation[templatecode])
 					{

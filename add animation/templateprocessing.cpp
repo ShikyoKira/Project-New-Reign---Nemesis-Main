@@ -14,9 +14,9 @@ void stateInput(string& state, string stateID, string format, string behaviorFil
 
 	if (isMaster)
 	{
-		if (masterFunction->grouplist[groupMulti]->functionIDs.find(state) != masterFunction->grouplist[groupMulti]->functionIDs.end())
+		if (masterFunction->grouplist[groupMulti]->functionIDs.find(stateID) != masterFunction->grouplist[groupMulti]->functionIDs.end())
 		{
-			state = masterFunction->grouplist[groupMulti]->functionIDs[state];
+			state = masterFunction->grouplist[groupMulti]->functionIDs[stateID];
 		}
 		else
 		{
@@ -27,9 +27,9 @@ void stateInput(string& state, string stateID, string format, string behaviorFil
 	{
 		if (animMulti == -1) ErrorMessage(1057, format, behaviorFile, numline, original);
 
-		if (masterFunction->grouplist[groupMulti]->singlelist[animMulti]->format.find(state) != masterFunction->grouplist[groupMulti]->singlelist[animMulti]->format.end())
+		if (masterFunction->grouplist[groupMulti]->singlelist[animMulti]->format.find(stateID) != masterFunction->grouplist[groupMulti]->singlelist[animMulti]->format.end())
 		{
-			state = masterFunction->grouplist[groupMulti]->singlelist[animMulti]->format[state];
+			state = masterFunction->grouplist[groupMulti]->singlelist[animMulti]->format[stateID];
 		}
 		else
 		{
@@ -712,9 +712,9 @@ void proc::stateMultiMasterToGroup(range blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
-		string state = "(S" + to_string(blok.olddataint[0] + 1) + "+" + to_string(blok.olddataint[1]) + ")";
-		stateInput(state, blok.olddataint[0] == 0 ? "(S+" + to_string(blok.olddataint[1]) + ")" : state, format, behaviorFile, blok.olddata[0], true, groupMulti,
-			animMulti, numline, stateCount, masterFunction);
+		string state;
+		stateInput(state, (blok.olddataint[0] == 0 ? "(S+" : "(S" + to_string(blok.olddataint[0] + 1) + "+") + to_string(blok.olddataint[1]) + ")", format, behaviorFile,
+			blok.olddata[0], true, groupMulti, animMulti, numline, stateCount, masterFunction);
 		blocks[blok.front] = state;
 	}
 }
@@ -723,9 +723,9 @@ void proc::stateMultiMaster(range blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
-		string state = "(S" + to_string(blok.olddataint[0] + 1) + "+" + to_string(blok.olddataint[1]) + ")";
-		stateInput(state, blok.olddataint[0] == 0 ? "(S+" + to_string(blok.olddataint[1]) + ")": state, format, behaviorFile, blok.olddata[0], false, groupMulti,
-			animMulti, numline, stateCount, masterFunction);
+		string state;
+		stateInput(state, (blok.olddataint[0] == 0 ? "(S+" : "(S" + to_string(blok.olddataint[0] + 1) + "+") + to_string(blok.olddataint[1]) + ")", format, behaviorFile,
+			blok.olddata[0], false, groupMulti, animMulti, numline, stateCount, masterFunction);
 		blocks[blok.front] = state;
 	}
 }
@@ -734,9 +734,9 @@ void proc::stateFirstMaster(range blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
-		string state = "(S" + to_string(blok.olddataint[0] + 1) + "+" + to_string(blok.olddataint[1]) + ")";
-		stateInput(state, blok.olddataint[0] == 0 ? "(S+" + to_string(blok.olddataint[1]) + ")" : state, format, behaviorFile, blok.olddata[0], false, groupMulti, 0,
-			numline, stateCount, masterFunction);
+		string state;
+		stateInput(state, (blok.olddataint[0] == 0 ? "(S+" : "(S" + to_string(blok.olddataint[0] + 1) + "+") + to_string(blok.olddataint[1]) + ")", format, behaviorFile,
+			blok.olddata[0], false, groupMulti, 0, numline, stateCount, masterFunction);
 		blocks[blok.front] = state;
 	}
 }
@@ -745,9 +745,9 @@ void proc::stateLastMaster(range blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
-		string state = "(S" + to_string(blok.olddataint[0] + 1) + "+" + to_string(blok.olddataint[1]) + ")";
-		stateInput(state, blok.olddataint[0] == 0 ? "(S+" + to_string(blok.olddataint[1]) + ")" : state, format, behaviorFile, blok.olddata[0], false, groupMulti,
-			masterFunction->grouplist[groupMulti]->singlelist.size() - 1, numline, stateCount, masterFunction);
+		string state;
+		stateInput(state, (blok.olddataint[0] == 0 ? "(S+" : "(S" + to_string(blok.olddataint[0] + 1) + "+") + to_string(blok.olddataint[1]) + ")", format, behaviorFile,
+			blok.olddata[0], false, groupMulti, masterFunction->grouplist[groupMulti]->singlelist.size() - 1, numline, stateCount, masterFunction);
 		blocks[blok.front] = state;
 	}
 }
@@ -760,9 +760,9 @@ void proc::stateNumMaster(range blok, vecstr& blocks)
 
 	if (clearBlocks(blok, blocks))
 	{
-		string state = "(S" + to_string(blok.olddataint[0] + 1) + "+" + to_string(blok.olddataint[1]) + ")";
-		stateInput(state, blok.olddataint[0] == 0 ? "(S+" + to_string(blok.olddataint[1]) + ")" : state, format, behaviorFile, blok.olddata[0], false, groupMulti, num,
-			numline, stateCount, masterFunction);
+		string state;
+		stateInput(state, (blok.olddataint[0] == 0 ? "(S+" : "(S" + to_string(blok.olddataint[0] + 1) + "+") + to_string(blok.olddataint[1]) + ")", format, behaviorFile,
+			blok.olddata[0], false, groupMulti, num, numline, stateCount, masterFunction);
 		blocks[blok.front] = state;
 	}
 }

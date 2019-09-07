@@ -65,10 +65,7 @@ vecstr GetOptionInfo(string line, string format, string masterformat, string fil
 
 	if (line.find(masterformat + "_group[") != NOT_FOUND)
 	{
-		if (sameWordCount(line, masterformat + "_group[") > 1)
-		{
-			ErrorMessage(1157, format, filename, numline, line);
-		}
+		if (sameWordCount(line, masterformat + "_group[") > 1) ErrorMessage(1157, format, filename, numline, line);
 
 		string templine = line;
 		size_t pos = templine.find(masterformat + "_group[");
@@ -90,21 +87,14 @@ vecstr GetOptionInfo(string line, string format, string masterformat, string fil
 			}
 		}
 
-		if (optionInfo.size() < 2)
-		{
-			ErrorMessage(1192, format, filename, numline, line);
-		}
-		else if (optionInfo[1].length() != 0)
-		{
-			ErrorMessage(1201, format, filename, numline, line);
-		}
+		if (optionInfo.size() < 2) ErrorMessage(1192, format, filename, numline, line);
+		else if (optionInfo[1].length() != 0) ErrorMessage(1201, format, filename, numline, line);
 	}
 	else if (line.find(masterformat + "[") != NOT_FOUND)
 	{
-		if (format != masterformat + "_group" && multiOption != masterformat + "_group")
-		{
-			ErrorMessage(1202, format, filename, numline, line);
-		}
+		if (sameWordCount(line, masterformat + "[") > 1) ErrorMessage(1157, format, filename, numline, line);
+
+		if (format != masterformat + "_group" && multiOption != masterformat + "_group") ErrorMessage(1202, format, filename, numline, line);
 
 		optionInfo.push_back("");
 
@@ -258,10 +248,7 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 			}
 			else if (line.find("<!-- FOREACH ^", 0) != NOT_FOUND)
 			{
-				if (newOpen)
-				{
-					ErrorMessage(1116, format, behaviorFile, i + 1);
-				}
+				if (newOpen) ErrorMessage(1116, format, behaviorFile, i + 1);
 
 				string multiOption;
 
@@ -284,15 +271,9 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 			}
 			else if (line.find("<!-- NEW ORDER ", 0) != NOT_FOUND && line.find(" -->", 0) != NOT_FOUND)
 			{
-				if (isMaster)
-				{
-					ErrorMessage(1202, format, behaviorFile, i + 1);
-				}
+				if (isMaster) ErrorMessage(1202, format, behaviorFile, i + 1);
 
-				if (newOpen)
-				{
-					ErrorMessage(1116, format, behaviorFile, i + 1);
-				}
+				if (newOpen) ErrorMessage(1116, format, behaviorFile, i + 1);
 
 				string multiOption;
 
@@ -312,10 +293,7 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 			}
 			else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
 			{
-				if (!newOpen)
-				{
-					ErrorMessage(1171, format, behaviorFile, i + 1);
-				}
+				if (!newOpen) ErrorMessage(1171, format, behaviorFile, i + 1);
 
 				generatedlines.pop_back();
 				newOpen = false;

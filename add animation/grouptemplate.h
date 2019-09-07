@@ -88,6 +88,9 @@ public:
 	vecstr groupExistingFunctionProcess(int curFunctionID, vecstr existingFunctionLines, std::shared_ptr<master> newSubFunctionIDs,
 		std::vector<std::vector<std::shared_ptr<animationInfo>>> newGroupAnimInfo, std::string format, ImportContainer& import, id newEventID, id newVariableID,
 		int& nFunctionID, bool hasMaster, bool hasGroup, setstr templateGroup, bool ignoreGroup);
+	void outPutExistingFunction(vecstr& existingFunctionLines, vecstr& newFunctionLines, bool isGroup, bool isMaster, bool ignoreGroup, std::string IDFileName,
+		std::vector<std::vector<std::unordered_map<std::string, bool>>>& masterOptionPicked, std::unordered_map<std::string, bool>& otherAnimType, int order, int groupOrder,
+		bool& isElement, int& elementLine, __int64& openRange, std::string& multiOption, int& elementCount, int curFunctionID, int curLine);
 	void processing(std::string& line, std::string filename, int curFunctionID, int linecount, id eventid, id variableid, int groupMulti, int optionMulti = -1,
 		int animMulti = -1, std::string multiOption = "");
 	inline void newID();

@@ -137,11 +137,18 @@
     <ClCompile Include="src\CmdLaunch.cpp" />
     <ClCompile Include="src\DebugLog.cpp" />
     <ClCompile Include="src\MultiInstanceCheck.cpp" />
+    <ClCompile Include="src\process\addanims.cpp" />
+    <ClCompile Include="src\process\addevents.cpp" />
+    <ClCompile Include="src\process\addvariables.cpp" />
+    <ClCompile Include="src\process\animdatasubprocess.cpp" />
+    <ClCompile Include="src\process\animsetdatasubprocess.cpp" />
+    <ClCompile Include="src\process\behaviorprocess.cpp" />
+    <ClCompile Include="src\process\behaviorprocess_utility.cpp" />
+    <ClCompile Include="src\process\behaviorsubprocess.cpp" />
+    <ClCompile Include="src\process\installscripts.cpp" />
+    <ClCompile Include="src\process\updateprocess.cpp" />
     <ClCompile Include="src\ScrollBar.cpp" />
     <ClCompile Include="src\SettingsSave.cpp" />
-    <ClCompile Include="src\utilities\addanims.cpp" />
-    <ClCompile Include="src\utilities\addevents.cpp" />
-    <ClCompile Include="src\utilities\addvariables.cpp" />
     <ClCompile Include="src\utilities\Terminator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,13 +167,32 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\CmdLaunch.h" />
     <ClInclude Include="src\DebugLog.h" />
-    <ClInclude Include="src\utilities\addanims.h" />
-    <ClInclude Include="src\utilities\addevents.h" />
-    <ClInclude Include="src\utilities\addvariables.h" />
+    <ClInclude Include="src\process\addanims.h" />
+    <ClInclude Include="src\process\addevents.h" />
+    <ClInclude Include="src\process\addvariables.h" />
+    <ClInclude Include="src\process\argumentpack.h" />
+    <QtMoc Include="src\process\behaviorprocess.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_70_0\msvc-14.0\include;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+    </QtMoc>
+    <ClInclude Include="src\process\behaviorprocess_utility.h" />
+    <QtMoc Include="src\process\behaviorsubprocess.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_70_0\msvc-14.0\include;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+    </QtMoc>
+    <QtMoc Include="src\process\installscripts.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_70_0\msvc-14.0\include;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+    </QtMoc>
+    <QtMoc Include="src\process\updateprocess.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_70_0\msvc-14.0\include;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+    </QtMoc>
     <QtMoc Include="src\utilities\Terminator.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)src;C:\Program Files\boost\boost_1_66_0\msvc\include\boost-1_66;.;.\GeneratedFiles;$(SolutionDir);$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
     </QtMoc>
+    <ClInclude Include="src\process\behaviortype.h" />
     <ClInclude Include="src\utilities\BehaviorHeaderView.h" />
     <ClInclude Include="src\version.h" />
     <QtMoc Include="src\AnimProgressBar.h" />

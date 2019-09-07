@@ -571,7 +571,9 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 		if (error) throw nemesis::exception();
 
 		boost::filesystem::path file(filepath);
-		interMsg(TextBoxMessage(1006) + ": " + (fstP ? file.parent_path().stem().string() + " (1st Person)" : file.parent_path().stem().string()));
+		string msg = ": " + (fstP ? file.parent_path().stem().string() + " (1st Person)" : file.parent_path().stem().string());
+		interMsg(TextBoxMessage(1006) + msg);
+		DebugLogging(EngTextBoxMessage(1006) + msg);
 	}
 	else
 	{

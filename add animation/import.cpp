@@ -1,4 +1,7 @@
 #include "import.h"
+#include "animationinfo.h"
+
+#include "add animation\furniture.h"
 
 #pragma warning(disable:4503)
 
