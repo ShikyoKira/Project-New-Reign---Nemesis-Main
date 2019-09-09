@@ -2547,23 +2547,23 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vecstr& newFunctionLines, bool isGroup, bool isMaster, bool ignoreGroup, string IDFileName,
 	vector<vector<unordered_map<string, bool>>>& masterOptionPicked, unordered_map<string, bool>& otherAnimType, int order, int groupOrder, bool& isElement, int& elementLine,
-	__int64& openRange, string& multiOption, int& elementCount, int curFunctionID, int curLine)
+	__int64& openRange, string& multiOption, int& elementCount, int curFunctionID, int curLine, unsigned int scopeSize)
 {
 	bool multi = false;
 	bool skipTemplate = false;
-	bool newOpen = false;
 	bool open = false;
 	bool skip = false;
 	bool freeze = false;
 	bool formatOpen = false;
-	int condition = 0;
-	int scope = 0;
+	unsigned int openScope;
+	unsigned int condition = 0;
+	unsigned int scope = 0;
 
 	vecstr tempstore;
 	unordered_map<int, bool> IsConditionOpened;
 	IsConditionOpened[0] = true;
 
-	for (unsigned int i = curLine; i < existingFunctionLines.size(); ++i)
+	for (unsigned int i = curLine; i < scopeSize; ++i)
 	{
 		bool uniqueskip = false;
 		bool elementCatch = false;
@@ -2575,7 +2575,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 			{
 				condition++;
 
-				if (!skipTemplate && ((newOpen && !skip) || !newOpen))
+				if (!skipTemplate && ((scope > 0 && !skip) || scope == 0))
 				{
 					if (!freeze)
 					{
@@ -2625,7 +2625,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 			{
 				if (condition == 0) ErrorMessage(1119, format, IDFileName, i + 1);
 
-				if (!skipTemplate && ((newOpen && !skip) || !newOpen))
+				if (!skipTemplate && ((scope > 0 && !skip) || scope == 0))
 				{
 					if (!freeze)
 					{
@@ -2676,7 +2676,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 			{
 				if (condition == 0) ErrorMessage(1119, format, IDFileName, i + 1);
 
-				if (!skipTemplate && ((newOpen && !skip) || !newOpen))
+				if (!skipTemplate && ((scope > 0 && !skip) || scope == 0))
 				{
 					if (!freeze)
 					{
@@ -2704,8 +2704,6 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 			}
 			else if (line.find("<!-- FOREACH ^" + format + "^ -->", 0) != NOT_FOUND)
 			{
-				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
-
 				if (IsConditionOpened[condition])
 				{
 					if (!isGroup)
@@ -2738,13 +2736,11 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 					}
 				}
 
-				newOpen = true;
+				++scope;
 				uniqueskip = true;
 			}
 			else if (line.find("<!-- FOREACH ^" + format + "_group^ -->", 0) != NOT_FOUND)
 			{
-				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
-
 				if (IsConditionOpened[condition])
 				{
 					if (isGroup)
@@ -2775,21 +2771,17 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 					}
 				}
 
-				newOpen = true;
+				++scope;
 				uniqueskip = true;
 			}
 			else if (line.find("<!-- NEW ^" + format + "^ -->", 0) != NOT_FOUND || line.find("<!-- NEW ^" + format + "_group^ -->", 0) != NOT_FOUND
 				|| line.find("<!-- NEW ^" + format + "_master^ -->", 0) != NOT_FOUND)
 			{
-				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
-
 				ErrorMessage(1164, format, IDFileName, i + 1);
 			}
 			else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND)
 			{
-				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
-
-				newOpen = true;
+				++scope;
 				size_t pos = line.find("<!-- NEW ^") + 10;
 				string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 
@@ -2851,9 +2843,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 			}
 			else if (line.find("<!-- FOREACH ^", 0) != NOT_FOUND)
 			{
-				if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
-
-				newOpen = true;
+				++scope;
 				size_t pos = line.find("<!-- FOREACH ^") + 14;
 				string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 
@@ -2926,25 +2916,20 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 			}
 			else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
 			{
-				if (!newOpen)
-				{
-					ErrorMessage(1171, format, IDFileName, i + 1);
-				}
+				if (scope == 0) ErrorMessage(1171, format, IDFileName, i + 1);
 
-				newOpen = false;
+				--scope;
 
 				if (skipTemplate) skipTemplate = false;
 				else uniqueskip = true;
 			}
-			else if (line.find("<!-- CONDITION END -->", 0) != NOT_FOUND && !multi && !skipTemplate && ((newOpen && !skip) || !newOpen))
+			else if (line.find("<!-- CONDITION END -->", 0) != NOT_FOUND && !multi && !skipTemplate && ((scope > 0 && !skip) || scope == 0))
 			{
 				uniqueskip = true;
 			}
 		}
 		else if (line.find("<!-- FOREACH ^" + format + "_master^ -->", 0) != NOT_FOUND)
 		{
-			if (newOpen) ErrorMessage(1116, format, IDFileName, existingFunctionLines.size());
-
 			if (IsConditionOpened[condition])
 			{
 				if (isMaster)
@@ -2975,8 +2960,45 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 				}
 			}
 
-			newOpen = true;
+			++scope;
 			uniqueskip = true;
+		}
+		else if (line.find("<!-- FOREACH ^", 0) != NOT_FOUND)
+		{
+			++scope;
+			size_t pos = line.find("<!-- FOREACH ^") + 14;
+			string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+
+			string templine = line;
+			size_t pos = templine.find("[");
+			vecstr optionInfo;
+			optionInfo.push_back(templine.substr(0, pos));
+			templine = templine.substr(templine.find("[", pos) + 1);
+
+			while (true)
+			{
+				pos = templine.find("]");
+				optionInfo.push_back(templine.substr(0, pos));
+				size_t optionLength = optionInfo.back().length() + 1;
+
+				if (templine.length() <= optionLength || templine[optionLength] != '[') break;
+
+				templine = templine.substr(templine.find("[") + 1);
+			}
+
+			if (optionInfo.size() == 3 || otherAnimType[checker])
+			{
+				skipTemplate = true;
+			}
+		}
+		else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+		{
+			if (scope == 0) ErrorMessage(1171, format, IDFileName, i + 1);
+
+			--scope;
+
+			if (skipTemplate) skipTemplate = false;
+			else uniqueskip = true;
 		}
 
 		if (error) throw nemesis::exception();
@@ -3114,13 +3136,13 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 			}
 		}
 
-		if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+		if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND && scope == 0)
 		{
 			if (skip)
 			{
 				skip = false;
 			}
-			else
+			else if (!isMaster)
 			{
 				if (multi)
 				{
@@ -3487,6 +3509,9 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 				tempstore.clear();
 				tempstore.reserve(existingFunctionLines.size() / 10);
 			}
+			else
+			{
+			}
 
 			open = false;
 			multi = false;
@@ -3496,7 +3521,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 		{
 			if (condition == 0) ErrorMessage(1118, format, IDFileName, i + 1);
 
-			if (!skipTemplate && ((newOpen && !skip) || !newOpen))
+			if (!skipTemplate && ((scope > 0 && !skip) || scope == 0))
 			{
 				if (freeze && IsConditionOpened[condition]) freeze = false;
 
@@ -3508,6 +3533,13 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 		}
 
 		if (error) return;
+	}
+
+	if (scope != 0) ErrorMessage(1116, format, IDFileName, scopeSize);
+
+	for (auto it = IsConditionOpened.begin(); it != IsConditionOpened.end(); ++it)
+	{
+		if (it->second) ErrorMessage(1120, format, IDFileName);
 	}
 }
 

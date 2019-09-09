@@ -23,9 +23,11 @@
 using namespace std;
 
 extern Terminator* p_terminate;
-extern atomic<int> m_RunningThread;
+extern atomic<int> m_RunningThread; 
 
 atomic<int> extraCore = 0;
+
+struct nodeJoint;
 
 struct IDCatcher
 {
@@ -1502,6 +1504,7 @@ void BehaviorSub::CompilingBehavior()
 	vector<shared_ptr<vecstr>> allEditLines;
 	unordered_map<string, bool> isCoreDone;
 	unordered_map<int, int> functionState;
+	unordered_map<int, shared_ptr<nodeJoint>> existingNodes;
 	int grouptimer = 0;
 	int onetimer = 0;
 
@@ -1854,7 +1857,8 @@ void BehaviorSub::CompilingBehavior()
 					to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size()) + ")");
 
 				processExistFuncID(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile], ZeroEvent, ZeroVariable, catalystMap, groupFunctionIDs,
-					groupAnimInfo, templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup, BehaviorTemplate->grouplist[lowerBehaviorFile], ignoreGroup);
+					groupAnimInfo, templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup, BehaviorTemplate->grouplist[lowerBehaviorFile], ignoreGroup,
+					existingNodes);
 
 				DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count: " +
 					to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size()) + " COMPLETE)");
@@ -1866,7 +1870,7 @@ void BehaviorSub::CompilingBehavior()
 
 				processExistFuncID(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile], ZeroEvent, ZeroVariable, catalystMap, make_shared<master>(),
 					vector<vector<shared_ptr<animationInfo>>>(), templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup,
-					BehaviorTemplate->grouplist[lowerBehaviorFile], ignoreGroup);
+					BehaviorTemplate->grouplist[lowerBehaviorFile], ignoreGroup, existingNodes);
 
 				DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count: " +
 					to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size()) + " COMPLETE)");
@@ -1881,6 +1885,9 @@ void BehaviorSub::CompilingBehavior()
 
 	// check for error
 	if (error) throw nemesis::exception();
+
+	// load to existing Nodes from behavior template
+	unpackToCatalyst(catalystMap, existingNodes);
 
 	DebugLogging("Total single animation processing time for " + behaviorFile + ": " + to_string(onetimer));
 	DebugLogging("Total group animation processing time for " + behaviorFile + ": " + to_string(grouptimer));

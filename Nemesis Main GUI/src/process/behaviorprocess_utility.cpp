@@ -1,4 +1,5 @@
 #include "behaviorprocess_utility.h"
+#include "nodeJoint.h"
 
 #include "add animation\furniture.h"
 #include "add animation\grouptemplate.h"
@@ -101,12 +102,24 @@ void elementUpdate(size_t& elementLine, int& counter, int& curID, map<int, vecst
 	}
 }
 
+void unpackToCatalyst(map<int, vecstr>& catalystMap, unordered_map<int, shared_ptr<nodeJoint>>& existingNodes)
+{
+	for (auto& node : existingNodes)
+	{
+		catalystMap[node.first] = node.second->unpack();
+	}
+}
+
 void processExistFuncID(vector<int>& funcIDs, string ZeroEvent, string ZeroVariable, map<int, vecstr>& catalystMap, shared_ptr<master> groupFunctionIDs,
 	vector<vector<shared_ptr<animationInfo>>>& groupAnimInfo, string templateCode, ImportContainer& exportID, id& eventid, id& variableid, int lastID, bool hasMaster,
-	bool hasGroup, setstr& templateGroup, bool ignoreGroup)
+	bool hasGroup, setstr& templateGroup, bool ignoreGroup, unordered_map<int, shared_ptr<nodeJoint>> existingNodes)
 {
 	for (int& functionID : funcIDs)
 	{
+		unordered_map<int, shared_ptr<nodeJoint>>::iterator curNode = existingNodes.find(functionID);
+
+		if (curNode == existingNodes.end() || !curNode->second) existingNodes[functionID] = make_shared<nodeJoint>(catalystMap[functionID]);
+
 		ExistingFunction exFunction;
 		exFunction.setZeroEvent(ZeroEvent);
 		exFunction.setZeroVariable(ZeroVariable);

@@ -1,6 +1,14 @@
 #include "dataunification.h"
 #include "lastupdate.h"
 
+/*
+COMBINE NEW ANIMATION JOINT
+OBJECTIVES:
+- Add connection from template to existing node
+- Avoid conflicting with other templates by adding full address as well as checking if same data has been changed
+- Check for error prior to actual patching
+*/
+
 #pragma warning(disable:4503)
 
 using namespace std;
@@ -30,11 +38,25 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 
 			vecstr newline;
 			bool start = false;
+			unsigned int row = 0;
 
 			for (auto& curline : storeline)
 			{
+				++row;
+
 				if (curline.find("SERIALIZE_IGNORED") == NOT_FOUND)
 				{
+					if (curline.find("<!-- NEW", 0) != NOT_FOUND || curline.find("<!-- FOREACH", 0) != NOT_FOUND)
+					{
+						++scope;
+					}
+					else if (curline.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+					{
+						--scope;
+
+						if (scope == 0) ErrorMessage(1171, modcode, path, row);
+					}
+
 					if (curline.find("			#") != NOT_FOUND && newline.back().find("numelements=\"", 0) != NOT_FOUND) start = true;
 					else if (start && curline.find("</hkparam>") != NOT_FOUND) start = false;
 
@@ -74,6 +96,7 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 			bool conditionOri = false;
 			int linecount = 0;
 			int conditionLvl = 0;
+			unsigned int scope = 0;
 			vecstr newlines;
 			vecstr combinelines;
 
@@ -87,6 +110,8 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 
 				if ((curline.find("<!-- NEW", 0) == NOT_FOUND && curline.find("<!-- FOREACH", 0) == NOT_FOUND) && !close)
 				{
+					++scope;
+
 					if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND || originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND)
 					{
 						combinelines.push_back(originallines[linecount]);
