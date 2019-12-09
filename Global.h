@@ -56,13 +56,18 @@ bool isOnlyNumber(std::string line);
 bool hasAlpha(std::string line);
 size_t wordFind(std::string line, std::string word, bool isLast = false);								// case insensitive "string.find"
 inline int sameWordCount(std::string line, std::string word);
+std::wstring StringToWString(std::string line);
+std::string WStringToString(std::wstring line);
 
 // general file utilities
-size_t fileLineCount(std::string filepath);
+size_t fileLineCount(const char* filepath);
+size_t fileLineCount(boost::filesystem::path filepath);
 void addUsedAnim(std::string behaviorFile, std::string animPath);
 void read_directory(const std::string& name, vecstr& fv);
+void read_directory(const std::wstring& name, std::vector<std::wstring>& fv);
 void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
 bool GetFunctionLines(std::string filename, vecstr& functionlines, bool emptylast = true);
+bool GetFunctionLines(boost::filesystem::path filename, vecstr& functionlines, bool emptylast = true);
 
 inline bool isFileExist(const std::string& filename)
 {

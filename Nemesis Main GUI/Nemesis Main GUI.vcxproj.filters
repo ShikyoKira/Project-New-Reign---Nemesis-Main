@@ -38,13 +38,7 @@
     <ClCompile Include="ErrorMsgBox.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\ui_NemesisMainGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="progressup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utilities\Terminator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\process\updateprocess.cpp">
@@ -76,6 +70,12 @@
     </ClCompile>
     <ClCompile Include="src\process\addvariables.cpp">
       <Filter>Source Files\Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ui_NemesisMainGUI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\Terminator.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

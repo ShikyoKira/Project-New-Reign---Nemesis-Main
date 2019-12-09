@@ -46,6 +46,24 @@ struct path_leaf_string
 	}
 };
 
+struct path_leaf_wstring
+{
+	wstring operator()(const boost::filesystem::directory_entry& entry) const
+	{
+		return entry.path().filename().wstring();
+	}
+};
+
+wstring StringToWString(string line)
+{
+	return wstrConv.from_bytes(line);
+}
+
+string WStringToString(wstring line)
+{
+	return wstrConv.to_bytes(line);
+}
+
 void read_directory(const string& name, vecstr& fv)
 {
 	boost::filesystem::path p(name);
@@ -54,7 +72,38 @@ void read_directory(const string& name, vecstr& fv)
 	transform(start, end, back_inserter(fv), path_leaf_string());
 }
 
-size_t fileLineCount(string filepath)
+void read_directory(const wstring& name, vector<wstring>& fv)
+{
+	boost::filesystem::path p(name);
+	boost::filesystem::directory_iterator start(p);
+	boost::filesystem::directory_iterator end;
+	transform(start, end, back_inserter(fv), path_leaf_wstring());
+}
+
+size_t fileLineCount(boost::filesystem::path filepath)
+{
+	int linecount = 0;
+	string line;
+	FileReader input(filepath);
+
+	if (input.GetFile())
+	{
+		string line;
+
+		while (input.GetLines(line))
+		{
+			++linecount;
+		}
+	}
+	else
+	{
+		ErrorMessage(1002, filepath);
+	}
+
+	return linecount;
+}
+
+size_t fileLineCount(const char* filepath)
 {
 	int linecount = 0;
 	string line;
@@ -119,7 +168,7 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
 	}
 }
 
-inline int sameWordCount(string line, string word)
+int sameWordCount(string line, string word)
 {
 	size_t nextWord = -1;
 	int wordCount = 0;
@@ -140,6 +189,107 @@ inline int sameWordCount(string line, string word)
 	}
 
 	return wordCount;
+}
+
+bool GetFunctionLines(boost::filesystem::path filename, vecstr& functionlines, bool emptylast)
+{
+	functionlines = vecstr();
+
+	if (!boost::filesystem::is_directory(filename))
+	{
+		functionlines.reserve(fileLineCount(filename));
+		FileReader BehaviorFormat(filename.wstring());
+
+		if (BehaviorFormat.GetFile())
+		{
+			wstring line;
+
+			while (BehaviorFormat.GetLines(line))
+			{
+				if (error) throw nemesis::exception();
+
+				functionlines.push_back(WStringToString(line));
+			}
+		}
+		else
+		{
+			ErrorMessage(3002, filename.string());
+		}
+	}
+	else
+	{
+		ErrorMessage(3001, filename.string());
+	}
+
+	if (functionlines.size() == 0) return false;
+
+	if (emptylast)
+	{
+		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
+		{
+			functionlines.push_back("");
+		}
+	}
+	else
+	{
+		if (functionlines.size() != 0 && functionlines.back().length() == 0)
+		{
+			functionlines.pop_back();
+		}
+	}
+
+	return true;
+}
+
+bool GetFunctionLines(boost::filesystem::path filename, vector<wstring>& functionlines, bool emptylast)
+{
+	functionlines = vector<wstring>();
+
+	if (!boost::filesystem::is_directory(filename))
+	{
+		functionlines.reserve(fileLineCount(filename));
+		FileReader BehaviorFormat(filename.wstring());
+
+		if (BehaviorFormat.GetFile())
+		{
+			wstring line;
+
+			while (BehaviorFormat.GetLines(line))
+			{
+				if (error) throw nemesis::exception();
+
+				functionlines.push_back(line);
+			}
+		}
+		else
+		{
+			ErrorMessage(3002, filename.string());
+		}
+	}
+	else
+	{
+		ErrorMessage(3001, filename.string());
+	}
+
+	if (functionlines.size() == 0) return false;
+
+	if (emptylast)
+	{
+		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find(L"<!-- CONDITION END -->") == NOT_FOUND &&
+			functionlines.back().find(L"<!-- CLOSE -->") == NOT_FOUND)
+		{
+			functionlines.push_back(L"");
+		}
+	}
+	else
+	{
+		if (functionlines.size() != 0 && functionlines.back().length() == 0)
+		{
+			functionlines.pop_back();
+		}
+	}
+
+	return true;
 }
 
 bool GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
@@ -176,14 +326,15 @@ bool GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 
 	if (emptylast)
 	{
-		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
+		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND &&
+			functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
 		{
 			functionlines.push_back("");
 		}
 	}
 	else
 	{
-		if (functionlines.size() != 0 && functionlines.back().length() == 0)
+		while (functionlines.size() != 0 && functionlines.back().length() == 0)
 		{
 			functionlines.pop_back();
 		}
@@ -197,25 +348,7 @@ size_t wordFind(string line, string word, bool isLast)
 	boost::algorithm::to_lower(line);
 	boost::algorithm::to_lower(word);
 
-	if (isLast)
-	{
-		size_t pos = 0;
-		int ref = sameWordCount(line, word);
-
-		if (ref != 0)
-		{
-			for (int i = 0; i < ref; ++i)
-			{
-				pos = line.find(word, pos + 1);
-			}
-
-			return pos;
-		}
-
-		return NOT_FOUND;
-	}
-
-	return line.find(word);
+	return isLast ? line.rfind(word) : line.find(word);
 }
 
 bool isOnlyNumber(string line)
