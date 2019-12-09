@@ -127,16 +127,17 @@ void NemesisMainGUI::handleLaunch()
 	worker->addBehaviorPick(this, behaviorPriority, chosenBehavior);
 
 	connect(worker, SIGNAL(totalAnim(int)), ui.animProgressBar, SLOT(newValue(int)));
-	connect(thread, SIGNAL(started()), worker, SLOT(GenerateBehavior()));
+	connect(thread, SIGNAL(started()), worker, SLOT(InitializeGeneration()));
 	connect(worker, SIGNAL(progressUp()), this, SLOT(setProgressBarValue()));
 	connect(worker, SIGNAL(progressMax(int)), this, SLOT(setProgressBarMax(int)));
 	connect(worker, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
 
-	connect(worker, SIGNAL(enable(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
-	connect(worker, SIGNAL(enable(bool)), ui.buttonUpdate, SLOT(setDisabled(bool)));
-	connect(worker, SIGNAL(enableCheck(bool)), ui.buttonCheck, SLOT(setDisabled(bool)));
-	connect(worker, SIGNAL(enable(bool)), ui.comboBox, SLOT(setDisabled(bool)));
-	connect(worker, SIGNAL(enable(bool)), ui.modView, SLOT(setDisabled(bool)));
+	connect(worker, SIGNAL(disableLaunch(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
+	connect(worker, SIGNAL(disable(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
+	connect(worker, SIGNAL(disable(bool)), ui.buttonUpdate, SLOT(setDisabled(bool)));
+	connect(worker, SIGNAL(disableCheck(bool)), ui.buttonCheck, SLOT(setDisabled(bool)));
+	connect(worker, SIGNAL(disable(bool)), ui.comboBox, SLOT(setDisabled(bool)));
+	connect(worker, SIGNAL(disable(bool)), ui.modView, SLOT(setDisabled(bool)));
 	connect(worker, SIGNAL(hide(bool)), ui.progressBar, SLOT(setHidden(bool)));
 
 	connect(worker, SIGNAL(end()), thread, SLOT(quit()));
@@ -169,10 +170,11 @@ void NemesisMainGUI::handleUpdate()
 	connect(worker, SIGNAL(progressUp()), this, SLOT(setProgressBarValue()));
 	connect(worker, SIGNAL(progressMax(int)), this, SLOT(setProgressBarMax(int)));
 	connect(worker, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
-	connect(worker, SIGNAL(enableCheck(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
-	connect(worker, SIGNAL(enable(bool)), ui.buttonUpdate, SLOT(setDisabled(bool)));
-	connect(worker, SIGNAL(enable(bool)), ui.comboBox, SLOT(setDisabled(bool)));
-	connect(worker, SIGNAL(enable(bool)), ui.modView, SLOT(setDisabled(bool)));
+
+	connect(worker, SIGNAL(disableLaunch(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
+	connect(worker, SIGNAL(disable(bool)), ui.buttonUpdate, SLOT(setDisabled(bool)));
+	connect(worker, SIGNAL(disable(bool)), ui.comboBox, SLOT(setDisabled(bool)));
+	connect(worker, SIGNAL(disable(bool)), ui.modView, SLOT(setDisabled(bool)));
 	connect(worker, SIGNAL(hide(bool)), ui.progressBar, SLOT(setHidden(bool)));
 
 	connect(worker, SIGNAL(end()), this, SLOT(firstNull()));
