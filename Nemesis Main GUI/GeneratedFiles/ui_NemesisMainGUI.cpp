@@ -5,18 +5,20 @@ void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 	if (NemesisMainGUIClass->objectName().isEmpty())
 		NemesisMainGUIClass->setObjectName(QStringLiteral("NemesisMainGUIClass"));
 	NemesisMainGUIClass->resize(528, 782);
-	QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 	sizePolicy.setHorizontalStretch(0);
 	sizePolicy.setVerticalStretch(0);
 	sizePolicy.setHeightForWidth(NemesisMainGUIClass->sizePolicy().hasHeightForWidth());
 	NemesisMainGUIClass->setSizePolicy(sizePolicy);
 	NemesisMainGUIClass->setMinimumSize(QSize(528, 559));
 	NemesisMainGUIClass->setMaximumSize(QSize(700, 950));
+
 	gridLayout = new QGridLayout(NemesisMainGUIClass);
 	gridLayout->setSpacing(6);
 	gridLayout->setContentsMargins(11, 11, 11, 11);
 	gridLayout->setObjectName(QStringLiteral("gridLayout"));
 	gridLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+
 	buttonCheck = new QPushButton(NemesisMainGUIClass);
 	buttonCheck->setObjectName(QStringLiteral("buttonCheck"));
 	QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -24,6 +26,7 @@ void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 	sizePolicy1.setVerticalStretch(0);
 	sizePolicy1.setHeightForWidth(buttonCheck->sizePolicy().hasHeightForWidth());
 	buttonCheck->setSizePolicy(sizePolicy1);
+	buttonCheck->setDisabled(true);
 	buttonCheck->setMinimumSize(QSize(250, 35));
 	buttonCheck->setMaximumSize(QSize(500, 16777215));
 	QFont font;
@@ -36,8 +39,11 @@ void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 
 	textBrowser = new QTextBrowser(NemesisMainGUIClass);
 	textBrowser->setObjectName(QStringLiteral("textBrowser"));
-	sizePolicy.setHeightForWidth(textBrowser->sizePolicy().hasHeightForWidth());
-	textBrowser->setSizePolicy(sizePolicy);
+	QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	sizePolicy2.setHorizontalStretch(0);
+	sizePolicy2.setVerticalStretch(0);
+	sizePolicy2.setHeightForWidth(textBrowser->sizePolicy().hasHeightForWidth());
+	textBrowser->setSizePolicy(sizePolicy2);
 	textBrowser->setMaximumSize(QSize(16777215, 1000));
 	textBrowser->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 
@@ -45,7 +51,7 @@ void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 
 	horizontalSpacer = new QSpacerItem(80, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-	gridLayout->addItem(horizontalSpacer, 5, 0, 1, 1);
+	gridLayout->addItem(horizontalSpacer, 7, 0, 1, 1);
 
 	animProgressBar = new AnimProgressBar(NemesisMainGUIClass);
 	animProgressBar->setObjectName(QStringLiteral("animProgressBar"));
@@ -100,11 +106,11 @@ void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 
 	gridLayout->addItem(horizontalSpacer_4, 0, 9, 1, 1);
 
-	horizontalSpacer_5 = new QSpacerItem(80, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+	horizontalSpacer_5 = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
 	gridLayout->addItem(horizontalSpacer_5, 0, 8, 1, 1);
 
-	horizontalSpacer_6 = new QSpacerItem(80, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+	horizontalSpacer_6 = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
 	gridLayout->addItem(horizontalSpacer_6, 0, 1, 2, 1);
 
@@ -118,11 +124,11 @@ void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 
 	comboBox = new QComboBox(NemesisMainGUIClass);
 	comboBox->setObjectName(QStringLiteral("comboBox"));
-	QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
-	sizePolicy2.setHorizontalStretch(0);
-	sizePolicy2.setVerticalStretch(0);
-	sizePolicy2.setHeightForWidth(comboBox->sizePolicy().hasHeightForWidth());
-	comboBox->setSizePolicy(sizePolicy2);
+	QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Fixed);
+	sizePolicy3.setHorizontalStretch(0);
+	sizePolicy3.setVerticalStretch(0);
+	sizePolicy3.setHeightForWidth(comboBox->sizePolicy().hasHeightForWidth());
+	comboBox->setSizePolicy(sizePolicy3);
 	comboBox->setMinimumSize(QSize(0, 0));
 	comboBox->setMaximumSize(QSize(500, 16777215));
 	comboBox->setContextMenuPolicy(Qt::ActionsContextMenu);
@@ -132,10 +138,13 @@ void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 
 	label = new QLabel(NemesisMainGUIClass);
 	label->setObjectName(QStringLiteral("label"));
-	sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-	label->setSizePolicy(sizePolicy2);
-	label->setMinimumSize(QSize(240, 55));
-	label->setMaximumSize(QSize(240, 55));
+	QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	sizePolicy4.setHorizontalStretch(0);
+	sizePolicy4.setVerticalStretch(0);
+	sizePolicy4.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+	label->setSizePolicy(sizePolicy4);
+	label->setMinimumSize(QSize(0, 40));
+	label->setMaximumSize(QSize(206, 55));
 	label->setAlignment(Qt::AlignCenter);
 	label->setScaledContents(true);
 
@@ -146,11 +155,11 @@ void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 	if (error) return;
 
 	modView->setObjectName(QStringLiteral("modView"));
-	QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	sizePolicy3.setHorizontalStretch(0);
-	sizePolicy3.setVerticalStretch(0);
-	sizePolicy3.setHeightForWidth(modView->sizePolicy().hasHeightForWidth());
-	modView->setSizePolicy(sizePolicy3);
+	QSizePolicy sizePolicy5(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	sizePolicy5.setHorizontalStretch(0);
+	sizePolicy5.setVerticalStretch(0);
+	sizePolicy5.setHeightForWidth(modView->sizePolicy().hasHeightForWidth());
+	modView->setSizePolicy(sizePolicy5);
 	modView->setMinimumSize(QSize(0, 265));
 	modView->setMaximumSize(QSize(16777215, 300));
 	modView->setEditTriggers(QAbstractItemView::EditKeyPressed | QAbstractItemView::SelectedClicked);
