@@ -5,7 +5,7 @@
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0365</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="generator">#zcbe$1</hkparam>
+			<hkparam name="generator">#zcbe$12</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#0323</hkparam>
 <!-- CLOSE -->

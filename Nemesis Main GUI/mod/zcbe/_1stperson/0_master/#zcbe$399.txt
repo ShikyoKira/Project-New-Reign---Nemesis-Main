@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$399" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#zcbe$406</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$408</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">PairedDragonMountBehavior</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">0</hkparam>
 			<hkparam name="selfTransitionMode">0</hkparam>
 			<hkparam name="states" numelements="1">
-				#zcbe$405
+				#zcbe$401
 			</hkparam>
 			<hkparam name="wildcardTransitions">#zcbe$400</hkparam>
 		</hkobject>

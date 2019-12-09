@@ -1,8 +1,8 @@
 		<hkobject name="#tudm$343" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">#tudm$316</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HW_AttackRightNPC</hkparam>
-			<hkparam name="animationName">Animations\2HW_AttackRight.HKX</hkparam>
+			<hkparam name="name">2HM_AttackRightNPC</hkparam>
+			<hkparam name="animationName">Animations\2HM_AttackRight.HKX</hkparam>
 			<hkparam name="triggers">#tudm$320</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>

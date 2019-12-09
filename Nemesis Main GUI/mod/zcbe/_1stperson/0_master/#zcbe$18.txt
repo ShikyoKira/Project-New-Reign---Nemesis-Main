@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$395</hkparam>
+			<hkparam name="transitions">#zcbe$396</hkparam>
 			<hkparam name="generator">#zcbe$390</hkparam>
 			<hkparam name="name">StandingVampireFeed</hkparam>
 			<hkparam name="stateId">54</hkparam>

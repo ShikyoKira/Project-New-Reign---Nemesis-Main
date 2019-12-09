@@ -1,30 +1,9 @@
-		<hkobject name="#zcbe$71" class="BSEventOnFalseToTrueModifier" signature="0x81d0777a">
-			<hkparam name="variableBindingSet">#zcbe$76</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">EventOnFalseToTrueModifier11</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="bEnableEvent1">true</hkparam>
-			<hkparam name="bVariableToTest1">false</hkparam>
-			<hkparam name="EventToSend1">
-				<hkobject>
-					<hkparam name="id">88</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="bEnableEvent2">false</hkparam>
-			<hkparam name="bVariableToTest2">false</hkparam>
-			<hkparam name="EventToSend2">
-				<hkobject>
-					<hkparam name="id">-1</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="bEnableEvent3">false</hkparam>
-			<hkparam name="bVariableToTest3">false</hkparam>
-			<hkparam name="EventToSend3">
-				<hkobject>
-					<hkparam name="id">-1</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$71" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ZAR_Block_ML</hkparam>
+			<hkparam name="enable">false</hkparam>
+			<hkparam name="modifiers" numelements="3">
+				#zcbe$75 #zcbe$76 #zcbe$77
 			</hkparam>
 		</hkobject>

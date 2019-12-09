@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Paired WW PairedHeadSmash</hkparam>
 			<hkparam name="animationName">..\SharedKillMoves\Human&amp;Werewolf\Paired_WW_PairedHeadSmash.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$519</hkparam>
+			<hkparam name="triggers">#zcbe$517</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

@@ -1,9 +1,9 @@
 		<hkobject name="#zcbe$345" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$350</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$353</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_TurnLeft_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$353 #zcbe$346 #zcbe$346 #zcbe$346
+				#zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$346 #zcbe$356 #zcbe$346 #zcbe$346 #zcbe$346
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

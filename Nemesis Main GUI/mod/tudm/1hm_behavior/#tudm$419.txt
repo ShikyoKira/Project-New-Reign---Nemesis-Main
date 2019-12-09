@@ -1,21 +1,3 @@
-		<hkobject name="#tudm$419" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
-			<hkparam name="variableBindingSet">#tudm$383</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HM_AttackRightNPC_BSCyclicBlendTransitionGenerator</hkparam>
-			<hkparam name="pBlenderGenerator">#tudm$420</hkparam>
-			<hkparam name="EventToFreezeBlendValue">
-				<hkobject>
-					<hkparam name="id">194</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="EventToCrossBlend">
-				<hkobject>
-					<hkparam name="id">195</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="fBlendParameter">0.000000</hkparam>
-			<hkparam name="fTransitionDuration">0.200000</hkparam>
-			<hkparam name="eBlendCurve">BLEND_CURVE_SMOOTH</hkparam>
+		<hkobject name="#tudm$419" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">iRightHandType == 6</hkparam>
 		</hkobject>

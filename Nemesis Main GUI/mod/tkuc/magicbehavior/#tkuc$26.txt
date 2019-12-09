@@ -1,7 +1,10 @@
-		<hkobject name="#tkuc$26" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">TKDodgeRightModifier</hkparam>
-			<hkparam name="modifier">#tkuc$14</hkparam>
-			<hkparam name="generator">#tkuc$25</hkparam>
+		<hkobject name="#tkuc$26" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tkuc$11</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">TKDodgeBack_MSG</hkparam>
+			<hkparam name="generators" numelements="4">
+				#tkuc$25 #tkuc$21 #tkuc$28 #tkuc$17
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

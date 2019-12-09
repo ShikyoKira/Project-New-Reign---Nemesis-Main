@@ -1,21 +1,11 @@
-		<hkobject name="#zcbe$605" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
-			<hkparam name="variableBindingSet">#zcbe$614</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Bleedout_BSCyclicBlendTransitionGenerator</hkparam>
-			<hkparam name="pBlenderGenerator">#zcbe$607</hkparam>
-			<hkparam name="EventToFreezeBlendValue">
+		<hkobject name="#zcbe$605" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
 				<hkobject>
-					<hkparam name="id">776</hkparam>
-					<hkparam name="payload">null</hkparam>
+					<hkparam name="memberPath">startStateId</hkparam>
+					<hkparam name="variableIndex">3</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="EventToCrossBlend">
-				<hkobject>
-					<hkparam name="id">777</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="fBlendParameter">0.000000</hkparam>
-			<hkparam name="fTransitionDuration">0.200000</hkparam>
-			<hkparam name="eBlendCurve">BLEND_CURVE_SMOOTH</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

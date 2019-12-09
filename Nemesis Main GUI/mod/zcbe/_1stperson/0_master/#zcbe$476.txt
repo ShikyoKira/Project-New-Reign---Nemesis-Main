@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$476" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#zcbe$481</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$482</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">PlayerStagger_3rdPBehavior</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">

@@ -151,7 +151,8 @@
 				<hkcstring>Animations\1HM_BlockIdle.hkx</hkcstring>
 				<hkcstring>Animations\1HM_BoundSwordEquip.hkx</hkcstring>
 				<hkcstring>Animations\1HM_Equip.hkx</hkcstring>
-				<hkcstring>Animations\1HM_Idle.hkx</hkcstring>
+				<hkcstring>Animations\female\1HM_Idle.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_Idle.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\1HM_RecoilLeft.hkx</hkcstring>
 				<hkcstring>Animations\1HM_RecoilRight.hkx</hkcstring>
 				<hkcstring>Animations\1HM_RecoilTimed.hkx</hkcstring>
@@ -162,19 +163,24 @@
 				<hkcstring>Animations\1HM_RunBwdAttackLeftIntro.HKX</hkcstring>
 				<hkcstring>Animations\1HM_RunBwdAttackRight.hkx</hkcstring>
 				<hkcstring>Animations\1HM_RunBwdAttackRightIntro.HKX</hkcstring>
-				<hkcstring>Animations\1HM_RunForward.HKX</hkcstring>
-				<hkcstring>Animations\1HM_RunForwardLeft.HKX</hkcstring>
-				<hkcstring>Animations\1HM_RunForwardRight.HKX</hkcstring>
+				<hkcstring>Animations\female\1HM_RunForward.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_RunForward.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\female\1HM_RunForwardLeft.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_RunForwardLeft.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\female\1HM_RunForwardRight.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_RunForwardRight.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\1HM_RunFwdAttackLeft.HKX</hkcstring>
 				<hkcstring>Animations\1HM_RunFwdAttackLeftIntro.HKX</hkcstring>
 				<hkcstring>Animations\1HM_RunFwdAttackRight.HKX</hkcstring>
 				<hkcstring>Animations\1HM_RunFwdAttackRightIntro.HKX</hkcstring>
-				<hkcstring>Animations\1HM_RunLeft.HKX</hkcstring>
+				<hkcstring>Animations\female\1HM_RunLeft.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_RunLeft.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\1HM_RunLeftAttackLeft.HKX</hkcstring>
 				<hkcstring>Animations\1HM_RunLeftAttackLeftIntro.HKX</hkcstring>
 				<hkcstring>Animations\1HM_RunLeftAttackRight.HKX</hkcstring>
 				<hkcstring>Animations\1HM_RunLeftAttackRightIntro.HKX</hkcstring>
-				<hkcstring>Animations\1HM_RunRight.HKX</hkcstring>
+				<hkcstring>Animations\female\1HM_RunRight.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_RunRight.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\1HM_RunRightAttackLeft.HKX</hkcstring>
 				<hkcstring>Animations\1HM_RunRightAttackLeftIntro.HKX</hkcstring>
 				<hkcstring>Animations\1HM_RunRightAttackRt.HKX</hkcstring>
@@ -199,10 +205,14 @@
 				<hkcstring>Animations\1HM_StaggerForwardLargest.hkx</hkcstring>
 				<hkcstring>Animations\1HM_StaggerForwardMedium.hkx</hkcstring>
 				<hkcstring>Animations\1HM_StaggerForwardSmall.hkx</hkcstring>
-				<hkcstring>Animations\1HM_TurnLeft180.HKX</hkcstring>
-				<hkcstring>Animations\1HM_TurnLeft60.HKX</hkcstring>
-				<hkcstring>Animations\1HM_TurnRight180.HKX</hkcstring>
-				<hkcstring>Animations\1HM_TurnRight60.HKX</hkcstring>
+				<hkcstring>Animations\female\1HM_TurnLeft180.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_TurnLeft180.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\female\1HM_TurnLeft60.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_TurnLeft60.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\female\1HM_TurnRight180.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_TurnRight180.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\female\1HM_TurnRight60.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_TurnRight60.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\1HM_Unequip.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkBackward.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkBackwardLeft.hkx</hkcstring>
@@ -211,19 +221,24 @@
 				<hkcstring>Animations\1HM_WalkBwdAttackLeftIntro.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkBwdAttackRight.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkBwdAttackRightIntro.hkx</hkcstring>
-				<hkcstring>Animations\1HM_WalkForward.hkx</hkcstring>
-				<hkcstring>Animations\1HM_WalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\1HM_WalkForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\female\1HM_WalkForward.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_WalkForward.hkx</hkcstring>				<!-- original -->
+				<hkcstring>Animations\female\1HM_WalkForwardLeft.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_WalkForwardLeft.hkx</hkcstring>				<!-- original -->
+				<hkcstring>Animations\female\1HM_WalkForwardRight.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_WalkForwardRight.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\1HM_WalkFwdAttackLeft.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkFwdAttackLeftIntro.HKX</hkcstring>
 				<hkcstring>Animations\1HM_WalkFwdAttackRight.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkFwdAttackRightIntro.HKX</hkcstring>
-				<hkcstring>Animations\1HM_WalkLeft.hkx</hkcstring>
+				<hkcstring>Animations\female\1HM_WalkLeft.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_WalkLeft.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\1HM_WalkLeftAttackLeft.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkLeftAttackLeftIntro.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkLeftAttackRight.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkLeftAttackRightIntro.hkx</hkcstring>
-				<hkcstring>Animations\1HM_WalkRight.hkx</hkcstring>
+				<hkcstring>Animations\female\1HM_WalkRight.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\1HM_WalkRight.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\1HM_WalkRightAttackLeft.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkRightAttackLeftIntro.hkx</hkcstring>
 				<hkcstring>Animations\1HM_WalkRtAttackRight.hkx</hkcstring>
@@ -528,7 +543,8 @@
 				<hkcstring>Animations\Bow_RunBackward.hkx</hkcstring>
 				<hkcstring>Animations\Bow_RunBackwardLeft.hkx</hkcstring>
 				<hkcstring>Animations\Bow_RunBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Bow_RunForward.HKX</hkcstring>
+				<hkcstring>Animations\female\Bow_RunForward.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\Bow_RunForward.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\Bow_RunForwardLeft.HKX</hkcstring>
 				<hkcstring>Animations\Bow_RunForwardRight.HKX</hkcstring>
 				<hkcstring>Animations\Bow_RunLeft.HKX</hkcstring>
@@ -752,15 +768,24 @@
 				<hkcstring>Animations\DialogueShifty.hkx</hkcstring>
 				<hkcstring>Animations\DLC01\DialogueWelcomeHandGesture.HKX</hkcstring>
 				<hkcstring>Animations\DLC01TrailerWalkForward.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\DLC2_Disbelief01.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\DLC2_Disbelief02.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\DLC2_FDisbelief_Loop.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\DLC2_FDisbelief2_Loop.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\DLC2_FSorrow_Enter.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\DLC2_FSorrow_Exit.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\DLC2_FSorrow_Loop.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\DLC2_PairedDragonMountBite.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\DLC2_PairedDragonMountGrapple.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc080.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\DLC2_Disbelief01.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc070.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\DLC2_Disbelief02.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc079.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\DLC2_FDisbelief_Loop.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc072.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\DLC2_FDisbelief2_Loop.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc088.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\DLC2_FSorrow_Enter.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc086.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\DLC2_FSorrow_Exit.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc085.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\DLC2_FSorrow_Loop.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISa012.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\DLC2_PairedDragonMountBite.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc161.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\DLC2_PairedDragonMountGrapple.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\DMagAimConCharge.hkx</hkcstring>
 				<hkcstring>Animations\DMagAimConLoop.hkx</hkcstring>
 				<hkcstring>Animations\DMagAimRelease.hkx</hkcstring>
@@ -783,7 +808,8 @@
 				<hkcstring>Animations\DW_RecoilRight.hkx</hkcstring>
 				<hkcstring>Animations\DW_RecoilTimed.hkx</hkcstring>
 				<hkcstring>Animations\DW_ShieldAdjustment.hkx</hkcstring>
-				<hkcstring>Animations\DW_SprintForwardSword.hkx</hkcstring>
+				<hkcstring>Animations\female\DW_SprintForwardSword.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DW_SprintForwardSword.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\DW1HM1HM_AttackRight.hkx</hkcstring>
 				<hkcstring>Animations\DW1HM1HM_PowerAttack.hkx</hkcstring>
 				<hkcstring>Animations\DW1HM1HM_SpecialAttackPower.hkx</hkcstring>
@@ -849,26 +875,40 @@
 				<hkcstring>Animations\female\IdleChairBook_PagesTurn.hkx</hkcstring>
 				<hkcstring>Animations\female\IdleChairBook_Read.hkx</hkcstring>
 				<hkcstring>Animations\female\IdleChairGive.hkx</hkcstring>
-				<hkcstring>Animations\DLC02\IdleChiselKneeling.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleChiselKneeling_Enter.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleChiselKneeling_Exit.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleChiselKneelingWiggle.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleChiselStanding.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleChiselStandingWiggle.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleChiselStandingWipeBrow.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc073.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleChiselKneeling.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc078.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleChiselKneeling_Enter.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc075.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleChiselKneeling_Exit.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc077.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleChiselKneelingWiggle.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISa011.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleChiselStanding.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc076.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleChiselStandingWiggle.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc082.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleChiselStandingWipeBrow.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\IdleCleanSword.hkx</hkcstring>
 				<hkcstring>Animations\IdleCoffin_Exit.HKX</hkcstring>
 				<hkcstring>Animations\IdleCoffin_Idle.HKX</hkcstring>
 				<hkcstring>Animations\IdleCowerEnter.hkx</hkcstring>
 				<hkcstring>Animations\IdleCowerExit.hkx</hkcstring>
 				<hkcstring>Animations\IdleCowerIdle.hkx</hkcstring>
-				<hkcstring>Animations\DLC02\IdleDLC02TentacleWordBurnEnd.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleDLC02TentacleWordBurnLoop.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleDLC02TentacleWordBurnStart.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleDLC2MiraakDeath.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleDLC2MiraakDeathEnd.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleDLC2MiraakDeathLoop.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleDLC2TentacleWarpBook.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc087.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleDLC02TentacleWordBurnEnd.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc089.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleDLC02TentacleWordBurnLoop.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc160.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleDLC02TentacleWordBurnStart.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc270.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleDLC2MiraakDeath.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc271.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleDLC2MiraakDeathEnd.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc272.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleDLC2MiraakDeathLoop.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc084.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleDLC2TentacleWarpBook.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\IdleDrinkFromFountain.hkx</hkcstring>
 				<hkcstring>Animations\IdleDrinkPotion.hkx</hkcstring>
 				<hkcstring>Animations\IdleDrunk.hkx</hkcstring>
@@ -939,14 +979,18 @@
 				<hkcstring>Animations\IdleSitLedge_Enter.hkx</hkcstring>
 				<hkcstring>Animations\IdleSitLedge_Exit.hkx</hkcstring>
 				<hkcstring>Animations\IdleSleepNod.hkx</hkcstring>
-				<hkcstring>Animations\DLC02\IdleStonePickUp_Cart.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleStonePutDown_Ground.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc056.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleStonePickUp_Cart.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc074.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleStonePutDown_Ground.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\IdleStudy.hkx</hkcstring>
 				<hkcstring>Animations\IdleStudy_enter.hkx</hkcstring>
 				<hkcstring>Animations\IdleStudy_exit.hkx</hkcstring>
 				<hkcstring>Animations\IdleTake.hkx</hkcstring>
-				<hkcstring>Animations\DLC02\IdleTelvanniTower_FloatDown.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\IdleTelvanniTower_FloatUp.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc083.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleTelvanniTower_FloatDown.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc081.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\IdleTelvanniTower_FloatUp.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\IdleValericaWalkForward.hkx</hkcstring>
 				<hkcstring>Animations\IdleWarmArms.hkx</hkcstring>
 				<hkcstring>Animations\IdleWarmHands.hkx</hkcstring>
@@ -969,8 +1013,10 @@
 				<hkcstring>Animations\IdleWriteTableStandingEnter.hkx</hkcstring>
 				<hkcstring>Animations\IdleWriteTableStandingExit.hkx</hkcstring>
 				<hkcstring>Animations\IdleWriteTableStandingIdle.hkx</hkcstring>
-				<hkcstring>Animations\DLC02\InvisibleShield.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\InvisibleWeapon.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc051.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\InvisibleShield.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISa010.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\InvisibleWeapon.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\horse_rider\JumpFall.hkx</hkcstring>
 				<hkcstring>Animations\horse_rider\JumpFall_Sprint.hkx</hkcstring>
 				<hkcstring>Animations\horse_rider\JumpLand.hkx</hkcstring>
@@ -1218,7 +1264,8 @@
 				<hkcstring>Animations\MT_Shout_Exhale_Medium.hkx</hkcstring>
 				<hkcstring>Animations\MT_Shout_Inhale.hkx</hkcstring>
 				<hkcstring>Animations\female\MT_SprintForward.hkx</hkcstring>
-				<hkcstring>Animations\MT_SprintForwardSword.hkx</hkcstring>
+				<hkcstring>Animations\female\MT_SprintForwardSword.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\MT_SprintForwardSword.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\MT_TurnLeft360.HKX</hkcstring>
 				<hkcstring>Animations\MT_TurnLeft60.hkx</hkcstring>
 				<hkcstring>Animations\MT_TurnRight360.HKX</hkcstring>
@@ -1275,16 +1322,22 @@
 				<hkcstring>Animations\OffsetWoodPosture.hkx</hkcstring>
 				<hkcstring>Animations\Paired_1HMBleedOutKill.hkx</hkcstring>
 				<hkcstring>Animations\Paired_1HMKillMove.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Boar\Paired_1HMKillMove_BoarSmash.HKX</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Boar\Paired_1HMKillMove_BoarStab.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc064.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Boar\Paired_1HMKillMove_BoarSmash.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc061.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Boar\Paired_1HMKillMove_BoarStab.HKX</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;ChaurusFlyer\Paired_1HMKillMove_ChaurusFlyerKick.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;ChaurusFlyer\Paired_1HMKillMove_ChaurusFlyerStomp.HKX</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Riekling\Paired_1HMKillMove_RieklingFaceStab.HKX</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Riekling\Paired_1HMKillMove_RieklingSlash.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc068.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Riekling\Paired_1HMKillMove_RieklingFaceStab.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc067.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Riekling\Paired_1HMKillMove_RieklingSlash.HKX</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;SabreCat\Paired_1HMKillMove_SabreCatShortA.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;SabreCat\Paired_1HMKillMove_SabreCatShortB.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Scrib\Paired_1HMKillMove_ScribSlash.HKX</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Scrib\Paired_1HMKillMove_ScribStab.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc059.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Scrib\Paired_1HMKillMove_ScribSlash.HKX</hkcstring>				<!-- original -->
+				<hkcstring>Animations\FNIS\FNISc057.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Scrib\Paired_1HMKillMove_ScribStab.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\Paired_1HMKillMove_Short_A.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;VampireBrute\Paired_1HMKillMove_VBSlowBackStab.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;VampireBrute\Paired_1HMKillMove_VBSoccerKick.HKX</hkcstring>
@@ -1295,7 +1348,8 @@
 				<hkcstring>Animations\Paired_1HMKillMoveBackStab.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Bear\Paired_1HMKillMoveBearA.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Bear\Paired_1HMKillMoveBearB.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;BenthicLurker\Paired_1HMKillMoveBenthicLurkerSlash.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc071.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;BenthicLurker\Paired_1HMKillMoveBenthicLurkerSlash.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\Paired_1HMKillMoveC.hkx</hkcstring>
 				<hkcstring>Animations\Paired_1HMKillMoveD.hkx</hkcstring>
 				<hkcstring>Animations\Paired_1HMKillMoveDecapBleedOut.hkx</hkcstring>
@@ -1308,7 +1362,8 @@
 				<hkcstring>..\SharedKillMoves\Human&amp;Draugr\Paired_1HMKillMoveDraugrShortB.hkx</hkcstring>
 				<hkcstring>Animations\Paired_1HMKillMoveDualWieldA.hkx</hkcstring>
 				<hkcstring>Animations\Paired_1HMKillMoveDualWieldDecap.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;DwarvenBallistaSlash\Paired_1HMKillMoveDwarvenBallistaSlash.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc069.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;DwarvenBallistaSlash\Paired_1HMKillMoveDwarvenBallistaSlash.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\Paired_1HMKillMoveE.hkx</hkcstring>
 				<hkcstring>Animations\Paired_1HMKillMoveF.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Falmer\Paired_1HMKillMoveFalmerA.hkx</hkcstring>
@@ -1345,23 +1400,28 @@
 				<hkcstring>..\SharedKillMoves\Human&amp;Wolf\Paired_1HMKillMoveWolfA.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Wolf\Paired_1HMKillMoveWolfB.hkx</hkcstring>
 				<hkcstring>Animations\Paired_1HMSneakKillBackA.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Boar\Paired_2HMKillMove_BoarSlash.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc055.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Boar\Paired_2HMKillMove_BoarSlash.HKX</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;ChaurusFlyer\Paired_2HMKillMove_ChaurusFlyerStabDown.HKX</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Riekling\Paired_2HMKillMove_RieklingSlash.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc060.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Riekling\Paired_2HMKillMove_RieklingSlash.HKX</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;SabreCat\Paired_2HMKillMove_SabreCatA.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;SabreCat\Paired_2HMKillMove_SabreCatB.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Scrib\Paired_2HMKillMove_ScribSlash.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc053.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Scrib\Paired_2HMKillMove_ScribSlash.HKX</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;VampireBrute\Paired_2HMKillMove_VBBlockAndSlash.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Werewolf\Paired_2HMKillMove_WWGutStab.HKX</hkcstring>
 				<hkcstring>Animations\Patch_1.5\Paired_2HMKillMove3Slash.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Bear\Paired_2HMKillMoveBearA.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Bear\Paired_2HMKillMoveBearB.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;BenthicLurker\Paired_2HMKillMoveBenthicLurkerStab.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc065.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;BenthicLurker\Paired_2HMKillMoveBenthicLurkerStab.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\Paired_2HMKillMoveDecapBleedOut.hkx</hkcstring>
 				<hkcstring>Animations\Paired_2HMKillMoveDecapSlash.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Dragon\Paired_2HMKillMoveDragonSlash.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Draugr\Paired_2HMKillMoveDraugrA.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;DwarvenBallistaSlash\Paired_2HMKillMoveDwarvenBallistaSlash.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc066.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;DwarvenBallistaSlash\Paired_2HMKillMoveDwarvenBallistaSlash.hkx</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;Falmer\Paired_2HMKillMoveFalmerA.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Falmer\Paired_2HMKillMoveFalmerB.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Giant\Paired_2HMKillMoveGiantA.hkx</hkcstring>
@@ -1377,23 +1437,28 @@
 				<hkcstring>Animations\Patch_1.5\Paired_2HMKillMoveUnderSwingLeg.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Wolf\Paired_2HMKillMoveWolfA.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Wolf\Paired_2HMKillMoveWolfB.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Boar\Paired_2HWKillMove_BoarSmash.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc054.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Boar\Paired_2HWKillMove_BoarSmash.HKX</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;ChaurusFlyer\Paired_2HWKillMove_ChaurusFlyerPullDownSlash.HKX</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Riekling\Paired_2HWKillMove_RieklingSmash.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc058.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Riekling\Paired_2HWKillMove_RieklingSmash.HKX</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;SabreCat\Paired_2HWKillMove_SabreCatA.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;Scrib\Paired_2HWKillMove_ScribSmash.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc052.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;Scrib\Paired_2HWKillMove_ScribSmash.HKX</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;VampireBrute\Paired_2HWKillMove_VBBackBreaker.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Werewolf\Paired_2HWKillMove_WWEvadeSlash.HKX</hkcstring>
 				<hkcstring>Animations\Paired_2HWKillMoveA.hkx</hkcstring>
 				<hkcstring>Animations\Paired_2HWKillMoveB.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Bear\Paired_2HWKillMoveBearA.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;BenthicLurker\Paired_2HWKillMoveBenthicLurkerSlash.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc063.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;BenthicLurker\Paired_2HWKillMoveBenthicLurkerSlash.hkx</hkcstring>				<!-- original -->
 				<hkcstring>Animations\Patch_1.5\Paired_2HWKillMoveChopKick.HKX</hkcstring>
 				<hkcstring>Animations\Paired_2HWKillMoveDecapBleedOut.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Dragon\Paired_2HWKillMoveDragonRodeoSlash.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Dragon\Paired_2HWKillMoveDragonSlash.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Draugr\Paired_2HWKillMoveDraugrA.hkx</hkcstring>
-				<hkcstring>..\SharedKillMoves\Human&amp;DwarvenBallistaSlash\Paired_2HWKillMoveDwarvenBallistaSlash.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc062.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>..\SharedKillMoves\Human&amp;DwarvenBallistaSlash\Paired_2HWKillMoveDwarvenBallistaSlash.hkx</hkcstring>				<!-- original -->
 				<hkcstring>..\SharedKillMoves\Human&amp;Falmer\Paired_2HWKillMoveFalmerA.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Giant\Paired_2HWKillMoveGiantA.hkx</hkcstring>
 				<hkcstring>Animations\Patch_1.5\Paired_2HWKillMoveHackFromBehind.HKX</hkcstring>
@@ -1406,7 +1471,8 @@
 				<hkcstring>..\SharedKillMoves\Human&amp;Wolf\Paired_2HWKillMoveWolfA.hkx</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Dragon\Paired_BiteGrapple.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Horse\Paired_Dismount.hkx</hkcstring>
-				<hkcstring>Animations\DLC02\Paired_DLC02RipHeartOut.HKX</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc050.hkx</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\Paired_DLC02RipHeartOut.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\DLC01\Paired_DLC1SeranaHoldsVyrthur.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Dragon\Paired_DragonCallDismount.HKX</hkcstring>
 				<hkcstring>..\SharedKillMoves\Human&amp;Dragon\Paired_DragonCallMount.HKX</hkcstring>
@@ -1625,7 +1691,8 @@
 				<hkcstring>Animations\Special_CornerPeekLoop.HKX</hkcstring>
 				<hkcstring>Animations\DLC01\Special_DLC01CoffinExit.HKX</hkcstring>
 				<hkcstring>Animations\DLC01\Special_DLC01CoffinIdle.HKX</hkcstring>
-				<hkcstring>Animations\DLC02\Special_DragonMountSitIdle.HKX</hkcstring>
+				<hkcstring>Animations\Special_DragonMountSitIdle.HKX</hkcstring>					<!-- *momo* -->
+				<hkcstring>Animations\DLC02\Special_DragonMountSitIdle.HKX</hkcstring>				<!-- original -->
 				<hkcstring>Animations\Special_DwemerExtractor.HKX</hkcstring>
 				<hkcstring>Animations\Special_HollowHornBlow.HKX</hkcstring>
 				<hkcstring>Animations\female\Special_HorzCoffinEnter.HKX</hkcstring>
@@ -1811,11 +1878,374 @@
 				<hkcstring>Animations\Horsemen\HMMC_CastReleaseFFSelf.hkx</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *momo* -->
+				<hkcstring>Animations\FNIS\FNISc162.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc163.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc164.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc165.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc166.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc167.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc168.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc169.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc170.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc171.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc172.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc173.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc174.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc175.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc176.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc177.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc178.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc179.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc180.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc181.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc182.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc183.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc184.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc185.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc186.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc187.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc188.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc189.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc190.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc191.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc192.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc193.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc194.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc195.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc196.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc197.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc198.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc199.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc273.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc274.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc275.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc276.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc277.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc278.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc279.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc280.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc281.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc282.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc283.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc284.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc285.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc286.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc287.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc288.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc289.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc290.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc291.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc292.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc293.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc294.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc295.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc296.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc297.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc298.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc299.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa013.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa014.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa015.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa016.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa017.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa018.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa019.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa020.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa021.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa022.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa023.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa024.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa025.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa026.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa027.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa028.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa029.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa030.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa031.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa032.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa033.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa034.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa035.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa036.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa037.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa038.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa039.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa040.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa041.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa042.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa043.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa044.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa045.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa046.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa047.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa048.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa049.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo010.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo011.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo012.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo013.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo014.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo015.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo016.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo017.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo018.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo019.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo020.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo021.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo022.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo023.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo024.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo025.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo026.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo027.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo028.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo029.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo030.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo031.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo032.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo033.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISo034.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb010.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb011.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb012.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb013.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb014.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb015.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb016.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb017.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb018.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb019.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb020.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb021.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb022.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb023.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb024.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb025.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb026.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb027.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb028.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb029.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb030.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb031.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb032.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb033.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISb034.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc200.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc201.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc202.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc203.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc204.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc205.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc206.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc207.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc208.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc209.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc210.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc211.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc212.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc213.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc214.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc215.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc216.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc217.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc218.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc219.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc220.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc221.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc222.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc223.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc224.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc225.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc226.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc227.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc228.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc229.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc230.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc231.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc232.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc233.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc234.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc235.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc236.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc237.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc238.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc239.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc240.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc241.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc242.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc001.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc243.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc002.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc244.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc003.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc245.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc004.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc246.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc005.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc247.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc006.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc248.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc007.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc249.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc008.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc250.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc009.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc251.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc010.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc252.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc011.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc253.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc012.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc254.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc013.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc255.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc014.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc256.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc015.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc257.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc016.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc258.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc017.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc259.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc018.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc260.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc019.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc261.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISc020.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc262.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISa001.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc263.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISa002.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc264.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISa003.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc265.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISa004.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc266.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISa005.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc267.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISa006.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc268.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISa007.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISc269.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISa008.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa050.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISa009.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa051.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISo001.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa052.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISo002.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa053.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISo003.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa054.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISo004.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa055.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISo005.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa056.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISo006.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa057.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISo007.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa058.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISo008.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa059.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISo009.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa060.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISb001.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa061.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISb002.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa062.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISb003.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa063.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISb004.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa064.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISb005.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa065.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISb006.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa066.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISb007.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa067.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISb008.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa068.hkx</hkcstring>
+				<hkcstring>Animations\FNISBase\FNISb009.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa069.hkx</hkcstring>
 				<hkcstring>Animations\MomoAJ\mt_jumpfastback.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa070.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa071.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa072.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa073.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa074.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa075.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa076.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa077.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa078.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa079.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa080.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa081.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa082.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa083.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa084.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa085.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa086.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa087.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa088.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa089.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa090.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa091.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa092.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa093.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa094.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa095.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa096.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa097.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa098.hkx</hkcstring>
+				<hkcstring>Animations\FNIS\FNISa099.hkx</hkcstring>
 				<hkcstring>Animations\MomoAJ\mt_jumpfallback.hkx</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *skice* -->
 				<hkcstring>Animations\1hm_UnsheatheAttack.hkx</hkcstring>
+<!-- CLOSE -->
+<!-- NEW *tkuc* -->
+				<hkcstring>Animations\TKDodge\Stepdodgeback.hkx</hkcstring>
+				<hkcstring>Animations\TKDodge\Stepdodgeforward.hkx</hkcstring>
+				<hkcstring>Animations\TKDodge\Stepdodgeleft.hkx</hkcstring>
+				<hkcstring>Animations\TKDodge\Stepdodgeright.hkx</hkcstring>
+<!-- CLOSE -->
+<!-- NEW *tudm* -->
+				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
+				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
+				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkForward.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkBackward.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkBackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PLWalkBackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkForward.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkForwardRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkForwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkBackward.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkBackwardRight.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PRWalkBackwardLeft.hkx</hkcstring>
+				<hkcstring>Animations\2hm_Idle_PL.hkx</hkcstring>
+				<hkcstring>Animations\2hm_Idle_PR.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PR2L.hkx</hkcstring>
+				<hkcstring>Animations\2hm_PL2R.hkx</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
 				<hkcstring>Animations\Z_1HM\Mac_Dual_Equip.hkx</hkcstring>
@@ -1864,44 +2294,6 @@
 				<hkcstring>Animations\NullClip.hkx</hkcstring>
 				<hkcstring>Animations\H2H_BlockAnticipate.hkx</hkcstring>
 				<hkcstring>Animations\Z_STF\stf_bash.hkx</hkcstring>
-<!-- CLOSE -->
-<!-- NEW *tudm* -->
-				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PL.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PR.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PR2L.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PL2R.hkx</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="animationFilenames" numelements="0"></hkparam>

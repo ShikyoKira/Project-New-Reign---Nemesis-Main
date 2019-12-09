@@ -1,11 +1,10 @@
-		<hkobject name="#tkuc$10" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">$variableID[iStepSelector]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#tkuc$10" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tkuc$11</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">TKDodgeForward_MSG</hkparam>
+			<hkparam name="generators" numelements="4">
+				#tkuc$6 #tkuc$7 #tkuc$8 #tkuc$12
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

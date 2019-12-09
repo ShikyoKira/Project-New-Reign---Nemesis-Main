@@ -1,21 +1,15 @@
-		<hkobject name="#tudm$353" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
-			<hkparam name="variableBindingSet">#tudm$305</hkparam>
+		<hkobject name="#tudm$353" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HM_AttackRightNPC_BSCyclicBlendTransitionGenerator</hkparam>
-			<hkparam name="pBlenderGenerator">#tudm$354</hkparam>
-			<hkparam name="EventToFreezeBlendValue">
-				<hkobject>
-					<hkparam name="id">194</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
+			<hkparam name="name">2HM_AttackRightNPC_Blend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">0.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">49</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="4">
+				#tudm$352 #tudm$339 #tudm$328 #tudm$317
 			</hkparam>
-			<hkparam name="EventToCrossBlend">
-				<hkobject>
-					<hkparam name="id">195</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="fBlendParameter">0.000000</hkparam>
-			<hkparam name="fTransitionDuration">0.200000</hkparam>
-			<hkparam name="eBlendCurve">BLEND_CURVE_SMOOTH</hkparam>
 		</hkobject>

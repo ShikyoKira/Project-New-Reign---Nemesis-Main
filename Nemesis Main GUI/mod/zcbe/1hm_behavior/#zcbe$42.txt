@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$42" class="hkbTwistModifier" signature="0xb6b76b32">
-			<hkparam name="variableBindingSet">#zcbe$43</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$45</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_FixBowJumpAim_TM</hkparam>
 			<hkparam name="enable">true</hkparam>

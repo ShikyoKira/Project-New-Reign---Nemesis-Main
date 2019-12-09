@@ -1,15 +1,16 @@
-		<hkobject name="#tudm$332" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#tudm$337</hkparam>
+		<hkobject name="#tudm$332" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">#tudm$316</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HM_Forward_AttackRightNPC_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">25.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">17</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="3">
-				#tudm$339 #tudm$338 #tudm$333
-			</hkparam>
+			<hkparam name="name">2HW_RunFwdAttackRightNPC</hkparam>
+			<hkparam name="animationName">Animations\2HW_RunFwdAttackRight.HKX</hkparam>
+			<hkparam name="triggers">#tudm$320</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">1.100000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">16</hkparam>
 		</hkobject>

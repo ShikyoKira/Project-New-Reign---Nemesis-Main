@@ -17,7 +17,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$37</hkparam>
+					<hkparam name="transition">#zcbe$36</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[JumpDirectionalStart]$</hkparam>
 					<hkparam name="toStateId">2</hkparam>
@@ -44,7 +44,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0091</hkparam>
-					<hkparam name="condition">#zcbe$35</hkparam>
+					<hkparam name="condition">#zcbe$39</hkparam>
 					<hkparam name="eventId">$eventID[JumpLandEnd]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -122,7 +122,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#zcbe$38</hkparam>
-					<hkparam name="condition">#zcbe$36</hkparam>
+					<hkparam name="condition">#zcbe$35</hkparam>
 					<hkparam name="eventId">$eventID[JumpFall]$</hkparam>
 					<hkparam name="toStateId">2</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -148,7 +148,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#zcbe$38</hkparam>
-					<hkparam name="condition">#zcbe$36</hkparam>
+					<hkparam name="condition">#zcbe$35</hkparam>
 					<hkparam name="eventId">$eventID[JumpFallDirectional]$</hkparam>
 					<hkparam name="toStateId">2</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

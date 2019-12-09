@@ -1,16 +1,9 @@
-		<hkobject name="#zcbe$277" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#zcbe$350</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">BSIsActiveModifier_DragonState</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="bIsActive0">false</hkparam>
-			<hkparam name="bInvertActive0">false</hkparam>
-			<hkparam name="bIsActive1">false</hkparam>
-			<hkparam name="bInvertActive1">false</hkparam>
-			<hkparam name="bIsActive2">false</hkparam>
-			<hkparam name="bInvertActive2">false</hkparam>
-			<hkparam name="bIsActive3">false</hkparam>
-			<hkparam name="bInvertActive3">false</hkparam>
-			<hkparam name="bIsActive4">false</hkparam>
-			<hkparam name="bInvertActive4">false</hkparam>
+		<hkobject name="#zcbe$277" class="hkbBoneWeightArray" signature="0xcd902b77">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="boneWeights" numelements="64">
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000
+				1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000
+				1.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 0.000000 0.000000
+			</hkparam>
 		</hkobject>

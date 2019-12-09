@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RunForwardRightFast</hkparam>
 			<hkparam name="animationName">Animations\Mag_RunForwardRight.HKX</hkparam>
-			<hkparam name="triggers">#zcbe$298</hkparam>
+			<hkparam name="triggers">#zcbe$297</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

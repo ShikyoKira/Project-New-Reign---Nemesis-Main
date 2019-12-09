@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HMSpecialAttackA</hkparam>
 			<hkparam name="animationName">Animations\Paired_1HMKillMoveD.hkx</hkparam>
-			<hkparam name="triggers">#tkuc$180</hkparam>
+			<hkparam name="triggers">#tkuc$179</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.002000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

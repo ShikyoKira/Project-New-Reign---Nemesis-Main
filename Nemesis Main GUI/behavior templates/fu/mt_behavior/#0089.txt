@@ -3718,6 +3718,7 @@
 					<hkparam name="priority">0</hkparam>
 					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_ALLOW_SELF_TRANSITION_BY_TRANSITION_FROM_ANY_STATE|FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
+<!-- FOREACH ^fu_master^ -->
 <!-- FOREACH ^fu_group^ -->
 				<hkobject>
 					<hkparam name="triggerInterval">
@@ -3739,12 +3740,13 @@
 					<hkparam name="transition">#0086</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[fu_group[][F][main_anim_event]]$</hkparam>
-					<hkparam name="toStateId">$(S+0)$</hkparam>
+					<hkparam name="toStateId">$fu_master[(S+0)]$</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">$fu_group[][(S+0)]$</hkparam>
 					<hkparam name="priority">0</hkparam>
-					<hkparam name="flags">FLAG_IS_LOCAL_WILDCARD|FLAG_IS_GLOBAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
+					<hkparam name="flags">FLAG_TO_NESTED_STATE_ID_IS_VALID|FLAG_IS_LOCAL_WILDCARD|FLAG_DISABLE_CONDITION</hkparam>
 				</hkobject>
+<!-- CLOSE -->
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

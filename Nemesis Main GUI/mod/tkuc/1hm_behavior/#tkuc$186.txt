@@ -1,5 +1,5 @@
 		<hkobject name="#tkuc$186" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#tkuc$183</hkparam>
+			<hkparam name="variableBindingSet">#tkuc$182</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">UltimateCombatAttack_Behavior</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">0</hkparam>
 			<hkparam name="selfTransitionMode">0</hkparam>
 			<hkparam name="states" numelements="16">
-				#tkuc$182 #tkuc$179 #tkuc$177 #tkuc$171 #tkuc$167 #tkuc$163 #tkuc$159 #tkuc$155 #tkuc$154 #tkuc$147 #tkuc$143 #tkuc$139 #tkuc$134 #tkuc$131 #tkuc$126 #tkuc$123
+				#tkuc$183 #tkuc$180 #tkuc$174 #tkuc$175 #tkuc$164 #tkuc$167 #tkuc$161 #tkuc$155 #tkuc$153 #tkuc$150 #tkuc$145 #tkuc$140 #tkuc$134 #tkuc$133 #tkuc$126 #tkuc$123
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

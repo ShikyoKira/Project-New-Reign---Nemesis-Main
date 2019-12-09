@@ -117,7 +117,7 @@
 		<hkobject name="#MID$6" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">$MC$</hkparam>			<!-- ^first^ IdleBlessingKneelEnter --> <!-- Nemsis_Furniture_Clip_$%$ -->
+			<hkparam name="name">$MC$</hkparam>			<!-- ^first^ IdleBlessingKneelEnter --> <!-- Nemsis_Optimized_Furniture_Clip_$%$ -->
 			<hkparam name="animationName">Animations\$FilePath$</hkparam>
 			<hkparam name="triggers">$MC$</hkparam>			<!-- T|a|^last^ #MID$7 --> <!-- null -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>

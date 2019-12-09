@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">EventDrivenModifier29</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$78</hkparam>
+			<hkparam name="modifier">#zcbe$76</hkparam>
 			<hkparam name="activateEventId">$eventID[HeadtrackOn_Z]$</hkparam>
 			<hkparam name="deactivateEventId">$eventID[HeadtrackOff_Z]$</hkparam>
 			<hkparam name="activeByDefault">true</hkparam>

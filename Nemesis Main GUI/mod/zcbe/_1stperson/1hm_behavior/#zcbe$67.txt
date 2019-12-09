@@ -1,11 +1,26 @@
-		<hkobject name="#zcbe$67" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
+		<hkobject name="#zcbe$67" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_1HMReadyOrJumpBehavior_SM</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
 				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">$variableID[fNPCPitch_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">0</hkparam>
+			<hkparam name="selfTransitionMode">0</hkparam>
+			<hkparam name="states" numelements="2">
+				#zcbe$75 #zcbe$74
+			</hkparam>
+			<hkparam name="wildcardTransitions">#zcbe$69</hkparam>
 		</hkobject>

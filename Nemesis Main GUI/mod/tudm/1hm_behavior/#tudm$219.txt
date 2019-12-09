@@ -1,5 +1,5 @@
 		<hkobject name="#tudm$219" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#tudm$218</hkparam>
+			<hkparam name="variableBindingSet">#tudm$217</hkparam>
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">DodgeRollAllowRotationModifier</hkparam>
 			<hkparam name="enable">true</hkparam>

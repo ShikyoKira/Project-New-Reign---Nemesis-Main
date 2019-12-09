@@ -2,6 +2,6 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">BleedoutTurnRightModifierGenerator</hkparam>
-			<hkparam name="modifier">#zcbe$637</hkparam>
+			<hkparam name="modifier">#zcbe$638</hkparam>
 			<hkparam name="generator">#zcbe$635</hkparam>
 		</hkobject>

@@ -1,15 +1,11 @@
-		<hkobject name="#zcbe$87" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#zcbe$93</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">StaffMagicCast_TurnLeft_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">16</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="4">
-				#zcbe$97 #zcbe$98 #zcbe$99 #zcbe$96
+		<hkobject name="#zcbe$87" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">blendParameter</hkparam>
+					<hkparam name="variableIndex">5</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
 			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

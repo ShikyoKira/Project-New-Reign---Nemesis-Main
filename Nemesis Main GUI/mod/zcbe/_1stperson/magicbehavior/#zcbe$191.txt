@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">StaffLocomotionRHandSelectorMSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#zcbe$310 #zcbe$310 #zcbe$310 #zcbe$310 #zcbe$310 #zcbe$310 #zcbe$310 #zcbe$310 #zcbe$323 #zcbe$310 #zcbe$310 #zcbe$310
+				#zcbe$309 #zcbe$309 #zcbe$309 #zcbe$309 #zcbe$309 #zcbe$309 #zcbe$309 #zcbe$309 #zcbe$323 #zcbe$309 #zcbe$309 #zcbe$309
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

@@ -1,5 +1,5 @@
 		<hkobject name="#tkuc$115" class="hkbTwistModifier" signature="0xb6b76b32">
-			<hkparam name="variableBindingSet">#tkuc$114</hkparam>
+			<hkparam name="variableBindingSet">#tkuc$118</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">AimingBowAttackLeftArmTwistModifier</hkparam>
 			<hkparam name="enable">true</hkparam>

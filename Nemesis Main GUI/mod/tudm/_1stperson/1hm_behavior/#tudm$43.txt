@@ -2,7 +2,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">startStateId</hkparam>
-					<hkparam name="variableIndex">$variableID[DodgeID]$</hkparam>
+					<hkparam name="variableIndex">101</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>

@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">DragonRider_Magic_Equip_SwitchGen</hkparam>
 			<hkparam name="ChildrenA" numelements="1">
-				#zcbe$338
+				#zcbe$337
 			</hkparam>
-			<hkparam name="pDefaultGenerator">#zcbe$275</hkparam>
+			<hkparam name="pDefaultGenerator">#zcbe$278</hkparam>
 		</hkobject>

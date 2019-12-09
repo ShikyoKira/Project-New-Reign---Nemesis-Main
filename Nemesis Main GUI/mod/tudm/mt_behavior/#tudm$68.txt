@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">0</hkparam>
 			<hkparam name="selfTransitionMode">0</hkparam>
 			<hkparam name="states" numelements="8">
-				#tudm$69 #tudm$59 #tudm$51 #tudm$43 #tudm$36 #tudm$27 #tudm$19 #tudm$11
+				#tudm$70 #tudm$62 #tudm$51 #tudm$43 #tudm$35 #tudm$27 #tudm$21 #tudm$13
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

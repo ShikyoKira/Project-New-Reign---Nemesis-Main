@@ -1,28 +1,15 @@
-		<hkobject name="#zcbe$237" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="2">
-				<hkobject>
-					<hkparam name="localTime">0.033333</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">12</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">0.733333</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">11</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$237" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#zcbe$240</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Magic_BackwardLeftBlend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">17</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="4">
+				#zcbe$241 #zcbe$242 #zcbe$243 #zcbe$238
 			</hkparam>
 		</hkobject>

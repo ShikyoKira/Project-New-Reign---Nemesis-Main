@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">MLh_Staff_LocomotionBoneSwitch</hkparam>
 			<hkparam name="ChildrenA" numelements="1">
-				#zcbe$340
+				#zcbe$339
 			</hkparam>
 			<hkparam name="pDefaultGenerator">#zcbe$193</hkparam>
 		</hkobject>

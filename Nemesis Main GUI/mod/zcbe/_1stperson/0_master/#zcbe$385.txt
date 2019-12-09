@@ -2,7 +2,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">pa_VampireFeedStanding_Front</hkparam>
-			<hkparam name="pClipGenerator">#zcbe$388</hkparam>
+			<hkparam name="pClipGenerator">#zcbe$386</hkparam>
 			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
 			<hkparam name="bSyncClipIgnoreMarkPlacement">false</hkparam>
 			<hkparam name="fGetToMarkTime">0.000000</hkparam>

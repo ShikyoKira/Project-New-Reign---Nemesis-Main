@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Sneak_TurnRight60</hkparam>
 			<hkparam name="animationName">Animations\Sneak_TurnRight60.HKX</hkparam>
-			<hkparam name="triggers">#zcbe$72</hkparam>
+			<hkparam name="triggers">#zcbe$70</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

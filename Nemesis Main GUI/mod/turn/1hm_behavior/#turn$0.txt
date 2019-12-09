@@ -1,9 +1,9 @@
-		<hkobject name="#turn$0" class="BSBoneSwitchGenerator" signature="0xf33d3eea">
+		<hkobject name="#turn$0" class="hkbModifierList" signature="0xa4180ca1">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Weap_TurnRight_BoneSwitch</hkparam>
-			<hkparam name="pDefaultGenerator">#4277</hkparam>
-			<hkparam name="ChildrenA" numelements="1">
-				#turn$1
+			<hkparam name="name">BowAttack_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="6">
+				#turn$11 #turn$12 #0429 #turn$9 #turn$8 #turn$7
 			</hkparam>
 		</hkobject>

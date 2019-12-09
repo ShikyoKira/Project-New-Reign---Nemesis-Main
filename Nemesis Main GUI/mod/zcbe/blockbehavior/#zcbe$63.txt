@@ -1,7 +1,7 @@
 		<hkobject name="#zcbe$63" class="hkbStateMachine" signature="0x816c1dcb">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_Tor_MirrorBlockIdle_SM</hkparam>
+			<hkparam name="name">Z_1HM_BlockIdleSM</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
 				<hkobject>
 					<hkparam name="id">-1</hkparam>
@@ -19,8 +19,8 @@
 			<hkparam name="maxSimultaneousTransitions">32</hkparam>
 			<hkparam name="startStateMode">0</hkparam>
 			<hkparam name="selfTransitionMode">0</hkparam>
-			<hkparam name="states" numelements="2">
-				#zcbe$75 #zcbe$74
+			<hkparam name="states" numelements="4">
+				#zcbe$64 #zcbe$65 #zcbe$66 #zcbe$67
 			</hkparam>
-			<hkparam name="wildcardTransitions">#zcbe$73</hkparam>
+			<hkparam name="wildcardTransitions">#zcbe$60</hkparam>
 		</hkobject>

@@ -1,11 +1,12 @@
-		<hkobject name="#zcbe$76" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
+		<hkobject name="#zcbe$76" class="BSEventOnDeactivateModifier" signature="0x1062d993">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">EventOnDeactivateModifier23</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="event">
 				<hkobject>
-					<hkparam name="memberPath">bVariableToTest1</hkparam>
-					<hkparam name="variableIndex">69</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+					<hkparam name="id">66</hkparam>
+					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

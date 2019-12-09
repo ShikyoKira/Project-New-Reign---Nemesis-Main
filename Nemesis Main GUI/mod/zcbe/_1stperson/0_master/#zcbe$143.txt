@@ -2,6 +2,6 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">GetUpFromRagdollModGen</hkparam>
-			<hkparam name="modifier">#zcbe$142</hkparam>
+			<hkparam name="modifier">#zcbe$140</hkparam>
 			<hkparam name="generator">#zcbe$144</hkparam>
 		</hkobject>

@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$1" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#zcbe$64</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$65</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HM_AttackPowerFwdUncropped_1</hkparam>
 			<hkparam name="animationName">Animations\1HM_AttackPowerFwd.hkx</hkparam>

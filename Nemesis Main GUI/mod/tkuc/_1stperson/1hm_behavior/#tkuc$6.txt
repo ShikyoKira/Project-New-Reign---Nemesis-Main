@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#tkuc$22</hkparam>
-			<hkparam name="generator">#tkuc$19</hkparam>
+			<hkparam name="transitions">#tkuc$20</hkparam>
+			<hkparam name="generator">#tkuc$21</hkparam>
 			<hkparam name="name">TKDodgeState</hkparam>
 			<hkparam name="stateId">21</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

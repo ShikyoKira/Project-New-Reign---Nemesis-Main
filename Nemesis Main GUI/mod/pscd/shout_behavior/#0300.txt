@@ -5,7 +5,7 @@
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0303</hkparam>
 <!-- MOD_CODE ~pscd~ OPEN -->
-			<hkparam name="generator">#pscd$10</hkparam>
+			<hkparam name="generator">#pscd$11</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#0301</hkparam>
 <!-- CLOSE -->

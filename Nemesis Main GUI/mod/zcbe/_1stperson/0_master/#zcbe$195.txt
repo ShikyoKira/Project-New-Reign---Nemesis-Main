@@ -4,6 +4,6 @@
 			<hkparam name="name">RagdollModList</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="3">
-				#zcbe$194 #zcbe$191 #zcbe$140
+				#zcbe$194 #zcbe$191 #zcbe$141
 			</hkparam>
 		</hkobject>

@@ -1,27 +1,11 @@
-		<hkobject name="#zcbe$459" class="hkbComputeDirectionModifier" signature="0xdf358bd3">
-			<hkparam name="variableBindingSet">#zcbe$463</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_NPCGetAim_CDM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="pointIn">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
+		<hkobject name="#zcbe$459" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">enable</hkparam>
+					<hkparam name="variableIndex">82</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="pointOut">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-			</hkparam>
-			<hkparam name="groundAngleOut">0.000000</hkparam>
-			<hkparam name="upAngleOut">0.000000</hkparam>
-			<hkparam name="verticalOffset">0.000000</hkparam>
-			<hkparam name="reverseGroundAngle">false</hkparam>
-			<hkparam name="reverseUpAngle">false</hkparam>
-			<hkparam name="projectPoint">false</hkparam>
-			<hkparam name="normalizePoint">false</hkparam>
-			<hkparam name="computeOnlyOnce">false</hkparam>
-			<hkparam name="computedOutput">true</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

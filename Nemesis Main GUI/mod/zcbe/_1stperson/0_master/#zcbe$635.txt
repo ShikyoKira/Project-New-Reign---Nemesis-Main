@@ -1,9 +1,9 @@
 		<hkobject name="#zcbe$635" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#zcbe$638</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$636</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BleedOut_TurnRight</hkparam>
 			<hkparam name="animationName">Animations\BleedOut_TurnRight.hkx</hkparam>
-			<hkparam name="triggers">#zcbe$636</hkparam>
+			<hkparam name="triggers">#zcbe$637</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

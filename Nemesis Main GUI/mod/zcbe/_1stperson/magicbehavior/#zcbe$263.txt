@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$263" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#zcbe$266</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$269</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_BackwardRightBlend</hkparam>
 			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>

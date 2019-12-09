@@ -1,5 +1,5 @@
 		<hkobject name="#tudm$202" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#tudm$100</hkparam>
+			<hkparam name="variableBindingSet">#tudm$98</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Right_DodgeStyle</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">

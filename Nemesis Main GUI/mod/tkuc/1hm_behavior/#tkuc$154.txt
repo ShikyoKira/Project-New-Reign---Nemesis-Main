@@ -1,12 +1,14 @@
-		<hkobject name="#tkuc$154" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+		<hkobject name="#tkuc$154" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>
-			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#tkuc$150</hkparam>
-			<hkparam name="name">2HMSpecialAttackB</hkparam>
-			<hkparam name="stateId">18</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Sync_2HMSpecialAttackA</hkparam>
+			<hkparam name="pClipGenerator">#tkuc$151</hkparam>
+			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
+			<hkparam name="bSyncClipIgnoreMarkPlacement">true</hkparam>
+			<hkparam name="fGetToMarkTime">0.000000</hkparam>
+			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
+			<hkparam name="bLeadCharacter">false</hkparam>
+			<hkparam name="bReorientSupportChar">true</hkparam>
+			<hkparam name="bApplyMotionFromRoot">false</hkparam>
+			<hkparam name="sAnimationBindingIndex">-1</hkparam>
 		</hkobject>

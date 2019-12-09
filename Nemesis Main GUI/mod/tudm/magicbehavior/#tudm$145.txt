@@ -1,26 +1,11 @@
-		<hkobject name="#tudm$145" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#tudm$28</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">ForwardDodgeStyle</hkparam>
-			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+		<hkobject name="#tudm$145" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
 				<hkobject>
-					<hkparam name="id">-1</hkparam>
-					<hkparam name="payload">null</hkparam>
+					<hkparam name="memberPath">bIsActive0</hkparam>
+					<hkparam name="variableIndex">81</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="startStateChooser">null</hkparam>
-			<hkparam name="startStateId">0</hkparam>
-			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
-			<hkparam name="randomTransitionEventId">-1</hkparam>
-			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
-			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
-			<hkparam name="syncVariableIndex">-1</hkparam>
-			<hkparam name="wrapAroundStateId">false</hkparam>
-			<hkparam name="maxSimultaneousTransitions">32</hkparam>
-			<hkparam name="startStateMode">0</hkparam>
-			<hkparam name="selfTransitionMode">0</hkparam>
-			<hkparam name="states" numelements="2">
-				#tudm$140 #tudm$142
-			</hkparam>
-			<hkparam name="wildcardTransitions">null</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

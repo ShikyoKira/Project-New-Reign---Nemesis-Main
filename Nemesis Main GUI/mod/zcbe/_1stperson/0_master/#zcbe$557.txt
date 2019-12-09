@@ -2,7 +2,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">bIsActive0</hkparam>
-					<hkparam name="variableIndex">$variableID[bIsSwimming_Z]$</hkparam>
+					<hkparam name="variableIndex">237</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>

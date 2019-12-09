@@ -1,6 +1,7 @@
-		<hkobject name="#zcbe$93" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
+		<hkobject name="#zcbe$93" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_SwimIdleBehavior_BRG</hkparam>
-			<hkparam name="behaviorName">Behaviors\SwimIdleBehavior.hkx</hkparam>
+			<hkparam name="generator">#4068</hkparam>
+			<hkparam name="boneWeights">#zcbe$91</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">0.000000</hkparam>
 		</hkobject>

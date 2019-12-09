@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$277" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#zcbe$280</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$284</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Magic_RightBlend</hkparam>
 			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
@@ -10,6 +10,6 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="5">
-				#zcbe$284 #zcbe$285 #zcbe$286 #zcbe$287 #zcbe$278
+				#zcbe$285 #zcbe$286 #zcbe$287 #zcbe$281 #zcbe$278
 			</hkparam>
 		</hkobject>

@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ZAR_WaterSoundWeaponSwing_EDM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$555</hkparam>
+			<hkparam name="modifier">#zcbe$552</hkparam>
 			<hkparam name="activateEventId">53</hkparam>
 			<hkparam name="deactivateEventId">-1</hkparam>
 			<hkparam name="activeByDefault">false</hkparam>

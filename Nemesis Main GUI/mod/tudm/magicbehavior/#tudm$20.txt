@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#tudm$96</hkparam>
-			<hkparam name="generator">#tudm$94</hkparam>
+			<hkparam name="transitions">#tudm$94</hkparam>
+			<hkparam name="generator">#tudm$92</hkparam>
 			<hkparam name="name">Post_DodgeState</hkparam>
 			<hkparam name="stateId">26</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

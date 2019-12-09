@@ -291,7 +291,8 @@
 
 		<hkobject name="#0067" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#0068</hkparam>
+			<hkparam name="generator">#agpo$0</hkparam>					<!-- *agpo* -->
+			<hkparam name="generator">#0068</hkparam>				<!-- original -->
 			<hkparam name="boneWeights">null</hkparam>
 			<hkparam name="weight">0.875000</hkparam>
 			<hkparam name="worldFromModelWeight">1.000000</hkparam>
@@ -847,7 +848,8 @@
 
 		<hkobject name="#0111" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#0112</hkparam>
+			<hkparam name="generator">#agpo$1</hkparam>					<!-- *agpo* -->
+			<hkparam name="generator">#0112</hkparam>				<!-- original -->
 			<hkparam name="boneWeights">null</hkparam>
 			<hkparam name="weight">0.375000</hkparam>
 			<hkparam name="worldFromModelWeight">1.000000</hkparam>
@@ -6705,6 +6707,120 @@
 			<hkparam name="data">#0062</hkparam>
 		</hkobject>
 
+<!-- NEW *agpo* -->
+		<hkobject name="#agpo$0" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakBowSpineModifyGenerator</hkparam>
+			<hkparam name="modifier">#agpo$2</hkparam>
+			<hkparam name="generator">#0068</hkparam>
+		</hkobject>
+
+		<hkobject name="#agpo$1" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakBowSpineModifyGenerator2</hkparam>
+			<hkparam name="modifier">#agpo$6</hkparam>
+			<hkparam name="generator">#0112</hkparam>
+		</hkobject>
+
+		<hkobject name="#agpo$2" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakBowSpineModifierList</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="2">
+				#agpo$4 #agpo$3
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#agpo$3" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakBowSpineTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				0.000000
+				0.000000
+				1.000000
+				0.000000
+			</hkparam>
+			<hkparam name="twistAngle">-40.000000</hkparam>
+			<hkparam name="startBoneIndex">24</hkparam>
+			<hkparam name="endBoneIndex">26</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#agpo$4" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakBowNeckTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				0.000000
+				1.000000
+				1.000000
+				0.000000
+			</hkparam>
+			<hkparam name="twistAngle">40.000000</hkparam>
+			<hkparam name="startBoneIndex">35</hkparam>
+			<hkparam name="endBoneIndex">36</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#agpo$5" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakBowNeckTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				0.000000
+				1.000000
+				1.000000
+				0.000000
+			</hkparam>
+			<hkparam name="twistAngle">40.000000</hkparam>
+			<hkparam name="startBoneIndex">35</hkparam>
+			<hkparam name="endBoneIndex">36</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#agpo$6" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakBowSpineModifierList</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="2">
+				#agpo$5 #agpo$7
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#agpo$7" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">SneakBowSpineTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				-0.500000
+				0.000000
+				1.000000
+				0.000000
+			</hkparam>
+			<hkparam name="twistAngle">-40.000000</hkparam>
+			<hkparam name="startBoneIndex">24</hkparam>
+			<hkparam name="endBoneIndex">26</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
+		</hkobject>
+
+<!-- CLOSE -->
 	</hksection>
 
 </hkpackfile>

@@ -5,7 +5,7 @@
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#4323</hkparam>
 <!-- MOD_CODE ~turn~ OPEN -->
-			<hkparam name="generator">#turn$0</hkparam>
+			<hkparam name="generator">#turn$6</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#4277</hkparam>
 <!-- CLOSE -->

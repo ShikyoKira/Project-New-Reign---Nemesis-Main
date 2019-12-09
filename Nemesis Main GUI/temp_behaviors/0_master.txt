@@ -1232,6 +1232,9 @@
 				<hkcstring>NPCSoundPlay.NPCKillDLC2HeartStone</hkcstring>
 				<hkcstring>NPCKillDLC2HeartStone</hkcstring>
 				<hkcstring>SoundPlay.NPCKillDLC2HeartStone</hkcstring>
+<!-- NEW *skice* -->
+				<hkcstring>RollStart</hkcstring>
+<!-- CLOSE -->
 <!-- NEW *tudm* -->
 				<hkcstring>DodgeLightningStorm</hkcstring>
 				<hkcstring>DodgeCharge</hkcstring>
@@ -1272,9 +1275,6 @@
 				<hkcstring>FootLeftSidestep</hkcstring>
 				<hkcstring>FootRightSidestep</hkcstring>
 				<hkcstring>SidestepTrigger</hkcstring>
-<!-- CLOSE -->
-<!-- NEW *skice* -->
-				<hkcstring>RollStart</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
 				<hkcstring>Is1stPerson_Z</hkcstring>
@@ -1521,6 +1521,10 @@
 				<hkcstring>AimGainOnMounted</hkcstring>
 				<hkcstring>AimGainOnDragonMount</hkcstring>
 				<hkcstring>iWantMountedWeaponAnims</hkcstring>
+<!-- NEW *nemesis* -->
+				<hkcstring>bIsNemesisLocked</hkcstring>
+				<hkcstring>bIsNemesisGenerated</hkcstring>
+<!-- CLOSE -->
 <!-- NEW *tudm* -->
 				<hkcstring>DodgeID</hkcstring>
 				<hkcstring>DodgeSpeed</hkcstring>
@@ -1528,10 +1532,6 @@
 				<hkcstring>NextStanceID</hkcstring>
 				<hkcstring>PreviousStanceID</hkcstring>
 				<hkcstring>IsRunning</hkcstring>
-<!-- CLOSE -->
-<!-- NEW *nemesis* -->
-				<hkcstring>bIsNemesisLocked</hkcstring>
-				<hkcstring>bIsNemesisGenerated</hkcstring>
 <!-- CLOSE -->
 <!-- NEW *zcbe* -->
 				<hkcstring>fNPCPitch_Z</hkcstring>
@@ -2259,6 +2259,14 @@
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
+<!-- NEW *nemesis* -->
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="value">1</hkparam>
+				</hkobject>
+<!-- CLOSE -->
 <!-- NEW *tudm* -->
 				<hkobject>
 					<hkparam name="value">0</hkparam>
@@ -2275,11 +2283,6 @@
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
-				<hkobject>
-					<hkparam name="value">0</hkparam>
-				</hkobject>
-<!-- CLOSE -->
-<!-- NEW *nemesis* -->
 				<hkobject>
 					<hkparam name="value">0</hkparam>
 				</hkobject>
@@ -4405,6 +4408,26 @@
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
+<!-- NEW *nemesis* -->
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="role">
+						<hkobject>
+							<hkparam name="role">ROLE_DEFAULT</hkparam>
+							<hkparam name="flags">0</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="type">VARIABLE_TYPE_BOOL</hkparam>
+				</hkobject>
+<!-- CLOSE -->
 <!-- NEW *tudm* -->
 				<hkobject>
 					<hkparam name="role">
@@ -4451,17 +4474,6 @@
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
 				</hkobject>
-				<hkobject>
-					<hkparam name="role">
-						<hkobject>
-							<hkparam name="role">ROLE_DEFAULT</hkparam>
-							<hkparam name="flags">0</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="type">VARIABLE_TYPE_INT32</hkparam>
-				</hkobject>
-<!-- CLOSE -->
-<!-- NEW *nemesis* -->
 				<hkobject>
 					<hkparam name="role">
 						<hkobject>
@@ -59957,7 +59969,7 @@
 		</hkobject>
 
 		<hkobject name="#zcbe$1" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$34</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$32</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_WoundedOrGetUpMSG</hkparam>
 			<hkparam name="generators" numelements="2">
@@ -59971,21 +59983,12 @@
 			<hkparam name="expression">!bIsSynced &amp;&amp; !bIsRiding  &amp;&amp; !bIsSwimming_Z</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$100" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#zcbe$109</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_SetJumpVar_IAM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="bIsActive0">false</hkparam>
-			<hkparam name="bInvertActive0">false</hkparam>
-			<hkparam name="bIsActive1">false</hkparam>
-			<hkparam name="bInvertActive1">false</hkparam>
-			<hkparam name="bIsActive2">false</hkparam>
-			<hkparam name="bInvertActive2">false</hkparam>
-			<hkparam name="bIsActive3">false</hkparam>
-			<hkparam name="bInvertActive3">false</hkparam>
-			<hkparam name="bIsActive4">false</hkparam>
-			<hkparam name="bInvertActive4">false</hkparam>
+		<hkobject name="#zcbe$100" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$101</hkparam>
+			<hkparam name="boneWeights">#zcbe$102</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">0.500000</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$101" class="hkbStateMachine" signature="0x816c1dcb">
@@ -60015,12 +60018,17 @@
 			<hkparam name="wildcardTransitions">#zcbe$105</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$102" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+		<hkobject name="#zcbe$102" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$108</hkparam>
-			<hkparam name="boneWeights">#zcbe$107</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">0.500000</hkparam>
+			<hkparam name="boneWeights" numelements="99">
+				0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+				0.000000 0.000000 0.000000
+			</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$103" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
@@ -60084,7 +60092,14 @@
 			<hkparam name="expression">IsAttacking == 1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$107" class="hkbBoneWeightArray" signature="0xcd902b77">
+		<hkobject name="#zcbe$107" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_JumpAttack1BRG</hkparam>
+			<hkparam name="behaviorName">Behaviors\1HM_Behavior.hkx</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$108" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="boneWeights" numelements="99">
 				1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000
@@ -60095,13 +60110,6 @@
 				1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000
 				1.000000 1.000000 1.000000
 			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$108" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_JumpAttack1BRG</hkparam>
-			<hkparam name="behaviorName">Behaviors\1HM_Behavior.hkx</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$109" class="hkbVariableBindingSet" signature="0x338ad4ff">
@@ -60150,7 +60158,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">bIsActive0</hkparam>
-					<hkparam name="variableIndex">$variableID[bIsThirdPerson_Z]$</hkparam>
+					<hkparam name="variableIndex">236</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -60164,19 +60172,19 @@
 					<hkparam name="expression">fNPCAim_Z = 1.0</hkparam>
 					<hkparam name="assignmentVariableIndex">-1</hkparam>
 					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="expression">fGetUpSpeed_Z = 2.0</hkparam>
 					<hkparam name="assignmentVariableIndex">-1</hkparam>
 					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="expression">fCharHeight_Z = -128.0</hkparam>
 					<hkparam name="assignmentVariableIndex">-1</hkparam>
 					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
 				</hkobject>
 			</hkparam>
 		</hkobject>
@@ -60189,18 +60197,7 @@
 			<hkparam name="expressions">#zcbe$112</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$114" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="1">
-				<hkobject>
-					<hkparam name="expression">na_MRh_BeginCast_Event if ( 1 == 1)</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
-				</hkobject>
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$115" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#zcbe$114" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">activateEventId</hkparam>
@@ -60212,12 +60209,23 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$116" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+		<hkobject name="#zcbe$115" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">Z_ListenForGameSentEvents_EEM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$114</hkparam>
+			<hkparam name="expressions">#zcbe$116</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$116" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">na_MRh_BeginCast_Event if ( 1 == 1)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$12" class="hkbStringCondition" signature="0x5ab50487">
@@ -60280,11 +60288,11 @@
 		</hkobject>
 
 		<hkobject name="#zcbe$21" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$61</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$60</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_CheckPLView1HM_MSG</hkparam>
 			<hkparam name="generators" numelements="2">
-				#zcbe$60 #1926
+				#zcbe$61 #1926
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
@@ -60301,8 +60309,8 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator536</hkparam>
-			<hkparam name="modifier">#zcbe$68</hkparam>
-			<hkparam name="generator">#zcbe$69</hkparam>
+			<hkparam name="modifier">#zcbe$70</hkparam>
+			<hkparam name="generator">#zcbe$66</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$24" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
@@ -60318,7 +60326,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_SwimMG</hkparam>
-			<hkparam name="modifier">#zcbe$83</hkparam>
+			<hkparam name="modifier">#zcbe$79</hkparam>
 			<hkparam name="generator">#zcbe$80</hkparam>
 		</hkobject>
 
@@ -60331,11 +60339,11 @@
 		</hkobject>
 
 		<hkobject name="#zcbe$27" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
-			<hkparam name="variableBindingSet">#zcbe$115</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$114</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_ListenForGameSentEvents_EDM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$116</hkparam>
+			<hkparam name="modifier">#zcbe$115</hkparam>
 			<hkparam name="activateEventId">704</hkparam>
 			<hkparam name="deactivateEventId">3</hkparam>
 			<hkparam name="activeByDefault">false</hkparam>
@@ -60356,7 +60364,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">bIsActive0</hkparam>
-					<hkparam name="variableIndex">$variableID[bIsInHavok_Z]$</hkparam>
+					<hkparam name="variableIndex">240</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -60384,7 +60392,7 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#zcbe$36 #zcbe$32 #zcbe$31
+				#zcbe$33 #zcbe$34 #zcbe$35
 			</hkparam>
 			<hkparam name="worldFromModelRotation">
 				0.000000
@@ -60405,23 +60413,7 @@
 			<hkparam name="mode">MODE_MATCH</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$31" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$33</hkparam>
-			<hkparam name="boneWeights">null</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$32" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$35</hkparam>
-			<hkparam name="boneWeights">null</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$33" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#zcbe$31" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_MT_Wounded_03</hkparam>
@@ -60438,11 +60430,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$34" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#zcbe$32" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">$variableID[iIsWounded_Z]$</hkparam>
+					<hkparam name="variableIndex">232</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -60450,7 +60442,31 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$35" class="hkbClipGenerator" signature="0x333b85b9">
+		<hkobject name="#zcbe$33" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$37</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$34" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$36</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$35" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$31</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$36" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_MT_Wounded_02_Mirrored</hkparam>
@@ -60465,14 +60481,6 @@
 			<hkparam name="animationBindingIndex">-1</hkparam>
 			<hkparam name="mode">MODE_LOOPING</hkparam>
 			<hkparam name="flags">4</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$36" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$37</hkparam>
-			<hkparam name="boneWeights">null</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$37" class="hkbClipGenerator" signature="0x333b85b9">
@@ -60566,7 +60574,7 @@
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">playbackSpeed</hkparam>
-					<hkparam name="variableIndex">$variableID[fGetUpSpeed_Z]$</hkparam>
+					<hkparam name="variableIndex">233</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -60660,62 +60668,25 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_MagicTwistMG</hkparam>
-			<hkparam name="modifier">#zcbe$50</hkparam>
+			<hkparam name="modifier">#zcbe$51</hkparam>
 			<hkparam name="generator">#0863</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$44" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#zcbe$48</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$45</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_AimAttackMagH2HML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#zcbe$47 #zcbe$45
+				#zcbe$46 #zcbe$47
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$45" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$46</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_AimAttackNPCDAM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="directAtTarget">true</hkparam>
-			<hkparam name="sourceBoneIndex">-1</hkparam>
-			<hkparam name="startBoneIndex">25</hkparam>
-			<hkparam name="endBoneIndex">26</hkparam>
-			<hkparam name="limitHeadingDegrees">45.000000</hkparam>
-			<hkparam name="limitPitchDegrees">45.000000</hkparam>
-			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
-			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
-			<hkparam name="onGain">0.550000</hkparam>
-			<hkparam name="offGain">0.550000</hkparam>
-			<hkparam name="axisOfRotation">
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-			</hkparam>
-			<hkparam name="userInfo">-842150451</hkparam>
-			<hkparam name="directAtCamera">true</hkparam>
-			<hkparam name="directAtCameraX">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraY">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraZ">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="active">true</hkparam>
-			<hkparam name="currentHeadingOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="currentPitchOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$46" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="2">
+		<hkobject name="#zcbe$45" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">25</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">offsetPitchDegrees</hkparam>
-					<hkparam name="variableIndex">$variableID[fNPCPitch_Z]$</hkparam>
+					<hkparam name="variableIndex">236</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -60723,8 +60694,8 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$47" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$49</hkparam>
+		<hkobject name="#zcbe$46" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#zcbe$48</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_AimAttackPlayerDAM</hkparam>
 			<hkparam name="enable">true</hkparam>
@@ -60738,35 +60709,54 @@
 			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
 			<hkparam name="onGain">0.550000</hkparam>
 			<hkparam name="offGain">0.550000</hkparam>
-			<hkparam name="axisOfRotation">
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+			<hkparam name="targetLocation">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
-			<hkparam name="userInfo">-842150451</hkparam>
-			<hkparam name="directAtCamera">true</hkparam>
-			<hkparam name="directAtCameraX">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraY">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraZ">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="active">true</hkparam>
-			<hkparam name="currentHeadingOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="currentPitchOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="userInfo">2</hkparam>
+			<hkparam name="directAtCamera">false</hkparam>
+			<hkparam name="directAtCameraX">0.000000</hkparam>
+			<hkparam name="directAtCameraY">0.000000</hkparam>
+			<hkparam name="directAtCameraZ">0.000000</hkparam>
+			<hkparam name="active">false</hkparam>
+			<hkparam name="currentHeadingOffset">0.000000</hkparam>
+			<hkparam name="currentPitchOffset">0.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$47" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#zcbe$49</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_AimAttackNPCDAM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="directAtTarget">true</hkparam>
+			<hkparam name="sourceBoneIndex">-1</hkparam>
+			<hkparam name="startBoneIndex">25</hkparam>
+			<hkparam name="endBoneIndex">26</hkparam>
+			<hkparam name="limitHeadingDegrees">45.000000</hkparam>
+			<hkparam name="limitPitchDegrees">45.000000</hkparam>
+			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
+			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
+			<hkparam name="onGain">0.550000</hkparam>
+			<hkparam name="offGain">0.550000</hkparam>
+			<hkparam name="targetLocation">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="userInfo">2</hkparam>
+			<hkparam name="directAtCamera">false</hkparam>
+			<hkparam name="directAtCameraX">0.000000</hkparam>
+			<hkparam name="directAtCameraY">0.000000</hkparam>
+			<hkparam name="directAtCameraZ">0.000000</hkparam>
+			<hkparam name="active">false</hkparam>
+			<hkparam name="currentHeadingOffset">0.000000</hkparam>
+			<hkparam name="currentPitchOffset">0.000000</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$48" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">$variableID[bIsThirdPerson_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$49" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="2">
 				<hkobject>
 					<hkparam name="memberPath">enable</hkparam>
@@ -60784,6 +60774,24 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
+		<hkobject name="#zcbe$49" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="2">
+				<hkobject>
+					<hkparam name="memberPath">enable</hkparam>
+					<hkparam name="variableIndex">25</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="memberPath">offsetPitchDegrees</hkparam>
+					<hkparam name="variableIndex">230</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
 		<hkobject name="#zcbe$5" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="1">
 				<hkobject>
@@ -60793,18 +60801,8 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$50" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#zcbe$56</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_HeadTrackMagicDWML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="4">
-				#zcbe$57 #zcbe$55 #zcbe$53 #zcbe$51
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$51" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$52</hkparam>
+		<hkobject name="#zcbe$50" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#zcbe$58</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_TwistHeadSpineNPCDAM</hkparam>
 			<hkparam name="enable">true</hkparam>
@@ -60818,72 +60816,33 @@
 			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
 			<hkparam name="onGain">0.550000</hkparam>
 			<hkparam name="offGain">0.550000</hkparam>
-			<hkparam name="axisOfRotation">
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+			<hkparam name="targetLocation">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
-			<hkparam name="userInfo">-842150451</hkparam>
-			<hkparam name="directAtCamera">true</hkparam>
-			<hkparam name="directAtCameraX">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraY">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraZ">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="active">true</hkparam>
-			<hkparam name="currentHeadingOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="currentPitchOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="userInfo">2</hkparam>
+			<hkparam name="directAtCamera">false</hkparam>
+			<hkparam name="directAtCameraX">0.000000</hkparam>
+			<hkparam name="directAtCameraY">0.000000</hkparam>
+			<hkparam name="directAtCameraZ">0.000000</hkparam>
+			<hkparam name="active">false</hkparam>
+			<hkparam name="currentHeadingOffset">0.000000</hkparam>
+			<hkparam name="currentPitchOffset">0.000000</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$51" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$54</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_HeadTrackMagicDWML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="4">
+				#zcbe$55 #zcbe$56 #zcbe$53 #zcbe$50
+			</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$52" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="2">
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">25</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">offsetPitchDegrees</hkparam>
-					<hkparam name="variableIndex">$variableID[fNPCPitch_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$53" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$54</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_TwistHeadSpinePlayerDAM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="directAtTarget">true</hkparam>
-			<hkparam name="sourceBoneIndex">-1</hkparam>
-			<hkparam name="startBoneIndex">26</hkparam>
-			<hkparam name="endBoneIndex">36</hkparam>
-			<hkparam name="limitHeadingDegrees">30.000000</hkparam>
-			<hkparam name="limitPitchDegrees">30.000000</hkparam>
-			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
-			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
-			<hkparam name="onGain">0.550000</hkparam>
-			<hkparam name="offGain">0.550000</hkparam>
-			<hkparam name="axisOfRotation">
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-			</hkparam>
-			<hkparam name="userInfo">-842150451</hkparam>
-			<hkparam name="directAtCamera">true</hkparam>
-			<hkparam name="directAtCameraX">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraY">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraZ">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="active">true</hkparam>
-			<hkparam name="currentHeadingOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="currentPitchOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$54" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="2">
 				<hkobject>
 					<hkparam name="memberPath">enable</hkparam>
@@ -60901,15 +60860,38 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$55" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_NPCSetAim_EEM</hkparam>
+		<hkobject name="#zcbe$53" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#zcbe$52</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_TwistHeadSpinePlayerDAM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$58</hkparam>
+			<hkparam name="directAtTarget">true</hkparam>
+			<hkparam name="sourceBoneIndex">-1</hkparam>
+			<hkparam name="startBoneIndex">26</hkparam>
+			<hkparam name="endBoneIndex">36</hkparam>
+			<hkparam name="limitHeadingDegrees">30.000000</hkparam>
+			<hkparam name="limitPitchDegrees">30.000000</hkparam>
+			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
+			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
+			<hkparam name="onGain">0.550000</hkparam>
+			<hkparam name="offGain">0.550000</hkparam>
+			<hkparam name="targetLocation">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="userInfo">2</hkparam>
+			<hkparam name="directAtCamera">false</hkparam>
+			<hkparam name="directAtCameraX">0.000000</hkparam>
+			<hkparam name="directAtCameraY">0.000000</hkparam>
+			<hkparam name="directAtCameraZ">0.000000</hkparam>
+			<hkparam name="active">false</hkparam>
+			<hkparam name="currentHeadingOffset">0.000000</hkparam>
+			<hkparam name="currentPitchOffset">0.000000</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$56" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#zcbe$54" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">enable</hkparam>
@@ -60921,7 +60903,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$57" class="hkbComputeDirectionModifier" signature="0xdf358bd3">
+		<hkobject name="#zcbe$55" class="hkbComputeDirectionModifier" signature="0xdf358bd3">
 			<hkparam name="variableBindingSet">#zcbe$59</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_NPCGetAim_CDM</hkparam>
@@ -60949,15 +60931,41 @@
 			<hkparam name="computedOutput">true</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$58" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+		<hkobject name="#zcbe$56" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Z_NPCSetAim_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#zcbe$57</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$57" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
 			<hkparam name="expressionsData" numelements="1">
 				<hkobject>
 					<hkparam name="expression">fNPCPitch_Z = clamp(fNPCPitch_Z*fNPCAim_Z, 25, 25)</hkparam>
 					<hkparam name="assignmentVariableIndex">-1</hkparam>
 					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
 				</hkobject>
 			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$58" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="2">
+				<hkobject>
+					<hkparam name="memberPath">enable</hkparam>
+					<hkparam name="variableIndex">25</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="memberPath">offsetPitchDegrees</hkparam>
+					<hkparam name="variableIndex">230</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$59" class="hkbVariableBindingSet" signature="0x338ad4ff">
@@ -60976,13 +60984,13 @@
 				</hkobject>
 				<hkobject>
 					<hkparam name="memberPath">upAngleOut</hkparam>
-					<hkparam name="variableIndex">$variableID[fNPCPitch_Z]$</hkparam>
+					<hkparam name="variableIndex">230</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="memberPath">verticalOffset</hkparam>
-					<hkparam name="variableIndex">$variableID[fCharHeight_Z]$</hkparam>
+					<hkparam name="variableIndex">235</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -60995,23 +61003,15 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$90</hkparam>
-			<hkparam name="generator">#zcbe$91</hkparam>
+			<hkparam name="transitions">#zcbe$89</hkparam>
+			<hkparam name="generator">#zcbe$90</hkparam>
 			<hkparam name="name">Z_JumpState_S</hkparam>
 			<hkparam name="stateId">15</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$60" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_TwistHeadMG</hkparam>
-			<hkparam name="modifier">#zcbe$62</hkparam>
-			<hkparam name="generator">#1926</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$61" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#zcbe$60" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
@@ -61023,13 +61023,21 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
+		<hkobject name="#zcbe$61" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_TwistHeadMG</hkparam>
+			<hkparam name="modifier">#zcbe$62</hkparam>
+			<hkparam name="generator">#1926</hkparam>
+		</hkobject>
+
 		<hkobject name="#zcbe$62" class="hkbModifierList" signature="0xa4180ca1">
 			<hkparam name="variableBindingSet">#zcbe$63</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_HeadTrackFixJumpMoveBug_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="5">
-				#zcbe$57 #zcbe$55 #zcbe$53 #zcbe$51 #zcbe$64
+				#zcbe$55 #zcbe$56 #zcbe$53 #zcbe$50 #zcbe$64
 			</hkparam>
 		</hkobject>
 
@@ -61050,50 +61058,24 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_FixJumpLandMoveBug_EDM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$65</hkparam>
+			<hkparam name="modifier">#zcbe$69</hkparam>
 			<hkparam name="activateEventId">-1</hkparam>
 			<hkparam name="deactivateEventId">24</hkparam>
 			<hkparam name="activeByDefault">true</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$65" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Z_FixJumpLandMoveBug_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$66</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$66" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+		<hkobject name="#zcbe$65" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
 			<hkparam name="expressionsData" numelements="1">
 				<hkobject>
 					<hkparam name="expression">moveStop if ( Speed &lt; 1.0 )</hkparam>
 					<hkparam name="assignmentVariableIndex">-1</hkparam>
 					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ON_TRUE</hkparam>
 				</hkobject>
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$67" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">EvaluateExpressionModifier67</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$70</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$68" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#zcbe$76</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ModifierList103</hkparam>
-			<hkparam name="enable">false</hkparam>
-			<hkparam name="modifiers" numelements="3">
-				#zcbe$75 #zcbe$74 #zcbe$71
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$69" class="hkbModifierGenerator" signature="0x1f81fae6">
+		<hkobject name="#zcbe$66" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator537</hkparam>
@@ -61101,34 +61083,49 @@
 			<hkparam name="generator">#2039</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$7" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(currentDefaultState != 2) &amp;&amp; (bInJumpState == 0) &amp;&amp; (iState != 3) &amp;&amp; (iState != 16)</hkparam>
+		<hkobject name="#zcbe$67" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">EvaluateExpressionModifier67</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#zcbe$68</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$70" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+		<hkobject name="#zcbe$68" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
 			<hkparam name="expressionsData" numelements="1">
 				<hkobject>
 					<hkparam name="expression">HeadtrackOff_Z if(Distance_Z &gt; 205.0)</hkparam>
 					<hkparam name="assignmentVariableIndex">-1</hkparam>
 					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">2</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ON_FALSE_TO_TRUE</hkparam>
 				</hkobject>
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$71" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+		<hkobject name="#zcbe$69" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">EventDrivenModifier30</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Z_FixJumpLandMoveBug_EEM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$72</hkparam>
-			<hkparam name="activateEventId">$eventID[HeadtrackOff_Z]$</hkparam>
-			<hkparam name="deactivateEventId">$eventID[HeadtrackOn_Z]$</hkparam>
-			<hkparam name="activeByDefault">false</hkparam>
+			<hkparam name="expressions">#zcbe$65</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$72" class="BSDistTriggerModifier" signature="0xb34d2bbd">
-			<hkparam name="variableBindingSet">#zcbe$73</hkparam>
+		<hkobject name="#zcbe$7" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">(currentDefaultState != 2) &amp;&amp; (bInJumpState == 0) &amp;&amp; (iState != 3) &amp;&amp; (iState != 16)</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$70" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$77</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ModifierList103</hkparam>
+			<hkparam name="enable">false</hkparam>
+			<hkparam name="modifiers" numelements="3">
+				#zcbe$75 #zcbe$78 #zcbe$73
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$71" class="BSDistTriggerModifier" signature="0xb34d2bbd">
+			<hkparam name="variableBindingSet">#zcbe$72</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DistTriggerModifier2</hkparam>
 			<hkparam name="enable">true</hkparam>
@@ -61148,7 +61145,7 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$73" class="hkbVariableBindingSet" signature="0x338ad4ff">
+		<hkobject name="#zcbe$72" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="1">
 				<hkobject>
 					<hkparam name="memberPath">targetPosition</hkparam>
@@ -61160,8 +61157,77 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$74" class="BSDistTriggerModifier" signature="0xb34d2bbd">
-			<hkparam name="variableBindingSet">#zcbe$77</hkparam>
+		<hkobject name="#zcbe$73" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">EventDrivenModifier30</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#zcbe$71</hkparam>
+			<hkparam name="activateEventId">$eventID[HeadtrackOff_Z]$</hkparam>
+			<hkparam name="deactivateEventId">$eventID[HeadtrackOn_Z]$</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$74" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="2">
+				<hkobject>
+					<hkparam name="memberPath">targetPosition</hkparam>
+					<hkparam name="variableIndex">163</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="memberPath">distance</hkparam>
+					<hkparam name="variableIndex">241</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$75" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">EventDrivenModifier29</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#zcbe$76</hkparam>
+			<hkparam name="activateEventId">$eventID[HeadtrackOn_Z]$</hkparam>
+			<hkparam name="deactivateEventId">$eventID[HeadtrackOff_Z]$</hkparam>
+			<hkparam name="activeByDefault">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$76" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#zcbe$85</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">IsActiveModifier117</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">false</hkparam>
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">false</hkparam>
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">false</hkparam>
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">false</hkparam>
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">false</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$77" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">enable</hkparam>
+					<hkparam name="variableIndex">21</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$78" class="BSDistTriggerModifier" signature="0xb34d2bbd">
+			<hkparam name="variableBindingSet">#zcbe$74</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DistTriggerModifier1</hkparam>
 			<hkparam name="enable">true</hkparam>
@@ -61181,74 +61247,14 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$75" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+		<hkobject name="#zcbe$79" class="hkbModifierList" signature="0xa4180ca1">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">EventDrivenModifier29</hkparam>
+			<hkparam name="name">Z_SwimML</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$78</hkparam>
-			<hkparam name="activateEventId">$eventID[HeadtrackOn_Z]$</hkparam>
-			<hkparam name="deactivateEventId">$eventID[HeadtrackOff_Z]$</hkparam>
-			<hkparam name="activeByDefault">true</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$76" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">21</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+			<hkparam name="modifiers" numelements="3">
+				#zcbe$81 #zcbe$82 #zcbe$83
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$77" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="2">
-				<hkobject>
-					<hkparam name="memberPath">targetPosition</hkparam>
-					<hkparam name="variableIndex">163</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">distance</hkparam>
-					<hkparam name="variableIndex">$variableID[Distance_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$78" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#zcbe$79</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">IsActiveModifier117</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="bIsActive0">false</hkparam>
-			<hkparam name="bInvertActive0">false</hkparam>
-			<hkparam name="bIsActive1">false</hkparam>
-			<hkparam name="bInvertActive1">false</hkparam>
-			<hkparam name="bIsActive2">false</hkparam>
-			<hkparam name="bInvertActive2">false</hkparam>
-			<hkparam name="bIsActive3">false</hkparam>
-			<hkparam name="bInvertActive3">false</hkparam>
-			<hkparam name="bIsActive4">false</hkparam>
-			<hkparam name="bInvertActive4">false</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$79" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">bIsActive0</hkparam>
-					<hkparam name="variableIndex">25</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$8" class="hkbExpressionCondition" signature="0x1c3c1045">
@@ -61259,49 +61265,13 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ZAR_Swimming_ISTG</hkparam>
-			<hkparam name="pDefaultGenerator">#zcbe$82</hkparam>
+			<hkparam name="pDefaultGenerator">#zcbe$86</hkparam>
 			<hkparam name="iStateToSetAs">4</hkparam>
 			<hkparam name="iPriority">100</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$81" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ZAR_WaterSoundWeaponSwing_EDM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$84</hkparam>
-			<hkparam name="activateEventId">53</hkparam>
-			<hkparam name="deactivateEventId">-1</hkparam>
-			<hkparam name="activeByDefault">false</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$82" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_SwimBFR</hkparam>
-			<hkparam name="behaviorName">Behaviors\SwimBehavior.hkx</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$83" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_SwimML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="3">
-				#zcbe$85 #zcbe$86 #zcbe$81
-			</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$84" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">ZAR_WaterSoundWeaponSwing_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#zcbe$87</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$85" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#zcbe$89</hkparam>
+		<hkobject name="#zcbe$81" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#zcbe$91</hkparam>
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">Z_SetIsSwimmingBSIAM</hkparam>
 			<hkparam name="enable">true</hkparam>
@@ -61317,7 +61287,7 @@
 			<hkparam name="bInvertActive4">false</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$86" class="hkbDampingModifier" signature="0x9a040f03">
+		<hkobject name="#zcbe$82" class="hkbDampingModifier" signature="0x9a040f03">
 			<hkparam name="variableBindingSet">#zcbe$88</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_DampDirectionDM</hkparam>
@@ -61357,13 +61327,51 @@
 			<hkparam name="previousError">0.000000</hkparam>
 		</hkobject>
 
+		<hkobject name="#zcbe$83" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ZAR_WaterSoundWeaponSwing_EDM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifier">#zcbe$84</hkparam>
+			<hkparam name="activateEventId">53</hkparam>
+			<hkparam name="deactivateEventId">-1</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$84" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">ZAR_WaterSoundWeaponSwing_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#zcbe$87</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$85" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">bIsActive0</hkparam>
+					<hkparam name="variableIndex">25</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$86" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_SwimBFR</hkparam>
+			<hkparam name="behaviorName">Behaviors\SwimBehavior.hkx</hkparam>
+		</hkobject>
+
 		<hkobject name="#zcbe$87" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
 			<hkparam name="expressionsData" numelements="1">
 				<hkobject>
 					<hkparam name="expression">if (1 == 1) SoundPlay.FSTSwimTread</hkparam>
 					<hkparam name="assignmentVariableIndex">-1</hkparam>
 					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
 				</hkobject>
 			</hkparam>
 		</hkobject>
@@ -61378,7 +61386,7 @@
 				</hkobject>
 				<hkobject>
 					<hkparam name="memberPath">dampedValue</hkparam>
-					<hkparam name="variableIndex">$variableID[fDirectionDamped_Z]$</hkparam>
+					<hkparam name="variableIndex">238</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
@@ -61386,23 +61394,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$89" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">bIsActive0</hkparam>
-					<hkparam name="variableIndex">$variableID[bIsSwimming_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$9" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">bInJumpState == 1</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$90" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
+		<hkobject name="#zcbe$89" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
 			<hkparam name="transitions" numelements="1">
 				<hkobject>
 					<hkparam name="triggerInterval">
@@ -61433,27 +61425,32 @@
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$91" class="hkbModifierGenerator" signature="0x1f81fae6">
+		<hkobject name="#zcbe$9" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">bInJumpState == 1</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$90" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_SetJumpVar_MG</hkparam>
-			<hkparam name="modifier">#zcbe$100</hkparam>
-			<hkparam name="generator">#zcbe$92</hkparam>
+			<hkparam name="modifier">#zcbe$96</hkparam>
+			<hkparam name="generator">#zcbe$97</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$91" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">bIsActive0</hkparam>
+					<hkparam name="variableIndex">237</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$92" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$98</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_IsPlayer_MSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#zcbe$94 #zcbe$93
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
-		</hkobject>
-
-		<hkobject name="#zcbe$93" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$99</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$93</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Z_Is1HM_MSG</hkparam>
 			<hkparam name="generators" numelements="9">
@@ -61461,6 +61458,18 @@
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#zcbe$93" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
+					<hkparam name="variableIndex">113</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$94" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
@@ -61482,29 +61491,36 @@
 			<hkparam name="flags">0</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="2">
-				#zcbe$102 #zcbe$96
+				#zcbe$99 #zcbe$100
 			</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$96" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$101</hkparam>
-			<hkparam name="boneWeights">#zcbe$97</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">0.500000</hkparam>
+		<hkobject name="#zcbe$96" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#zcbe$109</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Z_SetJumpVar_IAM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">false</hkparam>
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">false</hkparam>
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">false</hkparam>
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">false</hkparam>
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">false</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$97" class="hkbBoneWeightArray" signature="0xcd902b77">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000 0.000000 0.000000 0.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 1.000000 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-				0.000000 0.000000 0.000000
+		<hkobject name="#zcbe$97" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$98</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_IsPlayer_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#zcbe$94 #zcbe$92
 			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$98" class="hkbVariableBindingSet" signature="0x338ad4ff">
@@ -61519,16 +61535,12 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-		<hkobject name="#zcbe$99" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">113</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		<hkobject name="#zcbe$99" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$107</hkparam>
+			<hkparam name="boneWeights">#zcbe$108</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">0.500000</hkparam>
 		</hkobject>
 
 <!-- CLOSE -->

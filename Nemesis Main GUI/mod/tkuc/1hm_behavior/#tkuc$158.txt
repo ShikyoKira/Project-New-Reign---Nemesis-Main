@@ -1,8 +1,8 @@
 		<hkobject name="#tkuc$158" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sync_1HMSpecialAttackG</hkparam>
-			<hkparam name="pClipGenerator">#tkuc$157</hkparam>
+			<hkparam name="name">Sync_1HMSpecialAttackF</hkparam>
+			<hkparam name="pClipGenerator">#tkuc$156</hkparam>
 			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
 			<hkparam name="bSyncClipIgnoreMarkPlacement">true</hkparam>
 			<hkparam name="fGetToMarkTime">0.000000</hkparam>

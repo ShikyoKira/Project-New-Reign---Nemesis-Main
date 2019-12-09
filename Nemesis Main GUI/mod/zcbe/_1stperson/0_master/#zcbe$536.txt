@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$536" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#zcbe$543</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$545</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">PairedDeathBehavior</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">

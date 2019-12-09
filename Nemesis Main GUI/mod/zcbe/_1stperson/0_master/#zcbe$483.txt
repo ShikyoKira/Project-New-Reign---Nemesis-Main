@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$498</hkparam>
+			<hkparam name="transitions">#zcbe$499</hkparam>
 			<hkparam name="generator">#zcbe$492</hkparam>
 			<hkparam name="name">PlayerStaggerStanding</hkparam>
 			<hkparam name="stateId">0</hkparam>

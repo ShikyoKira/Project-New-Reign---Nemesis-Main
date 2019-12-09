@@ -1,9 +1,12 @@
-		<hkobject name="#zcbe$401" class="hkbModifierList" signature="0xa4180ca1">
+		<hkobject name="#zcbe$401" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ML_PairedDragonMount</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#zcbe$402</hkparam>
+			<hkparam name="name">PairedDragonMountState</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="1">
-				#zcbe$409
-			</hkparam>
 		</hkobject>

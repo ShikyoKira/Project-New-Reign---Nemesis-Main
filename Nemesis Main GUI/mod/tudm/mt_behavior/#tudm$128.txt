@@ -3,5 +3,5 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">DodgeDirection_MG</hkparam>
 			<hkparam name="modifier">#tudm$127</hkparam>
-			<hkparam name="generator">#tudm$125</hkparam>
+			<hkparam name="generator">#tudm$123</hkparam>
 		</hkobject>

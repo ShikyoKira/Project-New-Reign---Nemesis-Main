@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$58" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#zcbe$61</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$65</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Sneak_TurnRight_Blend</hkparam>
 			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
@@ -10,6 +10,6 @@
 			<hkparam name="flags">16</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="4">
-				#zcbe$64 #zcbe$65 #zcbe$66 #zcbe$59
+				#zcbe$67 #zcbe$68 #zcbe$62 #zcbe$59
 			</hkparam>
 		</hkobject>

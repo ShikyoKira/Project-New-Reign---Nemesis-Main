@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$600" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#zcbe$603</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$605</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">BleedOut_Main_Behavior</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">0</hkparam>
 			<hkparam name="selfTransitionMode">0</hkparam>
 			<hkparam name="states" numelements="2">
-				#zcbe$606 #zcbe$602
+				#zcbe$606 #zcbe$601
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

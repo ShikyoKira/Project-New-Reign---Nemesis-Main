@@ -3,5 +3,5 @@
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">Pitch2Pitch</hkparam>
 			<hkparam name="enable">false</hkparam>
-			<hkparam name="expressions">#tudm$304</hkparam>
+			<hkparam name="expressions">#tudm$300</hkparam>
 		</hkobject>

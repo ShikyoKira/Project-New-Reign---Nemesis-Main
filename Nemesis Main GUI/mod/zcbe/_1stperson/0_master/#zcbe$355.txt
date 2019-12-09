@@ -1,8 +1,16 @@
-		<hkobject name="#zcbe$355" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
-			<hkparam name="events" numelements="1">
+		<hkobject name="#zcbe$355" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="1">
 				<hkobject>
-					<hkparam name="id">1061</hkparam>
-					<hkparam name="payload">#0208</hkparam>
+					<hkparam name="localTime">0.000000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">1157</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 			</hkparam>
 		</hkobject>

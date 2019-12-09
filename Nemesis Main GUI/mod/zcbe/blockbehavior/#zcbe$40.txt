@@ -1,7 +1,7 @@
 		<hkobject name="#zcbe$40" class="hkbStateMachine" signature="0x816c1dcb">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_1HM_BlockIdle_FlagMirrored_SM</hkparam>
+			<hkparam name="name">Z_STF_BlockIdle_FlagMirrored_SM</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
 				<hkobject>
 					<hkparam name="id">-1</hkparam>
@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">0</hkparam>
 			<hkparam name="selfTransitionMode">0</hkparam>
 			<hkparam name="states" numelements="4">
-				#zcbe$54 #zcbe$55 #zcbe$56 #zcbe$51
+				#zcbe$47 #zcbe$43 #zcbe$44 #zcbe$48
 			</hkparam>
-			<hkparam name="wildcardTransitions">#zcbe$52</hkparam>
+			<hkparam name="wildcardTransitions">#zcbe$45</hkparam>
 		</hkobject>

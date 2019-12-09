@@ -1,20 +1,11 @@
-		<hkobject name="#zcbe$72" class="BSDistTriggerModifier" signature="0xb34d2bbd">
-			<hkparam name="variableBindingSet">#zcbe$73</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DistTriggerModifier2</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="targetPosition">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-			</hkparam>
-			<hkparam name="distance">50.000000</hkparam>
-			<hkparam name="distanceTrigger">200.000000</hkparam>
-			<hkparam name="triggerEvent">
+		<hkobject name="#zcbe$72" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
 				<hkobject>
-					<hkparam name="id">$eventID[HeadtrackOn_Z]$</hkparam>
-					<hkparam name="payload">null</hkparam>
+					<hkparam name="memberPath">targetPosition</hkparam>
+					<hkparam name="variableIndex">163</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>
 			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

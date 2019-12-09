@@ -1,7 +1,11 @@
-		<hkobject name="#zcbe$91" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_SetJumpVar_MG</hkparam>
-			<hkparam name="modifier">#zcbe$100</hkparam>
-			<hkparam name="generator">#zcbe$92</hkparam>
+		<hkobject name="#zcbe$91" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">bIsActive0</hkparam>
+					<hkparam name="variableIndex">237</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

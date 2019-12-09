@@ -4,10 +4,12 @@
 			<hkparam name="name">BlockIdle_MSG</hkparam>
 			<hkparam name="generators" numelements="12">
 <!-- MOD_CODE ~zcbe~ OPEN -->
+				#zcbe$1
+				#zcbe$2
+				#zcbe$2
+				#zcbe$2
+				#zcbe$2
 				#zcbe$3
-				#zcbe$4
-				#zcbe$4
-				#zcbe$4
 				#zcbe$4
 				#zcbe$5
 				#zcbe$6
@@ -15,8 +17,6 @@
 				#zcbe$8
 				#zcbe$9
 				#zcbe$10
-				#zcbe$11
-				#zcbe$12
 <!-- ORIGINAL -->
 				#0299
 				#0310

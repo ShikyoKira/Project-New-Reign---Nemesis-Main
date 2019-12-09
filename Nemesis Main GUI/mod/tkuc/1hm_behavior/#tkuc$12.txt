@@ -1,14 +1,16 @@
-		<hkobject name="#tkuc$12" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sync_TKCombat10</hkparam>
-			<hkparam name="pClipGenerator">#tkuc$11</hkparam>
-			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
-			<hkparam name="bSyncClipIgnoreMarkPlacement">true</hkparam>
-			<hkparam name="fGetToMarkTime">0.000000</hkparam>
-			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
-			<hkparam name="bLeadCharacter">false</hkparam>
-			<hkparam name="bReorientSupportChar">true</hkparam>
-			<hkparam name="bApplyMotionFromRoot">false</hkparam>
-			<hkparam name="sAnimationBindingIndex">-1</hkparam>
+		<hkobject name="#tkuc$12" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#tkuc$14</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">bAllowRotationIsActiveModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">false</hkparam>
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">false</hkparam>
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">false</hkparam>
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">false</hkparam>
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">false</hkparam>
 		</hkobject>

@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MagicLocomotionLHandSelectorMSG</hkparam>
 			<hkparam name="generators" numelements="12">
-				#zcbe$190 #zcbe$190 #zcbe$190 #zcbe$190 #zcbe$190 #0150 #0150 #0150 #zcbe$191 #zcbe$192 #zcbe$190 #zcbe$190
+				#zcbe$189 #zcbe$189 #zcbe$189 #zcbe$189 #zcbe$189 #0150 #0150 #0150 #zcbe$191 #zcbe$192 #zcbe$189 #zcbe$189
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

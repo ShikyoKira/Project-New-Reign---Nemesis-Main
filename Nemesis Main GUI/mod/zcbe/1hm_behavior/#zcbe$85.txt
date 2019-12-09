@@ -1,7 +1,13 @@
-		<hkobject name="#zcbe$85" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_ResetIsHitVarMG</hkparam>
-			<hkparam name="modifier">#zcbe$84</hkparam>
-			<hkparam name="generator">#zcbe$77</hkparam>
+		<hkobject name="#zcbe$85" class="hkbTimerModifier" signature="0x338b4879">
+			<hkparam name="variableBindingSet">#zcbe$80</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_NPCResetToBlockTM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="alarmTimeSeconds">0.600000</hkparam>
+			<hkparam name="alarmEvent">
+				<hkobject>
+					<hkparam name="id">10</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

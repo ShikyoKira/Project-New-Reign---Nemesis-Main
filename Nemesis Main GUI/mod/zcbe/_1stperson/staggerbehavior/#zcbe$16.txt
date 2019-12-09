@@ -1,28 +1,26 @@
-		<hkobject name="#zcbe$16" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="4">
+		<hkobject name="#zcbe$16" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_StaggerBlockSM</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
 				<hkobject>
-					<hkparam name="expression">iStartBone_Z = 35</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="expression">iEndBone_Z = 36</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="expression">fHeading_Z = 0.0</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="expression">fPitch_Z = 0.0</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">0</hkparam>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">0</hkparam>
+			<hkparam name="selfTransitionMode">0</hkparam>
+			<hkparam name="states" numelements="2">
+				#zcbe$3 #zcbe$8
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

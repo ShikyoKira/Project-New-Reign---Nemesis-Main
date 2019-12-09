@@ -1,11 +1,7 @@
-		<hkobject name="#zcbe$314" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">boneWeights</hkparam>
-					<hkparam name="variableIndex">0</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_CHARACTER_PROPERTY</hkparam>
-				</hkobject>
-			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		<hkobject name="#zcbe$314" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$193</hkparam>
+			<hkparam name="boneWeights">#zcbe$322</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$482</hkparam>
-			<hkparam name="generator">#zcbe$480</hkparam>
+			<hkparam name="transitions">#zcbe$481</hkparam>
+			<hkparam name="generator">#zcbe$478</hkparam>
 			<hkparam name="name">PlayerStagger_Moving</hkparam>
 			<hkparam name="stateId">1</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

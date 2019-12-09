@@ -8729,7 +8729,7 @@ FootBack:0.333333
 1
 0.4 0 0 0 1
 
-25312
+25319
 1
 19
 Behaviors\0_Master.hkx
@@ -33835,6 +33835,13 @@ WeapEquip_OutMoving:3
 
 <!-- CLOSE -->
 <!-- NEW *tkuc* -->
+1HMRunThrust
+tkuc$4
+1
+0
+0
+0
+
 TKDodgeBack
 tkuc$1
 1
@@ -34042,7 +34049,7 @@ RollWinEnd:0.50
 RollNext:0.51
 
 <!-- CLOSE -->
-13011
+13029
 100
 1.2
 1
@@ -46835,6 +46842,24 @@ tkuc$3
 1
 0.7 0 0 0 1
 
+tkuc$4
+1.7
+12
+0.03333 0 11.5 0
+0.06667 0 38.3 0
+0.2 0 85.3 0
+0.3 0 135.0 0
+0.5 0 229.1 0
+0.7 0 306.7 0
+0.76667 0 331.7 0
+0.83333 0 344.4 0
+0.93333 0 356.1 0
+1.0 0 360.2 0
+1.1 0 363.9 0
+1.7 0 407.1 0
+1
+1.7 0 0 0 1
+
 <!-- CLOSE -->
 <!-- NEW *tudm* -->
 tudm$0
@@ -47054,7 +47079,7 @@ tudm$9
 0.933333 0 0 0 1
 
 <!-- CLOSE -->
-25303
+25310
 1
 19
 Behaviors\0_Master.hkx
@@ -72151,6 +72176,13 @@ WeapEquip_OutMoving:3
 
 <!-- CLOSE -->
 <!-- NEW *tkuc* -->
+1HMRunThrust
+tkuc$4
+1
+0
+0
+0
+
 TKDodgeBack
 tkuc$1
 1
@@ -72358,7 +72390,7 @@ RollWinEnd:0.50
 RollNext:0.51
 
 <!-- CLOSE -->
-13046
+13064
 100
 1.2
 1
@@ -85185,6 +85217,24 @@ tkuc$3
 0.7 251.2 0 0
 1
 0.7 0 0 0 1
+
+tkuc$4
+1.7
+12
+0.03333 0 11.5 0
+0.06667 0 38.3 0
+0.2 0 85.3 0
+0.3 0 135.0 0
+0.5 0 229.1 0
+0.7 0 306.7 0
+0.76667 0 331.7 0
+0.83333 0 344.4 0
+0.93333 0 356.1 0
+1.0 0 360.2 0
+1.1 0 363.9 0
+1.7 0 407.1 0
+1
+1.7 0 0 0 1
 
 <!-- CLOSE -->
 <!-- NEW *tudm* -->
@@ -102159,7 +102209,6 @@ RollNext:0.51
 0.8 0 -300 0					<!-- *tkuc* -->
 0.9 0 -206.996 0				<!-- original -->
 <!-- NEW *tkuc* -->
-0.1 0 -38 0
 0.7 0 -296.5 0
 0.6 0 -278.6 0
 0.56667 0 -265.2 0
@@ -102167,6 +102216,7 @@ RollNext:0.51
 0.46667 0 -223.2 0
 0.26667 0 -129.6 0
 0.16667 0 -78.5 0
+0.1 0 -38 0
 <!-- CLOSE -->
 1
 0.9 0 0 0 1
@@ -119745,7 +119795,7 @@ Ragdoll:0.3
 1
 1 0 0 0.000488281 1
 
-2332
+2360
 1
 3
 Behaviors\DragonBehavior.hkx
@@ -122010,15 +122060,29 @@ tkuc$3
 1
 0
 0
-1
+3
+preHitFrame:0.8
+weaponSwing:0.9
 HitFrame:1.0
+
+BiteOverhead
+tkuc$9
+1
+0
+0
+3
+preHitFrame:0.8
+weaponSwing:0.9
+HitFrame:1.1
 
 BiteRunForward
 tkuc$0
 1
 0
 0
-1
+3
+preHitFrame:1.1
+weaponSwing:1.3
 HitFrame:1.5
 
 BiteTurnLeft
@@ -122026,7 +122090,9 @@ tkuc$5
 1
 0
 0
-1
+3
+preHitFrame:0.9
+weaponSwing:1.1
 HitFrame:1.3
 
 BiteTurnRight
@@ -122034,7 +122100,9 @@ tkuc$4
 1
 0
 0
-1
+3
+preHitFrame:0.9
+weaponSwing:1.1
 HitFrame:1.3
 
 StampLeft
@@ -122042,7 +122110,9 @@ tkuc$2
 1
 0
 0
-1
+3
+preHitFrame:0.8
+weaponSwing:1.0
 HitFrame:1.2
 
 StampRight
@@ -122050,7 +122120,9 @@ tkuc$1
 1
 0
 0
-1
+3
+preHitFrame:0.8
+weaponSwing:1.0
 HitFrame:1.2
 
 TailTurnLeft
@@ -122058,7 +122130,9 @@ tkuc$7
 1
 0
 0
-1
+3
+preHitFrame:1.2
+weaponSwing:1.3
 HitFrame:1.5
 
 TailTurnRight
@@ -122066,7 +122140,9 @@ tkuc$6
 1
 0
 0
-1
+3
+preHitFrame:1.2
+weaponSwing:1.3
 HitFrame:1.5
 
 TailWhip
@@ -122074,11 +122150,13 @@ tkuc$8
 1
 0
 0
-1
+3
+preHitFrame:1.0
+weaponSwing:1.1
 HitFrame:1.266667
 
 <!-- CLOSE -->
-1731
+1752
 0
 3
 1
@@ -123808,6 +123886,27 @@ tkuc$7
 2.1 0 0 0.985 0.091
 2.166667 0 0 0.996 0.087
 2.7 0 0 0.996 0.087
+
+tkuc$8
+2.7
+6
+0.733333 0 0 0
+1.033333 0 -180.0 0
+1.233333 0 -300.0 0
+1.433333 0 -180.0 0
+1.733333 0 0 0
+2.7 0 0 0
+1
+2.7 0 0 0 1
+
+tkuc$9
+2.2
+3
+0.2 0 10.4 0
+1.13333 0 207.3 0
+2.2 0 207.3 0
+1
+2.2 0 0 0.0 1.0
 
 <!-- CLOSE -->
 903
@@ -125558,7 +125657,7 @@ Ragdoll:1.333
 1
 1.6 0 0 0 1
 
-4585
+4605
 1
 3
 Behaviors\DraugrBehavior.hkx
@@ -130106,42 +130205,62 @@ tkuc$2
 1
 0
 0
-0
+3
+preHitFrame:1.2
+weaponSwing:1.3
+HitFrame:1.4
 
 1HMX3
 tkuc$0
 1
 0
 0
-0
+6
+preHitFrame:0.5
+weaponSwing:0.6
+HitFrame:0.76666
+HitFrame:1.36666
+HitFrame:2.13333
 
 2GSRunThrust
 tkuc$3
 1
 0
 0
-0
+3
+preHitFrame:1.2
+weaponSwing:1.3
+HitFrame:1.4
 
 2GSThrust
 tkuc$1
 1
 0
 0
-0
+3
+preHitFrame:1.0
+weaponSwing:1.1
+HitFrame:1.2
 
 2HMStamp
 tkuc$4
 1
 0
 0
-0
+3
+preHitFrame:1.0
+weaponSwing:1.1
+HitFrame:1.2
 
 2HMTurnSlash
 tkuc$5
 1
 0
 0
-0
+3
+preHitFrame:0.8
+weaponSwing:0.9
+HitFrame:1.1
 
 <!-- CLOSE -->
 1932
@@ -132077,7 +132196,7 @@ tkuc$5
 3.0 0 0 0.0 1.0
 
 <!-- CLOSE -->
-4593
+4605
 1
 3
 Behaviors\DraugrBehavior.hkx
@@ -136625,7 +136744,9 @@ tkuc$2
 1
 0
 0
-1
+3
+preHitFrame:1.2
+weaponSwing:1.3
 HitFrame:1.4
 
 1HMX3
@@ -136633,7 +136754,9 @@ tkuc$0
 1
 0
 0
-3
+6
+preHitFrame:0.5
+weaponSwing:0.6
 HitFrame:0.76666
 HitFrame:1.36666
 HitFrame:2.13333
@@ -136643,7 +136766,9 @@ tkuc$3
 1
 0
 0
-1
+3
+preHitFrame:1.2
+weaponSwing:1.3
 HitFrame:1.4
 
 2GSThrust
@@ -136651,7 +136776,9 @@ tkuc$1
 1
 0
 0
-1
+3
+preHitFrame:1.0
+weaponSwing:1.1
 HitFrame:1.2
 
 2HMStamp
@@ -136659,7 +136786,9 @@ tkuc$4
 1
 0
 0
-1
+3
+preHitFrame:1.0
+weaponSwing:1.1
 HitFrame:1.2
 
 2HMTurnSlash
@@ -136667,7 +136796,9 @@ tkuc$5
 1
 0
 0
-1
+3
+preHitFrame:0.8
+weaponSwing:0.9
 HitFrame:1.1
 
 <!-- CLOSE -->
@@ -141129,7 +141260,7 @@ GetUpEnd:0.6
 1
 0.1 0 0 0 1
 
-1040
+1046
 1
 3
 Behaviors\SteamBehavior.hkx
@@ -142148,7 +142279,9 @@ tkuc$1
 1
 0
 0
-1
+3
+preHitFrame:1.2
+weaponSwing:1.3
 HitFrame:1.4
 
 H2HAttackSpecialRush
@@ -142156,7 +142289,9 @@ tkuc$2
 1
 0
 0
-3
+5
+preHitFrame:0.7
+weaponSwing:0.7
 HitFrame:0.8
 HitFrame:1.5
 HitFrame:2.3
@@ -142166,7 +142301,9 @@ tkuc$0
 1
 0
 0
-1
+3
+preHitFrame:0.8
+weaponSwing:0.9
 HitFrame:1.1
 
 <!-- CLOSE -->
@@ -142614,7 +142751,7 @@ tkuc$2
 3.2 0 0 0.0 1.0
 
 <!-- CLOSE -->
-1966
+1972
 1
 3
 Behaviors\FalmerBehavior.hkx
@@ -144559,7 +144696,9 @@ tkuc$1
 1
 0
 0
-1
+3
+preHitFrame:0.4
+weaponSwing:0.5
 HitFrame:0.63333
 
 1HMRunThrust
@@ -144567,7 +144706,9 @@ tkuc$0
 1
 0
 0
-1
+3
+preHitFrame:0.8
+weaponSwing:0.9
 HitFrame:1.1
 
 1HMX3
@@ -144575,7 +144716,9 @@ tkuc$2
 1
 0
 0
-3
+6
+preHitFrame:0.5
+weaponSwing:0.6
 HitFrame:0.76667
 HitFrame:1.13333
 HitFrame:1.9
@@ -146495,7 +146638,7 @@ GetUpEnd:0.6
 0.566667 0 0 0.0459201 0.998945
 1.16667 0 0 0.130085 0.991503
 
-1667
+1669
 1
 3
 Behaviors\GiantBehavior.hkx
@@ -148113,7 +148256,9 @@ tkuc$3
 1
 0
 0
-4
+6
+preHitFrame:0.6
+weaponSwing:0.7
 HitFrame:0.9
 HitFrame:1.8
 HitFrame:2.86667

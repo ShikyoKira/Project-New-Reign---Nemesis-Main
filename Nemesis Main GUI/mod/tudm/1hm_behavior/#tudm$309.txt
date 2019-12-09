@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HW_AttackPowerForwardSprint</hkparam>
 			<hkparam name="animationName">Animations\2HW_AttackPowerForwardSprint.HKX</hkparam>
-			<hkparam name="triggers">#tudm$311</hkparam>
+			<hkparam name="triggers">#tudm$313</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">1.000000</hkparam>

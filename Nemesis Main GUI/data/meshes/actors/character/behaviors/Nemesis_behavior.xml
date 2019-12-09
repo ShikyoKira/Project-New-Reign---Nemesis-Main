@@ -117,7 +117,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
  			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">null</hkparam>
+			<hkparam name="transitions">#0111</hkparam>
 			<hkparam name="generator">#0101</hkparam>
 			<hkparam name="name">Nemesis_Core_State</hkparam>
 			<hkparam name="stateId">0</hkparam>

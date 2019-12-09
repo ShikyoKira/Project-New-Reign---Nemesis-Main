@@ -1,5 +1,5 @@
 		<hkobject name="#tkuc$18" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#tkuc$16</hkparam>
+			<hkparam name="variableBindingSet">#tkuc$17</hkparam>
 			<hkparam name="userData">2</hkparam>
 			<hkparam name="name">bAnimationDrivenIsActiveModifier</hkparam>
 			<hkparam name="enable">true</hkparam>

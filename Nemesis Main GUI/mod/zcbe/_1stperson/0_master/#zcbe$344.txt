@@ -4,6 +4,6 @@
 			<hkparam name="name">DragonRider_ModifierList</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="3">
-				#zcbe$349 #zcbe$346 #zcbe$278
+				#zcbe$348 #zcbe$346 #zcbe$279
 			</hkparam>
 		</hkobject>

@@ -1,9 +1,9 @@
 		<hkobject name="#tudm$72" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">#tudm$298</hkparam>
+			<hkparam name="enterNotifyEvents">#tudm$297</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#tudm$297</hkparam>
+			<hkparam name="transitions">#tudm$298</hkparam>
 			<hkparam name="generator">#tudm$294</hkparam>
 			<hkparam name="name">DodgeState</hkparam>
 			<hkparam name="stateId">25</hkparam>

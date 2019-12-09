@@ -41,6 +41,9 @@
 				<hkcstring>EndAnimatedCameraDelta</hkcstring>
 				<hkcstring>00NextClip</hkcstring>
 				<hkcstring>EndAnimatedCamera</hkcstring>
+<!-- NEW *agpo* -->
+				<hkcstring>arrowAttach</hkcstring>
+<!-- CLOSE -->
 <!-- NEW *zcbe* -->
 				<hkcstring>CyclicFreeze</hkcstring>
 				<hkcstring>CyclicCrossBlend</hkcstring>
@@ -370,6 +373,11 @@
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
+<!-- NEW *agpo* -->
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+<!-- CLOSE -->
 <!-- NEW *zcbe* -->
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
@@ -709,7 +717,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$2</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0080</hkparam>				<!-- original -->
 			<hkparam name="name">DodgeLeft</hkparam>
 			<hkparam name="stateId">3</hkparam>
@@ -810,7 +818,7 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$2</hkparam>					<!-- *zcbe* -->
+			<hkparam name="generator">#zcbe$1</hkparam>					<!-- *zcbe* -->
 			<hkparam name="generator">#0086</hkparam>				<!-- original -->
 			<hkparam name="name">DodgeRight</hkparam>
 			<hkparam name="stateId">2</hkparam>
@@ -3293,17 +3301,17 @@
 		<hkobject name="#zcbe$1" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ModifierGenerator534</hkparam>
+			<hkparam name="name">ModifierGenerator533</hkparam>
 			<hkparam name="modifier">#zcbe$3</hkparam>
-			<hkparam name="generator">#0080</hkparam>
+			<hkparam name="generator">#0086</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$2" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ModifierGenerator533</hkparam>
+			<hkparam name="name">ModifierGenerator534</hkparam>
 			<hkparam name="modifier">#zcbe$3</hkparam>
-			<hkparam name="generator">#0086</hkparam>
+			<hkparam name="generator">#0080</hkparam>
 		</hkobject>
 
 		<hkobject name="#zcbe$3" class="BSIsActiveModifier" signature="0xb0fde45a">
@@ -3327,7 +3335,7 @@
 			<hkparam name="bindings" numelements="2">
 				<hkobject>
 					<hkparam name="memberPath">bIsActive0</hkparam>
-					<hkparam name="variableIndex">$variableID[bIsDodging_Z]$</hkparam>
+					<hkparam name="variableIndex">16</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>

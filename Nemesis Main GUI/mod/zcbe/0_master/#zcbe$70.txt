@@ -1,10 +1,9 @@
-		<hkobject name="#zcbe$70" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
-			<hkparam name="expressionsData" numelements="1">
-				<hkobject>
-					<hkparam name="expression">HeadtrackOff_Z if(Distance_Z &gt; 205.0)</hkparam>
-					<hkparam name="assignmentVariableIndex">-1</hkparam>
-					<hkparam name="assignmentEventIndex">-1</hkparam>
-					<hkparam name="eventMode">2</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$70" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$77</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ModifierList103</hkparam>
+			<hkparam name="enable">false</hkparam>
+			<hkparam name="modifiers" numelements="3">
+				#zcbe$75 #zcbe$78 #zcbe$73
 			</hkparam>
 		</hkobject>

@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$512" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#zcbe$518</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$519</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Behavior01</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">0</hkparam>
 			<hkparam name="selfTransitionMode">0</hkparam>
 			<hkparam name="states" numelements="4">
-				#zcbe$520 #zcbe$521 #zcbe$522 #zcbe$513
+				#zcbe$520 #zcbe$521 #zcbe$522 #zcbe$514
 			</hkparam>
-			<hkparam name="wildcardTransitions">#zcbe$515</hkparam>
+			<hkparam name="wildcardTransitions">#zcbe$513</hkparam>
 		</hkobject>

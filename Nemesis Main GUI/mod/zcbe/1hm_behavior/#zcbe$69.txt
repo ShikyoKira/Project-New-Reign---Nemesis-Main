@@ -1,11 +1,30 @@
-		<hkobject name="#zcbe$69" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">$variableID[bIsThirdPerson_Z]$</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#zcbe$69" class="BSDirectAtModifier" signature="0x19a005c0">
+			<hkparam name="variableBindingSet">#zcbe$67</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Z_AimAttackPlayerTM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="directAtTarget">true</hkparam>
+			<hkparam name="sourceBoneIndex">-1</hkparam>
+			<hkparam name="startBoneIndex">25</hkparam>
+			<hkparam name="endBoneIndex">26</hkparam>
+			<hkparam name="limitHeadingDegrees">45.000000</hkparam>
+			<hkparam name="limitPitchDegrees">45.000000</hkparam>
+			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
+			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
+			<hkparam name="onGain">0.550000</hkparam>
+			<hkparam name="offGain">0.550000</hkparam>
+			<hkparam name="targetLocation">
+				0.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="userInfo">2</hkparam>
+			<hkparam name="directAtCamera">false</hkparam>
+			<hkparam name="directAtCameraX">0.000000</hkparam>
+			<hkparam name="directAtCameraY">0.000000</hkparam>
+			<hkparam name="directAtCameraZ">0.000000</hkparam>
+			<hkparam name="active">false</hkparam>
+			<hkparam name="currentHeadingOffset">0.000000</hkparam>
+			<hkparam name="currentPitchOffset">0.000000</hkparam>
 		</hkobject>

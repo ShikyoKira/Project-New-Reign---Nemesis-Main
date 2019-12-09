@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#tudm$94</hkparam>
-			<hkparam name="generator">#tudm$93</hkparam>
+			<hkparam name="transitions">#tudm$95</hkparam>
+			<hkparam name="generator">#tudm$97</hkparam>
 			<hkparam name="name">LeftStanceChange</hkparam>
 			<hkparam name="stateId">30</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

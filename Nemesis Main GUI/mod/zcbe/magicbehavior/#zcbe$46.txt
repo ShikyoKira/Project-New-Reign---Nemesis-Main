@@ -1,7 +1,7 @@
 		<hkobject name="#zcbe$46" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="1">
 				<hkobject>
-					<hkparam name="id">$eventID[HeadTrackingOff]$</hkparam>
+					<hkparam name="id">$eventID[InterruptCast]$</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>

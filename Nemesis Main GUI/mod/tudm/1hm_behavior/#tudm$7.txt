@@ -1,7 +1,9 @@
-		<hkobject name="#tudm$7" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+		<hkobject name="#tudm$7" class="hkbModifierList" signature="0xa4180ca1">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Dodging_ExpressionModifier</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ProperCastDirection_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#tudm$162</hkparam>
+			<hkparam name="modifiers" numelements="6">
+				#tudm$305 #tudm$306 #tudm$304 #tudm$303 #tudm$301 #tudm$299
+			</hkparam>
 		</hkobject>

@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">PoseMatcherSelectorGen</hkparam>
 			<hkparam name="generators" numelements="3">
-				#zcbe$160 #zcbe$161 #zcbe$154
+				#zcbe$161 #zcbe$160 #zcbe$154
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

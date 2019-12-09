@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">#zcbe$198</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$197</hkparam>
-			<hkparam name="generator">#zcbe$196</hkparam>
+			<hkparam name="transitions">#zcbe$196</hkparam>
+			<hkparam name="generator">#zcbe$197</hkparam>
 			<hkparam name="name">FullyRagdoll</hkparam>
 			<hkparam name="stateId">23</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

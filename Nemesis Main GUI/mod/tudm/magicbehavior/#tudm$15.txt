@@ -4,6 +4,6 @@
 			<hkparam name="name">MagicShout_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="4">
-				#tudm$22 #tudm$23 #tudm$21 #tudm$16
+				#tudm$25 #tudm$24 #tudm$22 #tudm$16
 			</hkparam>
 		</hkobject>

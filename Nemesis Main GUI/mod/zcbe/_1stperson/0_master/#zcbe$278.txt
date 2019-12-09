@@ -1,30 +1,26 @@
-		<hkobject name="#zcbe$278" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$300</hkparam>
+		<hkobject name="#zcbe$278" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DragonRider_BSDirectAtModifier_HeadOnly</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="directAtTarget">true</hkparam>
-			<hkparam name="sourceBoneIndex">26</hkparam>
-			<hkparam name="startBoneIndex">35</hkparam>
-			<hkparam name="endBoneIndex">36</hkparam>
-			<hkparam name="limitHeadingDegrees">90.000000</hkparam>
-			<hkparam name="limitPitchDegrees">90.000000</hkparam>
-			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
-			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
-			<hkparam name="onGain">0.050000</hkparam>
-			<hkparam name="offGain">0.050000</hkparam>
-			<hkparam name="axisOfRotation">
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
-				-6277438562204192487878988888393020692503707483087375482269988814848.000000
+			<hkparam name="name">DragonRiderSitBehavior</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="userInfo">-842150451</hkparam>
-			<hkparam name="directAtCamera">true</hkparam>
-			<hkparam name="directAtCameraX">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraY">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="directAtCameraZ">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="active">true</hkparam>
-			<hkparam name="currentHeadingOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
-			<hkparam name="currentPitchOffset">-6277438562204192487878988888393020692503707483087375482269988814848.000000</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">0</hkparam>
+			<hkparam name="selfTransitionMode">0</hkparam>
+			<hkparam name="states" numelements="3">
+				#zcbe$287 #zcbe$288 #zcbe$289
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

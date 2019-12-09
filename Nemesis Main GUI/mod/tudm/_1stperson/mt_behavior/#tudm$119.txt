@@ -1,5 +1,5 @@
 		<hkobject name="#tudm$119" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#tudm$65</hkparam>
+			<hkparam name="variableBindingSet">#tudm$63</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">ForwardSidestep_Clip_B</hkparam>
 			<hkparam name="animationName">Animations\Sidestep_Forward.hkx</hkparam>

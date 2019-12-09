@@ -1,7 +1,26 @@
-		<hkobject name="#zcbe$133" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="generator">#zcbe$132</hkparam>
-			<hkparam name="boneWeights">#zcbe$80</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">1.000000</hkparam>
+		<hkobject name="#zcbe$133" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#zcbe$132</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Behavior83</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">3</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">0</hkparam>
+			<hkparam name="selfTransitionMode">0</hkparam>
+			<hkparam name="states" numelements="13">
+				#zcbe$131 #zcbe$127 #zcbe$123 #zcbe$119 #zcbe$115 #zcbe$111 #zcbe$107 #zcbe$103 #zcbe$99 #zcbe$95 #zcbe$91 #zcbe$87 #zcbe$83
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

@@ -24,7 +24,7 @@
 				#0334
 				#0277
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$1
+				#zcbe$0
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>

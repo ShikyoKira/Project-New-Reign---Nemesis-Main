@@ -8,7 +8,7 @@
 				#0421
 				#2782
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$24 #zcbe$25 #zcbe$26
+				#zcbe$23 #zcbe$24 #zcbe$25
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

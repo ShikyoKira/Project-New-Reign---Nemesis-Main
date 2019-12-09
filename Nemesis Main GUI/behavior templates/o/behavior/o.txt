@@ -111,7 +111,7 @@
 		<hkobject name="#MID$6" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_Basic_Animation_$%$</hkparam>
+			<hkparam name="name">Nemesis_AnimObject_Animation_$%$</hkparam>
 			<hkparam name="animationName">Animations\$FilePath$</hkparam>
 			<hkparam name="triggers">$MC$</hkparam>			<!-- T|(a&!Tn) #MID$7 --> <!-- null -->
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>

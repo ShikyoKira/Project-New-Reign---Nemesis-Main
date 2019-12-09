@@ -1,10 +1,3 @@
-		<hkobject name="#tkuc$63" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tkuc$62</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">TKDodgeForward_MSG</hkparam>
-			<hkparam name="generators" numelements="4">
-				#tkuc$60 #tkuc$61 #tkuc$59 #tkuc$56
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#tkuc$63" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">(iWantBlock == 1) &amp;&amp; (iLeftHandType != 7) &amp;&amp; (iLeftHandType != 12)</hkparam>
 		</hkobject>

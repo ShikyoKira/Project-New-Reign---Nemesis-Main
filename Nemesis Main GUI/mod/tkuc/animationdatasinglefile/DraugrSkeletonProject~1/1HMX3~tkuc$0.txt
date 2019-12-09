@@ -3,7 +3,9 @@ tkuc$0
 1
 0
 0
-3
+6
+preHitFrame:0.5
+weaponSwing:0.6
 HitFrame:0.76666
 HitFrame:1.36666
 HitFrame:2.13333

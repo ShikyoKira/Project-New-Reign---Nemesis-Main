@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$75</hkparam>
-			<hkparam name="generator">#zcbe$76</hkparam>
+			<hkparam name="transitions">#zcbe$79</hkparam>
+			<hkparam name="generator">#zcbe$75</hkparam>
 			<hkparam name="name">MagicCast_TurnLeft_State</hkparam>
 			<hkparam name="stateId">2</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

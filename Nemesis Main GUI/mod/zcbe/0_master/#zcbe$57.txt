@@ -1,27 +1,10 @@
-		<hkobject name="#zcbe$57" class="hkbComputeDirectionModifier" signature="0xdf358bd3">
-			<hkparam name="variableBindingSet">#zcbe$59</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_NPCGetAim_CDM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="pointIn">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
+		<hkobject name="#zcbe$57" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">fNPCPitch_Z = clamp(fNPCPitch_Z*fNPCAim_Z, 25, 25)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="pointOut">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-			</hkparam>
-			<hkparam name="groundAngleOut">0.000000</hkparam>
-			<hkparam name="upAngleOut">0.000000</hkparam>
-			<hkparam name="verticalOffset">0.000000</hkparam>
-			<hkparam name="reverseGroundAngle">false</hkparam>
-			<hkparam name="reverseUpAngle">false</hkparam>
-			<hkparam name="projectPoint">false</hkparam>
-			<hkparam name="normalizePoint">false</hkparam>
-			<hkparam name="computeOnlyOnce">false</hkparam>
-			<hkparam name="computedOutput">true</hkparam>
 		</hkobject>

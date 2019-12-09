@@ -896,9 +896,6 @@
 				<hkcstring>Animations\WhirlwindSprint_Longest.hkx</hkcstring>
 				<hkcstring>Animations\WhirlwindSprint_Medium.hkx</hkcstring>
 				<hkcstring>Animations\WhirlwindSprint_Short.hkx</hkcstring>
-<!-- NEW *zcbe* -->
-				<hkcstring>Animations\H2H_BlockIdle.hkx</hkcstring>
-<!-- CLOSE -->
 <!-- NEW *tudm* -->
 				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
 				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
@@ -916,6 +913,9 @@
 				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
 				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
 				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
+<!-- CLOSE -->
+<!-- NEW *zcbe* -->
+				<hkcstring>Animations\H2H_BlockIdle.hkx</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="animationFilenames" numelements="0"></hkparam>

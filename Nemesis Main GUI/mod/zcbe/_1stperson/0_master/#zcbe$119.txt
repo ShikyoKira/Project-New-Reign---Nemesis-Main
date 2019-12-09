@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$116</hkparam>
-			<hkparam name="generator">#zcbe$118</hkparam>
+			<hkparam name="transitions">#zcbe$118</hkparam>
+			<hkparam name="generator">#zcbe$117</hkparam>
 			<hkparam name="name">WW_Stage2.hkx</hkparam>
 			<hkparam name="stateId">4</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

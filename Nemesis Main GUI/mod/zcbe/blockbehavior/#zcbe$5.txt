@@ -1,7 +1,7 @@
 		<hkobject name="#zcbe$5" class="hkbStateMachine" signature="0x816c1dcb">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_2HM_BlockIdle_SM</hkparam>
+			<hkparam name="name">Z_Bow_BlockIdle_SM</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
 				<hkobject>
 					<hkparam name="id">-1</hkparam>
@@ -20,7 +20,7 @@
 			<hkparam name="startStateMode">0</hkparam>
 			<hkparam name="selfTransitionMode">0</hkparam>
 			<hkparam name="states" numelements="4">
-				#zcbe$95 #zcbe$96 #zcbe$97 #zcbe$98
+				#zcbe$81 #zcbe$82 #zcbe$83 #zcbe$78
 			</hkparam>
-			<hkparam name="wildcardTransitions">#zcbe$93</hkparam>
+			<hkparam name="wildcardTransitions">#zcbe$77</hkparam>
 		</hkobject>

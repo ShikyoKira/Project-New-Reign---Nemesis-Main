@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Z_FixDualCastLocoTurnBug_EDM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$40</hkparam>
+			<hkparam name="modifier">#zcbe$37</hkparam>
 			<hkparam name="activateEventId">$eventID[DCFixStart_Z]$</hkparam>
 			<hkparam name="deactivateEventId">$eventID[DCFixStop_Z]$</hkparam>
 			<hkparam name="activeByDefault">false</hkparam>

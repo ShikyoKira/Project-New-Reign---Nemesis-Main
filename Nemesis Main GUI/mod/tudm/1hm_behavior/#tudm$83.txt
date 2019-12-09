@@ -1,7 +1,7 @@
-		<hkobject name="#tudm$83" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+		<hkobject name="#tudm$83" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">2hm_PL2R_StanceID_Change</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#tudm$79</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">2hm_PL2R_StanceID_MG</hkparam>
+			<hkparam name="modifier">#tudm$81</hkparam>
+			<hkparam name="generator">#tudm$78</hkparam>
 		</hkobject>

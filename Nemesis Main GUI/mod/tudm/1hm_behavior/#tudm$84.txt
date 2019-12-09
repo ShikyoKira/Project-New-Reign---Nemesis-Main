@@ -1,11 +1,10 @@
-		<hkobject name="#tudm$84" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
-				<hkobject>
-					<hkparam name="memberPath">selectedGeneratorIndex</hkparam>
-					<hkparam name="variableIndex">53</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#tudm$84" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tudm$82</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">2hm_RightStanceChange_MSG</hkparam>
+			<hkparam name="generators" numelements="3">
+				#tudm$83 #tudm$83 #tudm$83
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

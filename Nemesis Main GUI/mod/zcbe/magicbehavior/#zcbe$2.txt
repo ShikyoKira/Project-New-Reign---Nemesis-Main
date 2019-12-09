@@ -1,10 +1,9 @@
-		<hkobject name="#zcbe$2" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$25</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">ManualSelectorGenerator295</hkparam>
-			<hkparam name="generators" numelements="2">
-				#1010 #zcbe$27
+		<hkobject name="#zcbe$2" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">#zcbe$49</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_PLSpineTwist_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="1">
+				#zcbe$40
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

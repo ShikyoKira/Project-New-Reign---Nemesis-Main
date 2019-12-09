@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$39</hkparam>
+			<hkparam name="transitions">#zcbe$37</hkparam>
 			<hkparam name="generator">#zcbe$35</hkparam>
 			<hkparam name="name">Z_2HWFwdPowAttIntro_S</hkparam>
 			<hkparam name="stateId">0</hkparam>

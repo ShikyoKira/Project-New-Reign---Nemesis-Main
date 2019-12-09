@@ -1,11 +1,30 @@
-		<hkobject name="#zcbe$348" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="1">
+		<hkobject name="#zcbe$348" class="BSEventOnFalseToTrueModifier" signature="0x81d0777a">
+			<hkparam name="variableBindingSet">#zcbe$349</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">BeginCastVoice_EventOnFalseToTrueMod</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bEnableEvent1">true</hkparam>
+			<hkparam name="bVariableToTest1">false</hkparam>
+			<hkparam name="EventToSend1">
 				<hkobject>
-					<hkparam name="memberPath">bVariableToTest1</hkparam>
-					<hkparam name="variableIndex">73</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+					<hkparam name="id">257</hkparam>
+					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+			<hkparam name="bEnableEvent2">false</hkparam>
+			<hkparam name="bVariableToTest2">false</hkparam>
+			<hkparam name="EventToSend2">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="bEnableEvent3">false</hkparam>
+			<hkparam name="bVariableToTest3">false</hkparam>
+			<hkparam name="EventToSend3">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

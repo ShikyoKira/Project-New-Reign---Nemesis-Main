@@ -1,5 +1,5 @@
 		<hkobject name="#tudm$267" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#tudm$269</hkparam>
+			<hkparam name="variableBindingSet">#tudm$268</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HM_Left_AttackLefNPCt_Blend</hkparam>
 			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
@@ -10,6 +10,6 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#tudm$263 #tudm$262 #tudm$259
+				#tudm$263 #tudm$262 #tudm$258
 			</hkparam>
 		</hkobject>

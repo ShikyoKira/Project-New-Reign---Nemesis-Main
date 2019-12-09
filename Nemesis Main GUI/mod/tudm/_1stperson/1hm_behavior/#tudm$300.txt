@@ -1,15 +1,7 @@
-		<hkobject name="#tudm$300" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#tudm$269</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HM_Forward_AttackLeftNPC_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">17</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="3">
-				#tudm$299 #tudm$301 #tudm$295
-			</hkparam>
+		<hkobject name="#tudm$300" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#tudm$264</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">25.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>
