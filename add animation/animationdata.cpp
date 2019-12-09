@@ -1,8 +1,15 @@
 #include "animationdata.h"
+#include "animationdatatracker.h"
 
 #pragma warning(disable:4503)
 
 using namespace std;
+
+void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, string project, string modcode);
+void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange,
+	map<string, vector<shared_ptr<AnimationDataTracker>>>& animDataTracker, map<string, vector<int>>& codeTracker);
+void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange,
+	vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker);
 
 AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string filepath, string modcode)
 {
@@ -11,109 +18,122 @@ AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string fil
 
 	if (error) throw nemesis::exception();
 
-	if (startline >= int(animdatafile.size()))
-	{
-		return;
-	}
+	if (startline >= int(animdatafile.size())) return;
 
-	AnimDataProcess(animdatalist, startline, animdatafile, project, modcode);
+	map<string, string> exchange;
+	map<string, vector<int>> codeTracker;
+	string characterFile = boost::to_lower_copy(boost::filesystem::path(behaviorlist[behaviorlist.size() - 2]).stem().string());
+	AnimDataProcess(animdatalist, startline, animdatafile, project, modcode, exchange, clipPtrAnimData[characterFile], codeTracker);
 
 	if (error) throw nemesis::exception();
 
-	if (startline >= int(animdatafile.size()))
-	{
-		return;
-	}
+	if (startline >= int(animdatafile.size())) return;
 
-	InfoDataProcess(infodatalist, startline, animdatafile, project, modcode);
+	InfoDataProcess(infodatalist, startline, animdatafile, project, modcode, exchange, animdatalist, codeTracker);
 }
 
 void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, string project, string modcode)
 {
-	if (!isOnlyNumber(animdatafile[startline]))
-	{
-		ErrorMessage(3005, project, "Header");
-	}
+	if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(3005, project, "Header");
 
 	int i = startline + 1;
 
-	if (i + 4 >= int(animdatafile.size()))
-	{
-		ErrorMessage(3021, project);
-	}
+	if (i + 4 >= int(animdatafile.size())) ErrorMessage(3021, project);
 
-	storeline.unknown1 = animdatafile[i++];
+	storeline.projectActive = animdatafile[i++];
 	++i;
 
 	while (!isOnlyNumber(animdatafile[i]))
 	{
-		if (hasAlpha(animdatafile[i]))
-		{
-			storeline.behaviorlist.push_back(animdatafile[i++]);
-		}
-		else
-		{
-			ErrorMessage(3005, project, "Header");
-		}
+		if (hasAlpha(animdatafile[i])) storeline.behaviorlist.push_back(animdatafile[i++]);
+		else ErrorMessage(3005, project, "Header");
 	}
-
-	storeline.unknown2 = animdatafile[i++];
+	
+	storeline.childActive = animdatafile[i++];
 	startline = i;
 
-	if (i < int(animdatafile.size()) && !hasAlpha(animdatafile[i]))
-	{
-		ErrorMessage(3005, project, "Header");
-	}
+	if (i < int(animdatafile.size()) && !hasAlpha(animdatafile[i])) ErrorMessage(3005, project, "Header");
 
 	if (error) throw nemesis::exception();
 }
 
-void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode)
+void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange, 
+	map<string, vector<shared_ptr<AnimationDataTracker>>>& animDataTracker, map<string, vector<int>>& codeTracker)
 {
+	unordered_map<string, unsigned long> tracker;
+	unordered_map<string, bool> isExist;
+
 	for (int i = startline; i < int(animdatafile.size()); ++i)
 	{
-		if (!hasAlpha(animdatafile[i]))
-		{
-			ErrorMessage(3005, project, "Unknown");
-		}
+		bool skip = false;
+
+		if (!hasAlpha(animdatafile[i])) ErrorMessage(3005, project, "Unknown");
 
 		string name = animdatafile[i++];
 
-		if (!isOnlyNumber(animdatafile[i]))
+		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(3005, project, name);
+
+		auto animDataInfo = animDataTracker.find(name);
+		string uniquecode = animdatafile[i++];
+
+		if (animDataInfo != animDataTracker.end())
 		{
-			ErrorMessage(3005, project, name);
+			int first = -1;
+
+			for (unsigned int i = 0; i < animDataInfo->second.size(); ++i)
+			{
+				if (!(tracker[name] & (1 << i)))
+				{
+					if (to_string(animDataInfo->second[i]->GetOrder()) == uniquecode)
+					{
+						first = i;
+						break;
+					}
+					else if (first == -1)
+					{
+						first = i;
+					}
+				}
+			}
+
+			if (first != -1)
+			{
+				string change = to_string(animDataInfo->second[first]->GetOrder());
+				tracker[name] |= 1 << first;
+
+				if (change == "-1")
+				{
+					skip = true;
+				}
+				else
+				{
+					exchange[uniquecode] = change;
+					codeTracker[uniquecode + "-" + change].push_back(storeline.size());
+					uniquecode = change;
+				}
+			}
 		}
 
-		string uniquecode = animdatafile[i++];
+		if (!isExist[name]) isExist[name] = true;
+		else WarningMessage(1028, project, name);
+
 		AnimDataPack curAP;
 		curAP.name = name;
 		curAP.uniquecode = uniquecode;
 
-		if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(3005, project, name);
-		}
+		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(3005, project, name);
 
 		curAP.unknown1 = animdatafile[i++];
 
-		if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(3005, project, name);
-		}
+		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(3005, project, name);
 
 		curAP.unknown2 = animdatafile[i++];
 
-		if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(3005, project, name);
-		}
+		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(3005, project, name);
 
 		curAP.unknown3 = animdatafile[i++];
 
-		if (!isOnlyNumber(animdatafile[i++]))
-		{
-			ErrorMessage(3005, project, name);
-		}
+		if (!isOnlyNumber(animdatafile[i++])) ErrorMessage(3005, project, name);
 
 		if (animdatafile[i].length() != 0 && hasAlpha(animdatafile[i]))
 		{
@@ -123,12 +143,9 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 			}
 		}
 
-		if (animdatafile[i++].length() != 0)
-		{
-			ErrorMessage(3005, project, name);
-		}
-
-		storeline.push_back(curAP);
+		if (animdatafile[i++].length() != 0) ErrorMessage(3005, project, name);
+		
+		if (!skip) storeline.push_back(curAP);
 
 		if (error) throw nemesis::exception();
 
@@ -144,39 +161,91 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 	}
 }
 
-void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode)
+void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange,
+	vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker)
 {
 	unordered_map<string, bool> isExist;
+	unordered_map<string, size_t> locate;
+	unordered_map<string, string> original;
 
 	for (int i = startline; i < int(animdatafile.size()); ++i)
 	{
-		if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(3020, project, animdatafile[i]);
-		}
+		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(3020, project, animdatafile[i]);
 
 		InfoDataPack curIP;
 		string uniquecode = animdatafile[i++];
-		curIP.uniquecode = uniquecode;
+		auto& exch = exchange.find(uniquecode);
+
+		if (exch != exchange.end())
+		{
+			uniquecode = exch->second;
+			locate[uniquecode] = storeline.size();
+			original[uniquecode] = exch->first;
+		}
 
 		if (isExist[uniquecode])
 		{
-			ErrorMessage(3012, project, uniquecode);
+			string change = animdatafile[i - 1];
+
+			try
+			{
+				if (isExist[change])
+				{
+					if (change != uniquecode) throw false;
+
+					auto& ori = original.find(change);
+
+					if (ori == original.end() || isExist[ori->second]) throw false;
+
+					auto curTrack = codeTracker.find(ori->second + "-" + change);
+
+					if (curTrack == codeTracker.end() || curTrack->second.size() == 0) throw false;
+
+					for (auto track : curTrack->second)
+					{
+						animDataPack[track].uniquecode = ori->second;
+					}
+
+					storeline[locate[change]].uniquecode = ori->second;
+					isExist[ori->second] = true;
+					exchange.erase(ori->second);
+					locate.erase(change);
+					original.erase(ori);
+					isExist[uniquecode] = false;
+				}
+				else
+				{
+					auto curTrack = codeTracker.find(change + "-" + uniquecode);
+
+					if (curTrack == codeTracker.end() || curTrack->second.size() == 0) throw false;
+
+					for (auto track : curTrack->second)
+					{
+						animDataPack[track].uniquecode = change;
+					}
+
+					exchange.erase(uniquecode);
+					locate.erase(uniquecode);
+					original.erase(uniquecode);
+					uniquecode = change;
+				}
+			}
+			catch (bool)
+			{
+				ErrorMessage(3012, project, uniquecode);
+			}
 		}
+
+		if (isExist[uniquecode]) ErrorMessage(3012, project, uniquecode);
 
 		isExist[uniquecode] = true;
+		curIP.uniquecode = uniquecode;
 
-		if (!isOnlyNumber(animdatafile[i]))
-		{
-			ErrorMessage(3020, project, uniquecode);
-		}
+		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(3020, project, uniquecode);
 
 		curIP.duration = animdatafile[i];
 
-		if (!isOnlyNumber(animdatafile[++i]))
-		{
-			ErrorMessage(3020, project, uniquecode);
-		}
+		if (!isOnlyNumber(animdatafile[++i])) ErrorMessage(3020, project, uniquecode);
 
 		++i;
 
@@ -185,20 +254,14 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 			curIP.motiondata.push_back(animdatafile[i++]);
 		}
 
-		if (!isOnlyNumber(animdatafile[i++]))
-		{
-			ErrorMessage(3020, project, uniquecode);
-		}
+		if (!isOnlyNumber(animdatafile[i++])) ErrorMessage(3020, project, uniquecode);
 
 		while (count(animdatafile[i].begin(), animdatafile[i].end(), ' ') != 0)
 		{
 			curIP.rotationdata.push_back(animdatafile[i++]);
 		}
 
-		if (animdatafile[i].length() != 0)
-		{
-			ErrorMessage(3020, project, uniquecode);
-		}
+		if (animdatafile[i].length() != 0) ErrorMessage(3020, project, uniquecode);
 
 		if (error) throw nemesis::exception();
 
@@ -244,15 +307,9 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 	{
 		if (animData[i].find("<!-- ") != NOT_FOUND)
 		{
-			if (functionstart == -1)
-			{
-				functionstart = i;
-			}
+			if (functionstart == -1) functionstart = i;
 
-			if (animData[i].find("<!-- original -->") == NOT_FOUND)
-			{
-				marker[i].skip = true;
-			}
+			if (animData[i].find("<!-- original -->") == NOT_FOUND) marker[i].skip = true;
 
 			if (animData[i].find("<!-- CLOSE -->") != NOT_FOUND)
 			{
@@ -266,10 +323,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			}
 		}
 
-		if (isOpen)
-		{
-			marker[i].isNew = true;
-		}
+		if (isOpen) marker[i].isNew = true;
 
 		if (isCondition[conditionOpen])
 		{
@@ -323,10 +377,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			{
 				if (animData[linecount].find("<!-- ") != NOT_FOUND)
 				{
-					if (!muteError)
-					{
-						ErrorMessage(3007, modcode, filepath, linecount, header);
-					}
+					if (!muteError) ErrorMessage(3007, modcode, filepath, linecount, header);
 				}
 
 				int id = 0;
@@ -352,10 +403,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 								subid[1] = 0;
 								++id;
 
-								if (id > 3)
-								{
-									break;
-								}
+								if (id > 3) break;
 							}
 						}
 
@@ -370,10 +418,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 							if (tempid != 4)
 							{
-								if (!muteError)
-								{
-									ErrorMessage(3007, modcode, filepath, linecount, header);
-								}
+								if (!muteError) ErrorMessage(3007, modcode, filepath, linecount, header);
 							}
 						}
 					}
@@ -421,10 +466,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			{
 				if (animData[linecount].find("<!-- ") != NOT_FOUND)
 				{
-					if (!muteError)
-					{
-						ErrorMessage(3007, modcode, filepath, linecount, header);
-					}
+					if (!muteError) ErrorMessage(3007, modcode, filepath, linecount, header);
 				}
 
 				int id = 0;
@@ -466,10 +508,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 								tempid = tempid + it->second;
 							}
 
-							if (tempid != 7)
-							{
-								ErrorMessage(3007, modcode, filepath, linecount, header);
-							}
+							if (tempid != 7) ErrorMessage(3007, modcode, filepath, linecount, header);
 						}
 					}
 					else if (marker[i].nextCondition)
@@ -515,10 +554,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 			{
 				if (animData[linecount].find("<!-- ") != NOT_FOUND)
 				{
-					if (!muteError)
-					{
-						ErrorMessage(3007, modcode, filepath, linecount, header);
-					}
+					if (!muteError) ErrorMessage(3007, modcode, filepath, linecount, header);
 				}
 
 				int id = 0;
@@ -563,10 +599,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 							if (tempid != 4 && tempid != 6)
 							{
-								if (!muteError)
-								{
-									ErrorMessage(3007, modcode, filepath, linecount, header);
-								}
+								if (!muteError) ErrorMessage(3007, modcode, filepath, linecount, header);
 							}
 						}
 					}
@@ -609,10 +642,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 							if (marker.find(i + 1) != marker.end())
 							{
-								if (marker[i + 1].conditionOpen == marker[i].conditionOpen)
-								{
-									nextplus = true;
-								}
+								if (marker[i + 1].conditionOpen == marker[i].conditionOpen) nextplus = true;
 							}
 						}
 						else if (nextplus)
@@ -632,10 +662,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 								if (marker.find(i + 1) != marker.end())
 								{
-									if (marker[i + 1].conditionOpen == marker[i].conditionOpen)
-									{
-										nextplus = true;
-									}
+									if (marker[i + 1].conditionOpen == marker[i].conditionOpen) nextplus = true;
 								}
 							}
 							else if (nextplus)
@@ -652,10 +679,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 								subid[1] = 0;
 								++id;
 
-								if (marker.find(i + 1) == marker.end())
-								{
-									nextplus = true;
-								}
+								if (marker.find(i + 1) == marker.end()) nextplus = true;
 							}
 							else if (nextplus)
 							{
@@ -675,10 +699,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							tempid = tempid + it->second;
 						}
 
-						if (tempid != 4 && tempid != 6)
-						{
-							ErrorMessage(3007, modcode, filepath, linecount, header);
-						}
+						if (tempid != 4 && tempid != 6) ErrorMessage(3007, modcode, filepath, linecount, header);
 					}
 				}
 				else if (marker[i].nextCondition)
@@ -702,10 +723,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 		}
 	}
 
-	if (!muteError)
-	{
-		ErrorMessage(3005, character, header);
-	}
+	if (!muteError) ErrorMessage(3005, character, header);
 
 	return xerror;
 }

@@ -2,53 +2,16 @@
 #define ANIMATIONSETDATA_H_
 
 #include <boost\algorithm\string.hpp>
+
 #include "furniture.h"
+#include "alphanum.hpp"
 #include "gettemplate.h"
 #include "generator_utility.h"
+
 #include "functions\writetextfile.h"
+
 #include "add animation\furniture.h"
-#include "alphanum.hpp"
-
-struct attackdata
-{
-	bool isNew = false;
-	bool isMulti = false;
-	std::string data;
-};
-
-struct equip
-{
-	bool isNew = false;
-	bool isMulti = false;
-	std::string name;
-};
-
-struct typepack
-{
-	bool isNew = false;
-	bool isMulti = false;
-	std::string name;
-	std::string equiptype1;
-	std::string equiptype2;
-};
-
-struct animpack
-{
-	bool isNew = false;
-	bool isMulti = false;
-	std::string name;
-	std::string unknown;
-	std::vector<attackdata> attack;
-};
-
-struct crc32
-{
-	bool isNew = false;
-	bool isMulti = false;
-	std::string filepath;
-	std::string filename;
-	std::string fileformat;
-};
+#include "add animation\animationsetdatatype.h"
 
 struct datapack
 {

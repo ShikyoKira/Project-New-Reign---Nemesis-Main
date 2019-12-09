@@ -1,15 +1,16 @@
 #include "animationsetdata.h"
 #include "add animation\playerexclusive.h"
+#include "add animation\animationdatatracker.h"
 
 using namespace std;
 
 unordered_map<string, string> crc32Cache;
 
-void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile, string filename);
-void EquipPackProcess(vector<equip>& storeline, int& startline, vecstr& animdatafile, string filename, string header);
-void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animdatafile, string filename, string header);
-void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animdatafile, string filename, string header);
-void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string filename, string header, unordered_map<string, shared_ptr<vecstr>>& AAList,
+void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile);
+void EquipPackProcess(vector<equip>& storeline, int& startline, vecstr& animdatafile, string projectname, string header);
+void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animdatafile, string projectname, string header);
+void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animdatafile, string projectname, string header);
+void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string projectname, string header, unordered_map<string, shared_ptr<vecstr>>& AAList,
 	string projectPath);
 
 AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile, string filename, string projectname)
@@ -17,16 +18,17 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 	try
 	{
 		// data list
-		DataPackProcess(datalist, startline, animdatafile, filename);
+		DataPackProcess(datalist, startline, animdatafile);
 		++startline;
 		string projectPath;
 		string projectPath_fp;
 		unordered_map<string, shared_ptr<vecstr>> AAList;
+		string projectFileName = boost::to_lower_copy(boost::filesystem::path(projectname).stem().string());
 
 		// assume current project has new alternate animation installed
-		if (behaviorProjectPath[projectname].length() > 0)
+		if (behaviorProjectPath[projectFileName].length() > 0)
 		{
-			projectPath = boost::to_lower_copy(behaviorProjectPath[projectname] + "\\animations");
+			projectPath = boost::to_lower_copy(behaviorProjectPath[projectFileName] + "\\animations");
 			projectPath_fp = projectPath + "\\_1stperson";
 			vecstr pathList = { projectPath, projectPath + "\\male", projectPath + "\\female", projectPath + "\\horse_rider", projectPath + "\\dlc01" ,
 				projectPath + "\\dlc02" };
@@ -102,19 +104,19 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 		{
 			++startline;
 
-			if (startline >= int(animdatafile.size())) ErrorMessage(5019, filename);
+			if (startline >= int(animdatafile.size())) ErrorMessage(5019, projectname);
 
 			// equip list
-			EquipPackProcess(it->second.equiplist, startline, animdatafile, filename, it->first);
+			EquipPackProcess(it->second.equiplist, startline, animdatafile, projectname, it->first);
 
 			// type list
-			TypePackProcess(it->second.typelist, startline, animdatafile, filename, it->first);
+			TypePackProcess(it->second.typelist, startline, animdatafile, projectname, it->first);
 
 			// anim list
-			AnimPackProcess(it->second.animlist, startline, animdatafile, filename, it->first);
+			AnimPackProcess(it->second.animlist, startline, animdatafile, projectname, it->first);
 
 			// crc3 list
-			CRC32Process(it->second.crc32list, startline, animdatafile, filename, it->first, AAList, projectPath);
+			CRC32Process(it->second.crc32list, startline, animdatafile, projectname, it->first, AAList, projectPath);
 		}
 	}
 	catch (int)
@@ -123,17 +125,17 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 	}
 }
 
-void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile, string filename)
+void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile)
 {
-	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, "Header");
-	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, "Header");
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, "Header", "Header");
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, "Header", "Header");
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
 	{
 		datapack newDataPack;
 		storeline[animdatafile[i]] = newDataPack;
 
-		if (i + 4 >= int(animdatafile.size())) ErrorMessage(5018, filename, "Header");
+		if (i + 4 >= int(animdatafile.size())) ErrorMessage(5018, "Header", "Header");
 
 		if (boost::iequals(animdatafile[i + 1], "V3"))
 		{
@@ -143,10 +145,10 @@ void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& start
 	}
 }
 
-void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& animdatafile, string filename, string header)
+void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& animdatafile, string projectname, string header)
 {
-	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
-	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, "Header");
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, projectname, "Header");
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
 	{
@@ -160,14 +162,14 @@ void EquipPackProcess(std::vector<equip>& storeline, int& startline, vecstr& ani
 		tempEquip.name = animdatafile[i];
 		storeline.push_back(tempEquip);
 
-		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
 	}
 }
 
-void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animdatafile, string filename, string header)
+void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animdatafile, string projectname, string header)
 {
-	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
-	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, header);
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, projectname, header);
 
 	int counter = 0;
 
@@ -185,29 +187,29 @@ void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animda
 
 		typepack tempTP;
 
-		if (isOnlyNumber(animdatafile[i]) || !hasAlpha(animdatafile[i])) ErrorMessage(5001, filename, header);
+		if (isOnlyNumber(animdatafile[i]) || !hasAlpha(animdatafile[i])) ErrorMessage(5001, projectname, header);
 
 		tempTP.name = animdatafile[i];
 
-		if (++i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
-		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
+		if (++i >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, projectname, header);
 
 		tempTP.equiptype1 = animdatafile[i];
 		
-		if (++i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
-		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
+		if (++i >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, projectname, header);
 
 		tempTP.equiptype2 = animdatafile[i];
 		storeline.push_back(tempTP);
 
-		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
 	}
 }
 
-void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animdatafile, string filename, string header)
+void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animdatafile, string projectname, string header)
 {
-	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
-	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, header);
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, projectname, header);
 
 	for (int i = startline + 1; i < int(animdatafile.size()); ++i)
 	{
@@ -239,11 +241,12 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 		}
 
 		animpack tempAP;
-		tempAP.name = animdatafile[i++];
+		tempAP.eventname = animdatafile[i++];
 		tempAP.unknown = animdatafile[i++];
+		unordered_map<string, bool> clipExist;
 
-		if (i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
-		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
+		if (i >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, projectname, header);
 		
 		while (i < int(animdatafile.size()))
 		{
@@ -308,22 +311,54 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 				}
 			}
 
-			attackdata attack;
-			tempAP.attack.push_back(attack);
-			tempAP.attack.back().data = animdatafile[i];
+			tempAP.attackClip.push_back(animdatafile[i]);
+			clipExist[tempAP.attackClip.back().data] = true;
+		}
+
+		for (auto& atkData : tempAP.attackClip)
+		{
+			auto& ptr = clipPtrAnimData.find(projectname);
+
+			if (ptr != clipPtrAnimData.end())
+			{
+				auto& ptr2 = ptr->second.find(atkData.data);
+
+				if (ptr2 != ptr->second.end())
+				{
+					if (ptr2->second.size() > 0)
+					{
+						size_t size = ptr2->second[0]->cliplist.size();
+
+						for (auto& clipname : ptr2->second[0]->cliplist)
+						{
+							if (!clipExist[atkData.data])
+							{
+								tempAP.attackClip.push_back(clipname);
+								clipExist[clipname] = true;
+							}
+							else
+							{
+								--size;
+							}
+						}
+
+						if (size == 0) break;
+					}
+				}
+			}
 		}
 
 		storeline.push_back(tempAP);
 
-		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
+		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
 	}
 }
 
-void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string filename, string header, unordered_map<string, shared_ptr<vecstr>>& AAList,
+void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile, string projectname, string header, unordered_map<string, shared_ptr<vecstr>>& AAList,
 	string projectPath)
 {
-	if (startline >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
-	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, filename, header);
+	if (startline >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
+	else if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(5001, projectname, header);
 
 	vector<crc32> newCRC;
 	unordered_set<string> isExisted;
@@ -343,17 +378,17 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 
 		storeline.push_back(crc32());
 
-		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
+		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, projectname, header);
 
 		storeline.back().filepath = animdatafile[i];
 
-		if (++i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
-		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
+		if (++i >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, projectname, header);
 
 		storeline.back().filename = animdatafile[i];
 
-		if (++i >= int(animdatafile.size())) ErrorMessage(5018, filename, header);
-		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, filename, header);
+		if (++i >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
+		else if (!isOnlyNumber(animdatafile[i])) ErrorMessage(5001, projectname, header);
 
 		storeline.back().fileformat = animdatafile[i];
 		

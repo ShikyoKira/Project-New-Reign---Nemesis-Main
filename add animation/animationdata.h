@@ -67,9 +67,9 @@ struct InfoDataPack
 
 struct AnimDataProject
 {
-	std::string unknown1;
+	std::string projectActive;
 	vecstr behaviorlist;
-	std::string unknown2;
+	std::string childActive;
 
 	std::vector<AnimDataPack> animdatalist;
 	std::vector<InfoDataPack> infodatalist;
@@ -88,11 +88,7 @@ struct MasterAnimData
 	std::unordered_map<std::string, vecstr> animDataInfo;			// order of the character's info data
 };
 
-void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
-void AnimDataProcess(std::vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
-void InfoDataProcess(std::vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, std::string project, std::string modcode);
-extern AnimDataFormat::position AnimDataPosition(vecstr animData, std::string character, std::string header, std::string modcode, std::string filepath, int linecount, int type, bool muteError = false);
-
+AnimDataFormat::position AnimDataPosition(vecstr animData, std::string character, std::string header, std::string modcode, std::string filepath, int linecount, int type, bool muteError = false);
 AnimDataFormat::position AnimDataConvert(int type, int position, bool muteError);
 
 #endif
