@@ -18,20 +18,50 @@ using namespace std;
 
 unordered_map<string, int> AAgroup_Counter;
 
-bool AACoreCompile(string filename, string import, string destination, string filepath, string appdata_path, vecstr& newFunctions, unsigned int& maxGroup,
-	unsigned int& uniquekey);
-bool AAnimAPICompile(string filename, string import, string destination, string filepath, string appdata_path, vecstr& newFunctions, unsigned int maxGroup,
-	unsigned int& uniquekey);
+bool AACoreCompile(boost::filesystem::path filename, wstring import, string destination, string filepath, boost::filesystem::path appdata_path, vecstr& newFunctions,
+	unsigned int& maxGroup, unsigned int& uniquekey);
+bool AAnimAPICompile(boost::filesystem::path filename, wstring import, string destination, string filepath, boost::filesystem::path appdata_path, vecstr& newFunctions,
+	unsigned int maxGroup, unsigned int& uniquekey);
 void fixedKeyInitialize();
 unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
-bool PapyrusCompileProcess(string pscfile, string import, string destination, string filepath, string appdata_path, boost::filesystem::path compiler, bool tryagain = false);
+bool PapyrusCompileProcess(boost::filesystem::path pscfile, wstring import, string destination, string filepath, boost::filesystem::path appdata_path,
+	boost::filesystem::path compiler, bool tryagain = false);
 void ByteCopyToData(string target, string destination);
+void ByteCopyToData(wstring target, wstring destination);
+void forcedRemove(wstring target, int counter = 0);
+void forcedRemove(string target, int counter = 0);
 
 struct ModIDByGroup
 {
 	string groupBase;
 	string modID;
 };
+
+void forcedRemove(wstring target, int counter)
+{
+	try
+	{
+		if (!boost::filesystem::remove(target)) ErrorMessage(1082, WStringToString(target));
+	}
+	catch (const exception& ex)
+	{
+		if (counter > 200) ErrorMessage(6002, WStringToString(target), ex.what());
+		forcedRemove(target, counter + 1);
+	}
+}
+
+void forcedRemove(string target, int counter)
+{
+	try
+	{
+		if (!boost::filesystem::remove(target)) ErrorMessage(1082, target);
+	}
+	catch (const exception& ex)
+	{
+		if (counter > 200) ErrorMessage(6002, target, ex.what());
+		forcedRemove(target, counter + 1);
+	}
+}
 
 void AAInitialize(string AAList)
 {
@@ -98,7 +128,7 @@ bool AAInstallation()
 	}
 	catch (const exception& ex)
 	{
-		ErrorMessage(6002, wstrConv.to_bytes(cachedir), ex.what());
+		ErrorMessage(6002, WStringToString(cachedir), ex.what());
 	}
 
 	if (error) throw nemesis::exception();
@@ -118,11 +148,10 @@ bool AAInstallation()
 	if (!isFileExist(import)) ErrorMessage(2010, import);
 
 	unsigned int maxGroup;
-	string sCacheDir = bf::path(cachedir).string();
 	fixedKeyInitialize();
 	vecstr newFunctions;
 	
-	if (!AACoreCompile(pscfile.string(), import, destination, filepath, sCacheDir, newFunctions, maxGroup, uniquekey)) return false;
+	if (!AACoreCompile(pscfile, StringToWString(import), destination, filepath, cachedir, newFunctions, maxGroup, uniquekey)) return false;
 
 	if (error) throw nemesis::exception();
 
@@ -133,8 +162,7 @@ bool AAInstallation()
 	DebugLogging(pscfile2.string());
 	DebugLogging(filepath);
 
-	if (!AAnimAPICompile(pscfile2.string(), import, destination, filepath, sCacheDir, newFunctions, maxGroup, uniquekey)) return false;
-
+	if (!AAnimAPICompile(pscfile2, StringToWString(import), destination, filepath, cachedir, newFunctions, maxGroup, uniquekey)) return false;
 
 	try
 	{
@@ -159,8 +187,8 @@ bool AAInstallation()
 	return true;
 }
 
-bool AACoreCompile(string filename, string import, string destination, string filepath, string appdata_path, vecstr& newFunctions, unsigned int& maxGroup,
-	unsigned int& uniquekey)
+bool AACoreCompile(boost::filesystem::path filename, wstring import, string destination, string filepath, boost::filesystem::path appdata_path, vecstr& newFunctions,
+	unsigned int& maxGroup, unsigned int& uniquekey)
 {
 	bool prefixDone = false;
 	set<string> prefixList;
@@ -463,7 +491,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 	}
 
 	{
-		FileWriter output(filename);
+		FileWriter output(filename.string());
 
 		if (output.is_open())
 		{
@@ -474,7 +502,7 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 		}
 		else
 		{
-			ErrorMessage(3002, filename);
+			ErrorMessage(3002, filename.string());
 		}
 	}
 
@@ -484,8 +512,8 @@ bool AACoreCompile(string filename, string import, string destination, string fi
 	return true;
 }
 
-bool AAnimAPICompile(string filename, string import, string destination, string filepath, string appdata_path, vecstr& newFunctions, unsigned int maxGroup,
-	unsigned int& uniquekey)
+bool AAnimAPICompile(boost::filesystem::path filename, wstring import, string destination, string filepath, boost::filesystem::path appdata_path, vecstr& newFunctions,
+	unsigned int maxGroup, unsigned int& uniquekey)
 {
 	vecstr storeline;
 	vecstr newline;
@@ -525,7 +553,7 @@ bool AAnimAPICompile(string filename, string import, string destination, string 
 	newline.insert(newline.end(), newFunctions.begin(), newFunctions.end());
 
 	{
-		FileWriter output(filename);
+		FileWriter output(filename.string());
 
 		if (output.is_open())
 		{
@@ -536,7 +564,7 @@ bool AAnimAPICompile(string filename, string import, string destination, string 
 		}
 		else
 		{
-			ErrorMessage(3002, filename);
+			ErrorMessage(3002, filename.string());
 		}
 	}
 
@@ -569,15 +597,22 @@ string GetLastModified(string filename)
 {
 	try
 	{
-		std::time_t lastmodified = boost::filesystem::last_write_time(filename);
-		char time1[26];
-		struct tm buf;
-		localtime_s(&buf, &lastmodified);
-		asctime_s(time1, sizeof time1, &buf);
-		string time = time1;
-		time.pop_back();
+		try
+		{
+			std::time_t lastmodified = boost::filesystem::last_write_time(filename);
+			char time1[26];
+			struct tm buf;
+			localtime_s(&buf, &lastmodified);
+			asctime_s(time1, sizeof time1, &buf);
+			string time = time1;
+			time.pop_back();
 
-		return time;
+			return time;
+		}
+		catch (const std::exception& ex)
+		{
+			ErrorMessage(6001, ex.what());
+		}
 	}
 	catch (...)
 	{
@@ -594,6 +629,20 @@ bool FolderCreate(string curBehaviorPath)
 	catch (const exception& ex)
 	{
 		ErrorMessage(6002, curBehaviorPath, ex.what());
+	}
+
+	return true;
+}
+
+bool FolderCreate(wstring curBehaviorPath)
+{
+	try
+	{
+		boost::filesystem::create_directories(curBehaviorPath);
+	}
+	catch (const exception& ex)
+	{
+		ErrorMessage(6002, WStringToString(curBehaviorPath), ex.what());
 	}
 
 	return true;
@@ -624,10 +673,10 @@ unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
 	return uniqueKey;
 }
 
-bool PapyrusCompile(string pscfile, string import, string destination, string filepath, string appdata_path)
+bool PapyrusCompile(boost::filesystem::path pscfile, wstring import, string destination, string filepath, boost::filesystem::path appdata_path)
 {
-	if (!isFileExist(pscfile)) ErrorMessage(1092, pscfile);
-	if (!isFileExist(destination)) ErrorMessage(1001, destination);
+	if (!boost::filesystem::exists(pscfile)) ErrorMessage(1092, pscfile.string());
+	if (!boost::filesystem::exists(destination)) ErrorMessage(1001, destination);
 
 	string timeline;
 	namespace bf = boost::filesystem;
@@ -641,17 +690,17 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 	target = target.parent_path();
 	target = bf::path(target.string() + "\\Papyrus Compiler\\PapyrusCompiler.exe");
 
-	if (isFileExist(filepath) && ReleaseLockedFile(filepath) && !boost::filesystem::remove(filepath)) timeline = GetLastModified(filepath);
+	if (isFileExist(filepath) && !boost::filesystem::remove(filepath)) timeline = GetLastModified(filepath);
 
-	string desPsc = import + "\\" + GetFileName(pscfile) + ".psc";
+	bf::path desPsc = import + L"\\" + pscfile.stem().wstring() + L".psc";
 
-	if (isFileExist(desPsc) && ReleaseLockedFile(desPsc) && !boost::filesystem::remove(desPsc)) ErrorMessage(1082, GetFileName(pscfile) + ".psc", desPsc);
+	if (boost::filesystem::exists(desPsc) && !boost::filesystem::remove(desPsc)) ErrorMessage(1082, pscfile.string() + ".psc", desPsc.string());
 		
-	if (!isFileExist(target.string()) || !PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, target))
+	if (!boost::filesystem::exists(target) || !PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, target))
 	{
 		string compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
 
-		if (isFileExist(compiler))
+		if (boost::filesystem::exists(compiler))
 		{
 			if (!PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, compiler, true)) throw nemesis::exception();
 		}
@@ -669,67 +718,34 @@ bool PapyrusCompile(string pscfile, string import, string destination, string fi
 	return true;
 }
 
-bool PapyrusCompileProcess(string pscfile, string import, string destination, string filepath, string appdata_path, boost::filesystem::path compiler, bool tryagain)
+bool PapyrusCompileProcess(boost::filesystem::path pscfile, wstring import, string destination, string filepath, boost::filesystem::path appdata_path,
+	boost::filesystem::path compiler, bool tryagain)
 {
-	pscfile = GetFileName(pscfile) + ".psc";
-	string importedSource = import + "\\" + pscfile;
-	string dep = "Papyrus Compiler\\scripts";
-	string backUpDep = "Papyrus Compiler\\backup scripts";
+	pscfile = pscfile.stem().wstring() + L".psc";
+	wstring importedSource = import + L"\\" + pscfile.filename().wstring();
+	wstring dep = L"Papyrus Compiler\\scripts";
+	wstring backUpDep = L"Papyrus Compiler\\backup scripts";
 
-	if ((isFileExist(dep) || FolderCreate(dep)) && isFileExist(backUpDep))
+	if ((boost::filesystem::exists(dep) || FolderCreate(dep)) && boost::filesystem::exists(backUpDep))
 	{
-		vecstr backUpDepList;
+		vector<wstring> backUpDepList;
 		read_directory(backUpDep, backUpDepList);
 
-		for (string bkUp : backUpDepList)
+		for (wstring bkUp : backUpDepList)
 		{
-			string line;
-			ifstream backUpScript(backUpDep + "\\" + bkUp);
-
-			if (backUpScript.is_open())
-			{
-				if (isFileExist(dep + "\\" + bkUp))
-				{
-					fstream script(dep + "\\" + bkUp, ios::out | ios::trunc);
-
-					if (script.is_open())
-					{
-						while (getline(backUpScript, line))
-						{
-							script << line << "\n";
-						}
-
-						script.close();
-					}
-				}
-				else
-				{
-					ofstream script(dep + "\\" + bkUp);
-
-					if (script.is_open())
-					{
-						while (getline(backUpScript, line))
-						{
-							script << line << "\n";
-						}
-
-						script.close();
-					}
-				}
-
-				backUpScript.close();
-			}
+			boost::filesystem::copy_file(backUpDep + L"\\" + bkUp, dep + L"\\" + bkUp, boost::filesystem::copy_option::overwrite_if_exists);
 		}
 	}
 
-	vecstr args{ pscfile, "-f=TESV_Papyrus_Flags.flg", "-i=" + appdata_path + ";" + dep, "-o=" + appdata_path };
+	vector<wstring> args{ pscfile.wstring(), L"-f=TESV_Papyrus_Flags.flg", L"-i=" + appdata_path.wstring() + L";" + dep, L"-o=" + appdata_path.wstring() };
 	future<vector<char>> p_reader, p_error;
 	
-	if (isFileExist(filepath) && !boost::filesystem::is_directory(filepath) && ReleaseLockedFile(filepath) && !boost::filesystem::remove(filepath)) ErrorMessage(1082, filepath);
+	if (isFileExist(filepath) && !boost::filesystem::is_directory(filepath) && !boost::filesystem::remove(filepath)) ErrorMessage(1082, filepath);
 
-	if (isFileExist(importedSource) && !boost::filesystem::is_directory(importedSource) && ReleaseLockedFile(importedSource) && !boost::filesystem::remove(importedSource))
-		ErrorMessage(1082, importedSource);
-
+	if (boost::filesystem::exists(importedSource) && !boost::filesystem::is_directory(importedSource) && !boost::filesystem::remove(importedSource))
+	{
+		ErrorMessage(1082, WStringToString(importedSource));
+	}
 
 	if (boost::process::system(compiler, args, boost::process::std_out > p_reader, boost::process::std_err > p_error, boost::process::windows::hide) != 0)
 	{
@@ -737,9 +753,9 @@ bool PapyrusCompileProcess(string pscfile, string import, string destination, st
 	}
 
 	string tempfile = GetFileName(filepath) + ".pex";
-	string tempfilepath = appdata_path + "\\" + tempfile;
+	wstring tempfilepath = appdata_path.wstring() + L"\\" + StringToWString(tempfile);
 
-	if (!isFileExist(tempfilepath))
+	if (!boost::filesystem::exists(tempfilepath))
 	{
 		string line;
 		vecstr linelist;
@@ -787,14 +803,14 @@ bool PapyrusCompileProcess(string pscfile, string import, string destination, st
 			interMsg("Output: \n" + line);
 			DebugLogging("\nOutput: \n" + line, false);
 			ErrorMessage(1185, filepath);
-			string temp = pscfile;
+			wstring temp = pscfile.wstring();
 
-			for (string arg : args)
+			for (wstring arg : args)
 			{
-				temp += " " + arg;
+				temp += L" " + arg;
 			}
 
-			interMsg("Command: " + temp);
+			interMsg("Command: " + WStringToString(temp));
 		}
 		catch (nemesis::exception)
 		{
@@ -802,8 +818,7 @@ bool PapyrusCompileProcess(string pscfile, string import, string destination, st
 		}
 	}
 
-	ByteCopyToData(tempfilepath, destination + "\\" + tempfile);
-	//ByteCopyToData(appdata_path + "\\" + pscfile, importedSource);
+	ByteCopyToData(tempfilepath, StringToWString(destination + "\\" + tempfile));
 	return true;
 }
 
@@ -812,14 +827,25 @@ void ByteCopyToData(string target, string destination)
 	ifstream file(target, ios::binary);
 	ofstream paste(destination, ios::binary);
 	copy(istreambuf_iterator<char>(file), istreambuf_iterator<char>(), ostreambuf_iterator<char>(paste));
-	file.close();
 
-	try
+	while (file.is_open())
 	{
-		if (!boost::filesystem::remove(target)) ErrorMessage(1082, target);
+		file.close();
 	}
-	catch (const exception& ex)
+
+	forcedRemove(target);
+}
+
+void ByteCopyToData(wstring target, wstring destination)
+{
+	wifstream file(target, ios::binary);
+	wofstream paste(destination, ios::binary);
+	copy(istreambuf_iterator<wchar_t>(file), istreambuf_iterator<wchar_t>(), ostreambuf_iterator<wchar_t>(paste));
+
+	while (file.is_open())
 	{
-		ErrorMessage(6002, target, ex.what());
+		file.close();
 	}
+
+	forcedRemove(target);
 }

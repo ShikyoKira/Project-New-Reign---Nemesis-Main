@@ -8,7 +8,8 @@ bool AAInstallation();
 
 std::string GetLastModified(std::string filename);
 bool FolderCreate(std::string curBehaviorPath);
+bool FolderCreate(std::wstring curBehaviorPath);
 unsigned int CRC32Convert(std::string line);
-bool PapyrusCompile(std::string pscfile, std::string import, std::string destination, std::string filepath, std::string appdata_path);
+bool PapyrusCompile(boost::filesystem::path pscfile, std::wstring import, std::string destination, std::string filepath, boost::filesystem::path appdata_path);
 
 #endif
