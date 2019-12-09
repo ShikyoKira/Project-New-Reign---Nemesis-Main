@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="add animation\alternateanimation.cpp" />
     <ClCompile Include="add animation\animationdata.cpp" />
+    <ClCompile Include="add animation\animationdatatracker.cpp" />
     <ClCompile Include="add animation\animationsetdata.cpp" />
     <ClCompile Include="add animation\animationinfo.cpp" />
     <ClCompile Include="add animation\animationthread.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="add animation\gettemplate.cpp" />
     <ClCompile Include="add animation\grouptemplate.cpp" />
     <ClCompile Include="add animation\import.cpp" />
+    <ClCompile Include="add animation\nodejoint.cpp" />
     <ClCompile Include="add animation\optionlist.cpp" />
     <ClCompile Include="add animation\playerexclusive.cpp" />
     <ClCompile Include="add animation\registeranimation.cpp" />
@@ -196,13 +198,16 @@
   <ItemGroup>
     <ClInclude Include="add animation\alternateanimation.h" />
     <ClInclude Include="add animation\animationdata.h" />
+    <ClInclude Include="add animation\animationdatatracker.h" />
     <ClInclude Include="add animation\animationsetdata.h" />
     <ClInclude Include="add animation\animationinfo.h" />
+    <ClInclude Include="add animation\animationsetdatatype.h" />
     <ClInclude Include="add animation\animationthread.h" />
     <ClInclude Include="add animation\furniture.h" />
     <ClInclude Include="add animation\gettemplate.h" />
     <ClInclude Include="add animation\grouptemplate.h" />
     <ClInclude Include="add animation\import.h" />
+    <ClInclude Include="add animation\nodejoint.h" />
     <ClInclude Include="add animation\optionlist.h" />
     <ClInclude Include="add animation\playerexclusive.h" />
     <ClInclude Include="add animation\registeranimation.h" />
@@ -231,6 +236,7 @@
     <ClInclude Include="Nemesis Main GUI\src\utilities\filerelease.h" />
     <ClInclude Include="Nemesis Main GUI\src\utilities\wstrconvert.h" />
     <ClInclude Include="nemesisinfo.h" />
+    <ClInclude Include="src\update\queuestack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

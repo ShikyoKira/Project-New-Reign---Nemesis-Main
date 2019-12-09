@@ -15,17 +15,20 @@ vecstr failedBehaviors;
 
 bool hkxcmdProcess(string xmlfile, string hkxfile, bool last)
 {
-	string args = string(SSE ? "convert -v:AMD64 \"" : "convert -v:WIN32 \"") + xmlfile + ".xml\" \"" + hkxfile + ".hkx\"";
+	if (!last)
+	{
+		if (xmlfile.find(".xml") != xmlfile.length() - 4) xmlfile.append(".xml");
+		if (hkxfile.find(".hkx") != hkxfile.length() - 4) hkxfile.append(".hkx");
+	}
 
-	if (error) throw nemesis::exception();
-
-	if (QProcess::execute("hkxcmd " + QString::fromStdString(args)) != 0 || !isFileExist(hkxfile + ".hkx"))
+	if (QProcess::execute("hkxcmd.exe", QStringList() << "convert" << (SSE ? "-v:AMD64" : "-v:WIN32") << QString::fromStdString(xmlfile) << QString::fromStdString(hkxfile)) != 0 ||
+		!isFileExist(hkxfile))
 	{
 		if (last) ErrorMessage(1003, xmlfile);
-		
+
 		while (failedBehaviorFlag.test_and_set(boost::memory_order_acquire));
 		failedBehaviors.push_back(xmlfile);
-		failedBehaviors.push_back(hkxfile); 
+		failedBehaviors.push_back(hkxfile);
 		failedBehaviorFlag.clear(boost::memory_order_release);
 
 		return false;

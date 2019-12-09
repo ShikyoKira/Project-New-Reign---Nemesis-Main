@@ -1,4 +1,5 @@
 #include <boost\thread.hpp>
+#include <boost\atomic.hpp>
 
 #include "generator_utility.h"
 
@@ -6,16 +7,22 @@
 
 #include "add animation\gettemplate.h"
 #include "add animation\playerexclusive.h"
+#include "add animation\animationdatatracker.h"
 
 #pragma warning(disable:4503)
 
 using namespace std;
 
+extern boost::atomic_flag animdata_lock;
 extern unordered_map<string, string> crc32Cache;
 extern vecstr warningMsges;
 static bool* globalThrow;
 
+vecstr fileCheckMsg;
+
 void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, getTemplate& behaviortemplate, bool firstP);
+void fileArchitectureCheck(string hkxfile);
+void checkFolder(string filepath);
 
 std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map<int, int>& functionState)
 {
@@ -258,7 +265,6 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate* behaviortemplate)
 	DebugLogging("Reading new animations...");
 
 	for (auto& behaviorGroup : behaviortemplate->grouplist)
-	for (auto it = behaviortemplate->grouplist.begin(); it != behaviortemplate->grouplist.end(); ++it)
 	{
 		string path = behaviorPath[behaviorGroup.first];
 
@@ -285,8 +291,6 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate* behaviortemplate)
 		readList(directory, directory + "_1stperson\\animations\\", list, *behaviortemplate, true);
 	}
 
-	if (list.size() > 0) interMsg("");
-
 	DebugLogging("Reading new animations complete");
 	return list;
 }
@@ -294,7 +298,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate* behaviortemplate)
 void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 {
 	vecstr filelist;
-	vector<boost::thread> multiThreads;
+	//vector<boost::thread> multiThreads;
 	read_directory(directory, filelist);
 
 	try
@@ -307,7 +311,8 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 
 			if (boost::filesystem::is_directory(curfile))
 			{
-				multiThreads.emplace_back(boost::thread(&newFileCheck, path, isChecked));
+				//multiThreads.emplace_back(boost::thread(&newFileCheck, path, isChecked));
+				newFileCheck(path, isChecked);
 			}
 			else if (boost::iequals(curfile.extension().string(), ".txt"))
 			{
@@ -328,12 +333,9 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 						if (isChecked->find(path) == isChecked->end()) throw false;
 					}
 				}
-				else
+				else if (!boost::iequals(file, "option_list.txt"))
 				{
-					if (isOnlyNumber(boost::regex_replace(string(file), boost::regex("#([^.txt]+).txt"), string("\\1"))))
-					{
-						if (isChecked->find(path) == isChecked->end()) throw false;
-					}
+					if (isChecked->find(path) == isChecked->end()) throw false;
 				}
 			}
 
@@ -345,16 +347,16 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 		globalThrow = &ex;
 	}
 
-	if (multiThreads.size() > 0)
+	/*if (multiThreads.size() > 0)
 	{
 		for (boost::thread& thrd : multiThreads)
 		{
 			thrd.join();
 		}
-	}
+	}*/
 }
 
-bool isEngineUpdated()
+bool isEngineUpdated(string& versionCode)
 {
 	string directory = "temp_behaviors";
 	vecstr filelist;
@@ -370,6 +372,12 @@ bool isEngineUpdated()
 	if (!isFileExist(filename)) return false;
 
 	if (!GetFunctionLines(filename, storeline, false)) return false;
+
+	if (storeline.size() > 0)
+	{
+		versionCode = storeline[0];
+		storeline.erase(storeline.begin());
+	}
 
 	for (auto& line : storeline)
 	{
@@ -681,15 +689,17 @@ bool isEdited(getTemplate* BehaviorTemplate, string& lowerBehaviorFile, unordere
 
 	if (isCharacter)
 	{
-		for (auto it = BehaviorTemplate->grouplist.begin(); it != BehaviorTemplate->grouplist.end(); ++it)
+		if ((lowerBehaviorFile == "defaultfemale" || lowerBehaviorFile == "defaultmale") && animReplaced.size() > 0) return true;
+
+		for (auto templist : BehaviorTemplate->grouplist)
 		{
-			vecstr behaviorNames = behaviorJoints[it->first];
+			vecstr behaviorNames = behaviorJoints[templist.first];
 
-			for (unsigned int k = 0; k < behaviorNames.size(); ++k)
+			for (auto name : behaviorNames)
 			{
-				if (it->second.size() == 0 || lowerBehaviorFile != behaviorNames[k]) continue;
+				if (templist.second.size() == 0 || lowerBehaviorFile != name) continue;
 
-				for (auto& templatecode : it->second)
+				for (auto& templatecode : templist.second)
 				{
 					if (newAnimation.find(templatecode) == newAnimation.end() || BehaviorTemplate->optionlist[templatecode].core) continue;
 
@@ -715,6 +725,160 @@ bool newAnimSkip(vector<shared_ptr<Furniture>> newAnim, string modID)
 	return true;
 }
 
+void checkClipAnimData(string& line, vecstr& characterFiles, string& clipName, bool& isClip)
+{
+	if (!isClip)
+	{
+		if (line.find("class=\"hkbClipGenerator\" signature=\"0x333b85b9\">") != NOT_FOUND) isClip = true;
+	}
+	else
+	{
+		size_t pos = line.find("<hkparam name=\"animationName\">");
+
+		if (pos != NOT_FOUND)
+		{
+			isClip = false;
+			pos += 30;
+			string animFile = boost::filesystem::path(line.substr(pos, line.find("</hkparam>", pos) - pos)).filename().string();
+			boost::to_lower(animFile);
+
+			for (auto file : characterFiles)
+			{
+				while (animdata_lock.test_and_set(boost::memory_order_acquire));
+				shared_ptr<AnimationDataTracker>& animDataPtr = charAnimDataInfo[file][animFile];
+
+				if (animDataPtr == nullptr)
+				{
+					animDataPtr = make_shared<AnimationDataTracker>();
+					animDataPtr->filename = animFile;
+				}
+
+				animDataPtr->cliplist.insert(clipName);
+				vector<shared_ptr<AnimationDataTracker>>& listAnimData = clipPtrAnimData[file][clipName];
+
+				if (listAnimData.size() > 0)
+				{
+					bool same = false;
+
+					for (auto& animData : listAnimData)
+					{
+						if (animData->filename == animFile)
+						{
+							same = true;
+							break;
+						}
+					}
+
+					if (!same)
+					{
+						clipPtrAnimData[file][clipName].push_back(animDataPtr);
+					}
+				}
+				else
+				{
+					clipPtrAnimData[file][clipName].push_back(animDataPtr);
+				}
+
+				animdata_lock.clear(boost::memory_order_release);
+			}
+		}
+		else
+		{
+			pos = line.find("<hkparam name=\"name\">");
+
+			if (pos != NOT_FOUND)
+			{
+				pos += 21;
+				clipName = line.substr(pos, line.find("</hkparam>", pos) - pos);
+			}
+		}
+	}
+}
+
+void fileArchitectureCheck(string hkxfile)
+{
+	FILE* f;
+	fopen_s(&f, hkxfile.c_str(), "r+b");
+
+	if (f)
+	{
+		fseek(f, 0x10, SEEK_SET);
+		unsigned char charcode;
+		fread(&charcode, sizeof(charcode), 1, f);
+		fclose(f);
+		
+		if (SSE)
+		{
+			if (charcode == 0x4)
+			{
+				WarningMessage(1027, "32bit", hkxfile);
+				fileCheckMsg.push_back(warningMsges.back());
+			}
+		}
+		else if (charcode == 0x8)
+		{
+			WarningMessage(1027, "64bit", hkxfile);
+			fileCheckMsg.push_back(warningMsges.back());
+		}
+	}
+}
+
+void checkFolder(string filepath)
+{
+	vecstr list;
+	read_directory(filepath, list);
+
+	for (auto& each : list)
+	{
+		boost::filesystem::path file(filepath + "\\" + each);
+
+		if (boost::filesystem::is_directory(file))
+		{
+			checkFolder(file.string());
+		}
+		else if (boost::iequals(file.extension().string(), ".hkx"))
+		{
+			fileArchitectureCheck(file.string());
+		}
+
+		if (error) throw nemesis::exception();
+	}
+}
+
+void checkAllFiles(string filepath)
+{
+	try
+	{
+		try
+		{
+			try
+			{
+				DebugLogging("Background hkx file architecture check: INITIALIZED");
+				checkFolder(filepath);
+				DebugLogging("Background hkx file architecture check: COMPLETED");
+			}
+			catch (const exception& ex)
+			{
+				ErrorMessage(6002, "None", ex.what());
+			}
+		}
+		catch (const nemesis::exception&)
+		{
+		}
+	}
+	catch (...)
+	{
+		try
+		{
+			ErrorMessage(6002, "None", "Unknown");
+		}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
+	}
+}
+
 void ClearGlobal(bool all)
 {
 	if (all)
@@ -735,6 +899,9 @@ void ClearGlobal(bool all)
 	{
 		DebugLogging("Global reset all: FALSE");
 	}
+
+	clipPtrAnimData = map<string, map<string, vector<shared_ptr<AnimationDataTracker>>>>();
+	charAnimDataInfo = map<string, map<string, shared_ptr<AnimationDataTracker>>>();
 
 	behaviorProjectPath = unordered_map<string, string>();
 	behaviorPath = unordered_map<string, string>();
@@ -759,4 +926,6 @@ void ClearGlobal(bool all)
 	AAgroup_Counter = unordered_map<string, int>();
 
 	groupNameList = set<string>();
+
+	fileCheckMsg = vecstr();
 }

@@ -8,31 +8,19 @@ bool FileCheck(bool isUpdate)
 	string file = "alternate animation";
 	DebugLogging("Initializing file check...");
 
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1001, file);
-	}
+	if (!isFileExist(file)) ErrorMessage(1001, file);
 
 	file = "alternate animation\\alternate animation.script";
 
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1092, file);
-	}
+	if (!isFileExist(file)) ErrorMessage(1092, file);
 
 	file = "alternate animation\\alternate animation 2.script";
 
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1092, file);
-	}
+	if (!isFileExist(file)) ErrorMessage(1092, file);
 
 	file = "behavior templates";
 
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1001, file);
-	}
+	if (!isFileExist(file)) ErrorMessage(1001, file);
 
 	CreateFolder("mod");
 
@@ -40,35 +28,21 @@ bool FileCheck(bool isUpdate)
 	{
 		file = "cache\\animationdata_list";
 
-		if (!isFileExist(file))
-		{
-			ErrorMessage(1092, file);
-		}
-
-		file = "temp_behaviors";
+		if (!isFileExist(file)) ErrorMessage(1092, file);
 	}
 
 	file = "hkxcmd.exe";
 
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1092, file);
-	}
+	if (!isFileExist(file)) ErrorMessage(1092, file);
 
 	file = "languages";
 
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1001, file);
-	}
+	if (!isFileExist(file)) ErrorMessage(1001, file);
 
 	file = "languages\\english.txt";
 
-	if (!isFileExist(file))
-	{
-		ErrorMessage(1092, file);
-	}
-
+	if (!isFileExist(file)) ErrorMessage(1092, file);
+	
 	DebugLogging("File Check complete");
 	return true;
 }
@@ -82,17 +56,11 @@ bool PCEACheck()
 	{
 		file = "alternate animation\\nemesis pcea.script";
 
-		if (!isFileExist(file))
-		{
-			ErrorMessage(1092, file);
-		}
+		if (!isFileExist(file)) ErrorMessage(1092, file);
 
 		file = nemesisInfo->GetDataPath() + "scripts\\Nemesis_PCEA_MCM.pex";
 
-		if (!isFileExist(file))
-		{
-			ErrorMessage(1092, file);
-		}
+		if (!isFileExist(file)) ErrorMessage(1092, file);
 	}
 	else
 	{

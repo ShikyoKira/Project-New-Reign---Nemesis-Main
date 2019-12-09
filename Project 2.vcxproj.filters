@@ -138,6 +138,12 @@
     <ClCompile Include="Nemesis Main GUI\src\utilities\externalscript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="add animation\nodejoint.cpp">
+      <Filter>Source Files\generate</Filter>
+    </ClCompile>
+    <ClCompile Include="add animation\animationdatatracker.cpp">
+      <Filter>Source Files\generate</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -250,6 +256,18 @@
     </ClInclude>
     <ClInclude Include="Nemesis Main GUI\src\utilities\externalscript.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="add animation\nodejoint.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="add animation\animationdatatracker.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="add animation\animationsetdatatype.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="src\update\queuestack.h">
+      <Filter>Header Files\update</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

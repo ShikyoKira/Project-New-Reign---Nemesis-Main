@@ -19,8 +19,10 @@ std::string behaviorLineChooser(std::string originalline, std::unordered_map<std
 std::string GetFileName(std::string filepath);
 std::string GetFileDirectory(std::string filepath);
 std::vector<std::unique_ptr<registerAnimation>> openFile(getTemplate* behaviortemplate);
+void checkClipAnimData(std::string& line, vecstr& characterFiles, std::string& clipName, bool& isClip);
+void checkAllFiles(std::string filepath);
 
-bool isEngineUpdated();
+bool isEngineUpdated(std::string& versionCode);
 void ClearGlobal(bool all = true);
 void GetAnimData();
 void characterHKX();

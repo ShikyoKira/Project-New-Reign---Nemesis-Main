@@ -62,7 +62,7 @@ void NemesisInfo::setup()
 	{
 		vecstr storeline;
 
-		if (GetFunctionLines("nemesis.ini", storeline))
+		if (GetFunctionLines(string("nemesis.ini"), storeline))
 		{
 			for (auto& line : storeline)
 			{

@@ -6,6 +6,7 @@ typedef std::unordered_map<std::string, int> id;
 struct jointTemplate;
 struct groupTemplate;
 struct ExistingFunction;
+struct nodePackedParameters;
 
 struct animationutility
 {
@@ -20,6 +21,7 @@ struct animationutility
 	std::string multiOption;
 	std::string originalCondition;
 	jointTemplate* currentProcess;
+	std::shared_ptr<nodePackedParameters> nodeProcess;
 	bool isExisting = false;
 
 	animationutility() {}
