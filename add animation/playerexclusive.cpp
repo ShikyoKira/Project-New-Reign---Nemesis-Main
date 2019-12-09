@@ -41,6 +41,20 @@ bool Delete(bf::path file)
 	return true;
 }
 
+void forcedCopy(bf::path animFile, bf::path newAnimFile, int count = 0)
+{
+	try
+	{
+		bf::copy_file(animFile, newAnimFile, bf::copy_option::overwrite_if_exists);
+	}
+	catch (const exception& ex)
+	{
+		if (count > 200) throw ex;
+
+		forcedCopy(animFile, newAnimFile, count + 1);
+	}
+}
+
 void PCEASubFolder(string path, unsigned short number, string pceafolder, string subpath, PCEA& mod)
 {
 	vecstr animlist;
@@ -65,7 +79,7 @@ void PCEASubFolder(string path, unsigned short number, string pceafolder, string
 			
 			if (!isFileExist(pceafolder)) bf::create_directories(pceafolder);
 
-			bf::copy_file(animFile, newAnimFile, bf::copy_option::overwrite_if_exists);
+			forcedCopy(animFile, newAnimFile);
 
 			if (!bf::exists(animFile)) ErrorMessage(1185, newAnimFile.string());
 		}
@@ -131,7 +145,7 @@ void ReadPCEA()
 	if (modlist.size() > 0)
 	{
 		interMsg(TextBoxMessage(1006) + ": Nemesis PCEA\n");
-		DebugLogging(TextBoxMessage(1006) + ": Nemesis PCEA");
+		DebugLogging(EngTextBoxMessage(1006) + ": Nemesis PCEA");
 	}
 
 	for (auto& mod : modlist)
@@ -151,8 +165,6 @@ void ReadPCEA()
 
 		if (error) throw nemesis::exception();
 	}
-
-	if (modlist.size() > 0) interMsg("");
 }
 
 bool PCEAInstallation()
@@ -360,11 +372,10 @@ bool PCEAInstallation()
 
 	if (error) throw nemesis::exception();
 
-	string sCacheDir = bf::path(cachedir).string();
 	string destination = nemesisInfo->GetDataPath() + "scripts";
 	string filepath = destination + "\\Nemesis_PCEA_Core.pex";
 
-	if (!PapyrusCompile(pscfile.string(), import, destination, filepath, sCacheDir))
+	if (!PapyrusCompile(pscfile, StringToWString(import), destination, filepath, cachedir))
 	{
 		return false;
 	}
