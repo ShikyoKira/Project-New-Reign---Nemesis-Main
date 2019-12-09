@@ -6,11 +6,47 @@
 #include "utilities\Terminator.h"
 
 #include "add animation\animationdata.h"
+#include "add animation\animationdatatracker.h"
 
 using namespace std;
 
 extern Terminator* p_terminate;
 extern atomic<int> m_RunningThread;
+extern atomic<int> behaviorRun;
+extern mutex cv2_m;
+extern condition_variable cv2;
+
+struct invertInt
+{
+	short code = SHRT_MAX;
+
+	invertInt() {}
+	invertInt(short _code)
+	{
+		code = _code;
+	}
+
+	short& operator=(short _code)
+	{
+		code = _code;
+		return code;
+	}
+
+	short operator++()
+	{
+		return code++;
+	}
+
+	short operator--()
+	{
+		return code--;
+	}
+
+	short& to_int()
+	{
+		return code;
+	}
+};
 
 void BehaviorSub::AnimDataCompilation()
 {
@@ -59,11 +95,11 @@ void BehaviorSub::CompilingAnimData()
 
 	string project;
 	//string header;
-
+	
 	emit progressAdd();
 
 	{
-		unordered_map<string, int> uCode;		// project, highest unique code
+		unordered_map<string, invertInt> uCode;		// project, highest unique code
 		unordered_map<string, unordered_map<string, string>> uniqueModCode;	// project, mod code, unique code
 		unordered_map<string, unordered_map<string, vecstr>> catalystMap;	// project, header, list of lines
 		unordered_map<string, vecstr> animDataHeader;						// project, list of headers
@@ -227,15 +263,12 @@ void BehaviorSub::CompilingAnimData()
 										{
 											if (isOnlyNumber(catalyst[l + 1]))		// next anim header
 											{
-												int number = stoi(catalyst[l + 1]);
 												newline.shrink_to_fit();
 												catalystMap[project][header] = newline;
 												newline.reserve(20);
 												newline.clear();
 												header = line + " " + catalyst[l + 1];
 												animDataHeader[project].push_back(header);
-
-												if (number > uCode[project]) uCode[project] = number;
 											}
 											else		// new anim header added by mod
 											{
@@ -245,7 +278,8 @@ void BehaviorSub::CompilingAnimData()
 												if (number != catalyst[l + 1] && isOnlyNumber(number))
 												{
 													string modcode = catalyst[l + 1];
-													catalyst[l + 1] = to_string(++uCode[project]);
+													catalyst[l + 1] = to_string(uCode[project].to_int());
+													--uCode[project];
 													uniqueModCode[project][modcode] = catalyst[l + 1];
 													newline.shrink_to_fit();
 													catalystMap[project][header] = newline;
@@ -274,8 +308,10 @@ void BehaviorSub::CompilingAnimData()
 												else
 												{
 													WarningMessage(1024, catalyst[l]);
-													uniqueModCode[project][catalyst[l]] = to_string(++uCode[project]);
-													catalyst[l] = to_string(uCode[project]);
+													short& refCode = uCode[project].to_int();
+													uniqueModCode[project][catalyst[l]] = to_string(refCode);
+													catalyst[l] = to_string(refCode);
+													--refCode;
 												}
 											}
 
@@ -306,8 +342,10 @@ void BehaviorSub::CompilingAnimData()
 											else
 											{
 												WarningMessage(1024, line);
-												uniqueModCode[project][line] = to_string(++uCode[project]);
-												line = to_string(uCode[project]);
+												short& refCode = uCode[project].to_int();
+												uniqueModCode[project][line] = to_string(refCode);
+												line = to_string(refCode);
+												--refCode;
 											}
 
 											newline.shrink_to_fit();
@@ -326,15 +364,12 @@ void BehaviorSub::CompilingAnimData()
 								{
 									if (isOnlyNumber(catalyst[l + 1]))	// if it is unique code
 									{
-										int number = stoi(catalyst[l + 1]);
 										newline.shrink_to_fit();
 										catalystMap[project][header] = newline;
 										newline.reserve(20);
 										newline.clear();
 										header = line + " " + catalyst[l + 1];
 										animDataHeader[project].push_back(header);
-
-										if (number > uCode[project]) uCode[project] = number;
 									}
 									else
 									{
@@ -343,7 +378,9 @@ void BehaviorSub::CompilingAnimData()
 										if (number != catalyst[l + 1] && isOnlyNumber(number))
 										{
 											string modcode = catalyst[l + 1];
-											catalyst[l + 1] = to_string(++uCode[project]);
+											short& refCode = uCode[project].to_int();
+											catalyst[l + 1] = to_string(refCode);
+											--refCode;
 											uniqueModCode[project][modcode] = catalyst[l + 1];
 											newline.shrink_to_fit();
 											catalystMap[project][header] = newline;
@@ -411,6 +448,13 @@ void BehaviorSub::CompilingAnimData()
 		DebugLogging("Processing behavior: " + filepath + " (Check point 2, AnimData general processing complete)");
 		emit progressAdd();
 
+		unique_lock<mutex> ulock(cv2_m);
+
+		if (behaviorRun > 0)
+		{
+			cv2.wait(ulock, [] { return behaviorRun == 0; });
+		}
+
 		// check for having newAnimation for the file
 		if (BehaviorTemplate->grouplist.find(lowerBehaviorFile) != BehaviorTemplate->grouplist.end() && BehaviorTemplate->grouplist[lowerBehaviorFile].size() > 0)
 		{
@@ -463,28 +507,41 @@ void BehaviorSub::CompilingAnimData()
 
 										if (isExist[header].length() == 0)
 										{
-											header = to_string(++uCode[projectplus]);
-											isExist[header] = header;
-											data.second[0] = header;
+											if (!isOnlyNumber(data.second[0]))
+											{
+												short& refCode = uCode[projectplus].to_int();
+												header = to_string(refCode);
+												--refCode;
+												isExist[header] = header;
+												data.second[0] = header;
+											}
+
 											animDataInfo[projectplus].push_back(header);
 										}
+
 									}
 									else if (data.first[0] == '$' && data.first.back() == '$')	// anim data 
 									{
 										header = data.second[0];
 										header.append("~" + to_string(++ASDCount[projectplus][header]));
 
-										if (isExist[header].length() == 0)
+										if (!isOnlyNumber(data.second[1]))
 										{
-											uniquecode = to_string(++uCode[projectplus]);
-											isExist[header] = uniquecode;
-										}
-										else
-										{
-											uniquecode = isExist[header];
+											if (isExist[header].length() == 0)
+											{
+												short& refCode = uCode[projectplus].to_int();
+												uniquecode = to_string(refCode);
+												--refCode;
+												isExist[header] = uniquecode;
+											}
+											else
+											{
+												uniquecode = isExist[header];
+											}
+
+											data.second[1] = uniquecode;
 										}
 
-										data.second[1] = uniquecode;
 										animDataHeader[projectplus].push_back(header);
 									}
 									else
@@ -592,50 +649,90 @@ void BehaviorSub::CompilingAnimData()
 		DebugLogging("Processing behavior: " + filepath + " (Check point 3, AnimData general new animations complete)");
 		emit progressAdd();
 
-		if (alternateAnim.size() > 0)
-		{
-			DebugLogging("Processing behavior: " + filepath + " (Check point 3.4, AnimData general new animations complete)");
+		DebugLogging("Processing behavior: " + filepath + " (Check point 3.4, AnimData general new animations complete)");
 
-			// unsure of the function but is present in FNIS
-			unordered_map<string, bool> isExist;
+		//if (alternateAnim.size() > 0)
+		//{
+		//	// unsure of the function but is present in FNIS
+		//	unordered_map<string, bool> isExist;
 
-			for (auto& it : alternateAnim)
-			{
-				for (auto& iter : it.second)
-				{
-					string header = GetFileName(iter);
+		//	for (auto& it : alternateAnim)
+		//	{
+		//		for (auto& iter : it.second)
+		//		{
+		//			if (!isExist[iter] && iter != "x")
+		//			{
+		//				isExist[iter] = true;
+		//				string animFileName = boost::filesystem::path(iter).filename().string();
+		//				auto& ptr = charAnimDataInfo.find("defaultfemale");
 
-					if (!isExist[header] && header != "x")
-					{
-						vecstr newlines;
-						isExist[header] = true;
-						project = "DefaultFemale.txt 1";
+		//				if (ptr != charAnimDataInfo.end())
+		//				{
+		//					auto& ptr2 = ptr->second.find(animFileName);
 
-						newlines.push_back(header);
-						newlines.push_back(to_string(++uCode[project]));
-						newlines.push_back("1");
-						newlines.push_back("0");
-						newlines.push_back("0");
-						newlines.push_back("0");
-						newlines.push_back("");
+		//					if (ptr2 != ptr->second.end())
+		//					{
+		//						for (auto& header : ptr2->second->cliplist)
+		//						{
+		//							vecstr newlines;
+		//							project = "DefaultFemale.txt 1";
+		//							int& refCode = uCode[project].to_int();
 
-						animDataHeader[project].push_back(header);
-						catalystMap[project][header] = newlines;
+		//							newlines.push_back(header);
+		//							newlines.push_back(to_string(refCode));
+		//							newlines.push_back("1");
+		//							newlines.push_back("0");
+		//							newlines.push_back("0");
+		//							newlines.push_back("0");
+		//							newlines.push_back("");
 
-						project = "DefaultMale.txt 1";
-						newlines[1] = to_string(++uCode[project]);
-						animDataHeader[project].push_back(header);
-						catalystMap[project][header] = newlines;
-					}
+		//							--refCode;
+		//							animDataHeader[project].push_back(header + to_string(animDataHeader[project].size()));
+		//							catalystMap[project][header + to_string(animDataHeader[project].size() - 1)] = newlines;
 
-					if (error) throw nemesis::exception();
-				}
+		//							if (error) throw nemesis::exception();
+		//						}
+		//					}
+		//				}
 
-				if (error) throw nemesis::exception();
-			}
+		//				ptr = charAnimDataInfo.find("defaultmale");
 
-			DebugLogging("Processing behavior: " + filepath + " (Check point 3.5, AnimData AA complete)");
-		}
+		//				if (ptr != charAnimDataInfo.end())
+		//				{
+		//					auto& ptr2 = ptr->second.find(animFileName);
+
+		//					if (ptr2 != ptr->second.end())
+		//					{
+		//						for (auto& header : ptr2->second->cliplist)
+		//						{
+		//							vecstr newlines;
+		//							project = "DefaultMale.txt 1";
+		//							int& refCode = uCode[project].to_int();
+
+		//							newlines.push_back(header);
+		//							newlines.push_back(to_string(refCode));
+		//							newlines.push_back("1");
+		//							newlines.push_back("0");
+		//							newlines.push_back("0");
+		//							newlines.push_back("0");
+		//							newlines.push_back("");
+
+		//							--refCode;
+		//							animDataHeader[project].push_back(header + to_string(animDataHeader[project].size()));
+		//							catalystMap[project][header + to_string(animDataHeader[project].size() - 1)] = newlines;
+
+		//							if (error) throw nemesis::exception();
+		//						}
+		//					}
+		//				}
+		//			}
+		//		}
+
+		//		if (error) throw nemesis::exception();
+		//	}
+
+		//	DebugLogging("Processing behavior: " + filepath + " (Check point 3.5, AnimData AA complete)");
+		//}
 
 		emit progressAdd();
 
@@ -706,7 +803,7 @@ void BehaviorSub::CompilingAnimData()
 		for (auto& project : ADProject)
 		{
 			output << to_string(project->GetAnimTotalLine()) + "\n";
-			output << project->unknown1 + "\n";
+			output << project->projectActive + "\n";
 			output << to_string(project->behaviorlist.size()) + "\n";
 
 			for (auto& behavior : project->behaviorlist)
@@ -714,9 +811,9 @@ void BehaviorSub::CompilingAnimData()
 				output << behavior + "\n";
 			}
 
-			output << project->unknown2 + "\n";
+			output << project->childActive + "\n";
 
-			if (project->unknown2 != "0")
+			if (project->childActive != "0")
 			{
 				for (auto& animdata : project->animdatalist)
 				{
