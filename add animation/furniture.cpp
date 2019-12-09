@@ -2310,14 +2310,24 @@ bool Furniture::GetFirstCondition(string firstCondition, vecstr optionInfo, int 
 	}
 }
 
-void Furniture::addAnimData(unordered_map<string, unordered_map<string, vecstr>> animdata)
+//void Furniture::addAnimData(unordered_map<string, unordered_map<string, vecstr>> animdata)
+//{
+//	animdatalines = animdata;
+//}
+
+void Furniture::addAnimData(unordered_map<string, unordered_map<string, AnimTemplate>> animdata)
 {
-	animdatalines = animdata;
+	animdatatemplate = animdata;
 }
 
-void Furniture::addAnimSetData(unordered_map<string, map<string, vecstr, alphanum_less>> animsetdata)
+//void Furniture::addAnimSetData(unordered_map<string, map<string, vecstr, alphanum_less>> animsetdata)
+//{
+//	asdlines = animsetdata;
+//}
+
+void Furniture::addAnimSetData(unordered_map<string, map<string, AnimTemplate, alphanum_less>> animsetdata)
 {
-	asdlines = animsetdata;
+	asdtemplate = animsetdata;
 }
 
 void Furniture::GetAnimData(unordered_map<string, map<string, vecstr>>& newAnimDataLines)
@@ -2331,24 +2341,26 @@ void Furniture::GetAnimData(unordered_map<string, map<string, vecstr>>& newAnimD
 		groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
 	}
 
-	for (auto it = animdatalines.begin(); it != animdatalines.end(); ++it)
+	for (auto& project : animdatatemplate)
 	{
-		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+		for (auto& header : project.second)
 		{
 			try
 			{
-				AnimDataLineProcess(iter->second, newAnimDataLines[it->first][iter->first], format, groupOptionPicked);
+				shared_ptr<vecstr> dummy = make_shared<vecstr>();
+				AnimDataLineProcess(&header.second, dummy, format, project.first, header.first, groupOptionPicked);
 				isEnd = false;
+				newAnimDataLines[project.first][header.first] = *dummy;
 			}
 			catch (MDException&)
 			{
-				newAnimDataLines[it->first].erase(iter->first);
+				newAnimDataLines[project.first].erase(header.first);
 			}
 
 			if (error) throw nemesis::exception();
 		}
 
-		if (newAnimDataLines[it->first].size() == 0) newAnimDataLines.erase(it->first);
+		if (newAnimDataLines[project.first].size() == 0) newAnimDataLines.erase(project.first);
 	}
 
 	return;
@@ -2365,18 +2377,18 @@ void Furniture::GetAnimSetData(unordered_map<string, map<string, vecstr, alphanu
 		groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
 	}
 	
-	for (auto it = asdlines.begin(); it != asdlines.end(); ++it)
+	for (auto& project : asdtemplate)
 	{
-		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+		for (auto& header : project.second)
 		{
 			try
 			{
-				vecstr dummy;
-				AnimDataLineProcess(iter->second, dummy, format, groupOptionPicked, vector<int>(1));
+				shared_ptr<vecstr> dummy = make_shared<vecstr>();
+				AnimDataLineProcess(&header.second, dummy, format, project.first, header.first, groupOptionPicked, vector<int>(1));
 
-				for (auto& line : dummy)
+				for (auto& line : *dummy)
 				{
-					if (line.length() > 0) newASDLines[it->first][iter->first].push_back(line);
+					if (line.length() > 0) newASDLines[project.first][header.first].push_back(line);
 				}
 			}
 			catch (MDException&)
@@ -3114,6 +3126,27 @@ void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, stri
 	}
 
 	newlines.shrink_to_fit();
+}
+
+void Furniture::AnimDataLineProcess(AnimTemplate* originaltemplate, shared_ptr<vecstr> generatedlines, string format, string project, string header,
+	vector<unordered_map<string, bool>> groupOptionPicked, vector<int> ASD)
+{
+	int counter = 0;
+	bool negative = false;
+	bool norElement = false;
+	int openRange = 0;
+	size_t elementLine;
+
+	generatedlines->reserve(originaltemplate->size + 10 * memory);
+	proc process = originaltemplate->process;
+	process.Register(format, format, behaviorFile, filepath, filename, mainAnimEvent, strID, zeroEvent, zeroVariable, false, negative, isEnd, norElement,
+		elementCatch, hasDuration, duration, openRange, counter, elementLine, furnitureCount, id(), id(), vector<int>(), vector<int>(), nullptr,
+		order, lastOrder, IDExist, AnimObject, addition, newImport, groupAddition, groupOptionPicked, nullptr, generatedlines, this);
+	process.project = project;
+	process.header = header;
+
+	OutputCheck(generatedlines, process, &originaltemplate->lines, norElement, openRange, elementLine, counter, id(), id(), vector<int>(),
+		vector<int>(), false, negative, groupOptionPicked, nullptr);
 }
 
 void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, vector<int> ASD)

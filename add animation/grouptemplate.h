@@ -28,9 +28,6 @@ struct jointTemplate
 	std::string zeroEvent;
 	std::string zeroVariable;
 
-	bool specialCondition(std::string condition, std::string filename, std::vector<std::vector<std::unordered_map<std::string, bool>>> curOptionPicked,
-		std::vector<std::vector<std::shared_ptr<animationInfo>>> groupAnimInfo, int numline, std::string format, std::string masterformat, animationutility utility);
-
 	virtual void processing(std::string& line, std::string filename, std::string masterFormat, int linecount, id eventid, id variableid, int groupMulti = -1,
 		int optionMulti = -1, int animMulti = -1, std::string multiOption = "") {}
 

@@ -66,12 +66,14 @@ private:
 	std::unordered_map<std::string, vecstr> linkedOption;
 	std::unordered_map<std::string, vecstr> mixOptRever;
 	std::unordered_map<std::string, vecstr> rawtemplate;
-	std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>> asdlines;
-	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> animdatalines;
+	//std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>> asdlines;
+	//std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> animdatalines;
 	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> groupAddition;
 	std::vector<std::shared_ptr<animationInfo>> groupAnimInfo;
 
 	std::shared_ptr<std::unordered_map<std::string, AnimTemplate>> animtemplate;
+	std::unordered_map<std::string, std::unordered_map<std::string, AnimTemplate>> animdatatemplate;
+	std::unordered_map<std::string, std::map<std::string, AnimTemplate, alphanum_less>> asdtemplate;
 
 public:
 	std::shared_ptr<single> subFunctionIDs;
@@ -94,6 +96,9 @@ private:
 		std::vector<int> stateCountMultiplier, bool hasGroup, int optionMulti = -1, int animMulti = -1);
 	void AnimDataLineProcess(vecstr originallines, vecstr& newlines, std::string format, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked,
 		std::vector<int> ASD = { 0 });
+
+	void AnimDataLineProcess(AnimTemplate* originaltemplate, std::shared_ptr<vecstr> newlines, std::string format, std::string project, std::string header,
+		std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, std::vector<int> ASD = { 0 });
 
 public:
 	Furniture(std::shared_ptr<std::unordered_map<std::string, AnimTemplate>> animlines, std::string formatname, std::unordered_map<std::string, vecstr> furnituretemplate,
@@ -123,8 +128,13 @@ public:
 		id& variableid, std::vector<int> fixedStateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool& negative,
 		std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, std::shared_ptr<group> groupFunction, int optionMulti = -1, int animMulti = -1);
 	void multiChoice(std::string& line, vecstr& storeline, std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, int numline, animationutility utility);
-	void addAnimData(std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> animdata);
-	void addAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>> animsetdata);
+
+	//void addAnimData(std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> animdata);
+	void addAnimData(std::unordered_map<std::string, std::unordered_map<std::string, AnimTemplate>> animdata);
+
+	//void addAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>> animsetdata);
+	void addAnimSetData(std::unordered_map<std::string, std::map<std::string, AnimTemplate, alphanum_less>> animsetdata);
+
 	void storeAnimObject(vecstr animobjects, std::string listFilename, int lineCount);
 	void addGroupAnimInfo(std::vector<std::shared_ptr<animationInfo>> animInfo);
 	void setZeroEvent(std::string eventname);
