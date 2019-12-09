@@ -25,11 +25,12 @@ public:
 	void addBehaviorPick(NemesisMainGUI* newWidget, vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
 	void addBehaviorPick(vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
 	void message(std::string input);
+	void GenerateBehavior(std::thread*& checkThread);
 
-	public slots:
+public slots:
 	void newMilestone();
 	void increaseAnimCount();
-	void GenerateBehavior();
+	void InitializeGeneration();
 	void unregisterProcess(bool skip = false);
 	void EndAttempt();
 
@@ -38,10 +39,11 @@ signals:
 	void progressMax(int);
 	void progressUp();
 	void end();
-	void enable(bool);
-	void enableCheck(bool);
+	void disable(bool);
+	void disableCheck(bool);
 	void hide(bool);
 	void incomingMessage(QString);
+	void disableLaunch();
 
 private:
 	bool cmdline = false;

@@ -1,6 +1,6 @@
 #include "behaviorprocess_utility.h"
-#include "nodeJoint.h"
 
+#include "add animation\nodejoint.h"
 #include "add animation\furniture.h"
 #include "add animation\grouptemplate.h"
 #include "add animation\animationthread.h"
@@ -111,16 +111,56 @@ void unpackToCatalyst(map<int, vecstr>& catalystMap, unordered_map<int, shared_p
 }
 
 void processExistFuncID(vector<int>& funcIDs, string ZeroEvent, string ZeroVariable, map<int, vecstr>& catalystMap, shared_ptr<master> groupFunctionIDs,
-	vector<vector<shared_ptr<animationInfo>>>& groupAnimInfo, string templateCode, ImportContainer& exportID, id& eventid, id& variableid, int lastID, bool hasMaster,
-	bool hasGroup, setstr& templateGroup, bool ignoreGroup, unordered_map<int, shared_ptr<nodeJoint>> existingNodes)
+	vector<vector<shared_ptr<animationInfo>>>& groupAnimInfo, string templateCode, ImportContainer& exportID, id& eventid, id& variableid, int& lastID, bool hasMaster,
+	bool hasGroup, setstr& templateGroup, bool ignoreGroup, string behaviorFile, unordered_map<int, shared_ptr<nodeJoint>>& existingNodes)
 {
 	for (int& functionID : funcIDs)
 	{
 		unordered_map<int, shared_ptr<nodeJoint>>::iterator curNode = existingNodes.find(functionID);
+		string filename = to_string(functionID);
 
-		if (curNode == existingNodes.end() || !curNode->second) existingNodes[functionID] = make_shared<nodeJoint>(catalystMap[functionID]);
+		while (filename.length() < 4)
+		{
+			filename = "0" + filename;
+		}
 
-		ExistingFunction exFunction;
+		filename = "#" + filename;
+
+		if (curNode == existingNodes.end() || curNode->second == nullptr) existingNodes[functionID] = make_shared<nodeJoint>(catalystMap[functionID], templateCode, filename,
+			behaviorFile, templateGroup);
+
+		vector<vector<unordered_map<string, bool>>> optionPicked;
+		SSMap IDExist;
+		unordered_map<string, bool> otherAnimType;
+		string strID = to_string(lastID);
+		unsigned __int64 openRange;
+		unsigned int elementCount = 0;
+		bool negative = false;
+
+		for (auto& groupInfo : groupAnimInfo)
+		{
+			vector<unordered_map<string, bool>> curGroupInfo;
+
+			for (auto& animInfo : groupInfo)
+			{
+				curGroupInfo.push_back(animInfo->optionPicked);
+			}
+
+			if (curGroupInfo.size() > 0)
+			{
+				optionPicked.push_back(curGroupInfo);
+			}
+		}
+
+		while (strID.length() < 4)
+		{
+			strID = "0" + strID;
+		}
+
+		existingNodes[functionID]->insertData(templateCode, filename, optionPicked, groupAnimInfo, -1, -1, -1, hasMaster, hasGroup, ignoreGroup, "", lastID, strID, IDExist,
+			exportID, eventid, variableid, ZeroEvent, ZeroVariable, openRange, elementCount, nullptr, groupFunctionIDs, negative);
+
+		/*ExistingFunction exFunction;
 		exFunction.setZeroEvent(ZeroEvent);
 		exFunction.setZeroVariable(ZeroVariable);
 		catalystMap[functionID] = exFunction.groupExistingFunctionProcess(functionID, catalystMap[functionID], groupFunctionIDs, groupAnimInfo, templateCode, exportID,
@@ -137,7 +177,7 @@ void processExistFuncID(vector<int>& funcIDs, string ZeroEvent, string ZeroVaria
 		else
 		{
 			catalystMap[functionID].push_back("");
-		}
+		}*/
 
 		if (error) throw nemesis::exception();
 	}
