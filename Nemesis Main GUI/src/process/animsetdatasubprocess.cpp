@@ -475,9 +475,7 @@ void BehaviorSub::CompilingASD()
 
 			if (error) throw nemesis::exception();
 
-			size_t pos = curProject.find_last_of("\\") + 1;
-			ASDData[curProject] = make_unique<AnimationDataProject>(startline, projectline, filepath,
-				boost::to_lower_copy(curProject.substr(pos, curProject.find_last_of(".") - pos)));
+			ASDData[curProject] = make_unique<AnimationDataProject>(startline, projectline, filepath, curProject);
 
 			if (error) throw nemesis::exception();
 		}
@@ -537,11 +535,11 @@ void BehaviorSub::CompilingASD()
 
 					for (auto& anim : data.second.animlist)
 					{
-						output << anim.name + "\n";
+						output << anim.eventname + "\n";
 						output << anim.unknown + "\n";
-						output << to_string(anim.attack.size()) + "\n";
+						output << to_string(anim.attackClip.size()) + "\n";
 
-						for (auto& atk : anim.attack)
+						for (auto& atk : anim.attackClip)
 						{
 							output << atk.data + "\n";
 						}
