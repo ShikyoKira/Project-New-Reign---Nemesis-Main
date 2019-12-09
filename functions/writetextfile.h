@@ -12,9 +12,19 @@ private:
 	boost::atomic_flag filelock = BOOST_ATOMIC_FLAG_INIT;
 
 public:
+	FileWriter(const char* filename)
+	{
+		fopen_s(&file, filename, "w");
+	}
+
 	FileWriter(std::string filename)
 	{
 		fopen_s(&file, filename.c_str(), "w");
+	}
+
+	FileWriter(boost::filesystem::path filename)
+	{
+		fopen_s(&file, filename.string().c_str(), "w");
 	}
 
 	~FileWriter()
@@ -36,7 +46,7 @@ public:
 	{
 		std::stringstream sstream;
 		sstream << input;
-		innerLock lock(filelock);
+		Lockless lock(filelock);
 		fprintf(file, "%s", sstream.str().c_str());
 		return *this;
 	}

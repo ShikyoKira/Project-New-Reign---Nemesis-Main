@@ -3,21 +3,28 @@
 
 #include <boost/atomic.hpp>
 
-class innerLock
+class Lockless
 {
 	boost::atomic_flag* ulock;
 
 public:
-
-	innerLock(boost::atomic_flag& lock)
+	Lockless(boost::atomic_flag& lock)
 	{
 		ulock = &lock;
 		while (ulock->test_and_set(boost::memory_order_acquire));
 	}
 
-	~innerLock()
+	~Lockless()
+	{
+		if (ulock == nullptr) return;
+
+		ulock->clear(boost::memory_order_release);
+	}
+
+	void Unlock()
 	{
 		ulock->clear(boost::memory_order_release);
+		ulock = nullptr;
 	}
 };
 
