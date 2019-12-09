@@ -11,8 +11,9 @@ using namespace std;
 int filenum;
 bool error = false;
 
+boost::timed_mutex err_Mutex;
+
 atomic<int> progressPercentage;
-boost::atomic_flag errorlock = BOOST_ATOMIC_FLAG_INIT;
 
 DebugMsg DMLog;
 DebugMsg* EnglishLog;
@@ -32,16 +33,6 @@ void NewDebugMessage(DebugMsg NewLog)
 	}
 
 	DMLog = NewLog;
-}
-
-void ErrorLock()
-{
-	while (errorlock.test_and_set(boost::memory_order_acquire));
-}
-
-void ErrorRelease()
-{
-	errorlock.clear(boost::memory_order_release);
 }
 
 DebugMsg::DebugMsg(string language)

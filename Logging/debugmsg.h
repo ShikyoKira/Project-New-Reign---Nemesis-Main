@@ -2,11 +2,16 @@
 #define DEBUGMSG_H_
 
 #include <unordered_map>
-#include <QtWidgets/QTextBrowser>
-#include <QtWidgets/QProgressBar>
-#include <QtWidgets/QScrollBar>
-#include <QtWidgets/QMessageBox>
-#include "Nemesis Main GUI/src/DebugLog.h"
+
+#include <QtWidgets\QTextBrowser>
+#include <QtWidgets\QProgressBar>
+#include <QtWidgets\QScrollBar>
+#include <QtWidgets\QMessageBox>
+
+#include <boost\thread\mutex.hpp>
+#include <boost\interprocess\sync\scoped_lock.hpp>
+
+#include "Nemesis Main GUI\src\DebugLog.h"
 
 class UpdateFilesStart;
 class BehaviorStart;
@@ -16,6 +21,7 @@ extern bool error;	// get error warning
 extern bool isPatch;
 
 extern vecstr warningMsges;
+extern boost::timed_mutex err_Mutex;
 
 namespace nemesis
 {
@@ -39,10 +45,6 @@ void interMsg(std::string);
 
 // add new language pack
 void NewDebugMessage(DebugMsg NewLog);
-
-// error release/lock
-void ErrorLock();
-void ErrorRelease();
 
 std::string DMLogError(int errorcode);
 std::string DMLogWarning(int warningcode);
@@ -111,11 +113,10 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
 // error
 inline void ErrorMessage(int errorcode)
 {
-	ErrorLock();
+	boost::timed_mutex::scoped_lock err_Lock(err_Mutex);
 
 	if (error)
 	{
-		ErrorRelease();
 		throw nemesis::exception();
 	}
 
@@ -130,20 +131,15 @@ inline void ErrorMessage(int errorcode)
 
 	interMsg(errormsg + "\n");
 	DebugLogging("ERROR(" + std::to_string(errorcode) + "): " + EngLogError(errorcode));
-	ErrorRelease();
 	throw nemesis::exception();
 }
 
 template <typename ... other>
 inline void ErrorMessage(int errorcode, other... rest)
 {
-	ErrorLock();
+	boost::timed_mutex::scoped_lock err_Lock(err_Mutex);
 
-	if (error)
-	{
-		ErrorRelease();
-		throw nemesis::exception();
-	}
+	if (error) throw nemesis::exception();
 
 	error = true;
 	std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode);
@@ -160,13 +156,14 @@ inline void ErrorMessage(int errorcode, other... rest)
 	AdditionalInput(englog, 1, rest...);
 	interMsg(errormsg + "\n");
 	DebugLogging(englog);
-	ErrorRelease();
 	throw nemesis::exception();
 }
 
 // warning
 inline void WarningMessage(int warningcode)
 {
+	boost::timed_mutex::scoped_lock err_Lock(err_Mutex);
+
 	if (error) throw nemesis::exception();
 
 	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode);
@@ -186,6 +183,8 @@ inline void WarningMessage(int warningcode)
 template <typename ... other>
 inline void WarningMessage(int warningcode, other... rest)
 {
+	boost::timed_mutex::scoped_lock err_Lock(err_Mutex);
+
 	if (error) throw nemesis::exception();
 
 	std::string warninmsg = "WARNING(" + std::to_string(warningcode) + "): " + DMLogWarning(warningcode);
