@@ -7,7 +7,7 @@
 
 inline std::string GetNemesisVersion()
 {
-	FileReader BehaviorFormat("version");
+	FileReader BehaviorFormat(std::string("version"));
 
 	if (BehaviorFormat.GetFile())
 	{
