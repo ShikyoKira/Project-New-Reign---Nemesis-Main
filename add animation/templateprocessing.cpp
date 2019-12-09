@@ -4,8 +4,10 @@
 #include "compute.h"
 #include "grouptemplate.h"
 #include "templatetree.h"
+#include "animationdatatracker.h"
 
 using namespace std;
+
 
 void stateInput(string& state, string stateID, string format, string behaviorFile, string original, bool isMaster, int groupMulti, int animMulti, int numline,
 	size_t& stateCount, shared_ptr<master>& masterFunction)
@@ -2260,6 +2262,26 @@ void proc::rotationDataSingle(range blok, vecstr& blocks)
 		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
 
 		blocks[blok.front] = rotationData;
+	}
+}
+
+void proc::animOrder(range blok, vecstr& blocks)
+{
+	string animPath = combineBlocks(blok.olddataint[0], blok.olddataint[1], blocks);
+
+	if (clearBlocks(blok, blocks))
+	{
+		auto& ptr = charAnimDataInfo.find(boost::to_lower_copy(project.substr(0, project.rfind(".txt"))));
+
+		if (ptr != charAnimDataInfo.end())
+		{
+			auto& ptr2 = ptr->second.find(boost::to_lower_copy(boost::filesystem::path(animPath).filename().string()));
+
+			if (ptr2 != ptr->second.end())
+			{
+				blocks[blok.front] = to_string(ptr2->second->GetOrder());
+			}
+		}
 	}
 }
 

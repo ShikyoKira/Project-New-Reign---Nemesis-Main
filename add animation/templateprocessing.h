@@ -86,6 +86,8 @@ struct proc
 	std::string filename;
 	std::string mainAnimEvent;
 	std::string multiOption = "";
+	std::string project;
+	std::string header;
 
 	std::vector<int> fixedStateID;
 	std::vector<int> stateCountMultiplier;
@@ -353,6 +355,9 @@ struct proc
 	void rotationDataNumMaster(range blok, vecstr& blocks);
 
 	void rotationDataSingle(range blok, vecstr& blocks);
+
+	// animOrder functions
+	void animOrder(range blok, vecstr& blocks);
 
 	// register animation
 	void regisAnim(range blok, vecstr& blocks);

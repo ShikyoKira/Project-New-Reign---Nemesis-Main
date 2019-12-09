@@ -737,8 +737,6 @@ bool condt::isTrue(proc* process, string format, string behaviorFile, int numlin
 		}
 		else if (curptr->optioncondt && curptr->optioncondt->size() > 2)
 		{
-
-
 			if (isGroup)
 			{
 				size_t groupMulti;
@@ -2293,7 +2291,6 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 					}
 				}
 
-
 				for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(it->first + "(\\*|)\\[" + addname + "\\](\\[[0-9]+\\]|)"));
 					itr != boost::sregex_iterator(); ++itr)
 				{
@@ -2419,6 +2416,40 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 		}
 	}
 
+	if (change.find("animOrder[") != NOT_FOUND)
+	{
+		pos = change.find("animOrder[");
+
+		while (pos != NOT_FOUND)
+		{
+			size_t animpos = pos + 10;
+			size_t curcounter = 1;
+			size_t post = curPos + pos;
+
+			for (unsigned int ch = animpos; ch < change.length(); ++ch)
+			{
+				if (change[ch] == '[') ++curcounter;
+				else if (change[ch] == ']')
+				{
+					--curcounter;
+
+					if (curcounter == 0)
+					{
+						++animpos;
+						animpos += curPos;
+						break;
+					}
+				}
+
+				++animpos;
+			}
+
+			range blok(post, animpos, { int(post + 10), int(animpos - 2) }, &proc::animOrder);
+			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			pos = change.find("animOrder[", pos + 1);
+		}
+	}
+
 	if (change.find("crc32[") != NOT_FOUND)
 	{
 		__int64 bracketCount = count(change.begin(), change.end(), '[');
@@ -2454,8 +2485,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				++encode;
 			}
 
-			range blok(curPos + pos, curPos + encode, &proc::crc32); isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) :
-				process.installBlock(blok, numline);
+			range blok(curPos + pos, curPos + encode, &proc::crc32);
+			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
 			pos = change.find("crc32[", pos + 1);
 		}
 	}
@@ -2546,8 +2577,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			}
 
 			shared_ptr<range> blok;
-			number ? blok = make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
-				blok = make_shared<range>(post, post + itr->str().length(), func);
+			blok = number ? make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
+				make_shared<range>(post, post + itr->str().length(), vecstr{ change }, func);
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
 
@@ -2557,7 +2588,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
 			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), isGroup ? &proc::motionDataMultiMaster : &proc::motionDataSingle);
+			range blok(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::motionDataMultiMaster : &proc::motionDataSingle);
 
 			if (isMC)
 			{
