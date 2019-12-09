@@ -14,9 +14,12 @@
 void behaviorJointsOutput();
 
 bool animDataHeaderUpdate(std::string folderpath, std::string modcode, MasterAnimData& animData, std::unordered_map<std::string, std::string>& lastUpdate);
-bool newAnimUpdateExt(std::string folderpath, std::string modcode, std::string behaviorfile, std::map<std::string, vecstr>& newFile, std::unordered_map<std::string, std::string>& lastUpdate);
-bool newAnimDataUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, MasterAnimData& animData, std::unordered_map<std::string, std::string>& lastUpdate);
-bool newAnimDataSetUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, MasterAnimSetData& animSetData, std::unordered_map<std::string, std::string>& lastUpdate);
+bool newAnimUpdateExt(std::string folderpath, std::string modcode, std::string behaviorfile, std::map<std::string, vecstr, alphanum_less>& newFile,
+	std::map<std::string, vecstr>& newAnimAddition, std::unordered_map<std::string, std::string>& lastUpdate);
+bool newAnimDataUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, MasterAnimData& animData,
+	std::map<std::string, vecstr>& newAnimAddition, std::unordered_map<std::string, std::string>& lastUpdate);
+bool newAnimDataSetUpdateExt(std::string folderpath, std::string modcode, std::string characterfile, MasterAnimSetData& animSetData,
+	std::map<std::string, vecstr>& newAnimAddition, std::unordered_map<std::string, std::string>& lastUpdate);
 
 template<typename list>
 void comparing(std::vector<list>& storeline, std::vector<list>& originallines, std::string filename, int counter);
