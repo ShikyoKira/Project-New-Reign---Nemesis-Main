@@ -12,14 +12,16 @@
 
 class NodeU
 {
-	std::atomic_flag nodelock = ATOMIC_FLAG_INIT;
+	boost::atomic_flag nodelock = BOOST_ATOMIC_FLAG_INIT;
 
-	bool NodeUpdate(std::string modcode, std::string f2, std::string f3, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, SSMap& stateID, SSMap& parent,
-		std::unordered_map<std::string, vecstr>& statelist, std::unordered_map<std::string, std::string>& lastUpdate);
+	bool NodeUpdate(std::string modcode, std::string f2, std::string f3, std::unique_ptr<std::map<std::string, vecstr, alphanum_less>>& newFile,
+		std::unique_ptr<SSMap>& stateID, std::unique_ptr<SSMap>& parent, std::unique_ptr<std::unordered_map<std::string, vecstr>>& statelist,
+		std::unordered_map<std::string, std::string>& lastUpdate, boost::atomic_flag& filelock, boost::atomic_flag& stateLock, boost::atomic_flag& parentLock);
 
 public:
-	bool FunctionUpdate(std::string modcode, std::string f2, std::string f3, std::unordered_map<std::string, std::map<std::string, vecstr>>& newFile, SSMap& stateID, SSMap& parent,
-	std::unordered_map<std::string, vecstr>& statelist, std::unordered_map<std::string, std::string>& lastUpdate);
+	bool FunctionUpdate(std::string modcode, std::string f2, std::string f3, std::unique_ptr<std::map<std::string, vecstr, alphanum_less>>& newFile,
+		std::unique_ptr<SSMap>& stateID, std::unique_ptr<SSMap>& parent, std::unique_ptr<std::unordered_map<std::string, vecstr>>& statelist,
+		std::unordered_map<std::string, std::string>& lastUpdate, boost::atomic_flag& filelock, boost::atomic_flag& stateLock, boost::atomic_flag& parentLock);
 };
 
 bool AnimDataUpdate(std::string modcode, std::string animdatafile, std::string characterfile, std::string filepath, MasterAnimData& animData,
