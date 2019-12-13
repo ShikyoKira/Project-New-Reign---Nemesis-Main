@@ -13,7 +13,7 @@ using namespace std;
 mutex processlock;
 condition_variable cv;
 bool processdone = false;
-unordered_map<string, vecstr> modinfo;
+map<string, vecstr, alphanum_less> modinfo;
 
 vecstr hiddenMods;
 atomic<int> m_RunningThread;
