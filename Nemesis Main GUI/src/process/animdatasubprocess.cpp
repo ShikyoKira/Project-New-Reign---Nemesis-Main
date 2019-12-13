@@ -477,7 +477,6 @@ void BehaviorSub::CompilingAnimData()
 						for (auto& _animData : generatedAnimData)
 						{
 							project = _animData.first;
-							string uniquecode;
 							string projectplus;
 							unordered_map<string, string> isExist;
 
@@ -497,13 +496,11 @@ void BehaviorSub::CompilingAnimData()
 
 								if (data.second.size() > 0)
 								{
-									string header;
+									string header = data.second[0];
 
 									if (size > 2 && data.first[size - 3] == '$' && data.first[size - 2] == 'U' && data.first.back() == 'C')		// info data
 									{
 										if (data.first[0] != '$') ErrorMessage(3006, project, data.first);
-
-										header = data.first.substr(1, data.first.length() - 4);
 
 										if (isExist[header].length() == 0)
 										{
@@ -518,38 +515,29 @@ void BehaviorSub::CompilingAnimData()
 
 											animDataInfo[projectplus].push_back(header);
 										}
-
 									}
 									else if (data.first[0] == '$' && data.first.back() == '$')	// anim data 
 									{
-										header = data.second[0];
-										header.append("~" + to_string(++ASDCount[projectplus][header]));
-
-										if (!isOnlyNumber(data.second[1]))
+										if (isExist[header].length() == 0)
 										{
-											if (isExist[header].length() == 0)
+											if (!isOnlyNumber(data.second[1]))
 											{
 												short& refCode = uCode[projectplus].to_int();
-												uniquecode = to_string(refCode);
+												data.second[1] = to_string(refCode);
 												--refCode;
-												isExist[header] = uniquecode;
-											}
-											else
-											{
-												uniquecode = isExist[header];
+												isExist[header] = data.second[1];
 											}
 
-											data.second[1] = uniquecode;
+											header.append(" " + data.second[1]);
+											animDataHeader[projectplus].push_back(header);
 										}
-
-										animDataHeader[projectplus].push_back(header);
 									}
 									else
 									{
 										ErrorMessage(3003, data.first + ".txt");
 									}
 
-									if (catalystMap[projectplus][header].size() > 0) ErrorMessage(5012, templateCode, project, header);
+									if (catalystMap[projectplus][header].size() > 0) ErrorMessage(3024, templateCode, project, header);
 
 									if (projectNameCount[project] != 1)
 									{
