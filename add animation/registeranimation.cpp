@@ -204,7 +204,6 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 				else if (lowerformat == "animvar")
 				{
 					size_t nextpos = 0;
-					size_t num = count(line.begin(), line.end(), ' ');
 					string name = newAnimInfo[1];
 					string type = newAnimInfo[2];
 					string value = newAnimInfo[3];
@@ -299,7 +298,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 								}
 							}
 
-							if (newAnimInfo.size() > 3 && newAnimInfo[1][0] == '-')
+							if (newAnimInfo.size() > 3 && newAnimInfo[1].length() > 0 && newAnimInfo[1][0] == '-')
 							{
 								animInfo[previousShortline].push_back(make_shared<animationInfo>(newAnimInfo, filename,
 									behaviortemplate.optionlist[previousShortline], linecount, isOExist));
@@ -352,7 +351,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 					if (anim[anim.length() - 2] == '/' && (anim[anim.length() - 1] == '1' || anim[anim.length() - 1] == '2')) isOExist = false;
 
-					if (newAnimInfo.size() > 3 && newAnimInfo[1][0] == '-')
+					if (newAnimInfo.size() > 3 && newAnimInfo[1].length() > 0 && newAnimInfo[1][0] == '-')
 					{
 						animInfo[lowerformat].push_back(make_shared<animationInfo>(newAnimInfo, filename, behaviortemplate.optionlist[lowerformat], linecount,
 							isOExist));
@@ -403,10 +402,11 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 							{
 								if (behaviortemplate.optionlist[previousShortline].ruleTwo.size() != 0)
 								{
-									if (previousLine[2] == '-')
+									vecstr AnimInfo;
+									StringSplit(previousLine, AnimInfo);
+
+									if (AnimInfo.size() > 3 && AnimInfo[1].length() > 0 && AnimInfo[1][0] == '-')
 									{
-										vecstr AnimInfo;
-										StringSplit(previousLine, AnimInfo);
 										string templine = AnimInfo[1];
 										templine = templine.substr(1);
 										vecstr curList;
@@ -447,11 +447,9 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 					if (behaviortemplate.optionlist[lowerformat].ruleOne.size() != 0 || behaviortemplate.optionlist[lowerformat].compulsory.size() != 0)
 					{
-						if (line[lowerformat.length() + 1] == '-')
+						if (newAnimInfo.size() > 3 && newAnimInfo[1].length() > 0 && newAnimInfo[1][0] == '-')
 						{
-							vecstr AnimInfo;
-							StringSplit(line, AnimInfo);
-							string templine = AnimInfo[1];
+							string templine = newAnimInfo[1];
 							templine = templine.substr(1);
 							vecstr curList;
 							size_t numOption = count(templine.begin(), templine.end(), ',') + 1;
