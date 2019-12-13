@@ -2576,8 +2576,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				func = isGroup ? &proc::motionDataNumMaster : &proc::motionDataNumGroup;
 			}
 
-			shared_ptr<range> blok;
-			blok = number ? make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
+			shared_ptr<range> blok = number ? make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
 				make_shared<range>(post, post + itr->str().length(), vecstr{ change }, func);
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
@@ -2588,16 +2587,9 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
 			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::motionDataMultiMaster : &proc::motionDataSingle);
-
-			if (isMC)
-			{
-				lineblocks[blok.size].push_back(make_shared<range>(blok));
-			}
-			else
-			{
-				process.installBlock(blok, numline);
-			}
+			shared_ptr<range> blok = make_shared<range>(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::motionDataMultiMaster :
+				&proc::motionDataSingle);
+			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
 
 		if (error) throw nemesis::exception();
@@ -2644,9 +2636,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				func = isGroup ? &proc::rotationDataNumMaster : &proc::rotationDataNumGroup;
 			}
 
-			shared_ptr<range> blok;
-			number ? blok = make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
-				blok = make_shared<range>(post, post + itr->str().length(), func);
+			shared_ptr<range> blok = number ? make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
+				make_shared<range>(post, post + itr->str().length(), func);
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
 
@@ -2655,8 +2646,10 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 		{
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
-			range blok(curPos + itr->position(), curPos + itr->position() + itr->str().length(), isGroup ? &proc::rotationDataMultiMaster : &proc::rotationDataSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			size_t post = curPos + itr->position();
+			shared_ptr<range> blok = make_shared<range>(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::rotationDataMultiMaster :
+				&proc::rotationDataSingle);
+			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
 
 		if (error) throw nemesis::exception();
