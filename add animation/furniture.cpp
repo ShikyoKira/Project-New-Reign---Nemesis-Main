@@ -2350,7 +2350,26 @@ void Furniture::GetAnimData(unordered_map<string, map<string, vecstr>>& newAnimD
 				shared_ptr<vecstr> dummy = make_shared<vecstr>();
 				AnimDataLineProcess(&header.second, dummy, format, project.first, header.first, groupOptionPicked);
 				isEnd = false;
-				newAnimDataLines[project.first][header.first] = *dummy;
+				vecstr storeline;
+				storeline.reserve(dummy->size());
+
+				for (auto& line : *dummy)
+				{
+					if (line.find("\n") != NOT_FOUND)
+					{
+						if (line.back() == '\n') line.pop_back();
+
+						vecstr split;
+						boost::split(split, line, boost::is_any_of("\n"));
+						storeline.insert(storeline.end(), split.begin(), split.end());
+					}
+					else
+					{
+						storeline.push_back(line);
+					}
+				}
+
+				newAnimDataLines[project.first][header.first] = storeline;
 			}
 			catch (MDException&)
 			{
