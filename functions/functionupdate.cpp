@@ -153,8 +153,12 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 					if (originalopen)
 					{
 						int addLineCount = editline - originalline;
-						NewCoordinate[linecount] = addLineCount;
-						modEditLine[to_string(linecount) + "R"] = starteditline - startoriline + originalline + 1;
+
+						if (addLineCount > 0)
+						{
+							NewCoordinate[linecount] = addLineCount;
+							modEditLine[to_string(linecount) + "R"] = Pair[originalline];
+						}
 
 						for (int i = startoriline; i < originalline; ++i)
 						{
@@ -217,7 +221,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 			ErrorMessage(2000, filename);
 		}
 
-		if (NewCoordinate.size() == 0)
+		if (modEditLine.size() == 0)
 		{
 			WarningMessage(1017, filename);
 			interMsg(warningMsges.back());
@@ -361,11 +365,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 						vecstr storage = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline,
 							modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
 
-						for (unsigned int j = 0; j < storage.size(); ++j)
-						{
-							functionline.push_back(storage[j]);
-						}
-
+						functionline.insert(functionline.end(), storage.begin(), storage.end());
 						functionline.push_back("<!-- CLOSE -->");
 					}
 
@@ -394,12 +394,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 
 					vecstr storage = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline
 						, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
-
-					for (unsigned int j = 0; j < storage.size(); ++j)
-					{
-						functionline.push_back(storage[j]);
-					}
-
+					functionline.insert(functionline.end(), storage.begin(), storage.end());
 					functionline.push_back("<!-- CLOSE -->");
 				}
 
