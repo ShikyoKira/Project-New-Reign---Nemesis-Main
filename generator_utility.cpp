@@ -9,6 +9,8 @@
 #include "add animation\playerexclusive.h"
 #include "add animation\animationdatatracker.h"
 
+#include "Nemesis Main GUI\src\version.h"
+
 #pragma warning(disable:4503)
 
 using namespace std;
@@ -372,6 +374,13 @@ bool isEngineUpdated(string& versionCode)
 	if (!isFileExist(filename)) return false;
 
 	if (!GetFunctionLines(filename, storeline, false)) return false;
+
+	if (storeline.size() > 0)
+	{
+		if (GetNemesisVersion() != storeline[0]) return false;
+
+		storeline.erase(storeline.begin());
+	}
 
 	if (storeline.size() > 0)
 	{
