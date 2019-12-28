@@ -2,12 +2,14 @@
 
 #include <boost\regex.hpp>
 #include <boost\algorithm\string.hpp>
+
 #include <QtCore\QStandardPaths.h>
 
 #include "playerexclusive.h"
 #include "alternateanimation.h"
+
 #include "functions\writetextfile.h"
-#include "Nemesis Main GUI\src\utilities\filerelease.h"
+
 #include "Nemesis Main GUI\src\utilities\wstrconvert.h"
 
 using namespace std;
@@ -17,6 +19,19 @@ namespace bf = boost::filesystem;
 
 vector<PCEA> pcealist;
 unordered_map<string, vector<PCEAData>> animReplaced;
+
+void tryDelete(string file, int repeated = 0)
+{
+	if (repeated > 100)
+	{
+		ErrorMessage(1082, "PCEA_animations", file);
+	}
+
+	if (!boost::filesystem::remove(file))
+	{
+		tryDelete(file, repeated + 1);
+	}
+}
 
 bool Delete(bf::path file)
 {
@@ -33,11 +48,7 @@ bool Delete(bf::path file)
 		}
 	}
 
-	if (ReleaseLockedFile(file.string()) && !boost::filesystem::remove(file))
-	{
-		ErrorMessage(1082, "PCEA_animations", file.string());
-	}
-
+	tryDelete(file.string());
 	return true;
 }
 
