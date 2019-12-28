@@ -1,16 +1,18 @@
+#include <boost\crc.hpp>
 #include <boost\algorithm\string.hpp>
-#include <boost\process.hpp>
-#include <boost\process\windows.hpp>
 #include <boost\iostreams\device\array.hpp>
 #include <boost\iostreams\stream_buffer.hpp>
-#include <boost\crc.hpp>
+
+#include <QtCore\QProcess>
 #include <QtCore\QStandardPaths.h>
-#include "functions\readtextfile.h"
-#include "functions\writetextfile.h"
+
 #include "generator_utility.h"
 #include "alternateanimation.h"
+
+#include "functions\readtextfile.h"
+#include "functions\writetextfile.h"
+
 #include "Nemesis Main GUI\src\utilities\wstrconvert.h"
-#include "Nemesis Main GUI\src\utilities\filerelease.h"
 
 #pragma warning(disable:4503)
 
@@ -737,9 +739,6 @@ bool PapyrusCompileProcess(boost::filesystem::path pscfile, wstring import, stri
 		}
 	}
 
-	vector<wstring> args{ pscfile.wstring(), L"-f=TESV_Papyrus_Flags.flg", L"-i=" + appdata_path.wstring() + L";" + dep, L"-o=" + appdata_path.wstring() };
-	future<vector<char>> p_reader, p_error;
-	
 	if (isFileExist(filepath) && !boost::filesystem::is_directory(filepath) && !boost::filesystem::remove(filepath)) ErrorMessage(1082, filepath);
 
 	if (boost::filesystem::exists(importedSource) && !boost::filesystem::is_directory(importedSource) && !boost::filesystem::remove(importedSource))
@@ -747,52 +746,33 @@ bool PapyrusCompileProcess(boost::filesystem::path pscfile, wstring import, stri
 		ErrorMessage(1082, WStringToString(importedSource));
 	}
 
-	if (boost::process::system(compiler, args, boost::process::std_out > p_reader, boost::process::std_err > p_error, boost::process::windows::hide) != 0)
+	QProcess process;
+	QString exe = QString::fromStdWString(compiler.wstring());
+	QStringList args{ QString::fromStdWString(pscfile.wstring()), "-f=TESV_Papyrus_Flags.flg", "-i=" + QString::fromStdWString(appdata_path.wstring()) + ";" +
+		QString::fromStdWString(dep), "-o=" + QString::fromStdWString(appdata_path.wstring()) };
+
+	string cmd = exe.toStdString();
+
+	for (auto& arg : args)
 	{
-		// Compilation fail
+		cmd.append(" " + arg.toStdString());
 	}
 
+	DebugLogging(cmd);
+	process.setReadChannel(QProcess::StandardOutput);
+	process.setProcessChannelMode(QProcess::MergedChannels);
+	process.setCurrentReadChannel(QProcess::StandardOutput);
+	process.start(exe, args);
+	process.waitForFinished();
+	
 	string tempfile = GetFileName(filepath) + ".pex";
 	wstring tempfilepath = appdata_path.wstring() + L"\\" + StringToWString(tempfile);
 
 	if (!boost::filesystem::exists(tempfilepath))
 	{
-		string line;
-		vecstr linelist;
+		while (!process.waitForReadyRead());
 
-		{
-			auto raw = p_reader.get();
-			vecstr data;
-			string templine;
-			boost::iostreams::stream_buffer<boost::iostreams::array_source> sb(raw.data(), raw.size());
-			istream is(&sb);
-
-			while (getline(is, templine) && !templine.empty())
-			{
-				linelist.push_back(templine + "\n");
-			}
-
-			if (linelist.size() > 1)
-			{
-				for (unsigned int i = 0; i < linelist.size() - 1; ++i)
-				{
-					line.append(linelist[i]);
-				}
-			}
-		}
-
-		auto raw = p_error.get();
-		vecstr data;
-		string templine;
-		boost::iostreams::stream_buffer<boost::iostreams::array_source> sb(raw.data(), raw.size());
-		istream is(&sb);
-
-		while (getline(is, templine) && !templine.empty())
-		{
-			line.append(templine + "\n");
-		}
-
-		if (linelist.size() > 0) line.append(linelist.back());
+		string line = process.readAllStandardOutput();
 
 		if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND && line.find("0 error") != NOT_FOUND) return true;
 
@@ -805,9 +785,9 @@ bool PapyrusCompileProcess(boost::filesystem::path pscfile, wstring import, stri
 			ErrorMessage(1185, filepath);
 			wstring temp = pscfile.wstring();
 
-			for (wstring arg : args)
+			for (QString arg : args)
 			{
-				temp += L" " + arg;
+				temp += L" " + arg.toStdWString();
 			}
 
 			interMsg("Command: " + WStringToString(temp));
