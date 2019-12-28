@@ -353,7 +353,7 @@ void UpdateFilesStart::RegisterBehavior()
 
 		{
 			Lockless lock(behaviorPathLock);
-			behaviorPath[curFileName] = boost::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
+			behaviorPath[curFileName] = boost::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curBehavior->file.stem().string().substr(8));
 		}
 
 		unique_ptr<map<string, vecstr, alphanum_less>> _curNewFile = make_unique<map<string, vecstr, alphanum_less>>();
@@ -1919,6 +1919,7 @@ void UpdateFilesStart::CombiningFiles()
 
 	if (lastmod.is_open())
 	{
+		lastmod << GetNemesisVersion() << "\n";
 		engineVersion = to_string(bigNum % 10000) + "-" + to_string(bigNum2 % 10000);
 		lastmod << engineVersion << "\n";
 
