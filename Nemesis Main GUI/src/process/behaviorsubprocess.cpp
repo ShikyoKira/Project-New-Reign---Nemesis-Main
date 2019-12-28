@@ -6,6 +6,7 @@
 #include "addanims.h"
 #include "addevents.h"
 #include "addvariables.h"
+#include "behaviorprocess.h"
 #include "behaviorgenerator.h"
 #include "generator_utility.h"
 #include "behaviorsubprocess.h"
@@ -1136,7 +1137,7 @@ void BehaviorSub::CompilingBehavior()
 												string animPath = "Animations\\" + newAnimation[templatecode][k]->GetFilePath();
 												AddAnims(line, animPath, outputdir, behaviorFile, lowerBehaviorFile, newMod, catalystMap[curID], counter, isAdded, addAnim);
 
-												if (addAnim) addAnimation();
+												if (addAnim) (this->*tryAddAnim)();
 											}
 										}
 									}
@@ -1155,7 +1156,7 @@ void BehaviorSub::CompilingBehavior()
 											string animPath = "Animations\\" + anim;
 											AddAnims(line, animPath, outputdir, behaviorFile, lowerBehaviorFile, newMod, catalystMap[curID], counter, isAdded, addAnim);
 
-											if (addAnim) addAnimation();
+											if (addAnim) (this->*tryAddAnim)();
 										}
 									}
 								}
@@ -1167,7 +1168,7 @@ void BehaviorSub::CompilingBehavior()
 										bool addAnim = false;
 										AddAnims(line, animPath.second, outputdir, behaviorFile, lowerBehaviorFile, newMod, catalystMap[curID], counter, isAdded, addAnim);
 
-										if (addAnim) addAnimation();
+										if (addAnim) (this->*tryAddAnim)();
 									}
 								}
 							}
@@ -1245,7 +1246,7 @@ void BehaviorSub::CompilingBehavior()
 							else animData->SetOrder(counter);
 
 							animdata_lock.clear(boost::memory_order_release);
-							addAnimation();
+							(this->*tryAddAnim)();
 							++counter;
 
 							if (newMod.length() == 0) newMod = "Skyrim";
@@ -2522,7 +2523,7 @@ void BehaviorSub::CompilingBehavior()
 
 	DebugLogging("Processing behavior: " + filepath + " (Check point 6, Behavior output complete)");
 	emit progressAdd();
-	++extraCore;
+	--extraCore;
 
 	if (hkxcmdProcess(filename, outputdir))
 	{
@@ -2530,13 +2531,13 @@ void BehaviorSub::CompilingBehavior()
 		emit progressAdd();
 	}
 
-	--extraCore;
+	++extraCore;
 }
 
 void BehaviorSub::addInfo(string& newDirectory, vecstr& newfilelist, int newCurList, vecstr& newBehaviorPriority, unordered_map<string,
 	bool>& newChosenBehavior, shared_ptr<getTemplate> newBehaviorTemplate, unordered_map<string, vector<shared_ptr<Furniture>>>& addAnimation,
 	unordered_map<string, var>& newAnimVar, mapSetString& addAnimEvent, mapSetString& addAnimVariable, unordered_map<string, unordered_map<int,
-	bool>>&newIgnoreFunction, bool newIsCharacter, string newModID)
+	bool>>&newIgnoreFunction, bool newIsCharacter, string newModID, BehaviorStart* newProcess)
 {
 	directory = newDirectory;
 	filelist = newfilelist;
@@ -2551,13 +2552,24 @@ void BehaviorSub::addInfo(string& newDirectory, vecstr& newfilelist, int newCurL
 	ignoreFunction = newIgnoreFunction;
 	isCharacter = newIsCharacter;
 	modID = newModID;
+	process = newProcess;
+}
+
+void BehaviorSub::checkAnimation()
+{
+	++animCounter;
+
+	if (animCounter >= base)
+	{
+		tryAddAnim = &BehaviorSub::addAnimation;
+
+		if (animCounter > base) addAnimation();
+	}
 }
 
 void BehaviorSub::addAnimation()
 {
-	++animCounter;
-
-	if (animCounter > base) emit newAnim();
+	process->increaseAnimCount();
 }
 
 

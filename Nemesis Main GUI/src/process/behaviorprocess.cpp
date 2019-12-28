@@ -34,8 +34,9 @@ extern Terminator* p_terminate;
 extern vecstr failedBehaviors;
 extern atomic<int> m_RunningThread;
 extern atomic<int> behaviorRun;
+extern atomic<int> extraCore;
 
-boost::atomic_flag anim_lock = BOOST_ATOMIC_FLAG_INIT;
+mutex anim_lock;
 boost::atomic_flag atomic_lock = BOOST_ATOMIC_FLAG_INIT;
 
 extern vecstr fileCheckMsg;
@@ -81,6 +82,7 @@ void BehaviorStart::InitializeGeneration()
 		{
 			try
 			{
+				extraCore = 0;
 				ClearGlobal();
 				milestoneStart();
 				string version;
@@ -860,7 +862,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
 				BehaviorSub* worker = new BehaviorSub;
 				worker->addInfo(directory, filelist, i, behaviorPriority, chosenBehavior, BehaviorTemplate, newAnimation, AnimVar, newAnimEvent, newAnimVariable,
-					ignoreFunction, false, modID);
+					ignoreFunction, false, modID, this);
 
 				if (!cmdline)
 				{
@@ -886,7 +888,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 				else
 				{
 					worker->isCharacter = true;
-					connect(worker, SIGNAL(newAnim()), this, SLOT(increaseAnimCount()));
+					//connect(worker, SIGNAL(newAnim()), this, SLOT(increaseAnimCount()));
 					QtConcurrent::run(worker, &BehaviorSub::BehaviorCompilation);
 				}
 
@@ -949,7 +951,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
 						BehaviorSub* worker = new BehaviorSub;
 						worker->addInfo(directory, fpfilelist, j, behaviorPriority, chosenBehavior, BehaviorTemplate, newAnimation, AnimVar, newAnimEvent,
-							newAnimVariable, ignoreFunction, false, modID);
+							newAnimVariable, ignoreFunction, false, modID, this);
 
 						if (!cmdline)
 						{
@@ -975,7 +977,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 						else
 						{
 							worker->isCharacter = true;
-							connect(worker, SIGNAL(newAnim()), this, SLOT(increaseAnimCount()));
+							//connect(worker, SIGNAL(newAnim()), this, SLOT(increaseAnimCount()));
 							QtConcurrent::run(worker, &BehaviorSub::BehaviorCompilation);
 						}
 
@@ -1180,10 +1182,9 @@ void BehaviorStart::increaseAnimCount()
 {
 	if (!error)
 	{
-		while (anim_lock.test_and_set(boost::memory_order_acquire));
+		lock_guard<mutex> lock(anim_lock);
 		++animCount;
 		emit totalAnim(animCount);
-		anim_lock.clear(boost::memory_order_release);
 	}
 }
 
