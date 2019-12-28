@@ -105,9 +105,6 @@
     <ClCompile Include="compute.cpp">
       <Filter>Source Files\utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Nemesis Main GUI\src\utilities\filerelease.cpp">
-      <Filter>Source Files\utilities</Filter>
-    </ClCompile>
     <ClCompile Include="add animation\furniture.cpp">
       <Filter>Source Files\generate</Filter>
     </ClCompile>
@@ -165,9 +162,6 @@
       <Filter>Header Files\utilities</Filter>
     </ClInclude>
     <ClInclude Include="functions\atomiclock.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Nemesis Main GUI\src\utilities\filerelease.h">
       <Filter>Header Files\utilities</Filter>
     </ClInclude>
     <ClInclude Include="compute.h">
