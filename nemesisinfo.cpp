@@ -1,12 +1,17 @@
-#include "nemesisinfo.h"
-#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
-#include "functions\writetextfile.h"
 #include <Windows.h>
+
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
-#include <QtCore/QCoreApplication.h>
+
 #include <QtCore/QFile.h>
 #include <QtCore/QTextStream.h>
+#include <QtCore/QCoreApplication.h>
+
+#include "nemesisinfo.h"
+
+#include "functions\writetextfile.h"
+
+#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
 
 using namespace std;
 
