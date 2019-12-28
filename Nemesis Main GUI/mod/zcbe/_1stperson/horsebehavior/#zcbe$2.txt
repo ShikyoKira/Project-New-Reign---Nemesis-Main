@@ -1,15 +1,14 @@
-		<hkobject name="#zcbe$2" class="hkbBlenderGenerator" signature="0x22df7147">
+		<hkobject name="#zcbe$2" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">ZAR_MC_MRH_Equip_BG</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="2">
-				#zcbe$19 #zcbe$20
-			</hkparam>
+			<hkparam name="name">KillMoveSabreCat</hkparam>
+			<hkparam name="pClipGenerator">#zcbe$1</hkparam>
+			<hkparam name="SyncAnimPrefix">2_</hkparam>
+			<hkparam name="bSyncClipIgnoreMarkPlacement">false</hkparam>
+			<hkparam name="fGetToMarkTime">0.000000</hkparam>
+			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
+			<hkparam name="bLeadCharacter">true</hkparam>
+			<hkparam name="bReorientSupportChar">true</hkparam>
+			<hkparam name="bApplyMotionFromRoot">false</hkparam>
+			<hkparam name="sAnimationBindingIndex">-1</hkparam>
 		</hkobject>

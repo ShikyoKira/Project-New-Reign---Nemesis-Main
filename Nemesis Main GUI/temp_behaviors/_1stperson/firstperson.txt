@@ -896,6 +896,33 @@
 				<hkcstring>Animations\WhirlwindSprint_Longest.hkx</hkcstring>
 				<hkcstring>Animations\WhirlwindSprint_Medium.hkx</hkcstring>
 				<hkcstring>Animations\WhirlwindSprint_Short.hkx</hkcstring>
+<!-- NEW *aaaaa* -->
+				<hkcstring>Animations\1HM_forceequip.hkx</hkcstring>
+				<hkcstring>Animations\Shd_forceequip.hkx</hkcstring>
+				<hkcstring>Animations\Shd_GunR_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\1hm_GunR_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\1hm_Mrh_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Shd_Mrh_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Tor_Mrh_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\1hm_GunR_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\mrh_and_mlh_unequip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\Shd_GunR_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\staffmagicright_1stp_run.hkx</hkcstring>
+				<hkcstring>Animations\Gun\staffmagicright_1stp_walk.hkx</hkcstring>
+				<hkcstring>Animations\Gun\staffright_equip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\staffright_idle.hkx</hkcstring>
+				<hkcstring>Animations\Gun\stfmagicright_precharge.hkx</hkcstring>
+				<hkcstring>Animations\Gun\stfmagicright_readyloop.hkx</hkcstring>
+				<hkcstring>Animations\Gun\stfmagicright_release.hkx</hkcstring>
+				<hkcstring>Animations\GunL\mlh_unequip.hkx</hkcstring>
+				<hkcstring>Animations\GunL\staff_idle.hkx</hkcstring>
+				<hkcstring>Animations\GunL\staffmagic_1stp_run.hkx</hkcstring>
+				<hkcstring>Animations\GunL\staffmagic_1stp_walk.hkx</hkcstring>
+				<hkcstring>Animations\GunL\stf_equip.hkx</hkcstring>
+				<hkcstring>Animations\GunL\stfmagic_precharge.hkx</hkcstring>
+				<hkcstring>Animations\GunL\stfmagic_preready.hkx</hkcstring>
+				<hkcstring>Animations\GunL\stfmagic_release.hkx</hkcstring>
+<!-- CLOSE -->
 <!-- NEW *tudm* -->
 				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
 				<hkcstring>Animations\Roll_Right.hkx</hkcstring>

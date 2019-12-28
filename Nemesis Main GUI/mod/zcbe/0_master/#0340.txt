@@ -21,7 +21,7 @@
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="34">
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$6
+				#zcbe$86
 <!-- ORIGINAL -->
 				#2458
 <!-- CLOSE -->

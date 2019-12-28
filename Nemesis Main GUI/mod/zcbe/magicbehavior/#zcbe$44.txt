@@ -1,12 +1,9 @@
-		<hkobject name="#zcbe$44" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+		<hkobject name="#zcbe$44" class="hkbModifierList" signature="0xa4180ca1">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">null</hkparam>
-			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$85</hkparam>
-			<hkparam name="generator">#1328</hkparam>
-			<hkparam name="name">ZAR_NotBlocking_S</hkparam>
-			<hkparam name="stateId">0</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ModifierList101</hkparam>
 			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="2">
+				#zcbe$51 #zcbe$45
+			</hkparam>
 		</hkobject>

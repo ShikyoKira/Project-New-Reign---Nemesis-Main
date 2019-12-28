@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">#tudm$243</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#tudm$242</hkparam>
+			<hkparam name="transitions">#tudm$240</hkparam>
 			<hkparam name="generator">#tudm$241</hkparam>
 			<hkparam name="name">DodgeState</hkparam>
 			<hkparam name="stateId">25</hkparam>

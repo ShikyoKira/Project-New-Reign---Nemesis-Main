@@ -1,7 +1,12 @@
-		<hkobject name="#zcbe$143" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">GetUpFromRagdollModGen</hkparam>
-			<hkparam name="modifier">#zcbe$140</hkparam>
-			<hkparam name="generator">#zcbe$144</hkparam>
+		<hkobject name="#zcbe$143" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="2">
+				<hkobject>
+					<hkparam name="id">814</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="id">371</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

@@ -1,15 +1,9 @@
-		<hkobject name="#zcbe$323" class="hkbBlenderGenerator" signature="0x22df7147">
+		<hkobject name="#zcbe$323" class="BSBoneSwitchGenerator" signature="0xf33d3eea">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DualStaffLocomotionBlend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="3">
-				#zcbe$331 #zcbe$332 #zcbe$324
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">MLh_Staff_LocomotionBoneSwitch</hkparam>
+			<hkparam name="pDefaultGenerator">#zcbe$177</hkparam>
+			<hkparam name="ChildrenA" numelements="1">
+				#zcbe$324
 			</hkparam>
 		</hkobject>

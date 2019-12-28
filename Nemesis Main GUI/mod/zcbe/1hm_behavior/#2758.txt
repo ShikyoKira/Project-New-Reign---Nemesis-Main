@@ -19,7 +19,7 @@
 					</hkparam>
 					<hkparam name="transition">#0091</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-					<hkparam name="condition">#zcbe$8</hkparam>
+					<hkparam name="condition">#zcbe$27</hkparam>
 <!-- ORIGINAL -->
 					<hkparam name="condition">null</hkparam>
 <!-- CLOSE -->

@@ -1,14 +1,17 @@
-		<hkobject name="#zcbe$373" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">KillMoveVampireLordFeedFront</hkparam>
-			<hkparam name="pClipGenerator">#zcbe$374</hkparam>
-			<hkparam name="SyncAnimPrefix">2_</hkparam>
-			<hkparam name="bSyncClipIgnoreMarkPlacement">false</hkparam>
-			<hkparam name="fGetToMarkTime">0.050000</hkparam>
-			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
-			<hkparam name="bLeadCharacter">false</hkparam>
-			<hkparam name="bReorientSupportChar">true</hkparam>
-			<hkparam name="bApplyMotionFromRoot">false</hkparam>
-			<hkparam name="sAnimationBindingIndex">-1</hkparam>
+		<hkobject name="#zcbe$373" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="2">
+				<hkobject>
+					<hkparam name="memberPath">bIsActive0</hkparam>
+					<hkparam name="variableIndex">81</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="memberPath">bIsActive1</hkparam>
+					<hkparam name="variableIndex">219</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

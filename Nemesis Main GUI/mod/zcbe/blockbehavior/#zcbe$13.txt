@@ -1,9 +1,3 @@
-		<hkobject name="#zcbe$13" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_ChangeBlockHeight_ML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="2">
-				#zcbe$120 #zcbe$117
-			</hkparam>
+		<hkobject name="#zcbe$13" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">iBlockDirection_Z == 0</hkparam>
 		</hkobject>

@@ -23,7 +23,7 @@
 				#1345
 				#0084
 <!-- MOD_CODE ~tkuc~ OPEN -->
-				#tkuc$3
+				#tkuc$4
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>

@@ -1,7 +1,3 @@
-		<hkobject name="#zcbe$23" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ModifierGenerator536</hkparam>
-			<hkparam name="modifier">#zcbe$70</hkparam>
-			<hkparam name="generator">#zcbe$66</hkparam>
+		<hkobject name="#zcbe$23" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">!bIsSynced &amp;&amp; !bIsRiding  &amp;&amp; !bIsSwimming_Z</hkparam>
 		</hkobject>

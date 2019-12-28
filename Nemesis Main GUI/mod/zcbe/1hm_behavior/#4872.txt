@@ -305,7 +305,7 @@
 					</hkparam>
 					<hkparam name="transition">#0091</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-					<hkparam name="condition">#zcbe$31</hkparam>
+					<hkparam name="condition">#zcbe$102</hkparam>
 <!-- ORIGINAL -->
 					<hkparam name="condition">null</hkparam>
 <!-- CLOSE -->
@@ -984,8 +984,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$10</hkparam>
-					<hkparam name="condition">#zcbe$32</hkparam>
+					<hkparam name="transition">#zcbe$36</hkparam>
+					<hkparam name="condition">#zcbe$103</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -1010,8 +1010,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$33</hkparam>
-					<hkparam name="condition">#zcbe$34</hkparam>
+					<hkparam name="transition">#zcbe$101</hkparam>
+					<hkparam name="condition">#zcbe$100</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

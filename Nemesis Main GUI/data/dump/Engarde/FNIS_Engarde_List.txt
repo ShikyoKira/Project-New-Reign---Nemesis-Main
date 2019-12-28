@@ -28,3 +28,5 @@ b -a,Tn,TmctEscapeStop/0.5,TJumpDown/0.45,TJumpLandEnd/0.5 mctEscapeLeftRunStart
 MD 0.6 -260 0 0 
 b -a,Tn,TmctEscapeStop/0.5,TJumpDown/0.45,TJumpLandEnd/0.5 mctEscapeRightRunStart mct_escapeRightRun.hkx
 MD 0.6 260 0 0 
+b -a,Tn,TmctStaminaRecovered/2.8,TJumpLandEnd/3.0 mctStaminaRecovery1Start mct_staminaRecovery1.hkx
+b -a,Tn,TmctStaminaRecovered/4.8,TJumpLandEnd/5.0 mctStaminaRecovery2Start mct_staminaRecovery2.hkx

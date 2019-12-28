@@ -44,7 +44,7 @@
 						</hkobject>
 					</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-					<hkparam name="transition">#zcbe$3</hkparam>
+					<hkparam name="transition">#zcbe$14</hkparam>
 <!-- ORIGINAL -->
 					<hkparam name="transition">#3697</hkparam>
 <!-- CLOSE -->
@@ -74,7 +74,7 @@
 						</hkobject>
 					</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-					<hkparam name="transition">#zcbe$4</hkparam>
+					<hkparam name="transition">#zcbe$13</hkparam>
 <!-- ORIGINAL -->
 					<hkparam name="transition">#3697</hkparam>
 <!-- CLOSE -->
@@ -104,7 +104,7 @@
 						</hkobject>
 					</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-					<hkparam name="transition">#zcbe$5</hkparam>
+					<hkparam name="transition">#zcbe$12</hkparam>
 <!-- ORIGINAL -->
 					<hkparam name="transition">#3697</hkparam>
 <!-- CLOSE -->

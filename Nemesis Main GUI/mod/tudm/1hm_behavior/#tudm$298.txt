@@ -1006,7 +1006,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#tudm$1</hkparam>
-					<hkparam name="condition">#tudm$165</hkparam>
+					<hkparam name="condition">#tudm$166</hkparam>
 					<hkparam name="eventId">$eventID[RollStop]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -1032,7 +1032,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#tudm$1</hkparam>
-					<hkparam name="condition">#tudm$167</hkparam>
+					<hkparam name="condition">#tudm$165</hkparam>
 					<hkparam name="eventId">$eventID[RollStop]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

@@ -4,6 +4,6 @@
 			<hkparam name="name">Aiming_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="5">
-				#tkuc$112 #tkuc$113 #tkuc$114 #tkuc$115 #tkuc$116
+				#tkuc$116 #tkuc$117 #tkuc$118 #tkuc$114 #tkuc$115
 			</hkparam>
 		</hkobject>

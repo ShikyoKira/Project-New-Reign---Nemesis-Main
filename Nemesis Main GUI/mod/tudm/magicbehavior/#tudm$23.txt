@@ -1,17 +1,18 @@
-		<hkobject name="#tudm$23" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="2">
-				<hkobject>
-					<hkparam name="memberPath">twistAngle</hkparam>
-					<hkparam name="variableIndex">77</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">4</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
+		<hkobject name="#tudm$23" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#tudm$25</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">MagicNeckTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				1.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">1</hkparam>
+			<hkparam name="twistAngle">0.000000</hkparam>
+			<hkparam name="startBoneIndex">35</hkparam>
+			<hkparam name="endBoneIndex">37</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
 		</hkobject>

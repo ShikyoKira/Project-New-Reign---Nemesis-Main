@@ -1,10 +1,16 @@
-		<hkobject name="#zcbe$551" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ZAR_WaterSoundWeaponSwing_EDM</hkparam>
+		<hkobject name="#zcbe$551" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#zcbe$552</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Z_SetIsSwimmingBSIAM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifier">#zcbe$552</hkparam>
-			<hkparam name="activateEventId">53</hkparam>
-			<hkparam name="deactivateEventId">-1</hkparam>
-			<hkparam name="activeByDefault">false</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">false</hkparam>
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">false</hkparam>
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">false</hkparam>
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">false</hkparam>
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">false</hkparam>
 		</hkobject>

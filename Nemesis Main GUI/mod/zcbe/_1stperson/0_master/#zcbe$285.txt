@@ -1,12 +1,10 @@
-		<hkobject name="#zcbe$285" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">#zcbe$331</hkparam>
-			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$332</hkparam>
-			<hkparam name="generator">#zcbe$329</hkparam>
-			<hkparam name="name">DragonRider_Magic_Unequip_State</hkparam>
-			<hkparam name="stateId">13</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
+		<hkobject name="#zcbe$285" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$286</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">DragonRiderMagic_RightHand_MSG</hkparam>
+			<hkparam name="generators" numelements="10">
+				#zcbe$274 #zcbe$274 #zcbe$274 #zcbe$274 #zcbe$274 #zcbe$274 #zcbe$274 #zcbe$274 #zcbe$277 #zcbe$277
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

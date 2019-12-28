@@ -4,6 +4,6 @@
 			<hkparam name="name">CrossBow_Ready_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#0434 #tudm$7
+				#0434 #tudm$6
 			</hkparam>
 		</hkobject>

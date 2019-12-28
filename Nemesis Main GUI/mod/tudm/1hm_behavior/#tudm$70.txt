@@ -4,6 +4,6 @@
 			<hkparam name="name">Recoil_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#4820 #tudm$6
+				#4820 #tudm$7
 			</hkparam>
 		</hkobject>

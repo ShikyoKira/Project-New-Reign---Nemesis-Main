@@ -1,10 +1,13 @@
-		<hkobject name="#zcbe$152" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$159</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">PoseMatcherSelectorGen</hkparam>
-			<hkparam name="generators" numelements="3">
-				#zcbe$161 #zcbe$160 #zcbe$154
+		<hkobject name="#zcbe$152" class="BSRagdollContactListenerModifier" signature="0x8003d8ce">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">CollisionListener</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="event">
+				<hkobject>
+					<hkparam name="id">0</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+			<hkparam name="bones">#zcbe$151</hkparam>
 		</hkobject>

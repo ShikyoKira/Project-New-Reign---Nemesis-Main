@@ -13,7 +13,7 @@
 				#0290
 				#0603
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$1
+				#zcbe$24
 <!-- ORIGINAL -->
 				#0285
 <!-- CLOSE -->

@@ -1,7 +1,7 @@
 		<hkobject name="#tudm$10" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="1">
 				<hkobject>
-					<hkparam name="id">$eventID[BowFullDrawn]$</hkparam>
+					<hkparam name="id">$eventID[BowDrawing]$</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>

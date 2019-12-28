@@ -18,7 +18,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0146</hkparam>
-					<hkparam name="condition">#zcbe$27</hkparam>
+					<hkparam name="condition">#zcbe$13</hkparam>
 					<hkparam name="eventId">$eventID[BlockHigh_Z]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -44,7 +44,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0146</hkparam>
-					<hkparam name="condition">#zcbe$27</hkparam>
+					<hkparam name="condition">#zcbe$13</hkparam>
 					<hkparam name="eventId">$eventID[BlockLow_Z]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -70,7 +70,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0146</hkparam>
-					<hkparam name="condition">#zcbe$25</hkparam>
+					<hkparam name="condition">#zcbe$12</hkparam>
 					<hkparam name="eventId">$eventID[BlockHigh_Z]$</hkparam>
 					<hkparam name="toStateId">2</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -96,7 +96,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0146</hkparam>
-					<hkparam name="condition">#zcbe$25</hkparam>
+					<hkparam name="condition">#zcbe$12</hkparam>
 					<hkparam name="eventId">$eventID[BlockLow_Z]$</hkparam>
 					<hkparam name="toStateId">3</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

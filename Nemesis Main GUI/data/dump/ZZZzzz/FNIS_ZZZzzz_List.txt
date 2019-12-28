@@ -20,6 +20,14 @@ fu -a ZazAPCHogtie01_Enter ZazAPCAO051.hkx
 + -o ZazAPCHogtie01_Loop ZazAPCAO051.hkx AOHogtieRope AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
 + -a ZazAPCHogtie01_Exit ZazFurnitureExit.hkx
 
+fu -a ZazAPCHogtie02_Enter ZazAPCAO052.hkx
++ -o ZazAPCHogtie02_Loop ZazAPCAO052.hkx AOHogtieRope AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPCHogtie02_Exit ZazFurniture2Exit.hkx
+
+fuo -a ZazAPCHogtie02_Enter ZazAPCAO052.hkx
++ -o ZazAPCHogtie02_Loop ZazAPCAO052.hkx AOHogtieRope AOZaZRopeWristL AOZaZRopeWristR AOZaZRopeAnkleL AOZaZRopeAnkleR
++ -a ZazAPCHogtie02_Exit ZazFurniture2Exit.hkx
+
 
 
 

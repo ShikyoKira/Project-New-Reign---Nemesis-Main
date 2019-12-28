@@ -44,7 +44,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$6</hkparam>
+					<hkparam name="transition">#zcbe$30</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[Magic_Equip]$</hkparam>
 					<hkparam name="toStateId">10</hkparam>

@@ -3,10 +3,10 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#zcbe$375</hkparam>
-			<hkparam name="generator">#zcbe$376</hkparam>
-			<hkparam name="name">MagicReady_TurnRight</hkparam>
-			<hkparam name="stateId">0</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#zcbe$12</hkparam>
+			<hkparam name="name">Z_MagicLowerBodyJumpState_S</hkparam>
+			<hkparam name="stateId">1</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

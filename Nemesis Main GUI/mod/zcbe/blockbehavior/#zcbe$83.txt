@@ -4,8 +4,8 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$80</hkparam>
-			<hkparam name="name">Z_Bow_BlockLeftIdle_S</hkparam>
+			<hkparam name="generator">#zcbe$84</hkparam>
+			<hkparam name="name">Z_2HW_BlockLeftIdle_S</hkparam>
 			<hkparam name="stateId">2</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>

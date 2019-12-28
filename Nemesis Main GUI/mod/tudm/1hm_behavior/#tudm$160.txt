@@ -1,7 +1,26 @@
-		<hkobject name="#tudm$160" class="hkbModifierGenerator" signature="0x1f81fae6">
+		<hkobject name="#tudm$160" class="hkbStateMachine" signature="0x816c1dcb">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">ModifierGenerator08</hkparam>
-			<hkparam name="modifier">#tudm$6</hkparam>
-			<hkparam name="generator">#tudm$159</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">DodgeDirection_BehaviorC</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">0</hkparam>
+			<hkparam name="selfTransitionMode">0</hkparam>
+			<hkparam name="states" numelements="8">
+				#tudm$158 #tudm$151 #tudm$143 #tudm$134 #tudm$129 #tudm$119 #tudm$113 #tudm$105
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
 		</hkobject>

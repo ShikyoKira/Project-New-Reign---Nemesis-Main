@@ -1,9 +1,8 @@
-		<hkobject name="#zcbe$329" class="BSBoneSwitchGenerator" signature="0xf33d3eea">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">DragonRider_Magic_Unequip_SwitchGen</hkparam>
-			<hkparam name="ChildrenA" numelements="1">
-				#zcbe$330
+		<hkobject name="#zcbe$329" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
+				<hkobject>
+					<hkparam name="id">1062</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="pDefaultGenerator">#zcbe$278</hkparam>
 		</hkobject>

@@ -1,3 +1,8 @@
-		<hkobject name="#tkuc$4" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">Camera1st [Cam1]</hkparam>
+		<hkobject name="#tkuc$4" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
+				<hkobject>
+					<hkparam name="id">$eventID[EndAnimatedCamera]$</hkparam>
+					<hkparam name="payload">#tkuc$6</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

@@ -1,15 +1,7 @@
-		<hkobject name="#zcbe$237" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#zcbe$240</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Magic_BackwardLeftBlend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">17</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="4">
-				#zcbe$241 #zcbe$242 #zcbe$243 #zcbe$238
-			</hkparam>
+		<hkobject name="#zcbe$237" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#zcbe$238</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">4.545330</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

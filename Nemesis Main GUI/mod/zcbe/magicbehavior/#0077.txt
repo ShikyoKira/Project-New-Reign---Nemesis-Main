@@ -208,13 +208,13 @@
 				<hkcstring>BowAimOffsetPitch</hkcstring>
 				<hkcstring>bVoiceReady</hkcstring>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				<hkcstring>iWantBlock</hkcstring>
 				<hkcstring>fFixDCHeading_Z</hkcstring>
 				<hkcstring>bIsThirdPerson_Z</hkcstring>
 				<hkcstring>bIsSwimming_Z</hkcstring>
 				<hkcstring>bInJumpState</hkcstring>
 				<hkcstring>bIsSneaking_Z</hkcstring>
 				<hkcstring>fComTwist_Z</hkcstring>
+				<hkcstring>iWantBlock</hkcstring>
 				<hkcstring>bAllowRotation</hkcstring>
 				<hkcstring>fNPCPitch_Z</hkcstring>
 				<hkcstring>IsBlocking</hkcstring>

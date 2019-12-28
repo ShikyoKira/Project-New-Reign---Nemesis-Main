@@ -1,5 +1,5 @@
 		<hkobject name="#tudm$73" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#tudm$24</hkparam>
+			<hkparam name="variableBindingSet">#tudm$26</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Right_ForwardRoll_Clip_C</hkparam>
 			<hkparam name="animationName">Animations\Roll_ForwardRight.hkx</hkparam>

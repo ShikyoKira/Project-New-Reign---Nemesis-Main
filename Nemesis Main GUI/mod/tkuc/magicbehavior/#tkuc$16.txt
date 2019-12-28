@@ -2,7 +2,7 @@
 			<hkparam name="events" numelements="1">
 				<hkobject>
 					<hkparam name="id">$eventID[EndAnimatedCamera]$</hkparam>
-					<hkparam name="payload">#tkuc$14</hkparam>
+					<hkparam name="payload">#tkuc$18</hkparam>
 				</hkobject>
 			</hkparam>
 		</hkobject>

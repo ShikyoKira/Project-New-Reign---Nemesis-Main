@@ -1,30 +1,30 @@
-		<hkobject name="#zcbe$62" class="BSDirectAtModifier" signature="0x19a005c0">
+		<hkobject name="#zcbe$62" class="BSEventOnFalseToTrueModifier" signature="0x81d0777a">
 			<hkparam name="variableBindingSet">#zcbe$63</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">DirectAtModifier31</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">EventOnFalseToTrueModifier11</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="directAtTarget">true</hkparam>
-			<hkparam name="sourceBoneIndex">-1</hkparam>
-			<hkparam name="startBoneIndex">25</hkparam>
-			<hkparam name="endBoneIndex">26</hkparam>
-			<hkparam name="limitHeadingDegrees">45.000000</hkparam>
-			<hkparam name="limitPitchDegrees">45.000000</hkparam>
-			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
-			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
-			<hkparam name="onGain">0.550000</hkparam>
-			<hkparam name="offGain">0.550000</hkparam>
-			<hkparam name="targetLocation">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
+			<hkparam name="bEnableEvent1">true</hkparam>
+			<hkparam name="bVariableToTest1">false</hkparam>
+			<hkparam name="EventToSend1">
+				<hkobject>
+					<hkparam name="id">88</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="userInfo">0</hkparam>
-			<hkparam name="directAtCamera">false</hkparam>
-			<hkparam name="directAtCameraX">0.000000</hkparam>
-			<hkparam name="directAtCameraY">0.000000</hkparam>
-			<hkparam name="directAtCameraZ">0.000000</hkparam>
-			<hkparam name="active">false</hkparam>
-			<hkparam name="currentHeadingOffset">0.000000</hkparam>
-			<hkparam name="currentPitchOffset">0.000000</hkparam>
+			<hkparam name="bEnableEvent2">false</hkparam>
+			<hkparam name="bVariableToTest2">false</hkparam>
+			<hkparam name="EventToSend2">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="bEnableEvent3">false</hkparam>
+			<hkparam name="bVariableToTest3">false</hkparam>
+			<hkparam name="EventToSend3">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

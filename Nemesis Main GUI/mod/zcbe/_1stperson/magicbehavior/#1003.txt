@@ -3,8 +3,8 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">MagicReadyRoot_MG</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="modifier">#zcbe$15</hkparam>
-			<hkparam name="generator">#zcbe$16</hkparam>
+			<hkparam name="modifier">#zcbe$403</hkparam>
+			<hkparam name="generator">#zcbe$132</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="modifier">#1002</hkparam>
 			<hkparam name="generator">#1000</hkparam>

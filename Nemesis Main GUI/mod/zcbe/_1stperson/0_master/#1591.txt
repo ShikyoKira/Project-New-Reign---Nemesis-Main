@@ -4,7 +4,7 @@
 			<hkparam name="name">Weap_UnequipModifierGenerator</hkparam>
 			<hkparam name="modifier">#1581</hkparam>
 <!-- MOD_CODE ~zcbe~ OPEN -->
-			<hkparam name="generator">#zcbe$47</hkparam>
+			<hkparam name="generator">#zcbe$390</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#1592</hkparam>
 <!-- CLOSE -->

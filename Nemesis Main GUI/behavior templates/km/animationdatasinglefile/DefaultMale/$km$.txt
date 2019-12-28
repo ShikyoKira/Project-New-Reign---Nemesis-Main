@@ -1,5 +1,5 @@
 NPC_Nemesis_KillMove_Clip_$%$
-<!-- This line is deliberately left without any related info as it will be replaced by the generator -->
+$animOrder[Animations\FilePath]$
 1
 0
 0

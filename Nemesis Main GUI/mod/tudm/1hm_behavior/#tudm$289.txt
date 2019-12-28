@@ -1,8 +1,8 @@
 		<hkobject name="#tudm$289" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
-			<hkparam name="variableBindingSet">#tudm$292</hkparam>
+			<hkparam name="variableBindingSet">#tudm$295</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DodgeDirectionA_CBTG</hkparam>
-			<hkparam name="pBlenderGenerator">#tudm$285</hkparam>
+			<hkparam name="pBlenderGenerator">#tudm$288</hkparam>
 			<hkparam name="EventToFreezeBlendValue">
 				<hkobject>
 					<hkparam name="id">194</hkparam>

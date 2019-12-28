@@ -1,3 +1,8 @@
-		<hkobject name="#zcbe$511" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">AnimObjectB</hkparam>
+		<hkobject name="#zcbe$511" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
+				<hkobject>
+					<hkparam name="id">366</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

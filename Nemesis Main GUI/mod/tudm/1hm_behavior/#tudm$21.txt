@@ -4,6 +4,6 @@
 			<hkparam name="name">Bash_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="2">
-				#2768 #tudm$7
+				#2768 #tudm$6
 			</hkparam>
 		</hkobject>

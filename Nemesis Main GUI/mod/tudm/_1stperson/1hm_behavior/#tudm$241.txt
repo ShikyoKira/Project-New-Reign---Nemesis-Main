@@ -2,6 +2,6 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">ModifierGenerator08</hkparam>
-			<hkparam name="modifier">#tudm$240</hkparam>
-			<hkparam name="generator">#tudm$238</hkparam>
+			<hkparam name="modifier">#tudm$239</hkparam>
+			<hkparam name="generator">#tudm$242</hkparam>
 		</hkobject>

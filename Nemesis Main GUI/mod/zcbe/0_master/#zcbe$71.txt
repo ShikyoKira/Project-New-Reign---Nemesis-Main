@@ -1,20 +1,16 @@
-		<hkobject name="#zcbe$71" class="BSDistTriggerModifier" signature="0xb34d2bbd">
+		<hkobject name="#zcbe$71" class="BSIsActiveModifier" signature="0xb0fde45a">
 			<hkparam name="variableBindingSet">#zcbe$72</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DistTriggerModifier2</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">IsActiveModifier117</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="targetPosition">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-			</hkparam>
-			<hkparam name="distance">50.000000</hkparam>
-			<hkparam name="distanceTrigger">200.000000</hkparam>
-			<hkparam name="triggerEvent">
-				<hkobject>
-					<hkparam name="id">$eventID[HeadtrackOn_Z]$</hkparam>
-					<hkparam name="payload">null</hkparam>
-				</hkobject>
-			</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">false</hkparam>
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">false</hkparam>
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">false</hkparam>
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">false</hkparam>
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">false</hkparam>
 		</hkobject>

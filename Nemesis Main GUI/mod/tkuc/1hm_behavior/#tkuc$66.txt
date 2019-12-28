@@ -17,7 +17,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$70</hkparam>
+					<hkparam name="transition">#tkuc$65</hkparam>
 					<hkparam name="condition">#tkuc$64</hkparam>
 					<hkparam name="eventId">$eventID[TKDodgeStop]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>
@@ -43,7 +43,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$70</hkparam>
+					<hkparam name="transition">#tkuc$65</hkparam>
 					<hkparam name="condition">#tkuc$63</hkparam>
 					<hkparam name="eventId">$eventID[TKDodgeStop]$</hkparam>
 					<hkparam name="toStateId">1</hkparam>

@@ -122,8 +122,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$10</hkparam>
-					<hkparam name="condition">#zcbe$11</hkparam>
+					<hkparam name="transition">#zcbe$36</hkparam>
+					<hkparam name="condition">#zcbe$35</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

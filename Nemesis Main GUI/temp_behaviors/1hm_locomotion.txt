@@ -14220,7 +14220,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$2</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#zcbe$4</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">10</hkparam>
@@ -14274,7 +14274,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$4</hkparam>					<!-- *zcbe* -->
+					<hkparam name="transition">#zcbe$2</hkparam>					<!-- *zcbe* -->
 					<hkparam name="transition">#0068</hkparam>				<!-- original -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">12</hkparam>
@@ -14495,7 +14495,7 @@
 		<hkobject name="#zcbe$2" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">BlendingTransitionEffect282</hkparam>
+			<hkparam name="name">BlendingTransitionEffect284</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
 			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
 			<hkparam name="duration">0.050000</hkparam>
@@ -14521,7 +14521,7 @@
 		<hkobject name="#zcbe$4" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">BlendingTransitionEffect284</hkparam>
+			<hkparam name="name">BlendingTransitionEffect282</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC</hkparam>
 			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
 			<hkparam name="duration">0.050000</hkparam>

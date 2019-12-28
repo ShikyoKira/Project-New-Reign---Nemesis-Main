@@ -1,10 +1,28 @@
-		<hkobject name="#zcbe$187" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$188</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">MagicLocomotionLHandSelectorMSG</hkparam>
-			<hkparam name="generators" numelements="12">
-				#zcbe$189 #zcbe$189 #zcbe$189 #zcbe$189 #zcbe$189 #0150 #0150 #0150 #zcbe$191 #zcbe$192 #zcbe$189 #zcbe$189
+		<hkobject name="#zcbe$187" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="2">
+				<hkobject>
+					<hkparam name="localTime">0.033333</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">11</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.366667</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">12</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

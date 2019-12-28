@@ -22,7 +22,7 @@
 			<hkparam name="states" numelements="1">
 				#1921
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$51
+				#zcbe$575
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>

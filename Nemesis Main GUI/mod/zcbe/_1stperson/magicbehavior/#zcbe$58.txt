@@ -1,15 +1,12 @@
-		<hkobject name="#zcbe$58" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#zcbe$65</hkparam>
+		<hkobject name="#zcbe$58" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+			<hkparam name="variableBindingSet">#zcbe$59</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Sneak_TurnRight_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">16</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="4">
-				#zcbe$67 #zcbe$68 #zcbe$62 #zcbe$59
-			</hkparam>
+			<hkparam name="name">DefaultContinueTransition</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE</hkparam>
+			<hkparam name="eventMode">EVENT_MODE_PROCESS_ALL</hkparam>
+			<hkparam name="duration">0.000000</hkparam>
+			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="endMode">END_MODE_NONE</hkparam>
+			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
 		</hkobject>

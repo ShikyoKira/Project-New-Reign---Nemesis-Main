@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Left_BackwardSidestep_Clip_B</hkparam>
 			<hkparam name="animationName">Animations\Sidestep_BackwardLeft.hkx</hkparam>
-			<hkparam name="triggers">#tudm$58</hkparam>
+			<hkparam name="triggers">#tudm$55</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.175000</hkparam>

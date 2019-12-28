@@ -1,18 +1,28 @@
-		<hkobject name="#zcbe$29" class="hkbTwistModifier" signature="0xb6b76b32">
-			<hkparam name="variableBindingSet">#zcbe$28</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Z_FixJumpCastCom_TM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="axisOfRotation">
-				0.000000
-				0.000000
-				1.000000
-				0.000000
+		<hkobject name="#zcbe$29" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="2">
+				<hkobject>
+					<hkparam name="localTime">0.467000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">11</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">0.967000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">12</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="twistAngle">-30.000000</hkparam>
-			<hkparam name="startBoneIndex">4</hkparam>
-			<hkparam name="endBoneIndex">4</hkparam>
-			<hkparam name="setAngleMethod">LINEAR</hkparam>
-			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
-			<hkparam name="isAdditive">true</hkparam>
 		</hkobject>

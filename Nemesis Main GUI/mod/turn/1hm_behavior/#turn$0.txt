@@ -4,6 +4,6 @@
 			<hkparam name="name">BowAttack_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="6">
-				#turn$11 #turn$12 #0429 #turn$9 #turn$8 #turn$7
+				#turn$6 #turn$4 #0429 #turn$3 #turn$2 #turn$1
 			</hkparam>
 		</hkobject>

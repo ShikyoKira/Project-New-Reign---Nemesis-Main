@@ -1,26 +1,21 @@
-		<hkobject name="#tudm$198" class="hkbStateMachine" signature="0x816c1dcb">
-			<hkparam name="variableBindingSet">#tudm$5</hkparam>
+		<hkobject name="#tudm$198" class="BSCyclicBlendTransitionGenerator" signature="0x5119eb06">
+			<hkparam name="variableBindingSet">#tudm$193</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">ForwardDodgeStyle</hkparam>
-			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+			<hkparam name="name">DodgeDirectionA_CBTG</hkparam>
+			<hkparam name="pBlenderGenerator">#tudm$196</hkparam>
+			<hkparam name="EventToFreezeBlendValue">
 				<hkobject>
-					<hkparam name="id">-1</hkparam>
+					<hkparam name="id">298</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="startStateChooser">null</hkparam>
-			<hkparam name="startStateId">0</hkparam>
-			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
-			<hkparam name="randomTransitionEventId">-1</hkparam>
-			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
-			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
-			<hkparam name="syncVariableIndex">-1</hkparam>
-			<hkparam name="wrapAroundStateId">false</hkparam>
-			<hkparam name="maxSimultaneousTransitions">32</hkparam>
-			<hkparam name="startStateMode">0</hkparam>
-			<hkparam name="selfTransitionMode">0</hkparam>
-			<hkparam name="states" numelements="2">
-				#tudm$193 #tudm$187
+			<hkparam name="EventToCrossBlend">
+				<hkobject>
+					<hkparam name="id">299</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="wildcardTransitions">null</hkparam>
+			<hkparam name="fBlendParameter">0.000000</hkparam>
+			<hkparam name="fTransitionDuration">0.100000</hkparam>
+			<hkparam name="eBlendCurve">BLEND_CURVE_SMOOTH</hkparam>
 		</hkobject>

@@ -1,12 +1,10 @@
-		<hkobject name="#zcbe$17" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
-			<hkparam name="variableBindingSet">#zcbe$16</hkparam>
+		<hkobject name="#zcbe$17" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#zcbe$31</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DefaultBlendResetTransition</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_RESET</hkparam>
-			<hkparam name="eventMode">EVENT_MODE_DEFAULT</hkparam>
-			<hkparam name="duration">0.000000</hkparam>
-			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
-			<hkparam name="flags">0</hkparam>
-			<hkparam name="endMode">END_MODE_NONE</hkparam>
-			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+			<hkparam name="name">ManualSelectorGenerator295</hkparam>
+			<hkparam name="generators" numelements="2">
+				#1010 #zcbe$18
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

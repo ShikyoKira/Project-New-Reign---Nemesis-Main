@@ -3,5 +3,5 @@
 			<hkparam name="generator">#0360</hkparam>
 			<hkparam name="boneWeights">#zcbe$487</hkparam>
 			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">0.000000</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

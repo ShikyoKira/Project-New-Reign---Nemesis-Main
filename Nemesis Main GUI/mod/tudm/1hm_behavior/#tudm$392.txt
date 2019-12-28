@@ -10,6 +10,6 @@
 			<hkparam name="flags">17</hkparam>
 			<hkparam name="subtractLastChild">false</hkparam>
 			<hkparam name="children" numelements="3">
-				#tudm$390 #tudm$391 #tudm$386
+				#tudm$391 #tudm$389 #tudm$386
 			</hkparam>
 		</hkobject>

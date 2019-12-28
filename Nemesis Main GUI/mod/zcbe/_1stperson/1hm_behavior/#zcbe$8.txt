@@ -1,10 +1,12 @@
-		<hkobject name="#zcbe$8" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$15</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_ReadyWeap_AttackPowerFwd_MSG</hkparam>
-			<hkparam name="generators" numelements="13">
-				#zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$17 #zcbe$18 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9 #zcbe$9
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#zcbe$8" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">#zcbe$20</hkparam>
+			<hkparam name="generator">#zcbe$9</hkparam>
+			<hkparam name="name">Z_1HMFwdPowAttIntro_S</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
 		</hkobject>

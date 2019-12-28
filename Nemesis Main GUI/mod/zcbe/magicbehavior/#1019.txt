@@ -9,7 +9,7 @@
 				#1014
 				#1012
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$2
+				#zcbe$32
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

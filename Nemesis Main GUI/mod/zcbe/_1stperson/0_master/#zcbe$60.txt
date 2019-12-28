@@ -1,12 +1,16 @@
-		<hkobject name="#zcbe$60" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+		<hkobject name="#zcbe$60" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">#zcbe$65</hkparam>
-			<hkparam name="exitNotifyEvents">#zcbe$64</hkparam>
-			<hkparam name="transitions">#zcbe$63</hkparam>
-			<hkparam name="generator">#zcbe$62</hkparam>
-			<hkparam name="name">IdleDLC2TentacleWarpBook</hkparam>
-			<hkparam name="stateId">122</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">WW_Stage2.hkx</hkparam>
+			<hkparam name="animationName">Animations\WW_Stage2.hkx</hkparam>
+			<hkparam name="triggers">#zcbe$59</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
 		</hkobject>

@@ -1,5 +1,5 @@
 		<hkobject name="#zcbe$0" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
-			<hkparam name="variableBindingSet">#zcbe$11</hkparam>
+			<hkparam name="variableBindingSet">#zcbe$1</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">DefaultBlendTransition</hkparam>
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_BLEND</hkparam>

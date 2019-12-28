@@ -3,5 +3,5 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">TKCombatState_MG</hkparam>
 			<hkparam name="modifier">#tkuc$110</hkparam>
-			<hkparam name="generator">#tkuc$108</hkparam>
+			<hkparam name="generator">#tkuc$106</hkparam>
 		</hkobject>

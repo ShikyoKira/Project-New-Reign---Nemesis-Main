@@ -30,7 +30,7 @@
 				#0624
 				#0620
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$4 #zcbe$5
+				#zcbe$36 #zcbe$35
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>

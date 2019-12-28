@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#tkuc$117</hkparam>
+			<hkparam name="transitions">#tkuc$112</hkparam>
 			<hkparam name="generator">#tkuc$111</hkparam>
 			<hkparam name="name">TKCombatState</hkparam>
 			<hkparam name="stateId">20</hkparam>

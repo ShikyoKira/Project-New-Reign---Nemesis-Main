@@ -4,6 +4,6 @@
 			<hkparam name="name">1hm_readied_ML</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="4">
-				#turn$11 #turn$12 #0429 #turn$9
+				#turn$6 #turn$4 #0429 #turn$3
 			</hkparam>
 		</hkobject>

@@ -1,8 +1,10 @@
-		<hkobject name="#tkuc$25" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
-			<hkparam name="events" numelements="1">
-				<hkobject>
-					<hkparam name="id">460</hkparam>
-					<hkparam name="payload">#1870</hkparam>
-				</hkobject>
+		<hkobject name="#tkuc$25" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#tkuc$26</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">TKDodgeForward_MSG</hkparam>
+			<hkparam name="generators" numelements="4">
+				#tkuc$24 #tkuc$21 #tkuc$22 #tkuc$19
 			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

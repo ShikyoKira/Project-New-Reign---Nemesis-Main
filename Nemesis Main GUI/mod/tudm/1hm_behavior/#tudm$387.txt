@@ -1,9 +1,9 @@
 		<hkobject name="#tudm$387" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tudm$79</hkparam>
+			<hkparam name="variableBindingSet">#tudm$85</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Weap_AttackRight_MSG</hkparam>
 			<hkparam name="generators" numelements="7">
-				#3145 #3145 #3145 #3145 #3145 #tudm$384 #tudm$382
+				#3145 #3145 #3145 #3145 #3145 #tudm$388 #tudm$390
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

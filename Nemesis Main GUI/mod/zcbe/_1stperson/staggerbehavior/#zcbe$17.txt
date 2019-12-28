@@ -1,30 +1,10 @@
-		<hkobject name="#zcbe$17" class="BSDirectAtModifier" signature="0x19a005c0">
-			<hkparam name="variableBindingSet">#zcbe$22</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_BodyPartReactToHit_DAM</hkparam>
+		<hkobject name="#zcbe$17" class="hkbEventDrivenModifier" signature="0x7ed3f44e">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Z_ResetDAMVars_EDM</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="directAtTarget">true</hkparam>
-			<hkparam name="sourceBoneIndex">26</hkparam>
-			<hkparam name="startBoneIndex">24</hkparam>
-			<hkparam name="endBoneIndex">26</hkparam>
-			<hkparam name="limitHeadingDegrees">90.000000</hkparam>
-			<hkparam name="limitPitchDegrees">90.000000</hkparam>
-			<hkparam name="offsetHeadingDegrees">0.000000</hkparam>
-			<hkparam name="offsetPitchDegrees">0.000000</hkparam>
-			<hkparam name="onGain">0.250000</hkparam>
-			<hkparam name="offGain">0.250000</hkparam>
-			<hkparam name="targetLocation">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-			</hkparam>
-			<hkparam name="userInfo">2</hkparam>
-			<hkparam name="directAtCamera">false</hkparam>
-			<hkparam name="directAtCameraX">0.000000</hkparam>
-			<hkparam name="directAtCameraY">0.000000</hkparam>
-			<hkparam name="directAtCameraZ">0.000000</hkparam>
-			<hkparam name="active">false</hkparam>
-			<hkparam name="currentHeadingOffset">0.000000</hkparam>
-			<hkparam name="currentPitchOffset">0.000000</hkparam>
+			<hkparam name="modifier">#zcbe$16</hkparam>
+			<hkparam name="activateEventId">7</hkparam>
+			<hkparam name="deactivateEventId">0</hkparam>
+			<hkparam name="activeByDefault">false</hkparam>
 		</hkobject>

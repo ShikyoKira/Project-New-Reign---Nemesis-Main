@@ -1,10 +1,11 @@
-		<hkobject name="#zcbe$1" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$32</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Z_WoundedOrGetUpMSG</hkparam>
-			<hkparam name="generators" numelements="2">
-				#0211 #zcbe$30
+		<hkobject name="#zcbe$1" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">bIsActive0</hkparam>
+					<hkparam name="variableIndex">$variableID[bIsInHavok_Z]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

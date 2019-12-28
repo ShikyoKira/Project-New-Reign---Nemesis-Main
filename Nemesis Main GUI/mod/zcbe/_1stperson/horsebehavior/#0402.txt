@@ -13,7 +13,7 @@
 				#0390
 				#0400
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$0
+				#zcbe$9
 <!-- ORIGINAL -->
 				#0400
 <!-- CLOSE -->

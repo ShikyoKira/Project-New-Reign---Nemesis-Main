@@ -1,3 +1,7 @@
-		<hkobject name="#tkuc$14" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">Camera3rd [Cam3]</hkparam>
+		<hkobject name="#tkuc$14" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">TKDodgeStepSelector_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#tkuc$17</hkparam>
 		</hkobject>

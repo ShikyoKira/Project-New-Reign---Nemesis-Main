@@ -617,7 +617,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#0091</hkparam>
-					<hkparam name="condition">#zcbe$12</hkparam>
+					<hkparam name="condition">#zcbe$38</hkparam>
 					<hkparam name="eventId">5</hkparam>
 					<hkparam name="toStateId">0</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -642,8 +642,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$10</hkparam>
-					<hkparam name="condition">#zcbe$13</hkparam>
+					<hkparam name="transition">#zcbe$36</hkparam>
+					<hkparam name="condition">#zcbe$40</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -668,8 +668,8 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$10</hkparam>
-					<hkparam name="condition">#zcbe$14</hkparam>
+					<hkparam name="transition">#zcbe$36</hkparam>
+					<hkparam name="condition">#zcbe$39</hkparam>
 					<hkparam name="eventId">11</hkparam>
 					<hkparam name="toStateId">10</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

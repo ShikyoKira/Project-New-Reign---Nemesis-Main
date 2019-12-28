@@ -18,7 +18,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">#tudm$90</hkparam>
-					<hkparam name="condition">#tudm$92</hkparam>
+					<hkparam name="condition">#tudm$95</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">25</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -43,7 +43,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tudm$88</hkparam>
+					<hkparam name="transition">#tudm$89</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[RollStop]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>

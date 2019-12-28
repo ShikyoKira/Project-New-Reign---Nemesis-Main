@@ -26,7 +26,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="886">
+			<hkparam name="animationNames" numelements="894">
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1HM_1stP_TurnLeft.hkx</hkcstring>
 				<hkcstring>Animations\1HM_1stP_TurnRight.hkx</hkcstring>
@@ -896,23 +896,31 @@
 				<hkcstring>Animations\WhirlwindSprint_Longest.hkx</hkcstring>
 				<hkcstring>Animations\WhirlwindSprint_Medium.hkx</hkcstring>
 				<hkcstring>Animations\WhirlwindSprint_Short.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\H2H_BlockIdle.hkx</hkcstring>
+				<hkcstring>Animations\1HM_forceequip.hkx</hkcstring>
+				<hkcstring>Animations\Shd_forceequip.hkx</hkcstring>
+				<hkcstring>Animations\Shd_GunR_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\1hm_GunR_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\1hm_Mrh_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Shd_Mrh_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Tor_Mrh_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\1hm_GunR_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\mrh_and_mlh_unequip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\Shd_GunR_UnEquip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\staffmagicright_1stp_run.hkx</hkcstring>
+				<hkcstring>Animations\Gun\staffmagicright_1stp_walk.hkx</hkcstring>
+				<hkcstring>Animations\Gun\staffright_equip.hkx</hkcstring>
+				<hkcstring>Animations\Gun\staffright_idle.hkx</hkcstring>
+				<hkcstring>Animations\Gun\stfmagicright_precharge.hkx</hkcstring>
+				<hkcstring>Animations\Gun\stfmagicright_readyloop.hkx</hkcstring>
+				<hkcstring>Animations\Gun\stfmagicright_release.hkx</hkcstring>
+				<hkcstring>Animations\GunL\mlh_unequip.hkx</hkcstring>
+				<hkcstring>Animations\GunL\staff_idle.hkx</hkcstring>
+				<hkcstring>Animations\GunL\staffmagic_1stp_run.hkx</hkcstring>
+				<hkcstring>Animations\GunL\staffmagic_1stp_walk.hkx</hkcstring>
+				<hkcstring>Animations\GunL\stf_equip.hkx</hkcstring>
+				<hkcstring>Animations\GunL\stfmagic_precharge.hkx</hkcstring>
+				<hkcstring>Animations\GunL\stfmagic_preready.hkx</hkcstring>
+				<hkcstring>Animations\GunL\stfmagic_release.hkx</hkcstring>
 			</hkparam>
 			<hkparam name="animationFilenames" numelements="0"></hkparam>
 			<hkparam name="characterPropertyNames" numelements="37">
@@ -3750,17 +3758,17 @@
 			<hkparam name="modelUpMS">
 				0.000000
 				0.000000
-				0.000000					<!-- *zcbe* -->
+				1.000000				<!-- original -->
 				0.000000
 			</hkparam>
 			<hkparam name="modelForwardMS">
 				0.000000
-				0.000000					<!-- *zcbe* -->
+				1.000000				<!-- original -->
 				0.000000
 				0.000000
 			</hkparam>
 			<hkparam name="modelRightMS">
-				0.000000					<!-- *zcbe* -->
+				1.000000				<!-- original -->
 				-0.000000
 				-0.000000
 				0.000000

@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">RightSidestep_Clip_A</hkparam>
 			<hkparam name="animationName">Animations\Sidestep_Right.hkx</hkparam>
-			<hkparam name="triggers">#tudm$208</hkparam>
+			<hkparam name="triggers">#tudm$209</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

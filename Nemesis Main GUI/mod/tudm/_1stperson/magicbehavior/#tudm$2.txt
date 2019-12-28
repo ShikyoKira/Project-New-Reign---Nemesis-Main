@@ -1,7 +1,7 @@
 		<hkobject name="#tudm$2" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="9">
+			<hkparam name="triggers" numelements="6">
 				<hkobject>
-					<hkparam name="localTime">0.350000</hkparam>
+					<hkparam name="localTime">0.400000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -13,7 +13,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">0.700000</hkparam>
+					<hkparam name="localTime">0.800000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -25,7 +25,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">1.050000</hkparam>
+					<hkparam name="localTime">1.200000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -37,7 +37,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">1.400000</hkparam>
+					<hkparam name="localTime">1.550000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -49,7 +49,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">1.800000</hkparam>
+					<hkparam name="localTime">1.900000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
@@ -61,43 +61,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">2.200000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">2.600000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">2.950000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">3.300000</hkparam>
+					<hkparam name="localTime">2.250000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">$eventID[DodgeSpell]$</hkparam>

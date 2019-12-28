@@ -3,10 +3,10 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#zcbe$590</hkparam>
-			<hkparam name="name">BleedOut_TransOut_State</hkparam>
-			<hkparam name="stateId">3</hkparam>
+			<hkparam name="transitions">#zcbe$588</hkparam>
+			<hkparam name="generator">#zcbe$586</hkparam>
+			<hkparam name="name">BleedOut_TransIn_State</hkparam>
+			<hkparam name="stateId">0</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

@@ -1,40 +1,14 @@
-		<hkobject name="#tkuc$168" class="hkbClipTriggerArray" signature="0x59c23a0f">
-			<hkparam name="triggers" numelements="3">
-				<hkobject>
-					<hkparam name="localTime">0.497000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">136</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">0.603000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">133</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="localTime">1.100000</hkparam>
-					<hkparam name="event">
-						<hkobject>
-							<hkparam name="id">55</hkparam>
-							<hkparam name="payload">null</hkparam>
-						</hkobject>
-					</hkparam>
-					<hkparam name="relativeToEndOfClip">false</hkparam>
-					<hkparam name="acyclic">false</hkparam>
-					<hkparam name="isAnnotation">false</hkparam>
-				</hkobject>
-			</hkparam>
+		<hkobject name="#tkuc$168" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Sync_1HMSpecialAttackD</hkparam>
+			<hkparam name="pClipGenerator">#tkuc$169</hkparam>
+			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
+			<hkparam name="bSyncClipIgnoreMarkPlacement">true</hkparam>
+			<hkparam name="fGetToMarkTime">0.000000</hkparam>
+			<hkparam name="fMarkErrorThreshold">0.100000</hkparam>
+			<hkparam name="bLeadCharacter">false</hkparam>
+			<hkparam name="bReorientSupportChar">true</hkparam>
+			<hkparam name="bApplyMotionFromRoot">false</hkparam>
+			<hkparam name="sAnimationBindingIndex">-1</hkparam>
 		</hkobject>

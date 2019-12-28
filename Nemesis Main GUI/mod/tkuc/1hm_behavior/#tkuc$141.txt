@@ -2,7 +2,7 @@
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">Sync_2HMSpecialAttackD</hkparam>
-			<hkparam name="pClipGenerator">#tkuc$144</hkparam>
+			<hkparam name="pClipGenerator">#tkuc$143</hkparam>
 			<hkparam name="SyncAnimPrefix">&#9216;</hkparam>
 			<hkparam name="bSyncClipIgnoreMarkPlacement">true</hkparam>
 			<hkparam name="fGetToMarkTime">0.000000</hkparam>

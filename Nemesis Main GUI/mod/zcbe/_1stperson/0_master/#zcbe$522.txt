@@ -5,8 +5,8 @@
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
 			<hkparam name="generator">#zcbe$523</hkparam>
-			<hkparam name="name">KillWerewolfPairedHeadThrowWithHumanClip</hkparam>
-			<hkparam name="stateId">2</hkparam>
+			<hkparam name="name">KillWerewolfPairedFeedingWithHumanClip</hkparam>
+			<hkparam name="stateId">0</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

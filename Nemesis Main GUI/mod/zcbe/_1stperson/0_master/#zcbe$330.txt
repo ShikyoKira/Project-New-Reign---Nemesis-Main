@@ -1,5 +1,8 @@
-		<hkobject name="#zcbe$330" class="BSBoneSwitchGeneratorBoneData" signature="0xc1215be6">
-			<hkparam name="variableBindingSet">#zcbe$335</hkparam>
-			<hkparam name="pGenerator">#zcbe$334</hkparam>
-			<hkparam name="spBoneWeight">#zcbe$333</hkparam>
+		<hkobject name="#zcbe$330" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
+				<hkobject>
+					<hkparam name="id">1061</hkparam>
+					<hkparam name="payload">#0208</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

@@ -1,7 +1,5 @@
-		<hkobject name="#zcbe$324" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
-			<hkparam name="variableBindingSet">#zcbe$330</hkparam>
-			<hkparam name="generator">#zcbe$326</hkparam>
-			<hkparam name="boneWeights">#zcbe$325</hkparam>
-			<hkparam name="weight">1.000000</hkparam>
-			<hkparam name="worldFromModelWeight">0.000000</hkparam>
+		<hkobject name="#zcbe$324" class="BSBoneSwitchGeneratorBoneData" signature="0xc1215be6">
+			<hkparam name="variableBindingSet">#zcbe$326</hkparam>
+			<hkparam name="pGenerator">#zcbe$308</hkparam>
+			<hkparam name="spBoneWeight">#zcbe$325</hkparam>
 		</hkobject>

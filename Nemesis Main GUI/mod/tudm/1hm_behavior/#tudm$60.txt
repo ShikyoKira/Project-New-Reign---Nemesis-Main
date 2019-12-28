@@ -1,9 +1,9 @@
 		<hkobject name="#tudm$60" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tudm$82</hkparam>
+			<hkparam name="variableBindingSet">#tudm$81</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2hm_Idle_Stance</hkparam>
 			<hkparam name="generators" numelements="3">
-				#4072 #tudm$436 #tudm$437
+				#4072 #tudm$437 #tudm$436
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

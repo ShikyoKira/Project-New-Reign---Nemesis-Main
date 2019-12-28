@@ -1,10 +1,15 @@
-		<hkobject name="#zcbe$387" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$394</hkparam>
+		<hkobject name="#zcbe$387" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">StaffMagic_TurnRight_MSG</hkparam>
-			<hkparam name="generators" numelements="12">
-				#zcbe$390 #zcbe$390 #zcbe$390 #zcbe$390 #zcbe$390 #zcbe$390 #zcbe$390 #zcbe$390 #zcbe$396 #zcbe$390 #zcbe$390 #zcbe$390
+			<hkparam name="name">StaffLeftHand_StaffRightHand_TurnRight_Blend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">0</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="3">
+				#zcbe$394 #zcbe$391 #zcbe$388
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

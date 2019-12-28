@@ -2,7 +2,7 @@
 			<hkparam name="variableBindingSet">#tudm$305</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">2HM_AttackRightNPC_BSCyclicBlendTransitionGenerator</hkparam>
-			<hkparam name="pBlenderGenerator">#tudm$353</hkparam>
+			<hkparam name="pBlenderGenerator">#tudm$352</hkparam>
 			<hkparam name="EventToFreezeBlendValue">
 				<hkobject>
 					<hkparam name="id">194</hkparam>

@@ -1,7 +1,7 @@
 		<hkobject name="#zcbe$248" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="2">
 				<hkobject>
-					<hkparam name="localTime">0.900000</hkparam>
+					<hkparam name="localTime">0.033000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">12</hkparam>
@@ -13,7 +13,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">1.867000</hkparam>
+					<hkparam name="localTime">0.400000</hkparam>
 					<hkparam name="event">
 						<hkobject>
 							<hkparam name="id">11</hkparam>

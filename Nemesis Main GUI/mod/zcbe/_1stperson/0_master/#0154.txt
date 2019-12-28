@@ -21,14 +21,14 @@
 			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="3">
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$1
+				#zcbe$204
 <!-- ORIGINAL -->
 				#0152
 <!-- CLOSE -->
 				#0149
 				#0147
 <!-- MOD_CODE ~zcbe~ OPEN -->
-				#zcbe$2 #zcbe$3 #zcbe$4 #zcbe$5 #zcbe$6 #0152 #zcbe$7 #zcbe$8 #zcbe$9 #zcbe$10 #zcbe$11 #zcbe$12 #zcbe$13
+				#zcbe$200 #zcbe$198 #zcbe$196 #zcbe$194 #zcbe$189 #0152 #zcbe$184 #zcbe$179 #zcbe$174 #zcbe$171 #zcbe$168 #zcbe$165 #zcbe$162
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0140</hkparam>

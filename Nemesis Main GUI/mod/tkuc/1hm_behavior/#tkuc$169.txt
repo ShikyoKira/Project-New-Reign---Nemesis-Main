@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">1HMSpecialAttackD</hkparam>
 			<hkparam name="animationName">..\SharedKillMoves\Human&amp;Draugr\Paired_1HMKillMoveDraugrShortA.hkx</hkparam>
-			<hkparam name="triggers">#tkuc$166</hkparam>
+			<hkparam name="triggers">#tkuc$170</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

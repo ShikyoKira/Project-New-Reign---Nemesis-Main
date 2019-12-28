@@ -70,7 +70,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#zcbe$1</hkparam>
+					<hkparam name="transition">#zcbe$10</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[Magic_Unequip_Out]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>

@@ -1,12 +1,16 @@
-		<hkobject name="#zcbe$27" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="listeners" numelements="0"></hkparam>
-			<hkparam name="enterNotifyEvents">#zcbe$254</hkparam>
-			<hkparam name="exitNotifyEvents">#zcbe$255</hkparam>
-			<hkparam name="transitions">#zcbe$256</hkparam>
-			<hkparam name="generator">#zcbe$257</hkparam>
-			<hkparam name="name">VampireFeedStanding_Front_Victim</hkparam>
-			<hkparam name="stateId">131</hkparam>
-			<hkparam name="probability">1.000000</hkparam>
-			<hkparam name="enable">true</hkparam>
+		<hkobject name="#zcbe$27" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="1">
+				<hkobject>
+					<hkparam name="localTime">1.002000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">502</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+			</hkparam>
 		</hkobject>

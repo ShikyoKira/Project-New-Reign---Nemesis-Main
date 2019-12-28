@@ -1,10 +1,7 @@
-		<hkobject name="#zcbe$356" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#zcbe$362</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">StaffMagic_TurnLeft_MSG</hkparam>
-			<hkparam name="generators" numelements="12">
-				#zcbe$359 #zcbe$359 #zcbe$359 #zcbe$359 #zcbe$359 #zcbe$359 #zcbe$359 #zcbe$359 #zcbe$365 #zcbe$359 #zcbe$359 #zcbe$359
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#zcbe$356" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">#zcbe$358</hkparam>
+			<hkparam name="generator">#0272</hkparam>
+			<hkparam name="boneWeights">#zcbe$357</hkparam>
+			<hkparam name="weight">1.000000</hkparam>
+			<hkparam name="worldFromModelWeight">0.000000</hkparam>
 		</hkobject>

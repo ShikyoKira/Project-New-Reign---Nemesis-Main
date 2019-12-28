@@ -1,17 +1,18 @@
-		<hkobject name="#tudm$302" class="hkbVariableBindingSet" signature="0x338ad4ff">
-			<hkparam name="bindings" numelements="2">
-				<hkobject>
-					<hkparam name="memberPath">twistAngle</hkparam>
-					<hkparam name="variableIndex">59</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
-				</hkobject>
-				<hkobject>
-					<hkparam name="memberPath">enable</hkparam>
-					<hkparam name="variableIndex">0</hkparam>
-					<hkparam name="bitIndex">-1</hkparam>
-					<hkparam name="bindingType">BINDING_TYPE_CHARACTER_PROPERTY</hkparam>
-				</hkobject>
+		<hkobject name="#tudm$302" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#tudm$305</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">ProperCastDirectionLeftArmTwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				1.000000
+				0.000000
+				0.000000
+				0.000000
 			</hkparam>
-			<hkparam name="indexOfBindingToEnable">1</hkparam>
+			<hkparam name="twistAngle">0.000000</hkparam>
+			<hkparam name="startBoneIndex">28</hkparam>
+			<hkparam name="endBoneIndex">29</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
 		</hkobject>

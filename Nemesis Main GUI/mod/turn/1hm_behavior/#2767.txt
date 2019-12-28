@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">Bash_MG</hkparam>
 <!-- MOD_CODE ~turn~ OPEN -->
-			<hkparam name="modifier">#turn$1</hkparam>
+			<hkparam name="modifier">#turn$10</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="modifier">#2768</hkparam>
 <!-- CLOSE -->
