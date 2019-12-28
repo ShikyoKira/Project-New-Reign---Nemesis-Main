@@ -70,6 +70,15 @@ void read_directory(const string& name, vecstr& fv)
 	boost::filesystem::directory_iterator start(p);
 	boost::filesystem::directory_iterator end;
 	transform(start, end, back_inserter(fv), path_leaf_string());
+
+	for (unsigned int i = 0; i < fv.size(); ++i)
+	{
+		if (boost::to_lower_copy(fv[i]) == "folder_managed_by_vortex")
+		{
+			fv.erase(fv.begin() + i);
+			--i;
+		}
+	}
 }
 
 void read_directory(const wstring& name, vector<wstring>& fv)
@@ -78,6 +87,15 @@ void read_directory(const wstring& name, vector<wstring>& fv)
 	boost::filesystem::directory_iterator start(p);
 	boost::filesystem::directory_iterator end;
 	transform(start, end, back_inserter(fv), path_leaf_wstring());
+
+	for (unsigned int i = 0; i < fv.size(); ++i)
+	{
+		if (boost::to_lower_copy(fv[i]) == L"folder_managed_by_vortex")
+		{
+			fv.erase(fv.begin() + i);
+			--i;
+		}
+	}
 }
 
 size_t fileLineCount(boost::filesystem::path filepath)
