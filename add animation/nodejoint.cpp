@@ -1316,24 +1316,6 @@ void processing2(string& line, string format, string filename, int& nextFunction
 							}
 						}
 
-						pos = change.find("{main_anim_event}", 0);
-
-						if (pos != NOT_FOUND)
-						{
-							change.replace(pos, 17, subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
-							isChange = true;
-						}
-						else
-						{
-							pos = change.find("main_anim_event", 0);
-
-							if (pos != NOT_FOUND)
-							{
-								change.replace(pos, 15, subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
-								isChange = true;
-							}
-						}
-
 						if (error) throw nemesis::exception();
 					}
 
@@ -1389,6 +1371,24 @@ void processing2(string& line, string format, string filename, int& nextFunction
 				{
 					string tempchange = change;
 					pos = change.find("[");
+
+					pos = change.find("{main_anim_event}", 0);
+
+					if (pos != NOT_FOUND)
+					{
+						change.replace(pos, 17, subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
+						isChange = true;
+					}
+					else
+					{
+						pos = change.find("main_anim_event", 0);
+
+						if (pos != NOT_FOUND)
+						{
+							change.replace(pos, 15, subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
+							isChange = true;
+						}
+					}
 
 					if (pos != NOT_FOUND && change.find("]", pos) != NOT_FOUND)
 					{
