@@ -1008,7 +1008,7 @@ void BehaviorStart::milestoneStart()
 	string fpdirectory = directory + "\\_1stperson";
 	vecstr filelist;
 	int include = 0;
-	int add = 3;
+	int add = 4;
 
 	if (!isFileExist(directory))
 	{

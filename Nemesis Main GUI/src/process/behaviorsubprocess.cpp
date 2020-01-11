@@ -103,12 +103,23 @@ void BehaviorSub::BehaviorCompilation()
 		}
 	}
 
+	bool start;
+
 	{
 		lock_guard<mutex> lg(cv2_m);
 		--behaviorRun;
+
+		start = behaviorRun == 0;
 	}
 
 	cv2.notify_one();
+
+	if (start)
+	{
+		checkAllStoredHKX();
+		emit progressAdd();
+	}
+
 	emit done();
 }
 

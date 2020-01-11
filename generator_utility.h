@@ -21,6 +21,7 @@ std::string GetFileDirectory(std::string filepath);
 std::vector<std::unique_ptr<registerAnimation>> openFile(getTemplate* behaviortemplate);
 void checkClipAnimData(std::string& line, vecstr& characterFiles, std::string& clipName, bool& isClip);
 void checkAllFiles(std::string filepath);
+void checkAllStoredHKX();
 
 bool isEngineUpdated(std::string& versionCode);
 void ClearGlobal(bool all = true);

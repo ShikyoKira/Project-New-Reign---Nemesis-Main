@@ -21,6 +21,7 @@ extern vecstr warningMsges;
 static bool* globalThrow;
 
 vecstr fileCheckMsg;
+vecstr hkxFiles;
 
 void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, getTemplate& behaviortemplate, bool firstP);
 void fileArchitectureCheck(string hkxfile);
@@ -832,6 +833,19 @@ void fileArchitectureCheck(string hkxfile)
 	}
 }
 
+void checkAllStoredHKX()
+{
+	for (auto& file : hkxFiles)
+	{
+		if (isFileExist(file))
+		{
+			fileArchitectureCheck(file);
+		}
+	}
+
+	hkxFiles.clear();
+}
+
 void checkFolder(string filepath)
 {
 	vecstr list;
@@ -847,7 +861,7 @@ void checkFolder(string filepath)
 		}
 		else if (boost::iequals(file.extension().string(), ".hkx"))
 		{
-			fileArchitectureCheck(file.string());
+			hkxFiles.push_back(file.string());
 		}
 
 		if (error) throw nemesis::exception();
@@ -863,6 +877,7 @@ void checkAllFiles(string filepath)
 			try
 			{
 				DebugLogging("Background hkx file architecture check: INITIALIZED");
+				hkxFiles.clear();
 				checkFolder(filepath);
 				DebugLogging("Background hkx file architecture check: COMPLETED");
 			}
