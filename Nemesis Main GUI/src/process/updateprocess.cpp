@@ -580,7 +580,8 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson, bool newThre
 
 					{
 						unique_lock<mutex> lock(m_cv1);
-						cv1.wait(lock);
+
+						if (queuing != 0) cv1.wait(lock);
 					}
 
 					RegisterBehavior();
@@ -2102,13 +2103,14 @@ void UpdateFilesStart::milestoneStart(string directory)
 		cv2.wait(ulock2, bind(&UpdateFilesStart::QueueThreadEnd, this));
 	}
 
+	filenum += registeredFiles.files.size();
+
 	{
 		lock_guard<mutex> ulock(m_cv1);
 		queuing = 0;
 		cv1.notify_all();
 	}
 
-	filenum += registeredFiles.files.size();
 	DebugLogging("Process count: " + to_string(filenum));
 	emit progressMax(filenum);
 	connectProcess(this);
