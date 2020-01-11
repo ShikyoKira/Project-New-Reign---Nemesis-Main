@@ -177,15 +177,17 @@ void proc::installBlock(range blok, int curline, vector<multichoice> m_condiiton
 	choiceblocks[curline].push_back(blok);
 }
 
-void proc::endRelative(range blok, vecstr& blocks)
+void proc::relativeNegative(range blok, vecstr& blocks)
 {
-	string result = combineBlocks(blok, blocks);
-
 	if (clearBlocks(blok, blocks))
 	{
-		if (result == "false")
+		if (*isEnd || *negative)
 		{
 			blocks[blok.front] = "true";
+		}
+		else
+		{
+			blocks[blok.front] = "false";
 		}
 
 		*negative = false;
@@ -2302,11 +2304,6 @@ void proc::regisBehavior(range blok, vecstr& blocks)
 void proc::localNegative(range blok, vecstr& blocks)
 {
 	if (combineBlocks(blok, blocks)[0] == '-') *negative = true;
-}
-
-void proc::endNegative(range blok, vecstr& blocks)
-{
-	if (!(*negative)) blocks[blok.front] = "true";
 }
 
 void proc::blocksCompile(vecstr blocks)

@@ -150,7 +150,7 @@ struct proc
 	void installBlock(range blok, int curline, std::vector<multichoice> n_condiiton);
 
 	// processes
-	void endRelative(range blok, vecstr& blocks);
+	void relativeNegative(range blok, vecstr& blocks);
 	void compute(range blok, vecstr& blocks);
 	void rangeCompute(range blok, vecstr& blocks);
 	void upCounter(range blok, vecstr& blocks);
@@ -367,9 +367,6 @@ struct proc
 
 	// negative local
 	void localNegative(range blok, vecstr& blocks);
-
-	// negative end animation
-	void endNegative(range blok, vecstr& blocks);
 
 	// getline
 	void blocksCompile(vecstr blocks);

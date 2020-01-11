@@ -529,17 +529,15 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			isEnd = false;
 			hasProcess = true;
 			size_t pos = itr->position(1);
-			process.installBlock(range(pos, pos + itr->str(1).length(), &proc::endRelative), numline);
+			process.installBlock(range(pos, pos + itr->str(1).length(), &proc::relativeNegative), numline);
 		}
-	}
-	else
-	{
-		for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("<hkparam name\\=\"relativeToEndOfClip\">(.+?)<\\/hkparam>"));
+
+		for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("<hkparam name\\=\"localTime\">(.+?)<\\/hkparam>"));
 			itr != boost::sregex_iterator(); ++itr)
 		{
 			hasProcess = true;
 			size_t pos = itr->position(1);
-			process.installBlock(range(pos, pos + itr->str(1).length(), &proc::endNegative), numline);
+			process.installBlock(range(pos, pos + itr->str(1).length(), &proc::localNegative), numline);
 		}
 	}
 
@@ -557,14 +555,6 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 		hasProcess = true;
 		size_t pos = itr->position(1);
 		process.installBlock(range(pos, pos + itr->str(1).length(), &proc::regisBehavior), numline);
-	}
-
-	for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("<hkparam name\\=\"localTime\">(.+?)<\\/hkparam>"));
-		itr != boost::sregex_iterator(); ++itr)
-	{
-		hasProcess = true;
-		size_t pos = itr->position(1);
-		process.installBlock(range(pos, pos + itr->str(1).length(), &proc::localNegative), numline);
 	}
 
 	generatedlines->lines.push_back(stackline(line, hasProcess, numline));
