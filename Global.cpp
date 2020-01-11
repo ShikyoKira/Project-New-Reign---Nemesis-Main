@@ -73,7 +73,7 @@ void read_directory(const string& name, vecstr& fv)
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
 	{
-		if (boost::to_lower_copy(fv[i]) == "folder_managed_by_vortex")
+		if (boost::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
 		{
 			fv.erase(fv.begin() + i);
 			--i;
@@ -90,7 +90,7 @@ void read_directory(const wstring& name, vector<wstring>& fv)
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
 	{
-		if (boost::to_lower_copy(fv[i]) == L"folder_managed_by_vortex")
+		if (boost::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
 		{
 			fv.erase(fv.begin() + i);
 			--i;
