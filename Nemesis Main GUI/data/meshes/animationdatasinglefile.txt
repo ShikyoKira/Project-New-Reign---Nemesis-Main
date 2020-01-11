@@ -8729,7 +8729,7 @@ FootBack:0.333333
 1
 0.4 0 0 0 1
 
-25117
+25096
 1
 19
 Behaviors\0_Master.hkx
@@ -22963,7 +22963,7 @@ MLh_WinStart:0.003
 MLh_WinEnd:2.26667
 
 DualMagic_PreAimedCon
-636
+1382
 1
 0
 0
@@ -33784,70 +33784,49 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
-Nemesis_Basic_Animation_1
+NPC_Nemesis_KillMove_Clip_1
 1656
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_2
+NPC_Nemesis_KillMove_Clip_2
 1657
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_3
+NPC_Nemesis_KillMove_Clip_3
 1658
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_4
+NPC_Nemesis_KillMove_Clip_4
 1659
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_5
+NPC_Nemesis_KillMove_Clip_5
 1660
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_6
+NPC_Nemesis_KillMove_Clip_6
 1661
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_7
-1662
-1
-0
-0
-0
-
-Nemesis_Basic_Animation_8
-1663
-1
-0
-0
-0
-
-Nemesis_Basic_Animation_9
-1664
-1
-0
-0
-0
-
-12762
+12704
 100
 1.2
 1
@@ -38576,7 +38555,7 @@ Nemesis_Basic_Animation_9
 1
 0.966667 0 0 0 1
 
-636
+1382
 0.266667
 1
 0.266667 0 0 0
@@ -46552,65 +46531,7 @@ Nemesis_Basic_Animation_9
 1
 0.8 0 0 0 1
 
-1656
-0.820000
-4
-0.2 0 0 0
-0.40 0 -40 0
-0.6 0 -150 0
-0.82 0 -180 0
-0
-
-1657
-0.820000
-5
-0.2 0 0 0
-0.4 -40 0 0
-0.5 -70 20 0
-0.6 -120 50 0
-0.82 -140 70 0
-1
-0.8 0 0 -0.3826834 0.9238795
-
-1658
-0.820000
-5
-0.2 0 0 0
-0.4 40 0 0
-0.5 70 20 0
-0.6 120 50 0
-0.82 140 70 0
-1
-0.8 0 0 0.3826834 0.9238795
-
-1659
-0.820000
-4
-0.2 0 0 0
-0.4 0 40 0
-0.6 0 150 0
-0.82 0 180 0
-0
-
-1660
-0.600000
-1
-0.6 0 -260 0
-0
-
-1661
-0.600000
-1
-0.6 -260 0 0
-0
-
-1662
-0.600000
-1
-0.6 260 0 0
-0
-
-25108
+25087
 1
 19
 Behaviors\0_Master.hkx
@@ -60835,7 +60756,7 @@ MLh_WinStart:0.003
 MLh_WinEnd:2.26667
 
 DualMagic_PreAimedCon
-636
+1382
 1
 0
 0
@@ -71656,70 +71577,49 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
-Nemesis_Basic_Animation_1
+NPC_Nemesis_KillMove_Clip_1
 1656
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_2
+NPC_Nemesis_KillMove_Clip_2
 1657
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_3
+NPC_Nemesis_KillMove_Clip_3
 1658
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_4
+NPC_Nemesis_KillMove_Clip_4
 1659
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_5
+NPC_Nemesis_KillMove_Clip_5
 1660
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_6
+NPC_Nemesis_KillMove_Clip_6
 1661
 1
 0
 0
 0
 
-Nemesis_Basic_Animation_7
-1662
-1
-0
-0
-0
-
-Nemesis_Basic_Animation_8
-1663
-1
-0
-0
-0
-
-Nemesis_Basic_Animation_9
-1664
-1
-0
-0
-0
-
-12799
+12741
 100
 1.2
 1
@@ -76529,7 +76429,7 @@ Nemesis_Basic_Animation_9
 1
 0.966667 0 0 0 1
 
-636
+1382
 0.266667
 1
 0.266667 0 0 0
@@ -84460,64 +84360,6 @@ Nemesis_Basic_Animation_9
 0.8 0 0 0
 1
 0.8 0 0 0 1
-
-1656
-0.820000
-4
-0.2 0 0 0
-0.40 0 -40 0
-0.6 0 -150 0
-0.82 0 -180 0
-0
-
-1657
-0.820000
-5
-0.2 0 0 0
-0.4 -40 0 0
-0.5 -70 20 0
-0.6 -120 50 0
-0.82 -140 70 0
-1
-0.8 0 0 -0.3826834 0.9238795
-
-1658
-0.820000
-5
-0.2 0 0 0
-0.4 40 0 0
-0.5 70 20 0
-0.6 120 50 0
-0.82 140 70 0
-1
-0.8 0 0 0.3826834 0.9238795
-
-1659
-0.820000
-4
-0.2 0 0 0
-0.4 0 40 0
-0.6 0 150 0
-0.82 0 180 0
-0
-
-1660
-0.600000
-1
-0.6 0 -260 0
-0
-
-1661
-0.600000
-1
-0.6 -260 0 0
-0
-
-1662
-0.600000
-1
-0.6 260 0 0
-0
 
 13940
 1
