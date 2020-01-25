@@ -193,8 +193,6 @@ void BehaviorSub::CompilingAnimData()
 							chosenLines.clear();
 						}
 
-						if (line.find("//* delete this line *//") != NOT_FOUND) break;
-
 						if (l + 3 < catalyst.size() && l > 2)
 						{
 							bool empty = false;
@@ -735,12 +733,26 @@ void BehaviorSub::CompilingAnimData()
 
 				for (string& header : animDataHeader[project])
 				{
-					combined.insert(combined.end(), catalystMap[project][header].begin(), catalystMap[project][header].end());
+					combined.reserve(combined.size() + catalystMap[project][header].size());
+					
+					for (string& curline : catalystMap[project][header])
+					{
+						if (curline.find("//* delete this line *//") != NOT_FOUND) continue;
+
+						combined.push_back(curline);
+					}
 				}
 
 				for (string& header : animDataInfo[project])
 				{
-					combined.insert(combined.end(), catalystMap[project][header].begin(), catalystMap[project][header].end());
+					combined.reserve(combined.size() + catalystMap[project][header].size());
+					
+					for (string& curline : catalystMap[project][header])
+					{
+						if (curline.find("//* delete this line *//") != NOT_FOUND) continue;
+
+						combined.push_back(curline);
+					}
 				}
 
 				if (combined.size() == 0) ErrorMessage(5017, curProject);

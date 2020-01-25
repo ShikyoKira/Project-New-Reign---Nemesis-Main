@@ -229,6 +229,8 @@ void nodeJoint::insertData(string format, string filename, vector<vector<unorder
 						openRange, elementCount, storeTemplate[sect].nested->condt, elementCatch, negative);
 					utility.isExisting = true;
 					utility.hasGroup = groupMulti == -1;
+					utility.groupMulti = groupMulti;
+					utility.animMulti = animMulti;
 
 					if (newCondition(output[sect].back().nested->condt, filename, optionPicked, groupAnimInfo, output[sect].back().row, format, format, utility))
 					{
@@ -236,12 +238,12 @@ void nodeJoint::insertData(string format, string filename, vector<vector<unorder
 							ignoreGroup, multiOption, nextFunctionID, strID, IDExist, import, eventid, variableid, zeroEvent, zeroVariable, openRange, elementCount,
 							elementCatch, subFunctionIDs, negative);
 						output[sect].back().deleted = false;
-
 						++sect;
 
 						while (storeTemplate[sect].nested && (storeTemplate[sect].nested->type == CONDITION_ELSE || storeTemplate[sect].nested->type == CONDITION))
 						{
 							output[sect].back().nested->conditionSkip = true;
+							sect++;
 						}
 					}
 					break;
@@ -254,6 +256,8 @@ void nodeJoint::insertData(string format, string filename, vector<vector<unorder
 							openRange, elementCount, storeTemplate[sect].nested->condt, elementCatch, negative);
 						utility.isExisting = true;
 						utility.hasGroup = groupMulti == -1;
+						utility.groupMulti = groupMulti;
+						utility.animMulti = animMulti;
 
 						if (newCondition(output[sect].back().nested->condt, filename, optionPicked, groupAnimInfo, output[sect].back().row, format, format, utility))
 						{
@@ -261,12 +265,12 @@ void nodeJoint::insertData(string format, string filename, vector<vector<unorder
 								ignoreGroup, multiOption, nextFunctionID, strID, IDExist, import, eventid, variableid, zeroEvent, zeroVariable, openRange, elementCount,
 								elementCatch, subFunctionIDs, negative);
 							output[sect].back().deleted = false;
-
 							++sect;
 
 							while (storeTemplate[sect].nested && (storeTemplate[sect].nested->type == CONDITION_ELSE || storeTemplate[sect].nested->type == CONDITION))
 							{
 								output[sect].back().nested->conditionSkip = true;
+								sect++;
 							}
 						}
 					}
@@ -274,20 +278,10 @@ void nodeJoint::insertData(string format, string filename, vector<vector<unorder
 				case CONDITION:
 					if (!output[sect].back().nested->conditionSkip)
 					{
-						utility.originalCondition = condition;
-						utility.nodeProcess = make_shared<nodePackedParameters>(format, filename, behaviorFile, nextFunctionID, strID, groupAnimInfo, IDExist, subFunctionIDs,
-							import, output[sect].back().row, eventid, variableid, zeroEvent, zeroVariable, groupMulti, animMulti, optionMulti, hasGroup, multiOption, optionPicked,
-							openRange, elementCount, storeTemplate[sect].nested->condt, elementCatch, negative);
-						utility.isExisting = true;
-						utility.hasGroup = groupMulti == -1;
-
-						if (newCondition(output[sect].back().nested->condt, filename, optionPicked, groupAnimInfo, output[sect].back().row, format, format, utility))
-						{
-							output[sect].back().nested->insertData(format, filename, optionPicked, groupAnimInfo, groupMulti, animMulti, optionMulti, hasMaster, hasGroup,
-								ignoreGroup, multiOption, nextFunctionID, strID, IDExist, import, eventid, variableid, zeroEvent, zeroVariable, openRange, elementCount,
-								elementCatch, subFunctionIDs, negative);
-							output[sect].back().deleted = false;
-						}
+						output[sect].back().nested->insertData(format, filename, optionPicked, groupAnimInfo, groupMulti, animMulti, optionMulti, hasMaster, hasGroup,
+							ignoreGroup, multiOption, nextFunctionID, strID, IDExist, import, eventid, variableid, zeroEvent, zeroVariable, openRange, elementCount,
+							elementCatch, subFunctionIDs, negative);
+						output[sect].back().deleted = false;
 					}
 					break;
 				default:

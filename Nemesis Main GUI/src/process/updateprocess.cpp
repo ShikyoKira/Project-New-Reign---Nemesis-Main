@@ -2046,7 +2046,7 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder)
 			}
 			else
 			{
-				ErrorMessage(3024, folderpath);
+				ErrorMessage(2024, folderpath);
 			}
 		}
 	}
