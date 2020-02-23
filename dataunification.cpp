@@ -109,7 +109,7 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 		vecstr newlines;
 		vecstr combinelines;
 
-		for (int i = 0; i < storeline.size(); ++i)
+		for (unsigned int i = 0; i < storeline.size(); ++i)
 		{
 			string& curline = storeline[i];
 

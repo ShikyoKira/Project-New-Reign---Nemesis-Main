@@ -1,5 +1,6 @@
-#include "ErrorMsgBox.h"
 #include <QApplication>
+
+#include "ErrorMsgBox.h"
 
 CEMsgBox::CEMsgBox(QWidget* parent)
 {
@@ -11,4 +12,5 @@ CEMsgBox::CEMsgBox(QWidget* parent)
 CEMsgBox::~CEMsgBox()
 {
 	exit(1);
+	return;
 }
