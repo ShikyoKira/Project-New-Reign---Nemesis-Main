@@ -1,6 +1,9 @@
 #include "CmdLaunch.h"
 #include "NemesisMainGUI.h"
 #include "MultiInstanceCheck.h"
+
+#include "src/MessageHandler.h"
+
 #include <QtWidgets/QApplication>
 
 int main(int argc, char *argv[])
@@ -9,7 +12,7 @@ int main(int argc, char *argv[])
 	bool update = false;
 	vecstr modlist;
 	std::string logfile = "CriticalLog.txt";
-	
+
 	try
 	{
 		if (isFileExist(logfile) && !boost::filesystem::is_directory(logfile))
@@ -22,98 +25,110 @@ int main(int argc, char *argv[])
 		// empty
 	}
 
+
 	QApplication a(argc, argv);
 
-	if (argc > 1)
+	try
 	{
-		for (unsigned int i = 1; i < argc; ++i)
+		if (argc > 1)
 		{
-			if (boost::iequals(argv[i], "-update"))
+			for (unsigned int i = 1; i < argc; ++i)
 			{
-				if (generate)
+				if (boost::iequals(argv[i], "-update"))
 				{
-					std::cout << "Invalid arguments. \"update\" argument and \"generate\" arugment cannot be used simultaneously";
-					std::cout << "Failed to generate behavior";
-					return 1;
-				}
+					if (generate)
+					{
+						std::cout << "Invalid arguments. \"update\" argument and \"generate\" arugment cannot be used simultaneously";
+						std::cout << "Failed to generate behavior";
+						return 1;
+					}
 
-				update = true;
+					update = true;
+				}
+				if (boost::iequals(argv[i], "-generate"))
+				{
+					if (update)
+					{
+						std::cout << "Invalid arguments. \"update\" argument and \"generate\" arugment cannot be used simultaneously";
+						std::cout << "Failed to generate behavior";
+						return 1;
+					}
+
+					generate = true;
+				}
+				else
+				{
+					modlist.push_back(argv[i]);
+				}
 			}
-			if (boost::iequals(argv[i], "-generate"))
-			{
-				if (update)
-				{
-					std::cout << "Invalid arguments. \"update\" argument and \"generate\" arugment cannot be used simultaneously";
-					std::cout << "Failed to generate behavior";
-					return 1;
-				}
+		}
 
-				generate = true;
+		initializeHandler();
+
+		if (generate)
+		{
+			if (!isFileExist("languages"))
+			{
+				CEMsgBox* msg = new CEMsgBox;
+				msg->setWindowTitle("ERROR");
+				msg->setText("Error: \"languages\" folder not found. Please reinstall Nemesis");
+				msg->show();
+			}
+			else if (!isFileExist("languages\\english.txt"))
+			{
+				CEMsgBox* msg = new CEMsgBox;
+				msg->setWindowTitle("ERROR");
+				msg->setText("Error: \"english.txt\" file not found in language folder. Please reinstall Nemesis");
+				msg->show();
 			}
 			else
 			{
-				modlist.push_back(argv[i]);
+				NewDebugMessage(*new DebugMsg("english"));
+				nemesisInfo = new NemesisInfo;
+				CmdGenerateInitialize(modlist);
 			}
 		}
+		else if (update)
+		{
+			if (!isFileExist("languages"))
+			{
+				CEMsgBox* msg = new CEMsgBox;
+				msg->setWindowTitle("ERROR");
+				msg->setText("Error: \"languages\" folder not found. Please reinstall Nemesis");
+				msg->show();
+			}
+			else if (!isFileExist("languages\\english.txt"))
+			{
+				CEMsgBox* msg = new CEMsgBox;
+				msg->setWindowTitle("ERROR");
+				msg->setText("Error: \"english.txt\" file not found in language folder. Please reinstall Nemesis");
+				msg->show();
+			}
+			else
+			{
+				NewDebugMessage(*new DebugMsg("english"));
+				nemesisInfo = new NemesisInfo;
+				CmdUpdateInitialize();
+			}
+		}
+		else if (programInitiateCheck())
+		{
+			NemesisMainGUI w;
+
+			// if (!error)
+			{
+				w.setWindowIcon(QIcon(":/icon/title icon.png"));
+				w.show();
+				return a.exec();
+			}
+		}
+
+		return a.exec();
+	}
+	catch (const std::exception& ex)
+	{
+		QMessageBox::information(nullptr, "Exception Caught", ex.what(), QMessageBox::Ok);
 	}
 
-	if (generate)
-	{
-		if (!isFileExist("languages"))
-		{
-			CEMsgBox* msg = new CEMsgBox;
-			msg->setWindowTitle("ERROR");
-			msg->setText("Error: \"languages\" folder not found. Please reinstall Nemesis");
-			msg->show();
-		}
-		else if (!isFileExist("languages\\english.txt"))
-		{
-			CEMsgBox* msg = new CEMsgBox;
-			msg->setWindowTitle("ERROR");
-			msg->setText("Error: \"english.txt\" file not found in language folder. Please reinstall Nemesis");
-			msg->show();
-		}
-		else
-		{
-			NewDebugMessage(*new DebugMsg("english"));
-			nemesisInfo = new NemesisInfo;
-			CmdGenerateInitialize(modlist);
-		}
-	}
-	else if (update)
-	{
-		if (!isFileExist("languages"))
-		{
-			CEMsgBox* msg = new CEMsgBox;
-			msg->setWindowTitle("ERROR");
-			msg->setText("Error: \"languages\" folder not found. Please reinstall Nemesis");
-			msg->show();
-		}
-		else if (!isFileExist("languages\\english.txt"))
-		{
-			CEMsgBox* msg = new CEMsgBox;
-			msg->setWindowTitle("ERROR");
-			msg->setText("Error: \"english.txt\" file not found in language folder. Please reinstall Nemesis");
-			msg->show();
-		}
-		else
-		{
-			NewDebugMessage(*new DebugMsg("english"));
-			nemesisInfo = new NemesisInfo;
-			CmdUpdateInitialize();
-		}
-	}
-	else if (programInitiateCheck())
-	{
-		NemesisMainGUI w;
-
-		// if (!error)
-		{
-			w.setWindowIcon(QIcon(":/icon/title icon.png"));
-			w.show();
-			return a.exec();
-		}
-	}
-
-	return a.exec();
+	return 0;
 }
