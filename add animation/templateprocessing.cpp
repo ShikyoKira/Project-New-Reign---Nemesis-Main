@@ -9,6 +9,26 @@
 using namespace std;
 
 
+string strDoubleDecimal(double num, int decimal)
+{
+	if (num != static_cast<int>(num))
+	{
+		stringstream ss;
+		ss << fixed << setprecision(decimal);
+		ss << num;
+		string strNum = ss.str();
+		strNum.erase(strNum.find_last_not_of('0') + 1, NOT_FOUND);
+		return strNum;
+	}
+	else
+	{
+		stringstream ss;
+		ss << fixed << setprecision(decimal);
+		ss << static_cast<int>(num);
+		return ss.str();
+	}
+}
+
 void stateInput(string& state, string stateID, string format, string behaviorFile, string original, bool isMaster, int groupMulti, int animMulti, int numline,
 	size_t& stateCount, shared_ptr<master>& masterFunction)
 {
@@ -1769,18 +1789,25 @@ void proc::motionDataMultiGroup(range blok, vecstr& blocks)
 
 	if (animMulti == -1) ErrorMessage(1146, format, behaviorFile, numline);
 
-	if (curAnim->GetGroupAnimInfo()[animMulti]->motionData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string motionData = to_string(curAnim->GetGroupAnimInfo()[animMulti]->motionData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[animMulti];
+		string motionData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[animMulti]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curAnim->GetGroupAnimInfo()[animMulti]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}	
@@ -1790,18 +1817,25 @@ void proc::motionDataFirstGroup(range blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
-	if (curAnim->GetGroupAnimInfo()[0]->motionData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string motionData = to_string(curAnim->GetGroupAnimInfo()[0]->motionData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[0];
+		string motionData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[0]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curAnim->GetGroupAnimInfo()[0]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}
@@ -1814,19 +1848,24 @@ void proc::motionDataNextGroup(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks))
 	{
 		int nextorder;
-
 		curAnim->isLast() ? nextorder = order : nextorder = order + 1;
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[nextorder];
+		string motionData;
 
-		if (curAnim->GetGroupAnimInfo()[nextorder]->motionData.size() == 0) throw MDException();
-
-		string motionData = to_string(curAnim->GetGroupAnimInfo()[nextorder]->motionData.size()) + "\n";
-
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[nextorder]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curAnim->GetGroupAnimInfo()[nextorder]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}	
@@ -1839,19 +1878,24 @@ void proc::motionDataBackGroup(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks))
 	{
 		int previousorder;
-
 		order == 0 ? previousorder = order : previousorder = order - 1;
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[previousorder];
+		string motionData;
 
-		if (curAnim->GetGroupAnimInfo()[previousorder]->motionData.size() == 0) throw MDException();
-
-		string motionData = to_string(curAnim->GetGroupAnimInfo()[previousorder]->motionData.size()) + "\n";
-
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[previousorder]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curAnim->GetGroupAnimInfo()[previousorder]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}	
@@ -1861,18 +1905,25 @@ void proc::motionDataLastGroup(range blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
-	if (curAnim->GetGroupAnimInfo()[lastorder]->motionData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string motionData = to_string(curAnim->GetGroupAnimInfo()[lastorder]->motionData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[lastorder];
+		string motionData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[lastorder]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curAnim->GetGroupAnimInfo()[lastorder]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}
@@ -1886,18 +1937,25 @@ void proc::motionDataNumGroup(range blok, vecstr& blocks)
 
 	if (num >= curAnim->GetGroupAnimInfo().size()) ErrorMessage(1148, format, filename, numline, blok.olddata[0]);
 
-	if (curAnim->GetGroupAnimInfo()[num]->motionData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string motionData = to_string(curAnim->GetGroupAnimInfo()[num]->motionData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[num];
+		string motionData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[num]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curAnim->GetGroupAnimInfo()[num]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}
@@ -1911,18 +1969,25 @@ void proc::motionDataMultiMaster(range blok, vecstr& blocks)
 
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
-	if (curGroup->groupAnimInfo[groupMulti][animMulti]->motionData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string motionData = to_string(curGroup->groupAnimInfo[groupMulti][animMulti]->motionData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curGroup->groupAnimInfo[groupMulti][animMulti];
+		string motionData;
 
-		for (unsigned int j = 0; j < curGroup->groupAnimInfo[groupMulti][animMulti]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curGroup->groupAnimInfo[groupMulti][animMulti]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}
@@ -1934,18 +1999,25 @@ void proc::motionDataFirstMaster(range blok, vecstr& blocks)
 
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
-	if (curGroup->groupAnimInfo[groupMulti][0]->motionData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string motionData = to_string(curGroup->groupAnimInfo[groupMulti][0]->motionData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curGroup->groupAnimInfo[groupMulti][0];
+		string motionData;
 
-		for (unsigned int j = 0; j < curGroup->groupAnimInfo[groupMulti][0]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curGroup->groupAnimInfo[groupMulti][0]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}
@@ -1957,18 +2029,25 @@ void proc::motionDataLastMaster(range blok, vecstr& blocks)
 
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
-	if (curGroup->groupAnimInfo[groupMulti][lastorder]->motionData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string motionData = to_string(curGroup->groupAnimInfo[groupMulti][lastorder]->motionData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curGroup->groupAnimInfo[groupMulti][lastorder];
+		string motionData;
 
-		for (unsigned int j = 0; j < curGroup->groupAnimInfo[groupMulti][lastorder]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curGroup->groupAnimInfo[groupMulti][lastorder]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}
@@ -1984,18 +2063,25 @@ void proc::motionDataNumMaster(range blok, vecstr& blocks)
 
 	if (num >= curGroup->groupAnimInfo[groupMulti].size()) ErrorMessage(1148, format, filename, numline, blok.olddata[0]);
 
-	if (curGroup->groupAnimInfo[groupMulti][num]->motionData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string motionData = to_string(curGroup->groupAnimInfo[groupMulti][num]->motionData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curGroup->groupAnimInfo[groupMulti][num];
+		string motionData;
 
-		for (unsigned int j = 0; j < curGroup->groupAnimInfo[groupMulti][num]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			motionData.append(curGroup->groupAnimInfo[groupMulti][num]->motionData[j] + "\n");
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-		if (motionData.length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = motionData;
 	}
@@ -2007,17 +2093,24 @@ void proc::motionDataSingle(range blok, vecstr& blocks)
 
 	if (filename == blok.olddata[0]) ErrorMessage(1134, format, behaviorFile, numline);
 
-	if (curAnim->GetGroupAnimInfo()[order]->motionData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string motionData = to_string(curAnim->GetGroupAnimInfo()[order]->motionData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[order];
+		string motionData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[order]->motionData.size(); ++j)
+		if (curInfo->motionData.size() == 0)
 		{
-			if (curAnim->GetGroupAnimInfo()[order]->motionData[j].length() == 0) WarningMessage(1018, format, behaviorFile, numline);
+			WarningMessage(1018, format, behaviorFile, numline);
+			motionData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+		}
+		else
+		{
+			motionData = to_string(curInfo->motionData.size()) + "\n";
 
-			motionData.append(curAnim->GetGroupAnimInfo()[order]->motionData[j] + "\n");
+			for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+			{
+				motionData.append(curInfo->motionData[j] + "\n");
+			}
 		}
 
 		blocks[blok.front] = motionData;
@@ -2030,18 +2123,25 @@ void proc::rotationDataMultiGroup(range blok, vecstr& blocks)
 
 	if (animMulti == -1) ErrorMessage(1146, format, behaviorFile, numline);
 
-	if (curAnim->GetGroupAnimInfo()[animMulti]->rotationData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string rotationData = to_string(curAnim->GetGroupAnimInfo()[animMulti]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[animMulti];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[animMulti]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size())
 		{
-			rotationData.append(curAnim->GetGroupAnimInfo()[animMulti]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
@@ -2053,14 +2153,23 @@ void proc::rotationDataFirstGroup(range blok, vecstr& blocks)
 
 	if (clearBlocks(blok, blocks))
 	{
-		string rotationData = to_string(curAnim->GetGroupAnimInfo()[0]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[0];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[0]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curAnim->GetGroupAnimInfo()[0]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
@@ -2074,14 +2183,23 @@ void proc::rotationDataNextGroup(range blok, vecstr& blocks)
 	{
 		int nextorder;
 		curAnim->isLast() ? nextorder = order: nextorder = order + 1;
-		string rotationData = to_string(curAnim->GetGroupAnimInfo()[nextorder]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[nextorder];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[nextorder]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curAnim->GetGroupAnimInfo()[nextorder]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}	
@@ -2095,14 +2213,23 @@ void proc::rotationDataBackGroup(range blok, vecstr& blocks)
 	{
 		int previousorder;
 		order == 0 ? previousorder = order : previousorder = order - 1;
-		string rotationData = to_string(curAnim->GetGroupAnimInfo()[previousorder]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[previousorder];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[previousorder]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curAnim->GetGroupAnimInfo()[previousorder]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
@@ -2114,14 +2241,23 @@ void proc::rotationDataLastGroup(range blok, vecstr& blocks)
 
 	if (clearBlocks(blok, blocks))
 	{
-		string rotationData = to_string(curAnim->GetGroupAnimInfo()[lastorder]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[lastorder];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[lastorder]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curAnim->GetGroupAnimInfo()[lastorder]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
@@ -2135,18 +2271,25 @@ void proc::rotationDataNumGroup(range blok, vecstr& blocks)
 
 	if (num >= curAnim->GetGroupAnimInfo().size()) ErrorMessage(1148, format, filename, numline, blok.olddata[0]);
 
-	if (curAnim->GetGroupAnimInfo()[num]->rotationData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string rotationData = to_string(curAnim->GetGroupAnimInfo()[num]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[num];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[num]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curAnim->GetGroupAnimInfo()[num]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
@@ -2160,18 +2303,25 @@ void proc::rotationDataMultiMaster(range blok, vecstr& blocks)
 
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
-	if (curGroup->groupAnimInfo[groupMulti][animMulti]->rotationData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string rotationData = to_string(curGroup->groupAnimInfo[groupMulti][animMulti]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curGroup->groupAnimInfo[groupMulti][animMulti];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curGroup->groupAnimInfo[groupMulti][animMulti]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curGroup->groupAnimInfo[groupMulti][animMulti]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
@@ -2185,14 +2335,23 @@ void proc::rotationDataFirstMaster(range blok, vecstr& blocks)
 
 	if (clearBlocks(blok, blocks))
 	{
-		string rotationData = to_string(curGroup->groupAnimInfo[groupMulti][0]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curGroup->groupAnimInfo[groupMulti][0];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curGroup->groupAnimInfo[groupMulti][0]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curGroup->groupAnimInfo[groupMulti][0]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
@@ -2206,14 +2365,23 @@ void proc::rotationDataLastMaster(range blok, vecstr& blocks)
 
 	if (clearBlocks(blok, blocks))
 	{
-		string rotationData = to_string(curGroup->groupAnimInfo[groupMulti][lastorder]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curGroup->groupAnimInfo[groupMulti][lastorder];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curGroup->groupAnimInfo[groupMulti][lastorder]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curGroup->groupAnimInfo[groupMulti][lastorder]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
@@ -2229,18 +2397,25 @@ void proc::rotationDataNumMaster(range blok, vecstr& blocks)
 
 	if (num >= curGroup->groupAnimInfo[groupMulti].size()) ErrorMessage(1148, format, filename, numline, blok.olddata[0]);
 
-	if (curGroup->groupAnimInfo[groupMulti][num]->rotationData.size() == 0) throw MDException();
-
 	if (clearBlocks(blok, blocks))
 	{
-		string rotationData = to_string(curGroup->groupAnimInfo[groupMulti][num]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curGroup->groupAnimInfo[groupMulti][num];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curGroup->groupAnimInfo[groupMulti][num]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curGroup->groupAnimInfo[groupMulti][num]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
@@ -2254,14 +2429,23 @@ void proc::rotationDataSingle(range blok, vecstr& blocks)
 
 	if (clearBlocks(blok, blocks))
 	{
-		string rotationData = to_string(curAnim->GetGroupAnimInfo()[order]->rotationData.size()) + "\n";
+		shared_ptr<animationInfo> curInfo = curAnim->GetGroupAnimInfo()[order];
+		string rotationData;
 
-		for (unsigned int j = 0; j < curAnim->GetGroupAnimInfo()[order]->rotationData.size(); ++j)
+		if (curInfo->rotationData.size() == 0)
 		{
-			rotationData.append(curAnim->GetGroupAnimInfo()[order]->rotationData[j] + "\n");
+			WarningMessage(1019, format, behaviorFile, numline);
+			rotationData = "1\n" + (curInfo->hasDuration ? strDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
 		}
+		else
+		{
+			rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-		if (rotationData.length() == 0) WarningMessage(1019, format, behaviorFile, numline);
+			for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+			{
+				rotationData.append(curInfo->rotationData[j] + "\n");
+			}
+		}
 
 		blocks[blok.front] = rotationData;
 	}
