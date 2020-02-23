@@ -2,6 +2,8 @@
 #include "SettingsSave.h"
 #include "master.h"
 
+#include <QtGui/QColor>
+
 int BehaviorListModel::rowCount(const QModelIndex& parent) const
 {
 	return behaviorList.size();

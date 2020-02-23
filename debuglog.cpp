@@ -1,6 +1,8 @@
-#include "DebugLog.h"
 #include <boost/atomic.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+
+#include "debuglog.h"
+
 
 using namespace std;
 
@@ -27,7 +29,7 @@ void DebugLogging(string line, bool noEndLine)
 
 	if (noEndLine)
 	{
-		for (unsigned int i = 0; i < size; ++i)
+		for (int i = 0; i < size; ++i)
 		{
 			line.replace(line.find("\n"), 1, " | ");
 		}

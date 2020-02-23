@@ -32,8 +32,7 @@ struct nodeJoint;
 
 extern Terminator* p_terminate;
 extern atomic<int> m_RunningThread; 
-
-boost::atomic_flag animdata_lock = BOOST_ATOMIC_FLAG_INIT;
+extern boost::atomic_flag animdata_lock;
 
 atomic<int> extraCore = 0;
 atomic<int> behaviorRun;

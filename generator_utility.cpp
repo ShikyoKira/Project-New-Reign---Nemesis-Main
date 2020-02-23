@@ -15,13 +15,14 @@
 
 using namespace std;
 
-extern boost::atomic_flag animdata_lock;
 extern unordered_map<string, string> crc32Cache;
 extern vecstr warningMsges;
 static bool* globalThrow;
 
 vecstr fileCheckMsg;
 vecstr hkxFiles;
+
+boost::atomic_flag animdata_lock = BOOST_ATOMIC_FLAG_INIT;
 
 void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, getTemplate& behaviortemplate, bool firstP);
 void fileArchitectureCheck(string hkxfile);

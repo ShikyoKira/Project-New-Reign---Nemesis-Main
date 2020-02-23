@@ -9,9 +9,8 @@
 
 #include "nemesisinfo.h"
 
+#include "functions\wstrconvert.h"
 #include "functions\writetextfile.h"
-
-#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
 
 using namespace std;
 

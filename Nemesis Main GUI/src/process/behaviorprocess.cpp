@@ -23,6 +23,9 @@
 #include "add animation\playerexclusive.h"
 #include "add animation\registeranimation.h"
 
+#include "MessageHandler.h"
+
+
 using namespace std;
 
 extern bool processdone;
@@ -152,7 +155,8 @@ void BehaviorStart::InitializeGeneration()
 	
 	if (checkThread)
 	{
-		checkThread->join();
+		if (checkThread->joinable()) checkThread->join();
+
 		delete checkThread;
 	}
 
@@ -977,7 +981,6 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 						else
 						{
 							worker->isCharacter = true;
-							//connect(worker, SIGNAL(newAnim()), this, SLOT(increaseAnimCount()));
 							QtConcurrent::run(worker, &BehaviorSub::BehaviorCompilation);
 						}
 

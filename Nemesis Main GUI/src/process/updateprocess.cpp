@@ -12,6 +12,7 @@
 #include "utilities\Terminator.h"
 #include "utilities\externalscript.h"
 
+#include "MessageHandler.h"
 
 using namespace std;
 
@@ -75,7 +76,13 @@ UpdateFilesStart::UpdateFilesStart()
 
 UpdateFilesStart::~UpdateFilesStart()
 {
-	if (!cmdline && error) error = false;
+	try
+	{
+		if (!cmdline && error) error = false;
+	}
+	catch (const std::exception&)
+	{	
+	}
 }
 
 void UpdateFilesStart::UpdateFiles()
@@ -1783,14 +1790,14 @@ void UpdateFilesStart::CombiningFiles()
 				string total = filename + "\n";
 				writeSave(output, to_string(animData.animDataChar.size() - 1) + "\n", total);
 
-				for (unsigned int i = 0; i < animData.newAnimData["$header$"]["$header$"].size(); ++i)
+				for (auto& line : animData.newAnimData["$header$"]["$header$"])
 				{
-					writeSave(output, animData.newAnimData["$header$"]["$header$"][i] + "\n", total);
+					writeSave(output, line + "\n", total);
 				}
 
 				for (unsigned int i = 1; i < animData.animDataChar.size(); ++i)
 				{	// character
-					string project = animData.animDataChar[i];
+					string& project = animData.animDataChar[i];
 					outputlist << project + "\n";
 					size_t animsize = 0;
 					size_t infosize = 0;
@@ -1873,8 +1880,9 @@ void UpdateFilesStart::CombiningFiles()
 					writeSave(output, header + "\n", total);
 				}
 
-				for (string& project : animSetData.projectList)
+				for (unsigned int i = 1; i < animSetData.projectList.size(); ++i)
 				{
+					string& project = animSetData.projectList[i];
 					outputlist << project + "\n";		// character
 					outputlist << "$header$\n";
 

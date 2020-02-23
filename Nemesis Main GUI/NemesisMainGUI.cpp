@@ -4,6 +4,7 @@
 #include "master.h"
 #include "behaviorcheck.h"
 #include "NemesisMainGUI.h"
+#include "MessageHandler.h"
 
 #include "utilities\Terminator.h"
 
