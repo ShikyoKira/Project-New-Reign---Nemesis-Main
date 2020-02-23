@@ -1,6 +1,8 @@
 #include "registeranimation.h"
+
+#include "functions\wstrconvert.h"
 #include "functions\readtextfile.h"
-#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
+
 #include <QtCore\QTextstream.h>
 #include <QtCore\QFile.h>
 
@@ -222,6 +224,8 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 				}
 				else if (newAnimInfo[0] == "MD")
 				{
+					if (previousShortline.length() == 0) ErrorMessage(1143, filename, linecount);
+
 					if (newAnimInfo.size() != 5) ErrorMessage(1089, filename, linecount);
 
 					for (unsigned int i = 1; i < newAnimInfo.size(); ++i)
@@ -240,6 +244,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 					shared_ptr<animationInfo> animInfo_ptr = animInfo[previousShortline].back();
 					animInfo_ptr->motionData.push_back(newAnimInfo[1] + " " + newAnimInfo[2] + " " + newAnimInfo[3] + " " + newAnimInfo[4]);
+					animInfo_ptr->optionPicked["motion"] = true;
 
 					if (animInfo_ptr->duration < timer && (animInfo_ptr->optionPicked.find("D") == animInfo_ptr->optionPicked.end() || !animInfo_ptr->optionPicked["D"]))
 					{
@@ -249,6 +254,8 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 				}
 				else if (newAnimInfo[0] == "RD")
 				{
+					if (previousShortline.length() == 0) ErrorMessage(1143, filename, linecount);
+
 					if (newAnimInfo.size() != 6) ErrorMessage(1088, filename, linecount);
 
 					for (unsigned int i = 1; i < newAnimInfo.size(); ++i)
@@ -269,6 +276,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 					shared_ptr<animationInfo> animInfo_ptr = animInfo[previousShortline].back();
 					animInfo_ptr->rotationData.push_back(newAnimInfo[1] + " " + newAnimInfo[2] + " " + newAnimInfo[3] + " " + newAnimInfo[4] + " " + newAnimInfo[5]);
+					animInfo_ptr->optionPicked["rotation"] = true;
 
 					if (animInfo_ptr->duration < timer && (animInfo_ptr->optionPicked.find("D") == animInfo_ptr->optionPicked.end() || !animInfo_ptr->optionPicked["D"]))
 					{
@@ -300,9 +308,8 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 							if (newAnimInfo.size() > 3 && newAnimInfo[1].length() > 0 && newAnimInfo[1][0] == '-')
 							{
-								animInfo[previousShortline].push_back(make_shared<animationInfo>(newAnimInfo, filename,
-									behaviortemplate.optionlist[previousShortline], linecount, isOExist));
-								
+								animInfo[previousShortline].push_back(make_shared<animationInfo>(newAnimInfo, filename,	behaviortemplate.optionlist[previousShortline],
+									linecount, isOExist));
 								animInfo[previousShortline].back()->addFilename(newAnimInfo[3]);
 
 								if (!animInfo[previousShortline].back()->known && !isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[3]))
@@ -312,9 +319,8 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 							}
 							else
 							{
-								animInfo[previousShortline].push_back(make_shared<animationInfo>(newAnimInfo, filename,
-									behaviortemplate.optionlist[previousShortline], linecount, isOExist, true));
-								
+								animInfo[previousShortline].push_back(make_shared<animationInfo>(newAnimInfo, filename,	behaviortemplate.optionlist[previousShortline],
+									linecount, isOExist, true));
 								animInfo[previousShortline].back()->addFilename(newAnimInfo[2]);
 
 								if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1) + newAnimInfo[2])) WarningMessage(1000, newAnimInfo[2]);
@@ -351,6 +357,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 					if (anim[anim.length() - 2] == '/' && (anim[anim.length() - 1] == '1' || anim[anim.length() - 1] == '2')) isOExist = false;
 
+					// Has option
 					if (newAnimInfo.size() > 3 && newAnimInfo[1].length() > 0 && newAnimInfo[1][0] == '-')
 					{
 						animInfo[lowerformat].push_back(make_shared<animationInfo>(newAnimInfo, filename, behaviortemplate.optionlist[lowerformat], linecount,

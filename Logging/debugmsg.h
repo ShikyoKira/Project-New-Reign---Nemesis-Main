@@ -3,19 +3,10 @@
 
 #include <unordered_map>
 
-#include <QtWidgets\QTextBrowser>
-#include <QtWidgets\QProgressBar>
-#include <QtWidgets\QScrollBar>
-#include <QtWidgets\QMessageBox>
-
 #include <boost\thread\mutex.hpp>
 #include <boost\interprocess\sync\scoped_lock.hpp>
 
-#include "Nemesis Main GUI\src\DebugLog.h"
-
-class UpdateFilesStart;
-class BehaviorStart;
-class DummyLog;
+#include "debuglog.h"
 
 extern bool error;	// get error warning
 extern bool isPatch;
@@ -210,11 +201,5 @@ std::string EngTextBoxMessage(int textcode);
 
 // UI
 std::string UIMessage(int uicode);
-
-// connect, get and disconnect running process
-void connectProcess(UpdateFilesStart* newProcess);
-void connectProcess(BehaviorStart* newProcess);
-void connectProcess(DummyLog* newProcess);
-void disconnectProcess();
 
 #endif

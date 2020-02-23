@@ -2,9 +2,7 @@
 
 #include "debugmsg.h"
 
-#include "Nemesis Main GUI\master.h"
-#include "Nemesis Main GUI\ErrorMsgBox.h"
-#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
+#include "functions\wstrconvert.h"
 
 using namespace std;
 
@@ -18,9 +16,7 @@ atomic<int> progressPercentage;
 DebugMsg DMLog;
 DebugMsg* EnglishLog;
 
-DummyLog* process3;
-BehaviorStart* process2;
-UpdateFilesStart* process1;
+void (*interMsgPtr)(string);
 
 vecstr readUTF8File(wstring filename);
 void writeUTF8File(string filename, vecstr storeline);
@@ -209,48 +205,6 @@ string UIMessage(int uicode)
 
 void interMsg(string input)
 {
-	if (process1)
-	{
-		process1->message(input);
-	}
-	else if (process2)
-	{
-		process2->message(input);
-	}
-	else if (process3)
-	{
-		process3->message(input);
-	}
-	else
-	{
-		DebugLogging("Non-captured message: " + input);
-		CEMsgBox* msgbox = new CEMsgBox;
-		msgbox->setWindowTitle("CRITICAL ERROR");
-		msgbox->setText("Access process violtion. Running process not found. Report to Nemesis' author immediately.");
-		msgbox->show();
-		error = true;
-	}
-}
-
-void connectProcess(UpdateFilesStart* newProcess)
-{
-	process1 = newProcess;
-}
-
-void connectProcess(BehaviorStart* newProcess)
-{
-	process2 = newProcess;
-}
-
-void connectProcess(DummyLog* newProcess)
-{
-	process3 = newProcess;
-}
-
-void disconnectProcess()
-{
-	DebugLogging("Standard log disconnected");
-	process1 = nullptr;
-	process2 = nullptr;
-	process3 = nullptr;
+	// connect to UI Message Handler
+	(*interMsgPtr)(input);
 }
