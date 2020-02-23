@@ -1,8 +1,8 @@
 #include <boost/algorithm/string.hpp>
 
-#undef slots
+#undef pyslots
 #include <Python.h>
-#define slots
+#define pyslots
 
 #include <QtCore\QProcess>
 
