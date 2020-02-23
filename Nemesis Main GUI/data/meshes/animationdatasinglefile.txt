@@ -8729,7 +8729,7 @@ FootBack:0.333333
 1
 0.4 0 0 0 1
 
-25096
+25054
 1
 19
 Behaviors\0_Master.hkx
@@ -22963,7 +22963,7 @@ MLh_WinStart:0.003
 MLh_WinEnd:2.26667
 
 DualMagic_PreAimedCon
-1382
+636
 1
 0
 0
@@ -33784,48 +33784,6 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
-NPC_Nemesis_KillMove_Clip_1
-1656
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_2
-1657
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_3
-1658
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_4
-1659
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_5
-1660
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_6
-1661
-1
-0
-0
-0
-
 12704
 100
 1.2
@@ -38555,7 +38513,7 @@ NPC_Nemesis_KillMove_Clip_6
 1
 0.966667 0 0 0 1
 
-1382
+636
 0.266667
 1
 0.266667 0 0 0
@@ -46531,7 +46489,7 @@ NPC_Nemesis_KillMove_Clip_6
 1
 0.8 0 0 0 1
 
-25087
+25045
 1
 19
 Behaviors\0_Master.hkx
@@ -60756,7 +60714,7 @@ MLh_WinStart:0.003
 MLh_WinEnd:2.26667
 
 DualMagic_PreAimedCon
-1382
+636
 1
 0
 0
@@ -71577,48 +71535,6 @@ DLC01TrailerWalkForward
 AnimObjectUnequip:6.5
 IdleStop:8.66067
 
-NPC_Nemesis_KillMove_Clip_1
-1656
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_2
-1657
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_3
-1658
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_4
-1659
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_5
-1660
-1
-0
-0
-0
-
-NPC_Nemesis_KillMove_Clip_6
-1661
-1
-0
-0
-0
-
 12741
 100
 1.2
@@ -76429,7 +76345,7 @@ NPC_Nemesis_KillMove_Clip_6
 1
 0.966667 0 0 0 1
 
-1382
+636
 0.266667
 1
 0.266667 0 0 0

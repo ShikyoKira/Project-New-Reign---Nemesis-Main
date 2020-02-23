@@ -8,7 +8,6 @@
         <file>Resources/log-report.png</file>
         <file>Resources/title header.png</file>
         <file>Resources/title.png</file>
-        <file>Resources/title 2.png</file>
         <file>Resources/title header 2.jpg</file>
     </qresource>
     <qresource prefix="/icon">
