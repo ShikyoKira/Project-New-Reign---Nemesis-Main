@@ -9,10 +9,9 @@
 #include "generator_utility.h"
 #include "alternateanimation.h"
 
+#include "functions\wstrconvert.h"
 #include "functions\readtextfile.h"
 #include "functions\writetextfile.h"
-
-#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
 
 #pragma warning(disable:4503)
 
@@ -193,7 +192,8 @@ bool AACoreCompile(boost::filesystem::path filename, wstring import, string dest
 	unsigned int& maxGroup, unsigned int& uniquekey)
 {
 	bool prefixDone = false;
-	set<string> prefixList;
+	vecstr prefixList;
+	unordered_map<string, bool> prefixCheck;
 	unordered_map<string, int> prefixID;
 	unordered_map<string, int> groupIDCounter;
 	unordered_map<string, string> baseOrder;
@@ -215,7 +215,11 @@ bool AACoreCompile(boost::filesystem::path filename, wstring import, string dest
 	{
 		for (auto& AAprefixGroup : groupAAPrefix[groupName])	// list of group aa prefix categorized by animation group name while eliminating duplicates using set container
 		{
-			prefixList.insert(AAprefixGroup);
+			if (!prefixCheck[AAprefixGroup])
+			{
+				prefixList.push_back(AAprefixGroup);
+				prefixCheck[AAprefixGroup] = true;
+			}
 		}
 	}
 
@@ -255,45 +259,40 @@ bool AACoreCompile(boost::filesystem::path filename, wstring import, string dest
 
 			if (groupName.length() > 4 && groupName.rfind("_1p*") == groupName.length() - 4) adjGN.pop_back();
 
-			for (auto& prefix : prefixID)
+			for (auto& prefix : groupAAPrefix[groupName])
 			{
-				for (unsigned int j = 0; j < groupAAPrefix[groupName].size(); ++j)
+				int maxG = prefixID[prefix];
+				string templine = "	AASet[num] = ";
+				templine.replace(templine.find("num"), 3, to_string(AACounter));
+				string number = to_string(maxG / 10) + to_string(maxG % 10) + to_string(maxGroup / 100) + to_string(maxGroup % 100 / 10) +
+					to_string(maxGroup % 10);
+				string AAgroupID = to_string(maxGroup / 10) + to_string(maxGroup % 10);
+
+				if (groupIDCounter[adjGN] == 0) groupIDCounter[adjGN] = 1;
+
+				string counter = to_string(groupIDCounter[adjGN]);
+				string base = counter.substr(0, 3);
+				ModIDByGroup mod;
+				mod.groupBase = base;
+				mod.modID = to_string(maxG / 10) + to_string(maxG % 10);
+				GetModByGroupValue[AAgroupID].push_back(mod);
+
+				if (AAGroupCount[prefix][groupName] == 0) ErrorMessage(3013, prefix, groupName);
+
+				groupIDCounter[adjGN] += AAGroupCount[prefix][groupName];
+
+				while (counter.length() < 3)
 				{
-					if (groupAAPrefix[groupName][j] == prefix.first)
-					{
-						string templine = "	AASet[num] = ";
-						templine.replace(templine.find("num"), 3, to_string(AACounter));
-						string number = to_string(prefix.second / 10) + to_string(prefix.second % 10) + to_string(maxGroup / 100) + to_string(maxGroup % 100 / 10) +
-							to_string(maxGroup % 10);
-						string AAgroupID = to_string(maxGroup / 10) + to_string(maxGroup % 10);
-
-						if (groupIDCounter[adjGN] == 0) groupIDCounter[adjGN] = 1;
-
-						string counter = to_string(groupIDCounter[adjGN]);
-						string base = counter.substr(0, 3);
-						ModIDByGroup mod;
-						mod.groupBase = base;
-						mod.modID = to_string(prefix.second / 10) + to_string(prefix.second % 10);
-						GetModByGroupValue[AAgroupID].push_back(mod);
-
-						if (AAGroupCount[groupAAPrefix[groupName][j]][groupName] == 0) ErrorMessage(3013, groupAAPrefix[groupName][j], groupName);
-
-						groupIDCounter[adjGN] += AAGroupCount[groupAAPrefix[groupName][j]][groupName];
-
-						while (counter.length() < 3)
-						{
-							counter = "0" + counter;
-						}
-
-						baseOrder["AAgroupID == " + AAgroupID] = "		return " + to_string(++AAgroup_Counter[adjGN]);
-						baseMatch.push_back("DataCode == " + number + "000");
-						baseMatch.push_back("		return " + base);
-						number = number + counter.substr(0, 3);
-						templine.append(number);
-						groupAAlines.push_back(templine);
-						++AACounter;
-					}
+					counter = "0" + counter;
 				}
+
+				baseOrder["AAgroupID == " + AAgroupID] = "		return " + to_string(++AAgroup_Counter[adjGN]);
+				baseMatch.push_back("DataCode == " + number + "000");
+				baseMatch.push_back("		return " + base);
+				number = number + counter.substr(0, 3);
+				templine.append(number);
+				groupAAlines.push_back(templine);
+				++AACounter;
 			}
 
 			// Assign animation group ID
@@ -597,6 +596,8 @@ void fixedKeyInitialize()
 
 string GetLastModified(string filename)
 {
+	bool throwNemesis = false;
+
 	try
 	{
 		try
@@ -613,13 +614,23 @@ string GetLastModified(string filename)
 		}
 		catch (const std::exception& ex)
 		{
-			ErrorMessage(6001, ex.what());
+			try
+			{
+				ErrorMessage(6001, ex.what());
+			}
+			catch (nemesis::exception) {}
+
+			throwNemesis = true;
 		}
 	}
 	catch (...)
 	{
 		ErrorMessage(2022);
 	}
+
+	if (throwNemesis) throw nemesis::exception();
+
+	return "";
 }
 
 bool FolderCreate(string curBehaviorPath)
