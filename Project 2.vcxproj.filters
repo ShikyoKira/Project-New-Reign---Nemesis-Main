@@ -117,9 +117,6 @@
     <ClCompile Include="add animation\stringsplit.cpp">
       <Filter>Source Files\utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Nemesis Main GUI\src\utilities\wstrconvert.cpp">
-      <Filter>Source Files\utilities</Filter>
-    </ClCompile>
     <ClCompile Include="dataunification.cpp">
       <Filter>Source Files\update</Filter>
     </ClCompile>
@@ -140,6 +137,12 @@
     </ClCompile>
     <ClCompile Include="add animation\animationdatatracker.cpp">
       <Filter>Source Files\generate</Filter>
+    </ClCompile>
+    <ClCompile Include="functions\wstrconvert.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="debuglog.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +171,6 @@
       <Filter>Header Files\utilities</Filter>
     </ClInclude>
     <ClInclude Include="functions\writetextfile.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Nemesis Main GUI\src\utilities\wstrconvert.h">
       <Filter>Header Files\utilities</Filter>
     </ClInclude>
     <ClInclude Include="add animation\stringsplit.h">
@@ -262,6 +262,12 @@
     </ClInclude>
     <ClInclude Include="src\update\queuestack.h">
       <Filter>Header Files\update</Filter>
+    </ClInclude>
+    <ClInclude Include="functions\wstrconvert.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="debuglog.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
