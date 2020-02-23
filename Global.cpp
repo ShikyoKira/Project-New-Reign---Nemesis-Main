@@ -1,8 +1,10 @@
 #include <boost/atomic.hpp>
+
 #include "Global.h"
+
+#include "functions\wstrconvert.h"
 #include "functions\readtextfile.h"
 #include "functions\writetextfile.h"
-#include "Nemesis Main GUI\src\utilities\wstrconvert.h"
 
 #pragma warning(disable:4503)
 
