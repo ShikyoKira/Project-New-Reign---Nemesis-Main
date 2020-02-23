@@ -31,202 +31,168 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 	if (!noOption)
 	{
 		++k;
-		string anim = line.substr(1, line.length() - 1);
-		__int64 counter = count(anim.begin(), anim.end(), ',') + 1;
+		string anim = line.substr(1);
+		vecstr options;
+		boost::split(options, line.substr(1), boost::is_any_of(","));
 		unordered_map<string, bool> optionList = behaviorOption.storelist;
 		unordered_map<string, vecstr> joint = behaviorOption.joint;
 		vecstr optionOrder = behaviorOption.optionOrder;
 
-		for (int i = 0; i < counter; ++i)
+		for (auto& option : options)
 		{
-			size_t pos = anim.find(",");
-			string option;
-
-			if (i != counter - 1)
-			{
-				option = anim.substr(0, pos);
-				anim = anim.substr(pos + 1);
-			}
-			else
-			{
-				option = anim;
-			}
-
 			if (option == "o")
 			{
 				isOExist = true;
 			}
 
-			while (true)
+			if (error) throw nemesis::exception();
+
+			if (option == "k" || option == "bsa")
 			{
-				if (error) throw nemesis::exception();
+				if (!known) known = true;
+				else WarningMessage(1012);
 
-				if (option == "k" || option == "bsa")
+				continue;
+			}
+
+			if (option[0] == 'D' && isOnlyNumber(option.substr(1)))
+			{
+				string time = boost::regex_replace(string(option), boost::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
+
+				if ("D" + time == option)
 				{
-					if (!known)
+					duration = stod(time);
+					hasDuration = true;
+					optionPicked["D"] = true;
+					optionPickedCount["D"]++;
+					continue;
+				}
+			}
+
+			if (optionList[option] && !groupOption[option])
+			{
+				if (optionPicked[option])
+				{
+					string totalline = "";
+
+					for (auto& curline : newAnimInfo)
 					{
-						known = true;
-					}
-					else
-					{
-						WarningMessage(1012);
+						totalline = totalline + curline + " ";
 					}
 
-					break;
+					totalline.pop_back();
+					ErrorMessage(1178, behaviorOption.templatecode, curFilename, linecount, totalline);
 				}
 
-				if (option[0] == 'D' && isOnlyNumber(option.substr(1)))
+				optionPicked[option] = true;
+				optionPickedCount[option]++;
+			}
+			else
+			{
+				bool isSameOption = true;
+				string header = "";
+
+				for (unsigned int m = 0; m < optionOrder.size(); ++m)
 				{
-					string time = boost::regex_replace(string(option), boost::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
+					bool loose = false;
 
-					if ("D" + time == option)
+					// check on group / addon option
+					for (unsigned int j = 0; j < optionOrder[m].size(); ++j)
 					{
-						duration = stod(time);
-						hasDuration = true;
-						optionPicked["D"] = true;
-						optionPickedCount["D"]++;
-						break;
-					}
-				}
-
-				if (optionList[option] && !groupOption[option])
-				{
-					if (optionPicked[option])
-					{
-						string totalline = "";
-
-						for (auto& curline : newAnimInfo)
+						if (optionOrder[m][j] != option[j])
 						{
-							totalline = totalline + curline + " ";
+							break;
 						}
-
-						totalline.pop_back();
-						ErrorMessage(1178, behaviorOption.templatecode, curFilename, linecount, totalline);
-					}
-
-					optionPicked[option] = true;
-					optionPickedCount[option]++;
-				}
-				else
-				{
-					bool isSameOption = true;
-					string header = "";
-
-					for (unsigned int m = 0; m < optionOrder.size(); ++m)
-					{
-						bool loose = false;
-
-						// check on group / addon option
-						for (unsigned int j = 0; j < optionOrder[m].size(); ++j)
+						else if (j == optionOrder[m].size() - 1)
 						{
-							if (optionOrder[m][j] != option[j])
+							if (header.length() < optionOrder[m].length())
 							{
-								break;
-							}
-							else if (j == optionOrder[m].size() - 1)
-							{
-								if (header.length() < optionOrder[m].length())
+								header = optionOrder[m];
+								string nonHeader = option.substr(header.length());
+								string group = boost::regex_replace(string(nonHeader), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+								if (group.length() != 0 && option == header + group && group != nonHeader)
 								{
-									header = optionOrder[m];
-									string nonHeader = option.substr(header.length());
-									string group = boost::regex_replace(string(nonHeader), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+									optionPicked[option] = true;
+									optionPickedCount[option]++;
+									loose = true;
+								}
+								else if (addOn[header].size() != 0)
+								{
+									if (option.length() > header.length())
+									{
+										// Eligibility test
+										bool isPassed = true;
+										string section = nonHeader;
 
-									if (group.length() != 0 && option == header + group && (group != nonHeader))
-									{
-										optionPicked[option] = true;
-										optionPickedCount[option]++;
-										loose = true;
-									}
-									else if (addOn[header].size() != 0)
-									{
-										if (option.length() > header.length())
+										for (unsigned int k = 0; k < joint[header].size(); ++k)
 										{
-											// Eligibility test
-											bool isPassed = true;
-											string section = nonHeader;
+											string newSection = section.substr(section.find(joint[header][k]) + 1);
 
-											for (unsigned int k = 0; k < joint[header].size(); ++k)
+											if (newSection.length() < section.length())
 											{
-												string newSection = section.substr(section.find(joint[header][k]) + 1);
+												section = newSection;
+											}
+											else
+											{
+												isPassed = false;
+												break;
+											}
+										}
 
-												if (newSection.length() < section.length())
+										if (!isPassed) break;
+
+										isPassed = false;
+
+										for (unsigned int k = 0; k < addOn[header].size(); ++k)
+										{
+											if (nonHeader.length() != 0)
+											{
+												string addOnName = addOn[header][k];
+
+												if (k != addOn[header].size() - 1)
 												{
-													section = newSection;
+													size_t pos = nonHeader.find(joint[header][k], 0) + joint[header][k].length();
+													string name = nonHeader.substr(0, pos - joint[header][k].length());
+													groupAdditionProcess(header, addOnName, name, groupOption, behaviorOption.modAddOn);
+													isPassed = true;
+													nonHeader = nonHeader.substr(pos);
 												}
 												else
 												{
-													isPassed = false;
+													groupAdditionProcess(header, addOnName, nonHeader, groupOption, behaviorOption.modAddOn);
+													isPassed = true;
 													break;
 												}
 											}
-
-											if (!isPassed)
+											else
 											{
 												break;
 											}
+										}
 
-											isPassed = false;
-
-											for (unsigned int k = 0; k < addOn[header].size(); ++k)
-											{
-												if (nonHeader.length() != 0)
-												{
-													string addOnName = addOn[header][k];
-
-													if (k != addOn[header].size() - 1)
-													{
-														size_t pos = nonHeader.find(joint[header][k], 0) + joint[header][k].length();
-														string name = nonHeader.substr(0, pos - joint[header][k].length());
-														groupAdditionProcess(header, addOnName, name, groupOption, behaviorOption.modAddOn);
-														isPassed = true;
-														nonHeader = nonHeader.substr(pos);
-													}
-													else
-													{
-														groupAdditionProcess(header, addOnName, nonHeader, groupOption, behaviorOption.modAddOn);
-														isPassed = true;
-														break;
-													}
-												}
-												else
-												{
-													break;
-												}
-											}
-
-											if (isPassed)
-											{
-												optionPicked[header] = true;
-												optionPickedCount[header]++;
-												loose = true;
-												break;
-											}
+										if (isPassed)
+										{
+											optionPicked[header] = true;
+											optionPickedCount[header]++;
+											loose = true;
+											break;
 										}
 									}
 								}
 							}
 						}
-
-						if (loose)
-						{
-							break;
-						}
-						else
-						{
-							header = "";
-						}
 					}
 
-					if (header.length() == 0)
-					{
-						WarningMessage(1026, curFilename, linecount, option);
-					}
+					if (loose) break;
+					else header = "";
 				}
 
-				if (error) throw nemesis::exception();
-
-				break;
+				if (header.length() == 0) WarningMessage(1026, curFilename, linecount, option);
 			}
+
+			if (error) throw nemesis::exception();
+
 		}
 	}
 
@@ -244,10 +210,10 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 			animobjects.push_back(animInfo[k + add]);
 			++add;
 
-			if (add > 6)
+			/*if (add > 6)
 			{
-				// ErrorMessage(1143, curFilename, linecount);
-			}
+				 ErrorMessage(1143, curFilename, linecount);
+			}*/
 		}
 
 		// Get animobjects

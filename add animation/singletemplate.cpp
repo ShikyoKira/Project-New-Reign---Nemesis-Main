@@ -16,7 +16,7 @@ void GetMultiFromAddOn(addOnInfo& addinfo, string format, string behaviorFile, s
 vecstr GetOptionInfo(string line, string format, string filename, int numline)
 {
 	vecstr optionInfo;
-	optionInfo.reserve(4);
+	optionInfo.reserve(3);
 	optionInfo.push_back(format);
 
 	if (line.find(format + "[") != NOT_FOUND)
@@ -36,14 +36,8 @@ vecstr GetOptionInfo(string line, string format, string filename, int numline)
 			optionInfo.push_back(templine.substr(0, pos));
 			size_t optionLength = optionInfo.back().length() + 1;
 
-			if (templine.length() > optionLength && templine[optionLength] == '[')
-			{
-				templine = templine.substr(templine.find("[") + 1);
-			}
-			else
-			{
-				break;
-			}
+			if (templine.length() > optionLength && templine[optionLength] == '[') templine = templine.substr(templine.find("[") + 1);
+			else break;
 		}
 	}
 	else
@@ -108,14 +102,8 @@ vecstr GetOptionInfo(string line, string format, string masterformat, string fil
 			optionInfo.push_back(templine.substr(0, pos));
 			size_t optionLength = optionInfo.back().length() + 1;
 
-			if (templine.length() > optionLength && templine[optionLength] == '[')
-			{
-				templine = templine.substr(templine.find("[") + 1);
-			}
-			else
-			{
-				break;
-			}
+			if (templine.length() > optionLength && templine[optionLength] == '[') templine = templine.substr(templine.find("[") + 1);
+			else break;
 		}
 	}
 	else if (line == masterformat || line == masterformat + "_group" || multiOption == masterformat)
@@ -1437,8 +1425,8 @@ void condt::conditionProcess(string condition, string format, string behaviorFil
 	}
 	else
 	{
-		optioncondt = isGroup ? isMaster ? make_shared<vecstr>(GetOptionInfo(condition, format + "_master", format, behaviorFile, multiOption, numline)) :
-			make_shared<vecstr>(GetOptionInfo(condition, format + "_group", format, behaviorFile, multiOption, numline)) :
+		optioncondt = isGroup ? (isMaster ? make_shared<vecstr>(GetOptionInfo(condition, format + "_master", format, behaviorFile, multiOption, numline)) :
+			make_shared<vecstr>(GetOptionInfo(condition, format + "_group", format, behaviorFile, multiOption, numline))) :
 			make_shared<vecstr>(GetOptionInfo(condition, format, behaviorFile, numline));
 	}
 

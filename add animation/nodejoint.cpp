@@ -605,7 +605,7 @@ void nodeJoint::optionMultiLoop(vector<lineCheck>& output, string format, string
 	string& strID, SSMap& IDExist, ImportContainer& import, id eventid, id variableid, string zeroEvent, string zeroVariable, unsigned __int64 openRange, unsigned int elementCount,
 	lineCheck* elementCatch, shared_ptr<master> subFunctionIDs, bool& negative, lineCheck temp)
 {
-	if (groupMulti < groupAnimInfo.size() && animMulti < groupAnimInfo[groupMulti].size())
+	if (static_cast<unsigned int>(groupMulti) < groupAnimInfo.size() && static_cast<unsigned int>(animMulti) < groupAnimInfo[groupMulti].size())
 	{
 		unsigned int order = optionMulti == -1 ? 0 : optionMulti;
 		unsigned int repeatCount = groupAnimInfo[groupMulti][animMulti]->optionPickedCount[multiOption];
@@ -656,7 +656,7 @@ vecstr nodeJoint::unpack()
 	int counter = 0;
 	int openRange = 0;
 
-	for (int i = 0; i < storeline.size(); ++i)
+	for (unsigned int i = 0; i < storeline.size(); ++i)
 	{
 		string& line = storeline[i];
 
