@@ -1,5 +1,7 @@
 #include "ui_NemesisMainGUI.h"
 
+#include "src/MessageHandler.h"
+
 void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 {
 	if (NemesisMainGUIClass->objectName().isEmpty())
@@ -235,7 +237,7 @@ void Ui_NemesisMainGUIClass::retranslateUi(QWidget* NemesisMainGUIClass)
 void Ui_NemesisMainGUIClass::reset(QWidget* NemesisMainGUIClass)
 {
 	NemesisMainGUIClass->setWindowTitle(QApplication::translate("NemesisMainGUIClass", UIMessage(1000).c_str(), nullptr));
-	label->setPixmap(QPixmap(":/background/Resources/title header 2.jpg"));
+	label->setPixmap(QPixmap(":/background/Resources/title header.png"));
 	animProgressBar->setToolTip(QApplication::translate("NemesisMainGUIClass", UIMessage(1004).c_str(), nullptr));
 	buttonUpdate->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1003).c_str(), nullptr));
 	buttonCheck->setText(QApplication::translate("NemesisMainGUIClass", UIMessage(1002).c_str(), nullptr));
