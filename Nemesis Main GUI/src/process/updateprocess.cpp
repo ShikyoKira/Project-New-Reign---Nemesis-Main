@@ -1,6 +1,8 @@
 #include <mutex>
 #include <QtCore\QCoreApplication.h>
 
+#include <boost\asio\post.hpp>
+
 #include "version.h"
 #include "lastupdate.h"
 #include "filechecker.h"
@@ -76,79 +78,212 @@ UpdateFilesStart::UpdateFilesStart()
 
 UpdateFilesStart::~UpdateFilesStart()
 {
-	try
-	{
-		if (!cmdline && error) error = false;
-	}
-	catch (const std::exception&)
-	{	
-	}
+	if (!cmdline && error) error = false;
 }
 
 void UpdateFilesStart::UpdateFiles()
 {
+	string directory = "mod\\";
+	string newAnimDirectory = "behavior templates\\";
+
+	try
+	{
+		try
+		{
+			ClearGlobal();
+			milestoneStart(directory);
+
+			// Check the existence of required files
+			if (!FileCheck(true))
+			{
+				ClearGlobal();
+				return;
+			}
+		}
+		catch (exception& ex)
+		{
+			ErrorMessage(6001, ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
+	}
+	catch (...)
+	{
+		try
+		{
+			ErrorMessage(6001, "Unknown: Update Failed");
+		}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
+	}
+
+	try
+	{
+		try
+		{
+			RunScript("scripts\\update\\start\\");
+			DebugLogging("External script run complete");
+
+			// clear the temp_behaviors folder to prevent it from bloating
+			ClearTempBehaviors();
+			DebugLogging("Temp behavior clearance complete");
+
+			// create "temp_behaviors" folder
+			if (!isFileExist(directory)) boost::filesystem::create_directory(directory);
+
+			if (error)
+			{
+				ClearGlobal();
+				return;
+			}
+
+			emit progressUp();	// 2
+		}
+		catch (exception & ex)
+		{
+			ErrorMessage(6001, ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
+	}
+	catch (...)
+	{
+		try
+		{
+			ErrorMessage(6001, "Unknown: Update Failed");
+		}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
+	}
+
+	try
+	{
+		try
+		{
+			// copy latest vanilla into memory
+			if (!VanillaUpdate() || error)
+			{
+				ClearGlobal();
+				return;
+			}
+		}
+		catch (exception & ex)
+		{
+			ErrorMessage(6001, ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
+	}
+	catch (...)
+	{
+		try
+		{
+			ErrorMessage(6001, "Unknown: Update Failed");
+		}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
+	}
+
+	try
+	{
+		try
+		{
+			DebugLogging("Data record complete");
+			emit progressUp(); // 4
+			boost::asio::thread_pool mt;
+
+			// check template for association with vanilla nodes from behavior template file
+			newAnimProcess(newAnimDirectory, mt);
+
+			// comparing if different from mod file
+			JoiningEdits(directory, mt);
+
+			mt.join();
+
+			if (error || !newAnimFunction)
+			{
+				ClearGlobal();
+				return;
+			}
+		}
+		catch (exception & ex)
+		{
+			ErrorMessage(6001, ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
+	}
+	catch (...)
+	{
+		try
+		{
+			ErrorMessage(6001, "Unknown: Update Failed");
+		}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
+	}
+
+	try
+	{
+		try
+		{
+			if (newAnimFunction && !error)
+			{
+				DebugLogging("Modification successfully extracted");
+				emit progressUp();	// 27
+
+				// compiling all behaviors in "data/meshes" to "temp_behaviors" folder
+				CombiningFiles();
+
+				emit progressUp();	// 32
+			}
+		}
+		catch (exception & ex)
+		{
+			ErrorMessage(6001, ex.what());
+		}
+	}
+	catch (nemesis::exception&)
+	{
+		// resolved exception
+	}
+	catch (...)
+	{
+		try
+		{
+			ErrorMessage(6001, "Unknown: Update Failed");
+		}
+		catch (nemesis::exception&)
+		{
+			// resolved exception
+		}
+	}
+
 	try
 	{
 		try
 		{
 			ClearGlobal();
 
-			string directory = "mod\\";
-			string newAnimDirectory = "behavior templates\\";
-			milestoneStart(directory);
-
-			// Check the existence of required files
-			if (FileCheck(true))
-			{
-				RunScript("scripts\\update\\start\\");
-				DebugLogging("External script run complete");
-
-				// clear the temp_behaviors folder to prevent it from bloating
-				ClearTempBehaviors();
-				DebugLogging("Temp behavior clearance complete");
-
-				// create "temp_behaviors" folder
-				if (!isFileExist(directory)) boost::filesystem::create_directory(directory);
-
-				emit progressUp();	// 2
-
-				// copy latest vanilla into memory
-				if (!error && VanillaUpdate())
-				{
-					if (!error)
-					{
-						DebugLogging("Data record complete");
-						emit progressUp(); // 4
-
-						// check template for association with vanilla nodes from behavior template file
-						if (newAnimUpdate(newAnimDirectory))
-						{
-							DebugLogging("New Animations record complete");
-							emit progressUp(); // 5
-
-							// comparing if different from mod file
-							JoiningEdits(directory);
-
-							if (!error)
-							{
-								DebugLogging("Modification successfully extracted");
-								emit progressUp();	// 27
-
-								// compiling all behaviors in "data/meshes" to "temp_behaviors" folder
-								CombiningFiles();
-
-								emit progressUp();	// 32
-							}
-						}
-					}
-				}
-			}
-
-			ClearGlobal();
-
 			if (!cmdline) this_thread::sleep_for(chrono::milliseconds(1500));
 		}
-		catch (exception& ex)
+		catch (exception & ex)
 		{
 			ErrorMessage(6001, ex.what());
 		}
@@ -173,32 +308,17 @@ void UpdateFilesStart::UpdateFiles()
 	p_terminate->exitSignal();
 }
 
-bool UpdateFilesStart::QueueThreadEnd()
-{
-	Lockless lock(stackLock);
-	return queuing == multiThreads.size();
-}
-
-bool UpdateFilesStart::PathThreadCheck()
-{
-	return ending == 0 || getPathLoopList.size() > 0;
-}
-
 bool UpdateFilesStart::VanillaUpdate()
 {
 	if (error) throw nemesis::exception();
+	boost::asio::thread_pool mt;
 
-	while (multiThreads.size() <= boost::thread::hardware_concurrency() * 2)
+	for (shared_ptr<RegisterQueue>& curBehavior : registeredFiles)
 	{
-		multiThreads.push_back(make_unique<std::thread>(&UpdateFilesStart::RegisterBehavior, this));
+		boost::asio::post(mt, boost::bind(&UpdateFilesStart::RegisterBehavior, this, curBehavior));
 	}
 
-	for (auto& th : multiThreads)
-	{
-		th->join();
-	}
-
-	multiThreads.clear();
+	mt.join();
 	emit progressUp();		// 3
 
 	if (behaviorPath.size() != 0)
@@ -294,10 +414,8 @@ void UpdateFilesStart::GetFileLoop(string path)
 	}
 }
 
-void UpdateFilesStart::RegisterBehavior()
+void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 {
-	shared_ptr<RegisterQueue> curBehavior = registeredFiles.getNext();
-
 	if (curBehavior == nullptr) return;
 
 	string curFileName = curBehavior->file.stem().string();
@@ -436,11 +554,9 @@ void UpdateFilesStart::RegisterBehavior()
 		emit progressUp();
 		DebugLogging("Nemesis Project Record complete (File: " + newPath + ")");
 	}
-
-	RegisterBehavior();
 }
 
-void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson, bool newThread)
+void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
 {
 	try
 	{
@@ -448,8 +564,6 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson, bool newThre
 		{
 			try
 			{
-				if (newThread) ++ending;
-
 				vecstr filelist;
 				read_directory(path, filelist);
 
@@ -467,131 +581,23 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson, bool newThre
 							if (boost::iequals(curFileName, "nemesis_animationdatasinglefile") || boost::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
 							{
 								Lockless locker(queueLock);
-								registeredFiles.files.push_back(make_shared<RegisterQueue>(curfile, false));
+								registeredFiles.push_back(make_shared<RegisterQueue>(curfile, false));
 							}
 							else if ((wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_List") != curFileName.length() - 5 &&
 								wordFind(curFileName, "_Project") != curFileName.length() - 8) || (wordFind(curFileName, "Nemesis_") == 0 &&
 									wordFind(curFileName, "_Project") + 8 == curFileName.length()))
 							{
 								Lockless locker(queueLock);
-								registeredFiles.files.push_back(make_shared<RegisterQueue>(curfile, isFirstPerson));
+								registeredFiles.push_back(make_shared<RegisterQueue>(curfile, isFirstPerson));
 							}
 						}
 					}
 					else
 					{
-						if (boost::iequals(file, "_1stperson"))
-						{
-							{
-								lock_guard<mutex> lock(m_cv3);
-
-								if (waiting > 0)
-								{
-									Lockless locker(pathLoopLock);
-									getPathLoopList.push_back(make_unique<GetPathLoopLink>(newPath + "\\", true));
-									cv3.notify_one();
-									continue;
-								}
-							}
-
-							{
-								Lockless lock(stackLock);
-								bool result = multiThreads.size() <= boost::thread::hardware_concurrency() * 2;
-
-								// look deeper into the folder for behavior file
-								if (result)
-								{
-									multiThreads.emplace_back(make_unique<std::thread>(&UpdateFilesStart::GetPathLoop, this, newPath + "\\", true, true));
-
-									if (error) throw nemesis::exception();
-
-									continue;
-								}
-							}
-
-							GetPathLoop(newPath + "\\", true, false);
-						}
-						else
-						{
-							{
-								lock_guard<mutex> lock(m_cv3);
-
-								if (waiting > 0)
-								{
-									Lockless locker(pathLoopLock);
-									getPathLoopList.push_back(make_unique<GetPathLoopLink>(newPath + "\\", isFirstPerson));
-									cv3.notify_one();
-									continue;
-								}
-							}
-
-
-							{
-								Lockless lock(stackLock);
-								bool result = multiThreads.size() <= boost::thread::hardware_concurrency() * 2;
-
-								// look deeper into the folder for behavior file
-								if (result)
-								{
-									multiThreads.emplace_back(make_unique<std::thread>(&UpdateFilesStart::GetPathLoop, this, newPath + "\\", isFirstPerson, true));
-
-									if (error) throw nemesis::exception();
-
-									continue;
-								}
-							}
-
-							GetPathLoop(newPath + "\\", isFirstPerson, false);
-						}
+						GetPathLoop(newPath + "\\", (boost::iequals(file, "_1stperson") ? true : isFirstPerson));
 					}
 
 					if (error) throw nemesis::exception();
-				}
-
-				if (newThread)
-				{
-					--ending;
-
-					if (ending == 0)
-					{
-						cv3.notify_all();
-					}
-					else
-					{
-						while (ending != 0)
-						{
-							unique_ptr<GetPathLoopLink> loop;
-
-							{
-								unique_lock<mutex> lock(m_cv3);
-								++waiting;
-								cv3.wait(lock, bind(&UpdateFilesStart::PathThreadCheck, this));
-								--waiting;
-
-								if (ending == 0) break;
-
-								Lockless locker(pathLoopLock);
-								loop = move(getPathLoopList.back());
-								getPathLoopList.pop_back();
-							}
-
-							GetPathLoop(loop->path, loop->first, false);
-						}
-					}
-
-					{
-						lock_guard<mutex> lock2(m_cv2);
-						queuing++;
-						cv2.notify_one();
-					}
-
-					{
-						unique_lock<mutex> lock(m_cv1);
-
-						if (queuing != 0) cv1.wait(lock);
-					}
-
-					RegisterBehavior();
 				}
 			}
 			catch (exception& ex)
@@ -1417,39 +1423,32 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 	if (error) throw nemesis::exception();
 }
 
-void UpdateFilesStart::SeparateMod(string directory, unordered_map<string, shared_ptr<arguPack>>& pack)
+void UpdateFilesStart::SeparateMod(string directory, TargetQueue target, unordered_map<string, shared_ptr<arguPack>>& pack)
 {
 	try
 	{
-		string node;
-		string behavior;
+		string node = target.node;
+		string behavior = target.file;
 
 		try
 		{
-			while (true)
+			int curQueue;
+			int nextQueue;
+			Lockless locker(stackLock);
+			size_t thisQueue = queuing;
+			queuing++;
+			locker.Unlock();
+
+			curQueue = thisQueue * 20 / processQueue.size();
+			thisQueue++;
+			nextQueue = thisQueue * 20 / processQueue.size();
+
+			ModThread(directory, node, behavior, pack);
+
+			while (curQueue < nextQueue && curQueue < 20)
 			{
-				int curQueue;
-				int nextQueue;
-				Lockless locker(stackLock);
-				size_t thisQueue = queuing;
-				queuing++;
-				locker.Unlock();
-
-				if (thisQueue >= processQueue.size()) break;
-
-				node = processQueue[thisQueue].node;
-				behavior = processQueue[thisQueue].file;
-				curQueue = thisQueue * 20 / processQueue.size();
-				thisQueue++;
-				nextQueue = thisQueue * 20 / processQueue.size();
-
-				ModThread(directory, node, behavior, pack);
-				
-				while (curQueue < nextQueue && curQueue < 20)
-				{
-					emit progressUp();
-					++curQueue;
-				}
+				emit progressUp();
+				++curQueue;
 			}
 		}
 		catch (exception& ex)
@@ -1462,7 +1461,7 @@ void UpdateFilesStart::SeparateMod(string directory, unordered_map<string, share
 	catch (nemesis::exception&) {}
 }
 
-void UpdateFilesStart::JoiningEdits(string directory)
+void UpdateFilesStart::JoiningEdits(string directory, boost::asio::thread_pool& multiThreads)
 {
 	try
 	{
@@ -1572,14 +1571,12 @@ void UpdateFilesStart::JoiningEdits(string directory)
 
 				if (processQueue.size() > 0)
 				{
-					boost::thread_group groupThread;
-
-					while (groupThread.size() <= boost::thread::hardware_concurrency() * 2)
+					for (auto& each : processQueue)
 					{
-						groupThread.create_thread(boost::bind(&UpdateFilesStart::SeparateMod, this, directory, pack));
+						boost::asio::post(multiThreads, boost::bind(&UpdateFilesStart::SeparateMod, this, directory, each, pack));
 					}
 
-					groupThread.join_all();
+					multiThreads.join();
 				}
 				else
 				{
@@ -1658,6 +1655,8 @@ void UpdateFilesStart::CombiningFiles()
 		string rootID;
 		bool isOpen = false;
 		string OpeningMod;
+		vecstr fileline;
+		fileline.reserve(behavior.second->size());
 
 		for (auto& node : (*behavior.second)) // behavior node ID
 		{
@@ -1759,7 +1758,6 @@ void UpdateFilesStart::CombiningFiles()
 
 						behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
 					}
-
 				}
 
 				writeSave(output, "	</hksection>\n\n", total);
@@ -1945,117 +1943,146 @@ void UpdateFilesStart::CombiningFiles()
 	emit progressUp();	// 31
 }
 
-bool UpdateFilesStart::newAnimUpdate(string sourcefolder)
+void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 {
+	if (!newAnimFunction) return;
+	string folderpath = sourcefolder + curCode;
+	boost::filesystem::path codefile(folderpath);
+
+	if (boost::filesystem::is_directory(codefile))
+	{
+		vecstr behaviorlist;
+		read_directory(folderpath, behaviorlist);
+
+		for (auto& beh : behaviorlist)
+			for (unsigned int j = 0; j < behaviorlist.size(); ++j)
+			{
+				string curfolderstr = folderpath + "\\" + beh;
+				boost::filesystem::path curfolder(curfolderstr);
+
+				if (boost::filesystem::is_directory(curfolder))
+				{
+					if (boost::iequals(beh, "animationdatasinglefile"))
+					{
+						vecstr characterlist;
+						read_directory(curfolderstr, characterlist);
+
+						for (auto& character : characterlist)
+						{
+							boost::filesystem::path characterfolder(curfolderstr + "\\" + character);
+
+							if (boost::filesystem::is_directory(characterfolder))
+							{
+								if (!newAnimDataUpdateExt(curfolderstr + "\\" + character, curCode, character, animData, newAnimAddition, lastUpdate))
+								{
+									newAnimFunction = false;
+									return;
+								}
+							}
+							else
+							{
+								string stemTemp = characterfolder.stem().string();
+
+								if (stemTemp == "$header$")
+								{
+									if (!animDataHeaderUpdate(curfolderstr + "\\" + character, curCode, animData, lastUpdate))
+									{
+										newAnimFunction = false;
+										return;
+									}
+								}
+								else if (boost::regex_match(stemTemp, boost::regex("^\\$(?!" + curCode + ").+\\$(?:UC|)$")))
+								{
+									ErrorMessage(3023, "$" + curCode + "$" + (stemTemp.find("$UC") != NOT_FOUND ? "UC" : ""));
+								}
+							}
+						}
+					}
+					else if (boost::iequals(beh, "animationsetdatasinglefile"))
+					{
+						vecstr projectfile;
+						read_directory(curfolderstr, projectfile);
+						DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
+
+						for (unsigned int k = 0; k < projectfile.size(); ++k)
+						{
+							if (boost::filesystem::is_directory(curfolderstr + "\\" + projectfile[k]) &&
+								projectfile[k].find("~") != NOT_FOUND)
+							{
+								string projectname = projectfile[k];
+								boost::to_lower(projectname);
+
+								while (projectname.find("~") != NOT_FOUND)
+								{
+									projectname.replace(projectname.find("~"), 1, "\\");
+								}
+
+								if (!newAnimDataSetUpdateExt(curfolderstr + "\\" + projectfile[k], curCode, projectname + ".txt",
+									animSetData, newAnimAddition, lastUpdate))
+								{
+									newAnimFunction = false;
+									return;
+								}
+							}
+						}
+
+						DebugLogging("New Animations extraction complete (Folder: " + curfolderstr + ")");
+					}
+					else
+					{
+						if (boost::iequals(beh, "_1stperson")) ErrorMessage(6004, curfolderstr);
+
+						DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
+
+						if (!newAnimUpdateExt(folderpath, curCode, boost::to_lower_copy(beh), *newFile[boost::to_lower_copy(beh)],
+							newAnimAddition, lastUpdate))
+						{
+							newAnimFunction = false;
+							return;
+						}
+
+						DebugLogging("New Animations extraction complete (Folder: " + curfolderstr + ")");
+					}
+				}
+			}
+	}
+	else if (codefile.extension().string() == ".txt")
+	{
+		vecstr storeline;
+
+		if (!saveLastUpdate(boost::to_lower_copy(folderpath), lastUpdate))
+		{
+			newAnimFunction = false;
+			return;
+		}
+
+		if (!GetFunctionLines(folderpath, storeline))
+		{
+			newAnimFunction = false;
+			return;
+		}
+
+		Lockless lock(newAnimAdditionLock);
+		newAnimAddition[boost::to_lower_copy(codefile.string())] = storeline;
+	}
+	else
+	{
+		ErrorMessage(2024, folderpath);
+	}
+}
+
+void UpdateFilesStart::newAnimProcess(string sourcefolder, boost::asio::thread_pool& multiThreads)
+{
+	newAnimFunction = true;
+
 	if (CreateFolder(sourcefolder))
 	{
 		vecstr codelist;
 		read_directory(sourcefolder, codelist);
 
-		for (unsigned int i = 0; i < codelist.size(); ++i)
+		for (auto& curCode : codelist)
 		{
-			string folderpath = sourcefolder + codelist[i];
-			boost::filesystem::path codefile(folderpath);
-
-			if (boost::filesystem::is_directory(codefile))
-			{
-				vecstr behaviorlist;
-				read_directory(folderpath, behaviorlist);
-
-				for (unsigned int j = 0; j < behaviorlist.size(); ++j)
-				{
-					boost::filesystem::path curfolder(folderpath + "\\" + behaviorlist[j]);
-
-					if (boost::filesystem::is_directory(curfolder))
-					{
-						if (boost::iequals(behaviorlist[j], "animationdatasinglefile"))
-						{
-							vecstr characterlist;
-							read_directory(folderpath + "\\" + behaviorlist[j], characterlist);
-							DebugLogging("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
-
-							for (unsigned int k = 0; k < characterlist.size(); ++k)
-							{
-								boost::filesystem::path characterfolder(folderpath + "\\" + behaviorlist[j] + "\\" + characterlist[k]);
-
-								if (boost::filesystem::is_directory(characterfolder))
-								{
-									if (!newAnimDataUpdateExt(folderpath + "\\" + behaviorlist[j] + "\\" + characterlist[k], codelist[i], characterlist[k], animData,
-										newAnimAddition, lastUpdate)) return false;
-								}
-								else
-								{
-									string stemTemp = characterfolder.stem().string();
-
-									if (stemTemp == "$header$")
-									{
-										if (!animDataHeaderUpdate(folderpath + "\\" + behaviorlist[j] + "\\" + characterlist[k], codelist[i], animData, lastUpdate)) return false;
-									}
-									else if (boost::regex_match(stemTemp, boost::regex("^\\$(?!" + codelist[i] + ").+\\$(?:UC|)$")))
-									{
-										ErrorMessage(3023, "$" + codelist[i] + "$" + (stemTemp.find("$UC") != NOT_FOUND ? "UC" : ""));
-									}
-								}
-							}
-
-							DebugLogging("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
-						}
-						else if (boost::iequals(behaviorlist[j], "animationsetdatasinglefile"))
-						{
-							vecstr projectfile;
-							read_directory(folderpath + "\\" + behaviorlist[j], projectfile);
-							DebugLogging("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
-
-							for (unsigned int k = 0; k < projectfile.size(); ++k)
-							{
-								if (boost::filesystem::is_directory(folderpath + "\\" + behaviorlist[j] + "\\" + projectfile[k]) &&
-									projectfile[k].find("~") != NOT_FOUND)
-								{
-									string projectname = projectfile[k];
-									boost::to_lower(projectname);
-
-									while (projectname.find("~") != NOT_FOUND)
-									{
-										projectname.replace(projectname.find("~"), 1, "\\");
-									}
-
-									if (!newAnimDataSetUpdateExt(folderpath + "\\" + behaviorlist[j] + "\\" + projectfile[k], codelist[i], projectname + ".txt",
-										animSetData, newAnimAddition, lastUpdate)) return false;
-								}
-							}
-
-							DebugLogging("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
-						}
-						else
-						{
-							if (boost::iequals(behaviorlist[j], "_1stperson")) ErrorMessage(6004, folderpath + "\\" + behaviorlist[j]);
-
-							DebugLogging("New Animations extraction start (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
-
-							if (!newAnimUpdateExt(folderpath, codelist[i], boost::to_lower_copy(behaviorlist[j]), *newFile[boost::to_lower_copy(behaviorlist[j])],
-								newAnimAddition, lastUpdate))
-								return false;
-
-							DebugLogging("New Animations extraction complete (Folder: " + folderpath + "\\" + behaviorlist[j] + ")");
-						}
-					}
-				}
-			}
-			else if (codefile.extension().string() == ".txt")
-			{
-				vecstr storeline;
-
-				if (!saveLastUpdate(boost::to_lower_copy(folderpath), lastUpdate)) return false;
-
-				if (!GetFunctionLines(folderpath, storeline)) return false;
-
-				Lockless lock(newAnimAdditionLock);
-				newAnimAddition[boost::to_lower_copy(codefile.string())] = storeline;
-			}
-			else
-			{
-				ErrorMessage(2024, folderpath);
-			}
+			newAnimUpdate(sourcefolder, curCode);
 		}
 	}
 	else
@@ -2063,7 +2090,8 @@ bool UpdateFilesStart::newAnimUpdate(string sourcefolder)
 		ErrorMessage(2010, sourcefolder);
 	}
 
-	return true;
+	DebugLogging("New Animations record complete");
+	emit progressUp(); // 5
 }
 
 void UpdateFilesStart::milestoneStart(string directory)
@@ -2101,23 +2129,10 @@ void UpdateFilesStart::milestoneStart(string directory)
 	if (!isFileExist(path)) boost::filesystem::create_directory(path);
 
 	queuing = 0;
-	waiting = 0;
-	ending = 0;
 
-	GetPathLoop(nemesisInfo->GetDataPath() + "meshes\\", false, false);
+	GetPathLoop(nemesisInfo->GetDataPath() + "meshes\\", false);
 
-	{
-		unique_lock<mutex> ulock2(m_cv2);
-		cv2.wait(ulock2, bind(&UpdateFilesStart::QueueThreadEnd, this));
-	}
-
-	filenum += registeredFiles.files.size();
-
-	{
-		lock_guard<mutex> ulock(m_cv1);
-		queuing = 0;
-		cv1.notify_all();
-	}
+	filenum += registeredFiles.size();
 
 	DebugLogging("Process count: " + to_string(filenum));
 	emit progressMax(filenum);
