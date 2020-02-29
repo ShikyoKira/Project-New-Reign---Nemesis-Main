@@ -46,7 +46,12 @@ void forcedRemove(wstring target, int counter)
 	}
 	catch (const exception& ex)
 	{
-		if (counter > 200) ErrorMessage(6002, WStringToString(target), ex.what());
+		if (counter > 200)
+		{
+			// ErrorMessage(6002, WStringToString(target), ex.what());
+			return;
+		}
+
 		forcedRemove(target, counter + 1);
 	}
 }
@@ -59,7 +64,12 @@ void forcedRemove(string target, int counter)
 	}
 	catch (const exception& ex)
 	{
-		if (counter > 200) ErrorMessage(6002, target, ex.what());
+		if (counter > 200)
+		{
+			// ErrorMessage(6002, target, ex.what());
+			return;
+		}
+
 		forcedRemove(target, counter + 1);
 	}
 }

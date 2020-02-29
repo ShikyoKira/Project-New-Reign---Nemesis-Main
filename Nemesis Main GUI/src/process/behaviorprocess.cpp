@@ -350,9 +350,6 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 					newAnimation[templatecode].emplace_back(make_unique<Furniture>(animTemplate, templatecode, *functionlines,
 						animationCount[templatecode], modID + "\\", *animationList[i]->animInfo[templatecode][j]));
 
-					/*newAnimation[templatecode].back()->addAnimData(*animdatalines);
-					newAnimation[templatecode].back()->addAnimSetData(*adslines);*/
-
 					newAnimation[templatecode].back()->addAnimData(*animdataTemplate);
 					newAnimation[templatecode].back()->addAnimSetData(*asdTemplate);
 

@@ -18,7 +18,14 @@ void tryDelete(string file, bool xml, int repeated = 0)
 		}
 	}
 
-	if (!boost::filesystem::remove(file))
+	try
+	{
+		if (!boost::filesystem::remove(file))
+		{
+			tryDelete(file, xml, repeated + 1);
+		}
+	}
+	catch (const std::exception&)
 	{
 		tryDelete(file, xml, repeated + 1);
 	}

@@ -637,88 +637,88 @@ void BehaviorSub::CompilingAnimData()
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 3.4, AnimData general new animations complete)");
 
-		//if (alternateAnim.size() > 0)
-		//{
-		//	// unsure of the function but is present in FNIS
-		//	unordered_map<string, bool> isExist;
+		/*if (alternateAnim.size() > 0)
+		{
+			// unsure of the function but is present in FNIS
+			unordered_map<string, bool> isExist;
 
-		//	for (auto& it : alternateAnim)
-		//	{
-		//		for (auto& iter : it.second)
-		//		{
-		//			if (!isExist[iter] && iter != "x")
-		//			{
-		//				isExist[iter] = true;
-		//				string animFileName = boost::filesystem::path(iter).filename().string();
-		//				auto& ptr = charAnimDataInfo.find("defaultfemale");
+			for (auto& it : alternateAnim)
+			{
+				for (auto& iter : it.second)
+				{
+					if (!isExist[iter] && iter != "x")
+					{
+						isExist[iter] = true;
+						string animFileName = boost::filesystem::path(iter).filename().string();
+						auto& ptr = charAnimDataInfo.find("defaultfemale");
 
-		//				if (ptr != charAnimDataInfo.end())
-		//				{
-		//					auto& ptr2 = ptr->second.find(animFileName);
+						if (ptr != charAnimDataInfo.end())
+						{
+							auto& ptr2 = ptr->second.find(animFileName);
 
-		//					if (ptr2 != ptr->second.end())
-		//					{
-		//						for (auto& header : ptr2->second->cliplist)
-		//						{
-		//							vecstr newlines;
-		//							project = "DefaultFemale.txt 1";
-		//							int& refCode = uCode[project].to_int();
+							if (ptr2 != ptr->second.end())
+							{
+								for (auto& header : ptr2->second->cliplist)
+								{
+									vecstr newlines;
+									project = "DefaultFemale.txt 1";
+									int& refCode = uCode[project].to_int();
 
-		//							newlines.push_back(header);
-		//							newlines.push_back(to_string(refCode));
-		//							newlines.push_back("1");
-		//							newlines.push_back("0");
-		//							newlines.push_back("0");
-		//							newlines.push_back("0");
-		//							newlines.push_back("");
+									newlines.push_back(header);
+									newlines.push_back(to_string(refCode));
+									newlines.push_back("1");
+									newlines.push_back("0");
+									newlines.push_back("0");
+									newlines.push_back("0");
+									newlines.push_back("");
 
-		//							--refCode;
-		//							animDataHeader[project].push_back(header + to_string(animDataHeader[project].size()));
-		//							catalystMap[project][header + to_string(animDataHeader[project].size() - 1)] = newlines;
+									--refCode;
+									animDataHeader[project].push_back(header + to_string(animDataHeader[project].size()));
+									catalystMap[project][header + to_string(animDataHeader[project].size() - 1)] = newlines;
 
-		//							if (error) throw nemesis::exception();
-		//						}
-		//					}
-		//				}
+									if (error) throw nemesis::exception();
+								}
+							}
+						}
 
-		//				ptr = charAnimDataInfo.find("defaultmale");
+						ptr = charAnimDataInfo.find("defaultmale");
 
-		//				if (ptr != charAnimDataInfo.end())
-		//				{
-		//					auto& ptr2 = ptr->second.find(animFileName);
+						if (ptr != charAnimDataInfo.end())
+						{
+							auto& ptr2 = ptr->second.find(animFileName);
 
-		//					if (ptr2 != ptr->second.end())
-		//					{
-		//						for (auto& header : ptr2->second->cliplist)
-		//						{
-		//							vecstr newlines;
-		//							project = "DefaultMale.txt 1";
-		//							int& refCode = uCode[project].to_int();
+							if (ptr2 != ptr->second.end())
+							{
+								for (auto& header : ptr2->second->cliplist)
+								{
+									vecstr newlines;
+									project = "DefaultMale.txt 1";
+									int& refCode = uCode[project].to_int();
 
-		//							newlines.push_back(header);
-		//							newlines.push_back(to_string(refCode));
-		//							newlines.push_back("1");
-		//							newlines.push_back("0");
-		//							newlines.push_back("0");
-		//							newlines.push_back("0");
-		//							newlines.push_back("");
+									newlines.push_back(header);
+									newlines.push_back(to_string(refCode));
+									newlines.push_back("1");
+									newlines.push_back("0");
+									newlines.push_back("0");
+									newlines.push_back("0");
+									newlines.push_back("");
 
-		//							--refCode;
-		//							animDataHeader[project].push_back(header + to_string(animDataHeader[project].size()));
-		//							catalystMap[project][header + to_string(animDataHeader[project].size() - 1)] = newlines;
+									--refCode;
+									animDataHeader[project].push_back(header + to_string(animDataHeader[project].size()));
+									catalystMap[project][header + to_string(animDataHeader[project].size() - 1)] = newlines;
 
-		//							if (error) throw nemesis::exception();
-		//						}
-		//					}
-		//				}
-		//			}
-		//		}
+									if (error) throw nemesis::exception();
+								}
+							}
+						}
+					}
+				}
 
-		//		if (error) throw nemesis::exception();
-		//	}
+				if (error) throw nemesis::exception();
+			}
 
-		//	DebugLogging("Processing behavior: " + filepath + " (Check point 3.5, AnimData AA complete)");
-		//}
+			DebugLogging("Processing behavior: " + filepath + " (Check point 3.5, AnimData AA complete)");
+		}*/
 
 		emit progressAdd();
 

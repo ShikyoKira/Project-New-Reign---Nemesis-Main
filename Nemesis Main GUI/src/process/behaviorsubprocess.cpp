@@ -682,6 +682,7 @@ void BehaviorSub::CompilingBehavior()
 					if (nemesis::regex_search(line, match, boost::regex("<hkobject name=\"#(.*)\" class=\"([a-zA-Z]+)\" signature=\".*\">")))
 					{
 						curID = stoi(match[1]);
+						elementLine = -1;
 
 						if (match[2] == "hkbClipTriggerArray") isClipTrigger = true;
 					}
@@ -1312,9 +1313,6 @@ void BehaviorSub::CompilingBehavior()
 
 						if (openRange == range)
 						{
-							if (curID == 789)
-								curID = curID;
-
 							norElement = false;
 							elementUpdate(elementLine, counter, curID, catalystMap);
 						}
