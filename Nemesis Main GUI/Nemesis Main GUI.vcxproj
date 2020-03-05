@@ -171,7 +171,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Project 2.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;qtmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
-      <Version>0.83</Version>
+      <Version>0.84</Version>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <QtMoc>
