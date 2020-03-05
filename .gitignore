@@ -270,3 +270,5 @@ ModelManifest.xml
 /Nemesis Main GUI/failed.txt
 /Nemesis Main GUI/mod.rar
 *.txt
+/Nemesis Main GUI/mt_behavior.rar
+/Nemesis Main GUI/temp_behaviors/xml
