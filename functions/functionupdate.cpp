@@ -52,13 +52,13 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 {
 	if (behaviorPath[behaviorfile].empty()) ErrorMessage(2006, behaviorfile);
 
-	string filecheck = boost::regex_replace(string(nodefile), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")) + ".txt";
+	string filecheck = boost::regex_replace(string(nodefile), boost::regex(".+?([0-9]+)\\.[t|T][x|X][t|T]$"), string("\\1")) + ".txt";
 	string nodeID = nodefile.substr(0, nodefile.find_last_of("."));
 	string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
 
 	if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate)) return false;
 
-	if ("#" + filecheck == nodefile)
+	if (boost::iequals("#" + filecheck, nodefile))
 	{
 		vector<int> modEditCoordinate;
 		unordered_map<string, string> modPath;
@@ -406,7 +406,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 		Lockless lock(filelock);
 		(*newFile)[nodeID] = functionline;
 	}
-	else if (nodefile == "#" + modcode + "$" + filecheck)
+	else if (boost::iequals(nodefile, "#" + modcode + "$" + filecheck))
 	{
 		vecstr storeline;
 
