@@ -116,10 +116,10 @@ void BehaviorSub::BehaviorCompilation()
 	if (start)
 	{
 		checkAllStoredHKX();
-		emit progressAdd();
+		process->newMilestone();
 	}
 
-	emit done();
+	process->EndAttempt();
 }
 
 void BehaviorSub::CompilingBehavior()
@@ -177,7 +177,7 @@ void BehaviorSub::CompilingBehavior()
 
 	DebugLogging("Processing behavior: " + filepath);
 	DebugLogging("Behavior output path: " + outputdir);
-	emit progressAdd();
+	process->newMilestone();
 
 	if (modID.length() > 0 && isFileExist(outputdir + ".hkx"))
 	{
@@ -185,7 +185,7 @@ void BehaviorSub::CompilingBehavior()
 
 		while (i < 9)
 		{
-			emit progressAdd();
+			process->newMilestone();
 			++i;
 		}
 
@@ -485,7 +485,7 @@ void BehaviorSub::CompilingBehavior()
 
 		if (error) throw nemesis::exception();
 
-		emit progressAdd();
+		process->newMilestone();
 
 		curID = 0;
 		bool isClip = false;
@@ -1488,7 +1488,7 @@ void BehaviorSub::CompilingBehavior()
 
 				while (i < 8)
 				{
-					emit progressAdd();
+					process->newMilestone();
 					++i;
 				}
 
@@ -1511,7 +1511,7 @@ void BehaviorSub::CompilingBehavior()
 	}
 
 	catalystMap[curID].shrink_to_fit();
-	emit progressAdd();
+	process->newMilestone();
 
 	// newAnimation ID in existing function
 	if (catcher.size() != 0)
@@ -1544,7 +1544,7 @@ void BehaviorSub::CompilingBehavior()
 
 	if (error) throw nemesis::exception();
 
-	emit progressAdd();
+	process->newMilestone();
 
 	// add new animation
 	vector<shared_ptr<vecstr>> allEditLines;
@@ -1938,7 +1938,8 @@ void BehaviorSub::CompilingBehavior()
 	DebugLogging("Total single animation processing time for " + behaviorFile + ": " + to_string(onetimer));
 	DebugLogging("Total group animation processing time for " + behaviorFile + ": " + to_string(grouptimer));
 	DebugLogging("Processing behavior: " + filepath + " (Check point 4, New animation inclusion complete)");
-	emit progressAdd();
+
+	process->newMilestone();
 
 	// AA animation installation
 	vecstr AAlines;
@@ -2337,7 +2338,7 @@ void BehaviorSub::CompilingBehavior()
 		DebugLogging("Processing behavior: " + filepath + " (Check point 4.8, PCEA count: " + to_string(pceaID.size()) + " COMPLETE)");
 	}
 
-	emit progressAdd();
+	process->newMilestone();
 
 	size_t reserveSize = 0;
 	vecstr behaviorlines;
@@ -2348,10 +2349,10 @@ void BehaviorSub::CompilingBehavior()
 	groupExportID.push_back(exportID);
 	vecstr additionallines = importOutput(groupExportID, 0, lastID, filelist[curList]);
 
-	emit progressAdd();
+	process->newMilestone();
 
 	DebugLogging("Processing behavior: " + filepath + " (Check point 5, Prepare to output)");
-	emit progressAdd();
+	process->newMilestone();
 
 	if (behaviorPath[lowerBehaviorFile].size() == 0) ErrorMessage(1068, behaviorFile);
 
@@ -2530,13 +2531,13 @@ void BehaviorSub::CompilingBehavior()
 	if (error) throw nemesis::exception();
 
 	DebugLogging("Processing behavior: " + filepath + " (Check point 6, Behavior output complete)");
-	emit progressAdd();
+	process->newMilestone();
 	--extraCore;
 
 	if (hkxcmdProcess(filename, outputdir))
 	{
 		DebugLogging("Processing behavior: " + filepath + " (Check point 7, Behavior compile complete)");
-		emit progressAdd();
+		process->newMilestone();
 	}
 
 	++extraCore;

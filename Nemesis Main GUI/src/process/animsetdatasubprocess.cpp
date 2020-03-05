@@ -7,6 +7,8 @@
 
 #include "add animation\animationdata.h"
 
+#include "behaviorprocess.h"
+
 using namespace std;
 
 extern Terminator* p_terminate;
@@ -43,7 +45,7 @@ void BehaviorSub::ASDCompilation()
 		}
 	}
 
-	emit done();
+	process->EndAttempt();
 }
 
 void BehaviorSub::CompilingASD()
@@ -64,7 +66,7 @@ void BehaviorSub::CompilingASD()
 	unordered_map<string, map<string, vecstr, alphanum_less>> ASDPack;
 	unordered_map<string, unique_ptr<AnimationDataProject>> ASDData;
 
-	emit progressAdd();
+	process->newMilestone();
 
 	{
 		// read behavior file
@@ -80,7 +82,7 @@ void BehaviorSub::CompilingASD()
 		}
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
-		emit progressAdd();
+		process->newMilestone();
 
 		// add picked behavior and remove not picked behavior 
 		// separation of all items for easier access and better compatibility
@@ -162,7 +164,7 @@ void BehaviorSub::CompilingASD()
 		unordered_map<string, vecstr> animDataSetHeader;
 		animDataSetHeader[project].push_back(header);
 
-		emit progressAdd();
+		process->newMilestone();
 
 		int num;
 		string line;
@@ -245,7 +247,7 @@ void BehaviorSub::CompilingASD()
 			newline.push_back(storeline[i]);
 		}
 
-		emit progressAdd();
+		process->newMilestone();
 
 		for (int i = num; i < storeline.size(); ++i)
 		{
@@ -339,7 +341,7 @@ void BehaviorSub::CompilingASD()
 		}
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 3, AnimSetData general processing complete)");
-		emit progressAdd();
+		process->newMilestone();
 
 		// check for having newAnimation for the file
 		if (BehaviorTemplate->grouplist.find(lowerBehaviorFile) != BehaviorTemplate->grouplist.end() && BehaviorTemplate->grouplist[lowerBehaviorFile].size() > 0)
@@ -423,7 +425,7 @@ void BehaviorSub::CompilingASD()
 				}
 			}
 
-			emit progressAdd();
+			process->newMilestone();
 
 			for (auto& project : editExtract)
 			{
@@ -451,11 +453,11 @@ void BehaviorSub::CompilingASD()
 		}
 		else
 		{
-			emit progressAdd();
+			process->newMilestone();
 		}
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 4, AnimSetData new animations complete)");
-		emit progressAdd();
+		process->newMilestone();
 
 		for (string& curProject : projectList)
 		{
@@ -481,7 +483,7 @@ void BehaviorSub::CompilingASD()
 		}
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 5, AnimSetData format check complete)");
-		emit progressAdd();
+		process->newMilestone();
 
 		// final output	
 #ifdef DEBUG
@@ -566,6 +568,6 @@ void BehaviorSub::CompilingASD()
 		}
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 6, AnimSetData output complete)");
-		emit progressAdd();
+		process->newMilestone();
 	}
 }

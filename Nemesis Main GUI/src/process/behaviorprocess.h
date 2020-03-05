@@ -3,6 +3,8 @@
 
 #include <QtCore\QObject>
 
+#include <boost\atomic.hpp>
+
 #include "Global.h"
 #include "progressup.h"
 
@@ -64,6 +66,8 @@ private:
 	mapSetString* newAnimVariable2;
 	std::unordered_map<std::string, var>* AnimVar2;
 	std::unordered_map<std::string, std::unordered_map<int, bool>>* ignoreFunction2;
+
+	boost::atomic_flag upFlag = BOOST_ATOMIC_FLAG_INIT;
 
 	// timer
 	boost::posix_time::ptime start_time;

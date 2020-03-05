@@ -8,6 +8,8 @@
 #include "add animation\animationdata.h"
 #include "add animation\animationdatatracker.h"
 
+#include "behaviorprocess.h"
+
 using namespace std;
 
 extern Terminator* p_terminate;
@@ -79,7 +81,7 @@ void BehaviorSub::AnimDataCompilation()
 		}
 	}
 
-	emit done();
+	process->EndAttempt();
 }
 
 void BehaviorSub::CompilingAnimData()
@@ -96,7 +98,7 @@ void BehaviorSub::CompilingAnimData()
 	string project;
 	//string header;
 	
-	emit progressAdd();
+	process->newMilestone();
 
 	{
 		unordered_map<string, invertInt> uCode;		// project, highest unique code
@@ -114,7 +116,7 @@ void BehaviorSub::CompilingAnimData()
 			if (!GetFunctionLines(filepath, catalyst)) return;
 
 			DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
-			emit progressAdd();
+			process->newMilestone();
 
 			int projectcounter = 0;
 			bool isOpen = true;
@@ -141,7 +143,7 @@ void BehaviorSub::CompilingAnimData()
 			newline.reserve(20);
 			newline.clear();
 
-			emit progressAdd();
+			process->newMilestone();
 
 			// add picked behavior and remove not picked behavior 
 			// separation of all items for easier access and better compatibility
@@ -444,7 +446,7 @@ void BehaviorSub::CompilingAnimData()
 		}
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 2, AnimData general processing complete)");
-		emit progressAdd();
+		process->newMilestone();
 
 		unique_lock<mutex> ulock(cv2_m);
 
@@ -596,7 +598,7 @@ void BehaviorSub::CompilingAnimData()
 				if (error) throw nemesis::exception();
 			}
 
-			emit progressAdd();
+			process->newMilestone();
 
 			for (auto& project : editExtract)
 			{
@@ -629,17 +631,17 @@ void BehaviorSub::CompilingAnimData()
 		}
 		else
 		{
-			emit progressAdd();
+			process->newMilestone();
 		}
 
 		DebugLogging("Processing behavior: " + filepath + " (Check point 3, AnimData general new animations complete)");
-		emit progressAdd();
-
+		process->newMilestone();
 		DebugLogging("Processing behavior: " + filepath + " (Check point 3.4, AnimData general new animations complete)");
 
-		/*if (alternateAnim.size() > 0)
+		/* unsure of the function but is present in FNIS
+
+		if (alternateAnim.size() > 0)
 		{
-			// unsure of the function but is present in FNIS
 			unordered_map<string, bool> isExist;
 
 			for (auto& it : alternateAnim)
@@ -720,7 +722,7 @@ void BehaviorSub::CompilingAnimData()
 			DebugLogging("Processing behavior: " + filepath + " (Check point 3.5, AnimData AA complete)");
 		}*/
 
-		emit progressAdd();
+		process->newMilestone();
 
 		try
 		{
@@ -778,7 +780,7 @@ void BehaviorSub::CompilingAnimData()
 	}
 
 	DebugLogging("Processing behavior: " + filepath + " (Check point 4, AnimData format check complete)");
-	emit progressAdd();
+	process->newMilestone();
 
 	// final output	
 #ifdef DEBUG
@@ -869,5 +871,5 @@ void BehaviorSub::CompilingAnimData()
 	}
 
 	DebugLogging("Processing behavior: " + filepath + " (Check point 5, AnimData output complete)");
-	emit progressAdd();
+	process->newMilestone();
 }

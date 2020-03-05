@@ -4,6 +4,10 @@
 
 #include <QtConcurrent\qtconcurrentrun.h>
 
+#include <boost\thread.hpp>
+#include <boost\asio\post.hpp>
+#include <boost\asio\thread_pool.hpp>
+
 #include "version.h"
 #include "addanims.h"
 #include "filechecker.h"
@@ -77,7 +81,7 @@ void BehaviorStart::message(string input)
 
 void BehaviorStart::InitializeGeneration()
 {
-	std::thread* checkThread;
+	std::thread* checkThread = nullptr;
 
 	try
 	{
@@ -146,16 +150,15 @@ void BehaviorStart::InitializeGeneration()
 		}
 	}
 
+	if (checkThread != nullptr)
 	{
-		lock_guard<mutex> lg(cv2_m);
-		--behaviorRun;
-	}
-
-	cv2.notify_one();
-	
-	if (checkThread)
-	{
-		if (checkThread->joinable()) checkThread->join();
+		try
+		{
+			if (checkThread->joinable()) checkThread->join();
+		}
+		catch (const std::exception&)
+		{
+		}
 
 		delete checkThread;
 	}
@@ -817,175 +820,203 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 		}
 	}
 
-	for (unsigned int i = 0; i < filelist.size(); ++i)
+	boost::asio::thread_pool mt;
+	vector<BehaviorSub*> behaviorSubList;
+
+	try
 	{
-		if (error) throw nemesis::exception();
-
-		if (!boost::filesystem::is_directory(directory + filelist[i]))
+		for (unsigned int i = 0; i < filelist.size(); ++i)
 		{
-			string modID = "";
-			bool isCore = false;
-			int repeatcount = 0;
-			int repeat = 1;
-			string lowerFileName = boost::to_lower_copy(filelist[i]);
+			if (error) throw nemesis::exception();
 
-			if (coreModList.find(lowerFileName) != coreModList.end())
+			if (!boost::filesystem::is_directory(directory + filelist[i]))
 			{
-				repeat = int(coreModList[lowerFileName].size());
-				isCore = true;
-			}
+				string modID = "";
+				bool isCore = false;
+				int repeatcount = 0;
+				int repeat = 1;
+				string lowerFileName = boost::to_lower_copy(filelist[i]);
 
-			while (repeatcount < repeat)
-			{
-				if (error) throw nemesis::exception();
-
-				if (isCore) modID = coreModList[lowerFileName][repeatcount];
-
-				bool skip = false;
-				string tempfilename = filelist[i].substr(0, filelist[i].find_last_of("."));
-				boost::algorithm::to_lower(tempfilename);
-				string temppath = behaviorPath[tempfilename];
-
-				if (temppath.length() != 0)
+				if (coreModList.find(lowerFileName) != coreModList.end())
 				{
-					size_t nextpos = 0;
-					size_t lastpos = temppath.find_last_of("\\");
+					repeat = int(coreModList[lowerFileName].size());
+					isCore = true;
+				}
 
-					while (temppath.find("\\", nextpos) != lastpos)
+				while (repeatcount < repeat)
+				{
+					if (error) throw nemesis::exception();
+
+					if (isCore) modID = coreModList[lowerFileName][repeatcount];
+
+					bool skip = false;
+					string tempfilename = filelist[i].substr(0, filelist[i].find_last_of("."));
+					boost::algorithm::to_lower(tempfilename);
+					string temppath = behaviorPath[tempfilename];
+
+					if (temppath.length() != 0)
 					{
-						nextpos = temppath.find("\\", nextpos) + 1;
-					}
+						size_t nextpos = 0;
+						size_t lastpos = temppath.find_last_of("\\");
 
-					temppath = temppath.substr(nextpos, lastpos - nextpos);
-				}
-
-				if (error) throw nemesis::exception();
-
-				BehaviorSub* worker = new BehaviorSub;
-				worker->addInfo(directory, filelist, i, behaviorPriority, chosenBehavior, BehaviorTemplate, newAnimation, AnimVar, newAnimEvent, newAnimVariable,
-					ignoreFunction, false, modID, this);
-
-				if (!cmdline)
-				{
-					behaviorProcess.newProcess(worker);
-					behaviorProcess.connect();
-				}
-
-				connect(worker, SIGNAL(done()), this, SLOT(EndAttempt()));
-				connect(worker, SIGNAL(done()), worker, SLOT(deleteLater()));
-
-				if (boost::iequals(filelist[i], "animationdatasinglefile.txt"))
-				{
-					QtConcurrent::run(worker, &BehaviorSub::AnimDataCompilation);
-				}
-				else if (boost::iequals(filelist[i], "animationsetdatasinglefile.txt"))
-				{
-					QtConcurrent::run(worker, &BehaviorSub::ASDCompilation);
-				}
-				else if (temppath.find("characters") != 0)
-				{
-					QtConcurrent::run(worker, &BehaviorSub::BehaviorCompilation);
-				}
-				else
-				{
-					worker->isCharacter = true;
-					//connect(worker, SIGNAL(newAnim()), this, SLOT(increaseAnimCount()));
-					QtConcurrent::run(worker, &BehaviorSub::BehaviorCompilation);
-				}
-
-				++repeatcount;
-			}
-		}
-		else if (wordFind(filelist[i], "_1stperson") != NOT_FOUND)
-		{
-			vecstr fpfilelist;
-			read_directory(directory + filelist[i], fpfilelist);
-
-			for (auto& curfile : fpfilelist)
-			{
-				curfile = filelist[i] + "\\" + curfile;
-			}
-
-			for (unsigned int j = 0; j < fpfilelist.size(); ++j)
-			{
-				if (error) throw nemesis::exception();
-
-				if (!boost::filesystem::is_directory(directory + fpfilelist[j]))
-				{
-					string modID = "";
-					bool isCore = false;
-					int repeatcount = 0;
-					int repeat = 1;
-					string lowerFileName = boost::to_lower_copy(fpfilelist[j]);
-
-					if (coreModList.find(lowerFileName) != coreModList.end())
-					{
-						repeat = int(coreModList[lowerFileName].size());
-						isCore = true;
-
-						if (repeat > 1) filenum += (repeat - 1) * 10;
-					}
-
-					while (repeatcount < repeat)
-					{
-						if (error) throw nemesis::exception();
-
-						if (isCore) modID = coreModList[lowerFileName][repeatcount];
-
-						bool skip = false;
-						string tempfilename = fpfilelist[j].substr(0, fpfilelist[j].find_last_of("."));
-						boost::algorithm::to_lower(tempfilename);
-						string temppath = behaviorPath[tempfilename];
-
-						if (temppath.length() != 0)
+						while (temppath.find("\\", nextpos) != lastpos)
 						{
-							size_t nextpos = 0;
-							size_t lastpos = temppath.find_last_of("\\");
+							nextpos = temppath.find("\\", nextpos) + 1;
+						}
 
-							while (temppath.find("\\", nextpos) != lastpos)
+						temppath = temppath.substr(nextpos, lastpos - nextpos);
+					}
+
+					if (error) throw nemesis::exception();
+
+					BehaviorSub* worker = new BehaviorSub;
+					behaviorSubList.push_back(worker);
+
+					worker->addInfo(directory, filelist, i, behaviorPriority, chosenBehavior, BehaviorTemplate, newAnimation, AnimVar, newAnimEvent, newAnimVariable,
+						ignoreFunction, false, modID, this);
+
+					if (!cmdline)
+					{
+						behaviorProcess.newProcess(worker);
+						behaviorProcess.connect();
+					}
+
+					if (boost::iequals(filelist[i], "animationdatasinglefile.txt"))
+					{
+						boost::asio::post(mt, boost::bind(&BehaviorSub::AnimDataCompilation, worker));
+					}
+					else if (boost::iequals(filelist[i], "animationsetdatasinglefile.txt"))
+					{
+						boost::asio::post(mt, boost::bind(&BehaviorSub::ASDCompilation, worker));
+					}
+					else if (temppath.find("characters") != 0)
+					{
+						boost::asio::post(mt, boost::bind(&BehaviorSub::BehaviorCompilation, worker));
+					}
+					else
+					{
+						worker->isCharacter = true;
+						boost::asio::post(mt, boost::bind(&BehaviorSub::BehaviorCompilation, worker));
+					}
+
+					++repeatcount;
+				}
+			}
+			else if (wordFind(filelist[i], "_1stperson") != NOT_FOUND)
+			{
+				vecstr fpfilelist;
+				read_directory(directory + filelist[i], fpfilelist);
+
+				for (auto& curfile : fpfilelist)
+				{
+					curfile = filelist[i] + "\\" + curfile;
+				}
+
+				for (unsigned int j = 0; j < fpfilelist.size(); ++j)
+				{
+					if (error) throw nemesis::exception();
+
+					if (!boost::filesystem::is_directory(directory + fpfilelist[j]))
+					{
+						string modID = "";
+						bool isCore = false;
+						int repeatcount = 0;
+						int repeat = 1;
+						string lowerFileName = boost::to_lower_copy(fpfilelist[j]);
+
+						if (coreModList.find(lowerFileName) != coreModList.end())
+						{
+							repeat = int(coreModList[lowerFileName].size());
+							isCore = true;
+
+							if (repeat > 1) filenum += (repeat - 1) * 10;
+						}
+
+						while (repeatcount < repeat)
+						{
+							if (error) throw nemesis::exception();
+
+							if (isCore) modID = coreModList[lowerFileName][repeatcount];
+
+							bool skip = false;
+							string tempfilename = fpfilelist[j].substr(0, fpfilelist[j].find_last_of("."));
+							boost::algorithm::to_lower(tempfilename);
+							string temppath = behaviorPath[tempfilename];
+
+							if (temppath.length() != 0)
 							{
-								nextpos = temppath.find("\\", nextpos) + 1;
+								size_t nextpos = 0;
+								size_t lastpos = temppath.find_last_of("\\");
+
+								while (temppath.find("\\", nextpos) != lastpos)
+								{
+									nextpos = temppath.find("\\", nextpos) + 1;
+								}
+
+								temppath = temppath.substr(nextpos, lastpos - nextpos);
 							}
 
-							temppath = temppath.substr(nextpos, lastpos - nextpos);
-						}
+							BehaviorSub* worker = new BehaviorSub;
+							behaviorSubList.push_back(worker);
 
-						BehaviorSub* worker = new BehaviorSub;
-						worker->addInfo(directory, fpfilelist, j, behaviorPriority, chosenBehavior, BehaviorTemplate, newAnimation, AnimVar, newAnimEvent,
-							newAnimVariable, ignoreFunction, false, modID, this);
+							worker->addInfo(directory, fpfilelist, j, behaviorPriority, chosenBehavior, BehaviorTemplate, newAnimation, AnimVar, newAnimEvent,
+								newAnimVariable, ignoreFunction, false, modID, this);
 
-						if (!cmdline)
-						{
-							behaviorProcess.newProcess(worker);
-							behaviorProcess.connect();
-						}
+							if (!cmdline)
+							{
+								behaviorProcess.newProcess(worker);
+								behaviorProcess.connect();
+							}
 
-						connect(worker, SIGNAL(done()), this, SLOT(EndAttempt()));
-						connect(worker, SIGNAL(done()), worker, SLOT(deleteLater()));
+							if (boost::iequals(fpfilelist[j], "animationdatasinglefile.txt"))
+							{
+								boost::asio::post(mt, boost::bind(&BehaviorSub::AnimDataCompilation, worker));		// 9 progress ups
+							}
+							else if (boost::iequals(fpfilelist[j], "animationsetdatasinglefile.txt"))
+							{
+								boost::asio::post(mt, boost::bind(&BehaviorSub::ASDCompilation, worker));
+							}
+							else if (temppath.find("characters") != 0)
+							{
+								boost::asio::post(mt, boost::bind(&BehaviorSub::BehaviorCompilation, worker));
+							}
+							else
+							{
+								worker->isCharacter = true;
+								boost::asio::post(mt, boost::bind(&BehaviorSub::BehaviorCompilation, worker));
+							}
 
-						if (boost::iequals(fpfilelist[j], "animationdatasinglefile.txt"))
-						{
-							QtConcurrent::run(worker, &BehaviorSub::AnimDataCompilation);		// 9 progress ups
+							++repeatcount;
 						}
-						else if (boost::iequals(fpfilelist[j], "animationsetdatasinglefile.txt"))
-						{
-							QtConcurrent::run(worker, &BehaviorSub::ASDCompilation);
-						}
-						else if (temppath.find("characters") != 0)
-						{
-							QtConcurrent::run(worker, &BehaviorSub::BehaviorCompilation);
-						}
-						else
-						{
-							worker->isCharacter = true;
-							QtConcurrent::run(worker, &BehaviorSub::BehaviorCompilation);
-						}
-
-						++repeatcount;
 					}
 				}
 			}
 		}
+	}
+	catch (const std::exception& ex)
+	{
+		mt.stop();
+
+		for (auto& each : behaviorSubList)
+		{
+			delete each;
+		}
+
+		throw ex;
+	}
+
+	{
+		lock_guard<mutex> lg(cv2_m);
+		--behaviorRun;
+	}
+
+	cv2.notify_one();
+
+	mt.join();
+
+	for (auto& each : behaviorSubList)
+	{
+		delete each;
 	}
 }
 
@@ -1190,6 +1221,8 @@ void BehaviorStart::increaseAnimCount()
 
 void BehaviorStart::newMilestone()
 {
+	Lockless lock(upFlag);
+
 	if (!error)
 	{
 		emit progressUp();
