@@ -5,11 +5,57 @@
 
 using namespace std;
 
+struct InfoDataTracker
+{
+	string data;
+	unsigned int index;
+
+	InfoDataTracker(string d, unsigned int i) : data(d), index(i) {}
+};
+
+bool IDExistProcess(string change, vector<InfoDataPack>& storeline, map<string, vector<InfoDataTracker>> original, map<string, bool>& isExist,
+	map<string, string>& exchange, vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker, map<string, bool>& loopCheck);
 void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, string project, string modcode);
 void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange,
 	map<string, vector<shared_ptr<AnimationDataTracker>>>& animDataTracker, map<string, vector<int>>& codeTracker);
 void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange,
 	vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker);
+
+bool IDExistProcess(string change, vector<InfoDataPack>& storeline, map<string, vector<InfoDataTracker>> original, map<string, bool>& isExist,
+	map<string, string>& exchange, vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker, map<string, bool>& loopCheck)
+{
+	auto& ori = original.find(change);
+
+	if (ori == original.end()) return false;
+
+	if (loopCheck[change]) return true;
+
+	loopCheck[change] = true;
+
+	for (auto& each : ori->second)
+	{
+		auto curTrack = codeTracker.find(each.data + "-" + change);
+
+		if (curTrack == codeTracker.end() || curTrack->second.size() == 0) throw false;
+
+		for (auto track : curTrack->second)
+		{
+			animDataPack[track].uniquecode = each.data;
+		}
+
+		exchange.erase(each.data);
+
+		if (isExist[each.data] && !IDExistProcess(each.data, storeline, original, isExist, exchange, animDataPack, codeTracker, loopCheck))
+		{
+			return false;
+		}
+
+		storeline[each.index].uniquecode = each.data;
+		isExist[each.data] = true;
+	}
+
+	return true;
+}
 
 AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string filepath, string modcode)
 {
@@ -164,9 +210,9 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange,
 	vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker)
 {
-	unordered_map<string, bool> isExist;
-	unordered_map<string, size_t> locate;
-	unordered_map<string, string> original;
+	map<string, bool> isExist;
+	map<string, size_t> locate;
+	map<string, vector<InfoDataTracker>> original;
 
 	for (int i = startline; i < int(animdatafile.size()); ++i)
 	{
@@ -174,13 +220,13 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 
 		InfoDataPack curIP;
 		string uniquecode = animdatafile[i++];
+		locate[uniquecode] = i - 1;
 		auto& exch = exchange.find(uniquecode);
 
 		if (exch != exchange.end())
 		{
 			uniquecode = exch->second;
-			locate[uniquecode] = storeline.size();
-			original[uniquecode] = exch->first;
+			original[uniquecode].push_back(InfoDataTracker(exch->first, storeline.size()));
 		}
 
 		if (isExist[uniquecode])
@@ -193,24 +239,11 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 				{
 					if (change != uniquecode) throw false;
 
-					auto& ori = original.find(change);
+					map<string, bool> loopCheck;
 
-					if (ori == original.end() || isExist[ori->second]) throw false;
+					if (!IDExistProcess(change, storeline, original, isExist, exchange, animDataPack, codeTracker, loopCheck)) throw false;
 
-					auto curTrack = codeTracker.find(ori->second + "-" + change);
-
-					if (curTrack == codeTracker.end() || curTrack->second.size() == 0) throw false;
-
-					for (auto track : curTrack->second)
-					{
-						animDataPack[track].uniquecode = ori->second;
-					}
-
-					storeline[locate[change]].uniquecode = ori->second;
-					isExist[ori->second] = true;
-					exchange.erase(ori->second);
-					locate.erase(change);
-					original.erase(ori);
+					uniquecode = change;
 					isExist[uniquecode] = false;
 				}
 				else
@@ -225,8 +258,16 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 					}
 
 					exchange.erase(uniquecode);
-					locate.erase(uniquecode);
-					original.erase(uniquecode);
+
+					for (unsigned int i = 0; i < original[uniquecode].size(); ++i)
+					{
+						if (original[uniquecode][i].data == change)
+						{
+							original[uniquecode].erase(original[uniquecode].begin() + i);
+							--i;
+						}
+					}
+
 					uniquecode = change;
 				}
 			}
