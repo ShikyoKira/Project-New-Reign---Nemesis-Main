@@ -2,7 +2,9 @@
 
 #include "debugmsg.h"
 
-#include "functions\wstrconvert.h"
+#include "functions/readtextfile.h"
+#include "functions/writetextfile.h"
+// #include "functions\wstrconvert.h"
 
 using namespace std;
 
@@ -33,7 +35,7 @@ void NewDebugMessage(DebugMsg NewLog)
 
 DebugMsg::DebugMsg(string language)
 {
-	wstring filename = L"languages\\" + wstrConv.from_bytes(language) + L".txt";
+	wstring filename = L"languages\\" + StringToWString(language) + L".txt";
 	vecstr storeline = readUTF8File(filename);
 
 	if (error) throw nemesis::exception();
@@ -104,18 +106,15 @@ DebugMsg::DebugMsg(string language)
 vecstr readUTF8File(wstring filename)
 {
 	vecstr storeline;
-	ifstream file(filename);
-	file.imbue(locale(locale::empty(), new codecvt_utf8<wchar_t>));
+	FileReader file(filename);
 	string line;
 
-	if (file.is_open())
+	if (file.GetFile())
 	{
-		while (getline(file, line))
+		while (file.GetLines(line))
 		{
 			storeline.push_back(line);
 		}
-
-		file.close();
 	}
 	else
 	{
@@ -128,8 +127,7 @@ vecstr readUTF8File(wstring filename)
 
 void writeUTF8File(string filename, vecstr storeline)
 {
-	ofstream output(filename);
-	output.imbue(locale(locale::empty(), new codecvt_utf8<wchar_t>));
+	FileWriter output(filename);
 
 	if (output.is_open())
 	{
@@ -137,8 +135,6 @@ void writeUTF8File(string filename, vecstr storeline)
 		{
 			output << storeline[i] << "\n";
 		}
-
-		output.close();
 	}
 	else
 	{

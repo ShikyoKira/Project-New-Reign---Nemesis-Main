@@ -2,7 +2,7 @@
 #define FILEWRITER_H_
 
 #include <string>
-#include <boost/atomic.hpp>
+
 #include "atomiclock.h"
 
 class FileWriter
@@ -43,6 +43,16 @@ public:
 
 	template<typename T>
 	FileWriter& operator<<(T& input)
+	{
+		std::stringstream sstream;
+		sstream << input;
+		Lockless lock(filelock);
+		fprintf(file, "%s", sstream.str().c_str());
+		return *this;
+	}
+
+	template<typename T>
+	FileWriter& operator<<(T* input)
 	{
 		std::stringstream sstream;
 		sstream << input;
