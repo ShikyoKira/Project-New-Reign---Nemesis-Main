@@ -2,4 +2,7 @@
 #include <iostream>
 #include <string>
 
-bool calculate(std::string& equation, std::string format, std::string filename, int linecount, bool noDecimal = true);
+namespace nemesis
+{
+	bool calculate(std::string& equation, std::string format, std::string filename, int linecount, bool noDecimal = true);
+}

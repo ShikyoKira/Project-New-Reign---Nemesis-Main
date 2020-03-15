@@ -1,6 +1,6 @@
-#include <boost/atomic.hpp>
-
 #include "Global.h"
+
+#include "src\utilities\algorithm.h"
 
 #include "functions\wstrconvert.h"
 #include "functions\readtextfile.h"
@@ -44,7 +44,7 @@ struct path_leaf_string
 {
 	string operator()(const boost::filesystem::directory_entry& entry) const
 	{
-		return wstrConv.to_bytes(entry.path().filename().wstring());
+		return entry.path().filename().string();
 	}
 };
 
@@ -58,12 +58,12 @@ struct path_leaf_wstring
 
 wstring StringToWString(string line)
 {
-	return wstrConv.from_bytes(line);
+	return QString::fromStdString(line).toStdWString();
 }
 
 string WStringToString(wstring line)
 {
-	return wstrConv.to_bytes(line);
+	return QString::fromStdWString(line).toStdString();
 }
 
 void read_directory(const string& name, vecstr& fv)
@@ -75,7 +75,7 @@ void read_directory(const string& name, vecstr& fv)
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
 	{
-		if (boost::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
+		if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
 		{
 			fv.erase(fv.begin() + i);
 			--i;
@@ -92,7 +92,41 @@ void read_directory(const wstring& name, vector<wstring>& fv)
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
 	{
-		if (boost::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
+		if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
+		{
+			fv.erase(fv.begin() + i);
+			--i;
+		}
+	}
+}
+
+void read_directory(const char* name, vecstr& fv)
+{
+	boost::filesystem::path p(name);
+	boost::filesystem::directory_iterator start(p);
+	boost::filesystem::directory_iterator end;
+	transform(start, end, back_inserter(fv), path_leaf_string());
+
+	for (unsigned int i = 0; i < fv.size(); ++i)
+	{
+		if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
+		{
+			fv.erase(fv.begin() + i);
+			--i;
+		}
+	}
+}
+
+void read_directory(const wchar_t* name, vector<wstring>& fv)
+{
+	boost::filesystem::path p(name);
+	boost::filesystem::directory_iterator start(p);
+	boost::filesystem::directory_iterator end;
+	transform(start, end, back_inserter(fv), path_leaf_wstring());
+
+	for (unsigned int i = 0; i < fv.size(); ++i)
+	{
+		if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
 		{
 			fv.erase(fv.begin() + i);
 			--i;
@@ -365,8 +399,8 @@ bool GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
 
 size_t wordFind(string line, string word, bool isLast)
 {
-	boost::algorithm::to_lower(line);
-	boost::algorithm::to_lower(word);
+	nemesis::to_lower(line);
+	nemesis::to_lower(word);
 
 	return isLast ? line.rfind(word) : line.find(word);
 }
@@ -387,7 +421,7 @@ bool isOnlyNumber(string line)
 
 bool hasAlpha(string line)
 {
-	string lower = boost::to_lower_copy(line);
+	string lower = nemesis::to_lower_copy(line);
 	string upper = boost::to_upper_copy(line);
 
 	if (lower != upper)

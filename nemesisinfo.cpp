@@ -1,7 +1,6 @@
 #include <Windows.h>
 
 #include <boost/regex.hpp>
-#include <boost/algorithm/string.hpp>
 
 #include <QtCore/QFile.h>
 #include <QtCore/QTextStream.h>
@@ -71,11 +70,11 @@ void NemesisInfo::setup()
 			for (auto& line : storeline)
 			{
 				string path = boost::regex_replace(string(line), boost::regex(".*[\\s]*=[\\s]*(.*)"), string("\\1"));
-				string input = boost::to_lower_copy(boost::regex_replace(string(line), boost::regex("(.*)[\\s]*=[\\s]*.*"), string("\\1")));
+				string input = nemesis::to_lower_copy(boost::regex_replace(string(line), boost::regex("(.*)[\\s]*=[\\s]*.*"), string("\\1")));
 
-				if (!boost::iequals(path, "auto"))
+				if (!nemesis::iequals(path, "auto"))
 				{
-					if (boost::iequals(input, "skyrimdatadirectory"))
+					if (nemesis::iequals(input, "skyrimdatadirectory"))
 					{
 						if (isFileExist(path) && wordFind(path, "data") != NOT_FOUND)
 						{
@@ -91,7 +90,7 @@ void NemesisInfo::setup()
 							vecstr filelist;
 							boost::filesystem::path fspath(dataPath);
 
-							while (!boost::iequals(fspath.stem().string(), "data"))
+							while (!nemesis::iequals(fspath.stem().string(), "data"))
 							{
 								fspath = fspath.parent_path();
 							}
@@ -100,30 +99,30 @@ void NemesisInfo::setup()
 
 							for (auto& file : filelist)
 							{
-								if (boost::iequals(file, "SkyrimSE.exe"))
+								if (nemesis::iequals(file, "SkyrimSE.exe"))
 								{
 									SSE = true;
 									break;
 								}
-								else if (boost::iequals(file, "binkw64.dll"))
+								else if (nemesis::iequals(file, "binkw64.dll"))
 								{
 									SSE = true;
 									break;
 								}
-								else if (boost::iequals(file, "binkw32.dll"))
+								else if (nemesis::iequals(file, "binkw32.dll"))
 								{
 									break;
 								}
 							}
 						}
 					}
-					else if (boost::iequals(input, "maxanimation") && isOnlyNumber(path)) maxAnim = stoi(path);
-					else if (boost::iequals(input, "first")) first = path != "false";
-					else if (boost::iequals(input, "height")) height = stoi(path);
-					else if (boost::iequals(input, "width")) width = stoi(path);
-					else if (boost::iequals(input, "modNameWidth")) modNameWidth = stoi(path);
-					else if (boost::iequals(input, "authorWidth")) authorWidth = stoi(path);
-					else if (boost::iequals(input, "priorityWidth")) priorityWidth = stoi(path);
+					else if (nemesis::iequals(input, "maxanimation") && isOnlyNumber(path)) maxAnim = stoi(path);
+					else if (nemesis::iequals(input, "first")) first = path != "false";
+					else if (nemesis::iequals(input, "height")) height = stoi(path);
+					else if (nemesis::iequals(input, "width")) width = stoi(path);
+					else if (nemesis::iequals(input, "modNameWidth")) modNameWidth = stoi(path);
+					else if (nemesis::iequals(input, "authorWidth")) authorWidth = stoi(path);
+					else if (nemesis::iequals(input, "priorityWidth")) priorityWidth = stoi(path);
 				}
 				else if (input == "skyrimdatadirectory" || input == "maxanimation" || input == "first")
 				{
@@ -134,7 +133,7 @@ void NemesisInfo::setup()
 	}
 
 	namespace bf = boost::filesystem;
-	string curpath = wstrConv.to_bytes(QCoreApplication::applicationDirPath().toStdWString());
+	string curpath = WStringToString(QCoreApplication::applicationDirPath().toStdWString());
 	std::replace(curpath.begin(), curpath.end(), '/', '\\');
 
 	if (bf::current_path().string() == "E:\\C++\\Project 2\\Nemesis Main GUI")
@@ -159,7 +158,7 @@ void NemesisInfo::setup()
 
 				while (i < counter)
 				{
-					if (boost::iequals(path.stem().string(), "data"))
+					if (nemesis::iequals(path.stem().string(), "data"))
 					{
 						skyrimDataDirect = path.string();
 						break;
@@ -174,17 +173,17 @@ void NemesisInfo::setup()
 
 			for (auto& file : filelist)
 			{
-				if (boost::iequals(file, "SkyrimSE.exe"))
+				if (nemesis::iequals(file, "SkyrimSE.exe"))
 				{
 					SSE = true;
 					break;
 				}
-				else if (boost::iequals(file, "binkw64.dll"))
+				else if (nemesis::iequals(file, "binkw64.dll"))
 				{
 					SSE = true;
 					break;
 				}
-				else if (boost::iequals(file, "binkw32.dll"))
+				else if (nemesis::iequals(file, "binkw32.dll"))
 				{
 					break;
 				}
@@ -238,7 +237,7 @@ void NemesisInfo::setup()
 		}
 	}
 
-	if (!force && boost::to_lower_copy(dataPath + "nemesis_engine") != boost::to_lower_copy(curpath)) ErrorMessage(6010, curpath, dataPath + "nemesis_engine");
+	if (!force && nemesis::to_lower_copy(dataPath + "nemesis_engine") != nemesis::to_lower_copy(curpath)) ErrorMessage(6010, curpath, dataPath + "nemesis_engine");
 
 	iniFileUpdate();
 }

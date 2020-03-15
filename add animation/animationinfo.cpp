@@ -33,7 +33,7 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 		++k;
 		string anim = line.substr(1);
 		vecstr options;
-		boost::split(options, line.substr(1), boost::is_any_of(","));
+		StringSplit(line.substr(1), options, ",");
 		unordered_map<string, bool> optionList = behaviorOption.storelist;
 		unordered_map<string, vecstr> joint = behaviorOption.joint;
 		vecstr optionOrder = behaviorOption.optionOrder;
@@ -291,11 +291,11 @@ void animationInfo::groupAdditionProcess(string header, string addOnName, string
 		addition[header][addOnName] = newName;
 	}
 
-	if (boost::iequals(addOnName, "event"))
+	if (nemesis::iequals(addOnName, "event"))
 	{
 		eventID.push_back(newName);
 	}
-	else if (boost::iequals(addOnName, "variable"))
+	else if (nemesis::iequals(addOnName, "variable"))
 	{
 		variableID.push_back(newName);
 	}

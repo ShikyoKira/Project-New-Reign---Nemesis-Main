@@ -1,8 +1,6 @@
 #include <unordered_set>
 
 #include <boost\regex.hpp>
-#include <boost\algorithm\string.hpp>
-
 #include <QtCore\QStandardPaths.h>
 
 #include "playerexclusive.h"
@@ -76,7 +74,7 @@ void PCEASubFolder(string path, unsigned short number, string pceafolder, string
 
 		if (!bf::is_directory(animFile))
 		{
-			if (!boost::iequals(animFile.extension().string(), ".hkx")) continue;
+			if (!nemesis::iequals(animFile.extension().string(), ".hkx")) continue;
 
 			int numb = 0;
 			string newFileName = "fp2" + to_string(numb++) + "_" + anim;
@@ -84,7 +82,7 @@ void PCEASubFolder(string path, unsigned short number, string pceafolder, string
 			while (isFileExist(pceafolder + "\\" + newFileName)) newFileName = "fp2" + to_string(numb++) + "_" + anim;
 
 			bf::path newAnimFile(pceafolder + "\\" + newFileName);
-			string lowerAnim = boost::to_lower_copy(anim);
+			string lowerAnim = nemesis::to_lower_copy(anim);
 			mod.animPathList[lowerAnim] = "Animations\\Nemesis_PCEA\\" + subpath + "\\" + newFileName;
 			
 			if (!isFileExist(pceafolder)) bf::create_directories(pceafolder);
@@ -281,7 +279,7 @@ bool PCEAInstallation()
 	}
 	catch (const exception& ex)
 	{
-		ErrorMessage(6002, wstrConv.to_bytes(cachedir), ex.what());
+		ErrorMessage(6002, WStringToString(cachedir), ex.what());
 	}
 
 	bf::path source("alternate animation\\nemesis pcea.script");

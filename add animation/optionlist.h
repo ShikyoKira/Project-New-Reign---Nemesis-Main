@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <boost\regex.hpp>
-#include <boost\algorithm\string.hpp>
 #include "stringsplit.h"
 
 typedef std::vector<std::string> vecstr;

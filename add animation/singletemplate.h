@@ -4,6 +4,7 @@
 #include "optionlist.h"
 #include "animationutility.h"
 #include "templateprocessing.h"
+
 #include <boost/thread.hpp>
 
 typedef void (proc::*funcptr)(range, vecstr&);

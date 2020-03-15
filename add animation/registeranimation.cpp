@@ -111,11 +111,11 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 				if (newAnimInfo[0].length() == 0) ErrorMessage(1016, filename, linecount);
 
-				string lowerformat = boost::to_lower_copy(newAnimInfo[0]);
+				string lowerformat = nemesis::to_lower_copy(newAnimInfo[0]);
 
 				if (lowerformat == "version")
 				{
-					if (boost::iequals(newAnimInfo[1].substr(0, 1), "V")) version = line.substr(line.find(newAnimInfo[1]));
+					if (nemesis::iequals(newAnimInfo[1].substr(0, 1), "V")) version = line.substr(line.find(newAnimInfo[1]));
 					else version = "V" + line.substr(line.find(newAnimInfo[1]));
 				}
 				else if (lowerformat == "aaprefix")
@@ -126,7 +126,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 					}
 
 					curAAprefix = newAnimInfo[1];
-					string lowerPrefix = boost::to_lower_copy(curAAprefix);
+					string lowerPrefix = nemesis::to_lower_copy(curAAprefix);
 
 					if (!AAprefixExist[lowerPrefix])
 					{
@@ -170,7 +170,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 							else
 							{
 								alternateAnim[lowAnimPerson].push_back(modID + "\\" + animFile);
-								AAAnimFileExist[boost::to_lower_copy(fstP ? animFile + "_1p*" : animFile)] = true;
+								AAAnimFileExist[nemesis::to_lower_copy(fstP ? animFile + "_1p*" : animFile)] = true;
 							}
 						}
 

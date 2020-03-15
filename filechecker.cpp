@@ -1,6 +1,3 @@
-#include "filechecker.h"
-#include <boost\algorithm\string.hpp>
-
 using namespace std;
 
 bool FileCheck(bool isUpdate)
@@ -98,18 +95,18 @@ void behaviorActivateMod(vecstr behaviorPriority)
 
 		for (auto& behavior : behaviorlist)
 		{
-			if (!boost::iequals(behavior, "info.ini") && !boost::iequals(behavior, "_1stperson"))
+			if (!nemesis::iequals(behavior, "info.ini") && !nemesis::iequals(behavior, "_1stperson"))
 			{
-				activatedBehavior[boost::to_lower_copy(behavior)] = true;
+				activatedBehavior[nemesis::to_lower_copy(behavior)] = true;
 			}
-			else if (boost::iequals(behavior, "_1stperson"))
+			else if (nemesis::iequals(behavior, "_1stperson"))
 			{
 				vecstr fpbehaviorlist;
 				read_directory(newpath + "\\" + behavior, fpbehaviorlist);
 
 				for (auto& fpbehavior : fpbehaviorlist)
 				{
-					activatedBehavior["_1stperson\\" + boost::to_lower_copy(fpbehavior)] = true;
+					activatedBehavior["_1stperson\\" + nemesis::to_lower_copy(fpbehavior)] = true;
 				}
 			}
 		}

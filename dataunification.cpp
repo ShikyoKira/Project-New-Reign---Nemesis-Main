@@ -33,14 +33,14 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 		string filename = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
 		vecstr storeline;
 
-		if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate)) return false;
+		if (!saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate)) return false;
 
 		if (!GetFunctionLines(filename, storeline)) return false;
 
 		if (nodelist[k][0] != '#')
 		{
 			Lockless lock(newAnimAdditionLock);
-			newAnimAddition[boost::to_lower_copy(curfile.string())] = storeline;
+			newAnimAddition[nemesis::to_lower_copy(curfile.string())] = storeline;
 			continue;
 		}
 
@@ -230,7 +230,7 @@ bool animDataHeaderUpdate(string folderpath, string modcode, MasterAnimData& ani
 
 	if (!GetFunctionLines(folderpath, storeline)) return false;
 
-	if (!saveLastUpdate(boost::to_lower_copy(folderpath), lastUpdate)) return false;
+	if (!saveLastUpdate(nemesis::to_lower_copy(folderpath), lastUpdate)) return false;
 
 	CombineAnimData(folderpath, "$haeder$", modcode, GetFileDirectory(folderpath) + "\\$header$", storeline, animData.animDataChar, animData, true);
 
@@ -255,14 +255,14 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 		string filename = curfile.stem().string();
 		vecstr storeline;
 
-		if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate)) return false;
+		if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
 
 		if (!GetFunctionLines(filepath, storeline)) return false;
 
 		if (filename[0] == '$' && (filename.back() == '$' || (filename.length() > 3 && filename.rfind("$UC") == filename.length() - 3)) && filename != "$header$")
 		{
 			Lockless lock(newAnimAdditionLock);
-			newAnimAddition[boost::to_lower_copy(curfile.string())] = storeline;
+			newAnimAddition[nemesis::to_lower_copy(curfile.string())] = storeline;
 			continue;
 		}
 
@@ -342,19 +342,19 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 		string filename = folderpath + "\\" + headerfile[k];
 		boost::filesystem::path curfile(filename);
 
-		if (boost::filesystem::is_directory(curfile) || !boost::iequals(curfile.extension().string(), ".txt") || headerfile[k].length() == 0) continue;
+		if (boost::filesystem::is_directory(curfile) || !nemesis::iequals(curfile.extension().string(), ".txt") || headerfile[k].length() == 0) continue;
 
-		if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate)) return false;
+		if (!saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate)) return false;
 
 		vecstr storeline;
-		string lowerheader = boost::to_lower_copy(curfile.stem().string());
+		string lowerheader = nemesis::to_lower_copy(curfile.stem().string());
 
 		if (!GetFunctionLines(filename, storeline)) return false;
 
 		if (headerfile[k][0] == '$')
 		{
 			Lockless lock(newAnimAdditionLock);
-			newAnimAddition[boost::to_lower_copy(curfile.string())] = storeline;
+			newAnimAddition[nemesis::to_lower_copy(curfile.string())] = storeline;
 			continue;
 		}
 
@@ -482,9 +482,9 @@ void behaviorJointsOutput()
 		{
 			vecstr temp = it->second;
 
-			while (!behaviorJoints[temp[i]].empty())
+			while (!behaviorJoints[temp[i].data()].empty())
 			{
-				temp = behaviorJoints[temp[i]];
+				temp = behaviorJoints[temp[i].data()];
 			}
 
 			combinedBehaviorJoints[it->first] = temp;

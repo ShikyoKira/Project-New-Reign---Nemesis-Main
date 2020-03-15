@@ -7,8 +7,9 @@
 #include <sstream>
 #include <algorithm>
 #include <unordered_map>
+
 #include <boost\regex.hpp>
-#include <boost\algorithm\string.hpp>
+
 #include "compute.h"
 #include "furniture.h"
 

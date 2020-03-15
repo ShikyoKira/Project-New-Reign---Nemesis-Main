@@ -102,7 +102,7 @@ nodeJoint::nodeJoint(vecstr& node, string format, string filename, string _behav
 	{
 		if (templatecode != format)
 		{
-			string lowercode = boost::to_lower_copy(templatecode);
+			string lowercode = nemesis::to_lower_copy(templatecode);
 			otherAnimType[lowercode] = lowercode;
 			otherAnimType[lowercode + "_group"] = lowercode;
 			otherAnimType[lowercode + "_master"] = lowercode;
@@ -323,7 +323,7 @@ void nodeJoint::insertData(string format, string filename, vector<vector<unorder
 				int nextpos = openEndBracket(templine, '(', ')', format, filename, output[sect].back().row) + 1;
 				templine = templine.substr(0, nextpos);
 				string oldline = templine;
-				calculate(templine, format, filename, output[sect].back().row);
+				nemesis::calculate(templine, format, filename, output[sect].back().row);
 
 				if (oldline != templine) line.replace(pos, oldline.length(), templine);
 			}
@@ -725,7 +725,7 @@ vecstr nodeJoint::unpack()
 					if (reference == openRange + 1)
 					{
 						__int64 number = count(line.begin(), line.end(), '#');
-						counter += number;
+						counter += static_cast<int>(number);
 					}
 				}
 			}
@@ -823,7 +823,7 @@ void nodeJoint::dataBake(vecstr& node, string format, string filename, unordered
 				curType = FOREACH;
 				start = i + 1;
 				unsigned int pos = line.find("<!-- FOREACH ^") + 14;
-				multiOption = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+				multiOption = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 			}
 
 			++scope;
@@ -835,7 +835,7 @@ void nodeJoint::dataBake(vecstr& node, string format, string filename, unordered
 				curType = NEW;
 				start = i + 1;
 				unsigned int pos = line.find("<!-- NEW ^") + 10;
-				multiOption = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+				multiOption = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 			}
 
 			++scope;
@@ -1102,7 +1102,7 @@ void processing2(string& line, string format, string filename, int& nextFunction
 								}
 							}
 
-							calculate(equation, format, filename, linecount);
+							nemesis::calculate(equation, format, filename, linecount);
 
 							if (stoi(equation) > int(groupAnimInfo[groupMulti].size() - 1) || stoi(equation) < 0) ErrorMessage(1148, format, filename, linecount, change);
 

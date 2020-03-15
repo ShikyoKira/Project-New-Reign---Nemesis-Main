@@ -1,7 +1,10 @@
 #pragma once
 #include <string>
 #include <iostream>
+
 #include <boost\filesystem.hpp>
+
+#include "src/utilities/algorithm.h"
 
 extern bool SSE;
 
@@ -15,7 +18,7 @@ class NemesisInfo
 	unsigned int modNameWidth = 380;
 	unsigned int authorWidth = 75;
 	unsigned int priorityWidth = 47;
-
+	
 	void setup();
 
 public:

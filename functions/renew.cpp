@@ -62,7 +62,7 @@ void ClearTempBehaviors()
 
 		for (auto& file : filelist)
 		{
-			if (!boost::iequals(file, "xml"))
+			if (!nemesis::iequals(file, "xml"))
 			{
 				DeleteFileFolder(tempbehavior, file, false);
 			}

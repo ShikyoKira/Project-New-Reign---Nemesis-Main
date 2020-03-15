@@ -1396,11 +1396,11 @@ void condt::conditionProcess(string condition, string format, string behaviorFil
 		{
 			conditionOrder = boost::regex_replace(string(condition), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
-			if (boost::iequals(conditionOrder, "last"))
+			if (nemesis::iequals(conditionOrder, "last"))
 			{
 				last = true;
 			}
-			else if (boost::iequals(conditionOrder, "first"))
+			else if (nemesis::iequals(conditionOrder, "first"))
 			{
 				hiddenOrder = 0;
 			}

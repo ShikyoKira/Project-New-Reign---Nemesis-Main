@@ -23,12 +23,12 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 		string projectPath;
 		string projectPath_fp;
 		unordered_map<string, shared_ptr<vecstr>> AAList;
-		string projectFileName = boost::to_lower_copy(boost::filesystem::path(projectname).stem().string());
+		string projectFileName = nemesis::to_lower_copy(boost::filesystem::path(projectname).stem().string());
 
 		// assume current project has new alternate animation installed
 		if (behaviorProjectPath[projectFileName].length() > 0)
 		{
-			projectPath = boost::to_lower_copy(behaviorProjectPath[projectFileName] + "\\animations");
+			projectPath = nemesis::to_lower_copy(string(behaviorProjectPath[projectFileName]) + "\\animations");
 			projectPath_fp = projectPath + "\\_1stperson";
 			vecstr pathList = { projectPath, projectPath + "\\male", projectPath + "\\female", projectPath + "\\horse_rider", projectPath + "\\dlc01" ,
 				projectPath + "\\dlc02" };
@@ -58,7 +58,7 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 				size_t pos = anim.first.rfind("_1p*");
 				bool fp = pos == anim.first.length() - 4;
 				string animFile = fp ? anim.first.substr(0, pos) : anim.first;
-				string animCRC32 = to_string(CRC32Convert(boost::to_lower_copy(GetFileName(animFile))));
+				string animCRC32 = to_string(CRC32Convert(nemesis::to_lower_copy(GetFileName(animFile))));
 
 				if (fp)
 				{
@@ -84,7 +84,7 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 				{
 					for (auto& animPath : pcea.animPathList)
 					{
-						string animCRC32 = to_string(CRC32Convert(boost::to_lower_copy(GetFileName(animPath.first))));
+						string animCRC32 = to_string(CRC32Convert(nemesis::to_lower_copy(GetFileName(animPath.first))));
 						string pathline = animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA"));
 
 						for (unsigned int i = 0; i < pathCRC32.size(); ++i)
@@ -137,7 +137,7 @@ void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& start
 
 		if (i + 4 >= int(animdatafile.size())) ErrorMessage(5018, "Header", "Header");
 
-		if (boost::iequals(animdatafile[i + 1], "V3"))
+		if (nemesis::iequals(animdatafile[i + 1], "V3"))
 		{
 			startline = i;
 			return;
@@ -178,7 +178,7 @@ void TypePackProcess(vector<typepack>& storeline, int& startline, vecstr& animda
 		if (isOnlyNumber(animdatafile[i]))
 		{
 			if (i + 1 < int(animdatafile.size()) && hasAlpha(animdatafile[i + 1]) || (i + 4 < int(animdatafile.size()) && animdatafile[i + 4] == "7891816") ||
-				(i + 2 < int(animdatafile.size()) && boost::iequals(animdatafile[i + 2], "V3")) || (i + 2 == animdatafile.size()))
+				(i + 2 < int(animdatafile.size()) && nemesis::iequals(animdatafile[i + 2], "V3")) || (i + 2 == animdatafile.size()))
 			{
 				startline = i;
 				return;
@@ -408,7 +408,7 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 					string combined;
 					string modID = GetFileDirectory(anim);
 					modID.pop_back();
-					modID = boost::to_lower_copy(projectPath + "\\" + modID);
+					modID = nemesis::to_lower_copy(projectPath + "\\" + modID);
 					auto it = crc32Cache.find(modID);
 
 					if (it != crc32Cache.end()) line = it->second;
@@ -421,7 +421,7 @@ void CRC32Process(vector<crc32>& storeline, int& startline, vecstr& animdatafile
 					combined.append(line + ",");
 					newCRC32.filepath = line;
 
-					modID = boost::to_lower_copy(GetFileName(anim));
+					modID = nemesis::to_lower_copy(GetFileName(anim));
 					it = crc32Cache.find(modID);
 
 					if (it != crc32Cache.end()) line = it->second;
@@ -1380,7 +1380,7 @@ int PositionLineCondition(int& i, double curID, int linecount, vecstr animDataSe
 
 				if (isOnlyNumber(animDataSet[i]) && (id == 10 || id == 7))
 				{
-					if (animDataSet[i] == "0" && (i == int(animDataSet.size()) - 1 || boost::iequals(animDataSet[i + 1], "V3")))
+					if (animDataSet[i] == "0" && (i == int(animDataSet.size()) - 1 || nemesis::iequals(animDataSet[i + 1], "V3")))
 					{
 						++id;
 						break;

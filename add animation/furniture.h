@@ -8,8 +8,9 @@
 #include <sstream>
 #include <map>
 #include <unordered_map>
+
 #include <boost\regex.hpp>
-#include <boost\algorithm\string.hpp>
+
 #include "registeranimation.h"
 #include "animationutility.h"
 #include "animationthread.h"

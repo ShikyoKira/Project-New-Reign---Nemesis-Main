@@ -14,7 +14,7 @@ getTemplate::getTemplate()
 
 	for (auto& code : codelist)
 	{
-		if (boost::to_lower_copy(code) != code) ErrorMessage(1191, code, boost::to_lower_copy(code));
+		if (nemesis::to_lower_copy(code) != code) ErrorMessage(1191, code, nemesis::to_lower_copy(code));
 
 		if (code.find(".", 0) == NOT_FOUND)
 		{
@@ -38,7 +38,7 @@ getTemplate::getTemplate()
 					newpath = templateDirectory + code + "\\" + folder;
 					boost::filesystem::path FOF2(newpath);
 
-					if (boost::iequals(folder, "option_list.txt") && !boost::filesystem::is_directory(FOF2))
+					if (nemesis::iequals(folder, "option_list.txt") && !boost::filesystem::is_directory(FOF2))
 					{
 						OptionList option(newpath, code);
 						option.setDebug(debug);
@@ -49,7 +49,7 @@ getTemplate::getTemplate()
 						if (option.core)
 						{
 							isCore = true;
-							string corefile = boost::to_lower_copy(option.coreBehavior);
+							string corefile = nemesis::to_lower_copy(option.coreBehavior);
 							corelist.insert(corefile);
 							coreBehaviorCode[corefile] = code;
 						}
@@ -73,18 +73,18 @@ getTemplate::getTemplate()
 						{
 							if (behaviorJoints[lowerBehaviorFolder].size() == 0) ErrorMessage(1182, code, templateDirectory + code + "\\option_list.txt");
 
-							behaviorJoints[boost::to_lower_copy(optionlist[code].coreBehavior)] = behaviorJoints[lowerBehaviorFolder];
+							behaviorJoints[nemesis::to_lower_copy(optionlist[code].coreBehavior)] = behaviorJoints[lowerBehaviorFolder];
 						}
 
 						for (unsigned int i = 0; i < filelist.size(); ++i)
 						{
 							newpath = templateDirectory + code + "\\" + behaviorFolder + "\\" + filelist[i];
 							boost::filesystem::path file(newpath);
-							string lowerfilename = boost::to_lower_copy(filelist[i]);
+							string lowerfilename = nemesis::to_lower_copy(filelist[i]);
 
 							if (!boost::filesystem::is_directory(file))
 							{
-								if (boost::iequals(lowerfilename, code + "_group.txt"))
+								if (nemesis::iequals(lowerfilename, code + "_group.txt"))
 								{
 									if (behaviortemplate[code + "_group"][lowerBehaviorFolder].size() == 0)
 									{
@@ -97,7 +97,7 @@ getTemplate::getTemplate()
 										ErrorMessage(1019, newpath);
 									}
 								}
-								else if (boost::iequals(lowerfilename, code + "_master.txt"))
+								else if (nemesis::iequals(lowerfilename, code + "_master.txt"))
 								{
 									if (behaviortemplate[code + "_master"][lowerBehaviorFolder].size() == 0)
 									{
@@ -110,7 +110,7 @@ getTemplate::getTemplate()
 										ErrorMessage(1019, newpath);
 									}
 								}
-								else if (boost::iequals(lowerfilename, code + ".txt"))
+								else if (nemesis::iequals(lowerfilename, code + ".txt"))
 								{
 									registered = true;
 									grouplist[lowerBehaviorFolder].insert(code);
@@ -218,7 +218,7 @@ getTemplate::getTemplate()
 									{
 										boost::filesystem::path thisfile(newpath + "\\" + curheader);
 
-										if (!boost::filesystem::is_directory(thisfile) && boost::iequals(thisfile.extension().string(), ".txt"))
+										if (!boost::filesystem::is_directory(thisfile) && nemesis::iequals(thisfile.extension().string(), ".txt"))
 										{
 											string header = thisfile.stem().string();
 

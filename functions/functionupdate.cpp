@@ -56,9 +56,9 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 	string nodeID = nodefile.substr(0, nodefile.find_last_of("."));
 	string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
 
-	if (!saveLastUpdate(boost::to_lower_copy(filename), lastUpdate)) return false;
+	if (!saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate)) return false;
 
-	if (boost::iequals("#" + filecheck, nodefile))
+	if (nemesis::iequals("#" + filecheck, nodefile))
 	{
 		vector<int> modEditCoordinate;
 		unordered_map<string, string> modPath;
@@ -406,7 +406,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 		Lockless lock(filelock);
 		(*newFile)[nodeID] = functionline;
 	}
-	else if (boost::iequals(nodefile, "#" + modcode + "$" + filecheck))
+	else if (nemesis::iequals(nodefile, "#" + modcode + "$" + filecheck))
 	{
 		vecstr storeline;
 
@@ -466,15 +466,15 @@ bool NodeU::FunctionUpdate(string modcode, string behaviorfile, string nodefile,
 bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, string filepath, MasterAnimData& animData,
 	bool isNewCharacter, unordered_map<string, string>& lastUpdate, bool& openAnim, bool& openInfo)
 {
-	if (behaviorPath[boost::to_lower_copy(animdatafile)].empty()) ErrorMessage(2007, animdatafile);
+	if (behaviorPath[nemesis::to_lower_copy(animdatafile)].empty()) ErrorMessage(2007, animdatafile);
 
 	string filename = GetFileName(filepath);
 
-	if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate)) return false;
+	if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
 
 	if (isNewCharacter)
 	{
-		if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename])) return false;
+		if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename], !nemesis::iequals(filename, "$header$"))) return false;
 
 		if (isOnlyNumber(filename))		// info data
 		{
@@ -486,6 +486,10 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 			if (tempname == filename) ErrorMessage(2004, filepath);
 
+			animData.animDataHeader[characterfile].push_back(filename);
+		}
+		else if (nemesis::iequals(filename, "$header$"))
+		{
 			animData.animDataHeader[characterfile].push_back(filename);
 		}
 		else
@@ -658,15 +662,15 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 
 	functionline.reserve(newline.size());
 
-	if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate)) return false;
+	if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
 
-	if (characterfile == "$header$")
+	if (nemesis::iequals(characterfile, "$header$"))
 	{
 		isHeader = true;
 	}
 	else
 	{
-		if (filename == "$header$") type = 0;
+		if (nemesis::iequals(filename, "$header$")) type = 0;
 		else if (hasAlpha(storeline[0])) type = 1;
 		else if (isOnlyNumber(storeline[0])) type = 2;
 		else ErrorMessage(3006, characterfile, filename);
@@ -864,16 +868,16 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsource, string projectfile, string filepath, MasterAnimSetData& animSetData,
 	bool isNewProject, unordered_map<string, string>& lastUpdate)
 {
-	if (behaviorPath[boost::to_lower_copy(animdatasetfile)].empty()) ErrorMessage(2007, animdatasetfile);
+	if (behaviorPath[nemesis::to_lower_copy(animdatasetfile)].empty()) ErrorMessage(2007, animdatasetfile);
 
 	string filename = GetFileName(filepath);
-	string lowerfile = boost::to_lower_copy(filename);
+	string lowerfile = nemesis::to_lower_copy(filename);
 
-	if (!saveLastUpdate(boost::to_lower_copy(filepath), lastUpdate)) return false;
+	if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
 
 	if (isNewProject)
 	{
-		if (!GetFunctionLines(filepath, animSetData.newAnimSetData[projectfile][lowerfile])) return false;
+		if (!GetFunctionLines(filepath, animSetData.newAnimSetData[projectfile][lowerfile], false)) return false;
 	}
 	else
 	{
@@ -975,7 +979,7 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 			functionline.reserve(newline.size());
 			linecount = 0;
 
-			if (boost::iequals(projectfile, "$header$"))
+			if (nemesis::iequals(projectfile, "$header$"))
 			{
 				isHeader = true;
 			}

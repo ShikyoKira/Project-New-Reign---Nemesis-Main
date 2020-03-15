@@ -1,5 +1,4 @@
 #include <boost\crc.hpp>
-#include <boost\algorithm\string.hpp>
 #include <boost\iostreams\device\array.hpp>
 #include <boost\iostreams\stream_buffer.hpp>
 
@@ -44,7 +43,7 @@ void forcedRemove(wstring target, int counter)
 	{
 		if (!boost::filesystem::remove(target)) ErrorMessage(1082, WStringToString(target));
 	}
-	catch (const exception& ex)
+	catch (exception)
 	{
 		if (counter > 200)
 		{
@@ -62,7 +61,7 @@ void forcedRemove(string target, int counter)
 	{
 		if (!boost::filesystem::remove(target)) ErrorMessage(1082, target);
 	}
-	catch (const exception& ex)
+	catch (exception)
 	{
 		if (counter > 200)
 		{
@@ -83,7 +82,7 @@ void AAInitialize(string AAList)
 
 	for(string& groupName : groupList)
 	{
-		if (!boost::iequals(groupName, "alternate animation.script") && boost::iequals(boost::filesystem::path(AAList + "\\" + groupName).extension().string(), ".txt"))
+		if (!nemesis::iequals(groupName, "alternate animation.script") && nemesis::iequals(boost::filesystem::path(AAList + "\\" + groupName).extension().string(), ".txt"))
 		{
 			FileReader doc(AAList + "\\" + groupName);
 
@@ -705,7 +704,7 @@ bool PapyrusCompile(boost::filesystem::path pscfile, wstring import, string dest
 	namespace bf = boost::filesystem;
 	bf::path target = bf::path(nemesisInfo->GetDataPath());
 
-	while (!boost::iequals(target.stem().string(), "data"))
+	while (!nemesis::iequals(target.stem().string(), "data"))
 	{
 		target = target.parent_path();
 	}

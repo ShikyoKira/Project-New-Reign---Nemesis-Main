@@ -1,4 +1,5 @@
 #include "optionlist.h"
+
 #include "functions\readtextfile.h"
 
 #pragma warning(disable:4503)
@@ -9,7 +10,6 @@ bool Debug = false;
 
 OptionList::OptionList()
 {
-
 }
 
 OptionList::OptionList(string filepath, string format)
@@ -227,7 +227,7 @@ OptionList::OptionList(string filepath, string format)
 
 								string element = templine.substr(nextpos, templine.find(">", nextpos) - nextpos);
 
-								if (!boost::iequals(element, "main_anim_event"))
+								if (!nemesis::iequals(element, "main_anim_event"))
 								{
 									matcher.insert(element);
 									matchLine[element] = linecount;
@@ -294,7 +294,7 @@ OptionList::OptionList(string filepath, string format)
 
 								string element = templine.substr(nextpos, templine.find(">", nextpos) - nextpos);
 
-								if (!boost::iequals(element, "main_anim_event"))
+								if (!nemesis::iequals(element, "main_anim_event"))
 								{
 									matcher.insert(element);
 									matchLine[element] = linecount;
@@ -561,14 +561,14 @@ OptionList::OptionList(string filepath, string format)
 						string tempOption = strline.substr(0, lineplus);
 						string recontext = tempOption;
 
-						if ((boost::iequals(tempOption, templatecode) && strline == tempOption) || boost::iequals(tempOption, "k") || boost::iequals(tempOption, "bsa"))
+						if ((nemesis::iequals(tempOption, templatecode) && strline == tempOption) || nemesis::iequals(tempOption, "k") || nemesis::iequals(tempOption, "bsa"))
 						{
 							ErrorMessage(1049, tempOption, format, filepath, linecount);
 						}
 
 						if (strline.find("<", lineplus) != NOT_FOUND && strline.find(">", lineplus + 1) != NOT_FOUND)
 						{
-							if (boost::iequals(tempOption, "animobject") || boost::iequals(tempOption, "end"))
+							if (nemesis::iequals(tempOption, "animobject") || nemesis::iequals(tempOption, "end"))
 							{
 								ErrorMessage(1049, tempOption, format, filepath, linecount);
 							}
@@ -647,7 +647,7 @@ OptionList::OptionList(string filepath, string format)
 								if (!isalnum(strline[i]) && strline[i] != '[' && strline[i] != ']') ErrorMessage(1012, format, filepath, linecount);
 							}
 
-							if (boost::iequals(tempOption, "animobject") || tempOption == "D") ErrorMessage(1049, tempOption, format, filepath, linecount);
+							if (nemesis::iequals(tempOption, "animobject") || tempOption == "D") ErrorMessage(1049, tempOption, format, filepath, linecount);
 
 							if (tempOption == format) ErrorMessage(1064, format, filepath, strline);
 

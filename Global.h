@@ -1,16 +1,17 @@
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 
+#include <set>
+#include <ctime>
+#include <mutex>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <unordered_map>
-#include <set>
-#include <ctime>
-#include <stdlib.h>
-#include <mutex>
+
 #include <boost\filesystem.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
+
 #include "logging\debugmsg.h"
 
 #include "nemesisinfo.h"
@@ -30,15 +31,15 @@ extern boost::posix_time::ptime time1;			// for getting elapsed time
 extern NemesisInfo* nemesisInfo;				// nemesis ini info
 
 // update patcher
-extern std::unordered_map<std::string, std::string> behaviorPath;															// hkx file name, file path
+extern std::unordered_map<std::string, std::string> behaviorPath;													// hkx file name, file path
 
 // behavior generator
 extern std::unordered_map<std::string, bool> activatedBehavior;																// behavior file, true/fast; check if the behavior is needed to be edited to character for animationdatasinglefile
-extern std::unordered_map<std::string, std::string> behaviorProjectPath;													// project, project's path; project that has been installed
-extern std::unordered_map<std::string, vecstr> behaviorJoints;																// lower lvl behavior file, higher lvl behavior file
-extern std::unordered_map<std::string, vecstr> behaviorProject;																// character hkx file name, list of project hkx file name; link the project
-extern std::unordered_map<std::string, std::set<std::string>> usedAnim;														// behavior name, animation path; animation used in behavior file
-extern std::unordered_map<std::string, std::unordered_map<std::string, bool>> registeredAnim;								// characters hkx file name, animation name, bool; is registered in that behavior file?
+extern std::unordered_map<std::string, std::string> behaviorProjectPath;											// project, project's path; project that has been installed
+extern std::unordered_map<std::string, vecstr> behaviorJoints;														// lower lvl behavior file, higher lvl behavior file
+extern std::unordered_map<std::string, vecstr> behaviorProject;														// character hkx file name, list of project hkx file name; link the project
+extern std::unordered_map<std::string, std::set<std::string>> usedAnim;											// behavior name, animation path; animation used in behavior file
+extern std::unordered_map<std::string, std::unordered_map<std::string, bool>> registeredAnim;						// characters hkx file name, animation name, bool; is registered in that behavior file?
 extern std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::set<std::string>>>> animModMatch;	// characters hkx file name, animation file, animation paths & mod name; match conflicting mod (duplicated anim file)
 
 // Alternate Animation data
@@ -65,6 +66,8 @@ size_t fileLineCount(boost::filesystem::path filepath);
 void addUsedAnim(std::string behaviorFile, std::string animPath);
 void read_directory(const std::string& name, vecstr& fv);
 void read_directory(const std::wstring& name, std::vector<std::wstring>& fv);
+void read_directory(const char* name, vecstr& fv);
+void read_directory(const wchar_t* name, std::vector<std::wstring>& fv);
 void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
 bool GetFunctionLines(std::string filename, vecstr& functionlines, bool emptylast = true);
 bool GetFunctionLines(boost::filesystem::path filename, vecstr& functionlines, bool emptylast = true);
@@ -73,7 +76,19 @@ inline bool isFileExist(const std::string& filename)
 {
 	try
 	{
-		return boost::filesystem::exists(boost::filesystem::path(filename));
+		return boost::filesystem::exists(filename);
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+inline bool isFileExist(const char* filename)
+{
+	try
+	{
+		return boost::filesystem::exists(filename);
 	}
 	catch (...)
 	{

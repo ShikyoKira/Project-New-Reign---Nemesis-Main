@@ -2,12 +2,14 @@
 #define DATAUNIFICATION_H_
 
 #include <iostream>
+
 #include <boost\thread.hpp>
 #include <boost\regex.hpp>
 #include <boost\filesystem.hpp>
-#include <boost\algorithm\string.hpp>
-#include "functions\functionupdate.h"
+
 #include "functions\writetextfile.h"
+#include "functions\functionupdate.h"
+
 #include "add animation\animationdata.h"
 #include "add animation\animationsetdata.h"
 

@@ -1,6 +1,7 @@
 #include "furniture.h"
-#include "singletemplate.h"
+#include "compute.h"
 #include "templatetree.h"
+#include "singletemplate.h"
 #include "alternateanimation.h"
 
 #pragma warning(disable:4503)
@@ -784,7 +785,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 								}
 							}
 
-							calculate(equation, format, behaviorFile, linecount);
+							nemesis::calculate(equation, format, behaviorFile, linecount);
 
 							if (stoi(equation) > int(groupAnimInfo.size() - 1) || stoi(equation) < 0)
 							{
@@ -1693,7 +1694,7 @@ void Furniture::stateReplacer(string& line, std::string statenum, int stateID, i
 			{
 				size_t stateLength = state.length();
 				state.replace(1, 1 + statenum.length(), to_string(stateID));
-				calculate(state, format, behaviorFile, linecount);
+				nemesis::calculate(state, format, behaviorFile, linecount);
 
 				int ID = statenum.length() > 0 ? stoi(statenum) - 1 : 0;
 				subFunctionIDs->format["(S" + statenum + "+" + number + ")"] = state;
@@ -1869,7 +1870,7 @@ vecstr GetOptionInfo(string line, string format, string filename, int numline, s
 				optionInfo[1].replace(optionInfo[1].find("L"), 1, to_string(lastOrder));
 			}
 
-			calculate(optionInfo[1], format, filename, numline);
+			nemesis::calculate(optionInfo[1], format, filename, numline);
 		}
 		else if (optionInfo[1].length() == 0)
 		{
@@ -2279,12 +2280,12 @@ bool Furniture::GetFirstCondition(string firstCondition, vecstr optionInfo, int 
 		{
 			conditionOrder = boost::regex_replace(string(optionInfo[2]), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
-			if (boost::iequals(conditionOrder, "last"))
+			if (nemesis::iequals(conditionOrder, "last"))
 			{
 				if (isLastOrder) return !isNot;
 				else return isNot;
 			}
-			else if (boost::iequals(conditionOrder, "first"))
+			else if (nemesis::iequals(conditionOrder, "first"))
 			{
 				conditionOrder = "0";
 			}
@@ -2360,7 +2361,7 @@ void Furniture::GetAnimData(unordered_map<string, map<string, vecstr>>& newAnimD
 						if (line.back() == '\n') line.pop_back();
 
 						vecstr split;
-						boost::split(split, line, boost::is_any_of("\n"));
+						StringSplit(line, split);
 						storeline.insert(storeline.end(), split.begin(), split.end());
 					}
 					else
@@ -2775,7 +2776,7 @@ void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, stri
 						}
 						else if (word)
 						{
-							if (boost::iequals(curOrder, "last"))
+							if (nemesis::iequals(curOrder, "last"))
 							{
 								if (!isLastOrder)
 								{
@@ -2786,7 +2787,7 @@ void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, stri
 									skip = true;
 								}
 							}
-							else if (boost::iequals(curOrder, "first"))
+							else if (nemesis::iequals(curOrder, "first"))
 							{
 								if (order != 0)
 								{
@@ -3074,7 +3075,7 @@ void Furniture::AnimDataLineProcess(vecstr originallines, vecstr& newlines, stri
 										int nextpos = openEndBracket(templine, '(', ')', format, behaviorFile, i + 1) + 1;
 										templine = templine.substr(0, nextpos);
 										string oldline = templine;
-										calculate(templine, format, behaviorFile, i + 1);
+										nemesis::calculate(templine, format, behaviorFile, i + 1);
 
 										if (oldline != templine) newline.replace(pos, oldline.length(), templine);
 									}
@@ -3569,7 +3570,7 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, v
 						}
 						else if (word)
 						{
-							if (boost::iequals(curOrder, "last"))
+							if (nemesis::iequals(curOrder, "last"))
 							{
 								if (!isLastOrder)
 								{
@@ -3580,7 +3581,7 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, v
 									skip = true;
 								}
 							}
-							else if (boost::iequals(curOrder, "first"))
+							else if (nemesis::iequals(curOrder, "first"))
 							{
 								if (order != 0)
 								{
@@ -3878,7 +3879,7 @@ void Furniture::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, v
 										int nextpos = openEndBracket(templine, '(', ')', format, behaviorFile, i + 1) + 1;
 										templine = templine.substr(0, nextpos);
 										string oldline = templine;
-										calculate(templine, format, behaviorFile, i + 1);
+										nemesis::calculate(templine, format, behaviorFile, i + 1);
 
 										if (oldline != templine) newline.replace(pos, oldline.length(), templine);
 									}
@@ -4267,7 +4268,7 @@ void CRC32Replacer(string& line, string format, string behaviorFile, int linecou
 	string fullline = line.substr(pos, nextpos - pos);
 	pos += 6;
 	--nextpos;
-	string crc32line = boost::to_lower_copy(line.substr(pos, nextpos - pos));
+	string crc32line = nemesis::to_lower_copy(line.substr(pos, nextpos - pos));
 	line.replace(line.find(fullline), fullline.length(), to_string(CRC32Convert(crc32line)));
 }
 
@@ -4392,7 +4393,7 @@ void Furniture::OutputCheck(shared_ptr<vecstr> generatedlines, proc& process, co
 						}
 						else if (word)
 						{
-							if (boost::iequals(curOrder, "last"))
+							if (nemesis::iequals(curOrder, "last"))
 							{
 								if (!isLastOrder)
 								{
@@ -4403,7 +4404,7 @@ void Furniture::OutputCheck(shared_ptr<vecstr> generatedlines, proc& process, co
 									skip = true;
 								}
 							}
-							else if (boost::iequals(curOrder, "first"))
+							else if (nemesis::iequals(curOrder, "first"))
 							{
 								if (order != 0)
 								{
@@ -4552,7 +4553,7 @@ void Furniture::hasProcessing(string& line, bool& norElement, int& openRange, in
 			if (reference == openRange + 1)
 			{
 				__int64 number = count(line.begin(), line.end(), '#');
-				counter += number;
+				counter += static_cast<int>(number);
 			}
 		}
 	}

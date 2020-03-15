@@ -474,7 +474,7 @@ void proc::computation(range blok, vecstr& blocks)
 			}
 		}
 
-		calculate(equation, format, behaviorFile, numline);
+		nemesis::calculate(equation, format, behaviorFile, numline);
 		blocks[blok.front] = equation;
 	}
 }
@@ -1712,7 +1712,7 @@ void proc::variableID(range blok, vecstr& blocks)
 
 void proc::crc32(range blok, vecstr& blocks)
 {
-	string crc32line = boost::to_lower_copy(combineBlocks(blok, blocks));
+	string crc32line = nemesis::to_lower_copy(combineBlocks(blok, blocks));
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = to_string(CRC32Convert(crc32line));
 }
@@ -2457,11 +2457,11 @@ void proc::animOrder(range blok, vecstr& blocks)
 
 	if (clearBlocks(blok, blocks))
 	{
-		auto& ptr = charAnimDataInfo.find(boost::to_lower_copy(project.substr(0, project.rfind(".txt"))));
+		auto& ptr = charAnimDataInfo.find(nemesis::to_lower_copy(project.substr(0, project.rfind(".txt"))));
 
 		if (ptr != charAnimDataInfo.end())
 		{
-			auto& ptr2 = ptr->second.find(boost::to_lower_copy(boost::filesystem::path(animPath).filename().string()));
+			auto& ptr2 = ptr->second.find(nemesis::to_lower_copy(boost::filesystem::path(animPath).filename().string()));
 
 			if (ptr2 != ptr->second.end())
 			{

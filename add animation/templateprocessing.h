@@ -2,7 +2,7 @@
 #define TEMPLATEPROCESSING_H_
 
 #include <unordered_map>
-#include <boost/any.hpp>
+
 #include "animationutility.h"
 #include "animationthread.h"
 

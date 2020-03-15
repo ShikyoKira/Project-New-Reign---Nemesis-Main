@@ -1,8 +1,6 @@
 #ifndef ANIMATIONSETDATA_H_
 #define ANIMATIONSETDATA_H_
 
-#include <boost\algorithm\string.hpp>
-
 #include "furniture.h"
 #include "alphanum.hpp"
 #include "gettemplate.h"

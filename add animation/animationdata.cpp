@@ -68,7 +68,7 @@ AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string fil
 
 	map<string, string> exchange;
 	map<string, vector<int>> codeTracker;
-	string characterFile = boost::to_lower_copy(boost::filesystem::path(behaviorlist[behaviorlist.size() - 2]).stem().string());
+	string characterFile = nemesis::to_lower_copy(boost::filesystem::path(behaviorlist[behaviorlist.size() - 2]).stem().string());
 	AnimDataProcess(animdatalist, startline, animdatafile, project, modcode, exchange, clipPtrAnimData[characterFile], codeTracker);
 
 	if (error) throw nemesis::exception();
@@ -84,7 +84,7 @@ void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& ani
 
 	int i = startline + 1;
 
-	if (i + 4 >= int(animdatafile.size())) ErrorMessage(3021, project);
+	if (i + 3 > int(animdatafile.size())) ErrorMessage(3021, project);
 
 	storeline.projectActive = animdatafile[i++];
 	++i;

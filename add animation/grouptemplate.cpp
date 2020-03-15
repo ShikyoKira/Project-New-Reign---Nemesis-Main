@@ -856,7 +856,7 @@ void groupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline, string fo
 					int nextpos = openEndBracket(templine, '(', ')', format, filename, i + 1) + 1;
 					templine = templine.substr(0, nextpos);
 					string oldline = templine;
-					calculate(templine, format, filename, i + 1);
+					nemesis::calculate(templine, format, filename, i + 1);
 
 					if (oldline != templine) line.replace(pos, oldline.length(), templine);
 				}
@@ -1365,7 +1365,7 @@ void groupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline, string fo
 
 											templine = templine.substr(0, nextpos);
 											string oldline = templine;
-											calculate(templine, format, filename, linecount);
+											nemesis::calculate(templine, format, filename, linecount);
 
 											if (oldline != templine)
 											{
@@ -1552,7 +1552,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 	{
 		if (templatecode != format)
 		{
-			string lowercode = boost::to_lower_copy(templatecode);
+			string lowercode = nemesis::to_lower_copy(templatecode);
 			otherAnimType[lowercode] = true;
 			otherAnimType[lowercode + "_group"] = true;
 			otherAnimType[lowercode + "_master"] = true;
@@ -1828,7 +1828,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			newOpen = true;
 			size_t pos = line.find("<!-- NEW ^") + 10;
-			string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+			string checker = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 
 			if (!otherAnimType[checker])
 			{
@@ -1892,7 +1892,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 
 			newOpen = true;
 			size_t pos = line.find("<!-- FOREACH ^") + 14;
-			string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+			string checker = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 
 			if (!otherAnimType[checker])
 			{
@@ -2092,7 +2092,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					int nextpos = openEndBracket(templine, '(', ')', format, IDFileName, i + 1) + 1;
 					templine = templine.substr(0, nextpos);
 					string oldline = templine;
-					calculate(templine, format, IDFileName, i + 1);
+					nemesis::calculate(templine, format, IDFileName, i + 1);
 
 					if (oldline != templine) line.replace(pos, oldline.length(), templine);
 				}
@@ -2449,7 +2449,7 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											int nextpos = openEndBracket(templine, '(', ')', format, IDFileName, linecount) + 1;
 											templine = templine.substr(0, nextpos);
 											string oldline = templine;
-											calculate(templine, format, IDFileName, linecount);
+											nemesis::calculate(templine, format, IDFileName, linecount);
 
 											if (oldline != templine) curLine.replace(pos, oldline.length(), templine);
 										}
@@ -2773,7 +2773,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 			{
 				++scope;
 				size_t pos = line.find("<!-- NEW ^") + 10;
-				string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+				string checker = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 
 				if (!otherAnimType[checker])
 				{
@@ -2835,7 +2835,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 			{
 				++scope;
 				size_t pos = line.find("<!-- FOREACH ^") + 14;
-				string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+				string checker = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 
 				if (!otherAnimType[checker])
 				{
@@ -2957,7 +2957,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 		{
 			++scope;
 			size_t pos = line.find("<!-- FOREACH ^") + 14;
-			string checker = boost::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
+			string checker = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
 
 			string templine = line;
 			pos = templine.find("[");
@@ -3091,7 +3091,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 						if (reference == openRange + 1)
 						{
 							__int64 number = count(line.begin(), line.end(), '#');
-							elementCount += number;
+							elementCount += static_cast<int>(number);
 						}
 					}
 				}
@@ -3111,7 +3111,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 					int nextpos = openEndBracket(templine, '(', ')', format, IDFileName, i + 1) + 1;
 					templine = templine.substr(0, nextpos);
 					string oldline = templine;
-					calculate(templine, format, IDFileName, i + 1);
+					nemesis::calculate(templine, format, IDFileName, i + 1);
 
 					if (oldline != templine) line.replace(pos, oldline.length(), templine);
 				}
@@ -3410,7 +3410,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 												if (reference == openRange + 1)
 												{
 													__int64 number = count(curLine.begin(), curLine.end(), '#');
-													elementCount += number;
+													elementCount += static_cast<int>(number);
 												}
 											}
 										}
@@ -3462,7 +3462,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 											int nextpos = openEndBracket(templine, '(', ')', format, IDFileName, linecount) + 1;
 											templine = templine.substr(0, nextpos);
 											string oldline = templine;
-											calculate(templine, format, IDFileName, linecount);
+											nemesis::calculate(templine, format, IDFileName, linecount);
 
 											if (oldline != templine) curLine.replace(pos, oldline.length(), templine);
 										}
@@ -3545,7 +3545,7 @@ void groupTemplate::stateReplacer(string& line, string filename, string statenum
 				size_t stateLength = state.length();
 				state = state.substr(1, state.length() - 2);
 				state.replace(1, 1 + statenum.length(), to_string(stateID));
-				calculate(state, format, filename, linecount);
+				nemesis::calculate(state, format, filename, linecount);
 				int stateint = stoi(state);
 
 				if (groupMulti > -1) subFunctionIDs->grouplist[groupMulti]->functionIDs["(S" + statenum + "+" + number + ")"] = state;	// group
@@ -3617,7 +3617,7 @@ void groupTemplate::processing(string& line, string filename, string masterForma
 								}
 							}
 
-							calculate(equation, format, filename, linecount);
+							nemesis::calculate(equation, format, filename, linecount);
 
 							if (stoi(equation) > int(groupAnimInfo.size() - 1) || stoi(equation) < 0)
 							{
@@ -4040,7 +4040,7 @@ void ExistingFunction::processing(string& line, string filename, int curFunction
 								}
 							}
 
-							calculate(equation, format, filename, linecount);
+							nemesis::calculate(equation, format, filename, linecount);
 
 							if (stoi(equation) > int(groupAnimInfo[groupMulti].size() - 1) || stoi(equation) < 0) ErrorMessage(1148, format, filename, linecount, change);
 
@@ -5889,7 +5889,7 @@ string optionOrderProcess(string line, string format, string filename, int numli
 			newline.replace(newline.find("L"), 1, to_string(lastOrder));
 		}
 
-		calculate(newline, format, filename, numline);
+		nemesis::calculate(newline, format, filename, numline);
 	}
 	else
 	{
@@ -5982,8 +5982,8 @@ bool conditionProcess(string condition, string masterformat, string format, stri
 				{
 					conditionOrder = boost::regex_replace(string(optionInfo.back()), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
-					if (boost::iequals(conditionOrder, "last")) conditionResult = utility.animMulti == groupAnimInfo.size() - 1 ? !isNot : isNot;
-					else if (boost::iequals(conditionOrder, "first")) conditionOrder = "0";
+					if (nemesis::iequals(conditionOrder, "last")) conditionResult = utility.animMulti == groupAnimInfo.size() - 1 ? !isNot : isNot;
+					else if (nemesis::iequals(conditionOrder, "first")) conditionOrder = "0";
 					else ErrorMessage(1138, format, filename, numline, condition);
 				}
 				else
@@ -6018,8 +6018,8 @@ bool conditionProcess(string condition, string masterformat, string format, stri
 			{
 				conditionOrder = boost::regex_replace(string(optionInfo.back()), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
-				if (boost::iequals(conditionOrder, "last")) return utility.animMulti == groupAnimInfo.size() - 1 ? !isNot : isNot;
-				else if (boost::iequals(conditionOrder, "first")) conditionOrder = "0";
+				if (nemesis::iequals(conditionOrder, "last")) return utility.animMulti == groupAnimInfo.size() - 1 ? !isNot : isNot;
+				else if (nemesis::iequals(conditionOrder, "first")) conditionOrder = "0";
 				else ErrorMessage(1138, format, filename, numline, condition);
 			}
 			else
