@@ -144,6 +144,9 @@
     <ClCompile Include="debuglog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\utilities\algorithm.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -268,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="debuglog.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utilities\algorithm.h">
+      <Filter>Header Files\utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
