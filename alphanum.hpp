@@ -1,18 +1,19 @@
-#ifndef ALPHANUM__HPP
-#define ALPHANUM__HPP
+#ifndef ALPHANUM_HPP_
+#define ALPHANUM_HPP_
 
 #include <string>
 #include <shlwapi.h>
-#include <locale>
-#include <codecvt>
-#include "compute.h"
 
-struct alphanum_less : public std::binary_function<std::string, std::string, bool>
+struct alphanum_less
 {
-	bool operator()(const std::string& left, const std::string& right) const
+	bool operator() (const std::string& x, const std::string& y) const 
 	{
-		return lstrcmpiA(LPCSTR(left.c_str()), LPCSTR(right.c_str())) < 0;
+		return lstrcmpiA(LPCSTR(x.c_str()), LPCSTR(y.c_str())) < 0;
 	}
+
+	typedef std::string first_argument_type;
+	typedef std::string second_argument_type;
+	typedef bool result_type;
 };
 
 #endif
