@@ -37,14 +37,9 @@ struct FileReader
 			QString qline = file.readLine();
 			line = qline.toStdString();
 
-			if (line.length() > 0)
+			while (line.length() > 0 && line.back() == '\n' || line.back() == '\r')
 			{
-				if (line.back() == '\n' || line.back() == '\r') line.pop_back();
-
-				if (line.length() > 0)
-				{
-					if (line.back() == '\r' || line.back() == '\n') line.pop_back();
-				}
+				line.pop_back();
 			}
 
 			return true;
@@ -60,14 +55,28 @@ struct FileReader
 			QString qline = file.readLine();
 			line = qline.toStdWString();
 
-			if (line.length() > 0)
+			while (line.length() > 0 && line.back() == '\n' || line.back() == '\r')
 			{
-				if (line.back() == '\n' || line.back() == '\r') line.pop_back();
+				line.pop_back();
+			}
 
-				if (line.length() > 0)
-				{
-					if (line.back() == '\r' || line.back() == '\n') line.pop_back();
-				}
+			return true;
+		}
+
+		return false;
+	}
+
+	bool GetLines(std::wstring_view& line)
+	{
+		while (!file.atEnd())
+		{
+			QString qline = file.readLine();
+			const wchar_t* templine = qline.toStdWString().c_str();
+			line = std::wstring_view(templine);
+
+			while (line.length() > 0 && (line.back() == '\n' || line.back() == '\r'))
+			{
+				line = std::wstring_view(templine, line.length() - 1);
 			}
 
 			return true;
