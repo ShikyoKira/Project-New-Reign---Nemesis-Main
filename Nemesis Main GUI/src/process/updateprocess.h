@@ -46,6 +46,7 @@ public:
 
 	UpdateFilesStart();
 	virtual ~UpdateFilesStart();
+	void startUpdatingFile();
 	void milestoneStart(std::string directory);
 	void message(std::string input);
 	void GetFileLoop(std::string newPath);

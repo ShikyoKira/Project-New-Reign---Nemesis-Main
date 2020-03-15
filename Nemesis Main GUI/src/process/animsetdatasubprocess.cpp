@@ -59,7 +59,6 @@ void BehaviorSub::CompilingASD()
 	int headercounter = 0;
 	bool isOpen = true;
 	bool special = false;
-	string newMod;
 	string project = "	";
 	string header = project;
 	unordered_map<string, string> chosenLines;
@@ -98,7 +97,6 @@ void BehaviorSub::CompilingASD()
 					string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
 
 					if (!chosenBehavior[modID]) isOpen = false;
-					else newMod = modID;
 
 					skip = true;
 				}
@@ -109,7 +107,6 @@ void BehaviorSub::CompilingASD()
 				else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
 				{
 					isOpen = true;
-					newMod.clear();
 
 					if (!special) skip = true;
 					else special = false;
@@ -118,16 +115,15 @@ void BehaviorSub::CompilingASD()
 
 			if (isOpen && !skip)
 			{
-				while (true)
+				if (line.find("<!-- *", 0) != NOT_FOUND)
 				{
-					if (line.find("<!-- *", 0) != NOT_FOUND)
-					{
-						size_t tempint = line.find("<!-- *") + 6;
-						string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-						chosenLines[modID] = line;
-						break;
-					}
-					else if (line.find("<!-- original -->", 0) != NOT_FOUND)
+					size_t tempint = line.find("<!-- *") + 6;
+					string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+					chosenLines[modID] = line;
+				}
+				else
+				{
+					if (line.find("<!-- original -->", 0) != NOT_FOUND)
 					{
 						if (chosenLines.size() != 0)
 						{
@@ -140,22 +136,19 @@ void BehaviorSub::CompilingASD()
 						}
 					}
 
-					if (line.find("//* delete this line *//") != NOT_FOUND) break;
-
-					storeline.push_back(line);
-					break;
+					if (line.find("//* delete this line *//") == NOT_FOUND) storeline.push_back(line);
 				}
 			}
 
 			if (error) throw nemesis::exception();
 		}
 
-		for (int i = 1; i < catalyst.size(); ++i)
+		for (int i = 1; i < storeline.size(); ++i)
 		{
-			if (isOnlyNumber(catalyst[i])) break;
+			if (isOnlyNumber(storeline[i])) break;
 
-			projectList.push_back(catalyst[i]);
-			newline.push_back(catalyst[i]);
+			projectList.push_back(storeline[i]);
+			newline.push_back(storeline[i]);
 
 			if (error) throw nemesis::exception();
 		}
@@ -465,14 +458,21 @@ void BehaviorSub::CompilingASD()
 			vecstr projectline;
 			projectline.push_back(to_string(ASDPack[curProject].size()));
 
-			for (auto it = ASDPack[curProject].begin(); it != ASDPack[curProject].end(); ++it)
+			for (auto it : ASDPack[curProject])
 			{
-				projectline.push_back(it->first);
+				if (it.first.find("<!--") != NOT_FOUND) continue;
+
+				projectline.push_back(it.first);
 			}
 
-			for (auto it = ASDPack[curProject].begin(); it != ASDPack[curProject].end(); ++it)
+			for (auto it : ASDPack[curProject])
 			{
-				projectline.insert(projectline.end(), it->second.begin(), it->second.end());
+				for (string& each : it.second)
+				{
+					if (each.find("<!--") != NOT_FOUND) continue;
+
+					projectline.push_back(each);
+				}
 			}
 
 			if (error) throw nemesis::exception();

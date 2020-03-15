@@ -113,14 +113,51 @@ void BehaviorSub::CompilingAnimData()
 			vecstr newline;
 			unordered_map<string, string> chosenLines;
 
-			if (!GetFunctionLines(filepath, catalyst)) return;
+			if (!GetFunctionLines(filepath, newline)) return;
 
 			DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
 			process->newMilestone();
-
-			int projectcounter = 0;
+			
 			bool isOpen = true;
 			bool special = false;
+			catalyst.reserve(newline.size());
+
+			for (auto& line : newline)
+			{
+				bool skip = false;
+
+				if (line.find("<!-- ", 0) != NOT_FOUND)
+				{
+					if (line.find("<!-- NEW *", 0) != NOT_FOUND)
+					{
+						size_t tempint = line.find("<!-- NEW *", 0) + 10;
+						string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+
+						if (!chosenBehavior[modID]) isOpen = false;
+
+						skip = true;
+					}
+					else if (line.find("<!-- NEW ^", 0) != NOT_FOUND || line.find("<!-- FOREACH ^") != NOT_FOUND)
+					{
+						special = true;
+					}
+					else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+					{
+						isOpen = true;
+
+						if (!special) skip = true;
+						else special = false;
+					}
+				}
+
+				if (isOpen && !skip)
+				{
+					catalyst.push_back(line);
+				}
+			}
+
+			newline.clear();
+			int projectcounter = 0;
 			bool isInfo = false;
 			int num = 0;
 			projectList.reserve(500);
@@ -150,219 +187,89 @@ void BehaviorSub::CompilingAnimData()
 			for (unsigned int l = num; l < catalyst.size(); ++l)
 			{
 				string line = catalyst[l];
-				bool skip = false;
 
-				if (line.find("<!-- ", 0) != NOT_FOUND)
+				if (line.find("<!-- *", 0) != NOT_FOUND)
 				{
-					if (line.find("<!-- NEW *", 0) != NOT_FOUND)
-					{
-						size_t tempint = line.find("<!-- NEW *", 0) + 10;
-						string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+					size_t tempint = line.find("<!-- *") + 6;
+					string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+					chosenLines[modID] = line;
+					continue;
+				}
+				else if (line.find("<!-- original -->", 0) != NOT_FOUND)
+				{
+					if (chosenLines.size() == 0) ErrorMessage(1165);
 
-						if (!chosenBehavior[modID]) isOpen = false;
-
-						skip = true;
-					}
-					else if (line.find("<!-- NEW ^", 0) != NOT_FOUND || line.find("<!-- FOREACH ^") != NOT_FOUND)
-					{
-						special = true;
-					}
-					else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-					{
-						isOpen = true;
-
-						if (!special) skip = true;
-						else special = false;
-					}
+					line = behaviorLineChooser(line, chosenLines, behaviorPriority);
+					chosenLines.clear();
 				}
 
-				if (isOpen && !skip)
+				if (l + 3 < catalyst.size() && l > 2)
 				{
-					while (true)
+					bool empty = false;
+
+					if (catalyst[l - 1] == "")
 					{
-						if (line.find("<!-- *", 0) != NOT_FOUND)
-						{
-							size_t tempint = line.find("<!-- *") + 6;
-							string modID = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-							chosenLines[modID] = line;
-							break;
-						}
-						else if (line.find("<!-- original -->", 0) != NOT_FOUND)
-						{
-							if (chosenLines.size() == 0) ErrorMessage(1165);
+						empty = true;
+					}
+					else
+					{
+						int next = -1;
 
-							line = behaviorLineChooser(line, chosenLines, behaviorPriority);
-							chosenLines.clear();
+						while (l + next >= 0 && catalyst[l + next].find("<!--") != NOT_FOUND)
+						{
+							--next;
 						}
 
-						if (l + 3 < catalyst.size() && l > 2)
+						if (catalyst[l + next] == "") empty = true;
+					}
+
+					if (empty)
+					{
+						bool out = false;
+
+						if (isOnlyNumber(line))
 						{
-							bool empty = false;
+							int next = 1;
 
-							if (catalyst[l - 1] == "")
+							if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++next;
+
+							if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
 							{
-								empty = true;
-							}
-							else
-							{
-								int next = -1;
+								++next;
 
-								while (l + next >= 0 && catalyst[l + next].find("<!--") != NOT_FOUND)
+								if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++next;
+
+								if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
 								{
-									--next;
-								}
+									int nextnext = next + 1;
 
-								if (catalyst[l + next] == "") empty = true;
-							}
+									if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++nextnext;
 
-							if (empty)
-							{
-								bool out = false;
-
-								if (isOnlyNumber(line))
-								{
-									int next = 1;
-
-									if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++next;
-
-									if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
-									{
-										++next;
-
-										if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++next;
-
-										if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
-										{
-											int nextnext = next + 1;
-
-											if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++nextnext;
-
-											if (catalyst[l + next] == "0" || (l + nextnext < catalyst.size() &&
-												catalyst[l + nextnext].find("\\") != NOT_FOUND))
-											{
-												newline.shrink_to_fit();
-												catalystMap[project][header] = newline;
-												string newproject = projectList[++projectcounter];
-												header = "$header$";
-												project = newproject + " " + to_string(++projectNameCount[newproject]);
-												animDataHeader[project].push_back(header);
-												newline.reserve(20);
-												newline.clear();
-												isInfo = false;
-												out = true;
-											}
-										}
-									}
-								}
-
-								if (!out)
-								{
-									if (!isInfo)
-									{
-										if (hasAlpha(line))
-										{
-											if (isOnlyNumber(catalyst[l + 1]))		// next anim header
-											{
-												newline.shrink_to_fit();
-												catalystMap[project][header] = newline;
-												newline.reserve(20);
-												newline.clear();
-												header = line + " " + catalyst[l + 1];
-												animDataHeader[project].push_back(header);
-											}
-											else		// new anim header added by mod
-											{
-												string number = boost::regex_replace(string(catalyst[l + 1]),
-													boost::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
-
-												if (number != catalyst[l + 1] && isOnlyNumber(number))
-												{
-													string modcode = catalyst[l + 1];
-													catalyst[l + 1] = to_string(uCode[project].to_int());
-													--uCode[project];
-													uniqueModCode[project][modcode] = catalyst[l + 1];
-													newline.shrink_to_fit();
-													catalystMap[project][header] = newline;
-													newline.reserve(20);
-													newline.clear();
-													header = line + " " + catalyst[l + 1];
-													animDataHeader[project].push_back(header);
-												}
-											}
-										}
-										else if (isOnlyNumber(line))	// is info
-										{
-											isInfo = true;
-											newline.shrink_to_fit();
-											catalystMap[project][header] = newline;;
-											newline.reserve(20);
-											newline.clear();
-											string number = boost::regex_replace(string(catalyst[++l]), boost::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
-
-											if (number != catalyst[l] && isOnlyNumber(number))
-											{
-												if (uniqueModCode[project].find(catalyst[l]) != uniqueModCode[project].end())
-												{
-													catalyst[l] = uniqueModCode[project][catalyst[l]];
-												}
-												else
-												{
-													WarningMessage(1024, catalyst[l]);
-													short& refCode = uCode[project].to_int();
-													uniqueModCode[project][catalyst[l]] = to_string(refCode);
-													catalyst[l] = to_string(refCode);
-													--refCode;
-												}
-											}
-
-											line = catalyst[l];
-											header = line;
-											animDataInfo[project].push_back(header);
-										}
-									}
-									else if (isOnlyNumber(line))	// next info
+									if (catalyst[l + next] == "0" || (l + nextnext < catalyst.size() &&
+										catalyst[l + nextnext].find("\\") != NOT_FOUND))
 									{
 										newline.shrink_to_fit();
 										catalystMap[project][header] = newline;
+										string newproject = projectList[++projectcounter];
+										header = "$header$";
+										project = newproject + " " + to_string(++projectNameCount[newproject]);
+										animDataHeader[project].push_back(header);
 										newline.reserve(20);
 										newline.clear();
-										header = line;
-										animDataInfo[project].push_back(header);
-									}
-									else		// new info added by mod
-									{
-										string number = boost::regex_replace(string(line), boost::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
-
-										if (number != line && isOnlyNumber(number))
-										{
-											if (uniqueModCode[project].find(line) != uniqueModCode[project].end())
-											{
-												line = uniqueModCode[project][line];
-											}
-											else
-											{
-												WarningMessage(1024, line);
-												short& refCode = uCode[project].to_int();
-												uniqueModCode[project][line] = to_string(refCode);
-												line = to_string(refCode);
-												--refCode;
-											}
-
-											newline.shrink_to_fit();
-											catalystMap[project][header] = newline;
-											newline.reserve(20);
-											newline.clear();
-											header = line;
-											animDataInfo[project].push_back(header);
-										}
+										isInfo = false;
+										out = true;
 									}
 								}
 							}
-							else if (header == "$header$")
+						}
+
+						if (!out)
+						{
+							if (!isInfo)
 							{
-								if (hasAlpha(line) && line.find("\\") == NOT_FOUND && l + 1 < catalyst.size())
+								if (hasAlpha(line))
 								{
-									if (isOnlyNumber(catalyst[l + 1]))	// if it is unique code
+									if (isOnlyNumber(catalyst[l + 1]))		// next anim header
 									{
 										newline.shrink_to_fit();
 										catalystMap[project][header] = newline;
@@ -371,16 +278,16 @@ void BehaviorSub::CompilingAnimData()
 										header = line + " " + catalyst[l + 1];
 										animDataHeader[project].push_back(header);
 									}
-									else
+									else		// new anim header added by mod
 									{
-										string number = boost::regex_replace(string(catalyst[l + 1]), boost::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
+										string number = boost::regex_replace(string(catalyst[l + 1]),
+											boost::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
 
 										if (number != catalyst[l + 1] && isOnlyNumber(number))
 										{
 											string modcode = catalyst[l + 1];
-											short& refCode = uCode[project].to_int();
-											catalyst[l + 1] = to_string(refCode);
-											--refCode;
+											catalyst[l + 1] = to_string(uCode[project].to_int());
+											--uCode[project];
 											uniqueModCode[project][modcode] = catalyst[l + 1];
 											newline.shrink_to_fit();
 											catalystMap[project][header] = newline;
@@ -391,46 +298,142 @@ void BehaviorSub::CompilingAnimData()
 										}
 									}
 								}
-								else if (isOnlyNumber(catalyst[l - 1]) && catalyst[l - 1] == "0" && isOnlyNumber(line))
+								else if (isOnlyNumber(line))	// is info
 								{
-									int next = 1;
+									isInfo = true;
+									newline.shrink_to_fit();
+									catalystMap[project][header] = newline;;
+									newline.reserve(20);
+									newline.clear();
+									string number = boost::regex_replace(string(catalyst[++l]), boost::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
 
-									if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+									if (number != catalyst[l] && isOnlyNumber(number))
 									{
-										++next;
-
-										if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++next;
-
-										if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+										if (uniqueModCode[project].find(catalyst[l]) != uniqueModCode[project].end())
 										{
-											int nextnext = next + 1;
-
-											if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++nextnext;
-
-											if (catalyst[l + next] == "0" || (l + nextnext < catalyst.size() &&
-												catalyst[l + nextnext].find("\\") != NOT_FOUND))	// next project
-											{
-												newline.shrink_to_fit();
-												catalystMap[project][header] = newline;
-												string newproject = projectList[++projectcounter];
-												project = newproject + " " + to_string(++projectNameCount[newproject]);
-												animDataHeader[project].push_back(header);
-												newline.reserve(20);
-												newline.clear();
-												isInfo = false;
-											}
+											catalyst[l] = uniqueModCode[project][catalyst[l]];
 										}
+										else
+										{
+											WarningMessage(1024, catalyst[l]);
+											short& refCode = uCode[project].to_int();
+											uniqueModCode[project][catalyst[l]] = to_string(refCode);
+											catalyst[l] = to_string(refCode);
+											--refCode;
+										}
+									}
+
+									line = catalyst[l];
+									header = line;
+									animDataInfo[project].push_back(header);
+								}
+							}
+							else if (isOnlyNumber(line))	// next info
+							{
+								newline.shrink_to_fit();
+								catalystMap[project][header] = newline;
+								newline.reserve(20);
+								newline.clear();
+								header = line;
+								animDataInfo[project].push_back(header);
+							}
+							else		// new info added by mod
+							{
+								string number = boost::regex_replace(string(line), boost::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
+
+								if (number != line && isOnlyNumber(number))
+								{
+									if (uniqueModCode[project].find(line) != uniqueModCode[project].end())
+									{
+										line = uniqueModCode[project][line];
+									}
+									else
+									{
+										WarningMessage(1024, line);
+										short& refCode = uCode[project].to_int();
+										uniqueModCode[project][line] = to_string(refCode);
+										line = to_string(refCode);
+										--refCode;
+									}
+
+									newline.shrink_to_fit();
+									catalystMap[project][header] = newline;
+									newline.reserve(20);
+									newline.clear();
+									header = line;
+									animDataInfo[project].push_back(header);
+								}
+							}
+						}
+					}
+					else if (header == "$header$")
+					{
+						if (hasAlpha(line) && line.find("\\") == NOT_FOUND && l + 1 < catalyst.size())
+						{
+							if (isOnlyNumber(catalyst[l + 1]))	// if it is unique code
+							{
+								newline.shrink_to_fit();
+								catalystMap[project][header] = newline;
+								newline.reserve(20);
+								newline.clear();
+								header = line + " " + catalyst[l + 1];
+								animDataHeader[project].push_back(header);
+							}
+							else
+							{
+								string number = boost::regex_replace(string(catalyst[l + 1]), boost::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
+
+								if (number != catalyst[l + 1] && isOnlyNumber(number))
+								{
+									string modcode = catalyst[l + 1];
+									short& refCode = uCode[project].to_int();
+									catalyst[l + 1] = to_string(refCode);
+									--refCode;
+									uniqueModCode[project][modcode] = catalyst[l + 1];
+									newline.shrink_to_fit();
+									catalystMap[project][header] = newline;
+									newline.reserve(20);
+									newline.clear();
+									header = line + " " + catalyst[l + 1];
+									animDataHeader[project].push_back(header);
+								}
+							}
+						}
+						else if (isOnlyNumber(catalyst[l - 1]) && catalyst[l - 1] == "0" && isOnlyNumber(line))
+						{
+							int next = 1;
+
+							if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+							{
+								++next;
+
+								if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++next;
+
+								if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+								{
+									int nextnext = next + 1;
+
+									if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND) ++nextnext;
+
+									if (catalyst[l + next] == "0" || (l + nextnext < catalyst.size() &&
+										catalyst[l + nextnext].find("\\") != NOT_FOUND))	// next project
+									{
+										newline.shrink_to_fit();
+										catalystMap[project][header] = newline;
+										string newproject = projectList[++projectcounter];
+										project = newproject + " " + to_string(++projectNameCount[newproject]);
+										animDataHeader[project].push_back(header);
+										newline.reserve(20);
+										newline.clear();
+										isInfo = false;
 									}
 								}
 							}
 						}
-
-						newline.push_back(line);
-						break;
 					}
-
-					if (error) throw nemesis::exception();
 				}
+
+				newline.push_back(line);
 
 				if (error) throw nemesis::exception();
 			}

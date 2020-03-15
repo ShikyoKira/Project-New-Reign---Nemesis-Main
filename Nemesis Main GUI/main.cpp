@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 		{
 			for (unsigned int i = 1; i < argc; ++i)
 			{
-				if (boost::iequals(argv[i], "-update"))
+				if (nemesis::iequals(argv[i], "-update"))
 				{
 					if (generate)
 					{
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
 					update = true;
 				}
-				if (boost::iequals(argv[i], "-generate"))
+				if (nemesis::iequals(argv[i], "-generate"))
 				{
 					if (update)
 					{

@@ -156,7 +156,7 @@ void BehaviorStart::InitializeGeneration()
 		{
 			if (checkThread->joinable()) checkThread->join();
 		}
-		catch (const std::exception&)
+		catch (exception)
 		{
 		}
 
@@ -231,7 +231,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 			if (BehaviorTemplate->coreTemplate[templatecode].length() > 0)
 			{
 				coreModName = "Nemesis_" + modID + "_";
-				string corepath = behaviorPath[BehaviorTemplate->coreTemplate[templatecode]];
+				string corepath = string(behaviorPath[BehaviorTemplate->coreTemplate[templatecode]]);
 				string corename = GetFileName(corepath);
 				corepath = corepath.substr(0, corepath.length() - corename.length());
 				DebugLogging("Core behavior name: " + corename);
@@ -259,7 +259,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 						else
 						{
 							dummy->addFilename(coreModName + BehaviorTemplate->optionlist[corecode].coreBehavior + ".hkx");
-							coreModList[boost::to_lower_copy(BehaviorTemplate->optionlist[corecode].coreBehavior) + ".txt"].push_back(coreModName);
+							coreModList[nemesis::to_lower_copy(BehaviorTemplate->optionlist[corecode].coreBehavior) + ".txt"].push_back(coreModName);
 						}
 
 						dummy->ignoreGroup = false;
@@ -388,7 +388,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 								{
 									string templine = (*element)[l];
 
-									if (boost::iequals(templine, "main_anim_event"))
+									if (nemesis::iequals(templine, "main_anim_event"))
 									{
 										templine = newAnimation[templatecode].back()->mainAnimEvent;
 										elementLine.replace(elementLine.find("$$"), 2, templine);
@@ -438,7 +438,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 									{
 										for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 										{
-											if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+											if (nemesis::iequals(templine, it->first + "[" + iter->first + "]"))
 											{
 												elementLine.replace(elementLine.find("$$"), 2, iter->second);
 												isBreak = true;
@@ -457,7 +457,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 										{
 											for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 											{
-												if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+												if (nemesis::iequals(templine, it->first + "[" + iter->first + "]"))
 												{
 													elementLine.replace(elementLine.find("$$"), 2, "##");
 													isDone = true;
@@ -531,7 +531,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 									{
 										string templine = (*element)[l];
 
-										if (boost::iequals(templine, "main_anim_event"))
+										if (nemesis::iequals(templine, "main_anim_event"))
 										{
 											templine = newAnimation[templatecode].back()->mainAnimEvent;
 											elementLine.replace(elementLine.find("$$"), 2, templine);
@@ -614,7 +614,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 							{
 								string templine = (*element)[l];
 
-								if (boost::iequals(templine, "main_anim_event"))
+								if (nemesis::iequals(templine, "main_anim_event"))
 								{
 									templine = newAnimation[templatecode].back()->mainAnimEvent;
 									elementLine.replace(elementLine.find("$$"), 2, templine);
@@ -659,7 +659,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 							{
 								string templine = (*element)[l];
 
-								if (boost::iequals(templine, "main_anim_event"))
+								if (nemesis::iequals(templine, "main_anim_event"))
 								{
 									templine = newAnimation[templatecode].back()->mainAnimEvent;
 									elementLine.replace(elementLine.find("$$"), 2, templine);
@@ -755,27 +755,27 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
 		if (f)
 		{
-			fseek(f, 20, SEEK_SET);
+			std::fseek(f, 20, SEEK_SET);
 			unsigned char charcode = 73;
-			fwrite(&charcode, sizeof(charcode), 1, f);
+			std::fwrite(&charcode, sizeof(charcode), 1, f);
 
-			fseek(f, 21, SEEK_SET);
+			std::fseek(f, 21, SEEK_SET);
 			charcode = 83;
-			fwrite(&charcode, sizeof(charcode), 1, f);
+			std::fwrite(&charcode, sizeof(charcode), 1, f);
 
-			fseek(f, 45, SEEK_SET);
+			std::fseek(f, 45, SEEK_SET);
 			charcode = 73;
-			fwrite(&charcode, sizeof(charcode), 1, f);
+			std::fwrite(&charcode, sizeof(charcode), 1, f);
 
-			fseek(f, 46, SEEK_SET);
+			std::fseek(f, 46, SEEK_SET);
 			charcode = 83;
-			fwrite(&charcode, sizeof(charcode), 1, f);
+			std::fwrite(&charcode, sizeof(charcode), 1, f);
 
-			fseek(f, 495, SEEK_SET);
+			std::fseek(f, 495, SEEK_SET);
 			charcode = 49;
-			fwrite(&charcode, sizeof(charcode), 1, f);
+			std::fwrite(&charcode, sizeof(charcode), 1, f);
 
-			fclose(f);
+			std::fclose(f);
 		}
 		else
 		{
@@ -794,7 +794,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 	{
 		if (!boost::filesystem::is_directory(directory + filelist[i]))
 		{
-			string lowerFileName = boost::to_lower_copy(filelist[i]);
+			string lowerFileName = nemesis::to_lower_copy(filelist[i]);
 
 			if (coreModList.find(lowerFileName) != coreModList.end())
 			{
@@ -809,7 +809,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
 			for (unsigned int j = 0; j < fpfilelist.size(); ++j)
 			{
-				string lowerFileName = boost::to_lower_copy(filelist[i] + "\\" + fpfilelist[j]);
+				string lowerFileName = nemesis::to_lower_copy(filelist[i] + "\\" + fpfilelist[j]);
 
 				if (coreModList.find(lowerFileName) != coreModList.end())
 				{
@@ -835,7 +835,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 				bool isCore = false;
 				int repeatcount = 0;
 				int repeat = 1;
-				string lowerFileName = boost::to_lower_copy(filelist[i]);
+				string lowerFileName = nemesis::to_lower_copy(filelist[i]);
 
 				if (coreModList.find(lowerFileName) != coreModList.end())
 				{
@@ -850,8 +850,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 					if (isCore) modID = coreModList[lowerFileName][repeatcount];
 
 					bool skip = false;
-					string tempfilename = filelist[i].substr(0, filelist[i].find_last_of("."));
-					boost::algorithm::to_lower(tempfilename);
+					string tempfilename = lowerFileName.substr(0, lowerFileName.find_last_of("."));
 					string temppath = behaviorPath[tempfilename];
 
 					if (temppath.length() != 0)
@@ -881,11 +880,11 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 						behaviorProcess.connect();
 					}
 
-					if (boost::iequals(filelist[i], "animationdatasinglefile.txt"))
+					if (lowerFileName == "animationdatasinglefile.txt")
 					{
 						boost::asio::post(mt, boost::bind(&BehaviorSub::AnimDataCompilation, worker));
 					}
-					else if (boost::iequals(filelist[i], "animationsetdatasinglefile.txt"))
+					else if (lowerFileName == "animationsetdatasinglefile.txt")
 					{
 						boost::asio::post(mt, boost::bind(&BehaviorSub::ASDCompilation, worker));
 					}
@@ -922,7 +921,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 						bool isCore = false;
 						int repeatcount = 0;
 						int repeat = 1;
-						string lowerFileName = boost::to_lower_copy(fpfilelist[j]);
+						string lowerFileName = nemesis::to_lower_copy(fpfilelist[j]);
 
 						if (coreModList.find(lowerFileName) != coreModList.end())
 						{
@@ -939,8 +938,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 							if (isCore) modID = coreModList[lowerFileName][repeatcount];
 
 							bool skip = false;
-							string tempfilename = fpfilelist[j].substr(0, fpfilelist[j].find_last_of("."));
-							boost::algorithm::to_lower(tempfilename);
+							string tempfilename = lowerFileName.substr(0, lowerFileName.find_last_of("."));
 							string temppath = behaviorPath[tempfilename];
 
 							if (temppath.length() != 0)
@@ -968,11 +966,11 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 								behaviorProcess.connect();
 							}
 
-							if (boost::iequals(fpfilelist[j], "animationdatasinglefile.txt"))
+							if (lowerFileName == "animationdatasinglefile.txt")
 							{
 								boost::asio::post(mt, boost::bind(&BehaviorSub::AnimDataCompilation, worker));		// 9 progress ups
 							}
-							else if (boost::iequals(fpfilelist[j], "animationsetdatasinglefile.txt"))
+							else if (lowerFileName == "animationsetdatasinglefile.txt")
 							{
 								boost::asio::post(mt, boost::bind(&BehaviorSub::ASDCompilation, worker));
 							}
@@ -993,7 +991,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 			}
 		}
 	}
-	catch (const std::exception& ex)
+	catch (exception& ex)
 	{
 		mt.stop();
 
@@ -1236,7 +1234,7 @@ void addOnInstall(string templine, string& elementLine, vector<vecstr>& groupAdd
 	{
 		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 		{
-			if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+			if (nemesis::iequals(templine, it->first + "[" + iter->first + "]"))
 			{
 				elementLine.replace(elementLine.find("$$"), 2, iter->second);
 				return;
@@ -1248,7 +1246,7 @@ void addOnInstall(string templine, string& elementLine, vector<vecstr>& groupAdd
 	{
 		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
 		{
-			if (boost::iequals(templine, it->first + "[" + iter->first + "]"))
+			if (nemesis::iequals(templine, it->first + "[" + iter->first + "]"))
 			{
 				elementLine.replace(elementLine.find("$$"), 2, "##");
 				groupAddOnElement.push_back(iter->second);

@@ -38,20 +38,20 @@ void RunScript(string directory, bool& hasScript)
 		if (!boost::filesystem::is_directory(scriptfile))
 		{
 			// bat script
-			if (boost::iequals(scriptfile.extension().string(), ".bat"))
+			if (nemesis::iequals(scriptfile.extension().string(), ".bat"))
 			{
 				hasScript = true;
 				BatchScriptThread(scriptfile.filename().string(), scriptpath, false);
 			}
 			// python script
-			else if (boost::iequals(scriptfile.extension().string(), ".py"))
+			else if (nemesis::iequals(scriptfile.extension().string(), ".py"))
 			{
 				hasScript = true;
 				PythonScriptThread(scriptfile.filename().string(), scriptpath.c_str());
 			}
 		}
 		// visible scripts
-		else if (boost::iequals(file, "show") && boost::filesystem::is_directory(scriptfile))
+		else if (nemesis::iequals(file, "show") && boost::filesystem::is_directory(scriptfile))
 		{
 			vecstr shownscriptlist;
 			read_directory(scriptpath, shownscriptlist);
@@ -64,13 +64,13 @@ void RunScript(string directory, bool& hasScript)
 				if (!boost::filesystem::is_directory(shownscript))
 				{
 					// bat script
-					if (boost::iequals(shownscript.extension().string(), ".bat"))
+					if (nemesis::iequals(shownscript.extension().string(), ".bat"))
 					{
 						hasScript = true;
 						BatchScriptThread(shownscript.filename().string(), shownpath, true);
 					}
 					// python script
-					else if (boost::iequals(shownscript.extension().string(), ".py"))
+					else if (nemesis::iequals(shownscript.extension().string(), ".py"))
 					{
 						hasScript = true;
 						PythonScriptThread(shownscript.filename().string(), shownpath.c_str());

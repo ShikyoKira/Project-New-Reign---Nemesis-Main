@@ -11,7 +11,7 @@ extern boost::atomic_flag animdata_lock;
 bool AddAnims(string& line, string animPath, string outputdir,string behaviorFile, string lowerBehaviorFile, string& newMod, vecstr& storeline, int& counter,
 	unordered_map<string, bool>& isAdded, bool& addAnim)
 {
-	if (!isAdded[boost::to_lower_copy(animPath)])
+	if (!isAdded[nemesis::to_lower_copy(animPath)])
 	{
 		string animFile = GetFileName(animPath) + ".hkx";
 
@@ -19,7 +19,7 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 		{
 			if (lowerBehaviorFile == "defaultfemale")
 			{
-				if (!boost::iequals(animPath, "Animations\\female\\" + animFile))
+				if (!nemesis::iequals(animPath, "Animations\\female\\" + animFile))
 				{
 					boost::filesystem::path animation(GetFileDirectory(outputdir));
 
@@ -27,7 +27,7 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 					{
 						animPath = "Animations\\female\\" + animFile;
 					}
-					else if (boost::iequals(animPath, "Animations\\male\\" + animFile))
+					else if (nemesis::iequals(animPath, "Animations\\male\\" + animFile))
 					{
 						if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\" + animFile))
 						{
@@ -38,7 +38,7 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 			}
 			else if (lowerBehaviorFile == "defaultmale")
 			{
-				if (!boost::iequals(animPath, "Animations\\male\\" + animFile))
+				if (!nemesis::iequals(animPath, "Animations\\male\\" + animFile))
 				{
 					boost::filesystem::path animation(GetFileDirectory(outputdir));
 
@@ -46,7 +46,7 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 					{
 						animPath = "Animations\\male\\" + animFile;
 					}
-					else if (boost::iequals(animPath, "Animations\\female\\" + animFile))
+					else if (nemesis::iequals(animPath, "Animations\\female\\" + animFile))
 					{
 						if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\" + animFile))
 						{

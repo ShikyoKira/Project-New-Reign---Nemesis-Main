@@ -2,6 +2,8 @@
 
 #include <boost\thread.hpp>
 #include <boost\atomic.hpp>
+#include <boost\asio\post.hpp>
+#include <boost\asio\thread_pool.hpp>
 
 #include "addanims.h"
 #include "addevents.h"
@@ -170,7 +172,7 @@ void BehaviorSub::CompilingBehavior()
 		outputdir = "new_behaviors\\" + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 	}
 #else
-	if (modID.length() > 0) outputdir = GetFileDirectory(behaviorPath[lowerBehaviorFile]) + modID + lowerBehaviorFile;
+	if (modID.length() > 0) outputdir = GetFileDirectory(behaviorPath[lowerBehaviorFile]).data() + modID + lowerBehaviorFile;
 	else outputdir = behaviorPath[lowerBehaviorFile];
 #endif
 	if (error) throw nemesis::exception();
@@ -546,8 +548,7 @@ void BehaviorSub::CompilingBehavior()
 				if (pos != NOT_FOUND)
 				{
 					pos += 30;
-					string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
-					boost::algorithm::to_lower(animPath);
+					string animPath = nemesis::to_lower_copy(line).substr(pos, line.find("</hkparam>", pos) - pos);
 					addUsedAnim(lowerBehaviorFile, animPath);
 					string animFile = GetFileName(animPath) + ".hkx";
 
@@ -1199,7 +1200,7 @@ void BehaviorSub::CompilingBehavior()
 							string animPath = line.substr(pos, line.find("</hkcstring>", pos) - pos);
 							string animFile = boost::filesystem::path(animPath).filename().string();
 
-							if (!fp_animOpen && !characterAA && alternateAnim.find(boost::to_lower_copy(animFile)) != alternateAnim.end())
+							if (!fp_animOpen && !characterAA && alternateAnim.find(nemesis::to_lower_copy(animFile)) != alternateAnim.end())
 							{
 								if (!isCharacter) ErrorMessage(1184, behaviorFile);
 
@@ -1210,7 +1211,7 @@ void BehaviorSub::CompilingBehavior()
 							{
 								if (lowerBehaviorFile == "defaultfemale")
 								{
-									if (!boost::iequals(animPath, "Animations\\female\\" + animFile))
+									if (!nemesis::iequals(animPath, "Animations\\female\\" + animFile))
 									{
 										boost::filesystem::path animation(GetFileDirectory(outputdir));
 
@@ -1218,7 +1219,7 @@ void BehaviorSub::CompilingBehavior()
 										{
 											line.replace(pos, animPath.length(), "Animations\\female\\" + animFile);
 										}
-										else if (boost::iequals(animPath, "Animations\\male\\" + animFile))
+										else if (nemesis::iequals(animPath, "Animations\\male\\" + animFile))
 										{
 											if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\" + animFile))
 											{
@@ -1227,7 +1228,7 @@ void BehaviorSub::CompilingBehavior()
 										}
 									}
 								}
-								else if (lowerBehaviorFile == "defaultmale" && !boost::iequals(animPath, "Animations\\male\\" + animFile))
+								else if (lowerBehaviorFile == "defaultmale" && !nemesis::iequals(animPath, "Animations\\male\\" + animFile))
 								{
 									boost::filesystem::path animation(GetFileDirectory(outputdir));
 
@@ -1235,7 +1236,7 @@ void BehaviorSub::CompilingBehavior()
 									{
 										line.replace(pos, animPath.length(), "Animations\\male\\" + animFile);
 									}
-									else if (boost::iequals(animPath, "Animations\\female\\" + animFile))
+									else if (nemesis::iequals(animPath, "Animations\\female\\" + animFile))
 									{
 										if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\" + animFile))
 										{
@@ -1469,7 +1470,7 @@ void BehaviorSub::CompilingBehavior()
 #ifdef DEBUG
 				outputdir = "new_behaviors\\" + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
-				outputdir = behaviorPath[lowerBehaviorFile] + ".hkx";
+				outputdir = string(behaviorPath[lowerBehaviorFile]) + ".hkx";
 #endif
 				if (SSE) lowerBehaviorFile = "SSE\\" + lowerBehaviorFile;
 
@@ -1633,38 +1634,90 @@ void BehaviorSub::CompilingBehavior()
 						shared_ptr<Furniture> dummyAnimation;
 						int IDMultiplier = newAnimation[templateCode][0]->getNextID(lowerBehaviorFile);
 						newAnimLock animLock;
+						boost::asio::thread_pool mt;
 						size_t n_core = boost::thread::hardware_concurrency();
 						boost::posix_time::ptime start_time = boost::posix_time::microsec_clock::local_time();
-
-						if (newAnimCount > 500) n_core = n_core * 3 / 4;
 
 						// individual animation
 						if (hasGroup)
 						{
 							for (unsigned int k = 0; k < newAnimCount; ++k)
 							{
-								vector<unique_ptr<std::thread>> multiThreads;
-
 								try
 								{
-									for (k; k < newAnimCount; ++k)
+									if (newAnimation[templateCode][k]->coreModID != modID)
 									{
-										if (newAnimation[templateCode][k]->coreModID != modID)
+										if (dummyAnimation != nullptr && !dummyAnimation->isLast()) ErrorMessage(1183);
+									}
+									else
+									{
+										subFunctionIDs->singlelist.emplace_back(make_shared<single>());
+										subFunctionIDs->singlelist.back()->format["Nemesis" + modID + lowerBehaviorFile + to_string(k)] = to_string(k);
+										allEditLines.emplace_back(make_shared<vecstr>());
+										dummyAnimation = newAnimation[templateCode][k];
+
+										shared_ptr<newAnimArgs> args = make_shared<newAnimArgs>(modID, lowerBehaviorFile, lastID, BehaviorTemplate->optionlist[templateCode].core,
+											newAnimation[templateCode][k], allEditLines.back(), isCoreDone[newAnimation[templateCode][k]->GetGroupAnimInfo()[0]->filename],
+											functionState, exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, hasGroup, stateID, stateMultiplier,
+											subFunctionIDs->singlelist.back(), subFunctionIDs, groupFunctionIDs, false, groupAnimInfo);
+
+										if (newAnimation[templateCode][k]->isLast())
 										{
-											if (dummyAnimation != nullptr && !dummyAnimation->isLast()) ErrorMessage(1183);
+											subFunctionIDs->singlelist.shrink_to_fit();
+											groupFunctionIDs->grouplist.push_back(subFunctionIDs);
+											subFunctionIDs = make_shared<group>();
+											subFunctionIDs->singlelist.reserve(memory);
+											groupAnimInfo.push_back(newAnimation[templateCode][k]->GetGroupAnimInfo());
+
+											for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+											{
+												stateID[statenum] = 0;
+											}
 										}
 										else
 										{
-											subFunctionIDs->singlelist.emplace_back(make_shared<single>());
-											subFunctionIDs->singlelist.back()->format["Nemesis" + modID + lowerBehaviorFile + to_string(k)] = to_string(k);
-											allEditLines.emplace_back(make_shared<vecstr>());
-											dummyAnimation = newAnimation[templateCode][k];
+											for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+											{
+												stateID[statenum] += stateMultiplier[statenum];
+											}
+										}
 
-											shared_ptr<newAnimArgs> args = make_shared<newAnimArgs>(modID, lowerBehaviorFile, lastID, BehaviorTemplate->optionlist[templateCode].core,
-												newAnimation[templateCode][k], allEditLines.back(), isCoreDone[newAnimation[templateCode][k]->GetGroupAnimInfo()[0]->filename],
-												functionState, exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, hasGroup, stateID, stateMultiplier,
-												subFunctionIDs->singlelist.back(), subFunctionIDs, groupFunctionIDs, false, groupAnimInfo);
+										if (error) throw nemesis::exception();
 
+										lastID += IDMultiplier;
+										boost::asio::post(mt, boost::bind(&animThreadStart, args));
+									}
+								}
+								catch (nemesis::exception&)
+								{
+									// resolved exception
+								}
+							}
+						}
+						else
+						{
+							for (unsigned int k = 0; k < newAnimCount; ++k)
+							{
+								try
+								{
+									if (newAnimation[templateCode][k]->coreModID != modID)
+									{
+										if (dummyAnimation != nullptr && !dummyAnimation->isLast()) ErrorMessage(1183);
+									}
+									else
+									{
+										subFunctionIDs->singlelist.emplace_back(make_shared<single>());
+										subFunctionIDs->singlelist.back()->format["Nemesis" + modID + lowerBehaviorFile + to_string(k)] = to_string(k);
+										allEditLines.emplace_back(make_shared<vecstr>());
+										dummyAnimation = newAnimation[templateCode][k];
+
+										shared_ptr<newAnimArgs> args = make_shared<newAnimArgs>(modID, lowerBehaviorFile, lastID, BehaviorTemplate->optionlist[templateCode].core,
+											newAnimation[templateCode][k], allEditLines.back(), isCoreDone[newAnimation[templateCode][k]->GetGroupAnimInfo()[0]->filename],
+											functionState, exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, hasGroup, stateID, stateMultiplier,
+											subFunctionIDs->singlelist.back(), subFunctionIDs, groupFunctionIDs, ignoreGroup, groupAnimInfo);
+
+										if (ignoreGroup)
+										{
 											if (newAnimation[templateCode][k]->isLast())
 											{
 												subFunctionIDs->singlelist.shrink_to_fit();
@@ -1675,115 +1728,34 @@ void BehaviorSub::CompilingBehavior()
 
 												for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
 												{
-													stateID[statenum] = 0;
-												}
-											}
-											else
-											{
-												for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
-												{
 													stateID[statenum] += stateMultiplier[statenum];
 												}
 											}
-
-											if (error) throw nemesis::exception();
-
-											lastID += IDMultiplier;
-											multiThreads.emplace_back(make_unique<std::thread>(animThreadStart, args));
-										}
-
-										if (multiThreads.size() + m_RunningThread >= n_core + extraCore) break;
-									}
-								}
-								catch (nemesis::exception&)
-								{
-									// resolved exception
-								}
-
-								if (multiThreads.size() > 0)
-								{
-									for (unique_ptr<std::thread>& thrd : multiThreads)
-									{
-										thrd->join();
-									}
-								}
-							}
-						}
-						else
-						{
-							for (unsigned int k = 0; k < newAnimCount; ++k)
-							{
-								vector<unique_ptr<std::thread>> multiThreads;
-
-								try
-								{
-									for (k; k < newAnimCount; ++k)
-									{
-										if (newAnimation[templateCode][k]->coreModID != modID)
-										{
-											if (dummyAnimation != nullptr && !dummyAnimation->isLast()) ErrorMessage(1183);
 										}
 										else
 										{
-											subFunctionIDs->singlelist.emplace_back(make_shared<single>());
-											subFunctionIDs->singlelist.back()->format["Nemesis" + modID + lowerBehaviorFile + to_string(k)] = to_string(k);
-											allEditLines.emplace_back(make_shared<vecstr>());
-											dummyAnimation = newAnimation[templateCode][k];
+											groupAnimInfo.push_back(newAnimation[templateCode][k]->GetGroupAnimInfo());
 
-											shared_ptr<newAnimArgs> args = make_shared<newAnimArgs>(modID, lowerBehaviorFile, lastID, BehaviorTemplate->optionlist[templateCode].core,
-												newAnimation[templateCode][k], allEditLines.back(), isCoreDone[newAnimation[templateCode][k]->GetGroupAnimInfo()[0]->filename],
-												functionState, exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, hasGroup, stateID, stateMultiplier,
-												subFunctionIDs->singlelist.back(), subFunctionIDs, groupFunctionIDs, ignoreGroup, groupAnimInfo);
-
-											if (ignoreGroup)
+											for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
 											{
-												if (newAnimation[templateCode][k]->isLast())
-												{
-													subFunctionIDs->singlelist.shrink_to_fit();
-													groupFunctionIDs->grouplist.push_back(subFunctionIDs);
-													subFunctionIDs = make_shared<group>();
-													subFunctionIDs->singlelist.reserve(memory);
-													groupAnimInfo.push_back(newAnimation[templateCode][k]->GetGroupAnimInfo());
-
-													for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
-													{
-														stateID[statenum] += stateMultiplier[statenum];
-													}
-												}
+												stateID[statenum] += stateMultiplier[statenum];
 											}
-											else
-											{
-												groupAnimInfo.push_back(newAnimation[templateCode][k]->GetGroupAnimInfo());
-
-												for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
-												{
-													stateID[statenum] += stateMultiplier[statenum];
-												}
-											}
-
-											if (error) throw nemesis::exception();
-
-											lastID += IDMultiplier;
-											multiThreads.emplace_back(make_unique<std::thread>(animThreadStart, args));
 										}
 
-										if (multiThreads.size() + m_RunningThread >= n_core + extraCore) break;
+										if (error) throw nemesis::exception();
+
+										lastID += IDMultiplier;
+										boost::asio::post(mt, boost::bind(&animThreadStart, args));
 									}
 								}
 								catch (nemesis::exception&)
 								{
 									// resolved exception
 								}
-
-								if (multiThreads.size() > 0)
-								{
-									for (unique_ptr<std::thread>& thrd : multiThreads)
-									{
-										thrd->join();
-									}
-								}
 							}
 						}
+
+						mt.join();
 
 						if (!ignoreGroup && !hasGroup)
 						{
@@ -1826,49 +1798,37 @@ void BehaviorSub::CompilingBehavior()
 
 							hasMaster ? stateID = { 0 } : stateID = GetStateID(BehaviorTemplate->mainBehaviorJoint[templateCode][lowerBehaviorFile], catalystMap, functionState);
 							size_t n_newAnimCount = groupFunctionIDs->grouplist.size();
+							boost::asio::thread_pool mt2;
 
 							for (unsigned int k = 0; k < n_newAnimCount; ++k)
 							{
-								vector<unique_ptr<std::thread>> multiThreads;
-
 								try
 								{
-									for (k; k < n_newAnimCount; ++k)
+									allEditLines.emplace_back(make_shared<vecstr>());
+									shared_ptr<groupTemplate> groupTemp = make_shared<groupTemplate>(BehaviorTemplate->behaviortemplate[filename][lowerBehaviorFile],
+										grouptemplate_pack);
+									groupTemp->setZeroEvent(ZeroEvent);
+									groupTemp->setZeroVariable(ZeroVariable);
+									shared_ptr<newGroupArgs> args = make_shared<newGroupArgs>(templateCode, lowerBehaviorFile, filename, lastID, k + 1, stateID, groupTemp,
+										allEditLines.back(), exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, groupFunctionIDs, groupAnimInfo);
+
+									for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
 									{
-										allEditLines.emplace_back(make_shared<vecstr>());
-										shared_ptr<groupTemplate> groupTemp = make_shared<groupTemplate>(BehaviorTemplate->behaviortemplate[filename][lowerBehaviorFile],
-											grouptemplate_pack);
-										groupTemp->setZeroEvent(ZeroEvent);
-										groupTemp->setZeroVariable(ZeroVariable);
-										shared_ptr<newGroupArgs> args = make_shared<newGroupArgs>(templateCode, lowerBehaviorFile, filename, lastID, k + 1, stateID, groupTemp,
-											allEditLines.back(), exportID, eventid, variableid, animLock, ZeroEvent, ZeroVariable, groupFunctionIDs, groupAnimInfo);
-
-										for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
-										{
-											stateID[statenum] += stateMultiplier[statenum];
-										}
-
-										if (error) throw nemesis::exception();
-
-										lastID += IDMultiplier;
-										multiThreads.emplace_back(make_unique<std::thread>(groupThreadStart, args));
-
-										if (multiThreads.size() + m_RunningThread >= n_core + extraCore) break;
+										stateID[statenum] += stateMultiplier[statenum];
 									}
+
+									if (error) throw nemesis::exception();
+
+									lastID += IDMultiplier;
+									boost::asio::post(mt2, boost::bind(&groupThreadStart, args));
 								}
 								catch (nemesis::exception&)
 								{
 									// resolved exception
 								}
-
-								if (multiThreads.size() > 0)
-								{
-									for (unique_ptr<std::thread>& thrd : multiThreads)
-									{
-										thrd->join();
-									}
-								}
 							}
+
+							mt2.join();
 						}
 
 						// master animation
@@ -2110,7 +2070,7 @@ void BehaviorSub::CompilingBehavior()
 					}
 
 					AAlines.push_back("			<hkparam name=\"animationName\">Animations\\" + it->second[num] + "</hkparam>");
-					string animFile = boost::to_lower_copy(it->second[num].substr(it->second[num].find_last_of("\\") + 1));
+					string animFile = nemesis::to_lower_copy(it->second[num].substr(it->second[num].find_last_of("\\") + 1));
 					auto& aaEvent_itr = AAEvent.find(isFirstPerson ? animFile + "_1p*" : animFile);
 
 					if (aaEvent_itr != AAEvent.end())

@@ -81,7 +81,7 @@ UpdateFilesStart::~UpdateFilesStart()
 	if (!cmdline && error) error = false;
 }
 
-void UpdateFilesStart::UpdateFiles()
+void UpdateFilesStart::startUpdatingFile()
 {
 	string directory = "mod\\";
 	string newAnimDirectory = "behavior templates\\";
@@ -100,7 +100,7 @@ void UpdateFilesStart::UpdateFiles()
 				return;
 			}
 		}
-		catch (exception& ex)
+		catch (exception & ex)
 		{
 			ErrorMessage(6001, ex.what());
 		}
@@ -108,6 +108,7 @@ void UpdateFilesStart::UpdateFiles()
 	catch (nemesis::exception&)
 	{
 		// resolved exception
+		return;
 	}
 	catch (...)
 	{
@@ -119,6 +120,8 @@ void UpdateFilesStart::UpdateFiles()
 		{
 			// resolved exception
 		}
+
+		return;
 	}
 
 	try
@@ -151,6 +154,7 @@ void UpdateFilesStart::UpdateFiles()
 	catch (nemesis::exception&)
 	{
 		// resolved exception
+		return;
 	}
 	catch (...)
 	{
@@ -162,6 +166,8 @@ void UpdateFilesStart::UpdateFiles()
 		{
 			// resolved exception
 		}
+
+		return;
 	}
 
 	try
@@ -183,6 +189,7 @@ void UpdateFilesStart::UpdateFiles()
 	catch (nemesis::exception&)
 	{
 		// resolved exception
+		return;
 	}
 	catch (...)
 	{
@@ -194,6 +201,8 @@ void UpdateFilesStart::UpdateFiles()
 		{
 			// resolved exception
 		}
+
+		return;
 	}
 
 	try
@@ -226,6 +235,7 @@ void UpdateFilesStart::UpdateFiles()
 	catch (nemesis::exception&)
 	{
 		// resolved exception
+		return;
 	}
 	catch (...)
 	{
@@ -237,6 +247,8 @@ void UpdateFilesStart::UpdateFiles()
 		{
 			// resolved exception
 		}
+
+		return;
 	}
 
 	try
@@ -262,6 +274,7 @@ void UpdateFilesStart::UpdateFiles()
 	catch (nemesis::exception&)
 	{
 		// resolved exception
+		return;
 	}
 	catch (...)
 	{
@@ -274,11 +287,15 @@ void UpdateFilesStart::UpdateFiles()
 			// resolved exception
 		}
 	}
+}
 
+void UpdateFilesStart::UpdateFiles()
+{
 	try
 	{
 		try
 		{
+			startUpdatingFile();
 			ClearGlobal();
 
 			if (!cmdline) this_thread::sleep_for(chrono::milliseconds(1500));
@@ -329,7 +346,7 @@ bool UpdateFilesStart::VanillaUpdate()
 		{
 			for (auto it = behaviorPath.begin(); it != behaviorPath.end(); ++it)
 			{
-				output << it->first + "=" + it->second + "\n";
+				output << it->first << "=" << it->second << "\n";
 			}
 		}
 		else
@@ -346,11 +363,11 @@ bool UpdateFilesStart::VanillaUpdate()
 		{
 			for (auto it = behaviorProject.begin(); it != behaviorProject.end(); ++it)
 			{
-				output << it->first + "\n";
+				output << it->first.data() << "\n";
 
 				for (unsigned int i = 0; i < it->second.size(); ++i)
 				{
-					output << it->second[i] + "\n";
+					output << it->second[i] << "\n";
 				}
 
 				output << "\n";
@@ -370,7 +387,7 @@ bool UpdateFilesStart::VanillaUpdate()
 		{
 			for (auto it = behaviorProjectPath.begin(); it != behaviorProjectPath.end(); ++it)
 			{
-				output << it->first + "=" + it->second + "\n";
+				output << it->first << "=" << it->second << "\n";
 			}
 		}
 		else
@@ -394,11 +411,11 @@ void UpdateFilesStart::GetFileLoop(string path)
 
 		if (!boost::filesystem::is_directory(curfile))
 		{
-			if (boost::iequals(curfile.extension().string(), ".xml") || boost::iequals(curfile.extension().string(), ".txt"))
+			if (nemesis::iequals(curfile.extension().string(), ".xml") || nemesis::iequals(curfile.extension().string(), ".txt"))
 			{
 				string curFileName = curfile.stem().string();
 
-				if ((boost::iequals(curFileName, "nemesis_animationdatasinglefile") || boost::iequals(curFileName, "nemesis_animationsetdatasinglefile")) ||
+				if ((nemesis::iequals(curFileName, "nemesis_animationdatasinglefile") || nemesis::iequals(curFileName, "nemesis_animationsetdatasinglefile")) ||
 					(wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_List") != curFileName.length() - 5 &&
 						wordFind(curFileName, "_Project") != curFileName.length() - 8) || (wordFind(curFileName, "Nemesis_") == 0 &&
 							wordFind(curFileName, "_Project") + 8 == curFileName.length()))
@@ -422,14 +439,14 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 	string fileFullName = curBehavior->file.filename().string();
 	string newPath = curBehavior->file.string();
 
-	if (boost::iequals(curFileName, "nemesis_animationdatasinglefile"))
+	if (nemesis::iequals(curFileName, "nemesis_animationdatasinglefile"))
 	{
 		curFileName = curFileName.substr(8);
 		DebugLogging("AnimData Disassemble start (File: " + newPath + ")");
 
 		{
 			Lockless lock(behaviorPathLock);
-			behaviorPath[boost::to_lower_copy(curFileName)] = boost::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
+			behaviorPath[nemesis::to_lower_copy(curFileName)] = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
 		}
 
 		Lockless lock(animDataLock);
@@ -438,19 +455,19 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 
 		lock.Unlock();
 
-		if (!saveLastUpdate(boost::to_lower_copy(newPath), lastUpdate)) return;
+		if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
 
 		DebugLogging("AnimData Disassemble complete (File: " + newPath + ")");
 		emit progressUp();
 	}
-	else if (boost::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
+	else if (nemesis::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
 	{
 		curFileName = curFileName.substr(8);
 		DebugLogging("AnimSetData Disassemble start (File: " + newPath + ")");
 
 		{
 			Lockless lock(behaviorPathLock);
-			behaviorPath[boost::to_lower_copy(curFileName)] = boost::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
+			behaviorPath[nemesis::to_lower_copy(curFileName)] = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
 		}
 
 		Lockless locker(animSetDataLock);
@@ -459,7 +476,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 
 		locker.Unlock();
 
-		if (!saveLastUpdate(boost::to_lower_copy(newPath), lastUpdate)) return;
+		if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
 
 		DebugLogging("AnimSetData Disassemble complete (File: " + newPath + ")");
 
@@ -478,7 +495,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 
 		{
 			Lockless lock(behaviorPathLock);
-			behaviorPath[curFileName] = boost::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curBehavior->file.stem().string().substr(8));
+			behaviorPath[curFileName] = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curBehavior->file.stem().string().substr(8));
 		}
 
 		unique_ptr<map<string, vecstr, alphanum_less>> _curNewFile = make_unique<map<string, vecstr, alphanum_less>>();
@@ -496,7 +513,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 			parent[curFileName] = move(_parent);
 		}
 
-		if (!saveLastUpdate(boost::to_lower_copy(newPath), lastUpdate)) return;
+		if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
 
 		DebugLogging("Behavior Disassemble complete (File: " + newPath + ")");
 		emit progressUp();
@@ -504,7 +521,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 		if (boost::algorithm::to_lower_copy(curBehavior->file.parent_path().filename().string()).find("characters") == 0)
 		{
 			unordered_map<string, bool> empty;
-			registeredAnim[boost::algorithm::to_lower_copy(curFileName)] = empty;
+			registeredAnim[nemesis::to_lower_copy(curFileName)] = empty;
 		}
 	}
 	else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_Project") + 8 == curFileName.length())
@@ -513,9 +530,9 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 
 		if (curBehavior->isFirstPerson) firstperson = "_1stperson\\";
 
-		string curPath = boost::to_lower_copy(curBehavior->file.parent_path().string());
+		string curPath = nemesis::to_lower_copy(curBehavior->file.parent_path().string());
 		curPath = curPath.substr(curPath.find("\\meshes\\") + 1);
-		curFileName = boost::to_lower_copy(firstperson + curFileName.substr(8, curFileName.length() - 16));
+		curFileName = nemesis::to_lower_copy(firstperson + curFileName.substr(8, curFileName.length() - 16));
 
 		{
 			Lockless lock(behaviorProjectPathLock);
@@ -530,7 +547,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 
 		for (unsigned int j = 0; j < storeline.size(); ++j)
 		{
-			string line = storeline[j];
+			string& line = storeline[j];
 
 			if (record && line.find("</hkparam>") != NOT_FOUND) break;
 
@@ -539,17 +556,17 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 				if (line.find("<hkcstring>") == NOT_FOUND) ErrorMessage(1093, newPath, j + 1);
 
 				int pos = line.find("<hkcstring>") + 11;
-				string characterfile = boost::to_lower_copy(line.substr(pos, line.find("</hkcstring>", pos) - pos));
+				string characterfile = nemesis::to_lower_copy(line.substr(pos, line.find("</hkcstring>", pos) - pos));
 				characterfile = GetFileName(characterfile);
 
 				Lockless lock(behaviorProjectLock);
-				behaviorProject[characterfile].push_back(curFileName);
+				behaviorProject[characterfile.data()].push_back(curFileName);
 			}
 
 			if (line.find("<hkparam name=\"characterFilenames\" numelements=\"") != NOT_FOUND && line.find("</hkparam>") == NOT_FOUND) record = true;
 		}
 
-		if (!saveLastUpdate(boost::to_lower_copy(newPath), lastUpdate)) return;
+		if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
 
 		emit progressUp();
 		DebugLogging("Nemesis Project Record complete (File: " + newPath + ")");
@@ -574,11 +591,11 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
 
 					if (!boost::filesystem::is_directory(curfile))
 					{
-						if (boost::iequals(curfile.extension().string(), ".xml") || boost::iequals(curfile.extension().string(), ".txt"))
+						if (nemesis::iequals(curfile.extension().string(), ".xml") || nemesis::iequals(curfile.extension().string(), ".txt"))
 						{
 							string curFileName = curfile.stem().string();
 
-							if (boost::iequals(curFileName, "nemesis_animationdatasinglefile") || boost::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
+							if (nemesis::iequals(curFileName.data(), "nemesis_animationdatasinglefile") || nemesis::iequals(curFileName.data(), "nemesis_animationsetdatasinglefile"))
 							{
 								Lockless locker(queueLock);
 								registeredFiles.push_back(make_shared<RegisterQueue>(curfile, false));
@@ -594,7 +611,7 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
 					}
 					else
 					{
-						GetPathLoop(newPath + "\\", (boost::iequals(file, "_1stperson") ? true : isFirstPerson));
+						GetPathLoop(newPath + "\\", (nemesis::iequals(file, "_1stperson") ? true : isFirstPerson));
 					}
 
 					if (error) throw nemesis::exception();
@@ -1072,7 +1089,7 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
 	for (int i = 1; i < num; ++i)
 	{
 		newline.push_back(storeline[i]);
-		animSetData.projectList.push_back(boost::to_lower_copy(storeline[i]));
+		animSetData.projectList.push_back(nemesis::to_lower_copy(storeline[i]));
 	}
 
 	for (unsigned int i = num; i < storeline.size(); ++i)
@@ -1101,7 +1118,7 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
 				}
 				else if (wordFind(storeline[i], "V3") != NOT_FOUND)
 				{
-					header = boost::to_lower_copy(animDataSetHeader[project][headercounter]);
+					header = nemesis::to_lower_copy(animDataSetHeader[project][headercounter]);
 					++headercounter;
 					newline.shrink_to_fit();
 					animSetData.newAnimSetData[project][header] = newline;
@@ -1155,7 +1172,7 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 
 		if (boost::filesystem::is_directory(curPath))
 		{
-			if (boost::iequals(behavior, "animationdatasinglefile"))
+			if (nemesis::iequals(behavior, "animationdatasinglefile"))
 			{
 				MasterAnimData& animData(pack[modcode]->animData);
 
@@ -1165,7 +1182,8 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 				bool openAnim = false;
 				bool openInfo = false;
 				string projectname = node;
-				projectname.replace(projectname.find_last_of("~"), 0, ".txt");
+				
+				if (projectname != "$header$" && projectname.find_last_of("~") != NOT_FOUND) projectname.replace(projectname.find_last_of("~"), 0, ".txt");
 
 				if (animData.newAnimData.find(projectname) == animData.newAnimData.end())
 				{
@@ -1187,13 +1205,17 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 					}
 				}
 
-				if (openAnim) animData.newAnimData[projectname][animData.animDataHeader[projectname].back()].push_back("<!-- CLOSE -->");
+				auto& projData = animData.newAnimData[projectname];
+				auto& headerData = animData.animDataHeader[projectname];
+				auto& infoData = animData.animDataInfo[projectname];
 
-				if (openInfo) animData.newAnimData[projectname][animData.animDataInfo[projectname].back()].push_back("<!-- CLOSE -->");
+				if (openAnim) projData[headerData.back()].push_back("<!-- CLOSE -->");
+
+				if (openInfo) projData[infoData.back()].push_back("<!-- CLOSE -->");
 
 				if (newChar)
 				{
-					if (animData.animDataHeader[projectname].size() == 0)
+					if (headerData.size() == 0)
 					{
 						animData.animDataChar.pop_back();
 						animData.newAnimData.erase(projectname);
@@ -1204,82 +1226,84 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 					{
 						vecstr header;
 						vecstr infoheader;
+						bool hasHeader = false;
 
-						for (auto& it : animData.newAnimData[projectname])
+						for (auto& it : projData)
 						{
-							if (!boost::iequals(it.first, "$header$"))
+							if (!nemesis::iequals(it.first, "$header$"))
 							{
 								if (isOnlyNumber(it.first)) infoheader.push_back(it.first);
 								else header.push_back(it.first);
 							}
+							else
+							{
+								hasHeader = true;
+							}
 						}
 
-						animData.newAnimData[projectname]["$header$"].insert(animData.newAnimData[projectname]["$header$"].begin(),
-							"<!-- NEW *" + modcode + "* -->");
-						animData.animDataHeader[projectname].clear();
+						headerData.clear();
+
+						if (hasHeader)
+						{
+							headerData.push_back("$header$");
+							projData["$header$"].insert(projData["$header$"].begin(), "<!-- NEW *" + modcode + "* -->");
+						}
 
 						if (header.size() > 0)
 						{
-							animData.animDataHeader[projectname].reserve(header.size());
-							animData.animDataHeader[projectname].insert(animData.animDataHeader[projectname].end(), header.begin(), header.end());
-						}
-						else
-						{
-							animData.newAnimData[projectname]["$header$"].push_back("<!-- CLOSE -->");
+							headerData.reserve(header.size());
+							headerData.insert(headerData.end(), header.begin(), header.end());
 						}
 
 						if (infoheader.size() > 0)
 						{
-							animData.animDataInfo[projectname].reserve(infoheader.size());
-							animData.animDataInfo[projectname].insert(animData.animDataInfo[projectname].end(), infoheader.begin(), infoheader.end());
-							animData.newAnimData[projectname][animData.animDataInfo[projectname].back()].push_back("<!-- CLOSE -->");
+							infoData.reserve(infoheader.size());
+							infoData.insert(infoData.end(), infoheader.begin(), infoheader.end());
 						}
-						else
-						{
-							animData.newAnimData[projectname][animData.animDataHeader[projectname].back()].push_back("<!-- CLOSE -->");
-						}
+
+						if (hasHeader) projData[(infoheader.size() > 0 ? infoData : headerData).back()].push_back("<!-- CLOSE -->");
 					}
 				}
 			}
-			else if (boost::iequals(behavior, "animationsetdatasinglefile"))
+			else if (nemesis::iequals(behavior, "animationsetdatasinglefile"))
 			{
 				MasterAnimSetData& animSetData(pack[modcode]->animSetData);
 
 				if (animSetData.newAnimSetData.size() == 0) ErrorMessage(3017, "nemesis_animationsetdatasinglefile.txt");
 
-				if (boost::filesystem::is_directory(curPath) && node.find("~") != NOT_FOUND)
+				if (!boost::filesystem::is_directory(curPath)) continue;
+
+				bool newProject = false;
+				string dp = node + (nemesis::iequals(node, "$header$") ? "" : ".txt");
+
+				while (dp.find("~") != NOT_FOUND)
 				{
-					bool newProject = false;
-					string lowerproject = node + ".txt";
-					boost::to_lower(lowerproject);
+					dp.replace(dp.find("~"), 1, "\\");
+				}
 
-					while (lowerproject.find("~") != NOT_FOUND)
-					{
-						lowerproject.replace(lowerproject.find("~"), 1, "\\");
-					}
+				string lowerproject = nemesis::to_lower_copy(dp);
 
-					if (animSetData.newAnimSetData.find(lowerproject) == animSetData.newAnimSetData.end())
-					{
-						animSetData.projectList.push_back(lowerproject);
-						newProject = true;
-					}
+				if (animSetData.newAnimSetData.find(lowerproject) == animSetData.newAnimSetData.end())
+				{
+					animSetData.projectList.push_back(lowerproject);
+					newProject = true;
+				}
 
-					vecstr uniquecodelist;
-					read_directory(curPath.string(), uniquecodelist);
+				vecstr uniquecodelist;
+				read_directory(curPath.string(), uniquecodelist);
 
-					for (string& uniquecode : uniquecodelist)
-					{
-						AnimSetDataUpdate(modcode, behavior, node, lowerproject, curPath.string() + "\\" + uniquecode, animSetData, newProject, lastUpdate);
+				for (string& uniquecode : uniquecodelist)
+				{
+					AnimSetDataUpdate(modcode, behavior, node, lowerproject, curPath.string() + "\\" + uniquecode, animSetData, newProject, lastUpdate);
 
-						if (error) throw nemesis::exception();
-					}
+					if (error) throw nemesis::exception();
+				}
 
-					if (newProject)
-					{
-						animSetData.newAnimSetData[lowerproject].begin()->second.insert(animSetData.newAnimSetData[lowerproject].begin()->second.begin(),
-							"<!-- NEW *" + modcode + "* -->");
-						animSetData.newAnimSetData[lowerproject].rbegin()->second.push_back("<!-- CLOSE -->");
-					}
+				if (newProject)
+				{
+					auto& asdProj = animSetData.newAnimSetData[lowerproject];
+					asdProj.begin()->second.insert(asdProj.begin()->second.begin(), "<!-- NEW *" + modcode + "* -->");
+					asdProj.rbegin()->second.push_back("<!-- CLOSE -->");
 				}
 			}
 		}
@@ -1955,102 +1979,101 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 		read_directory(folderpath, behaviorlist);
 
 		for (auto& beh : behaviorlist)
-			for (unsigned int j = 0; j < behaviorlist.size(); ++j)
+		{
+			string curfolderstr = folderpath + "\\" + beh;
+			boost::filesystem::path curfolder(curfolderstr);
+
+			if (boost::filesystem::is_directory(curfolder))
 			{
-				string curfolderstr = folderpath + "\\" + beh;
-				boost::filesystem::path curfolder(curfolderstr);
-
-				if (boost::filesystem::is_directory(curfolder))
+				if (nemesis::iequals(beh, "animationdatasinglefile"))
 				{
-					if (boost::iequals(beh, "animationdatasinglefile"))
+					vecstr characterlist;
+					read_directory(curfolderstr, characterlist);
+
+					for (auto& character : characterlist)
 					{
-						vecstr characterlist;
-						read_directory(curfolderstr, characterlist);
+						boost::filesystem::path characterfolder(curfolderstr + "\\" + character);
 
-						for (auto& character : characterlist)
+						if (boost::filesystem::is_directory(characterfolder))
 						{
-							boost::filesystem::path characterfolder(curfolderstr + "\\" + character);
-
-							if (boost::filesystem::is_directory(characterfolder))
+							if (!newAnimDataUpdateExt(curfolderstr + "\\" + character, curCode, character, animData, newAnimAddition, lastUpdate))
 							{
-								if (!newAnimDataUpdateExt(curfolderstr + "\\" + character, curCode, character, animData, newAnimAddition, lastUpdate))
+								newAnimFunction = false;
+								return;
+							}
+						}
+						else
+						{
+							string stemTemp = characterfolder.stem().string();
+
+							if (stemTemp == "$header$")
+							{
+								if (!animDataHeaderUpdate(curfolderstr + "\\" + character, curCode, animData, lastUpdate))
 								{
 									newAnimFunction = false;
 									return;
 								}
 							}
-							else
+							else if (boost::regex_match(stemTemp, boost::regex("^\\$(?!" + curCode + ").+\\$(?:UC|)$")))
 							{
-								string stemTemp = characterfolder.stem().string();
-
-								if (stemTemp == "$header$")
-								{
-									if (!animDataHeaderUpdate(curfolderstr + "\\" + character, curCode, animData, lastUpdate))
-									{
-										newAnimFunction = false;
-										return;
-									}
-								}
-								else if (boost::regex_match(stemTemp, boost::regex("^\\$(?!" + curCode + ").+\\$(?:UC|)$")))
-								{
-									ErrorMessage(3023, "$" + curCode + "$" + (stemTemp.find("$UC") != NOT_FOUND ? "UC" : ""));
-								}
+								ErrorMessage(3023, "$" + curCode + "$" + (stemTemp.find("$UC") != NOT_FOUND ? "UC" : ""));
 							}
 						}
-					}
-					else if (boost::iequals(beh, "animationsetdatasinglefile"))
-					{
-						vecstr projectfile;
-						read_directory(curfolderstr, projectfile);
-						DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
-
-						for (unsigned int k = 0; k < projectfile.size(); ++k)
-						{
-							if (boost::filesystem::is_directory(curfolderstr + "\\" + projectfile[k]) &&
-								projectfile[k].find("~") != NOT_FOUND)
-							{
-								string projectname = projectfile[k];
-								boost::to_lower(projectname);
-
-								while (projectname.find("~") != NOT_FOUND)
-								{
-									projectname.replace(projectname.find("~"), 1, "\\");
-								}
-
-								if (!newAnimDataSetUpdateExt(curfolderstr + "\\" + projectfile[k], curCode, projectname + ".txt",
-									animSetData, newAnimAddition, lastUpdate))
-								{
-									newAnimFunction = false;
-									return;
-								}
-							}
-						}
-
-						DebugLogging("New Animations extraction complete (Folder: " + curfolderstr + ")");
-					}
-					else
-					{
-						if (boost::iequals(beh, "_1stperson")) ErrorMessage(6004, curfolderstr);
-
-						DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
-
-						if (!newAnimUpdateExt(folderpath, curCode, boost::to_lower_copy(beh), *newFile[boost::to_lower_copy(beh)],
-							newAnimAddition, lastUpdate))
-						{
-							newAnimFunction = false;
-							return;
-						}
-
-						DebugLogging("New Animations extraction complete (Folder: " + curfolderstr + ")");
 					}
 				}
+				else if (nemesis::iequals(beh, "animationsetdatasinglefile"))
+				{
+					vecstr projectfile;
+					read_directory(curfolderstr, projectfile);
+					DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
+
+					for (unsigned int k = 0; k < projectfile.size(); ++k)
+					{
+						if (boost::filesystem::is_directory(curfolderstr + "\\" + projectfile[k]) &&
+							projectfile[k].find("~") != NOT_FOUND)
+						{
+							string projectname = projectfile[k];
+							boost::to_lower(projectname);
+
+							while (projectname.find("~") != NOT_FOUND)
+							{
+								projectname.replace(projectname.find("~"), 1, "\\");
+							}
+
+							if (!newAnimDataSetUpdateExt(curfolderstr + "\\" + projectfile[k], curCode, projectname + ".txt",
+								animSetData, newAnimAddition, lastUpdate))
+							{
+								newAnimFunction = false;
+								return;
+							}
+						}
+					}
+
+					DebugLogging("New Animations extraction complete (Folder: " + curfolderstr + ")");
+				}
+				else
+				{
+					if (nemesis::iequals(beh, "_1stperson")) ErrorMessage(6004, curfolderstr);
+
+					DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
+
+					if (!newAnimUpdateExt(folderpath, curCode, nemesis::to_lower_copy(beh), *newFile[nemesis::to_lower_copy(beh)],
+						newAnimAddition, lastUpdate))
+					{
+						newAnimFunction = false;
+						return;
+					}
+
+					DebugLogging("New Animations extraction complete (Folder: " + curfolderstr + ")");
+				}
 			}
+		}
 	}
 	else if (codefile.extension().string() == ".txt")
 	{
 		vecstr storeline;
 
-		if (!saveLastUpdate(boost::to_lower_copy(folderpath), lastUpdate))
+		if (!saveLastUpdate(nemesis::to_lower_copy(folderpath), lastUpdate))
 		{
 			newAnimFunction = false;
 			return;
@@ -2063,7 +2086,7 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 		}
 
 		Lockless lock(newAnimAdditionLock);
-		newAnimAddition[boost::to_lower_copy(codefile.string())] = storeline;
+		newAnimAddition[nemesis::to_lower_copy(codefile.string())] = storeline;
 	}
 	else
 	{
