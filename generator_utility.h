@@ -9,6 +9,8 @@
 #include "add animation\registeranimation.h"
 #include "add animation\alternateanimation.h"
 
+typedef std::vector<std::string> vecstr;
+
 bool isEdited(getTemplate* BehaviorTemplate, std::string& lowerBehaviorFile, std::unordered_map<std::string, std::vector<std::shared_ptr<Furniture>>>& newAnimation, bool isCharacter, std::string modID);
 bool newAnimSkip(std::vector<std::shared_ptr<Furniture>> newAnim, std::string modID);
 bool GetStateCount(std::vector<int>& count, vecstr templatelines, std::string format, std::string filename, bool hasGroup);

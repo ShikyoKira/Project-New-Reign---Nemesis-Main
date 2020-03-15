@@ -3,6 +3,8 @@
 
 #include "generator_utility.h"
 
+#include "compute.h"
+
 #include "functions\readtextfile.h"
 
 #include "add animation\gettemplate.h"
@@ -136,7 +138,7 @@ bool GetStateCount(vector<int>& count, vecstr templatelines, string format, stri
 				}
 
 				string equation = "0" + number;
-				calculate(equation, format, filename, counter);
+				nemesis::calculate(equation, format, filename, counter);
 
 				if (count[IDSize] <= stoi(equation)) count[IDSize] = stoi(equation) + 1;
 			}
@@ -277,7 +279,7 @@ vector<unique_ptr<registerAnimation>> openFile(getTemplate* behaviortemplate)
 		size_t pos = wordFind(path, "\\behaviors\\", true);
 		size_t nextpos = wordFind(path, "\\data\\") + 6;
 
-		if (pos != NOT_FOUND && nextpos != NOT_FOUND && nextpos < pos) animPath.insert(path.substr(nextpos, pos - nextpos) + "\\");
+		if (pos != NOT_FOUND && nextpos != NOT_FOUND && nextpos < pos) animPath.insert(string(path.substr(nextpos, pos - nextpos)) + '\\');
 		else if (behaviorGroup.first != "animationdatasinglefile" && behaviorGroup.first != "animationsetdatasinglefile") WarningMessage(1007, behaviorGroup.first, path);
 
 		if (error) throw nemesis::exception();
@@ -318,7 +320,7 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 				//multiThreads.emplace_back(boost::thread(&newFileCheck, path, isChecked));
 				newFileCheck(path, isChecked);
 			}
-			else if (boost::iequals(curfile.extension().string(), ".txt"))
+			else if (nemesis::iequals(curfile.extension().string(), ".txt"))
 			{
 				if (directory.find("animationdatasinglefile") != NOT_FOUND)
 				{
@@ -337,7 +339,7 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 						if (isChecked->find(path) == isChecked->end()) throw false;
 					}
 				}
-				else if (!boost::iequals(file, "option_list.txt"))
+				else if (!nemesis::iequals(file, "option_list.txt"))
 				{
 					if (isChecked->find(path) == isChecked->end()) throw false;
 				}
@@ -431,7 +433,6 @@ void GetBehaviorPath()
 
 	if (isFileExist(filename))
 	{
-		string line;
 		int linecount = 0;
 		FileReader pathFile(filename);
 
@@ -446,9 +447,7 @@ void GetBehaviorPath()
 
 				if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
 
-				string file = line.substr(0, pos);
-				string path = line.substr(pos + 1);
-				behaviorPath[file] = path;
+				behaviorPath[line.substr(0, pos)] = line.substr(pos + 1);
 			}
 		}
 		else
@@ -510,7 +509,6 @@ void GetBehaviorProjectPath()
 
 	if (isFileExist(filename))
 	{
-		string line;
 		int linecount = 0;
 		FileReader pathFile(filename);
 
@@ -525,9 +523,7 @@ void GetBehaviorProjectPath()
 
 				if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
 
-				string file = line.substr(0, pos);
-				string path = line.substr(pos + 1);
-				behaviorProjectPath[file] = path;
+				behaviorProjectPath[line.substr(0, pos)] = line.substr(pos + 1);
 			}
 		}
 		else
@@ -598,13 +594,12 @@ void characterHKX()
 	if (isFileExist(filename))
 	{
 		bool open = false;
-		string line;
-		string header;
 		FileReader file(filename);
 
 		if (file.GetFile())
 		{
 			string line;
+			string header;
 
 			while (file.GetLines(line))
 			{
@@ -860,7 +855,7 @@ void checkFolder(string filepath)
 		{
 			checkFolder(file.string());
 		}
-		else if (boost::iequals(file.extension().string(), ".hkx"))
+		else if (nemesis::iequals(file.extension().string(), ".hkx"))
 		{
 			hkxFiles.push_back(file.string());
 		}
@@ -910,11 +905,11 @@ void ClearGlobal(bool all)
 	{
 		DebugLogging("Global reset all: TRUE");
 
-		usedAnim = unordered_map<string, set<string>>();
+		usedAnim = unordered_map<string, setstr>();
 
 		registeredAnim = unordered_map<string, unordered_map<string, bool>>();
 
-		animModMatch = unordered_map<string, unordered_map<string, vector<set<string>>>>();
+		animModMatch = unordered_map<string, unordered_map<string, vector<setstr>>>();
 
 		behaviorJoints = unordered_map<string, vecstr>();
 
