@@ -29,7 +29,7 @@ void exterMsg(std::string input)
 		DebugLogging("Non-captured message: " + input);
 		CEMsgBox* msgbox = new CEMsgBox;
 		msgbox->setWindowTitle("CRITICAL ERROR");
-		msgbox->setText("Access process violtion. Running process not found. Report to Nemesis' author immediately.");
+		msgbox->setText("Access process violation. Running process not found. Report to Nemesis' author immediately.");
 		msgbox->show();
 		error = true;
 	}
