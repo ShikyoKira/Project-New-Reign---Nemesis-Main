@@ -186,6 +186,8 @@
       <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
       <OutputFile>.\GeneratedFiles\ui_%(Filename).h</OutputFile>
       <QTDIR>$(QTDIR)</QTDIR>
+      <InputFile>
+      </InputFile>
     </QtUic>
     <QtRcc>
       <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
