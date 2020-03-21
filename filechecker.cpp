@@ -1,44 +1,50 @@
 using namespace std;
 
+void processFileError(pair<string_view, int> err);
+
+void processFileError(pair<string_view, int> err)
+{
+	if (!isFileExist(err.first))
+	{
+		ErrorMessage(err.second, err.first);
+	}
+}
+
 bool FileCheck(bool isUpdate)
 {
-	string file = "alternate animation";
 	DebugLogging("Initializing file check...");
+	using fileError = pair<string_view, int>;
 
-	if (!isFileExist(file)) ErrorMessage(1001, file);
+	constexpr std::array<fileError, 7> filesToCheck =
+	{
+		fileError{"alternate animation", 1001},
+		{"alternate animation\\alternate animation.script", 1092},
+		{"alternate animation\\alternate animation 2.script", 1092},
+		{"behavior templates", 1001},
+		{"hkxcmd.exe", 1092},
+		{"languages", 1001},
+		{"languages\\english.txt", 1092}
+	};
 
-	file = "alternate animation\\alternate animation.script";
+	constexpr std::array<fileError, 1> filesToNotCheckInUpdate =
+	{
+		fileError{"cache\\animationdata_list", 1092}
+	};
 
-	if (!isFileExist(file)) ErrorMessage(1092, file);
-
-	file = "alternate animation\\alternate animation 2.script";
-
-	if (!isFileExist(file)) ErrorMessage(1092, file);
-
-	file = "behavior templates";
-
-	if (!isFileExist(file)) ErrorMessage(1001, file);
+	for (const auto& pair : filesToCheck)
+	{
+		processFileError(pair);
+	}
 
 	CreateFolder("mod");
 
 	if (!isUpdate)
 	{
-		file = "cache\\animationdata_list";
-
-		if (!isFileExist(file)) ErrorMessage(1092, file);
+		for (const auto& pair : filesToNotCheckInUpdate)
+		{
+			processFileError(pair);
+		}
 	}
-
-	file = "hkxcmd.exe";
-
-	if (!isFileExist(file)) ErrorMessage(1092, file);
-
-	file = "languages";
-
-	if (!isFileExist(file)) ErrorMessage(1001, file);
-
-	file = "languages\\english.txt";
-
-	if (!isFileExist(file)) ErrorMessage(1092, file);
 	
 	DebugLogging("File Check complete");
 	return true;
@@ -82,7 +88,7 @@ void behaviorActivateMod(vecstr behaviorPriority)
 		DebugLogging("Mod Checked " + to_string(i) + ": " + modcode);
 		interMsg(TextBoxMessage(1013) + " " + to_string(i++) + ": " + modcode);
 
-		if (!isFileExist(newpath) || !boost::filesystem::is_directory(newpath)) continue;
+		if (!isFileExist(newpath) || !std::filesystem::is_directory(newpath)) continue;
 
 		if (modcode == "gender")
 		{
