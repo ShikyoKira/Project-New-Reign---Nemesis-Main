@@ -12,7 +12,7 @@ using namespace std;
 extern mutex processlock;
 extern condition_variable cv;
 extern bool processdone;
-extern map<string, vecstr, alphanum_less> modinfo;
+extern map<string, vecstr> modinfo;
 
 void CmdGenerateInitialize(vecstr modlist)
 {
