@@ -196,16 +196,25 @@ void NemesisMainGUI::handleCheck()
 	ui.buttonCheck->setDisabled(true);
 	ui.comboBox->setDisabled(true);
 	ui.modView->setDisabled(true);
-	ui.textBrowser->clear();
 
-	DummyLog* DLog = new DummyLog;
-	connectProcess(DLog);
-	QObject::connect(DLog, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
+	QMessageBox::StandardButton reply;
 
-	warningCheck();
+	reply = QMessageBox::information(this, QString::fromStdString(TextBoxMessage(1019)), QString::fromStdString(TextBoxMessage(1018)), 
+		QMessageBox::Ok, QMessageBox::Abort);
 
-	disconnectProcess();
-	delete DLog;
+	if (reply == QMessageBox::Ok)
+	{
+		ui.textBrowser->clear();
+
+		DummyLog* DLog = new DummyLog;
+		connectProcess(DLog);
+		QObject::connect(DLog, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
+
+		warningCheck();
+
+		disconnectProcess();
+		delete DLog;
+	}
 
 	ui.buttonLaunch->setDisabled(false);
 	ui.buttonUpdate->setDisabled(false);
@@ -245,43 +254,32 @@ void NemesisMainGUI::setProgressBarValue()
 {
 	if (!error)
 	{
-		while (lock.test_and_set(std::memory_order_acquire));
+		Lockless_s plock(lock);
+		int old = progressPercentage * 100 / progressMax;
+		++progressPercentage;
+		int result = progressPercentage * 100 / progressMax;
 
-		try
+		if (result > old)
 		{
-			int old = progressPercentage * 100 / progressMax;
-			++progressPercentage;
-			int result = progressPercentage * 100 / progressMax;
-
-			if (result > old)
+			if (result - old < 2)
 			{
-				if (result - old < 2)
+				ui.progressBar->setValue(old + 1);
+				std::this_thread::sleep_for(std::chrono::milliseconds(75));
+			}
+			else
+			{
+				for (int i = old + 1; i <= result; ++i)
 				{
-					ui.progressBar->setValue(old + 1);
-					std::this_thread::sleep_for(std::chrono::milliseconds(75));
-				}
-				else
-				{
-					for (int i = old + 1; i <= result; ++i)
+					if (error)
 					{
-						if (error)
-						{
-							break;
-						}
-
-						ui.progressBar->setValue(i);
-						std::this_thread::sleep_for(std::chrono::milliseconds(75));
+						break;
 					}
+
+					ui.progressBar->setValue(i);
+					std::this_thread::sleep_for(std::chrono::milliseconds(75));
 				}
 			}
 		}
-		catch (std::exception& ex)
-		{
-			lock.clear(std::memory_order_release);
-			throw ex;
-		}
-
-		lock.clear(std::memory_order_release);
 	}
 }
 
