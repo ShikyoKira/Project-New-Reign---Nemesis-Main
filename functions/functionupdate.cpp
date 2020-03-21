@@ -90,11 +90,13 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 
 		if (BehaviorFormat.GetFile())
 		{
-			string line;
+			string rline;
 			bool IsEventVariable = false;
 
-			while (BehaviorFormat.GetLines(line))
+			while (BehaviorFormat.GetLines(rline))
 			{
+				string line = rline;
+
 				if (error) throw nemesis::exception();
 
 				if (line.find("hkbBehaviorGraphStringData", 0) != NOT_FOUND || line.find("hkbVariableValueSet", 0) != NOT_FOUND ||
@@ -442,18 +444,14 @@ bool NodeU::FunctionUpdate(string modcode, string behaviorfile, string nodefile,
 	boost::atomic_flag& stateLock, boost::atomic_flag& parentLock)
 {
 	bool result = false;
-	//Lockless lock(nodelock);
 
 	try
 	{
-		try
-		{
-			result = NodeUpdate(modcode, behaviorfile, nodefile, newFile, stateID, parent, statelist, lastUpdate, filelock, stateLock, parentLock);
-		}
-		catch (nemesis::exception&)
-		{
-			throw nemesis::exception();
-		}
+		result = NodeUpdate(modcode, behaviorfile, nodefile, newFile, stateID, parent, statelist, lastUpdate, filelock, stateLock, parentLock);
+	}
+	catch (nemesis::exception&)
+	{
+		throw nemesis::exception();
 	}
 	catch (const std::exception& ex)
 	{
@@ -474,7 +472,12 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 	if (isNewCharacter)
 	{
-		if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename], !nemesis::iequals(filename, "$header$"))) return false;
+		vecstr storeline;
+
+		if (!GetFunctionLines(filepath, storeline, !nemesis::iequals(filename, "$header$"))) return false;
+
+		// must not replace storeline with animData.newAnimData[characterfile][filename] for the total line will not get counted
+		animData.newAnimData[characterfile][filename].insert(animData.newAnimData[characterfile][filename].end(), storeline.begin(), storeline.end());
 
 		if (isOnlyNumber(filename))		// info data
 		{
