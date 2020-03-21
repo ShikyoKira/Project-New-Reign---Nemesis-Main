@@ -4,6 +4,8 @@
 #include "singletemplate.h"
 #include "alternateanimation.h"
 
+#include "functions/atomiclock.h"
+
 #pragma warning(disable:4503)
 
 using namespace std;
@@ -1485,7 +1487,7 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 						keyword = keyword.substr(0, keyword.length() - 4);
 					}
 
-					atomicLock->lockExport();
+					Lockless_s ilock(atomicLock->exportLock);
 
 					if ((*newImport)[file][keyword].length() > 0)
 					{
@@ -1499,7 +1501,6 @@ void Furniture::processing(string& line, vecstr& storeline, string masterFormat,
 						newID();
 					}
 
-					atomicLock->releaseExport();
 					change.replace(nextpos, importer.length(), tempID);
 					isChange = true;
 				}
@@ -4590,7 +4591,7 @@ void Furniture::hasProcessing(string& line, bool& norElement, int& openRange, in
 
 				if (newpos == pos)
 				{
-					atomicLock->lockID();
+					Lockless_s ilock(atomicLock->subIDLock);
 
 					if (groupFunction->functionIDs.find(oldID) != groupFunction->functionIDs.end())
 					{
@@ -4602,8 +4603,6 @@ void Furniture::hasProcessing(string& line, bool& norElement, int& openRange, in
 						line.replace(pos, format.length() + 7 + ID.length(), strID);
 						newID();
 					}
-
-					atomicLock->releaseID();
 				}
 			}
 		}
@@ -4656,14 +4655,14 @@ void Furniture::hasProcessing(string& line, bool& norElement, int& openRange, in
 	{
 		size_t pos = line.find("animationName\">") + 15;
 		string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
-		boost::algorithm::to_lower(animPath);
+		nemesis::to_lower(animPath);
 		addUsedAnim(behaviorFile, animPath);
 	}
 	else if (line.find("<hkparam name=\"behaviorName\">") != NOT_FOUND)
 	{
 		size_t pos = line.find("behaviorName\">") + 14;
 		string behaviorName = line.substr(pos, line.find("</hkparam>", pos) - pos);
-		boost::algorithm::to_lower(behaviorName);
+		nemesis::to_lower(behaviorName);
 		behaviorJoints[behaviorName].push_back(behaviorFile);
 	}
 	else if (line.find("<hkparam name=\"localTime\">-") != NOT_FOUND)
