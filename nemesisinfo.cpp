@@ -14,6 +14,7 @@
 using namespace std;
 
 bool SSE = false;
+string stagePath = "";
 
 void NemesisInfo::iniFileUpdate()
 {
@@ -88,7 +89,7 @@ void NemesisInfo::setup()
 							}
 
 							vecstr filelist;
-							boost::filesystem::path fspath(dataPath);
+							std::filesystem::path fspath(dataPath);
 
 							while (!nemesis::iequals(fspath.stem().string(), "data"))
 							{
@@ -132,11 +133,11 @@ void NemesisInfo::setup()
 		}
 	}
 
-	namespace bf = boost::filesystem;
+	namespace sf = std::filesystem;
 	string curpath = WStringToString(QCoreApplication::applicationDirPath().toStdWString());
 	std::replace(curpath.begin(), curpath.end(), '/', '\\');
 
-	if (bf::current_path().string() == "E:\\C++\\Project 2\\Nemesis Main GUI")
+	if (sf::current_path().string() == "E:\\C++\\Project 2\\Nemesis Main GUI")
 	{
 		dataPath = "E:\\C++\\Project 2\\Nemesis Main GUI\\data\\";
 		curpath = dataPath + "nemesis_engine";
@@ -152,7 +153,7 @@ void NemesisInfo::setup()
 			string skyrimDataDirect;
 
 			{
-				bf::path path(curpath);
+				sf::path path(curpath);
 				size_t counter = count(curpath.begin(), curpath.end(), '\\');
 				size_t i = 0;
 
@@ -238,6 +239,12 @@ void NemesisInfo::setup()
 	}
 
 	if (!force && nemesis::to_lower_copy(dataPath + "nemesis_engine") != nemesis::to_lower_copy(curpath)) ErrorMessage(6010, curpath, dataPath + "nemesis_engine");
+
+	if (stagePath.length() > 0)
+	{
+		sf::path stage(stagePath);
+		dataPath = stage.string() + "\\";
+	}
 
 	iniFileUpdate();
 }
