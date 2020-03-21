@@ -21,7 +21,7 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 			{
 				if (!nemesis::iequals(animPath, "Animations\\female\\" + animFile))
 				{
-					boost::filesystem::path animation(GetFileDirectory(outputdir));
+					std::filesystem::path animation(GetFileDirectory(outputdir));
 
 					if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\female\\" + animFile))
 					{
@@ -40,7 +40,7 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 			{
 				if (!nemesis::iequals(animPath, "Animations\\male\\" + animFile))
 				{
-					boost::filesystem::path animation(GetFileDirectory(outputdir));
+					std::filesystem::path animation(GetFileDirectory(outputdir));
 
 					if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\male\\" + animFile))
 					{

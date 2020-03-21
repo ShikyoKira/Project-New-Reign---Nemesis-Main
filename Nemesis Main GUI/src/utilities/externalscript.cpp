@@ -32,10 +32,10 @@ void RunScript(string directory, bool& hasScript)
 	for (auto& file : scriptlist)
 	{
 		string scriptpath = directory + file;
-		boost::filesystem::path scriptfile(scriptpath);
+		std::filesystem::path scriptfile(scriptpath);
 
 		// hidden scripts
-		if (!boost::filesystem::is_directory(scriptfile))
+		if (!std::filesystem::is_directory(scriptfile))
 		{
 			// bat script
 			if (nemesis::iequals(scriptfile.extension().string(), ".bat"))
@@ -51,7 +51,7 @@ void RunScript(string directory, bool& hasScript)
 			}
 		}
 		// visible scripts
-		else if (nemesis::iequals(file, "show") && boost::filesystem::is_directory(scriptfile))
+		else if (nemesis::iequals(file, "show") && std::filesystem::is_directory(scriptfile))
 		{
 			vecstr shownscriptlist;
 			read_directory(scriptpath, shownscriptlist);
@@ -59,9 +59,9 @@ void RunScript(string directory, bool& hasScript)
 			for (auto& shown : shownscriptlist)
 			{
 				string shownpath = scriptpath + "\\" + shown;
-				boost::filesystem::path shownscript(shownpath);
+				std::filesystem::path shownscript(shownpath);
 
-				if (!boost::filesystem::is_directory(shownscript))
+				if (!std::filesystem::is_directory(shownscript))
 				{
 					// bat script
 					if (nemesis::iequals(shownscript.extension().string(), ".bat"))

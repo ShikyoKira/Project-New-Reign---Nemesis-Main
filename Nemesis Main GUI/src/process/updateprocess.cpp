@@ -17,6 +17,7 @@
 #include "MessageHandler.h"
 
 using namespace std;
+namespace sf = filesystem;
 
 typedef unordered_map<string, unique_ptr<SSMap>> SSSMap;
 typedef unordered_map<string, unique_ptr<map<string, unordered_map<string, bool>>>> MapChildState;
@@ -28,6 +29,9 @@ extern Terminator* p_terminate;
 extern atomic<int> m_RunningThread;
 extern boost::atomic_flag atomic_lock;
 extern boost::atomic_flag newAnimAdditionLock;
+
+mutex admtx;
+mutex asdmtx;
 
 void writeSave(FileWriter& writer, const char* line, string& store);
 void writeSave(FileWriter& writer, string& line, string& store);
@@ -86,24 +90,23 @@ void UpdateFilesStart::startUpdatingFile()
 	string directory = "mod\\";
 	string newAnimDirectory = "behavior templates\\";
 
+	// Seperate try-catch for easier debugging purpose
+
 	try
 	{
-		try
+		ClearGlobal();
+		milestoneStart(directory);
+
+		// Check the existence of required files
+		if (!FileCheck(true))
 		{
 			ClearGlobal();
-			milestoneStart(directory);
-
-			// Check the existence of required files
-			if (!FileCheck(true))
-			{
-				ClearGlobal();
-				return;
-			}
+			return;
 		}
-		catch (exception & ex)
-		{
-			ErrorMessage(6001, ex.what());
-		}
+	}
+	catch (exception & ex)
+	{
+		ErrorMessage(6001, ex.what());
 	}
 	catch (nemesis::exception&)
 	{
@@ -126,30 +129,27 @@ void UpdateFilesStart::startUpdatingFile()
 
 	try
 	{
-		try
+		RunScript("scripts\\update\\start\\");
+		DebugLogging("External script run complete");
+
+		// clear the temp_behaviors folder to prevent it from bloating
+		ClearTempBehaviors();
+		DebugLogging("Temp behavior clearance complete");
+
+		// create "temp_behaviors" folder
+		if (!isFileExist(directory)) sf::create_directory(directory);
+
+		if (error)
 		{
-			RunScript("scripts\\update\\start\\");
-			DebugLogging("External script run complete");
-
-			// clear the temp_behaviors folder to prevent it from bloating
-			ClearTempBehaviors();
-			DebugLogging("Temp behavior clearance complete");
-
-			// create "temp_behaviors" folder
-			if (!isFileExist(directory)) boost::filesystem::create_directory(directory);
-
-			if (error)
-			{
-				ClearGlobal();
-				return;
-			}
-
-			emit progressUp();	// 2
+			ClearGlobal();
+			return;
 		}
-		catch (exception & ex)
-		{
-			ErrorMessage(6001, ex.what());
-		}
+
+		emit progressUp();	// 2
+	}
+	catch (exception & ex)
+	{
+		ErrorMessage(6001, ex.what());
 	}
 	catch (nemesis::exception&)
 	{
@@ -172,19 +172,16 @@ void UpdateFilesStart::startUpdatingFile()
 
 	try
 	{
-		try
+		// copy latest vanilla into memory
+		if (!VanillaUpdate() || error)
 		{
-			// copy latest vanilla into memory
-			if (!VanillaUpdate() || error)
-			{
-				ClearGlobal();
-				return;
-			}
+			ClearGlobal();
+			return;
 		}
-		catch (exception & ex)
-		{
-			ErrorMessage(6001, ex.what());
-		}
+	}
+	catch (exception & ex)
+	{
+		ErrorMessage(6001, ex.what());
 	}
 	catch (nemesis::exception&)
 	{
@@ -207,30 +204,27 @@ void UpdateFilesStart::startUpdatingFile()
 
 	try
 	{
-		try
+		DebugLogging("Data record complete");
+		emit progressUp(); // 4
+		boost::asio::thread_pool mt;
+
+		// check template for association with vanilla nodes from behavior template file
+		newAnimProcess(newAnimDirectory, mt);
+
+		// comparing if different from mod file
+		JoiningEdits(directory, mt);
+
+		mt.join();
+
+		if (error || !newAnimFunction)
 		{
-			DebugLogging("Data record complete");
-			emit progressUp(); // 4
-			boost::asio::thread_pool mt;
-
-			// check template for association with vanilla nodes from behavior template file
-			newAnimProcess(newAnimDirectory, mt);
-
-			// comparing if different from mod file
-			JoiningEdits(directory, mt);
-
-			mt.join();
-
-			if (error || !newAnimFunction)
-			{
-				ClearGlobal();
-				return;
-			}
+			ClearGlobal();
+			return;
 		}
-		catch (exception & ex)
-		{
-			ErrorMessage(6001, ex.what());
-		}
+	}
+	catch (exception & ex)
+	{
+		ErrorMessage(6001, ex.what());
 	}
 	catch (nemesis::exception&)
 	{
@@ -253,23 +247,20 @@ void UpdateFilesStart::startUpdatingFile()
 
 	try
 	{
-		try
+		if (newAnimFunction && !error)
 		{
-			if (newAnimFunction && !error)
-			{
-				DebugLogging("Modification successfully extracted");
-				emit progressUp();	// 27
+			DebugLogging("Modification successfully extracted");
+			emit progressUp();	// 27
 
-				// compiling all behaviors in "data/meshes" to "temp_behaviors" folder
-				CombiningFiles();
+			// compiling all behaviors in "data/meshes" to "temp_behaviors" folder
+			CombiningFiles();
 
-				emit progressUp();	// 32
-			}
+			emit progressUp();	// 32
 		}
-		catch (exception & ex)
-		{
-			ErrorMessage(6001, ex.what());
-		}
+	}
+	catch (exception & ex)
+	{
+		ErrorMessage(6001, ex.what());
 	}
 	catch (nemesis::exception&)
 	{
@@ -407,9 +398,9 @@ void UpdateFilesStart::GetFileLoop(string path)
 	for (auto& file : filelist)
 	{
 		string newPath = path + file;
-		boost::filesystem::path curfile(newPath);
+		sf::path curfile(newPath);
 
-		if (!boost::filesystem::is_directory(curfile))
+		if (!sf::is_directory(curfile))
 		{
 			if (nemesis::iequals(curfile.extension().string(), ".xml") || nemesis::iequals(curfile.extension().string(), ".txt"))
 			{
@@ -433,143 +424,141 @@ void UpdateFilesStart::GetFileLoop(string path)
 
 void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 {
-	if (curBehavior == nullptr) return;
-
-	string curFileName = curBehavior->file.stem().string();
-	string fileFullName = curBehavior->file.filename().string();
-	string newPath = curBehavior->file.string();
-
-	if (nemesis::iequals(curFileName, "nemesis_animationdatasinglefile"))
+	try
 	{
-		curFileName = curFileName.substr(8);
-		DebugLogging("AnimData Disassemble start (File: " + newPath + ")");
+		if (curBehavior == nullptr) return;
 
+		string curFileName = curBehavior->file.stem().string();
+		string fileFullName = curBehavior->file.filename().string();
+		string newPath = curBehavior->file.string();
+
+		if (nemesis::iequals(curFileName, "nemesis_animationdatasinglefile"))
 		{
-			Lockless lock(behaviorPathLock);
-			behaviorPath[nemesis::to_lower_copy(curFileName)] = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
-		}
+			curFileName = curFileName.substr(8);
+			DebugLogging("AnimData Disassemble start (File: " + newPath + ")");
 
-		Lockless lock(animDataLock);
-
-		if (!AnimDataDisassemble(newPath, animData)) return;
-
-		lock.Unlock();
-
-		if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
-
-		DebugLogging("AnimData Disassemble complete (File: " + newPath + ")");
-		emit progressUp();
-	}
-	else if (nemesis::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
-	{
-		curFileName = curFileName.substr(8);
-		DebugLogging("AnimSetData Disassemble start (File: " + newPath + ")");
-
-		{
-			Lockless lock(behaviorPathLock);
-			behaviorPath[nemesis::to_lower_copy(curFileName)] = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
-		}
-
-		Lockless locker(animSetDataLock);
-
-		if (!AnimSetDataDisassemble(newPath, animSetData)) return;
-
-		locker.Unlock();
-
-		if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
-
-		DebugLogging("AnimSetData Disassemble complete (File: " + newPath + ")");
-
-		emit progressUp();
-	}
-	else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_List") != curFileName.length() - 5 &&
-		wordFind(curFileName, "_Project") != curFileName.length() - 8)
-	{
-		string firstperson = "";
-
-		if (curBehavior->isFirstPerson) firstperson = "_1stperson\\";
-
-		curFileName = firstperson + curFileName.substr(8);
-		boost::to_lower(curFileName);
-		DebugLogging("Behavior Disassemble start (File: " + newPath + ")");
-
-		{
-			Lockless lock(behaviorPathLock);
-			behaviorPath[curFileName] = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curBehavior->file.stem().string().substr(8));
-		}
-
-		unique_ptr<map<string, vecstr, alphanum_less>> _curNewFile = make_unique<map<string, vecstr, alphanum_less>>();
-		unique_ptr<map<string, unordered_map<string, bool>>> _childrenState = make_unique<map<string, unordered_map<string, bool>>>();
-		unique_ptr<SSMap> _stateID = make_unique<SSMap>();
-		unique_ptr<SSMap> _parent = make_unique<SSMap>();
-
-		VanillaDisassemble(newPath, _curNewFile, _childrenState, _stateID, _parent);
-
-		{
-			Lockless lock(newFileLock);
-			newFile[curFileName] = move(_curNewFile);
-			childrenState[curFileName] = move(_childrenState);
-			stateID[curFileName] = move(_stateID);
-			parent[curFileName] = move(_parent);
-		}
-
-		if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
-
-		DebugLogging("Behavior Disassemble complete (File: " + newPath + ")");
-		emit progressUp();
-
-		if (boost::algorithm::to_lower_copy(curBehavior->file.parent_path().filename().string()).find("characters") == 0)
-		{
-			unordered_map<string, bool> empty;
-			registeredAnim[nemesis::to_lower_copy(curFileName)] = empty;
-		}
-	}
-	else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_Project") + 8 == curFileName.length())
-	{
-		string firstperson = "";
-
-		if (curBehavior->isFirstPerson) firstperson = "_1stperson\\";
-
-		string curPath = nemesis::to_lower_copy(curBehavior->file.parent_path().string());
-		curPath = curPath.substr(curPath.find("\\meshes\\") + 1);
-		curFileName = nemesis::to_lower_copy(firstperson + curFileName.substr(8, curFileName.length() - 16));
-
-		{
-			Lockless lock(behaviorProjectPathLock);
-			behaviorProjectPath[curFileName] = curPath;
-		}
-
-		vecstr storeline;
-		bool record = false;
-		DebugLogging("Nemesis Project Record start (File: " + newPath + ")");
-
-		if (!GetFunctionLines(newPath, storeline)) return;
-
-		for (unsigned int j = 0; j < storeline.size(); ++j)
-		{
-			string& line = storeline[j];
-
-			if (record && line.find("</hkparam>") != NOT_FOUND) break;
-
-			if (record)
 			{
-				if (line.find("<hkcstring>") == NOT_FOUND) ErrorMessage(1093, newPath, j + 1);
-
-				int pos = line.find("<hkcstring>") + 11;
-				string characterfile = nemesis::to_lower_copy(line.substr(pos, line.find("</hkcstring>", pos) - pos));
-				characterfile = GetFileName(characterfile);
-
-				Lockless lock(behaviorProjectLock);
-				behaviorProject[characterfile.data()].push_back(curFileName);
+				Lockless lock(behaviorPathLock);
+				behaviorPath[nemesis::to_lower_copy(curFileName)] = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
 			}
 
-			if (line.find("<hkparam name=\"characterFilenames\" numelements=\"") != NOT_FOUND && line.find("</hkparam>") == NOT_FOUND) record = true;
+			if (!AnimDataDisassemble(newPath, animData)) return;
+
+			if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
+
+			DebugLogging("AnimData Disassemble complete (File: " + newPath + ")");
+			emit progressUp();
 		}
+		else if (nemesis::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
+		{
+			curFileName = curFileName.substr(8);
+			DebugLogging("AnimSetData Disassemble start (File: " + newPath + ")");
 
-		if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
+			{
+				Lockless lock(behaviorPathLock);
+				behaviorPath[nemesis::to_lower_copy(curFileName)] = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
+			}
 
-		emit progressUp();
-		DebugLogging("Nemesis Project Record complete (File: " + newPath + ")");
+			if (!AnimSetDataDisassemble(newPath, animSetData)) return;
+
+			if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
+
+			DebugLogging("AnimSetData Disassemble complete (File: " + newPath + ")");
+
+			emit progressUp();
+		}
+		else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_List") != curFileName.length() - 5 &&
+			wordFind(curFileName, "_Project") != curFileName.length() - 8)
+		{
+			string firstperson = "";
+
+			if (curBehavior->isFirstPerson) firstperson = "_1stperson\\";
+
+			curFileName = firstperson + curFileName.substr(8);
+			boost::to_lower(curFileName);
+			DebugLogging("Behavior Disassemble start (File: " + newPath + ")");
+
+			{
+				Lockless lock(behaviorPathLock);
+				behaviorPath[curFileName] = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curBehavior->file.stem().string().substr(8));
+			}
+
+			unique_ptr<map<string, vecstr, alphanum_less>> _curNewFile = make_unique<map<string, vecstr, alphanum_less>>();
+			unique_ptr<map<string, unordered_map<string, bool>>> _childrenState = make_unique<map<string, unordered_map<string, bool>>>();
+			unique_ptr<SSMap> _stateID = make_unique<SSMap>();
+			unique_ptr<SSMap> _parent = make_unique<SSMap>();
+
+			VanillaDisassemble(newPath, _curNewFile, _childrenState, _stateID, _parent);
+
+			{
+				Lockless lock(newFileLock);
+				newFile[curFileName] = move(_curNewFile);
+				childrenState[curFileName] = move(_childrenState);
+				stateID[curFileName] = move(_stateID);
+				parent[curFileName] = move(_parent);
+			}
+
+			if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
+
+			DebugLogging("Behavior Disassemble complete (File: " + newPath + ")");
+			emit progressUp();
+
+			if (nemesis::to_lower_copy(curBehavior->file.parent_path().filename().string()).find("characters") == 0)
+			{
+				registeredAnim[nemesis::to_lower_copy(curFileName)] = unordered_map<string, bool>();
+			}
+		}
+		else if (wordFind(curFileName, "Nemesis_") == 0 && wordFind(curFileName, "_Project") + 8 == curFileName.length())
+		{
+			string firstperson = "";
+
+			if (curBehavior->isFirstPerson) firstperson = "_1stperson\\";
+
+			string curPath = nemesis::to_lower_copy(curBehavior->file.parent_path().string());
+			curPath = curPath.substr(curPath.find("\\meshes\\") + 1);
+			curFileName = nemesis::to_lower_copy(firstperson + curFileName.substr(8, curFileName.length() - 16));
+
+			{
+				Lockless lock(behaviorProjectPathLock);
+				behaviorProjectPath[curFileName] = curPath;
+			}
+
+			vecstr storeline;
+			bool record = false;
+			DebugLogging("Nemesis Project Record start (File: " + newPath + ")");
+
+			if (!GetFunctionLines(newPath, storeline)) return;
+
+			for (unsigned int j = 0; j < storeline.size(); ++j)
+			{
+				string& line = storeline[j];
+
+				if (record && line.find("</hkparam>") != NOT_FOUND) break;
+
+				if (record)
+				{
+					if (line.find("<hkcstring>") == NOT_FOUND) ErrorMessage(1093, newPath, j + 1);
+
+					int pos = line.find("<hkcstring>") + 11;
+					string characterfile = nemesis::to_lower_copy(line.substr(pos, line.find("</hkcstring>", pos) - pos));
+					characterfile = GetFileName(characterfile);
+
+					Lockless lock(behaviorProjectLock);
+					behaviorProject[characterfile.data()].push_back(curFileName);
+				}
+
+				if (line.find("<hkparam name=\"characterFilenames\" numelements=\"") != NOT_FOUND && line.find("</hkparam>") == NOT_FOUND) record = true;
+			}
+
+			if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
+
+			emit progressUp();
+			DebugLogging("Nemesis Project Record complete (File: " + newPath + ")");
+		}
+	}
+	catch (const exception& ex)
+	{
+		ErrorMessage(6001, ex.what());
 	}
 }
 
@@ -587,15 +576,18 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
 				for (auto& file : filelist)
 				{
 					string newPath = path + file;
-					boost::filesystem::path curfile(newPath);
+					sf::path curfile(newPath);
 
-					if (!boost::filesystem::is_directory(curfile))
+					if (!sf::is_directory(curfile))
 					{
-						if (nemesis::iequals(curfile.extension().string(), ".xml") || nemesis::iequals(curfile.extension().string(), ".txt"))
+						string ext = curfile.extension().string();
+
+						if (nemesis::iequals(ext, ".xml") || nemesis::iequals(ext, ".txt"))
 						{
 							string curFileName = curfile.stem().string();
+							ext = curFileName.data();
 
-							if (nemesis::iequals(curFileName.data(), "nemesis_animationdatasinglefile") || nemesis::iequals(curFileName.data(), "nemesis_animationsetdatasinglefile"))
+							if (nemesis::iequals(ext, "nemesis_animationdatasinglefile") || nemesis::iequals(ext, "nemesis_animationsetdatasinglefile"))
 							{
 								Lockless locker(queueLock);
 								registeredFiles.push_back(make_shared<RegisterQueue>(curfile, false));
@@ -898,12 +890,14 @@ bool UpdateFilesStart::VanillaDisassemble(string path, unique_ptr<map<string, ve
 
 bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData)
 {
+	scoped_lock<mutex> adlock(admtx);
 	int num;
-	vecstr newline;
+	MasterAnimData::AnimDataList newline;
 	vecstr storeline;
 	unordered_map<string, int> projectNameCount;
 
 	int projectcounter = 1;
+	size_t totallines = 0;
 
 	string project;
 	string header;
@@ -926,7 +920,7 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 	header = "$header$";
 
 	{
-		vecstr prjlist;
+		MasterAnimData::AnimDataList prjlist;
 		vecstr charlist;
 		charlist.push_back(header);
 
@@ -1061,6 +1055,7 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 
 bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& animSetData)
 {
+	scoped_lock<mutex> asdlock(asdmtx);
 	vecstr storeline;
 	int num;
 	vecstr newline;
@@ -1114,7 +1109,7 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
 			{
 				if (wordFind(storeline[i], ".txt") != NOT_FOUND)
 				{
-					animDataSetHeader[project].push_back(GetFileName(boost::algorithm::to_lower_copy(storeline[i])));
+					animDataSetHeader[project].push_back(GetFileName(nemesis::to_lower_copy(storeline[i])));
 				}
 				else if (wordFind(storeline[i], "V3") != NOT_FOUND)
 				{
@@ -1168,9 +1163,9 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 	{
 		if (error) throw nemesis::exception();
 
-		boost::filesystem::path curPath(directory + modcode + "\\" + behavior + "\\" + node);
+		sf::path curPath(directory + modcode + "\\" + behavior + "\\" + node);
 
-		if (boost::filesystem::is_directory(curPath))
+		if (sf::is_directory(curPath))
 		{
 			if (nemesis::iequals(behavior, "animationdatasinglefile"))
 			{
@@ -1197,7 +1192,7 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 
 				for (string& uniquecode : uniquecodelist)
 				{
-					if (!boost::filesystem::is_directory(filepath + "\\" + uniquecode))
+					if (!sf::is_directory(filepath + "\\" + uniquecode))
 					{
 						AnimDataUpdate(modcode, behavior, projectname, filepath + "\\" + uniquecode, animData, newChar, lastUpdate, openAnim, openInfo);
 
@@ -1227,6 +1222,7 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 						vecstr header;
 						vecstr infoheader;
 						bool hasHeader = false;
+						newProjectList.insert(projectname);
 
 						for (auto& it : projData)
 						{
@@ -1271,7 +1267,7 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 
 				if (animSetData.newAnimSetData.size() == 0) ErrorMessage(3017, "nemesis_animationsetdatasinglefile.txt");
 
-				if (!boost::filesystem::is_directory(curPath)) continue;
+				if (!sf::is_directory(curPath)) continue;
 
 				bool newProject = false;
 				string dp = node + (nemesis::iequals(node, "$header$") ? "" : ".txt");
@@ -1333,7 +1329,7 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 			{
 				if (error) throw nemesis::exception();
 
-				if (boost::filesystem::is_directory(spath + curNode)) continue;
+				if (sf::is_directory(spath + curNode)) continue;
 
 				unordered_map<string, bool> skipped;
 				unique_ptr<SSMap>& _stateID(pack[modcode]->n_stateID[behavior]);
@@ -1502,11 +1498,11 @@ void UpdateFilesStart::JoiningEdits(string directory, boost::asio::thread_pool& 
 
 				boost::atomic_flag parentLock = BOOST_ATOMIC_FLAG_INIT;
 				unordered_map<string, shared_ptr<arguPack>> pack;
-				vector<boost::filesystem::path> pathlist;
+				vector<sf::path> pathlist;
 
 				for (auto& modcode : filelist)
 				{
-					if (!boost::filesystem::is_directory(directory + modcode)) continue;
+					if (!sf::is_directory(directory + modcode)) continue;
 
 					boost::to_lower(modcode);
 					read_directory(directory + modcode + "\\", filelist2[modcode]);
@@ -1517,7 +1513,7 @@ void UpdateFilesStart::JoiningEdits(string directory, boost::asio::thread_pool& 
 						boost::to_lower(behavior);
 						string path = directory + modcode + "\\" + behavior;
 
-						if (!boost::filesystem::is_directory(path)) continue;
+						if (!sf::is_directory(path)) continue;
 
 						path.append("\\");
 
@@ -1536,7 +1532,7 @@ void UpdateFilesStart::JoiningEdits(string directory, boost::asio::thread_pool& 
 
 								for (auto& node : *curList)
 								{
-									if (boost::filesystem::is_directory(fpath + node)) continue;
+									if (sf::is_directory(fpath + node)) continue;
 
 									boost::to_lower(node);
 									modQueue[recName][node].push_back(modcode);
@@ -1555,7 +1551,7 @@ void UpdateFilesStart::JoiningEdits(string directory, boost::asio::thread_pool& 
 							{
 								for (auto& node : *curList)
 								{
-									if (boost::filesystem::is_directory(path + node)) continue;
+									if (sf::is_directory(path + node)) continue;
 
 									boost::to_lower(node);
 									modQueue[behavior][node].push_back(modcode);
@@ -1737,7 +1733,7 @@ void UpdateFilesStart::CombiningFiles()
 			string filename = compilingfolder + lowerBehaviorFile + ".txt";
 			bool firstPerson = lowerBehaviorFile.find("_1stperson\\") == 0;
 
-			if (firstPerson) boost::filesystem::create_directory(boost::filesystem::path(compilingfolder + "_1stperson\\"));
+			if (firstPerson) sf::create_directory(sf::path(compilingfolder + "_1stperson\\"));
 
 			FileWriter output(filename);
 
@@ -1764,7 +1760,7 @@ void UpdateFilesStart::CombiningFiles()
 					{
 						size_t nextpos = line.find("behaviorName\">") + 14;
 						string behaviorName = GetFileName(line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos));
-						boost::algorithm::to_lower(behaviorName);
+						nemesis::to_lower(behaviorName);
 
 						if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND) behaviorName = "_1stperson\\" + behaviorName;
 
@@ -1776,7 +1772,7 @@ void UpdateFilesStart::CombiningFiles()
 						size_t nextpos = line.find("behaviorFilename\">") + 18;
 						string behaviorName = line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos);
 						behaviorName = GetFileName(behaviorName);
-						boost::algorithm::to_lower(behaviorName);
+						nemesis::to_lower(behaviorName);
 
 						if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND) behaviorName = "_1stperson\\" + behaviorName;
 
@@ -1826,21 +1822,47 @@ void UpdateFilesStart::CombiningFiles()
 
 					for (auto& header : animData.animDataHeader[project])
 					{
-						animsize += animData.newAnimData[project][header].size();
+						animsize += animData.newAnimData[project][header].length();
 					}
 
 					if (animsize > 0)
 					{
-						writeSave(output, to_string(animsize) + "\n", total);
-
-						for (unsigned int j = 0; j < animData.animDataHeader[project].size(); ++j)
+						if (newProjectList.find(project) != newProjectList.end())
 						{
-							string header = animData.animDataHeader[project][j];
+							string header = animData.animDataHeader[project][0];
+							vecstr& linelist = animData.newAnimData[project][header];
+							writeSave(output, linelist[0] + "\n", total);
 							outputlist << header + "\n";
+							writeSave(output, to_string(animsize) + "\n", total);
 
-							for (unsigned int k = 0; k < animData.newAnimData[project][header].size(); ++k)
+							for (unsigned int k = 1; k < linelist.size(); ++k)
 							{
-								writeSave(output, animData.newAnimData[project][header][k] + "\n", total);
+								writeSave(output, linelist[k] + "\n", total);
+							}
+
+							for (unsigned int j = 1; j < animData.animDataHeader[project].size(); ++j)
+							{
+								header = animData.animDataHeader[project][j];
+								outputlist << header + "\n";
+
+								for (string& line : animData.newAnimData[project][header])
+								{
+									writeSave(output, line + "\n", total);
+								}
+							}
+						}
+						else
+						{
+							writeSave(output, to_string(animsize) + "\n", total);
+
+							for (string& header : animData.animDataHeader[project])
+							{
+								outputlist << header + "\n";
+
+								for (string& line : animData.newAnimData[project][header])
+								{
+									writeSave(output, line + "\n", total);
+								}
 							}
 						}
 					}
@@ -1970,10 +1992,11 @@ void UpdateFilesStart::CombiningFiles()
 void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 {
 	if (!newAnimFunction) return;
-	string folderpath = sourcefolder + curCode;
-	boost::filesystem::path codefile(folderpath);
 
-	if (boost::filesystem::is_directory(codefile))
+	string folderpath = sourcefolder + curCode;
+	sf::path codefile(folderpath);
+
+	if (sf::is_directory(codefile))
 	{
 		vecstr behaviorlist;
 		read_directory(folderpath, behaviorlist);
@@ -1981,9 +2004,9 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 		for (auto& beh : behaviorlist)
 		{
 			string curfolderstr = folderpath + "\\" + beh;
-			boost::filesystem::path curfolder(curfolderstr);
+			sf::path curfolder(curfolderstr);
 
-			if (boost::filesystem::is_directory(curfolder))
+			if (sf::is_directory(curfolder))
 			{
 				if (nemesis::iequals(beh, "animationdatasinglefile"))
 				{
@@ -1992,9 +2015,9 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 
 					for (auto& character : characterlist)
 					{
-						boost::filesystem::path characterfolder(curfolderstr + "\\" + character);
+						sf::path characterfolder(curfolderstr + "\\" + character);
 
-						if (boost::filesystem::is_directory(characterfolder))
+						if (sf::is_directory(characterfolder))
 						{
 							if (!newAnimDataUpdateExt(curfolderstr + "\\" + character, curCode, character, animData, newAnimAddition, lastUpdate))
 							{
@@ -2029,7 +2052,7 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 
 					for (unsigned int k = 0; k < projectfile.size(); ++k)
 					{
-						if (boost::filesystem::is_directory(curfolderstr + "\\" + projectfile[k]) &&
+						if (sf::is_directory(curfolderstr + "\\" + projectfile[k]) &&
 							projectfile[k].find("~") != NOT_FOUND)
 						{
 							string projectname = projectfile[k];
@@ -2122,7 +2145,7 @@ void UpdateFilesStart::milestoneStart(string directory)
 	m_RunningThread = 1;
 	UpdateReset();
 	start_time = boost::posix_time::microsec_clock::local_time();
-	namespace bf = boost::filesystem;
+	namespace bf = sf;
 
 	try
 	{
@@ -2149,7 +2172,7 @@ void UpdateFilesStart::milestoneStart(string directory)
 
 	DebugLogging("Detecting processes...");
 
-	if (!isFileExist(path)) boost::filesystem::create_directory(path);
+	if (!isFileExist(path)) sf::create_directory(path);
 
 	queuing = 0;
 
@@ -2234,7 +2257,7 @@ void UpdateFilesStart::unregisterProcess()
 
 	if (cmdline)
 	{
-		lock_guard<mutex>lock(processlock);
+		scoped_lock<mutex>lock(processlock);
 		processdone = true;
 		cv.notify_one();
 	}

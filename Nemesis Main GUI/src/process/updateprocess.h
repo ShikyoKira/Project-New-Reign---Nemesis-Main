@@ -34,11 +34,11 @@ class UpdateFilesStart : public QObject
 
 	struct RegisterQueue
 	{
-		boost::filesystem::path file;
+		std::filesystem::path file;
 		bool isFirstPerson;
 
 		RegisterQueue(std::string _file, bool _first) : file(_file), isFirstPerson(_first) {}
-		RegisterQueue(boost::filesystem::path _file, bool _first) : file(_file), isFirstPerson(_first) {}
+		RegisterQueue(std::filesystem::path _file, bool _first) : file(_file), isFirstPerson(_first) {}
 	};
 
 public:
@@ -108,6 +108,7 @@ private:
 	SSSMap stateID;		// behavior file, children state machine info, state ID
 	SSSMap parent;		// behavior file, children state machine info, parent state machine
 
+	std::unordered_set<std::string> newProjectList;
 	MasterAnimData animData;
 	boost::atomic_flag animDataLock = BOOST_ATOMIC_FLAG_INIT;
 

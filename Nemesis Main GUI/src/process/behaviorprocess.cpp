@@ -31,6 +31,7 @@
 
 
 using namespace std;
+namespace sf = filesystem;
 
 extern bool processdone;
 extern mutex processlock;
@@ -749,7 +750,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
 	{
 		string filename(nemesisInfo->GetDataPath() + "scripts\\FNIS.pex");
-		boost::filesystem::copy_file(boost::filesystem::path("alternate animation\\FNBE.pex"), filename, boost::filesystem::copy_option::overwrite_if_exists);
+		sf::copy_file(sf::path("alternate animation\\FNBE.pex"), filename, sf::copy_options::overwrite_existing);
 		FILE* f;
 		fopen_s(&f, filename.c_str(), "r+b");
 
@@ -792,7 +793,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
 	for (unsigned int i = 0; i < filelist.size(); ++i)
 	{
-		if (!boost::filesystem::is_directory(directory + filelist[i]))
+		if (!sf::is_directory(directory + filelist[i]))
 		{
 			string lowerFileName = nemesis::to_lower_copy(filelist[i]);
 
@@ -829,7 +830,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 		{
 			if (error) throw nemesis::exception();
 
-			if (!boost::filesystem::is_directory(directory + filelist[i]))
+			if (!sf::is_directory(directory + filelist[i]))
 			{
 				string modID = "";
 				bool isCore = false;
@@ -915,7 +916,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 				{
 					if (error) throw nemesis::exception();
 
-					if (!boost::filesystem::is_directory(directory + fpfilelist[j]))
+					if (!sf::is_directory(directory + fpfilelist[j]))
 					{
 						string modID = "";
 						bool isCore = false;
@@ -1041,7 +1042,7 @@ void BehaviorStart::milestoneStart()
 
 	if (!isFileExist(directory))
 	{
-		boost::filesystem::create_directory(boost::filesystem::path(directory));
+		sf::create_directory(sf::path(directory));
 		ErrorMessage(6006);
 	}
 
@@ -1052,14 +1053,14 @@ void BehaviorStart::milestoneStart()
 
 	if (isFileExist(directory + "\\animationsetdatasinglefile.txt")) --add;
 
-	if (isFileExist(fpdirectory) && boost::filesystem::is_directory(fpdirectory))
+	if (isFileExist(fpdirectory) && sf::is_directory(fpdirectory))
 	{
 		vecstr fpfilelist;
 		read_directory(fpdirectory, fpfilelist);
 
 		for (auto& file : fpfilelist)
 		{
-			if (!boost::filesystem::is_directory(fpdirectory + "\\" + file) && file.find(".txt") == file.length() - 4)
+			if (!sf::is_directory(fpdirectory + "\\" + file) && file.find(".txt") == file.length() - 4)
 			{
 				++include;
 			}
@@ -1068,7 +1069,7 @@ void BehaviorStart::milestoneStart()
 
 	for (auto& file : filelist)
 	{
-		if (!boost::filesystem::is_directory(directory + "\\" + file) && file.find(".txt") == file.length() - 4)
+		if (!sf::is_directory(directory + "\\" + file) && file.find(".txt") == file.length() - 4)
 		{
 			++include;
 		}

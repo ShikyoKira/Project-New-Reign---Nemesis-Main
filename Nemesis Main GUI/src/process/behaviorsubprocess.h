@@ -27,6 +27,8 @@ public:
 		std::unordered_map<int, bool>>&newIgnoreFunction, bool newIsCharacter, std::string newModID, BehaviorStart* newProcess);
 	void checkAnimation();
 	void addAnimation();
+	void modPick(std::unordered_map<std::string, std::vector<std::shared_ptr<std::string>>>& modEditStore, vecstr& catalyst, vecstr& modLine, bool& hasDeleted);
+	bool modPickProcess(std::unordered_map<std::string, std::vector<std::shared_ptr<std::string>>>& modEditStore, vecstr& catalyst, vecstr& modLine, bool& hasDeleted);
 	void CompilingBehavior();
 	void CompilingAnimData();
 	void CompilingASD();

@@ -29,6 +29,7 @@
 #include "add animation\animationdatatracker.h"
 
 using namespace std;
+namespace sf = filesystem;
 
 struct nodeJoint;
 
@@ -124,13 +125,117 @@ void BehaviorSub::BehaviorCompilation()
 	process->EndAttempt();
 }
 
+void BehaviorSub::modPick(unordered_map<string, vector<shared_ptr<string>>>& modEditStore, vecstr& catalyst, vecstr& modLine, bool& hasDeleted)
+{
+	if (!modPickProcess(modEditStore, catalyst, modLine, hasDeleted))
+	{
+		for (auto& line : modEditStore["current"])
+		{
+			modLine.push_back("");
+			catalyst.push_back(*line);
+		}
+	}
+
+	modEditStore.clear();
+	hasDeleted = false;
+}
+
+bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>>>& modEditStore, vecstr& catalyst, vecstr& modLine, bool& hasDeleted)
+{
+	if (modEditStore.size() > 0) return false;
+
+	vector<shared_ptr<string>>& orig = modEditStore["original"];
+
+	if (hasDeleted || orig.size() <= 2) return false;
+
+	string templine = boost::regex_replace(*orig[0], boost::regex("^([\t]+).*$"), string("\\1"));
+	int counter = count(templine.begin(), templine.end(), '\t');
+
+	string lastline = boost::regex_replace(*orig.back(), boost::regex("^([\t]+).*$"), string("\\1"));
+	int counter2 = count(lastline.begin(), lastline.end(), '\t');
+
+	if (counter != counter2) return false;
+
+	vector<size_t> elePoint;
+
+	for (unsigned int i = 0; i < orig.size(); ++i)
+	{
+		string templine = boost::regex_replace(*orig[i], boost::regex("^([\t]+).*$"), string("\\1"));
+
+		if (*orig[i] != templine)
+		{
+			counter2 = count(templine.begin(), templine.end(), '\t');
+
+			if (counter == counter2)
+			{
+				elePoint.push_back(i);
+			}
+		}
+	}
+
+	elePoint.push_back(orig.size());
+	vecstr storeline;
+	storeline.reserve(modEditStore["current"].size());
+
+	for (unsigned int i = 0; i < elePoint.back() - 1; ++i)
+	{
+		bool done = false;
+		unsigned int e = elePoint[i];
+
+		for (string& mod : behaviorPriority)
+		{
+			if (modEditStore[mod][e] != nullptr)
+			{
+				do
+				{
+					storeline.push_back(*modEditStore[mod][e]);
+				} while (++e < elePoint[i + 1]);
+
+				done = true;
+				break;
+			}
+		}
+
+		if (!done)
+		{
+			do
+			{
+				storeline.push_back(*modEditStore["current"][e]);
+			} while (++e < elePoint[i + 1]);
+		}
+	}
+
+	int g = 0;
+
+	for (unsigned int i = 0; i < storeline.size(); ++i)
+	{
+		if (storeline[i] != *modEditStore["current"][i])
+		{
+			interMsg("test");
+			g++;
+		}
+	}
+
+	if (g == 1)
+	{
+		for (unsigned int i = 0; i < storeline.size(); ++i)
+		{
+			modLine.push_back("");
+		}
+
+		catalyst.insert(catalyst.end(), storeline.begin(), storeline.end());
+	}
+
+	return true;
+}
+
 void BehaviorSub::CompilingBehavior()
 {
 	ImportContainer exportID;
 
 	string filepath = directory + filelist[curList];
 	string behaviorFile = filelist[curList].substr(0, filelist[curList].find_last_of("."));
-	string lowerBehaviorFile = boost::algorithm::to_lower_copy(behaviorFile);
+	string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
 	bool isFirstPerson = lowerBehaviorFile.find("_1stperson") != NOT_FOUND;
 
@@ -229,7 +334,7 @@ void BehaviorSub::CompilingBehavior()
 		vecstr catalyst;
 		vecstr modLine;
 
-		if (!boost::filesystem::is_directory(filepath))
+		if (!sf::is_directory(filepath))
 		{
 			size_t size = fileLineCount(filepath);
 			catalyst.reserve(size);
@@ -238,7 +343,9 @@ void BehaviorSub::CompilingBehavior()
 
 			if (BehaviorFormat.GetFile())
 			{
+				bool hasDeleted = false;
 				string line;
+				unordered_map<string, vector<shared_ptr<string>>> modEditStore;
 
 				while (BehaviorFormat.GetLines(line))
 				{
@@ -246,6 +353,11 @@ void BehaviorSub::CompilingBehavior()
 
 					if (line.find("<!-- ", 0) != NOT_FOUND)
 					{
+						if (line.find("		<!-- *", 0) == NOT_FOUND && line.find("		<!-- original -->", 0) && NOT_FOUND)
+						{
+							modPick(modEditStore, catalyst, modLine, hasDeleted);
+						}
+
 						if (line.find("<!-- NEW *", 0) != NOT_FOUND)
 						{
 							size_t tempint = line.find("<!-- NEW *", 0) + 10;
@@ -276,37 +388,50 @@ void BehaviorSub::CompilingBehavior()
 							}
 						}
 					}
-					else if (line.find("class=\"hkbCharacterData\" signature=\"0x300d6808\">") != NOT_FOUND)
+					else
 					{
-
+						modPick(modEditStore, catalyst, modLine, hasDeleted);
 					}
 
 					if (isOpen && !skip)
 					{
 						if (line == "	</hksection>") break;
 
-						while (true)
+						if (line.find("<!-- *", 0) != NOT_FOUND)
 						{
-							if (line.find("<!-- *", 0) != NOT_FOUND)
+							size_t tempint = line.find("<!-- *") + 6;
+							string mod = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+							chosenLines[mod] = line;
+							modEditStore[mod].push_back(make_shared<string>(line));
+
+							if (!hasDeleted && line == boost::regex_replace(line, boost::regex("^[\t]+<!-- \\*([\\w]+)\\* -->"), string("\\1"))) hasDeleted = true;
+						}
+						else if (line.find("<!-- original -->", 0) != NOT_FOUND)
+						{
+							modEditStore["original"].push_back(make_shared<string>(line));
+
+							if (chosenLines.size() != 0)
 							{
-								size_t tempint = line.find("<!-- *") + 6;
-								string mod = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-								chosenLines[mod] = line;
-								break;
+								line = behaviorLineChooser(line, chosenLines, behaviorPriority);
+								chosenLines.clear();
 							}
-							else if (line.find("<!-- original -->", 0) != NOT_FOUND)
+							else
 							{
-								if (chosenLines.size() != 0)
-								{
-									line = behaviorLineChooser(line, chosenLines, behaviorPriority);
-									chosenLines.clear();
-								}
-								else
-								{
-									ErrorMessage(1165);
-								}
+								ErrorMessage(1165);
 							}
 
+							modEditStore["current"].push_back(make_shared<string>(line));
+
+							for (auto& each : behaviorPriority)
+							{
+								if (modEditStore[each].size() != modEditStore["original"].size())
+								{
+									modEditStore[each].push_back(nullptr);
+								}
+							}
+						}
+						else
+						{
 							size_t pos = line.find("<hkobject name=\"");
 
 							if (pos != NOT_FOUND && line.find("signature=\"", pos) != NOT_FOUND)
@@ -324,7 +449,6 @@ void BehaviorSub::CompilingBehavior()
 
 							modLine.push_back(newMod);
 							catalyst.push_back(line);
-							break;
 						}
 					}
 
@@ -373,10 +497,10 @@ void BehaviorSub::CompilingBehavior()
 				}
 			}
 
-			boost::filesystem::path curFile(GetFileDirectory(outputdir));
+			sf::path curFile(GetFileDirectory(outputdir));
 			rigfile = curFile.parent_path().parent_path().string() + "\\" + rigfile;
 
-			if (found && isFileExist(rigfile) && !boost::filesystem::is_directory(rigfile))
+			if (found && isFileExist(rigfile) && !sf::is_directory(rigfile))
 			{
 				if (SSE)
 				{
@@ -548,7 +672,7 @@ void BehaviorSub::CompilingBehavior()
 				if (pos != NOT_FOUND)
 				{
 					pos += 30;
-					string animPath = nemesis::to_lower_copy(line).substr(pos, line.find("</hkparam>", pos) - pos);
+					string animPath = nemesis::to_lower_copy(line.substr(pos, line.find("</hkparam>", pos) - pos));
 					addUsedAnim(lowerBehaviorFile, animPath);
 					string animFile = GetFileName(animPath) + ".hkx";
 
@@ -608,13 +732,13 @@ void BehaviorSub::CompilingBehavior()
 				{
 					if (l > 50) break;
 
-					string line = catalyst[l];
+					string_view vline(catalyst[l].c_str());
 
-					pos = line.find("toplevelobject=");
+					pos = vline.find("toplevelobject=");
 
 					if (pos != NOT_FOUND)
 					{
-						firstID = stoi(boost::regex_replace(string(line.substr(pos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+						firstID = stoi(boost::regex_replace(string(vline.substr(pos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 						break;
 					}
 				}
@@ -1198,7 +1322,7 @@ void BehaviorSub::CompilingBehavior()
 						{
 							pos += 11;
 							string animPath = line.substr(pos, line.find("</hkcstring>", pos) - pos);
-							string animFile = boost::filesystem::path(animPath).filename().string();
+							string animFile = sf::path(animPath).filename().string();
 
 							if (!fp_animOpen && !characterAA && alternateAnim.find(nemesis::to_lower_copy(animFile)) != alternateAnim.end())
 							{
@@ -1213,7 +1337,7 @@ void BehaviorSub::CompilingBehavior()
 								{
 									if (!nemesis::iequals(animPath, "Animations\\female\\" + animFile))
 									{
-										boost::filesystem::path animation(GetFileDirectory(outputdir));
+										sf::path animation(GetFileDirectory(outputdir));
 
 										if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\female\\" + animFile))
 										{
@@ -1230,7 +1354,7 @@ void BehaviorSub::CompilingBehavior()
 								}
 								else if (lowerBehaviorFile == "defaultmale" && !nemesis::iequals(animPath, "Animations\\male\\" + animFile))
 								{
-									boost::filesystem::path animation(GetFileDirectory(outputdir));
+									sf::path animation(GetFileDirectory(outputdir));
 
 									if (isFileExist(animation.parent_path().parent_path().string() + "\\Animations\\male\\" + animFile))
 									{
@@ -1476,13 +1600,13 @@ void BehaviorSub::CompilingBehavior()
 
 				string cachedFile = "cached_behaviors\\" + lowerBehaviorFile + ".hkx";
 
-				if (isFileExist(cachedFile) && !boost::filesystem::is_directory(cachedFile))
+				if (isFileExist(cachedFile) && !sf::is_directory(cachedFile))
 				{
-					boost::filesystem::copy_file(cachedFile, outputdir, boost::filesystem::copy_option::overwrite_if_exists);
+					sf::copy_file(cachedFile, outputdir, sf::copy_options::overwrite_existing);
 				}
-				else if (isFileExist(outputdir) && !boost::filesystem::is_directory(outputdir))
+				else if (isFileExist(outputdir) && !sf::is_directory(outputdir))
 				{
-					if (!boost::filesystem::remove(outputdir)) WarningMessage(1005, outputdir);
+					if (!sf::remove(outputdir)) WarningMessage(1005, outputdir);
 				}
 
 				int i = 0;
@@ -2540,5 +2664,3 @@ void BehaviorSub::addAnimation()
 {
 	process->increaseAnimCount();
 }
-
-
