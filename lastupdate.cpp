@@ -1,6 +1,9 @@
-#include "lastupdate.h"
 #include <atomic>
 #include <time.h>
+#include <filesystem>
+
+#include "lastupdate.h"
+#include "functions/atomiclock.h"
 
 using namespace std;
 
@@ -8,35 +11,29 @@ atomic_flag updateLock = ATOMIC_FLAG_INIT;
 
 bool saveLastUpdate(string filename, unordered_map<string, string>& lastUpdate)
 {
+	return saveLastUpdate(filename.c_str(), lastUpdate);
+}
+
+bool saveLastUpdate(string_view filename, unordered_map<string, string>& lastUpdate)
+{
+	return saveLastUpdate(filename.data(), lastUpdate);
+}
+
+bool saveLastUpdate(const char* filename, unordered_map<string, string>& lastUpdate)
+{
 	try
 	{
-		if (!isFileExist(filename)) ErrorMessage(2022);
-
-		std::time_t lastmodified = boost::filesystem::last_write_time(filename);
-		char time1[26];
-		struct tm buf;
-		localtime_s(&buf, &lastmodified);
-		asctime_s(time1, sizeof time1, &buf);
-		string time = time1;
-		time.pop_back();
-
-		while (updateLock.test_and_set(memory_order_acquire));
-
-		try
-		{
-			lastUpdate[filename] = time;
-		}
-		catch (exception& ex)
-		{
-			updateLock.clear(memory_order_release);
-			throw ex;
-		}
-
-		updateLock.clear(memory_order_release);
+		struct stat buf;
+		stat(filename, &buf);
+		char buffer[26];
+		ctime_s(buffer, sizeof(buffer), &buf.st_mtime);
+		buffer[24] = '\0';
+		Lockless_s lock(updateLock);
+		lastUpdate[filename] = buffer;
 	}
-	catch (...)
+	catch (exception & ex)
 	{
-		ErrorMessage(2022);
+		ErrorMessage(6001, ex.what());
 	}
 
 	return true;
