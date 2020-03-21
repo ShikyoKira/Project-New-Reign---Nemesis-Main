@@ -142,7 +142,7 @@
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
 			<hkparam name="deformableSkinNames" numelements="0"></hkparam>
 			<hkparam name="rigidSkinNames" numelements="0"></hkparam>
-			<hkparam name="animationNames" numelements="1692">
+			<hkparam name="animationNames" numelements="1656">
 				<hkcstring>Animations\1HM_1stP_Run.hkx</hkcstring>
 				<hkcstring>Animations\1hm_1stP_Walk.hkx</hkcstring>
 				<hkcstring>Animations\1HM_AttackForwardSprint.hkx</hkcstring>
@@ -1799,42 +1799,6 @@
 				<hkcstring>Animations\WW_Stage7.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage8.hkx</hkcstring>
 				<hkcstring>Animations\WW_Stage9.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Right.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Roll_Left.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Roll_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Roll_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Forward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Right.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Backward.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_Left.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_BackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\Sidestep_ForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PLWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkForwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackward.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardRight.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PRWalkBackwardLeft.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PL.hkx</hkcstring>
-				<hkcstring>Animations\2hm_Idle_PR.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PR2L.hkx</hkcstring>
-				<hkcstring>Animations\2hm_PL2R.hkx</hkcstring>
 			</hkparam>
 			<hkparam name="animationFilenames" numelements="0"></hkparam>
 			<hkparam name="characterPropertyNames" numelements="39">
