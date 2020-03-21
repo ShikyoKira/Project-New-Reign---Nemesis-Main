@@ -14,12 +14,10 @@ struct master;
 
 struct newAnimLock
 {
-private:
 	std::atomic_flag coreLock = ATOMIC_FLAG_INIT;
 	std::atomic_flag subIDLock = ATOMIC_FLAG_INIT;
 	std::atomic_flag exportLock = ATOMIC_FLAG_INIT;
 
-public:
 	void lockCore();
 	void releaseCore();
 
