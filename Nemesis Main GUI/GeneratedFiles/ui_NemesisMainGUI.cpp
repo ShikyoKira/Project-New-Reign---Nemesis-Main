@@ -164,7 +164,7 @@ void Ui_NemesisMainGUIClass::setupUi(QWidget* NemesisMainGUIClass)
 	modView->setSizePolicy(sizePolicy5);
 	modView->setMinimumSize(QSize(0, 265));
 	modView->setMaximumSize(QSize(16777215, 300));
-	modView->setEditTriggers(QAbstractItemView::EditKeyPressed | QAbstractItemView::SelectedClicked);
+	modView->setEditTriggers(QAbstractItemView::EditKeyPressed | QAbstractItemView::SelectedClicked | QAbstractItemView::DoubleClicked);
 	modView->setDragEnabled(true);
 	modView->setAcceptDrops(true);
 	modView->setDragDropMode(QAbstractItemView::InternalMove);
@@ -246,17 +246,17 @@ void Ui_NemesisMainGUIClass::reset(QWidget* NemesisMainGUIClass)
 
 void Ui_NemesisMainGUIClass::GetSettings()
 {
-	std::string language;
+	std::wstring language;
 	std::unordered_map<std::string, bool> chosenBehavior;
 
-	if (!isFileExist("languages"))
+	if (!isFileExist(L"languages"))
 	{
 		CEMsgBox* msg = new CEMsgBox;
 		msg->setWindowTitle("ERROR");
 		msg->setText("Error: \"languages\" folder not found. Please reinstall Nemesis");
 		msg->show();
 	}
-	else if (!isFileExist("languages\\english.txt"))
+	else if (!isFileExist(L"languages\\english.txt"))
 	{
 		CEMsgBox* msg = new CEMsgBox;
 		msg->setWindowTitle("ERROR");
@@ -264,11 +264,11 @@ void Ui_NemesisMainGUIClass::GetSettings()
 		msg->show();
 	}
 
-	vecstr languagelist;
+	std::vector<std::wstring> languagelist;
 	int curindex = -1;
 	bool cacheResult;
 
-	read_directory("languages", languagelist);
+	read_directory(L"languages", languagelist);
 
 	for (unsigned int i = 0; i < languagelist.size(); ++i)
 	{
@@ -290,15 +290,15 @@ void Ui_NemesisMainGUIClass::GetSettings()
 
 		for (unsigned int i = 0; i < languagelist.size(); ++i)
 		{
-			std::string curLang = GetFileName(languagelist[i]);
-			comboBox->setItemText(i, QApplication::translate("NemesisMainGUIClass", curLang.c_str(), nullptr));
+			std::wstring curLang = GetFileName(languagelist[i]);
+			comboBox->setItemText(i, QApplication::translate("NemesisMainGUIClass", WStringToString(curLang).c_str(), nullptr));
 
 			if (curLang == language)
 			{
 				curindex = i;
 				DMsg = new DebugMsg(language);
 			}
-			else if (language == "english")
+			else if (language == L"english")
 			{
 				english = i;
 			}
@@ -334,8 +334,8 @@ void Ui_NemesisMainGUIClass::GetSettings()
 	{
 		for (unsigned int i = 0; i < languagelist.size(); ++i)
 		{
-			std::string curLang = GetFileName(languagelist[i]);
-			comboBox->setItemText(i, QApplication::translate("NemesisMainGUIClass", curLang.c_str(), nullptr));
+			std::wstring curLang = GetFileName(languagelist[i]);
+			comboBox->setItemText(i, QApplication::translate("NemesisMainGUIClass", WStringToString(curLang).c_str(), nullptr));
 
 			if (curLang == language)
 			{

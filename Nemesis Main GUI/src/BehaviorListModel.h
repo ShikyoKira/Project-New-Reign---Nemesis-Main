@@ -6,6 +6,9 @@
 #include <QMimeData>
 #include <QIODevice>
 #include <QAbstractItemModel>
+
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 #include "BehaviorInfo.h"
 
 class BehaviorListModel : public QAbstractItemModel
@@ -42,10 +45,14 @@ public:
 
 public slots:
 	void dropModeUpdate(bool dropOnItems);
+	void goToUrl(const QModelIndex& index);
 
 private:
 	QList<BehaviorInfo> behaviorList;
+	Qt::CheckState tempCheck;
+	boost::posix_time::ptime click_time = boost::posix_time::microsec_clock::local_time();
 	bool m_DropOnItems;
+	int draggedIndex = 0;
 };
 
 #endif

@@ -1,52 +1,22 @@
-#include "BehaviorListView.h"
 #include <QUrl>
+#include <QObject>
 #include <QMimeData>
 #include <QProxyStyle>
 #include <QMessageBox>
-#include <QObject>
 #include <QHeaderView>
+
+#include "BehaviorListView.h"
+#include "SettingsSave.h"
 #include "ErrorMsgBox.h"
 
 std::unordered_map<std::string, std::string> modConvert;
 extern std::atomic<unsigned int> resizeCount;
 
-class BehaviorListViewStyle : public QProxyStyle
-{
-public:
-	BehaviorListViewStyle(QStyle *style, int indentation);
-
-	void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = 0) const;
-
-private:
-	int m_Indentation;
-};
-
-BehaviorListViewStyle::BehaviorListViewStyle(QStyle *style, int indentation) : QProxyStyle(style), m_Indentation(indentation)
-{
-}
-
-void BehaviorListViewStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
-{
-	if (element == QStyle::PE_IndicatorItemViewItemDrop && !option->rect.isNull())
-	{
-		QStyleOption opt(*option);
-		opt.rect.setLeft(m_Indentation);
-
-		if (widget) opt.rect.setRight(widget->width() - 5); // 5 is an arbitrary value that seems to work ok
-
-		QProxyStyle::drawPrimitive(element, &opt, painter, widget);
-	}
-	else
-	{
-		QProxyStyle::drawPrimitive(element, option, painter, widget);
-	}
-}
-
 BehaviorListView::BehaviorListView(QWidget *parent) : QTreeView(parent), m_Scrollbar(new ScrollBar(this->model(), this))
 {
 	setVerticalScrollBar(m_Scrollbar);
 	QList<BehaviorInfo> mods;
-
+	std::vector<std::string> orderList;
 	std::string errmsg;
 
 	if (!readMod(errmsg))
@@ -60,16 +30,42 @@ BehaviorListView::BehaviorListView(QWidget *parent) : QTreeView(parent), m_Scrol
 		return;
 	}
 
-	for (auto& info : modinfo)
+	if (getOrderCache(orderList))
 	{
-		modConvert[info.second[0]] = info.first;
-		mods.push_back(*new BehaviorInfo(QString::fromStdString(info.second[0]), QString::fromStdString(info.second[1])));
+		std::set<std::string> tempset;
+
+		for (auto& each : orderList)
+		{
+			if (modinfo.find(each) != modinfo.end())
+			{
+				mods.push_back(*new BehaviorInfo(QString::fromStdString(modinfo[each][0]), QString::fromStdString(modinfo[each][1])));
+				modConvert[modinfo[each][0]] = each;
+				tempset.insert(each);
+			}
+		}
+
+		for (auto& info : modinfo)
+		{
+			if (tempset.find(info.first) == tempset.end())
+			{
+				mods.push_back(*new BehaviorInfo(QString::fromStdString(info.second[0]), QString::fromStdString(info.second[1])));
+			}
+		}
+	}
+	else
+	{
+		for (auto& info : modinfo)
+		{
+			modConvert[info.second[0]] = info.first;
+			mods.push_back(*new BehaviorInfo(QString::fromStdString(info.second[0]), QString::fromStdString(info.second[1])));
+		}
 	}
 
 	setRootIsDecorated(false);
 	setModel(new BehaviorListModel(mods));
 
-	QObject::connect(header(), &QHeaderView::sectionResized, this, &BehaviorListView::resizeHeader);
+	connect(header(), &QHeaderView::sectionResized, this, &BehaviorListView::resizeHeader);
+	connect(this, &QAbstractItemView::doubleClicked, static_cast<BehaviorListModel*>(model()), &BehaviorListModel::goToUrl);
 }
 
 void BehaviorListView::dragEnterEvent(QDragEnterEvent *event)
@@ -82,24 +78,6 @@ void BehaviorListView::setModel(QAbstractItemModel *model)
 {
 	QTreeView::setModel(model);
 	setVerticalScrollBar(new ScrollBar(model, this));
-}
-
-bool BehaviorListView::eventFilter(QObject* object, QEvent* event)
-{
-	QMouseEvent* mouse_event = dynamic_cast<QMouseEvent*>(event);
-
-	if (mouse_event)
-	{
-		if (mouse_event->type() == QEvent::MouseButtonPress && mouse_event->button() == Qt::LeftButton && !mouse_dragging)
-		{
-			mouse_dragging = true;
-		}
-	}
-
-	int a = 5;
-	int b = 10;
-	int c = 15;
-	return false;
 }
 
 void BehaviorListView::resizeHeader(int logicalIndex, int oldSize, int newSize)

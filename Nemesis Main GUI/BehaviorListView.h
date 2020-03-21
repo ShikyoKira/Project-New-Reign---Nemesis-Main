@@ -17,8 +17,6 @@ public:
 	virtual void dragEnterEvent(QDragEnterEvent *event);
 	virtual void setModel(QAbstractItemModel *model);
 
-	bool eventFilter(QObject* object, QEvent* event);
-
 signals:
 	void dropModeUpdate(bool dropOnRows);
 
@@ -30,8 +28,6 @@ private:
 	unsigned int modNameWidth;
 	unsigned int authorWidth;
 	unsigned int priorityWidth;
-
-	bool mouse_dragging = false;
 };
 
 #endif

@@ -1,6 +1,9 @@
 #include "BehaviorListModel.h"
+#include "BehaviorListView.h"
 #include "SettingsSave.h"
 #include "master.h"
+
+#include <QDesktopServices>
 
 #include <QtGui/QColor>
 
@@ -80,7 +83,7 @@ bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value,
 {
 	if (index.isValid())
 	{
-		if (role == Qt::EditRole)
+		if (role == Qt::EditRole)  
 		{
 			BehaviorInfo item = value.value<BehaviorInfo>();
 			behaviorList.replace(index.row(), item);
@@ -89,7 +92,9 @@ bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value,
 		}
 		else if (role == Qt::CheckStateRole)
 		{
-			behaviorList[index.row()].state = behaviorList[index.row()].state == Qt::Unchecked ? Qt::Checked : Qt::Unchecked;
+			tempCheck = behaviorList[index.row()].state;
+			click_time = boost::posix_time::microsec_clock::local_time();
+			behaviorList[index.row()].state = tempCheck == Qt::Unchecked ? Qt::Checked : Qt::Unchecked;
 			vecstr chosenBehavior;
 
 			for (auto& behavior : behaviorList)
@@ -134,7 +139,34 @@ bool BehaviorListModel::removeRows(int position, int rows, const QModelIndex& pa
 	}
 
 	endRemoveRows();
+	vecstr behaviorOrder;
+	behaviorOrder.reserve(behaviorList.size());
+
+	for (auto& behavior : behaviorList)
+	{
+		behaviorOrder.push_back(modConvert[behavior.modname.toStdString()]);
+	}
+
+	createModOrderCache(behaviorOrder);
 	return true;
+}
+
+void BehaviorListModel::goToUrl(const QModelIndex& index)
+{
+	if (index.column() != 0) return;
+
+	if (tempCheck != behaviorList[index.row()].state)
+	{
+		namespace bt = boost::posix_time;
+		double diff = (bt::microsec_clock::local_time() - click_time).total_milliseconds();
+
+		if (diff < 400) return;
+	}
+
+	std::string link = data(index, Qt::DisplayRole).toString().toStdString();
+	size_t pos = link.rfind("(") + 1;
+	link = link.substr(pos, link.length() - 1 - pos);
+	QDesktopServices::openUrl(QUrl(QString::fromStdString(link)));
 }
 
 QModelIndex BehaviorListModel::index(int row, int column, const QModelIndex&) const
