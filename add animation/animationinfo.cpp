@@ -209,11 +209,6 @@ animationInfo::animationInfo(vecstr newAnimInfo, string curFilename, OptionList 
 		{
 			animobjects.push_back(animInfo[k + add]);
 			++add;
-
-			/*if (add > 6)
-			{
-				 ErrorMessage(1143, curFilename, linecount);
-			}*/
 		}
 
 		// Get animobjects
