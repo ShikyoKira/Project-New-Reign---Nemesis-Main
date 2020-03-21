@@ -22,7 +22,7 @@ public:
 		fopen_s(&file, filename.c_str(), "w");
 	}
 
-	FileWriter(boost::filesystem::path filename)
+	FileWriter(std::filesystem::path filename)
 	{
 		fopen_s(&file, filename.string().c_str(), "w");
 	}

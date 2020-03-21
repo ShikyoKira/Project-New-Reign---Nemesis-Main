@@ -20,7 +20,7 @@ void tryDelete(string file, bool xml, int repeated = 0)
 
 	try
 	{
-		if (!boost::filesystem::remove(file))
+		if (!std::filesystem::remove(file))
 		{
 			tryDelete(file, xml, repeated + 1);
 		}
@@ -33,7 +33,7 @@ void tryDelete(string file, bool xml, int repeated = 0)
 
 bool DeleteFileFolder(string directory, string file, bool xml)
 {
-	if (boost::filesystem::is_directory(directory + file))
+	if (std::filesystem::is_directory(directory + file))
 	{
 		string tempbehavior = directory + file;
 		vecstr filelist;
@@ -55,7 +55,7 @@ void ClearTempBehaviors()
 	vecstr filelist;
 	string tempbehavior = "temp_behaviors";
 
-	if (isFileExist(tempbehavior) && boost::filesystem::is_directory(tempbehavior))
+	if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))
 	{
 		read_directory(tempbehavior, filelist);
 		tempbehavior.append("\\");
@@ -75,7 +75,7 @@ void ClearTempXml()
 	vecstr filelist;
 	string tempbehavior = "temp_behaviors\\xml";
 
-	if (isFileExist(tempbehavior) && boost::filesystem::is_directory(tempbehavior))
+	if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))
 	{
 		read_directory(tempbehavior, filelist);
 		tempbehavior.append("\\");

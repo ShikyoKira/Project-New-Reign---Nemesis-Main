@@ -2461,7 +2461,7 @@ void proc::animOrder(range blok, vecstr& blocks)
 
 		if (ptr != charAnimDataInfo.end())
 		{
-			auto& ptr2 = ptr->second.find(nemesis::to_lower_copy(boost::filesystem::path(animPath).filename().string()));
+			auto& ptr2 = ptr->second.find(nemesis::to_lower_copy(std::filesystem::path(animPath).filename().string()));
 
 			if (ptr2 != ptr->second.end())
 			{
@@ -2474,14 +2474,14 @@ void proc::animOrder(range blok, vecstr& blocks)
 void proc::regisAnim(range blok, vecstr& blocks)
 {
 	string animPath = combineBlocks(blok, blocks);
-	boost::algorithm::to_lower(animPath);
+	nemesis::to_lower(animPath);
 	addUsedAnim(behaviorFile, animPath);
 }
 
 void proc::regisBehavior(range blok, vecstr& blocks)
 {
 	string behaviorName = combineBlocks(blok, blocks);
-	boost::algorithm::to_lower(behaviorName);
+	nemesis::to_lower(behaviorName);
 	behaviorJoints[behaviorName].push_back(behaviorFile);
 }
 

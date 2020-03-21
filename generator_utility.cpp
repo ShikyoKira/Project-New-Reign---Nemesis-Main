@@ -238,7 +238,7 @@ void readList(string directory, string animationDirectory, vector<unique_ptr<reg
 
 	for (auto& file1 : filelist)
 	{
-		if (boost::filesystem::is_directory(animationDirectory + file1))
+		if (std::filesystem::is_directory(animationDirectory + file1))
 		{
 			string targetfile = "FNIS_" + file1 + "_List.txt";
 			string behaviorfile = "FNIS_" + file1 + "_Behavior.hkx";
@@ -313,9 +313,9 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 		{
 			string path = directory + "\\" + file;
 			boost::to_lower(path);
-			boost::filesystem::path curfile(path);
+			std::filesystem::path curfile(path);
 
-			if (boost::filesystem::is_directory(curfile))
+			if (std::filesystem::is_directory(curfile))
 			{
 				//multiThreads.emplace_back(boost::thread(&newFileCheck, path, isChecked));
 				newFileCheck(path, isChecked);
@@ -334,7 +334,7 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 				}
 				else if (directory.find("animationsetdatasinglefile") != NOT_FOUND)
 				{					
-					if (boost::filesystem::path(directory).stem().string().find("~") != NOT_FOUND && file.length() > 0 && file[0] != '$')
+					if (std::filesystem::path(directory).stem().string().find("~") != NOT_FOUND && file.length() > 0 && file[0] != '$')
 					{
 						if (isChecked->find(path) == isChecked->end()) throw false;
 					}
@@ -636,12 +636,32 @@ void characterHKX()
 
 string GetFileName(string filepath)
 {
-	return boost::filesystem::path(filepath).stem().string();
+	return std::filesystem::path(filepath).stem().string();
+}
+string GetFileName(string_view filepath)
+{
+	return std::filesystem::path(filepath).stem().string();
+}
+
+wstring GetFileName(wstring filepath)
+{
+	return std::filesystem::path(filepath).stem().wstring();
+}
+
+wstring GetFileName(wstring_view filepath)
+{
+	return std::filesystem::path(filepath).stem().wstring();
 }
 
 string GetFileDirectory(string filepath)
 {
-	string dir = boost::filesystem::path(filepath).parent_path().string();
+	string dir = std::filesystem::path(filepath).parent_path().string();
+	return filepath.substr(0, dir.length() + 1);
+}
+
+wstring GetFileDirectory(wstring filepath)
+{
+	wstring dir = std::filesystem::path(filepath).parent_path().wstring();
 	return filepath.substr(0, dir.length() + 1);
 }
 
@@ -745,7 +765,7 @@ void checkClipAnimData(string& line, vecstr& characterFiles, string& clipName, b
 		{
 			isClip = false;
 			pos += 30;
-			string animFile = boost::filesystem::path(line.substr(pos, line.find("</hkparam>", pos) - pos)).filename().string();
+			string animFile = std::filesystem::path(line.substr(pos, line.find("</hkparam>", pos) - pos)).filename().string();
 			boost::to_lower(animFile);
 
 			for (auto file : characterFiles)
@@ -849,9 +869,9 @@ void checkFolder(string filepath)
 
 	for (auto& each : list)
 	{
-		boost::filesystem::path file(filepath + "\\" + each);
+		std::filesystem::path file(filepath + "\\" + each);
 
-		if (boost::filesystem::is_directory(file))
+		if (std::filesystem::is_directory(file))
 		{
 			checkFolder(file.string());
 		}

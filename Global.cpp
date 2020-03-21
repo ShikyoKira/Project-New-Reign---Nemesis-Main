@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include "Global.h"
 
 #include "src\utilities\algorithm.h"
@@ -9,6 +11,7 @@
 #pragma warning(disable:4503)
 
 using namespace std;
+namespace sf = filesystem;
 
 boost::atomic_flag atomLock = BOOST_ATOMIC_FLAG_INIT;
 
@@ -40,22 +43,6 @@ unordered_map<string, vecstr> alternateAnim;
 unordered_map<string, unordered_map<string, int>> AAGroupCount;
 set<string> groupNameList;
 
-struct path_leaf_string
-{
-	string operator()(const boost::filesystem::directory_entry& entry) const
-	{
-		return entry.path().filename().string();
-	}
-};
-
-struct path_leaf_wstring
-{
-	wstring operator()(const boost::filesystem::directory_entry& entry) const
-	{
-		return entry.path().filename().wstring();
-	}
-};
-
 wstring StringToWString(string line)
 {
 	return QString::fromStdString(line).toStdWString();
@@ -68,10 +55,12 @@ string WStringToString(wstring line)
 
 void read_directory(const string& name, vecstr& fv)
 {
-	boost::filesystem::path p(name);
-	boost::filesystem::directory_iterator start(p);
-	boost::filesystem::directory_iterator end;
-	transform(start, end, back_inserter(fv), path_leaf_string());
+	fv.clear();
+
+	for (const auto& entry : sf::directory_iterator(name))
+	{
+		fv.push_back(WStringToString(entry.path().filename().wstring()));
+	}
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
 	{
@@ -85,10 +74,12 @@ void read_directory(const string& name, vecstr& fv)
 
 void read_directory(const wstring& name, vector<wstring>& fv)
 {
-	boost::filesystem::path p(name);
-	boost::filesystem::directory_iterator start(p);
-	boost::filesystem::directory_iterator end;
-	transform(start, end, back_inserter(fv), path_leaf_wstring());
+	fv.clear();
+
+	for (const auto& entry : sf::directory_iterator(name))
+	{
+		fv.push_back(entry.path().filename().wstring());
+	}
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
 	{
@@ -102,10 +93,12 @@ void read_directory(const wstring& name, vector<wstring>& fv)
 
 void read_directory(const char* name, vecstr& fv)
 {
-	boost::filesystem::path p(name);
-	boost::filesystem::directory_iterator start(p);
-	boost::filesystem::directory_iterator end;
-	transform(start, end, back_inserter(fv), path_leaf_string());
+	fv.clear();
+
+	for (const auto& entry : sf::directory_iterator(name))
+	{
+		fv.push_back(WStringToString(entry.path().filename().wstring()));
+	}
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
 	{
@@ -119,10 +112,12 @@ void read_directory(const char* name, vecstr& fv)
 
 void read_directory(const wchar_t* name, vector<wstring>& fv)
 {
-	boost::filesystem::path p(name);
-	boost::filesystem::directory_iterator start(p);
-	boost::filesystem::directory_iterator end;
-	transform(start, end, back_inserter(fv), path_leaf_wstring());
+	fv.clear();
+
+	for (const auto& entry : sf::directory_iterator(name))
+	{
+		fv.push_back(entry.path().filename().wstring());
+	}
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
 	{
@@ -134,11 +129,11 @@ void read_directory(const wchar_t* name, vector<wstring>& fv)
 	}
 }
 
-size_t fileLineCount(boost::filesystem::path filepath)
+size_t fileLineCount(sf::path filepath)
 {
 	int linecount = 0;
 	string line;
-	FileReader input(filepath);
+	FileReader input(filepath.c_str());
 
 	if (input.GetFile())
 	{
@@ -245,11 +240,11 @@ int sameWordCount(string line, string word)
 	return wordCount;
 }
 
-bool GetFunctionLines(boost::filesystem::path filename, vecstr& functionlines, bool emptylast)
+bool GetFunctionLines(sf::path filename, vecstr& functionlines, bool emptylast)
 {
 	functionlines = vecstr();
 
-	if (!boost::filesystem::is_directory(filename))
+	if (!sf::is_directory(filename))
 	{
 		functionlines.reserve(fileLineCount(filename));
 		FileReader BehaviorFormat(filename.wstring());
@@ -295,11 +290,11 @@ bool GetFunctionLines(boost::filesystem::path filename, vecstr& functionlines, b
 	return true;
 }
 
-bool GetFunctionLines(boost::filesystem::path filename, vector<wstring>& functionlines, bool emptylast)
+bool GetFunctionLines(sf::path filename, vector<wstring>& functionlines, bool emptylast)
 {
 	functionlines = vector<wstring>();
 
-	if (!boost::filesystem::is_directory(filename))
+	if (!sf::is_directory(filename))
 	{
 		functionlines.reserve(fileLineCount(filename));
 		FileReader BehaviorFormat(filename.wstring());
@@ -338,57 +333,6 @@ bool GetFunctionLines(boost::filesystem::path filename, vector<wstring>& functio
 	else
 	{
 		if (functionlines.size() != 0 && functionlines.back().length() == 0)
-		{
-			functionlines.pop_back();
-		}
-	}
-
-	return true;
-}
-
-bool GetFunctionLines(string filename, vecstr& functionlines, bool emptylast)
-{
-	functionlines = vecstr();
-
-	if (!boost::filesystem::is_directory(filename))
-	{
-		functionlines.reserve(fileLineCount(filename));
-		FileReader BehaviorFormat(filename);
-
-		if (BehaviorFormat.GetFile())
-		{
-			string line;
-
-			while (BehaviorFormat.GetLines(line))
-			{
-				if (error) throw nemesis::exception();
-
-				functionlines.push_back(line);
-			}
-		}
-		else
-		{
-			ErrorMessage(3002, filename);
-		}
-	}
-	else
-	{
-		ErrorMessage(3001, filename);
-	}
-
-	if (functionlines.size() == 0) return false;
-
-	if (emptylast)
-	{
-		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND &&
-			functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
-		{
-			functionlines.push_back("");
-		}
-	}
-	else
-	{
-		while (functionlines.size() != 0 && functionlines.back().length() == 0)
 		{
 			functionlines.pop_back();
 		}

@@ -3,8 +3,8 @@
 
 #include <string>
 #include <iostream>
-#include <boost\filesystem.hpp>
 #include <boost\regex.hpp>
+
 #include "writetextfile.h"
 #include "generator_utility.h"
 

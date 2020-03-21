@@ -26,9 +26,9 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 	for (unsigned int k = 0; k < nodelist.size(); ++k)
 	{
 		string path = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
-		boost::filesystem::path curfile(path);
+		std::filesystem::path curfile(path);
 
-		if (boost::filesystem::is_directory(curfile)) continue;
+		if (std::filesystem::is_directory(curfile)) continue;
 
 		string filename = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
 		vecstr storeline;
@@ -248,9 +248,9 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 	for (unsigned int k = 0; k < headerlist.size(); ++k)
 	{
 		string filepath = folderpath + "\\" + headerlist[k];
-		boost::filesystem::path curfile(filepath);
+		std::filesystem::path curfile(filepath);
 
-		if (boost::filesystem::is_directory(curfile)) continue;
+		if (std::filesystem::is_directory(curfile)) continue;
 
 		string filename = curfile.stem().string();
 		vecstr storeline;
@@ -340,9 +340,9 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 	for (unsigned int k = 0; k < headerfile.size(); ++k)
 	{
 		string filename = folderpath + "\\" + headerfile[k];
-		boost::filesystem::path curfile(filename);
+		std::filesystem::path curfile(filename);
 
-		if (boost::filesystem::is_directory(curfile) || !nemesis::iequals(curfile.extension().string(), ".txt") || headerfile[k].length() == 0) continue;
+		if (std::filesystem::is_directory(curfile) || !nemesis::iequals(curfile.extension().string(), ".txt") || headerfile[k].length() == 0) continue;
 
 		if (!saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate)) return false;
 

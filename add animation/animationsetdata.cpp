@@ -1,6 +1,9 @@
 #include "animationsetdata.h"
-#include "add animation\playerexclusive.h"
-#include "add animation\animationdatatracker.h"
+
+#include "src/utilities/algorithm.h"
+
+#include "add animation/playerexclusive.h"
+#include "add animation/animationdatatracker.h"
 
 using namespace std;
 
@@ -23,7 +26,7 @@ AnimationDataProject::AnimationDataProject(int& startline, vecstr& animdatafile,
 		string projectPath;
 		string projectPath_fp;
 		unordered_map<string, shared_ptr<vecstr>> AAList;
-		string projectFileName = nemesis::to_lower_copy(boost::filesystem::path(projectname).stem().string());
+		string projectFileName = nemesis::to_lower_copy(std::filesystem::path(projectname).stem().string());
 
 		// assume current project has new alternate animation installed
 		if (behaviorProjectPath[projectFileName].length() > 0)

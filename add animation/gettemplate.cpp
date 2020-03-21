@@ -3,6 +3,7 @@
 #pragma warning(disable:4503)
 
 using namespace std;
+namespace sf = filesystem;
 
 getTemplate::getTemplate()
 {
@@ -19,11 +20,11 @@ getTemplate::getTemplate()
 		if (code.find(".", 0) == NOT_FOUND)
 		{
 			newpath = templateDirectory + code;
-			boost::filesystem::path FOF(newpath);
+			sf::path FOF(newpath);
 
 			if (code == "t" || code == "aaprefix" || code == "aaset" || code == "md" || code == "rd" || code == "+") ErrorMessage(3009, code);
 
-			if (boost::filesystem::is_directory(FOF))
+			if (sf::is_directory(FOF))
 			{
 				vecstr folderlist;
 				read_directory(newpath, folderlist);
@@ -31,14 +32,14 @@ getTemplate::getTemplate()
 				bool isOptionExist = false;
 				bool registered = false;
 				unordered_map<string, unordered_map<int, bool>> isStateJoint;		// behavior, node(function) ID, true/false; is this node(function) joining the animation template with the main branch?
-				vector<boost::filesystem::path> pathVector;
+				vector<sf::path> pathVector;
 
 				for (auto& folder : folderlist)
 				{
 					newpath = templateDirectory + code + "\\" + folder;
-					boost::filesystem::path FOF2(newpath);
+					sf::path FOF2(newpath);
 
-					if (nemesis::iequals(folder, "option_list.txt") && !boost::filesystem::is_directory(FOF2))
+					if (nemesis::iequals(folder, "option_list.txt") && !sf::is_directory(FOF2))
 					{
 						OptionList option(newpath, code);
 						option.setDebug(debug);
@@ -60,13 +61,13 @@ getTemplate::getTemplate()
 
 				for (unsigned int l = 0; l < pathVector.size(); ++l)
 				{
-					if (boost::filesystem::is_directory(pathVector[l]))
+					if (sf::is_directory(pathVector[l]))
 					{
 						vecstr filelist;
 						newpath = pathVector[l].string();
 						read_directory(newpath, filelist);
 						string behaviorFolder = pathVector[l].stem().string();
-						string lowerBehaviorFolder = boost::algorithm::to_lower_copy(behaviorFolder);
+						string lowerBehaviorFolder = nemesis::to_lower_copy(behaviorFolder);
 						bool noGroup = true;
 
 						if (isCore)
@@ -79,10 +80,10 @@ getTemplate::getTemplate()
 						for (unsigned int i = 0; i < filelist.size(); ++i)
 						{
 							newpath = templateDirectory + code + "\\" + behaviorFolder + "\\" + filelist[i];
-							boost::filesystem::path file(newpath);
+							sf::path file(newpath);
 							string lowerfilename = nemesis::to_lower_copy(filelist[i]);
 
-							if (!boost::filesystem::is_directory(file))
+							if (!sf::is_directory(file))
 							{
 								if (nemesis::iequals(lowerfilename, code + "_group.txt"))
 								{
@@ -169,7 +170,7 @@ getTemplate::getTemplate()
 							}
 							else if (lowerBehaviorFolder == "animationdatasinglefile")
 							{
-								if (boost::filesystem::is_directory(newpath))
+								if (sf::is_directory(newpath))
 								{
 									vecstr headerlist;
 									read_directory(newpath, headerlist);
@@ -202,7 +203,7 @@ getTemplate::getTemplate()
 							}
 							else if (lowerBehaviorFolder == "animationsetdatasinglefile")
 							{
-								if (boost::filesystem::is_directory(newpath) && filelist[i].find("~") != NOT_FOUND)
+								if (sf::is_directory(newpath) && filelist[i].find("~") != NOT_FOUND)
 								{
 									vecstr headerlist;
 									read_directory(newpath, headerlist);
@@ -216,9 +217,9 @@ getTemplate::getTemplate()
 
 									for (auto& curheader : headerlist)
 									{
-										boost::filesystem::path thisfile(newpath + "\\" + curheader);
+										sf::path thisfile(newpath + "\\" + curheader);
 
-										if (!boost::filesystem::is_directory(thisfile) && nemesis::iequals(thisfile.extension().string(), ".txt"))
+										if (!sf::is_directory(thisfile) && nemesis::iequals(thisfile.extension().string(), ".txt"))
 										{
 											string header = thisfile.stem().string();
 

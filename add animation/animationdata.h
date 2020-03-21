@@ -82,7 +82,56 @@ struct AnimDataProject
 
 struct MasterAnimData
 {
-	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> newAnimData;		// character, unique code, vector<string>; memory to access each node
+	struct AnimDataList : vecstr
+	{
+	private:
+		size_t TotalLines = 0;
+
+	public:
+		size_t length()
+		{
+			return TotalLines;
+		}
+
+		void clear()
+		{
+			TotalLines = 0;
+			vecstr::clear();
+		}
+
+		void push_back(std::string line)
+		{
+			if (line.find("<!--") == NOT_FOUND) TotalLines++;
+
+			vecstr::emplace_back(line);
+		}
+
+		void pop_back()
+		{
+			if (vecstr::back().find("<!--") == NOT_FOUND) TotalLines--;
+
+			vecstr::pop_back();
+		}
+
+		void insert(vecstr::iterator pos, const std::string& line)
+		{
+			if (line.find("<!--") == NOT_FOUND) TotalLines--;
+
+			vecstr::insert(pos, line);
+		}
+
+		void insert(vecstr::iterator pos, vecstr::iterator whr, vecstr::iterator til)
+		{
+			for (auto whe = whr; whe < til; ++whe)
+			{
+				if (whe->find("<!--") == NOT_FOUND) TotalLines++;
+			}
+
+			vecstr::insert(pos, whr, til);
+		}
+	};
+
+	std::unordered_map<std::string, std::unordered_map<std::string, AnimDataList>> newAnimData;		// character, unique code, vector<string>; memory to access each node
 	vecstr animDataChar;											// order of the character
 	std::unordered_map<std::string, vecstr> animDataHeader;			// order of the character's header
 	std::unordered_map<std::string, vecstr> animDataInfo;			// order of the character's info data

@@ -13,7 +13,7 @@ using namespace std;
 mutex processlock;
 condition_variable cv;
 bool processdone = false;
-map<string, vecstr, alphanum_less> modinfo;
+map<string, vecstr> modinfo;
 
 vecstr hiddenMods;
 atomic<int> m_RunningThread;
@@ -33,9 +33,10 @@ bool readMod(string& errormsg)
 	vecstr modlist;
 	read_directory(folder, modlist);
 
+
 	for (auto& modcode : modlist)
 	{
-		if (boost::filesystem::is_directory(folder + modcode) && isFileExist(folder + modcode + "\\info.ini"))
+		if (std::filesystem::is_directory(folder + modcode) && isFileExist(folder + modcode + "\\info.ini"))
 		{
 			string filename = folder + modcode + "\\info.ini";
 			vecstr storeline;

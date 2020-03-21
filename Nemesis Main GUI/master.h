@@ -7,7 +7,7 @@
 #include "src\process\behaviorprocess.h"
 #include "src\process\behaviorsubprocess.h"
 
-extern std::map<std::string, vecstr, alphanum_less> modinfo;
+extern std::map<std::string, vecstr> modinfo;
 extern std::mutex processlock;
 extern std::condition_variable cv;
 extern bool processdone;

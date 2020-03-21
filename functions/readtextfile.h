@@ -12,7 +12,7 @@ struct FileReader
 		file.setFileName(QString::fromStdString(filename));
 	}
 
-	FileReader(boost::filesystem::path filename)
+	FileReader(std::filesystem::path filename)
 	{
 		file.setFileName(QString::fromStdWString(filename.wstring()));
 	}
@@ -40,6 +40,25 @@ struct FileReader
 			while (line.length() > 0 && line.back() == '\n' || line.back() == '\r')
 			{
 				line.pop_back();
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool GetLines(std::string_view& line)
+	{
+		while (!file.atEnd())
+		{
+			QString qline = file.readLine();
+			const char* templine = qline.toStdString().c_str();
+			line = std::string_view(templine);
+
+			while (line.length() > 0 && line.back() == '\n' || line.back() == '\r')
+			{
+				line = std::string_view(templine, line.length() - 1);
 			}
 
 			return true;

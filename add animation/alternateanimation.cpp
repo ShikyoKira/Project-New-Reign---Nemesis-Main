@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include <boost\crc.hpp>
 #include <boost\iostreams\device\array.hpp>
 #include <boost\iostreams\stream_buffer.hpp>
@@ -15,17 +17,18 @@
 #pragma warning(disable:4503)
 
 using namespace std;
+namespace sf = filesystem;
 
 unordered_map<string, int> AAgroup_Counter;
 
-bool AACoreCompile(boost::filesystem::path filename, wstring import, string destination, string filepath, boost::filesystem::path appdata_path, vecstr& newFunctions,
+bool AACoreCompile(sf::path filename, wstring import, string destination, string filepath, sf::path appdata_path, vecstr& newFunctions,
 	unsigned int& maxGroup, unsigned int& uniquekey);
-bool AAnimAPICompile(boost::filesystem::path filename, wstring import, string destination, string filepath, boost::filesystem::path appdata_path, vecstr& newFunctions,
+bool AAnimAPICompile(sf::path filename, wstring import, string destination, string filepath, sf::path appdata_path, vecstr& newFunctions,
 	unsigned int maxGroup, unsigned int& uniquekey);
 void fixedKeyInitialize();
 unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
-bool PapyrusCompileProcess(boost::filesystem::path pscfile, wstring import, string destination, string filepath, boost::filesystem::path appdata_path,
-	boost::filesystem::path compiler, bool tryagain = false);
+bool PapyrusCompileProcess(sf::path pscfile, wstring import, string destination, string filepath, sf::path appdata_path,
+	sf::path compiler, bool tryagain = false);
 void ByteCopyToData(string target, string destination);
 void ByteCopyToData(wstring target, wstring destination);
 void forcedRemove(wstring target, int counter = 0);
@@ -41,7 +44,7 @@ void forcedRemove(wstring target, int counter)
 {
 	try
 	{
-		if (!boost::filesystem::remove(target)) ErrorMessage(1082, WStringToString(target));
+		if (!sf::remove(target)) ErrorMessage(1082, WStringToString(target));
 	}
 	catch (exception)
 	{
@@ -59,7 +62,7 @@ void forcedRemove(string target, int counter)
 {
 	try
 	{
-		if (!boost::filesystem::remove(target)) ErrorMessage(1082, target);
+		if (!sf::remove(target)) ErrorMessage(1082, target);
 	}
 	catch (exception)
 	{
@@ -82,7 +85,7 @@ void AAInitialize(string AAList)
 
 	for(string& groupName : groupList)
 	{
-		if (!nemesis::iequals(groupName, "alternate animation.script") && nemesis::iequals(boost::filesystem::path(AAList + "\\" + groupName).extension().string(), ".txt"))
+		if (!nemesis::iequals(groupName, "alternate animation.script") && nemesis::iequals(sf::path(AAList + "\\" + groupName).extension().string(), ".txt"))
 		{
 			FileReader doc(AAList + "\\" + groupName);
 
@@ -95,11 +98,11 @@ void AAInitialize(string AAList)
 				{
 					if (animFile.length() != 0)
 					{
-						string lowerAnimFile = boost::algorithm::to_lower_copy(animFile);
+						string lowerAnimFile = nemesis::to_lower_copy(animFile);
 
 						if (existAAAnim[lowerAnimFile].length() == 0)
 						{
-							string lowerGroupName = boost::algorithm::to_lower_copy(AAGroupName);
+							string lowerGroupName = nemesis::to_lower_copy(AAGroupName);
 							groupAA[lowerGroupName].push_back(lowerAnimFile);
 							AAGroup[lowerAnimFile] = lowerGroupName;
 							existAAAnim[lowerAnimFile] = lowerGroupName;
@@ -128,13 +131,13 @@ bool AAInstallation()
 	if (AAGroup.size() == 0) return true;
 
 	unsigned int uniquekey;
-	wstring cachedir = boost::filesystem::path(QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString()).parent_path().wstring() +
+	wstring cachedir = sf::path(QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString()).parent_path().wstring() +
 		L"/Nemesis";
 	replace(cachedir.begin(), cachedir.end(), '/', '\\');
 
 	try
 	{
-		boost::filesystem::create_directories(cachedir);
+		sf::create_directories(cachedir);
 	}
 	catch (const exception& ex)
 	{
@@ -143,13 +146,12 @@ bool AAInstallation()
 
 	if (error) throw nemesis::exception();
 
-	namespace bf = boost::filesystem;
 	string import = nemesisInfo->GetDataPath() + string(SSE ? "source\\scripts" : "scripts\\source");
 	string destination = nemesisInfo->GetDataPath() + "scripts";
-	bf::path source("alternate animation\\alternate animation.script");
-	bf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
+	sf::path source("alternate animation\\alternate animation.script");
+	sf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
 	string filepath = destination + "\\Nemesis_AA_Core.pex";
-	bf::copy_file(source, pscfile, bf::copy_option::overwrite_if_exists);
+	sf::copy_file(source, pscfile, sf::copy_options::overwrite_existing);
 	DebugLogging(pscfile.string());
 	DebugLogging(filepath);
 
@@ -165,10 +167,10 @@ bool AAInstallation()
 
 	if (error) throw nemesis::exception();
 
-	source = bf::path("alternate animation\\alternate animation 2.script");
-	bf::path pscfile2 = bf::path(cachedir + L"\\FNIS_aa.psc");
+	source = sf::path("alternate animation\\alternate animation 2.script");
+	sf::path pscfile2 = sf::path(cachedir + L"\\FNIS_aa.psc");
 	filepath = destination + "\\FNIS_aa.pex";
-	bf::copy_file(source, pscfile2, bf::copy_option::overwrite_if_exists);
+	sf::copy_file(source, pscfile2, sf::copy_options::overwrite_existing);
 	DebugLogging(pscfile2.string());
 	DebugLogging(filepath);
 
@@ -176,7 +178,7 @@ bool AAInstallation()
 
 	try
 	{
-		if (!boost::filesystem::remove(pscfile)) ErrorMessage(1082, pscfile.string());
+		if (!sf::remove(pscfile)) ErrorMessage(1082, pscfile.string());
 	}
 	catch (const exception& ex)
 	{
@@ -185,7 +187,7 @@ bool AAInstallation()
 
 	try
 	{
-		if (!boost::filesystem::remove(pscfile2)) ErrorMessage(1082, pscfile2.string());
+		if (!sf::remove(pscfile2)) ErrorMessage(1082, pscfile2.string());
 	}
 	catch (const exception& ex)
 	{
@@ -197,7 +199,7 @@ bool AAInstallation()
 	return true;
 }
 
-bool AACoreCompile(boost::filesystem::path filename, wstring import, string destination, string filepath, boost::filesystem::path appdata_path, vecstr& newFunctions,
+bool AACoreCompile(sf::path filename, wstring import, string destination, string filepath, sf::path appdata_path, vecstr& newFunctions,
 	unsigned int& maxGroup, unsigned int& uniquekey)
 {
 	bool prefixDone = false;
@@ -215,7 +217,7 @@ bool AACoreCompile(boost::filesystem::path filename, wstring import, string dest
 	vecstr storeline;
 	vecstr newline;
 	newline.reserve(storeline.size());
-	GetFunctionLines(filename, storeline);
+	GetFunctionLines(filename.c_str(), storeline);
 
 	int AACounter = 0;
 	maxGroup = 0;
@@ -522,14 +524,14 @@ bool AACoreCompile(boost::filesystem::path filename, wstring import, string dest
 	return true;
 }
 
-bool AAnimAPICompile(boost::filesystem::path filename, wstring import, string destination, string filepath, boost::filesystem::path appdata_path, vecstr& newFunctions,
+bool AAnimAPICompile(sf::path filename, wstring import, string destination, string filepath, sf::path appdata_path, vecstr& newFunctions,
 	unsigned int maxGroup, unsigned int& uniquekey)
 {
 	vecstr storeline;
 	vecstr newline;
 	newline.reserve(storeline.size());
 
-	if (!GetFunctionLines(filename, storeline)) return false;
+	if (!GetFunctionLines(filename.c_str(), storeline)) return false;
 
 	for (string& line : storeline)
 	{
@@ -605,39 +607,18 @@ void fixedKeyInitialize()
 
 string GetLastModified(string filename)
 {
-	bool throwNemesis = false;
-
 	try
 	{
-		try
-		{
-			std::time_t lastmodified = boost::filesystem::last_write_time(filename);
-			char time1[26];
-			struct tm buf;
-			localtime_s(&buf, &lastmodified);
-			asctime_s(time1, sizeof time1, &buf);
-			string time = time1;
-			time.pop_back();
-
-			return time;
-		}
-		catch (const std::exception& ex)
-		{
-			try
-			{
-				ErrorMessage(6001, ex.what());
-			}
-			catch (nemesis::exception) {}
-
-			throwNemesis = true;
-		}
+		struct stat buf;
+		stat(filename.data(), &buf);
+		char buffer[26];
+		ctime_s(buffer, sizeof(buffer), &buf.st_mtime);
+		buffer[24] = '\0';
+		return buffer;
 	}
 	catch (...)
 	{
-		ErrorMessage(2022);
 	}
-
-	if (throwNemesis) throw nemesis::exception();
 
 	return "";
 }
@@ -646,7 +627,7 @@ bool FolderCreate(string curBehaviorPath)
 {
 	try
 	{
-		boost::filesystem::create_directories(curBehaviorPath);
+		sf::create_directories(curBehaviorPath);
 	}
 	catch (const exception& ex)
 	{
@@ -660,7 +641,7 @@ bool FolderCreate(wstring curBehaviorPath)
 {
 	try
 	{
-		boost::filesystem::create_directories(curBehaviorPath);
+		sf::create_directories(curBehaviorPath);
 	}
 	catch (const exception& ex)
 	{
@@ -695,14 +676,13 @@ unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
 	return uniqueKey;
 }
 
-bool PapyrusCompile(boost::filesystem::path pscfile, wstring import, string destination, string filepath, boost::filesystem::path appdata_path)
+bool PapyrusCompile(sf::path pscfile, wstring import, string destination, string filepath, sf::path appdata_path)
 {
-	if (!boost::filesystem::exists(pscfile)) ErrorMessage(1092, pscfile.string());
-	if (!boost::filesystem::exists(destination)) ErrorMessage(1001, destination);
+	if (!sf::exists(pscfile)) ErrorMessage(1092, pscfile.string());
+	if (!sf::exists(destination)) ErrorMessage(1001, destination);
 
 	string timeline;
-	namespace bf = boost::filesystem;
-	bf::path target = bf::path(nemesisInfo->GetDataPath());
+	sf::path target = sf::path(nemesisInfo->GetDataPath());
 
 	while (!nemesis::iequals(target.stem().string(), "data"))
 	{
@@ -710,19 +690,19 @@ bool PapyrusCompile(boost::filesystem::path pscfile, wstring import, string dest
 	}
 
 	target = target.parent_path();
-	target = bf::path(target.string() + "\\Papyrus Compiler\\PapyrusCompiler.exe");
+	target = sf::path(target.string() + "\\Papyrus Compiler\\PapyrusCompiler.exe");
 
-	if (isFileExist(filepath) && !boost::filesystem::remove(filepath)) timeline = GetLastModified(filepath);
+	if (isFileExist(filepath) && !sf::remove(filepath)) timeline = GetLastModified(filepath);
 
-	bf::path desPsc = import + L"\\" + pscfile.stem().wstring() + L".psc";
+	sf::path desPsc = import + L"\\" + pscfile.stem().wstring() + L".psc";
 
-	if (boost::filesystem::exists(desPsc) && !boost::filesystem::remove(desPsc)) ErrorMessage(1082, pscfile.string() + ".psc", desPsc.string());
+	if (sf::exists(desPsc) && !sf::remove(desPsc)) ErrorMessage(1082, pscfile.string() + ".psc", desPsc.string());
 		
-	if (!boost::filesystem::exists(target) || !PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, target))
+	if (!sf::exists(target) || !PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, target))
 	{
 		string compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
 
-		if (boost::filesystem::exists(compiler))
+		if (sf::exists(compiler))
 		{
 			if (!PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, compiler, true)) throw nemesis::exception();
 		}
@@ -740,28 +720,29 @@ bool PapyrusCompile(boost::filesystem::path pscfile, wstring import, string dest
 	return true;
 }
 
-bool PapyrusCompileProcess(boost::filesystem::path pscfile, wstring import, string destination, string filepath, boost::filesystem::path appdata_path,
-	boost::filesystem::path compiler, bool tryagain)
+bool PapyrusCompileProcess(sf::path pscfile, wstring import, string destination, string filepath, sf::path appdata_path,
+	sf::path compiler, bool tryagain)
 {
+	namespace sf = sf;
 	pscfile = pscfile.stem().wstring() + L".psc";
 	wstring importedSource = import + L"\\" + pscfile.filename().wstring();
 	wstring dep = L"Papyrus Compiler\\scripts";
 	wstring backUpDep = L"Papyrus Compiler\\backup scripts";
 
-	if ((boost::filesystem::exists(dep) || FolderCreate(dep)) && boost::filesystem::exists(backUpDep))
+	if ((sf::exists(dep) || FolderCreate(dep)) && sf::exists(backUpDep))
 	{
 		vector<wstring> backUpDepList;
 		read_directory(backUpDep, backUpDepList);
 
 		for (wstring bkUp : backUpDepList)
 		{
-			boost::filesystem::copy_file(backUpDep + L"\\" + bkUp, dep + L"\\" + bkUp, boost::filesystem::copy_option::overwrite_if_exists);
+			sf::copy_file(backUpDep + L"\\" + bkUp, dep + L"\\" + bkUp, sf::copy_options::overwrite_existing);
 		}
 	}
 
-	if (isFileExist(filepath) && !boost::filesystem::is_directory(filepath) && !boost::filesystem::remove(filepath)) ErrorMessage(1082, filepath);
+	if (isFileExist(filepath) && !sf::is_directory(filepath) && !sf::remove(filepath)) ErrorMessage(1082, filepath);
 
-	if (boost::filesystem::exists(importedSource) && !boost::filesystem::is_directory(importedSource) && !boost::filesystem::remove(importedSource))
+	if (sf::exists(importedSource) && !sf::is_directory(importedSource) && !sf::remove(importedSource))
 	{
 		ErrorMessage(1082, WStringToString(importedSource));
 	}
@@ -788,7 +769,7 @@ bool PapyrusCompileProcess(boost::filesystem::path pscfile, wstring import, stri
 	string tempfile = GetFileName(filepath) + ".pex";
 	wstring tempfilepath = appdata_path.wstring() + L"\\" + StringToWString(tempfile);
 
-	if (!boost::filesystem::exists(tempfilepath))
+	if (!sf::exists(tempfilepath))
 	{
 		while (!process.waitForReadyRead());
 

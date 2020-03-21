@@ -5,7 +5,6 @@
 
 #include <boost\thread.hpp>
 #include <boost\regex.hpp>
-#include <boost\filesystem.hpp>
 
 #include "functions\writetextfile.h"
 #include "functions\functionupdate.h"

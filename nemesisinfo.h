@@ -2,8 +2,6 @@
 #include <string>
 #include <iostream>
 
-#include <boost\filesystem.hpp>
-
 #include "src/utilities/algorithm.h"
 
 extern bool SSE;

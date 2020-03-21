@@ -18,8 +18,15 @@ int getTemplateNextID(vecstr& templatelines);
 std::vector<int> GetStateID(std::map<int, int> mainJoint, std::map<int, vecstr> functionlist, std::unordered_map<int, int>& functionState);
 vecstr newAnimationElement(std::string line, std::vector<vecstr> element, int curNumber);
 std::string behaviorLineChooser(std::string originalline, std::unordered_map<std::string, std::string> chosenLines, vecstr behaviorPriority);
+
 std::string GetFileName(std::string filepath);
+std::string GetFileName(std::string_view filepath);
+std::wstring GetFileName(std::wstring filepath);
+std::wstring GetFileName(std::wstring_view filepath);
+
 std::string GetFileDirectory(std::string filepath);
+std::wstring GetFileDirectory(std::wstring filepath);
+
 std::vector<std::unique_ptr<registerAnimation>> openFile(getTemplate* behaviortemplate);
 void checkClipAnimData(std::string& line, vecstr& characterFiles, std::string& clipName, bool& isClip);
 void checkAllFiles(std::string filepath);

@@ -46,13 +46,13 @@ bool hkxcmdXmlInput(string hkxfile, vecstr& fileline)
 	{
 		ErrorMessage(1207, hkxfile);
 	}
-	else if (!boost::filesystem::is_directory(xmlfile))
+	else if (!std::filesystem::is_directory(xmlfile))
 	{
 		if (!GetFunctionLines(xmlfile, fileline)) return false;
 
 		if (fileline.size() == 0) ErrorMessage(3001, xmlfile);
 
-		if (!boost::filesystem::remove(xmlfile)) ErrorMessage(1082, xmlfile, xmlfile);
+		if (!std::filesystem::remove(xmlfile)) ErrorMessage(1082, xmlfile, xmlfile);
 	}
 
 	return true;

@@ -7,9 +7,9 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <filesystem>
 #include <unordered_map>
 
-#include <boost\filesystem.hpp>
 #include <boost\date_time\posix_time\posix_time.hpp>
 
 #include "logging\debugmsg.h"
@@ -62,21 +62,37 @@ std::string WStringToString(std::wstring line);
 
 // general file utilities
 size_t fileLineCount(const char* filepath);
-size_t fileLineCount(boost::filesystem::path filepath);
+size_t fileLineCount(std::filesystem::path filepath);
+
 void addUsedAnim(std::string behaviorFile, std::string animPath);
+
 void read_directory(const std::string& name, vecstr& fv);
 void read_directory(const std::wstring& name, std::vector<std::wstring>& fv);
 void read_directory(const char* name, vecstr& fv);
 void read_directory(const wchar_t* name, std::vector<std::wstring>& fv);
+
 void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
-bool GetFunctionLines(std::string filename, vecstr& functionlines, bool emptylast = true);
-bool GetFunctionLines(boost::filesystem::path filename, vecstr& functionlines, bool emptylast = true);
+
+bool GetFunctionLines(std::filesystem::path filename, vecstr& functionlines, bool emptylast = true);
+bool GetFunctionLines(std::filesystem::path filename, std::vector<std::wstring>& functionlines, bool emptylast = true);
 
 inline bool isFileExist(const std::string& filename)
 {
 	try
 	{
-		return boost::filesystem::exists(filename);
+		return std::filesystem::exists(filename);
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+inline bool isFileExist(std::string_view filename)
+{
+	try
+	{
+		return std::filesystem::exists(filename);
 	}
 	catch (...)
 	{
@@ -88,7 +104,43 @@ inline bool isFileExist(const char* filename)
 {
 	try
 	{
-		return boost::filesystem::exists(filename);
+		return std::filesystem::exists(filename);
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+inline bool isFileExist(const std::wstring& filename)
+{
+	try
+	{
+		return std::filesystem::exists(filename);
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+inline bool isFileExist(std::wstring_view filename)
+{
+	try
+	{
+		return std::filesystem::exists(filename);
+	}
+	catch (...)
+	{
+		return false;
+	}
+}
+
+inline bool isFileExist(const wchar_t* filename)
+{
+	try
+	{
+		return std::filesystem::exists(filename);
 	}
 	catch (...)
 	{
@@ -98,17 +150,9 @@ inline bool isFileExist(const char* filename)
 
 inline bool CreateFolder(const std::string& folderpath)
 {
-	if (isFileExist(folderpath))
-	{
-		return true;
-	}
+	if (isFileExist(folderpath)) return true;
 
-	if (boost::filesystem::create_directories(boost::filesystem::path(folderpath)))
-	{
-		return true;
-	}
-
-	return false;
+	return std::filesystem::create_directories(folderpath);
 }
 
 #endif

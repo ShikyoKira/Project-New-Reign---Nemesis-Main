@@ -6,6 +6,8 @@
 
 #include <QtWidgets/QApplication>
 
+extern std::string stagePath;
+
 int main(int argc, char *argv[])
 {
 	bool generate = false;
@@ -15,9 +17,9 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		if (isFileExist(logfile) && !boost::filesystem::is_directory(logfile))
+		if (isFileExist(logfile) && !std::filesystem::is_directory(logfile))
 		{
-			boost::filesystem::remove(logfile);
+			std::filesystem::remove(logfile);
 		}
 	}
 	catch (const std::exception&)
@@ -55,6 +57,20 @@ int main(int argc, char *argv[])
 					}
 
 					generate = true;
+				}
+				else if (std::string_view(argv[i]).find("-stage=") == 0)
+				{
+					stagePath = std::string(argv[i] + 7);
+
+					if (stagePath.size() > 0 && stagePath[0] == '\"')
+					{
+						stagePath = stagePath.substr(1);
+					}
+
+					if (stagePath.size() > 0 && stagePath.back() == '\"')
+					{
+						stagePath.pop_back();
+					}
 				}
 				else
 				{

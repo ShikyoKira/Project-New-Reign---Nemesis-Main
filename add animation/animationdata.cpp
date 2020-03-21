@@ -68,7 +68,7 @@ AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string fil
 
 	map<string, string> exchange;
 	map<string, vector<int>> codeTracker;
-	string characterFile = nemesis::to_lower_copy(boost::filesystem::path(behaviorlist[behaviorlist.size() - 2]).stem().string());
+	string characterFile = nemesis::to_lower_copy(std::filesystem::path(behaviorlist[behaviorlist.size() - 2]).stem().string());
 	AnimDataProcess(animdatalist, startline, animdatafile, project, modcode, exchange, clipPtrAnimData[characterFile], codeTracker);
 
 	if (error) throw nemesis::exception();

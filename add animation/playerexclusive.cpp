@@ -10,7 +10,7 @@
 #include "functions\writetextfile.h"
 
 using namespace std;
-namespace bf = boost::filesystem;
+namespace sf = filesystem;
 
 #define min(a,b)            (((a) < (b)) ? (a) : (b))
 
@@ -24,15 +24,15 @@ void tryDelete(string file, int repeated = 0)
 		ErrorMessage(1082, "PCEA_animations", file);
 	}
 
-	if (!boost::filesystem::remove(file))
+	if (!sf::remove(file))
 	{
 		tryDelete(file, repeated + 1);
 	}
 }
 
-bool Delete(bf::path file)
+bool Delete(sf::path file)
 {
-	if (boost::filesystem::is_directory(file))
+	if (sf::is_directory(file))
 	{
 		string tempbehavior = file.string();
 		vecstr filelist;
@@ -49,11 +49,11 @@ bool Delete(bf::path file)
 	return true;
 }
 
-void forcedCopy(bf::path animFile, bf::path newAnimFile, int count = 0)
+void forcedCopy(sf::path animFile, sf::path newAnimFile, int count = 0)
 {
 	try
 	{
-		bf::copy_file(animFile, newAnimFile, bf::copy_option::overwrite_if_exists);
+		sf::copy_file(animFile, newAnimFile, sf::copy_options::overwrite_existing);
 	}
 	catch (const exception& ex)
 	{
@@ -70,9 +70,9 @@ void PCEASubFolder(string path, unsigned short number, string pceafolder, string
 
 	for (auto& anim : animlist)
 	{
-		bf::path animFile(path + "\\" + anim);
+		sf::path animFile(path + "\\" + anim);
 
-		if (!bf::is_directory(animFile))
+		if (!sf::is_directory(animFile))
 		{
 			if (!nemesis::iequals(animFile.extension().string(), ".hkx")) continue;
 
@@ -81,15 +81,15 @@ void PCEASubFolder(string path, unsigned short number, string pceafolder, string
 
 			while (isFileExist(pceafolder + "\\" + newFileName)) newFileName = "fp2" + to_string(numb++) + "_" + anim;
 
-			bf::path newAnimFile(pceafolder + "\\" + newFileName);
+			sf::path newAnimFile(pceafolder + "\\" + newFileName);
 			string lowerAnim = nemesis::to_lower_copy(anim);
 			mod.animPathList[lowerAnim] = "Animations\\Nemesis_PCEA\\" + subpath + "\\" + newFileName;
 			
-			if (!isFileExist(pceafolder)) bf::create_directories(pceafolder);
+			if (!isFileExist(pceafolder)) sf::create_directories(pceafolder);
 
 			forcedCopy(animFile, newAnimFile);
 
-			if (!bf::exists(animFile)) ErrorMessage(1185, newAnimFile.string());
+			if (!sf::exists(animFile)) ErrorMessage(1185, newAnimFile.string());
 		}
 		else
 		{
@@ -106,7 +106,7 @@ void ReadPCEA()
 
 	vecstr folderlist;
 	string datapath = nemesisInfo->GetDataPath() + "meshes\\actors\\character\\Animations\\Nemesis_PCEA";
-	bf::path pceafolder(datapath + "\\PCEA_animations");
+	sf::path pceafolder(datapath + "\\PCEA_animations");
 
 	if (isFileExist(pceafolder.string())) Delete(pceafolder);
 
@@ -120,7 +120,7 @@ void ReadPCEA()
 	{
 		string path = datapath + "\\" + folder;
 
-		if (isdigit(folder[0]) && bf::is_directory(path))
+		if (isdigit(folder[0]) && sf::is_directory(path))
 		{
 			unsigned short number = static_cast<unsigned short>(stoi(boost::regex_replace(string(folder), boost::regex("([0-9]+)[^\n]+"), string("\\1"))));
 			pceaFolderMapList[number] = path + "|" + folder;
@@ -269,22 +269,22 @@ bool PCEAInstallation()
 	if (error) throw nemesis::exception();
 
 	DebugLogging("PCEA begin script input");
-	wstring cachedir = boost::filesystem::path(QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString()).parent_path().wstring() +
+	wstring cachedir = sf::path(QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString()).parent_path().wstring() +
 		L"/Nemesis";
 	replace(cachedir.begin(), cachedir.end(), '/', '\\');
 
 	try
 	{
-		boost::filesystem::create_directories(cachedir);
+		sf::create_directories(cachedir);
 	}
 	catch (const exception& ex)
 	{
 		ErrorMessage(6002, WStringToString(cachedir), ex.what());
 	}
 
-	bf::path source("alternate animation\\nemesis pcea.script");
-	bf::path pscfile(cachedir + L"\\Nemesis_PCEA_Core.psc");
-	bf::copy_file(source, pscfile, bf::copy_option::overwrite_if_exists);
+	sf::path source("alternate animation\\nemesis pcea.script");
+	sf::path pscfile(cachedir + L"\\Nemesis_PCEA_Core.psc");
+	sf::copy_file(source, pscfile, sf::copy_options::overwrite_existing);
 	DebugLogging(source.string());
 	DebugLogging(pscfile.string());
 
