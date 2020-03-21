@@ -29,6 +29,10 @@ struct DebugMsg
 
 	DebugMsg() {}
 	DebugMsg(std::string language);
+	DebugMsg(std::wstring language);
+
+private:
+	void setup(const std::wstring& language);
 };
 
 // send direct message on log

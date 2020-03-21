@@ -35,7 +35,17 @@ void NewDebugMessage(DebugMsg NewLog)
 
 DebugMsg::DebugMsg(string language)
 {
-	wstring filename = L"languages\\" + StringToWString(language) + L".txt";
+	setup(StringToWString(language));
+}
+
+DebugMsg::DebugMsg(wstring language)
+{
+	setup(language);
+}
+
+void DebugMsg::setup(const wstring& language)
+{
+	wstring filename = L"languages\\" + language + L".txt";
 	vecstr storeline = readUTF8File(filename);
 
 	if (error) throw nemesis::exception();
