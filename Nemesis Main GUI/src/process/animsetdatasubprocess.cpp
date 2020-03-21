@@ -52,7 +52,7 @@ void BehaviorSub::CompilingASD()
 {
 	string filepath = directory + filelist[curList];
 	string behaviorFile = filelist[curList].substr(0, filelist[curList].find_last_of("."));
-	string lowerBehaviorFile = boost::algorithm::to_lower_copy(behaviorFile);
+	string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
 	vecstr projectList;
 	int projectcounter = 0;

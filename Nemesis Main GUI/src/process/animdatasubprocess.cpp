@@ -88,7 +88,7 @@ void BehaviorSub::CompilingAnimData()
 {
 	string filepath = directory + filelist[curList];
 	string behaviorFile = filelist[curList].substr(0, filelist[curList].find_last_of("."));
-	string lowerBehaviorFile = boost::algorithm::to_lower_copy(behaviorFile);
+	string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
 	vecstr projectList;		// list of projects
 	unordered_map<string, int> projectNameCount;	// count the occurance of the project name
@@ -654,7 +654,7 @@ void BehaviorSub::CompilingAnimData()
 					if (!isExist[iter] && iter != "x")
 					{
 						isExist[iter] = true;
-						string animFileName = boost::filesystem::path(iter).filename().string();
+						string animFileName = std::filesystem::path(iter).filename().string();
 						auto& ptr = charAnimDataInfo.find("defaultfemale");
 
 						if (ptr != charAnimDataInfo.end())

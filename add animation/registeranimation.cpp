@@ -141,7 +141,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 					if (newAnimInfo.size() != 3) ErrorMessage(4003, filename, linecount, line);
 
-					string lowGroupName = boost::algorithm::to_lower_copy(newAnimInfo[1]);
+					string lowGroupName = nemesis::to_lower_copy(newAnimInfo[1]);
 					size_t groupSize = groupAA[lowGroupName].size();
 
 					if (groupSize == 0) ErrorMessage(4004, filename, linecount, line);
@@ -183,7 +183,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 				{
 					if (newAnimInfo.size() < 4 || newAnimInfo.size() % 2 != 0) ErrorMessage(4010, filename, linecount);
 
-					string lowerAnimName = boost::algorithm::to_lower_copy(fstP ? newAnimInfo[1] + "_1p*" : newAnimInfo[1]) ;
+					string lowerAnimName = nemesis::to_lower_copy(fstP ? newAnimInfo[1] + "_1p*" : newAnimInfo[1]) ;
 
 					if (!AAAnimFileExist[lowerAnimName])
 					{
@@ -575,7 +575,7 @@ registerAnimation::registerAnimation(string curDirectory, string filename, getTe
 
 		if (error) throw nemesis::exception();
 
-		boost::filesystem::path file(filepath);
+		std::filesystem::path file(filepath);
 		string msg = ": " + (fstP ? file.parent_path().stem().string() + " (1st Person)" : file.parent_path().stem().string());
 		interMsg(TextBoxMessage(1006) + msg);
 		DebugLogging(EngTextBoxMessage(1006) + msg);

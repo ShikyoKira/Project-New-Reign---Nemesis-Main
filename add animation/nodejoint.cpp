@@ -332,7 +332,7 @@ void nodeJoint::insertData(string format, string filename, vector<vector<unorder
 			{
 				pos = line.find("animationName\">") + 15;
 				string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
-				boost::algorithm::to_lower(animPath);
+				nemesis::to_lower(animPath);
 				addUsedAnim(behaviorFile, animPath);
 			}
 			else if (line.find("<hkparam name=\"localTime\">-") != NOT_FOUND)
