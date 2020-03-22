@@ -58,6 +58,58 @@ namespace nemesis
 		data = to_lower_copy(data.c_str());
 	}
 
+
+	const char* to_upper_copy(const char* data)
+	{
+		char* temp = _strdup(data);
+		int size = strlen(data);
+		int i = 0;
+
+		while (i < size)
+		{
+			temp[i] = toupper(temp[i]);
+			i++;
+		}
+
+		return temp;
+	}
+
+	const wchar_t* to_upper_copy(const wchar_t* data)
+	{
+		wchar_t* temp = _wcsdup(data);
+		int size = wcslen(data);
+		int i = 0;
+
+		while (i < size)
+		{
+			temp[i] = toupper(temp[i]);
+			i++;
+		}
+
+		return temp;
+	}
+
+	string to_upper_copy(const string& data)
+	{
+		return to_upper_copy(data.c_str());
+	}
+
+	wstring to_upper_copy(const wstring& data)
+	{
+		return to_upper_copy(data.c_str());
+	}
+
+	void to_upper(string& data)
+	{
+		data = to_upper_copy(data.c_str());
+	}
+
+	void to_upper(wstring& data)
+	{
+		data = to_upper_copy(data.c_str());
+	}
+
+
 	bool iequals(const char* l, const char* r)
 	{
 		return strcmp(to_lower_copy(l), to_lower_copy(r)) == 0;
