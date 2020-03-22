@@ -59,7 +59,12 @@ void read_directory(const string& name, vecstr& fv)
 
 	for (const auto& entry : sf::directory_iterator(name))
 	{
-		fv.push_back(WStringToString(entry.path().filename().wstring()));
+		wstring filename = entry.path().filename().wstring();
+
+		if (filename != L"." && filename != L"..")
+		{
+			fv.push_back(WStringToString(filename));
+		}
 	}
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
@@ -78,7 +83,12 @@ void read_directory(const wstring& name, vector<wstring>& fv)
 
 	for (const auto& entry : sf::directory_iterator(name))
 	{
-		fv.push_back(entry.path().filename().wstring());
+		wstring filename = entry.path().filename().wstring();
+
+		if (filename != L"." && filename != L"..")
+		{
+			fv.push_back(filename);
+		}
 	}
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
@@ -97,7 +107,12 @@ void read_directory(const char* name, vecstr& fv)
 
 	for (const auto& entry : sf::directory_iterator(name))
 	{
-		fv.push_back(WStringToString(entry.path().filename().wstring()));
+		wstring filename = entry.path().filename().wstring();
+
+		if (filename != L"." && filename != L"..")
+		{
+			fv.push_back(WStringToString(filename));
+		}
 	}
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
@@ -116,7 +131,12 @@ void read_directory(const wchar_t* name, vector<wstring>& fv)
 
 	for (const auto& entry : sf::directory_iterator(name))
 	{
-		fv.push_back(entry.path().filename().wstring());
+		wstring filename = entry.path().filename().wstring();
+
+		if (filename != L"." && filename != L"..")
+		{
+			fv.push_back(filename);
+		}
 	}
 
 	for (unsigned int i = 0; i < fv.size(); ++i)
