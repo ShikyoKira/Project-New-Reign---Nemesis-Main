@@ -65,12 +65,26 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)include;C:\Boost\include\boost-1_72;$(SolutionDir)..\Python-3.5.6\Python;$(SolutionDir)..\Python-3.5.6\PC;$(SolutionDir)..\Python-3.5.6\Include;$(SolutionDir)GeneratedFiles;$(Qt_INCLUDEPATH_);.\GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <ForcedIncludeFiles>Global.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Version>0.84</Version>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Python-3.5.6\PCbuild\win32;C:\Boost\lib;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <QtMoc>
+      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)\</QtMocDir>
+    </QtMoc>
+    <QtRcc>
+      <QtRccDir>$(SolutionDir)GeneratedFiles\</QtRccDir>
+    </QtRcc>
+    <QtUic>
+      <QtUicDir>$(SolutionDir)GeneratedFiles\</QtUicDir>
+    </QtUic>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -79,9 +93,10 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir);C:\Boost\include\boost-1_72;$(SolutionDir)..\Python-3.5.6\Python;$(SolutionDir)..\Python-3.5.6\PC;$(SolutionDir)..\Python-3.5.6\Include;$(ProjectDir)GeneratedFiles;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)include;C:\Boost\include\boost-1_72;$(SolutionDir)..\Python-3.5.6\Python;$(SolutionDir)..\Python-3.5.6\PC;$(SolutionDir)..\Python-3.5.6\Include;$(SolutionDir)GeneratedFiles;$(Qt_INCLUDEPATH_);.\GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ForcedIncludeFiles>header/Global.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles>Global.h</ForcedIncludeFiles>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -175,75 +190,79 @@
     <ClCompile Include="src\utilities\wstrconvert.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\debuglog.h" />
-    <ClInclude Include="header\generate\addanims.h" />
-    <ClInclude Include="header\generate\addevents.h" />
-    <ClInclude Include="header\generate\addvariables.h" />
-    <ClInclude Include="header\generate\alternateanimation.h" />
-    <ClInclude Include="header\generate\animationdata.h" />
-    <ClInclude Include="header\generate\animationdatatracker.h" />
-    <ClInclude Include="header\generate\animationsetdata.h" />
-    <ClInclude Include="header\generate\animationsetdatatype.h" />
-    <ClInclude Include="header\generate\animationutility.h" />
-    <ClInclude Include="header\generate\animation\animationinfo.h" />
-    <ClInclude Include="header\generate\animation\animationthread.h" />
-    <ClInclude Include="header\generate\animation\grouptemplate.h" />
-    <ClInclude Include="header\generate\animation\import.h" />
-    <ClInclude Include="header\generate\animation\newanimation.h" />
-    <ClInclude Include="header\generate\animation\nodejoint.h" />
-    <ClInclude Include="header\generate\animation\optionlist.h" />
-    <ClInclude Include="header\generate\animation\paired.h" />
-    <ClInclude Include="header\generate\animation\registeranimation.h" />
-    <ClInclude Include="header\generate\animation\singletemplate.h" />
-    <ClInclude Include="header\generate\animation\templateinfo.h" />
-    <ClInclude Include="header\generate\animation\templateprocessing.h" />
-    <ClInclude Include="header\generate\animation\templatetree.h" />
-    <ClInclude Include="header\generate\behaviorcheck.h" />
-    <ClInclude Include="header\generate\behaviorgenerator.h" />
-    <ClInclude Include="header\generate\behaviorprocess_utility.h" />
-    <ClInclude Include="header\generate\behaviortype.h" />
-    <ClInclude Include="header\generate\generator_utility.h" />
-    <ClInclude Include="header\generate\playerexclusive.h" />
-    <QtMoc Include="header\generate\installscripts.h" />
-    <QtMoc Include="header\generate\behaviorsubprocess.h" />
-    <QtMoc Include="header\generate\behaviorprocess.h" />
-    <ClInclude Include="header\ui\BehaviorInfo.h" />
-    <QtMoc Include="header\ui\BehaviorListModel.h" />
-    <QtMoc Include="header\ui\AnimProgressBar.h" />
-    <ClInclude Include="header\ui\CmdLaunch.h" />
-    <ClInclude Include="header\ui\ErrorMsgBox.h" />
-    <ClInclude Include="header\ui\MessageHandler.h" />
-    <ClInclude Include="header\ui\MultiInstanceCheck.h" />
-    <ClInclude Include="header\ui\ProgressUp.h" />
-    <ClInclude Include="header\ui\ScrollBar.h" />
-    <ClInclude Include="header\ui\SettingsSave.h" />
-    <QtMoc Include="header\ui\Terminator.h" />
-    <QtMoc Include="header\ui\NemesisEngine.h" />
-    <QtMoc Include="header\ui\BehaviorListView.h" />
-    <ClInclude Include="header\update\dataunification.h" />
-    <ClInclude Include="header\update\functionupdate.h" />
-    <QtMoc Include="header\update\updateprocess.h" />
-    <ClInclude Include="header\utilities\algorithm.h" />
-    <ClInclude Include="header\utilities\alphanum.hpp" />
-    <ClInclude Include="header\utilities\atomiclock.h" />
-    <ClInclude Include="header\utilities\bsasupport.h" />
-    <ClInclude Include="header\utilities\compute.h" />
-    <ClInclude Include="header\utilities\filechecker.h" />
-    <ClInclude Include="header\utilities\lastupdate.h" />
-    <ClInclude Include="header\utilities\readtextfile.h" />
-    <ClInclude Include="header\utilities\renew.h" />
-    <ClInclude Include="header\utilities\stringsplit.h" />
-    <ClInclude Include="header\utilities\writetextfile.h" />
-    <ClInclude Include="header\utilities\wstrconvert.h" />
-    <QtMoc Include="header\connector.h" />
-    <ClInclude Include="header\debugmsg.h" />
-    <ClInclude Include="header\externalscript.h" />
-    <ClInclude Include="header\Global.h" />
-    <ClInclude Include="header\nemesisinfo.h" />
-    <ClInclude Include="header\version.h" />
+    <ResourceCompile Include="Nemesis Engine.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Nemesis Engine.rc" />
+    <ClInclude Include="include\generate\addanims.h" />
+    <ClInclude Include="include\generate\addevents.h" />
+    <ClInclude Include="include\generate\addvariables.h" />
+    <ClInclude Include="include\generate\alternateanimation.h" />
+    <ClInclude Include="include\generate\animationdata.h" />
+    <ClInclude Include="include\generate\animationdatatracker.h" />
+    <ClInclude Include="include\generate\animationsetdata.h" />
+    <ClInclude Include="include\generate\animationsetdatatype.h" />
+    <ClInclude Include="include\generate\animationutility.h" />
+    <ClInclude Include="include\generate\animation\animationinfo.h" />
+    <ClInclude Include="include\generate\animation\animationthread.h" />
+    <ClInclude Include="include\generate\animation\grouptemplate.h" />
+    <ClInclude Include="include\generate\animation\import.h" />
+    <ClInclude Include="include\generate\animation\newanimation.h" />
+    <ClInclude Include="include\generate\animation\nodejoint.h" />
+    <ClInclude Include="include\generate\animation\optionlist.h" />
+    <ClInclude Include="include\generate\animation\paired.h" />
+    <ClInclude Include="include\generate\animation\registeranimation.h" />
+    <ClInclude Include="include\generate\animation\singletemplate.h" />
+    <ClInclude Include="include\generate\animation\templateinfo.h" />
+    <ClInclude Include="include\generate\animation\templateprocessing.h" />
+    <ClInclude Include="include\generate\animation\templatetree.h" />
+    <ClInclude Include="include\generate\behaviorcheck.h" />
+    <ClInclude Include="include\generate\behaviorgenerator.h" />
+    <ClInclude Include="include\generate\behaviorprocess_utility.h" />
+    <ClInclude Include="include\generate\behaviortype.h" />
+    <ClInclude Include="include\generate\generator_utility.h" />
+    <ClInclude Include="include\generate\playerexclusive.h" />
+    <QtMoc Include="include\generate\installscripts.h" />
+    <QtMoc Include="include\generate\behaviorsubprocess.h" />
+    <QtMoc Include="include\generate\behaviorprocess.h" />
+    <ClInclude Include="include\ui\BehaviorInfo.h" />
+    <QtMoc Include="include\ui\BehaviorListModel.h" />
+    <QtMoc Include="include\ui\AnimProgressBar.h" />
+    <ClInclude Include="include\ui\CmdLaunch.h" />
+    <ClInclude Include="include\ui\ErrorMsgBox.h" />
+    <ClInclude Include="include\ui\MessageHandler.h" />
+    <ClInclude Include="include\ui\MultiInstanceCheck.h" />
+    <ClInclude Include="include\ui\ProgressUp.h" />
+    <ClInclude Include="include\ui\ScrollBar.h" />
+    <ClInclude Include="include\ui\SettingsSave.h" />
+    <QtMoc Include="include\ui\Terminator.h" />
+    <QtMoc Include="include\ui\NemesisEngine.h" />
+    <QtMoc Include="include\ui\BehaviorListView.h" />
+    <ClInclude Include="include\update\dataunification.h" />
+    <ClInclude Include="include\update\functionupdate.h" />
+    <QtMoc Include="include\update\updateprocess.h" />
+    <ClInclude Include="include\utilities\algorithm.h" />
+    <ClInclude Include="include\utilities\alphanum.hpp" />
+    <ClInclude Include="include\utilities\atomiclock.h" />
+    <ClInclude Include="include\utilities\bsasupport.h" />
+    <ClInclude Include="include\utilities\compute.h" />
+    <ClInclude Include="include\utilities\filechecker.h" />
+    <ClInclude Include="include\utilities\lastupdate.h" />
+    <ClInclude Include="include\utilities\readtextfile.h" />
+    <ClInclude Include="include\utilities\renew.h" />
+    <ClInclude Include="include\utilities\stringsplit.h" />
+    <ClInclude Include="include\utilities\writetextfile.h" />
+    <ClInclude Include="include\utilities\wstrconvert.h" />
+    <QtMoc Include="include\connector.h" />
+    <ClInclude Include="include\debuglog.h" />
+    <ClInclude Include="include\debugmsg.h" />
+    <ClInclude Include="include\externalscript.h" />
+    <ClInclude Include="include\Global.h" />
+    <ClInclude Include="include\nemesisinfo.h" />
+    <ClInclude Include="include\resource.h" />
+    <ClInclude Include="include\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

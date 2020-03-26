@@ -39,19 +39,19 @@
       <UniqueIdentifier>{3976466c-b73e-4984-a270-692f3565815b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\generate">
-      <UniqueIdentifier>{793e0823-0140-4666-a1e8-11b5422a5c51}</UniqueIdentifier>
+      <UniqueIdentifier>{9211e3f8-adff-4669-b994-86f3a330cbf8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\utilities">
-      <UniqueIdentifier>{2af024c8-a1b7-47d1-9d0a-df67c30b94c4}</UniqueIdentifier>
+      <UniqueIdentifier>{3dbedeba-b6af-4548-96c7-01f0bceb6178}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\update">
-      <UniqueIdentifier>{c66f9985-410b-423e-8273-e88a76456f68}</UniqueIdentifier>
+      <UniqueIdentifier>{79d2685d-d323-4ad6-ae77-a5266d35edfa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\ui">
-      <UniqueIdentifier>{d4b2cbcc-69fa-492e-bdac-ecc5b8dae190}</UniqueIdentifier>
+      <UniqueIdentifier>{915d2621-4846-4a25-a0ff-d790b82ee33e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\generate\animation">
-      <UniqueIdentifier>{1d1916ad-bc8e-406f-97b8-f78127d043b3}</UniqueIdentifier>
+      <UniqueIdentifier>{a9601795-937e-471d-b91b-a8736e99992f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -247,210 +247,218 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\debugmsg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\externalscript.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\nemesisinfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\version.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\debuglog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\lastupdate.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\readtextfile.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\renew.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\stringsplit.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\writetextfile.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\wstrconvert.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\algorithm.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\alphanum.hpp">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\atomiclock.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\bsasupport.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\compute.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\utilities\filechecker.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="header\update\functionupdate.h">
-      <Filter>Header Files\update</Filter>
-    </ClInclude>
-    <ClInclude Include="header\update\dataunification.h">
-      <Filter>Header Files\update</Filter>
-    </ClInclude>
-    <ClInclude Include="header\ui\CmdLaunch.h">
-      <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="header\ui\ErrorMsgBox.h">
-      <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="header\ui\MessageHandler.h">
-      <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="header\ui\MultiInstanceCheck.h">
-      <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="header\ui\ProgressUp.h">
-      <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="header\ui\ScrollBar.h">
-      <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="header\ui\SettingsSave.h">
-      <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="header\ui\BehaviorInfo.h">
-      <Filter>Header Files\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animationdata.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animationdatatracker.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animationsetdata.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animationsetdatatype.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animationutility.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\behaviorcheck.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\behaviorgenerator.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\behaviorprocess_utility.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\behaviortype.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\generator_utility.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\playerexclusive.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\addanims.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\addevents.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\addvariables.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\alternateanimation.h">
-      <Filter>Header Files\generate</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\newanimation.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\nodejoint.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\optionlist.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\paired.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\registeranimation.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\singletemplate.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\templateinfo.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\templateprocessing.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\templatetree.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\animationinfo.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\animationthread.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\grouptemplate.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="header\generate\animation\import.h">
-      <Filter>Header Files\generate\animation</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="header\connector.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="header\update\updateprocess.h">
-      <Filter>Header Files\update</Filter>
-    </QtMoc>
-    <QtMoc Include="header\ui\BehaviorListView.h">
-      <Filter>Header Files\ui</Filter>
-    </QtMoc>
-    <QtMoc Include="header\ui\Terminator.h">
-      <Filter>Header Files\ui</Filter>
-    </QtMoc>
-    <QtMoc Include="header\ui\AnimProgressBar.h">
-      <Filter>Header Files\ui</Filter>
-    </QtMoc>
-    <QtMoc Include="header\ui\BehaviorListModel.h">
-      <Filter>Header Files\ui</Filter>
-    </QtMoc>
-    <QtMoc Include="header\generate\behaviorprocess.h">
-      <Filter>Header Files\generate</Filter>
-    </QtMoc>
-    <QtMoc Include="header\generate\behaviorsubprocess.h">
-      <Filter>Header Files\generate</Filter>
-    </QtMoc>
-    <QtMoc Include="header\generate\installscripts.h">
-      <Filter>Header Files\generate</Filter>
-    </QtMoc>
-    <QtMoc Include="header\ui\NemesisEngine.h">
-      <Filter>Header Files\ui</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Nemesis Engine.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\debuglog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\debugmsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\externalscript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nemesisinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\compute.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\filechecker.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\lastupdate.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\readtextfile.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\renew.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\stringsplit.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\writetextfile.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\wstrconvert.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\algorithm.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\alphanum.hpp">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\atomiclock.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\bsasupport.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\update\functionupdate.h">
+      <Filter>Header Files\update</Filter>
+    </ClInclude>
+    <ClInclude Include="include\update\dataunification.h">
+      <Filter>Header Files\update</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\CmdLaunch.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\ErrorMsgBox.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\MessageHandler.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\MultiInstanceCheck.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\ProgressUp.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\ScrollBar.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\SettingsSave.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\BehaviorInfo.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\addvariables.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\alternateanimation.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animationdata.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animationdatatracker.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animationsetdata.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animationsetdatatype.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animationutility.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\behaviorcheck.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\behaviorgenerator.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\behaviorprocess_utility.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\behaviortype.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\generator_utility.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\playerexclusive.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\addanims.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\addevents.h">
+      <Filter>Header Files\generate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\import.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\newanimation.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\nodejoint.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\optionlist.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\paired.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\registeranimation.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\singletemplate.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\templateinfo.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\templateprocessing.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\templatetree.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\animationinfo.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\animationthread.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generate\animation\grouptemplate.h">
+      <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="include\connector.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\update\updateprocess.h">
+      <Filter>Header Files\update</Filter>
+    </QtMoc>
+    <QtMoc Include="include\ui\BehaviorListView.h">
+      <Filter>Header Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="include\ui\NemesisEngine.h">
+      <Filter>Header Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="include\ui\Terminator.h">
+      <Filter>Header Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="include\ui\AnimProgressBar.h">
+      <Filter>Header Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="include\ui\BehaviorListModel.h">
+      <Filter>Header Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="include\generate\behaviorprocess.h">
+      <Filter>Header Files\generate</Filter>
+    </QtMoc>
+    <QtMoc Include="include\generate\behaviorsubprocess.h">
+      <Filter>Header Files\generate</Filter>
+    </QtMoc>
+    <QtMoc Include="include\generate\installscripts.h">
+      <Filter>Header Files\generate</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
