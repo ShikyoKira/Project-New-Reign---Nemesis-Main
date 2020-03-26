@@ -1,0 +1,15 @@
+		<hkobject name="#ds360$119" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#4851</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Sneak_BackwardRightBlend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">17</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="3">
+				#ds360$124 #ds360$122 #ds360$120
+			</hkparam>
+		</hkobject>

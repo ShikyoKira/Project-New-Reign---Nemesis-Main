@@ -1,0 +1,2 @@
+axe_equip.hkx
+axe_unequip.hkx

@@ -1,0 +1,5 @@
+crossbow_idledrawn.hkx
+crossbow_idledrawndwarven.hkx
+crossbow_idleheld.hkx
+sneakcrossbow_idledrawn.hkx
+sneakcrossbow_idledrawndwarven.hkx

@@ -1,0 +1,27 @@
+		<hkobject name="#hmce$109" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#hmce$106</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MC_AttackState_Behavior</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">45</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">0</hkparam>
+			<hkparam name="selfTransitionMode">0</hkparam>
+			<hkparam name="states" numelements="24">
+				#hmce$103 #hmce$98 #hmce$94 #hmce$92 #hmce$91 #hmce$85 #hmce$78 #hmce$75 #hmce$74 #hmce$67 #hmce$63 #hmce$55 #hmce$54 #hmce$49 #hmce$51 #hmce$42
+				#hmce$40 #hmce$35 #hmce$25 #hmce$22 #hmce$18 #hmce$13 #hmce$6 #hmce$5
+			</hkparam>
+			<hkparam name="wildcardTransitions">null</hkparam>
+		</hkobject>

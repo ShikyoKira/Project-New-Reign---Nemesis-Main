@@ -1,0 +1,15 @@
+1157
+<!-- MOD_CODE ~tkuc~ OPEN -->
+1.33333
+<!-- ORIGINAL -->
+1.83333
+<!-- CLOSE -->
+1
+<!-- MOD_CODE ~tkuc~ OPEN -->
+1.33333 0 0 0
+<!-- ORIGINAL -->
+1.83333 0 0 0
+<!-- CLOSE -->
+1
+1.83333 0 0 0 1
+

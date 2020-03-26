@@ -1,0 +1,9 @@
+2HMTurnSlash
+tkuc$5
+1
+0
+0
+3
+preHitFrame:0.8
+weaponSwing:0.9
+HitFrame:1.1

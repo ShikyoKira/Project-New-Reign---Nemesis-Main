@@ -1,0 +1,23 @@
+/*
+	Format is as follows (whitespace is completely ignored, index must be between 0 and 31 inclusive):
+		Flag <name> <index>		// flag is allowed on all types
+	or:
+		Flag <name> <index> { <list of script, property, variable, or function> }	// flag is allowed only on the specified types
+*/
+
+// List of flags for TESV - DO NOT EDIT
+
+// Flag hides the script or property from the game editor
+Flag Hidden 0
+{
+	Script
+	Property
+}
+
+// Flag on an object designates it as the script the condition system will look at
+// Flag on a variable allows the script variable to be examined by the condition system
+Flag Conditional 1
+{
+	Script
+	Variable
+}

@@ -1,0 +1,10 @@
+dmagaimconcharge.hkx
+dmagaimconloop.hkx
+dmagaimrelease.hkx
+dmagpreaimcon.hkx
+dmagpreaimconcharge.hkx
+dmagpreselfcon.hkx
+dmagpreselfconcharge.hkx
+dmagselfconcharge.hkx
+dmagselfconloop.hkx
+dmagselfrelease.hkx

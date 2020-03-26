@@ -9,16 +9,12 @@ behavior_path
 behavior_project
 behavior_project_path
 engine_update
-settings
+language setting
+mod settings
 PatchLog.txt
 UpdateLog.txt
 /data/
 *.bat
-*.lua
-*.hkx
-*.pex
-*.psc
-TESV_Papyrus_Flags.flg
 
 # User-specific files
 *.suo
@@ -262,14 +258,3 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/Nemesis Main GUI/Papyrus Compiler
-/libbsarch
-/Nemesis Main GUI/data/meshes/actors/character/animations/HAnimations
-/Nemesis Main GUI/temp_behaviors/xml/Nemesis_HAnimations_behavior.xml
-/Nemesis Main GUI/python35.dll
-/Nemesis Main GUI/failed.txt
-/Nemesis Main GUI/mod.rar
-*.txt
-/Nemesis Main GUI/mt_behavior.rar
-/Nemesis Main GUI/temp_behaviors/xml
-/Nemesis Main GUI/cache

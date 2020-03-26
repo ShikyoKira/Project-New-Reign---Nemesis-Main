@@ -1,0 +1,22 @@
+		<hkobject name="#ds360$83" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="3">
+				<hkobject>
+					<hkparam name="expression">fShortestAngle = ((360*Direction - fCurrentAngle + 180) - 360*floor((1/360)*(360*Direction - fCurrentAngle + 180))) - 180</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fCurrentAngle = (!bDontCalcDirection360)*(fCurrentAngle + 20*TimeDelta*fShortestAngle)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fDirection360 = ((fCurrentAngle + 180) -360*floor((1/360)*(fCurrentAngle + 180))) - 180</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

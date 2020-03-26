@@ -1,0 +1,10 @@
+		<hkobject name="#ds360$102" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#ds360$12</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">IsPlayer_Sneak_BwdLeft_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#4826 #ds360$103
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

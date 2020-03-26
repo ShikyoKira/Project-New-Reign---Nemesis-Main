@@ -1,0 +1,2 @@
+h2h_equip.hkx
+h2h_unequip.hkx
