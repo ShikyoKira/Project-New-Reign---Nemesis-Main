@@ -1,3 +1,0 @@
-		<hkobject name="#tudm$76" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(StanceID != 1) &amp;&amp; (iRightHandType == 5)</hkparam>
-		</hkobject>

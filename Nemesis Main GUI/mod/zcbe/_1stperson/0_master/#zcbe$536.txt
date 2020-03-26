@@ -1,3 +1,0 @@
-		<hkobject name="#zcbe$536" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">PairedKillTarget</hkparam>
-		</hkobject>

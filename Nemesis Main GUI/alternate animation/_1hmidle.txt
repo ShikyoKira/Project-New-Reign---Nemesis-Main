@@ -1,2 +1,0 @@
-1hm_idle.hkx
-sneak1hm_idle.hkx

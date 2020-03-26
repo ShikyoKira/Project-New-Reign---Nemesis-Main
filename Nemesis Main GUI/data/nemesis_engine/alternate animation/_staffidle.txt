@@ -1,2 +1,0 @@
-staff_idle.hkx
-staffright_idle.hkx

@@ -1,4 +1,0 @@
-2hw_staggerbacklarge.hkx
-2hw_staggerbackmedium.hkx
-2hw_staggerbacksmall.hkx
-2hw_staggerbacksmallest.hkx

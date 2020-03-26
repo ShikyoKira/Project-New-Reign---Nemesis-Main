@@ -1,3 +1,0 @@
-		<hkobject name="#zcbe$21" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">bInJumpState == 1</hkparam>
-		</hkobject>

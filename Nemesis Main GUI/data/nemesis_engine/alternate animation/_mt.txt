@@ -1,2 +1,0 @@
-mt_runforward.hkx
-mt_walkforward.hkx

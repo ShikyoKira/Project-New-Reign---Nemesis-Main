@@ -1,4 +1,0 @@
-bow_drawlight.hkx
-bow_release.hkx
-sneakbow_drawlight.hkx
-sneakbow_release.hkx
