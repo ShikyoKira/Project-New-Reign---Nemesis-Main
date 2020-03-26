@@ -477,12 +477,12 @@ background-image: url(:/background/Resources/title.png);</string>
   <customwidget>
    <class>BehaviorListView</class>
    <extends>QTreeView</extends>
-   <header>header/ui/BehaviorListView.h</header>
+   <header>ui/BehaviorListView.h</header>
   </customwidget>
   <customwidget>
    <class>AnimProgressBar</class>
    <extends>QProgressBar</extends>
-   <header>header/ui/AnimProgressBar.h</header>
+   <header>ui/AnimProgressBar.h</header>
   </customwidget>
  </customwidgets>
  <resources>
