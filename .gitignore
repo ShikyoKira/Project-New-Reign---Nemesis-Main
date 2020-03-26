@@ -13,7 +13,16 @@ language setting
 mod settings
 PatchLog.txt
 UpdateLog.txt
-/data/
+CriticalLog.txt
+failed.txt
+/test environment/data/meshes/actors/character/behaviors/*.hkx
+/test environment/data/meshes/actors/character/characters/*.hkx
+/test environment/data/meshes/actors/character/characters female/*.hkx
+/test environment/data/scripts/FNIS.pex
+/test environment/temp_behaviors/*.txt
+/test environment/temp_behaviors/_1stperson/*.txt
+/test environment/temp_behaviors/xml/*.xml
+/GeneratedFiles
 *.bat
 
 # User-specific files
