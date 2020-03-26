@@ -1,12 +1,12 @@
-#include "header/utilities/compute.h"
+#include "utilities/compute.h"
 
-#include "header/generate/alternateanimation.h"
-#include "header/generate/animationdatatracker.h"
+#include "generate/alternateanimation.h"
+#include "generate/animationdatatracker.h"
 
-#include "header/generate/animation/templatetree.h"
-#include "header/generate/animation/grouptemplate.h"
-#include "header/generate/animation/singletemplate.h"
-#include "header/generate/animation/templateprocessing.h"
+#include "generate/animation/templatetree.h"
+#include "generate/animation/grouptemplate.h"
+#include "generate/animation/singletemplate.h"
+#include "generate/animation/templateprocessing.h"
 
 using namespace std;
 

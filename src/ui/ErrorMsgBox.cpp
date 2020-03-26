@@ -1,6 +1,6 @@
 #include <QApplication>
 
-#include "header/ui/ErrorMsgBox.h"
+#include "ui/ErrorMsgBox.h"
 
 CEMsgBox::CEMsgBox(QWidget* parent)
 {

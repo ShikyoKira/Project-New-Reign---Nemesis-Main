@@ -1,13 +1,13 @@
-#include "header/debuglog.h"
+#include "debuglog.h"
 
-#include "header/ui/Terminator.h"
+#include "ui/Terminator.h"
 
-#include "header/utilities/readtextfile.h"
+#include "utilities/readtextfile.h"
 
-#include "header/generate/animationdata.h"
-#include "header/generate/behaviorprocess.h"
-#include "header/generate/generator_utility.h"
-#include "header/generate/behaviorsubprocess.h"
+#include "generate/animationdata.h"
+#include "generate/behaviorprocess.h"
+#include "generate/generator_utility.h"
+#include "generate/behaviorsubprocess.h"
 
 using namespace std;
 

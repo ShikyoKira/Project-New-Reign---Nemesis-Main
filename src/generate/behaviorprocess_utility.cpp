@@ -1,11 +1,11 @@
 #include <boost/asio/thread_pool.hpp>
 
-#include "header/generate/behaviorprocess_utility.h"
+#include "generate/behaviorprocess_utility.h"
 
-#include "header/generate/animation/nodejoint.h"
-#include "header/generate/animation/newanimation.h"
-#include "header/generate/animation/grouptemplate.h"
-#include "header/generate/animation/animationthread.h"
+#include "generate/animation/nodejoint.h"
+#include "generate/animation/newanimation.h"
+#include "generate/animation/grouptemplate.h"
+#include "generate/animation/animationthread.h"
 
 using namespace std;
 

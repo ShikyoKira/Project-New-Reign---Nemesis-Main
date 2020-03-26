@@ -1,6 +1,6 @@
-#include "header/debugmsg.h"
+#include "debugmsg.h"
 
-#include "header/generate/AnimationUtility.h"
+#include "generate/AnimationUtility.h"
 
 using namespace std;
 

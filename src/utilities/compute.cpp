@@ -1,6 +1,6 @@
 #include <external/exprtk/exprtk.hpp>
 
-#include "header/utilities/compute.h"
+#include "utilities/compute.h"
 
 using namespace std;
 

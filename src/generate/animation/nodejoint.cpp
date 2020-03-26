@@ -1,14 +1,14 @@
 #include <boost/regex.hpp>
 
-#include "header/utilities/compute.h"
-#include "header/utilities/algorithm.h"
-#include "header/utilities/stringsplit.h"
+#include "utilities/compute.h"
+#include "utilities/algorithm.h"
+#include "utilities/stringsplit.h"
 
-#include "header/generate/AnimationUtility.h"
+#include "generate/AnimationUtility.h"
 
-#include "header/generate/animation/nodejoint.h"
-#include "header/generate/animation/templatetree.h"
-#include "header/generate/animation/animationinfo.h"
+#include "generate/animation/nodejoint.h"
+#include "generate/animation/templatetree.h"
+#include "generate/animation/animationinfo.h"
 
 using namespace std;
 

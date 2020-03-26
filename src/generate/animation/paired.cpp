@@ -1,6 +1,6 @@
 #include <boost/regex.hpp>
 
-#include "header/generate/animation/paired.h"
+#include "generate/animation/paired.h"
 
 using namespace std;
 

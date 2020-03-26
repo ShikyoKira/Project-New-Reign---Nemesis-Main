@@ -1,4 +1,4 @@
-#include "header/debuglog.h"
+#include "debuglog.h"
 
 using namespace std;
 

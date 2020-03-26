@@ -1,14 +1,14 @@
 #include <QThread>
 #include <QObject>
 
-#include "header/connector.h"
+#include "connector.h"
 
-#include "header/ui/CmdLaunch.h"
-#include "header/ui/ErrorMsgBox.h"
+#include "ui/CmdLaunch.h"
+#include "ui/ErrorMsgBox.h"
 
-#include "header/update/updateprocess.h"
+#include "update/updateprocess.h"
 
-#include "header/generate/behaviorprocess.h"
+#include "generate/behaviorprocess.h"
 
 using namespace std;
 

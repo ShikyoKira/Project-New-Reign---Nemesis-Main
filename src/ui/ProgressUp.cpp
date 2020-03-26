@@ -1,11 +1,11 @@
 #include <QtCore/QObject>
 
-#include "header/connector.h"
+#include "connector.h"
 
-#include "header/ui/ProgressUp.h"
-#include "header/ui/NemesisEngine.h"
+#include "ui/ProgressUp.h"
+#include "ui/NemesisEngine.h"
 
-#include "header/generate/behaviorsubprocess.h"
+#include "generate/behaviorsubprocess.h"
 
 void ProgressUp::newWidget(NemesisEngine* _widget)
 {

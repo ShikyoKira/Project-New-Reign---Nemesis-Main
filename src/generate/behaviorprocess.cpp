@@ -7,28 +7,28 @@
 #include <boost/asio/post.hpp>
 #include <boost/asio/thread_pool.hpp>
 
-#include "header/version.h"
-#include "header/debuglog.h"
-#include "header/externalscript.h"
+#include "version.h"
+#include "debuglog.h"
+#include "externalscript.h"
 
-#include "header/ui/Terminator.h"
-#include "header/ui/MessageHandler.h"
+#include "ui/Terminator.h"
+#include "ui/MessageHandler.h"
 
-#include "header/utilities/renew.h"
-#include "header/utilities/atomiclock.h"
-#include "header/utilities/filechecker.h"
+#include "utilities/renew.h"
+#include "utilities/atomiclock.h"
+#include "utilities/filechecker.h"
 
-#include "header/generate/addanims.h"
-#include "header/generate/behaviorcheck.h"
-#include "header/generate/installscripts.h"
-#include "header/generate/playerexclusive.h"
-#include "header/generate/behaviorprocess.h"
-#include "header/generate/behaviorgenerator.h"
-#include "header/generate/generator_utility.h"
-#include "header/generate/behaviorsubprocess.h"
+#include "generate/addanims.h"
+#include "generate/behaviorcheck.h"
+#include "generate/installscripts.h"
+#include "generate/playerexclusive.h"
+#include "generate/behaviorprocess.h"
+#include "generate/behaviorgenerator.h"
+#include "generate/generator_utility.h"
+#include "generate/behaviorsubprocess.h"
 
-#include "header/generate/animation/singletemplate.h"
-#include "header/generate/animation/registeranimation.h"
+#include "generate/animation/singletemplate.h"
+#include "generate/animation/registeranimation.h"
 
 using namespace std;
 namespace sf = filesystem;

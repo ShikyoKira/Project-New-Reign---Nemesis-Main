@@ -1,8 +1,8 @@
 #include <boost/regex.hpp>
 
-#include "header/utilities/stringsplit.h"
+#include "utilities/stringsplit.h"
 
-#include "header/generate/animation/animationinfo.h"
+#include "generate/animation/animationinfo.h"
 
 #pragma warning(disable:4503)
 

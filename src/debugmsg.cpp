@@ -1,11 +1,11 @@
 #include <boost/atomic.hpp>
 #include <boost/interprocess/sync/scoped_lock.hpp>
 
-#include "header/debugmsg.h"
-#include "header/debuglog.h"
+#include "debugmsg.h"
+#include "debuglog.h"
 
-#include "header/utilities/readtextfile.h"
-#include "header/utilities/writetextfile.h"
+#include "utilities/readtextfile.h"
+#include "utilities/writetextfile.h"
 
 using namespace std;
 

@@ -1,10 +1,10 @@
-#include "header/debugmsg.h"
+#include "debugmsg.h"
 
-#include "header/utilities/lastupdate.h"
-#include "header/utilities/stringsplit.h"
-#include "header/utilities/readtextfile.h"
+#include "utilities/lastupdate.h"
+#include "utilities/stringsplit.h"
+#include "utilities/readtextfile.h"
 
-#include "header/update/functionupdate.h"
+#include "update/functionupdate.h"
 
 #pragma warning(disable:4503)
 

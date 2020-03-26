@@ -1,6 +1,6 @@
-#include "header/generate/animation/import.h"
-#include "header/generate/animation/newanimation.h"
-#include "header/generate/animation/animationinfo.h"
+#include "generate/animation/import.h"
+#include "generate/animation/newanimation.h"
+#include "generate/animation/animationinfo.h"
 
 #pragma warning(disable:4503)
 

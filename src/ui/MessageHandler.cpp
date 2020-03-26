@@ -1,13 +1,13 @@
-#include "header/connector.h"
+#include "connector.h"
 
-#include "header/debuglog.h"
+#include "debuglog.h"
 
-#include "header/ui/ErrorMsgBox.h"
-#include "header/ui/MessageHandler.h"
+#include "ui/ErrorMsgBox.h"
+#include "ui/MessageHandler.h"
 
-#include "header/update/updateprocess.h"
+#include "update/updateprocess.h"
 
-#include "header/generate/behaviorprocess.h"
+#include "generate/behaviorprocess.h"
 
 UpdateFilesStart* process1;
 BehaviorStart* process2;

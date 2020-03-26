@@ -1,10 +1,10 @@
-#include "header/utilities/compute.h"
-#include "header/utilities/stringsplit.h"
+#include "utilities/compute.h"
+#include "utilities/stringsplit.h"
 
-#include "header/generate/animation/nodejoint.h"
-#include "header/generate/animation/templatetree.h"
-#include "header/generate/animation/grouptemplate.h"
-#include "header/generate/animation/singletemplate.h"
+#include "generate/animation/nodejoint.h"
+#include "generate/animation/templatetree.h"
+#include "generate/animation/grouptemplate.h"
+#include "generate/animation/singletemplate.h"
 
 #pragma warning(disable:4503)
 

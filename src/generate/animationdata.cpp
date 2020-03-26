@@ -1,5 +1,5 @@
-#include "header/generate/animationdata.h"
-#include "header/generate/animationdatatracker.h"
+#include "generate/animationdata.h"
+#include "generate/animationdatatracker.h"
 
 #pragma warning(disable:4503)
 

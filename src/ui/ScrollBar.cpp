@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <QStyleOptionSlider>
 
-#include "header/ui/ScrollBar.h"
+#include "ui/ScrollBar.h"
 
 ScrollBar::ScrollBar(QAbstractItemModel *model, QWidget *parent, int role)
 	: QScrollBar(parent)

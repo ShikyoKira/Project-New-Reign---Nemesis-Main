@@ -1,17 +1,17 @@
 #include <boost/atomic.hpp>
 
-#include "header/connector.h"
+#include "connector.h"
 
-#include "header/ui/Terminator.h"
-#include "header/ui/ErrorMsgBox.h"
-#include "header/ui/SettingsSave.h"
-#include "header/ui/NemesisEngine.h"
-#include "header/ui/MessageHandler.h"
+#include "ui/Terminator.h"
+#include "ui/ErrorMsgBox.h"
+#include "ui/SettingsSave.h"
+#include "ui/NemesisEngine.h"
+#include "ui/MessageHandler.h"
 
-#include "header/update/updateprocess.h"
+#include "update/updateprocess.h"
 
-#include "header/generate/behaviorcheck.h"
-#include "header/generate/behaviorprocess.h"
+#include "generate/behaviorcheck.h"
+#include "generate/behaviorprocess.h"
 
 std::atomic<unsigned int> resizeCount = 0;
 boost::atomic_flag atm_resize = BOOST_ATOMIC_FLAG_INIT;

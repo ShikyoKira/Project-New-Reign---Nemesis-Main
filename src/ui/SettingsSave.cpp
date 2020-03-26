@@ -1,10 +1,10 @@
 #include <fstream>
 
-#include "header/ui/ErrorMsgBox.h"
-#include "header/ui/SettingsSave.h"
+#include "ui/ErrorMsgBox.h"
+#include "ui/SettingsSave.h"
 
-#include "header/utilities/alphanum.hpp"
-#include "header/utilities/writetextfile.h"
+#include "utilities/alphanum.hpp"
+#include "utilities/writetextfile.h"
 
 void createLanguageCache(std::string language)
 {

@@ -4,31 +4,31 @@
 #include <boost/asio/post.hpp>
 #include <boost/asio/thread_pool.hpp>
 
-#include "header/debuglog.h"
+#include "debuglog.h"
 
-#include "header/ui/Terminator.h"
+#include "ui/Terminator.h"
 
-#include "header/utilities/stringsplit.h"
-#include "header/utilities/readtextfile.h"
+#include "utilities/stringsplit.h"
+#include "utilities/readtextfile.h"
 
-#include "header/generate/addanims.h"
-#include "header/generate/addevents.h"
-#include "header/generate/addvariables.h"
-#include "header/generate/behaviorprocess.h"
-#include "header/generate/playerexclusive.h"
-#include "header/generate/behaviorgenerator.h"
-#include "header/generate/generator_utility.h"
-#include "header/generate/behaviorsubprocess.h"
-#include "header/generate/animationdatatracker.h"
-#include "header/generate/behaviorprocess_utility.h"
+#include "generate/addanims.h"
+#include "generate/addevents.h"
+#include "generate/addvariables.h"
+#include "generate/behaviorprocess.h"
+#include "generate/playerexclusive.h"
+#include "generate/behaviorgenerator.h"
+#include "generate/generator_utility.h"
+#include "generate/behaviorsubprocess.h"
+#include "generate/animationdatatracker.h"
+#include "generate/behaviorprocess_utility.h"
 
-#include "header/generate/animation/import.h"
-#include "header/generate/animation/nodejoint.h"
-#include "header/generate/animation/templatetree.h"
-#include "header/generate/animation/grouptemplate.h"
-#include "header/generate/animation/singletemplate.h"
-#include "header/generate/animation/registeranimation.h"
-#include "header/generate/animation/templateprocessing.h"
+#include "generate/animation/import.h"
+#include "generate/animation/nodejoint.h"
+#include "generate/animation/templatetree.h"
+#include "generate/animation/grouptemplate.h"
+#include "generate/animation/singletemplate.h"
+#include "generate/animation/registeranimation.h"
+#include "generate/animation/templateprocessing.h"
 
 using namespace std;
 namespace sf = filesystem;

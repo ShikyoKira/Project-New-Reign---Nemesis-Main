@@ -1,8 +1,8 @@
-#include "header/utilities/algorithm.h"
+#include "utilities/algorithm.h"
 
-#include "header/generate/playerexclusive.h"
-#include "header/generate/animationsetdata.h"
-#include "header/generate/animationdatatracker.h"
+#include "generate/playerexclusive.h"
+#include "generate/animationsetdata.h"
+#include "generate/animationdatatracker.h"
 
 using namespace std;
 

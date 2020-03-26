@@ -2,7 +2,7 @@
 #include <cctype>
 #include <string>
 
-#include "header/utilities/algorithm.h"
+#include "utilities/algorithm.h"
 
 using namespace std;
 

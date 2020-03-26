@@ -7,14 +7,14 @@
 #include <QtCore/QProcess>
 #include <QtCore/QStandardPaths.h>
 
-#include "header/debuglog.h"
+#include "debuglog.h"
 
-#include "header/generate/generator_utility.h"
-#include "header/generate/alternateanimation.h"
+#include "generate/generator_utility.h"
+#include "generate/alternateanimation.h"
 
-#include "header/utilities/lastupdate.h"
-#include "header/utilities/readtextfile.h"
-#include "header/utilities/writetextfile.h"
+#include "utilities/lastupdate.h"
+#include "utilities/readtextfile.h"
+#include "utilities/writetextfile.h"
 
 #pragma warning(disable:4503)
 

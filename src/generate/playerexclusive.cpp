@@ -4,12 +4,12 @@
 
 #include <QtCore/QStandardPaths.h>
 
-#include "header/debuglog.h"
+#include "debuglog.h"
 
-#include "header/utilities/writetextfile.h"
+#include "utilities/writetextfile.h"
 
-#include "header/generate/playerexclusive.h"
-#include "header/generate/alternateanimation.h"
+#include "generate/playerexclusive.h"
+#include "generate/alternateanimation.h"
 
 using namespace std;
 namespace sf = filesystem;

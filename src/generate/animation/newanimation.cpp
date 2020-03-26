@@ -1,12 +1,12 @@
-#include "header/utilities/compute.h"
-#include "header/utilities/atomiclock.h"
-#include "header/utilities/stringsplit.h"
+#include "utilities/compute.h"
+#include "utilities/atomiclock.h"
+#include "utilities/stringsplit.h"
 
-#include "header/generate/alternateanimation.h"
+#include "generate/alternateanimation.h"
 
-#include "header/generate/animation/newanimation.h"
-#include "header/generate/animation/templatetree.h"
-#include "header/generate/animation/singletemplate.h"
+#include "generate/animation/newanimation.h"
+#include "generate/animation/templatetree.h"
+#include "generate/animation/singletemplate.h"
 
 #pragma warning(disable:4503)
 

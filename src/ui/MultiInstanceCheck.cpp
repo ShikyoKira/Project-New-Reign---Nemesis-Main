@@ -1,7 +1,7 @@
 #include <atlstr.h>
 
-#include "header/ui/ErrorMsgBox.h"
-#include "header/ui/MultiInstanceCheck.h"
+#include "ui/ErrorMsgBox.h"
+#include "ui/MultiInstanceCheck.h"
 
 bool isProgramAlreadyRunning();
 

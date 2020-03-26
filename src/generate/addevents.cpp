@@ -1,6 +1,6 @@
-#include "header/debugmsg.h"
+#include "debugmsg.h"
 
-#include "header/generate/addevents.h"
+#include "generate/addevents.h"
 
 using namespace std;
 

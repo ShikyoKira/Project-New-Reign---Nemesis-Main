@@ -1,7 +1,7 @@
 #include <boost/regex.hpp>
 
-#include "header/generate/animation/optionlist.h"
-#include "header/generate/animation/templateinfo.h"
+#include "generate/animation/optionlist.h"
+#include "generate/animation/templateinfo.h"
 
 #pragma warning(disable:4503)
 

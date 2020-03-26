@@ -3,13 +3,13 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 
-#include "header/Global.h"
+#include "Global.h"
 
-#include "header/ui/CmdLaunch.h"
-#include "header/ui/ErrorMsgBox.h"
-#include "header/ui/NemesisEngine.h"
-#include "header/ui/MessageHandler.h"
-#include "header/ui/MultiInstanceCheck.h"
+#include "ui/CmdLaunch.h"
+#include "ui/ErrorMsgBox.h"
+#include "ui/NemesisEngine.h"
+#include "ui/MessageHandler.h"
+#include "ui/MultiInstanceCheck.h"
 
 extern std::string stagePath;
 
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
 		else if (programInitiateCheck())
 		{
 			NemesisEngine w;
-			w.setWindowIcon(QIcon(":/icon/title icon.png"));
+			w.setWindowIcon(QIcon(":/icon/resources/title icon.png"));
 			w.show();
 			return a.exec();
 		}

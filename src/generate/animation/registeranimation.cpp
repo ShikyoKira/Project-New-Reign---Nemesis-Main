@@ -3,12 +3,12 @@
 #include <QtCore/QTextstream.h>
 #include <QtCore/QFile.h>
 
-#include "header/debuglog.h"
+#include "debuglog.h"
 
-#include "header/utilities/stringsplit.h"
-#include "header/utilities/readtextfile.h"
+#include "utilities/stringsplit.h"
+#include "utilities/readtextfile.h"
 
-#include "header/generate/animation/registeranimation.h"
+#include "generate/animation/registeranimation.h"
 
 using namespace std;
 

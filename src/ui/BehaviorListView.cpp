@@ -5,9 +5,9 @@
 #include <QMessageBox>
 #include <QHeaderView>
 
-#include "header/ui/ErrorMsgBox.h"
-#include "header/ui/SettingsSave.h"
-#include "header/ui/BehaviorListView.h"
+#include "ui/ErrorMsgBox.h"
+#include "ui/SettingsSave.h"
+#include "ui/BehaviorListView.h"
 
 std::unordered_map<std::string, std::string> modConvert;
 extern std::atomic<unsigned int> resizeCount;

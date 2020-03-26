@@ -5,10 +5,10 @@
 #include <QtCore/QFile.h>
 #include <QtCore/QTextStream.h>
 
-#include "header/debuglog.h"
-#include "header/nemesisinfo.h"
+#include "debuglog.h"
+#include "nemesisinfo.h"
 
-#include "header/utilities/writetextfile.h"
+#include "utilities/writetextfile.h"
 
 using namespace std;
 

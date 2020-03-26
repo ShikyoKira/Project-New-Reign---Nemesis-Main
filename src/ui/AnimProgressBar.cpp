@@ -1,6 +1,6 @@
 #include <QtCore/qtimer.h>
 
-#include "header/ui/AnimProgressBar.h"
+#include "ui/AnimProgressBar.h"
 
 AnimProgressBar::AnimProgressBar(QWidget * parent)
 {

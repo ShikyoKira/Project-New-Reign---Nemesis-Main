@@ -6,20 +6,20 @@
 #include <boost/asio/post.hpp>
 #endif
 
-#include "header/version.h"
-#include "header/debuglog.h"
-#include "header/externalscript.h"
+#include "version.h"
+#include "debuglog.h"
+#include "externalscript.h"
 
-#include "header/ui/Terminator.h"
-#include "header/ui/MessageHandler.h"
+#include "ui/Terminator.h"
+#include "ui/MessageHandler.h"
 
-#include "header/utilities/renew.h"
-#include "header/utilities/lastupdate.h"
-#include "header/utilities/filechecker.h"
-#include "header/utilities/stringsplit.h"
+#include "utilities/renew.h"
+#include "utilities/lastupdate.h"
+#include "utilities/filechecker.h"
+#include "utilities/stringsplit.h"
 
-#include "header/update/updateprocess.h"
-#include "header/update/dataunification.h"
+#include "update/updateprocess.h"
+#include "update/dataunification.h"
 
 using namespace std;
 namespace sf = filesystem;

@@ -1,4 +1,4 @@
-#include "header/generate/animation/animationthread.h"
+#include "generate/animation/animationthread.h"
 
 using namespace std;
 

@@ -2,9 +2,9 @@
 
 #include <QtCore/QString>
 
-#include "header/connector.h"
+#include "connector.h"
 
-#include "header/ui/Terminator.h"
+#include "ui/Terminator.h"
 
 #pragma warning(disable:4503)
 

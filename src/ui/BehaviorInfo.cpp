@@ -1,4 +1,4 @@
-#include "header/ui/BehaviorInfo.h"
+#include "ui/BehaviorInfo.h"
 
 BehaviorInfo::BehaviorInfo(const QString name, const QString modauthor)
 {

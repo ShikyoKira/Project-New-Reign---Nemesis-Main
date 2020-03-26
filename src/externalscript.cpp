@@ -6,9 +6,9 @@
 
 #include <QtCore/QProcess>
 
-#include "header/externalscript.h"
+#include "externalscript.h"
 
-#include "header/generate/alternateanimation.h"
+#include "generate/alternateanimation.h"
 
 using namespace std;
 

@@ -1,5 +1,5 @@
-#include "header/generate/behaviorcheck.h"
-#include "header/generate/generator_utility.h"
+#include "generate/behaviorcheck.h"
+#include "generate/generator_utility.h"
 
 #pragma warning(disable:4503)
 

@@ -1,13 +1,13 @@
 #include <filesystem>
 
-#include "header/utilities/algorithm.h"
+#include "utilities/algorithm.h"
 
 #if __cplusplus > 201402L
-#include "header/utilities/wstrconvert.h"
+#include "utilities/wstrconvert.h"
 #endif
 
-#include "header/utilities/readtextfile.h"
-#include "header/utilities/writetextfile.h"
+#include "utilities/readtextfile.h"
+#include "utilities/writetextfile.h"
 
 #pragma warning(disable:4503)
 

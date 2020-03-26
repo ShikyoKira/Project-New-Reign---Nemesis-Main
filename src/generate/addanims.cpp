@@ -1,8 +1,8 @@
 #include <boost/atomic.hpp>
 
-#include "header/generate/addanims.h"
-#include "header/generate/generator_utility.h"
-#include "header/generate/animationdatatracker.h"
+#include "generate/addanims.h"
+#include "generate/generator_utility.h"
+#include "generate/animationdatatracker.h"
 
 using namespace std;
 

@@ -2,11 +2,11 @@
 
 #include <QtGui/QColor>
 
-#include "header/connector.h"
+#include "connector.h"
 
-#include "header/ui/SettingsSave.h"
-#include "header/ui/BehaviorListView.h"
-#include "header/ui/BehaviorListModel.h"
+#include "ui/SettingsSave.h"
+#include "ui/BehaviorListView.h"
+#include "ui/BehaviorListModel.h"
 
 int BehaviorListModel::rowCount(const QModelIndex& parent) const
 {

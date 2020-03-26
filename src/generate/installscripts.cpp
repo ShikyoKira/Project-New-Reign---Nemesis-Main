@@ -1,8 +1,8 @@
-#include "header/Global.h"
+#include "Global.h"
 
-#include "header/generate/playerexclusive.h"
-#include "header/generate/installscripts.h"
-#include "header/generate/alternateanimation.h"
+#include "generate/playerexclusive.h"
+#include "generate/installscripts.h"
+#include "generate/alternateanimation.h"
 
 using namespace std;
 

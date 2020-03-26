@@ -1,9 +1,9 @@
 #include <boost/regex.hpp>
 
-#include "header/utilities/stringsplit.h"
+#include "utilities/stringsplit.h"
 
-#include "header/generate/animation/newanimation.h"
-#include "header/generate/animation/singletemplate.h"
+#include "generate/animation/newanimation.h"
+#include "generate/animation/singletemplate.h"
 
 using namespace std;
 

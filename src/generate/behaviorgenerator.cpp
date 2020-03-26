@@ -2,8 +2,8 @@
 
 #include <QtCore/QProcess>
 
-#include "header/generate/behaviorgenerator.h"
-#include "header/generate/alternateanimation.h"
+#include "generate/behaviorgenerator.h"
+#include "generate/alternateanimation.h"
 
 #pragma warning(disable:4503)
 

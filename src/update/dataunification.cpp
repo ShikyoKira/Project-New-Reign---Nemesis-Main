@@ -6,10 +6,10 @@ OBJECTIVES:
 - Check for error prior to actual patching
 */
 
-#include "header/update/dataunification.h"
+#include "update/dataunification.h"
 
-#include "header/utilities/lastupdate.h"
-#include "header/utilities/stringsplit.h"
+#include "utilities/lastupdate.h"
+#include "utilities/stringsplit.h"
 
 #pragma warning(disable:4503)
 

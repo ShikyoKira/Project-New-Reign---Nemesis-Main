@@ -2,8 +2,8 @@
 #include <time.h>
 #include <filesystem>
 
-#include "header/utilities/lastupdate.h"
-#include "header/utilities/atomiclock.h"
+#include "utilities/lastupdate.h"
+#include "utilities/atomiclock.h"
 
 using namespace std;
 

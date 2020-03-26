@@ -1,4 +1,4 @@
-#include "header/ui/Terminator.h"
+#include "ui/Terminator.h"
 
 void Terminator::exitSignal()
 {

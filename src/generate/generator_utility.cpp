@@ -2,20 +2,20 @@
 
 #include <boost/atomic.hpp>
 
-#include "header/version.h"
-#include "header/debuglog.h"
+#include "version.h"
+#include "debuglog.h"
 
-#include "header/utilities/compute.h"
-#include "header/utilities/lastupdate.h"
-#include "header/utilities/stringsplit.h"
-#include "header/utilities/readtextfile.h"
+#include "utilities/compute.h"
+#include "utilities/lastupdate.h"
+#include "utilities/stringsplit.h"
+#include "utilities/readtextfile.h"
 
-#include "header/generate/playerexclusive.h"
-#include "header/generate/generator_utility.h"
-#include "header/generate/animationdatatracker.h"
+#include "generate/playerexclusive.h"
+#include "generate/generator_utility.h"
+#include "generate/animationdatatracker.h"
 
-#include "header/generate/animation/templateinfo.h"
-#include "header/generate/animation/registeranimation.h"
+#include "generate/animation/templateinfo.h"
+#include "generate/animation/registeranimation.h"
 
 #pragma warning(disable:4503)
 
