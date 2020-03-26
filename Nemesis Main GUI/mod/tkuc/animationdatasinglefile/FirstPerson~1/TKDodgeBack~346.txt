@@ -1,7 +1,0 @@
-TKDodgeBack
-346
-1
-0
-0
-1
-TKDodgeStop:0.8

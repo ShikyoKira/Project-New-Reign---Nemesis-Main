@@ -1,9 +1,0 @@
-<!-- CONDITION START ^motion|rotation^ -->
-Nemesis_AnimObject_Animation_$%$
-$animOrder[Animations\FilePath]$
-1
-0
-0
-0
-
-<!-- CONDITION END -->

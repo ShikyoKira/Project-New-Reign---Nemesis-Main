@@ -1,7 +1,0 @@
-2HMStamp
-tkuc$4
-1
-0
-0
-1
-HitFrame:1.2

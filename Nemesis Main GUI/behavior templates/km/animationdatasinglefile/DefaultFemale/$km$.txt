@@ -1,9 +1,0 @@
-<!-- CONDITION START ^motion|rotation^ -->
-NPC_Nemesis_KillMove_Clip_$%$
-$animOrder[Animations\FilePath]$
-1
-0
-0
-0
-
-<!-- CONDITION END -->

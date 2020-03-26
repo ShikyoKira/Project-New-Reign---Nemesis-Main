@@ -1,9 +1,0 @@
-1hm_staggerbacklarge.hkx
-1hm_staggerbacklargest.hkx
-1hm_staggerbackmedium.hkx
-1hm_staggerbacksmall.hkx
-1hm_staggerbacksmallest.hkx
-1hm_staggerforwardlarge.hkx
-1hm_staggerforwardlargest.hkx
-1hm_staggerforwardmedium.hkx
-1hm_staggerforwardsmall.hkx

@@ -1,7 +1,0 @@
-		<hkobject name="#tkuc$126" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">TKCombatState_MG</hkparam>
-			<hkparam name="modifier">#tkuc$124</hkparam>
-			<hkparam name="generator">#tkuc$127</hkparam>
-		</hkobject>

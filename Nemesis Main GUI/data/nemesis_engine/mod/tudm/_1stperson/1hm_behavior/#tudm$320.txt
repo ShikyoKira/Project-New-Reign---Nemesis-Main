@@ -1,3 +1,0 @@
-		<hkobject name="#tudm$320" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(iWantBlock == 0) || (iLeftHandType == 7)</hkparam>
-		</hkobject>

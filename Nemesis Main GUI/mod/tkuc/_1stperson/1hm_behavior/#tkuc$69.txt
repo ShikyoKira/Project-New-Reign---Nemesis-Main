@@ -1,3 +1,0 @@
-		<hkobject name="#tkuc$69" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">( iWantBlock == 0 ) &amp;&amp; ( i1stPerson == 1 )</hkparam>
-		</hkobject>

@@ -1,7 +1,0 @@
-2hm_attackpower.hkx
-2hm_attackpower3slashcombo.hkx
-2hm_attackpowerbwd.hkx
-2hm_attackpowerforward.hkx
-2hm_attackpowerforwardsprint.hkx
-2hm_attackpowerleft.hkx
-2hm_attackpowerright.hkx

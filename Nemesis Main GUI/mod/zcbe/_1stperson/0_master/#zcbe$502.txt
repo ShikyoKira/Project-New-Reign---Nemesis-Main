@@ -1,3 +1,0 @@
-		<hkobject name="#zcbe$502" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">AnimObjectB</hkparam>
-		</hkobject>

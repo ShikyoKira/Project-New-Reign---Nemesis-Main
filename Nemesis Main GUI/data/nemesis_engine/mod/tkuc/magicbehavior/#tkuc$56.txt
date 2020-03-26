@@ -1,3 +1,0 @@
-		<hkobject name="#tkuc$56" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">Camera3rd [Cam3]</hkparam>
-		</hkobject>

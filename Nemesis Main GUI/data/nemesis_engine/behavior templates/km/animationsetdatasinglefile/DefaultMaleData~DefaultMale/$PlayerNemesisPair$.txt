@@ -1,9 +1,0 @@
-V3
-1
-Nemesis_Player_KillMove_Clip_$%$
-0
-0
-1
-$crc32[meshes\actors\character\animations\Path]$
-$crc32[FileName]$
-7891816

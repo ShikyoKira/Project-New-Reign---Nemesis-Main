@@ -1,8 +1,0 @@
-		<hkobject name="#$import[1][2]$" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
-			<hkparam name="events" numelements="1">
-				<hkobject>
-					<hkparam name="id">$import[2]$</hkparam>
-					<hkparam name="payload">$import[3]$</hkparam>
-				</hkobject>
-			</hkparam>
-		</hkobject>

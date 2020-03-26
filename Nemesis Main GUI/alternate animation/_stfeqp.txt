@@ -1,2 +1,0 @@
-stf_equip.hkx
-staffright_equip.hkx

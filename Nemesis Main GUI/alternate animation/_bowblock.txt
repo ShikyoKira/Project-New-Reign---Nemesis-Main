@@ -1,6 +1,0 @@
-bow_blockanticipate.hkx
-bow_blockbash.hkx
-bow_blockbashintro.hkx
-bow_blockbashpower.hkx
-bow_blockhit.hkx
-bow_blockidle.hkx
