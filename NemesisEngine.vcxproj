@@ -80,7 +80,7 @@
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir);C:\Boost\include\boost-1_72;$(SolutionDir)..\Python-3.5.6\Python;$(SolutionDir)..\Python-3.5.6\PC;$(SolutionDir)..\Python-3.5.6\Include;$(ProjectDir)GeneratedFiles;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>MULTITHREADED_UPDATE;UNICODE;_UNICODE;WIN32;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>header/Global.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
