@@ -34,24 +34,6 @@ bool saveLastUpdate(const char* filename, unordered_map<string, string>& lastUpd
 	return true;
 }
 
-const char* GetLastModified(const char* filename)
-{
-	try
-	{
-		struct stat buf;
-		stat(filename, &buf);
-		char buffer[26];
-		ctime_s(buffer, sizeof(buffer), &buf.st_mtime);
-		buffer[24] = '\0';
-		return buffer;
-	}
-	catch (...)
-	{
-	}
-
-	return "";
-}
-
 string GetLastModified(string filename)
 {
 	try
