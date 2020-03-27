@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <algorithm>
 #include <cctype>
 #include <string>

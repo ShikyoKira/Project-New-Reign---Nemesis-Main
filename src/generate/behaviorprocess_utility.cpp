@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <boost/asio/thread_pool.hpp>
 
 #include "generate/behaviorprocess_utility.h"
@@ -122,9 +124,23 @@ void unpackToCatalyst(map<int, vecstr>& catalystMap, unordered_map<int, shared_p
 	}
 }
 
-void processExistFuncID(vector<int>& funcIDs, string ZeroEvent, string ZeroVariable, map<int, vecstr>& catalystMap, shared_ptr<master> groupFunctionIDs,
-	vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo, string templateCode, ImportContainer& exportID, id& eventid, id& variableid, int& lastID, bool hasMaster,
-	bool hasGroup, setstr& templateGroup, bool ignoreGroup, string behaviorFile, unordered_map<int, shared_ptr<NodeJoint>>& existingNodes)
+void processExistFuncID(vector<int> &funcIDs,
+                        string ZeroEvent,
+                        string ZeroVariable,
+                        map<int, vecstr> &catalystMap,
+                        shared_ptr<master> groupFunctionIDs,
+                        const vector<vector<shared_ptr<AnimationInfo>>> &groupAnimInfo,
+                        string templateCode,
+                        ImportContainer &exportID,
+                        id &eventid,
+                        id &variableid,
+                        int &lastID,
+                        bool hasMaster,
+                        bool hasGroup,
+                        setstr &templateGroup,
+                        bool ignoreGroup,
+                        string behaviorFile,
+                        unordered_map<int, shared_ptr<NodeJoint>> &existingNodes)
 {
 	for (int& functionID : funcIDs)
 	{
@@ -171,25 +187,6 @@ void processExistFuncID(vector<int>& funcIDs, string ZeroEvent, string ZeroVaria
 
 		existingNodes[functionID]->insertData(templateCode, filename, optionPicked, groupAnimInfo, -1, -1, -1, hasMaster, hasGroup, ignoreGroup, "", lastID, strID, IDExist,
 			exportID, eventid, variableid, ZeroEvent, ZeroVariable, openRange, elementCount, nullptr, groupFunctionIDs, negative);
-
-		/*ExistingFunction exFunction;
-		exFunction.setZeroEvent(ZeroEvent);
-		exFunction.setZeroVariable(ZeroVariable);
-		catalystMap[functionID] = exFunction.groupExistingFunctionProcess(functionID, catalystMap[functionID], groupFunctionIDs, groupAnimInfo, templateCode, exportID,
-			eventid, variableid, lastID, hasMaster, hasGroup, templateGroup, ignoreGroup);
-
-		if (error) throw nemesis::exception();
-
-		if (catalystMap[functionID].size() == 0) ErrorMessage(1099);
-
-		if (catalystMap[functionID].back().empty())
-		{
-			if (catalystMap[functionID].size() > 1 && catalystMap[functionID][catalystMap[functionID].size() - 2].empty()) catalystMap[functionID].pop_back();
-		}
-		else
-		{
-			catalystMap[functionID].push_back("");
-		}*/
 
 		if (error) throw nemesis::exception();
 	}

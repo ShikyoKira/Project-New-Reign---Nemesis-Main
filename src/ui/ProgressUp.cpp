@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <QtCore/QObject>
 
 #include "connector.h"

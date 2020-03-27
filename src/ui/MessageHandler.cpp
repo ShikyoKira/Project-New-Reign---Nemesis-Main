@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "connector.h"
 
 #include "debuglog.h"

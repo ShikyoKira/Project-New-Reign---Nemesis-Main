@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <QThread>
 #include <QObject>
 

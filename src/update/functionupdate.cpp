@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "debugmsg.h"
 
 #include "utilities/lastupdate.h"

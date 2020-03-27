@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <atlstr.h>
 
 #include "ui/ErrorMsgBox.h"

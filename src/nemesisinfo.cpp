@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <Windows.h>
 
 #include <boost/regex.hpp>
@@ -200,9 +202,11 @@ void NemesisInfo::setup()
 			DWORD dwType = REG_SZ;
 			HKEY hKey = 0;
 			char value[1024];
-			DWORD value_length = 1024;
+            DWORD value_length = 1024;
 
-			if (SSE) RegOpenKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Bethesda Softworks\\Skyrim Special Edition", &hKey);
+            LPCSTR tm;
+
+            if (SSE) RegOpenKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Bethesda Softworks\\Skyrim Special Edition", &hKey);
 			else RegOpenKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Bethesda Softworks\\Skyrim", &hKey);
 
 			LONG result = RegQueryValueEx(hKey, L"installed path", NULL, &dwType, (LPBYTE)&value, &value_length);

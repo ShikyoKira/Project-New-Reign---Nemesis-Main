@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <boost/algorithm/string.hpp>
 
 #undef pyslots

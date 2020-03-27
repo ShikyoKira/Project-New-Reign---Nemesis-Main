@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "generate/animationdatatracker.h"
 
 using namespace std;

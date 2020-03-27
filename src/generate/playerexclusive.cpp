@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <unordered_set>
 
 #include <boost/regex.hpp>

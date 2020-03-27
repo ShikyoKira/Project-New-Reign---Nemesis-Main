@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <external/exprtk/exprtk.hpp>
 
 #include "utilities/compute.h"

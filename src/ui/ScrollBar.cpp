@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <QStyle>
 #include <QPainter>
 #include <QStyleOptionSlider>

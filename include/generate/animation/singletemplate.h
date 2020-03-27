@@ -77,11 +77,21 @@ public:
 	bool isMultiTrue(proc* process, std::string format, std::string behaviorFile, int numline, int& animMulti, bool isGroup, bool isMaster, int& groupMulti);
 
 private:
-	bool specialIsTrueA(proc* process, std::string format, std::string behaviorFile, int numline, bool isGroup, bool isMaster,
-		std::vector<std::shared_ptr<AnimationInfo>>& groupAnimInfo);
-	bool specialIsTrueB(proc* process, std::string format, std::string behaviorFile, int numline, bool isGroup, bool isMaster,
-		std::vector<std::shared_ptr<AnimationInfo>>& groupAnimInfo);
-	void specialCondition(std::string condition, std::string format, std::string behaviorFile, std::string multiOption, int numline, bool isGroup, bool isMaster,
+    bool specialIsTrueA(proc *process,
+                        std::string format,
+                        std::string behaviorFile,
+                        int numline,
+                        bool isGroup,
+                        bool isMaster,
+                        const std::vector<std::shared_ptr<AnimationInfo>> &groupAnimInfo);
+    bool specialIsTrueB(proc *process,
+                        std::string format,
+                        std::string behaviorFile,
+                        int numline,
+                        bool isGroup,
+                        bool isMaster,
+                        const std::vector<std::shared_ptr<AnimationInfo>> &groupAnimInfo);
+    void specialCondition(std::string condition, std::string format, std::string behaviorFile, std::string multiOption, int numline, bool isGroup, bool isMaster,
 		OptionList& optionlist);
 	void singleCondition(std::string condition, std::string format, std::string behaviorFile, std::string multiOption, int numline, bool isGroup, bool isMaster,
 		OptionList& optionlist);

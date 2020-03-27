@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <QApplication>
 
 #include "ui/ErrorMsgBox.h"

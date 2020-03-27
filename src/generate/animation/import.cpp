@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "generate/animation/import.h"
 #include "generate/animation/newanimation.h"
 #include "generate/animation/animationinfo.h"

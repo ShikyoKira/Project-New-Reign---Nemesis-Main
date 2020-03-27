@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <thread>
 
 #include <boost/atomic.hpp>

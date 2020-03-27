@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "debuglog.h"
 
 #include "ui/Terminator.h"

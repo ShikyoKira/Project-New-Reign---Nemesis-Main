@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "utilities/compute.h"
 
 #include "generate/alternateanimation.h"
@@ -1753,15 +1755,17 @@ void proc::import(range blok, vecstr& blocks)
 						}
 					}
 					else keyword.push_back(curChar);
-				}
+                }
 
-				pos = keyword.rfind("!~^!");
+                pos = keyword.rfind("!~^!");
 
-				openBrack != 0 || pos == NOT_FOUND || pos != keyword.length() - 4 ? ErrorMessage(1139, format, behaviorFile, numline, import) :
-					keyword = keyword.substr(0, keyword.length() - 4);
-			}
+                if (openBrack != 0 || pos == NOT_FOUND || pos != (keyword.length() - 4))
+                    ErrorMessage(1139, format, behaviorFile, numline, import);
+                else
+                    keyword = keyword.substr(0, keyword.length() - 4);
+            }
 
-			animLock->lockExport();
+            animLock->lockExport();
 
 			if ((*newImport)[file][keyword].length() > 0)
 			{
@@ -2455,22 +2459,24 @@ void proc::rotationDataSingle(range blok, vecstr& blocks)
 
 void proc::animOrder(range blok, vecstr& blocks)
 {
-	string animPath = combineBlocks(blok.olddataint[0], blok.olddataint[1], blocks);
+    string animPath = combineBlocks(blok.olddataint[0], blok.olddataint[1], blocks);
 
-	if (clearBlocks(blok, blocks))
-	{
-		auto& ptr = charAnimDataInfo.find(nemesis::to_lower_copy(project.substr(0, project.rfind(".txt"))));
+    if (clearBlocks(blok, blocks))
+    {
+        const auto &ptr = charAnimDataInfo.find(
+            nemesis::to_lower_copy(project.substr(0, project.rfind(".txt"))));
 
-		if (ptr != charAnimDataInfo.end())
-		{
-			auto& ptr2 = ptr->second.find(nemesis::to_lower_copy(std::filesystem::path(animPath).filename().string()));
+        if (ptr != charAnimDataInfo.end())
+        {
+            const auto &ptr2 = ptr->second.find(
+                nemesis::to_lower_copy(std::filesystem::path(animPath).filename().string()));
 
-			if (ptr2 != ptr->second.end())
-			{
-				blocks[blok.front] = to_string(ptr2->second->GetOrder());
-			}
-		}
-	}
+            if (ptr2 != ptr->second.end())
+            {
+                blocks[blok.front] = to_string(ptr2->second->GetOrder());
+            }
+        }
+    }
 }
 
 void proc::regisAnim(range blok, vecstr& blocks)

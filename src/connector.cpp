@@ -1,4 +1,6 @@
-﻿#include <boost/atomic.hpp>
+#include "Global.h"
+
+#include <boost/atomic.hpp>
 
 #include <QtCore/QString>
 

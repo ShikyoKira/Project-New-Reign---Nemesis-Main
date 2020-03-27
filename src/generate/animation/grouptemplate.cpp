@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "utilities/compute.h"
 #include "utilities/stringsplit.h"
 

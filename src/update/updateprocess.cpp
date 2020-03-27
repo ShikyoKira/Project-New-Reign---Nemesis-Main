@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <mutex>
 
 #include <QtCore/QCoreApplication.h>
@@ -40,8 +42,8 @@ mutex admtx;
 mutex asdmtx;
 #endif
 
-void writeSave(FileWriter& writer, const char* line, string& store);
-void writeSave(FileWriter& writer, string& line, string& store);
+void writeSave(FileWriter &writer, const char *line, string &store);
+void writeSave(FileWriter &writer, const string &line, string &store);
 void stateCheck(SSMap& parent, string parentID, string lowerbehaviorfile, string sID, unique_ptr<SSMap>& stateID, unique_ptr<SSMap>& n_stateID,
 	vecstr children, string filename, string ID, string modcode, StateIDList& duplicatedStateList
 #if MULTITHREADED_UPDATE
@@ -804,7 +806,7 @@ bool UpdateFilesStart::VanillaDisassemble(string path, unique_ptr<map<string, ve
 
 								if (curline.find("<!-- Bone$N -->") == NOT_FOUND)
 								{
-									for (auto& it = boost::sregex_iterator(curline.begin(), curline.end(), boost::regex("([0-9]+(\\.[0-9]+)?)"));
+									for (auto it = boost::sregex_iterator(curline.begin(), curline.end(), boost::regex("([0-9]+(\\.[0-9]+)?)"));
 										it != boost::sregex_iterator(); ++it)
 									{
 										storeline.push_back(spaces + it->str(1));
@@ -825,7 +827,7 @@ bool UpdateFilesStart::VanillaDisassemble(string path, unique_ptr<map<string, ve
 
 								storeline.push_back(curline.substr(0, match.position()));
 
-								for (auto& it = boost::sregex_iterator(curline.begin(), curline.end(), vector4); it != boost::sregex_iterator(); ++it)
+								for (auto it = boost::sregex_iterator(curline.begin(), curline.end(), vector4); it != boost::sregex_iterator(); ++it)
 								{
 									storeline.push_back(spaces + it->str(1));
 									storeline.push_back(spaces + it->str(2));
@@ -848,7 +850,7 @@ bool UpdateFilesStart::VanillaDisassemble(string path, unique_ptr<map<string, ve
 									else break;
 								}
 
-								for (auto& it = boost::sregex_iterator(curline.begin(), curline.end(), vector4); it != boost::sregex_iterator(); ++it)
+								for (auto it = boost::sregex_iterator(curline.begin(), curline.end(), vector4); it != boost::sregex_iterator(); ++it)
 								{
 									storeline.push_back(spaces + it->str(1));
 									storeline.push_back(spaces + it->str(2));
@@ -1258,8 +1260,8 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 						bool hasHeader = false;
 						newProjectList.insert(projectname);
 
-						for (auto& it : projData)
-						{
+                        for (auto &it : projData)
+                        {
 							if (!nemesis::iequals(it.first, "$header$"))
 							{
 								if (isOnlyNumber(it.first)) infoheader.push_back(it.first);
@@ -1993,13 +1995,13 @@ void UpdateFilesStart::CombiningFiles()
 				string total = filename + "\n";
 				writeSave(output, to_string(animSetData.projectList.size() - 1) + "\n", total);
 
-				for (string& header : animSetData.newAnimSetData["$header$"]["$header$"])
-				{
-					writeSave(output, header + "\n", total);
-				}
+                for (string &header : animSetData.newAnimSetData["$header$"]["$header$"])
+                {
+                    writeSave(output, string(header + "\n"), total);
+                }
 
-				for (unsigned int i = 1; i < animSetData.projectList.size(); ++i)
-				{
+                for (unsigned int i = 1; i < animSetData.projectList.size(); ++i)
+                {
 					string& project = animSetData.projectList[i];
 					outputlist << project + "\n";		// character
 					outputlist << "$header$\n";
@@ -2050,8 +2052,8 @@ void UpdateFilesStart::CombiningFiles()
 		engineVersion = to_string(bigNum % 10000) + "-" + to_string(bigNum2 % 10000);
 		lastmod << engineVersion << "\n";
 
-		for (auto& it : lastUpdate)
-		{
+        for (auto &it : lastUpdate)
+        {
 			lastmod << it.first + ">>" + it.second + "\n";
 		}
 	}
@@ -2358,13 +2360,13 @@ void UpdateFilesStart::unregisterProcess()
 	emit end();
 }
 
-void writeSave(FileWriter& writer, const char* line, string& store)
+void writeSave(FileWriter &writer, const char *line, string &store)
 {
 	writer << line;
 	store.append(line);
 }
 
-void writeSave(FileWriter& writer, string& line, string& store)
+void writeSave(FileWriter &writer, const string &line, string &store)
 {
 	writer << line;
 	store.append(line);

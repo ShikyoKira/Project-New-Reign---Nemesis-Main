@@ -1,6 +1,8 @@
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 
+#define WIN32_LEAN_AND_MEAN
+
 #include <set>
 #include <ctime>
 #include <mutex>
@@ -57,7 +59,7 @@ extern std::set<std::string> groupNameList;																					// list of anima
 bool isOnlyNumber(std::string line);
 bool hasAlpha(std::string line);
 size_t wordFind(std::string line, std::string word, bool isLast = false);								// case insensitive "string.find"
-inline int sameWordCount(std::string line, std::string word);
+int sameWordCount(std::string line, std::string word);
 std::wstring StringToWString(std::string line);
 std::string WStringToString(std::wstring line);
 

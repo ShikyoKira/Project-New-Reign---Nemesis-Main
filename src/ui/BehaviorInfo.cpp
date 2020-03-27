@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "ui/BehaviorInfo.h"
 
 BehaviorInfo::BehaviorInfo(const QString name, const QString modauthor)

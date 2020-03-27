@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #if __cplusplus > 201402L
 #include "wstrconvert.h"
 

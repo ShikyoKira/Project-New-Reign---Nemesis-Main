@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <atomic>
 #include <time.h>
 #include <filesystem>

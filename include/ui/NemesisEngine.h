@@ -7,7 +7,8 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QMessageBox>
 
-#include "GeneratedFiles/ui_NemesisEngine.h"
+#include "debugmsg.h"
+#include "ui_NemesisEngine.h"
 
 class NemesisEngine : public QWidget
 {

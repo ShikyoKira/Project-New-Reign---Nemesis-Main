@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <QUrl>
 #include <QObject>
 #include <QMimeData>

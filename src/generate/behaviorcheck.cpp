@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "generate/behaviorcheck.h"
 #include "generate/generator_utility.h"
 

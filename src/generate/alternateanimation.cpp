@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <filesystem>
 
 #include <boost/crc.hpp>
@@ -226,51 +228,49 @@ bool AACoreCompile(sf::path filename, wstring import, string destination, string
 
 	for (auto& groupName : groupNameList)
 	{
-		for (auto& AAprefixGroup : groupAAPrefix[groupName])	// list of group aa prefix categorized by animation group name while eliminating duplicates using set container
-		{
-			if (!prefixCheck[AAprefixGroup])
-			{
-				prefixList.push_back(AAprefixGroup);
-				prefixCheck[AAprefixGroup] = true;
-			}
-		}
-	}
+        for (auto &AAprefixGroup :
+             groupAAPrefix[groupName]) // list of group aa prefix categorized by animation group name while eliminating duplicates using set container
+        {
+            if (!prefixCheck[AAprefixGroup]) {
+                prefixList.push_back(AAprefixGroup);
+                prefixCheck[AAprefixGroup] = true;
+            }
+        }
+    }
 
-	if (prefixList.size() > 0)			// Assign mod ID
-	{
-		auto& nextprefix = prefixList.begin();
-		string templine = "	if (curAAPrefix == \"" + *nextprefix + "\")";
-		string rr = "		return 0";
-		prefixID[*nextprefix] = maxGroup;
-		prefixlines.push_back(templine);
-		prefixlines.push_back(rr);
-		++nextprefix;
-		++maxGroup;
+    if (prefixList.size() > 0) // Assign mod ID
+    {
+        auto nextprefix = prefixList.begin();
+        string templine = "	if (curAAPrefix == \"" + *nextprefix + "\")";
+        string rr = "		return 0";
+        prefixID[*nextprefix] = maxGroup;
+        prefixlines.push_back(templine);
+        prefixlines.push_back(rr);
+        ++nextprefix;
+        ++maxGroup;
 
-		for (auto& prefix = nextprefix; prefix != prefixList.end(); ++prefix)
-		{
-			templine = "	elseif (curAAPrefix == \"" + *prefix + "\")";
-			rr = "		return " + to_string(maxGroup);
-			prefixID[*prefix] = maxGroup;
-			prefixlines.push_back(templine);
-			prefixlines.push_back(rr);
-			++maxGroup;
-		}
-	}
+        for (auto &prefix = nextprefix; prefix != prefixList.end(); ++prefix) {
+            templine = "	elseif (curAAPrefix == \"" + *prefix + "\")";
+            rr = "		return " + to_string(maxGroup);
+            prefixID[*prefix] = maxGroup;
+            prefixlines.push_back(templine);
+            prefixlines.push_back(rr);
+            ++maxGroup;
+        }
+    }
 
-	maxGroup = 0;
-	DebugLogging("AA prefix script complete");
+    maxGroup = 0;
+    DebugLogging("AA prefix script complete");
 
-	if (groupNameList.size() > 0)		// Assign base value
-	{
-		vecstr groupID;
-		groupIDFunction.push_back("int Function GetGroupID(string groupName) global");
+    if (groupNameList.size() > 0) // Assign base value
+    {
+        vecstr groupID;
+        groupIDFunction.push_back("int Function GetGroupID(string groupName) global");
 
-		for (auto& groupName : groupNameList)
-		{
-			string adjGN = groupName;
+        for (auto &groupName : groupNameList) {
+            string adjGN = groupName;
 
-			if (groupName.length() > 4 && groupName.rfind("_1p*") == groupName.length() - 4) adjGN.pop_back();
+            if (groupName.length() > 4 && groupName.rfind("_1p*") == groupName.length() - 4) adjGN.pop_back();
 
 			for (auto& prefix : groupAAPrefix[groupName])
 			{
@@ -315,12 +315,11 @@ bool AACoreCompile(sf::path filename, wstring import, string destination, string
 			newFunctions.push_back("	return " + to_string(maxGroup));
 			newFunctions.push_back("endFunction");
 			newFunctions.push_back("");
-			++maxGroup;
-		}
+            ++maxGroup;
+        }
 
-		if (groupID.size() > 0)
-		{
-			groupIDFunction.push_back("	if (groupName == \"" + groupID[0] + "\")");
+        if (groupID.size() > 0) {
+            groupIDFunction.push_back("	if (groupName == \"" + groupID[0] + "\")");
 			groupIDFunction.push_back("		return " + groupID[1]);
 
 			for (unsigned int k = 2; k < groupID.size(); ++k)
@@ -330,20 +329,19 @@ bool AACoreCompile(sf::path filename, wstring import, string destination, string
 			
 			groupIDFunction.push_back("	endif");
 			groupIDFunction.push_back("	Debug.Trace(\"ERROR: Unknown Nemesis AA group name (Group Name: \" + groupName + \")\")");
-			groupIDFunction.push_back("	return -1");
-			groupIDFunction.push_back("endFunction");
-			groupIDFunction.push_back("");
-		}
-	}
+            groupIDFunction.push_back("	return -1");
+            groupIDFunction.push_back("endFunction");
+            groupIDFunction.push_back("");
+        }
+    }
 
-	DebugLogging("Group base value complete");
+    DebugLogging("Group base value complete");
 
-	for (unsigned int k = 0; k < storeline.size(); ++k)
-	{
-		bool skip = false;
-		string line = storeline[k];
+    for (unsigned int k = 0; k < storeline.size(); ++k) {
+        bool skip = false;
+        string line = storeline[k];
 
-		if (line.find("AASet[num] = ") != NOT_FOUND)
+        if (line.find("AASet[num] = ") != NOT_FOUND)
 		{
 			newline.insert(newline.end(), groupAAlines.begin(), groupAAlines.end());
 			skip = true;
@@ -374,18 +372,15 @@ bool AACoreCompile(sf::path filename, wstring import, string destination, string
 			}
 
 			skip = true;
-		}
-		else if (line.find("(AAgroupID == num)") != NOT_FOUND)
-		{
-			if (baseOrder.size() > 0)
-			{
-				int counter = 0;
-				auto& firstOrder = baseOrder.begin();
-				newline.push_back("	if (" + firstOrder->first + ")");
-				newline.push_back(firstOrder->second);
-				++firstOrder;
+        } else if (line.find("(AAgroupID == num)") != NOT_FOUND) {
+            if (baseOrder.size() > 0) {
+                int counter = 0;
+                auto firstOrder = baseOrder.begin();
+                newline.push_back("	if (" + firstOrder->first + ")");
+                newline.push_back(firstOrder->second);
+                ++firstOrder;
 
-				for (auto& order = firstOrder; order != baseOrder.end(); ++order)
+                for (auto& order = firstOrder; order != baseOrder.end(); ++order)
 				{
 					newline.push_back("	elseif (" + order->first + ")");
 					newline.push_back(order->second);
@@ -393,23 +388,19 @@ bool AACoreCompile(sf::path filename, wstring import, string destination, string
 					++counter;
 				}
 
-				newline.push_back("	endif");
-			}
+                newline.push_back("	endif");
+            }
 
-			skip = true;
-		}
-		else if (line.find("(AAgroupID == value)") != NOT_FOUND)
-		{
-			if (GetModByGroupValue.size() > 0)
-			{
-				auto& firstGroup = GetModByGroupValue.begin();
-				string space = "	";
-				newline.push_back(space + "if (AAgroupID == " + firstGroup->first + ")");
-				space += "	";
+            skip = true;
+        } else if (line.find("(AAgroupID == value)") != NOT_FOUND) {
+            if (GetModByGroupValue.size() > 0) {
+                auto firstGroup = GetModByGroupValue.begin();
+                string space = "	";
+                newline.push_back(space + "if (AAgroupID == " + firstGroup->first + ")");
+                space += "	";
 
-				if (firstGroup->second.size() > 1)
-				{
-					for (unsigned int j = 0; j < firstGroup->second.size(); ++j)
+                if (firstGroup->second.size() > 1) {
+                    for (unsigned int j = 0; j < firstGroup->second.size(); ++j)
 					{
 						if (j + 1 == firstGroup->second.size() - 1)
 						{
@@ -432,14 +423,12 @@ bool AACoreCompile(sf::path filename, wstring import, string destination, string
 						newline.push_back(space + "endif");
 						space.pop_back();
 					}
-				}
-				else
-				{
-					newline.push_back(space + "return " + firstGroup->second[0].modID);
+                } else {
+                    newline.push_back(space + "return " + firstGroup->second[0].modID);
 					space.pop_back();
-				}
+                }
 
-				++firstGroup;
+                ++firstGroup;
 
 				for (auto& group = firstGroup; group != GetModByGroupValue.end(); ++group)
 				{
@@ -476,35 +465,32 @@ bool AACoreCompile(sf::path filename, wstring import, string destination, string
 					{
 						newline.push_back(space + "return " + group->second[0].modID);
 						space.pop_back();
-					}
-				}
+                    }
+                }
 
-				newline.push_back(space + "endif");
-			}
+                newline.push_back(space + "endif");
+            }
 
-			skip = true;
-		}
-		else if (line.find("$SetCount$") != NOT_FOUND)
-		{
-			line.replace(line.find("$SetCount$"), 10, to_string(AACounter));
-		}
-		else if (line.find("$GroupCount$") != NOT_FOUND)
-		{
-			line.replace(line.find("$GroupCount$"), 12, to_string(groupNameList.size()));
-		}
+            skip = true;
+        } else if (line.find("$SetCount$") != NOT_FOUND) {
+            line.replace(line.find("$SetCount$"), 10, to_string(AACounter));
+        } else if (line.find("$GroupCount$") != NOT_FOUND) {
+            line.replace(line.find("$GroupCount$"), 12, to_string(groupNameList.size()));
+        }
 
-		if (!skip) newline.push_back(line);
-	}
+        if (!skip)
+            newline.push_back(line);
+    }
 
-	if (groupIDFunction.size() > 0) newline.insert(newline.end(), groupIDFunction.begin(), groupIDFunction.end());
+    if (groupIDFunction.size() > 0)
+        newline.insert(newline.end(), groupIDFunction.begin(), groupIDFunction.end());
 
-	for (auto& curline : newline)
-	{
-		uniquekey = uniquekey + CRC32Convert(curline);
+    for (auto &curline : newline) {
+        uniquekey = uniquekey + CRC32Convert(curline);
 		uniquekey = uniquekey % 987123;
-	}
+    }
 
-	{
+    {
 		FileWriter output(filename.string());
 
 		if (output.is_open())
@@ -587,24 +573,22 @@ bool AAnimAPICompile(sf::path filename, wstring import, string destination, stri
 
 void fixedKeyInitialize()
 {
-	int counter = 0;
+    int counter = 0;
 
-	while (counter <= 256)
-	{
-		unsigned int key1 = unsigned int(counter);
-		int key2 = 0;
+    while (counter <= 256) {
+        unsigned int key1 = static_cast<unsigned int>(counter);
+        int key2 = 0;
 
-		while (key2 <= 7)
-		{
-			if ((key1 & 1) > 0) key1 = key1 >> 1 ^ 3988292384;		// is odd number
+        while (key2 <= 7) {
+            if ((key1 & 1) > 0) key1 = key1 >> 1 ^ 3988292384;		// is odd number
 			else key1 >>= 1;
 
 			++key2;
-		}
+        }
 
-		fixedkey[counter] = key1;
-		++counter;
-	}
+        fixedkey[counter] = key1;
+        ++counter;
+    }
 }
 
 bool FolderCreate(string curBehaviorPath)
@@ -649,15 +633,14 @@ unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
 	int key2 = byte2;
 	int counter = byte1;
 
-	while (counter <= key2)
-	{
-		unsigned char curByte = bytearray[counter];
-		unsigned int key3 = uniqueKey ^ unsigned int(curByte);
-		uniqueKey = uniqueKey >> 8 ^ fixedkey[key3 & 255];
-		counter++;
-	}
+    while (counter <= key2) {
+        unsigned char curByte = bytearray[counter];
+        unsigned int key3 = uniqueKey ^ static_cast<unsigned int>(curByte);
+        uniqueKey = uniqueKey >> 8 ^ fixedkey[key3 & 255];
+        counter++;
+    }
 
-	return uniqueKey;
+    return uniqueKey;
 }
 
 bool PapyrusCompile(sf::path pscfile, wstring import, string destination, string filepath, sf::path appdata_path)
@@ -757,9 +740,9 @@ bool PapyrusCompileProcess(sf::path pscfile, wstring import, string destination,
 	{
 		while (!process.waitForReadyRead());
 
-		string line = process.readAllStandardOutput();
+        string line = process.readAllStandardOutput().toStdString();
 
-		if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND && line.find("0 error") != NOT_FOUND) return true;
+        if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND && line.find("0 error") != NOT_FOUND) return true;
 
 		if (!tryagain) return false;
 

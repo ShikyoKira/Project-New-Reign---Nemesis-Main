@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <boost/regex.hpp>
 
 #include "utilities/stringsplit.h"
