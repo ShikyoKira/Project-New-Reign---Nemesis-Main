@@ -7,7 +7,7 @@ project(NemesisUnlimitedBehaviorEngine LANGUAGES CXX VERSION 0.84)
 ################################################################################
 # This part is the only one that should be modified by the user wanting to compile Nemesis
 
-set(Qt5_DIR "C:/IT/Qt/5.12.4/msvc2017")
+set(Qt5_DIR "C:/IT/Qt/5.12.4/msvc2017/lib/cmake/Qt5")
 set(Python_DIR "C:/IT/Python-3.5.6")
 set(BOOST_ROOT "C:/IT/Boost_1.72.0" CACHE PATH "Boost library path" )
 
