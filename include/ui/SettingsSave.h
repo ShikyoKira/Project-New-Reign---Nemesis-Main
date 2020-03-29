@@ -1,9 +1,9 @@
 #ifndef SETTINGSSAVE_H_
 #define SETTINGSSAVE_H_
 
-#include <vector>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 void createLanguageCache(std::string language);
 void createModCache(std::vector<std::string> chosenBehavior);

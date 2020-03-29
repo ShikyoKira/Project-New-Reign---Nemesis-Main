@@ -1,9 +1,9 @@
 #ifndef DEBUGLOG_H_
 #define DEBUGLOG_H_
 
+#include <fstream>
 #include <string>
 #include <vector>
-#include <fstream>
 
 typedef std::vector<std::string> vecstr;
 

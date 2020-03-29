@@ -4,5 +4,5 @@
 
 void Terminator::exitSignal()
 {
-	emit end();
+    emit end();
 }
