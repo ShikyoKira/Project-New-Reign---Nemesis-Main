@@ -272,4 +272,3 @@ if(MSVC)
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE BoostNemesis PythonNemesis Qt5Nemesis)
-
