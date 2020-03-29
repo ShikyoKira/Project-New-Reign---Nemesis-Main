@@ -1,15 +1,20 @@
 cmake_minimum_required(VERSION 3.13.0 FATAL_ERROR)
 
 project(NemesisUnlimitedBehaviorEngine LANGUAGES CXX VERSION 0.84)
-
 ################################################################################
 # VARIABLES
 ################################################################################
+
+
 # This part is the only one that should be modified by the user wanting to compile Nemesis
 
-set(Qt5_DIR "C:/IT/Qt/5.12.4/msvc2017/lib/cmake/Qt5")
-set(Python_DIR "C:/IT/Python-3.5.6")
-set(BOOST_ROOT "C:/IT/Boost_1.72.0" CACHE PATH "Boost library path" )
+
+set(Qt5_DIR "C:/IT/Qt/5.14.1/msvc2017_64/lib/cmake/Qt5")
+
+option(UseLocalBoost "Uses local copy of Boost instead of downloading it" ON)
+set(BOOST_ROOT "C:/IT/Boost_1.72.0" CACHE PATH "Boost local path" )
+
+
 
 ################################################################################
 # Use solution folders feature
@@ -20,46 +25,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # Required packages
 ################################################################################
 
-SET(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} ${Boost_DIR})
-
-set(Boost_NO_SYSTEM_PATHS on CACHE BOOL "Do not search system for Boost" )
-set(Boost_USE_MULTITHREADED ON)
-set(BOOST_INCLUDEDIR ${BOOST_ROOT}/boost)
-set(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib32-msvc-14.2)
-
-
-find_package (Boost 1.72.0 REQUIRED)
-
-find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
-
-################################################################################
-# Custom target for Python
-################################################################################
-add_library(Python STATIC IMPORTED)
-
-#Finding 32 or 64bits
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    # 64 bits
-    message("Nemesis: using 64bits Python")
-    set(Python_LIB_DIR "${Python_DIR}/PCbuild/amd64")
-elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
-    # 32 bits
-    message("Nemesis: using 32bits Python")
-    set(Python_LIB_DIR "${Python_DIR}/PCbuild/win32")
-endif()
-
-set_target_properties(Python PROPERTIES IMPORTED_LOCATION_DEBUG "${Python_LIB_DIR}/python35_d.lib")
-set_target_properties(Python PROPERTIES IMPORTED_LOCATION "${Python_LIB_DIR}/python35.lib")
-
-################################################################################
-# Qt support
-################################################################################
-# Instruct CMake to run moc automatically when needed
-set(CMAKE_AUTOMOC ON)
-# Create code from a list of Qt designer ui files
-set(CMAKE_AUTOUIC ON)
-#Ressources
-set(CMAKE_AUTORCC ON)
+include(CMake/Python.cmake)
+include(CMake/Boost.cmake)
+include(CMake/Qt.cmake)
 
 ################################################################################
 # Source groups
@@ -265,23 +233,8 @@ add_executable(${PROJECT_NAME} ${ALL_FILES})
 # Include directories
 ################################################################################
 
-#Ui
-target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_BINARY_DIR}")
-
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}")
-
-target_include_directories(${PROJECT_NAME} PUBLIC "${BOOST_ROOT}")
-target_include_directories(${PROJECT_NAME} PUBLIC "${BOOST_INCLUDEDIR}")
-target_include_directories(${PROJECT_NAME} PUBLIC "${Qt5Core_INCLUDE_DIRS}")
-target_include_directories(${PROJECT_NAME} PUBLIC "${Qt5Widgets_INCLUDE_DIRS}")
-target_include_directories(${PROJECT_NAME} PUBLIC "${Python_DIR}/Include")
-target_include_directories(${PROJECT_NAME} PUBLIC "${Python_DIR}/PC")
-
-target_link_directories(${PROJECT_NAME} PUBLIC "${BOOST_LIBRARYDIR}")
-target_link_directories(${PROJECT_NAME} PUBLIC "${Boost_DIR}/lib32-msvc-14.2")
-target_link_directories(${PROJECT_NAME} PUBLIC "${Qt5Core_LIBRARIES}")
-target_link_directories(${PROJECT_NAME} PUBLIC "${Qt5Widgets_LIBRARIES}")
 
 ################################################################################
 # Compile definitions
@@ -292,6 +245,15 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "WIN32;"
     "WIN64"
     )
+
+################################################################################
+# Copy Python DLL
+################################################################################
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${Python_DLL_PATH}
+    ${CMAKE_BINARY_DIR}/${Python_DLL_NAME})
 
 ################################################################################
 # Compile and link options
@@ -308,4 +270,5 @@ if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE "/bigobj")
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Python Qt5::Core Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE BoostNemesis PythonNemesis Qt5Nemesis)
+
