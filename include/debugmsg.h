@@ -11,7 +11,7 @@
 extern bool error; // get error warning
 extern bool isPatch;
 
-extern vecstr warningMsges;
+extern VecStr warningMsges;
 extern std::mutex err_Mutex;
 
 namespace nemesis

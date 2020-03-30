@@ -22,7 +22,7 @@ extern bool newCondition(string condition,
                          string format,
                          string masterformat,
                          AnimationUtility utility);
-extern vecstr GetOptionInfo(string line,
+extern VecStr GetOptionInfo(string line,
                             string format,
                             string filename,
                             int numline,
@@ -47,9 +47,9 @@ extern int formatGroupReplace(string& curline,
                               string multiOption,
                               bool& innerError);
 extern void
-eventIDReplacer(string& line, string format, string filename, id eventid, string firstEvent, int linecount);
+eventIDReplacer(string& line, string format, string filename, ID eventid, string firstEvent, int linecount);
 extern void variableIDReplacer(
-    string& line, string format, string filename, id variableid, string ZeroVariable, int linecount);
+    string& line, string format, string filename, ID variableid, string ZeroVariable, int linecount);
 extern void CRC32Replacer(string& line, string format, string behaviorFile, int linecount);
 extern void multiChoice(string& line,
                         string filename,
@@ -74,8 +74,8 @@ void processing(string& line,
                 shared_ptr<master> subFunctionIDs,
                 ImportContainer& import,
                 int linecount,
-                id eventid,
-                id variableid,
+                ID eventid,
+                ID variableid,
                 string zeroEvent,
                 string zeroVariable,
                 int groupMulti,
@@ -100,8 +100,8 @@ void processing2(string& line,
                  shared_ptr<master> subFunctionIDs,
                  ImportContainer& import,
                  int linecount,
-                 id eventid,
-                 id variableid,
+                 ID eventid,
+                 ID variableid,
                  string zeroEvent,
                  string zeroVariable,
                  int groupMulti,
@@ -147,8 +147,8 @@ NodePackedParameters::NodePackedParameters(string _format,
                                            shared_ptr<master> _subFunctionIDs,
                                            ImportContainer& _import,
                                            int _linecount,
-                                           id _eventid,
-                                           id _variableid,
+                                           ID _eventid,
+                                           ID _variableid,
                                            string _zeroEvent,
                                            string _zeroVariable,
                                            int _groupMulti,
@@ -190,7 +190,7 @@ NodePackedParameters::NodePackedParameters(string _format,
     multiOption    = _multiOption;
 }
 
-NodeJoint::NodeJoint(vecstr& node,
+NodeJoint::NodeJoint(VecStr& node,
                      string format,
                      string filename,
                      string _behaviorFile,
@@ -209,11 +209,11 @@ NodeJoint::NodeJoint(vecstr& node,
     dataBake(node, format, filename, otherAnimType, startline, size);
 }
 
-NodeJoint::NodeJoint(vecstr& node,
+NodeJoint::NodeJoint(VecStr& node,
                      string format,
                      string filename,
                      string _behaviorFile,
-                     setstr _templateGroup,
+                     SetStr _templateGroup,
                      uint startline,
                      uint size)
 {
@@ -250,8 +250,8 @@ void NodeJoint::insertData(string format,
                            string& strID,
                            SSMap& IDExist,
                            ImportContainer& import,
-                           id eventid,
-                           id variableid,
+                           ID eventid,
+                           ID variableid,
                            string zeroEvent,
                            string zeroVariable,
                            unsigned __int64& openRange,
@@ -392,7 +392,7 @@ void NodeJoint::insertData(string format,
                         if (condition.find(format + "[") != NOT_FOUND && condition.find("]") != NOT_FOUND)
                         {
                             int pos           = 0;
-                            vecstr formatInfo = GetOptionInfo(condition,
+                            VecStr formatInfo = GetOptionInfo(condition,
                                                               format,
                                                               filename,
                                                               storeTemplate[sect].nested->row,
@@ -805,8 +805,8 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
                                string& strID,
                                SSMap& IDExist,
                                ImportContainer& import,
-                               id eventid,
-                               id variableid,
+                               ID eventid,
+                               ID variableid,
                                string zeroEvent,
                                string zeroVariable,
                                unsigned __int64 openRange,
@@ -911,7 +911,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
                 ErrorMessage(1161, format, filename, storeTemplate.nested->row);
             }
 
-            vecstr formatInfo;
+            VecStr formatInfo;
 
             try
             {
@@ -1088,7 +1088,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
         // <!-- FOREACH ^format[][T]^ -->
         if (condition.find(format + "[") != NOT_FOUND && condition.find("]") != NOT_FOUND)
         {
-            vecstr formatInfo;
+            VecStr formatInfo;
 
             try
             {
@@ -1137,7 +1137,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
         // <!-- FOREACH ^format_group[][][T]^ -->
         else if (condition.find(format + "_group[") != NOT_FOUND && condition.find("]") != NOT_FOUND)
         {
-            vecstr formatInfo;
+            VecStr formatInfo;
 
             try
             {
@@ -1238,7 +1238,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
         // <!-- FOREACH ^T^ -->
         else if (multiOption == format)
         {
-            vecstr formatInfo;
+            VecStr formatInfo;
 
             try
             {
@@ -1301,8 +1301,8 @@ void NodeJoint::optionMultiLoop(vector<LineCheck>& output,
                                 string& strID,
                                 SSMap& IDExist,
                                 ImportContainer& import,
-                                id eventid,
-                                id variableid,
+                                ID eventid,
+                                ID variableid,
                                 string zeroEvent,
                                 string zeroVariable,
                                 unsigned __int64 openRange,
@@ -1358,9 +1358,9 @@ void NodeJoint::optionMultiLoop(vector<LineCheck>& output,
     }
 }
 
-vecstr NodeJoint::unpack()
+VecStr NodeJoint::unpack()
 {
-    vecstr storeline;
+    VecStr storeline;
 
     for (auto& group : output)
     {
@@ -1370,7 +1370,7 @@ vecstr NodeJoint::unpack()
             {
                 if (each.nested)
                 {
-                    vecstr sub = each.nested->unpack();
+                    VecStr sub = each.nested->unpack();
                     storeline.insert(storeline.end(), sub.begin(), sub.end());
                 }
                 else
@@ -1465,7 +1465,7 @@ vecstr NodeJoint::unpack()
 
     return storeline;
 }
-void NodeJoint::dataBake(vecstr& node,
+void NodeJoint::dataBake(VecStr& node,
                          string format,
                          string filename,
                          unordered_map<string, string> otherAnimType,
@@ -1473,7 +1473,7 @@ void NodeJoint::dataBake(vecstr& node,
                          uint size)
 {
     string multiOption;
-    vecstr tempstore;
+    VecStr tempstore;
     FuncType curType = NONE;
     int scope        = 0;
     uint start;
@@ -1698,8 +1698,8 @@ void processing(string& lineRef,
                 shared_ptr<master> subFunctionIDs,
                 ImportContainer& import,
                 int linecount,
-                id eventid,
-                id variableid,
+                ID eventid,
+                ID variableid,
                 string zeroEvent,
                 string zeroVariable,
                 int groupMulti,
@@ -1776,7 +1776,7 @@ void processing(string& lineRef,
         && (line.find("#" + format + "$") != NOT_FOUND || line.find("#" + format + "_group$") != NOT_FOUND
             || line.find("#" + format + "_master") != NOT_FOUND))
     {
-        vecstr generator;
+        VecStr generator;
         StringSplit(line, generator);
         size_t nextpos = 0;
 
@@ -1887,8 +1887,8 @@ void processing2(string& line,
                  shared_ptr<master> subFunctionIDs,
                  ImportContainer& import,
                  int linecount,
-                 id eventid,
-                 id variableid,
+                 ID eventid,
+                 ID variableid,
                  string zeroEvent,
                  string zeroVariable,
                  int groupMulti,

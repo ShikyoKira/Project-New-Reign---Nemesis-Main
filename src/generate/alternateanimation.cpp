@@ -30,7 +30,7 @@ bool AACoreCompile(sf::path filename,
                    string destination,
                    string filepath,
                    sf::path appdata_path,
-                   vecstr& newFunctions,
+                   VecStr& newFunctions,
                    uint& maxGroup,
                    uint& uniquekey);
 bool AAnimAPICompile(sf::path filename,
@@ -38,7 +38,7 @@ bool AAnimAPICompile(sf::path filename,
                      string destination,
                      string filepath,
                      sf::path appdata_path,
-                     vecstr& newFunctions,
+                     VecStr& newFunctions,
                      uint maxGroup,
                      uint& uniquekey);
 void fixedKeyInitialize();
@@ -99,7 +99,7 @@ void forcedRemove(string target, int counter)
 
 void AAInitialize(string AAList)
 {
-    vecstr groupList;
+    VecStr groupList;
     unordered_map<string, string>
         existAAAnim; // animation name, animation group name; has the animation been registered for AA?
     DebugLogging("Caching alternate animation group...");
@@ -187,7 +187,7 @@ bool AAInstallation()
 
     uint maxGroup;
     fixedKeyInitialize();
-    vecstr newFunctions;
+    VecStr newFunctions;
 
     if (!AACoreCompile(pscfile,
                        StringToWString(import),
@@ -246,24 +246,24 @@ bool AACoreCompile(sf::path filename,
                    string destination,
                    string filepath,
                    sf::path appdata_path,
-                   vecstr& newFunctions,
+                   VecStr& newFunctions,
                    uint& maxGroup,
                    uint& uniquekey)
 {
     bool prefixDone = false;
-    vecstr prefixList;
+    VecStr prefixList;
     unordered_map<string, bool> prefixCheck;
     unordered_map<string, int> prefixID;
     unordered_map<string, int> groupIDCounter;
     unordered_map<string, string> baseOrder;
     unordered_map<string, vector<ModIDByGroup>> GetModByGroupValue;
-    vecstr baseMatch;
+    VecStr baseMatch;
 
-    vecstr groupIDFunction;
-    vecstr prefixlines;
-    vecstr groupAAlines;
-    vecstr storeline;
-    vecstr newline;
+    VecStr groupIDFunction;
+    VecStr prefixlines;
+    VecStr groupAAlines;
+    VecStr storeline;
+    VecStr newline;
     newline.reserve(storeline.size());
     GetFunctionLines(filename.c_str(), storeline);
 
@@ -311,7 +311,7 @@ bool AACoreCompile(sf::path filename,
 
     if (groupNameList.size() > 0) // Assign base value
     {
-        vecstr groupID;
+        VecStr groupID;
         groupIDFunction.push_back("int Function GetGroupID(string groupName) global");
 
         for (auto& groupName : groupNameList)
@@ -586,12 +586,12 @@ bool AAnimAPICompile(sf::path filename,
                      string destination,
                      string filepath,
                      sf::path appdata_path,
-                     vecstr& newFunctions,
+                     VecStr& newFunctions,
                      uint maxGroup,
                      uint& uniquekey)
 {
-    vecstr storeline;
-    vecstr newline;
+    VecStr storeline;
+    VecStr newline;
     newline.reserve(storeline.size());
 
     if (!GetFunctionLines(filename.c_str(), storeline)) return false;

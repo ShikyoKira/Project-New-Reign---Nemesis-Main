@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-typedef std::vector<std::string> vecstr;
+typedef std::vector<std::string> VecStr;
 
 void DebugOutput();
 void DebugLogging(std::string line, bool noEndLine = true);

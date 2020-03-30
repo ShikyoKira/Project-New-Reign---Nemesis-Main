@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 {
     bool generate = false;
     bool update   = false;
-    vecstr modlist;
+    VecStr modlist;
     std::string logfile = "CriticalLog.txt";
 
     try

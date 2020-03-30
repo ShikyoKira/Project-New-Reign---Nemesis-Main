@@ -8,8 +8,8 @@
 using namespace std;
 
 AnimationUtility::AnimationUtility(string condition,
-                                   id neweventid,
-                                   id newvariableid,
+                                   ID neweventid,
+                                   ID newvariableid,
                                    vector<int> newFixedStateID,
                                    vector<int> newStateCountMultiplier,
                                    bool newHasGroup,

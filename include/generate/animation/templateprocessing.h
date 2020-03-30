@@ -15,7 +15,7 @@ namespace nemesis
     struct smatch
     {
         std::vector<size_t> positionlist;
-        vecstr match;
+        VecStr match;
 
         std::string operator[](int number);
         size_t position(int number);
@@ -30,20 +30,20 @@ struct range
     size_t front;
     size_t back;
     size_t size;
-    vecstr olddata;
+    VecStr olddata;
     std::vector<int> olddataint;
-    void (proc::*func)(range, vecstr&);
+    void (proc::*func)(range, VecStr&);
 
     range()
     {}
-    range(size_t n_front, size_t n_back, void (proc::*n_func)(range, vecstr&));
-    range(size_t n_front, size_t n_back, vecstr n_olddata, void (proc::*n_func)(range, vecstr&));
-    range(size_t n_front, size_t n_back, std::vector<int> n_olddataint, void (proc::*n_func)(range, vecstr&));
+    range(size_t n_front, size_t n_back, void (proc::*n_func)(range, VecStr&));
+    range(size_t n_front, size_t n_back, VecStr n_olddata, void (proc::*n_func)(range, VecStr&));
+    range(size_t n_front, size_t n_back, std::vector<int> n_olddataint, void (proc::*n_func)(range, VecStr&));
     range(size_t n_front,
           size_t n_back,
           std::vector<int> n_olddataint,
-          vecstr n_olddata,
-          void (proc::*n_func)(range, vecstr&));
+          VecStr n_olddata,
+          void (proc::*n_func)(range, VecStr&));
 };
 
 struct block
@@ -82,8 +82,8 @@ struct proc
 
     double duration;
 
-    id* eventid;
-    id* variableid;
+    ID* eventid;
+    ID* variableid;
 
     std::string format;
     std::string masterformat;
@@ -102,15 +102,15 @@ struct proc
     ImportContainer* addition;
     ImportContainer* newImport;
 
-    std::unordered_map<int, vecstr>* AnimObject;
-    std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>* groupAddition;
+    std::unordered_map<int, VecStr>* AnimObject;
+    std::unordered_map<std::string, std::unordered_map<std::string, VecStr>>* groupAddition;
     std::vector<std::unordered_map<std::string, bool>>* groupOptionPicked;
     std::vector<std::vector<std::unordered_map<std::string, bool>>>* masterOptionPicked;
 
     std::shared_ptr<group> groupFunction;
     std::shared_ptr<master> masterFunction;
 
-    std::shared_ptr<vecstr> generatedlines;
+    std::shared_ptr<VecStr> generatedlines;
 
     NewAnimation* curAnim;
     GroupTemplate* curGroup;
@@ -164,250 +164,250 @@ struct proc
                   int& n_counter,
                   size_t& n_elementLine,
                   int n_furnitureCount,
-                  id& n_eventid,
-                  id& n_variableid,
+                  ID& n_eventid,
+                  ID& n_variableid,
                   std::vector<int> n_fixedStateID,
                   std::vector<int> n_stateCountMultiplier,
                   NewAnimLock* n_animLock,
                   int n_order,
                   int n_lastorder,
                   SSMap& n_IDExist,
-                  std::unordered_map<int, vecstr>& n_AnimObject,
+                  std::unordered_map<int, VecStr>& n_AnimObject,
                   ImportContainer& n_addition,
                   ImportContainer* n_newImport,
-                  std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& n_groupAddition,
+                  std::unordered_map<std::string, std::unordered_map<std::string, VecStr>>& n_groupAddition,
                   std::vector<std::unordered_map<std::string, bool>>& n_groupOptionPicked,
                   std::shared_ptr<group> n_groupFunction,
-                  std::shared_ptr<vecstr> n_generatedlines,
+                  std::shared_ptr<VecStr> n_generatedlines,
                   NewAnimation* n_curAnim);
 
     void installBlock(range blok, int curline);
     void installBlock(range blok, int curline, std::vector<multichoice> n_condiiton);
 
     // processes
-    void relativeNegative(range blok, vecstr& blocks);
-    void compute(range blok, vecstr& blocks);
-    void rangeCompute(range blok, vecstr& blocks);
-    void upCounter(range blok, vecstr& blocks);
-    void upCounterPlus(range blok, vecstr& blocks);
-    void animCount(range blok, vecstr& blocks);
-    void multiChoiceRegis(range blok, vecstr& blocks);
-    void groupIDRegis(range blok, vecstr& blocks);
-    void IDRegis(range blok, vecstr& blocks);
-    void IDRegisAnim(range blok, vecstr& blocks);
-    void IDRegisGroup(range blok, vecstr& blocks);
-    void IDRegisMaster(range blok, vecstr& blocks);
-    void computation(range blok, vecstr& blocks);
+    void relativeNegative(range blok, VecStr& blocks);
+    void compute(range blok, VecStr& blocks);
+    void rangeCompute(range blok, VecStr& blocks);
+    void upCounter(range blok, VecStr& blocks);
+    void upCounterPlus(range blok, VecStr& blocks);
+    void animCount(range blok, VecStr& blocks);
+    void multiChoiceRegis(range blok, VecStr& blocks);
+    void groupIDRegis(range blok, VecStr& blocks);
+    void IDRegis(range blok, VecStr& blocks);
+    void IDRegisAnim(range blok, VecStr& blocks);
+    void IDRegisGroup(range blok, VecStr& blocks);
+    void IDRegisMaster(range blok, VecStr& blocks);
+    void computation(range blok, VecStr& blocks);
 
     // end functions
     // group
-    void endMultiGroup(range blok, vecstr& blocks);
-    void endFirstGroup(range blok, vecstr& blocks);
-    void endNextGroup(range blok, vecstr& blocks);
-    void endBackGroup(range blok, vecstr& blocks);
-    void endLastGroup(range blok, vecstr& blocks);
-    void endNumGroup(range blok, vecstr& blocks);
+    void endMultiGroup(range blok, VecStr& blocks);
+    void endFirstGroup(range blok, VecStr& blocks);
+    void endNextGroup(range blok, VecStr& blocks);
+    void endBackGroup(range blok, VecStr& blocks);
+    void endLastGroup(range blok, VecStr& blocks);
+    void endNumGroup(range blok, VecStr& blocks);
 
     // master
-    void endMultiMaster(range blok, vecstr& blocks);
-    void endFirstMaster(range blok, vecstr& blocks);
-    void endLastMaster(range blok, vecstr& blocks);
-    void endNumMaster(range blok, vecstr& blocks);
+    void endMultiMaster(range blok, VecStr& blocks);
+    void endFirstMaster(range blok, VecStr& blocks);
+    void endLastMaster(range blok, VecStr& blocks);
+    void endNumMaster(range blok, VecStr& blocks);
 
-    void endSingle(range blok, vecstr& blocks);
+    void endSingle(range blok, VecStr& blocks);
 
     // state functions
     // group
-    void stateMultiGroup(range blok, vecstr& blocks);
-    void stateFirstGroup(range blok, vecstr& blocks);
-    void stateNextGroup(range blok, vecstr& blocks);
-    void stateBackGroup(range blok, vecstr& blocks);
-    void stateLastGroup(range blok, vecstr& blocks);
-    void stateNumGroup(range blok, vecstr& blocks);
+    void stateMultiGroup(range blok, VecStr& blocks);
+    void stateFirstGroup(range blok, VecStr& blocks);
+    void stateNextGroup(range blok, VecStr& blocks);
+    void stateBackGroup(range blok, VecStr& blocks);
+    void stateLastGroup(range blok, VecStr& blocks);
+    void stateNumGroup(range blok, VecStr& blocks);
 
     // master to group
-    void stateMultiMasterToGroup(range blok, vecstr& blocks);
-    /*void stateFirstMasterToGroup(range blok, vecstr& blocks);
-	void stateLastMasterToGroup(range blok, vecstr& blocks);		Not needed
-	void stateNumMasterToGroup(range blok, vecstr& blocks);*/
+    void stateMultiMasterToGroup(range blok, VecStr& blocks);
+    /*void stateFirstMasterToGroup(range blok, VecStr& blocks);
+	void stateLastMasterToGroup(range blok, VecStr& blocks);		Not needed
+	void stateNumMasterToGroup(range blok, VecStr& blocks);*/
 
     // master
-    void stateMultiMaster(range blok, vecstr& blocks);
-    void stateFirstMaster(range blok, vecstr& blocks);
-    void stateLastMaster(range blok, vecstr& blocks);
-    void stateNumMaster(range blok, vecstr& blocks);
+    void stateMultiMaster(range blok, VecStr& blocks);
+    void stateFirstMaster(range blok, VecStr& blocks);
+    void stateLastMaster(range blok, VecStr& blocks);
+    void stateNumMaster(range blok, VecStr& blocks);
 
-    void stateSingle(range blok, vecstr& blocks);
+    void stateSingle(range blok, VecStr& blocks);
 
     // filepath functions
     // group
-    void filepathMultiGroup(range blok, vecstr& blocks);
-    void filepathFirstGroup(range blok, vecstr& blocks);
-    void filepathNextGroup(range blok, vecstr& blocks);
-    void filepathBackGroup(range blok, vecstr& blocks);
-    void filepathLastGroup(range blok, vecstr& blocks);
-    void filepathNumGroup(range blok, vecstr& blocks);
+    void filepathMultiGroup(range blok, VecStr& blocks);
+    void filepathFirstGroup(range blok, VecStr& blocks);
+    void filepathNextGroup(range blok, VecStr& blocks);
+    void filepathBackGroup(range blok, VecStr& blocks);
+    void filepathLastGroup(range blok, VecStr& blocks);
+    void filepathNumGroup(range blok, VecStr& blocks);
 
     // master
-    void filepathMultiMaster(range blok, vecstr& blocks);
-    void filepathFirstMaster(range blok, vecstr& blocks);
-    void filepathLastMaster(range blok, vecstr& blocks);
-    void filepathNumMaster(range blok, vecstr& blocks);
+    void filepathMultiMaster(range blok, VecStr& blocks);
+    void filepathFirstMaster(range blok, VecStr& blocks);
+    void filepathLastMaster(range blok, VecStr& blocks);
+    void filepathNumMaster(range blok, VecStr& blocks);
 
-    void filepathSingle(range blok, vecstr& blocks);
+    void filepathSingle(range blok, VecStr& blocks);
 
     // filename functions
     // group
-    void filenameMultiGroup(range blok, vecstr& blocks);
-    void filenameFirstGroup(range blok, vecstr& blocks);
-    void filenameNextGroup(range blok, vecstr& blocks);
-    void filenameBackGroup(range blok, vecstr& blocks);
-    void filenameLastGroup(range blok, vecstr& blocks);
-    void filenameNumGroup(range blok, vecstr& blocks);
+    void filenameMultiGroup(range blok, VecStr& blocks);
+    void filenameFirstGroup(range blok, VecStr& blocks);
+    void filenameNextGroup(range blok, VecStr& blocks);
+    void filenameBackGroup(range blok, VecStr& blocks);
+    void filenameLastGroup(range blok, VecStr& blocks);
+    void filenameNumGroup(range blok, VecStr& blocks);
 
     // master
-    void filenameMultiMaster(range blok, vecstr& blocks);
-    void filenameFirstMaster(range blok, vecstr& blocks);
-    void filenameLastMaster(range blok, vecstr& blocks);
-    void filenameNumMaster(range blok, vecstr& blocks);
+    void filenameMultiMaster(range blok, VecStr& blocks);
+    void filenameFirstMaster(range blok, VecStr& blocks);
+    void filenameLastMaster(range blok, VecStr& blocks);
+    void filenameNumMaster(range blok, VecStr& blocks);
 
-    void filenameSingle(range blok, vecstr& blocks);
+    void filenameSingle(range blok, VecStr& blocks);
 
     // path functions
-    void pathSingle(range blok, vecstr& blocks);
+    void pathSingle(range blok, VecStr& blocks);
 
     // AnimObject functions
     // group
-    void AOMultiGroupA(range blok, vecstr& blocks);
-    void AOMultiGroupB(range blok, vecstr& blocks);
-    void AOFirstGroupA(range blok, vecstr& blocks);
-    void AOFirstGroupB(range blok, vecstr& blocks);
-    void AONextGroupA(range blok, vecstr& blocks);
-    void AONextGroupB(range blok, vecstr& blocks);
-    void AOBackGroupA(range blok, vecstr& blocks);
-    void AOBackGroupB(range blok, vecstr& blocks);
-    void AOLastGroupA(range blok, vecstr& blocks);
-    void AOLastGroupB(range blok, vecstr& blocks);
-    void AONumGroupA(range blok, vecstr& blocks);
-    void AONumGroupB(range blok, vecstr& blocks);
+    void AOMultiGroupA(range blok, VecStr& blocks);
+    void AOMultiGroupB(range blok, VecStr& blocks);
+    void AOFirstGroupA(range blok, VecStr& blocks);
+    void AOFirstGroupB(range blok, VecStr& blocks);
+    void AONextGroupA(range blok, VecStr& blocks);
+    void AONextGroupB(range blok, VecStr& blocks);
+    void AOBackGroupA(range blok, VecStr& blocks);
+    void AOBackGroupB(range blok, VecStr& blocks);
+    void AOLastGroupA(range blok, VecStr& blocks);
+    void AOLastGroupB(range blok, VecStr& blocks);
+    void AONumGroupA(range blok, VecStr& blocks);
+    void AONumGroupB(range blok, VecStr& blocks);
 
     // master
-    void AOMultiMasterA(range blok, vecstr& blocks);
-    void AOMultiMasterB(range blok, vecstr& blocks);
-    void AOFirstMasterA(range blok, vecstr& blocks);
-    void AOFirstMasterB(range blok, vecstr& blocks);
-    void AOLastMasterA(range blok, vecstr& blocks);
-    void AOLastMasterB(range blok, vecstr& blocks);
-    void AONumMasterA(range blok, vecstr& blocks);
-    void AONumMasterB(range blok, vecstr& blocks);
+    void AOMultiMasterA(range blok, VecStr& blocks);
+    void AOMultiMasterB(range blok, VecStr& blocks);
+    void AOFirstMasterA(range blok, VecStr& blocks);
+    void AOFirstMasterB(range blok, VecStr& blocks);
+    void AOLastMasterA(range blok, VecStr& blocks);
+    void AOLastMasterB(range blok, VecStr& blocks);
+    void AONumMasterA(range blok, VecStr& blocks);
+    void AONumMasterB(range blok, VecStr& blocks);
 
-    void AOSingleA(range blok, vecstr& blocks);
-    void AOSingleB(range blok, vecstr& blocks);
+    void AOSingleA(range blok, VecStr& blocks);
+    void AOSingleB(range blok, VecStr& blocks);
 
     // main_anim_event functions
     // group
-    void MAEMultiGroup(range blok, vecstr& blocks);
-    void MAEFirstGroup(range blok, vecstr& blocks);
-    void MAENextGroup(range blok, vecstr& blocks);
-    void MAEBackGroup(range blok, vecstr& blocks);
-    void MAELastGroup(range blok, vecstr& blocks);
-    void MAENumGroup(range blok, vecstr& blocks);
+    void MAEMultiGroup(range blok, VecStr& blocks);
+    void MAEFirstGroup(range blok, VecStr& blocks);
+    void MAENextGroup(range blok, VecStr& blocks);
+    void MAEBackGroup(range blok, VecStr& blocks);
+    void MAELastGroup(range blok, VecStr& blocks);
+    void MAENumGroup(range blok, VecStr& blocks);
 
     //master
-    void MAEMultiMaster(range blok, vecstr& blocks);
-    void MAEFirstMaster(range blok, vecstr& blocks);
-    void MAELastMaster(range blok, vecstr& blocks);
-    void MAENumMaster(range blok, vecstr& blocks);
+    void MAEMultiMaster(range blok, VecStr& blocks);
+    void MAEFirstMaster(range blok, VecStr& blocks);
+    void MAELastMaster(range blok, VecStr& blocks);
+    void MAENumMaster(range blok, VecStr& blocks);
 
-    void MAESingle(range blok, vecstr& blocks);
+    void MAESingle(range blok, VecStr& blocks);
 
     // addOn functions
     // group
-    void addOnMultiGroup(range blok, vecstr& blocks);
-    void addOnFirstGroup(range blok, vecstr& blocks);
-    void addOnNextGroup(range blok, vecstr& blocks);
-    void addOnBackGroup(range blok, vecstr& blocks);
-    void addOnLastGroup(range blok, vecstr& blocks);
-    void addOnNumGroup(range blok, vecstr& blocks);
+    void addOnMultiGroup(range blok, VecStr& blocks);
+    void addOnFirstGroup(range blok, VecStr& blocks);
+    void addOnNextGroup(range blok, VecStr& blocks);
+    void addOnBackGroup(range blok, VecStr& blocks);
+    void addOnLastGroup(range blok, VecStr& blocks);
+    void addOnNumGroup(range blok, VecStr& blocks);
 
     // master
-    void addOnMultiMaster(range blok, vecstr& blocks);
-    void addOnFirstMaster(range blok, vecstr& blocks);
-    void addOnLastMaster(range blok, vecstr& blocks);
-    void addOnNumMaster(range blok, vecstr& blocks);
+    void addOnMultiMaster(range blok, VecStr& blocks);
+    void addOnFirstMaster(range blok, VecStr& blocks);
+    void addOnLastMaster(range blok, VecStr& blocks);
+    void addOnNumMaster(range blok, VecStr& blocks);
 
-    void addOnSingle(range blok, vecstr& blocks);
+    void addOnSingle(range blok, VecStr& blocks);
 
     // last state functions
-    void lastState(range blok, vecstr& blocks);
+    void lastState(range blok, VecStr& blocks);
 
     // event ID functions
-    void eventID(range blok, vecstr& blocks);
+    void eventID(range blok, VecStr& blocks);
 
     // variable ID functions
-    void variableID(range blok, vecstr& blocks);
+    void variableID(range blok, VecStr& blocks);
 
     // crc32 functions
-    void crc32(range blok, vecstr& blocks);
+    void crc32(range blok, VecStr& blocks);
 
     // import functions
-    void import(range blok, vecstr& blocks);
+    void import(range blok, VecStr& blocks);
 
     // motion data functions
     // group
-    void motionDataMultiGroup(range blok, vecstr& blocks);
-    void motionDataFirstGroup(range blok, vecstr& blocks);
-    void motionDataNextGroup(range blok, vecstr& blocks);
-    void motionDataBackGroup(range blok, vecstr& blocks);
-    void motionDataLastGroup(range blok, vecstr& blocks);
-    void motionDataNumGroup(range blok, vecstr& blocks);
+    void motionDataMultiGroup(range blok, VecStr& blocks);
+    void motionDataFirstGroup(range blok, VecStr& blocks);
+    void motionDataNextGroup(range blok, VecStr& blocks);
+    void motionDataBackGroup(range blok, VecStr& blocks);
+    void motionDataLastGroup(range blok, VecStr& blocks);
+    void motionDataNumGroup(range blok, VecStr& blocks);
 
     // master
-    void motionDataMultiMaster(range blok, vecstr& blocks);
-    void motionDataFirstMaster(range blok, vecstr& blocks);
-    void motionDataLastMaster(range blok, vecstr& blocks);
-    void motionDataNumMaster(range blok, vecstr& blocks);
+    void motionDataMultiMaster(range blok, VecStr& blocks);
+    void motionDataFirstMaster(range blok, VecStr& blocks);
+    void motionDataLastMaster(range blok, VecStr& blocks);
+    void motionDataNumMaster(range blok, VecStr& blocks);
 
-    void motionDataSingle(range blok, vecstr& blocks);
+    void motionDataSingle(range blok, VecStr& blocks);
 
     // rotation data functions
     // group
-    void rotationDataMultiGroup(range blok, vecstr& blocks);
-    void rotationDataFirstGroup(range blok, vecstr& blocks);
-    void rotationDataNextGroup(range blok, vecstr& blocks);
-    void rotationDataBackGroup(range blok, vecstr& blocks);
-    void rotationDataLastGroup(range blok, vecstr& blocks);
-    void rotationDataNumGroup(range blok, vecstr& blocks);
+    void rotationDataMultiGroup(range blok, VecStr& blocks);
+    void rotationDataFirstGroup(range blok, VecStr& blocks);
+    void rotationDataNextGroup(range blok, VecStr& blocks);
+    void rotationDataBackGroup(range blok, VecStr& blocks);
+    void rotationDataLastGroup(range blok, VecStr& blocks);
+    void rotationDataNumGroup(range blok, VecStr& blocks);
 
     // master
-    void rotationDataMultiMaster(range blok, vecstr& blocks);
-    void rotationDataFirstMaster(range blok, vecstr& blocks);
-    void rotationDataLastMaster(range blok, vecstr& blocks);
-    void rotationDataNumMaster(range blok, vecstr& blocks);
+    void rotationDataMultiMaster(range blok, VecStr& blocks);
+    void rotationDataFirstMaster(range blok, VecStr& blocks);
+    void rotationDataLastMaster(range blok, VecStr& blocks);
+    void rotationDataNumMaster(range blok, VecStr& blocks);
 
-    void rotationDataSingle(range blok, vecstr& blocks);
+    void rotationDataSingle(range blok, VecStr& blocks);
 
     // animOrder functions
-    void animOrder(range blok, vecstr& blocks);
+    void animOrder(range blok, VecStr& blocks);
 
     // register animation
-    void regisAnim(range blok, vecstr& blocks);
+    void regisAnim(range blok, VecStr& blocks);
 
     // register behavior
-    void regisBehavior(range blok, vecstr& blocks);
+    void regisBehavior(range blok, VecStr& blocks);
 
     // negative local
-    void localNegative(range blok, vecstr& blocks);
+    void localNegative(range blok, VecStr& blocks);
 
     // getline
-    void blocksCompile(vecstr blocks);
+    void blocksCompile(VecStr blocks);
 
     // utilities
     bool isThisMaster();
-    bool clearBlocks(range& blok, vecstr& blocks);
+    bool clearBlocks(range& blok, VecStr& blocks);
     void blockCheck(size_t front, size_t back);
-    std::string combineBlocks(range& blok, vecstr& blocks);
-    std::string combineBlocks(size_t front, size_t back, vecstr& blocks);
+    std::string combineBlocks(range& blok, VecStr& blocks);
+    std::string combineBlocks(size_t front, size_t back, VecStr& blocks);
 };
 
 #endif

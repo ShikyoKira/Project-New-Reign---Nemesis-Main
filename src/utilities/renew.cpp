@@ -31,7 +31,7 @@ bool DeleteFileFolder(const string& directory, const string& file, bool xml)
     if (std::filesystem::is_directory(directory + file))
     {
         string tempbehavior = directory + file;
-        vecstr filelist;
+        VecStr filelist;
         read_directory(tempbehavior, filelist);
         tempbehavior.append("\\");
 
@@ -47,7 +47,7 @@ bool DeleteFileFolder(const string& directory, const string& file, bool xml)
 
 void ClearTempBehaviors()
 {
-    vecstr filelist;
+    VecStr filelist;
     string tempbehavior = "temp_behaviors";
 
     if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))
@@ -64,7 +64,7 @@ void ClearTempBehaviors()
 
 void ClearTempXml()
 {
-    vecstr filelist;
+    VecStr filelist;
     string tempbehavior = "temp_behaviors\\xml";
 
     if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))

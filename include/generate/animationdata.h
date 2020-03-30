@@ -56,7 +56,7 @@ struct AnimDataPack
     std::string unknown2;
     std::string unknown3;
 
-    vecstr eventname;
+    VecStr eventname;
 };
 
 struct InfoDataPack
@@ -64,13 +64,13 @@ struct InfoDataPack
     std::string uniquecode;
     std::string duration;
 
-    vecstr motiondata;
-    vecstr rotationdata;
+    VecStr motiondata;
+    VecStr rotationdata;
 };
 
 struct AnimDataProject
 {
-    vecstr behaviorlist;
+    VecStr behaviorlist;
     std::string childActive;
     std::string projectActive;
 
@@ -79,7 +79,7 @@ struct AnimDataProject
 
     AnimDataProject()
     {}
-    AnimDataProject(vecstr animdatafile,
+    AnimDataProject(VecStr animdatafile,
                     std::string filename,
                     std::string filepath,
                     std::string modcode = "nemesis");
@@ -90,7 +90,7 @@ struct AnimDataProject
 
 struct MasterAnimData
 {
-    struct AnimDataList : vecstr
+    struct AnimDataList : VecStr
     {
     private:
         size_t TotalLines = 0;
@@ -104,49 +104,49 @@ struct MasterAnimData
         void clear()
         {
             TotalLines = 0;
-            vecstr::clear();
+            VecStr::clear();
         }
 
         void push_back(std::string line)
         {
             if (line.find("<!--") == NOT_FOUND) TotalLines++;
 
-            vecstr::emplace_back(line);
+            VecStr::emplace_back(line);
         }
 
         void pop_back()
         {
-            if (vecstr::back().find("<!--") == NOT_FOUND) TotalLines--;
+            if (VecStr::back().find("<!--") == NOT_FOUND) TotalLines--;
 
-            vecstr::pop_back();
+            VecStr::pop_back();
         }
 
-        void insert(vecstr::iterator pos, const std::string& line)
+        void insert(VecStr::iterator pos, const std::string& line)
         {
             if (line.find("<!--") == NOT_FOUND) TotalLines--;
 
-            vecstr::insert(pos, line);
+            VecStr::insert(pos, line);
         }
 
-        void insert(vecstr::iterator pos, vecstr::iterator whr, vecstr::iterator til)
+        void insert(VecStr::iterator pos, VecStr::iterator whr, VecStr::iterator til)
         {
             for (auto whe = whr; whe < til; ++whe)
             {
                 if (whe->find("<!--") == NOT_FOUND) TotalLines++;
             }
 
-            vecstr::insert(pos, whr, til);
+            VecStr::insert(pos, whr, til);
         }
     };
 
     std::unordered_map<std::string, std::unordered_map<std::string, AnimDataList>>
         newAnimData;     // character, unique code, vector<string>; memory to access each node
-    vecstr animDataChar; // order of the character
-    std::unordered_map<std::string, vecstr> animDataHeader; // order of the character's header
-    std::unordered_map<std::string, vecstr> animDataInfo;   // order of the character's info data
+    VecStr animDataChar; // order of the character
+    std::unordered_map<std::string, VecStr> animDataHeader; // order of the character's header
+    std::unordered_map<std::string, VecStr> animDataInfo;   // order of the character's info data
 };
 
-AnimDataFormat::position AnimDataPosition(vecstr animData,
+AnimDataFormat::position AnimDataPosition(VecStr animData,
                                           std::string character,
                                           std::string header,
                                           std::string modcode,

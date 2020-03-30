@@ -24,8 +24,8 @@ DebugMsg* EnglishLog;
 
 void (*interMsgPtr)(string);
 
-vecstr readUTF8File(wstring filename);
-void writeUTF8File(string filename, vecstr storeline);
+VecStr readUTF8File(wstring filename);
+void writeUTF8File(string filename, VecStr storeline);
 
 void NewDebugMessage(DebugMsg NewLog)
 {
@@ -47,7 +47,7 @@ DebugMsg::DebugMsg(wstring language)
 void DebugMsg::setup(const wstring& language)
 {
     wstring filename = L"languages\\" + language + L".txt";
-    vecstr storeline = readUTF8File(filename);
+    VecStr storeline = readUTF8File(filename);
 
     if (error) throw nemesis::exception();
 
@@ -106,9 +106,9 @@ void DebugMsg::setup(const wstring& language)
     }
 }
 
-vecstr readUTF8File(wstring filename)
+VecStr readUTF8File(wstring filename)
 {
-    vecstr storeline;
+    VecStr storeline;
     FileReader file(filename);
     string line;
 
@@ -128,7 +128,7 @@ vecstr readUTF8File(wstring filename)
     return storeline;
 }
 
-void writeUTF8File(string filename, vecstr storeline)
+void writeUTF8File(string filename, VecStr storeline)
 {
     FileWriter output(filename);
 

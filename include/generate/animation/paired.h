@@ -5,17 +5,17 @@
 #include <unordered_map>
 #include <vector>
 
-typedef std::vector<std::string> vecstr;
+typedef std::vector<std::string> VecStr;
 typedef std::unordered_map<std::string, std::string> AOConvert;
-typedef std::unordered_map<std::string, int> id;
+typedef std::unordered_map<std::string, int> ID;
 
 class Paired
 {
 private:
-    vecstr pairedlines;
+    VecStr pairedlines;
 
-    vecstr eventID;
-    vecstr variableID;
+    VecStr eventID;
+    VecStr variableID;
     std::string nextState;
     std::unordered_map<int, std::string> AObject;
     AOConvert NewAnimObject;
@@ -39,16 +39,16 @@ private:
 
 public:
     Paired(const std::string& line,
-           vecstr pairedformat,
+           VecStr pairedformat,
            int pairedcount,
            AOConvert import,
            const std::string& filepath,
            int stateID);
     bool HasError();
-    vecstr GetPairedLine(int ID, AOConvert AnimObjectNames, id eventid, const id& variableid);
+    VecStr GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, const ID& variableid);
     AOConvert GetAnimObjectName();
-    vecstr GetEventID();
-    vecstr GetVariableID();
+    VecStr GetEventID();
+    VecStr GetVariableID();
     std::string mainAnimEvent;
 };
 

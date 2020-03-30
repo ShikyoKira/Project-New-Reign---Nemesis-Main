@@ -27,10 +27,10 @@ bool IDExistProcess(string change,
                     map<string, vector<int>>& codeTracker,
                     map<string, bool>& loopCheck);
 void BehaviorListProcess(
-    AnimDataProject& storeline, int& startline, vecstr& animdatafile, string project, string modcode);
+    AnimDataProject& storeline, int& startline, VecStr& animdatafile, string project, string modcode);
 void AnimDataProcess(vector<AnimDataPack>& storeline,
                      int& startline,
-                     vecstr& animdatafile,
+                     VecStr& animdatafile,
                      string project,
                      string modcode,
                      map<string, string>& exchange,
@@ -38,7 +38,7 @@ void AnimDataProcess(vector<AnimDataPack>& storeline,
                      map<string, vector<int>>& codeTracker);
 void InfoDataProcess(vector<InfoDataPack>& storeline,
                      int& startline,
-                     vecstr& animdatafile,
+                     VecStr& animdatafile,
                      string project,
                      string modcode,
                      map<string, string>& exchange,
@@ -87,7 +87,7 @@ bool IDExistProcess(string change,
     return true;
 }
 
-AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string filepath, string modcode)
+AnimDataProject::AnimDataProject(VecStr animdatafile, string project, string filepath, string modcode)
 {
     int startline = 0;
     BehaviorListProcess(*this, startline, animdatafile, project, modcode);
@@ -118,7 +118,7 @@ AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string fil
 }
 
 void BehaviorListProcess(
-    AnimDataProject& storeline, int& startline, vecstr& animdatafile, string project, string modcode)
+    AnimDataProject& storeline, int& startline, VecStr& animdatafile, string project, string modcode)
 {
     if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(3005, project, "Header");
 
@@ -147,7 +147,7 @@ void BehaviorListProcess(
 
 void AnimDataProcess(vector<AnimDataPack>& storeline,
                      int& startline,
-                     vecstr& animdatafile,
+                     VecStr& animdatafile,
                      string project,
                      string modcode,
                      map<string, string>& exchange,
@@ -256,7 +256,7 @@ void AnimDataProcess(vector<AnimDataPack>& storeline,
 
 void InfoDataProcess(vector<InfoDataPack>& storeline,
                      int& startline,
-                     vecstr& animdatafile,
+                     VecStr& animdatafile,
                      string project,
                      string modcode,
                      map<string, string>& exchange,
@@ -395,7 +395,7 @@ int AnimDataProject::GetInfoTotalLine()
     return counter;
 }
 
-AnimDataFormat::position AnimDataPosition(vecstr animData,
+AnimDataFormat::position AnimDataPosition(VecStr animData,
                                           string character,
                                           string header,
                                           string modcode,

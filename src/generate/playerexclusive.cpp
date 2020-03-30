@@ -33,7 +33,7 @@ bool Delete(sf::path file)
     if (sf::is_directory(file))
     {
         string tempbehavior = file.string();
-        vecstr filelist;
+        VecStr filelist;
         read_directory(tempbehavior, filelist);
         tempbehavior.append("\\");
 
@@ -63,7 +63,7 @@ void forcedCopy(sf::path animFile, sf::path newAnimFile, int count = 0)
 
 void PCEASubFolder(string path, unsigned short number, string pceafolder, string subpath, PCEA& mod)
 {
-    vecstr animlist;
+    VecStr animlist;
     read_directory(path, animlist);
 
     for (auto& anim : animlist)
@@ -103,7 +103,7 @@ void ReadPCEA()
     pcealist     = vector<PCEA>();
     animReplaced = unordered_map<string, vector<PCEAData>>();
 
-    vecstr folderlist;
+    VecStr folderlist;
     string datapath = nemesisInfo->GetDataPath() + "meshes\\actors\\character\\Animations\\Nemesis_PCEA";
     sf::path pceafolder(datapath + "\\PCEA_animations");
 
@@ -286,8 +286,8 @@ bool PCEAInstallation()
     DebugLogging(source.string());
     DebugLogging(pscfile.string());
 
-    vecstr storeline;
-    vecstr newline;
+    VecStr storeline;
+    VecStr newline;
 
     if (!GetFunctionLines(pscfile.string(), storeline)) { return false; }
 

@@ -68,7 +68,7 @@ void NemesisInfo::setup()
     {
         try
         {
-            vecstr storeline;
+            VecStr storeline;
 
             if (GetFunctionLines(string("nemesis.ini"), storeline))
             {
@@ -96,7 +96,7 @@ void NemesisInfo::setup()
                                         dataPath.push_back('/');
                                 }
 
-                                vecstr filelist;
+                                VecStr filelist;
                                 filesystem::path fspath(dataPath);
 
                                 while (!nemesis::iequals(fspath.stem().string(), "data"))
@@ -165,7 +165,7 @@ void NemesisInfo::setup()
 
         if (pos != NOT_FOUND)
         {
-            vecstr filelist;
+            VecStr filelist;
             string skyrimDataDirect;
 
             {

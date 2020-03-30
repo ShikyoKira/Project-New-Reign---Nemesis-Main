@@ -26,9 +26,9 @@ public:
     virtual ~BehaviorStart();
     void milestoneStart();
     void addBehaviorPick(NemesisEngine* newWidget,
-                         vecstr behaviorOrder,
+                         VecStr behaviorOrder,
                          std::unordered_map<std::string, bool> behaviorPick);
-    void addBehaviorPick(vecstr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
+    void addBehaviorPick(VecStr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
     void message(std::string input);
     void GenerateBehavior(std::thread*& checkThread);
 
@@ -54,14 +54,14 @@ private:
     bool cmdline  = false;
     int animCount = 0;
     int filenum;
-    std::unordered_map<std::string, vecstr> coreModList; // core filename, list of modID;
+    std::unordered_map<std::string, VecStr> coreModList; // core filename, list of modID;
 
-    vecstr behaviorPriority;
+    VecStr behaviorPriority;
     std::unordered_map<std::string, bool> chosenBehavior;
     ProgressUp behaviorProcess;
 
     std::string* directory2;
-    vecstr* filelist2;
+    VecStr* filelist2;
     TemplateInfo* BehaviorTemplate2;
     std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>>* newAnimation2;
     std::vector<std::unique_ptr<registerAnimation>>* animationList2;

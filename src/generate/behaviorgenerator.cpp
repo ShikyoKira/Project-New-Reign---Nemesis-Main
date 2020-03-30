@@ -12,7 +12,7 @@
 using namespace std;
 
 boost::atomic_flag failedBehaviorFlag = BOOST_ATOMIC_FLAG_INIT;
-vecstr failedBehaviors;
+VecStr failedBehaviors;
 
 bool hkxcmdProcess(string xmlfile, string hkxfile, bool last)
 {
@@ -42,7 +42,7 @@ bool hkxcmdProcess(string xmlfile, string hkxfile, bool last)
     return true;
 }
 
-bool hkxcmdXmlInput(string hkxfile, vecstr& fileline)
+bool hkxcmdXmlInput(string hkxfile, VecStr& fileline)
 {
     string xmlfile = hkxfile + ".xml";
     string args    = "convert -v:xml \"" + hkxfile + ".hkx\" \"" + xmlfile + "\"";

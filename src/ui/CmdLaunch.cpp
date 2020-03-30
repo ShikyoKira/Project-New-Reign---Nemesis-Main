@@ -17,9 +17,9 @@ using namespace std;
 extern mutex processlock;
 extern condition_variable cv;
 extern bool processdone;
-extern map<string, vecstr> modinfo;
+extern map<string, VecStr> modinfo;
 
-void CmdGenerateInitialize(vecstr modlist)
+void CmdGenerateInitialize(VecStr modlist)
 {
     string modcode, errmsg;
 
@@ -34,8 +34,8 @@ void CmdGenerateInitialize(vecstr modlist)
         return;
     }
 
-    vecstr behaviorPriority;
-    vecstr hiddenModList = getHiddenMods();
+    VecStr behaviorPriority;
+    VecStr hiddenModList = getHiddenMods();
     unordered_map<string, bool> chosenBehavior;
 
     for (auto& mod : hiddenModList)

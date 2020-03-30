@@ -14,7 +14,7 @@
 
 using namespace std;
 
-bool ruleCheck(vecstr rules, vecstr curList, TemplateInfo& behaviortemplate, string lowerformat)
+bool ruleCheck(VecStr rules, VecStr curList, TemplateInfo& behaviortemplate, string lowerformat)
 {
     for (auto& rule : rules)
     {
@@ -118,7 +118,7 @@ registerAnimation::registerAnimation(string curDirectory,
             if (temp2.length() != 0 && hasInfo)
             {
                 line = temp2;
-                vecstr newAnimInfo;
+                VecStr newAnimInfo;
                 StringSplit(line, newAnimInfo);
 
                 if (newAnimInfo[0].length() == 0) ErrorMessage(1016, filename, linecount);
@@ -476,7 +476,7 @@ registerAnimation::registerAnimation(string curDirectory,
                             {
                                 if (behaviortemplate.optionlist[previousShortline].ruleTwo.size() != 0)
                                 {
-                                    vecstr AnimInfo;
+                                    VecStr AnimInfo;
                                     StringSplit(previousLine, AnimInfo);
 
                                     if (AnimInfo.size() > 3 && AnimInfo[1].length() > 0
@@ -484,7 +484,7 @@ registerAnimation::registerAnimation(string curDirectory,
                                     {
                                         string templine = AnimInfo[1];
                                         templine        = templine.substr(1);
-                                        vecstr curList;
+                                        VecStr curList;
                                         size_t numOption = count(templine.begin(), templine.end(), ',') + 1;
                                         size_t nextOption;
                                         size_t pos = 0;
@@ -528,7 +528,7 @@ registerAnimation::registerAnimation(string curDirectory,
                         {
                             string templine = newAnimInfo[1];
                             templine        = templine.substr(1);
-                            vecstr curList;
+                            VecStr curList;
                             size_t numOption = count(templine.begin(), templine.end(), ',') + 1;
                             size_t nextOption;
                             size_t pos = 0;
@@ -612,11 +612,11 @@ registerAnimation::registerAnimation(string curDirectory,
 
                     if (line[tempPreviousShortline.length() + 1] == '-')
                     {
-                        vecstr AnimInfo;
+                        VecStr AnimInfo;
                         StringSplit(line, AnimInfo);
                         string templine = AnimInfo[1];
                         templine        = templine.substr(1);
-                        vecstr curList;
+                        VecStr curList;
                         size_t numOption = count(templine.begin(), templine.end(), ',') + 1;
                         size_t nextOption;
                         size_t pos = 0;

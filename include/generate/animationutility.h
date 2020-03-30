@@ -10,12 +10,12 @@ struct NodePackedParameters;
 #include <unordered_map>
 #include <vector>
 
-typedef std::unordered_map<std::string, int> id;
+typedef std::unordered_map<std::string, int> ID;
 
 struct AnimationUtility
 {
-    id eventid;
-    id variableid;
+    ID eventid;
+    ID variableid;
     std::vector<int> fixedStateID;
     std::vector<int> stateCountMultiplier;
     bool hasGroup   = false;
@@ -31,8 +31,8 @@ struct AnimationUtility
     AnimationUtility()
     {}
     AnimationUtility(std::string condition,
-                     id eventid,
-                     id variableid,
+                     ID eventid,
+                     ID variableid,
                      std::vector<int> stateID,
                      std::vector<int> stateCountMultiplier,
                      bool hasGroup,

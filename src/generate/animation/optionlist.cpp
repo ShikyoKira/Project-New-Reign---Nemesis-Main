@@ -24,7 +24,7 @@ OptionList::OptionList(string filepath, string format)
 {
     templatecode = format;
     unordered_map<string, bool> isAddOn;
-    unordered_map<string, vecstr> linked;
+    unordered_map<string, VecStr> linked;
     FileReader input(filepath);
 
     if (input.GetFile())
@@ -47,7 +47,7 @@ OptionList::OptionList(string filepath, string format)
 
             if (strline.length() != 0 && strline[0] != '\'')
             {
-                vecstr AnimInfo;
+                VecStr AnimInfo;
                 StringSplit(strline, AnimInfo);
                 string lower = nemesis::to_lower_copy(AnimInfo[0]);
 
@@ -183,7 +183,7 @@ OptionList::OptionList(string filepath, string format)
                     for (uint i = 1; i < AnimInfo.size(); ++i)
                     {
                         string currentTab;
-                        vecstr linker;
+                        VecStr linker;
 
                         for (uint j = 1; j < AnimInfo.size(); ++j)
                         {
@@ -230,7 +230,7 @@ OptionList::OptionList(string filepath, string format)
                         if (opening == closing)
                         {
                             size_t nextpos = 0;
-                            vecstr import;
+                            VecStr import;
                             import.reserve(10);
 
                             for (int i = 0; i < opening; ++i)
@@ -264,7 +264,7 @@ OptionList::OptionList(string filepath, string format)
                     }
                     else
                     {
-                        vecstr import;
+                        VecStr import;
                         eleEvent.push_back(import);
                         eleEventLine.push_back(templine);
                     }
@@ -302,7 +302,7 @@ OptionList::OptionList(string filepath, string format)
                         if (opening == closing)
                         {
                             size_t nextpos = 0;
-                            vecstr import;
+                            VecStr import;
                             import.reserve(int(opening));
 
                             for (int i = 0; i < opening; ++i)
@@ -343,7 +343,7 @@ OptionList::OptionList(string filepath, string format)
                     }
                     else
                     {
-                        vecstr import;
+                        VecStr import;
 
                         if (isLast)
                         {
@@ -379,7 +379,7 @@ OptionList::OptionList(string filepath, string format)
                         if (opening == closing)
                         {
                             size_t nextpos = 0;
-                            vecstr import;
+                            VecStr import;
                             import.reserve(10);
 
                             for (int i = 0; i < opening; ++i)
@@ -408,7 +408,7 @@ OptionList::OptionList(string filepath, string format)
                     }
                     else
                     {
-                        vecstr import;
+                        VecStr import;
                         eleVar.push_back(import);
                         eleVarLine.push_back(templine);
                     }
@@ -444,7 +444,7 @@ OptionList::OptionList(string filepath, string format)
                         if (opening == closing)
                         {
                             size_t nextpos = 0;
-                            vecstr import;
+                            VecStr import;
                             import.reserve(10);
 
                             for (int i = 0; i < opening; ++i)
@@ -482,7 +482,7 @@ OptionList::OptionList(string filepath, string format)
                     }
                     else
                     {
-                        vecstr import;
+                        VecStr import;
 
                         if (isLast)
                         {

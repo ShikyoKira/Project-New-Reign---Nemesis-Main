@@ -10,7 +10,7 @@
 
 using namespace std;
 
-AnimationInfo::AnimationInfo(vecstr newAnimInfo,
+AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                              string curFilename,
                              OptionList behaviorOption,
                              int linecount,
@@ -40,11 +40,11 @@ AnimationInfo::AnimationInfo(vecstr newAnimInfo,
     {
         ++k;
         string anim = line.substr(1);
-        vecstr options;
+        VecStr options;
         StringSplit(line.substr(1), options, ",");
         unordered_map<string, bool> optionList = behaviorOption.storelist;
-        unordered_map<string, vecstr> joint    = behaviorOption.joint;
-        vecstr optionOrder                     = behaviorOption.optionOrder;
+        unordered_map<string, VecStr> joint    = behaviorOption.joint;
+        VecStr optionOrder                     = behaviorOption.optionOrder;
 
         for (auto& option : options)
         {
@@ -218,7 +218,7 @@ AnimationInfo::AnimationInfo(vecstr newAnimInfo,
 
     if (animInfo.size() > k + 3)
     {
-        vecstr animobjects;
+        VecStr animobjects;
         uint add = 3;
 
         while (k + add < animInfo.size())
@@ -240,7 +240,7 @@ void AnimationInfo::addFilename(string curFilename)
     filename = curFilename;
 }
 
-void AnimationInfo::storeAnimObject(vecstr animobjects, string listFilename, int linecount)
+void AnimationInfo::storeAnimObject(VecStr animobjects, string listFilename, int linecount)
 {
     size_t position;
 

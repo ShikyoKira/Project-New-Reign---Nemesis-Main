@@ -22,10 +22,10 @@ class NodeU
     bool NodeUpdate(std::string modcode,
                     std::string f2,
                     std::string f3,
-                    std::unique_ptr<std::map<std::string, vecstr, alphanum_less>>& newFile,
+                    std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>& newFile,
                     std::unique_ptr<SSMap>& stateID,
                     std::unique_ptr<SSMap>& parent,
-                    std::unique_ptr<std::unordered_map<std::string, vecstr>>& statelist,
+                    std::unique_ptr<std::unordered_map<std::string, VecStr>>& statelist,
                     std::unordered_map<std::string, std::string>& lastUpdate
 #if MULTITHREADED_UPDATE
                     ,
@@ -39,10 +39,10 @@ public:
     bool FunctionUpdate(std::string modcode,
                         std::string f2,
                         std::string f3,
-                        std::unique_ptr<std::map<std::string, vecstr, alphanum_less>>& newFile,
+                        std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>& newFile,
                         std::unique_ptr<SSMap>& stateID,
                         std::unique_ptr<SSMap>& parent,
-                        std::unique_ptr<std::unordered_map<std::string, vecstr>>& statelist,
+                        std::unique_ptr<std::unordered_map<std::string, VecStr>>& statelist,
                         std::unordered_map<std::string, std::string>& lastUpdate
 #if MULTITHREADED_UPDATE
                         ,

@@ -86,7 +86,7 @@ int formatGroupReplace(string& curline,
                        bool& innerError);
 void OutputCheckGroup(string format,
                       string behaviorFile,
-                      shared_ptr<vecstr> generatedlines,
+                      shared_ptr<VecStr> generatedlines,
                       proc& process,
                       condset* curset,
                       bool& elementCatch,
@@ -95,8 +95,8 @@ void OutputCheckGroup(string format,
                       size_t& elementLine,
                       int& counter,
                       int groupCount,
-                      id& eventid,
-                      id& variableid);
+                      ID& eventid,
+                      ID& variableid);
 void processing(string& line, shared_ptr<NodePackedParameters> parameters);
 bool specialCondition(string condition,
                       string filename,
@@ -107,13 +107,13 @@ bool specialCondition(string condition,
                       string masterformat,
                       AnimationUtility utility);
 
-GroupTemplate::GroupTemplate(vecstr grouptemplateformat, shared_ptr<AnimTemplate> n_grouptemplate)
+GroupTemplate::GroupTemplate(VecStr grouptemplateformat, shared_ptr<AnimTemplate> n_grouptemplate)
 {
     templatelines = grouptemplateformat;
     grouptemplate = n_grouptemplate;
 }
 
-void GroupTemplate::getFunctionLines(shared_ptr<vecstr> functionline,
+void GroupTemplate::getFunctionLines(shared_ptr<VecStr> functionline,
                                      string behaviorFile,
                                      string formatname,
                                      vector<int>& stateID,
@@ -121,8 +121,8 @@ void GroupTemplate::getFunctionLines(shared_ptr<vecstr> functionline,
                                      vector<vector<shared_ptr<AnimationInfo>>> newGroupAnimInfo,
                                      int nFunctionID,
                                      ImportContainer& import,
-                                     id newEventID,
-                                     id newVariableID,
+                                     ID newEventID,
+                                     ID newVariableID,
                                      string masterFormat,
                                      NewAnimLock& animLock,
                                      int groupCount)
@@ -255,19 +255,19 @@ void GroupTemplate::getFunctionLines(shared_ptr<vecstr> functionline,
     return;
 }
 
-void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
+void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                       string format,
                                       string masterFormat,
                                       string behaviorFile,
                                       int groupCount,
-                                      vecstr templatelines,
+                                      VecStr templatelines,
                                       unordered_map<int, bool>& IsConditionOpened,
                                       vector<vector<unordered_map<string, bool>>> masterOptionPicked,
                                       vector<int> fixedStateID)
 {
     unordered_map<string, string> IDExist;
-    vecstr tempstore;
-    vecstr templateID;
+    VecStr tempstore;
+    VecStr templateID;
     string multiOption;
     bool negative   = false;
     bool newOpen    = false;
@@ -504,7 +504,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
                         curOption = curOption.substr(1);
                     }
 
-                    vecstr optionInfo = GetOptionInfo(
+                    VecStr optionInfo = GetOptionInfo(
                         curOption, masterFormat, filename, i + 1, groupAnimInfo, false, true, groupCount);
 
                     if (error) throw nemesis::exception();
@@ -572,7 +572,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
                         curOption = curOption.substr(1);
                     }
 
-                    vecstr optionInfo = GetOptionInfo(
+                    VecStr optionInfo = GetOptionInfo(
                         curOption, masterFormat, filename, i + 1, groupAnimInfo, true, true, curGroup);
 
                     if (error) throw nemesis::exception();
@@ -845,7 +845,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
                 if ((line.find("#" + masterFormat + "$") != NOT_FOUND
                      || line.find("#" + masterFormat + "_group$") != NOT_FOUND))
                 {
-                    vecstr generator;
+                    VecStr generator;
                     size_t nextpos = -1;
 
                     if (line.find("\t\t\t#") != NOT_FOUND) { StringSplit(line, generator); }
@@ -1405,7 +1405,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
                                             && (curLine.find("#" + masterFormat + "$") != NOT_FOUND
                                                 || curLine.find("#" + masterFormat + "_group$") != NOT_FOUND))
                                         {
-                                            vecstr generator;
+                                            VecStr generator;
                                             StringSplit(curLine, generator);
                                             size_t nextpos = 0;
 
@@ -1611,25 +1611,25 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
     if (newOpen) { ErrorMessage(1116, format, filename, templatelines.size()); }
 }
 
-vecstr
+VecStr
 ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
-                                               vecstr existingFunctionLines,
+                                               VecStr existingFunctionLines,
                                                shared_ptr<master> newSubFunctionIDs,
                                                vector<vector<shared_ptr<AnimationInfo>>> newGroupAnimInfo,
                                                string curformat,
                                                ImportContainer& import,
-                                               id newEventID,
-                                               id newVariableID,
+                                               ID newEventID,
+                                               ID newVariableID,
                                                int& nFunctionID,
                                                bool hasMaster,
                                                bool hasGroup,
-                                               setstr templateGroup,
+                                               SetStr templateGroup,
                                                bool ignoreGroup)
 {
-    vecstr newFunctionLines;
+    VecStr newFunctionLines;
 
-    vecstr tempstore;
-    vecstr empty;
+    VecStr tempstore;
+    VecStr empty;
 
     newImport      = const_cast<ImportContainer*>(&import);
     nextFunctionID = const_cast<int*>(&nFunctionID);
@@ -2016,7 +2016,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                             if (curOption.find(format + "[") != NOT_FOUND && curOption.find("]") != NOT_FOUND)
                             {
                                 int pos           = 0;
-                                vecstr formatInfo = GetOptionInfo(
+                                VecStr formatInfo = GetOptionInfo(
                                     curOption, format, IDFileName, i + 1, groupAnimInfo, false, true);
 
                                 if (formatInfo[2].find("AnimObject") != NOT_FOUND)
@@ -2093,7 +2093,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                     && curOption.find("]") != NOT_FOUND)
                                 {
                                     int pos           = 0;
-                                    vecstr formatInfo = GetOptionInfo(
+                                    VecStr formatInfo = GetOptionInfo(
                                         curOption, format, IDFileName, i + 1, groupAnimInfo, true, true);
 
                                     open       = true;
@@ -2492,7 +2492,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                                 || curLine.find("#" + format + "_group$") != NOT_FOUND
                                                 || curLine.find("#" + format + "_master") != NOT_FOUND))
                                         {
-                                            vecstr generator;
+                                            VecStr generator;
                                             StringSplit(curLine, generator);
                                             size_t nextpos = 0;
 
@@ -2777,8 +2777,8 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
     return newFunctionLines;
 }
 
-void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines,
-                                              vecstr& newFunctionLines,
+void ExistingFunction::outPutExistingFunction(VecStr& existingFunctionLines,
+                                              VecStr& newFunctionLines,
                                               bool isGroup,
                                               bool isMaster,
                                               bool ignoreGroup,
@@ -2805,7 +2805,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines,
     uint condition         = 0;
     uint scope             = 0;
 
-    vecstr tempstore;
+    VecStr tempstore;
     unordered_map<int, bool> IsConditionOpened;
     IsConditionOpened[0] = true;
 
@@ -3081,7 +3081,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines,
                                     && curOption.find("]") != NOT_FOUND)
                                 {
                                     int pos           = 0;
-                                    vecstr formatInfo = GetOptionInfo(
+                                    VecStr formatInfo = GetOptionInfo(
                                         curOption, format, IDFileName, i + 1, groupAnimInfo, false, true);
 
                                     if (formatInfo[2].find("AnimObject") != NOT_FOUND)
@@ -3162,7 +3162,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines,
                                     && curOption.find("]") != NOT_FOUND)
                                 {
                                     int pos           = 0;
-                                    vecstr formatInfo = GetOptionInfo(
+                                    VecStr formatInfo = GetOptionInfo(
                                         curOption, format, IDFileName, i + 1, groupAnimInfo, true, true);
 
                                     if (isNot) { skip = true; }
@@ -3247,7 +3247,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines,
 
             string templine = line;
             pos             = templine.find("[");
-            vecstr optionInfo;
+            VecStr optionInfo;
             optionInfo.push_back(templine.substr(0, pos));
             templine = templine.substr(templine.find("[", pos) + 1);
 
@@ -3633,7 +3633,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines,
                                                 || curLine.find("#" + format + "_group$") != NOT_FOUND
                                                 || curLine.find("#" + format + "_master") != NOT_FOUND))
                                         {
-                                            vecstr generator;
+                                            VecStr generator;
                                             StringSplit(curLine, generator);
                                             size_t nextpos = 0;
 
@@ -3948,8 +3948,8 @@ void GroupTemplate::processing(string& line,
                                string filename,
                                string masterFormat,
                                int linecount,
-                               id eventid,
-                               id variableid,
+                               ID eventid,
+                               ID variableid,
                                int groupMulti,
                                int optionMulti,
                                int animMulti,
@@ -4479,8 +4479,8 @@ void ExistingFunction::processing(string& line,
                                   string filename,
                                   int curFunctionID,
                                   int linecount,
-                                  id eventid,
-                                  id variableid,
+                                  ID eventid,
+                                  ID variableid,
                                   int groupMulti,
                                   int optionMulti,
                                   int animMulti,
@@ -5112,7 +5112,7 @@ void multiChoice(string& line,
 
         for (int i = 0; i < choicecount; ++i)
         {
-            vecstr opt;
+            VecStr opt;
             vector<char> storechar;
             nextposition   = line.find("<!-- ", nextposition) + 5;
             string tempstr = line.substr(nextposition, line.find(" ", nextposition) - nextposition);
@@ -5195,8 +5195,8 @@ bool specialCondition(string condition,
     bool oneTime;
     string oriCondition1 = condition.substr(1, pos - 1);
     string oriCondition2 = condition.substr(pos + 2);
-    vecstr optionInfo1;
-    vecstr optionInfo2;
+    VecStr optionInfo1;
+    VecStr optionInfo2;
 
     // <optionA != optionB>*
     // only need to fulfill the condition once
@@ -5352,13 +5352,13 @@ bool specialCondition(string condition,
                         }
                         else if (optionInfo1.size() > 4)
                         {
-                            unordered_map<string, vecstr>* addOnPtr
+                            unordered_map<string, VecStr>* addOnPtr
                                 = &groupAnimInfo[groupMulti1][animMulti1]->addOn;
 
                             if (addOnPtr->find(optionInfo1[3]) != addOnPtr->end()
                                 && (*addOnPtr)[optionInfo1[3]].size() > 0)
                             {
-                                unordered_map<string, vecstr>* groupAdditionPtr
+                                unordered_map<string, VecStr>* groupAdditionPtr
                                     = &groupAnimInfo[groupMulti1][animMulti1]->groupAddition[optionInfo1[3]];
 
                                 if (groupAdditionPtr->find(optionInfo1[4]) != groupAdditionPtr->end()
@@ -5399,13 +5399,13 @@ bool specialCondition(string condition,
                         }
                         else if (optionInfo2.size() > 4)
                         {
-                            unordered_map<string, vecstr>* addOnPtr
+                            unordered_map<string, VecStr>* addOnPtr
                                 = &groupAnimInfo[groupMulti2][animMulti2]->addOn;
 
                             if (addOnPtr->find(optionInfo2[3]) != addOnPtr->end()
                                 && (*addOnPtr)[optionInfo2[3]].size() > 0)
                             {
-                                unordered_map<string, vecstr>* groupAdditionPtr
+                                unordered_map<string, VecStr>* groupAdditionPtr
                                     = &groupAnimInfo[groupMulti2][animMulti2]->groupAddition[optionInfo2[3]];
 
                                 if (groupAdditionPtr->find(optionInfo2[4]) != groupAdditionPtr->end()
@@ -6812,7 +6812,7 @@ namespace backup
     }
 } // namespace backup
 
-vecstr GetOptionInfo(string line,
+VecStr GetOptionInfo(string line,
                      string format,
                      string filename,
                      int numline,
@@ -6826,7 +6826,7 @@ vecstr GetOptionInfo(string line,
 {
     int lastGroup = groupAnimInfo.size() - 1;
     int limiter   = isCondition ? 4 : 5;
-    vecstr optionInfo;
+    VecStr optionInfo;
 
     if (line.find(format + "_group[") != NOT_FOUND && groupAnimInfo.size() != 0
         && groupMulti < int(groupAnimInfo.size()))
@@ -6976,7 +6976,7 @@ vecstr GetOptionInfo(string line,
     return optionInfo;
 }
 
-void nonGroupOptionInfo(vecstr& optionInfo,
+void nonGroupOptionInfo(VecStr& optionInfo,
                         string line,
                         string format,
                         string filename,
@@ -7046,7 +7046,7 @@ void nonGroupOptionInfo(vecstr& optionInfo,
     }
 }
 
-void optionLimiter(vecstr optionInfo,
+void optionLimiter(VecStr optionInfo,
                    string line,
                    string format,
                    string filename,
@@ -7245,7 +7245,7 @@ bool conditionProcess(string condition,
 
             while (formatGroup < groupEnd)
             {
-                vecstr optionInfo = GetOptionInfo(condition,
+                VecStr optionInfo = GetOptionInfo(condition,
                                                   masterformat,
                                                   filename,
                                                   numline,
@@ -7283,7 +7283,7 @@ bool conditionProcess(string condition,
 
         while (formatGroup < int(groupAnimInfo[utility.groupMulti].size()))
         {
-            vecstr optionInfo = GetOptionInfo(condition,
+            VecStr optionInfo = GetOptionInfo(condition,
                                               masterformat,
                                               filename,
                                               numline,
@@ -7335,7 +7335,7 @@ bool conditionProcess(string condition,
     }
     else
     {
-        vecstr optionInfo = GetOptionInfo(condition,
+        VecStr optionInfo = GetOptionInfo(condition,
                                           masterformat,
                                           filename,
                                           numline,
@@ -7547,7 +7547,7 @@ int formatGroupReplace(string& curline,
     }
 
     string originalLine = curline.substr(point, curPoint - point);
-    vecstr groupline    = GetOptionInfo(originalLine,
+    VecStr groupline    = GetOptionInfo(originalLine,
                                      format,
                                      filename,
                                      linecount,
@@ -7685,7 +7685,7 @@ int formatGroupReplace(string& curline,
 
 void OutputCheckGroup(string format,
                       string behaviorFile,
-                      shared_ptr<vecstr> generatedlines,
+                      shared_ptr<VecStr> generatedlines,
                       proc& process,
                       condset* curset,
                       bool& elementCatch,
@@ -7694,8 +7694,8 @@ void OutputCheckGroup(string format,
                       size_t& elementLine,
                       int& counter,
                       int groupCount,
-                      id& eventid,
-                      id& variableid)
+                      ID& eventid,
+                      ID& variableid)
 {
     for (auto& curstack : curset->lines)
     {
@@ -7703,7 +7703,7 @@ void OutputCheckGroup(string format,
         bool hasProcess = false;
         elementCatch    = false;
         string line;
-        vecstr lineblocks;
+        VecStr lineblocks;
 
         if (curstack.nestedcond.size() == 0)
         {

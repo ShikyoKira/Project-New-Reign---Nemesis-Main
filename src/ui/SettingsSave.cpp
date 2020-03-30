@@ -83,7 +83,7 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
     }
 
     std::string filename = "cache\\language setting";
-    vecstr storeline;
+    VecStr storeline;
 
     auto errFunc = [](std::string& language) {
         QMessageBox* msg = new QMessageBox;

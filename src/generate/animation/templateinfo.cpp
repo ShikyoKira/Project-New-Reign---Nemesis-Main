@@ -14,7 +14,7 @@ TemplateInfo::TemplateInfo()
 {
     string templateDirectory = "behavior templates\\";
     string newpath;
-    vecstr codelist;
+    VecStr codelist;
     set<string> corelist;
     read_directory(templateDirectory, codelist);
 
@@ -33,7 +33,7 @@ TemplateInfo::TemplateInfo()
 
             if (sf::is_directory(FOF))
             {
-                vecstr folderlist;
+                VecStr folderlist;
                 read_directory(newpath, folderlist);
                 bool isCore        = false;
                 bool isOptionExist = false;
@@ -71,7 +71,7 @@ TemplateInfo::TemplateInfo()
                 {
                     if (sf::is_directory(pathVector[l]))
                     {
-                        vecstr filelist;
+                        VecStr filelist;
                         newpath = pathVector[l].string();
                         read_directory(newpath, filelist);
                         string behaviorFolder      = pathVector[l].stem().string();
@@ -154,7 +154,7 @@ TemplateInfo::TemplateInfo()
                                         existingFunctionID[code][lowerBehaviorFolder].push_back(stoi(number));
                                     }
 
-                                    vecstr storeline;
+                                    VecStr storeline;
 
                                     if (!GetFunctionLines(newpath, storeline)) return;
 
@@ -190,7 +190,7 @@ TemplateInfo::TemplateInfo()
                             {
                                 if (sf::is_directory(newpath))
                                 {
-                                    vecstr headerlist;
+                                    VecStr headerlist;
                                     read_directory(newpath, headerlist);
                                     grouplist[lowerBehaviorFolder].insert(code);
                                     string project = filelist[i] + ".txt";
@@ -230,7 +230,7 @@ TemplateInfo::TemplateInfo()
                             {
                                 if (sf::is_directory(newpath) && filelist[i].find("~") != NOT_FOUND)
                                 {
-                                    vecstr headerlist;
+                                    VecStr headerlist;
                                     read_directory(newpath, headerlist);
                                     grouplist[lowerBehaviorFolder].insert(code);
                                     string project = filelist[i] + ".txt";

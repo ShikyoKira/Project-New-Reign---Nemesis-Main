@@ -16,7 +16,7 @@ bool AddAnims(string& line,
               string behaviorFile,
               string lowerBehaviorFile,
               string& newMod,
-              vecstr& storeline,
+              VecStr& storeline,
               int& counter,
               unordered_map<string, bool>& isAdded,
               bool& addAnim)

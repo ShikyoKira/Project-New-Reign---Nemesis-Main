@@ -130,8 +130,8 @@ void BehaviorSub::BehaviorCompilation()
 }
 
 void BehaviorSub::modPick(unordered_map<string, vector<shared_ptr<string>>>& modEditStore,
-                          vecstr& catalyst,
-                          vecstr& modLine,
+                          VecStr& catalyst,
+                          VecStr& modLine,
                           bool& hasDeleted)
 {
     if (!modPickProcess(modEditStore, catalyst, modLine, hasDeleted))
@@ -148,8 +148,8 @@ void BehaviorSub::modPick(unordered_map<string, vector<shared_ptr<string>>>& mod
 }
 
 bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>>>& modEditStore,
-                                 vecstr& catalyst,
-                                 vecstr& modLine,
+                                 VecStr& catalyst,
+                                 VecStr& modLine,
                                  bool& hasDeleted)
 {
     if (modEditStore.size() > 0) return false;
@@ -181,7 +181,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>
     }
 
     elePoint.push_back(orig.size());
-    vecstr storeline;
+    VecStr storeline;
     storeline.reserve(modEditStore["current"].size());
 
     for (uint i = 0; i < elePoint.back() - 1; ++i)
@@ -253,18 +253,18 @@ void BehaviorSub::CompilingBehavior()
     unordered_map<string, bool> orievent;
     unordered_map<string, bool> orivariable;
 
-    id eventid;
-    id variableid;
-    id attriid;
-    id charid;
+    ID eventid;
+    ID variableid;
+    ID attriid;
+    ID charid;
 
-    unordered_map<int, unordered_map<string, vecstr>>
+    unordered_map<int, unordered_map<string, VecStr>>
         clipAA; // node id, original animation, list of alternative animations path
     unordered_map<string, vector<IDCatcher>> catcher;
 
     SSMap IDExist;
-    map<int, vecstr> catalystMap;
-    vecstr characterFiles;
+    map<int, VecStr> catalystMap;
+    VecStr characterFiles;
 
     set<string> pceaMod;
     unordered_map<int, vector<PCEAData>*> pceaID; // node ID, list of mods
@@ -344,8 +344,8 @@ void BehaviorSub::CompilingBehavior()
         set<string> AAEventName;
 
         // read behavior file
-        vecstr catalyst;
-        vecstr modLine;
+        VecStr catalyst;
+        VecStr modLine;
 
         if (!sf::is_directory(filepath))
         {
@@ -604,7 +604,7 @@ void BehaviorSub::CompilingBehavior()
                 }
                 else
                 {
-                    vecstr storeline;
+                    VecStr storeline;
                     hkxcmdXmlInput(rigfile.substr(0, rigfile.find_last_of(".")), storeline);
                     bonemap = "<hkparam name=\"parentIndices\" numelements=\"";
 
@@ -884,7 +884,7 @@ void BehaviorSub::CompilingBehavior()
                     }
                     else if (line.find("\t\t\t#") != NOT_FOUND)
                     {
-                        vecstr generator;
+                        VecStr generator;
                         StringSplit(line, generator);
                         line.append("%");
 
@@ -1166,7 +1166,7 @@ void BehaviorSub::CompilingBehavior()
                                           eventName);
                             }
 
-                            setstr codelist = BehaviorTemplate->grouplist[lowerBehaviorFile];
+                            SetStr codelist = BehaviorTemplate->grouplist[lowerBehaviorFile];
 
                             for (auto& templatecode : codelist)
                             {
@@ -1273,7 +1273,7 @@ void BehaviorSub::CompilingBehavior()
                                     }
                                 }
 
-                                setstr codelist = BehaviorTemplate->grouplist[lowerBehaviorFile];
+                                SetStr codelist = BehaviorTemplate->grouplist[lowerBehaviorFile];
 
                                 for (auto& templatecode : codelist)
                                 {
@@ -1876,7 +1876,7 @@ void BehaviorSub::CompilingBehavior()
     process->newMilestone();
 
     // add new animation
-    vector<shared_ptr<vecstr>> allEditLines;
+    vector<shared_ptr<VecStr>> allEditLines;
     unordered_map<string, bool> isCoreDone;
     unordered_map<int, int> functionState;
     unordered_map<int, shared_ptr<NodeJoint>> existingNodes;
@@ -1889,10 +1889,10 @@ void BehaviorSub::CompilingBehavior()
     {
         for (auto& templateCode : BehaviorTemplate->grouplist[lowerBehaviorFile])
         {
-            vecstr opening;
+            VecStr opening;
             opening.push_back("<!-- ======================== NEMESIS " + templateCode
                               + " TEMPLATE START ======================== -->");
-            allEditLines.emplace_back(make_shared<vecstr>(opening));
+            allEditLines.emplace_back(make_shared<VecStr>(opening));
             bool hasGroup    = false;
             bool hasMaster   = false;
             bool ignoreGroup = false;
@@ -1928,8 +1928,8 @@ void BehaviorSub::CompilingBehavior()
                 vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo;
 
                 {
-                    vecstr space{""};
-                    allEditLines.emplace_back(make_shared<vecstr>(space));
+                    VecStr space{""};
+                    allEditLines.emplace_back(make_shared<VecStr>(space));
                 }
 
                 if (newAnimation[templateCode].size() != 0 && !newAnimSkip(newAnimation[templateCode], modID))
@@ -2001,7 +2001,7 @@ void BehaviorSub::CompilingBehavior()
                                         subFunctionIDs->singlelist.back()
                                             ->format["Nemesis" + modID + lowerBehaviorFile + to_string(k)]
                                             = to_string(k);
-                                        allEditLines.emplace_back(make_shared<vecstr>());
+                                        allEditLines.emplace_back(make_shared<VecStr>());
                                         dummyAnimation = newAnimation[templateCode][k];
 
                                         shared_ptr<NewAnimArgs> args = make_shared<NewAnimArgs>(
@@ -2081,7 +2081,7 @@ void BehaviorSub::CompilingBehavior()
                                         subFunctionIDs->singlelist.back()
                                             ->format["Nemesis" + modID + lowerBehaviorFile + to_string(k)]
                                             = to_string(k);
-                                        allEditLines.emplace_back(make_shared<vecstr>());
+                                        allEditLines.emplace_back(make_shared<VecStr>());
                                         dummyAnimation = newAnimation[templateCode][k];
 
                                         shared_ptr<NewAnimArgs> args = make_shared<NewAnimArgs>(
@@ -2220,7 +2220,7 @@ void BehaviorSub::CompilingBehavior()
                             {
                                 try
                                 {
-                                    allEditLines.emplace_back(make_shared<vecstr>());
+                                    allEditLines.emplace_back(make_shared<VecStr>());
                                     shared_ptr<GroupTemplate> groupTemp = make_shared<GroupTemplate>(
                                         BehaviorTemplate->behaviortemplate[filename][lowerBehaviorFile],
                                         grouptemplate_pack);
@@ -2284,7 +2284,7 @@ void BehaviorSub::CompilingBehavior()
                                 mastertemplate_pack);
                             masterTemp->setZeroEvent(ZeroEvent);
                             masterTemp->setZeroVariable(ZeroVariable);
-                            allEditLines.emplace_back(make_shared<vecstr>());
+                            allEditLines.emplace_back(make_shared<VecStr>());
                             masterTemp->getFunctionLines(allEditLines.back(),
                                                          lowerBehaviorFile,
                                                          filename,
@@ -2376,11 +2376,11 @@ void BehaviorSub::CompilingBehavior()
                     + " COMPLETE)");
             }
 
-            vecstr closing;
+            VecStr closing;
             closing.push_back("<!-- ======================== NEMESIS " + templateCode
                               + " TEMPLATE END ======================== -->");
             closing.push_back("");
-            allEditLines.emplace_back(make_unique<vecstr>(closing));
+            allEditLines.emplace_back(make_unique<VecStr>(closing));
         }
     }
 
@@ -2397,7 +2397,7 @@ void BehaviorSub::CompilingBehavior()
     process->newMilestone();
 
     // AA animation installation
-    vecstr AAlines;
+    VecStr AAlines;
 
     if (clipAA.size() != 0)
     {
@@ -2408,7 +2408,7 @@ void BehaviorSub::CompilingBehavior()
         for (auto iter = clipAA.begin(); iter != clipAA.end(); ++iter)
         {
             bool isChange = false;
-            vecstr msglines;
+            VecStr msglines;
 
             if (error) throw nemesis::exception();
 
@@ -2425,7 +2425,7 @@ void BehaviorSub::CompilingBehavior()
 
                 if (!isChange) break;
 
-                vecstr children;
+                VecStr children;
                 string groupName  = AAGroup[it->first];
                 string importline = to_string(iter->first);
 
@@ -2513,7 +2513,7 @@ void BehaviorSub::CompilingBehavior()
                 msglines.push_back("		</hkobject>");
                 msglines.push_back("");
 
-                unordered_map<string, vecstr> triggerID;
+                unordered_map<string, VecStr> triggerID;
                 string name;
                 string animpath;
 
@@ -2685,7 +2685,7 @@ void BehaviorSub::CompilingBehavior()
                      + " (Check point 4.4, AA count: " + to_string(clipAA.size()) + " COMPLETE)");
     }
 
-    vecstr PCEALines;
+    VecStr PCEALines;
 
     if (pceaID.size() > 0)
     {
@@ -2695,7 +2695,7 @@ void BehaviorSub::CompilingBehavior()
 
         for (auto& datalist : pceaID)
         {
-            vector<vecstr> lineRe;
+            vector<VecStr> lineRe;
             string importline = to_string(datalist.first);
 
             if (error) throw nemesis::exception();
@@ -2708,7 +2708,7 @@ void BehaviorSub::CompilingBehavior()
                 }
 
                 // populating manual selector generator
-                vecstr msglines;
+                VecStr msglines;
                 msglines.push_back("		<hkobject name=\"#" + importline
                                    + "\" class=\"hkbManualSelectorGenerator\" signature=\"0xd932fab8\">");
                 importline = "variableID[" + data->modFile + "]";
@@ -2797,7 +2797,7 @@ void BehaviorSub::CompilingBehavior()
                 lineRe.push_back(msglines);
             }
 
-            vecstr msglines;
+            VecStr msglines;
             msglines.push_back("		<hkobject name=\"#" + importline
                                + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
             msglines.insert(
@@ -2824,13 +2824,13 @@ void BehaviorSub::CompilingBehavior()
     process->newMilestone();
 
     size_t reserveSize = 0;
-    vecstr behaviorlines;
+    VecStr behaviorlines;
 
     // output import functions
     // Must be in vector
     vector<ImportContainer> groupExportID;
     groupExportID.push_back(exportID);
-    vecstr additionallines = importOutput(groupExportID, 0, lastID, filelist[curList]);
+    VecStr additionallines = importOutput(groupExportID, 0, lastID, filelist[curList]);
 
     process->newMilestone();
 
@@ -3035,9 +3035,9 @@ void BehaviorSub::CompilingBehavior()
 }
 
 void BehaviorSub::addInfo(string& newDirectory,
-                          vecstr& newfilelist,
+                          VecStr& newfilelist,
                           int newCurList,
-                          vecstr& newBehaviorPriority,
+                          VecStr& newBehaviorPriority,
                           unordered_map<string, bool>& newChosenBehavior,
                           shared_ptr<TemplateInfo> newBehaviorTemplate,
                           unordered_map<string, vector<shared_ptr<NewAnimation>>>& addAnimation,

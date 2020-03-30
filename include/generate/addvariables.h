@@ -2,7 +2,7 @@
 #define ADDVARIABLES_H_
 
 bool AddVariables(const std::string& curNum,
-                  vecstr& storeline,
+                  VecStr& storeline,
                   const std::string& variablename,
                   std::unordered_map<std::string, bool> orivariable,
                   std::unordered_map<std::string, bool>& isExist,

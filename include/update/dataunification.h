@@ -22,20 +22,20 @@ bool animDataHeaderUpdate(std::string folderpath,
 bool newAnimUpdateExt(std::string folderpath,
                       std::string modcode,
                       std::string behaviorfile,
-                      std::map<std::string, vecstr, alphanum_less>& newFile,
-                      std::map<std::string, vecstr>& newAnimAddition,
+                      std::map<std::string, VecStr, alphanum_less>& newFile,
+                      std::map<std::string, VecStr>& newAnimAddition,
                       std::unordered_map<std::string, std::string>& lastUpdate);
 bool newAnimDataUpdateExt(std::string folderpath,
                           std::string modcode,
                           std::string characterfile,
                           MasterAnimData& animData,
-                          std::map<std::string, vecstr>& newAnimAddition,
+                          std::map<std::string, VecStr>& newAnimAddition,
                           std::unordered_map<std::string, std::string>& lastUpdate);
 bool newAnimDataSetUpdateExt(std::string folderpath,
                              std::string modcode,
                              std::string characterfile,
                              MasterAnimSetData& animSetData,
-                             std::map<std::string, vecstr>& newAnimAddition,
+                             std::map<std::string, VecStr>& newAnimAddition,
                              std::unordered_map<std::string, std::string>& lastUpdate);
 
 template <typename list>
@@ -50,9 +50,9 @@ void comparing(std::vector<list>& storeline,
                std::string filename,
                int counter)
 {
-    vecstr combinelines;
-    vecstr newlines;
-    vecstr extract;
+    VecStr combinelines;
+    VecStr newlines;
+    VecStr extract;
     int linecount = 0;
     bool close    = false;
 

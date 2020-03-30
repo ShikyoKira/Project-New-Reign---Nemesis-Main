@@ -6,7 +6,7 @@
 #include "generate/animation/optionlist.h"
 #include "generate/animation/templateprocessing.h"
 
-typedef void (proc::*funcptr)(range, vecstr&);
+typedef void (proc::*funcptr)(range, VecStr&);
 
 struct condset;
 
@@ -15,7 +15,7 @@ struct stackline
     bool hasProcess;
     size_t linecount;
     std::string line;
-    vecstr lineblocks;
+    VecStr lineblocks;
     std::vector<condset> nestedcond;
 
     stackline()
@@ -52,8 +52,8 @@ public:
     size_t cmp1_high;
     size_t cmp2_high;
 
-    vecstr cmp1;
-    vecstr cmp2;
+    VecStr cmp1;
+    VecStr cmp2;
 
     bool cmpbool1 = false;
     bool cmpbool2 = false;
@@ -64,11 +64,11 @@ public:
     std::map<int, std::vector<std::shared_ptr<range>>> cmp1_block;
     std::map<int, std::vector<std::shared_ptr<range>>> cmp2_block;
 
-    std::shared_ptr<vecstr> optioncondt;
+    std::shared_ptr<VecStr> optioncondt;
     std::shared_ptr<condt> nestedcond;
     std::shared_ptr<condt> next;
 
-    vecstr olddata;
+    VecStr olddata;
     std::vector<int> olddataint;
 
     condt(std::string condition,
@@ -197,7 +197,7 @@ public:
 
     void ExamineTemplate(std::string n_format,
                          std::string n_file,
-                         vecstr templatelines,
+                         VecStr templatelines,
                          bool isGroup,
                          bool isMaster,
                          OptionList optionlist);

@@ -455,8 +455,8 @@ void NemesisEngine::handleLaunch()
     ui.animProgressBar->newValue(0);
     ui.animProgressBar->setFormat("0 animation(s)");
 
-    vecstr behaviorPriority;
-    vecstr hiddenModList = getHiddenMods();
+    VecStr behaviorPriority;
+    VecStr hiddenModList = getHiddenMods();
     std::unordered_map<std::string, bool> chosenBehavior;
 
     for (auto& mod : hiddenModList)

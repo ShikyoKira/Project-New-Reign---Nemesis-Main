@@ -23,19 +23,19 @@ void CombineAnimData(string filename,
                      string characterfile,
                      string modcode,
                      string filepath,
-                     vecstr storeline,
-                     vecstr originallines,
+                     VecStr storeline,
+                     VecStr originallines,
                      MasterAnimData& animData,
                      bool isHeader);
 
 bool newAnimUpdateExt(string folderpath,
                       string modcode,
                       string behaviorfile,
-                      map<string, vecstr, alphanum_less>& newFile,
-                      map<string, vecstr>& newAnimAddition,
+                      map<string, VecStr, alphanum_less>& newFile,
+                      map<string, VecStr>& newAnimAddition,
                       unordered_map<string, string>& lastUpdate)
 {
-    vecstr nodelist;
+    VecStr nodelist;
     read_directory(folderpath + "\\" + behaviorfile, nodelist);
 
     for (uint k = 0; k < nodelist.size(); ++k)
@@ -46,7 +46,7 @@ bool newAnimUpdateExt(string folderpath,
         if (std::filesystem::is_directory(curfile)) continue;
 
         string filename = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
-        vecstr storeline;
+        VecStr storeline;
 
         if (!saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate)) return false;
 
@@ -59,7 +59,7 @@ bool newAnimUpdateExt(string folderpath,
             continue;
         }
 
-        vecstr newline;
+        VecStr newline;
         bool start         = false;
         uint row   = 0;
         uint scope = 0;
@@ -89,7 +89,7 @@ bool newAnimUpdateExt(string folderpath,
                 {
                     if (curline.find("			#") != NOT_FOUND)
                     {
-                        vecstr curElements;
+                        VecStr curElements;
                         StringSplit(curline, curElements);
 
                         for (auto& element : curElements)
@@ -112,7 +112,7 @@ bool newAnimUpdateExt(string folderpath,
         storeline = newline;
 
         string nodeID        = nodelist[k].substr(0, nodelist[k].find_last_of("."));
-        vecstr originallines = newFile[nodeID];
+        VecStr originallines = newFile[nodeID];
 
         if (originallines.size() == 0) ErrorMessage(1170, modcode, curfile.string());
 
@@ -122,8 +122,8 @@ bool newAnimUpdateExt(string folderpath,
         int linecount     = 0;
         int conditionLvl  = 0;
         scope             = 0;
-        vecstr newlines;
-        vecstr combinelines;
+        VecStr newlines;
+        VecStr combinelines;
 
         for (uint i = 0; i < storeline.size(); ++i)
         {
@@ -258,7 +258,7 @@ bool animDataHeaderUpdate(string folderpath,
                           MasterAnimData& animData,
                           unordered_map<string, string>& lastUpdate)
 {
-    vecstr storeline;
+    VecStr storeline;
 
     if (!GetFunctionLines(folderpath, storeline)) return false;
 
@@ -282,10 +282,10 @@ bool newAnimDataUpdateExt(string folderpath,
                           string modcode,
                           string characterfile,
                           MasterAnimData& animData,
-                          map<string, vecstr>& newAnimAddition,
+                          map<string, VecStr>& newAnimAddition,
                           unordered_map<string, string>& lastUpdate)
 {
-    vecstr headerlist;
+    VecStr headerlist;
     read_directory(folderpath, headerlist);
 
     for (uint k = 0; k < headerlist.size(); ++k)
@@ -296,7 +296,7 @@ bool newAnimDataUpdateExt(string folderpath,
         if (std::filesystem::is_directory(curfile)) continue;
 
         string filename = curfile.stem().string();
-        vecstr storeline;
+        VecStr storeline;
 
         if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
 
@@ -393,13 +393,13 @@ bool newAnimDataSetUpdateExt(string folderpath,
                              string modcode,
                              string projectfile,
                              MasterAnimSetData& animSetData,
-                             map<string, vecstr>& newAnimAddition,
+                             map<string, VecStr>& newAnimAddition,
                              unordered_map<string, string>& lastUpdate)
 {
     if (animSetData.newAnimSetData.find(projectfile) == animSetData.newAnimSetData.end()) return true;
 
-    vecstr datalist;
-    vecstr headerfile;
+    VecStr datalist;
+    VecStr headerfile;
     read_directory(folderpath, headerfile);
 
     for (uint k = 0; k < headerfile.size(); ++k)
@@ -413,7 +413,7 @@ bool newAnimDataSetUpdateExt(string folderpath,
 
         if (!saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate)) return false;
 
-        vecstr storeline;
+        VecStr storeline;
         string lowerheader = nemesis::to_lower_copy(curfile.stem().string());
 
         if (!GetFunctionLines(filename, storeline)) return false;
@@ -428,14 +428,14 @@ bool newAnimDataSetUpdateExt(string folderpath,
         if (animSetData.newAnimSetData[projectfile].find(lowerheader)
             != animSetData.newAnimSetData[projectfile].end())
         {
-            vecstr originallines = animSetData.newAnimSetData[projectfile][lowerheader];
+            VecStr originallines = animSetData.newAnimSetData[projectfile][lowerheader];
             bool close           = false;
             unordered_map<int, bool> conditionOpen;
             bool conditionOri = false;
             int linecount     = 0;
             int conditionLvl  = 0;
-            vecstr newlines;
-            vecstr combinelines;
+            VecStr newlines;
+            VecStr combinelines;
 
             for (string& line : storeline)
             {
@@ -543,13 +543,13 @@ bool newAnimDataSetUpdateExt(string folderpath,
 
 void behaviorJointsOutput()
 {
-    unordered_map<string, vecstr> combinedBehaviorJoints;
+    unordered_map<string, VecStr> combinedBehaviorJoints;
 
     for (auto it = behaviorJoints.begin(); it != behaviorJoints.end(); ++it)
     {
         for (uint i = 0; i < it->second.size(); ++i)
         {
-            vecstr temp = it->second;
+            VecStr temp = it->second;
 
             while (!behaviorJoints[temp[i].data()].empty())
             {
@@ -591,8 +591,8 @@ void CombineAnimData(string filename,
                      string characterfile,
                      string modcode,
                      string filepath,
-                     vecstr storeline,
-                     vecstr originallines,
+                     VecStr storeline,
+                     VecStr originallines,
                      MasterAnimData& animData,
                      bool isHeader)
 {
@@ -608,8 +608,8 @@ void CombineAnimData(string filename,
     int type;
     int start = 0;
 
-    vecstr newlines;
-    vecstr combinelines;
+    VecStr newlines;
+    VecStr combinelines;
 
     combinelines.reserve(storeline.size() + originallines.size());
 

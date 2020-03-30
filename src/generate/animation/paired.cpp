@@ -8,7 +8,7 @@
 using namespace std;
 
 Paired::Paired(const string& line,
-               vecstr pairedformat,
+               VecStr pairedformat,
                int pairedcount,
                AOConvert import,
                const string& filepath,
@@ -437,15 +437,15 @@ Paired::Paired(const string& line,
     }
 }
 
-vecstr Paired::GetPairedLine(int nFunctionID, AOConvert AnimObjectNames, id eventid, const id& variableid)
+VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, const ID& variableid)
 {
-    vecstr generatedlines;
-    vecstr recordTrigger;
+    VecStr generatedlines;
+    VecStr recordTrigger;
     AOConvert IDExist;
 
     NewAnimObject = std::move(AnimObjectNames);
 
-    int nextFunctionID      = nFunctionID;
+    int nextFunctionID      = id;
     bool nextID             = false;
     bool TriggerStateIgnore = false;
     bool TriggerState       = false;
@@ -655,12 +655,12 @@ bool Paired::HasError()
     return error;
 }
 
-vecstr Paired::GetEventID()
+VecStr Paired::GetEventID()
 {
     return eventID;
 }
 
-vecstr Paired::GetVariableID()
+VecStr Paired::GetVariableID()
 {
     return variableID;
 }

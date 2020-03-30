@@ -105,7 +105,7 @@ bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value,
             tempCheck                       = behaviorList[index.row()].state;
             click_time                      = boost::posix_time::microsec_clock::local_time();
             behaviorList[index.row()].state = tempCheck == Qt::Unchecked ? Qt::Checked : Qt::Unchecked;
-            vecstr chosenBehavior;
+            VecStr chosenBehavior;
 
             for (auto& behavior : behaviorList)
             {
@@ -146,7 +146,7 @@ bool BehaviorListModel::removeRows(int position, int rows, const QModelIndex& pa
     }
 
     endRemoveRows();
-    vecstr behaviorOrder;
+    VecStr behaviorOrder;
     behaviorOrder.reserve(behaviorList.size());
 
     for (auto& behavior : behaviorList)

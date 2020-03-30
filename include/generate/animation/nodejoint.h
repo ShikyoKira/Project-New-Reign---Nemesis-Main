@@ -1,15 +1,16 @@
 #ifndef NODEJOINT_H_
 #define NODEJOINT_H_
 
+#include "Global.h"
 #include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-using id              = std::unordered_map<std::string, int>;
-using vecstr          = std::vector<std::string>;
-using setstr          = std::set<std::string>;
+using ID              = std::unordered_map<std::string, int>;
+using VecStr          = std::vector<std::string>;
+using SetStr          = std::set<std::string>;
 using SSMap           = std::unordered_map<std::string, std::string>;
 using ImportContainer = std::unordered_map<std::string, SSMap>;
 
@@ -45,8 +46,8 @@ struct NodePackedParameters
     std::shared_ptr<master> subFunctionIDs;
     ImportContainer& import;
     int linecount;
-    id eventid;
-    id variableid;
+    ID eventid;
+    ID variableid;
     std::string zeroEvent;
     std::string zeroVariable;
     int groupMulti;
@@ -71,8 +72,8 @@ struct NodePackedParameters
                          std::shared_ptr<master> _subFunctionIDs,
                          ImportContainer& _import,
                          int _linecount,
-                         id _eventid,
-                         id _variableid,
+                         ID _eventid,
+                         ID _variableid,
                          std::string _zeroEvent,
                          std::string _zeroVariable,
                          int _groupMulti,
@@ -109,20 +110,20 @@ struct NodeJoint
     std::unordered_map<std::string, std::vector<uint>>
         templateSection; // template code, list of index of template section
     std::string behaviorFile;
-    setstr templateGroup;
+    SetStr templateGroup;
 
-    NodeJoint(vecstr& node,
+    NodeJoint(VecStr& node,
               std::string format,
               std::string filename,
               std::string _behaviorFile,
               std::unordered_map<std::string, std::string> otherAnimType,
               uint startline = 0,
               uint size      = -1);
-    NodeJoint(vecstr& node,
+    NodeJoint(VecStr& node,
               std::string format,
               std::string filename,
               std::string _behaviorFile,
-              setstr _templateGroup,
+              SetStr _templateGroup,
               uint startline = 0,
               uint size      = -1);
 
@@ -141,8 +142,8 @@ struct NodeJoint
                     std::string& strID,
                     SSMap& IDExist,
                     ImportContainer& import,
-                    id eventid,
-                    id variableid,
+                    ID eventid,
+                    ID variableid,
                     std::string zeroEvent,
                     std::string zeroVariable,
                     unsigned __int64& openRange,
@@ -170,8 +171,8 @@ struct NodeJoint
                         std::string& strID,
                         SSMap& IDExist,
                         ImportContainer& import,
-                        id eventid,
-                        id variableid,
+                        ID eventid,
+                        ID variableid,
                         std::string zeroEvent,
                         std::string zeroVariable,
                         unsigned __int64 openRange,
@@ -193,8 +194,8 @@ struct NodeJoint
                                 std::string& strID,
                                 SSMap& IDExist,
                                 ImportContainer& import,
-                                id eventid,
-                                id variableid,
+                                ID eventid,
+                                ID variableid,
                                 std::string zeroEvent,
                                 std::string zeroVariable,
                                 unsigned __int64 openRange,
@@ -204,10 +205,10 @@ struct NodeJoint
                                 bool& negative,
                                 LineCheck temp);
 
-    vecstr unpack(); // output all stored outputs in different layers
+    VecStr unpack(); // output all stored outputs in different layers
 
 private:
-    void dataBake(vecstr& node,
+    void dataBake(VecStr& node,
                   std::string format,
                   std::string filename,
                   std::unordered_map<std::string, std::string> otherAnimType,

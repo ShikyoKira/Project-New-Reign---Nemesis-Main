@@ -21,9 +21,9 @@ public:
     bool isCharacter;
 
     void addInfo(std::string& newDirectory,
-                 vecstr& newfilelist,
+                 VecStr& newfilelist,
                  int newCurList,
-                 vecstr& newBehaviorPriority,
+                 VecStr& newBehaviorPriority,
                  std::unordered_map<std::string, bool>& newChosenBehavior,
                  std::shared_ptr<TemplateInfo> newBehaviorTemplate,
                  std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>>& addAnimation,
@@ -37,13 +37,13 @@ public:
     void checkAnimation();
     void addAnimation();
     void modPick(std::unordered_map<std::string, std::vector<std::shared_ptr<std::string>>>& modEditStore,
-                 vecstr& catalyst,
-                 vecstr& modLine,
+                 VecStr& catalyst,
+                 VecStr& modLine,
                  bool& hasDeleted);
     bool
     modPickProcess(std::unordered_map<std::string, std::vector<std::shared_ptr<std::string>>>& modEditStore,
-                   vecstr& catalyst,
-                   vecstr& modLine,
+                   VecStr& catalyst,
+                   VecStr& modLine,
                    bool& hasDeleted);
     void CompilingBehavior();
     void CompilingAnimData();
@@ -65,9 +65,9 @@ private:
 
     std::string modID;
     std::string directory;
-    vecstr filelist;
+    VecStr filelist;
     int curList;
-    vecstr behaviorPriority;
+    VecStr behaviorPriority;
     std::unordered_map<std::string, bool> chosenBehavior;
     std::shared_ptr<TemplateInfo> BehaviorTemplate;
     std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>> newAnimation;
