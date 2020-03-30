@@ -1,9 +1,9 @@
 #ifndef ADDEVENTS_H_
 #define ADDEVENTS_H_
 
-bool AddEvents(std::string curNum,
+bool AddEvents(const std::string& curNum,
                vecstr& storeline,
-               std::string input,
+               const std::string& input,
                std::unordered_map<std::string, bool> orievent,
                std::unordered_map<std::string, bool>& isExist,
                int& counter,

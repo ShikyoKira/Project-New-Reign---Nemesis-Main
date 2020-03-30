@@ -108,12 +108,8 @@ void NemesisInfo::setup()
 
                                 for (auto& file : filelist)
                                 {
-                                    if (nemesis::iequals(file, "SkyrimSE.exe"))
-                                    {
-                                        SSE = true;
-                                        break;
-                                    }
-                                    else if (nemesis::iequals(file, "binkw64.dll"))
+                                    if (nemesis::iequals(file, "SkyrimSE.exe")
+                                        || nemesis::iequals(file, "binkw64.dll"))
                                     {
                                         SSE = true;
                                         break;

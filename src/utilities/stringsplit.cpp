@@ -4,13 +4,13 @@
 
 using namespace std;
 
-void StringSplit(string line, vecstr& container)
+void StringSplit(const string& line, vecstr& container)
 {
     std::istringstream iss(line);
     container = vecstr(std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>());
 }
 
-void StringSplit(string line, vecstr& container, string anyChar)
+void StringSplit(const string& line, vecstr& container, const string& anyChar)
 {
     container.clear();
     container.push_back(string());

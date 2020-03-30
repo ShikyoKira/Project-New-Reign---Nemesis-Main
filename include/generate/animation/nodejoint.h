@@ -7,11 +7,11 @@
 #include <unordered_map>
 #include <vector>
 
-typedef std::unordered_map<std::string, int> id;
-typedef std::vector<std::string> vecstr;
-typedef std::set<std::string> setstr;
-typedef std::unordered_map<std::string, std::string> SSMap;
-typedef std::unordered_map<std::string, SSMap> ImportContainer;
+using id              = std::unordered_map<std::string, int>;
+using vecstr          = std::vector<std::string>;
+using setstr          = std::set<std::string>;
+using SSMap           = std::unordered_map<std::string, std::string>;
+using ImportContainer = std::unordered_map<std::string, SSMap>;
 
 struct master;
 struct NodeJoint;
@@ -179,7 +179,7 @@ struct NodeJoint
                         LineCheck* elementCatch,
                         std::shared_ptr<master> subFunctionIDs,
                         bool& negative);
-    void optionMultiLoop(std::vector<LineCheck>& output,
+    static void optionMultiLoop(std::vector<LineCheck>& output,
                          std::string format,
                          std::string filename,
                          std::vector<std::vector<std::unordered_map<std::string, bool>>>& optionPicked,

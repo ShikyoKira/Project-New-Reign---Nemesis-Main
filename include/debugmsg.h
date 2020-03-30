@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <mutex>
+#include <sstream>
 #include <unordered_map>
 
 #include "debuglog.h"
@@ -54,7 +55,7 @@ template <typename current>
 void AdditionalInput(std::string& message, int counter, current input)
 {
     std::string newInput    = "<" + std::to_string(counter) + ">";
-    std::string replacement = static_cast<std::ostringstream*>(&(std::ostringstream() << input))->str();
+    std::string replacement = (std::ostringstream() << input).str();
     int ref                 = sameWordCount(message, newInput);
 
     if (ref != 0)
@@ -78,7 +79,7 @@ template <typename current, typename... other>
 void AdditionalInput(std::string& message, int counter, current input, other... rest)
 {
     std::string newInput    = "<" + std::to_string(counter) + ">";
-    std::string replacement = static_cast<std::ostringstream*>(&(std::ostringstream() << input))->str();
+    std::string replacement = (std::ostringstream() << input).str();
     int ref                 = sameWordCount(message, newInput);
 
     if (ref != 0)

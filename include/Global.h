@@ -15,8 +15,8 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "debugmsg.h"
-
 #include "nemesisinfo.h"
+#include "utilities/wstrconvert.h"
 
 #pragma warning(disable : 4503)
 
@@ -71,8 +71,6 @@ bool isOnlyNumber(std::string line);
 bool hasAlpha(std::string line);
 size_t wordFind(std::string line, std::string word, bool isLast = false); // case insensitive "string.find"
 int sameWordCount(std::string line, std::string word);
-std::wstring StringToWString(std::string line);
-std::string WStringToString(std::wstring line);
 
 // general file utilities
 size_t fileLineCount(const char* filepath);

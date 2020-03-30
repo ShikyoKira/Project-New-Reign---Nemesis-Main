@@ -1,9 +1,9 @@
 #include "Global.h"
 
-#include <atlstr.h>
-
 #include "ui/ErrorMsgBox.h"
 #include "ui/MultiInstanceCheck.h"
+
+#include <atlstr.h>
 
 bool isProgramAlreadyRunning();
 

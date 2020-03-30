@@ -19,7 +19,7 @@ private:
     std::string nextState;
     std::unordered_map<int, std::string> AObject;
     AOConvert NewAnimObject;
-    int nextFunctionID;
+    int nextFunctionID{};
     int blend = 0;
     double duration;
     bool AC        = false;
@@ -38,14 +38,14 @@ private:
     bool error = false;
 
 public:
-    Paired(std::string line,
+    Paired(const std::string& line,
            vecstr pairedformat,
            int pairedcount,
            AOConvert import,
-           std::string filepath,
+           const std::string& filepath,
            int stateID);
     bool HasError();
-    vecstr GetPairedLine(int ID, AOConvert AnimObjectNames, id eventid, id variableid);
+    vecstr GetPairedLine(int ID, AOConvert AnimObjectNames, id eventid, const id& variableid);
     AOConvert GetAnimObjectName();
     vecstr GetEventID();
     vecstr GetVariableID();

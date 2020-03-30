@@ -8,6 +8,7 @@
 
 #include "utilities/readtextfile.h"
 #include "utilities/writetextfile.h"
+#include "utilities/wstrconvert.h"
 
 using namespace std;
 

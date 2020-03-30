@@ -1,4 +1,5 @@
 #include "Global.h"
+#include <utility>
 
 #include "generate/animationdatatracker.h"
 
@@ -10,7 +11,7 @@ map<string, map<string, shared_ptr<AnimationDataTracker>>> charAnimDataInfo;
 AnimationDataTracker::AnimationDataTracker(int _order, string _filename)
 {
     order    = _order;
-    filename = _filename;
+    filename = std::move(_filename);
 }
 
 int AnimationDataTracker::GetOrder()
