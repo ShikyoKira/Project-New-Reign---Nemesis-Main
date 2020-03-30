@@ -2,7 +2,7 @@
 
 #include <unordered_set>
 
-#include <boost/regex.hpp>
+#include <regex>
 
 #include <QtCore/QStandardPaths.h>
 
@@ -122,7 +122,7 @@ void ReadPCEA()
         if (isdigit(folder[0]) && sf::is_directory(path))
         {
             unsigned short number = static_cast<unsigned short>(
-                stoi(boost::regex_replace(string(folder), boost::regex("([0-9]+)[^\n]+"), string("\\1"))));
+                stoi(std::regex_replace(string(folder), std::regex("([0-9]+)[^\n]+"), string("\\1"))));
             pceaFolderMapList[number] = path + "|" + folder;
         }
 

@@ -1,11 +1,12 @@
 #ifndef TEMPLATEPROCESSING_H_
 #define TEMPLATEPROCESSING_H_
 
+#include <map>
 #include <unordered_map>
-
-#include <boost/regex.hpp>
+#include <vector>
 
 #include "generate/animation/animationthread.h"
+#include <regex>
 
 struct proc;
 struct multichoice;
@@ -22,7 +23,47 @@ namespace nemesis
         size_t size();
     };
 
-    bool regex_search(std::string line, nemesis::smatch& match, boost::regex rgx);
+    class regex_iterator
+    {
+    public:
+        regex_iterator() = default;
+
+        regex_iterator(const std::string& str, const std::regex& reg)
+            : reg_(std::move(reg))
+            , it_(str.begin(), str.end(), reg_)
+        {}
+
+        auto operator++(int)
+        {
+            auto copy = *this;
+            it_++;
+            return copy;
+        }
+        auto operator++()
+        {
+            it_++;
+            return *this;
+        }
+        auto operator*()
+        {
+            return *it_;
+        }
+        auto operator-> ()
+        {
+            return it_;
+        }
+        bool operator!=(const regex_iterator& other)
+        {
+            return it_ != other.it_;
+        }
+
+    private:
+        std::regex reg_;
+        std::sregex_iterator it_;
+    };
+
+    bool regex_search(const std::string& line, nemesis::smatch& match, std::regex rgx);
+    std::smatch regex_search(const std::string& line, std::regex rgx);
 } // namespace nemesis
 
 struct range
@@ -57,6 +98,28 @@ struct choice_c
     size_t back;
 
     choice_c(size_t posA, size_t posB);
+};
+
+struct condt;
+struct multichoice
+{
+    bool chosen = false;
+    std::shared_ptr<condt> condition;
+    size_t locateA;
+    size_t locateB;
+
+    multichoice()
+    {}
+    multichoice(std::string cond,
+                std::string format,
+                std::string behaviorFile,
+                std::string multiOption,
+                int numline,
+                bool isGroup,
+                bool isMaster,
+                OptionList& optionlist,
+                size_t posA,
+                size_t posB);
 };
 
 struct proc

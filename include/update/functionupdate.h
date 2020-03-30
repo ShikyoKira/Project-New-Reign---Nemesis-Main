@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include <boost/atomic.hpp>
-#include <boost/regex.hpp>
+#include <regex>
 
 #include "utilities/writetextfile.h"
 

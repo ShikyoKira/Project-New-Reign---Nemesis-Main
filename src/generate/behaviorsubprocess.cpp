@@ -4,7 +4,6 @@
 
 #include <boost/asio/post.hpp>
 #include <boost/asio/thread_pool.hpp>
-#include <boost/atomic.hpp>
 
 #include "debuglog.h"
 
@@ -158,10 +157,10 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>
 
     if (hasDeleted || orig.size() <= 2) return false;
 
-    string templine = boost::regex_replace(*orig[0], boost::regex("^([\t]+).*$"), string("\\1"));
+    string templine = std::regex_replace(*orig[0], std::regex("^([\t]+).*$"), string("\\1"));
     int counter     = count(templine.begin(), templine.end(), '\t');
 
-    string lastline = boost::regex_replace(*orig.back(), boost::regex("^([\t]+).*$"), string("\\1"));
+    string lastline = std::regex_replace(*orig.back(), std::regex("^([\t]+).*$"), string("\\1"));
     int counter2    = count(lastline.begin(), lastline.end(), '\t');
 
     if (counter != counter2) return false;
@@ -170,7 +169,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>
 
     for (uint i = 0; i < orig.size(); ++i)
     {
-        string templine = boost::regex_replace(*orig[i], boost::regex("^([\t]+).*$"), string("\\1"));
+        string templine = std::regex_replace(*orig[i], std::regex("^([\t]+).*$"), string("\\1"));
 
         if (*orig[i] != templine)
         {
@@ -421,9 +420,8 @@ void BehaviorSub::CompilingBehavior()
 
                             if (!hasDeleted
                                 && line
-                                       == boost::regex_replace(line,
-                                                               boost::regex("^[\t]+<!-- \\*([\\w]+)\\* -->"),
-                                                               string("\\1")))
+                                       == std::regex_replace(
+                                           line, std::regex("^[\t]+<!-- \\*([\\w]+)\\* -->"), string("\\1")))
                                 hasDeleted = true;
                         }
                         else if (line.find("<!-- original -->", 0) != NOT_FOUND)
@@ -454,10 +452,10 @@ void BehaviorSub::CompilingBehavior()
 
                             if (pos != NOT_FOUND && line.find("signature=\"", pos) != NOT_FOUND)
                             {
-                                string ID = boost::regex_replace(
+                                string ID = std::regex_replace(
                                     string(line),
-                                    boost::regex(".*<hkobject name=\"#([0-9]+)\" class=\"[a-zA-Z]+\" "
-                                                 "signature=\".*\">.*"),
+                                    std::regex(".*<hkobject name=\"#([0-9]+)\" class=\"[a-zA-Z]+\" "
+                                               "signature=\".*\">.*"),
                                     string("\\1"));
 
                                 if (ID != line)
@@ -767,8 +765,8 @@ void BehaviorSub::CompilingBehavior()
 
                     if (pos != NOT_FOUND)
                     {
-                        firstID = stoi(boost::regex_replace(
-                            string(vline.substr(pos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                        firstID = stoi(std::regex_replace(
+                            string(vline.substr(pos)), std::regex("[^0-9]*([0-9]+).*"), string("\\1")));
                         break;
                     }
                 }
@@ -777,8 +775,8 @@ void BehaviorSub::CompilingBehavior()
             }
             else
             {
-                firstID = stoi(boost::regex_replace(
-                    string(catalyst[1].substr(pos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                firstID = stoi(std::regex_replace(
+                    string(catalyst[1].substr(pos)), std::regex("[^0-9]*([0-9]+).*"), string("\\1")));
             }
         }
 
@@ -814,7 +812,7 @@ void BehaviorSub::CompilingBehavior()
         {
             bool elementCatch = false;
             string line       = catalyst[l];
-            boost::smatch check;
+            std::smatch check;
 
             if (line.length() == 0) { catalystMap[curID].push_back(line); }
             else
@@ -838,7 +836,7 @@ void BehaviorSub::CompilingBehavior()
                     if (nemesis::regex_search(
                             line,
                             match,
-                            boost::regex("<hkobject name=\"#(.*)\" class=\"([a-zA-Z]+)\" signature=\".*\">")))
+                            std::regex("<hkobject name=\"#(.*)\" class=\"([a-zA-Z]+)\" signature=\".*\">")))
                     {
                         curID       = stoi(match[1]);
                         elementLine = -1;
@@ -857,20 +855,19 @@ void BehaviorSub::CompilingBehavior()
                         for (size_t k = 0; k < reference; ++k)
                         {
                             nextpos      = line.find("#", nextpos) + 1;
-                            string numID = boost::regex_replace(string(line.substr(nextpos)),
-                                                                boost::regex("[^0-9]*([0-9]+).*"),
-                                                                string("\\1"));
+                            string numID = std::regex_replace(
+                                string(line.substr(nextpos)), std::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                             string ID    = line.substr(nextpos, line.find(numID) - nextpos + numID.length());
 
                             if (line.find(ID, 0) != NOT_FOUND && ID.find("$") != NOT_FOUND)
                             {
                                 if (IDExist[ID].length() != 0)
                                 {
-                                    boost::smatch match;
-                                    boost::regex_match(line,
-                                                       match,
-                                                       boost::regex(".*#(" + ID.substr(0, ID.find("$"))
-                                                                    + "[$]" + numID + ")[^0-9]*.*"));
+                                    std::smatch match;
+                                    std::regex_match(line,
+                                                     match,
+                                                     std::regex(".*#(" + ID.substr(0, ID.find("$")) + "[$]"
+                                                                + numID + ")[^0-9]*.*"));
                                     nextpos = match.position(1);
                                     line.replace(nextpos, ID.length(), IDExist[ID]);
                                 }
@@ -891,8 +888,8 @@ void BehaviorSub::CompilingBehavior()
                         for (uint p = 0; p < generator.size(); p++)
                         {
                             string ID    = generator[p];
-                            string numID = boost::regex_replace(
-                                string(ID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string numID = std::regex_replace(
+                                string(ID), std::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                             if (ID.find("$") != NOT_FOUND)
                             {
@@ -904,11 +901,11 @@ void BehaviorSub::CompilingBehavior()
 
                                     if (IDExist[ID].length() != 0)
                                     {
-                                        boost::smatch match;
-                                        boost::regex_match(line,
-                                                           match,
-                                                           boost::regex(".*#(" + masterFormat + "[$]" + numID
-                                                                        + ")[^0-9]+.*"));
+                                        std::smatch match;
+                                        std::regex_match(
+                                            line,
+                                            match,
+                                            std::regex(".*#(" + masterFormat + "[$]" + numID + ")[^0-9]+.*"));
                                         line.replace(match.position(1), ID.length(), IDExist[ID]);
                                     }
                                     else if (special == 0)
@@ -936,7 +933,7 @@ void BehaviorSub::CompilingBehavior()
                     nemesis::smatch match;
 
                     if (nemesis::regex_search(
-                            line, match, boost::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
+                            line, match, std::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
                     {
                         if (eventelements == -1)
                         {
@@ -973,7 +970,7 @@ void BehaviorSub::CompilingBehavior()
                     nemesis::smatch match;
 
                     if (nemesis::regex_search(
-                            line, match, boost::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
+                            line, match, std::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
                     {
                         if (attributeelements == -1)
                         {
@@ -1006,7 +1003,7 @@ void BehaviorSub::CompilingBehavior()
                     nemesis::smatch match;
 
                     if (nemesis::regex_search(
-                            line, match, boost::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
+                            line, match, std::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
                     {
                         if (characterelements == -1)
                         {
@@ -1042,7 +1039,7 @@ void BehaviorSub::CompilingBehavior()
                     nemesis::smatch match;
 
                     if (nemesis::regex_search(
-                            line, match, boost::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
+                            line, match, std::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
                     {
                         if (variableelements == -1)
                         {
@@ -1076,7 +1073,7 @@ void BehaviorSub::CompilingBehavior()
                     nemesis::smatch match;
 
                     if (nemesis::regex_search(
-                            line, match, boost::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
+                            line, match, std::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
                     {
                         if (line.find("</hkparam>") == NOT_FOUND)
                         {
@@ -1116,7 +1113,7 @@ void BehaviorSub::CompilingBehavior()
                     nemesis::smatch match;
 
                     if (nemesis::regex_search(
-                            line, match, boost::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
+                            line, match, std::regex("<hkparam name=\"(.+?)\" numelements=\"(.+?)\">")))
                     {
                         if (line.find("</hkparam>") == NOT_FOUND)
                         {
@@ -1129,8 +1126,7 @@ void BehaviorSub::CompilingBehavior()
                         }
                     }
                 }
-                else if (boost::regex_search(
-                             line, check, boost::regex("<hkparam name=\"(.+?)\" numelements=\""))
+                else if (std::regex_search(line, check, std::regex("<hkparam name=\"(.+?)\" numelements=\""))
                          && line.find("</hkparam>", check.position(1)) == NOT_FOUND)
                 {
                     counter         = 0;
@@ -1672,8 +1668,8 @@ void BehaviorSub::CompilingBehavior()
                     {
                         if (line.find("$eventID[", 0) != NOT_FOUND && line.find("]$", 0) != NOT_FOUND)
                         {
-                            string change = boost::regex_replace(
-                                string(line), boost::regex(".*[$](eventID[[].*[]])[$].*"), string("\\1"));
+                            string change = std::regex_replace(
+                                string(line), std::regex(".*[$](eventID[[].*[]])[$].*"), string("\\1"));
 
                             if (change != line)
                             {
@@ -1687,8 +1683,8 @@ void BehaviorSub::CompilingBehavior()
 
                         if (line.find("$variableID[", 0) != NOT_FOUND)
                         {
-                            string change = boost::regex_replace(
-                                string(line), boost::regex(".*[$](variableID[[].*[]])[$].*"), string("\\1"));
+                            string change = std::regex_replace(
+                                string(line), std::regex(".*[$](variableID[[].*[]])[$].*"), string("\\1"));
 
                             if (change != line)
                             {
@@ -1704,9 +1700,9 @@ void BehaviorSub::CompilingBehavior()
 
                     if (line.find("$stateID[", 0) != NOT_FOUND)
                     {
-                        string change = boost::regex_replace(
+                        string change = std::regex_replace(
                             string(line),
-                            boost::regex(".*[$](stateID[[].*[]][[][0-9]+[]][[].*[]][[][0-9]+[]])[$].*"),
+                            std::regex(".*[$](stateID[[].*[]][[][0-9]+[]][[].*[]][[][0-9]+[]])[$].*"),
                             string("\\1"));
 
                         if (change != line)
@@ -1720,14 +1716,14 @@ void BehaviorSub::CompilingBehavior()
                             }
                             else
                             {
-                                string node = boost::regex_replace(
+                                string node = std::regex_replace(
                                     string(line),
-                                    boost::regex(
+                                    std::regex(
                                         ".*[$]stateID[[](.*)[]][[]([0-9]+)[]][[].*[]][[][0-9]+[]][$].*"),
                                     string("\\1"));
-                                string base = boost::regex_replace(
+                                string base = std::regex_replace(
                                     string(line),
-                                    boost::regex(
+                                    std::regex(
                                         ".*[$]stateID[[](.*)[]][[]([0-9]+)[]][[].*[]][[][0-9]+[]][$].*"),
                                     string("\\2"));
 
@@ -1857,9 +1853,9 @@ void BehaviorSub::CompilingBehavior()
                     line->append("%");
                     string masterFormat = it->first.substr(0, it->first.find("$"));
                     string numID        = it->first.substr(it->first.find("$") + 1);
-                    boost::smatch match;
-                    boost::regex_match(
-                        *line, match, boost::regex(".*(" + masterFormat + "[$]" + numID + ")[^0-9]+.*"));
+                    std::smatch match;
+                    std::regex_match(
+                        *line, match, std::regex(".*(" + masterFormat + "[$]" + numID + ")[^0-9]+.*"));
                     line->replace(match.position(1), it->first.length(), IDExist[it->first]);
                     line->pop_back();
                 }

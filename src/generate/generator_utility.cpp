@@ -2,8 +2,6 @@
 
 #include <thread>
 
-#include <boost/atomic.hpp>
-
 #include "debuglog.h"
 #include "version.h"
 
@@ -90,8 +88,8 @@ GetStateID(map<int, int> mainJoint, map<int, VecStr> functionlist, unordered_map
 
                                     if (line.find("<hkparam name=\"stateId\">", 0) != NOT_FOUND)
                                     {
-                                        int tempStateID = stoi(boost::regex_replace(
-                                            string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                        int tempStateID = stoi(std::regex_replace(
+                                            string(line), std::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
                                         if (tempStateID >= curState) curState = tempStateID + 1;
 
@@ -130,13 +128,13 @@ bool GetStateCount(vector<int>& count, VecStr templatelines, string format, stri
 
         if (pos != NOT_FOUND && line.find(")$</hkparam>", pos) != NOT_FOUND)
         {
-            string ID = boost::regex_replace(
+            string ID = std::regex_replace(
                 string(line),
-                boost::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
+                std::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
                 string("\\1"));
-            string number = boost::regex_replace(
+            string number = std::regex_replace(
                 string(line),
-                boost::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
+                std::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
                 string("\\2"));
 
             if (ID != line && number != line)
@@ -204,10 +202,10 @@ behaviorLineChooser(string originalline, unordered_map<string, string> chosenLin
         {
             if (chosen == -1) chosen = i;
 
-            string line = boost::regex_replace(
-                string(chosenLines[behaviorPriority[i]]), boost::regex("[\t]+([^\t]+).*"), string("\\1"));
+            string line = std::regex_replace(
+                string(chosenLines[behaviorPriority[i]]), std::regex("[\t]+([^\t]+).*"), string("\\1"));
             string line2
-                = boost::regex_replace(string(line), boost::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
+                = std::regex_replace(string(line), std::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
 
             if (line2 != line && line.find("<!-- ") == 0)
             {
@@ -215,8 +213,8 @@ behaviorLineChooser(string originalline, unordered_map<string, string> chosenLin
 
                 if (out.find("<!-- ") != NOT_FOUND)
                 {
-                    out = boost::regex_replace(string(chosenLines[behaviorPriority[i]]),
-                                               boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
+                    out = std::regex_replace(string(chosenLines[behaviorPriority[i]]),
+                                               std::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
                                                string("\\1"));
                     out = chosenLines[behaviorPriority[i]].substr(0,
                                                                   chosenLines[behaviorPriority[i]].find(out));
@@ -233,8 +231,8 @@ behaviorLineChooser(string originalline, unordered_map<string, string> chosenLin
 
         if (out.find("<!-- ") != NOT_FOUND)
         {
-            out = boost::regex_replace(string(chosenLines[behaviorPriority[chosen]]),
-                                       boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
+            out = std::regex_replace(string(chosenLines[behaviorPriority[chosen]]),
+                                       std::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
                                        string("\\1"));
             out = chosenLines[behaviorPriority[chosen]].substr(
                 0, chosenLines[behaviorPriority[chosen]].find(out));
@@ -247,8 +245,8 @@ behaviorLineChooser(string originalline, unordered_map<string, string> chosenLin
 
     if (out.find("<!-- ") != NOT_FOUND)
     {
-        out = boost::regex_replace(
-            string(originalline), boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+        out = std::regex_replace(
+            string(originalline), std::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
         out = originalline.substr(0, originalline.find(out));
     }
 
@@ -701,8 +699,8 @@ int getTemplateNextID(VecStr& templatelines)
     {
         if (line.find("<hkobject name=\"#MID$") != NOT_FOUND)
         {
-            string number = boost::regex_replace(
-                string(line), boost::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
+            string number = std::regex_replace(
+                string(line), std::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
 
             if (number != line && isOnlyNumber(number))
             {

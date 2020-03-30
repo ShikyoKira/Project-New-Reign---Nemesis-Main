@@ -1,7 +1,5 @@
 #include "Global.h"
 
-#include <boost/atomic.hpp>
-
 #include <QtCore/QProcess>
 
 #include "generate/alternateanimation.h"

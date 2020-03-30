@@ -1,7 +1,7 @@
 #ifndef GENERATOR_UTILITY_H_
 #define GENERATOR_UTILITY_H_
 
-#include <boost/regex.hpp>
+#include <regex>
 
 #include "nemesisinfo.h"
 

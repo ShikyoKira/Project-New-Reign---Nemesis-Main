@@ -1,6 +1,6 @@
 #include "Global.h"
 
-#include <boost/regex.hpp>
+#include <regex>
 #include <utility>
 
 #include "generate/animation/paired.h"
@@ -297,7 +297,7 @@ Paired::Paired(const string& line,
             {
                 string temp = templine.substr(templine.find('B'));
                 int tempint = stoi(
-                    boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                    std::regex_replace(string(line), std::regex("[^0-9]*([0-9]+).*"), string("\\1")));
             }
 
             if (templine.find("bsa ", 0) != string::npos || templine.find("bsa,", 0) != string::npos) {}

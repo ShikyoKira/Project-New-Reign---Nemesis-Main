@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <boost/regex.hpp>
+#include <regex>
 
 #include "generate/AnimationUtility.h"
 

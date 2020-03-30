@@ -1,6 +1,6 @@
 #include "Global.h"
 
-#include <boost/regex.hpp>
+#include <regex>
 
 #include "generate/animation/optionlist.h"
 #include "generate/animation/templateinfo.h"
@@ -145,8 +145,8 @@ TemplateInfo::TemplateInfo()
                                 }
                                 else if (lowerfilename[0] == '#')
                                 {
-                                    string number = boost::regex_replace(string(lowerfilename),
-                                                                         boost::regex("[^0-9]*([0-9]+).*"),
+                                    string number = std::regex_replace(string(lowerfilename),
+                                                                         std::regex("[^0-9]*([0-9]+).*"),
                                                                          string("\\1"));
 
                                     if (lowerfilename == "#" + number + ".txt" && isOnlyNumber(number))

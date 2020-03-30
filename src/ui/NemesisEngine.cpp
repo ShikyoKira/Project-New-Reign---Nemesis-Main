@@ -1,7 +1,5 @@
 #include "Global.h"
 
-#include <boost/atomic.hpp>
-
 #include "connector.h"
 
 #include "ui/ErrorMsgBox.h"

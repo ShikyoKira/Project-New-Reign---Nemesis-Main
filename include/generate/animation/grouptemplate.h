@@ -3,12 +3,12 @@
 
 #include <algorithm>
 #include <iostream>
+#include <regex>
+#include <set>
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-
-#include <boost/regex.hpp>
 
 #include "generate/animation/newanimation.h"
 

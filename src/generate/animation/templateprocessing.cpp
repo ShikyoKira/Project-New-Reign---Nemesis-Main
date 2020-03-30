@@ -87,29 +87,32 @@ size_t nemesis::smatch::size()
 
 namespace nemesis
 {
-    bool regex_search(string line, nemesis::smatch& n_match, boost::regex rgx)
+    bool regex_search(const string& line, nemesis::smatch& n_match, std::regex rgx)
     {
         n_match = nemesis::smatch();
-        boost::smatch match;
+        std::smatch matches;
 
-        if (!boost::regex_search(string(line), match, rgx)) return false;
+        if (!std::regex_search(line, matches, rgx)) return false;
 
-        if (match.size() > 1)
+        n_match.match.reserve(matches.size());
+        n_match.positionlist.reserve(matches.size());
+
+        for (size_t i = 0; i < matches.size(); ++i)
         {
-            n_match.match.reserve(match.size());
-            n_match.positionlist.reserve(match.size());
-            n_match.positionlist.push_back(match.position());
-            n_match.match.push_back(line.substr(match.position(), match[0].length()));
-
-            for (uint i = 1; i < match.size(); ++i)
-            {
-                n_match.positionlist.push_back(match.position(i));
-                n_match.match.push_back(line.substr(match.position(i), match[i].length()));
-            }
+            n_match.positionlist.push_back(matches.position(i));
+            n_match.match.push_back(line.substr(matches.position(i), matches[i].length()));
         }
 
         return true;
     }
+
+    std::smatch regex_search(const string& line, std::regex rgx)
+    {
+        std::smatch matches;
+        std::regex_search(line, matches, rgx);
+        return matches;
+    }
+
 } // namespace nemesis
 
 range::range(size_t n_front, size_t n_back, void (proc::*n_func)(range, VecStr&))
@@ -150,6 +153,32 @@ range::range(size_t n_front,
     olddataint = n_olddataint;
     olddata    = n_olddata;
     func       = n_func;
+}
+
+multichoice::multichoice(string cond,
+                         string format,
+                         string behaviorFile,
+                         string multiOption,
+                         int numline,
+                         bool isGroup,
+                         bool isMaster,
+                         OptionList& optionlist,
+                         size_t posA,
+                         size_t posB)
+{
+    if (cond.length() > 0)
+    {
+        condition = make_shared<condt>(
+            cond, format, behaviorFile, cond, multiOption, numline, isGroup, isMaster, optionlist);
+    }
+    else
+    {
+        condition = make_shared<condt>(
+            format, format, behaviorFile, cond, multiOption, numline, isGroup, isMaster, optionlist);
+    }
+
+    locateA = posA;
+    locateB = posB - 1;
 }
 
 void proc::Register(string n_format,
@@ -233,7 +262,7 @@ void proc::installBlock(range blok, int curline)
     lineblocks[curline].blocksize[blok.size].push_back(blok);
 }
 
-void proc::installBlock(range blok, int curline, vector<multichoice> m_condiiton)
+void proc::installBlock(range blok, int curline, std::vector<multichoice> m_condiiton)
 {
     blockCheck(blok.front, blok.back);
     hasMC[curline]       = true;
@@ -265,9 +294,9 @@ void proc::compute(range blok, VecStr& blocks)
 void proc::rangeCompute(range blok, VecStr& blocks)
 {
     (*generatedlines)[*elementLine]
-        = boost::regex_replace(string((*generatedlines)[*elementLine]),
-                               boost::regex("(.*<hkparam name\\=\".+\" numelements\\=\").+(\">.*)"),
-                               string("\\1" + to_string(*counter) + "\\2"));
+        = std::regex_replace(string((*generatedlines)[*elementLine]),
+                             std::regex("(.*<hkparam name\\=\".+\" numelements\\=\").+(\">.*)"),
+                             string("\\1" + to_string(*counter) + "\\2"));
     *norElement  = false;
     *counter     = 0;
     *elementLine = -1;

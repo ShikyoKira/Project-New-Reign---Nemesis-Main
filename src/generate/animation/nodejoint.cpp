@@ -1,6 +1,6 @@
 #include "Global.h"
 
-#include <boost/regex.hpp>
+#include <regex>
 
 #include "utilities/algorithm.h"
 #include "utilities/compute.h"
@@ -1787,7 +1787,7 @@ void processing(string& lineRef,
                 nextpos       = line.find("#" + format + "$", nextpos) + 1;
                 string tempID = line.substr(nextpos);
                 string curID
-                    = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    = std::regex_replace(string(tempID), std::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                 curID = format + "$" + curID;
 
                 if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
@@ -1810,7 +1810,7 @@ void processing(string& lineRef,
                 nextpos       = line.find("#" + multiOption, nextpos) + 1;
                 string tempID = line.substr(nextpos);
                 string curID
-                    = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    = std::regex_replace(string(tempID), std::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                 curID = multiOption + "$" + curID;
 
                 if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
@@ -1831,7 +1831,7 @@ void processing(string& lineRef,
                 nextpos       = line.find("#" + multiOption, nextpos) + 1;
                 string tempID = line.substr(nextpos);
                 string curID
-                    = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    = std::regex_replace(string(tempID), std::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                 curID = multiOption + "$" + curID;
 
                 if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
@@ -1931,13 +1931,13 @@ void processing2(string& line,
 
                         if (equation.find("(S", 0) != NOT_FOUND)
                         {
-                            ID = boost::regex_replace(
-                                string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            ID = std::regex_replace(
+                                string(equation), std::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                             if (change.find("(S" + ID + "+") == NOT_FOUND) ID = "";
 
-                            number = boost::regex_replace(string(equation.substr(3 + ID.length())),
-                                                          boost::regex("[^0-9]*([0-9]+).*"),
+                            number = std::regex_replace(string(equation.substr(3 + ID.length())),
+                                                          std::regex("[^0-9]*([0-9]+).*"),
                                                           string("\\1"));
                         }
 
@@ -2019,8 +2019,8 @@ void processing2(string& line,
                         if (change.find(format + "[", 0) != NOT_FOUND)
                         {
                             string number
-                                = boost::regex_replace(string(change.substr(change.find(format + "[", 0))),
-                                                       boost::regex("[^0-9]*([0-9]+).*"),
+                                = std::regex_replace(string(change.substr(change.find(format + "[", 0))),
+                                                       std::regex("[^0-9]*([0-9]+).*"),
                                                        string("\\1"));
 
                             if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND)
@@ -2079,8 +2079,8 @@ void processing2(string& line,
                         if (change.find(format + "[", 0) != NOT_FOUND)
                         {
                             string number
-                                = boost::regex_replace(string(change.substr(change.find(format + "[", 0))),
-                                                       boost::regex("[^0-9]*([0-9]+).*"),
+                                = std::regex_replace(string(change.substr(change.find(format + "[", 0))),
+                                                       std::regex("[^0-9]*([0-9]+).*"),
                                                        string("\\1"));
 
                             if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND)
@@ -2197,9 +2197,9 @@ void processing2(string& line,
 
                         if (change.find(format + "[", 0) != NOT_FOUND)
                         {
-                            string number = boost::regex_replace(
+                            string number = std::regex_replace(
                                 string(change),
-                                boost::regex(format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
+                                std::regex(format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
                                 string("\\1"));
 
                             if (number != change)

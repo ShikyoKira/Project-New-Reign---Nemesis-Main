@@ -151,27 +151,6 @@ struct condset
     {}
 };
 
-struct multichoice
-{
-    bool chosen = false;
-    std::shared_ptr<condt> condition;
-    size_t locateA;
-    size_t locateB;
-
-    multichoice()
-    {}
-    multichoice(std::string cond,
-                std::string format,
-                std::string behaviorFile,
-                std::string multiOption,
-                int numline,
-                bool isGroup,
-                bool isMaster,
-                OptionList& optionlist,
-                size_t posA,
-                size_t posB);
-};
-
 class AnimTemplate
 {
     std::string format;

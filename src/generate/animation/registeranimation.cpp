@@ -1,6 +1,6 @@
 #include "Global.h"
 
-#include <boost/regex.hpp>
+#include <regex>
 
 #include <QtCore/QFile.h>
 #include <QtCore/QTextstream.h>
@@ -24,7 +24,7 @@ bool ruleCheck(VecStr rules, VecStr curList, TemplateInfo& behaviortemplate, str
         {
             bool matching = false;
             string number
-                = boost::regex_replace(string(cur), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                = std::regex_replace(string(cur), std::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
             if (cur.length() == rule.length()
                 || (behaviortemplate.optionlist[lowerformat].addOn[rule].size() != 0
@@ -319,8 +319,8 @@ registerAnimation::registerAnimation(string curDirectory,
                         {
                             bool isOExist = true;
                             string anim   = newAnimInfo[newAnimInfo.size() - 1];
-                            string number = boost::regex_replace(
-                                string(anim), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string number = std::regex_replace(
+                                string(anim), std::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                             if (isOnlyNumber(number) && anim.length() > number.length()
                                 && anim[anim.length() - number.length() - 1] == '/'

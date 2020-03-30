@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include <boost/regex.hpp>
+#include <regex>
 #include <boost/thread.hpp>
 
 #include "utilities/writetextfile.h"
