@@ -6,6 +6,10 @@ struct GroupTemplate;
 struct ExistingFunction;
 struct NodePackedParameters;
 
+#include <memory>
+#include <unordered_map>
+#include <vector>
+
 typedef std::unordered_map<std::string, int> id;
 
 struct AnimationUtility
@@ -49,7 +53,7 @@ public:
     unsigned int size();
     bool stateUpdate(int ID,
                      std::string format,
-                     std::string bevaiorFile,
+                     std::string behaviorFile,
                      int linecount,
                      std::string state,
                      bool hasGroup = false);
