@@ -30,7 +30,7 @@ static bool* globalThrow;
 VecStr fileCheckMsg;
 VecStr hkxFiles;
 
-boost::atomic_flag animdata_lock = BOOST_ATOMIC_FLAG_INIT;
+std::atomic_flag animdata_lock{};
 
 void readList(string directory,
               string animationDirectory,
@@ -809,7 +809,7 @@ void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, b
 
             for (auto file : characterFiles)
             {
-                while (animdata_lock.test_and_set(boost::memory_order_acquire))
+                while (animdata_lock.test_and_set(std::memory_order_acquire))
                     ;
                 shared_ptr<AnimationDataTracker>& animDataPtr = charAnimDataInfo[file][animFile];
 
@@ -842,7 +842,7 @@ void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, b
                     clipPtrAnimData[file][clipName].push_back(animDataPtr);
                 }
 
-                animdata_lock.clear(boost::memory_order_release);
+                animdata_lock.clear(std::memory_order_release);
             }
         }
         else

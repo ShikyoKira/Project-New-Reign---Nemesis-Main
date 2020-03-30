@@ -78,9 +78,9 @@ bool NodeU::NodeUpdate(string modcode,
                        unordered_map<string, string>& lastUpdate
 #if MULTITHREADED_UPDATE
                        ,
-                       boost::atomic_flag& filelock,
-                       boost::atomic_flag& stateLock,
-                       boost::atomic_flag& parentLock
+                       std::atomic_flag& filelock,
+                       std::atomic_flag& stateLock,
+                       std::atomic_flag& parentLock
 #endif
 )
 {
@@ -560,9 +560,9 @@ bool NodeU::FunctionUpdate(string modcode,
                            unordered_map<string, string>& lastUpdate
 #if MULTITHREADED_UPDATE
                            ,
-                           boost::atomic_flag& filelock,
-                           boost::atomic_flag& stateLock,
-                           boost::atomic_flag& parentLock
+                           std::atomic_flag& filelock,
+                           std::atomic_flag& stateLock,
+                           std::atomic_flag& parentLock
 #endif
 )
 {

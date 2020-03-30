@@ -3,18 +3,16 @@
 
 #include <atomic>
 
-#include <boost/atomic.hpp>
-
 class Lockless
 {
-    boost::atomic_flag* lock;
+    std::atomic_flag* lock;
 
 public:
-    Lockless(boost::atomic_flag& _lock)
+    Lockless(std::atomic_flag& _lock)
     {
         lock = &_lock;
 
-        while (lock->test_and_set(boost::memory_order_acquire))
+        while (lock->test_and_set(std::memory_order_acquire))
             ;
     }
 
@@ -22,7 +20,7 @@ public:
     {
         if (lock == nullptr) return;
 
-        lock->clear(boost::memory_order_release);
+        lock->clear(std::memory_order_release);
         lock = nullptr;
     }
 
@@ -30,7 +28,7 @@ public:
     {
         if (lock == nullptr) return;
 
-        lock->clear(boost::memory_order_release);
+        lock->clear(std::memory_order_release);
         lock = nullptr;
     }
 };
