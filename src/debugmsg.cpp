@@ -51,7 +51,7 @@ void DebugMsg::setup(const wstring& language)
 
     if (error) throw nemesis::exception();
 
-    for (unsigned int i = 0; i < storeline.size(); ++i)
+    for (uint i = 0; i < storeline.size(); ++i)
     {
         if (storeline[i][0] != '\'' && storeline[i].length() != 0)
         {
@@ -134,7 +134,7 @@ void writeUTF8File(string filename, vecstr storeline)
 
     if (output.is_open())
     {
-        for (unsigned int i = 0; i < storeline.size(); ++i)
+        for (uint i = 0; i < storeline.size(); ++i)
         {
             output << storeline[i] << "\n";
         }

@@ -31,7 +31,7 @@ bool ruleCheck(vecstr rules, vecstr curList, TemplateInfo& behaviortemplate, str
                     && cur.length() > rule.length())
                 || cur == rule + number)
             {
-                for (unsigned int k = 0; k < rule.length(); ++k)
+                for (uint k = 0; k < rule.length(); ++k)
                 {
                     if (k != rule.length() - 1)
                     {
@@ -168,7 +168,7 @@ registerAnimation::registerAnimation(string curDirectory,
                     AAGroupCount[curAAprefix][lowGN] = num;
                     groupAAPrefix[lowGN].push_back(curAAprefix);
 
-                    for (unsigned int i = 0; i < groupSize; ++i) // list of animations in the animation group
+                    for (uint i = 0; i < groupSize; ++i) // list of animations in the animation group
                     {
                         string lowAnim       = groupAA[lowGroupName][i];
                         string lowAnimPerson = (fstP ? lowAnim + "_1p*" : lowAnim);
@@ -212,7 +212,7 @@ registerAnimation::registerAnimation(string curDirectory,
 
                         if (newAnimInfo.size() > 2) AAHasEvent[originalAnim].push_back(lowerAnimName);
 
-                        for (unsigned int j = 2; j < newAnimInfo.size(); ++j)
+                        for (uint j = 2; j < newAnimInfo.size(); ++j)
                         {
                             AAEvent[lowerAnimName].push_back(newAnimInfo[j]);
 
@@ -245,7 +245,7 @@ registerAnimation::registerAnimation(string curDirectory,
 
                     if (newAnimInfo.size() != 5) ErrorMessage(1089, filename, linecount);
 
-                    for (unsigned int i = 1; i < newAnimInfo.size(); ++i)
+                    for (uint i = 1; i < newAnimInfo.size(); ++i)
                     {
                         if (!isOnlyNumber(newAnimInfo[i])) ErrorMessage(1091, filename, linecount);
                     }
@@ -279,7 +279,7 @@ registerAnimation::registerAnimation(string curDirectory,
 
                     if (newAnimInfo.size() != 6) ErrorMessage(1088, filename, linecount);
 
-                    for (unsigned int i = 1; i < newAnimInfo.size(); ++i)
+                    for (uint i = 1; i < newAnimInfo.size(); ++i)
                     {
                         if (!isOnlyNumber(newAnimInfo[i])) ErrorMessage(1088, filename, linecount);
                     }
@@ -489,7 +489,7 @@ registerAnimation::registerAnimation(string curDirectory,
                                         size_t nextOption;
                                         size_t pos = 0;
 
-                                        for (unsigned int i = 0; i < numOption; ++i)
+                                        for (uint i = 0; i < numOption; ++i)
                                         {
                                             nextOption = templine.find(",", pos);
 
@@ -621,7 +621,7 @@ registerAnimation::registerAnimation(string curDirectory,
                         size_t nextOption;
                         size_t pos = 0;
 
-                        for (unsigned int i = 0; i < numOption; ++i)
+                        for (uint i = 0; i < numOption; ++i)
                         {
                             nextOption = templine.find(",", pos);
 

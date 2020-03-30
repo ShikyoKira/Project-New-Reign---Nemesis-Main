@@ -85,7 +85,7 @@ void processing(string& line,
                 string multiOption,
                 vector<vector<unordered_map<string, bool>>>& optionPicked,
                 unsigned __int64& openRange,
-                unsigned int& elementCount,
+                uint& elementCount,
                 string& templateLine,
                 LineCheck* elementCatch,
                 bool& negative);
@@ -111,13 +111,13 @@ void processing2(string& line,
                  string multiOption);
 void newID(int& nextFunctionID, string& strID);
 
-LineCheck::LineCheck(string _line, unsigned int _row)
+LineCheck::LineCheck(string _line, uint _row)
 {
     line = _line;
     row  = _row;
 }
 
-LineCheck::LineCheck(shared_ptr<NodeJoint> _nested, unsigned int _row)
+LineCheck::LineCheck(shared_ptr<NodeJoint> _nested, uint _row)
 {
     nested = _nested;
     row    = _row;
@@ -158,7 +158,7 @@ NodePackedParameters::NodePackedParameters(string _format,
                                            string _multiOption,
                                            vector<vector<unordered_map<string, bool>>>& _optionPicked,
                                            unsigned __int64& _openRange,
-                                           unsigned int& _elementCount,
+                                           uint& _elementCount,
                                            string& _line,
                                            LineCheck* _elementCatch,
                                            bool& _negative)
@@ -195,8 +195,8 @@ NodeJoint::NodeJoint(vecstr& node,
                      string filename,
                      string _behaviorFile,
                      unordered_map<string, string> otherAnimType,
-                     unsigned int startline,
-                     unsigned int size)
+                     uint startline,
+                     uint size)
 {
     behaviorFile = _behaviorFile;
 
@@ -214,8 +214,8 @@ NodeJoint::NodeJoint(vecstr& node,
                      string filename,
                      string _behaviorFile,
                      setstr _templateGroup,
-                     unsigned int startline,
-                     unsigned int size)
+                     uint startline,
+                     uint size)
 {
     behaviorFile  = _behaviorFile;
     templateGroup = _templateGroup;
@@ -255,26 +255,26 @@ void NodeJoint::insertData(string format,
                            string zeroEvent,
                            string zeroVariable,
                            unsigned __int64& openRange,
-                           unsigned int elementCount,
+                           uint elementCount,
                            LineCheck* elementCatch,
                            shared_ptr<master> subFunctionIDs,
                            bool& negative)
 {
-    vector<unsigned int>* rows_ptr;
-    vector<unsigned int> rows;
+    vector<uint>* rows_ptr;
+    vector<uint> rows;
 
     if (templateSection.size() > 0) { rows_ptr = &templateSection[format]; }
     else
     {
         rows_ptr = &rows;
 
-        for (unsigned int sect = 0; sect < storeTemplate.size(); ++sect)
+        for (uint sect = 0; sect < storeTemplate.size(); ++sect)
         {
             rows_ptr->push_back(sect);
         }
     }
 
-    for (unsigned int sect : *rows_ptr)
+    for (uint sect : *rows_ptr)
     {
         if (storeTemplate[sect].nested)
         {
@@ -789,7 +789,7 @@ void NodeJoint::insertData(string format,
 void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
                                LineCheck& storeTemplate,
                                string condition,
-                               unsigned int sect,
+                               uint sect,
                                string format,
                                string filename,
                                vector<vector<unordered_map<string, bool>>>& optionPicked,
@@ -810,7 +810,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
                                string zeroEvent,
                                string zeroVariable,
                                unsigned __int64 openRange,
-                               unsigned int elementCount,
+                               uint elementCount,
                                LineCheck* elementCatch,
                                shared_ptr<master> subFunctionIDs,
                                bool& negative)
@@ -851,8 +851,8 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
     }
     else if (hasGroup)
     {
-        unsigned int groupOrder;
-        unsigned int groupSize;
+        uint groupOrder;
+        uint groupSize;
 
         // <!-- FOREACH ^format_group^ -->
         if (condition == format + "_group")
@@ -860,7 +860,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
             groupOrder = 0;
             groupSize  = groupAnimInfo.size();
 
-            for (unsigned int multi = groupOrder; multi < groupSize; ++multi)
+            for (uint multi = groupOrder; multi < groupSize; ++multi)
             {
                 output[sect].back().nested->insertData(format,
                                                        filename,
@@ -945,10 +945,10 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
 
             if (groupSize <= groupAnimInfo.size())
             {
-                for (unsigned int multi = groupOrder; multi < groupSize; ++multi)
+                for (uint multi = groupOrder; multi < groupSize; ++multi)
                 {
-                    unsigned int order;
-                    unsigned int size;
+                    uint order;
+                    uint size;
 
                     if (formatInfo[2].length() == 0)
                     {
@@ -963,7 +963,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
 
                     if (size <= subFunctionIDs->grouplist[multi]->singlelist.size())
                     {
-                        for (unsigned int animMulti = order; animMulti < size; ++animMulti)
+                        for (uint animMulti = order; animMulti < size; ++animMulti)
                         {
                             optionMultiLoop(output[sect],
                                             format,
@@ -1002,7 +1002,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
         {
             bool changed = false;
 
-            for (unsigned int multi = 0; multi < groupAnimInfo.size(); ++multi)
+            for (uint multi = 0; multi < groupAnimInfo.size(); ++multi)
             {
                 output[sect].back().nested->insertData(format,
                                                        filename,
@@ -1039,14 +1039,14 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
         }
         else
         {
-            unsigned int multi = groupMulti == -1 ? 0 : groupMulti;
+            uint multi = groupMulti == -1 ? 0 : groupMulti;
 
             if (multi < subFunctionIDs->grouplist.size())
             {
-                unsigned int order = 0;
-                unsigned int size  = subFunctionIDs->grouplist[multi]->singlelist.size();
+                uint order = 0;
+                uint size  = subFunctionIDs->grouplist[multi]->singlelist.size();
 
-                for (unsigned int animMulti = order; animMulti < size; ++animMulti)
+                for (uint animMulti = order; animMulti < size; ++animMulti)
                 {
                     output[sect].back().nested->insertData(format,
                                                            filename,
@@ -1158,7 +1158,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
                 return;
             }
 
-            unsigned int groupOrder = formatInfo[1].length() == 0 ? groupMulti : stoi(formatInfo[1]);
+            uint groupOrder = formatInfo[1].length() == 0 ? groupMulti : stoi(formatInfo[1]);
 
             if (animMulti != -1)
             {
@@ -1189,8 +1189,8 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
             }
             else if (groupOrder < subFunctionIDs->grouplist.size())
             {
-                unsigned int order;
-                unsigned int size;
+                uint order;
+                uint size;
 
                 if (formatInfo[2].length() == 0)
                 {
@@ -1306,21 +1306,21 @@ void NodeJoint::optionMultiLoop(vector<LineCheck>& output,
                                 string zeroEvent,
                                 string zeroVariable,
                                 unsigned __int64 openRange,
-                                unsigned int elementCount,
+                                uint elementCount,
                                 LineCheck* elementCatch,
                                 shared_ptr<master> subFunctionIDs,
                                 bool& negative,
                                 LineCheck temp)
 {
-    if (static_cast<unsigned int>(groupMulti) < groupAnimInfo.size()
-        && static_cast<unsigned int>(animMulti) < groupAnimInfo[groupMulti].size())
+    if (static_cast<uint>(groupMulti) < groupAnimInfo.size()
+        && static_cast<uint>(animMulti) < groupAnimInfo[groupMulti].size())
     {
-        unsigned int order       = optionMulti == -1 ? 0 : optionMulti;
-        unsigned int repeatCount = groupAnimInfo[groupMulti][animMulti]->optionPickedCount[multiOption];
+        uint order       = optionMulti == -1 ? 0 : optionMulti;
+        uint repeatCount = groupAnimInfo[groupMulti][animMulti]->optionPickedCount[multiOption];
 
         if (order < repeatCount)
         {
-            for (unsigned int optionMulti = order; optionMulti < repeatCount; ++optionMulti)
+            for (uint optionMulti = order; optionMulti < repeatCount; ++optionMulti)
             {
                 output.back().nested->insertData(format,
                                                  filename,
@@ -1386,7 +1386,7 @@ vecstr NodeJoint::unpack()
     int counter   = 0;
     int openRange = 0;
 
-    for (unsigned int i = 0; i < storeline.size(); ++i)
+    for (uint i = 0; i < storeline.size(); ++i)
     {
         string& line = storeline[i];
 
@@ -1469,14 +1469,14 @@ void NodeJoint::dataBake(vecstr& node,
                          string format,
                          string filename,
                          unordered_map<string, string> otherAnimType,
-                         unsigned int startline,
-                         unsigned int size)
+                         uint startline,
+                         uint size)
 {
     string multiOption;
     vecstr tempstore;
     FuncType curType = NONE;
     int scope        = 0;
-    unsigned int start;
+    uint start;
     bool conditionOpen = false;
     bool root;
 
@@ -1491,7 +1491,7 @@ void NodeJoint::dataBake(vecstr& node,
         root = false;
     }
 
-    for (unsigned int i = startline; i < size; ++i)
+    for (uint i = startline; i < size; ++i)
     {
         string line = node[i];
 
@@ -1501,7 +1501,7 @@ void NodeJoint::dataBake(vecstr& node,
             {
                 curType          = CONDITION_START;
                 start            = i + 1;
-                unsigned int pos = line.find("<!-- CONDITION START ^") + 22;
+                uint pos         = line.find("<!-- CONDITION START ^") + 22;
                 multiOption      = line.substr(pos, line.find("^ -->", pos) - pos);
                 conditionOpen    = true;
             }
@@ -1526,7 +1526,7 @@ void NodeJoint::dataBake(vecstr& node,
 
                 curType          = CONDITION_ELSE;
                 start            = i + 1;
-                unsigned int pos = line.find("<!-- CONDITION ^") + 16;
+                uint pos         = line.find("<!-- CONDITION ^") + 16;
                 multiOption      = line.substr(pos, line.find("^", pos) - pos);
             }
 
@@ -1561,7 +1561,7 @@ void NodeJoint::dataBake(vecstr& node,
             {
                 curType          = FOREACH;
                 start            = i + 1;
-                unsigned int pos = line.find("<!-- FOREACH ^") + 14;
+                uint pos         = line.find("<!-- FOREACH ^") + 14;
                 multiOption      = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
             }
 
@@ -1574,7 +1574,7 @@ void NodeJoint::dataBake(vecstr& node,
             {
                 curType          = NEW;
                 start            = i + 1;
-                unsigned int pos = line.find("<!-- NEW ^") + 10;
+                uint pos         = line.find("<!-- NEW ^") + 10;
                 multiOption      = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
             }
 
@@ -1709,7 +1709,7 @@ void processing(string& lineRef,
                 string multiOption,
                 vector<vector<unordered_map<string, bool>>>& optionPicked,
                 unsigned __int64& openRange,
-                unsigned int& elementCount,
+                uint& elementCount,
                 string& templateLine,
                 LineCheck* elementCatch,
                 bool& negative)
@@ -2025,8 +2025,7 @@ void processing2(string& line,
 
                             if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND)
                             {
-                                if (static_cast<unsigned int>(stoi(number))
-                                    >= groupAnimInfo[groupMulti].size())
+                                if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                                 {
                                     change.replace(change.find(format + "[" + number + "][FilePath]"),
                                                    8 + format.length() + number.length(),
@@ -2086,8 +2085,7 @@ void processing2(string& line,
 
                             if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND)
                             {
-                                if (static_cast<unsigned int>(stoi(number))
-                                    >= groupAnimInfo[groupMulti].size())
+                                if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                                 {
                                     change.replace(change.find(format + "[" + number + "][FileName]"),
                                                    8 + format.length() + number.length(),
@@ -2206,8 +2204,7 @@ void processing2(string& line,
 
                             if (number != change)
                             {
-                                if (static_cast<unsigned int>(stoi(number))
-                                    >= groupAnimInfo[groupMulti].size())
+                                if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                                 {
                                     pos = change.find("[" + format + "[" + number + "][main_anim_event]]", 0);
 

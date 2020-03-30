@@ -56,7 +56,7 @@ void comparing(std::vector<list>& storeline,
     int linecount = 0;
     bool close    = false;
 
-    for (unsigned int k = 0; k < storeline.size(); ++k)
+    for (uint k = 0; k < storeline.size(); ++k)
     {
         if (storeline[k].name.find("<!-- CONDITION") != NOT_FOUND)
         { ErrorMessage(5004, filename, counter + k); }
@@ -127,7 +127,7 @@ void comparing(std::vector<list>& storeline,
         if (close) { newlines.push_back(storeline[k].name); }
     }
 
-    for (unsigned int j = 0; j < extract.size(); ++j)
+    for (uint j = 0; j < extract.size(); ++j)
     {
         combinelines.push_back(extract[j]);
     }

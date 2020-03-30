@@ -161,7 +161,7 @@ public:
         int& elementCount,
         int curFunctionID,
         int curLine,
-        unsigned int scopeSize);
+        uint scopeSize);
     void processing(std::string& line,
                     std::string filename,
                     int curFunctionID,

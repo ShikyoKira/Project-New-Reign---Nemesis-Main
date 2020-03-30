@@ -187,7 +187,7 @@ void BehaviorSub::CompilingAnimData()
 
             // add picked behavior and remove not picked behavior
             // separation of all items for easier access and better compatibility
-            for (unsigned int l = num; l < catalyst.size(); ++l)
+            for (uint l = num; l < catalyst.size(); ++l)
             {
                 string line = catalyst[l];
 

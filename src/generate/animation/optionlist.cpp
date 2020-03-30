@@ -180,12 +180,12 @@ OptionList::OptionList(string filepath, string format)
                 }
                 else if (lower == "link")
                 {
-                    for (unsigned int i = 1; i < AnimInfo.size(); ++i)
+                    for (uint i = 1; i < AnimInfo.size(); ++i)
                     {
                         string currentTab;
                         vecstr linker;
 
-                        for (unsigned int j = 1; j < AnimInfo.size(); ++j)
+                        for (uint j = 1; j < AnimInfo.size(); ++j)
                         {
                             if (i == j)
                             {
@@ -205,7 +205,7 @@ OptionList::OptionList(string filepath, string format)
                 }
                 else if (lower == "event")
                 {
-                    for (unsigned int i = 0; i < strline.length(); ++i)
+                    for (uint i = 0; i < strline.length(); ++i)
                     {
                         if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<'
                             && strline[i] != '>' && strline[i] != ' ')
@@ -271,7 +271,7 @@ OptionList::OptionList(string filepath, string format)
                 }
                 else if (lower == "event_group")
                 {
-                    for (unsigned int i = 0; i < strline.length(); ++i)
+                    for (uint i = 0; i < strline.length(); ++i)
                     {
                         if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<'
                             && strline[i] != '>' && strline[i] != ' ')
@@ -359,7 +359,7 @@ OptionList::OptionList(string filepath, string format)
                 }
                 else if (lower == "variable")
                 {
-                    for (unsigned int i = 0; i < strline.length(); ++i)
+                    for (uint i = 0; i < strline.length(); ++i)
                     {
                         if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<'
                             && strline[i] != '>' && strline[i] != ' ')
@@ -415,7 +415,7 @@ OptionList::OptionList(string filepath, string format)
                 }
                 else if (lower == "variable_group")
                 {
-                    for (unsigned int i = 0; i < strline.length(); ++i)
+                    for (uint i = 0; i < strline.length(); ++i)
                     {
                         if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<'
                             && strline[i] != '>' && strline[i] != ' ')
@@ -498,7 +498,7 @@ OptionList::OptionList(string filepath, string format)
                 }
                 else if (lower == "compulsory")
                 {
-                    for (unsigned int i = 0; i < strline.length(); ++i)
+                    for (uint i = 0; i < strline.length(); ++i)
                     {
                         if (!isalpha(strline[i])) ErrorMessage(1044, format, filepath, linecount);
                     }
@@ -681,7 +681,7 @@ OptionList::OptionList(string filepath, string format)
                         {
                             bool number = false;
 
-                            for (unsigned int i = 0; i < strline.length(); ++i)
+                            for (uint i = 0; i < strline.length(); ++i)
                             {
                                 if (!isalnum(strline[i]) && strline[i] != '[' && strline[i] != ']')
                                     ErrorMessage(1012, format, filepath, linecount);
@@ -710,7 +710,7 @@ OptionList::OptionList(string filepath, string format)
             }
         }
 
-        for (unsigned int i = 1; i < isNumExist.size(); ++i)
+        for (uint i = 1; i < isNumExist.size(); ++i)
         {
             if (!isNumExist[i]) ErrorMessage(1024, isNumExist.size(), format, filepath, linecount);
         }
@@ -743,7 +743,7 @@ OptionList::OptionList(string filepath, string format)
                     size_t addOnSize = addOn[it->first].size();
                     bool pass        = false;
 
-                    for (unsigned int i = 0; i < addOnSize; ++i)
+                    for (uint i = 0; i < addOnSize; ++i)
                     {
                         if (iter->first == addOn[it->first][i])
                         {
@@ -794,7 +794,7 @@ OptionList::OptionList(string filepath, string format)
         {
             string mixedOption = it->first;
 
-            for (unsigned int i = 0; i < it->second.size(); ++i)
+            for (uint i = 0; i < it->second.size(); ++i)
             {
                 mixedOption = mixedOption + "&" + it->second[i];
             }
@@ -803,7 +803,7 @@ OptionList::OptionList(string filepath, string format)
             mixOptRever[mixedOption].push_back(it->first);
             bool l_error = false;
 
-            for (unsigned int i = 0; i < it->second.size(); ++i)
+            for (uint i = 0; i < it->second.size(); ++i)
             {
                 if (groupOption[it->first] != groupOption[it->second[i]]
                     || addOn[it->first] != addOn[it->second[i]])
@@ -818,7 +818,7 @@ OptionList::OptionList(string filepath, string format)
                 string errorElements;
                 errorElements.append(it->first);
 
-                for (unsigned int i = 0; i < it->second.size(); ++i)
+                for (uint i = 0; i < it->second.size(); ++i)
                 {
                     errorElements.append("," + it->second[i]);
                 }
@@ -835,7 +835,7 @@ OptionList::OptionList(string filepath, string format)
     {
         if (!isDone[it->first])
         {
-            for (unsigned int i = 0; i < it->second.size(); ++i)
+            for (uint i = 0; i < it->second.size(); ++i)
             {
                 if (addOn[it->first].size() == addOn[it->second[i]].size())
                 {
@@ -909,7 +909,7 @@ bool optionMatching(string option1, string option2)
         longer  = option1;
     }
 
-    for (unsigned int i = 0; i < shorter.size(); ++i)
+    for (uint i = 0; i < shorter.size(); ++i)
     {
         if (shorter[i] != longer[i]) { return false; }
     }

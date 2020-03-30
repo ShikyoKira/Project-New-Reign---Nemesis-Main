@@ -42,7 +42,7 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                 SSMap IDExist;
                 behaviorlines.reserve(behaviorlines.size() + exportFormat.size() + 1);
 
-                for (unsigned int j = 0; j < exportFormat.size(); ++j)
+                for (uint j = 0; j < exportFormat.size(); ++j)
                 {
                     bool elementCatch = false;
                     string line       = exportFormat[j];

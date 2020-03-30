@@ -487,7 +487,7 @@ bool NodeU::NodeUpdate(string modcode,
 
         if (bigger)
         {
-            for (unsigned int i = newline.size(); i < storeline.size(); ++i)
+            for (uint i = newline.size(); i < storeline.size(); ++i)
             {
                 if (NewCoordinate[linecount] > 0)
                 {
@@ -982,7 +982,7 @@ bool CombineAnimData(string filepath,
 
     if (bigger)
     {
-        for (unsigned int i = newline.size(); i < storeline.size(); ++i)
+        for (uint i = newline.size(); i < storeline.size(); ++i)
         {
             if (NewCoordinate[linecount] > 0)
             {
@@ -1324,7 +1324,7 @@ bool ClassCheck(vector<int>& modEditCoordinate,
                 string filename,
                 string modcode)
 {
-    unsigned int endline = modEditLine[to_string(linecount) + "R"] + NewCoordinate[linecount];
+    uint endline = modEditLine[to_string(linecount) + "R"] + NewCoordinate[linecount];
     bool attacknew       = false;
     bool islast          = false;
 
@@ -1333,7 +1333,7 @@ bool ClassCheck(vector<int>& modEditCoordinate,
             storeline, projectfile, filename, modcode, modEditLine[to_string(linecount) + "R"], true))
         attacknew = true;
 
-    for (unsigned int k = modEditLine[to_string(linecount) + "R"]; k < endline; ++k)
+    for (uint k = modEditLine[to_string(linecount) + "R"]; k < endline; ++k)
     {
         if (error) throw nemesis::exception();
 

@@ -22,9 +22,10 @@
 
 #define NOT_FOUND std::string::npos
 
-typedef std::vector<std::string> vecstr;
-typedef std::vector<char> vecchar;
-typedef std::unordered_map<std::string, int> id;
+using vecstr  = std::vector<std::string>;
+using vecchar = std::vector<char>;
+using id      = std::unordered_map<std::string, int>;
+using uint    = unsigned int;
 
 // utility
 extern bool debug;                     // if debug is on

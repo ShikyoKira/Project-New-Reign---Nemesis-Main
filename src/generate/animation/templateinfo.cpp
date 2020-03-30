@@ -67,7 +67,7 @@ TemplateInfo::TemplateInfo()
                     pathVector.push_back(FOF2);
                 }
 
-                for (unsigned int l = 0; l < pathVector.size(); ++l)
+                for (uint l = 0; l < pathVector.size(); ++l)
                 {
                     if (sf::is_directory(pathVector[l]))
                     {
@@ -87,7 +87,7 @@ TemplateInfo::TemplateInfo()
                                 = behaviorJoints[lowerBehaviorFolder];
                         }
 
-                        for (unsigned int i = 0; i < filelist.size(); ++i)
+                        for (uint i = 0; i < filelist.size(); ++i)
                         {
                             newpath = templateDirectory + code + "\\" + behaviorFolder + "\\" + filelist[i];
                             sf::path file(newpath);
@@ -195,7 +195,7 @@ TemplateInfo::TemplateInfo()
                                     grouplist[lowerBehaviorFolder].insert(code);
                                     string project = filelist[i] + ".txt";
 
-                                    for (unsigned int j = 0; j < headerlist.size(); ++j)
+                                    for (uint j = 0; j < headerlist.size(); ++j)
                                     {
                                         string header
                                             = headerlist[j].substr(0, headerlist[j].find_last_of("."));

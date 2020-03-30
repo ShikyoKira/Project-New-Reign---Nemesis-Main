@@ -77,7 +77,7 @@ void behaviorActivateMod(vecstr behaviorPriority)
         behaviorActivator; // modcode, behavior; existence of the behavior in any of these
     string directory = "mod\\";
     vecstr modlist;
-    unsigned int i = 1;
+    uint i = 1;
 
     for (auto itr = behaviorPriority.rbegin(); itr != behaviorPriority.rend(); ++itr)
     {

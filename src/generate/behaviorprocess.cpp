@@ -206,7 +206,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
     DebugLogging("Registering new animations...");
 
     // read each animation list file'
-    for (unsigned int i = 0; i < animationList.size(); ++i)
+    for (uint i = 0; i < animationList.size(); ++i)
     {
         set<string> coreRegistered; // list of registered core behavior
         string modID = animationList[i]->modID;
@@ -444,14 +444,14 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                             unordered_map<string, unordered_map<string, vecstr>> groupAddOn
                                 = newAnimation[templatecode].back()->GetGroupAddition();
 
-                            for (unsigned int k = 0; k < elementList->size(); ++k)
+                            for (uint k = 0; k < elementList->size(); ++k)
                             {
                                 vecstr* element    = &(*elementList)[k];
                                 string elementLine = (*elementListLine)[k];
                                 vector<vecstr> groupAddOnElement;
                                 groupAddOnElement.reserve(memory / 10);
 
-                                for (unsigned int l = 0; l < element->size(); ++l)
+                                for (uint l = 0; l < element->size(); ++l)
                                 {
                                     string templine = (*element)[l];
 
@@ -471,7 +471,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                                 {
                                     vecstr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                    for (unsigned int l = 0; l < animEvent.size(); ++l)
+                                    for (uint l = 0; l < animEvent.size(); ++l)
                                     {
                                         newAnimEvent[templatecode + coreModName].insert(animEvent[l]);
                                     }
@@ -493,14 +493,14 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                             unordered_map<string, unordered_map<string, vecstr>> groupAddOn
                                 = newAnimation[templatecode].back()->GetGroupAddition();
 
-                            for (unsigned int k = 0; k < elementList->size(); ++k)
+                            for (uint k = 0; k < elementList->size(); ++k)
                             {
                                 vecstr* element    = &(*elementList)[k];
                                 string elementLine = (*elementListLine)[k];
                                 vector<vecstr> groupAddOnElement;
                                 groupAddOnElement.reserve(memory / 10);
 
-                                for (unsigned int l = 0; l < element->size(); ++l)
+                                for (uint l = 0; l < element->size(); ++l)
                                 {
                                     string templine = (*element)[l];
                                     bool isBreak    = false;
@@ -550,7 +550,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                                 {
                                     vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                    for (unsigned int l = 0; l < animVar.size(); ++l)
+                                    for (uint l = 0; l < animVar.size(); ++l)
                                     {
                                         newAnimVariable[templatecode + coreModName].insert(animVar[l]);
                                     }
@@ -595,14 +595,14 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                                 unordered_map<string, unordered_map<string, vecstr>> groupAddOn
                                     = newAnimation[templatecode].back()->GetGroupAddition();
 
-                                for (unsigned int k = 0; k < elementList->size(); ++k)
+                                for (uint k = 0; k < elementList->size(); ++k)
                                 {
                                     vecstr* element    = &(*elementList)[k];
                                     string elementLine = (*elementListLine)[k];
                                     vector<vecstr> groupAddOnElement;
                                     groupAddOnElement.reserve(memory / 10);
 
-                                    for (unsigned int l = 0; l < element->size(); ++l)
+                                    for (uint l = 0; l < element->size(); ++l)
                                     {
                                         string templine = (*element)[l];
 
@@ -623,7 +623,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                                         vecstr animEvent
                                             = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                        for (unsigned int l = 0; l < animEvent.size(); ++l)
+                                        for (uint l = 0; l < animEvent.size(); ++l)
                                         {
                                             newAnimEvent[templatecode + coreModName].insert(animEvent[l]);
                                         }
@@ -645,14 +645,14 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                                 unordered_map<string, unordered_map<string, vecstr>> groupAddOn
                                     = newAnimation[templatecode].back()->GetGroupAddition();
 
-                                for (unsigned int k = 0; k < elementList->size(); ++k)
+                                for (uint k = 0; k < elementList->size(); ++k)
                                 {
                                     vecstr* element    = &(*elementList)[k];
                                     string elementLine = (*elementListLine)[k];
                                     vector<vecstr> groupAddOnElement;
                                     groupAddOnElement.reserve(memory / 10);
 
-                                    for (unsigned int l = 0; l < element->size(); ++l)
+                                    for (uint l = 0; l < element->size(); ++l)
                                     {
                                         string templine = (*element)[l];
                                         addOnInstall(
@@ -664,7 +664,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                                         vecstr animVar
                                             = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                        for (unsigned int l = 0; l < animVar.size(); ++l)
+                                        for (uint l = 0; l < animVar.size(); ++l)
                                         {
                                             newAnimVariable[templatecode + coreModName].insert(animVar[l]);
                                         }
@@ -687,14 +687,14 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         unordered_map<string, unordered_map<string, vecstr>> groupAddOn
                             = newAnimation[templatecode].back()->GetGroupAddition();
 
-                        for (unsigned int k = 0; k < elementList->size(); ++k)
+                        for (uint k = 0; k < elementList->size(); ++k)
                         {
                             vecstr* element    = &(*elementList)[k];
                             string elementLine = (*elementListLine)[k];
                             vector<vecstr> groupAddOnElement;
                             groupAddOnElement.reserve(memory / 10);
 
-                            for (unsigned int l = 0; l < element->size(); ++l)
+                            for (uint l = 0; l < element->size(); ++l)
                             {
                                 string templine = (*element)[l];
 
@@ -713,7 +713,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                             {
                                 vecstr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                for (unsigned int l = 0; l < animEvent.size(); ++l)
+                                for (uint l = 0; l < animEvent.size(); ++l)
                                 {
                                     newAnimEvent[templatecode + coreModName].insert(animEvent[l]);
                                 }
@@ -734,14 +734,14 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         unordered_map<string, unordered_map<string, vecstr>> groupAddOn
                             = newAnimation[templatecode].back()->GetGroupAddition();
 
-                        for (unsigned int k = 0; k < elementList->size(); ++k)
+                        for (uint k = 0; k < elementList->size(); ++k)
                         {
                             vecstr* element    = &(*elementList)[k];
                             string elementLine = (*elementListLine)[k];
                             vector<vecstr> groupAddOnElement;
                             groupAddOnElement.reserve(memory / 10);
 
-                            for (unsigned int l = 0; l < element->size(); ++l)
+                            for (uint l = 0; l < element->size(); ++l)
                             {
                                 string templine = (*element)[l];
 
@@ -760,7 +760,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                             {
                                 vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                for (unsigned int l = 0; l < animVar.size(); ++l)
+                                for (uint l = 0; l < animVar.size(); ++l)
                                 {
                                     newAnimVariable[templatecode + coreModName].insert(animVar[l]);
                                 }
@@ -772,7 +772,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         }
                     }
 
-                    for (unsigned int k = 0; k < tempVariableID.size(); ++k)
+                    for (uint k = 0; k < tempVariableID.size(); ++k)
                     {
                         string name   = tempVariableID[k];
                         AnimVar[name] = animationList[i]->AnimVar[name];
@@ -815,7 +815,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
         for (auto& templatecode : it->second)
         {
             // existing function
-            for (unsigned int k = 0; k < BehaviorTemplate->existingFunctionID[templatecode][it->first].size();
+            for (uint k = 0; k < BehaviorTemplate->existingFunctionID[templatecode][it->first].size();
                  ++k)
             {
                 ignoreFunction[it->first + ".txt"]
@@ -880,7 +880,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
     emit progressUp();
     behaviorRun = 1;
 
-    for (unsigned int i = 0; i < filelist.size(); ++i)
+    for (uint i = 0; i < filelist.size(); ++i)
     {
         if (!sf::is_directory(directory + filelist[i]))
         {
@@ -897,7 +897,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
             vecstr fpfilelist;
             read_directory(directory + filelist[i], fpfilelist);
 
-            for (unsigned int j = 0; j < fpfilelist.size(); ++j)
+            for (uint j = 0; j < fpfilelist.size(); ++j)
             {
                 string lowerFileName = nemesis::to_lower_copy(filelist[i] + "\\" + fpfilelist[j]);
 
@@ -915,7 +915,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
     try
     {
-        for (unsigned int i = 0; i < filelist.size(); ++i)
+        for (uint i = 0; i < filelist.size(); ++i)
         {
             if (error) throw nemesis::exception();
 
@@ -1011,7 +1011,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                     curfile = filelist[i] + "\\" + curfile;
                 }
 
-                for (unsigned int j = 0; j < fpfilelist.size(); ++j)
+                for (uint j = 0; j < fpfilelist.size(); ++j)
                 {
                     if (error) throw nemesis::exception();
 

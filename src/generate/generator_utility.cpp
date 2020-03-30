@@ -57,7 +57,7 @@ GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map
             {
                 int curState = 0;
 
-                for (unsigned int j = 0; j < functionlist[it->second].size(); ++j)
+                for (uint j = 0; j < functionlist[it->second].size(); ++j)
                 {
                     string curline = functionlist[it->second][j];
 
@@ -84,7 +84,7 @@ GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map
 
                                 int ID = stoi(curline.substr(1));
 
-                                for (unsigned int l = 0; l < functionlist[ID].size(); ++l)
+                                for (uint l = 0; l < functionlist[ID].size(); ++l)
                                 {
                                     string line = functionlist[ID][l];
 
@@ -173,7 +173,7 @@ vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
 {
     vecstr animElement;
 
-    for (unsigned int j = 0; j < element[curNumber].size(); ++j)
+    for (uint j = 0; j < element[curNumber].size(); ++j)
     {
         string templine = line;
         templine.replace(templine.find("##"), 2, element[curNumber][j]);
@@ -198,7 +198,7 @@ behaviorLineChooser(string originalline, unordered_map<string, string> chosenLin
 {
     int chosen = -1;
 
-    for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
+    for (uint i = 0; i < behaviorPriority.size(); ++i)
     {
         if (chosenLines[behaviorPriority[i]].length() != 0)
         {

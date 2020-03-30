@@ -181,8 +181,8 @@ void processExistFuncID(std::vector<int>& funcIDs,
         unordered_map<string, bool> otherAnimType;
         string strID = to_string(lastID);
         unsigned __int64 openRange;
-        unsigned int elementCount = 0;
-        bool negative             = false;
+        uint elementCount = 0;
+        bool negative     = false;
 
         for (auto& groupInfo : groupAnimInfo)
         {

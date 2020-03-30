@@ -27,9 +27,9 @@ public slots:
 
 private:
     ScrollBar* m_Scrollbar;
-    unsigned int modNameWidth;
-    unsigned int authorWidth;
-    unsigned int priorityWidth;
+    uint modNameWidth;
+    uint authorWidth;
+    uint priorityWidth;
 };
 
 #endif

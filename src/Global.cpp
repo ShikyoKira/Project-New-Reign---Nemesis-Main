@@ -55,7 +55,7 @@ void read_directory(const string& name, vecstr& fv)
         if (filename != L"." && filename != L"..") { fv.push_back(WStringToString(filename)); }
     }
 
-    for (unsigned int i = 0; i < fv.size(); ++i)
+    for (uint i = 0; i < fv.size(); ++i)
     {
         if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
         {
@@ -76,7 +76,7 @@ void read_directory(const wstring& name, vector<wstring>& fv)
         if (filename != L"." && filename != L"..") { fv.push_back(filename); }
     }
 
-    for (unsigned int i = 0; i < fv.size(); ++i)
+    for (uint i = 0; i < fv.size(); ++i)
     {
         if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
         {
@@ -97,7 +97,7 @@ void read_directory(const char* name, vecstr& fv)
         if (filename != L"." && filename != L"..") { fv.push_back(WStringToString(filename)); }
     }
 
-    for (unsigned int i = 0; i < fv.size(); ++i)
+    for (uint i = 0; i < fv.size(); ++i)
     {
         if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
         {
@@ -118,7 +118,7 @@ void read_directory(const wchar_t* name, vector<wstring>& fv)
         if (filename != L"." && filename != L"..") { fv.push_back(filename); }
     }
 
-    for (unsigned int i = 0; i < fv.size(); ++i)
+    for (uint i = 0; i < fv.size(); ++i)
     {
         if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
         {
@@ -180,7 +180,7 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
     string time                    = to_simple_string(time1);
     string timer;
 
-    for (unsigned int i = 0; i < time.size(); ++i)
+    for (uint i = 0; i < time.size(); ++i)
     {
         if (time[i] != ':') { timer.append(1, time[i]); }
     }

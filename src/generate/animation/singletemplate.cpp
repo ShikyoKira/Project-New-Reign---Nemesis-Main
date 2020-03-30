@@ -192,7 +192,7 @@ void AnimTemplate::ExamineTemplate(
 
     if (isCore)
     {
-        for (unsigned int i = 0; i < templatelines.size(); ++i)
+        for (uint i = 0; i < templatelines.size(); ++i)
         {
             bool uniqueskip = false;
             string line     = templatelines[i];
@@ -212,7 +212,7 @@ void AnimTemplate::ExamineTemplate(
     }
     else
     {
-        for (unsigned int i = 0; i < templatelines.size(); ++i)
+        for (uint i = 0; i < templatelines.size(); ++i)
         {
             bool uniqueskip = false;
             string line     = templatelines[i];
@@ -1253,7 +1253,7 @@ bool condt::specialIsTrueB(proc* process,
 
         if (cmpbool1)
         {
-            for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+            for (uint i = 0; i < groupAnimInfo.size(); ++i)
             {
                 animMulti1_list.insert(i);
             }
@@ -1265,7 +1265,7 @@ bool condt::specialIsTrueB(proc* process,
 
         if (cmpbool2)
         {
-            for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+            for (uint i = 0; i < groupAnimInfo.size(); ++i)
             {
                 animMulti2_list.insert(i);
             }
@@ -1757,7 +1757,7 @@ condt::condt(string condition,
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (unsigned int i = 0; i < condition.size(); ++i)
+        for (uint i = 0; i < condition.size(); ++i)
         {
             if (condition[i] == '(') { ++c_or; }
             else if (condition[i] == ')')
@@ -2825,7 +2825,7 @@ void ProcessFunction(string change,
             size_t curcounter = 1;
             size_t post       = curPos + pos;
 
-            for (unsigned int ch = eventpos; ch < change.length(); ++ch)
+            for (uint ch = eventpos; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;
@@ -2861,7 +2861,7 @@ void ProcessFunction(string change,
             size_t curcounter = 1;
             size_t post       = curPos + pos;
 
-            for (unsigned int ch = varpos; ch < change.length(); ++ch)
+            for (uint ch = varpos; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;
@@ -2897,7 +2897,7 @@ void ProcessFunction(string change,
             size_t curcounter = 1;
             size_t post       = curPos + pos;
 
-            for (unsigned int ch = animpos; ch < change.length(); ++ch)
+            for (uint ch = animpos; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;
@@ -2942,7 +2942,7 @@ void ProcessFunction(string change,
             size_t encode     = pos + 6;
             size_t curcounter = 1;
 
-            for (unsigned int ch = encode; ch < change.length(); ++ch)
+            for (uint ch = encode; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;
@@ -2977,7 +2977,7 @@ void ProcessFunction(string change,
             size_t curcounter = 0;
             size_t post       = curPos + pos;
 
-            for (unsigned int ch = pos; ch < change.length(); ++ch)
+            for (uint ch = pos; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;

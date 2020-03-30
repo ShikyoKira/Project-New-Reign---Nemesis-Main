@@ -95,7 +95,7 @@ AnimationDataProject::AnimationDataProject(int& startline,
                     pathCRC32Point = &pathCRC32;
                 }
 
-                for (unsigned int i = 0; i < pathCRC32Point->size(); ++i)
+                for (uint i = 0; i < pathCRC32Point->size(); ++i)
                 {
                     AAList[pathCRC32Point->at(i) + "," + animCRC32 + ",7891816"]
                         = make_shared<vecstr>(anim.second);
@@ -114,7 +114,7 @@ AnimationDataProject::AnimationDataProject(int& startline,
                             = to_string(CRC32Convert(nemesis::to_lower_copy(GetFileName(animPath.first))));
                         string pathline = animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA"));
 
-                        for (unsigned int i = 0; i < pathCRC32.size(); ++i)
+                        for (uint i = 0; i < pathCRC32.size(); ++i)
                         {
                             string crc32line = pathCRC32[i] + "," + animCRC32 + ",7891816";
 
@@ -536,7 +536,7 @@ ASDPosition(vecstr animData, string project, string header, string modcode, int 
 
     bool mod = false;
 
-    for (unsigned int i = 0; i < animData.size(); ++i)
+    for (uint i = 0; i < animData.size(); ++i)
     {
         if (animData[i].find("<!-- ") != NOT_FOUND)
         {
@@ -1812,7 +1812,7 @@ void combineExtraction(vecstr& storeline, map<int, vecstr> extract, string proje
     bool newOpen  = false;
     int condition = 0;
 
-    for (unsigned int i = 0; i < storeline.size(); ++i)
+    for (uint i = 0; i < storeline.size(); ++i)
     {
         string line = storeline[i];
 
@@ -1836,7 +1836,7 @@ void combineExtraction(vecstr& storeline, map<int, vecstr> extract, string proje
         {
             if (condition == 0 && !newOpen) { ErrorMessage(5013, project, header); }
 
-            for (unsigned int k = 0; k < extract[i].size(); ++k)
+            for (uint k = 0; k < extract[i].size(); ++k)
             {
                 newline.push_back(extract[i][k]);
             }

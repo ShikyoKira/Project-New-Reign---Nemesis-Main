@@ -206,13 +206,13 @@ bool PCEAInstallation()
                 startnum += 49;
             }
 
-            for (unsigned int j = 0; j < pcealist.size(); ++j)
+            for (uint j = 0; j < pcealist.size(); ++j)
             {
                 string number        = to_string(j + 1);
-                unsigned int size    = min(pcealist[j].modFile.length(), 113 - number.length());
-                unsigned int counter = startnum + (117 * j);
+                uint size    = min(pcealist[j].modFile.length(), 113 - number.length());
+                uint counter = startnum + (117 * j);
 
-                for (unsigned int i = 0; i < number.length(); ++i)
+                for (uint i = 0; i < number.length(); ++i)
                 {
                     fseek(f, counter, SEEK_SET);
                     unsigned char charcode = static_cast<unsigned char>(number[i]);
@@ -229,7 +229,7 @@ bool PCEAInstallation()
                 fwrite(&charcode, sizeof(charcode), 1, f);
                 ++counter;
 
-                for (unsigned int i = 0; i < size; ++i)
+                for (uint i = 0; i < size; ++i)
                 {
                     fseek(f, counter + i, SEEK_SET);
                     charcode = static_cast<unsigned char>(pcealist[j].modFile[i]);
@@ -239,9 +239,9 @@ bool PCEAInstallation()
                 if (error) throw nemesis::exception();
             }
 
-            for (unsigned int j = pcealist.size(); j < 10; ++j)
+            for (uint j = pcealist.size(); j < 10; ++j)
             {
-                for (unsigned int i = 0; i < 115; ++i)
+                for (uint i = 0; i < 115; ++i)
                 {
                     fseek(f, startnum + (117 * j) + i, SEEK_SET);
                     unsigned char charcode = 32;
@@ -297,7 +297,7 @@ bool PCEAInstallation()
 
         if (line.find("\tPCEA[num] =") != NOT_FOUND)
         {
-            for (unsigned int j = 0; j < pcealist.size(); ++j)
+            for (uint j = 0; j < pcealist.size(); ++j)
             {
                 string templine = line;
                 templine.replace(templine.find("num"), 3, to_string(j));
@@ -309,7 +309,7 @@ bool PCEAInstallation()
         }
         else if (line.find("\tactivation[num]") != NOT_FOUND)
         {
-            for (unsigned int j = 0; j < pcealist.size(); ++j)
+            for (uint j = 0; j < pcealist.size(); ++j)
             {
                 string templine = line;
                 templine.replace(templine.find("num"), 3, to_string(j));

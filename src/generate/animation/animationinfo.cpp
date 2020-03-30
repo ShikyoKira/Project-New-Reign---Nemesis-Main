@@ -17,7 +17,7 @@ AnimationInfo::AnimationInfo(vecstr newAnimInfo,
                              bool& isOExist,
                              bool noOption)
 {
-    unsigned int k = 0;
+    uint k         = 0;
     string line    = newAnimInfo[1];
     animInfo       = newAnimInfo;
     ignoreGroup    = behaviorOption.ignoreGroup;
@@ -100,12 +100,12 @@ AnimationInfo::AnimationInfo(vecstr newAnimInfo,
                 bool isSameOption = true;
                 string header     = "";
 
-                for (unsigned int m = 0; m < optionOrder.size(); ++m)
+                for (uint m = 0; m < optionOrder.size(); ++m)
                 {
                     bool loose = false;
 
                     // check on group / addon option
-                    for (unsigned int j = 0; j < optionOrder[m].size(); ++j)
+                    for (uint j = 0; j < optionOrder[m].size(); ++j)
                     {
                         if (optionOrder[m][j] != option[j]) { break; }
                         else if (j == optionOrder[m].size() - 1)
@@ -131,7 +131,7 @@ AnimationInfo::AnimationInfo(vecstr newAnimInfo,
                                         bool isPassed  = true;
                                         string section = nonHeader;
 
-                                        for (unsigned int k = 0; k < joint[header].size(); ++k)
+                                        for (uint k = 0; k < joint[header].size(); ++k)
                                         {
                                             string newSection
                                                 = section.substr(section.find(joint[header][k]) + 1);
@@ -149,7 +149,7 @@ AnimationInfo::AnimationInfo(vecstr newAnimInfo,
 
                                         isPassed = false;
 
-                                        for (unsigned int k = 0; k < addOn[header].size(); ++k)
+                                        for (uint k = 0; k < addOn[header].size(); ++k)
                                         {
                                             if (nonHeader.length() != 0)
                                             {
@@ -219,7 +219,7 @@ AnimationInfo::AnimationInfo(vecstr newAnimInfo,
     if (animInfo.size() > k + 3)
     {
         vecstr animobjects;
-        unsigned int add = 3;
+        uint add = 3;
 
         while (k + add < animInfo.size())
         {
@@ -244,7 +244,7 @@ void AnimationInfo::storeAnimObject(vecstr animobjects, string listFilename, int
 {
     size_t position;
 
-    for (unsigned int i = 0; i < animobjects.size(); ++i)
+    for (uint i = 0; i < animobjects.size(); ++i)
     {
         if (animobjects[i].find("/") == NOT_FOUND)
         {

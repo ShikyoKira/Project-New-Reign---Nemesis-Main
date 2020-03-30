@@ -101,7 +101,7 @@ namespace nemesis
             n_match.positionlist.push_back(match.position());
             n_match.match.push_back(line.substr(match.position(), match[0].length()));
 
-            for (unsigned int i = 1; i < match.size(); ++i)
+            for (uint i = 1; i < match.size(); ++i)
             {
                 n_match.positionlist.push_back(match.position(i));
                 n_match.match.push_back(line.substr(match.position(i), match[i].length()));
@@ -1848,7 +1848,7 @@ void proc::import(range blok, vecstr& blocks)
                 string tempKeyword = import.substr(pos, import.find_last_of("]") + 1 - pos);
                 int openBrack      = 0;
 
-                for (unsigned int j = 0; j < tempKeyword.length(); ++j)
+                for (uint j = 0; j < tempKeyword.length(); ++j)
                 {
                     char curChar = tempKeyword[j];
 
@@ -1915,7 +1915,7 @@ void proc::motionDataMultiGroup(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -1945,7 +1945,7 @@ void proc::motionDataFirstGroup(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -1977,7 +1977,7 @@ void proc::motionDataNextGroup(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -2009,7 +2009,7 @@ void proc::motionDataBackGroup(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -2039,7 +2039,7 @@ void proc::motionDataLastGroup(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -2074,7 +2074,7 @@ void proc::motionDataNumGroup(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -2108,7 +2108,7 @@ void proc::motionDataMultiMaster(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -2140,7 +2140,7 @@ void proc::motionDataFirstMaster(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -2172,7 +2172,7 @@ void proc::motionDataLastMaster(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -2209,7 +2209,7 @@ void proc::motionDataNumMaster(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -2241,7 +2241,7 @@ void proc::motionDataSingle(range blok, vecstr& blocks)
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (uint j = 0; j < curInfo->motionData.size(); ++j)
             {
                 motionData.append(curInfo->motionData[j] + "\n");
             }
@@ -2273,7 +2273,7 @@ void proc::rotationDataMultiGroup(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2303,7 +2303,7 @@ void proc::rotationDataFirstGroup(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2335,7 +2335,7 @@ void proc::rotationDataNextGroup(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2367,7 +2367,7 @@ void proc::rotationDataBackGroup(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2397,7 +2397,7 @@ void proc::rotationDataLastGroup(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2432,7 +2432,7 @@ void proc::rotationDataNumGroup(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2466,7 +2466,7 @@ void proc::rotationDataMultiMaster(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2498,7 +2498,7 @@ void proc::rotationDataFirstMaster(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2530,7 +2530,7 @@ void proc::rotationDataLastMaster(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2567,7 +2567,7 @@ void proc::rotationDataNumMaster(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2599,7 +2599,7 @@ void proc::rotationDataSingle(range blok, vecstr& blocks)
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (uint j = 0; j < curInfo->rotationData.size(); ++j)
             {
                 rotationData.append(curInfo->rotationData[j] + "\n");
             }
@@ -2750,7 +2750,7 @@ string proc::combineBlocks(range& blok, vecstr& blocks)
 {
     string option;
 
-    for (unsigned int i = blok.front; i <= blok.back; ++i)
+    for (uint i = blok.front; i <= blok.back; ++i)
     {
         option.append(blocks[i]);
     }
@@ -2762,7 +2762,7 @@ string proc::combineBlocks(size_t front, size_t back, vecstr& blocks)
 {
     string option;
 
-    for (unsigned int i = front; i <= back; ++i)
+    for (uint i = front; i <= back; ++i)
     {
         option.append(blocks[i]);
     }

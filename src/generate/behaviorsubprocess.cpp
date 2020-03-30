@@ -168,7 +168,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>
 
     vector<size_t> elePoint;
 
-    for (unsigned int i = 0; i < orig.size(); ++i)
+    for (uint i = 0; i < orig.size(); ++i)
     {
         string templine = boost::regex_replace(*orig[i], boost::regex("^([\t]+).*$"), string("\\1"));
 
@@ -184,10 +184,10 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>
     vecstr storeline;
     storeline.reserve(modEditStore["current"].size());
 
-    for (unsigned int i = 0; i < elePoint.back() - 1; ++i)
+    for (uint i = 0; i < elePoint.back() - 1; ++i)
     {
         bool done      = false;
-        unsigned int e = elePoint[i];
+        uint e         = elePoint[i];
 
         for (string& mod : behaviorPriority)
         {
@@ -214,7 +214,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>
 
     int g = 0;
 
-    for (unsigned int i = 0; i < storeline.size(); ++i)
+    for (uint i = 0; i < storeline.size(); ++i)
     {
         if (storeline[i] != *modEditStore["current"][i])
         {
@@ -225,7 +225,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>
 
     if (g == 1)
     {
-        for (unsigned int i = 0; i < storeline.size(); ++i)
+        for (uint i = 0; i < storeline.size(); ++i)
         {
             modLine.push_back("");
         }
@@ -544,7 +544,7 @@ void BehaviorSub::CompilingBehavior()
 
                         fclose(bonefile);
 
-                        for (unsigned int i = 0; i < chlist.size(); ++i)
+                        for (uint i = 0; i < chlist.size(); ++i)
                         {
                             auto uc = [](auto&& a) { return static_cast<unsigned char>(a); };
                             if (i % 16 == 0 && chlist[i] == static_cast<unsigned char>(0x4E)
@@ -562,7 +562,7 @@ void BehaviorSub::CompilingBehavior()
                             {
                                 bool pass = true;
 
-                                for (unsigned int j = i; j < i + 16; ++j)
+                                for (uint j = i; j < i + 16; ++j)
                                 {
                                     if (chlist[j] != static_cast<unsigned char>(0x0)
                                         && chlist[j] != static_cast<unsigned char>(0x1))
@@ -735,7 +735,7 @@ void BehaviorSub::CompilingBehavior()
                             {
                                 for (string& AA_animName : aaEvent->second)
                                 {
-                                    for (unsigned int k = 0; k < AAEvent[AA_animName].size(); ++k)
+                                    for (uint k = 0; k < AAEvent[AA_animName].size(); ++k)
                                     {
                                         if (k % 2 == 0) AAEventName.insert(AAEvent[AA_animName][k]);
                                     }
@@ -757,7 +757,7 @@ void BehaviorSub::CompilingBehavior()
 
             if (pos == NOT_FOUND)
             {
-                for (unsigned int l = 0; l < catalyst.size(); ++l)
+                for (uint l = 0; l < catalyst.size(); ++l)
                 {
                     if (l > 50) break;
 
@@ -810,7 +810,7 @@ void BehaviorSub::CompilingBehavior()
         bool characterAA   = false;
 
         // add picked behavior and remove not picked behavior
-        for (unsigned int l = 0; l < catalyst.size(); ++l)
+        for (uint l = 0; l < catalyst.size(); ++l)
         {
             bool elementCatch = false;
             string line       = catalyst[l];
@@ -888,7 +888,7 @@ void BehaviorSub::CompilingBehavior()
                         StringSplit(line, generator);
                         line.append("%");
 
-                        for (unsigned int p = 0; p < generator.size(); p++)
+                        for (uint p = 0; p < generator.size(); p++)
                         {
                             string ID    = generator[p];
                             string numID = boost::regex_replace(
@@ -1402,7 +1402,7 @@ void BehaviorSub::CompilingBehavior()
                                  it != BehaviorTemplate->grouplist.end();
                                  ++it)
                             {
-                                for (unsigned int k = 0; k < behaviorJoints[it->first].size(); ++k)
+                                for (uint k = 0; k < behaviorJoints[it->first].size(); ++k)
                                 {
                                     if (lowerBehaviorFile != behaviorJoints[it->first][k]) continue;
 
@@ -1410,7 +1410,7 @@ void BehaviorSub::CompilingBehavior()
                                     {
                                         if (BehaviorTemplate->optionlist[templatecode].core) continue;
 
-                                        for (unsigned int k = 0; k < newAnimation[templatecode].size(); ++k)
+                                        for (uint k = 0; k < newAnimation[templatecode].size(); ++k)
                                         {
                                             if (!newAnimation[templatecode][k]->isKnown())
                                             {
@@ -1846,7 +1846,7 @@ void BehaviorSub::CompilingBehavior()
     {
         for (auto it = catcher.begin(); it != catcher.end(); ++it)
         {
-            for (unsigned int k = 0; k < it->second.size(); ++k)
+            for (uint k = 0; k < it->second.size(); ++k)
             {
                 int tempID   = it->second[k].getID();
                 int tempLine = it->second[k].getLine();
@@ -1986,7 +1986,7 @@ void BehaviorSub::CompilingBehavior()
                         // individual animation
                         if (hasGroup)
                         {
-                            for (unsigned int k = 0; k < newAnimCount; ++k)
+                            for (uint k = 0; k < newAnimCount; ++k)
                             {
                                 try
                                 {
@@ -2039,16 +2039,14 @@ void BehaviorSub::CompilingBehavior()
                                             groupAnimInfo.push_back(
                                                 newAnimation[templateCode][k]->GetGroupAnimInfo());
 
-                                            for (unsigned int statenum = 0; statenum < stateID.size();
-                                                 ++statenum)
+                                            for (uint statenum = 0; statenum < stateID.size(); ++statenum)
                                             {
                                                 stateID[statenum] = 0;
                                             }
                                         }
                                         else
                                         {
-                                            for (unsigned int statenum = 0; statenum < stateID.size();
-                                                 ++statenum)
+                                            for (uint statenum = 0; statenum < stateID.size(); ++statenum)
                                             {
                                                 stateID[statenum] += stateMultiplier[statenum];
                                             }
@@ -2068,7 +2066,7 @@ void BehaviorSub::CompilingBehavior()
                         }
                         else
                         {
-                            for (unsigned int k = 0; k < newAnimCount; ++k)
+                            for (uint k = 0; k < newAnimCount; ++k)
                             {
                                 try
                                 {
@@ -2123,8 +2121,7 @@ void BehaviorSub::CompilingBehavior()
                                                 groupAnimInfo.push_back(
                                                     newAnimation[templateCode][k]->GetGroupAnimInfo());
 
-                                                for (unsigned int statenum = 0; statenum < stateID.size();
-                                                     ++statenum)
+                                                for (uint statenum = 0; statenum < stateID.size(); ++statenum)
                                                 {
                                                     stateID[statenum] += stateMultiplier[statenum];
                                                 }
@@ -2135,8 +2132,7 @@ void BehaviorSub::CompilingBehavior()
                                             groupAnimInfo.push_back(
                                                 newAnimation[templateCode][k]->GetGroupAnimInfo());
 
-                                            for (unsigned int statenum = 0; statenum < stateID.size();
-                                                 ++statenum)
+                                            for (uint statenum = 0; statenum < stateID.size(); ++statenum)
                                             {
                                                 stateID[statenum] += stateMultiplier[statenum];
                                             }
@@ -2165,7 +2161,7 @@ void BehaviorSub::CompilingBehavior()
                             vector<shared_ptr<AnimationInfo>> subGroupAnimInfo;
                             vector<vector<shared_ptr<AnimationInfo>>> newGroupAnimInfo;
 
-                            for (unsigned int l = 0; l < groupAnimInfo.size(); ++l)
+                            for (uint l = 0; l < groupAnimInfo.size(); ++l)
                             {
                                 subGroupAnimInfo.push_back(groupAnimInfo[l][0]);
                             }
@@ -2175,8 +2171,7 @@ void BehaviorSub::CompilingBehavior()
                         }
 
                         // check error before initialization
-                        for (unsigned int curGroup = 0; curGroup < groupFunctionIDs->grouplist.size();
-                             ++curGroup)
+                        for (uint curGroup = 0; curGroup < groupFunctionIDs->grouplist.size(); ++curGroup)
                         {
                             if (groupFunctionIDs->grouplist[curGroup]->singlelist.size()
                                 != groupAnimInfo[curGroup].size())
@@ -2221,7 +2216,7 @@ void BehaviorSub::CompilingBehavior()
                             size_t n_newAnimCount = groupFunctionIDs->grouplist.size();
                             boost::asio::thread_pool mt2;
 
-                            for (unsigned int k = 0; k < n_newAnimCount; ++k)
+                            for (uint k = 0; k < n_newAnimCount; ++k)
                             {
                                 try
                                 {
@@ -2249,7 +2244,7 @@ void BehaviorSub::CompilingBehavior()
                                                                     groupFunctionIDs,
                                                                     groupAnimInfo);
 
-                                    for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+                                    for (uint statenum = 0; statenum < stateID.size(); ++statenum)
                                     {
                                         stateID[statenum] += stateMultiplier[statenum];
                                     }
@@ -2489,7 +2484,7 @@ void BehaviorSub::CompilingBehavior()
 
                 if (lastID == 9216) ++lastID;
 
-                for (unsigned int i = 0; i < it->second.size(); ++i)
+                for (uint i = 0; i < it->second.size(); ++i)
                 {
                     if (it->second[i] != "x")
                     {
@@ -2530,7 +2525,7 @@ void BehaviorSub::CompilingBehavior()
                         "		<hkobject name=\"#" + baseID
                         + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
 
-                    for (unsigned int i = 1; i < catalystMap[iter->first].size(); ++i)
+                    for (uint i = 1; i < catalystMap[iter->first].size(); ++i)
                     {
                         string line = catalystMap[iter->first][i];
                         catalystMap[i_baseID].push_back(line);
@@ -2565,7 +2560,7 @@ void BehaviorSub::CompilingBehavior()
                 int num = 0;
                 AAlines.reserve(catalystMap[iter->first].size() * children.size());
 
-                for (unsigned int i = 0; i < children.size(); ++i)
+                for (uint i = 0; i < children.size(); ++i)
                 {
                     AAlines.push_back("		<hkobject name=\"#" + children[i]
                                       + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
@@ -2612,7 +2607,7 @@ void BehaviorSub::CompilingBehavior()
                         AAlines.push_back(catalystMap[iter->first][5]);
                     }
 
-                    for (unsigned int j = 6; j < catalystMap[iter->first].size(); ++j)
+                    for (uint j = 6; j < catalystMap[iter->first].size(); ++j)
                     {
                         AAlines.push_back(catalystMap[iter->first][j]);
                     }
@@ -2632,7 +2627,7 @@ void BehaviorSub::CompilingBehavior()
                     AAlines.push_back("			<hkparam name=\"triggers\" numelements=\""
                                       + to_string(itera->second.size() / 2) + "\">");
 
-                    for (unsigned int i = 0; i < itera->second.size(); ++i)
+                    for (uint i = 0; i < itera->second.size(); ++i)
                     {
                         bool negative = false;
                         string time   = itera->second[i + 1];
@@ -2790,7 +2785,7 @@ void BehaviorSub::CompilingBehavior()
                 msglines.push_back("			<hkparam name=\"animationName\">" + data->animPath
                                    + "</hkparam>");
 
-                for (unsigned int j = 5; j < catalystMap[datalist.first].size(); ++j)
+                for (uint j = 5; j < catalystMap[datalist.first].size(); ++j)
                 {
                     msglines.push_back(catalystMap[datalist.first][j]);
                 }
@@ -2916,7 +2911,7 @@ void BehaviorSub::CompilingBehavior()
         output << "<!-- ======================== NEMESIS alternate animation TEMPLATE END "
                   "======================== -->\n\n";
 
-        for (unsigned int j = 0; j < allEditLines.size(); ++j)
+        for (uint j = 0; j < allEditLines.size(); ++j)
         {
             for (auto& eachline : (*allEditLines[j]))
             {
@@ -2992,7 +2987,7 @@ void BehaviorSub::CompilingBehavior()
         output << "<!-- ======================== NEMESIS alternate animation TEMPLATE END "
                   "======================== -->\n\n";
 
-        for (unsigned int j = 0; j < allEditLines.size(); ++j)
+        for (uint j = 0; j < allEditLines.size(); ++j)
         {
             for (auto& eachline : (*allEditLines[j]))
             {

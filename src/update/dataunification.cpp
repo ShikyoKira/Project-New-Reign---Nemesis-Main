@@ -38,7 +38,7 @@ bool newAnimUpdateExt(string folderpath,
     vecstr nodelist;
     read_directory(folderpath + "\\" + behaviorfile, nodelist);
 
-    for (unsigned int k = 0; k < nodelist.size(); ++k)
+    for (uint k = 0; k < nodelist.size(); ++k)
     {
         string path = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
         std::filesystem::path curfile(path);
@@ -61,8 +61,8 @@ bool newAnimUpdateExt(string folderpath,
 
         vecstr newline;
         bool start         = false;
-        unsigned int row   = 0;
-        unsigned int scope = 0;
+        uint row   = 0;
+        uint scope = 0;
 
         for (auto& curline : storeline)
         {
@@ -125,7 +125,7 @@ bool newAnimUpdateExt(string folderpath,
         vecstr newlines;
         vecstr combinelines;
 
-        for (unsigned int i = 0; i < storeline.size(); ++i)
+        for (uint i = 0; i < storeline.size(); ++i)
         {
             string& curline = storeline[i];
 
@@ -288,7 +288,7 @@ bool newAnimDataUpdateExt(string folderpath,
     vecstr headerlist;
     read_directory(folderpath, headerlist);
 
-    for (unsigned int k = 0; k < headerlist.size(); ++k)
+    for (uint k = 0; k < headerlist.size(); ++k)
     {
         string filepath = folderpath + "\\" + headerlist[k];
         std::filesystem::path curfile(filepath);
@@ -402,7 +402,7 @@ bool newAnimDataSetUpdateExt(string folderpath,
     vecstr headerfile;
     read_directory(folderpath, headerfile);
 
-    for (unsigned int k = 0; k < headerfile.size(); ++k)
+    for (uint k = 0; k < headerfile.size(); ++k)
     {
         string filename = folderpath + "\\" + headerfile[k];
         std::filesystem::path curfile(filename);
@@ -547,7 +547,7 @@ void behaviorJointsOutput()
 
     for (auto it = behaviorJoints.begin(); it != behaviorJoints.end(); ++it)
     {
-        for (unsigned int i = 0; i < it->second.size(); ++i)
+        for (uint i = 0; i < it->second.size(); ++i)
         {
             vecstr temp = it->second;
 
@@ -571,7 +571,7 @@ void behaviorJointsOutput()
         {
             output << it.first << "\n";
 
-            for (unsigned int i = 0; i < it.second.size(); ++i)
+            for (uint i = 0; i < it.second.size(); ++i)
             {
                 output << it.second[i] << "\n";
             }
@@ -630,7 +630,7 @@ void CombineAnimData(string filename,
         linecount = 1;
     }
 
-    for (unsigned int k = start; k < storeline.size(); ++k)
+    for (uint k = start; k < storeline.size(); ++k)
     {
         // condition function is not supported for animationsetdatasinglefile
         if (storeline[k].find("<!-- CONDITION") != NOT_FOUND)
@@ -717,7 +717,7 @@ void CombineAnimData(string filename,
                 combinelines.push_back(storeline[k]);
                 newlines.clear();
 
-                for (unsigned int j = startline; j < combinelines.size() - 1; ++j)
+                for (uint j = startline; j < combinelines.size() - 1; ++j)
                 {
                     namespace AD          = AnimDataFormat;
                     AD::position position = AnimDataPosition(

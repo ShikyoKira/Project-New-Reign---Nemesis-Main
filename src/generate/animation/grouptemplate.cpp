@@ -285,7 +285,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
     int groupOrder     = -2;
     size_t elementLine = -1;
 
-    for (unsigned int i = 0; i < templatelines.size(); ++i)
+    for (uint i = 0; i < templatelines.size(); ++i)
     {
         bool uniqueskip   = false;
         bool elementCatch = false;
@@ -866,7 +866,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
 
                     nextpos = 0;
 
-                    for (unsigned int p = 0; p < generator.size(); p++)
+                    for (uint p = 0; p < generator.size(); p++)
                     {
                         string ID = generator[p];
 
@@ -905,7 +905,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
 
                             if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
                             {
-                                for (unsigned int k = 0; k < subFunctionIDs->grouplist.size();
+                                for (uint k = 0; k < subFunctionIDs->grouplist.size();
                                      ++k) // number of variation
                                 {
                                     if (subFunctionIDs->grouplist[k]->functionIDs[curID].length() == 0)
@@ -1035,7 +1035,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
                                 bool skip2   = false;
                                 bool freeze2 = false;
 
-                                for (unsigned int l = 0; l < tempstore.size(); ++l) // part lines need to add
+                                for (uint l = 0; l < tempstore.size(); ++l) // part lines need to add
                                 {
                                     string curLine   = tempstore[l];
                                     bool uniqueskip2 = false;
@@ -1409,7 +1409,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline,
                                             StringSplit(curLine, generator);
                                             size_t nextpos = 0;
 
-                                            for (unsigned int p = 0; p < generator.size(); p++)
+                                            for (uint p = 0; p < generator.size(); p++)
                                             {
                                                 string ID = generator[p];
 
@@ -1702,7 +1702,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
     IsConditionOpened[0] = true;
     newFunctionLines.reserve(existingFunctionLines.size() + 20 * memory);
 
-    for (unsigned int i = 0; i < existingFunctionLines.size(); ++i)
+    for (uint i = 0; i < existingFunctionLines.size(); ++i)
     {
         bool uniqueskip   = false;
         bool elementCatch = false;
@@ -2333,7 +2333,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                 bool skip2   = false;
                                 bool freeze2 = false;
 
-                                for (unsigned int l = 0; l < tempstore.size(); ++l) // part lines need to add
+                                for (uint l = 0; l < tempstore.size(); ++l) // part lines need to add
                                 {
                                     string curLine   = tempstore[l];
                                     size_t linecount = i + 1 + l - int(tempstore.size());
@@ -2794,7 +2794,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines,
                                               int& elementCount,
                                               int curFunctionID,
                                               int curLine,
-                                              unsigned int scopeSize)
+                                              uint scopeSize)
 {
     bool multi             = false;
     bool skipTemplate      = false;
@@ -2802,14 +2802,14 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines,
     bool skip              = false;
     bool freeze            = false;
     bool formatOpen        = false;
-    unsigned int condition = 0;
-    unsigned int scope     = 0;
+    uint condition         = 0;
+    uint scope             = 0;
 
     vecstr tempstore;
     unordered_map<int, bool> IsConditionOpened;
     IsConditionOpened[0] = true;
 
-    for (unsigned int i = curLine; i < scopeSize; ++i)
+    for (uint i = curLine; i < scopeSize; ++i)
     {
         bool uniqueskip   = false;
         bool elementCatch = false;
@@ -3476,7 +3476,7 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines,
                                 bool skip2   = false;
                                 bool freeze2 = false;
 
-                                for (unsigned int l = 0; l < tempstore.size(); ++l) // part lines need to add
+                                for (uint l = 0; l < tempstore.size(); ++l) // part lines need to add
                                 {
                                     string curLine   = tempstore[l];
                                     size_t linecount = i + 1 + l - int(tempstore.size());
@@ -4070,7 +4070,7 @@ void GroupTemplate::processing(string& line,
 
                     if (change.find(masterFormat + "[" + number + "][FilePath]", 0) != NOT_FOUND)
                     {
-                        if (static_cast<unsigned int>(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                        if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                         {
                             change.replace(change.find(masterFormat + "[" + number + "][FilePath]"),
                                            8 + masterFormat.length() + number.length(),
@@ -4133,7 +4133,7 @@ void GroupTemplate::processing(string& line,
 
                     if (change.find(masterFormat + "[" + number + "][FileName]", 0) != NOT_FOUND)
                     {
-                        if (static_cast<unsigned int>(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                        if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                         {
                             change.replace(change.find(masterFormat + "[" + number + "][FileName]"),
                                            8 + masterFormat.length() + number.length(),
@@ -4251,7 +4251,7 @@ void GroupTemplate::processing(string& line,
 
                     if (number != change)
                     {
-                        if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                        if (uint(stoi(number)) >= groupAnimInfo[groupMulti].size())
                         {
                             pos = change.find("{" + masterFormat + "[" + number + "][main_anim_event]}", 0);
 
@@ -4604,7 +4604,7 @@ void ExistingFunction::processing(string& line,
 
                         if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND)
                         {
-                            if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                            if (uint(stoi(number)) >= groupAnimInfo[groupMulti].size())
                             {
                                 change.replace(change.find(format + "[" + number + "][FilePath]"),
                                                8 + format.length() + number.length(),
@@ -4666,7 +4666,7 @@ void ExistingFunction::processing(string& line,
 
                         if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND)
                         {
-                            if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                            if (uint(stoi(number)) >= groupAnimInfo[groupMulti].size())
                             {
                                 change.replace(change.find(format + "[" + number + "][FileName]"),
                                                8 + format.length() + number.length(),
@@ -4790,7 +4790,7 @@ void ExistingFunction::processing(string& line,
 
                         if (number != change)
                         {
-                            if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                            if (uint(stoi(number)) >= groupAnimInfo[groupMulti].size())
                             {
                                 pos = change.find("[" + format + "[" + number + "][main_anim_event]]", 0);
 
@@ -5691,7 +5691,7 @@ bool andLoop(string condition,
             size_t c_or  = 0;
             size_t backB = 0;
 
-            for (unsigned int i = 0; i < nextCondition.size(); ++i)
+            for (uint i = 0; i < nextCondition.size(); ++i)
             {
                 if (nextCondition[i] == '(') { ++c_or; }
                 else if (nextCondition[i] == ')')
@@ -5744,7 +5744,7 @@ bool andLoop(string condition,
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (unsigned int i = 0; i < nextCondition.size(); ++i)
+        for (uint i = 0; i < nextCondition.size(); ++i)
         {
             if (nextCondition[i] == '(') { ++c_or; }
             else if (nextCondition[i] == ')')
@@ -5870,7 +5870,7 @@ bool andParenthesis(string condition,
     size_t c_or  = 0;
     size_t inner = 0;
 
-    for (unsigned int i = 0; i < condition.length(); ++i)
+    for (uint i = 0; i < condition.length(); ++i)
     {
         if (condition[i] == '(')
             ++c_or;
@@ -5951,7 +5951,7 @@ bool newCondition(string condition,
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (unsigned int i = 0; i < condition.size(); ++i)
+        for (uint i = 0; i < condition.size(); ++i)
         {
             if (condition[i] == '(') { ++c_or; }
             else if (condition[i] == ')')
@@ -6552,7 +6552,7 @@ namespace backup
                         int position;
                         int openCounter = 0;
 
-                        for (unsigned int i = 0; i < secondCondition.size(); ++i)
+                        for (uint i = 0; i < secondCondition.size(); ++i)
                         {
                             if (secondCondition[i] == '(') { openCounter++; }
                             else if (secondCondition[i] == ')')
@@ -7457,7 +7457,7 @@ int formatGroupReplace(string& curline,
 
     if (animMulti > -1 && groupMulti > -1)
     {
-        for (unsigned int i = point; i < curline.length(); ++i)
+        for (uint i = point; i < curline.length(); ++i)
         {
             if (curline[i] == '[')
             {
@@ -7497,7 +7497,7 @@ int formatGroupReplace(string& curline,
     }
     else
     {
-        for (unsigned int i = point; i < curline.length(); ++i)
+        for (uint i = point; i < curline.length(); ++i)
         {
             if (curline[i] == '[')
             {
@@ -7583,7 +7583,7 @@ int formatGroupReplace(string& curline,
         if (optionMulti == -1) ErrorMessage(1128, format + "_group", filename, linecount);
         if (groupline.size() < 5) groupline.push_back(to_string(optionMulti));
 
-        for (unsigned int d = open; d < groupline.size(); ++d)
+        for (uint d = open; d < groupline.size(); ++d)
         {
             input.append("[" + groupline[d] + "]");
         }
@@ -7594,14 +7594,14 @@ int formatGroupReplace(string& curline,
 
         groupline.back().append(to_string(optionMulti));
 
-        for (unsigned int d = open; d < groupline.size() - 1; ++d)
+        for (uint d = open; d < groupline.size() - 1; ++d)
         {
             input = input + "[" + groupline[d] + "]";
         }
     }
     else
     {
-        for (unsigned int d = open; d < groupline.size(); ++d)
+        for (uint d = open; d < groupline.size(); ++d)
         {
             input = input + "[" + groupline[d] + "]";
         }
@@ -7630,7 +7630,7 @@ int formatGroupReplace(string& curline,
         }
         else if (multiOption == format && groupMulti != -1 && animMulti != -1)
         {
-            for (unsigned int i = point; i < curline.length(); ++i)
+            for (uint i = point; i < curline.length(); ++i)
             {
                 if (curline[i] == '[') { curGroup = i + 1; }
                 else if (curline[i] == ']')

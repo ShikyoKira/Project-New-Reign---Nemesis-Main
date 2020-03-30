@@ -49,8 +49,8 @@ public:
     newStateID();
     void push_back(std::shared_ptr<int> num);
     void reset();
-    std::shared_ptr<int>& operator[](unsigned int number);
-    unsigned int size();
+    std::shared_ptr<int>& operator[](uint number);
+    uint size();
     bool stateUpdate(int ID,
                      std::string format,
                      std::string behaviorFile,

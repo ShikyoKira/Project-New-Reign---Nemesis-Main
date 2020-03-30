@@ -167,7 +167,7 @@ void BehaviorSub::CompilingASD()
         int num;
         string line;
 
-        for (unsigned int i = projectList.size() + 1; i < storeline.size(); ++i)
+        for (uint i = projectList.size() + 1; i < storeline.size(); ++i)
         {
             line = storeline[i];
 
@@ -363,7 +363,7 @@ void BehaviorSub::CompilingASD()
                 if (newAnimation.find(templateCode) != newAnimation.end()
                     && newAnimation[templateCode].size() != 0)
                 {
-                    for (unsigned int k = 0; k < newAnimation[templateCode].size(); ++k)
+                    for (uint k = 0; k < newAnimation[templateCode].size(); ++k)
                     {
                         unordered_map<string, map<string, vecstr, alphanum_less>> generatedASD;
                         newAnimation[templateCode][k]->GetAnimSetData(generatedASD);
