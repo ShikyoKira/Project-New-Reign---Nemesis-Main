@@ -13,6 +13,8 @@
 #include "generate/behaviorcheck.h"
 #include "generate/behaviorprocess.h"
 
+#include "utilities/atomiclock.h"
+
 std::atomic<uint> resizeCount = 0;
 std::atomic_flag atm_resize        {};
 
@@ -645,8 +647,7 @@ void NemesisEngine::firstNull()
 
 void NemesisEngine::resizeDone()
 {
-    while (atm_resize.test_and_set(std::memory_order_acquire))
-        ;
+    Lockless lock(atm_resize);
     --resizeCount;
 
     if (resizeCount == 0)
@@ -655,6 +656,4 @@ void NemesisEngine::resizeDone()
         nemesisInfo->setHeight(height());
         nemesisInfo->iniFileUpdate();
     }
-
-    atm_resize.clear(std::memory_order_release);
 }

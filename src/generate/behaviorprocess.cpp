@@ -1270,8 +1270,7 @@ void BehaviorStart::unregisterProcess(bool skip)
 
 void BehaviorStart::EndAttempt()
 {
-    while (atomic_lock.test_and_set(std::memory_order_acquire))
-        ;
+    Lockless lock(atomic_lock);
 
     --m_RunningThread;
 
@@ -1314,8 +1313,6 @@ void BehaviorStart::EndAttempt()
         catch (...)
         {}
     }
-
-    atomic_lock.clear(std::memory_order_release);
 }
 
 void BehaviorStart::increaseAnimCount()
