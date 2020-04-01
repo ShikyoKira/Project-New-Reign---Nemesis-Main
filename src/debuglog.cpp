@@ -1,7 +1,6 @@
 #include "Global.h"
 
-#include <boost/atomic.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
+#include <atomic>
 
 #include "debuglog.h"
 
@@ -13,16 +12,10 @@ std::atomic_flag atomlock{};
 ;
 string filename = "CriticalLog.txt";
 
-string currentTime();
 
 void DebugOutput()
 {
     filename.clear();
-}
-
-string currentTime()
-{
-    return boost::posix_time::to_simple_string(boost::posix_time::second_clock::local_time());
 }
 
 void DebugLogging(string line, bool noEndLine)

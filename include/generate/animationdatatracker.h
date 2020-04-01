@@ -1,6 +1,7 @@
 #ifndef ANIMATIONDATATRACKER_H_
 #define ANIMATIONDATATRACKER_H_
 
+#include <map>
 #include <set>
 
 struct AnimationDataTracker

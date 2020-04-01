@@ -5,7 +5,6 @@
 #include <iostream>
 #include <unordered_map>
 
-#include <boost/atomic.hpp>
 #include <regex>
 
 #include "utilities/writetextfile.h"

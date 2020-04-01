@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include <regex>
-#include <boost/thread.hpp>
 
 #include "utilities/writetextfile.h"
 

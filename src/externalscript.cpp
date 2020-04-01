@@ -1,7 +1,5 @@
 #include "Global.h"
 
-#include <boost/algorithm/string.hpp>
-
 #undef pyslots
 #define MS_NO_COREDLL
 #include <Python.h>

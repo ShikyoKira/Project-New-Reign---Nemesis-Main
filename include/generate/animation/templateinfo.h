@@ -1,6 +1,7 @@
 #ifndef TEMPLATEINFO_H_
 #define TEMPLATEINFO_H_
 
+#include <map>
 #include <unordered_set>
 
 #include "utilities/alphanum.hpp"

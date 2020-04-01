@@ -1,6 +1,6 @@
 #include "Global.h"
 
-#include <boost/atomic.hpp>
+
 
 #include "generate/addanims.h"
 #include "generate/animationdatatracker.h"
@@ -64,8 +64,8 @@ bool AddAnims(string& line,
         }
 
         storeline.push_back("				<hkcstring>" + animPath + "</hkcstring>");
-        boost::to_lower(animPath);
-        boost::to_lower(animFile);
+        nemesis::to_lower(animPath);
+        nemesis::to_lower(animFile);
         isAdded[animPath] = true;
 
         while (animdata_lock.test_and_set(std::memory_order_acquire))

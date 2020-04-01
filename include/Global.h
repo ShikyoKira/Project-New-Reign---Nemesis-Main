@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <boost/date_time/posix_time/posix_time.hpp>
+#include <chrono>
 
 using VecStr  = std::vector<std::string>;
 using VecChar = std::vector<char>;
@@ -31,7 +31,6 @@ using uint    = unsigned int;
 extern bool debug;                     // if debug is on
 extern int memory;                     // not used; for setting memory allocation from 100 - 1000
 extern int fixedkey[257];              // AA installation key
-extern boost::posix_time::ptime time1; // for getting elapsed time
 extern NemesisInfo* nemesisInfo;       // nemesis ini info
 
 // update patcher
@@ -84,6 +83,7 @@ void read_directory(const std::wstring& name, std::vector<std::wstring>& fv);
 void read_directory(const char* name, VecStr& fv);
 void read_directory(const wchar_t* name, std::vector<std::wstring>& fv);
 
+std::string currentTime();
 void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
 
 bool GetFunctionLines(std::filesystem::path filename, VecStr& functionlines, bool emptylast = true);

@@ -1,8 +1,8 @@
 #include "Global.h"
 
-#include <unordered_set>
-
+#include <map>
 #include <regex>
+#include <unordered_set>
 
 #include <QtCore/QStandardPaths.h>
 

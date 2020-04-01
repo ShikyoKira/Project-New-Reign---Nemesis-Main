@@ -1,7 +1,5 @@
 #include "Global.h"
 
-#include <boost/atomic.hpp>
-#include <boost/interprocess/sync/scoped_lock.hpp>
 
 #include "debuglog.h"
 #include "debugmsg.h"

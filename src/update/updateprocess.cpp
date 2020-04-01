@@ -364,7 +364,7 @@ bool UpdateFilesStart::VanillaUpdate()
 
     for (shared_ptr<RegisterQueue>& curBehavior : registeredFiles)
     {
-        boost::asio::post(mt, boost::bind(&UpdateFilesStart::RegisterBehavior, this, curBehavior));
+        boost::asio::post(mt, std::bind(&UpdateFilesStart::RegisterBehavior, this, curBehavior));
     }
 
     mt.join();
@@ -528,7 +528,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
             if (curBehavior->isFirstPerson) firstperson = "_1stperson\\";
 
             curFileName = firstperson + curFileName.substr(8);
-            boost::to_lower(curFileName);
+            nemesis::to_lower(curFileName);
             DebugLogging("Behavior Disassemble start (File: " + newPath + ")");
 
             {
@@ -1697,7 +1697,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
                 {
                     if (!sf::is_directory(directory + modcode)) continue;
 
-                    boost::to_lower(modcode);
+                    nemesis::to_lower(modcode);
                     read_directory(directory + modcode + "\\", filelist2[modcode]);
                     pack.insert(make_pair(modcode,
                                           make_shared<arguPack>(newFile,
@@ -1713,7 +1713,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 
                     for (auto& behavior : filelist2[modcode])
                     {
-                        boost::to_lower(behavior);
+                        nemesis::to_lower(behavior);
                         string path = directory + modcode + "\\" + behavior;
 
                         if (!sf::is_directory(path)) continue;
@@ -1727,7 +1727,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 
                             for (auto& fbehavior : fbehaviorlist)
                             {
-                                boost::to_lower(fbehavior);
+                                nemesis::to_lower(fbehavior);
                                 string fpath   = path + fbehavior + "\\";
                                 string recName = behavior + "\\" + fbehavior;
                                 read_directory(fpath, modFileList[modcode][recName]);
@@ -1737,7 +1737,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                 {
                                     if (sf::is_directory(fpath + node)) continue;
 
-                                    boost::to_lower(node);
+                                    nemesis::to_lower(node);
                                     modQueue[recName][node].push_back(modcode);
                                 }
 
@@ -1758,7 +1758,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                 {
                                     if (sf::is_directory(path + node)) continue;
 
-                                    boost::to_lower(node);
+                                    nemesis::to_lower(node);
                                     modQueue[behavior][node].push_back(modcode);
                                 }
 
@@ -1805,7 +1805,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
                     {
                         boost::asio::post(
                             multiThreads,
-                            boost::bind(
+                            std::bind(
                                 &UpdateFilesStart::SeparateMod, this, directory, each, boost::ref(pack)));
                     }
 
@@ -2289,7 +2289,7 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
                             && projectfile[k].find("~") != NOT_FOUND)
                         {
                             string projectname = projectfile[k];
-                            boost::to_lower(projectname);
+                            nemesis::to_lower(projectname);
 
                             while (projectname.find("~") != NOT_FOUND)
                             {
@@ -2373,7 +2373,7 @@ void UpdateFilesStart::newAnimProcess(string sourcefolder)
         for (auto& curCode : codelist)
         {
             boost::asio::post(multiThreads,
-                              boost::bind(&UpdateFilesStart::newAnimUpdate, this, sourcefolder, curCode));
+                              std::bind(&UpdateFilesStart::newAnimUpdate, this, sourcefolder, curCode));
         }
 
         multiThreads.join();
@@ -2397,7 +2397,7 @@ void UpdateFilesStart::milestoneStart(string directory)
 {
     m_RunningThread = 1;
     UpdateReset();
-    start_time   = boost::posix_time::microsec_clock::local_time();
+    start_time   = std::chrono::high_resolution_clock::now();
     namespace bf = sf;
 
     try
@@ -2463,12 +2463,11 @@ void UpdateFilesStart::unregisterProcess()
         {
             string msg;
             bool ms = false;
-            boost::posix_time::time_duration diff
-                = boost::posix_time::microsec_clock::local_time() - start_time;
+            auto diff = std::chrono::high_resolution_clock::now() - start_time;
 
             if (ms)
             {
-                size_t second = diff.total_milliseconds();
+                size_t second = diff.count();
 
                 if (second > 1000)
                 {
@@ -2489,7 +2488,7 @@ void UpdateFilesStart::unregisterProcess()
             }
             else
             {
-                msg = TextBoxMessage(1007) + ": " + to_string(diff.total_seconds()) + " "
+                msg = TextBoxMessage(1007) + ": " + to_string(diff.count() / 1000) + " "
                       + TextBoxMessage(1012);
             }
 

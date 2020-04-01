@@ -1,5 +1,7 @@
 #include "Global.h"
 
+#include <array>
+
 #include "debuglog.h"
 
 using namespace std;

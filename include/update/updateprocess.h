@@ -152,7 +152,7 @@ private:
     std::atomic_flag behaviorProjectPathLock{};
 
     // timer
-    boost::posix_time::ptime start_time;
+    std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();
 };
 
 #endif
