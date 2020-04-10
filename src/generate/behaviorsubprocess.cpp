@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <condition_variable>
 
 #include <boost/atomic.hpp>
@@ -523,50 +525,58 @@ void BehaviorSub::CompilingBehavior()
 
 						fclose(bonefile);
 
-						for (unsigned int i = 0; i < chlist.size(); ++i)
-						{
-							if (i % 16 == 0 && chlist[i] == unsigned char(0x4E) && chlist[i + 1] == unsigned char(0x50) && chlist[i + 2] == unsigned char(0x43)
-								&& chlist[i + 3] == unsigned char(0x20) && chlist[i + 4] == unsigned char(0x52) && chlist[i + 5] == unsigned char(0x6F)
-								&& chlist[i + 6] == unsigned char(0x6F) && chlist[i + 7] == unsigned char(0x74) && chlist[i + 8] == unsigned char(0x20)
-								&& chlist[i + 9] == unsigned char(0x5B) && chlist[i + 10] == unsigned char(0x52) && chlist[i + 11] == unsigned char(0x6F)
-								&& chlist[i + 12] == unsigned char(0x6F) && chlist[i + 13] == unsigned char(0x74) && chlist[i + 14] == unsigned char(0x5D)
-								&& chlist[i + 15] == unsigned char(0x0) && chlist[i + 16] == 'ÿ' && chlist[i + 17] == 'ÿ')
-							{
-								start = true;
-							}
-							else if (start && i % 16 == 0)
-							{
-								bool pass = true;
+                        for (unsigned int i = 0; i < chlist.size(); ++i)
+                        {
+                            auto uc = [](auto &&a) { return static_cast<unsigned char>(a); };
+                            if (i % 16 == 0 && chlist[i] == static_cast<unsigned char>(0x4E)
+                                && chlist[i + 1] == uc(0x50) && chlist[i + 2] == uc(0x43)
+                                && chlist[i + 3] == uc(0x20) && chlist[i + 4] == uc(0x52)
+                                && chlist[i + 5] == uc(0x6F) && chlist[i + 6] == uc(0x6F)
+                                && chlist[i + 7] == uc(0x74) && chlist[i + 8] == uc(0x20)
+                                && chlist[i + 9] == uc(0x5B) && chlist[i + 10] == uc(0x52)
+                                && chlist[i + 11] == uc(0x6F) && chlist[i + 12] == uc(0x6F)
+                                && chlist[i + 13] == uc(0x74) && chlist[i + 14] == uc(0x5D)
+                                && chlist[i + 15] == uc(0x0) && chlist[i + 16] == '?'
+                                && chlist[i + 17] == '?')
+                            {
+                                start = true;
+                            }
+                            else if (start && i % 16 == 0)
+                            {
+                                bool pass = true;
 
-								for (unsigned int j = i; j < i + 16; ++j)
-								{
-									if (chlist[j] != unsigned char(0x0) && chlist[j] != unsigned char(0x1))
-									{
-										pass = false;
-										break;
-									}
-								}
+                                for (unsigned int j = i; j < i + 16; ++j)
+                                {
+                                    if (chlist[j] != static_cast<unsigned char>(0x0)
+                                        && chlist[j] != static_cast<unsigned char>(0x1))
+                                    {
+                                        pass = false;
+                                        break;
+                                    }
+                                }
 
-								if (pass)
-								{
-									startCount = true;
-									start = false;
-									i += 15;
-									++num;
-								}
-							}
-							else if (startCount)
-							{
-								if (chlist[i] != unsigned char(0x0)) break;
+                                if (pass)
+                                {
+                                    startCount = true;
+                                    start      = false;
+                                    i += 15;
+                                    ++num;
+                                }
+                            }
+                            else if (startCount)
+                            {
+                                if (chlist[i] != static_cast<unsigned char>(0x0))
+                                    break;
 
-								i += 15;
-								++num;
-							}
+                                i += 15;
+                                ++num;
+                            }
 
-							if (error) throw nemesis::exception();
-						}
+                            if (error)
+                                throw nemesis::exception();
+                        }
 
-						if (oribone < num)
+                        if (oribone < num)
 						{
 							bonenum = num - oribone;
 							newBone = true;
@@ -1091,12 +1101,15 @@ void BehaviorSub::CompilingBehavior()
 							if (eventelements == -1) eventelements = counter;
 
 							eventOpen = false;
-							replacedNum ? replacedNum = false : elementUpdate(elementLine, counter, curID, catalystMap);
-						}
-					}
-					else if (!replacedNum)
-					{
-						pos = line.find("<hkcstring>");
+                            if (replacedNum)
+                                replacedNum = false;
+                            else
+                                elementUpdate(elementLine, counter, curID, catalystMap);
+                        }
+                    }
+                    else if (!replacedNum)
+                    {
+                        pos = line.find("<hkcstring>");
 
 						if (pos != NOT_FOUND)
 						{
@@ -1114,8 +1127,8 @@ void BehaviorSub::CompilingBehavior()
 						{
 							++counter;
 						}
-					}
-				}
+                    }
+                }
 				else if (varOpen)
 				{
 					if (!replacedNum && curNum == "wordVariableValues" && line.find("<hkparam name=\"value\">") != NOT_FOUND)
@@ -1163,16 +1176,28 @@ void BehaviorSub::CompilingBehavior()
 
 								for (auto& modname : pceaMod)
 								{
-									AddVariables(curNum, catalystMap[curID], modname, orivariable, isExist, counter, ZeroVariable, variableid, varName);
-								}
+                                    AddVariables(curNum,
+                                                 catalystMap[curID],
+                                                 modname,
+                                                 orivariable,
+                                                 isExist,
+                                                 counter,
+                                                 ZeroVariable,
+                                                 variableid,
+                                                 varName);
+                                }
 
-								if (variableelements == -1) variableelements = counter;
+                                if (variableelements == -1)
+                                    variableelements = counter;
 
-								varOpen = false;
-								replacedNum ? replacedNum = false : elementUpdate(elementLine, counter, curID, catalystMap);
-							}
-						}
-						else if (!replacedNum)
+                                varOpen = false;
+                                if (replacedNum)
+                                    replacedNum = false;
+                                else
+                                    elementUpdate(elementLine, counter, curID, catalystMap);
+                            }
+                        }
+                        else if (!replacedNum)
 						{
 							size_t pos = line.find("<hkcstring>");
 
@@ -1988,31 +2013,69 @@ void BehaviorSub::CompilingBehavior()
 				DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count: " +
 					to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size()) + ")");
 
-				processExistFuncID(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile], ZeroEvent, ZeroVariable, catalystMap, groupFunctionIDs,
-					groupAnimInfo, templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup, BehaviorTemplate->grouplist[lowerBehaviorFile], ignoreGroup,
-					behaviorFile, existingNodes);
+                processExistFuncID(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile],
+                                   ZeroEvent,
+                                   ZeroVariable,
+                                   catalystMap,
+                                   groupFunctionIDs,
+                                   groupAnimInfo,
+                                   templateCode,
+                                   exportID,
+                                   eventid,
+                                   variableid,
+                                   lastID,
+                                   hasMaster,
+                                   hasGroup,
+                                   BehaviorTemplate->grouplist[lowerBehaviorFile],
+                                   ignoreGroup,
+                                   behaviorFile,
+                                   existingNodes);
 
-				DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count: " +
-					to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size()) + " COMPLETE)");
-			}
-			else
-			{
-				DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count: " +
-					to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size()) + ")");
+                DebugLogging(
+                    "Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode
+                    + ", Existing ID count: "
+                    + to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
+                    + " COMPLETE)");
+            }
+            else
+            {
+                DebugLogging(
+                    "Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode
+                    + ", Existing ID count: "
+                    + to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
+                    + ")");
 
-				processExistFuncID(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile], ZeroEvent, ZeroVariable, catalystMap, shared_ptr<master>(),
-					vector<vector<shared_ptr<AnimationInfo>>>(), templateCode, exportID, eventid, variableid, lastID, hasMaster, hasGroup, BehaviorTemplate->grouplist[lowerBehaviorFile], ignoreGroup,
-					behaviorFile, existingNodes);
+                processExistFuncID(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile],
+                                   ZeroEvent,
+                                   ZeroVariable,
+                                   catalystMap,
+                                   nullptr,
+                                   vector<vector<shared_ptr<AnimationInfo>>>(),
+                                   templateCode,
+                                   exportID,
+                                   eventid,
+                                   variableid,
+                                   lastID,
+                                   hasMaster,
+                                   hasGroup,
+                                   BehaviorTemplate->grouplist[lowerBehaviorFile],
+                                   ignoreGroup,
+                                   behaviorFile,
+                                   existingNodes);
 
-				DebugLogging("Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode + ", Existing ID count: " +
-					to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size()) + " COMPLETE)");
-			}
+                DebugLogging(
+                    "Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode
+                    + ", Existing ID count: "
+                    + to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
+                    + " COMPLETE)");
+            }
 
-			vecstr closing;
-			closing.push_back("<!-- ======================== NEMESIS " + templateCode + " TEMPLATE END ======================== -->");
-			closing.push_back("");
-			allEditLines.emplace_back(make_unique<vecstr>(closing));
-		}
+            vecstr closing;
+            closing.push_back("<!-- ======================== NEMESIS " + templateCode
+                              + " TEMPLATE END ======================== -->");
+            closing.push_back("");
+            allEditLines.emplace_back(make_unique<vecstr>(closing));
+        }
 	}
 
 	// check for error
@@ -2140,16 +2203,18 @@ void BehaviorSub::CompilingBehavior()
 
 				unordered_map<string, vecstr> triggerID;
 				string name;
-				string animpath;
+                string animpath;
 
-				{
-					int i_baseID = stoi(baseID);
-					auto& pceaBaseIter = pceaID.find(iter->first);
-					catalystMap[i_baseID].reserve(catalystMap[iter->first].size());
-					catalystMap[i_baseID].push_back("		<hkobject name=\"#" + baseID + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
+                {
+                    int i_baseID      = stoi(baseID);
+                    auto pceaBaseIter = pceaID.find(iter->first);
+                    catalystMap[i_baseID].reserve(catalystMap[iter->first].size());
+                    catalystMap[i_baseID].push_back(
+                        "		<hkobject name=\"#" + baseID
+                        + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
 
-					for (unsigned int i = 1; i < catalystMap[iter->first].size(); ++i)
-					{
+                    for (unsigned int i = 1; i < catalystMap[iter->first].size(); ++i)
+                    {
 						string line = catalystMap[iter->first][i];
 						catalystMap[i_baseID].push_back(line);
 						size_t pos = line.find("<hkparam name=\"name\">");
@@ -2177,11 +2242,11 @@ void BehaviorSub::CompilingBehavior()
 					{
 						pceaID[i_baseID] = pceaBaseIter->second;
 						pceaID.erase(pceaBaseIter);
-					}
-				}
+                    }
+                }
 
-				int num = 0;
-				AAlines.reserve(catalystMap[iter->first].size() * children.size());
+                int num = 0;
+                AAlines.reserve(catalystMap[iter->first].size() * children.size());
 
 				for (unsigned int i = 0; i < children.size(); ++i)
 				{
@@ -2195,13 +2260,15 @@ void BehaviorSub::CompilingBehavior()
 						++num;
 					}
 
-					AAlines.push_back("			<hkparam name=\"animationName\">Animations\\" + it->second[num] + "</hkparam>");
-					string animFile = nemesis::to_lower_copy(it->second[num].substr(it->second[num].find_last_of("\\") + 1));
-					auto& aaEvent_itr = AAEvent.find(isFirstPerson ? animFile + "_1p*" : animFile);
+                    AAlines.push_back("			<hkparam name=\"animationName\">Animations\\"
+                                      + it->second[num] + "</hkparam>");
+                    string animFile = nemesis::to_lower_copy(
+                        it->second[num].substr(it->second[num].find_last_of("\\") + 1));
+                    const auto &aaEvent_itr = AAEvent.find(isFirstPerson ? animFile + "_1p*" : animFile);
 
-					if (aaEvent_itr != AAEvent.end())
-					{
-						if (aaEvent_itr->second.size() > 0)
+                    if (aaEvent_itr != AAEvent.end())
+                    {
+                        if (aaEvent_itr->second.size() > 0)
 						{
 							string tempID = to_string(lastID);
 
@@ -2220,8 +2287,8 @@ void BehaviorSub::CompilingBehavior()
 						{
 							AAlines.push_back("			<hkparam name=\"triggers\">null</hkparam>");
 						}
-					}
-					else
+                    }
+                    else
 					{
 						AAlines.push_back(catalystMap[iter->first][5]);
 					}
@@ -2304,24 +2371,26 @@ void BehaviorSub::CompilingBehavior()
 		DebugLogging("Processing behavior: " + filepath + " (Check point 4.6, PCEA count: " + to_string(pceaID.size()) + ")");
 		unordered_map<string, int> replacerCount;
 
-		for (auto& datalist : pceaID)
-		{
-			vector<vecstr> lineRe;
-			string importline = to_string(datalist.first);
+        for (auto &datalist : pceaID)
+        {
+            vector<vecstr> lineRe;
+            string importline = to_string(datalist.first);
 
-			if (error) throw nemesis::exception();
+            if (error)
+                throw nemesis::exception();
 
-			for (auto& data = datalist.second->rbegin(); data != datalist.second->rend(); ++data)
-			{
-				while (importline.length() < 4)
-				{
-					importline = "0" + importline;
-				}
+            for (auto data = datalist.second->rbegin(); data != datalist.second->rend(); ++data)
+            {
+                while (importline.length() < 4)
+                {
+                    importline = "0" + importline;
+                }
 
-				// populating manual selector generator
-				vecstr msglines;
-				msglines.push_back("		<hkobject name=\"#" + importline + "\" class=\"hkbManualSelectorGenerator\" signature=\"0xd932fab8\">");
-				importline = "variableID[" + data->modFile + "]";
+                // populating manual selector generator
+                vecstr msglines;
+                msglines.push_back("		<hkobject name=\"#" + importline
+                                   + "\" class=\"hkbManualSelectorGenerator\" signature=\"0xd932fab8\">");
+                importline = "variableID[" + data->modFile + "]";
 				variableIDReplacer(importline, "PCEA", behaviorFile, variableid, ZeroVariable, 0);
 
 				if (exportID["variable_binding"]["selectedGeneratorIndex!~^!" + importline].length() == 0)
@@ -2393,36 +2462,43 @@ void BehaviorSub::CompilingBehavior()
 
 				for (unsigned int j = 5; j < catalystMap[datalist.first].size(); ++j)
 				{
-					msglines.push_back(catalystMap[datalist.first][j]);
-				}
+                    msglines.push_back(catalystMap[datalist.first][j]);
+                }
 
-				if (msglines.back().length() != 0) msglines.push_back("");
+                if (msglines.back().length() != 0)
+                    msglines.push_back("");
 
-				if (error) throw nemesis::exception();
+                if (error)
+                    throw nemesis::exception();
 
-				lineRe.push_back(msglines);
-			}
+                lineRe.push_back(msglines);
+            }
 
-			vecstr msglines;
-			msglines.push_back("		<hkobject name=\"#" + importline + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
-			msglines.insert(msglines.end(), catalystMap[datalist.first].begin() + 1, catalystMap[datalist.first].end());
+            vecstr msglines;
+            msglines.push_back("		<hkobject name=\"#" + importline
+                               + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
+            msglines.insert(msglines.end(),
+                            catalystMap[datalist.first].begin() + 1,
+                            catalystMap[datalist.first].end());
 
-			if (msglines.back().length() != 0) msglines.push_back("");
+            if (msglines.back().length() != 0)
+                msglines.push_back("");
 
-			lineRe.push_back(msglines);
+            lineRe.push_back(msglines);
 
-			for (auto& it = lineRe.rbegin(); it != lineRe.rend(); ++it)
+            for (auto it = lineRe.rbegin(); it != lineRe.rend(); ++it)
 			{
 				PCEALines.insert(PCEALines.end(), it->begin(), it->end());
 			}
 
 			if (error) throw nemesis::exception();
 
-			catalystMap.erase(catalystMap.find(datalist.first));
-		}
+            catalystMap.erase(catalystMap.find(datalist.first));
+        }
 
-		DebugLogging("Processing behavior: " + filepath + " (Check point 4.8, PCEA count: " + to_string(pceaID.size()) + " COMPLETE)");
-	}
+        DebugLogging("Processing behavior: " + filepath
+                     + " (Check point 4.8, PCEA count: " + to_string(pceaID.size()) + " COMPLETE)");
+    }
 
 	process->newMilestone();
 

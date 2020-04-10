@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <boost/regex.hpp>
 
 #include "utilities/compute.h"
@@ -26,13 +28,52 @@ extern void multiChoice(string& line, string filename, vector<vector<unordered_m
 extern int openEndBracket(string& line, char openBrac, char closeBrac, string format, string filename, int linecount);
 
 void processing(string& line, shared_ptr<NodePackedParameters> parameters);
-void processing(string& line, string format, string filename, string behaviorFile, int& nextFunctionID, string& strID, vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo,
-	SSMap& IDExist, shared_ptr<master> subFunctionIDs, ImportContainer& import, int linecount, id eventid, id variableid, string zeroEvent, string zeroVariable,
-	int groupMulti, int animMulti, int optionMulti, bool hasGroup, string multiOption, vector<vector<unordered_map<string, bool>>>& optionPicked,
-	unsigned __int64& openRange, unsigned int& elementCount, string& templateLine, LineCheck* elementCatch, bool& negative);
-void processing2(string& line, string format, string filename, int& nextFunctionID, string& strID, vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo, SSMap& IDExist,
-	shared_ptr<master> subFunctionIDs, ImportContainer& import, int linecount, id eventid, id variableid, string zeroEvent, string zeroVariable,
-	int groupMulti, int animMulti, int optionMulti, bool hasGroup, string multiOption);
+void processing(string &line,
+                string format,
+                string filename,
+                string behaviorFile,
+                int &nextFunctionID,
+                string &strID,
+                const vector<vector<shared_ptr<AnimationInfo>>> &groupAnimInfo,
+                SSMap &IDExist,
+                shared_ptr<master> subFunctionIDs,
+                ImportContainer &import,
+                int linecount,
+                id eventid,
+                id variableid,
+                string zeroEvent,
+                string zeroVariable,
+                int groupMulti,
+                int animMulti,
+                int optionMulti,
+                bool hasGroup,
+                string multiOption,
+                vector<vector<unordered_map<string, bool>>> &optionPicked,
+                unsigned __int64 &openRange,
+                unsigned int &elementCount,
+                string &templateLine,
+                LineCheck *elementCatch,
+                bool &negative);
+
+void processing2(string &line,
+                 string format,
+                 string filename,
+                 int &nextFunctionID,
+                 string &strID,
+                 const vector<vector<shared_ptr<AnimationInfo>>> &groupAnimInfo,
+                 SSMap &IDExist,
+                 shared_ptr<master> subFunctionIDs,
+                 ImportContainer &import,
+                 int linecount,
+                 id eventid,
+                 id variableid,
+                 string zeroEvent,
+                 string zeroVariable,
+                 int groupMulti,
+                 int animMulti,
+                 int optionMulti,
+                 bool hasGroup,
+                 string multiOption);
 void newID(int& nextFunctionID, string& strID);
 
 LineCheck::LineCheck(string _line, unsigned int _row)
@@ -61,15 +102,45 @@ LineCheck& LineCheck::operator=(shared_ptr<NodeJoint> _nested)
 	return *this;
 }
 
-NodePackedParameters::NodePackedParameters(string _format, string _filename, std::string _behaviorFile, int& _nextFunctionID, string& _strID,
-	vector<vector<shared_ptr<AnimationInfo>>>& _groupAnimInfo, SSMap& _IDExist, shared_ptr<master> _subFunctionIDs, ImportContainer& _import, int _linecount, id _eventid,
-	id _variableid, string _zeroEvent, string _zeroVariable, int _groupMulti, int _animMulti, int _optionMulti, bool _hasGroup, string _multiOption,
-	vector<vector<unordered_map<string, bool>>>& _optionPicked, unsigned __int64& _openRange, unsigned int& _elementCount, string& _line,
-	LineCheck* _elementCatch, bool& _negative) : nextFunctionID(_nextFunctionID), strID(_strID), groupAnimInfo(_groupAnimInfo), IDExist(_IDExist), import(_import),
-	optionPicked(_optionPicked), openRange(_openRange), elementCount(_elementCount), line(_line), elementCatch(_elementCatch), negative(_negative)
+NodePackedParameters::NodePackedParameters(string _format,
+                                           string _filename,
+                                           std::string _behaviorFile,
+                                           int &_nextFunctionID,
+                                           string &_strID,
+                                           const vector<vector<shared_ptr<AnimationInfo>>> &_groupAnimInfo,
+                                           SSMap &_IDExist,
+                                           shared_ptr<master> _subFunctionIDs,
+                                           ImportContainer &_import,
+                                           int _linecount,
+                                           id _eventid,
+                                           id _variableid,
+                                           string _zeroEvent,
+                                           string _zeroVariable,
+                                           int _groupMulti,
+                                           int _animMulti,
+                                           int _optionMulti,
+                                           bool _hasGroup,
+                                           string _multiOption,
+                                           vector<vector<unordered_map<string, bool>>> &_optionPicked,
+                                           unsigned __int64 &_openRange,
+                                           unsigned int &_elementCount,
+                                           string &_line,
+                                           LineCheck *_elementCatch,
+                                           bool &_negative)
+    : nextFunctionID(_nextFunctionID)
+    , strID(_strID)
+    , groupAnimInfo(_groupAnimInfo)
+    , IDExist(_IDExist)
+    , import(_import)
+    , optionPicked(_optionPicked)
+    , openRange(_openRange)
+    , elementCount(_elementCount)
+    , line(_line)
+    , elementCatch(_elementCatch)
+    , negative(_negative)
 {
-	format = _format;
-	filename = _filename;
+    format         = _format;
+    filename = _filename;
 	behaviorFile = _behaviorFile;
 	subFunctionIDs = _subFunctionIDs;
 	linecount = _linecount;
@@ -117,10 +188,30 @@ NodeJoint::NodeJoint(vecstr& node, string format, string filename, string _behav
 	dataBake(node, format, filename, otherAnimType, startline, size);
 }
 
-void NodeJoint::insertData(string format, string filename, vector<vector<unordered_map<string, bool>>>& optionPicked, vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo,
-	int groupMulti, int animMulti, int optionMulti, bool hasMaster, bool hasGroup, bool ignoreGroup, string multiOption, int& nextFunctionID, string& strID, SSMap& IDExist,
-	ImportContainer& import, id eventid, id variableid, string zeroEvent, string zeroVariable, unsigned __int64& openRange, unsigned int elementCount,
-	LineCheck* elementCatch, shared_ptr<master> subFunctionIDs, bool& negative)
+void NodeJoint::insertData(string format,
+                           string filename,
+                           vector<vector<unordered_map<string, bool>>> &optionPicked,
+                           const vector<vector<shared_ptr<AnimationInfo>>> &groupAnimInfo,
+                           int groupMulti,
+                           int animMulti,
+                           int optionMulti,
+                           bool hasMaster,
+                           bool hasGroup,
+                           bool ignoreGroup,
+                           string multiOption,
+                           int &nextFunctionID,
+                           string &strID,
+                           SSMap &IDExist,
+                           ImportContainer &import,
+                           id eventid,
+                           id variableid,
+                           string zeroEvent,
+                           string zeroVariable,
+                           unsigned __int64 &openRange,
+                           unsigned int elementCount,
+                           LineCheck *elementCatch,
+                           shared_ptr<master> subFunctionIDs,
+                           bool &negative)
 {
 	vector<unsigned int>* rows_ptr;
 	vector<unsigned int> rows;
@@ -358,11 +449,34 @@ void NodeJoint::insertData(string format, string filename, vector<vector<unorder
 	}
 }
 
-void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output, LineCheck& storeTemplate, string condition, unsigned int sect, string format, string filename,
-	vector<vector<unordered_map<string, bool>>>& optionPicked, vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo, int groupMulti, int animMulti, int optionMulti,
-	bool hasMaster, bool hasGroup, bool ignoreGroup, string multiOption, int& nextFunctionID, string& strID, SSMap& IDExist, ImportContainer& import,
-	id eventid, id variableid, string zeroEvent, string zeroVariable, unsigned __int64 openRange, unsigned int elementCount, LineCheck* elementCatch,
-	shared_ptr<master> subFunctionIDs, bool& negative)
+void NodeJoint::forEachProcess(vector<vector<LineCheck>> &output,
+                               LineCheck &storeTemplate,
+                               string condition,
+                               unsigned int sect,
+                               string format,
+                               string filename,
+                               vector<vector<unordered_map<string, bool>>> &optionPicked,
+                               const vector<vector<shared_ptr<AnimationInfo>>> &groupAnimInfo,
+                               int groupMulti,
+                               int animMulti,
+                               int optionMulti,
+                               bool hasMaster,
+                               bool hasGroup,
+                               bool ignoreGroup,
+                               string multiOption,
+                               int &nextFunctionID,
+                               string &strID,
+                               SSMap &IDExist,
+                               ImportContainer &import,
+                               id eventid,
+                               id variableid,
+                               string zeroEvent,
+                               string zeroVariable,
+                               unsigned __int64 openRange,
+                               unsigned int elementCount,
+                               LineCheck *elementCatch,
+                               shared_ptr<master> subFunctionIDs,
+                               bool &negative)
 {
 	if (hasMaster)
 	{
@@ -605,10 +719,30 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output, LineCheck& sto
 	}
 }
 
-void NodeJoint::optionMultiLoop(vector<LineCheck>& output, string format, string filename, vector<vector<unordered_map<string, bool>>>& optionPicked,
-	vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo, int groupMulti, int animMulti, int optionMulti, bool ignoreGroup, string multiOption, int& nextFunctionID,
-	string& strID, SSMap& IDExist, ImportContainer& import, id eventid, id variableid, string zeroEvent, string zeroVariable, unsigned __int64 openRange, unsigned int elementCount,
-	LineCheck* elementCatch, shared_ptr<master> subFunctionIDs, bool& negative, LineCheck temp)
+void NodeJoint::optionMultiLoop(vector<LineCheck> &output,
+                                string format,
+                                string filename,
+                                vector<vector<unordered_map<string, bool>>> &optionPicked,
+                                const vector<vector<shared_ptr<AnimationInfo>>> &groupAnimInfo,
+                                int groupMulti,
+                                int animMulti,
+                                int optionMulti,
+                                bool ignoreGroup,
+                                string multiOption,
+                                int &nextFunctionID,
+                                string &strID,
+                                SSMap &IDExist,
+                                ImportContainer &import,
+                                id eventid,
+                                id variableid,
+                                string zeroEvent,
+                                string zeroVariable,
+                                unsigned __int64 openRange,
+                                unsigned int elementCount,
+                                LineCheck *elementCatch,
+                                shared_ptr<master> subFunctionIDs,
+                                bool &negative,
+                                LineCheck temp)
 {
 	if (static_cast<unsigned int>(groupMulti) < groupAnimInfo.size() && static_cast<unsigned int>(animMulti) < groupAnimInfo[groupMulti].size())
 	{
@@ -926,10 +1060,32 @@ void processing(string& line, shared_ptr<NodePackedParameters> parameters)
 		parameters->elementCount, parameters->line, parameters->elementCatch, parameters->negative);
 }
 
-void processing(string& lineRef, string format, string filename, string behaviorFile, int& nextFunctionID, string& strID, vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo,
-	SSMap& IDExist, shared_ptr<master> subFunctionIDs, ImportContainer& import, int linecount, id eventid, id variableid, string zeroEvent, string zeroVariable,
-	int groupMulti, int animMulti, int optionMulti, bool hasGroup, string multiOption, vector<vector<unordered_map<string, bool>>>& optionPicked,
-	unsigned __int64& openRange, unsigned int& elementCount, string& templateLine, LineCheck* elementCatch, bool& negative)
+void processing(string &lineRef,
+                string format,
+                string filename,
+                string behaviorFile,
+                int &nextFunctionID,
+                string &strID,
+                const vector<vector<shared_ptr<AnimationInfo>>> &groupAnimInfo,
+                SSMap &IDExist,
+                shared_ptr<master> subFunctionIDs,
+                ImportContainer &import,
+                int linecount,
+                id eventid,
+                id variableid,
+                string zeroEvent,
+                string zeroVariable,
+                int groupMulti,
+                int animMulti,
+                int optionMulti,
+                bool hasGroup,
+                string multiOption,
+                vector<vector<unordered_map<string, bool>>> &optionPicked,
+                unsigned __int64 &openRange,
+                unsigned int &elementCount,
+                string &templateLine,
+                LineCheck *elementCatch,
+                bool &negative)
 {
 	string line = templateLine;
 
@@ -1049,9 +1205,25 @@ void processing(string& lineRef, string format, string filename, string behavior
 	lineRef = line;
 }
 
-void processing2(string& line, string format, string filename, int& nextFunctionID, string& strID, vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo, SSMap& IDExist,
-	shared_ptr<master> subFunctionIDs, ImportContainer& import, int linecount, id eventid, id variableid, string zeroEvent, string zeroVariable,
-	int groupMulti, int animMulti, int optionMulti, bool hasGroup, string multiOption)
+void processing2(string &line,
+                 string format,
+                 string filename,
+                 int &nextFunctionID,
+                 string &strID,
+                 const vector<vector<shared_ptr<AnimationInfo>>> &groupAnimInfo,
+                 SSMap &IDExist,
+                 shared_ptr<master> subFunctionIDs,
+                 ImportContainer &import,
+                 int linecount,
+                 id eventid,
+                 id variableid,
+                 string zeroEvent,
+                 string zeroVariable,
+                 int groupMulti,
+                 int animMulti,
+                 int optionMulti,
+                 bool hasGroup,
+                 string multiOption)
 {
 	__int64 counter = count(line.begin(), line.end(), '$') / 2;
 	size_t curPos = 0;
@@ -1149,86 +1321,112 @@ void processing2(string& line, string format, string filename, int& nextFunction
 						if (change.find(format + "[B][FilePath]", 0) != NOT_FOUND) ErrorMessage(1056, format, filename, linecount, line);
 
 						if (change.find(format + "[L][FilePath]", 0) != NOT_FOUND)
-						{
-							change.replace(change.find(format + "[L][FilePath]"), 13 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["FilePath"]);
+                        {
+                            change.replace(
+                                change.find(format + "[L][FilePath]"),
+                                13 + format.length(),
+                                subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["FilePath"]);
+                            isChange = true;
+                        }
+
+                        if (change.find(format + "[", 0) != NOT_FOUND)
+                        {
+                            string number = boost::regex_replace(string(change.substr(
+                                                                     change.find(format + "[", 0))),
+                                                                 boost::regex("[^0-9]*([0-9]+).*"),
+                                                                 string("\\1"));
+
+                            if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND)
+                            {
+                                if (static_cast<unsigned int>(stoi(number))
+                                    >= groupAnimInfo[groupMulti].size())
+                                {
+                                    change.replace(change.find(format + "[" + number + "][FilePath]"),
+                                                   8 + format.length() + number.length(),
+                                                   subFunctionIDs->grouplist[groupMulti]
+                                                       ->singlelist[stoi(number)]
+                                                       ->format["FilePath"]);
+                                    isChange = true;
+                                }
+                                else
+                                {
+                                    ErrorMessage(1148, format, filename, linecount, change);
+                                }
+                            }
+                        }
+                    }
+
+                    if (change.find("[FileName]") != NOT_FOUND)
+                    {
+                        if (change.find(format + "[][FileName]", 0) != NOT_FOUND)
+                        {
+                            change.replace(change.find(format + "[][FileName]"),
+                                           12 + format.length(),
+                                           subFunctionIDs->grouplist[groupMulti]
+                                               ->singlelist[animMulti]
+                                               ->format["FileName"]);
+                        }
+
+                        if (change.find(format + "[F][FileName]", 0) != NOT_FOUND)
+                        {
+                            change.replace(change.find(format + "[F][FileName]"), 13 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[0]->format["FileName"]);
 							isChange = true;
-						}
+                        }
 
-						if (change.find(format + "[", 0) != NOT_FOUND)
-						{
-							string number = boost::regex_replace(string(change.substr(change.find(format + "[", 0))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-
-							if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND)
-							{
-								if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
-								{
-									change.replace(change.find(format + "[" + number + "][FilePath]"), 8 + format.length() + number.length(),
-										subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["FilePath"]);
-									isChange = true;
-								}
-								else
-								{
-									ErrorMessage(1148, format, filename, linecount, change);
-								}
-							}
-						}
-					}
-
-					if (change.find("[FileName]") != NOT_FOUND)
-					{
-						if (change.find(format + "[][FileName]", 0) != NOT_FOUND)
-						{
-							change.replace(change.find(format + "[][FileName]"), 12 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["FileName"]);
-						}
-
-						if (change.find(format + "[F][FileName]", 0) != NOT_FOUND)
-						{
-							change.replace(change.find(format + "[F][FileName]"), 13 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[0]->format["FileName"]);
-							isChange = true;
-						}
-
-						if (change.find(format + "[N][FileName]", 0) != NOT_FOUND) ErrorMessage(1056, format, filename, linecount, line);
+                        if (change.find(format + "[N][FileName]", 0) != NOT_FOUND) ErrorMessage(1056, format, filename, linecount, line);
 						if (change.find(format + "[B][FileName]", 0) != NOT_FOUND) ErrorMessage(1056, format, filename, linecount, line);
 
 						if (change.find(format + "[L][FileName]", 0) != NOT_FOUND)
-						{
-							change.replace(change.find(format + "[L][FileName]"), 13 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["FileName"]);
+                        {
+                            change.replace(
+                                change.find(format + "[L][FileName]"),
+                                13 + format.length(),
+                                subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["FileName"]);
+                            isChange = true;
+                        }
+
+                        if (change.find(format + "[", 0) != NOT_FOUND)
+                        {
+                            string number = boost::regex_replace(string(change.substr(
+                                                                     change.find(format + "[", 0))),
+                                                                 boost::regex("[^0-9]*([0-9]+).*"),
+                                                                 string("\\1"));
+
+                            if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND)
+                            {
+                                if (static_cast<unsigned int>(stoi(number))
+                                    >= groupAnimInfo[groupMulti].size())
+                                {
+                                    change.replace(change.find(format + "[" + number + "][FileName]"),
+                                                   8 + format.length() + number.length(),
+                                                   subFunctionIDs->grouplist[groupMulti]
+                                                       ->singlelist[stoi(number)]
+                                                       ->format["FileName"]);
+                                    isChange = true;
+                                }
+                                else
+                                {
+                                    ErrorMessage(1148, format, filename, linecount, change);
+                                }
+                            }
+                        }
+
+                        if (error)
+                            throw nemesis::exception();
+                    }
+
+                    if (change.find("main_anim_event") != NOT_FOUND)
+                    {
+                        size_t pos = change.find("[" + format + "[][main_anim_event]]", 0);
+
+                        if (pos != NOT_FOUND
+                            && (change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND
+                                || change.find("eventID[" + format + "[][main_anim_event]]") != pos - 7))
+                        {
+                            change.replace(pos, 21 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
 							isChange = true;
-						}
-
-						if (change.find(format + "[", 0) != NOT_FOUND)
-						{
-							string number = boost::regex_replace(string(change.substr(change.find(format + "[", 0))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-
-							if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND)
-							{
-								if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
-								{
-									change.replace(change.find(format + "[" + number + "][FileName]"), 8 + format.length() + number.length(),
-										subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["FileName"]);
-									isChange = true;
-								}
-								else
-								{
-									ErrorMessage(1148, format, filename, linecount, change);
-								}
-							}
-						}
-
-						if (error) throw nemesis::exception();
-					}
-
-					if (change.find("main_anim_event") != NOT_FOUND)
-					{
-						size_t pos = change.find("[" + format + "[][main_anim_event]]", 0);
-
-						if (pos != NOT_FOUND && (change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND
-							|| change.find("eventID[" + format + "[][main_anim_event]]") != pos - 7))
-						{
-							change.replace(pos, 21 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format["main_anim_event"]);
-							isChange = true;
-						}
-						else
+                        }
+                        else
 						{
 							pos = change.find(format + "[][main_anim_event]", 0);
 
@@ -1276,62 +1474,94 @@ void processing2(string& line, string format, string filename, int& nextFunction
 							if (pos != NOT_FOUND)
 							{
 								change.replace(pos, 20 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist.back()->format["main_anim_event"]);
-								isChange = true;
-							}
-						}
+                                isChange = true;
+                            }
+                        }
 
-						if (change.find(format + "[", 0) != NOT_FOUND)
-						{
-							string number = boost::regex_replace(string(change), boost::regex(format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"), string("\\1"));
+                        if (change.find(format + "[", 0) != NOT_FOUND)
+                        {
+                            string number
+                                = boost::regex_replace(string(change),
+                                                       boost::regex(
+                                                           format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
+                                                       string("\\1"));
 
-							if (number != change)
-							{
-								if (unsigned int(stoi(number)) >= groupAnimInfo[groupMulti].size())
-								{
-									pos = change.find("[" + format + "[" + number + "][main_anim_event]]", 0);
+                            if (number != change)
+                            {
+                                if (static_cast<unsigned int>(stoi(number))
+                                    >= groupAnimInfo[groupMulti].size())
+                                {
+                                    pos = change.find("[" + format + "[" + number + "][main_anim_event]]", 0);
 
-									if (pos != NOT_FOUND && (change.find("eventID[" + format + "[" + number + "][main_anim_event]]") == NOT_FOUND
-										|| change.find("eventID[" + format + "[" + number + "][main_anim_event]]") != pos - 7))
-									{
-										change.replace(pos, 21 + format.length(), subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["main_anim_event"]);
-										isChange = true;
-									}
-									else
-									{
-										pos = change.find(format + "[" + number + "][main_anim_event]", 0);
+                                    if (pos != NOT_FOUND
+                                        && (change.find("eventID[" + format + "[" + number
+                                                        + "][main_anim_event]]")
+                                                == NOT_FOUND
+                                            || change.find("eventID[" + format + "[" + number
+                                                           + "][main_anim_event]]")
+                                                   != pos - 7))
+                                    {
+                                        change.replace(pos,
+                                                       21 + format.length(),
+                                                       subFunctionIDs->grouplist[groupMulti]
+                                                           ->singlelist[stoi(number)]
+                                                           ->format["main_anim_event"]);
+                                        isChange = true;
+                                    }
+                                    else
+                                    {
+                                        pos = change.find(format + "[" + number + "][main_anim_event]", 0);
 
-										if (pos != NOT_FOUND)
-										{
-											change.replace(pos, 19 + format.length() + number.length(),
-												subFunctionIDs->grouplist[groupMulti]->singlelist[stoi(number)]->format["main_anim_event"]);
-											isChange = true;
-										}
-									}
-								}
-								else
-								{
-									ErrorMessage(1148, format, filename, linecount, change);
-								}
-							}
-						}
+                                        if (pos != NOT_FOUND)
+                                        {
+                                            change.replace(pos,
+                                                           19 + format.length() + number.length(),
+                                                           subFunctionIDs->grouplist[groupMulti]
+                                                               ->singlelist[stoi(number)]
+                                                               ->format["main_anim_event"]);
+                                            isChange = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    ErrorMessage(1148, format, filename, linecount, change);
+                                }
+                            }
+                        }
 
-						if (error) throw nemesis::exception();
-					}
+                        if (error)
+                            throw nemesis::exception();
+                    }
 
-					if (pos != NOT_FOUND && change.find("]", pos) != NOT_FOUND)
-					{
-						formatGroupReplace(change, change, 0, filename, format, subFunctionIDs, groupAnimInfo, linecount, groupMulti, optionMulti, animMulti, multiOption, innerError);
-						isChange = true;
+                    if (pos != NOT_FOUND && change.find("]", pos) != NOT_FOUND)
+                    {
+                        formatGroupReplace(change,
+                                           change,
+                                           0,
+                                           filename,
+                                           format,
+                                           subFunctionIDs,
+                                           groupAnimInfo,
+                                           linecount,
+                                           groupMulti,
+                                           optionMulti,
+                                           animMulti,
+                                           multiOption,
+                                           innerError);
+                        isChange = true;
 
-						if (innerError) ErrorMessage(2014, format, filename, linecount);
+                        if (innerError)
+                            ErrorMessage(2014, format, filename, linecount);
 
-						if (error) throw nemesis::exception();
-					}
-				}
+                        if (error)
+                            throw nemesis::exception();
+                    }
+                }
 
-				pos = change.find(format + "_group[][");
+                pos = change.find(format + "_group[][");
 
-				if (pos != NOT_FOUND && change.find("]", pos) != NOT_FOUND)
+                if (pos != NOT_FOUND && change.find("]", pos) != NOT_FOUND)
 				{
 					formatGroupReplace(change, change, 0, filename, format, subFunctionIDs, groupAnimInfo, linecount, groupMulti, optionMulti, animMulti, multiOption, innerError);
 					isChange = true;

@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <filesystem>
 
 #include <QtGui/QIcon>

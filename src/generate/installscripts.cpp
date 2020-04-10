@@ -1,5 +1,7 @@
 #include "Global.h"
 
+#include "Global.h"
+
 #include "generate/playerexclusive.h"
 #include "generate/installscripts.h"
 #include "generate/alternateanimation.h"

@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "utilities/compute.h"
 #include "utilities/atomiclock.h"
 #include "utilities/stringsplit.h"
@@ -3162,14 +3164,62 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate, shared_pt
 
 	generatedlines->reserve(originaltemplate->size + 10 * memory);
 	proc process = originaltemplate->process;
-	process.Register(format, format, behaviorFile, filepath, filename, mainAnimEvent, strID, zeroEvent, zeroVariable, false, negative, isEnd, norElement,
-		elementCatch, hasDuration, duration, openRange, counter, elementLine, furnitureCount, id(), id(), vector<int>(), vector<int>(), nullptr,
-		order, lastOrder, IDExist, AnimObject, addition, newImport, groupAddition, groupOptionPicked, nullptr, generatedlines, this);
-	process.project = project;
-	process.header = header;
+    id tmpId; //FIXME
+    id tmpId2;
+    process.Register(format,
+                     format,
+                     behaviorFile,
+                     filepath,
+                     filename,
+                     mainAnimEvent,
+                     strID,
+                     zeroEvent,
+                     zeroVariable,
+                     false,
+                     negative,
+                     isEnd,
+                     norElement,
+                     elementCatch,
+                     hasDuration,
+                     duration,
+                     openRange,
+                     counter,
+                     elementLine,
+                     furnitureCount,
+                     tmpId,
+                     tmpId2,
+                     vector<int>(),
+                     vector<int>(),
+                     nullptr,
+                     order,
+                     lastOrder,
+                     IDExist,
+                     AnimObject,
+                     addition,
+                     newImport,
+                     groupAddition,
+                     groupOptionPicked,
+                     nullptr,
+                     generatedlines,
+                     this);
+    process.project = project;
+    process.header  = header;
 
-	OutputCheck(generatedlines, process, &originaltemplate->lines, norElement, openRange, elementLine, counter, id(), id(), vector<int>(),
-		vector<int>(), false, negative, groupOptionPicked, nullptr);
+    OutputCheck(generatedlines,
+                process,
+                &originaltemplate->lines,
+                norElement,
+                openRange,
+                elementLine,
+                counter,
+                tmpId,
+                tmpId2,
+                vector<int>(),
+                vector<int>(),
+                false,
+                negative,
+                groupOptionPicked,
+                nullptr);
 }
 
 void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, vector<int> ASD)

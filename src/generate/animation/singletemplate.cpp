@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <boost/regex.hpp>
 
 #include "utilities/stringsplit.h"
@@ -10,11 +12,32 @@ using namespace std;
 void stateInstall(string line, string change, string format, string behaviorFile, int numline, size_t curPos, string animOrder, bool isMC,
 	map<int, vector<range>>& lineblocks, proc& process, void (proc::*func)(range, vecstr&));
 void mainAnimEventInstall(string format, string behaviorFile, string change, int numline, size_t curPos, boost::regex expr, bool isGroup, bool isMaster, proc& process);
-void ProcessFunction(string change, string line, string format, string behaviorFile, string multiOption, bool& isEnd, int numline, size_t curPos,
-	OptionList& optionlist, map<int, vector<shared_ptr<range>>>& lineblocks, vector<addOnInfo>& addInfo, bool& isTrueMulti, bool isGroup = false, bool isMaster = false,
-	bool isMC = true, proc& process = proc());
-void GetMultiFromAddOn(addOnInfo& addinfo, string format, string behaviorFile, string original, int numline, int animMulti, bool isGroup,
-	vector<shared_ptr<AnimationInfo>>& groupAnimInfo, int& optionMulti, int& endMulti);
+void ProcessFunction(string change,
+                     string line,
+                     string format,
+                     string behaviorFile,
+                     string multiOption,
+                     bool &isEnd,
+                     int numline,
+                     size_t curPos,
+                     OptionList &optionlist,
+                     map<int, vector<shared_ptr<range>>> &lineblocks,
+                     vector<addOnInfo> &addInfo,
+                     bool &isTrueMulti,
+                     bool isGroup = false,
+                     bool isMaster = false,
+                     bool isMC = true,
+                     proc *process = nullptr);
+void GetMultiFromAddOn(addOnInfo &addinfo,
+                       string format,
+                       string behaviorFile,
+                       string original,
+                       int numline,
+                       int animMulti,
+                       bool isGroup,
+                       const vector<shared_ptr<AnimationInfo>> &groupAnimInfo,
+                       int &optionMulti,
+                       int &endMulti);
 
 vecstr GetOptionInfo(string line, string format, string filename, int numline)
 {
@@ -149,184 +172,240 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 	{
 		for (unsigned int i = 0; i < templatelines.size(); ++i)
 		{
-			bool uniqueskip = false;
-			string line = templatelines[i];
-			Process(line, "", norElement, isEnd, isGroup, isMaster, openRange, i + 1, optionlist, generatedlines.back());
+            bool uniqueskip = false;
+            string line = templatelines[i];
+            Process(line,
+                    "",
+                    norElement,
+                    isEnd,
+                    isGroup,
+                    isMaster,
+                    openRange,
+                    i + 1,
+                    optionlist,
+                    generatedlines.back());
 
-			if (error) throw nemesis::exception();
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < templatelines.size(); ++i)
-		{
-			bool uniqueskip = false;
-			string line = templatelines[i];
-			nemesis::smatch match;
+            if (error)
+                throw nemesis::exception();
+        }
+    } else {
+        for (unsigned int i = 0; i < templatelines.size(); ++i) {
+            bool uniqueskip = false;
+            string line = templatelines[i];
+            nemesis::smatch match;
 
-			if (i == 216)
-				line = line;
+            if (i == 216)
+                line = line;
 
-			if (nemesis::regex_search(line, match, boost::regex(".*<!-- CONDITION START \\^(.+?)\\^ -->.*")))
-			{
-				condition++;
-				string multiOption;
+            if (nemesis::regex_search(line,
+                                      match,
+                                      boost::regex(".*<!-- CONDITION START \\^(.+?)\\^ -->.*"))) {
+                condition++;
+                string multiOption;
 
-				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-					if ((*it)->isMulti) multiOption = (*it)->conditions;
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+                    if ((*it)->isMulti)
+                        multiOption = (*it)->conditions;
 
-				generatedlines.back()->lines.push_back(stackline());
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
-				generatedlines.back()->conditions = match[1];
-				generatedlines.back()->n_conditions = make_shared<condt>(match[1], format, behaviorFile, match[1], multiOption, i + 1, isGroup, isMaster, optionlist);
-				generatedlines.back()->linenum = i + 1;
-				uniqueskip = true;
-			}
-			else if (nemesis::regex_search(line, match, boost::regex(".*<!-- CONDITION \\^(.+?)\\^ -->.*")))
-			{
-				if (condition == 0)
-				{
-					ErrorMessage(1119, format, behaviorFile, i + 1);
-				}
+                generatedlines.back()->lines.push_back(stackline());
+                generatedlines.back()->lines.back().nestedcond.push_back(condset());
+                generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+                generatedlines.back()->conditions = match[1];
+                generatedlines.back()->n_conditions = make_shared<condt>(match[1],
+                                                                         format,
+                                                                         behaviorFile,
+                                                                         match[1],
+                                                                         multiOption,
+                                                                         i + 1,
+                                                                         isGroup,
+                                                                         isMaster,
+                                                                         optionlist);
+                generatedlines.back()->linenum = i + 1;
+                uniqueskip = true;
+            } else if (nemesis::regex_search(line,
+                                             match,
+                                             boost::regex(".*<!-- CONDITION \\^(.+?)\\^ -->.*"))) {
+                if (condition == 0) {
+                    ErrorMessage(1119, format, behaviorFile, i + 1);
+                }
 
-				string multiOption;
+                string multiOption;
 
-				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-					if ((*it)->isMulti) multiOption = (*it)->conditions;
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+                    if ((*it)->isMulti)
+                        multiOption = (*it)->conditions;
 
-				generatedlines.pop_back();
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
-				generatedlines.back()->conditions = match[1];
-				generatedlines.back()->n_conditions = make_shared<condt>(match[1], format, behaviorFile, match[1], multiOption, i + 1, isGroup, isMaster, optionlist);
-				generatedlines.back()->linenum = i + 1;
-				uniqueskip = true;
-			}
-			else if (line.find("<!-- CONDITION -->", 0) != NOT_FOUND)
-			{
-				if (condition == 0)
-				{
-					ErrorMessage(1119, format, behaviorFile, i + 1);
-				}
+                generatedlines.pop_back();
+                generatedlines.back()->lines.back().nestedcond.push_back(condset());
+                generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+                generatedlines.back()->conditions = match[1];
+                generatedlines.back()->n_conditions = make_shared<condt>(match[1],
+                                                                         format,
+                                                                         behaviorFile,
+                                                                         match[1],
+                                                                         multiOption,
+                                                                         i + 1,
+                                                                         isGroup,
+                                                                         isMaster,
+                                                                         optionlist);
+                generatedlines.back()->linenum = i + 1;
+                uniqueskip = true;
+            } else if (line.find("<!-- CONDITION -->", 0) != NOT_FOUND) {
+                if (condition == 0) {
+                    ErrorMessage(1119, format, behaviorFile, i + 1);
+                }
 
-				generatedlines.pop_back();
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
-				uniqueskip = true;
-			}
-			else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND)
-			{
-				if (newOpen)
-				{
-					ErrorMessage(1116, format, behaviorFile, i + 1);
-				}
+                generatedlines.pop_back();
+                generatedlines.back()->lines.back().nestedcond.push_back(condset());
+                generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+                uniqueskip = true;
+            } else if (line.find("<!-- NEW ^", 0) != NOT_FOUND
+                       && line.find("^ -->", 0) != NOT_FOUND) {
+                if (newOpen) {
+                    ErrorMessage(1116, format, behaviorFile, i + 1);
+                }
 
-				string multiOption;
+                string multiOption;
 
-				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-					if ((*it)->isMulti) multiOption = (*it)->conditions;
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+                    if ((*it)->isMulti)
+                        multiOption = (*it)->conditions;
 
-				generatedlines.back()->lines.push_back(stackline());
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
-				generatedlines.back()->conditions = getOption(line);
-				generatedlines.back()->n_conditions = make_shared<condt>(generatedlines.back()->conditions, format, behaviorFile, generatedlines.back()->conditions,
-					multiOption, i + 1, isGroup, isMaster, optionlist);
-				generatedlines.back()->linenum = i + 1;
-				newOpen = true;
-				uniqueskip = true;
-			}
-			else if (line.find("<!-- FOREACH ^", 0) != NOT_FOUND)
-			{
-				if (newOpen) ErrorMessage(1116, format, behaviorFile, i + 1);
+                generatedlines.back()->lines.push_back(stackline());
+                generatedlines.back()->lines.back().nestedcond.push_back(condset());
+                generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+                generatedlines.back()->conditions = getOption(line);
+                generatedlines.back()->n_conditions
+                    = make_shared<condt>(generatedlines.back()->conditions,
+                                         format,
+                                         behaviorFile,
+                                         generatedlines.back()->conditions,
+                                         multiOption,
+                                         i + 1,
+                                         isGroup,
+                                         isMaster,
+                                         optionlist);
+                generatedlines.back()->linenum = i + 1;
+                newOpen = true;
+                uniqueskip = true;
+            } else if (line.find("<!-- FOREACH ^", 0) != NOT_FOUND) {
+                if (newOpen)
+                    ErrorMessage(1116, format, behaviorFile, i + 1);
 
-				string multiOption;
+                string multiOption;
 
-				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-					if ((*it)->isMulti) multiOption = (*it)->conditions;
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+                    if ((*it)->isMulti)
+                        multiOption = (*it)->conditions;
 
-				generatedlines.back()->lines.push_back(stackline());
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
-				generatedlines.back()->conditions = getOption(line);
+                generatedlines.back()->lines.push_back(stackline());
+                generatedlines.back()->lines.back().nestedcond.push_back(condset());
+                generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+                generatedlines.back()->conditions = getOption(line);
 
-				if (isMaster && generatedlines.back()->conditions == format && multiOption != format + "_group") ErrorMessage(1202, format, behaviorFile, i + 1);
+                if (isMaster && generatedlines.back()->conditions == format
+                    && multiOption != format + "_group")
+                    ErrorMessage(1202, format, behaviorFile, i + 1);
 
-				generatedlines.back()->n_conditions = make_shared<condt>(generatedlines.back()->conditions, format, behaviorFile, generatedlines.back()->conditions,
-					multiOption, i + 1, isGroup, isMaster, optionlist);
-				generatedlines.back()->linenum = i + 1;
-				generatedlines.back()->isMulti = true;
-				newOpen = true;
-				uniqueskip = true;
-			}
-			else if (line.find("<!-- NEW ORDER ", 0) != NOT_FOUND && line.find(" -->", 0) != NOT_FOUND)
-			{
-				if (isMaster) ErrorMessage(1202, format, behaviorFile, i + 1);
+                generatedlines.back()->n_conditions
+                    = make_shared<condt>(generatedlines.back()->conditions,
+                                         format,
+                                         behaviorFile,
+                                         generatedlines.back()->conditions,
+                                         multiOption,
+                                         i + 1,
+                                         isGroup,
+                                         isMaster,
+                                         optionlist);
+                generatedlines.back()->linenum = i + 1;
+                generatedlines.back()->isMulti = true;
+                newOpen = true;
+                uniqueskip = true;
+            } else if (line.find("<!-- NEW ORDER ", 0) != NOT_FOUND
+                       && line.find(" -->", 0) != NOT_FOUND) {
+                if (isMaster)
+                    ErrorMessage(1202, format, behaviorFile, i + 1);
 
-				if (newOpen) ErrorMessage(1116, format, behaviorFile, i + 1);
+                if (newOpen)
+                    ErrorMessage(1116, format, behaviorFile, i + 1);
 
-				string multiOption;
+                string multiOption;
 
-				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-					if ((*it)->isMulti) multiOption = (*it)->conditions;
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+                    if ((*it)->isMulti)
+                        multiOption = (*it)->conditions;
 
-				generatedlines.back()->lines.push_back(stackline());
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
-				generatedlines.back()->conditions = boost::regex_replace(string(line), boost::regex(".*<!-- NEW ORDER (.+?) -->.*"), string("\\1"));
-				generatedlines.back()->n_conditions = make_shared<condt>(generatedlines.back()->conditions, format, behaviorFile, generatedlines.back()->conditions,
-					multiOption, i + 1, isGroup, isMaster, optionlist);
-				generatedlines.back()->linenum = i + 1;
-				generatedlines.back()->isOrder = true;
-				newOpen = true;
-				uniqueskip = true;
-			}
-			else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-			{
-				if (!newOpen) ErrorMessage(1171, format, behaviorFile, i + 1);
+                generatedlines.back()->lines.push_back(stackline());
+                generatedlines.back()->lines.back().nestedcond.push_back(condset());
+                generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+                generatedlines.back()->conditions
+                    = boost::regex_replace(string(line),
+                                           boost::regex(".*<!-- NEW ORDER (.+?) -->.*"),
+                                           string("\\1"));
+                generatedlines.back()->n_conditions
+                    = make_shared<condt>(generatedlines.back()->conditions,
+                                         format,
+                                         behaviorFile,
+                                         generatedlines.back()->conditions,
+                                         multiOption,
+                                         i + 1,
+                                         isGroup,
+                                         isMaster,
+                                         optionlist);
+                generatedlines.back()->linenum = i + 1;
+                generatedlines.back()->isOrder = true;
+                newOpen = true;
+                uniqueskip = true;
+            } else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND) {
+                if (!newOpen)
+                    ErrorMessage(1171, format, behaviorFile, i + 1);
 
-				generatedlines.pop_back();
-				newOpen = false;
-				uniqueskip = true;
-			}
-			else if (line.find("<!-- CONDITION END -->", 0) != NOT_FOUND)
-			{
-				--condition;
-				generatedlines.pop_back();
-				uniqueskip = true;
-			}
+                generatedlines.pop_back();
+                newOpen = false;
+                uniqueskip = true;
+            } else if (line.find("<!-- CONDITION END -->", 0) != NOT_FOUND) {
+                --condition;
+                generatedlines.pop_back();
+                uniqueskip = true;
+            }
 
-			if (!uniqueskip)
-			{
-				string multiOption;
+            if (!uniqueskip) {
+                string multiOption;
 
-				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-					if ((*it)->isMulti) multiOption = (*it)->conditions;
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+                    if ((*it)->isMulti)
+                        multiOption = (*it)->conditions;
 
-				Process(line, multiOption, norElement, isEnd, isGroup, isMaster, openRange, i + 1, optionlist, generatedlines.back());
-			}
+                Process(line,
+                        multiOption,
+                        norElement,
+                        isEnd,
+                        isGroup,
+                        isMaster,
+                        openRange,
+                        i + 1,
+                        optionlist,
+                        generatedlines.back());
+            }
 
-			if (error) throw nemesis::exception();
-		}
-	}
+            if (error)
+                throw nemesis::exception();
+        }
+    }
 
-	if (generatedlines.size() != 1)
-	{
-		ErrorMessage(1122, format, behaviorFile);
-	}
+    if (generatedlines.size() != 1) {
+        ErrorMessage(1122, format, behaviorFile);
+    }
 
-	if (newOpen)
-	{
-		ErrorMessage(1116, format, behaviorFile, templatelines.size() + 1);
-	}
+    if (newOpen) {
+        ErrorMessage(1116, format, behaviorFile, templatelines.size() + 1);
+    }
 
-	if (condition > 0)
-	{
-		ErrorMessage(1145, format, behaviorFile);
-	}
+    if (condition > 0) {
+        ErrorMessage(1145, format, behaviorFile);
+    }
 
-	size = templatelines.size();
+    size = templatelines.size();
 }
 
 void AnimTemplate::Process(string& line, string multiOption, bool& norElement, bool& isEnd, bool isGroup, bool isMaster, int& openRange, int numline,
@@ -341,214 +420,278 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 		if (!norElement)
 		{
 			norElement = true;
-			hasProcess = true;
-			string templine = line.substr(0, line.find("<hkparam name=\"", 0));
-			openRange = count(templine.begin(), templine.end(), '\t');
-			process.installBlock(range(0, 0, vector<int>{ openRange }, &proc::compute), numline);
-		}
-		else
-		{
-			ErrorMessage(1136, format, behaviorFile, numline);
-		}
-	}
-	else if (norElement && line.find("</hkparam>") != NOT_FOUND)
-	{
-		string templine = line.substr(0, line.find("</hkparam>"));
+            hasProcess = true;
+            string templine = line.substr(0, line.find("<hkparam name=\"", 0));
+            openRange = count(templine.begin(), templine.end(), '\t');
+            process.installBlock(range(0, 0, vector<int>{openRange}, &proc::compute), numline);
+        } else {
+            ErrorMessage(1136, format, behaviorFile, numline);
+        }
+    } else if (norElement && line.find("</hkparam>") != NOT_FOUND) {
+        string templine = line.substr(0, line.find("</hkparam>"));
 
-		if (openRange == count(templine.begin(), templine.end(), '\t'))
-		{
-			hasProcess = true;
-			norElement = false;
-			process.installBlock(range(0, 0, &proc::rangeCompute), numline);
-		}
-	}
+        if (openRange == count(templine.begin(), templine.end(), '\t')) {
+            hasProcess = true;
+            norElement = false;
+            process.installBlock(range(0, 0, &proc::rangeCompute), numline);
+        }
+    }
 
-	if (norElement)
-	{
-		string templine = line;
+    if (norElement) {
+        string templine = line;
 
 		if (templine.find("<hkobject>") != NOT_FOUND)
 		{
-			templine = templine.substr(0, templine.find("<hkobject>"));
+            templine = templine.substr(0, templine.find("<hkobject>"));
 
-			if (openRange + 1 == count(templine.begin(), templine.end(), '\t'))
-			{
-				hasProcess = true;
-				process.installBlock(range(0, 99999, &proc::upCounter), numline);
-			}
-		}
-		else if (templine.find("\t\t\t#") != NOT_FOUND)
-		{
-			templine = templine.substr(0, templine.find("#", 0));
+            if (openRange + 1 == count(templine.begin(), templine.end(), '\t')) {
+                hasProcess = true;
+                process.installBlock(range(0, 99999, &proc::upCounter), numline);
+            }
+        } else if (templine.find("\t\t\t#") != NOT_FOUND) {
+            templine = templine.substr(0, templine.find("#", 0));
 
-			if (openRange + 1 == count(templine.begin(), templine.end(), '\t'))
-			{
-				hasProcess = true;
-				process.installBlock(range(0, 99999, &proc::upCounterPlus), numline);
-			}
-		}
-	}
+            if (openRange + 1 == count(templine.begin(), templine.end(), '\t')) {
+                hasProcess = true;
+                process.installBlock(range(0, 99999, &proc::upCounterPlus), numline);
+            }
+        }
+    }
 
-	if (line.find("$") != NOT_FOUND)
-	{
-		boost::regex exp("(?<!MID)(?<!\\$MC)(?<!" + format + "_master)(?<!" + format +
-			"_group)(?<!\\$%)\\$(?!%\\$)(?!MC\\$)(?!elements\\$)(.+?)(?<!MID)(?<!\\$MC)(?<!" + format + "_master)(?<!" + format +
-			"_group)(?<!\\$%)\\$(?!%\\$)(?!MC\\$)(?!elements\\$)");
+    if (line.find("$") != NOT_FOUND) {
+        boost::regex exp(
+            "(?<!MID)(?<!\\$MC)(?<!" + format + "_master)(?<!" + format
+            + "_group)(?<!\\$%)\\$(?!%\\$)(?!MC\\$)(?!elements\\$)(.+?)(?<!MID)(?<!\\$MC)(?<!"
+            + format + "_master)(?<!" + format
+            + "_group)(?<!\\$%)\\$(?!%\\$)(?!MC\\$)(?!elements\\$)");
 
-		for (boost::sregex_iterator itr(line.begin(), line.end(), exp); itr != boost::sregex_iterator(); ++itr)
-		{
-			bool isChange = false;
-			string change = itr->str(1);
-			size_t curPos = itr->position();
-			process.brackets[numline].push_back(itr->position());
-			process.brackets[numline].push_back(itr->position() + itr->str().length() - 1);
-			map<int, vector<shared_ptr<range>>> dummy1;
-			vector<addOnInfo> dummy2;
-			bool dummy3;
-			ProcessFunction(change, line, format, behaviorFile, multiOption, isEnd, numline, curPos + 1, optionlist, dummy1, dummy2, dummy3, isGroup, isMaster, false,
-				process);
-			hasProcess = true;
-		}
+        for (boost::sregex_iterator itr(line.begin(), line.end(), exp);
+             itr != boost::sregex_iterator();
+             ++itr) {
+            bool isChange = false;
+            string change = itr->str(1);
+            size_t curPos = itr->position();
+            process.brackets[numline].push_back(itr->position());
+            process.brackets[numline].push_back(itr->position() + itr->str().length() - 1);
+            map<int, vector<shared_ptr<range>>> dummy1;
+            vector<addOnInfo> dummy2;
+            bool dummy3;
+            ProcessFunction(change,
+                            line,
+                            format,
+                            behaviorFile,
+                            multiOption,
+                            isEnd,
+                            numline,
+                            curPos + 1,
+                            optionlist,
+                            dummy1,
+                            dummy2,
+                            dummy3,
+                            isGroup,
+                            isMaster,
+                            false,
+                            &process);
+            hasProcess = true;
+        }
 
-		size_t pos = line.find("$%$");
+        size_t pos = line.find("$%$");
 
-		if (pos != NOT_FOUND)
-		{
-			while (pos != NOT_FOUND)
-			{
-				process.installBlock(range(pos, pos + 3, &proc::animCount), numline);
-				pos = line.find("$%$", pos + 1);
-			}
+        if (pos != NOT_FOUND) {
+            while (pos != NOT_FOUND) {
+                process.installBlock(range(pos, pos + 3, &proc::animCount), numline);
+                pos = line.find("$%$", pos + 1);
+            }
 
-			hasProcess = true;
-		}
+            hasProcess = true;
+        }
 
-		pos = line.find("$MC$");
+        pos = line.find("$MC$");
 
-		// multi choice selection
-		if (pos != NOT_FOUND)
-		{
-			vector<multichoice> m_conditions;
-			process.hasMC[numline] = true;
+        // multi choice selection
+        if (pos != NOT_FOUND) {
+            vector<multichoice> m_conditions;
+            process.hasMC[numline] = true;
 
-			for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("[\\s]+<!-- (.+?) -->[\\s]*?"));
-				itr != boost::sregex_iterator(); ++itr)
-			{
-				string output = itr->str(1);
-				pos = itr->position(1);
-				vecstr curElements;
-				StringSplit(output, curElements);
+            for (auto itr = boost::sregex_iterator(line.begin(),
+                                                   line.end(),
+                                                   boost::regex("[\\s]+<!-- (.+?) -->[\\s]*?"));
+                 itr != boost::sregex_iterator();
+                 ++itr) {
+                string output = itr->str(1);
+                pos = itr->position(1);
+                vecstr curElements;
+                StringSplit(output, curElements);
 
-				if (curElements.size() == 1)
-				{
-					m_conditions.push_back(multichoice("", format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist, pos, pos + output.length()));
-				}
-				else if (curElements.size() > 1)
-				{
-					pos = pos + output.length();
-					m_conditions.push_back(multichoice(curElements[0], format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist,
-						pos - curElements.back().length(), pos));
-				}
-			}
+                if (curElements.size() == 1) {
+                    m_conditions.push_back(multichoice("",
+                                                       format,
+                                                       behaviorFile,
+                                                       multiOption,
+                                                       numline,
+                                                       isGroup,
+                                                       isMaster,
+                                                       optionlist,
+                                                       pos,
+                                                       pos + output.length()));
+                } else if (curElements.size() > 1) {
+                    pos = pos + output.length();
+                    m_conditions.push_back(multichoice(curElements[0],
+                                                       format,
+                                                       behaviorFile,
+                                                       multiOption,
+                                                       numline,
+                                                       isGroup,
+                                                       isMaster,
+                                                       optionlist,
+                                                       pos - curElements.back().length(),
+                                                       pos));
+                }
+            }
 
-			for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("\\$MC\\$")); itr != boost::sregex_iterator(); ++itr)
-			{
-				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), &proc::multiChoiceRegis), numline, m_conditions);
-				hasProcess = true;
-			}
-		}
+            for (auto itr = boost::sregex_iterator(line.begin(),
+                                                   line.end(),
+                                                   boost::regex("\\$MC\\$"));
+                 itr != boost::sregex_iterator();
+                 ++itr) {
+                pos = itr->position();
+                process.installBlock(range(pos, pos + itr->str().length(), &proc::multiChoiceRegis),
+                                     numline,
+                                     m_conditions);
+                hasProcess = true;
+            }
+        }
 
-		// get group node ID
-		if (isGroup)
-		{
-			for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex(format + "\\$([0-9]+)"));
-				itr != boost::sregex_iterator(); ++itr)
-			{
-				string ID = itr->str(1);
-				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), vecstr{ ID, line }, &proc::IDRegisAnim), numline);
-				hasProcess = true;
-			}
+        // get group node ID
+        if (isGroup) {
+            for (auto itr = boost::sregex_iterator(line.begin(),
+                                                   line.end(),
+                                                   boost::regex(format + "\\$([0-9]+)"));
+                 itr != boost::sregex_iterator();
+                 ++itr) {
+                string ID = itr->str(1);
+                pos = itr->position();
+                process.installBlock(range(pos,
+                                           pos + itr->str().length(),
+                                           vecstr{ID, line},
+                                           &proc::IDRegisAnim),
+                                     numline);
+                hasProcess = true;
+            }
 
-			for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex(format + "_group\\$([0-9]+)"));
-				itr != boost::sregex_iterator(); ++itr)
-			{
-				string ID = itr->str(1);
-				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), vecstr{ ID, line }, &proc::IDRegisGroup), numline);
-				hasProcess = true;
-			}
-		}
-		else
-		{
-			for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex(format + "_group\\$([0-9]+)"));
-				itr != boost::sregex_iterator(); ++itr)
-			{
-				string ID = itr->str(1);
-				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), vecstr{ ID }, &proc::groupIDRegis), numline);
-				hasProcess = true;
-			}
-		}
+            for (auto itr = boost::sregex_iterator(line.begin(),
+                                                   line.end(),
+                                                   boost::regex(format + "_group\\$([0-9]+)"));
+                 itr != boost::sregex_iterator();
+                 ++itr) {
+                string ID = itr->str(1);
+                pos = itr->position();
+                process.installBlock(range(pos,
+                                           pos + itr->str().length(),
+                                           vecstr{ID, line},
+                                           &proc::IDRegisGroup),
+                                     numline);
+                hasProcess = true;
+            }
+        } else {
+            for (auto itr = boost::sregex_iterator(line.begin(),
+                                                   line.end(),
+                                                   boost::regex(format + "_group\\$([0-9]+)"));
+                 itr != boost::sregex_iterator();
+                 ++itr) {
+                string ID = itr->str(1);
+                pos = itr->position();
+                process.installBlock(range(pos,
+                                           pos + itr->str().length(),
+                                           vecstr{ID},
+                                           &proc::groupIDRegis),
+                                     numline);
+                hasProcess = true;
+            }
+        }
 
-		pos = line.find("MID$");
+        pos = line.find("MID$");
 
-		// set function ID
-		if (pos != NOT_FOUND)
-		{
-			void (proc::*func)(range, vecstr&);
+        // set function ID
+        if (pos != NOT_FOUND) {
+            void (proc::*func)(range, vecstr &);
 
-			if (isMaster) func = &proc::IDRegisMaster;
-			else if (isGroup) func = &proc::IDRegisGroup;
-			else func = &proc::IDRegis;
+            if (isMaster)
+                func = &proc::IDRegisMaster;
+            else if (isGroup)
+                func = &proc::IDRegisGroup;
+            else
+                func = &proc::IDRegis;
 
-			for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("MID\\$([0-9]+)")); itr != boost::sregex_iterator(); ++itr)
-			{
-				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), vecstr{ itr->str(1), line }, func), numline);
-				hasProcess = true;
-			}
-		}
-	}
+            for (auto itr = boost::sregex_iterator(line.begin(),
+                                                   line.end(),
+                                                   boost::regex("MID\\$([0-9]+)"));
+                 itr != boost::sregex_iterator();
+                 ++itr) {
+                pos = itr->position();
+                process.installBlock(range(pos,
+                                           pos + itr->str().length(),
+                                           vecstr{itr->str(1), line},
+                                           func),
+                                     numline);
+                hasProcess = true;
+            }
+        }
+    }
 
-	if (isEnd)
-	{
-		for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("<hkparam name\\=\"relativeToEndOfClip\">(.+?)<\\/hkparam>"));
-			itr != boost::sregex_iterator(); ++itr)
-		{
-			isEnd = false;
-			hasProcess = true;
-			size_t pos = itr->position(1);
-			process.installBlock(range(pos, pos + itr->str(1).length(), &proc::relativeNegative), numline);
-		}
+    if (isEnd) {
+        for (auto itr = boost::sregex_iterator(
+                 line.begin(),
+                 line.end(),
+                 boost::regex("<hkparam name\\=\"relativeToEndOfClip\">(.+?)<\\/hkparam>"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            isEnd = false;
+            hasProcess = true;
+            size_t pos = itr->position(1);
+            process.installBlock(range(pos, pos + itr->str(1).length(), &proc::relativeNegative),
+                                 numline);
+        }
 
-		for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("<hkparam name\\=\"localTime\">(.+?)<\\/hkparam>"));
-			itr != boost::sregex_iterator(); ++itr)
-		{
-			hasProcess = true;
-			size_t pos = itr->position(1);
-			process.installBlock(range(pos, pos + itr->str(1).length(), &proc::localNegative), numline);
-		}
-	}
+        for (auto itr
+             = boost::sregex_iterator(line.begin(),
+                                      line.end(),
+                                      boost::regex(
+                                          "<hkparam name\\=\"localTime\">(.+?)<\\/hkparam>"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            hasProcess = true;
+            size_t pos = itr->position(1);
+            process.installBlock(range(pos, pos + itr->str(1).length(), &proc::localNegative),
+                                 numline);
+        }
+    }
 
-	for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("<hkparam name\\=\"animationName\">(.+?)<\\/hkparam>"));
-		itr != boost::sregex_iterator(); ++itr)
-	{
-		hasProcess = true;
-		size_t pos = itr->position(1);
-		process.installBlock(range(pos, pos + itr->str(1).length(), &proc::regisAnim), numline);
-	}
+    for (auto itr
+         = boost::sregex_iterator(line.begin(),
+                                  line.end(),
+                                  boost::regex(
+                                      "<hkparam name\\=\"animationName\">(.+?)<\\/hkparam>"));
+         itr != boost::sregex_iterator();
+         ++itr) {
+        hasProcess = true;
+        size_t pos = itr->position(1);
+        process.installBlock(range(pos, pos + itr->str(1).length(), &proc::regisAnim), numline);
+    }
 
-	for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("<hkparam name\\=\"behaviorName\">(.+?)<\\/hkparam>"));
-		itr != boost::sregex_iterator(); ++itr)
-	{
-		hasProcess = true;
-		size_t pos = itr->position(1);
-		process.installBlock(range(pos, pos + itr->str(1).length(), &proc::regisBehavior), numline);
-	}
+    for (auto itr
+         = boost::sregex_iterator(line.begin(),
+                                  line.end(),
+                                  boost::regex(
+                                      "<hkparam name\\=\"behaviorName\">(.+?)<\\/hkparam>"));
+         itr != boost::sregex_iterator();
+         ++itr) {
+        hasProcess = true;
+        size_t pos = itr->position(1);
+        process.installBlock(range(pos, pos + itr->str(1).length(), &proc::regisBehavior), numline);
+    }
 
-	generatedlines->lines.push_back(stackline(line, hasProcess, numline));
+    generatedlines->lines.push_back(stackline(line, hasProcess, numline));
 }
 
 stackline::stackline(string curline, bool process, size_t num)
@@ -592,118 +735,114 @@ string getOption(string curline)
 void stateInstall(string line, string change, string format, string behaviorFile, int numline, size_t curPos, string animOrder, bool isMC,
 	map<int, vector<shared_ptr<range>>>& lineblocks, proc& process, void (proc::*func)(range, vecstr&))
 {
-	int intID;
-	boost::regex expr(format + "\\[" + animOrder + "\\]\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]");
+    int intID;
+    boost::regex expr(format + "\\[" + animOrder + "\\]\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]");
 
-	for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), expr); itr != boost::sregex_iterator(); ++itr)
-	{
-		string ID = itr->str(1);
-		string number = itr->str(2);
-		size_t post = curPos + itr->position();
+    for (auto itr = boost::sregex_iterator(change.begin(), change.end(), expr);
+         itr != boost::sregex_iterator();
+         ++itr) {
+        string ID = itr->str(1);
+        string number = itr->str(2);
+        size_t post = curPos + itr->position();
 
-		if (!isOnlyNumber(number))
-		{
-			ErrorMessage(1152, format, behaviorFile, numline, itr->str());
-		}
+        if (!isOnlyNumber(number)) {
+            ErrorMessage(1152, format, behaviorFile, numline, itr->str());
+        }
 
-		if (ID.length() == 0)
-		{
-			intID = 0;
-		}
-		else
-		{
-			intID = stoi(ID) - 1;
-		}
+        if (ID.length() == 0) {
+            intID = 0;
+        } else {
+            intID = stoi(ID) - 1;
+        }
 
-		if (format + "[" + animOrder + "][(S" + ID + "+" + number + ")]" == line.substr(post, itr->str().length()))
-		{
-			if (animOrder.length() > 0 && isOnlyNumber(animOrder))
-			{
-				string full = itr->str();
-				range blok(post, post + full.length(), vector<int>{ intID, stoi(number), stoi(animOrder) }, vecstr{ full }, func);
+        if (format + "[" + animOrder + "][(S" + ID + "+" + number + ")]"
+            == line.substr(post, itr->str().length())) {
+            if (animOrder.length() > 0 && isOnlyNumber(animOrder)) {
+                string full = itr->str();
+                range blok(post,
+                           post + full.length(),
+                           vector<int>{intID, stoi(number), stoi(animOrder)},
+                           vecstr{full},
+                           func);
 
-				if (isMC)
-				{
-					lineblocks[blok.size].push_back(make_shared<range>(blok));
-				}
-				else
-				{
-					process.installBlock(blok, numline);
-				}
+                if (isMC) {
+                    lineblocks[blok.size].push_back(make_shared<range>(blok));
+                } else {
+                    process.installBlock(blok, numline);
+                }
 
-			}
-			else
-			{
-				range blok(post, post + itr->str().length(), vector<int>{ intID, stoi(number) }, func);
+            } else {
+                range blok(post, post + itr->str().length(), vector<int>{intID, stoi(number)}, func);
 
-				if (isMC)
-				{
-					lineblocks[blok.size].push_back(make_shared<range>(blok));
-				}
-				else
-				{
-					process.installBlock(blok, numline);
-				}
-			}
-		}
-		else
-		{
-			ErrorMessage(1137, format, behaviorFile, numline, itr->str());
-		}
+                if (isMC) {
+                    lineblocks[blok.size].push_back(make_shared<range>(blok));
+                } else {
+                    process.installBlock(blok, numline);
+                }
+            }
+        } else {
+            ErrorMessage(1137, format, behaviorFile, numline, itr->str());
+        }
 
-		if (error) throw nemesis::exception();
-	}
+        if (error)
+            throw nemesis::exception();
+    }
 }
 
 void mainAnimEventInstall(string format, string behaviorFile, string change, int numline, size_t curPos, boost::regex expr, bool isGroup, bool isMaster, proc& process)
 {
-	for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), expr); itr != boost::sregex_iterator(); ++itr)
-	{
-		bool num = false;
-		string first = itr->str(1);
-		size_t post = curPos + itr->position();
-		void (proc::*func)(range, vecstr&);
+    for (auto itr = boost::sregex_iterator(change.begin(), change.end(), expr);
+         itr != boost::sregex_iterator();
+         ++itr) {
+        bool num = false;
+        string first = itr->str(1);
+        size_t post = curPos + itr->position();
+        void (proc::*func)(range, vecstr &);
 
-		if (first.length() == 0)
-		{
-			func = isGroup ? &proc::MAEMultiMaster : &proc::MAEMultiGroup;
-		}
-		else if (first == "F")
-		{
-			func = isGroup ? &proc::MAEFirstMaster : &proc::MAEFirstGroup;
-		}
-		else if (first == "N")
-		{
-			if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, change);
-			else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, change);
-			func = &proc::MAENextGroup;
-		}
-		else if (first == "B")
-		{
-			if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, change);
-			else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, change);
-			func = &proc::MAEBackGroup;
-		}
-		else if (first == "L")
-		{
-			func = isGroup ? &proc::MAELastMaster : &proc::MAELastGroup;
-		}
-		else
-		{ 
-			num = true;
-		}
-		
-		if (num)
-		{
-			isGroup ? process.installBlock(range(post, post + itr->str().length(), vector<int> { stoi(first) }, vecstr{ itr->str() }, &proc::MAENumMaster), numline) :
-				process.installBlock(range(post, post + itr->str().length(), vector<int> { stoi(first) }, vecstr{ itr->str() }, &proc::MAENumGroup), numline);
-		}
-		else
-		{
-			isGroup ? process.installBlock(range(post, post + itr->str().length(), vecstr{ itr->str() }, func), numline) :
-				process.installBlock(range(post, post + itr->str().length(), func), numline);
-		}
-	}
+        if (first.length() == 0) {
+            func = isGroup ? &proc::MAEMultiMaster : &proc::MAEMultiGroup;
+        } else if (first == "F") {
+            func = isGroup ? &proc::MAEFirstMaster : &proc::MAEFirstGroup;
+        } else if (first == "N") {
+            if (isMaster)
+                ErrorMessage(1056, format + "_master", behaviorFile, numline, change);
+            else if (isGroup)
+                ErrorMessage(1056, format + "_group", behaviorFile, numline, change);
+            func = &proc::MAENextGroup;
+        } else if (first == "B") {
+            if (isMaster)
+                ErrorMessage(1056, format + "_master", behaviorFile, numline, change);
+            else if (isGroup)
+                ErrorMessage(1056, format + "_group", behaviorFile, numline, change);
+            func = &proc::MAEBackGroup;
+        } else if (first == "L") {
+            func = isGroup ? &proc::MAELastMaster : &proc::MAELastGroup;
+        } else {
+            num = true;
+        }
+
+        if (num) {
+            isGroup ? process.installBlock(range(post,
+                                                 post + itr->str().length(),
+                                                 vector<int>{stoi(first)},
+                                                 vecstr{itr->str()},
+                                                 &proc::MAENumMaster),
+                                           numline)
+                    : process.installBlock(range(post,
+                                                 post + itr->str().length(),
+                                                 vector<int>{stoi(first)},
+                                                 vecstr{itr->str()},
+                                                 &proc::MAENumGroup),
+                                           numline);
+        } else {
+            isGroup ? process.installBlock(range(post,
+                                                 post + itr->str().length(),
+                                                 vecstr{itr->str()},
+                                                 func),
+                                           numline)
+                    : process.installBlock(range(post, post + itr->str().length(), func), numline);
+        }
+    }
 }
 
 bool condt::isTrue(proc* process, string format, string behaviorFile, int numline, bool isGroup, bool isMaster, shared_ptr<condt> curptr)
@@ -1012,7 +1151,13 @@ bool condt::isMultiTrue(proc* process, string format, string behaviorFile, int n
 	return false;
 }
 
-bool condt::specialIsTrueA(proc* process, string format, string behaviorFile, int numline, bool isGroup, bool isMaster, vector<shared_ptr<AnimationInfo>>& groupAnimInfo)
+bool condt::specialIsTrueA(proc *process,
+                           string format,
+                           string behaviorFile,
+                           int numline,
+                           bool isGroup,
+                           bool isMaster,
+                           const vector<shared_ptr<AnimationInfo>> &groupAnimInfo)
 {
 	int animMulti = process->animMulti;
 	int optionMulti = process->optionMulti;
@@ -1022,7 +1167,13 @@ bool condt::specialIsTrueA(proc* process, string format, string behaviorFile, in
 	return result;
 }
 
-bool condt::specialIsTrueB(proc* process, string format, string behaviorFile, int numline, bool isGroup, bool isMaster, vector<shared_ptr<AnimationInfo>>& groupAnimInfo)
+bool condt::specialIsTrueB(proc *process,
+                           string format,
+                           string behaviorFile,
+                           int numline,
+                           bool isGroup,
+                           bool isMaster,
+                           const vector<shared_ptr<AnimationInfo>> &groupAnimInfo)
 {
 	if (cmp1.size() > 0 || cmp2.size() > 0)
 	{
@@ -1320,73 +1471,84 @@ bool condt::specialIsTrueB(proc* process, string format, string behaviorFile, in
 
 void condt::specialCondition(string condition, string format, string behaviorFile, string multiOption, int numline, bool isGroup, bool isMaster, OptionList& optionlist)
 {
-	size_t pos;
+    size_t pos;
 
-	if (condition.find("!=") != NOT_FOUND)
-	{
-		if (condition.find("==") != NOT_FOUND || sameWordCount(condition, "!=") > 1)
-		{
-			ErrorMessage(1124, format, behaviorFile, numline, original);
-		}
+    if (condition.find("!=") != NOT_FOUND) {
+        if (condition.find("==") != NOT_FOUND || sameWordCount(condition, "!=") > 1) {
+            ErrorMessage(1124, format, behaviorFile, numline, original);
+        }
 
-		isNot = true;
-		pos = condition.find("!=");
-	}
-	else if (condition.find("==") != NOT_FOUND)
-	{
-		if (condition.find("!=") != NOT_FOUND || sameWordCount(condition, "==") > 1)
-		{
-			ErrorMessage(1124, format, behaviorFile, numline, original);
-		}
+        isNot = true;
+        pos = condition.find("!=");
+    } else if (condition.find("==") != NOT_FOUND) {
+        if (condition.find("!=") != NOT_FOUND || sameWordCount(condition, "==") > 1) {
+            ErrorMessage(1124, format, behaviorFile, numline, original);
+        }
 
-		pos = condition.find("==");
-	}
-	else
-	{
-		ErrorMessage(1125, format, behaviorFile, numline, original);
-	}
+        pos = condition.find("==");
+    } else {
+        ErrorMessage(1125, format, behaviorFile, numline, original);
+    }
 
-	string oriCondition1 = condition.substr(1, pos - 1);
-	string oriCondition2 = condition.substr(pos + 2);
+    string oriCondition1 = condition.substr(1, pos - 1);
+    string oriCondition2 = condition.substr(pos + 2);
 
-	// <optionA != optionB>*
-	// only need to fulfill the condition once
-	if (oriCondition2.length() > 0)
-	{
-		oriCondition2.pop_back();
+    // <optionA != optionB>*
+    // only need to fulfill the condition once
+    if (oriCondition2.length() > 0) {
+        oriCondition2.pop_back();
 
-		if (condition.back() == '*' && oriCondition2.length() > 0)
-		{
-			oneTime = true;
-			oriCondition2.pop_back();
-		}
-	}
+        if (condition.back() == '*' && oriCondition2.length() > 0) {
+            oneTime = true;
+            oriCondition2.pop_back();
+        }
+    }
 
-	if (error) throw nemesis::exception();
+    if (error)
+        throw nemesis::exception();
 
-	if (oriCondition1.length() > 0)
-	{
-		for (auto& ch : oriCondition1)
-		{
-			cmp1.push_back(string(1, ch));
-		}
+    if (oriCondition1.length() > 0) {
+        for (auto &ch : oriCondition1) {
+            cmp1.push_back(string(1, ch));
+        }
 
-		bool isEnd = false;
-		ProcessFunction(oriCondition1, oriCondition1, format, behaviorFile, multiOption, isEnd, numline, 0, optionlist, cmp1_block, cmpinfo1, cmpbool1);
-	}
+        bool isEnd = false;
+        ProcessFunction(oriCondition1,
+                        oriCondition1,
+                        format,
+                        behaviorFile,
+                        multiOption,
+                        isEnd,
+                        numline,
+                        0,
+                        optionlist,
+                        cmp1_block,
+                        cmpinfo1,
+                        cmpbool1);
+    }
 
-	if (oriCondition2.length() > 0)
-	{
-		for (auto& ch : oriCondition2)
-		{
-			cmp2.push_back(string(1, ch));
-		}
+    if (oriCondition2.length() > 0) {
+        for (auto &ch : oriCondition2) {
+            cmp2.push_back(string(1, ch));
+        }
 
-		bool isEnd = false;
-		ProcessFunction(oriCondition2, oriCondition2, format, behaviorFile, multiOption, isEnd, numline, 0, optionlist, cmp2_block, cmpinfo2, cmpbool2);
-	}
+        bool isEnd = false;
+        ProcessFunction(oriCondition2,
+                        oriCondition2,
+                        format,
+                        behaviorFile,
+                        multiOption,
+                        isEnd,
+                        numline,
+                        0,
+                        optionlist,
+                        cmp2_block,
+                        cmpinfo2,
+                        cmpbool2);
+    }
 
-	if (error) throw nemesis::exception();
+    if (error)
+        throw nemesis::exception();
 }
 
 void condt::conditionProcess(string condition, string format, string behaviorFile, string multiOption, int numline, bool isGroup, bool isMaster)
@@ -1591,867 +1753,903 @@ multichoice::multichoice(string cond, string format, string behaviorFile, string
 	locateB = posB - 1;
 }
 
-void ProcessFunction(string change, string line, string format, string behaviorFile, string multiOption, bool& isEnd, int numline, size_t curPos,
-	OptionList& optionlist, map<int, vector<shared_ptr<range>>>& lineblocks, vector<addOnInfo>& addInfo, bool& isTrueMulti, bool isGroup, bool isMaster, bool isMC,
-	proc& process)
+void ProcessFunction(string change,
+                     string line,
+                     string format,
+                     string behaviorFile,
+                     string multiOption,
+                     bool &isEnd,
+                     int numline,
+                     size_t curPos,
+                     OptionList &optionlist,
+                     map<int, vector<shared_ptr<range>>> &lineblocks,
+                     vector<addOnInfo> &addInfo,
+                     bool &isTrueMulti,
+                     bool isGroup,
+                     bool isMaster,
+                     bool isMC,
+                     proc *process)
 {
-	if (isMaster && multiOption != format + "_group")
-	{
-		if (change.find(format + "[") != NOT_FOUND) ErrorMessage(1204, format, behaviorFile, numline, change);
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(format + "_group\\[(.*?)\\]")); itr != boost::sregex_iterator(); ++itr)
-		{
-			ErrorMessage(1201, format, behaviorFile, numline);
-		}
-	}
-	else if (!isGroup && change.find(format + "_group[") != NOT_FOUND) ErrorMessage(1204, format, behaviorFile, numline, change);
-
-	string shortcut = isMaster ? format + "_group\\[\\]" : format;
-
-	// order equation
-	if (change.find("(") != NOT_FOUND && change.find("L", change.find("(")) != NOT_FOUND && change.find(")", change.find("(")) != NOT_FOUND)
-	{
-		__int64 maths = count(change.begin(), change.end(), '(');
-
-		if (maths != 0 && maths == count(change.begin(), change.end(), ')'))
-		{
-			size_t nextpos = change.find("(");
-
-			for (__int64 j = 0; j < maths; ++j)
-			{
-				string equation = change.substr(nextpos, change.find(")", nextpos) - 1);
-				string number = "";
-				string ID = "";
-
-				if (equation.find("(S", 0) != NOT_FOUND)
-				{
-					ID = boost::regex_replace(string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-
-					if (change.find("(S" + ID + "+") == NOT_FOUND)
-					{
-						ID = "";
-					}
-
-					number = boost::regex_replace(string(equation.substr(3 + ID.length())), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-				}
-
-				if (equation != "(S" + ID + "+" + number + ")" && isOnlyNumber(number))
-				{
-					range blok(curPos + nextpos, curPos + nextpos + equation.length(), &proc::computation);
-
-					if (isMC)
-					{
-						lineblocks[blok.size].push_back(make_shared<range>(blok));
-					}
-					else
-					{
-						process.installBlock(blok, numline);
-					}
-				}
-				
-				if (equation.find("N") != NOT_FOUND || equation.find("B") != NOT_FOUND)
-				{
-
-				}
-
-				if (error) throw nemesis::exception();
-
-				nextpos = change.find("(", nextpos + 1);
-			}
-		}
-	}
-
-	if (change.find("END", 0) != NOT_FOUND)
-	{
-		boost::regex expr(shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[END\\]");
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), expr); itr != boost::sregex_iterator(); ++itr)
-		{
-			bool number = false;
-			string first = itr->str(1);
-			void (proc::*func)(range, vecstr&);
-
-			if (first.length() == 0)
-			{
-				isTrueMulti = true;
-				func = isGroup ? &proc::endMultiMaster : &proc::endMultiGroup;
-			}
-			else if (first == "F")
-			{
-				func = isGroup ? &proc::endFirstMaster : &proc::endFirstGroup;
-			}
-			else if (first == "N")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::endNextGroup;
-			}
-			else if (first == "B")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::endBackGroup;
-			}
-			else if (first == "L")
-			{
-				func = isGroup ? &proc::endLastMaster : &proc::endLastGroup;
-			}
-			else
-			{
-				number = true;
-				func = isGroup ? &proc::endNumMaster : &proc::endNumGroup;
-			}
-
-			shared_ptr<range> blok;
-
-			if (number)
-			{
-				blok = make_shared<range>(curPos + itr->position(), curPos + itr->position() + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func);
-			}
-			else
-			{
-				blok = make_shared<range>(curPos + itr->position(), curPos + itr->position() + itr->str().length(), vecstr{ change }, func);
-			}
-			
-			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
-		}
-
-		expr = boost::regex("(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut + "\\[\\d\\d\\]\\[)(END)");
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), expr); itr != boost::sregex_iterator(); ++itr)
-		{
-			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
-
-			range blok(curPos + itr->position(), curPos + itr->position() + itr->str().length(), isGroup ? &proc::endMultiMaster : &proc::endSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-		}
-
-		if (error) throw nemesis::exception();
-
-		isEnd = true;
-	}
-
-	// set state ID
-	if (change.find("(S", 0) != NOT_FOUND)
-	{
-		string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			string first = itr->str(1);
-			void (proc::*func)(range, vecstr&);
-
-			if (first.length() == 0)
-			{
-				isTrueMulti = true;
-				func = isGroup ? &proc::stateMultiMaster : &proc::stateMultiGroup;
-			}
-			else if (first == "F")
-			{
-				func = isGroup ? &proc::stateFirstMaster : &proc::stateFirstGroup;
-			}
-			else if (first == "N")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::stateNextGroup;
-			}
-			else if (first == "B")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::stateBackGroup;
-			}
-			else if (first == "L")
-			{
-				func = isGroup ? &proc::stateLastMaster : &proc::stateLastGroup;
-			}
-			else
-			{
-				func = isGroup ? &proc::stateNumMaster : &proc::stateNumGroup;
-			}
-
-			int intID;
-			string ID = itr->str(2);
-			string number = itr->str(3);
-			size_t post = curPos + itr->position();
-			string full = itr->str();
-
-			if (!isOnlyNumber(number))
-			{
-				ErrorMessage(1152, format, behaviorFile, numline, full);
-			}
-
-			ID.length() == 0 ? intID = 0 : intID = stoi(ID) - 1;
-			string compare = line.substr(post, full.length());
-
-			if (format + "[" + first + "][(S" + ID + "+" + number + ")]" == compare || format + "_group[][" + first + "][(S" + ID + "+" + number + ")]" == compare)
-			{
-				shared_ptr<range> blok = first.length() > 0 && isOnlyNumber(first) ?
-					make_shared<range>(post, post + full.length(), vector<int>{ intID, stoi(number), stoi(first) }, vecstr{ full }, func) :
-					make_shared<range>(post, post + full.length(), vector<int>{ intID, stoi(number) }, vecstr{ full }, func);
-				isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
-			}
-			else
-			{
-				ErrorMessage(1137, format, behaviorFile, numline, full);
-			}
-
-			if (error) throw nemesis::exception();
-		}
-
-		if (isMaster)
-		{
-			expstr = shortcut + "\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]";
-
-			for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-			{
-				int intID;
-				string ID = itr->str(1);
-				string number = itr->str(2);
-				size_t post = curPos + itr->position();
-				string full = itr->str();
-				ID.length() == 0 ? intID = 0 : intID = stoi(ID) - 1;
-				shared_ptr<range> blok = make_shared<range>(post, post + full.length(), vector<int>{ intID, stoi(number) }, vecstr{ full },
-					&proc::stateMultiMasterToGroup);
-				isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
-
-				if (error) throw nemesis::exception();
-			}
-		}
-
-		expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut + "\\[\\d\\d\\]\\[)(?<!" + shortcut +
-			"\\[)\\(S([0-9]*)\\+([0-9]+)\\)";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			int intID;
-			size_t post = curPos + itr->position();
-			string first = itr->str(1);
-			first.length() == 0 ? intID = 0 : intID = stoi(first) - 1;
-			range blok(post, post + itr->str().length(), vector<int>{ intID, stoi(itr->str(2)) }, &proc::stateSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-		}
-	}
-
-	if (change.find("FilePath", 0) != NOT_FOUND)
-	{
-		string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[FilePath\\]";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			bool number = false;
-			size_t post = curPos + itr->position();
-			string first = itr->str(1);
-			void (proc::*func)(range, vecstr&);
-
-			if (first.length() == 0)
-			{
-				isTrueMulti = true;
-				func = isGroup ? &proc::filepathMultiMaster : &proc::filepathMultiGroup;
-			}
-			else if (first == "F")
-			{
-				func = isGroup ? &proc::filepathFirstMaster : &proc::filepathFirstGroup;
-			}
-			else if (first == "N")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line); 
-				func = &proc::filepathNextGroup;
-			}
-			else if (first == "B")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line); 
-				func = &proc::filepathBackGroup;
-			}
-			else if (first == "L")
-			{
-				func = isGroup ? &proc::filepathLastMaster : &proc::filepathLastGroup;
-			}
-			else
-			{
-				number = true;
-				func = isGroup ? &proc::filepathNumMaster : &proc::filepathNumGroup;
-			}
-
-			shared_ptr<range> blok;
-			number ? blok = make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) : 
-				blok = make_shared<range>(post, post + itr->str().length(), func);
-			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
-		}
-
-		expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut + "\\[\\d\\d\\]\\[)(FilePath)";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
-
-			size_t post = curPos + itr->position();
-			range blok(post, post + 8, isGroup ? &proc::filepathMultiMaster : &proc::filepathSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-		}
-	}
-
-	if (change.find("FileName", 0) != NOT_FOUND)
-	{
-		string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[FileName\\]";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			bool number = false;
-			size_t post = curPos + itr->position();
-			string first = itr->str(1);
-			void (proc::*func)(range, vecstr&);
-
-			if (first.length() == 0)
-			{
-				isTrueMulti = true;
-				func = isGroup ? &proc::filenameMultiMaster : &proc::filenameMultiGroup;
-			}
-			else if (first == "F")
-			{
-				func = isGroup ? &proc::filenameFirstMaster : &proc::filenameFirstGroup;
-			}
-			else if (first == "N")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::filenameNextGroup;
-			}
-			else if (first == "B")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::filenameBackGroup;
-			}
-			else if (first == "L")
-			{
-				func = isGroup ? &proc::filenameLastMaster : &proc::filenameLastGroup;
-			}
-			else
-			{
-				number = true;
-				func = isGroup ? &proc::filenameNumMaster : &proc::filenameNumGroup;
-			}
-
-			shared_ptr<range> blok;
-			number ? blok = make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
-				blok = make_shared<range>(post, post + itr->str().length(), func);
-			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
-		}
-
-		expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut + "\\[\\d\\d\\]\\[)(FileName)";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
-
-			size_t post = curPos + itr->position();
-			range blok(post, post + 8, isGroup ? &proc::filenameMultiMaster : &proc::filenameSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-		}
-
-		if (error) throw nemesis::exception();
-	}
-
-	if (change.find("Path", 0) != NOT_FOUND)
-	{
-		string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[Path\\]";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), &proc::pathSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-		}
-
-		expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut + "\\[\\d\\d\\]\\[)(Path)";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			size_t post = curPos + itr->position();
-			range blok(post, post + 4, &proc::pathSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-		}
-
-		if (error) throw nemesis::exception();
-	}
-
-	if (change.find("@AnimObject/", 0) != NOT_FOUND)
-	{
-		int counter = 0;
-		string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[@AnimObject\\/([0-9]+)\\](\\[[0-9]+\\]|)";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			string first = itr->str(1);
-			string second = itr->str(2);
-			string optionMulti = itr->str(3);
-			string full = itr->str();
-			size_t post = curPos + itr->position();
-			void (proc::*func)(range, vecstr&);
-			vector<int> container;
-			++counter;
-			string templine;
-			bool empty = true;
-
-			if (full.length() == 0)
-			{
-				string errorformat = format;
-				if (isMaster) errorformat.append("_master");
-				else if (isGroup) errorformat.append("_group");
-				ErrorMessage(1157, errorformat, behaviorFile, numline, change);
-			}
-
-			if (first.length() == 0)
-			{
-				isTrueMulti = true;
-
-				if (isGroup)
-				{
-					empty ? func = &proc::AOMultiMasterA : func = &proc::AOMultiMasterB;
-				}
-				else
-				{
-					empty ? func = &proc::AOMultiGroupA : func = &proc::AOMultiGroupB;
-				}
-			}
-			else if (first == "F")
-			{
-				if (isGroup)
-				{
-					empty ? func = &proc::AOFirstMasterA : func = &proc::AOFirstMasterB;
-				}
-				else
-				{
-					empty ? func = &proc::AOFirstGroupA : func = &proc::AOFirstGroupB;
-				}
-			}
-			else if (first == "N")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				empty ? func = &proc::AONextGroupA : func = &proc::AONextGroupB;
-			}
-			else if (first == "B")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				empty ? func = &proc::AOBackGroupA : func = &proc::AOBackGroupB;
-			}
-			else if (first == "L")
-			{
-				if (isGroup)
-				{
-					empty ? func = &proc::AOLastMasterA : func = &proc::AOLastMasterB;
-				}
-				else
-				{
-					empty ? func = &proc::AOLastGroupA : func = &proc::AOLastGroupB;
-				}
-			}
-			else
-			{
-				container.push_back(stoi(first));
-
-				if (isGroup)
-				{
-					empty ? func = &proc::AONumMasterA : func = &proc::AONumMasterB;
-				}
-				else
-				{
-					empty ? func = &proc::AONumGroupA : func = &proc::AONumGroupB;
-				}
-			}
-
-			container.push_back(stoi(second));
-
-			if (optionMulti.length() != 0)
-			{
-				empty = false;
-				optionMulti.pop_back();
-				optionMulti = optionMulti.substr(1);
-				container.push_back(stoi(optionMulti));
-			}
-
-			range blok(post, post + full.length(), container, vecstr{ change }, func);
-
-			if (isMC)
-			{
-				lineblocks[blok.size].push_back(make_shared<range>(blok));
-				empty ? addInfo.push_back(addOnInfo("@AnimObject/" + second, "")) : addInfo.push_back(addOnInfo("@AnimObject/" + second, "", stoi(optionMulti)));
-			}
-			else
-			{
-				process.installBlock(blok, numline);
-			}
-
-			if (error) throw nemesis::exception();
-		}
-
-		expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut + "\\[\\d\\d\\]\\[)@AnimObject\\/([0-9]+)(\\[[0-9]+\\]|)";
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
-		{
-			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
-
-			size_t post = curPos + itr->position();
-			string templine = itr->str(2);
-
-			if (templine.length() == 0)
-			{
-				range blok(post, post + itr->str().length(), vector<int>{ stoi(itr->str(1)) }, isGroup ? &proc::AOMultiMasterA : &proc::AOSingleA);
-
-				if (isMC)
-				{
-					lineblocks[blok.size].push_back(make_shared<range>(blok));
-					addInfo.push_back(addOnInfo("@AnimObject/" + itr->str(1), ""));
-				}
-				else
-				{
-					process.installBlock(blok, numline);
-				}
-			}
-			else
-			{
-				templine.pop_back();
-				templine = templine.substr(1);
-				range blok(post, post + itr->str().length(), vector<int>{ stoi(itr->str(1)), stoi(templine) }, isGroup ? &proc::AOMultiMasterB : &proc::AOSingleB);
-
-				if (isMC)
-				{
-					lineblocks[blok.size].push_back(make_shared<range>(blok));
-					addInfo.push_back(addOnInfo("@AnimObject/" + itr->str(1), "", stoi(templine)));
-				}
-				else
-				{
-					process.installBlock(blok, numline);
-				}
-			}
-		}
-
-		if (error) throw nemesis::exception();
-	}
-
-	if (change.find("main_anim_event", 0) != NOT_FOUND)
-	{
-		mainAnimEventInstall(format, behaviorFile, change, numline, curPos, boost::regex("\\{" + shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[main_anim_event\\]\\}"), isGroup,
-			isMaster, process);
-		mainAnimEventInstall(format, behaviorFile, change, numline, curPos, boost::regex("(?<!\\{)" + shortcut +
-			"\\[(F|N|B|L|[0-9]*)\\]\\[main_anim_event\\](?=[^\\}]|$)"), isGroup, isMaster, process);
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex("(\\{main_anim_event\\})"));
-			itr != boost::sregex_iterator(); ++itr)
-		{
-			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
-
-			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-		}
-
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex("(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut +
-			"\\[\\]\\[)(?<!" + shortcut + "\\[\\d\\d\\]\\[)(?<!\\{)(main_anim_event)(?=[^\\}]|$)")); itr != boost::sregex_iterator(); ++itr)
-		{
-			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
-
-			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-		}
-	}
-
-	size_t pos = change.find("[");
-
-	if (pos != NOT_FOUND && change.find("]", pos) != NOT_FOUND)
-	{
-		for (auto it = optionlist.addOn.begin(); it != optionlist.addOn.end(); ++it)
-		{
-			for(auto& addname : it->second)
-			{
-				// include other anim group
-				// cont here
-
-				for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(format + "\\[(F|N|B|L|[0-9]*)\\]\\[" + it->first +
-					"(\\*|)\\]\\[" + addname + "\\](\\[[0-9]+\\]|)"));
-					itr != boost::sregex_iterator(); ++itr)
-				{
-					bool number = false;
-					string header;
-					string first = itr->str(1);
-					size_t addpos = curPos + itr->position();
-					void (proc::*func)(range, vecstr&);
-
-					if (first.length() == 0)
-					{
-						isTrueMulti = true;
-						func = isGroup ? &proc:: addOnMultiMaster : &proc::addOnMultiGroup;
-					}
-					else if (first == "F")
-					{
-						func = isGroup ? &proc::addOnFirstMaster : &proc::addOnFirstGroup;
-					}
-					else if (first == "N")
-					{
-						if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-						else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-						func = &proc::addOnNextGroup;
-					}
-					else if (first == "B")
-					{
-						if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-						else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-						func = &proc::addOnBackGroup;
-					}
-					else if (first == "L")
-					{
-						func = isGroup ? &proc::addOnLastMaster : &proc::addOnLastGroup;
-					}
-					else
-					{
-						number = true;
-						func = isGroup ? &proc::addOnNumMaster : &proc::addOnNumGroup;
-					}
-
-					if (itr->str(2).length() == 0)
-					{
-						header = it->first;
-					}
-					else
-					{
-						header = optionlist.mixOptRegis[it->first];
-					}
-
-					if (number)
-					{
-						range blok(addpos, addpos + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ header, addname, change }, func);
-
-						if (isMC)
-						{
-							lineblocks[blok.size].push_back(make_shared<range>(blok));
-							string o_multi = itr->str(3);
-
-							if (o_multi.length() > 0)
-							{
-								addInfo.push_back(addOnInfo(header, addname, stoi(o_multi)));
-							}
-							else
-							{
-								addInfo.push_back(addOnInfo(header, addname));
-							}
-						}
-						else
-						{
-							process.installBlock(blok, numline);
-						}
-					}
-					else
-					{
-						range blok(addpos, addpos + itr->str().length(), vecstr{ header, addname, change }, func);
-
-						if (isMC)
-						{
-							lineblocks[blok.size].push_back(make_shared<range>(blok));
-							string o_multi = itr->str(3);
-
-							if (o_multi.length() > 0)
-							{
-								addInfo.push_back(addOnInfo(header, addname, stoi(o_multi)));
-							}
-							else
-							{
-								addInfo.push_back(addOnInfo(header, addname));
-							}
-						}
-						else
-						{
-							process.installBlock(blok, numline);
-						}
-					}
-				}
-
-				for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(it->first + "(\\*|)\\[" + addname + "\\](\\[[0-9]+\\]|)"));
-					itr != boost::sregex_iterator(); ++itr)
-				{
-					if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
-
-					string header;
-					string first = itr->str(1);
-					size_t addpos = curPos + itr->position();
-
-					if (first.length() == 0)
-					{
-						header = it->first;
-					}
-					else
-					{
-						header = optionlist.mixOptRegis[it->first];
-					}
-
-					range blok(addpos, addpos + itr->str().length(), vecstr{ header, addname, change }, isGroup ? &proc::addOnMultiMaster : &proc::addOnSingle);
-
-					if (isMC)
-					{
-						lineblocks[blok.size].push_back(make_shared<range>(blok));
-						string o_multi = itr->str(2);
-
-						if (o_multi.length() > 0)
-						{
-							addInfo.push_back(addOnInfo(header, addname, stoi(o_multi)));
-						}
-						else
-						{
-							addInfo.push_back(addOnInfo(header, addname));
-						}
-					}
-					else
-					{
-						process.installBlock(blok, numline);
-					}
-				}
-			}
-		}
-	}
-
-	if (change.find("LastState") != NOT_FOUND)
-	{
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex("LastState([0-9]*)")); itr != boost::sregex_iterator();
-			++itr)
-		{
-			if (isMaster) ErrorMessage(1206, format + "_master", behaviorFile, numline, itr->str());
-			if (isGroup) ErrorMessage(1206, format + "_group", behaviorFile, numline, itr->str());
-
-			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), vecstr{ itr->str(1) }, &proc::lastState);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-		}
-	}
-
-	if (change.find("eventID[") != NOT_FOUND)
-	{
-		pos = change.find("eventID[");
-
-		while (pos != NOT_FOUND)
-		{
-			size_t eventpos = pos + 8;
-			size_t curcounter = 1;
-			size_t post = curPos + pos;
-
-			for (unsigned int ch = eventpos; ch < change.length(); ++ch)
-			{
-				if (change[ch] == '[') ++curcounter;
-				else if (change[ch] == ']')
-				{
-					--curcounter;
-
-					if (curcounter == 0)
-					{
-						++eventpos;
-						eventpos += curPos;
-						break;
-					}
-				}
-
-				++eventpos;
-			}
-
-			range blok(post, eventpos, vector<int> { int(post + 8), int(eventpos - 2) }, &proc::eventID);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-			pos = change.find("eventID[", pos + 1);
-		}
-	}
-
-	if (change.find("variableID[") != NOT_FOUND)
-	{
-		pos = change.find("variableID[");
-
-		while (pos != NOT_FOUND)
-		{
-			size_t varpos = pos + 11;
-			size_t curcounter = 1;
-			size_t post = curPos + pos;
-
-			for (unsigned int ch = varpos; ch < change.length(); ++ch)
-			{
-				if (change[ch] == '[') ++curcounter;
-				else if (change[ch] == ']')
-				{
-					--curcounter;
-
-					if (curcounter == 0)
-					{
-						++varpos;
-						varpos += curPos;
-						break;
-					}
-				}
-
-				++varpos;
-			}
-
-			range blok(post, varpos, vector<int> { int(post + 11), int(varpos - 2) }, &proc::variableID);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-			pos = change.find("variableID[", pos + 1);
-		}
-	}
-
-	if (change.find("animOrder[") != NOT_FOUND)
-	{
-		pos = change.find("animOrder[");
-
-		while (pos != NOT_FOUND)
-		{
-			size_t animpos = pos + 10;
-			size_t curcounter = 1;
-			size_t post = curPos + pos;
-
-			for (unsigned int ch = animpos; ch < change.length(); ++ch)
-			{
-				if (change[ch] == '[') ++curcounter;
-				else if (change[ch] == ']')
-				{
-					--curcounter;
-
-					if (curcounter == 0)
-					{
-						++animpos;
-						animpos += curPos;
-						break;
-					}
-				}
-
-				++animpos;
-			}
-
-			range blok(post, animpos, { int(post + 10), int(animpos - 2) }, &proc::animOrder);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-			pos = change.find("animOrder[", pos + 1);
-		}
-	}
-
-	if (change.find("crc32[") != NOT_FOUND)
-	{
-		__int64 bracketCount = count(change.begin(), change.end(), '[');
-		__int64 altBracketCount = count(change.begin(), change.end(), ']');
-
-		if (bracketCount != altBracketCount)
-		{
-			isGroup ? ErrorMessage(1181, format + "_group", behaviorFile, numline, change) : ErrorMessage(1181, format, behaviorFile, numline, change);
-		}
-
-		pos = -1;
-		pos = change.find("crc32[");
-
-		while (pos != NOT_FOUND)
-		{
-			size_t encode = pos + 6;
-			size_t curcounter = 1;
-
-			for (unsigned int ch = encode; ch < change.length(); ++ch)
-			{
-				if (change[ch] == '[') ++curcounter;
+    proc tempP;
+    if (process == nullptr) process = &tempP; //In order to avoid checking for nullptr everywhere
+    //TODO Checking for null would be better
+
+    if (isMaster && multiOption != format + "_group") {
+        if (change.find(format + "[") != NOT_FOUND)
+            ErrorMessage(1204, format, behaviorFile, numline, change);
+
+        for (auto itr = boost::sregex_iterator(change.begin(),
+                                               change.end(),
+                                               boost::regex(format + "_group\\[(.*?)\\]"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            ErrorMessage(1201, format, behaviorFile, numline);
+        }
+    } else if (!isGroup && change.find(format + "_group[") != NOT_FOUND)
+        ErrorMessage(1204, format, behaviorFile, numline, change);
+
+    string shortcut = isMaster ? format + "_group\\[\\]" : format;
+
+    // order equation
+    if (change.find("(") != NOT_FOUND && change.find("L", change.find("(")) != NOT_FOUND
+        && change.find(")", change.find("(")) != NOT_FOUND) {
+        __int64 maths = count(change.begin(), change.end(), '(');
+
+        if (maths != 0 && maths == count(change.begin(), change.end(), ')')) {
+            size_t nextpos = change.find("(");
+
+            for (__int64 j = 0; j < maths; ++j) {
+                string equation = change.substr(nextpos, change.find(")", nextpos) - 1);
+                string number = "";
+                string ID = "";
+
+                if (equation.find("(S", 0) != NOT_FOUND) {
+                    ID = boost::regex_replace(string(equation),
+                                              boost::regex("[^0-9]*([0-9]+).*"),
+                                              string("\\1"));
+
+                    if (change.find("(S" + ID + "+") == NOT_FOUND) {
+                        ID = "";
+                    }
+
+                    number = boost::regex_replace(string(equation.substr(3 + ID.length())),
+                                                  boost::regex("[^0-9]*([0-9]+).*"),
+                                                  string("\\1"));
+                }
+
+                if (equation != "(S" + ID + "+" + number + ")" && isOnlyNumber(number)) {
+                    range blok(curPos + nextpos,
+                               curPos + nextpos + equation.length(),
+                               &proc::computation);
+
+                    if (isMC) {
+                        lineblocks[blok.size].push_back(make_shared<range>(blok));
+                    } else {
+                        process->installBlock(blok, numline);
+                    }
+                }
+
+                if (equation.find("N") != NOT_FOUND || equation.find("B") != NOT_FOUND) {
+                }
+
+                if (error)
+                    throw nemesis::exception();
+
+                nextpos = change.find("(", nextpos + 1);
+            }
+        }
+    }
+
+    if (change.find("END", 0) != NOT_FOUND) {
+        boost::regex expr(shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[END\\]");
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), expr);
+             itr != boost::sregex_iterator();
+             ++itr) {
+            bool number = false;
+            string first = itr->str(1);
+            void (proc::*func)(range, vecstr &);
+
+            if (first.length() == 0) {
+                isTrueMulti = true;
+                func = isGroup ? &proc::endMultiMaster : &proc::endMultiGroup;
+            } else if (first == "F") {
+                func = isGroup ? &proc::endFirstMaster : &proc::endFirstGroup;
+            } else if (first == "N") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::endNextGroup;
+            } else if (first == "B") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::endBackGroup;
+            } else if (first == "L") {
+                func = isGroup ? &proc::endLastMaster : &proc::endLastGroup;
+            } else {
+                number = true;
+                func = isGroup ? &proc::endNumMaster : &proc::endNumGroup;
+            }
+
+            shared_ptr<range> blok;
+
+            if (number) {
+                blok = make_shared<range>(curPos + itr->position(),
+                                          curPos + itr->position() + itr->str().length(),
+                                          vector<int>{stoi(first)},
+                                          vecstr{change},
+                                          func);
+            } else {
+                blok = make_shared<range>(curPos + itr->position(),
+                                          curPos + itr->position() + itr->str().length(),
+                                          vecstr{change},
+                                          func);
+            }
+
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
+        }
+
+        expr = boost::regex("(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut
+                            + "\\[\\]\\[)(?<!" + shortcut + "\\[\\d\\d\\]\\[)(END)");
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), expr);
+             itr != boost::sregex_iterator();
+             ++itr) {
+            if (isGroup && multiOption != format)
+                ErrorMessage(1146, format, behaviorFile, numline);
+
+            range blok(curPos + itr->position(),
+                       curPos + itr->position() + itr->str().length(),
+                       isGroup ? &proc::endMultiMaster : &proc::endSingle);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+        }
+
+        if (error)
+            throw nemesis::exception();
+
+        isEnd = true;
+    }
+
+    // set state ID
+    if (change.find("(S", 0) != NOT_FOUND) {
+        string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            string first = itr->str(1);
+            void (proc::*func)(range, vecstr &);
+
+            if (first.length() == 0) {
+                isTrueMulti = true;
+                func = isGroup ? &proc::stateMultiMaster : &proc::stateMultiGroup;
+            } else if (first == "F") {
+                func = isGroup ? &proc::stateFirstMaster : &proc::stateFirstGroup;
+            } else if (first == "N") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::stateNextGroup;
+            } else if (first == "B") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::stateBackGroup;
+            } else if (first == "L") {
+                func = isGroup ? &proc::stateLastMaster : &proc::stateLastGroup;
+            } else {
+                func = isGroup ? &proc::stateNumMaster : &proc::stateNumGroup;
+            }
+
+            int intID;
+            string ID = itr->str(2);
+            string number = itr->str(3);
+            size_t post = curPos + itr->position();
+            string full = itr->str();
+
+            if (!isOnlyNumber(number)) {
+                ErrorMessage(1152, format, behaviorFile, numline, full);
+            }
+
+            ID.length() == 0 ? intID = 0 : intID = stoi(ID) - 1;
+            string compare = line.substr(post, full.length());
+
+            if (format + "[" + first + "][(S" + ID + "+" + number + ")]" == compare
+                || format + "_group[][" + first + "][(S" + ID + "+" + number + ")]" == compare) {
+                shared_ptr<range> blok = first.length() > 0 && isOnlyNumber(first)
+                                             ? make_shared<range>(post,
+                                                                  post + full.length(),
+                                                                  vector<int>{intID,
+                                                                              stoi(number),
+                                                                              stoi(first)},
+                                                                  vecstr{full},
+                                                                  func)
+                                             : make_shared<range>(post,
+                                                                  post + full.length(),
+                                                                  vector<int>{intID, stoi(number)},
+                                                                  vecstr{full},
+                                                                  func);
+                isMC ? lineblocks[blok->size].push_back(blok)
+                     : process->installBlock(*blok, numline);
+            } else {
+                ErrorMessage(1137, format, behaviorFile, numline, full);
+            }
+
+            if (error)
+                throw nemesis::exception();
+        }
+
+        if (isMaster) {
+            expstr = shortcut + "\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]";
+
+            for (auto itr = boost::sregex_iterator(change.begin(),
+                                                   change.end(),
+                                                   boost::regex(expstr));
+                 itr != boost::sregex_iterator();
+                 ++itr) {
+                int intID;
+                string ID = itr->str(1);
+                string number = itr->str(2);
+                size_t post = curPos + itr->position();
+                string full = itr->str();
+                ID.length() == 0 ? intID = 0 : intID = stoi(ID) - 1;
+                shared_ptr<range> blok = make_shared<range>(post,
+                                                            post + full.length(),
+                                                            vector<int>{intID, stoi(number)},
+                                                            vecstr{full},
+                                                            &proc::stateMultiMasterToGroup);
+                isMC ? lineblocks[blok->size].push_back(blok)
+                     : process->installBlock(*blok, numline);
+
+                if (error)
+                    throw nemesis::exception();
+            }
+        }
+
+        expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!"
+                 + shortcut + "\\[\\d\\d\\]\\[)(?<!" + shortcut + "\\[)\\(S([0-9]*)\\+([0-9]+)\\)";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            int intID;
+            size_t post = curPos + itr->position();
+            string first = itr->str(1);
+            first.length() == 0 ? intID = 0 : intID = stoi(first) - 1;
+            range blok(post,
+                       post + itr->str().length(),
+                       vector<int>{intID, stoi(itr->str(2))},
+                       &proc::stateSingle);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+        }
+    }
+
+    if (change.find("FilePath", 0) != NOT_FOUND) {
+        string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[FilePath\\]";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            bool number = false;
+            size_t post = curPos + itr->position();
+            string first = itr->str(1);
+            void (proc::*func)(range, vecstr &);
+
+            if (first.length() == 0) {
+                isTrueMulti = true;
+                func = isGroup ? &proc::filepathMultiMaster : &proc::filepathMultiGroup;
+            } else if (first == "F") {
+                func = isGroup ? &proc::filepathFirstMaster : &proc::filepathFirstGroup;
+            } else if (first == "N") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::filepathNextGroup;
+            } else if (first == "B") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::filepathBackGroup;
+            } else if (first == "L") {
+                func = isGroup ? &proc::filepathLastMaster : &proc::filepathLastGroup;
+            } else {
+                number = true;
+                func = isGroup ? &proc::filepathNumMaster : &proc::filepathNumGroup;
+            }
+
+            shared_ptr<range> blok;
+            number ? blok = make_shared<range>(post,
+                                               post + itr->str().length(),
+                                               vector<int>{stoi(first)},
+                                               vecstr{change},
+                                               func)
+                   : blok = make_shared<range>(post, post + itr->str().length(), func);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
+        }
+
+        expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!"
+                 + shortcut + "\\[\\d\\d\\]\\[)(FilePath)";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            if (isGroup && multiOption != format)
+                ErrorMessage(1146, format, behaviorFile, numline);
+
+            size_t post = curPos + itr->position();
+            range blok(post, post + 8, isGroup ? &proc::filepathMultiMaster : &proc::filepathSingle);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+        }
+    }
+
+    if (change.find("FileName", 0) != NOT_FOUND) {
+        string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[FileName\\]";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            bool number = false;
+            size_t post = curPos + itr->position();
+            string first = itr->str(1);
+            void (proc::*func)(range, vecstr &);
+
+            if (first.length() == 0) {
+                isTrueMulti = true;
+                func = isGroup ? &proc::filenameMultiMaster : &proc::filenameMultiGroup;
+            } else if (first == "F") {
+                func = isGroup ? &proc::filenameFirstMaster : &proc::filenameFirstGroup;
+            } else if (first == "N") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::filenameNextGroup;
+            } else if (first == "B") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::filenameBackGroup;
+            } else if (first == "L") {
+                func = isGroup ? &proc::filenameLastMaster : &proc::filenameLastGroup;
+            } else {
+                number = true;
+                func = isGroup ? &proc::filenameNumMaster : &proc::filenameNumGroup;
+            }
+
+            shared_ptr<range> blok;
+            number ? blok = make_shared<range>(post,
+                                               post + itr->str().length(),
+                                               vector<int>{stoi(first)},
+                                               vecstr{change},
+                                               func)
+                   : blok = make_shared<range>(post, post + itr->str().length(), func);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
+        }
+
+        expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!"
+                 + shortcut + "\\[\\d\\d\\]\\[)(FileName)";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            if (isGroup && multiOption != format)
+                ErrorMessage(1146, format, behaviorFile, numline);
+
+            size_t post = curPos + itr->position();
+            range blok(post, post + 8, isGroup ? &proc::filenameMultiMaster : &proc::filenameSingle);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+        }
+
+        if (error)
+            throw nemesis::exception();
+    }
+
+    if (change.find("Path", 0) != NOT_FOUND) {
+        string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[Path\\]";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            size_t post = curPos + itr->position();
+            range blok(post, post + itr->str().length(), &proc::pathSingle);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+        }
+
+        expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!"
+                 + shortcut + "\\[\\d\\d\\]\\[)(Path)";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            size_t post = curPos + itr->position();
+            range blok(post, post + 4, &proc::pathSingle);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+        }
+
+        if (error)
+            throw nemesis::exception();
+    }
+
+    if (change.find("@AnimObject/", 0) != NOT_FOUND) {
+        int counter = 0;
+        string expstr = shortcut
+                        + "\\[(F|N|B|L|[0-9]*)\\]\\[@AnimObject\\/([0-9]+)\\](\\[[0-9]+\\]|)";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            string first = itr->str(1);
+            string second = itr->str(2);
+            string optionMulti = itr->str(3);
+            string full = itr->str();
+            size_t post = curPos + itr->position();
+            void (proc::*func)(range, vecstr &);
+            vector<int> container;
+            ++counter;
+            string templine;
+            bool empty = true;
+
+            if (full.length() == 0) {
+                string errorformat = format;
+                if (isMaster)
+                    errorformat.append("_master");
+                else if (isGroup)
+                    errorformat.append("_group");
+                ErrorMessage(1157, errorformat, behaviorFile, numline, change);
+            }
+
+            if (first.length() == 0) {
+                isTrueMulti = true;
+
+                if (isGroup) {
+                    empty ? func = &proc::AOMultiMasterA : func = &proc::AOMultiMasterB;
+                } else {
+                    empty ? func = &proc::AOMultiGroupA : func = &proc::AOMultiGroupB;
+                }
+            } else if (first == "F") {
+                if (isGroup) {
+                    empty ? func = &proc::AOFirstMasterA : func = &proc::AOFirstMasterB;
+                } else {
+                    empty ? func = &proc::AOFirstGroupA : func = &proc::AOFirstGroupB;
+                }
+            } else if (first == "N") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                empty ? func = &proc::AONextGroupA : func = &proc::AONextGroupB;
+            } else if (first == "B") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                empty ? func = &proc::AOBackGroupA : func = &proc::AOBackGroupB;
+            } else if (first == "L") {
+                if (isGroup) {
+                    empty ? func = &proc::AOLastMasterA : func = &proc::AOLastMasterB;
+                } else {
+                    empty ? func = &proc::AOLastGroupA : func = &proc::AOLastGroupB;
+                }
+            } else {
+                container.push_back(stoi(first));
+
+                if (isGroup) {
+                    empty ? func = &proc::AONumMasterA : func = &proc::AONumMasterB;
+                } else {
+                    empty ? func = &proc::AONumGroupA : func = &proc::AONumGroupB;
+                }
+            }
+
+            container.push_back(stoi(second));
+
+            if (optionMulti.length() != 0) {
+                empty = false;
+                optionMulti.pop_back();
+                optionMulti = optionMulti.substr(1);
+                container.push_back(stoi(optionMulti));
+            }
+
+            range blok(post, post + full.length(), container, vecstr{change}, func);
+
+            if (isMC) {
+                lineblocks[blok.size].push_back(make_shared<range>(blok));
+                empty
+                    ? addInfo.push_back(addOnInfo("@AnimObject/" + second, ""))
+                    : addInfo.push_back(addOnInfo("@AnimObject/" + second, "", stoi(optionMulti)));
+            } else {
+                process->installBlock(blok, numline);
+            }
+
+            if (error)
+                throw nemesis::exception();
+        }
+
+        expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!"
+                 + shortcut + "\\[\\d\\d\\]\\[)@AnimObject\\/([0-9]+)(\\[[0-9]+\\]|)";
+
+        for (auto itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            if (isGroup && multiOption != format)
+                ErrorMessage(1146, format, behaviorFile, numline);
+
+            size_t post = curPos + itr->position();
+            string templine = itr->str(2);
+
+            if (templine.length() == 0) {
+                range blok(post,
+                           post + itr->str().length(),
+                           vector<int>{stoi(itr->str(1))},
+                           isGroup ? &proc::AOMultiMasterA : &proc::AOSingleA);
+
+                if (isMC) {
+                    lineblocks[blok.size].push_back(make_shared<range>(blok));
+                    addInfo.push_back(addOnInfo("@AnimObject/" + itr->str(1), ""));
+                } else {
+                    process->installBlock(blok, numline);
+                }
+            } else {
+                templine.pop_back();
+                templine = templine.substr(1);
+                range blok(post,
+                           post + itr->str().length(),
+                           vector<int>{stoi(itr->str(1)), stoi(templine)},
+                           isGroup ? &proc::AOMultiMasterB : &proc::AOSingleB);
+
+                if (isMC) {
+                    lineblocks[blok.size].push_back(make_shared<range>(blok));
+                    addInfo.push_back(addOnInfo("@AnimObject/" + itr->str(1), "", stoi(templine)));
+                } else {
+                    process->installBlock(blok, numline);
+                }
+            }
+        }
+
+        if (error)
+            throw nemesis::exception();
+    }
+
+    if (change.find("main_anim_event", 0) != NOT_FOUND) {
+        mainAnimEventInstall(format,
+                             behaviorFile,
+                             change,
+                             numline,
+                             curPos,
+                             boost::regex("\\{" + shortcut
+                                          + "\\[(F|N|B|L|[0-9]*)\\]\\[main_anim_event\\]\\}"),
+                             isGroup,
+                             isMaster,
+                             *process);
+        mainAnimEventInstall(format,
+                             behaviorFile,
+                             change,
+                             numline,
+                             curPos,
+                             boost::regex(
+                                 "(?<!\\{)" + shortcut
+                                 + "\\[(F|N|B|L|[0-9]*)\\]\\[main_anim_event\\](?=[^\\}]|$)"),
+                             isGroup,
+                             isMaster,
+                             *process);
+
+        for (auto itr = boost::sregex_iterator(change.begin(),
+                                               change.end(),
+                                               boost::regex("(\\{main_anim_event\\})"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            if (isGroup && multiOption != format)
+                ErrorMessage(1146, format, behaviorFile, numline);
+
+            size_t post = curPos + itr->position();
+            range blok(post,
+                       post + itr->str().length(),
+                       isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+        }
+
+        for (auto itr = boost::sregex_iterator(
+                 change.begin(),
+                 change.end(),
+                 boost::regex("(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut
+                              + "\\[\\]\\[)(?<!" + shortcut
+                              + "\\[\\d\\d\\]\\[)(?<!\\{)(main_anim_event)(?=[^\\}]|$)"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            if (isGroup && multiOption != format)
+                ErrorMessage(1146, format, behaviorFile, numline);
+
+            size_t post = curPos + itr->position();
+            range blok(post,
+                       post + itr->str().length(),
+                       isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+        }
+    }
+
+    size_t pos = change.find("[");
+
+    if (pos != NOT_FOUND && change.find("]", pos) != NOT_FOUND) {
+        for (auto it = optionlist.addOn.begin(); it != optionlist.addOn.end(); ++it) {
+            for (auto &addname : it->second) {
+                // include other anim group
+                // cont here
+
+                for (auto itr = boost::sregex_iterator(change.begin(),
+                                                       change.end(),
+                                                       boost::regex(
+                                                           format + "\\[(F|N|B|L|[0-9]*)\\]\\["
+                                                           + it->first + "(\\*|)\\]\\[" + addname
+                                                           + "\\](\\[[0-9]+\\]|)"));
+                     itr != boost::sregex_iterator();
+                     ++itr) {
+                    bool number = false;
+                    string header;
+                    string first = itr->str(1);
+                    size_t addpos = curPos + itr->position();
+                    void (proc::*func)(range, vecstr &);
+
+                    if (first.length() == 0) {
+                        isTrueMulti = true;
+                        func = isGroup ? &proc::addOnMultiMaster : &proc::addOnMultiGroup;
+                    } else if (first == "F") {
+                        func = isGroup ? &proc::addOnFirstMaster : &proc::addOnFirstGroup;
+                    } else if (first == "N") {
+                        if (isMaster)
+                            ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                        else if (isGroup)
+                            ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                        func = &proc::addOnNextGroup;
+                    } else if (first == "B") {
+                        if (isMaster)
+                            ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                        else if (isGroup)
+                            ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                        func = &proc::addOnBackGroup;
+                    } else if (first == "L") {
+                        func = isGroup ? &proc::addOnLastMaster : &proc::addOnLastGroup;
+                    } else {
+                        number = true;
+                        func = isGroup ? &proc::addOnNumMaster : &proc::addOnNumGroup;
+                    }
+
+                    if (itr->str(2).length() == 0) {
+                        header = it->first;
+                    } else {
+                        header = optionlist.mixOptRegis[it->first];
+                    }
+
+                    if (number) {
+                        range blok(addpos,
+                                   addpos + itr->str().length(),
+                                   vector<int>{stoi(first)},
+                                   vecstr{header, addname, change},
+                                   func);
+
+                        if (isMC) {
+                            lineblocks[blok.size].push_back(make_shared<range>(blok));
+                            string o_multi = itr->str(3);
+
+                            if (o_multi.length() > 0) {
+                                addInfo.push_back(addOnInfo(header, addname, stoi(o_multi)));
+                            } else {
+                                addInfo.push_back(addOnInfo(header, addname));
+                            }
+                        } else {
+                            process->installBlock(blok, numline);
+                        }
+                    } else {
+                        range blok(addpos,
+                                   addpos + itr->str().length(),
+                                   vecstr{header, addname, change},
+                                   func);
+
+                        if (isMC) {
+                            lineblocks[blok.size].push_back(make_shared<range>(blok));
+                            string o_multi = itr->str(3);
+
+                            if (o_multi.length() > 0) {
+                                addInfo.push_back(addOnInfo(header, addname, stoi(o_multi)));
+                            } else {
+                                addInfo.push_back(addOnInfo(header, addname));
+                            }
+                        } else {
+                            process->installBlock(blok, numline);
+                        }
+                    }
+                }
+
+                for (auto itr = boost::sregex_iterator(change.begin(),
+                                                       change.end(),
+                                                       boost::regex(it->first + "(\\*|)\\[" + addname
+                                                                    + "\\](\\[[0-9]+\\]|)"));
+                     itr != boost::sregex_iterator();
+                     ++itr) {
+                    if (isGroup && multiOption != format)
+                        ErrorMessage(1146, format, behaviorFile, numline);
+
+                    string header;
+                    string first = itr->str(1);
+                    size_t addpos = curPos + itr->position();
+
+                    if (first.length() == 0) {
+                        header = it->first;
+                    } else {
+                        header = optionlist.mixOptRegis[it->first];
+                    }
+
+                    range blok(addpos,
+                               addpos + itr->str().length(),
+                               vecstr{header, addname, change},
+                               isGroup ? &proc::addOnMultiMaster : &proc::addOnSingle);
+
+                    if (isMC) {
+                        lineblocks[blok.size].push_back(make_shared<range>(blok));
+                        string o_multi = itr->str(2);
+
+                        if (o_multi.length() > 0) {
+                            addInfo.push_back(addOnInfo(header, addname, stoi(o_multi)));
+                        } else {
+                            addInfo.push_back(addOnInfo(header, addname));
+                        }
+                    } else {
+                        process->installBlock(blok, numline);
+                    }
+                }
+            }
+        }
+    }
+
+    if (change.find("LastState") != NOT_FOUND) {
+        for (auto itr = boost::sregex_iterator(change.begin(),
+                                               change.end(),
+                                               boost::regex("LastState([0-9]*)"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            if (isMaster)
+                ErrorMessage(1206, format + "_master", behaviorFile, numline, itr->str());
+            if (isGroup)
+                ErrorMessage(1206, format + "_group", behaviorFile, numline, itr->str());
+
+            size_t post = curPos + itr->position();
+            range blok(post, post + itr->str().length(), vecstr{itr->str(1)}, &proc::lastState);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+        }
+    }
+
+    if (change.find("eventID[") != NOT_FOUND) {
+        pos = change.find("eventID[");
+
+        while (pos != NOT_FOUND) {
+            size_t eventpos = pos + 8;
+            size_t curcounter = 1;
+            size_t post = curPos + pos;
+
+            for (unsigned int ch = eventpos; ch < change.length(); ++ch) {
+                if (change[ch] == '[')
+                    ++curcounter;
+                else if (change[ch] == ']') {
+                    --curcounter;
+
+                    if (curcounter == 0) {
+                        ++eventpos;
+                        eventpos += curPos;
+                        break;
+                    }
+                }
+
+                ++eventpos;
+            }
+
+            range blok(post,
+                       eventpos,
+                       vector<int>{int(post + 8), int(eventpos - 2)},
+                       &proc::eventID);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+            pos = change.find("eventID[", pos + 1);
+        }
+    }
+
+    if (change.find("variableID[") != NOT_FOUND) {
+        pos = change.find("variableID[");
+
+        while (pos != NOT_FOUND) {
+            size_t varpos = pos + 11;
+            size_t curcounter = 1;
+            size_t post = curPos + pos;
+
+            for (unsigned int ch = varpos; ch < change.length(); ++ch) {
+                if (change[ch] == '[')
+                    ++curcounter;
+                else if (change[ch] == ']') {
+                    --curcounter;
+
+                    if (curcounter == 0) {
+                        ++varpos;
+                        varpos += curPos;
+                        break;
+                    }
+                }
+
+                ++varpos;
+            }
+
+            range blok(post,
+                       varpos,
+                       vector<int>{int(post + 11), int(varpos - 2)},
+                       &proc::variableID);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+            pos = change.find("variableID[", pos + 1);
+        }
+    }
+
+    if (change.find("animOrder[") != NOT_FOUND) {
+        pos = change.find("animOrder[");
+
+        while (pos != NOT_FOUND) {
+            size_t animpos = pos + 10;
+            size_t curcounter = 1;
+            size_t post = curPos + pos;
+
+            for (unsigned int ch = animpos; ch < change.length(); ++ch) {
+                if (change[ch] == '[')
+                    ++curcounter;
+                else if (change[ch] == ']') {
+                    --curcounter;
+
+                    if (curcounter == 0) {
+                        ++animpos;
+                        animpos += curPos;
+                        break;
+                    }
+                }
+
+                ++animpos;
+            }
+
+            range blok(post, animpos, {int(post + 10), int(animpos - 2)}, &proc::animOrder);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+            pos = change.find("animOrder[", pos + 1);
+        }
+    }
+
+    if (change.find("crc32[") != NOT_FOUND) {
+        __int64 bracketCount = count(change.begin(), change.end(), '[');
+        __int64 altBracketCount = count(change.begin(), change.end(), ']');
+
+        if (bracketCount != altBracketCount) {
+            isGroup ? ErrorMessage(1181, format + "_group", behaviorFile, numline, change)
+                    : ErrorMessage(1181, format, behaviorFile, numline, change);
+        }
+
+        pos = -1;
+        pos = change.find("crc32[");
+
+        while (pos != NOT_FOUND) {
+            size_t encode = pos + 6;
+            size_t curcounter = 1;
+
+            for (unsigned int ch = encode; ch < change.length(); ++ch) {
+                if (change[ch] == '[') ++curcounter;
 				else if (change[ch] == ']')
 				{
 					--curcounter;
@@ -2459,35 +2657,33 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 					if (curcounter == 0)
 					{
 						++encode;
-						break;
-					}
-				}
+                        break;
+                    }
+                }
 
-				++encode;
-			}
+                ++encode;
+            }
 
-			range blok(curPos + pos, curPos + encode, &proc::crc32);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-			pos = change.find("crc32[", pos + 1);
-		}
-	}
+            range blok(curPos + pos, curPos + encode, &proc::crc32);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+            pos = change.find("crc32[", pos + 1);
+        }
+    }
 
-	if (change.find("import[") != NOT_FOUND)
-	{
-		pos = change.find("import[");
+    if (change.find("import[") != NOT_FOUND) {
+        pos = change.find("import[");
 
-		while (pos != NOT_FOUND)
-		{
-			string import;
-			size_t curcounter = 0;
-			size_t post = curPos + pos;
+        while (pos != NOT_FOUND) {
+            string import;
+            size_t curcounter = 0;
+            size_t post = curPos + pos;
 
-			for (unsigned int ch = pos; ch < change.length(); ++ch)
-			{
-				if (change[ch] == '[') ++curcounter;
-				else if (change[ch] == ']')
-				{
-					--curcounter;
+            for (unsigned int ch = pos; ch < change.length(); ++ch) {
+                if (change[ch] == '[')
+                    ++curcounter;
+                else if (change[ch] == ']') {
+                    --curcounter;
 
 					if (curcounter == 0)
 					{
@@ -2497,148 +2693,180 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 							break;
 						}
 					}
-				}
+                }
 
-				import.push_back(change[ch]);
-			}
+                import.push_back(change[ch]);
+            }
 
-			__int64 bracketCount = count(import.begin(), import.end(), '[');
-			__int64 altBracketCount = count(import.begin(), import.end(), ']');
+            __int64 bracketCount = count(import.begin(), import.end(), '[');
+            __int64 altBracketCount = count(import.begin(), import.end(), ']');
 
-			if (bracketCount != altBracketCount)
-			{
-				isGroup ? ErrorMessage(1139, format + "_group", behaviorFile, numline, import) : ErrorMessage(1139, format, behaviorFile, numline, import);
-			}
+            if (bracketCount != altBracketCount) {
+                isGroup ? ErrorMessage(1139, format + "_group", behaviorFile, numline, import)
+                        : ErrorMessage(1139, format, behaviorFile, numline, import);
+            }
 
-			range blok(post, post + import.length(), &proc::import);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
-			pos = change.find("import[", pos + 1);
-		}
-	}
+            range blok(post, post + import.length(), &proc::import);
+            isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
+                 : process->installBlock(blok, numline);
+            pos = change.find("import[", pos + 1);
+        }
+    }
 
-	if (change.find("MD", 0) != NOT_FOUND)
-	{
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(format + "\\[(F|N|B|L|[0-9]*)\\]\\[MD\\]"));
-			itr != boost::sregex_iterator(); ++itr)
-		{
-			bool number = false;
-			string first = itr->str(1);
-			size_t post = curPos + itr->position();
-			void (proc::*func)(range, vecstr&);
+    if (change.find("MD", 0) != NOT_FOUND) {
+        for (auto itr = boost::sregex_iterator(change.begin(),
+                                               change.end(),
+                                               boost::regex(format
+                                                            + "\\[(F|N|B|L|[0-9]*)\\]\\[MD\\]"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            bool number = false;
+            string first = itr->str(1);
+            size_t post = curPos + itr->position();
+            void (proc::*func)(range, vecstr &);
 
-			if (first.length() == 0)
-			{
-				isTrueMulti = true;
-				func = isGroup ? &proc::motionDataMultiMaster : &proc::motionDataMultiGroup;
-			}
-			else if (first == "F")
-			{
-				func = isGroup ? &proc::motionDataFirstMaster : &proc::motionDataFirstGroup;
-			}
-			else if (first == "N")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::motionDataNextGroup;
-			}
-			else if (first == "B")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::motionDataBackGroup;
-			}
-			else if (first == "L")
-			{
-				func = isGroup ? &proc::motionDataLastMaster : &proc::motionDataLastGroup;
-			}
-			else
-			{
-				number = true;
-				func = isGroup ? &proc::motionDataNumMaster : &proc::motionDataNumGroup;
-			}
+            if (first.length() == 0) {
+                isTrueMulti = true;
+                func = isGroup ? &proc::motionDataMultiMaster : &proc::motionDataMultiGroup;
+            } else if (first == "F") {
+                func = isGroup ? &proc::motionDataFirstMaster : &proc::motionDataFirstGroup;
+            } else if (first == "N") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::motionDataNextGroup;
+            } else if (first == "B") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::motionDataBackGroup;
+            } else if (first == "L") {
+                func = isGroup ? &proc::motionDataLastMaster : &proc::motionDataLastGroup;
+            } else {
+                number = true;
+                func = isGroup ? &proc::motionDataNumMaster : &proc::motionDataNumGroup;
+            }
 
-			shared_ptr<range> blok = number ? make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
-				make_shared<range>(post, post + itr->str().length(), vecstr{ change }, func);
-			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
-		}
+            shared_ptr<range> blok = number ? make_shared<range>(post,
+                                                                 post + itr->str().length(),
+                                                                 vector<int>{stoi(first)},
+                                                                 vecstr{change},
+                                                                 func)
+                                            : make_shared<range>(post,
+                                                                 post + itr->str().length(),
+                                                                 vecstr{change},
+                                                                 func);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
+        }
 
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex("(?<!" + format + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" +
-			format + "\\[\\]\\[)(?<!" + format + "\\[\\d\\d\\]\\[)(MD)")); itr != boost::sregex_iterator(); ++itr)
-		{
-			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
+        for (auto itr = boost::sregex_iterator(change.begin(),
+                                               change.end(),
+                                               boost::regex("(?<!" + format
+                                                            + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + format
+                                                            + "\\[\\]\\[)(?<!" + format
+                                                            + "\\[\\d\\d\\]\\[)(MD)"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            if (isGroup && multiOption != format)
+                ErrorMessage(1146, format, behaviorFile, numline);
 
-			size_t post = curPos + itr->position();
-			shared_ptr<range> blok = make_shared<range>(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::motionDataMultiMaster :
-				&proc::motionDataSingle);
-			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
-		}
+            size_t post = curPos + itr->position();
+            shared_ptr<range> blok = make_shared<range>(post,
+                                                        post + itr->str().length(),
+                                                        vecstr{change},
+                                                        isGroup ? &proc::motionDataMultiMaster
+                                                                : &proc::motionDataSingle);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
+        }
 
-		if (error) throw nemesis::exception();
-	}
+        if (error)
+            throw nemesis::exception();
+    }
 
-	if (change.find("RD", 0) != NOT_FOUND)
-	{
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(format + "\\[(F|N|B|L|[0-9]*)\\]\\[RD\\]"));
-			itr != boost::sregex_iterator(); ++itr)
-		{
-			bool number = false;
-			string first = itr->str(1);
-			size_t post = curPos + itr->position();
-			void (proc::*func)(range, vecstr&);
+    if (change.find("RD", 0) != NOT_FOUND) {
+        for (auto itr = boost::sregex_iterator(change.begin(),
+                                               change.end(),
+                                               boost::regex(format
+                                                            + "\\[(F|N|B|L|[0-9]*)\\]\\[RD\\]"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            bool number = false;
+            string first = itr->str(1);
+            size_t post = curPos + itr->position();
+            void (proc::*func)(range, vecstr &);
 
-			if (first.length() == 0)
-			{
-				isTrueMulti = true;
-				func = isGroup ? &proc::rotationDataMultiMaster : &proc::rotationDataMultiGroup;
-			}
-			else if (first == "F")
-			{
-				func = isGroup ? &proc::rotationDataFirstMaster : &proc::rotationDataFirstGroup;
-			}
-			else if (first == "N")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::rotationDataNextGroup;
-			}
-			else if (first == "B")
-			{
-				if (isMaster) ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
-				else if (isGroup) ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
-				func = &proc::rotationDataBackGroup;
-			}
-			else if (first == "L")
-			{
-				func = isGroup ? &proc::rotationDataLastMaster : &proc::rotationDataLastGroup;
-			}
-			else
-			{
-				number = true;
-				func = isGroup ? &proc::rotationDataNumMaster : &proc::rotationDataNumGroup;
-			}
+            if (first.length() == 0) {
+                isTrueMulti = true;
+                func = isGroup ? &proc::rotationDataMultiMaster : &proc::rotationDataMultiGroup;
+            } else if (first == "F") {
+                func = isGroup ? &proc::rotationDataFirstMaster : &proc::rotationDataFirstGroup;
+            } else if (first == "N") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::rotationDataNextGroup;
+            } else if (first == "B") {
+                if (isMaster)
+                    ErrorMessage(1056, format + "_master", behaviorFile, numline, line);
+                else if (isGroup)
+                    ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
+                func = &proc::rotationDataBackGroup;
+            } else if (first == "L") {
+                func = isGroup ? &proc::rotationDataLastMaster : &proc::rotationDataLastGroup;
+            } else {
+                number = true;
+                func = isGroup ? &proc::rotationDataNumMaster : &proc::rotationDataNumGroup;
+            }
 
-			shared_ptr<range> blok = number ? make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
-				make_shared<range>(post, post + itr->str().length(), func);
-			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
-		}
+            shared_ptr<range> blok = number ? make_shared<range>(post,
+                                                                 post + itr->str().length(),
+                                                                 vector<int>{stoi(first)},
+                                                                 vecstr{change},
+                                                                 func)
+                                            : make_shared<range>(post,
+                                                                 post + itr->str().length(),
+                                                                 func);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
+        }
 
-		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex("(?<!" + format + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" +
-			format + "\\[\\]\\[)(?<!" + format + "\\[\\d\\d\\]\\[)(RD)")); itr != boost::sregex_iterator(); ++itr)
-		{
-			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
+        for (auto itr = boost::sregex_iterator(change.begin(),
+                                               change.end(),
+                                               boost::regex("(?<!" + format
+                                                            + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + format
+                                                            + "\\[\\]\\[)(?<!" + format
+                                                            + "\\[\\d\\d\\]\\[)(RD)"));
+             itr != boost::sregex_iterator();
+             ++itr) {
+            if (isGroup && multiOption != format)
+                ErrorMessage(1146, format, behaviorFile, numline);
 
-			size_t post = curPos + itr->position();
-			shared_ptr<range> blok = make_shared<range>(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::rotationDataMultiMaster :
-				&proc::rotationDataSingle);
-			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
-		}
+            size_t post = curPos + itr->position();
+            shared_ptr<range> blok = make_shared<range>(post,
+                                                        post + itr->str().length(),
+                                                        vecstr{change},
+                                                        isGroup ? &proc::rotationDataMultiMaster
+                                                                : &proc::rotationDataSingle);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
+        }
 
-		if (error) throw nemesis::exception();
-	}
+        if (error)
+            throw nemesis::exception();
+    }
 }
 
-void GetMultiFromAddOn(addOnInfo& addinfo, string format, string behaviorFile, string original, int numline, int animMulti, bool isGroup,
-	vector<shared_ptr<AnimationInfo>>& groupAnimInfo, int& optionMulti, int& endMulti)
+void GetMultiFromAddOn(addOnInfo &addinfo,
+                       string format,
+                       string behaviorFile,
+                       string original,
+                       int numline,
+                       int animMulti,
+                       bool isGroup,
+                       const vector<shared_ptr<AnimationInfo>> &groupAnimInfo,
+                       int &optionMulti,
+                       int &endMulti)
 {
 	if (addinfo.header.find("@AnimObject/") != NOT_FOUND)
 	{

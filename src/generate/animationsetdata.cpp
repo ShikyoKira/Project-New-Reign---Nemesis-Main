@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "utilities/algorithm.h"
 
 #include "generate/playerexclusive.h"
@@ -317,15 +319,13 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 			clipExist[tempAP.attackClip.back().data] = true;
 		}
 
-		for (auto& atkData : tempAP.attackClip)
-		{
-			auto& ptr = clipPtrAnimData.find(projectname);
+        for (auto &atkData : tempAP.attackClip) {
+            const auto &ptr = clipPtrAnimData.find(projectname);
 
-			if (ptr != clipPtrAnimData.end())
-			{
-				auto& ptr2 = ptr->second.find(atkData.data);
+            if (ptr != clipPtrAnimData.end()) {
+                const auto &ptr2 = ptr->second.find(atkData.data);
 
-				if (ptr2 != ptr->second.end())
+                if (ptr2 != ptr->second.end())
 				{
 					if (ptr2->second.size() > 0)
 					{
@@ -347,10 +347,10 @@ void AnimPackProcess(vector<animpack>& storeline, int& startline, vecstr& animda
 						if (size == 0) break;
 					}
 				}
-			}
-		}
+            }
+        }
 
-		storeline.push_back(tempAP);
+        storeline.push_back(tempAP);
 
 		if (i + 1 >= int(animdatafile.size())) ErrorMessage(5018, projectname, header);
 	}

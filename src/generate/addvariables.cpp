@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "generate/addvariables.h"
 
 using namespace std;

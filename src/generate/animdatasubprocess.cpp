@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "debuglog.h"
 
 #include "ui/Terminator.h"
@@ -647,9 +649,9 @@ void BehaviorSub::CompilingAnimData()
 		{
 			unordered_map<string, bool> isExist;
 
-			for (auto& it : alternateAnim)
+			for (auto it : alternateAnim)
 			{
-				for (auto& iter : it.second)
+				for (auto iter : it.second)
 				{
 					if (!isExist[iter] && iter != "x")
 					{

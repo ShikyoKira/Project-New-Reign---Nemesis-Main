@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <QDesktopServices>
 
 #include <QtGui/QColor>
@@ -279,7 +281,7 @@ bool BehaviorListModel::dropMimeData(const QMimeData* data, Qt::DropAction actio
 
 	insertRows(beginRow, rows, QModelIndex());
 
-	for(auto& item : newItems)
+	for(auto item : newItems)
 	{
 		QModelIndex idx = index(beginRow, 0, QModelIndex());
 		QVariant stored;

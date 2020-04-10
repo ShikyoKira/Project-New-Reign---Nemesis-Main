@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "generate/animationdata.h"
 #include "generate/animationdatatracker.h"
 
@@ -24,13 +26,15 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 bool IDExistProcess(string change, vector<InfoDataPack>& storeline, map<string, vector<InfoDataTracker>> original, map<string, bool>& isExist,
 	map<string, string>& exchange, vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker, map<string, bool>& loopCheck)
 {
-	auto& ori = original.find(change);
+    const auto &ori = original.find(change);
 
-	if (ori == original.end()) return false;
+    if (ori == original.end())
+        return false;
 
-	if (loopCheck[change]) return true;
+    if (loopCheck[change])
+        return true;
 
-	loopCheck[change] = true;
+    loopCheck[change] = true;
 
 	for (auto& each : ori->second)
 	{
@@ -220,16 +224,15 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& an
 
 		InfoDataPack curIP;
 		string uniquecode = animdatafile[i++];
-		locate[uniquecode] = i - 1;
-		auto& exch = exchange.find(uniquecode);
+        locate[uniquecode] = i - 1;
+        const auto &exch = exchange.find(uniquecode);
 
-		if (exch != exchange.end())
-		{
-			uniquecode = exch->second;
+        if (exch != exchange.end()) {
+            uniquecode = exch->second;
 			original[uniquecode].push_back(InfoDataTracker(exch->first, storeline.size()));
-		}
+        }
 
-		if (isExist[uniquecode])
+        if (isExist[uniquecode])
 		{
 			string change = animdatafile[i - 1];
 
@@ -314,24 +317,22 @@ int AnimDataProject::GetAnimTotalLine()
 {
 	int counter = 3 + int(behaviorlist.size());
 
-	for (auto& it : animdatalist)
-	{
-		counter += 7 + it.eventname.size();
-	}
+    for (auto it : animdatalist) {
+        counter += 7 + it.eventname.size();
+    }
 
-	return counter;
+    return counter;
 }
 
 int AnimDataProject::GetInfoTotalLine()
 {
 	int counter = 0;
 
-	for (auto& it : infodatalist)
-	{
-		counter += 5 + int(it.motiondata.size()) + int(it.rotationdata.size());
-	}
+    for (auto it : infodatalist) {
+        counter += 5 + int(it.motiondata.size()) + int(it.rotationdata.size());
+    }
 
-	return counter;
+    return counter;
 }
 
 AnimDataFormat::position AnimDataPosition(vecstr animData, string character, string header, string modcode, string filepath, int linecount, int type, bool muteError)

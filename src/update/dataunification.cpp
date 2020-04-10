@@ -1,3 +1,5 @@
+#include "Global.h"
+
 /*
 COMBINE NEW ANIMATION JOINT
 OBJECTIVES:

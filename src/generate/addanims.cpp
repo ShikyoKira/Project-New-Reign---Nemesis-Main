@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <boost/atomic.hpp>
 
 #include "generate/addanims.h"

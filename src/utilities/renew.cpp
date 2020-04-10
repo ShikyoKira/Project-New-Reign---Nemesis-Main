@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "utilities/renew.h"
 
 #pragma warning(disable:4503)

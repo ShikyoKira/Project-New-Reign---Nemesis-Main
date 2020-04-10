@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include "generate/animation/animationthread.h"
 
 using namespace std;

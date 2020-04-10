@@ -1,3 +1,5 @@
+#include "Global.h"
+
 #include <QtCore/qtimer.h>
 
 #include "ui/AnimProgressBar.h"

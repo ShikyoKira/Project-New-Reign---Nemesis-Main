@@ -48,7 +48,7 @@ struct OptionList
 
 	OptionList(std::string filepath, std::string format);
 	OptionList();
-	void OptionList::setDebug(bool isDebug);
+    void setDebug(bool isDebug);
 };
 
 bool optionMatching(std::string option1, std::string option2);

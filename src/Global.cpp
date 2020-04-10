@@ -1,10 +1,10 @@
+#include "Global.h"
+
 #include <filesystem>
 
 #include "utilities/algorithm.h"
 
-#if __cplusplus > 201402L
 #include "utilities/wstrconvert.h"
-#endif
 
 #include "utilities/readtextfile.h"
 #include "utilities/writetextfile.h"
@@ -46,18 +46,12 @@ set<string> groupNameList;
 
 wstring StringToWString(string line)
 {
-#if __cplusplus > 201402L
-	return wstrConv.from_bytes(line);
-#endif
-	return QString::fromStdString(line).toStdWString();
+    return QString::fromStdString(line).toStdWString();
 }
 
 string WStringToString(wstring line)
 {
-#if __cplusplus > 201402L
-	return wstrConv.to_bytes(line);
-#endif
-	return QString::fromStdWString(line).toStdString();
+    return QString::fromStdWString(line).toStdString();
 }
 
 void read_directory(const string& name, vecstr& fv)
@@ -244,30 +238,7 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
 	}
 }
 
-int sameWordCount(string line, string word)
-{
-	size_t nextWord = -1;
-	int wordCount = 0;
-
-	while (true)
-	{
-		nextWord = line.find(word, nextWord + 1);
-
-		if (nextWord != NOT_FOUND)
-		{
-			wordCount++;
-		}
-		else
-		{
-			nextWord = -1;
-			break;
-		}
-	}
-
-	return wordCount;
-}
-
-bool GetFunctionLines(sf::path filename, vecstr& functionlines, bool emptylast)
+bool GetFunctionLines(sf::path filename, vecstr &functionlines, bool emptylast)
 {
 	functionlines = vecstr();
 
@@ -374,6 +345,25 @@ size_t wordFind(string line, string word, bool isLast)
 	nemesis::to_lower(word);
 
 	return isLast ? line.rfind(word) : line.find(word);
+}
+
+int sameWordCount(std::string line, std::string word)
+{
+    size_t nextWord = -1;
+    int wordCount = 0;
+
+    while (true) {
+        nextWord = line.find(word, nextWord + 1);
+
+        if (nextWord != NOT_FOUND) {
+            wordCount++;
+        } else {
+            nextWord = -1;
+            break;
+        }
+    }
+
+    return wordCount;
 }
 
 bool isOnlyNumber(string line)

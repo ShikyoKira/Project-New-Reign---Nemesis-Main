@@ -1,6 +1,8 @@
 #ifndef BEHAVIORPROCESS_H_
 #define BEHAVIORPROCESS_H_
 
+#include "Global.h"
+
 #include <QtCore/QObject>
 
 #include <boost/atomic.hpp>

@@ -46,28 +46,26 @@ std::string DMLogWarning(int warningcode);
 std::string EngLogError(int errorcode);
 std::string EngLogWarning(int warningcode);
 
+int sameWordCount(std::string, std::string); //Forward declare
+
 template <typename current>
 void AdditionalInput(std::string& message, int counter, current input)
 {
 	std::string newInput = "<" + std::to_string(counter) + ">";
 	std::string replacement = static_cast<std::ostringstream*>(&(std::ostringstream() << input))->str();
-	int ref = sameWordCount(message, newInput);
-	
-	if (ref != 0)
-	{
-		for (int i = 0; i < ref; ++i)
-		{
-			message.replace(message.find(newInput), newInput.size(), replacement);
-		}
-	}
-	else
-	{
-		string msg = "CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
-		interMsg(msg + "\n");
-		DebugLogging(msg);
-		error = true;
-		return;
-	}
+    int ref = sameWordCount(message, newInput);
+
+    if (ref != 0) {
+        for (int i = 0; i < ref; ++i) {
+            message.replace(message.find(newInput), newInput.size(), replacement);
+        }
+    } else {
+        std::string msg = "CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
+        interMsg(msg + "\n");
+        DebugLogging(msg);
+        error = true;
+        return;
+    }
 }
 
 template <typename current, typename ... other>
@@ -77,23 +75,19 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
 	std::string replacement = static_cast<std::ostringstream*>(&(std::ostringstream() << input))->str();
 	int ref = sameWordCount(message, newInput);
 
-	if (ref != 0)
-	{
-		for (int i = 0; i < ref; ++i)
-		{
-			message.replace(message.find(newInput), newInput.size(), replacement);
-		}
+    if (ref != 0) {
+        for (int i = 0; i < ref; ++i) {
+            message.replace(message.find(newInput), newInput.size(), replacement);
+        }
 
-		AdditionalInput(message, counter + 1, rest...);
-	}
-	else
-	{
-		string msg = "CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
-		interMsg(msg + "\n");
-		DebugLogging(msg);
-		error = true;
-		return;
-	}
+        AdditionalInput(message, counter + 1, rest...);
+    } else {
+        std::string msg = "CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
+        interMsg(msg + "\n");
+        DebugLogging(msg);
+        error = true;
+        return;
+    }
 }
 
 // error
