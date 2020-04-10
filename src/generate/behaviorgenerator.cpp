@@ -6,6 +6,7 @@
 
 #include "generate/alternateanimation.h"
 #include "generate/behaviorgenerator.h"
+#include "utilities/atomiclock.h"
 
 #pragma warning(disable : 4503)
 
@@ -30,12 +31,11 @@ bool hkxcmdProcess(string xmlfile, string hkxfile, bool last)
     {
         if (last) ErrorMessage(1003, xmlfile);
 
-        while (failedBehaviorFlag.test_and_set(std::memory_order_acquire))
-            ;
-        failedBehaviors.push_back(xmlfile);
-        failedBehaviors.push_back(hkxfile);
-        failedBehaviorFlag.clear(std::memory_order_release);
-
+        {
+            Lockless lock(failedBehaviorFlag);
+            failedBehaviors.push_back(xmlfile);
+            failedBehaviors.push_back(hkxfile);
+        }
         return false;
     }
 

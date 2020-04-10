@@ -7,6 +7,7 @@
 #include "debuglog.h"
 #include "version.h"
 
+#include "utilities/atomiclock.h"
 #include "utilities/compute.h"
 #include "utilities/lastupdate.h"
 #include "utilities/readtextfile.h"
@@ -809,40 +810,39 @@ void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, b
 
             for (auto file : characterFiles)
             {
-                while (animdata_lock.test_and_set(std::memory_order_acquire))
-                    ;
-                shared_ptr<AnimationDataTracker>& animDataPtr = charAnimDataInfo[file][animFile];
-
-                if (animDataPtr == nullptr)
                 {
-                    animDataPtr           = make_shared<AnimationDataTracker>();
-                    animDataPtr->filename = animFile;
-                }
+                    Lockless lock(animdata_lock);
+                    shared_ptr<AnimationDataTracker>& animDataPtr = charAnimDataInfo[file][animFile];
 
-                animDataPtr->cliplist.insert(clipName);
-                vector<shared_ptr<AnimationDataTracker>>& listAnimData = clipPtrAnimData[file][clipName];
-
-                if (listAnimData.size() > 0)
-                {
-                    bool same = false;
-
-                    for (auto& animData : listAnimData)
+                    if (animDataPtr == nullptr)
                     {
-                        if (animData->filename == animFile)
-                        {
-                            same = true;
-                            break;
-                        }
+                        animDataPtr           = make_shared<AnimationDataTracker>();
+                        animDataPtr->filename = animFile;
                     }
 
-                    if (!same) { clipPtrAnimData[file][clipName].push_back(animDataPtr); }
-                }
-                else
-                {
-                    clipPtrAnimData[file][clipName].push_back(animDataPtr);
-                }
+                    animDataPtr->cliplist.insert(clipName);
+                    vector<shared_ptr<AnimationDataTracker>>& listAnimData = clipPtrAnimData[file][clipName];
 
-                animdata_lock.clear(std::memory_order_release);
+                    if (listAnimData.size() > 0)
+                    {
+                        bool same = false;
+
+                        for (auto& animData : listAnimData)
+                        {
+                            if (animData->filename == animFile)
+                            {
+                                same = true;
+                                break;
+                            }
+                        }
+
+                        if (!same) { clipPtrAnimData[file][clipName].push_back(animDataPtr); }
+                    }
+                    else
+                    {
+                        clipPtrAnimData[file][clipName].push_back(animDataPtr);
+                    }
+                }
             }
         }
         else

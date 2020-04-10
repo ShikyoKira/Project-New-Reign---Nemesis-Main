@@ -1,6 +1,5 @@
 #include "Global.h"
 
-#include <condition_variable>
 
 #include <boost/asio/post.hpp>
 #include <boost/asio/thread_pool.hpp>
@@ -10,6 +9,7 @@
 
 #include "ui/Terminator.h"
 
+#include "utilities/atomiclock.h"
 #include "utilities/readtextfile.h"
 #include "utilities/regex.h"
 #include "utilities/stringsplit.h"
@@ -1554,17 +1554,16 @@ void BehaviorSub::CompilingBehavior()
                             isAdded[animPath]                           = true;
                             registeredAnim[lowerBehaviorFile][animFile] = true;
 
-                            while (animdata_lock.test_and_set(std::memory_order_acquire))
-                                ;
-                            shared_ptr<AnimationDataTracker>& animData
-                                = charAnimDataInfo[lowerBehaviorFile][animFile];
+                            {
+                                Lockless lock(animdata_lock);
+                                shared_ptr<AnimationDataTracker>& animData
+                                    = charAnimDataInfo[lowerBehaviorFile][animFile];
 
-                            if (animData == nullptr)
-                                animData = make_shared<AnimationDataTracker>(counter, animFile);
-                            else
-                                animData->SetOrder(counter);
-
-                            animdata_lock.clear(std::memory_order_release);
+                                if (animData == nullptr)
+                                    animData = make_shared<AnimationDataTracker>(counter, animFile);
+                                else
+                                    animData->SetOrder(counter);
+                            }
                             (this->*tryAddAnim)();
                             ++counter;
 

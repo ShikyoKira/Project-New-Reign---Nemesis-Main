@@ -371,18 +371,6 @@ bool hasAlpha(string line)
 
 void addUsedAnim(string behaviorFile, string animPath)
 {
-    while (atomLock.test_and_set(std::memory_order_acquire))
-        ;
-
-    try
-    {
-        usedAnim[behaviorFile].insert(animPath);
-    }
-    catch (const std::exception& ex)
-    {
-        atomLock.clear(std::memory_order_release);
-        throw ex;
-    }
-
-    atomLock.clear(std::memory_order_release);
+    Lockless_s lock(atomLock);
+    usedAnim[behaviorFile].insert(animPath);
 }

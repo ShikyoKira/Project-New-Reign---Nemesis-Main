@@ -1,8 +1,7 @@
 #include "Global.h"
 
-#include <atomic>
-
 #include "debuglog.h"
+#include "utilities/atomiclock.h"
 
 using namespace std;
 
@@ -30,12 +29,10 @@ void DebugLogging(string line, bool noEndLine)
         }
     }
 
-    while (atomlock.test_and_set(std::memory_order_acquire))
-        ;
+    Lockless_s lock(atomlock);
     ofstream relog(filename, ios_base::app);
     relog << "[" + currentTime() + "] " + line + "\n";
     relog.close();
-    atomlock.clear(std::memory_order_release);
 }
 
 void UpdateReset()
