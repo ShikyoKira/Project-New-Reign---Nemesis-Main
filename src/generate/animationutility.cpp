@@ -1,4 +1,5 @@
 #include "Global.h"
+#include <utility>
 
 #include "debugmsg.h"
 
@@ -16,15 +17,15 @@ AnimationUtility::AnimationUtility(string condition,
                                    int newAnimMulti,
                                    string newMultiOption)
 {
-    originalCondition    = condition;
-    eventid              = neweventid;
-    variableid           = newvariableid;
-    fixedStateID         = newFixedStateID;
-    stateCountMultiplier = newStateCountMultiplier;
+    originalCondition    = std::move(condition);
+    eventid              = std::move(neweventid);
+    variableid           = std::move(newvariableid);
+    fixedStateID         = std::move(newFixedStateID);
+    stateCountMultiplier = std::move(newStateCountMultiplier);
     hasGroup             = newHasGroup;
     optionMulti          = newOptionMulti;
     animMulti            = newAnimMulti;
-    multiOption          = newMultiOption;
+    multiOption          = std::move(newMultiOption);
 }
 
 newStateID::newStateID()
@@ -53,7 +54,7 @@ unsigned int newStateID::size()
 }
 
 bool newStateID::stateUpdate(
-    int ID, string format, string behaviorFile, int linecount, string state, bool hasGroup)
+    int ID, string format, string behaviorFile, int linecount, const string& state, bool hasGroup)
 {
     if (ID >= int(lastState.size()))
     {
@@ -66,7 +67,7 @@ bool newStateID::stateUpdate(
         }
         else
         {
-            ErrorMessage(1168, format, behaviorFile, linecount, state);
+            ErrorMessage(1168, std::move(format), std::move(behaviorFile), linecount, state);
         }
     }
 

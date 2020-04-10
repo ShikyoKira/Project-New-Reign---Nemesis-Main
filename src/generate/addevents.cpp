@@ -6,9 +6,9 @@
 
 using namespace std;
 
-bool AddEvents(string curNum,
+bool AddEvents(const string& curNum,
                vector<string>& storeline,
-               string input,
+               const string& input,
                unordered_map<string, bool> orievent,
                unordered_map<string, bool>& isExist,
                int& counter,
@@ -34,9 +34,9 @@ bool AddEvents(string curNum,
     {
         if (!isExist[input] && !orievent[input])
         {
-            storeline.push_back("				<hkobject>");
-            storeline.push_back("					<hkparam name=\"flags\">0</hkparam>");
-            storeline.push_back("				</hkobject>");
+            storeline.emplace_back("				<hkobject>");
+            storeline.emplace_back("					<hkparam name=\"flags\">0</hkparam>");
+            storeline.emplace_back("				</hkobject>");
             isExist[input] = true;
             ++counter;
         }

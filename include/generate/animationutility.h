@@ -24,7 +24,7 @@ struct AnimationUtility
     int groupMulti  = -1;
     std::string multiOption;
     std::string originalCondition;
-    JointTemplate* currentProcess;
+    JointTemplate* currentProcess{};
     std::shared_ptr<NodePackedParameters> nodeProcess;
     bool isExisting = false;
 
@@ -55,7 +55,7 @@ public:
                      std::string format,
                      std::string behaviorFile,
                      int linecount,
-                     std::string state,
+                     const std::string& state,
                      bool hasGroup = false);
 };
 

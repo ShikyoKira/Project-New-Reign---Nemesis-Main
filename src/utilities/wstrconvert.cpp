@@ -1,7 +1,13 @@
-#include "Global.h"
+#include "utilities/wstrconvert.h"
 
-#if __cplusplus > 201402L
-#include "wstrconvert.h"
+std::string WStringToString(const std::wstring& str)
+{
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+    return myconv.to_bytes(str);
+}
 
-std::wstring_convert<deletable_facet<std::codecvt<wchar_t, char, std::mbstate_t>>> wstrConv;
-#endif
+std::wstring StringToWString(const std::string& str)
+{
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+    return myconv.from_bytes(str);
+}

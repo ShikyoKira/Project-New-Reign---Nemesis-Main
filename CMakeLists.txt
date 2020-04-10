@@ -239,6 +239,9 @@ add_executable(${PROJECT_NAME} WIN32 ${ALL_FILES})
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}")
 
+#Windows API
+target_include_directories(${PROJECT_NAME} PUBLIC $ENV{UniversalCRTSdkDir}/Include/ucrt)
+
 ################################################################################
 # Compile definitions
 ################################################################################
@@ -248,6 +251,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "WIN32;"
     "WIN64"
     "_WIN32_WINNT=0x0601"
+    "_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING" #There are no alternatives
     )
 
 ################################################################################
@@ -268,10 +272,9 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 #C++17
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
-#Strictly follow the standard
-target_compile_options(${PROJECT_NAME} PRIVATE "/permissive-")
-
-if(MSVC)
+if(MSVC)    
+    #Strictly follow the standard
+    target_compile_options(${PROJECT_NAME} PRIVATE "/permissive-")
     #Required
     target_compile_options(${PROJECT_NAME} PRIVATE "/bigobj")
 endif()

@@ -1,4 +1,5 @@
 #include "Global.h"
+#include <utility>
 
 #include "generate/animation/animationinfo.h"
 #include "generate/animation/import.h"
@@ -108,7 +109,7 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                         }
                         else if (templine.find("\t\t\t#") != NOT_FOUND)
                         {
-                            templine          = templine.substr(0, templine.find("#", 0));
+                            templine          = templine.substr(0, templine.find('#', 0));
                             __int64 reference = count(templine.begin(), templine.end(), '\t');
 
                             if (reference == openRange + 1)
@@ -203,22 +204,20 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                             if (bracketCount != altBracketCount)
                             { ErrorMessage(1139, "import", it->first, j + 1, importer); }
 
-                            size_t pos  = importer.find("[") + 1;
-                            string file = importer.substr(pos, importer.find("]", pos) - pos);
+                            size_t pos  = importer.find('[') + 1;
+                            string file = importer.substr(pos, importer.find(']', pos) - pos);
                             string keyword;
                             string tempID;
 
                             if (bracketCount > 1)
                             {
-                                pos = importer.find("[", pos);
+                                pos = importer.find('[', pos);
                                 string tempKeyword
-                                    = importer.substr(pos, importer.find_last_of("]") + 1 - pos);
+                                    = importer.substr(pos, importer.find_last_of(']') + 1 - pos);
                                 int openBrack = 0;
 
-                                for (unsigned int j = 0; j < tempKeyword.length(); ++j)
+                                for (char curChar : tempKeyword)
                                 {
-                                    char curChar = tempKeyword[j];
-
                                     if (curChar == '[') { ++openBrack; }
                                     else if (curChar == ']')
                                     {
@@ -246,11 +245,11 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                                 keyword = "";
                             }
 
-                            for (unsigned int i = 0; i < ExportID.size(); ++i)
+                            for (auto& val : ExportID)
                             {
-                                if (ExportID[i][file][keyword].length() > 0)
+                                if (val[file][keyword].length() > 0)
                                 {
-                                    tempID = ExportID[i][file][keyword];
+                                    tempID = val[file][keyword];
                                     break;
                                 }
                             }
@@ -328,16 +327,16 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                     behaviorlines.push_back(line);
                 }
 
-                if (behaviorlines.size() != 0 && behaviorlines.back().length() != 0)
+                if (!behaviorlines.empty() && behaviorlines.back().length() != 0)
                 { behaviorlines.push_back(""); }
             }
         }
     }
 
-    if (newExportID.size() != 0)
+    if (!newExportID.empty())
     {
         ExportID.push_back(newExportID);
-        vecstr additionlines = importOutput(ExportID, int(ExportID.size() - 1), lastID, file);
+        vecstr additionlines = importOutput(ExportID, int(ExportID.size() - 1), lastID, std::move(file));
         behaviorlines.reserve(behaviorlines.size() + additionlines.size());
         behaviorlines.insert(behaviorlines.end(), additionlines.begin(), additionlines.end());
     }

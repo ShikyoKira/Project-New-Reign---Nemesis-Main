@@ -1,9 +1,9 @@
 #ifndef ADDVARIABLES_H_
 #define ADDVARIABLES_H_
 
-bool AddVariables(std::string curNum,
+bool AddVariables(const std::string& curNum,
                   vecstr& storeline,
-                  std::string variablename,
+                  const std::string& variablename,
                   std::unordered_map<std::string, bool> orivariable,
                   std::unordered_map<std::string, bool>& isExist,
                   int& counter,

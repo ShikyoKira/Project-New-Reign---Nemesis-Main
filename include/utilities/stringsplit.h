@@ -3,7 +3,7 @@
 
 typedef std::vector<std::string> vecstr;
 
-void StringSplit(std::string line, vecstr& container);
-void StringSplit(std::string line, vecstr& container, std::string anyChar);
+void StringSplit(const std::string& line, vecstr& container);
+void StringSplit(const std::string& line, vecstr& container, const std::string& anyChar);
 
 #endif

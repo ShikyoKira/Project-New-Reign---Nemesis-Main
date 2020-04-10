@@ -12,13 +12,13 @@ vecstr warningMsges;
 void behaviorCheck()
 {
     // test if anim file used has been registered
-    for (auto it = usedAnim.begin(); it != usedAnim.end(); ++it)
+    for (auto& it : usedAnim)
     {
-        vecstr forwardPort = behaviorJoints[it->first];
+        vecstr forwardPort = behaviorJoints[it.first];
 
         for (auto& behavior : forwardPort)
         {
-            for (auto& path : it->second)
+            for (auto& path : it.second)
             {
                 string filename = GetFileName(path);
 

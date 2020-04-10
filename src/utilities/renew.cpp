@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void tryDelete(string file, bool xml, int repeated = 0)
+void tryDelete(const string& file, bool xml, int repeated = 0)
 {
     if (repeated > 100)
     {
@@ -26,7 +26,7 @@ void tryDelete(string file, bool xml, int repeated = 0)
     }
 }
 
-bool DeleteFileFolder(string directory, string file, bool xml)
+bool DeleteFileFolder(const string& directory, const string& file, bool xml)
 {
     if (std::filesystem::is_directory(directory + file))
     {

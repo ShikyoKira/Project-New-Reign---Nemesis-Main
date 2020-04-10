@@ -44,16 +44,6 @@ unordered_map<string, vecstr> alternateAnim;
 unordered_map<string, unordered_map<string, int>> AAGroupCount;
 set<string> groupNameList;
 
-wstring StringToWString(string line)
-{
-    return QString::fromStdString(line).toStdWString();
-}
-
-string WStringToString(wstring line)
-{
-    return QString::fromStdWString(line).toStdString();
-}
-
 void read_directory(const string& name, vecstr& fv)
 {
     fv.clear();

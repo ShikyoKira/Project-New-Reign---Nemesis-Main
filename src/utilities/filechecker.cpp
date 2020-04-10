@@ -79,7 +79,7 @@ void behaviorActivateMod(vecstr behaviorPriority)
     vecstr modlist;
     unsigned int i = 1;
 
-    for (vecstr::reverse_iterator itr = behaviorPriority.rbegin(); itr != behaviorPriority.rend(); ++itr)
+    for (auto itr = behaviorPriority.rbegin(); itr != behaviorPriority.rend(); ++itr)
     {
         string modcode = *itr;
         string newpath = directory + modcode;
@@ -114,5 +114,5 @@ void behaviorActivateMod(vecstr behaviorPriority)
         }
     }
 
-    if (behaviorPriority.size() > 0) interMsg("");
+    if (!behaviorPriority.empty()) interMsg("");
 }
