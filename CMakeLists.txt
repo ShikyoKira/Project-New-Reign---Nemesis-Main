@@ -214,6 +214,11 @@ set(Source_Files__utilities
     )
 source_group("Source Files\\utilities" FILES ${Source_Files__utilities})
 
+set(Resources_Files
+    "resources/Nemesis Engine.rc"
+    "resources/NemesisEngine.qrc"
+    )
+
 set(ALL_FILES
     ${Header_Files}
     ${Header_Files__generate}
@@ -227,6 +232,7 @@ set(ALL_FILES
     ${Source_Files__ui}
     ${Source_Files__update}
     ${Source_Files__utilities}
+    ${Resources_Files}
     )
 
 ################################################################################
