@@ -22,6 +22,7 @@ failed.txt
 /test environment/temp_behaviors/*.txt
 /test environment/temp_behaviors/_1stperson/*.txt
 /test environment/temp_behaviors/xml/*.xml
+test environment/nemesis.ini
 /GeneratedFiles
 *.bat
 
