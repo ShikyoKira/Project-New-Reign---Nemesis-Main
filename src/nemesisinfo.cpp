@@ -2,14 +2,13 @@
 
 #include <Windows.h>
 
-#include <boost/regex.hpp>
-
 #include <QtCore/QFile.h>
 #include <QtCore/QTextStream.h>
 
 #include "debuglog.h"
 #include "nemesisinfo.h"
 
+#include "utilities/regex.h"
 #include "utilities/writetextfile.h"
 
 using namespace std;
@@ -74,10 +73,10 @@ void NemesisInfo::setup()
             {
                 for (auto& line : storeline)
                 {
-                    string path = boost::regex_replace(
-                        string(line), boost::regex(".*[\\s]*=[\\s]*(.*)"), string("\\1"));
-                    string input = nemesis::to_lower_copy(boost::regex_replace(
-                        string(line), boost::regex("(.*)[\\s]*=[\\s]*.*"), string("\\1")));
+                    string path = nemesis::regex_replace(
+                        string(line), nemesis::regex(".*[\\s]*=[\\s]*(.*)"), string("\\1"));
+                    string input = nemesis::to_lower_copy(nemesis::regex_replace(
+                        string(line), nemesis::regex("(.*)[\\s]*=[\\s]*.*"), string("\\1")));
 
                     if (!nemesis::iequals(path, "auto"))
                     {

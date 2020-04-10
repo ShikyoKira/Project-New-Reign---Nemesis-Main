@@ -1,9 +1,10 @@
 #include "Global.h"
 
-#include <boost/regex.hpp>
 #include <utility>
 
 #include "generate/animation/paired.h"
+
+#include "utilities/regex.h"
 
 using namespace std;
 
@@ -191,7 +192,7 @@ Paired::Paired(const string& line,
             }
             else
             {
-                pairedlines[384].replace(pairedlines[384].find("!nT2$1!"), 7, "1");
+                pairedlines[384].replace(pairedlines[384].find("!nT2$!"), 7, "1");
             }
 
             if (templine.find('T', 0) != string::npos)
@@ -297,7 +298,7 @@ Paired::Paired(const string& line,
             {
                 string temp = templine.substr(templine.find('B'));
                 int tempint = stoi(
-                    boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                    nemesis::regex_replace(string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
             }
 
             if (templine.find("bsa ", 0) != string::npos || templine.find("bsa,", 0) != string::npos) {}
@@ -329,7 +330,7 @@ Paired::Paired(const string& line,
 
                     if (AObject[2].length() > 0)
                     {
-                        pairedlines[320].replace(pairedlines[320].find("!HO!"), 4, "#MID$18");
+                        pairedlines[320].replace(pairedlines[320].find("!HO!"), 4, "#MID$8");
                         pairedlines[321].replace(pairedlines[321].find("!HO!"), 4, import["AOoff"]);
                         pairedlines[331].replace(pairedlines[331].find("!AO1*2$H!"), 9, "2");
                     }
@@ -366,7 +367,7 @@ Paired::Paired(const string& line,
 
                     if (AObject[2].length() > 0)
                     {
-                        pairedlines[320].replace(pairedlines[320].find("!HO!"), 4, "#MID$18");
+                        pairedlines[320].replace(pairedlines[320].find("!HO!"), 4, "#MID$8");
                         pairedlines[321].replace(pairedlines[321].find("!HO!"), 4, import["HTon,AOoff"]);
                         pairedlines[331].replace(pairedlines[331].find("!AO1*2$H!"), 9, "3");
                     }
@@ -629,11 +630,11 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                 {
                     for (auto triggerline : recordTrigger)
                     {
-                        if (triggerline.find("!tT$1!", 0) != string::npos)
-                        { triggerline.replace(triggerline.find("!tT$1!"), 6, val.second); }
-                        else if (triggerline.find("!T$1!", 0) != string::npos)
+                        if (triggerline.find("!tT$!", 0) != string::npos)
+                        { triggerline.replace(triggerline.find("!tT$!"), 6, val.second); }
+                        else if (triggerline.find("!T$!", 0) != string::npos)
                         {
-                            triggerline.replace(triggerline.find("!T$1!"), 5, to_string(eventid[val.first]));
+                            triggerline.replace(triggerline.find("!T$!"), 5, to_string(eventid[val.first]));
                         }
                         generatedlines.push_back(triggerline);
                     }

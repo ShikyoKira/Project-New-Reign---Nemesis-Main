@@ -90,8 +90,8 @@ GetStateID(map<int, int> mainJoint, map<int, VecStr> functionlist, unordered_map
 
                                     if (line.find("<hkparam name=\"stateId\">", 0) != NOT_FOUND)
                                     {
-                                        int tempStateID = stoi(boost::regex_replace(
-                                            string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                        int tempStateID = stoi(nemesis::regex_replace(
+                                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
                                         if (tempStateID >= curState) curState = tempStateID + 1;
 
@@ -130,13 +130,13 @@ bool GetStateCount(vector<int>& count, VecStr templatelines, string format, stri
 
         if (pos != NOT_FOUND && line.find(")$</hkparam>", pos) != NOT_FOUND)
         {
-            string ID = boost::regex_replace(
+            string ID = nemesis::regex_replace(
                 string(line),
-                boost::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
+                nemesis::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
                 string("\\1"));
-            string number = boost::regex_replace(
+            string number = nemesis::regex_replace(
                 string(line),
-                boost::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
+                nemesis::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
                 string("\\2"));
 
             if (ID != line && number != line)
@@ -204,10 +204,10 @@ behaviorLineChooser(string originalline, unordered_map<string, string> chosenLin
         {
             if (chosen == -1) chosen = i;
 
-            string line = boost::regex_replace(
-                string(chosenLines[behaviorPriority[i]]), boost::regex("[\t]+([^\t]+).*"), string("\\1"));
+            string line = nemesis::regex_replace(
+                string(chosenLines[behaviorPriority[i]]), nemesis::regex("[\t]+([^\t]+).*"), string("\\1"));
             string line2
-                = boost::regex_replace(string(line), boost::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
+                = nemesis::regex_replace(string(line), nemesis::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
 
             if (line2 != line && line.find("<!-- ") == 0)
             {
@@ -215,8 +215,8 @@ behaviorLineChooser(string originalline, unordered_map<string, string> chosenLin
 
                 if (out.find("<!-- ") != NOT_FOUND)
                 {
-                    out = boost::regex_replace(string(chosenLines[behaviorPriority[i]]),
-                                               boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
+                    out = nemesis::regex_replace(string(chosenLines[behaviorPriority[i]]),
+                                               nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
                                                string("\\1"));
                     out = chosenLines[behaviorPriority[i]].substr(0,
                                                                   chosenLines[behaviorPriority[i]].find(out));
@@ -233,8 +233,8 @@ behaviorLineChooser(string originalline, unordered_map<string, string> chosenLin
 
         if (out.find("<!-- ") != NOT_FOUND)
         {
-            out = boost::regex_replace(string(chosenLines[behaviorPriority[chosen]]),
-                                       boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
+            out = nemesis::regex_replace(string(chosenLines[behaviorPriority[chosen]]),
+                                       nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
                                        string("\\1"));
             out = chosenLines[behaviorPriority[chosen]].substr(
                 0, chosenLines[behaviorPriority[chosen]].find(out));
@@ -247,8 +247,8 @@ behaviorLineChooser(string originalline, unordered_map<string, string> chosenLin
 
     if (out.find("<!-- ") != NOT_FOUND)
     {
-        out = boost::regex_replace(
-            string(originalline), boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+        out = nemesis::regex_replace(
+            string(originalline), nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
         out = originalline.substr(0, originalline.find(out));
     }
 
@@ -701,8 +701,8 @@ int getTemplateNextID(VecStr& templatelines)
     {
         if (line.find("<hkobject name=\"#MID$") != NOT_FOUND)
         {
-            string number = boost::regex_replace(
-                string(line), boost::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
+            string number = nemesis::regex_replace(
+                string(line), nemesis::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
 
             if (number != line && isOnlyNumber(number))
             {

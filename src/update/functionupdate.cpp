@@ -86,8 +86,8 @@ bool NodeU::NodeUpdate(string modcode,
 {
     if (behaviorPath[behaviorfile].empty()) ErrorMessage(2006, behaviorfile);
 
-    string filecheck = boost::regex_replace(
-                           string(nodefile), boost::regex(".+?([0-9]+)\\.[t|T][x|X][t|T]$"), string("\\1"))
+    string filecheck = nemesis::regex_replace(
+                           string(nodefile), nemesis::regex(".+?([0-9]+)\\.[t|T][x|X][t|T]$"), string("\\1"))
                        + ".txt";
     string nodeID   = nodefile.substr(0, nodefile.find_last_of("."));
     string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
@@ -163,9 +163,9 @@ bool NodeU::NodeUpdate(string modcode,
                 }
                 else if (!originalopen && line.find("<hkparam name=\"stateId\">") != NOT_FOUND)
                 {
-                    string stateIDStr = boost::regex_replace(
+                    string stateIDStr = nemesis::regex_replace(
                         string(line),
-                        boost::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
+                        nemesis::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
                         string("\\1"));
 
                     if (stateIDStr != line)
@@ -227,31 +227,31 @@ bool NodeU::NodeUpdate(string modcode,
                         if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != NOT_FOUND
                             || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != NOT_FOUND)
                         {
-                            eventcount = stoi(boost::regex_replace(
-                                string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                            eventcount = stoi(nemesis::regex_replace(
+                                string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
                         }
                         else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND
                                  || line.find("<hkparam name=\"attributeDefaults\" numelements=", 0)
                                         != NOT_FOUND)
                         {
-                            attributecount = stoi(boost::regex_replace(
-                                string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                            attributecount = stoi(nemesis::regex_replace(
+                                string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
                         }
                         else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND
                                  || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0)
                                         != NOT_FOUND
                                  || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
                         {
-                            variablecount = stoi(boost::regex_replace(
-                                string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                            variablecount = stoi(nemesis::regex_replace(
+                                string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
                         }
                         else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0)
                                      != NOT_FOUND
                                  || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0)
                                         != NOT_FOUND)
                         {
-                            characterpropertycount = stoi(boost::regex_replace(
-                                string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                            characterpropertycount = stoi(nemesis::regex_replace(
+                                string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
                         }
                     }
 
@@ -321,8 +321,8 @@ bool NodeU::NodeUpdate(string modcode,
                         {
                             int tempint
                                 = eventcount
-                                  - stoi(boost::regex_replace(
-                                      string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                  - stoi(nemesis::regex_replace(
+                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
                             if (line.find("<!-- EVENT numelement ", 0) != NOT_FOUND)
                             {
@@ -340,8 +340,8 @@ bool NodeU::NodeUpdate(string modcode,
                         {
                             int tempint
                                 = attributecount
-                                  - stoi(boost::regex_replace(
-                                      string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                  - stoi(nemesis::regex_replace(
+                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
                             if (line.find("<!-- ATTRIBUTE numelement ", 0) != NOT_FOUND)
                             {
@@ -363,8 +363,8 @@ bool NodeU::NodeUpdate(string modcode,
                         {
                             int tempint
                                 = variablecount
-                                  - stoi(boost::regex_replace(
-                                      string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                  - stoi(nemesis::regex_replace(
+                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
                             if (line.find("<!-- VARIABLE numelement ", 0) != NOT_FOUND)
                             {
@@ -385,8 +385,8 @@ bool NodeU::NodeUpdate(string modcode,
                         {
                             int tempint
                                 = characterpropertycount
-                                  - stoi(boost::regex_replace(
-                                      string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                  - stoi(nemesis::regex_replace(
+                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
                             if (line.find("<!-- CHARACTER numelement ", 0) != NOT_FOUND)
                             {
@@ -413,10 +413,10 @@ bool NodeU::NodeUpdate(string modcode,
                             }
 
                             int difference
-                                = stoi(boost::regex_replace(
-                                      string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")))
-                                  - stoi(boost::regex_replace(
-                                      string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                = stoi(nemesis::regex_replace(
+                                      string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")))
+                                  - stoi(nemesis::regex_replace(
+                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
                             if (line.find("<!-- numelement *", 0) != NOT_FOUND)
                                 line.append(" <!-- numelement *" + modcode + "* +" + to_string(difference)
@@ -523,8 +523,8 @@ bool NodeU::NodeUpdate(string modcode,
             if (line.find("<hkparam name=\"stateId\">") != NOT_FOUND)
             {
                 string stateIDStr
-                    = boost::regex_replace(string(line),
-                                           boost::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
+                    = nemesis::regex_replace(string(line),
+                                           nemesis::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
                                            string("\\1"));
 
                 if (stateIDStr != line)
@@ -629,7 +629,7 @@ bool AnimDataUpdate(string modcode,
         else if (filename.find("~") != NOT_FOUND) // anim data
         {
             string tempname
-                = boost::regex_replace(string(filename), boost::regex("[^~]*~([0-9]+)"), string("\\1"));
+                = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("\\1"));
 
             if (tempname == filename) ErrorMessage(2004, filepath);
 
@@ -745,8 +745,8 @@ bool AnimDataUpdate(string modcode,
         }
         else if (filename.find(modcode + "$") != NOT_FOUND)
         {
-            string tempID = boost::regex_replace(
-                string(filename), boost::regex("[^~]*~" + modcode + "[$]([0-9]+)"), string("\\1"));
+            string tempID = nemesis::regex_replace(
+                string(filename), nemesis::regex("[^~]*~" + modcode + "[$]([0-9]+)"), string("\\1"));
 
             if (filename != tempID && isOnlyNumber(tempID)) // anim data
             {
@@ -764,8 +764,8 @@ bool AnimDataUpdate(string modcode,
             }
             else
             {
-                tempID = boost::regex_replace(
-                    string(filename), boost::regex(modcode + "[$]([0-9]+)"), string("\\1"));
+                tempID = nemesis::regex_replace(
+                    string(filename), nemesis::regex(modcode + "[$]([0-9]+)"), string("\\1"));
 
                 if (filename != tempID && isOnlyNumber(tempID)) // info data
                 {
@@ -791,7 +791,7 @@ bool AnimDataUpdate(string modcode,
         else
         {
             string check
-                = boost::regex_replace(string(filename), boost::regex("[^~]*~([0-9]+)"), string("\\1"));
+                = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("\\1"));
 
             if (animData.newAnimData[characterfile].find(check) == animData.newAnimData[characterfile].end())
                 ErrorMessage(2004, filepath);

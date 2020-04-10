@@ -1,7 +1,6 @@
 #ifndef GENERATOR_UTILITY_H_
 #define GENERATOR_UTILITY_H_
 
-#include <boost/regex.hpp>
 
 #include "nemesisinfo.h"
 
@@ -9,6 +8,8 @@
 
 #include "generate/animation/newanimation.h"
 #include "generate/animation/registeranimation.h"
+
+#include "utilities/regex.h"
 
 typedef std::vector<std::string> VecStr;
 

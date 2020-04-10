@@ -288,8 +288,8 @@ void BehaviorSub::CompilingAnimData()
                                     else // new anim header added by mod
                                     {
                                         string number
-                                            = boost::regex_replace(string(catalyst[l + 1]),
-                                                                   boost::regex("[a-zA-Z]+[$]([0-9]+)"),
+                                            = nemesis::regex_replace(string(catalyst[l + 1]),
+                                                                   nemesis::regex("[a-zA-Z]+[$]([0-9]+)"),
                                                                    string("\\1"));
 
                                         if (number != catalyst[l + 1] && isOnlyNumber(number))
@@ -315,8 +315,8 @@ void BehaviorSub::CompilingAnimData()
                                     ;
                                     newline.reserve(20);
                                     newline.clear();
-                                    string number = boost::regex_replace(string(catalyst[++l]),
-                                                                         boost::regex("[a-zA-Z]+[$]([0-9]+)"),
+                                    string number = nemesis::regex_replace(string(catalyst[++l]),
+                                                                         nemesis::regex("[a-zA-Z]+[$]([0-9]+)"),
                                                                          string("\\1"));
 
                                     if (number != catalyst[l] && isOnlyNumber(number))
@@ -350,8 +350,8 @@ void BehaviorSub::CompilingAnimData()
                             }
                             else // new info added by mod
                             {
-                                string number = boost::regex_replace(
-                                    string(line), boost::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
+                                string number = nemesis::regex_replace(
+                                    string(line), nemesis::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
 
                                 if (number != line && isOnlyNumber(number))
                                 {
@@ -391,8 +391,8 @@ void BehaviorSub::CompilingAnimData()
                             }
                             else
                             {
-                                string number = boost::regex_replace(string(catalyst[l + 1]),
-                                                                     boost::regex("[a-zA-Z]+[$]([0-9]+)"),
+                                string number = nemesis::regex_replace(string(catalyst[l + 1]),
+                                                                     nemesis::regex("[a-zA-Z]+[$]([0-9]+)"),
                                                                      string("\\1"));
 
                                 if (number != catalyst[l + 1] && isOnlyNumber(number))

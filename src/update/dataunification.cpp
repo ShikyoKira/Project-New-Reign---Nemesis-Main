@@ -314,7 +314,7 @@ bool newAnimDataUpdateExt(string folderpath,
 
         bool isinfo = false;
         string tempname
-            = boost::regex_replace(string(filename), boost::regex("[^~]*~([0-9]+)"), string("\\1"));
+            = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("\\1"));
 
         if (tempname == filename)
         {
@@ -335,7 +335,7 @@ bool newAnimDataUpdateExt(string folderpath,
         {
             //check if project/characterfile has "~<num>" or not
             string tempproject
-                = boost::regex_replace(string(characterfile), boost::regex("~([0-9]+)"), string("\\1"));
+                = nemesis::regex_replace(string(characterfile), nemesis::regex("~([0-9]+)"), string("\\1"));
             project = (tempproject == characterfile || !isOnlyNumber(tempproject))
                           ? project + ".txt~1"
                           : characterfile.replace(characterfile.find_last_of("~"), 0, ".txt");

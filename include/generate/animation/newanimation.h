@@ -9,11 +9,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include <boost/regex.hpp>
-
 #include "generate/AnimationUtility.h"
 
 #include "utilities/alphanum.hpp"
+#include "utilities/regex.h"
 
 #include "generate/animation/animationthread.h"
 #include "generate/animation/registeranimation.h"

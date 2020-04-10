@@ -3,9 +3,7 @@
 
 #include <iostream>
 
-#include <boost/regex.hpp>
-#include <boost/thread.hpp>
-
+#include "utilities/regex.h"
 #include "utilities/writetextfile.h"
 
 #include "update/functionupdate.h"

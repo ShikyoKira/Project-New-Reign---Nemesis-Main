@@ -2,11 +2,11 @@
 
 #include <unordered_set>
 
-#include <boost/regex.hpp>
 
 #include "debugmsg.h"
 
 #include "utilities/readtextfile.h"
+#include "utilities/regex.h"
 #include "utilities/stringsplit.h"
 
 #include "generate/animation/optionlist.h"
@@ -135,8 +135,8 @@ OptionList::OptionList(string filepath, string format)
                     if (!stateDone)
                     {
                         string startState         = AnimInfo[1];
-                        string filteredStartState = boost::regex_replace(
-                            string(startState), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        string filteredStartState = nemesis::regex_replace(
+                            string(startState), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                         if (startState == filteredStartState)
                             startStateID = filteredStartState;
@@ -156,8 +156,8 @@ OptionList::OptionList(string filepath, string format)
 
                     if (!minDone)
                     {
-                        string number = boost::regex_replace(
-                            string(AnimInfo[1]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        string number = nemesis::regex_replace(
+                            string(AnimInfo[1]), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                         if (strline.find(AnimInfo[0] + " " + number) != NOT_FOUND)
                         {
@@ -564,8 +564,8 @@ OptionList::OptionList(string filepath, string format)
                 }
                 else
                 {
-                    string ID = boost::regex_replace(
-                        string(lower), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string ID = nemesis::regex_replace(
+                        string(lower), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                     if (AnimInfo[0] == "S" + ID)
                     {
@@ -576,8 +576,8 @@ OptionList::OptionList(string filepath, string format)
                         else if (AnimInfo.size() > 3)
                             ErrorMessage(1070, format, filepath, linecount);
 
-                        string functionID = boost::regex_replace(
-                            string(AnimInfo[2]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        string functionID = nemesis::regex_replace(
+                            string(AnimInfo[2]), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                         if (AnimInfo[2] != "#" + functionID) ErrorMessage(1071, format, filepath, linecount);
 
@@ -589,8 +589,8 @@ OptionList::OptionList(string filepath, string format)
                     }
                     else
                     {
-                        size_t lineplus = boost::regex_replace(string(strline),
-                                                               boost::regex("[<\\s]*([^<\\s]+).*"),
+                        size_t lineplus = nemesis::regex_replace(string(strline),
+                                                               nemesis::regex("[<\\s]*([^<\\s]+).*"),
                                                                string("\\1"))
                                               .length();
 
@@ -632,8 +632,8 @@ OptionList::OptionList(string filepath, string format)
                                     string addition
                                         = strline.substr(nextpos, strline.find(">", nextpos) - nextpos);
                                     string tempAddOn
-                                        = boost::regex_replace(string(addition),
-                                                               boost::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
+                                        = nemesis::regex_replace(string(addition),
+                                                               nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
                                                                string("\\1"));
 
                                     if (tempAddOn != addition)

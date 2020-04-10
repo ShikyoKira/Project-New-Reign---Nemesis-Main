@@ -3,14 +3,15 @@
 
 #include <algorithm>
 #include <iostream>
+#include <set>
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-#include <boost/regex.hpp>
-
 #include "generate/animation/newanimation.h"
+
+#include "utilities/regex.h"
 
 typedef std::set<std::string> SetStr;
 typedef std::vector<std::string> VecStr;

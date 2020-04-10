@@ -403,8 +403,8 @@ int NewAnimation::getNextID(string behavior)
     {
         if (line.find("<hkobject name=\"#MID$") != NOT_FOUND)
         {
-            string number = boost::regex_replace(
-                string(line), boost::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
+            string number = nemesis::regex_replace(
+                string(line), nemesis::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
 
             if (number != line && isOnlyNumber(number))
             {
@@ -877,13 +877,13 @@ void NewAnimation::processing(string& line,
 
                         if (equation.find("(S", 0) != NOT_FOUND)
                         {
-                            ID = boost::regex_replace(
-                                string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            ID = nemesis::regex_replace(
+                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                             if (change.find("(S" + ID + "+") == NOT_FOUND) ID = "";
 
-                            number = boost::regex_replace(string(equation.substr(3 + ID.length())),
-                                                          boost::regex("[^0-9]*([0-9]+).*"),
+                            number = nemesis::regex_replace(string(equation.substr(3 + ID.length())),
+                                                          nemesis::regex("[^0-9]*([0-9]+).*"),
                                                           string("\\1"));
                         }
 
@@ -1025,9 +1025,9 @@ void NewAnimation::processing(string& line,
 
                 if (change.find(format + "[") != NOT_FOUND)
                 {
-                    string number = boost::regex_replace(
+                    string number = nemesis::regex_replace(
                         string(change.substr(change.find(format + "[") + 1 + format.length())),
-                        boost::regex("[^0-9]*([0-9]+).*"),
+                        nemesis::regex("[^0-9]*([0-9]+).*"),
                         string("\\1"));
 
                     if (change.find(format + "[" + number + "][END]", 0) != NOT_FOUND && isOnlyNumber(number))
@@ -1073,8 +1073,8 @@ void NewAnimation::processing(string& line,
             if (change.find("(S", 0) != NOT_FOUND)
             {
                 string templine = change.substr(change.find("(S"));
-                string ID       = boost::regex_replace(
-                    string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                string ID       = nemesis::regex_replace(
+                    string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                 int intID;
 
                 if (change.find("(S" + ID + "+") == NOT_FOUND)
@@ -1160,18 +1160,18 @@ void NewAnimation::processing(string& line,
 
                 if (change.find(format + "[") != NOT_FOUND)
                 {
-                    string number = boost::regex_replace(
+                    string number = nemesis::regex_replace(
                         string(change.substr(change.find(format + "[") + 1 + format.length())),
-                        boost::regex("[^0-9]*([0-9]+).*"),
+                        nemesis::regex("[^0-9]*([0-9]+).*"),
                         string("\\1"));
 
                     if (change.find(format + "[" + number + "][(S" + ID + "+") != NOT_FOUND
                         && isOnlyNumber(number))
                     {
-                        string number2 = boost::regex_replace(
+                        string number2 = nemesis::regex_replace(
                             string(change.substr(change.find(format + "[" + number + "][(S" + ID + "+")
                                                  + format.length() + number.length() + ID.length() + 6)),
-                            boost::regex("[^0-9]*([0-9]+).*"),
+                            nemesis::regex("[^0-9]*([0-9]+).*"),
                             string("\\1"));
 
                         if (change.find(format + "[" + number + "][(S" + ID + "+" + number2 + ")]")
@@ -1191,9 +1191,9 @@ void NewAnimation::processing(string& line,
 
                 if (change.find("(S" + ID + "+", 0) != NOT_FOUND)
                 {
-                    string number = boost::regex_replace(
+                    string number = nemesis::regex_replace(
                         string(change.substr(change.find("(S" + ID + "+") + 3 + ID.length())),
-                        boost::regex("[^0-9]*([0-9]+).*"),
+                        nemesis::regex("[^0-9]*([0-9]+).*"),
                         string("\\1"));
 
                     if (change.find("(S" + ID + "+" + number + ")", 0) != NOT_FOUND && isOnlyNumber(number))
@@ -1253,8 +1253,8 @@ void NewAnimation::processing(string& line,
 
                 if (change.find(format + "[", 0) != NOT_FOUND)
                 {
-                    string number = boost::regex_replace(
-                        string(change), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string number = nemesis::regex_replace(
+                        string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                     if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND
                         && isOnlyNumber(number))
@@ -1332,8 +1332,8 @@ void NewAnimation::processing(string& line,
 
                 if (change.find(format + "[", 0) != NOT_FOUND)
                 {
-                    string number = boost::regex_replace(
-                        string(change), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string number = nemesis::regex_replace(
+                        string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                     if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND
                         && isOnlyNumber(number))
@@ -1405,8 +1405,8 @@ void NewAnimation::processing(string& line,
 
                 if (change.find(format + "[", 0) != NOT_FOUND)
                 {
-                    string number = boost::regex_replace(
-                        string(change), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string number = nemesis::regex_replace(
+                        string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                     if (change.find(format + "[" + number + "][Path]", 0) != NOT_FOUND
                         && isOnlyNumber(number))
@@ -1568,9 +1568,9 @@ void NewAnimation::processing(string& line,
                     isChange = true;
                 }
 
-                string test = boost::regex_replace(
+                string test = nemesis::regex_replace(
                     string(change),
-                    boost::regex(".*" + format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
+                    nemesis::regex(".*" + format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
                     string("\\1"));
 
                 if (test != change)
@@ -1652,8 +1652,8 @@ void NewAnimation::processing(string& line,
 
                 if (fixedStateID.size() > 1)
                 {
-                    number = boost::regex_replace(string(change.substr(change.find("LastState"))),
-                                                  boost::regex("[^0-9]*([0-9]+).*"),
+                    number = nemesis::regex_replace(string(change.substr(change.find("LastState"))),
+                                                  nemesis::regex("[^0-9]*([0-9]+).*"),
                                                   string("\\1"));
 
                     if (change.find("LastState" + number, 0) != NOT_FOUND && isOnlyNumber(number))
@@ -1937,7 +1937,7 @@ void animObjectReplacer(string& line,
             size_t nextpos = line.find(format + "[" + animNum + "][@AnimObject/");
             string object  = line.substr(nextpos);
             string number
-                = boost::regex_replace(string(object), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                = nemesis::regex_replace(string(object), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
             object = format + "[" + animNum + "][@AnimObject/" + number + "]";
 
             if (line.find(object) == NOT_FOUND || !isOnlyNumber(number))
@@ -1955,7 +1955,7 @@ void animObjectReplacer(string& line,
             size_t nextpos = line.find("@AnimObject/");
             string object  = line.substr(nextpos);
             string number
-                = boost::regex_replace(string(object), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                = nemesis::regex_replace(string(object), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
             object = "@AnimObject/" + number;
 
             if (line.find(object) == NOT_FOUND || !isOnlyNumber(number))
@@ -1971,9 +1971,9 @@ void NewAnimation::stateReplacer(
 {
     if (otherAnim)
     {
-        string number = boost::regex_replace(
+        string number = nemesis::regex_replace(
             string(line.substr(line.find("][(S" + statenum + "+") + 5 + statenum.length())),
-            boost::regex("[^0-9]*([0-9]+).*"),
+            nemesis::regex("[^0-9]*([0-9]+).*"),
             string("\\1"));
         string state = format + "[" + otherAnimOrder + "][(S" + statenum + "+" + number + ")]";
 
@@ -1992,8 +1992,8 @@ void NewAnimation::stateReplacer(
     else
     {
         string templine = line.substr(line.find("(S" + statenum + "+"));
-        string number   = boost::regex_replace(
-            string(templine.substr(statenum.length() + 3)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+        string number   = nemesis::regex_replace(
+            string(templine.substr(statenum.length() + 3)), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
         string state = "(S" + statenum + "+" + number + ")";
 
         if (!isOnlyNumber(number)) { ErrorMessage(1152, format, behaviorFile, linecount, state); }
@@ -2059,8 +2059,8 @@ void eventIDReplacer(
     {
         size_t nextpos       = line.find("eventID[");
         string fullEventName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 1);
-        string eventName     = boost::regex_replace(
-            string(fullEventName), boost::regex(".*eventID[[](.*?)[]].*"), string("\\1"));
+        string eventName     = nemesis::regex_replace(
+            string(fullEventName), nemesis::regex(".*eventID[[](.*?)[]].*"), string("\\1"));
         string newEventID = to_string(eventid[eventName]);
 
         if (newEventID == "0" && eventName != firstEvent)
@@ -2084,8 +2084,8 @@ void variableIDReplacer(
     {
         size_t nextpos     = line.find("variableID[");
         string fullVarName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 1);
-        string varName     = boost::regex_replace(
-            string(fullVarName), boost::regex(".*variableID[[](.*)[]].*"), string("\\1"));
+        string varName     = nemesis::regex_replace(
+            string(fullVarName), nemesis::regex(".*variableID[[](.*)[]].*"), string("\\1"));
         string newVarID = to_string(variableid[varName]);
 
         if (newVarID == "0" && ZeroVariable != varName)
@@ -2216,7 +2216,7 @@ VecStr GetOptionInfo(string line,
             templine = optionInfo[1];
             templine = templine + "a";
             string newtempline
-                = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                = nemesis::regex_replace(string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
             if (newtempline == templine) ErrorMessage(1179, format, filename, numline, line);
 
@@ -2326,7 +2326,7 @@ bool clearGroupNum(string option2,
                    unordered_map<string, bool> groupOption)
 {
     string templine
-        = boost::regex_replace(string(option2), boost::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"), string("\\1"));
+        = nemesis::regex_replace(string(option2), nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"), string("\\1"));
 
     if (groupOption[templine]) return isNot;
 
@@ -2693,8 +2693,8 @@ bool NewAnimation::GetFirstCondition(string firstCondition,
 
         if (isalpha(optionInfo[2][1]))
         {
-            conditionOrder = boost::regex_replace(
-                string(optionInfo[2]), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+            conditionOrder = nemesis::regex_replace(
+                string(optionInfo[2]), nemesis::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
             if (nemesis::iequals(conditionOrder, "last"))
             {
@@ -3024,8 +3024,8 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                             // clear group number
                             string previous = optionInfo[2];
                             string templine
-                                = boost::regex_replace(string(optionInfo[2]),
-                                                       boost::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
+                                = nemesis::regex_replace(string(optionInfo[2]),
+                                                       nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
                                                        string("\\1"));
 
                             if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[templine])
@@ -3037,8 +3037,8 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                             }
                             else
                             {
-                                string ID = boost::regex_replace(
-                                    string(previous), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string ID = nemesis::regex_replace(
+                                    string(previous), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                                 // animobject bypass
                                 if (previous == "AnimObject/" + ID)
@@ -3914,8 +3914,8 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                 // clear group number
                                 string previous = optionInfo[2];
                                 string templine
-                                    = boost::regex_replace(string(optionInfo[2]),
-                                                           boost::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
+                                    = nemesis::regex_replace(string(optionInfo[2]),
+                                                           nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
                                                            string("\\1"));
 
                                 if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[templine])
@@ -3927,8 +3927,8 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                 }
                                 else
                                 {
-                                    string ID = boost::regex_replace(
-                                        string(previous), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                    string ID = nemesis::regex_replace(
+                                        string(previous), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                                     // animobject bypass
                                     if (previous == "AnimObject/" + ID)
@@ -4640,7 +4640,7 @@ void motionDataReplacer(string& change,
     if (change.find(format + "[", 0) != NOT_FOUND)
     {
         string number
-            = boost::regex_replace(string(change), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+            = nemesis::regex_replace(string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
         if (change.find(format + "[" + number + "][MD]", 0) != NOT_FOUND && isOnlyNumber(number))
         {
@@ -4784,7 +4784,7 @@ void rotationDataReplacer(string& change,
     if (change.find(format + "[", 0) != NOT_FOUND)
     {
         string number
-            = boost::regex_replace(string(change), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+            = nemesis::regex_replace(string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
         if (change.find(format + "[" + number + "][RD]", 0) != NOT_FOUND && isOnlyNumber(number))
         {
@@ -5299,8 +5299,8 @@ void NewAnimation::hasProcessing(string& line,
             for (int k = 0; k < counter; ++k)
             {
                 pos       = line.find(format + "_group$", pos + 1);
-                string ID = boost::regex_replace(
-                    string(line.substr(pos)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                string ID = nemesis::regex_replace(
+                    string(line.substr(pos)), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                 string oldID  = "MID$" + ID;
                 size_t newpos = line.find(format + "_group$" + ID, pos);
 
@@ -5331,8 +5331,8 @@ void NewAnimation::hasProcessing(string& line,
             for (int k = 0; k < counter; ++k)
             {
                 size_t MIDposition = line.find("MID$");
-                string ID          = boost::regex_replace(
-                    string(line.substr(MIDposition)), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                string ID          = nemesis::regex_replace(
+                    string(line.substr(MIDposition)), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                 string oldID = "MID$" + ID;
 
                 if (line.find(oldID, MIDposition) != NOT_FOUND)

@@ -147,8 +147,8 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 
                         for (int k = 0; k < reference; ++k)
                         {
-                            string number = boost::regex_replace(string(line.substr(line.find("$import["))),
-                                                                 boost::regex("[^0-9]*([0-9]+).*"),
+                            string number = nemesis::regex_replace(string(line.substr(line.find("$import["))),
+                                                                 nemesis::regex("[^0-9]*([0-9]+).*"),
                                                                  string("\\1"));
 
                             if (line.find("$import[" + number + "]$", 0) != NOT_FOUND)
@@ -289,8 +289,8 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                         for (int k = 0; k < reference; ++k)
                         {
                             string tempID = line.substr(line.find("MID$"));
-                            string number = boost::regex_replace(
-                                string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string number = nemesis::regex_replace(
+                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                             string oldID = "MID$" + number;
 
                             if (line.find(oldID) != NOT_FOUND)

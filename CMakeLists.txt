@@ -121,6 +121,7 @@ set(Header_Files__utilities
     "include/utilities/filechecker.h"
     "include/utilities/lastupdate.h"
     "include/utilities/readtextfile.h"
+    "include/utilities/regex.h"
     "include/utilities/renew.h"
     "include/utilities/stringsplit.h"
     "include/utilities/writetextfile.h"
@@ -206,6 +207,7 @@ set(Source_Files__utilities
     "src/utilities/compute.cpp"
     "src/utilities/filechecker.cpp"
     "src/utilities/lastupdate.cpp"
+    "src/utilities/regex.cpp"
     "src/utilities/renew.cpp"
     "src/utilities/stringsplit.cpp"
     "src/utilities/wstrconvert.cpp"
@@ -272,7 +274,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 #C++17
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
-if(MSVC)    
+if(MSVC)
     #Strictly follow the standard
     target_compile_options(${PROJECT_NAME} PRIVATE "/permissive-")
     #Required

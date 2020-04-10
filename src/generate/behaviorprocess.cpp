@@ -815,8 +815,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
         for (auto& templatecode : it->second)
         {
             // existing function
-            for (uint k = 0; k < BehaviorTemplate->existingFunctionID[templatecode][it->first].size();
-                 ++k)
+            for (uint k = 0; k < BehaviorTemplate->existingFunctionID[templatecode][it->first].size(); ++k)
             {
                 ignoreFunction[it->first + ".txt"]
                               [BehaviorTemplate->existingFunctionID[templatecode][it->first][k]]
@@ -1204,9 +1203,8 @@ void BehaviorStart::unregisterProcess(bool skip)
             else
             {
                 string msg;
-                bool ms = false;
-                boost::posix_time::time_duration diff
-                    = boost::posix_time::microsec_clock::local_time() - start_time;
+                bool ms   = false;
+                auto diff = std::chrono::high_resolution_clock::now() - start_time;
 
                 if (ms)
                 {

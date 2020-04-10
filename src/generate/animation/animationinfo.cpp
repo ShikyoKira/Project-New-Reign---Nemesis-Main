@@ -1,7 +1,6 @@
 #include "Global.h"
 
-#include <boost/regex.hpp>
-
+#include "utilities/regex.h"
 #include "utilities/stringsplit.h"
 
 #include "generate/animation/animationinfo.h"
@@ -64,8 +63,8 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
 
             if (option[0] == 'D' && isOnlyNumber(option.substr(1)))
             {
-                string time = boost::regex_replace(
-                    string(option), boost::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
+                string time = nemesis::regex_replace(
+                    string(option), nemesis::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
 
                 if ("D" + time == option)
                 {
@@ -114,8 +113,8 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                             {
                                 header           = optionOrder[m];
                                 string nonHeader = option.substr(header.length());
-                                string group     = boost::regex_replace(
-                                    string(nonHeader), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string group     = nemesis::regex_replace(
+                                    string(nonHeader), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                                 if (group.length() != 0 && option == header + group && group != nonHeader)
                                 {

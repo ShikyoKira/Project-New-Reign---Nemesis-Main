@@ -1,9 +1,9 @@
 #include "Global.h"
 
-#include <boost/regex.hpp>
-
 #include "generate/animation/optionlist.h"
 #include "generate/animation/templateinfo.h"
+
+#include "utilities/regex.h"
 
 #pragma warning(disable : 4503)
 
@@ -145,8 +145,8 @@ TemplateInfo::TemplateInfo()
                                 }
                                 else if (lowerfilename[0] == '#')
                                 {
-                                    string number = boost::regex_replace(string(lowerfilename),
-                                                                         boost::regex("[^0-9]*([0-9]+).*"),
+                                    string number = nemesis::regex_replace(string(lowerfilename),
+                                                                         nemesis::regex("[^0-9]*([0-9]+).*"),
                                                                          string("\\1"));
 
                                     if (lowerfilename == "#" + number + ".txt" && isOnlyNumber(number))

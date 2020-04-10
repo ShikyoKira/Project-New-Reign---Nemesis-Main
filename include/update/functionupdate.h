@@ -5,9 +5,7 @@
 #include <iostream>
 #include <unordered_map>
 
-#include <boost/atomic.hpp>
-#include <boost/regex.hpp>
-
+#include "utilities/regex.h"
 #include "utilities/writetextfile.h"
 
 #include "generate/animationdata.h"

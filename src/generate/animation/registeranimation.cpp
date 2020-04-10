@@ -1,13 +1,12 @@
 #include "Global.h"
 
-#include <boost/regex.hpp>
-
 #include <QtCore/QFile.h>
 #include <QtCore/QTextstream.h>
 
 #include "debuglog.h"
 
 #include "utilities/readtextfile.h"
+#include "utilities/regex.h"
 #include "utilities/stringsplit.h"
 
 #include "generate/animation/registeranimation.h"
@@ -24,7 +23,7 @@ bool ruleCheck(VecStr rules, VecStr curList, TemplateInfo& behaviortemplate, str
         {
             bool matching = false;
             string number
-                = boost::regex_replace(string(cur), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                = nemesis::regex_replace(string(cur), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
             if (cur.length() == rule.length()
                 || (behaviortemplate.optionlist[lowerformat].addOn[rule].size() != 0
@@ -319,8 +318,8 @@ registerAnimation::registerAnimation(string curDirectory,
                         {
                             bool isOExist = true;
                             string anim   = newAnimInfo[newAnimInfo.size() - 1];
-                            string number = boost::regex_replace(
-                                string(anim), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string number = nemesis::regex_replace(
+                                string(anim), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                             if (isOnlyNumber(number) && anim.length() > number.length()
                                 && anim[anim.length() - number.length() - 1] == '/'

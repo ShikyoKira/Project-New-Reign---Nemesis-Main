@@ -132,7 +132,7 @@ int main(int argc, char* argv[])
         else if (programInitiateCheck())
         {
             NemesisEngine w;
-            w.setWindowIcon(QIcon(":/icon/resources/title icon.png"));
+            w.setWindowIcon(QIcon(":/icon/title icon.png"));
             w.show();
             return a.exec();
         }

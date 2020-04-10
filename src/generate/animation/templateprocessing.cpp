@@ -70,48 +70,6 @@ void stateInput(string& state,
     }
 }
 
-string nemesis::smatch::operator[](int number)
-{
-    return match[number];
-}
-
-size_t nemesis::smatch::position(int number)
-{
-    return positionlist[number];
-}
-
-size_t nemesis::smatch::size()
-{
-    return match.size();
-}
-
-namespace nemesis
-{
-    bool regex_search(string line, nemesis::smatch& n_match, boost::regex rgx)
-    {
-        n_match = nemesis::smatch();
-        boost::smatch match;
-
-        if (!boost::regex_search(string(line), match, rgx)) return false;
-
-        if (match.size() > 1)
-        {
-            n_match.match.reserve(match.size());
-            n_match.positionlist.reserve(match.size());
-            n_match.positionlist.push_back(match.position());
-            n_match.match.push_back(line.substr(match.position(), match[0].length()));
-
-            for (uint i = 1; i < match.size(); ++i)
-            {
-                n_match.positionlist.push_back(match.position(i));
-                n_match.match.push_back(line.substr(match.position(i), match[i].length()));
-            }
-        }
-
-        return true;
-    }
-} // namespace nemesis
-
 range::range(size_t n_front, size_t n_back, void (proc::*n_func)(range, VecStr&))
 {
     front = n_front;
@@ -265,9 +223,9 @@ void proc::compute(range blok, VecStr& blocks)
 void proc::rangeCompute(range blok, VecStr& blocks)
 {
     (*generatedlines)[*elementLine]
-        = boost::regex_replace(string((*generatedlines)[*elementLine]),
-                               boost::regex("(.*<hkparam name\\=\".+\" numelements\\=\").+(\">.*)"),
-                               string("\\1" + to_string(*counter) + "\\2"));
+        = nemesis::regex_replace(string((*generatedlines)[*elementLine]),
+                             nemesis::regex("(.*<hkparam name\\=\".+\" numelements\\=\").+(\">.*)"),
+                             string("\\1" + to_string(*counter) + "\\2"));
     *norElement  = false;
     *counter     = 0;
     *elementLine = -1;

@@ -17,6 +17,7 @@
 
 #include "utilities/filechecker.h"
 #include "utilities/lastupdate.h"
+#include "utilities/regex.h"
 #include "utilities/renew.h"
 #include "utilities/stringsplit.h"
 
@@ -792,9 +793,9 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
 
                     if (curline.find("<hkparam name=\"stateId\">") != NOT_FOUND)
                     {
-                        string stateIDStr = boost::regex_replace(
+                        string stateIDStr = nemesis::regex_replace(
                             string(curline),
-                            boost::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
+                            nemesis::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
                             string("\\1"));
 
                         if (stateIDStr != curline) { (*stateID)[curID] = stateIDStr; }
@@ -829,11 +830,11 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
                         else
                         {
                             bool bone = false;
-                            boost::regex vector4("\\(((?:-|)[0-9]+\\.[0-9]+) ((?:-|)[0-9]+\\.[0-9]+) "
-                                                 "((?:-|)[0-9]+\\.[0-9]+) ((?:-|)[0-9]+\\.[0-9]+)\\)");
-                            boost::smatch match;
+                            constexpr auto vector4("\\(((?:-|)[0-9]+\\.[0-9]+) ((?:-|)[0-9]+\\.[0-9]+) "
+                                                   "((?:-|)[0-9]+\\.[0-9]+) ((?:-|)[0-9]+\\.[0-9]+)\\)");
+                            nemesis::smatch match;
 
-                            if (!boost::regex_search(curline, match, vector4))
+                            if (!nemesis::regex_search(curline, match, vector4))
                             {
                                 string spaces;
 
@@ -847,11 +848,9 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
 
                                 if (curline.find("<!-- Bone$N -->") == NOT_FOUND)
                                 {
-                                    for (auto it
-                                         = boost::sregex_iterator(curline.begin(),
-                                                                  curline.end(),
-                                                                  boost::regex("([0-9]+(\\.[0-9]+)?)"));
-                                         it != boost::sregex_iterator();
+                                    for (auto it = nemesis::regex_iterator(
+                                             curline, nemesis::regex("([0-9]+(\\.[0-9]+)?)"));
+                                         it != nemesis::regex_iterator();
                                          ++it)
                                     {
                                         storeline.push_back(spaces + it->str(1));
@@ -874,9 +873,8 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
 
                                 storeline.push_back(curline.substr(0, match.position()));
 
-                                for (auto it
-                                     = boost::sregex_iterator(curline.begin(), curline.end(), vector4);
-                                     it != boost::sregex_iterator();
+                                for (auto it = nemesis::regex_iterator(curline, vector4);
+                                     it != nemesis::regex_iterator();
                                      ++it)
                                 {
                                     storeline.push_back(spaces + it->str(1));
@@ -903,9 +901,8 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
                                         break;
                                 }
 
-                                for (auto it
-                                     = boost::sregex_iterator(curline.begin(), curline.end(), vector4);
-                                     it != boost::sregex_iterator();
+                                for (auto it = nemesis::regex_iterator(curline, vector4);
+                                     it != nemesis::regex_iterator();
                                      ++it)
                                 {
                                     storeline.push_back(spaces + it->str(1));
@@ -1005,8 +1002,8 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
     if (!GetFunctionLines(path, storeline)) return false;
 
     {
-        string strnum
-            = boost::regex_replace(string(storeline[0]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+        string strnum = nemesis::regex_replace(
+            string(storeline[0]), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
         if (!isOnlyNumber(strnum) || stoi(strnum) < 10) ErrorMessage(3014);
 
@@ -1165,8 +1162,8 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
     if (!GetFunctionLines(path, storeline)) return false;
 
     {
-        string strnum
-            = boost::regex_replace(string(storeline[0]), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+        string strnum = nemesis::regex_replace(
+            string(storeline[0]), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
         if (!isOnlyNumber(strnum) || stoi(strnum) < 10) ErrorMessage(3014);
 
@@ -1930,8 +1927,8 @@ void UpdateFilesStart::CombiningFiles()
                 if (line.find("class=\"hkRootLevelContainer\" signature=\"0x2772c11e\">", 0) != NOT_FOUND)
                 {
                     rootID = "#"
-                             + boost::regex_replace(
-                                 string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                             + nemesis::regex_replace(
+                                 string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                 }
 
                 fileline.push_back(line);
@@ -2271,8 +2268,8 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
                                     return;
                                 }
                             }
-                            else if (boost::regex_match(stemTemp,
-                                                        boost::regex("^\\$(?!" + curCode + ").+\\$(?:UC|)$")))
+                            else if (nemesis::regex_match(
+                                         stemTemp, nemesis::regex("^\\$(?!" + curCode + ").+\\$(?:UC|)$")))
                             {
                                 ErrorMessage(3023,
                                              "$" + curCode + "$"
@@ -2472,7 +2469,7 @@ void UpdateFilesStart::unregisterProcess()
 
             if (ms)
             {
-                size_t second = diff.total_milliseconds();
+                size_t second = diff.count() / 1000;
 
                 if (second > 1000)
                 {
@@ -2483,7 +2480,7 @@ void UpdateFilesStart::unregisterProcess()
                         milli.insert(0, "0");
                     }
 
-                    msg = TextBoxMessage(1007) + ": " + to_string(second / 1000) + "," + milli + " "
+                    msg = TextBoxMessage(1007) + ": " + to_string(second) + "," + milli + " "
                           + TextBoxMessage(1011);
                 }
                 else

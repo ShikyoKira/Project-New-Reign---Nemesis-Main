@@ -515,8 +515,8 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                     if (!groupAnimInfo[stoi(optionInfo[1])][stoi(optionInfo[2])]->optionPicked[curOption])
                     {
                         // clear group number
-                        curOption = boost::regex_replace(string(optionInfo[2]),
-                                                         boost::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
+                        curOption = nemesis::regex_replace(string(optionInfo[2]),
+                                                         nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
                                                          string("\\1"));
 
                         if (groupAnimInfo[stoi(optionInfo[1])][stoi(optionInfo[2])]->optionPicked[curOption])
@@ -654,8 +654,8 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                     for (int k = 0; k < counter; ++k)
                     {
                         size_t MIDposition = line.find("MID$");
-                        string ID          = boost::regex_replace(string(line.substr(MIDposition)),
-                                                         boost::regex("[^0-9]*([0-9]+).*"),
+                        string ID          = nemesis::regex_replace(string(line.substr(MIDposition)),
+                                                         nemesis::regex("[^0-9]*([0-9]+).*"),
                                                          string("\\1"));
                         string oldID       = "MID$" + ID;
 
@@ -704,8 +704,8 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                 if (line.find("$(S", 0) != NOT_FOUND)
                 {
                     string templine = line.substr(line.find("$(S"));
-                    string ID       = boost::regex_replace(
-                        string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string ID       = nemesis::regex_replace(
+                        string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                     int intID;
 
                     if (line.find("$(S" + ID + "+") == NOT_FOUND)
@@ -857,8 +857,8 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                         {
                             nextpos         = line.find("#" + masterFormat, nextpos + 1);
                             string templine = line.substr(nextpos);
-                            string ID       = boost::regex_replace(
-                                string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string ID       = nemesis::regex_replace(
+                                string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                             templine = line.substr(nextpos, line.find(ID, nextpos) - nextpos);
                             generator.push_back(templine);
                         }
@@ -874,8 +874,8 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                         {
                             nextpos       = line.find("#" + masterFormat + "$", nextpos) + 1;
                             string tempID = line.substr(nextpos);
-                            string curID  = boost::regex_replace(
-                                string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string curID  = nemesis::regex_replace(
+                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                             curID = masterFormat + "$" + curID;
 
                             if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
@@ -899,8 +899,8 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                         {
                             nextpos       = line.find("#" + masterFormat + "_group$", nextpos) + 1;
                             string tempID = line.substr(nextpos);
-                            string curID  = boost::regex_replace(
-                                string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string curID  = nemesis::regex_replace(
+                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
                             curID = multiOption + "$" + curID;
 
                             if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
@@ -1248,9 +1248,9 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                                 for (int k = 0; k < counter; ++k)
                                                 {
                                                     size_t MIDposition = curLine.find("MID$");
-                                                    string ID          = boost::regex_replace(
+                                                    string ID          = nemesis::regex_replace(
                                                         string(curLine.substr(MIDposition)),
-                                                        boost::regex("[^0-9]*([0-9]+).*"),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
                                                         string("\\1"));
                                                     string oldID = "MID$" + ID;
 
@@ -1310,8 +1310,8 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                             {
                                                 string templine = curLine.substr(curLine.find("$(S"));
                                                 string ID
-                                                    = boost::regex_replace(string(templine),
-                                                                           boost::regex("[^0-9]*([0-9]+).*"),
+                                                    = nemesis::regex_replace(string(templine),
+                                                                           nemesis::regex("[^0-9]*([0-9]+).*"),
                                                                            string("\\1"));
                                                 int intID;
 
@@ -1419,9 +1419,9 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                                     nextpos
                                                         = curLine.find("#" + masterFormat + "$", nextpos) + 1;
                                                     string tempID = curLine.substr(nextpos);
-                                                    string curID  = boost::regex_replace(
+                                                    string curID  = nemesis::regex_replace(
                                                         string(tempID),
-                                                        boost::regex("[^0-9]*([0-9]+).*"),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
                                                         string("\\1"));
                                                     curID = masterFormat + "$" + curID;
 
@@ -1452,9 +1452,9 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                                 {
                                                     nextpos = curLine.find("#" + multiOption, nextpos) + 1;
                                                     string tempID = curLine.substr(nextpos);
-                                                    string curID  = boost::regex_replace(
+                                                    string curID  = nemesis::regex_replace(
                                                         string(tempID),
-                                                        boost::regex("[^0-9]*([0-9]+).*"),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
                                                         string("\\1"));
                                                     curID = multiOption + "$" + curID;
 
@@ -2503,9 +2503,9 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                                 {
                                                     nextpos = curLine.find("#" + format + "$", nextpos) + 1;
                                                     string tempID = curLine.substr(nextpos);
-                                                    string curID  = boost::regex_replace(
+                                                    string curID  = nemesis::regex_replace(
                                                         string(tempID),
-                                                        boost::regex("[^0-9]*([0-9]+).*"),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
                                                         string("\\1"));
                                                     curID = format + "$" + curID;
 
@@ -2539,9 +2539,9 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                                 {
                                                     nextpos = curLine.find("#" + multiOption, nextpos) + 1;
                                                     string tempID = curLine.substr(nextpos);
-                                                    string curID  = boost::regex_replace(
+                                                    string curID  = nemesis::regex_replace(
                                                         string(tempID),
-                                                        boost::regex("[^0-9]*([0-9]+).*"),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
                                                         string("\\1"));
                                                     curID = multiOption + "$" + curID;
 
@@ -2573,9 +2573,9 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                                 {
                                                     nextpos = curLine.find("#" + multiOption, nextpos) + 1;
                                                     string tempID = curLine.substr(nextpos);
-                                                    string curID  = boost::regex_replace(
+                                                    string curID  = nemesis::regex_replace(
                                                         string(tempID),
-                                                        boost::regex("[^0-9]*([0-9]+).*"),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
                                                         string("\\1"));
                                                     curID = multiOption + "$" + curID;
 
@@ -3644,9 +3644,9 @@ void ExistingFunction::outPutExistingFunction(VecStr& existingFunctionLines,
                                                 {
                                                     nextpos = curLine.find("#" + format + "$", nextpos) + 1;
                                                     string tempID = curLine.substr(nextpos);
-                                                    string curID  = boost::regex_replace(
+                                                    string curID  = nemesis::regex_replace(
                                                         string(tempID),
-                                                        boost::regex("[^0-9]*([0-9]+).*"),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
                                                         string("\\1"));
                                                     curID = format + "$" + curID;
 
@@ -3680,9 +3680,9 @@ void ExistingFunction::outPutExistingFunction(VecStr& existingFunctionLines,
                                                 {
                                                     nextpos = curLine.find("#" + multiOption, nextpos) + 1;
                                                     string tempID = curLine.substr(nextpos);
-                                                    string curID  = boost::regex_replace(
+                                                    string curID  = nemesis::regex_replace(
                                                         string(tempID),
-                                                        boost::regex("[^0-9]*([0-9]+).*"),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
                                                         string("\\1"));
                                                     curID = multiOption + "$" + curID;
 
@@ -3714,9 +3714,9 @@ void ExistingFunction::outPutExistingFunction(VecStr& existingFunctionLines,
                                                 {
                                                     nextpos = curLine.find("#" + multiOption, nextpos) + 1;
                                                     string tempID = curLine.substr(nextpos);
-                                                    string curID  = boost::regex_replace(
+                                                    string curID  = nemesis::regex_replace(
                                                         string(tempID),
-                                                        boost::regex("[^0-9]*([0-9]+).*"),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
                                                         string("\\1"));
                                                     curID = multiOption + "$" + curID;
 
@@ -3908,9 +3908,9 @@ void GroupTemplate::stateReplacer(
 
     for (int i = 0; i < count; ++i)
     {
-        string number = boost::regex_replace(
+        string number = nemesis::regex_replace(
             string(line.substr(line.find("$(S" + statenum + "+") + statenum.length() + 4)),
-            boost::regex("[^0-9]*([0-9]+).*"),
+            nemesis::regex("[^0-9]*([0-9]+).*"),
             string("\\1"));
         string state = "$(S" + statenum + "+" + number + ")$";
 
@@ -3986,13 +3986,13 @@ void GroupTemplate::processing(string& line,
 
                         if (equation.find("(S", 0) != NOT_FOUND)
                         {
-                            ID = boost::regex_replace(
-                                string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            ID = nemesis::regex_replace(
+                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                             if (change.find("(S" + ID + "+") == NOT_FOUND) ID = "";
 
-                            number = boost::regex_replace(string(equation.substr(3 + ID.length())),
-                                                          boost::regex("[^0-9]*([0-9]+).*"),
+                            number = nemesis::regex_replace(string(equation.substr(3 + ID.length())),
+                                                          nemesis::regex("[^0-9]*([0-9]+).*"),
                                                           string("\\1"));
                         }
 
@@ -4064,8 +4064,8 @@ void GroupTemplate::processing(string& line,
                 if (change.find(masterFormat + "[", 0) != NOT_FOUND)
                 {
                     string number
-                        = boost::regex_replace(string(change.substr(change.find(masterFormat + "[", 0))),
-                                               boost::regex("[^0-9]*([0-9]+).*"),
+                        = nemesis::regex_replace(string(change.substr(change.find(masterFormat + "[", 0))),
+                                               nemesis::regex("[^0-9]*([0-9]+).*"),
                                                string("\\1"));
 
                     if (change.find(masterFormat + "[" + number + "][FilePath]", 0) != NOT_FOUND)
@@ -4127,8 +4127,8 @@ void GroupTemplate::processing(string& line,
                 if (change.find(masterFormat + "[", 0) != NOT_FOUND)
                 {
                     string number
-                        = boost::regex_replace(string(change.substr(change.find(masterFormat + "[", 0))),
-                                               boost::regex("[^0-9]*([0-9]+).*"),
+                        = nemesis::regex_replace(string(change.substr(change.find(masterFormat + "[", 0))),
+                                               nemesis::regex("[^0-9]*([0-9]+).*"),
                                                string("\\1"));
 
                     if (change.find(masterFormat + "[" + number + "][FileName]", 0) != NOT_FOUND)
@@ -4244,9 +4244,9 @@ void GroupTemplate::processing(string& line,
 
                 if (change.find(masterFormat + "[", 0) != NOT_FOUND)
                 {
-                    string number = boost::regex_replace(
+                    string number = nemesis::regex_replace(
                         string(change),
-                        boost::regex(masterFormat + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
+                        nemesis::regex(masterFormat + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
                         string("\\1"));
 
                     if (number != change)
@@ -4518,13 +4518,13 @@ void ExistingFunction::processing(string& line,
 
                         if (equation.find("(S", 0) != NOT_FOUND)
                         {
-                            ID = boost::regex_replace(
-                                string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            ID = nemesis::regex_replace(
+                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
                             if (change.find("(S" + ID + "+") == NOT_FOUND) ID = "";
 
-                            number = boost::regex_replace(string(equation.substr(3 + ID.length())),
-                                                          boost::regex("[^0-9]*([0-9]+).*"),
+                            number = nemesis::regex_replace(string(equation.substr(3 + ID.length())),
+                                                          nemesis::regex("[^0-9]*([0-9]+).*"),
                                                           string("\\1"));
                         }
 
@@ -4598,8 +4598,8 @@ void ExistingFunction::processing(string& line,
                     if (change.find(format + "[", 0) != NOT_FOUND)
                     {
                         string number
-                            = boost::regex_replace(string(change.substr(change.find(format + "[", 0))),
-                                                   boost::regex("[^0-9]*([0-9]+).*"),
+                            = nemesis::regex_replace(string(change.substr(change.find(format + "[", 0))),
+                                                   nemesis::regex("[^0-9]*([0-9]+).*"),
                                                    string("\\1"));
 
                         if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND)
@@ -4660,8 +4660,8 @@ void ExistingFunction::processing(string& line,
                     if (change.find(format + "[", 0) != NOT_FOUND)
                     {
                         string number
-                            = boost::regex_replace(string(change.substr(change.find(format + "[", 0))),
-                                                   boost::regex("[^0-9]*([0-9]+).*"),
+                            = nemesis::regex_replace(string(change.substr(change.find(format + "[", 0))),
+                                                   nemesis::regex("[^0-9]*([0-9]+).*"),
                                                    string("\\1"));
 
                         if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND)
@@ -4783,9 +4783,9 @@ void ExistingFunction::processing(string& line,
 
                     if (change.find(format + "[", 0) != NOT_FOUND)
                     {
-                        string number = boost::regex_replace(
+                        string number = nemesis::regex_replace(
                             string(change),
-                            boost::regex(format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
+                            nemesis::regex(format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
                             string("\\1"));
 
                         if (number != change)
@@ -7185,7 +7185,7 @@ string optionOrderProcess(string line,
         string templine = newline;
         templine        = templine + "a";
         string newtempline
-            = boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+            = nemesis::regex_replace(string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
         if (newtempline == templine) ErrorMessage(1055, format, filename, numline, line);
         if (stoi(newline) > int(lastOrder)) ErrorMessage(1148, format, filename, numline, line);
@@ -7301,8 +7301,8 @@ bool conditionProcess(string condition,
 
                 if (isalpha(optionInfo.back()[1]))
                 {
-                    conditionOrder = boost::regex_replace(
-                        string(optionInfo.back()), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+                    conditionOrder = nemesis::regex_replace(
+                        string(optionInfo.back()), nemesis::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
                     if (nemesis::iequals(conditionOrder, "last"))
                         conditionResult = utility.animMulti == groupAnimInfo.size() - 1 ? !isNot : isNot;
@@ -7354,8 +7354,8 @@ bool conditionProcess(string condition,
 
             if (isalpha(optionInfo.back()[1]))
             {
-                conditionOrder = boost::regex_replace(
-                    string(optionInfo.back()), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+                conditionOrder = nemesis::regex_replace(
+                    string(optionInfo.back()), nemesis::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
                 if (nemesis::iequals(conditionOrder, "last"))
                     return utility.animMulti == groupAnimInfo.size() - 1 ? !isNot : isNot;

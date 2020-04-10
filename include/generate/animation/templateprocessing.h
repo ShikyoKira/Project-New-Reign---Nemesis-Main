@@ -3,27 +3,12 @@
 
 #include <unordered_map>
 
-#include <boost/regex.hpp>
-
 #include "generate/animation/animationthread.h"
+
+#include "utilities/regex.h"
 
 struct proc;
 struct multichoice;
-
-namespace nemesis
-{
-    struct smatch
-    {
-        std::vector<size_t> positionlist;
-        VecStr match;
-
-        std::string operator[](int number);
-        size_t position(int number);
-        size_t size();
-    };
-
-    bool regex_search(std::string line, nemesis::smatch& match, boost::regex rgx);
-} // namespace nemesis
 
 struct range
 {
