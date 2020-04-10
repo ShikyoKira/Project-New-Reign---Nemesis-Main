@@ -7,13 +7,13 @@ class BehaviorSub;
 struct ProgressUp
 {
 private:
-	NemesisEngine* widget;
-	BehaviorSub* process;
-	
+    NemesisEngine* widget;
+    BehaviorSub* process;
+
 public:
-	void newWidget(NemesisEngine* _widget);
-	void newProcess(BehaviorSub* _process);
-	void connect();
+    void newWidget(NemesisEngine* _widget);
+    void newProcess(BehaviorSub* _process);
+    void connect();
 };
 
 #endif

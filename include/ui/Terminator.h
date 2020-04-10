@@ -7,16 +7,15 @@ class NemesisEngine;
 
 class Terminator : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	void exitSignal();
+    void exitSignal();
 
 signals:
-	void end();
+    void end();
 };
 
 bool isRunning(Terminator*& curEvent);
-
 
 #endif

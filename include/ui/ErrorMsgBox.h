@@ -7,8 +7,8 @@
 class CEMsgBox : public QMessageBox
 {
 public:
-	CEMsgBox(QWidget *parent = nullptr);
-	~CEMsgBox();
+    CEMsgBox(QWidget* parent = nullptr);
+    ~CEMsgBox();
 };
 
 #endif

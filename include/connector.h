@@ -16,13 +16,13 @@ extern bool processdone;
 
 class DummyLog : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	void message(std::string input);
+    void message(std::string input);
 
 signals:
-	void incomingMessage(QString);
+    void incomingMessage(QString);
 };
 
 bool readMod(std::string& errormsg);

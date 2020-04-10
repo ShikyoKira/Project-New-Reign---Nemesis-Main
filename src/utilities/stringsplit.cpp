@@ -10,17 +10,14 @@ void StringSplit(string line, vecstr& container)
     container = vecstr(std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>());
 }
 
-void StringSplit(string line, vecstr &container, string anyChar)
+void StringSplit(string line, vecstr& container, string anyChar)
 {
     container.clear();
     container.push_back(string());
 
-    for (auto &each : line)
+    for (auto& each : line)
     {
-        if (anyChar.find(each) != NOT_FOUND)
-        {
-            container.push_back(string());
-        }
+        if (anyChar.find(each) != NOT_FOUND) { container.push_back(string()); }
         else
         {
             container.back().push_back(each);

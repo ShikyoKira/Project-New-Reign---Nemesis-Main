@@ -5,29 +5,26 @@
 
 inline std::string GetNemesisVersion()
 {
-	FileReader BehaviorFormat(std::string("version"));
+    FileReader BehaviorFormat(std::string("version"));
 
-	if (BehaviorFormat.GetFile())
-	{
-		std::string line;
+    if (BehaviorFormat.GetFile())
+    {
+        std::string line;
 
-		while (BehaviorFormat.GetLines(line))
-		{
-			boost::to_lower(line);
+        while (BehaviorFormat.GetLines(line))
+        {
+            boost::to_lower(line);
 
-			if (line.find("version") == 0)
-			{
-				return line.substr(7);
-			}
-			else if (line.find("v") == 0)
-			{
-				return line.substr(1);
-			}
-		}
-	}
+            if (line.find("version") == 0) { return line.substr(7); }
+            else if (line.find("v") == 0)
+            {
+                return line.substr(1);
+            }
+        }
+    }
 
-	ErrorMessage(1092, "version");
-	return "";
+    ErrorMessage(1092, "version");
+    return "";
 }
 
 #endif
