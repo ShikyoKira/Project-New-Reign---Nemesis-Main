@@ -1,8 +1,6 @@
 #ifndef SINGLETEMPLATE_H_
 #define SINGLETEMPLATE_H_
 
-#include <boost/thread.hpp>
-
 #include "generate/animation/optionlist.h"
 #include "generate/animation/templateprocessing.h"
 

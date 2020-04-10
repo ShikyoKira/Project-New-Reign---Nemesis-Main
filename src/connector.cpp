@@ -1,6 +1,6 @@
 #include "Global.h"
 
-#include <boost/atomic.hpp>
+
 
 #include <QtCore/QString>
 
@@ -83,7 +83,7 @@ bool readMod(string& errormsg)
                     if (pos == 0)
                     {
                         hide = line.substr(line.find("=") + 1);
-                        boost::to_lower(hide);
+                        nemesis::to_lower(hide);
                         istringstream stream(hide);
                         stream >> boolalpha >> hidden;
                     }

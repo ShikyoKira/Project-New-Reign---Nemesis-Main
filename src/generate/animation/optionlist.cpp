@@ -673,7 +673,7 @@ OptionList::OptionList(string filepath, string format)
                                 ErrorMessage(1014, format, filepath, linecount);
                             }
 
-                            boost::algorithm::erase_all(strline, " ");
+                            strline.erase(std::remove(strline.begin(), strline.end(), ' '), strline.end());
 
                             if (recontext != strline) ErrorMessage(1033, format, filepath, linecount);
                         }
@@ -701,7 +701,7 @@ OptionList::OptionList(string filepath, string format)
                             if (strline.length() > 2 && strline.substr(strline.length() - 2) == "[]")
                                 ErrorMessage(1022, format, filepath, linecount);
 
-                            boost::algorithm::erase_all(strline, " ");
+                            strline.erase(std::remove(strline.begin(), strline.end(), ' '), strline.end());
 
                             if (recontext != strline) ErrorMessage(1033, format, filepath, linecount);
                         }

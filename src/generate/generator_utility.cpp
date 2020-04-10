@@ -349,7 +349,7 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
         for (auto& file : filelist)
         {
             string path = directory + "\\" + file;
-            boost::to_lower(path);
+            nemesis::to_lower(path);
             std::filesystem::path curfile(path);
 
             if (std::filesystem::is_directory(curfile)) { newFileCheck(path, isChecked); }
@@ -805,7 +805,7 @@ void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, b
             string animFile = std::filesystem::path(line.substr(pos, line.find("</hkparam>", pos) - pos))
                                   .filename()
                                   .string();
-            boost::to_lower(animFile);
+            nemesis::to_lower(animFile);
 
             for (auto file : characterFiles)
             {

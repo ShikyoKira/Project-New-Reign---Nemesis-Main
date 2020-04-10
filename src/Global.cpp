@@ -22,8 +22,6 @@ int fixedkey[257];
 
 NemesisInfo* nemesisInfo;
 
-boost::posix_time::ptime time1;
-
 unordered_map<string, string> behaviorPath;
 
 unordered_map<string, bool> activatedBehavior;
@@ -174,10 +172,32 @@ size_t fileLineCount(const char* filepath)
     return linecount;
 }
 
+inline std::tm localtime_xp(std::time_t timer)
+{
+    std::tm bt{};
+#if defined(__unix__)
+    localtime_r(&timer, &bt);
+#elif defined(_MSC_VER)
+    localtime_s(&bt, &timer);
+#else
+    static std::mutex mtx;
+    std::lock_guard<std::mutex> lock(mtx);
+    bt = *std::localtime(&timer);
+#endif
+    return bt;
+}
+
+string currentTime()
+{
+    using namespace std::chrono;
+    std::time_t t_c = system_clock::to_time_t(system_clock::now());
+    auto tm         = localtime_xp(t_c);
+    return (stringstream() << std::put_time(&tm, "%F %T")).str();
+}
+
 void produceBugReport(string directory, unordered_map<string, bool> chosenBehavior)
 {
-    boost::posix_time::ptime time1 = boost::posix_time::second_clock::local_time();
-    string time                    = to_simple_string(time1);
+    string time = currentTime();
     string timer;
 
     for (uint i = 0; i < time.size(); ++i)
@@ -334,22 +354,15 @@ int sameWordCount(std::string line, std::string word)
 
 bool isOnlyNumber(string line)
 {
-    try
-    {
-        boost::lexical_cast<double>(line);
-    }
-    catch (boost::bad_lexical_cast&)
-    {
-        return false;
-    }
-
-    return true;
+    char* end  = nullptr;
+    double val = strtod(line.c_str(), &end);
+    return end != line.c_str() && *end == '\0' && val != HUGE_VAL;
 }
 
 bool hasAlpha(string line)
 {
     string lower = nemesis::to_lower_copy(line);
-    string upper = boost::to_upper_copy(line);
+    string upper = nemesis::to_upper_copy(line);
 
     if (lower != upper) { return true; }
 

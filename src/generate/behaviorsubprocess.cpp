@@ -1549,8 +1549,8 @@ void BehaviorSub::CompilingBehavior()
                                 }
                             }
 
-                            boost::to_lower(animPath);
-                            boost::to_lower(animFile);
+                            nemesis::to_lower(animPath);
+                            nemesis::to_lower(animFile);
                             isAdded[animPath]                           = true;
                             registeredAnim[lowerBehaviorFile][animFile] = true;
 
@@ -1978,7 +1978,7 @@ void BehaviorSub::CompilingBehavior()
                         int IDMultiplier = newAnimation[templateCode][0]->getNextID(lowerBehaviorFile);
                         NewAnimLock animLock;
                         boost::asio::thread_pool mt;
-                        boost::posix_time::ptime start_time = boost::posix_time::microsec_clock::local_time();
+                        auto start_time = std::chrono::high_resolution_clock::now();
 
                         // individual animation
                         if (hasGroup)
@@ -2052,7 +2052,7 @@ void BehaviorSub::CompilingBehavior()
                                         if (error) throw nemesis::exception();
 
                                         lastID += IDMultiplier;
-                                        boost::asio::post(mt, boost::bind(&animThreadStart, args, &mt));
+                                        boost::asio::post(mt, std::bind(&animThreadStart, args, &mt));
                                     }
                                 }
                                 catch (nemesis::exception&)
@@ -2138,7 +2138,7 @@ void BehaviorSub::CompilingBehavior()
                                         if (error) throw nemesis::exception();
 
                                         lastID += IDMultiplier;
-                                        boost::asio::post(mt, boost::bind(&animThreadStart, args, &mt));
+                                        boost::asio::post(mt, std::bind(&animThreadStart, args, &mt));
                                     }
                                 }
                                 catch (nemesis::exception&)
@@ -2175,10 +2175,9 @@ void BehaviorSub::CompilingBehavior()
                                 ErrorMessage(1156, templateCode);
                         }
 
-                        boost::posix_time::time_duration diff
-                            = boost::posix_time::microsec_clock::local_time() - start_time;
-                        onetimer += int(diff.total_milliseconds());
-                        start_time = boost::posix_time::microsec_clock::local_time();
+                        auto diff = std::chrono::high_resolution_clock::now() - start_time;
+                        onetimer += int(diff.count());
+                        start_time = std::chrono::high_resolution_clock::now();
 
                         // group animation
                         if (hasGroup && groupFunctionIDs->grouplist.size() > 0)
@@ -2251,7 +2250,7 @@ void BehaviorSub::CompilingBehavior()
                                     if (error) throw nemesis::exception();
 
                                     lastID += IDMultiplier;
-                                    boost::asio::post(mt2, boost::bind(&groupThreadStart, args, &mt));
+                                    boost::asio::post(mt2, std::bind(&groupThreadStart, args, &mt));
                                 }
                                 catch (nemesis::exception&)
                                 {
@@ -2304,8 +2303,8 @@ void BehaviorSub::CompilingBehavior()
                             if (error) throw nemesis::exception();
                         }
 
-                        diff = boost::posix_time::microsec_clock::local_time() - start_time;
-                        grouptimer += int(diff.total_milliseconds());
+                        diff = std::chrono::high_resolution_clock::now() - start_time;
+                        grouptimer += int(diff.count());
                         DebugLogging("Processing behavior: " + filepath
                                      + " (Check point 3.8, Mod code: " + templateCode
                                      + ", Animation count: " + to_string(newAnimCount) + " COMPLETE)");

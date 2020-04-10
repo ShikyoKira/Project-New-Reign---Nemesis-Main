@@ -1,5 +1,6 @@
 #include "Global.h"
 
+#include <map>
 #include <regex>
 #include <unordered_set>
 

@@ -7,7 +7,7 @@
 #include <QMimeData>
 #include <QObject>
 
-#include <boost/date_time/posix_time/posix_time.hpp>
+#include <chrono>
 
 #include "ui/BehaviorInfo.h"
 
@@ -54,7 +54,7 @@ public slots:
 private:
     QList<BehaviorInfo> behaviorList;
     Qt::CheckState tempCheck;
-    boost::posix_time::ptime click_time = boost::posix_time::microsec_clock::local_time();
+    std::chrono::high_resolution_clock::time_point click_time = std::chrono::high_resolution_clock::now();
     bool m_DropOnItems;
     int draggedIndex = 0;
 };

@@ -103,7 +103,7 @@ bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value,
         else if (role == Qt::CheckStateRole)
         {
             tempCheck                       = behaviorList[index.row()].state;
-            click_time                      = boost::posix_time::microsec_clock::local_time();
+            click_time                      = std::chrono::high_resolution_clock::now();
             behaviorList[index.row()].state = tempCheck == Qt::Unchecked ? Qt::Checked : Qt::Unchecked;
             VecStr chosenBehavior;
 
@@ -164,10 +164,10 @@ void BehaviorListModel::goToUrl(const QModelIndex& index)
 
     if (tempCheck != behaviorList[index.row()].state)
     {
-        namespace bt = boost::posix_time;
-        double diff  = (bt::microsec_clock::local_time() - click_time).total_milliseconds();
+        auto diff = (std::chrono::high_resolution_clock::now() - click_time);
+        int ms    = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
 
-        if (diff < 400) return;
+        if (ms < 400) return;
     }
 
     std::string link = data(index, Qt::DisplayRole).toString().toStdString();

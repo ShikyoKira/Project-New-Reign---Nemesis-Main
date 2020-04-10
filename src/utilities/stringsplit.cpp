@@ -1,5 +1,7 @@
 #include "Global.h"
 
+#include <iterator>
+
 #include "utilities/stringsplit.h"
 
 using namespace std;
@@ -7,7 +9,7 @@ using namespace std;
 void StringSplit(const string& line, VecStr& container)
 {
     std::istringstream iss(line);
-    container = VecStr(std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>());
+    container.assign(std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>());
 }
 
 void StringSplit(const string& line, VecStr& container, const string& anyChar)

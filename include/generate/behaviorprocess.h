@@ -5,7 +5,7 @@
 
 #include <QtCore/QObject>
 
-#include <boost/atomic.hpp>
+
 
 #include "ui/ProgressUp.h"
 
@@ -73,7 +73,7 @@ private:
     std::atomic_flag upFlag{};
 
     // timer
-    boost::posix_time::ptime start_time;
+    std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();
 };
 
 #endif

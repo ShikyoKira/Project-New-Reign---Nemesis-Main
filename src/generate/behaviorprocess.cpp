@@ -984,11 +984,11 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                     if (lowerFileName == "animationdatasinglefile.txt")
                     {
                         boost::asio::post(
-                            mt, boost::bind(&BehaviorSub::AnimDataCompilation, worker)); // 9 progress ups
+                            mt, std::bind(&BehaviorSub::AnimDataCompilation, worker)); // 9 progress ups
                     }
                     else if (lowerFileName == "animationsetdatasinglefile.txt")
                     {
-                        boost::asio::post(mt, boost::bind(&BehaviorSub::ASDCompilation, worker));
+                        boost::asio::post(mt, std::bind(&BehaviorSub::ASDCompilation, worker));
                     }
                     else
                     {
@@ -1081,11 +1081,11 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                             {
                                 boost::asio::post(
                                     mt,
-                                    boost::bind(&BehaviorSub::AnimDataCompilation, worker)); // 9 progress ups
+                                    std::bind(&BehaviorSub::AnimDataCompilation, worker)); // 9 progress ups
                             }
                             else if (lowerFileName == "animationsetdatasinglefile.txt")
                             {
-                                boost::asio::post(mt, boost::bind(&BehaviorSub::ASDCompilation, worker));
+                                boost::asio::post(mt, std::bind(&BehaviorSub::ASDCompilation, worker));
                             }
                             else
                             {
@@ -1133,7 +1133,8 @@ void BehaviorStart::milestoneStart()
     m_RunningThread = 1;
     failedBehaviors.clear();
     PatchReset();
-    start_time = boost::posix_time::microsec_clock::local_time();
+    start_time = std::chrono::high_resolution_clock::now();
+
     DebugLogging("Nemesis Behavior Version: v" + GetNemesisVersion());
     string curdir = QCoreApplication::applicationDirPath().toStdString();
     replace(curdir.begin(), curdir.end(), '/', '\\');
@@ -1203,37 +1204,11 @@ void BehaviorStart::unregisterProcess(bool skip)
             else
             {
                 string msg;
-                bool ms   = false;
                 auto diff = std::chrono::high_resolution_clock::now() - start_time;
+                int seconds = std::chrono::duration_cast<std::chrono::seconds>(diff).count();
 
-                if (ms)
-                {
-                    DebugLogging("Number of animations: " + to_string(animCount));
-                    int second = diff.total_milliseconds();
-
-                    if (second > 1000)
-                    {
-                        string milli = to_string(second % 1000);
-
-                        while (milli.length() < 3)
-                        {
-                            milli.insert(0, "0");
-                        }
-
-                        msg = TextBoxMessage(1009) + ": " + to_string(second / 1000) + "," + milli + " "
-                              + TextBoxMessage(1011);
-                    }
-                    else
-                    {
-                        msg = TextBoxMessage(1009) + ": " + to_string(second) + " " + TextBoxMessage(1011);
-                    }
-                }
-                else
-                {
-                    DebugLogging("Number of animations: " + to_string(animCount));
-                    msg = TextBoxMessage(1009) + ": " + to_string(diff.total_seconds()) + " "
-                          + TextBoxMessage(1012);
-                }
+                DebugLogging("Number of animations: " + to_string(animCount));
+                msg = TextBoxMessage(1009) + ": " + to_string(seconds) + " " + TextBoxMessage(1012);
 
                 interMsg(msg);
                 DebugLogging(msg);
@@ -1370,9 +1345,9 @@ void addOnInstall(string templine,
 void startThreadfromPool(boost::asio::thread_pool& mt, BehaviorSub* worker, void (BehaviorSub::*func)())
 {
 #if MULTITHREADED_UPDATE
-    boost::asio::post(mt, boost::bind(func, worker));
+    boost::asio::post(mt, std::bind(func, worker));
 #else
     //(worker->*func)();
-    boost::asio::post(mt, boost::bind(func, worker));
+    boost::asio::post(mt, std::bind(func, worker));
 #endif
 }
