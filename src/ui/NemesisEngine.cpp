@@ -16,7 +16,7 @@
 #include "generate/behaviorprocess.h"
 
 std::atomic<uint> resizeCount = 0;
-boost::atomic_flag atm_resize         = BOOST_ATOMIC_FLAG_INIT;
+std::atomic_flag atm_resize        {};
 
 NemesisEngine::NemesisEngine(QWidget* parent)
     : QWidget(parent)
@@ -647,7 +647,7 @@ void NemesisEngine::firstNull()
 
 void NemesisEngine::resizeDone()
 {
-    while (atm_resize.test_and_set(boost::memory_order_acquire))
+    while (atm_resize.test_and_set(std::memory_order_acquire))
         ;
     --resizeCount;
 
@@ -658,5 +658,5 @@ void NemesisEngine::resizeDone()
         nemesisInfo->iniFileUpdate();
     }
 
-    atm_resize.clear(boost::memory_order_release);
+    atm_resize.clear(std::memory_order_release);
 }

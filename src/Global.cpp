@@ -14,7 +14,7 @@
 using namespace std;
 namespace sf = filesystem;
 
-boost::atomic_flag atomLock = BOOST_ATOMIC_FLAG_INIT;
+std::atomic_flag atomLock{};
 
 bool debug = false;
 int memory = 100;
@@ -358,7 +358,7 @@ bool hasAlpha(string line)
 
 void addUsedAnim(string behaviorFile, string animPath)
 {
-    while (atomLock.test_and_set(boost::memory_order_acquire))
+    while (atomLock.test_and_set(std::memory_order_acquire))
         ;
 
     try
@@ -367,9 +367,9 @@ void addUsedAnim(string behaviorFile, string animPath)
     }
     catch (const std::exception& ex)
     {
-        atomLock.clear(boost::memory_order_release);
+        atomLock.clear(std::memory_order_release);
         throw ex;
     }
 
-    atomLock.clear(boost::memory_order_release);
+    atomLock.clear(std::memory_order_release);
 }

@@ -47,7 +47,7 @@ extern atomic<int> behaviorRun;
 extern atomic<int> extraCore;
 
 mutex anim_lock;
-boost::atomic_flag atomic_lock = BOOST_ATOMIC_FLAG_INIT;
+std::atomic_flag atomic_lock{};
 
 extern VecStr fileCheckMsg;
 
@@ -1270,7 +1270,7 @@ void BehaviorStart::unregisterProcess(bool skip)
 
 void BehaviorStart::EndAttempt()
 {
-    while (atomic_lock.test_and_set(boost::memory_order_acquire))
+    while (atomic_lock.test_and_set(std::memory_order_acquire))
         ;
 
     --m_RunningThread;
@@ -1315,7 +1315,7 @@ void BehaviorStart::EndAttempt()
         {}
     }
 
-    atomic_lock.clear(boost::memory_order_release);
+    atomic_lock.clear(std::memory_order_release);
 }
 
 void BehaviorStart::increaseAnimCount()

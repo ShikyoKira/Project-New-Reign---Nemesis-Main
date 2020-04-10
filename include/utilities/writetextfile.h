@@ -14,7 +14,7 @@ class FileWriter
 {
 private:
     FILE* file;
-    boost::atomic_flag filelock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag filelock{};
 
 public:
     FileWriter(const char* filename)

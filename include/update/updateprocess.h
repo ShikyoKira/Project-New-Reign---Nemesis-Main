@@ -99,8 +99,8 @@ private:
     bool newAnimFunction = true;
     ProgressUp behaviorProcess;
     std::string engineVersion;
-    boost::atomic_flag stackLock = BOOST_ATOMIC_FLAG_INIT;
-    boost::atomic_flag queueLock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag stackLock{};
+    std::atomic_flag queueLock{};
 
     std::unordered_map<std::string, std::unordered_map<std::string, VecStr>>
         modQueue; // behavior, node, list of mod
@@ -111,19 +111,19 @@ private:
 
     StateIDList modStateList; // behavior file, SM ID, state ID, list of mods
 #if MULTITHREADED_UPDATE
-    boost::atomic_flag stateListLock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag stateListLock{};
 #endif
 
     StateIDList duplicatedStateList; // behavior file, SM ID, state ID, list of conflicting mods
 #if MULTITHREADED_UPDATE
-    boost::atomic_flag duplicatedLock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag duplicatedLock{};
 #endif
 
     // update data container
     std::map<std::string, std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>> newFile;
     // behavior file, node ID, node data lines; memory to access each node
 #if MULTITHREADED_UPDATE
-    boost::atomic_flag newFileLock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag newFileLock{};
 #endif
 
     std::unordered_map<std::string,
@@ -144,12 +144,12 @@ private:
         modFileCounter; // modcode, behavior, number of files
     std::unordered_map<std::string, std::unordered_map<std::string, VecStr>>
         modFileList; // modcode, behavior, node files
-    boost::atomic_flag fileCountLock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag fileCountLock{};
 
     // global container locker
-    boost::atomic_flag behaviorPathLock        = BOOST_ATOMIC_FLAG_INIT;
-    boost::atomic_flag behaviorProjectLock     = BOOST_ATOMIC_FLAG_INIT;
-    boost::atomic_flag behaviorProjectPathLock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag behaviorPathLock       {};
+    std::atomic_flag behaviorProjectLock    {};
+    std::atomic_flag behaviorProjectPathLock{};
 
     // timer
     boost::posix_time::ptime start_time;

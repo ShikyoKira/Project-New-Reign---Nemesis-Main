@@ -17,7 +17,7 @@ OBJECTIVES:
 
 using namespace std;
 
-boost::atomic_flag newAnimAdditionLock = BOOST_ATOMIC_FLAG_INIT;
+std::atomic_flag newAnimAdditionLock{};
 
 void CombineAnimData(string filename,
                      string characterfile,

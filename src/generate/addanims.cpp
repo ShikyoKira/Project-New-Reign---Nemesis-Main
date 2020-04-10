@@ -8,7 +8,7 @@
 
 using namespace std;
 
-extern boost::atomic_flag animdata_lock;
+extern std::atomic_flag animdata_lock;
 
 bool AddAnims(string& line,
               string animPath,
@@ -68,7 +68,7 @@ bool AddAnims(string& line,
         boost::to_lower(animFile);
         isAdded[animPath] = true;
 
-        while (animdata_lock.test_and_set(boost::memory_order_acquire))
+        while (animdata_lock.test_and_set(std::memory_order_acquire))
             ;
         shared_ptr<AnimationDataTracker>& animData = charAnimDataInfo[lowerBehaviorFile][animFile];
 
@@ -77,7 +77,7 @@ bool AddAnims(string& line,
         else
             animData->SetOrder(counter);
 
-        animdata_lock.clear(boost::memory_order_release);
+        animdata_lock.clear(std::memory_order_release);
         newMod                                      = animPath.substr(11, animPath.find("\\", 11) - 11);
         vector<set<string>>* match_ptr              = &animModMatch[lowerBehaviorFile][animFile];
         size_t matchSize                            = match_ptr->size();

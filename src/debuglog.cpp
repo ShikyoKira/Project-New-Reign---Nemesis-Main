@@ -9,7 +9,7 @@ using namespace std;
 
 VecStr updatelog;
 VecStr patchlog;
-boost::atomic_flag atomlock = BOOST_ATOMIC_FLAG_INIT;
+std::atomic_flag atomlock{};
 ;
 string filename = "CriticalLog.txt";
 
@@ -37,12 +37,12 @@ void DebugLogging(string line, bool noEndLine)
         }
     }
 
-    while (atomlock.test_and_set(boost::memory_order_acquire))
+    while (atomlock.test_and_set(std::memory_order_acquire))
         ;
     ofstream relog(filename, ios_base::app);
     relog << "[" + currentTime() + "] " + line + "\n";
     relog.close();
-    atomlock.clear(boost::memory_order_release);
+    atomlock.clear(std::memory_order_release);
 }
 
 void UpdateReset()

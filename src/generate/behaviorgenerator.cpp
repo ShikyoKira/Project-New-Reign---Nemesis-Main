@@ -11,7 +11,7 @@
 
 using namespace std;
 
-boost::atomic_flag failedBehaviorFlag = BOOST_ATOMIC_FLAG_INIT;
+std::atomic_flag failedBehaviorFlag{};
 VecStr failedBehaviors;
 
 bool hkxcmdProcess(string xmlfile, string hkxfile, bool last)
@@ -30,11 +30,11 @@ bool hkxcmdProcess(string xmlfile, string hkxfile, bool last)
     {
         if (last) ErrorMessage(1003, xmlfile);
 
-        while (failedBehaviorFlag.test_and_set(boost::memory_order_acquire))
+        while (failedBehaviorFlag.test_and_set(std::memory_order_acquire))
             ;
         failedBehaviors.push_back(xmlfile);
         failedBehaviors.push_back(hkxfile);
-        failedBehaviorFlag.clear(boost::memory_order_release);
+        failedBehaviorFlag.clear(std::memory_order_release);
 
         return false;
     }

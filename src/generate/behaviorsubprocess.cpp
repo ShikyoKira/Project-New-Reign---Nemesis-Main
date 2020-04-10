@@ -39,7 +39,7 @@ struct NodeJoint;
 
 extern Terminator* p_terminate;
 extern atomic<int> m_RunningThread;
-extern boost::atomic_flag animdata_lock;
+extern std::atomic_flag animdata_lock;
 
 atomic<int> extraCore = 0;
 atomic<int> behaviorRun;
@@ -186,8 +186,8 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<shared_ptr<string>
 
     for (uint i = 0; i < elePoint.back() - 1; ++i)
     {
-        bool done      = false;
-        uint e         = elePoint[i];
+        bool done = false;
+        uint e    = elePoint[i];
 
         for (string& mod : behaviorPriority)
         {
@@ -1556,7 +1556,7 @@ void BehaviorSub::CompilingBehavior()
                             isAdded[animPath]                           = true;
                             registeredAnim[lowerBehaviorFile][animFile] = true;
 
-                            while (animdata_lock.test_and_set(boost::memory_order_acquire))
+                            while (animdata_lock.test_and_set(std::memory_order_acquire))
                                 ;
                             shared_ptr<AnimationDataTracker>& animData
                                 = charAnimDataInfo[lowerBehaviorFile][animFile];
@@ -1566,7 +1566,7 @@ void BehaviorSub::CompilingBehavior()
                             else
                                 animData->SetOrder(counter);
 
-                            animdata_lock.clear(boost::memory_order_release);
+                            animdata_lock.clear(std::memory_order_release);
                             (this->*tryAddAnim)();
                             ++counter;
 
@@ -1980,7 +1980,6 @@ void BehaviorSub::CompilingBehavior()
                         int IDMultiplier = newAnimation[templateCode][0]->getNextID(lowerBehaviorFile);
                         NewAnimLock animLock;
                         boost::asio::thread_pool mt;
-                        size_t n_core                       = boost::thread::hardware_concurrency();
                         boost::posix_time::ptime start_time = boost::posix_time::microsec_clock::local_time();
 
                         // individual animation
@@ -2207,12 +2206,14 @@ void BehaviorSub::CompilingBehavior()
                                     hasGroup))
                                 return;
 
-                            hasMaster
-                                ? stateID = {0}
-                                : stateID = GetStateID(
-                                      BehaviorTemplate->mainBehaviorJoint[templateCode][lowerBehaviorFile],
-                                      catalystMap,
-                                      functionState);
+                            if (hasMaster)
+                                stateID = {0};
+                            else
+                                stateID = GetStateID(
+                                    BehaviorTemplate->mainBehaviorJoint[templateCode][lowerBehaviorFile],
+                                    catalystMap,
+                                    functionState);
+
                             size_t n_newAnimCount = groupFunctionIDs->grouplist.size();
                             boost::asio::thread_pool mt2;
 

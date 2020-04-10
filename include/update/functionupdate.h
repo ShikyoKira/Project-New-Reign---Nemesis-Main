@@ -16,7 +16,7 @@
 class NodeU
 {
 #if MULTITHREADED_UPDATE
-    boost::atomic_flag nodelock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag nodelock{};
 #endif
 
     bool NodeUpdate(std::string modcode,
@@ -29,9 +29,9 @@ class NodeU
                     std::unordered_map<std::string, std::string>& lastUpdate
 #if MULTITHREADED_UPDATE
                     ,
-                    boost::atomic_flag& filelock,
-                    boost::atomic_flag& stateLock,
-                    boost::atomic_flag& parentLock
+                    std::atomic_flag& filelock,
+                    std::atomic_flag& stateLock,
+                    std::atomic_flag& parentLock
 #endif
     );
 
@@ -46,9 +46,9 @@ public:
                         std::unordered_map<std::string, std::string>& lastUpdate
 #if MULTITHREADED_UPDATE
                         ,
-                        boost::atomic_flag& filelock,
-                        boost::atomic_flag& stateLock,
-                        boost::atomic_flag& parentLock
+                        std::atomic_flag& filelock,
+                        std::atomic_flag& stateLock,
+                        std::atomic_flag& parentLock
 #endif
     );
 };

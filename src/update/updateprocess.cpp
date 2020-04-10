@@ -34,8 +34,8 @@ extern mutex processlock;
 extern condition_variable cv;
 extern Terminator* p_terminate;
 extern atomic<int> m_RunningThread;
-extern boost::atomic_flag atomic_lock;
-extern boost::atomic_flag newAnimAdditionLock;
+extern std::atomic_flag atomic_lock;
+extern std::atomic_flag newAnimAdditionLock;
 
 #if MULTITHREADED_UPDATE
 mutex admtx;
@@ -57,7 +57,7 @@ void stateCheck(SSMap& parent,
                 StateIDList& duplicatedStateList
 #if MULTITHREADED_UPDATE
                 ,
-                boost::atomic_flag& lockless
+                std::atomic_flag& lockless
 #endif
 );
 
@@ -86,7 +86,7 @@ struct arguPack
              shared_ptr<UpdateLock> n_modUpdate
 #if MULTITHREADED_UPDATE
              ,
-             boost::atomic_flag& n_parentLock
+             std::atomic_flag& n_parentLock
 #endif
              )
         : newFile(n_newFile)
@@ -105,14 +105,14 @@ struct arguPack
 
     unordered_map<string, unique_ptr<SSMap>> n_stateID;
 #if MULTITHREADED_UPDATE
-    boost::atomic_flag stateLock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag stateLock{};
 #endif
 
     unordered_map<string, unique_ptr<unordered_map<string, VecStr>>> statelist;
 
     SSSMap& parent;
 #if MULTITHREADED_UPDATE
-    boost::atomic_flag& parentLock;
+    std::atomic_flag& parentLock;
 #endif
 
     MasterAnimData& animData;
@@ -1693,7 +1693,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
                 unordered_map<string, VecStr> filelist2;
                 shared_ptr<UpdateLock> modUpPtr = make_shared<UpdateLock>(modUpdate);
 
-                boost::atomic_flag parentLock = BOOST_ATOMIC_FLAG_INIT;
+                std::atomic_flag parentLock{};
                 unordered_map<string, shared_ptr<arguPack>> pack;
                 vector<sf::path> pathlist;
 
@@ -2558,7 +2558,7 @@ void stateCheck(SSMap& parent,
                 StateIDList& duplicatedStateList
 #if MULTITHREADED_UPDATE
                 ,
-                boost::atomic_flag& lockless
+                std::atomic_flag& lockless
 #endif
 )
 {
