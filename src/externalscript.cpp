@@ -29,7 +29,7 @@ void RunScript(string directory, bool& hasScript)
     }
 
     bool warning = false;
-    vecstr scriptlist;
+    VecStr scriptlist;
     read_directory(directory, scriptlist);
 
     for (auto& file : scriptlist)
@@ -56,7 +56,7 @@ void RunScript(string directory, bool& hasScript)
         // visible scripts
         else if (nemesis::iequals(file, "show") && std::filesystem::is_directory(scriptfile))
         {
-            vecstr shownscriptlist;
+            VecStr shownscriptlist;
             read_directory(scriptpath, shownscriptlist);
 
             for (auto& shown : shownscriptlist)

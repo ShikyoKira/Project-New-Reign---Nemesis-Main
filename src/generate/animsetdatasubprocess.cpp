@@ -56,7 +56,7 @@ void BehaviorSub::CompilingASD()
     string behaviorFile      = filelist[curList].substr(0, filelist[curList].find_last_of("."));
     string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
-    vecstr projectList;
+    VecStr projectList;
     int projectcounter = 0;
     int headercounter  = 0;
     bool isOpen        = true;
@@ -64,16 +64,16 @@ void BehaviorSub::CompilingASD()
     string project     = "	";
     string header      = project;
     unordered_map<string, string> chosenLines;
-    unordered_map<string, map<string, vecstr, alphanum_less>> ASDPack;
+    unordered_map<string, map<string, VecStr, alphanum_less>> ASDPack;
     unordered_map<string, unique_ptr<AnimationDataProject>> ASDData;
 
     process->newMilestone();
 
     {
         // read behavior file
-        vecstr catalyst;
-        vecstr newline;
-        vecstr storeline;
+        VecStr catalyst;
+        VecStr newline;
+        VecStr storeline;
 
         if (!GetFunctionLines(filepath, catalyst, false)) return;
 
@@ -159,7 +159,7 @@ void BehaviorSub::CompilingASD()
 
         DebugLogging("Processing behavior: " + filepath
                      + " (Check point 2, AnimSetData mod selection complete)");
-        unordered_map<string, vecstr> animDataSetHeader;
+        unordered_map<string, VecStr> animDataSetHeader;
         animDataSetHeader[project].push_back(header);
 
         process->newMilestone();
@@ -167,7 +167,7 @@ void BehaviorSub::CompilingASD()
         int num;
         string line;
 
-        for (unsigned int i = projectList.size() + 1; i < storeline.size(); ++i)
+        for (uint i = projectList.size() + 1; i < storeline.size(); ++i)
         {
             line = storeline[i];
 
@@ -349,7 +349,7 @@ void BehaviorSub::CompilingASD()
         if (BehaviorTemplate->grouplist.find(lowerBehaviorFile) != BehaviorTemplate->grouplist.end()
             && BehaviorTemplate->grouplist[lowerBehaviorFile].size() > 0)
         {
-            unordered_map<string, unordered_map<string, vector<map<int, vecstr>>>>
+            unordered_map<string, unordered_map<string, vector<map<int, VecStr>>>>
                 editExtract; // project, header, list of extracts, startline, extractions;
                              // to get all edits done to master branch
 
@@ -363,9 +363,9 @@ void BehaviorSub::CompilingASD()
                 if (newAnimation.find(templateCode) != newAnimation.end()
                     && newAnimation[templateCode].size() != 0)
                 {
-                    for (unsigned int k = 0; k < newAnimation[templateCode].size(); ++k)
+                    for (uint k = 0; k < newAnimation[templateCode].size(); ++k)
                     {
-                        unordered_map<string, map<string, vecstr, alphanum_less>> generatedASD;
+                        unordered_map<string, map<string, VecStr, alphanum_less>> generatedASD;
                         newAnimation[templateCode][k]->GetAnimSetData(generatedASD);
 
                         for (auto it = generatedASD.begin(); it != generatedASD.end(); ++it)
@@ -410,7 +410,7 @@ void BehaviorSub::CompilingASD()
                                 if (ASDPack[interproject][interheader].size() == 0)
                                     ErrorMessage(5011, templateCode, interproject, interheader);
 
-                                map<int, vecstr> extract;
+                                map<int, VecStr> extract;
                                 newAnimation[templateCode][k]->existingASDProcess(
                                     ASDPack[interproject][interheader], extract, vector<int>(1));
                                 editExtract[interproject][interheader].push_back(extract);
@@ -438,7 +438,7 @@ void BehaviorSub::CompilingASD()
                             if (ASDPack[interproject][interheader].size() == 0)
                                 ErrorMessage(5011, templateCode, interproject, interheader);
 
-                            editExtract[interproject][interheader].push_back(*new map<int, vecstr>());
+                            editExtract[interproject][interheader].push_back(*new map<int, VecStr>());
 
                             if (error) throw nemesis::exception();
                         }
@@ -452,7 +452,7 @@ void BehaviorSub::CompilingASD()
             {
                 for (auto& header : project.second)
                 {
-                    map<int, vecstr> combined;
+                    map<int, VecStr> combined;
                     int totalline = 0;
 
                     for (auto& list : header.second)
@@ -487,7 +487,7 @@ void BehaviorSub::CompilingASD()
         for (string& curProject : projectList)
         {
             int startline = 0;
-            vecstr projectline;
+            VecStr projectline;
             projectline.push_back(to_string(ASDPack[curProject].size()));
 
             for (auto it : ASDPack[curProject])

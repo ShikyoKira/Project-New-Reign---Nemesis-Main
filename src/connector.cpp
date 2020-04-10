@@ -15,9 +15,9 @@ using namespace std;
 mutex processlock;
 condition_variable cv;
 bool processdone = false;
-map<string, vecstr> modinfo;
+map<string, VecStr> modinfo;
 
-vecstr hiddenMods;
+VecStr hiddenMods;
 atomic<int> m_RunningThread;
 Terminator* p_terminate = new Terminator;
 
@@ -32,7 +32,7 @@ bool isRunning(Terminator*& curEvent)
 bool readMod(string& errormsg)
 {
     string folder = "mod\\";
-    vecstr modlist;
+    VecStr modlist;
     read_directory(folder, modlist);
 
     for (auto& modcode : modlist)
@@ -40,7 +40,7 @@ bool readMod(string& errormsg)
         if (std::filesystem::is_directory(folder + modcode) && isFileExist(folder + modcode + "\\info.ini"))
         {
             string filename = folder + modcode + "\\info.ini";
-            vecstr storeline;
+            VecStr storeline;
             string name, author, site, automatic, hide;
             bool hidden = false;
 
@@ -119,7 +119,7 @@ void DummyLog::message(std::string input)
     emit incomingMessage(QString::fromStdString(input));
 }
 
-vecstr getHiddenMods()
+VecStr getHiddenMods()
 {
     return hiddenMods;
 }

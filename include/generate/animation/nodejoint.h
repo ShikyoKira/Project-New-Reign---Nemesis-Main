@@ -1,15 +1,16 @@
 #ifndef NODEJOINT_H_
 #define NODEJOINT_H_
 
+#include "Global.h"
 #include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-using id              = std::unordered_map<std::string, int>;
-using vecstr          = std::vector<std::string>;
-using setstr          = std::set<std::string>;
+using ID              = std::unordered_map<std::string, int>;
+using VecStr          = std::vector<std::string>;
+using SetStr          = std::set<std::string>;
 using SSMap           = std::unordered_map<std::string, std::string>;
 using ImportContainer = std::unordered_map<std::string, SSMap>;
 
@@ -22,12 +23,12 @@ struct LineCheck
 {
     bool deleted = true;
     bool process = false;
-    unsigned int row;
+    uint row;
     std::string line;
     std::shared_ptr<NodeJoint> nested;
 
-    LineCheck(std::string _line, unsigned int _row);
-    LineCheck(std::shared_ptr<NodeJoint> _nested, unsigned int _row);
+    LineCheck(std::string _line, uint _row);
+    LineCheck(std::shared_ptr<NodeJoint> _nested, uint _row);
 
     LineCheck& operator=(std::string _line);
     LineCheck& operator=(std::shared_ptr<NodeJoint> _nested);
@@ -45,8 +46,8 @@ struct NodePackedParameters
     std::shared_ptr<master> subFunctionIDs;
     ImportContainer& import;
     int linecount;
-    id eventid;
-    id variableid;
+    ID eventid;
+    ID variableid;
     std::string zeroEvent;
     std::string zeroVariable;
     int groupMulti;
@@ -56,7 +57,7 @@ struct NodePackedParameters
     std::string multiOption;
     std::vector<std::vector<std::unordered_map<std::string, bool>>>& optionPicked;
     unsigned __int64& openRange;
-    unsigned int& elementCount;
+    uint& elementCount;
     std::string& line;
     LineCheck* elementCatch;
     bool& negative;
@@ -71,8 +72,8 @@ struct NodePackedParameters
                          std::shared_ptr<master> _subFunctionIDs,
                          ImportContainer& _import,
                          int _linecount,
-                         id _eventid,
-                         id _variableid,
+                         ID _eventid,
+                         ID _variableid,
                          std::string _zeroEvent,
                          std::string _zeroVariable,
                          int _groupMulti,
@@ -82,7 +83,7 @@ struct NodePackedParameters
                          std::string _multiOption,
                          std::vector<std::vector<std::unordered_map<std::string, bool>>>& _optionPicked,
                          unsigned __int64& _openRange,
-                         unsigned int& _elementCount,
+                         uint& _elementCount,
                          std::string& _line,
                          LineCheck* _elementCatch,
                          bool& _negative);
@@ -101,30 +102,30 @@ struct NodeJoint
     };
 
     bool conditionSkip = false;
-    unsigned int row;
+    uint row;
     FuncType type     = NONE;
     std::string condt = "";
     std::vector<LineCheck> storeTemplate;
     std::vector<std::vector<LineCheck>> output;
-    std::unordered_map<std::string, std::vector<unsigned int>>
+    std::unordered_map<std::string, std::vector<uint>>
         templateSection; // template code, list of index of template section
     std::string behaviorFile;
-    setstr templateGroup;
+    SetStr templateGroup;
 
-    NodeJoint(vecstr& node,
+    NodeJoint(VecStr& node,
               std::string format,
               std::string filename,
               std::string _behaviorFile,
               std::unordered_map<std::string, std::string> otherAnimType,
-              unsigned int startline = 0,
-              unsigned int size      = -1);
-    NodeJoint(vecstr& node,
+              uint startline = 0,
+              uint size      = -1);
+    NodeJoint(VecStr& node,
               std::string format,
               std::string filename,
               std::string _behaviorFile,
-              setstr _templateGroup,
-              unsigned int startline = 0,
-              unsigned int size      = -1);
+              SetStr _templateGroup,
+              uint startline = 0,
+              uint size      = -1);
 
     void insertData(std::string format,
                     std::string filename,
@@ -141,12 +142,12 @@ struct NodeJoint
                     std::string& strID,
                     SSMap& IDExist,
                     ImportContainer& import,
-                    id eventid,
-                    id variableid,
+                    ID eventid,
+                    ID variableid,
                     std::string zeroEvent,
                     std::string zeroVariable,
                     unsigned __int64& openRange,
-                    unsigned int elementCount,
+                    uint elementCount,
                     LineCheck* elementCatch,
                     std::shared_ptr<master> subFunctionIDs,
                     bool& negative);
@@ -154,7 +155,7 @@ struct NodeJoint
     void forEachProcess(std::vector<std::vector<LineCheck>>& output,
                         LineCheck& storeTemplate,
                         std::string condition,
-                        unsigned int sect,
+                        uint sect,
                         std::string format,
                         std::string filename,
                         std::vector<std::vector<std::unordered_map<std::string, bool>>>& optionPicked,
@@ -170,49 +171,49 @@ struct NodeJoint
                         std::string& strID,
                         SSMap& IDExist,
                         ImportContainer& import,
-                        id eventid,
-                        id variableid,
+                        ID eventid,
+                        ID variableid,
                         std::string zeroEvent,
                         std::string zeroVariable,
                         unsigned __int64 openRange,
-                        unsigned int elementCount,
+                        uint elementCount,
                         LineCheck* elementCatch,
                         std::shared_ptr<master> subFunctionIDs,
                         bool& negative);
     static void optionMultiLoop(std::vector<LineCheck>& output,
-                         std::string format,
-                         std::string filename,
-                         std::vector<std::vector<std::unordered_map<std::string, bool>>>& optionPicked,
-                         const std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& groupAnimInfo,
-                         int groupMulti,
-                         int animMulti,
-                         int optionMulti,
-                         bool ignoreGroup,
-                         std::string multiOption,
-                         int& nextFunctionID,
-                         std::string& strID,
-                         SSMap& IDExist,
-                         ImportContainer& import,
-                         id eventid,
-                         id variableid,
-                         std::string zeroEvent,
-                         std::string zeroVariable,
-                         unsigned __int64 openRange,
-                         unsigned int elementCount,
-                         LineCheck* elementCatch,
-                         std::shared_ptr<master> subFunctionIDs,
-                         bool& negative,
-                         LineCheck temp);
+                                std::string format,
+                                std::string filename,
+                                std::vector<std::vector<std::unordered_map<std::string, bool>>>& optionPicked,
+                                const std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& groupAnimInfo,
+                                int groupMulti,
+                                int animMulti,
+                                int optionMulti,
+                                bool ignoreGroup,
+                                std::string multiOption,
+                                int& nextFunctionID,
+                                std::string& strID,
+                                SSMap& IDExist,
+                                ImportContainer& import,
+                                ID eventid,
+                                ID variableid,
+                                std::string zeroEvent,
+                                std::string zeroVariable,
+                                unsigned __int64 openRange,
+                                uint elementCount,
+                                LineCheck* elementCatch,
+                                std::shared_ptr<master> subFunctionIDs,
+                                bool& negative,
+                                LineCheck temp);
 
-    vecstr unpack(); // output all stored outputs in different layers
+    VecStr unpack(); // output all stored outputs in different layers
 
 private:
-    void dataBake(vecstr& node,
+    void dataBake(VecStr& node,
                   std::string format,
                   std::string filename,
                   std::unordered_map<std::string, std::string> otherAnimType,
-                  unsigned int startline = 0,
-                  unsigned int size      = -1);
+                  uint startline = 0,
+                  uint size      = -1);
 };
 
 #endif

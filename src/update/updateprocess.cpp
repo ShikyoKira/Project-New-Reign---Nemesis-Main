@@ -50,7 +50,7 @@ void stateCheck(SSMap& parent,
                 string sID,
                 unique_ptr<SSMap>& stateID,
                 unique_ptr<SSMap>& n_stateID,
-                vecstr children,
+                VecStr children,
                 string filename,
                 string ID,
                 string modcode,
@@ -79,7 +79,7 @@ public:
 
 struct arguPack
 {
-    arguPack(map<string, unique_ptr<map<string, vecstr, alphanum_less>>>& n_newFile,
+    arguPack(map<string, unique_ptr<map<string, VecStr, alphanum_less>>>& n_newFile,
              SSSMap& n_parent,
              MasterAnimData& n_animData,
              MasterAnimSetData& n_animSetData,
@@ -101,14 +101,14 @@ struct arguPack
     }
 
     shared_ptr<UpdateLock> modUpdate;
-    map<string, unique_ptr<map<string, vecstr, alphanum_less>>>& newFile;
+    map<string, unique_ptr<map<string, VecStr, alphanum_less>>>& newFile;
 
     unordered_map<string, unique_ptr<SSMap>> n_stateID;
 #if MULTITHREADED_UPDATE
     boost::atomic_flag stateLock = BOOST_ATOMIC_FLAG_INIT;
 #endif
 
-    unordered_map<string, unique_ptr<unordered_map<string, vecstr>>> statelist;
+    unordered_map<string, unique_ptr<unordered_map<string, VecStr>>> statelist;
 
     SSSMap& parent;
 #if MULTITHREADED_UPDATE
@@ -404,7 +404,7 @@ bool UpdateFilesStart::VanillaUpdate()
             {
                 output << it->first.data() << "\n";
 
-                for (unsigned int i = 0; i < it->second.size(); ++i)
+                for (uint i = 0; i < it->second.size(); ++i)
                 {
                     output << it->second[i] << "\n";
                 }
@@ -440,7 +440,7 @@ bool UpdateFilesStart::VanillaUpdate()
 
 void UpdateFilesStart::GetFileLoop(string path)
 {
-    vecstr filelist;
+    VecStr filelist;
     read_directory(path, filelist);
 
     for (auto& file : filelist)
@@ -538,8 +538,8 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
                                              + curBehavior->file.stem().string().substr(8));
             }
 
-            unique_ptr<map<string, vecstr, alphanum_less>> _curNewFile
-                = make_unique<map<string, vecstr, alphanum_less>>();
+            unique_ptr<map<string, VecStr, alphanum_less>> _curNewFile
+                = make_unique<map<string, VecStr, alphanum_less>>();
             unique_ptr<map<string, unordered_map<string, bool>>> _childrenState
                 = make_unique<map<string, unordered_map<string, bool>>>();
             unique_ptr<SSMap> _stateID = make_unique<SSMap>();
@@ -583,13 +583,13 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
                 behaviorProjectPath[curFileName] = curPath;
             }
 
-            vecstr storeline;
+            VecStr storeline;
             bool record = false;
             DebugLogging("Nemesis Project Record start (File: " + newPath + ")");
 
             if (!GetFunctionLines(newPath, storeline)) return;
 
-            for (unsigned int j = 0; j < storeline.size(); ++j)
+            for (uint j = 0; j < storeline.size(); ++j)
             {
                 string& line = storeline[j];
 
@@ -633,7 +633,7 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
         {
             try
             {
-                vecstr filelist;
+                VecStr filelist;
                 read_directory(path, filelist);
 
                 for (auto& file : filelist)
@@ -700,18 +700,18 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
 }
 
 bool UpdateFilesStart::VanillaDisassemble(string path,
-                                          unique_ptr<map<string, vecstr, alphanum_less>>& curNewFile,
+                                          unique_ptr<map<string, VecStr, alphanum_less>>& curNewFile,
                                           unique_ptr<map<string, unordered_map<string, bool>>>& childrenState,
                                           unique_ptr<SSMap>& stateID,
                                           unique_ptr<SSMap>& parent)
 {
-    vecstr storeline;
+    VecStr storeline;
     storeline.reserve(2000);
 
     FileReader vanillafile(path);
     string curID;
 
-    unordered_map<string, vecstr> statelist; // parent ID, list of children
+    unordered_map<string, VecStr> statelist; // parent ID, list of children
 
     if (vanillafile.GetFile())
     {
@@ -804,7 +804,7 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
                     {
                         if (curline.find("			#") != NOT_FOUND)
                         {
-                            vecstr curElements;
+                            VecStr curElements;
                             string temp   = curline.substr(0, curline.find("#"));
                             string spaces = string(count(temp.begin(), temp.end(), '\t'), '\t');
                             StringSplit(curline, curElements);
@@ -988,7 +988,7 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 #endif
     int num;
     MasterAnimData::AnimDataList newline;
-    vecstr storeline;
+    VecStr storeline;
     unordered_map<string, int> projectNameCount;
 
     int projectcounter = 1;
@@ -1017,7 +1017,7 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 
     {
         MasterAnimData::AnimDataList prjlist;
-        vecstr charlist;
+        VecStr charlist;
         charlist.push_back(header);
 
         for (int i = 1; i < num; ++i)
@@ -1036,7 +1036,7 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
     newline.reserve(20);
     newline.clear();
 
-    for (unsigned int i = num; i < storeline.size(); ++i)
+    for (uint i = num; i < storeline.size(); ++i)
     {
         string line = storeline[i];
 
@@ -1157,9 +1157,9 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
 #if MULTITHREADED_UPDATE
     scoped_lock<mutex> asdlock(asdmtx);
 #endif
-    vecstr storeline;
+    VecStr storeline;
     int num;
-    vecstr newline;
+    VecStr newline;
     newline.reserve(500);
 
     if (!GetFunctionLines(path, storeline)) return false;
@@ -1173,7 +1173,7 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
         num = stoi(strnum) + 1;
     }
 
-    unordered_map<string, vecstr> animDataSetHeader;
+    unordered_map<string, VecStr> animDataSetHeader;
     string project     = "$header$";
     string header      = project;
     int projectcounter = 1;
@@ -1189,7 +1189,7 @@ bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& an
         animSetData.projectList.push_back(nemesis::to_lower_copy(storeline[i]));
     }
 
-    for (unsigned int i = num; i < storeline.size(); ++i)
+    for (uint i = num; i < storeline.size(); ++i)
     {
         if (i != storeline.size() - 1 && wordFind(storeline[i + 1], ".txt") != NOT_FOUND)
         {
@@ -1260,7 +1260,7 @@ void UpdateFilesStart::ModThread(string directory,
                                  string behavior,
                                  unordered_map<string, shared_ptr<arguPack>>& pack)
 {
-    vecstr* modlist = &modQueue[behavior][node];
+    VecStr* modlist = &modQueue[behavior][node];
 
     for (string& modcode : *modlist)
     {
@@ -1291,7 +1291,7 @@ void UpdateFilesStart::ModThread(string directory,
                     newChar = true;
                 }
 
-                vecstr uniquecodelist;
+                VecStr uniquecodelist;
                 string filepath = curPath.string();
                 read_directory(filepath, uniquecodelist);
 
@@ -1332,8 +1332,8 @@ void UpdateFilesStart::ModThread(string directory,
                     }
                     else
                     {
-                        vecstr header;
-                        vecstr infoheader;
+                        VecStr header;
+                        VecStr infoheader;
                         bool hasHeader = false;
                         newProjectList.insert(projectname);
 
@@ -1404,7 +1404,7 @@ void UpdateFilesStart::ModThread(string directory,
                     newProject = true;
                 }
 
-                vecstr uniquecodelist;
+                VecStr uniquecodelist;
                 read_directory(curPath.string(), uniquecodelist);
 
                 for (string& uniquecode : uniquecodelist)
@@ -1432,7 +1432,7 @@ void UpdateFilesStart::ModThread(string directory,
         }
         else
         {
-            unique_ptr<map<string, vecstr, alphanum_less>>& newFile(pack[modcode]->newFile[behavior]);
+            unique_ptr<map<string, VecStr, alphanum_less>>& newFile(pack[modcode]->newFile[behavior]);
             shared_ptr<UpdateLock> modUpdate(pack[modcode]->modUpdate);
 
             (*modUpdate)[behavior + node.substr(0, node.find_last_of("."))].FunctionUpdate(
@@ -1686,11 +1686,11 @@ void UpdateFilesStart::JoiningEdits(string directory)
         {
             if (isFileExist(directory))
             {
-                vecstr filelist;
+                VecStr filelist;
                 read_directory(directory, filelist);
 
                 unordered_map<string, NodeU> modUpdate;
-                unordered_map<string, vecstr> filelist2;
+                unordered_map<string, VecStr> filelist2;
                 shared_ptr<UpdateLock> modUpPtr = make_shared<UpdateLock>(modUpdate);
 
                 boost::atomic_flag parentLock = BOOST_ATOMIC_FLAG_INIT;
@@ -1726,7 +1726,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 
                         if (behavior == "_1stperson")
                         {
-                            vecstr fbehaviorlist;
+                            VecStr fbehaviorlist;
                             read_directory(path, fbehaviorlist);
 
                             for (auto& fbehavior : fbehaviorlist)
@@ -1735,7 +1735,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                 string fpath   = path + fbehavior + "\\";
                                 string recName = behavior + "\\" + fbehavior;
                                 read_directory(fpath, modFileList[modcode][recName]);
-                                vecstr* curList = &modFileList[modcode][recName];
+                                VecStr* curList = &modFileList[modcode][recName];
 
                                 for (auto& node : *curList)
                                 {
@@ -1746,14 +1746,14 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                 }
 
                                 pack[modcode]->statelist.insert(
-                                    make_pair(recName, make_unique<unordered_map<string, vecstr>>()));
+                                    make_pair(recName, make_unique<unordered_map<string, VecStr>>()));
                                 pack[modcode]->n_stateID.insert(make_pair(recName, make_unique<SSMap>()));
                             }
                         }
                         else
                         {
                             read_directory(path, modFileList[modcode][behavior]);
-                            vecstr* curList = &modFileList[modcode][behavior];
+                            VecStr* curList = &modFileList[modcode][behavior];
 
                             if (behavior != "animationdatasinglefile"
                                 && behavior != "animationsetdatasinglefile")
@@ -1767,7 +1767,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                 }
 
                                 pack[modcode]->statelist.insert(
-                                    make_pair(behavior, make_unique<unordered_map<string, vecstr>>()));
+                                    make_pair(behavior, make_unique<unordered_map<string, VecStr>>()));
                                 pack[modcode]->n_stateID.insert(make_pair(behavior, make_unique<SSMap>()));
                             }
                             else
@@ -1876,7 +1876,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 
 void UpdateFilesStart::CombiningFiles()
 {
-    vecstr fileline;
+    VecStr fileline;
     string compilingfolder     = "temp_behaviors\\";
     unsigned long long bigNum  = CRC32Convert(GetNemesisVersion());
     unsigned long long bigNum2 = bigNum;
@@ -1898,7 +1898,7 @@ void UpdateFilesStart::CombiningFiles()
         string rootID;
         bool isOpen = false;
         string OpeningMod;
-        vecstr fileline;
+        VecStr fileline;
         fileline.reserve(behavior.second->size());
 
         for (auto& node : (*behavior.second)) // behavior node ID
@@ -2039,7 +2039,7 @@ void UpdateFilesStart::CombiningFiles()
                     writeSave(output, line + "\n", total);
                 }
 
-                for (unsigned int i = 1; i < animData.animDataChar.size(); ++i)
+                for (uint i = 1; i < animData.animDataChar.size(); ++i)
                 { // character
                     string& project = animData.animDataChar[i];
                     outputlist << project + "\n";
@@ -2056,17 +2056,17 @@ void UpdateFilesStart::CombiningFiles()
                         if (newProjectList.find(project) != newProjectList.end())
                         {
                             string header    = animData.animDataHeader[project][0];
-                            vecstr& linelist = animData.newAnimData[project][header];
+                            VecStr& linelist = animData.newAnimData[project][header];
                             writeSave(output, linelist[0] + "\n", total);
                             outputlist << header + "\n";
                             writeSave(output, to_string(animsize) + "\n", total);
 
-                            for (unsigned int k = 1; k < linelist.size(); ++k)
+                            for (uint k = 1; k < linelist.size(); ++k)
                             {
                                 writeSave(output, linelist[k] + "\n", total);
                             }
 
-                            for (unsigned int j = 1; j < animData.animDataHeader[project].size(); ++j)
+                            for (uint j = 1; j < animData.animDataHeader[project].size(); ++j)
                             {
                                 header = animData.animDataHeader[project][j];
                                 outputlist << header + "\n";
@@ -2102,12 +2102,12 @@ void UpdateFilesStart::CombiningFiles()
                     {
                         writeSave(output, to_string(infosize) + "\n", total);
 
-                        for (unsigned int j = 0; j < animData.animDataInfo[project].size(); ++j)
+                        for (uint j = 0; j < animData.animDataInfo[project].size(); ++j)
                         {
                             string header = animData.animDataInfo[project][j];
                             outputlist << header + "\n";
 
-                            for (unsigned int k = 0; k < animData.newAnimData[project][header].size(); ++k)
+                            for (uint k = 0; k < animData.newAnimData[project][header].size(); ++k)
                             {
                                 writeSave(output, animData.newAnimData[project][header][k] + "\n", total);
                             }
@@ -2150,7 +2150,7 @@ void UpdateFilesStart::CombiningFiles()
                     writeSave(output, string(header + "\n"), total);
                 }
 
-                for (unsigned int i = 1; i < animSetData.projectList.size(); ++i)
+                for (uint i = 1; i < animSetData.projectList.size(); ++i)
                 {
                     string& project = animSetData.projectList[i];
                     outputlist << project + "\n"; // character
@@ -2171,7 +2171,7 @@ void UpdateFilesStart::CombiningFiles()
                         {
                             outputlist << header + "\n";
 
-                            for (unsigned int k = 0; k < it->second.size(); ++k)
+                            for (uint k = 0; k < it->second.size(); ++k)
                             {
                                 writeSave(output, it->second[k] + "\n", total);
                             }
@@ -2226,7 +2226,7 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 
     if (sf::is_directory(codefile))
     {
-        vecstr behaviorlist;
+        VecStr behaviorlist;
         read_directory(folderpath, behaviorlist);
 
         for (auto& beh : behaviorlist)
@@ -2238,7 +2238,7 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
             {
                 if (nemesis::iequals(beh, "animationdatasinglefile"))
                 {
-                    vecstr characterlist;
+                    VecStr characterlist;
                     read_directory(curfolderstr, characterlist);
 
                     for (auto& character : characterlist)
@@ -2283,11 +2283,11 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
                 }
                 else if (nemesis::iequals(beh, "animationsetdatasinglefile"))
                 {
-                    vecstr projectfile;
+                    VecStr projectfile;
                     read_directory(curfolderstr, projectfile);
                     DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
 
-                    for (unsigned int k = 0; k < projectfile.size(); ++k)
+                    for (uint k = 0; k < projectfile.size(); ++k)
                     {
                         if (sf::is_directory(curfolderstr + "\\" + projectfile[k])
                             && projectfile[k].find("~") != NOT_FOUND)
@@ -2339,7 +2339,7 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
     }
     else if (codefile.extension().string() == ".txt")
     {
-        vecstr storeline;
+        VecStr storeline;
 
         if (!saveLastUpdate(nemesis::to_lower_copy(folderpath), lastUpdate))
         {
@@ -2368,7 +2368,7 @@ void UpdateFilesStart::newAnimProcess(string sourcefolder)
 
     if (CreateFolder(sourcefolder))
     {
-        vecstr codelist;
+        VecStr codelist;
         read_directory(sourcefolder, codelist);
 
 #if MULTITHREADED_UPDATE
@@ -2551,7 +2551,7 @@ void stateCheck(SSMap& parent,
                 string sID,
                 unique_ptr<SSMap>& stateID,
                 unique_ptr<SSMap>& n_stateID,
-                vecstr children,
+                VecStr children,
                 string filename,
                 string ID,
                 string modcode,

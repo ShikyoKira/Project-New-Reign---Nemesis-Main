@@ -7,14 +7,14 @@
 
 using namespace std;
 
-vecstr warningMsges;
+VecStr warningMsges;
 
 void behaviorCheck()
 {
     // test if anim file used has been registered
     for (auto& it : usedAnim)
     {
-        vecstr forwardPort = behaviorJoints[it.first];
+        VecStr forwardPort = behaviorJoints[it.first];
 
         for (auto& behavior : forwardPort)
         {

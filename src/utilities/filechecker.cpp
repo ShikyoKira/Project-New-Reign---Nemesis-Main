@@ -71,13 +71,13 @@ bool PCEACheck()
     return true;
 }
 
-void behaviorActivateMod(vecstr behaviorPriority)
+void behaviorActivateMod(VecStr behaviorPriority)
 {
-    unordered_map<string, vecstr>
+    unordered_map<string, VecStr>
         behaviorActivator; // modcode, behavior; existence of the behavior in any of these
     string directory = "mod\\";
-    vecstr modlist;
-    unsigned int i = 1;
+    VecStr modlist;
+    uint i = 1;
 
     for (auto itr = behaviorPriority.rbegin(); itr != behaviorPriority.rend(); ++itr)
     {
@@ -94,7 +94,7 @@ void behaviorActivateMod(vecstr behaviorPriority)
             continue;
         }
 
-        vecstr behaviorlist;
+        VecStr behaviorlist;
         read_directory(newpath, behaviorlist);
 
         for (auto& behavior : behaviorlist)
@@ -103,7 +103,7 @@ void behaviorActivateMod(vecstr behaviorPriority)
             { activatedBehavior[nemesis::to_lower_copy(behavior)] = true; }
             else if (nemesis::iequals(behavior, "_1stperson"))
             {
-                vecstr fpbehaviorlist;
+                VecStr fpbehaviorlist;
                 read_directory(newpath + "\\" + behavior, fpbehaviorlist);
 
                 for (auto& fpbehavior : fpbehaviorlist)

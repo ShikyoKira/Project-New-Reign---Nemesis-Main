@@ -19,7 +19,7 @@ void stateInstall(string line,
                   bool isMC,
                   map<int, vector<range>>& lineblocks,
                   proc& process,
-                  void (proc::*func)(range, vecstr&));
+                  void (proc::*func)(range, VecStr&));
 void mainAnimEventInstall(string format,
                           string behaviorFile,
                           string change,
@@ -56,9 +56,9 @@ void GetMultiFromAddOn(addOnInfo& addinfo,
                        int& optionMulti,
                        int& endMulti);
 
-vecstr GetOptionInfo(string line, string format, string filename, int numline)
+VecStr GetOptionInfo(string line, string format, string filename, int numline)
 {
-    vecstr optionInfo;
+    VecStr optionInfo;
     optionInfo.reserve(3);
     optionInfo.push_back(format);
 
@@ -93,10 +93,10 @@ vecstr GetOptionInfo(string line, string format, string filename, int numline)
     return optionInfo;
 }
 
-vecstr GetOptionInfo(
+VecStr GetOptionInfo(
     string line, string format, string masterformat, string filename, string multiOption, int numline)
 {
-    vecstr optionInfo;
+    VecStr optionInfo;
     optionInfo.reserve(5);
     optionInfo.push_back(masterformat + "_group");
 
@@ -170,7 +170,7 @@ vecstr GetOptionInfo(
 }
 
 void AnimTemplate::ExamineTemplate(
-    string n_format, string n_file, vecstr templatelines, bool isGroup, bool isMaster, OptionList optionlist)
+    string n_format, string n_file, VecStr templatelines, bool isGroup, bool isMaster, OptionList optionlist)
 {
     bool isCore     = optionlist.core;
     bool isEnd      = false;
@@ -185,14 +185,14 @@ void AnimTemplate::ExamineTemplate(
     format          = n_format;
     behaviorFile    = n_file;
     string elementline;
-    unordered_map<int, vecstr> conditionStore;
+    unordered_map<int, VecStr> conditionStore;
     unordered_map<int, string> openConditions;
     vector<condset*> generatedlines;
     generatedlines.push_back(&lines);
 
     if (isCore)
     {
-        for (unsigned int i = 0; i < templatelines.size(); ++i)
+        for (uint i = 0; i < templatelines.size(); ++i)
         {
             bool uniqueskip = false;
             string line     = templatelines[i];
@@ -212,7 +212,7 @@ void AnimTemplate::ExamineTemplate(
     }
     else
     {
-        for (unsigned int i = 0; i < templatelines.size(); ++i)
+        for (uint i = 0; i < templatelines.size(); ++i)
         {
             bool uniqueskip = false;
             string line     = templatelines[i];
@@ -547,7 +547,7 @@ void AnimTemplate::Process(string& line,
             {
                 string output = itr->str(1);
                 pos           = itr->position(1);
-                vecstr curElements;
+                VecStr curElements;
                 StringSplit(output, curElements);
 
                 if (curElements.size() == 1)
@@ -601,7 +601,7 @@ void AnimTemplate::Process(string& line,
                 string ID = itr->str(1);
                 pos       = itr->position();
                 process.installBlock(
-                    range(pos, pos + itr->str().length(), vecstr{ID, line}, &proc::IDRegisAnim), numline);
+                    range(pos, pos + itr->str().length(), VecStr{ID, line}, &proc::IDRegisAnim), numline);
                 hasProcess = true;
             }
 
@@ -613,7 +613,7 @@ void AnimTemplate::Process(string& line,
                 string ID = itr->str(1);
                 pos       = itr->position();
                 process.installBlock(
-                    range(pos, pos + itr->str().length(), vecstr{ID, line}, &proc::IDRegisGroup), numline);
+                    range(pos, pos + itr->str().length(), VecStr{ID, line}, &proc::IDRegisGroup), numline);
                 hasProcess = true;
             }
         }
@@ -626,7 +626,7 @@ void AnimTemplate::Process(string& line,
             {
                 string ID = itr->str(1);
                 pos       = itr->position();
-                process.installBlock(range(pos, pos + itr->str().length(), vecstr{ID}, &proc::groupIDRegis),
+                process.installBlock(range(pos, pos + itr->str().length(), VecStr{ID}, &proc::groupIDRegis),
                                      numline);
                 hasProcess = true;
             }
@@ -637,7 +637,7 @@ void AnimTemplate::Process(string& line,
         // set function ID
         if (pos != NOT_FOUND)
         {
-            void (proc::*func)(range, vecstr&);
+            void (proc::*func)(range, VecStr&);
 
             if (isMaster)
                 func = &proc::IDRegisMaster;
@@ -651,7 +651,7 @@ void AnimTemplate::Process(string& line,
                  ++itr)
             {
                 pos = itr->position();
-                process.installBlock(range(pos, pos + itr->str().length(), vecstr{itr->str(1), line}, func),
+                process.installBlock(range(pos, pos + itr->str().length(), VecStr{itr->str(1), line}, func),
                                      numline);
                 hasProcess = true;
             }
@@ -756,7 +756,7 @@ void stateInstall(string line,
                   bool isMC,
                   map<int, vector<shared_ptr<range>>>& lineblocks,
                   proc& process,
-                  void (proc::*func)(range, vecstr&))
+                  void (proc::*func)(range, VecStr&))
 {
     int intID;
     boost::regex expr(format + "\\[" + animOrder + "\\]\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]");
@@ -786,7 +786,7 @@ void stateInstall(string line,
                 range blok(post,
                            post + full.length(),
                            vector<int>{intID, stoi(number), stoi(animOrder)},
-                           vecstr{full},
+                           VecStr{full},
                            func);
 
                 if (isMC) { lineblocks[blok.size].push_back(make_shared<range>(blok)); }
@@ -832,7 +832,7 @@ void mainAnimEventInstall(string format,
         bool num     = false;
         string first = itr->str(1);
         size_t post  = curPos + itr->position();
-        void (proc::*func)(range, vecstr&);
+        void (proc::*func)(range, VecStr&);
 
         if (first.length() == 0) { func = isGroup ? &proc::MAEMultiMaster : &proc::MAEMultiGroup; }
         else if (first == "F")
@@ -869,19 +869,19 @@ void mainAnimEventInstall(string format,
             isGroup ? process.installBlock(range(post,
                                                  post + itr->str().length(),
                                                  vector<int>{stoi(first)},
-                                                 vecstr{itr->str()},
+                                                 VecStr{itr->str()},
                                                  &proc::MAENumMaster),
                                            numline)
                     : process.installBlock(range(post,
                                                  post + itr->str().length(),
                                                  vector<int>{stoi(first)},
-                                                 vecstr{itr->str()},
+                                                 VecStr{itr->str()},
                                                  &proc::MAENumGroup),
                                            numline);
         }
         else
         {
-            isGroup ? process.installBlock(range(post, post + itr->str().length(), vecstr{itr->str()}, func),
+            isGroup ? process.installBlock(range(post, post + itr->str().length(), VecStr{itr->str()}, func),
                                            numline)
                     : process.installBlock(range(post, post + itr->str().length(), func), numline);
         }
@@ -1253,7 +1253,7 @@ bool condt::specialIsTrueB(proc* process,
 
         if (cmpbool1)
         {
-            for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+            for (uint i = 0; i < groupAnimInfo.size(); ++i)
             {
                 animMulti1_list.insert(i);
             }
@@ -1265,7 +1265,7 @@ bool condt::specialIsTrueB(proc* process,
 
         if (cmpbool2)
         {
-            for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+            for (uint i = 0; i < groupAnimInfo.size(); ++i)
             {
                 animMulti2_list.insert(i);
             }
@@ -1409,7 +1409,7 @@ bool condt::specialIsTrueB(proc* process,
                         {
                             if (history1[animMulti1][optionMulti1].length() == 0)
                             {
-                                vecstr lines       = cmp1;
+                                VecStr lines       = cmp1;
                                 process->animMulti = animMulti1;
 
                                 for (auto& blocklist : cmp1_block)
@@ -1441,7 +1441,7 @@ bool condt::specialIsTrueB(proc* process,
                         {
                             if (history2[animMulti2][optionMulti1].length() == 0)
                             {
-                                vecstr lines       = cmp2;
+                                VecStr lines       = cmp2;
                                 process->animMulti = animMulti2;
 
                                 for (auto& blocklist : cmp2_block)
@@ -1691,11 +1691,11 @@ void condt::conditionProcess(string condition,
     {
         optioncondt
             = isGroup
-                  ? (isMaster ? make_shared<vecstr>(GetOptionInfo(
+                  ? (isMaster ? make_shared<VecStr>(GetOptionInfo(
                          condition, format + "_master", format, behaviorFile, multiOption, numline))
-                              : make_shared<vecstr>(GetOptionInfo(
+                              : make_shared<VecStr>(GetOptionInfo(
                                   condition, format + "_group", format, behaviorFile, multiOption, numline)))
-                  : make_shared<vecstr>(GetOptionInfo(condition, format, behaviorFile, numline));
+                  : make_shared<VecStr>(GetOptionInfo(condition, format, behaviorFile, numline));
     }
 
     if (error) throw nemesis::exception();
@@ -1757,7 +1757,7 @@ condt::condt(string condition,
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (unsigned int i = 0; i < condition.size(); ++i)
+        for (uint i = 0; i < condition.size(); ++i)
         {
             if (condition[i] == '(') { ++c_or; }
             else if (condition[i] == ')')
@@ -2046,7 +2046,7 @@ void ProcessFunction(string change,
         {
             bool number  = false;
             string first = itr->str(1);
-            void (proc::*func)(range, vecstr&);
+            void (proc::*func)(range, VecStr&);
 
             if (first.length() == 0)
             {
@@ -2090,14 +2090,14 @@ void ProcessFunction(string change,
                 blok = make_shared<range>(curPos + itr->position(),
                                           curPos + itr->position() + itr->str().length(),
                                           vector<int>{stoi(first)},
-                                          vecstr{change},
+                                          VecStr{change},
                                           func);
             }
             else
             {
                 blok = make_shared<range>(curPos + itr->position(),
                                           curPos + itr->position() + itr->str().length(),
-                                          vecstr{change},
+                                          VecStr{change},
                                           func);
             }
 
@@ -2135,7 +2135,7 @@ void ProcessFunction(string change,
              ++itr)
         {
             string first = itr->str(1);
-            void (proc::*func)(range, vecstr&);
+            void (proc::*func)(range, VecStr&);
 
             if (first.length() == 0)
             {
@@ -2190,12 +2190,12 @@ void ProcessFunction(string change,
                           ? make_shared<range>(post,
                                                post + full.length(),
                                                vector<int>{intID, stoi(number), stoi(first)},
-                                               vecstr{full},
+                                               VecStr{full},
                                                func)
                           : make_shared<range>(post,
                                                post + full.length(),
                                                vector<int>{intID, stoi(number)},
-                                               vecstr{full},
+                                               VecStr{full},
                                                func);
                 isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
             }
@@ -2224,7 +2224,7 @@ void ProcessFunction(string change,
                 shared_ptr<range> blok               = make_shared<range>(post,
                                                             post + full.length(),
                                                             vector<int>{intID, stoi(number)},
-                                                            vecstr{full},
+                                                            VecStr{full},
                                                             &proc::stateMultiMasterToGroup);
                 isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
 
@@ -2261,7 +2261,7 @@ void ProcessFunction(string change,
             bool number  = false;
             size_t post  = curPos + itr->position();
             string first = itr->str(1);
-            void (proc::*func)(range, vecstr&);
+            void (proc::*func)(range, VecStr&);
 
             if (first.length() == 0)
             {
@@ -2300,7 +2300,7 @@ void ProcessFunction(string change,
 
             shared_ptr<range> blok;
             number ? blok = make_shared<range>(
-                         post, post + itr->str().length(), vector<int>{stoi(first)}, vecstr{change}, func)
+                         post, post + itr->str().length(), vector<int>{stoi(first)}, VecStr{change}, func)
                    : blok = make_shared<range>(post, post + itr->str().length(), func);
             isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
@@ -2332,7 +2332,7 @@ void ProcessFunction(string change,
             bool number  = false;
             size_t post  = curPos + itr->position();
             string first = itr->str(1);
-            void (proc::*func)(range, vecstr&);
+            void (proc::*func)(range, VecStr&);
 
             if (first.length() == 0)
             {
@@ -2371,7 +2371,7 @@ void ProcessFunction(string change,
 
             shared_ptr<range> blok;
             number ? blok = make_shared<range>(
-                         post, post + itr->str().length(), vector<int>{stoi(first)}, vecstr{change}, func)
+                         post, post + itr->str().length(), vector<int>{stoi(first)}, VecStr{change}, func)
                    : blok = make_shared<range>(post, post + itr->str().length(), func);
             isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
@@ -2438,7 +2438,7 @@ void ProcessFunction(string change,
             string optionMulti = itr->str(3);
             string full        = itr->str();
             size_t post        = curPos + itr->position();
-            void (proc::*func)(range, vecstr&);
+            void (proc::*func)(range, VecStr&);
             vector<int> container;
             ++counter;
             string templine;
@@ -2517,7 +2517,7 @@ void ProcessFunction(string change,
                 container.push_back(stoi(optionMulti));
             }
 
-            range blok(post, post + full.length(), container, vecstr{change}, func);
+            range blok(post, post + full.length(), container, VecStr{change}, func);
 
             if (isMC)
             {
@@ -2662,7 +2662,7 @@ void ProcessFunction(string change,
                     string header;
                     string first  = itr->str(1);
                     size_t addpos = curPos + itr->position();
-                    void (proc::*func)(range, vecstr&);
+                    void (proc::*func)(range, VecStr&);
 
                     if (first.length() == 0)
                     {
@@ -2710,7 +2710,7 @@ void ProcessFunction(string change,
                         range blok(addpos,
                                    addpos + itr->str().length(),
                                    vector<int>{stoi(first)},
-                                   vecstr{header, addname, change},
+                                   VecStr{header, addname, change},
                                    func);
 
                         if (isMC)
@@ -2733,7 +2733,7 @@ void ProcessFunction(string change,
                     else
                     {
                         range blok(
-                            addpos, addpos + itr->str().length(), vecstr{header, addname, change}, func);
+                            addpos, addpos + itr->str().length(), VecStr{header, addname, change}, func);
 
                         if (isMC)
                         {
@@ -2775,7 +2775,7 @@ void ProcessFunction(string change,
 
                     range blok(addpos,
                                addpos + itr->str().length(),
-                               vecstr{header, addname, change},
+                               VecStr{header, addname, change},
                                isGroup ? &proc::addOnMultiMaster : &proc::addOnSingle);
 
                     if (isMC)
@@ -2810,7 +2810,7 @@ void ProcessFunction(string change,
             if (isGroup) ErrorMessage(1206, format + "_group", behaviorFile, numline, itr->str());
 
             size_t post = curPos + itr->position();
-            range blok(post, post + itr->str().length(), vecstr{itr->str(1)}, &proc::lastState);
+            range blok(post, post + itr->str().length(), VecStr{itr->str(1)}, &proc::lastState);
             isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok))
                  : process->installBlock(blok, numline);
         }
@@ -2826,7 +2826,7 @@ void ProcessFunction(string change,
             size_t curcounter = 1;
             size_t post       = curPos + pos;
 
-            for (unsigned int ch = eventpos; ch < change.length(); ++ch)
+            for (uint ch = eventpos; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;
@@ -2862,7 +2862,7 @@ void ProcessFunction(string change,
             size_t curcounter = 1;
             size_t post       = curPos + pos;
 
-            for (unsigned int ch = varpos; ch < change.length(); ++ch)
+            for (uint ch = varpos; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;
@@ -2898,7 +2898,7 @@ void ProcessFunction(string change,
             size_t curcounter = 1;
             size_t post       = curPos + pos;
 
-            for (unsigned int ch = animpos; ch < change.length(); ++ch)
+            for (uint ch = animpos; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;
@@ -2943,7 +2943,7 @@ void ProcessFunction(string change,
             size_t encode     = pos + 6;
             size_t curcounter = 1;
 
-            for (unsigned int ch = encode; ch < change.length(); ++ch)
+            for (uint ch = encode; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;
@@ -2978,7 +2978,7 @@ void ProcessFunction(string change,
             size_t curcounter = 0;
             size_t post       = curPos + pos;
 
-            for (unsigned int ch = pos; ch < change.length(); ++ch)
+            for (uint ch = pos; ch < change.length(); ++ch)
             {
                 if (change[ch] == '[')
                     ++curcounter;
@@ -3025,7 +3025,7 @@ void ProcessFunction(string change,
             bool number  = false;
             string first = itr->str(1);
             size_t post  = curPos + itr->position();
-            void (proc::*func)(range, vecstr&);
+            void (proc::*func)(range, VecStr&);
 
             if (first.length() == 0)
             {
@@ -3064,8 +3064,8 @@ void ProcessFunction(string change,
 
             shared_ptr<range> blok
                 = number ? make_shared<range>(
-                      post, post + itr->str().length(), vector<int>{stoi(first)}, vecstr{change}, func)
-                         : make_shared<range>(post, post + itr->str().length(), vecstr{change}, func);
+                      post, post + itr->str().length(), vector<int>{stoi(first)}, VecStr{change}, func)
+                         : make_shared<range>(post, post + itr->str().length(), VecStr{change}, func);
             isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
 
@@ -3083,7 +3083,7 @@ void ProcessFunction(string change,
             shared_ptr<range> blok
                 = make_shared<range>(post,
                                      post + itr->str().length(),
-                                     vecstr{change},
+                                     VecStr{change},
                                      isGroup ? &proc::motionDataMultiMaster : &proc::motionDataSingle);
             isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
@@ -3101,7 +3101,7 @@ void ProcessFunction(string change,
             bool number  = false;
             string first = itr->str(1);
             size_t post  = curPos + itr->position();
-            void (proc::*func)(range, vecstr&);
+            void (proc::*func)(range, VecStr&);
 
             if (first.length() == 0)
             {
@@ -3140,7 +3140,7 @@ void ProcessFunction(string change,
 
             shared_ptr<range> blok
                 = number ? make_shared<range>(
-                      post, post + itr->str().length(), vector<int>{stoi(first)}, vecstr{change}, func)
+                      post, post + itr->str().length(), vector<int>{stoi(first)}, VecStr{change}, func)
                          : make_shared<range>(post, post + itr->str().length(), func);
             isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
@@ -3159,7 +3159,7 @@ void ProcessFunction(string change,
             shared_ptr<range> blok
                 = make_shared<range>(post,
                                      post + itr->str().length(),
-                                     vecstr{change},
+                                     VecStr{change},
                                      isGroup ? &proc::rotationDataMultiMaster : &proc::rotationDataSingle);
             isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
@@ -3186,11 +3186,11 @@ void GetMultiFromAddOn(addOnInfo& addinfo,
     }
     else
     {
-        unordered_map<string, vecstr>* addOnPtr = &groupAnimInfo[animMulti]->addOn;
+        unordered_map<string, VecStr>* addOnPtr = &groupAnimInfo[animMulti]->addOn;
 
         if (addOnPtr->find(addinfo.header) != addOnPtr->end() && (*addOnPtr)[addinfo.header].size() > 0)
         {
-            unordered_map<string, vecstr>* groupAdditionPtr
+            unordered_map<string, VecStr>* groupAdditionPtr
                 = &groupAnimInfo[animMulti]->groupAddition[addinfo.header];
 
             if (groupAdditionPtr->find(addinfo.addition) != groupAdditionPtr->end()

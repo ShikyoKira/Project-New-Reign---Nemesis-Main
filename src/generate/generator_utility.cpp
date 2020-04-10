@@ -24,11 +24,11 @@
 using namespace std;
 
 extern unordered_map<string, string> crc32Cache;
-extern vecstr warningMsges;
+extern VecStr warningMsges;
 static bool* globalThrow;
 
-vecstr fileCheckMsg;
-vecstr hkxFiles;
+VecStr fileCheckMsg;
+VecStr hkxFiles;
 
 boost::atomic_flag animdata_lock = BOOST_ATOMIC_FLAG_INIT;
 
@@ -41,10 +41,10 @@ void fileArchitectureCheck(string hkxfile);
 void checkFolder(string filepath);
 
 std::vector<int>
-GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map<int, int>& functionState)
+GetStateID(map<int, int> mainJoint, map<int, VecStr> functionlist, unordered_map<int, int>& functionState)
 {
     std::vector<int> stateID;
-    vecstr storeID;
+    VecStr storeID;
     bool open          = false;
     bool rightFunction = false;
     size_t jointsize   = mainJoint.size();
@@ -57,7 +57,7 @@ GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map
             {
                 int curState = 0;
 
-                for (unsigned int j = 0; j < functionlist[it->second].size(); ++j)
+                for (uint j = 0; j < functionlist[it->second].size(); ++j)
                 {
                     string curline = functionlist[it->second][j];
 
@@ -73,7 +73,7 @@ GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map
                         {
                             size_t counter = count(curline.begin(), curline.end(), '#');
                             size_t nextpos = 0;
-                            vecstr generator;
+                            VecStr generator;
                             StringSplit(curline, generator);
 
                             for (size_t k = 0; k < generator.size(); ++k) // multiple IDs in 1 line
@@ -84,7 +84,7 @@ GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map
 
                                 int ID = stoi(curline.substr(1));
 
-                                for (unsigned int l = 0; l < functionlist[ID].size(); ++l)
+                                for (uint l = 0; l < functionlist[ID].size(); ++l)
                                 {
                                     string line = functionlist[ID][l];
 
@@ -120,7 +120,7 @@ GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map
     return stateID;
 }
 
-bool GetStateCount(vector<int>& count, vecstr templatelines, string format, string filename, bool hasGroup)
+bool GetStateCount(vector<int>& count, VecStr templatelines, string format, string filename, bool hasGroup)
 {
     int counter = 1;
 
@@ -169,18 +169,18 @@ bool GetStateCount(vector<int>& count, vecstr templatelines, string format, stri
     return true;
 }
 
-vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
+VecStr newAnimationElement(string line, vector<VecStr> element, int curNumber)
 {
-    vecstr animElement;
+    VecStr animElement;
 
-    for (unsigned int j = 0; j < element[curNumber].size(); ++j)
+    for (uint j = 0; j < element[curNumber].size(); ++j)
     {
         string templine = line;
         templine.replace(templine.find("##"), 2, element[curNumber][j]);
 
         if (templine.find("##") != NOT_FOUND)
         {
-            vecstr tempAnimEvent = newAnimationElement(templine, element, curNumber + 1);
+            VecStr tempAnimEvent = newAnimationElement(templine, element, curNumber + 1);
             animElement.reserve(animElement.size() + tempAnimEvent.size());
             animElement.insert(animElement.end(), tempAnimEvent.begin(), tempAnimEvent.end());
         }
@@ -194,11 +194,11 @@ vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
 }
 
 string
-behaviorLineChooser(string originalline, unordered_map<string, string> chosenLines, vecstr behaviorPriority)
+behaviorLineChooser(string originalline, unordered_map<string, string> chosenLines, VecStr behaviorPriority)
 {
     int chosen = -1;
 
-    for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
+    for (uint i = 0; i < behaviorPriority.size(); ++i)
     {
         if (chosenLines[behaviorPriority[i]].length() != 0)
         {
@@ -261,7 +261,7 @@ void readList(string directory,
               TemplateInfo& behaviortemplate,
               bool firstP)
 {
-    vecstr filelist;
+    VecStr filelist;
 
     if (error) throw nemesis::exception();
 
@@ -341,7 +341,7 @@ vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate)
 
 void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 {
-    vecstr filelist;
+    VecStr filelist;
     read_directory(directory, filelist);
 
     try
@@ -391,13 +391,13 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 bool isEngineUpdated(string& versionCode)
 {
     string directory = "temp_behaviors";
-    vecstr filelist;
+    VecStr filelist;
 
     read_directory(directory, filelist);
 
     if (filelist.size() < 3) ErrorMessage(6006);
 
-    vecstr storeline;
+    VecStr storeline;
     string filename = "cache\\engine_update";
     unordered_map<string, bool> isChecked;
 
@@ -692,7 +692,7 @@ wstring GetFileDirectory(wstring filepath)
     return filepath.substr(0, dir.length() + 1);
 }
 
-int getTemplateNextID(vecstr& templatelines)
+int getTemplateNextID(VecStr& templatelines)
 {
     unordered_map<int, bool> taken;
     int IDUsed = 0;
@@ -754,7 +754,7 @@ bool isEdited(TemplateInfo* BehaviorTemplate,
 
         for (auto templist : BehaviorTemplate->grouplist)
         {
-            vecstr behaviorNames = behaviorJoints[templist.first];
+            VecStr behaviorNames = behaviorJoints[templist.first];
 
             for (auto name : behaviorNames)
             {
@@ -788,7 +788,7 @@ bool newAnimSkip(vector<shared_ptr<NewAnimation>> newAnim, string modID)
     return true;
 }
 
-void checkClipAnimData(string& line, vecstr& characterFiles, string& clipName, bool& isClip)
+void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, bool& isClip)
 {
     if (!isClip)
     {
@@ -898,7 +898,7 @@ void checkAllStoredHKX()
 
 void checkFolder(string filepath)
 {
-    vecstr list;
+    VecStr list;
     read_directory(filepath, list);
 
     for (auto& each : list)
@@ -955,15 +955,15 @@ void ClearGlobal(bool all)
     {
         DebugLogging("Global reset all: TRUE");
 
-        usedAnim = unordered_map<string, setstr>();
+        usedAnim = unordered_map<string, SetStr>();
 
         registeredAnim = unordered_map<string, unordered_map<string, bool>>();
 
-        animModMatch = unordered_map<string, unordered_map<string, vector<setstr>>>();
+        animModMatch = unordered_map<string, unordered_map<string, vector<SetStr>>>();
 
-        behaviorJoints = unordered_map<string, vecstr>();
+        behaviorJoints = unordered_map<string, VecStr>();
 
-        warningMsges = vecstr();
+        warningMsges = VecStr();
     }
     else
     {
@@ -978,12 +978,12 @@ void ClearGlobal(bool all)
     AAGroup             = unordered_map<string, string>();
     crc32Cache          = unordered_map<string, string>();
 
-    behaviorProject = unordered_map<string, vecstr>();
-    alternateAnim   = unordered_map<string, vecstr>();
-    groupAA         = unordered_map<string, vecstr>();
-    groupAAPrefix   = unordered_map<string, vecstr>();
-    AAEvent         = unordered_map<string, vecstr>();
-    AAHasEvent      = unordered_map<string, vecstr>();
+    behaviorProject = unordered_map<string, VecStr>();
+    alternateAnim   = unordered_map<string, VecStr>();
+    groupAA         = unordered_map<string, VecStr>();
+    groupAAPrefix   = unordered_map<string, VecStr>();
+    AAEvent         = unordered_map<string, VecStr>();
+    AAHasEvent      = unordered_map<string, VecStr>();
 
     pcealist = vector<PCEA>();
 
@@ -997,5 +997,5 @@ void ClearGlobal(bool all)
 
     groupNameList = set<string>();
 
-    fileCheckMsg = vecstr();
+    fileCheckMsg = VecStr();
 }

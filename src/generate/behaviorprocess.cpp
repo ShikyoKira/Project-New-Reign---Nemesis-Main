@@ -41,7 +41,7 @@ extern mutex cv2_m;
 extern condition_variable cv2;
 extern condition_variable cv;
 extern Terminator* p_terminate;
-extern vecstr failedBehaviors;
+extern VecStr failedBehaviors;
 extern atomic<int> m_RunningThread;
 extern atomic<int> behaviorRun;
 extern atomic<int> extraCore;
@@ -49,13 +49,13 @@ extern atomic<int> extraCore;
 mutex anim_lock;
 boost::atomic_flag atomic_lock = BOOST_ATOMIC_FLAG_INIT;
 
-extern vecstr fileCheckMsg;
+extern VecStr fileCheckMsg;
 
 void addOnInstall(string templine,
                   string& elementLine,
-                  vector<vecstr>& groupAddOnElement,
+                  vector<VecStr>& groupAddOnElement,
                   ImportContainer& addOn,
-                  unordered_map<string, unordered_map<string, vecstr>>& groupAddOn);
+                  unordered_map<string, unordered_map<string, VecStr>>& groupAddOn);
 void startThreadfromPool(boost::asio::thread_pool& mt, BehaviorSub* worker, void (BehaviorSub::*func)());
 
 BehaviorStart::BehaviorStart()
@@ -67,7 +67,7 @@ BehaviorStart::~BehaviorStart()
 }
 
 void BehaviorStart::addBehaviorPick(NemesisEngine* newWidget,
-                                    vecstr behaviorOrder,
+                                    VecStr behaviorOrder,
                                     unordered_map<string, bool> behaviorPick)
 {
     behaviorPriority = behaviorOrder;
@@ -75,7 +75,7 @@ void BehaviorStart::addBehaviorPick(NemesisEngine* newWidget,
     behaviorProcess.newWidget(newWidget);
 }
 
-void BehaviorStart::addBehaviorPick(vecstr behaviorOrder, unordered_map<string, bool> behaviorPick)
+void BehaviorStart::addBehaviorPick(VecStr behaviorOrder, unordered_map<string, bool> behaviorPick)
 {
     behaviorPriority = behaviorOrder;
     chosenBehavior   = behaviorPick;
@@ -206,7 +206,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
     DebugLogging("Registering new animations...");
 
     // read each animation list file'
-    for (unsigned int i = 0; i < animationList.size(); ++i)
+    for (uint i = 0; i < animationList.size(); ++i)
     {
         set<string> coreRegistered; // list of registered core behavior
         string modID = animationList[i]->modID;
@@ -233,10 +233,10 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
             shared_ptr<unordered_map<string, map<string, AnimTemplate, alphanum_less>>> asdTemplate
                 = make_shared<unordered_map<string, map<string, AnimTemplate, alphanum_less>>>();
 
-            unordered_map<string, vecstr>* functionlines = &BehaviorTemplate->behaviortemplate[templatecode];
-            unordered_map<string, unordered_map<string, vecstr>>* animdatalines
+            unordered_map<string, VecStr>* functionlines = &BehaviorTemplate->behaviortemplate[templatecode];
+            unordered_map<string, unordered_map<string, VecStr>>* animdatalines
                 = &BehaviorTemplate->animdatatemplate[templatecode];
-            unordered_map<string, map<string, vecstr, alphanum_less>>* asdlines
+            unordered_map<string, map<string, VecStr, alphanum_less>>* asdlines
                 = &BehaviorTemplate->asdtemplate[templatecode];
             newAnimation[templatecode].reserve(50 * memory);
             animationCount[templatecode]++;
@@ -270,7 +270,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                     {
                         DebugLogging("Core Registration: " + corecode);
                         coreRegistered.insert(corecode);
-                        unordered_map<string, vecstr>* c_functionlines
+                        unordered_map<string, VecStr>* c_functionlines
                             = &BehaviorTemplate->behaviortemplate[corecode];
                         shared_ptr<AnimationInfo> dummy = make_shared<AnimationInfo>();
 
@@ -329,7 +329,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                             newAnimation[corecode].emplace_back(
                                 make_unique<NewAnimation>(c_animTemplate,
                                                           corecode,
-                                                          unordered_map<string, vecstr>(),
+                                                          unordered_map<string, VecStr>(),
                                                           animationCount[corecode],
                                                           "",
                                                           *dummy));
@@ -423,8 +423,8 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                     newAnimation[templatecode].back()->addAnimSetData(*asdTemplate);
 
                     newAnimation[templatecode].back()->coreModID = coreModName;
-                    vecstr tempEventID    = newAnimation[templatecode].back()->GetEventID();
-                    vecstr tempVariableID = newAnimation[templatecode].back()->GetVariableID();
+                    VecStr tempEventID    = newAnimation[templatecode].back()->GetEventID();
+                    VecStr tempVariableID = newAnimation[templatecode].back()->GetVariableID();
                     newAnimEvent[templatecode + coreModName].insert(tempEventID.begin(), tempEventID.end());
                     newAnimVariable[templatecode + coreModName].insert(tempVariableID.begin(),
                                                                        tempVariableID.end());
@@ -436,22 +436,22 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                         if (BehaviorTemplate->optionlist[templatecode].eleEventGroupF.size() != 0)
                         {
-                            vector<vecstr>* elementList
+                            vector<VecStr>* elementList
                                 = &BehaviorTemplate->optionlist[templatecode].eleEventGroupF;
                             vector<string>* elementListLine
                                 = &BehaviorTemplate->optionlist[templatecode].eleEventGroupFLine;
                             ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-                            unordered_map<string, unordered_map<string, vecstr>> groupAddOn
+                            unordered_map<string, unordered_map<string, VecStr>> groupAddOn
                                 = newAnimation[templatecode].back()->GetGroupAddition();
 
-                            for (unsigned int k = 0; k < elementList->size(); ++k)
+                            for (uint k = 0; k < elementList->size(); ++k)
                             {
-                                vecstr* element    = &(*elementList)[k];
+                                VecStr* element    = &(*elementList)[k];
                                 string elementLine = (*elementListLine)[k];
-                                vector<vecstr> groupAddOnElement;
+                                vector<VecStr> groupAddOnElement;
                                 groupAddOnElement.reserve(memory / 10);
 
-                                for (unsigned int l = 0; l < element->size(); ++l)
+                                for (uint l = 0; l < element->size(); ++l)
                                 {
                                     string templine = (*element)[l];
 
@@ -469,9 +469,9 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                                 if (groupAddOnElement.size() != 0)
                                 {
-                                    vecstr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
+                                    VecStr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                    for (unsigned int l = 0; l < animEvent.size(); ++l)
+                                    for (uint l = 0; l < animEvent.size(); ++l)
                                     {
                                         newAnimEvent[templatecode + coreModName].insert(animEvent[l]);
                                     }
@@ -485,22 +485,22 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                         if (BehaviorTemplate->optionlist[templatecode].eleVarGroupF.size() != 0)
                         {
-                            vector<vecstr>* elementList
+                            vector<VecStr>* elementList
                                 = &BehaviorTemplate->optionlist[templatecode].eleVarGroupF;
                             vector<string>* elementListLine
                                 = &BehaviorTemplate->optionlist[templatecode].eleVarGroupFLine;
                             ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-                            unordered_map<string, unordered_map<string, vecstr>> groupAddOn
+                            unordered_map<string, unordered_map<string, VecStr>> groupAddOn
                                 = newAnimation[templatecode].back()->GetGroupAddition();
 
-                            for (unsigned int k = 0; k < elementList->size(); ++k)
+                            for (uint k = 0; k < elementList->size(); ++k)
                             {
-                                vecstr* element    = &(*elementList)[k];
+                                VecStr* element    = &(*elementList)[k];
                                 string elementLine = (*elementListLine)[k];
-                                vector<vecstr> groupAddOnElement;
+                                vector<VecStr> groupAddOnElement;
                                 groupAddOnElement.reserve(memory / 10);
 
-                                for (unsigned int l = 0; l < element->size(); ++l)
+                                for (uint l = 0; l < element->size(); ++l)
                                 {
                                     string templine = (*element)[l];
                                     bool isBreak    = false;
@@ -548,9 +548,9 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                                 if (groupAddOnElement.size() != 0)
                                 {
-                                    vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
+                                    VecStr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                    for (unsigned int l = 0; l < animVar.size(); ++l)
+                                    for (uint l = 0; l < animVar.size(); ++l)
                                     {
                                         newAnimVariable[templatecode + coreModName].insert(animVar[l]);
                                     }
@@ -587,22 +587,22 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         {
                             if (BehaviorTemplate->optionlist[templatecode].eleEventGroupL.size() != 0)
                             {
-                                vector<vecstr>* elementList
+                                vector<VecStr>* elementList
                                     = &BehaviorTemplate->optionlist[templatecode].eleEventGroupL;
                                 vector<string>* elementListLine
                                     = &BehaviorTemplate->optionlist[templatecode].eleEventGroupLLine;
                                 ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-                                unordered_map<string, unordered_map<string, vecstr>> groupAddOn
+                                unordered_map<string, unordered_map<string, VecStr>> groupAddOn
                                     = newAnimation[templatecode].back()->GetGroupAddition();
 
-                                for (unsigned int k = 0; k < elementList->size(); ++k)
+                                for (uint k = 0; k < elementList->size(); ++k)
                                 {
-                                    vecstr* element    = &(*elementList)[k];
+                                    VecStr* element    = &(*elementList)[k];
                                     string elementLine = (*elementListLine)[k];
-                                    vector<vecstr> groupAddOnElement;
+                                    vector<VecStr> groupAddOnElement;
                                     groupAddOnElement.reserve(memory / 10);
 
-                                    for (unsigned int l = 0; l < element->size(); ++l)
+                                    for (uint l = 0; l < element->size(); ++l)
                                     {
                                         string templine = (*element)[l];
 
@@ -620,10 +620,10 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                                     if (groupAddOnElement.size() != 0)
                                     {
-                                        vecstr animEvent
+                                        VecStr animEvent
                                             = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                        for (unsigned int l = 0; l < animEvent.size(); ++l)
+                                        for (uint l = 0; l < animEvent.size(); ++l)
                                         {
                                             newAnimEvent[templatecode + coreModName].insert(animEvent[l]);
                                         }
@@ -637,22 +637,22 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                             if (BehaviorTemplate->optionlist[templatecode].eleVarGroupL.size() != 0)
                             {
-                                vector<vecstr>* elementList
+                                vector<VecStr>* elementList
                                     = &BehaviorTemplate->optionlist[templatecode].eleVarGroupL;
                                 vector<string>* elementListLine
                                     = &BehaviorTemplate->optionlist[templatecode].eleVarGroupLLine;
                                 ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-                                unordered_map<string, unordered_map<string, vecstr>> groupAddOn
+                                unordered_map<string, unordered_map<string, VecStr>> groupAddOn
                                     = newAnimation[templatecode].back()->GetGroupAddition();
 
-                                for (unsigned int k = 0; k < elementList->size(); ++k)
+                                for (uint k = 0; k < elementList->size(); ++k)
                                 {
-                                    vecstr* element    = &(*elementList)[k];
+                                    VecStr* element    = &(*elementList)[k];
                                     string elementLine = (*elementListLine)[k];
-                                    vector<vecstr> groupAddOnElement;
+                                    vector<VecStr> groupAddOnElement;
                                     groupAddOnElement.reserve(memory / 10);
 
-                                    for (unsigned int l = 0; l < element->size(); ++l)
+                                    for (uint l = 0; l < element->size(); ++l)
                                     {
                                         string templine = (*element)[l];
                                         addOnInstall(
@@ -661,10 +661,10 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                                     if (groupAddOnElement.size() != 0)
                                     {
-                                        vecstr animVar
+                                        VecStr animVar
                                             = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                        for (unsigned int l = 0; l < animVar.size(); ++l)
+                                        for (uint l = 0; l < animVar.size(); ++l)
                                         {
                                             newAnimVariable[templatecode + coreModName].insert(animVar[l]);
                                         }
@@ -680,21 +680,21 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                     if (BehaviorTemplate->optionlist[templatecode].eleEvent.size() != 0)
                     {
-                        vector<vecstr>* elementList = &BehaviorTemplate->optionlist[templatecode].eleEvent;
+                        vector<VecStr>* elementList = &BehaviorTemplate->optionlist[templatecode].eleEvent;
                         vector<string>* elementListLine
                             = &BehaviorTemplate->optionlist[templatecode].eleEventLine;
                         ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-                        unordered_map<string, unordered_map<string, vecstr>> groupAddOn
+                        unordered_map<string, unordered_map<string, VecStr>> groupAddOn
                             = newAnimation[templatecode].back()->GetGroupAddition();
 
-                        for (unsigned int k = 0; k < elementList->size(); ++k)
+                        for (uint k = 0; k < elementList->size(); ++k)
                         {
-                            vecstr* element    = &(*elementList)[k];
+                            VecStr* element    = &(*elementList)[k];
                             string elementLine = (*elementListLine)[k];
-                            vector<vecstr> groupAddOnElement;
+                            vector<VecStr> groupAddOnElement;
                             groupAddOnElement.reserve(memory / 10);
 
-                            for (unsigned int l = 0; l < element->size(); ++l)
+                            for (uint l = 0; l < element->size(); ++l)
                             {
                                 string templine = (*element)[l];
 
@@ -711,9 +711,9 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                             if (groupAddOnElement.size() != 0)
                             {
-                                vecstr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
+                                VecStr animEvent = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                for (unsigned int l = 0; l < animEvent.size(); ++l)
+                                for (uint l = 0; l < animEvent.size(); ++l)
                                 {
                                     newAnimEvent[templatecode + coreModName].insert(animEvent[l]);
                                 }
@@ -727,21 +727,21 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                     if (BehaviorTemplate->optionlist[templatecode].eleVar.size() != 0)
                     {
-                        vector<vecstr>* elementList = &BehaviorTemplate->optionlist[templatecode].eleVar;
+                        vector<VecStr>* elementList = &BehaviorTemplate->optionlist[templatecode].eleVar;
                         vector<string>* elementListLine
                             = &BehaviorTemplate->optionlist[templatecode].eleVarLine;
                         ImportContainer addOn = newAnimation[templatecode].back()->GetAddition();
-                        unordered_map<string, unordered_map<string, vecstr>> groupAddOn
+                        unordered_map<string, unordered_map<string, VecStr>> groupAddOn
                             = newAnimation[templatecode].back()->GetGroupAddition();
 
-                        for (unsigned int k = 0; k < elementList->size(); ++k)
+                        for (uint k = 0; k < elementList->size(); ++k)
                         {
-                            vecstr* element    = &(*elementList)[k];
+                            VecStr* element    = &(*elementList)[k];
                             string elementLine = (*elementListLine)[k];
-                            vector<vecstr> groupAddOnElement;
+                            vector<VecStr> groupAddOnElement;
                             groupAddOnElement.reserve(memory / 10);
 
-                            for (unsigned int l = 0; l < element->size(); ++l)
+                            for (uint l = 0; l < element->size(); ++l)
                             {
                                 string templine = (*element)[l];
 
@@ -758,9 +758,9 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                             if (groupAddOnElement.size() != 0)
                             {
-                                vecstr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
+                                VecStr animVar = newAnimationElement(elementLine, groupAddOnElement, 0);
 
-                                for (unsigned int l = 0; l < animVar.size(); ++l)
+                                for (uint l = 0; l < animVar.size(); ++l)
                                 {
                                     newAnimVariable[templatecode + coreModName].insert(animVar[l]);
                                 }
@@ -772,7 +772,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         }
                     }
 
-                    for (unsigned int k = 0; k < tempVariableID.size(); ++k)
+                    for (uint k = 0; k < tempVariableID.size(); ++k)
                     {
                         string name   = tempVariableID[k];
                         AnimVar[name] = animationList[i]->AnimVar[name];
@@ -815,7 +815,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
         for (auto& templatecode : it->second)
         {
             // existing function
-            for (unsigned int k = 0; k < BehaviorTemplate->existingFunctionID[templatecode][it->first].size();
+            for (uint k = 0; k < BehaviorTemplate->existingFunctionID[templatecode][it->first].size();
                  ++k)
             {
                 ignoreFunction[it->first + ".txt"]
@@ -875,12 +875,12 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
     if (error) throw nemesis::exception();
 
-    vecstr filelist;
+    VecStr filelist;
     read_directory(directory, filelist);
     emit progressUp();
     behaviorRun = 1;
 
-    for (unsigned int i = 0; i < filelist.size(); ++i)
+    for (uint i = 0; i < filelist.size(); ++i)
     {
         if (!sf::is_directory(directory + filelist[i]))
         {
@@ -894,10 +894,10 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
         }
         else if (wordFind(filelist[i], "_1stperson") != NOT_FOUND)
         {
-            vecstr fpfilelist;
+            VecStr fpfilelist;
             read_directory(directory + filelist[i], fpfilelist);
 
-            for (unsigned int j = 0; j < fpfilelist.size(); ++j)
+            for (uint j = 0; j < fpfilelist.size(); ++j)
             {
                 string lowerFileName = nemesis::to_lower_copy(filelist[i] + "\\" + fpfilelist[j]);
 
@@ -915,7 +915,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
     try
     {
-        for (unsigned int i = 0; i < filelist.size(); ++i)
+        for (uint i = 0; i < filelist.size(); ++i)
         {
             if (error) throw nemesis::exception();
 
@@ -1003,7 +1003,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
             }
             else if (wordFind(filelist[i], "_1stperson") != NOT_FOUND)
             {
-                vecstr fpfilelist;
+                VecStr fpfilelist;
                 read_directory(directory + filelist[i], fpfilelist);
 
                 for (auto& curfile : fpfilelist)
@@ -1011,7 +1011,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                     curfile = filelist[i] + "\\" + curfile;
                 }
 
-                for (unsigned int j = 0; j < fpfilelist.size(); ++j)
+                for (uint j = 0; j < fpfilelist.size(); ++j)
                 {
                     if (error) throw nemesis::exception();
 
@@ -1146,7 +1146,7 @@ void BehaviorStart::milestoneStart()
     connectProcess(this);
     string directory   = "temp_behaviors";
     string fpdirectory = directory + "\\_1stperson";
-    vecstr filelist;
+    VecStr filelist;
     int include = 0;
     int add     = 4;
 
@@ -1165,7 +1165,7 @@ void BehaviorStart::milestoneStart()
 
     if (isFileExist(fpdirectory) && sf::is_directory(fpdirectory))
     {
-        vecstr fpfilelist;
+        VecStr fpfilelist;
         read_directory(fpdirectory, fpfilelist);
 
         for (auto& file : fpfilelist)
@@ -1337,9 +1337,9 @@ void BehaviorStart::newMilestone()
 
 void addOnInstall(string templine,
                   string& elementLine,
-                  vector<vecstr>& groupAddOnElement,
+                  vector<VecStr>& groupAddOnElement,
                   ImportContainer& addOn,
-                  unordered_map<string, unordered_map<string, vecstr>>& groupAddOn)
+                  unordered_map<string, unordered_map<string, VecStr>>& groupAddOn)
 {
     for (auto it = addOn.begin(); it != addOn.end(); ++it)
     {

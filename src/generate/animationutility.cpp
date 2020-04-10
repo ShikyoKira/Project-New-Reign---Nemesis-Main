@@ -8,8 +8,8 @@
 using namespace std;
 
 AnimationUtility::AnimationUtility(string condition,
-                                   id neweventid,
-                                   id newvariableid,
+                                   ID neweventid,
+                                   ID newvariableid,
                                    vector<int> newFixedStateID,
                                    vector<int> newStateCountMultiplier,
                                    bool newHasGroup,
@@ -43,12 +43,12 @@ void newStateID::reset()
     lastState = {make_shared<int>(0)};
 }
 
-shared_ptr<int>& newStateID::operator[](unsigned int number)
+shared_ptr<int>& newStateID::operator[](uint number)
 {
     return lastState[number];
 }
 
-unsigned int newStateID::size()
+uint newStateID::size()
 {
     return lastState.size();
 }

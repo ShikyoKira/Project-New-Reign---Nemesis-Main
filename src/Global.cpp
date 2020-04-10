@@ -28,23 +28,23 @@ unordered_map<string, string> behaviorPath;
 
 unordered_map<string, bool> activatedBehavior;
 unordered_map<string, string> behaviorProjectPath;
-unordered_map<string, vecstr> behaviorJoints;
-unordered_map<string, vecstr> behaviorProject;
+unordered_map<string, VecStr> behaviorJoints;
+unordered_map<string, VecStr> behaviorProject;
 unordered_map<string, set<string>> usedAnim;
 unordered_map<string, unordered_map<string, bool>> registeredAnim;
-unordered_map<string, unordered_map<string, vecstr>> animList;
+unordered_map<string, unordered_map<string, VecStr>> animList;
 unordered_map<string, unordered_map<string, vector<set<string>>>> animModMatch;
 
 unordered_map<string, string> AAGroup;
-unordered_map<string, vecstr> AAEvent;
-unordered_map<string, vecstr> AAHasEvent;
-unordered_map<string, vecstr> groupAA;
-unordered_map<string, vecstr> groupAAPrefix;
-unordered_map<string, vecstr> alternateAnim;
+unordered_map<string, VecStr> AAEvent;
+unordered_map<string, VecStr> AAHasEvent;
+unordered_map<string, VecStr> groupAA;
+unordered_map<string, VecStr> groupAAPrefix;
+unordered_map<string, VecStr> alternateAnim;
 unordered_map<string, unordered_map<string, int>> AAGroupCount;
 set<string> groupNameList;
 
-void read_directory(const string& name, vecstr& fv)
+void read_directory(const string& name, VecStr& fv)
 {
     fv.clear();
 
@@ -55,7 +55,7 @@ void read_directory(const string& name, vecstr& fv)
         if (filename != L"." && filename != L"..") { fv.push_back(WStringToString(filename)); }
     }
 
-    for (unsigned int i = 0; i < fv.size(); ++i)
+    for (uint i = 0; i < fv.size(); ++i)
     {
         if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
         {
@@ -76,7 +76,7 @@ void read_directory(const wstring& name, vector<wstring>& fv)
         if (filename != L"." && filename != L"..") { fv.push_back(filename); }
     }
 
-    for (unsigned int i = 0; i < fv.size(); ++i)
+    for (uint i = 0; i < fv.size(); ++i)
     {
         if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
         {
@@ -86,7 +86,7 @@ void read_directory(const wstring& name, vector<wstring>& fv)
     }
 }
 
-void read_directory(const char* name, vecstr& fv)
+void read_directory(const char* name, VecStr& fv)
 {
     fv.clear();
 
@@ -97,7 +97,7 @@ void read_directory(const char* name, vecstr& fv)
         if (filename != L"." && filename != L"..") { fv.push_back(WStringToString(filename)); }
     }
 
-    for (unsigned int i = 0; i < fv.size(); ++i)
+    for (uint i = 0; i < fv.size(); ++i)
     {
         if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
         {
@@ -118,7 +118,7 @@ void read_directory(const wchar_t* name, vector<wstring>& fv)
         if (filename != L"." && filename != L"..") { fv.push_back(filename); }
     }
 
-    for (unsigned int i = 0; i < fv.size(); ++i)
+    for (uint i = 0; i < fv.size(); ++i)
     {
         if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
         {
@@ -180,7 +180,7 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
     string time                    = to_simple_string(time1);
     string timer;
 
-    for (unsigned int i = 0; i < time.size(); ++i)
+    for (uint i = 0; i < time.size(); ++i)
     {
         if (time[i] != ':') { timer.append(1, time[i]); }
     }
@@ -210,9 +210,9 @@ void produceBugReport(string directory, unordered_map<string, bool> chosenBehavi
     }
 }
 
-bool GetFunctionLines(sf::path filename, vecstr& functionlines, bool emptylast)
+bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
 {
-    functionlines = vecstr();
+    functionlines = VecStr();
 
     if (!sf::is_directory(filename))
     {

@@ -9,9 +9,9 @@
 
 using namespace std;
 
-vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, string file)
+VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, string file)
 {
-    vecstr behaviorlines;
+    VecStr behaviorlines;
     ImportContainer newExportID;
     int lastID = nextID;
 
@@ -21,7 +21,7 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 
         if (!isFileExist(filename)) { ErrorMessage(1027, filename); }
 
-        vecstr exportFormat;
+        VecStr exportFormat;
 
         if (!GetFunctionLines(filename, exportFormat))
         {
@@ -42,7 +42,7 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                 SSMap IDExist;
                 behaviorlines.reserve(behaviorlines.size() + exportFormat.size() + 1);
 
-                for (unsigned int j = 0; j < exportFormat.size(); ++j)
+                for (uint j = 0; j < exportFormat.size(); ++j)
                 {
                     bool elementCatch = false;
                     string line       = exportFormat[j];
@@ -156,7 +156,7 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                                 if (!isOnlyNumber(number)) { ErrorMessage(1154, it->first, j + 1); }
 
                                 int num = stoi(number);
-                                vecstr keywords;
+                                VecStr keywords;
                                 string templine = iter->first;
                                 size_t nextWord;
                                 size_t previousWord = 0;
@@ -336,7 +336,7 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
     if (!newExportID.empty())
     {
         ExportID.push_back(newExportID);
-        vecstr additionlines = importOutput(ExportID, int(ExportID.size() - 1), lastID, std::move(file));
+        VecStr additionlines = importOutput(ExportID, int(ExportID.size() - 1), lastID, std::move(file));
         behaviorlines.reserve(behaviorlines.size() + additionlines.size());
         behaviorlines.insert(behaviorlines.end(), additionlines.begin(), additionlines.end());
     }

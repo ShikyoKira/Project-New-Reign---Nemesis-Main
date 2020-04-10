@@ -30,19 +30,19 @@ bool AACoreCompile(sf::path filename,
                    string destination,
                    string filepath,
                    sf::path appdata_path,
-                   vecstr& newFunctions,
-                   unsigned int& maxGroup,
-                   unsigned int& uniquekey);
+                   VecStr& newFunctions,
+                   uint& maxGroup,
+                   uint& uniquekey);
 bool AAnimAPICompile(sf::path filename,
                      wstring import,
                      string destination,
                      string filepath,
                      sf::path appdata_path,
-                     vecstr& newFunctions,
-                     unsigned int maxGroup,
-                     unsigned int& uniquekey);
+                     VecStr& newFunctions,
+                     uint maxGroup,
+                     uint& uniquekey);
 void fixedKeyInitialize();
-unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
+uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
 bool PapyrusCompileProcess(sf::path pscfile,
                            wstring import,
                            string destination,
@@ -99,7 +99,7 @@ void forcedRemove(string target, int counter)
 
 void AAInitialize(string AAList)
 {
-    vecstr groupList;
+    VecStr groupList;
     unordered_map<string, string>
         existAAAnim; // animation name, animation group name; has the animation been registered for AA?
     DebugLogging("Caching alternate animation group...");
@@ -153,7 +153,7 @@ bool AAInstallation()
 {
     if (AAGroup.size() == 0) return true;
 
-    unsigned int uniquekey;
+    uint uniquekey;
     wstring cachedir
         = sf::path(QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString())
               .parent_path()
@@ -185,9 +185,9 @@ bool AAInstallation()
 
     if (!isFileExist(import)) ErrorMessage(2010, import);
 
-    unsigned int maxGroup;
+    uint maxGroup;
     fixedKeyInitialize();
-    vecstr newFunctions;
+    VecStr newFunctions;
 
     if (!AACoreCompile(pscfile,
                        StringToWString(import),
@@ -246,24 +246,24 @@ bool AACoreCompile(sf::path filename,
                    string destination,
                    string filepath,
                    sf::path appdata_path,
-                   vecstr& newFunctions,
-                   unsigned int& maxGroup,
-                   unsigned int& uniquekey)
+                   VecStr& newFunctions,
+                   uint& maxGroup,
+                   uint& uniquekey)
 {
     bool prefixDone = false;
-    vecstr prefixList;
+    VecStr prefixList;
     unordered_map<string, bool> prefixCheck;
     unordered_map<string, int> prefixID;
     unordered_map<string, int> groupIDCounter;
     unordered_map<string, string> baseOrder;
     unordered_map<string, vector<ModIDByGroup>> GetModByGroupValue;
-    vecstr baseMatch;
+    VecStr baseMatch;
 
-    vecstr groupIDFunction;
-    vecstr prefixlines;
-    vecstr groupAAlines;
-    vecstr storeline;
-    vecstr newline;
+    VecStr groupIDFunction;
+    VecStr prefixlines;
+    VecStr groupAAlines;
+    VecStr storeline;
+    VecStr newline;
     newline.reserve(storeline.size());
     GetFunctionLines(filename.c_str(), storeline);
 
@@ -311,7 +311,7 @@ bool AACoreCompile(sf::path filename,
 
     if (groupNameList.size() > 0) // Assign base value
     {
-        vecstr groupID;
+        VecStr groupID;
         groupIDFunction.push_back("int Function GetGroupID(string groupName) global");
 
         for (auto& groupName : groupNameList)
@@ -371,7 +371,7 @@ bool AACoreCompile(sf::path filename,
             groupIDFunction.push_back("	if (groupName == \"" + groupID[0] + "\")");
             groupIDFunction.push_back("		return " + groupID[1]);
 
-            for (unsigned int k = 2; k < groupID.size(); ++k)
+            for (uint k = 2; k < groupID.size(); ++k)
             {
                 groupIDFunction.push_back(k % 2 == 0 ? "	elseif (groupName == \"" + groupID[k] + "\")"
                                                      : "		return " + groupID[k]);
@@ -388,7 +388,7 @@ bool AACoreCompile(sf::path filename,
 
     DebugLogging("Group base value complete");
 
-    for (unsigned int k = 0; k < storeline.size(); ++k)
+    for (uint k = 0; k < storeline.size(); ++k)
     {
         bool skip   = false;
         string line = storeline[k];
@@ -415,7 +415,7 @@ bool AACoreCompile(sf::path filename,
                 newline.push_back("	if (" + baseMatch[0] + ")");
                 newline.push_back(baseMatch[1]);
 
-                for (unsigned int j = 2; j < baseMatch.size(); ++j)
+                for (uint j = 2; j < baseMatch.size(); ++j)
                 {
                     newline.push_back(j % 2 == 0 ? "	elseif (" + baseMatch[j] + ")" : baseMatch[j]);
                 }
@@ -459,7 +459,7 @@ bool AACoreCompile(sf::path filename,
 
                 if (firstGroup->second.size() > 1)
                 {
-                    for (unsigned int j = 0; j < firstGroup->second.size(); ++j)
+                    for (uint j = 0; j < firstGroup->second.size(); ++j)
                     {
                         if (j + 1 == firstGroup->second.size() - 1)
                         {
@@ -500,7 +500,7 @@ bool AACoreCompile(sf::path filename,
 
                     if (group->second.size() > 1)
                     {
-                        for (unsigned int j = 0; j < group->second.size(); ++j)
+                        for (uint j = 0; j < group->second.size(); ++j)
                         {
                             if (j + 1 == group->second.size() - 1)
                             {
@@ -586,12 +586,12 @@ bool AAnimAPICompile(sf::path filename,
                      string destination,
                      string filepath,
                      sf::path appdata_path,
-                     vecstr& newFunctions,
-                     unsigned int maxGroup,
-                     unsigned int& uniquekey)
+                     VecStr& newFunctions,
+                     uint maxGroup,
+                     uint& uniquekey)
 {
-    vecstr storeline;
-    vecstr newline;
+    VecStr storeline;
+    VecStr newline;
     newline.reserve(storeline.size());
 
     if (!GetFunctionLines(filename.c_str(), storeline)) return false;
@@ -646,7 +646,7 @@ void fixedKeyInitialize()
 
     while (counter <= 256)
     {
-        unsigned int key1 = static_cast<unsigned int>(counter);
+        uint key1         = static_cast<uint>(counter);
         int key2          = 0;
 
         while (key2 <= 7)
@@ -692,16 +692,16 @@ bool FolderCreate(wstring curBehaviorPath)
     return true;
 }
 
-unsigned int CRC32Convert(string line)
+uint CRC32Convert(string line)
 {
     boost::crc_optimal<32, 0x4C11DB7, 0, 0, true, true> result;
     result.process_bytes(line.data(), line.length());
     return result.checksum();
 }
 
-unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
+uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
 {
-    unsigned int uniqueKey = 0;
+    uint uniqueKey         = 0;
     int key1               = byte1;
     int key2               = byte2;
     int counter            = byte1;
@@ -709,7 +709,7 @@ unsigned int getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
     while (counter <= key2)
     {
         unsigned char curByte = bytearray[counter];
-        unsigned int key3     = uniqueKey ^ static_cast<unsigned int>(curByte);
+        uint key3             = uniqueKey ^ static_cast<uint>(curByte);
         uniqueKey             = uniqueKey >> 8 ^ fixedkey[key3 & 255];
         counter++;
     }

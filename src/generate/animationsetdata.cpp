@@ -10,23 +10,23 @@ using namespace std;
 
 unordered_map<string, string> crc32Cache;
 
-void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile);
+void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, VecStr& animdatafile);
 void EquipPackProcess(
-    vector<equip>& storeline, int& startline, vecstr& animdatafile, string projectname, string header);
+    vector<equip>& storeline, int& startline, VecStr& animdatafile, string projectname, string header);
 void TypePackProcess(
-    vector<typepack>& storeline, int& startline, vecstr& animdatafile, string projectname, string header);
+    vector<typepack>& storeline, int& startline, VecStr& animdatafile, string projectname, string header);
 void AnimPackProcess(
-    vector<animpack>& storeline, int& startline, vecstr& animdatafile, string projectname, string header);
+    vector<animpack>& storeline, int& startline, VecStr& animdatafile, string projectname, string header);
 void CRC32Process(vector<crc32>& storeline,
                   int& startline,
-                  vecstr& animdatafile,
+                  VecStr& animdatafile,
                   string projectname,
                   string header,
-                  unordered_map<string, shared_ptr<vecstr>>& AAList,
+                  unordered_map<string, shared_ptr<VecStr>>& AAList,
                   string projectPath);
 
 AnimationDataProject::AnimationDataProject(int& startline,
-                                           vecstr& animdatafile,
+                                           VecStr& animdatafile,
                                            string filename,
                                            string projectname)
 {
@@ -37,7 +37,7 @@ AnimationDataProject::AnimationDataProject(int& startline,
         ++startline;
         string projectPath;
         string projectPath_fp;
-        unordered_map<string, shared_ptr<vecstr>> AAList;
+        unordered_map<string, shared_ptr<VecStr>> AAList;
         string projectFileName = nemesis::to_lower_copy(std::filesystem::path(projectname).stem().string());
 
         // assume current project has new alternate animation installed
@@ -46,15 +46,15 @@ AnimationDataProject::AnimationDataProject(int& startline,
             projectPath
                 = nemesis::to_lower_copy(string(behaviorProjectPath[projectFileName]) + "\\animations");
             projectPath_fp  = projectPath + "\\_1stperson";
-            vecstr pathList = {projectPath,
+            VecStr pathList = {projectPath,
                                projectPath + "\\male",
                                projectPath + "\\female",
                                projectPath + "\\horse_rider",
                                projectPath + "\\dlc01",
                                projectPath + "\\dlc02"};
-            vecstr pathCRC32;
-            vecstr pathCRC32_fp;
-            vecstr pathList_fp = {projectPath_fp,
+            VecStr pathCRC32;
+            VecStr pathCRC32_fp;
+            VecStr pathList_fp = {projectPath_fp,
                                   projectPath_fp + "\\male",
                                   projectPath_fp + "\\female",
                                   projectPath_fp + "\\horse_rider",
@@ -73,8 +73,8 @@ AnimationDataProject::AnimationDataProject(int& startline,
                 pathCRC32_fp.push_back(to_string(CRC32Convert(path)));
             }
 
-            vecstr* pathListPoint;
-            vecstr* pathCRC32Point;
+            VecStr* pathListPoint;
+            VecStr* pathCRC32Point;
 
             // cache all alternate animations
             for (auto& anim : alternateAnim)
@@ -95,10 +95,10 @@ AnimationDataProject::AnimationDataProject(int& startline,
                     pathCRC32Point = &pathCRC32;
                 }
 
-                for (unsigned int i = 0; i < pathCRC32Point->size(); ++i)
+                for (uint i = 0; i < pathCRC32Point->size(); ++i)
                 {
                     AAList[pathCRC32Point->at(i) + "," + animCRC32 + ",7891816"]
-                        = make_shared<vecstr>(anim.second);
+                        = make_shared<VecStr>(anim.second);
                 }
             }
 
@@ -114,11 +114,11 @@ AnimationDataProject::AnimationDataProject(int& startline,
                             = to_string(CRC32Convert(nemesis::to_lower_copy(GetFileName(animPath.first))));
                         string pathline = animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA"));
 
-                        for (unsigned int i = 0; i < pathCRC32.size(); ++i)
+                        for (uint i = 0; i < pathCRC32.size(); ++i)
                         {
                             string crc32line = pathCRC32[i] + "," + animCRC32 + ",7891816";
 
-                            if (!AAList[crc32line]) AAList[crc32line] = make_shared<vecstr>();
+                            if (!AAList[crc32line]) AAList[crc32line] = make_shared<VecStr>();
 
                             AAList[crc32line]->push_back(pathline);
                         }
@@ -153,7 +153,7 @@ AnimationDataProject::AnimationDataProject(int& startline,
     }
 }
 
-void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, vecstr& animdatafile)
+void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& startline, VecStr& animdatafile)
 {
     if (startline >= int(animdatafile.size()))
         ErrorMessage(5018, "Header", "Header");
@@ -176,7 +176,7 @@ void DataPackProcess(map<string, datapack, alphanum_less>& storeline, int& start
 }
 
 void EquipPackProcess(
-    std::vector<equip>& storeline, int& startline, vecstr& animdatafile, string projectname, string header)
+    std::vector<equip>& storeline, int& startline, VecStr& animdatafile, string projectname, string header)
 {
     if (startline >= int(animdatafile.size()))
         ErrorMessage(5018, projectname, header);
@@ -200,7 +200,7 @@ void EquipPackProcess(
 }
 
 void TypePackProcess(
-    vector<typepack>& storeline, int& startline, vecstr& animdatafile, string projectname, string header)
+    vector<typepack>& storeline, int& startline, VecStr& animdatafile, string projectname, string header)
 {
     if (startline >= int(animdatafile.size()))
         ErrorMessage(5018, projectname, header);
@@ -250,7 +250,7 @@ void TypePackProcess(
 }
 
 void AnimPackProcess(
-    vector<animpack>& storeline, int& startline, vecstr& animdatafile, string projectname, string header)
+    vector<animpack>& storeline, int& startline, VecStr& animdatafile, string projectname, string header)
 {
     if (startline >= int(animdatafile.size()))
         ErrorMessage(5018, projectname, header);
@@ -410,10 +410,10 @@ void AnimPackProcess(
 
 void CRC32Process(vector<crc32>& storeline,
                   int& startline,
-                  vecstr& animdatafile,
+                  VecStr& animdatafile,
                   string projectname,
                   string header,
-                  unordered_map<string, shared_ptr<vecstr>>& AAList,
+                  unordered_map<string, shared_ptr<VecStr>>& AAList,
                   string projectPath)
 {
     if (startline >= int(animdatafile.size()))
@@ -517,7 +517,7 @@ void CRC32Process(vector<crc32>& storeline,
 }
 
 ASDFormat::position
-ASDPosition(vecstr animData, string project, string header, string modcode, int linecount, bool muteError)
+ASDPosition(VecStr animData, string project, string header, string modcode, int linecount, bool muteError)
 {
     // has function
     bool isOpen       = false;
@@ -536,7 +536,7 @@ ASDPosition(vecstr animData, string project, string header, string modcode, int 
 
     bool mod = false;
 
-    for (unsigned int i = 0; i < animData.size(); ++i)
+    for (uint i = 0; i < animData.size(); ++i)
     {
         if (animData[i].find("<!-- ") != NOT_FOUND)
         {
@@ -725,7 +725,7 @@ ASDFormat::position ASDConvert(int position, bool muteError)
 int PositionLineCondition(int& i,
                           double curID,
                           int linecount,
-                          vecstr animDataSet,
+                          VecStr animDataSet,
                           unordered_map<int, ASDFunct>& marker,
                           string modcode,
                           string header,
@@ -1806,13 +1806,13 @@ int PositionLineCondition(int& i,
     return -2;
 }
 
-void combineExtraction(vecstr& storeline, map<int, vecstr> extract, string project, string header)
+void combineExtraction(VecStr& storeline, map<int, VecStr> extract, string project, string header)
 {
-    vecstr newline;
+    VecStr newline;
     bool newOpen  = false;
     int condition = 0;
 
-    for (unsigned int i = 0; i < storeline.size(); ++i)
+    for (uint i = 0; i < storeline.size(); ++i)
     {
         string line = storeline[i];
 
@@ -1836,7 +1836,7 @@ void combineExtraction(vecstr& storeline, map<int, vecstr> extract, string proje
         {
             if (condition == 0 && !newOpen) { ErrorMessage(5013, project, header); }
 
-            for (unsigned int k = 0; k < extract[i].size(); ++k)
+            for (uint k = 0; k < extract[i].size(); ++k)
             {
                 newline.push_back(extract[i][k]);
             }

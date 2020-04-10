@@ -5,7 +5,7 @@
 using namespace std;
 
 bool AddVariables(const string& curNum,
-                  vecstr& storeline,
+                  VecStr& storeline,
                   const string& variablename,
                   unordered_map<string, bool> orivariable,
                   unordered_map<string, bool>& isExist,

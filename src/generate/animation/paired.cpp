@@ -8,7 +8,7 @@
 using namespace std;
 
 Paired::Paired(const string& line,
-               vecstr pairedformat,
+               VecStr pairedformat,
                int pairedcount,
                AOConvert import,
                const string& filepath,
@@ -77,7 +77,7 @@ Paired::Paired(const string& line,
         {
             int tempint = 0;
             int nextobj = 0;
-            for (unsigned int i = 0; i < AOcount; i++)
+            for (uint i = 0; i < AOcount; i++)
             {
                 position = animobjects.find('/', tempint);
                 if (AOcount == 2) { tempint = animobjects.find('/', position + 1); }
@@ -200,7 +200,7 @@ Paired::Paired(const string& line,
                 size_t triggercount = count(templine2.begin(), templine2.end(), 'T');
                 pairedlines[171].replace(pairedlines[171].find("!nT$2!"), 6, to_string(triggercount + 2));
                 int tempInt = 0;
-                for (unsigned int i = 0; i < triggercount; i++)
+                for (uint i = 0; i < triggercount; i++)
                 {
                     string tempstr;
                     int position = templine2.find('T', tempInt);
@@ -437,15 +437,15 @@ Paired::Paired(const string& line,
     }
 }
 
-vecstr Paired::GetPairedLine(int nFunctionID, AOConvert AnimObjectNames, id eventid, const id& variableid)
+VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, const ID& variableid)
 {
-    vecstr generatedlines;
-    vecstr recordTrigger;
+    VecStr generatedlines;
+    VecStr recordTrigger;
     AOConvert IDExist;
 
     NewAnimObject = std::move(AnimObjectNames);
 
-    int nextFunctionID      = nFunctionID;
+    int nextFunctionID      = id;
     bool nextID             = false;
     bool TriggerStateIgnore = false;
     bool TriggerState       = false;
@@ -453,7 +453,7 @@ vecstr Paired::GetPairedLine(int nFunctionID, AOConvert AnimObjectNames, id even
 
     string strID = to_string(nextFunctionID);
 
-    for (unsigned int i = 0; i < pairedlines.size(); i++)
+    for (uint i = 0; i < pairedlines.size(); i++)
     {
         string line = pairedlines[i];
         if (line.find("<!--", 0) == string::npos && !TriggerStateIgnore)
@@ -655,12 +655,12 @@ bool Paired::HasError()
     return error;
 }
 
-vecstr Paired::GetEventID()
+VecStr Paired::GetEventID()
 {
     return eventID;
 }
 
-vecstr Paired::GetVariableID()
+VecStr Paired::GetVariableID()
 {
     return variableID;
 }

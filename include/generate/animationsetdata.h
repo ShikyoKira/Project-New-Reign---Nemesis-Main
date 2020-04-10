@@ -26,7 +26,7 @@ struct AnimationDataProject
 
     AnimationDataProject()
     {}
-    AnimationDataProject(int& startline, vecstr& animdatafile, std::string filename, std::string projectname);
+    AnimationDataProject(int& startline, VecStr& animdatafile, std::string filename, std::string projectname);
 };
 
 struct ASDFunct
@@ -65,15 +65,15 @@ namespace ASDFormat
 
 struct MasterAnimSetData
 {
-    vecstr projectList; // order of the project
-    std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>
+    VecStr projectList; // order of the project
+    std::unordered_map<std::string, std::map<std::string, VecStr, alphanum_less>>
         newAnimSetData; // project, header, vector<string>; memory to access each node
 };
 
 extern void
-combineExtraction(vecstr& storeline, std::map<int, vecstr> extract, std::string project, std::string header);
+combineExtraction(VecStr& storeline, std::map<int, VecStr> extract, std::string project, std::string header);
 
-ASDFormat::position ASDPosition(vecstr animData,
+ASDFormat::position ASDPosition(VecStr animData,
                                 std::string character,
                                 std::string header,
                                 std::string modcode,
@@ -84,7 +84,7 @@ ASDFormat::position ASDConvert(int position, bool muteError);
 int PositionLineCondition(int& i,
                           double curID,
                           int linecount,
-                          vecstr animDataSet,
+                          VecStr animDataSet,
                           std::unordered_map<int, ASDFunct>& marker,
                           std::string modcode,
                           std::string header,

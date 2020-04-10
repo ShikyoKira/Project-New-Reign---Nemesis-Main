@@ -12,14 +12,14 @@
 
 using namespace std;
 
-typedef vector<string> vecstr;
+typedef vector<string> VecStr;
 
 bool CombineAnimData(string filepath,
                      string filename,
                      string characterfile,
                      string modcode,
-                     vecstr& newline,
-                     vecstr& storeline,
+                     VecStr& newline,
+                     VecStr& storeline,
                      vector<int> modEditCoordinate,
                      unordered_map<string, int> modEditLine,
                      unordered_map<int, int> NewCoordinate,
@@ -29,13 +29,13 @@ bool ClassCheck(vector<int>& modEditCoordinate,
                 unordered_map<string, int>& modEditLine,
                 unordered_map<int, int>& NewCoordinate,
                 int linecount,
-                vecstr& storeline,
+                VecStr& storeline,
                 string filepath,
                 string projectfile,
                 string filename,
                 string modcode);
 
-bool GetFunctionEdits(string& line, vecstr storeline, int numline)
+bool GetFunctionEdits(string& line, VecStr storeline, int numline)
 {
     if (numline < int(storeline.size()))
     {
@@ -47,9 +47,9 @@ bool GetFunctionEdits(string& line, vecstr storeline, int numline)
     return false;
 }
 
-vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int endline)
+VecStr GetFunctionEdits(string filename, VecStr storeline, int startline, int endline)
 {
-    vecstr storage;
+    VecStr storage;
     storage.reserve(endline);
     int combine = endline + startline;
 
@@ -71,10 +71,10 @@ vecstr GetFunctionEdits(string filename, vecstr storeline, int startline, int en
 bool NodeU::NodeUpdate(string modcode,
                        string behaviorfile,
                        string nodefile,
-                       unique_ptr<map<string, vecstr, alphanum_less>>& newFile,
+                       unique_ptr<map<string, VecStr, alphanum_less>>& newFile,
                        unique_ptr<SSMap>& stateID,
                        unique_ptr<SSMap>& parent,
-                       unique_ptr<unordered_map<string, vecstr>>& statelist,
+                       unique_ptr<unordered_map<string, VecStr>>& statelist,
                        unordered_map<string, string>& lastUpdate
 #if MULTITHREADED_UPDATE
                        ,
@@ -98,7 +98,7 @@ bool NodeU::NodeUpdate(string modcode,
     {
         vector<int> modEditCoordinate;
         unordered_map<string, string> modPath;
-        unordered_map<string, vecstr> modEdits;
+        unordered_map<string, VecStr> modEdits;
         unordered_map<string, int> modEditLine;
         unordered_map<int, int> NewCoordinate;
         unordered_map<int, int> Pair;
@@ -121,7 +121,7 @@ bool NodeU::NodeUpdate(string modcode,
         int attributecount;
         int characterpropertycount;
 
-        vecstr storeline;
+        VecStr storeline;
         FileReader BehaviorFormat(filename);
 
         if (BehaviorFormat.GetFile())
@@ -146,7 +146,7 @@ bool NodeU::NodeUpdate(string modcode,
                 { isSM = true; }
                 else if (isSM && !originalopen && line.find("			#") != NOT_FOUND)
                 {
-                    vecstr curElements;
+                    VecStr curElements;
                     StringSplit(line, curElements);
 
                     if (isSM)
@@ -284,12 +284,12 @@ bool NodeU::NodeUpdate(string modcode,
 
 #if MULTITHREADED_UPDATE
         Lockless prelock(filelock);
-        vecstr newline = (*newFile)[nodeID];
+        VecStr newline = (*newFile)[nodeID];
         prelock.Unlock();
 #else
-        vecstr newline = (*newFile)[nodeID];
+        VecStr newline = (*newFile)[nodeID];
 #endif
-        vecstr functionline;
+        VecStr functionline;
         functionline.reserve(newline.size());
         linecount     = 0;
         int editcount = 0;
@@ -460,7 +460,7 @@ bool NodeU::NodeUpdate(string modcode,
                     {
                         functionline.push_back("<!-- NEW *" + modcode + "* -->");
 
-                        vecstr storage
+                        VecStr storage
                             = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile,
                                                storeline,
                                                modEditLine[to_string(linecount) + "R"],
@@ -487,13 +487,13 @@ bool NodeU::NodeUpdate(string modcode,
 
         if (bigger)
         {
-            for (unsigned int i = newline.size(); i < storeline.size(); ++i)
+            for (uint i = newline.size(); i < storeline.size(); ++i)
             {
                 if (NewCoordinate[linecount] > 0)
                 {
                     functionline.push_back("<!-- NEW *" + modcode + "* -->");
 
-                    vecstr storage
+                    VecStr storage
                         = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile,
                                            storeline,
                                            modEditLine[to_string(linecount) + "R"],
@@ -514,7 +514,7 @@ bool NodeU::NodeUpdate(string modcode,
     }
     else if (nemesis::iequals(nodefile, "#" + modcode + "$" + filecheck))
     {
-        vecstr storeline;
+        VecStr storeline;
 
         if (!GetFunctionLines(filename, storeline)) return false;
 
@@ -553,10 +553,10 @@ bool NodeU::NodeUpdate(string modcode,
 bool NodeU::FunctionUpdate(string modcode,
                            string behaviorfile,
                            string nodefile,
-                           unique_ptr<map<string, vecstr, alphanum_less>>& newFile,
+                           unique_ptr<map<string, VecStr, alphanum_less>>& newFile,
                            unique_ptr<SSMap>& stateID,
                            unique_ptr<SSMap>& parent,
-                           unique_ptr<unordered_map<string, vecstr>>& statelist,
+                           unique_ptr<unordered_map<string, VecStr>>& statelist,
                            unordered_map<string, string>& lastUpdate
 #if MULTITHREADED_UPDATE
                            ,
@@ -616,7 +616,7 @@ bool AnimDataUpdate(string modcode,
 
     if (isNewCharacter)
     {
-        vecstr storeline;
+        VecStr storeline;
 
         if (!GetFunctionLines(filepath, storeline, !nemesis::iequals(filename, "$header$"))) return false;
 
@@ -661,7 +661,7 @@ bool AnimDataUpdate(string modcode,
         int originalline  = 0;
         int linecount     = 0;
 
-        vecstr storeline;
+        VecStr storeline;
 
         if (!GetFunctionLines(filepath, storeline)) return false;
 
@@ -816,16 +816,16 @@ bool CombineAnimData(string filepath,
                      string filename,
                      string characterfile,
                      string modcode,
-                     vecstr& newline,
-                     vecstr& storeline,
+                     VecStr& newline,
+                     VecStr& storeline,
                      vector<int> modEditCoordinate,
                      unordered_map<string, int> modEditLine,
                      unordered_map<int, int> NewCoordinate,
                      unordered_map<int, int> Pair,
                      unordered_map<string, string>& lastUpdate)
 {
-    vecstr functionline;
-    vecstr headerline;
+    VecStr functionline;
+    VecStr headerline;
     vector<vector<int>> newchecker;
 
     int linecount = 0;
@@ -931,7 +931,7 @@ bool CombineAnimData(string filepath,
             {
                 if (isHeader)
                 {
-                    vecstr storage = GetFunctionEdits(filepath,
+                    VecStr storage = GetFunctionEdits(filepath,
                                                       storeline,
                                                       modEditLine[to_string(linecount) + "R"],
                                                       NewCoordinate[linecount]);
@@ -952,7 +952,7 @@ bool CombineAnimData(string filepath,
                     vector<int> tempVI;
                     functionline.push_back("<!-- NEW *" + modcode + "* -->");
                     tempVI.push_back(functionline.size());
-                    vecstr storage = GetFunctionEdits(filepath,
+                    VecStr storage = GetFunctionEdits(filepath,
                                                       storeline,
                                                       modEditLine[to_string(linecount) + "R"],
                                                       NewCoordinate[linecount]);
@@ -982,13 +982,13 @@ bool CombineAnimData(string filepath,
 
     if (bigger)
     {
-        for (unsigned int i = newline.size(); i < storeline.size(); ++i)
+        for (uint i = newline.size(); i < storeline.size(); ++i)
         {
             if (NewCoordinate[linecount] > 0)
             {
                 if (isHeader)
                 {
-                    vecstr storage = GetFunctionEdits(filepath,
+                    VecStr storage = GetFunctionEdits(filepath,
                                                       storeline,
                                                       modEditLine[to_string(linecount) + "R"],
                                                       NewCoordinate[linecount]);
@@ -1009,7 +1009,7 @@ bool CombineAnimData(string filepath,
                     vector<int> tempVI;
                     functionline.push_back("<!-- NEW *" + modcode + "* -->");
                     tempVI.push_back(functionline.size());
-                    vecstr storage = GetFunctionEdits(filepath,
+                    VecStr storage = GetFunctionEdits(filepath,
                                                       storeline,
                                                       modEditLine[to_string(linecount) + "R"],
                                                       NewCoordinate[linecount]);
@@ -1099,7 +1099,7 @@ bool AnimSetDataUpdate(string modcode,
         int originalline  = 0;
         int linecount     = 0;
 
-        vecstr storeline;
+        VecStr storeline;
 
         if (!GetFunctionLines(filepath, storeline, false)) return false;
 
@@ -1172,9 +1172,9 @@ bool AnimSetDataUpdate(string modcode,
                 return false;
             }
 
-            vecstr newline = animSetData.newAnimSetData[projectfile][lowerfile];
-            vecstr functionline;
-            vecstr headerline;
+            VecStr newline = animSetData.newAnimSetData[projectfile][lowerfile];
+            VecStr functionline;
+            VecStr headerline;
 
             int editcount = 0;
 
@@ -1227,7 +1227,7 @@ bool AnimSetDataUpdate(string modcode,
                     {
                         if (isHeader)
                         {
-                            vecstr storage = GetFunctionEdits(filepath,
+                            VecStr storage = GetFunctionEdits(filepath,
                                                               storeline,
                                                               modEditLine[to_string(linecount) + "R"],
                                                               NewCoordinate[linecount]);
@@ -1257,7 +1257,7 @@ bool AnimSetDataUpdate(string modcode,
                                 return false;
 
                             functionline.push_back("<!-- NEW *" + modcode + "* -->");
-                            vecstr storage = GetFunctionEdits(filepath,
+                            VecStr storage = GetFunctionEdits(filepath,
                                                               storeline,
                                                               modEditLine[to_string(linecount) + "R"],
                                                               NewCoordinate[linecount]);
@@ -1318,13 +1318,13 @@ bool ClassCheck(vector<int>& modEditCoordinate,
                 unordered_map<string, int>& modEditLine,
                 unordered_map<int, int>& NewCoordinate,
                 int linecount,
-                vecstr& storeline,
+                VecStr& storeline,
                 string filepath,
                 string projectfile,
                 string filename,
                 string modcode)
 {
-    unsigned int endline = modEditLine[to_string(linecount) + "R"] + NewCoordinate[linecount];
+    uint endline = modEditLine[to_string(linecount) + "R"] + NewCoordinate[linecount];
     bool attacknew       = false;
     bool islast          = false;
 
@@ -1333,7 +1333,7 @@ bool ClassCheck(vector<int>& modEditCoordinate,
             storeline, projectfile, filename, modcode, modEditLine[to_string(linecount) + "R"], true))
         attacknew = true;
 
-    for (unsigned int k = modEditLine[to_string(linecount) + "R"]; k < endline; ++k)
+    for (uint k = modEditLine[to_string(linecount) + "R"]; k < endline; ++k)
     {
         if (error) throw nemesis::exception();
 

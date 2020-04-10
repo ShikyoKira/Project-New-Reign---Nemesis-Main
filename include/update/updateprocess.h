@@ -15,7 +15,7 @@
 class NemesisEngine;
 class arguPack;
 
-typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, setstr>>>
+typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, SetStr>>>
     StateIDList;
 
 class UpdateFilesStart : public QObject
@@ -63,7 +63,7 @@ public:
     void RegisterBehavior(std::shared_ptr<RegisterQueue> curBehavior);
     bool VanillaDisassemble(
         std::string path,
-        std::unique_ptr<std::map<std::string, vecstr, alphanum_less>>& newFile,
+        std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>& newFile,
         std::unique_ptr<std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState,
         std::unique_ptr<SSMap>& stateID,
         std::unique_ptr<SSMap>& n_parent);
@@ -102,7 +102,7 @@ private:
     boost::atomic_flag stackLock = BOOST_ATOMIC_FLAG_INIT;
     boost::atomic_flag queueLock = BOOST_ATOMIC_FLAG_INIT;
 
-    std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>
+    std::unordered_map<std::string, std::unordered_map<std::string, VecStr>>
         modQueue; // behavior, node, list of mod
     std::vector<TargetQueue> processQueue;
     size_t queuing;
@@ -120,7 +120,7 @@ private:
 #endif
 
     // update data container
-    std::map<std::string, std::unique_ptr<std::map<std::string, vecstr, alphanum_less>>> newFile;
+    std::map<std::string, std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>> newFile;
     // behavior file, node ID, node data lines; memory to access each node
 #if MULTITHREADED_UPDATE
     boost::atomic_flag newFileLock = BOOST_ATOMIC_FLAG_INIT;
@@ -138,11 +138,11 @@ private:
     MasterAnimData animData;
     MasterAnimSetData animSetData;
 
-    std::map<std::string, vecstr> newAnimAddition;
+    std::map<std::string, VecStr> newAnimAddition;
     std::unordered_map<std::string, std::string> lastUpdate;
     std::unordered_map<std::string, std::unordered_map<std::string, size_t>>
         modFileCounter; // modcode, behavior, number of files
-    std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>
+    std::unordered_map<std::string, std::unordered_map<std::string, VecStr>>
         modFileList; // modcode, behavior, node files
     boost::atomic_flag fileCountLock = BOOST_ATOMIC_FLAG_INIT;
 

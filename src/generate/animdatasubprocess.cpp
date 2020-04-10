@@ -93,7 +93,7 @@ void BehaviorSub::CompilingAnimData()
     string behaviorFile      = filelist[curList].substr(0, filelist[curList].find_last_of("."));
     string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
-    vecstr projectList;                          // list of projects
+    VecStr projectList;                          // list of projects
     unordered_map<string, int> projectNameCount; // count the occurance of the project name
     vector<unique_ptr<AnimDataProject>> ADProject;
     unordered_map<string, int> nextProject;
@@ -106,14 +106,14 @@ void BehaviorSub::CompilingAnimData()
     {
         unordered_map<string, invertInt> uCode;                             // project, highest unique code
         unordered_map<string, unordered_map<string, string>> uniqueModCode; // project, mod code, unique code
-        unordered_map<string, unordered_map<string, vecstr>> catalystMap;   // project, header, list of lines
-        unordered_map<string, vecstr> animDataHeader;                       // project, list of headers
-        unordered_map<string, vecstr> animDataInfo;                         // project, list of info headers
+        unordered_map<string, unordered_map<string, VecStr>> catalystMap;   // project, header, list of lines
+        unordered_map<string, VecStr> animDataHeader;                       // project, list of headers
+        unordered_map<string, VecStr> animDataInfo;                         // project, list of info headers
 
         {
             // read behavior file
-            vecstr catalyst;
-            vecstr newline;
+            VecStr catalyst;
+            VecStr newline;
             unordered_map<string, string> chosenLines;
 
             if (!GetFunctionLines(filepath, newline)) return;
@@ -187,7 +187,7 @@ void BehaviorSub::CompilingAnimData()
 
             // add picked behavior and remove not picked behavior
             // separation of all items for easier access and better compatibility
-            for (unsigned int l = num; l < catalyst.size(); ++l)
+            for (uint l = num; l < catalyst.size(); ++l)
             {
                 string line = catalyst[l];
 
@@ -483,7 +483,7 @@ void BehaviorSub::CompilingAnimData()
         if (BehaviorTemplate->grouplist.find(lowerBehaviorFile) != BehaviorTemplate->grouplist.end()
             && BehaviorTemplate->grouplist[lowerBehaviorFile].size() > 0)
         {
-            unordered_map<string, unordered_map<string, vector<map<int, vecstr>>>> editExtract;
+            unordered_map<string, unordered_map<string, vector<map<int, VecStr>>>> editExtract;
             unordered_map<string, unordered_map<string, int>> ASDCount;
 
             for (auto& templateCode : BehaviorTemplate->grouplist[lowerBehaviorFile])
@@ -497,7 +497,7 @@ void BehaviorSub::CompilingAnimData()
                 {
                     for (auto& eachNewAnim : newAnimation[templateCode])
                     {
-                        unordered_map<string, map<string, vecstr>> generatedAnimData;
+                        unordered_map<string, map<string, VecStr>> generatedAnimData;
                         eachNewAnim->GetAnimData(generatedAnimData);
 
                         for (auto& _animData : generatedAnimData)
@@ -595,7 +595,7 @@ void BehaviorSub::CompilingAnimData()
                                 if (catalystMap[project][header].size() == 0)
                                     ErrorMessage(5011, templateCode, project, header);
 
-                                map<int, vecstr> extract;
+                                map<int, VecStr> extract;
                                 eachNewAnim->existingASDProcess(catalystMap[project][header], extract);
 
                                 if (error) throw nemesis::exception();
@@ -618,7 +618,7 @@ void BehaviorSub::CompilingAnimData()
                             if (catalystMap[project][header].size() == 0)
                                 ErrorMessage(5011, templateCode, project, header);
 
-                            editExtract[project][header].push_back(map<int, vecstr>());
+                            editExtract[project][header].push_back(map<int, VecStr>());
 
                             if (error) throw nemesis::exception();
                         }
@@ -634,7 +634,7 @@ void BehaviorSub::CompilingAnimData()
             {
                 for (auto& header : project.second)
                 {
-                    map<int, vecstr> combined;
+                    map<int, VecStr> combined;
                     int totalline = 0;
 
                     for (auto& list : header.second)
@@ -699,7 +699,7 @@ void BehaviorSub::CompilingAnimData()
 							{
 								for (auto& header : ptr2->second->cliplist)
 								{
-									vecstr newlines;
+									VecStr newlines;
 									project = "DefaultFemale.txt 1";
 									int& refCode = uCode[project].to_int();
 
@@ -730,7 +730,7 @@ void BehaviorSub::CompilingAnimData()
 							{
 								for (auto& header : ptr2->second->cliplist)
 								{
-									vecstr newlines;
+									VecStr newlines;
 									project = "DefaultMale.txt 1";
 									int& refCode = uCode[project].to_int();
 
@@ -770,7 +770,7 @@ void BehaviorSub::CompilingAnimData()
                 else
                     project = curProject + " 1";
 
-                vecstr combined;
+                VecStr combined;
 
                 for (string& header : animDataHeader[project])
                 {

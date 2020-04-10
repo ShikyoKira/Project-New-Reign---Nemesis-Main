@@ -26,6 +26,6 @@ signals:
 };
 
 bool readMod(std::string& errormsg);
-vecstr getHiddenMods();
+VecStr getHiddenMods();
 
 #endif

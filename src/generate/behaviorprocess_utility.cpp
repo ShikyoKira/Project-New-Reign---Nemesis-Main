@@ -116,7 +116,7 @@ void groupThreadStart(shared_ptr<newGroupArgs> args, boost::asio::thread_pool* m
     if (error) { mt->stop(); }
 }
 
-void elementUpdate(size_t& elementLine, int& counter, int& curID, map<int, vecstr>& catalystMap)
+void elementUpdate(size_t& elementLine, int& counter, int& curID, map<int, VecStr>& catalystMap)
 {
     if (elementLine != -1)
     {
@@ -134,7 +134,7 @@ void elementUpdate(size_t& elementLine, int& counter, int& curID, map<int, vecst
     }
 }
 
-void unpackToCatalyst(map<int, vecstr>& catalystMap, unordered_map<int, shared_ptr<NodeJoint>>& existingNodes)
+void unpackToCatalyst(map<int, VecStr>& catalystMap, unordered_map<int, shared_ptr<NodeJoint>>& existingNodes)
 {
     for (auto& node : existingNodes)
     {
@@ -145,17 +145,17 @@ void unpackToCatalyst(map<int, vecstr>& catalystMap, unordered_map<int, shared_p
 void processExistFuncID(std::vector<int>& funcIDs,
                         const std::string& ZeroEvent,
                         const std::string& ZeroVariable,
-                        std::map<int, vecstr>& catalystMap,
+                        std::map<int, VecStr>& catalystMap,
                         const std::shared_ptr<master>& groupFunctionIDs,
                         const std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& groupAnimInfo,
                         const std::string& templateCode,
                         ImportContainer& exportID,
-                        id& eventid,
-                        id& variableid,
+                        ID& eventid,
+                        ID& variableid,
                         int& lastID,
                         bool hasMaster,
                         bool hasGroup,
-                        setstr& templateGroup,
+                        SetStr& templateGroup,
                         bool ignoreGroup,
                         const std::string& behaviorFile,
                         std::unordered_map<int, std::shared_ptr<NodeJoint>>& existingNodes)
@@ -181,8 +181,8 @@ void processExistFuncID(std::vector<int>& funcIDs,
         unordered_map<string, bool> otherAnimType;
         string strID = to_string(lastID);
         unsigned __int64 openRange;
-        unsigned int elementCount = 0;
-        bool negative             = false;
+        uint elementCount = 0;
+        bool negative     = false;
 
         for (auto& groupInfo : groupAnimInfo)
         {

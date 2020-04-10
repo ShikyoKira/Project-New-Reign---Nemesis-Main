@@ -12,7 +12,7 @@
 #include "ui/SettingsSave.h"
 
 std::unordered_map<std::string, std::string> modConvert;
-extern std::atomic<unsigned int> resizeCount;
+extern std::atomic<uint> resizeCount;
 
 BehaviorListView::BehaviorListView(QWidget* parent)
     : QTreeView(parent)

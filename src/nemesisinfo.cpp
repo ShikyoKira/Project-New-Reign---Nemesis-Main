@@ -68,7 +68,7 @@ void NemesisInfo::setup()
     {
         try
         {
-            vecstr storeline;
+            VecStr storeline;
 
             if (GetFunctionLines(string("nemesis.ini"), storeline))
             {
@@ -96,7 +96,7 @@ void NemesisInfo::setup()
                                         dataPath.push_back('/');
                                 }
 
-                                vecstr filelist;
+                                VecStr filelist;
                                 filesystem::path fspath(dataPath);
 
                                 while (!nemesis::iequals(fspath.stem().string(), "data"))
@@ -165,7 +165,7 @@ void NemesisInfo::setup()
 
         if (pos != NOT_FOUND)
         {
-            vecstr filelist;
+            VecStr filelist;
             string skyrimDataDirect;
 
             {
@@ -283,17 +283,17 @@ string NemesisInfo::GetDataPath()
     return dataPath;
 }
 
-unsigned int NemesisInfo::GetMaxAnim()
+uint NemesisInfo::GetMaxAnim()
 {
     return maxAnim;
 }
 
-unsigned int NemesisInfo::GetAuthorWidth()
+uint NemesisInfo::GetAuthorWidth()
 {
     return authorWidth;
 }
 
-unsigned int NemesisInfo::GetPriorityWidth()
+uint NemesisInfo::GetPriorityWidth()
 {
     return priorityWidth;
 }
@@ -303,27 +303,27 @@ void NemesisInfo::setFirst(bool _first)
     first = _first;
 }
 
-void NemesisInfo::setWidth(unsigned int _width)
+void NemesisInfo::setWidth(uint _width)
 {
     width = _width;
 }
 
-void NemesisInfo::setHeight(unsigned int _height)
+void NemesisInfo::setHeight(uint _height)
 {
     height = _height;
 }
 
-void NemesisInfo::setModNameWidth(unsigned int _width)
+void NemesisInfo::setModNameWidth(uint _width)
 {
     modNameWidth = _width;
 }
 
-void NemesisInfo::setAuthorWidth(unsigned int _width)
+void NemesisInfo::setAuthorWidth(uint _width)
 {
     authorWidth = _width;
 }
 
-void NemesisInfo::setPriorityWidth(unsigned int _width)
+void NemesisInfo::setPriorityWidth(uint _width)
 {
     priorityWidth = _width;
 }
@@ -333,17 +333,17 @@ bool NemesisInfo::IsFirst()
     return first;
 }
 
-unsigned int NemesisInfo::GetWidth()
+uint NemesisInfo::GetWidth()
 {
     return width;
 }
 
-unsigned int NemesisInfo::GetHeight()
+uint NemesisInfo::GetHeight()
 {
     return height;
 }
 
-unsigned int NemesisInfo::GetModNameWidth()
+uint NemesisInfo::GetModNameWidth()
 {
     return modNameWidth;
 }

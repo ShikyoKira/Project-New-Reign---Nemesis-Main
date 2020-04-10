@@ -2,7 +2,7 @@
 #define ADDEVENTS_H_
 
 bool AddEvents(const std::string& curNum,
-               vecstr& storeline,
+               VecStr& storeline,
                const std::string& input,
                std::unordered_map<std::string, bool> orievent,
                std::unordered_map<std::string, bool>& isExist,

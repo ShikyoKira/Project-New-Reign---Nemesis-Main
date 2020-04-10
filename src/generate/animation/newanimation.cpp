@@ -14,7 +14,7 @@
 
 using namespace std;
 
-string linebreakSeparator(string line, vecstr& newlines)
+string linebreakSeparator(string line, VecStr& newlines)
 {
     if (line.back() == '\n') line.pop_back();
 
@@ -33,7 +33,7 @@ string linebreakSeparator(string line, vecstr& newlines)
 
 NewAnimation::NewAnimation(shared_ptr<unordered_map<string, AnimTemplate>> animlines,
                            string formatname,
-                           unordered_map<string, vecstr> furnituretemplate,
+                           unordered_map<string, VecStr> furnituretemplate,
                            int furniturecount,
                            string curfilepath,
                            AnimationInfo& animationinfo)
@@ -63,12 +63,12 @@ NewAnimation::NewAnimation(shared_ptr<unordered_map<string, AnimTemplate>> animl
     filepath       = curfilepath;
 }
 
-void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines,
+void NewAnimation::GetNewAnimationLine(shared_ptr<VecStr> generatedlines,
                                        string curBehaviorFile,
-                                       int nFunctionID,
+                                       int id,
                                        ImportContainer& import,
-                                       id eventid,
-                                       id variableid,
+                                       ID eventid,
+                                       ID variableid,
                                        vector<int>& stateID,
                                        vector<int> stateCountMultiplier,
                                        bool hasGroup,
@@ -80,7 +80,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines,
     behaviorFile   = curBehaviorFile;
     newImport      = const_cast<ImportContainer*>(&import);
     atomicLock     = const_cast<NewAnimLock*>(&animLock);
-    nextFunctionID = nFunctionID;
+    nextFunctionID = id;
     subFunctionIDs = singleFunction;
 
     bool negative      = false;
@@ -106,7 +106,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines,
 
     groupOptionPicked.reserve(groupAnimInfo.size());
 
-    for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+    for (uint i = 0; i < groupAnimInfo.size(); ++i)
     {
         groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
     }
@@ -152,7 +152,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines,
 
     if (isCore)
     {
-        for (unsigned int i = 0; i < rawtemplate[behaviorFile].size(); ++i)
+        for (uint i = 0; i < rawtemplate[behaviorFile].size(); ++i)
         {
             elementCatch = false;
             string line  = rawtemplate[behaviorFile][i];
@@ -219,7 +219,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines,
 
                     for (int k = 0; k < optionPickedCount[optionName]; ++k)
                     {
-                        for (unsigned int j = 0; j < groupAddition[optionName][elementName].size(); ++j)
+                        for (uint j = 0; j < groupAddition[optionName][elementName].size(); ++j)
                         {
                             subFunctionIDs->format[optionName + "[" + elementName + "][" + to_string(j) + "]"]
                                 = groupAddition[optionName][elementName][j];
@@ -230,7 +230,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines,
                 {
                     optionName = it->first;
 
-                    for (unsigned int j = 0; j < groupAddition[optionName][elementName].size(); ++j)
+                    for (uint j = 0; j < groupAddition[optionName][elementName].size(); ++j)
                     {
                         subFunctionIDs->format[optionName + "[" + elementName + "][" + to_string(j) + "]"]
                             = groupAddition[optionName][elementName][j];
@@ -244,7 +244,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines,
     {
         for (auto it = AnimObject.begin(); it != AnimObject.end(); ++it)
         {
-            for (unsigned int i = 0; i < it->second.size(); ++i)
+            for (uint i = 0; i < it->second.size(); ++i)
             {
                 subFunctionIDs->format["@AnimObject/" + to_string(it->first) + "[" + to_string(i) + "]"]
                     = it->second[i];
@@ -252,7 +252,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines,
         }
     }
 
-    for (unsigned int i = 0; i < fixedStateID.size(); ++i)
+    for (uint i = 0; i < fixedStateID.size(); ++i)
     {
         for (int j = 0; j < stateCountMultiplier[i]; ++j)
         {
@@ -298,12 +298,12 @@ std::string NewAnimation::GetFormatName()
     return format;
 }
 
-vecstr NewAnimation::GetEventID()
+VecStr NewAnimation::GetEventID()
 {
     return eventID;
 }
 
-vecstr NewAnimation::GetVariableID()
+VecStr NewAnimation::GetVariableID()
 {
     return variableID;
 }
@@ -323,7 +323,7 @@ ImportContainer NewAnimation::GetAddition()
     return addition;
 }
 
-unordered_map<string, unordered_map<string, vecstr>> NewAnimation::GetGroupAddition()
+unordered_map<string, unordered_map<string, VecStr>> NewAnimation::GetGroupAddition()
 {
     return groupAddition;
 }
@@ -349,11 +349,11 @@ void NewAnimation::addGroupAnimInfo(vector<shared_ptr<AnimationInfo>> animInfo)
     groupAnimInfo = animInfo;
 }
 
-void NewAnimation::storeAnimObject(vecstr animobjects, string listFilename, int linecount)
+void NewAnimation::storeAnimObject(VecStr animobjects, string listFilename, int linecount)
 {
     size_t position;
 
-    for (unsigned int i = 0; i < animobjects.size(); ++i)
+    for (uint i = 0; i < animobjects.size(); ++i)
     {
         position = animobjects[i].find("/");
 
@@ -439,7 +439,7 @@ bool NewAnimation::isKnown()
 }
 
 void NewAnimation::multiChoice(string& line,
-                               vecstr& storeline,
+                               VecStr& storeline,
                                vector<unordered_map<string, bool>> groupOptionPicked,
                                int numline,
                                AnimationUtility utility)
@@ -469,7 +469,7 @@ void NewAnimation::multiChoice(string& line,
 
         for (int i = 0; i < choicecount; ++i)
         {
-            vecstr opt;
+            VecStr opt;
             vector<char> storechar;
             nextposition   = line.find("<!-- ", nextposition) + 5;
             string tempstr = line.substr(nextposition, line.find(" ", nextposition) - nextposition);
@@ -513,7 +513,7 @@ void NewAnimation::multiChoice(string& line,
 }
 
 bool NewAnimation::singleCondition(string condition,
-                                   vecstr& storeline,
+                                   VecStr& storeline,
                                    vector<unordered_map<string, bool>> groupOptionPicked,
                                    int numline,
                                    AnimationUtility utility)
@@ -538,7 +538,7 @@ bool NewAnimation::singleCondition(string condition,
 }
 
 bool NewAnimation::andLoop(string condition,
-                           vecstr& storeline,
+                           VecStr& storeline,
                            vector<unordered_map<string, bool>> groupOptionPicked,
                            int numline,
                            AnimationUtility utility)
@@ -552,7 +552,7 @@ bool NewAnimation::andLoop(string condition,
         size_t c_or          = 0;
         size_t backB         = 0;
 
-        for (unsigned int i = 0; i < nextCondition.size(); ++i)
+        for (uint i = 0; i < nextCondition.size(); ++i)
         {
             if (nextCondition[i] == '(')
                 ++c_or;
@@ -577,7 +577,7 @@ bool NewAnimation::andLoop(string condition,
             c_or  = 0;
             backB = nextCondition.size() - 1;
 
-            for (unsigned int i = 0; i < nextCondition.size(); ++i)
+            for (uint i = 0; i < nextCondition.size(); ++i)
             {
                 if (nextCondition[i] == '(') { ++c_or; }
                 else if (nextCondition[i] == ')')
@@ -617,7 +617,7 @@ bool NewAnimation::andLoop(string condition,
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (unsigned int i = 0; i < nextCondition.size(); ++i)
+        for (uint i = 0; i < nextCondition.size(); ++i)
         {
             if (nextCondition[i] == '(') { ++c_or; }
             else if (nextCondition[i] == ')')
@@ -646,7 +646,7 @@ bool NewAnimation::andLoop(string condition,
 bool NewAnimation::andOrParenthesis(size_t c_and,
                                     size_t c_or,
                                     string condition,
-                                    vecstr& storeline,
+                                    VecStr& storeline,
                                     vector<unordered_map<string, bool>> groupOptionPicked,
                                     int numline,
                                     AnimationUtility utility)
@@ -687,7 +687,7 @@ bool NewAnimation::andOrParenthesis(size_t c_and,
 }
 
 bool NewAnimation::andParenthesis(string condition,
-                                  vecstr& storeline,
+                                  VecStr& storeline,
                                   vector<unordered_map<string, bool>> groupOptionPicked,
                                   int numline,
                                   AnimationUtility utility)
@@ -695,7 +695,7 @@ bool NewAnimation::andParenthesis(string condition,
     size_t c_or  = 0;
     size_t inner = 0;
 
-    for (unsigned int i = 0; i < condition.length(); ++i)
+    for (uint i = 0; i < condition.length(); ++i)
     {
         if (condition[i] == '(') { ++c_or; }
         else if (condition[i] == ')')
@@ -744,7 +744,7 @@ bool NewAnimation::andParenthesis(string condition,
 }
 
 bool NewAnimation::newCondition(string condition,
-                                vecstr& storeline,
+                                VecStr& storeline,
                                 vector<unordered_map<string, bool>> groupOptionPicked,
                                 int numline,
                                 AnimationUtility utility)
@@ -760,7 +760,7 @@ bool NewAnimation::newCondition(string condition,
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (unsigned int i = 0; i < condition.size(); ++i)
+        for (uint i = 0; i < condition.size(); ++i)
         {
             if (condition[i] == '(') { ++c_or; }
             else if (condition[i] == ')')
@@ -833,11 +833,11 @@ bool NewAnimation::newCondition(string condition,
 }
 
 void NewAnimation::processing(string& line,
-                              vecstr& storeline,
+                              VecStr& storeline,
                               string masterFormat,
                               int linecount,
-                              id eventid,
-                              id variableid,
+                              ID eventid,
+                              ID variableid,
                               vector<int> fixedStateID,
                               vector<int> stateCountMultiplier,
                               bool hasGroup,
@@ -1455,7 +1455,7 @@ void NewAnimation::processing(string& line,
                         }
 
                         pos               = change.find("]", pos + 1) + 1;
-                        vecstr optionInfo = GetOptionInfo(change.substr(nextpos, pos - nextpos),
+                        VecStr optionInfo = GetOptionInfo(change.substr(nextpos, pos - nextpos),
                                                           format,
                                                           behaviorFile,
                                                           linecount,
@@ -1732,7 +1732,7 @@ void NewAnimation::processing(string& line,
                         string tempKeyword = importer.substr(pos, importer.find_last_of("]") + 1 - pos);
                         int openBrack      = 0;
 
-                        for (unsigned int j = 0; j < tempKeyword.length(); ++j)
+                        for (uint j = 0; j < tempKeyword.length(); ++j)
                         {
                             char curChar = tempKeyword[j];
 
@@ -1831,17 +1831,17 @@ void NewAnimation::processing(string& line,
 
 void addOnReplacer(string& line,
                    string filename,
-                   unordered_map<string, vecstr> addOn,
+                   unordered_map<string, VecStr> addOn,
                    ImportContainer addition,
-                   unordered_map<string, unordered_map<string, vecstr>> groupAddition,
+                   unordered_map<string, unordered_map<string, VecStr>> groupAddition,
                    SSMap mixOpt,
-                   unsigned int optionMulti,
+                   uint optionMulti,
                    string format,
                    int numline)
 {
     for (auto it = addOn.begin(); it != addOn.end(); ++it)
     {
-        for (unsigned int j = 0; j < it->second.size(); ++j)
+        for (uint j = 0; j < it->second.size(); ++j)
         {
             if (line.find(it->first + "[" + it->second[j] + "]", 0) != NOT_FOUND)
             {
@@ -1921,7 +1921,7 @@ void addOnReplacer(string& line,
 
 void animObjectReplacer(string& line,
                         string filename,
-                        unordered_map<int, vecstr> AnimObject,
+                        unordered_map<int, VecStr> AnimObject,
                         string format,
                         int linecount,
                         int optionMulti,
@@ -2021,13 +2021,13 @@ void NewAnimation::stateReplacer(
 }
 
 bool NewAnimation::addOnConverter(
-    int& optionMulti, int& endMulti, vecstr& optionInfo, shared_ptr<AnimationInfo> animInfo, bool second)
+    int& optionMulti, int& endMulti, VecStr& optionInfo, shared_ptr<AnimationInfo> animInfo, bool second)
 {
-    unordered_map<string, vecstr>* addOnPtr = &animInfo->addOn;
+    unordered_map<string, VecStr>* addOnPtr = &animInfo->addOn;
 
     if (addOnPtr->find(optionInfo[2]) != addOnPtr->end() && (*addOnPtr)[optionInfo[2]].size() > 0)
     {
-        unordered_map<string, vecstr>* groupAdditionPtr = &animInfo->groupAddition[optionInfo[2]];
+        unordered_map<string, VecStr>* groupAdditionPtr = &animInfo->groupAddition[optionInfo[2]];
 
         if (groupAdditionPtr->find(optionInfo[3]) != groupAdditionPtr->end()
             && (*groupAdditionPtr)[optionInfo[3]].size() > 0)
@@ -2051,7 +2051,7 @@ bool NewAnimation::addOnConverter(
 }
 
 void eventIDReplacer(
-    string& line, string format, string filename, id eventid, string firstEvent, int linecount)
+    string& line, string format, string filename, ID eventid, string firstEvent, int linecount)
 {
     int count = sameWordCount(line, "eventID[");
 
@@ -2076,7 +2076,7 @@ void eventIDReplacer(
 }
 
 void variableIDReplacer(
-    string& line, string format, string filename, id variableid, string ZeroVariable, int linecount)
+    string& line, string format, string filename, ID variableid, string ZeroVariable, int linecount)
 {
     int count = sameWordCount(line, "variableID[");
 
@@ -2100,7 +2100,7 @@ void variableIDReplacer(
     }
 }
 
-vecstr GetOptionInfo(string line,
+VecStr GetOptionInfo(string line,
                      string format,
                      string filename,
                      int numline,
@@ -2113,7 +2113,7 @@ vecstr GetOptionInfo(string line,
                      int optionMulti)
 {
     int limiter = isCondition ? 3 : 4;
-    vecstr optionInfo;
+    VecStr optionInfo;
     optionInfo.reserve(limiter);
     optionInfo.push_back(format);
 
@@ -2334,7 +2334,7 @@ bool clearGroupNum(string option2,
 }
 
 bool NewAnimation::specialCondition(string condition,
-                                    vecstr& storeline,
+                                    VecStr& storeline,
                                     int linecount,
                                     AnimationUtility utility)
 {
@@ -2365,8 +2365,8 @@ bool NewAnimation::specialCondition(string condition,
     bool oneTime;
     string oriCondition1 = condition.substr(1, pos - 1);
     string oriCondition2 = condition.substr(pos + 2);
-    vecstr optionInfo1;
-    vecstr optionInfo2;
+    VecStr optionInfo1;
+    VecStr optionInfo2;
 
     // <optionA != optionB>*
     // only need to fulfill the condition once
@@ -2611,7 +2611,7 @@ bool NewAnimation::conditionProcess(string condition,
                                     int numline,
                                     AnimationUtility utility)
 {
-    vecstr optionInfo;
+    VecStr optionInfo;
 
     if (condition.find(format + "[][") != NOT_FOUND)
     {
@@ -2682,7 +2682,7 @@ bool NewAnimation::conditionProcess(string condition,
 }
 
 bool NewAnimation::GetFirstCondition(string firstCondition,
-                                     vecstr optionInfo,
+                                     VecStr optionInfo,
                                      int numline,
                                      vector<unordered_map<string, bool>> groupOptionPicked,
                                      bool isNot)
@@ -2737,7 +2737,7 @@ bool NewAnimation::GetFirstCondition(string firstCondition,
     }
 }
 
-//void NewAnimation::addAnimData(unordered_map<string, unordered_map<string, vecstr>> animdata)
+//void NewAnimation::addAnimData(unordered_map<string, unordered_map<string, VecStr>> animdata)
 //{
 //	animdatalines = animdata;
 //}
@@ -2747,7 +2747,7 @@ void NewAnimation::addAnimData(unordered_map<string, unordered_map<string, AnimT
     animdatatemplate = animdata;
 }
 
-//void NewAnimation::addAnimSetData(unordered_map<string, map<string, vecstr, alphanum_less>> animsetdata)
+//void NewAnimation::addAnimSetData(unordered_map<string, map<string, VecStr, alphanum_less>> animsetdata)
 //{
 //	asdlines = animsetdata;
 //}
@@ -2757,13 +2757,13 @@ void NewAnimation::addAnimSetData(unordered_map<string, map<string, AnimTemplate
     asdtemplate = animsetdata;
 }
 
-void NewAnimation::GetAnimData(unordered_map<string, map<string, vecstr>>& newAnimDataLines)
+void NewAnimation::GetAnimData(unordered_map<string, map<string, VecStr>>& newAnimDataLines)
 {
     unordered_map<int, bool> IsConditionOpened;
     vector<unordered_map<string, bool>> groupOptionPicked;
     groupOptionPicked.reserve(groupAnimInfo.size());
 
-    for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+    for (uint i = 0; i < groupAnimInfo.size(); ++i)
     {
         groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
     }
@@ -2774,11 +2774,11 @@ void NewAnimation::GetAnimData(unordered_map<string, map<string, vecstr>>& newAn
         {
             try
             {
-                shared_ptr<vecstr> dummy = make_shared<vecstr>();
+                shared_ptr<VecStr> dummy = make_shared<VecStr>();
                 AnimDataLineProcess(
                     &header.second, dummy, format, project.first, header.first, groupOptionPicked);
                 isEnd = false;
-                vecstr storeline;
+                VecStr storeline;
                 storeline.reserve(dummy->size());
 
                 for (auto& line : *dummy)
@@ -2787,7 +2787,7 @@ void NewAnimation::GetAnimData(unordered_map<string, map<string, vecstr>>& newAn
                     {
                         if (line.back() == '\n') line.pop_back();
 
-                        vecstr split;
+                        VecStr split;
                         StringSplit(line, split);
                         storeline.insert(storeline.end(), split.begin(), split.end());
                     }
@@ -2813,13 +2813,13 @@ void NewAnimation::GetAnimData(unordered_map<string, map<string, vecstr>>& newAn
     return;
 }
 
-void NewAnimation::GetAnimSetData(unordered_map<string, map<string, vecstr, alphanum_less>>& newASDLines)
+void NewAnimation::GetAnimSetData(unordered_map<string, map<string, VecStr, alphanum_less>>& newASDLines)
 {
     unordered_map<int, bool> IsConditionOpened;
     vector<unordered_map<string, bool>> groupOptionPicked;
     groupOptionPicked.reserve(groupAnimInfo.size());
 
-    for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+    for (uint i = 0; i < groupAnimInfo.size(); ++i)
     {
         groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
     }
@@ -2830,7 +2830,7 @@ void NewAnimation::GetAnimSetData(unordered_map<string, map<string, vecstr, alph
         {
             try
             {
-                shared_ptr<vecstr> dummy = make_shared<vecstr>();
+                shared_ptr<VecStr> dummy = make_shared<VecStr>();
                 AnimDataLineProcess(&header.second,
                                     dummy,
                                     format,
@@ -2856,19 +2856,19 @@ void NewAnimation::GetAnimSetData(unordered_map<string, map<string, vecstr, alph
     return;
 }
 
-void NewAnimation::AnimDataLineProcess(vecstr originallines,
-                                       vecstr& newlines,
+void NewAnimation::AnimDataLineProcess(VecStr originallines,
+                                       VecStr& newlines,
                                        string format,
                                        vector<unordered_map<string, bool>> groupOptionPicked,
                                        vector<int> ASD)
 {
     {
-        vecstr emptyVS;
+        VecStr emptyVS;
         newlines = emptyVS;
     }
 
     unordered_map<int, bool> IsConditionOpened;
-    vecstr recorder;
+    VecStr recorder;
     newlines.reserve(originallines.size() + 10 * memory);
     bool skip         = false; // mainly used by NEW
     bool freeze       = false; // mainly used by CONDITION to freeze following CONDITION
@@ -2882,7 +2882,7 @@ void NewAnimation::AnimDataLineProcess(vecstr originallines,
     string multiOption;
     IsConditionOpened[0] = true;
 
-    for (unsigned int i = 0; i < originallines.size(); ++i)
+    for (uint i = 0; i < originallines.size(); ++i)
     {
         bool uniqueskip = false;
         string line     = originallines[i];
@@ -3007,7 +3007,7 @@ void NewAnimation::AnimDataLineProcess(vecstr originallines,
                         curOption = curOption.substr(1);
                     }
 
-                    vecstr optionInfo = GetOptionInfo(
+                    VecStr optionInfo = GetOptionInfo(
                         curOption, format, behaviorFile, i + 1, lastOrder, groupAnimInfo, false, true, order);
 
                     if (optionInfo[2] != "AnimObject")
@@ -3101,7 +3101,7 @@ void NewAnimation::AnimDataLineProcess(vecstr originallines,
 
                     while (true)
                     {
-                        vecstr optionInfo = GetOptionInfo(curOption,
+                        VecStr optionInfo = GetOptionInfo(curOption,
                                                           format,
                                                           behaviorFile,
                                                           i + 1,
@@ -3215,7 +3215,7 @@ void NewAnimation::AnimDataLineProcess(vecstr originallines,
                         bool unknown = false;
                         bool number  = false;
 
-                        for (unsigned int j = 0; j < curOrder.size(); ++j)
+                        for (uint j = 0; j < curOrder.size(); ++j)
                         {
                             if (isalpha(curOrder[j]))
                                 word = true;
@@ -3313,7 +3313,7 @@ void NewAnimation::AnimDataLineProcess(vecstr originallines,
                         multiChoice(line, newlines, groupOptionPicked, i + 1, utility);
                     }
 
-                    id emptyID;
+                    ID emptyID;
                     vector<int> emptyVI;
                     processing(line, newlines, format, i + 1, emptyID, emptyID, emptyVI, ASD, false);
                     line = linebreakSeparator(line, newlines);
@@ -3362,7 +3362,7 @@ void NewAnimation::AnimDataLineProcess(vecstr originallines,
                              optionMulti < groupAnimInfo[animMulti]->optionPickedCount[multiOption];
                              ++optionMulti)
                         {
-                            for (unsigned int k = 0; k < recorder.size(); ++k)
+                            for (uint k = 0; k < recorder.size(); ++k)
                             {
                                 bool uniqueskip2 = false;
                                 string newline   = recorder[k];
@@ -3513,7 +3513,7 @@ void NewAnimation::AnimDataLineProcess(vecstr originallines,
                                         // multi choice selection
                                         if (newline.find("$MC$", 0) != NOT_FOUND)
                                         {
-                                            id emptyID;
+                                            ID emptyID;
                                             vector<int> emptyVI;
                                             AnimationUtility utility(newline,
                                                                      emptyID,
@@ -3535,7 +3535,7 @@ void NewAnimation::AnimDataLineProcess(vecstr originallines,
 
                                     if (newline.find("$") != NOT_FOUND)
                                     {
-                                        id emptyID;
+                                        ID emptyID;
                                         vector<int> emptyVI;
                                         processing(newline,
                                                    newlines,
@@ -3639,7 +3639,7 @@ void NewAnimation::AnimDataLineProcess(vecstr originallines,
 }
 
 void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
-                                       shared_ptr<vecstr> generatedlines,
+                                       shared_ptr<VecStr> generatedlines,
                                        string format,
                                        string project,
                                        string header,
@@ -3654,8 +3654,8 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
 
     generatedlines->reserve(originaltemplate->size + 10 * memory);
     proc process = originaltemplate->process;
-    id tmpId; //FIXME
-    id tmpId2;
+    ID tmpId; //FIXME
+    ID tmpId2;
     process.Register(format,
                      format,
                      behaviorFile,
@@ -3712,19 +3712,19 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
                 nullptr);
 }
 
-void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract, vector<int> ASD)
+void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract, vector<int> ASD)
 {
     unordered_map<int, bool> IsConditionOpened;
     vector<unordered_map<string, bool>> groupOptionPicked;
     groupOptionPicked.reserve(groupAnimInfo.size());
 
-    for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+    for (uint i = 0; i < groupAnimInfo.size(); ++i)
     {
         groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
     }
 
-    vecstr store;
-    vecstr recorder;
+    VecStr store;
+    VecStr recorder;
     bool skip         = false; // mainly used by NEW
     bool freeze       = false; // mainly used by CONDITION to freeze following CONDITION
     bool open         = false;
@@ -3739,11 +3739,11 @@ void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract
     string multiOption;
     IsConditionOpened[0] = true;
 
-    vecstr newlines;
+    VecStr newlines;
     newlines.reserve(ASDLines.size() + 10 * memory);
     string line;
 
-    for (unsigned int i = 0; i < ASDLines.size(); ++i)
+    for (uint i = 0; i < ASDLines.size(); ++i)
     {
         line            = ASDLines[i];
         bool uniqueskip = false;
@@ -3890,7 +3890,7 @@ void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract
                             curOption = curOption.substr(1);
                         }
 
-                        vecstr optionInfo = GetOptionInfo(curOption,
+                        VecStr optionInfo = GetOptionInfo(curOption,
                                                           format,
                                                           behaviorFile,
                                                           i + 1,
@@ -4007,7 +4007,7 @@ void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract
 
                         while (true)
                         {
-                            vecstr optionInfo = GetOptionInfo(curOption,
+                            VecStr optionInfo = GetOptionInfo(curOption,
                                                               format,
                                                               behaviorFile,
                                                               i + 1,
@@ -4122,7 +4122,7 @@ void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract
                         bool unknown = false;
                         bool number  = false;
 
-                        for (unsigned int j = 0; j < curOrder.size(); ++j)
+                        for (uint j = 0; j < curOrder.size(); ++j)
                         {
                             if (isalpha(curOrder[j]))
                                 word = true;
@@ -4226,7 +4226,7 @@ void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract
                         multiChoice(line, newlines, groupOptionPicked, i + 1, utility);
                     }
 
-                    id emptyID;
+                    ID emptyID;
                     vector<int> emptyVI;
                     processing(line, newlines, format, i + 1, emptyID, emptyID, emptyVI, ASD, false);
                     line = linebreakSeparator(line, extract[curExtract]);
@@ -4288,7 +4288,7 @@ void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract
                              optionMulti < groupAnimInfo[animMulti]->optionPickedCount[multiOption];
                              ++optionMulti)
                         {
-                            for (unsigned int k = 0; k < recorder.size(); ++k)
+                            for (uint k = 0; k < recorder.size(); ++k)
                             {
                                 bool uniqueskip2 = false;
                                 string newline   = recorder[k];
@@ -4427,7 +4427,7 @@ void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract
                                         // multi choice selection
                                         if (newline.find("$MC$", 0) != NOT_FOUND)
                                         {
-                                            id emptyID;
+                                            ID emptyID;
                                             vector<int> emptyVI;
                                             AnimationUtility utility(newline,
                                                                      emptyID,
@@ -4449,7 +4449,7 @@ void NewAnimation::existingASDProcess(vecstr ASDLines, map<int, vecstr>& extract
 
                                     if (newline.find("$") != NOT_FOUND)
                                     {
-                                        id emptyID;
+                                        ID emptyID;
                                         vector<int> emptyVI;
                                         processing(newline,
                                                    newlines,
@@ -4549,7 +4549,7 @@ void motionDataReplacer(string& change,
 
             string motionData = to_string(groupAnimInfo[animMulti]->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < groupAnimInfo[animMulti]->motionData.size(); ++j)
+            for (uint j = 0; j < groupAnimInfo[animMulti]->motionData.size(); ++j)
             {
                 motionData.append(groupAnimInfo[animMulti]->motionData[j] + "\n");
             }
@@ -4571,7 +4571,7 @@ void motionDataReplacer(string& change,
 
         string motionData = to_string(groupAnimInfo[0]->motionData.size()) + "\n";
 
-        for (unsigned int j = 0; j < groupAnimInfo[0]->motionData.size(); ++j)
+        for (uint j = 0; j < groupAnimInfo[0]->motionData.size(); ++j)
         {
             motionData.append(groupAnimInfo[0]->motionData[j] + "\n");
         }
@@ -4590,7 +4590,7 @@ void motionDataReplacer(string& change,
 
         string motionData = to_string(groupAnimInfo[nextorder]->motionData.size()) + "\n";
 
-        for (unsigned int j = 0; j < groupAnimInfo[nextorder]->motionData.size(); ++j)
+        for (uint j = 0; j < groupAnimInfo[nextorder]->motionData.size(); ++j)
         {
             motionData.append(groupAnimInfo[nextorder]->motionData[j] + "\n");
         }
@@ -4609,7 +4609,7 @@ void motionDataReplacer(string& change,
 
         string motionData = to_string(groupAnimInfo[previousorder]->motionData.size()) + "\n";
 
-        for (unsigned int j = 0; j < groupAnimInfo[previousorder]->motionData.size(); ++j)
+        for (uint j = 0; j < groupAnimInfo[previousorder]->motionData.size(); ++j)
         {
             motionData.append(groupAnimInfo[previousorder]->motionData[j] + "\n");
         }
@@ -4626,7 +4626,7 @@ void motionDataReplacer(string& change,
 
         string motionData = to_string(groupAnimInfo[lastOrder]->motionData.size()) + "\n";
 
-        for (unsigned int j = 0; j < groupAnimInfo[lastOrder]->motionData.size(); ++j)
+        for (uint j = 0; j < groupAnimInfo[lastOrder]->motionData.size(); ++j)
         {
             motionData.append(groupAnimInfo[lastOrder]->motionData[j] + "\n");
         }
@@ -4650,7 +4650,7 @@ void motionDataReplacer(string& change,
 
             string motionData = to_string(groupAnimInfo[curOrder]->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < groupAnimInfo[curOrder]->motionData.size(); ++j)
+            for (uint j = 0; j < groupAnimInfo[curOrder]->motionData.size(); ++j)
             {
                 motionData.append(groupAnimInfo[curOrder]->motionData[j] + "\n");
             }
@@ -4672,7 +4672,7 @@ void motionDataReplacer(string& change,
 
             string motionData = to_string(groupAnimInfo[order]->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < groupAnimInfo[order]->motionData.size(); ++j)
+            for (uint j = 0; j < groupAnimInfo[order]->motionData.size(); ++j)
             {
                 if (groupAnimInfo[order]->motionData[j].length() == 0)
                     WarningMessage(1018, format, behaviorFile, linecount);
@@ -4708,7 +4708,7 @@ void rotationDataReplacer(string& change,
 
         string rotationData = to_string(groupAnimInfo[animMulti]->rotationData.size()) + "\n";
 
-        for (unsigned int j = 0; j < groupAnimInfo[animMulti]->rotationData.size(); ++j)
+        for (uint j = 0; j < groupAnimInfo[animMulti]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[animMulti]->rotationData[j] + "\n");
         }
@@ -4723,7 +4723,7 @@ void rotationDataReplacer(string& change,
     {
         string rotationData = to_string(groupAnimInfo[0]->rotationData.size()) + "\n";
 
-        for (unsigned int j = 0; j < groupAnimInfo[0]->rotationData.size(); ++j)
+        for (uint j = 0; j < groupAnimInfo[0]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[0]->rotationData[j] + "\n");
         }
@@ -4739,7 +4739,7 @@ void rotationDataReplacer(string& change,
         int nextorder       = isLastOrder ? order : order + 1;
         string rotationData = to_string(groupAnimInfo[nextorder]->rotationData.size()) + "\n";
 
-        for (unsigned int j = 0; j < groupAnimInfo[nextorder]->rotationData.size(); ++j)
+        for (uint j = 0; j < groupAnimInfo[nextorder]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[nextorder]->rotationData[j] + "\n");
         }
@@ -4755,7 +4755,7 @@ void rotationDataReplacer(string& change,
         int previousorder   = order == 0 ? order : order - 1;
         string rotationData = to_string(groupAnimInfo[previousorder]->rotationData.size()) + "\n";
 
-        for (unsigned int j = 0; j < groupAnimInfo[previousorder]->rotationData.size(); ++j)
+        for (uint j = 0; j < groupAnimInfo[previousorder]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[previousorder]->rotationData[j] + "\n");
         }
@@ -4770,7 +4770,7 @@ void rotationDataReplacer(string& change,
     {
         string rotationData = to_string(groupAnimInfo[lastOrder]->rotationData.size()) + "\n";
 
-        for (unsigned int j = 0; j < groupAnimInfo[lastOrder]->rotationData.size(); ++j)
+        for (uint j = 0; j < groupAnimInfo[lastOrder]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[lastOrder]->rotationData[j] + "\n");
         }
@@ -4791,7 +4791,7 @@ void rotationDataReplacer(string& change,
             int curOrder        = stoi(number);
             string rotationData = to_string(groupAnimInfo[curOrder]->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < groupAnimInfo[curOrder]->rotationData.size(); ++j)
+            for (uint j = 0; j < groupAnimInfo[curOrder]->rotationData.size(); ++j)
             {
                 rotationData.append(groupAnimInfo[curOrder]->rotationData[j] + "\n");
             }
@@ -4811,7 +4811,7 @@ void rotationDataReplacer(string& change,
         {
             string rotationData = to_string(groupAnimInfo[order]->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < groupAnimInfo[order]->rotationData.size(); ++j)
+            for (uint j = 0; j < groupAnimInfo[order]->rotationData.size(); ++j)
             {
                 rotationData.append(groupAnimInfo[order]->rotationData[j] + "\n");
             }
@@ -4844,7 +4844,7 @@ int openEndBracket(string& line, char openBrac, char closeBrac, string format, s
 {
     int open = 0;
 
-    for (unsigned int i = 0; i < line.length(); ++i)
+    for (uint i = 0; i < line.length(); ++i)
     {
         if (line[i] == openBrac) { ++open; }
         else if (line[i] == closeBrac)
@@ -4870,7 +4870,7 @@ void CRC32Replacer(string& line, string format, string behaviorFile, int linecou
     size_t pos  = line.find("crc32[");
     size_t nextpos;
 
-    for (unsigned int j = pos + 6; j < line.length(); ++j)
+    for (uint j = pos + 6; j < line.length(); ++j)
     {
         if (line[j] == '[') { ++counter; }
         else if (line[j] == ']')
@@ -4892,15 +4892,15 @@ void CRC32Replacer(string& line, string format, string behaviorFile, int linecou
     line.replace(line.find(fullline), fullline.length(), to_string(CRC32Convert(crc32line)));
 }
 
-void NewAnimation::OutputCheck(shared_ptr<vecstr> generatedlines,
+void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                proc& process,
                                condset* curset,
                                bool& norElement,
                                int& openRange,
                                size_t& elementLine,
                                int& counter,
-                               id& eventid,
-                               id& variableid,
+                               ID& eventid,
+                               ID& variableid,
                                vector<int> fixedStateID,
                                vector<int> stateCountMultiplier,
                                bool hasGroup,
@@ -4916,7 +4916,7 @@ void NewAnimation::OutputCheck(shared_ptr<vecstr> generatedlines,
         bool hasProcess = false;
         elementCatch    = false;
         string line;
-        vecstr lineblocks;
+        VecStr lineblocks;
 
         if (curstack.nestedcond.size() == 0)
         {
@@ -5036,7 +5036,7 @@ void NewAnimation::OutputCheck(shared_ptr<vecstr> generatedlines,
                         bool unknown = false;
                         bool number  = false;
 
-                        for (unsigned int j = 0; j < curOrder.size(); ++j)
+                        for (uint j = 0; j < curOrder.size(); ++j)
                         {
                             if (isalpha(curOrder[j]))
                                 word = true;
@@ -5172,11 +5172,11 @@ void NewAnimation::hasProcessing(string& line,
                                  bool& norElement,
                                  int& openRange,
                                  int numline,
-                                 shared_ptr<vecstr> generatedlines,
+                                 shared_ptr<VecStr> generatedlines,
                                  size_t& elementLine,
                                  int& counter,
-                                 id& eventid,
-                                 id& variableid,
+                                 ID& eventid,
+                                 ID& variableid,
                                  vector<int> fixedStateID,
                                  vector<int> stateCountMultiplier,
                                  bool hasGroup,

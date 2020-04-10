@@ -7,8 +7,8 @@
 
 using namespace std;
 
-vecstr updatelog;
-vecstr patchlog;
+VecStr updatelog;
+VecStr patchlog;
 boost::atomic_flag atomlock = BOOST_ATOMIC_FLAG_INIT;
 ;
 string filename = "CriticalLog.txt";
@@ -27,11 +27,11 @@ string currentTime()
 
 void DebugLogging(string line, bool noEndLine)
 {
-    int size = count(line.begin(), line.end(), '\n');
+    int64_t size = count(line.begin(), line.end(), '\n');
 
     if (noEndLine)
     {
-        for (int i = 0; i < size; ++i)
+        for (int64_t i = 0; i < size; ++i)
         {
             line.replace(line.find("\n"), 1, " | ");
         }

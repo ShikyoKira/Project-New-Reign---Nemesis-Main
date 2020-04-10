@@ -15,7 +15,7 @@
 #include "generate/behaviorcheck.h"
 #include "generate/behaviorprocess.h"
 
-std::atomic<unsigned int> resizeCount = 0;
+std::atomic<uint> resizeCount = 0;
 boost::atomic_flag atm_resize         = BOOST_ATOMIC_FLAG_INIT;
 
 NemesisEngine::NemesisEngine(QWidget* parent)
@@ -303,7 +303,7 @@ void NemesisEngine::GetSettings()
 
     read_directory(L"languages", languagelist);
 
-    for (unsigned int i = 0; i < languagelist.size(); ++i)
+    for (uint i = 0; i < languagelist.size(); ++i)
     {
         ui.comboBox->addItem(QString());
     }
@@ -321,7 +321,7 @@ void NemesisEngine::GetSettings()
     {
         int english = 0;
 
-        for (unsigned int i = 0; i < languagelist.size(); ++i)
+        for (uint i = 0; i < languagelist.size(); ++i)
         {
             std::wstring curLang = GetFileName(languagelist[i]);
             ui.comboBox->setItemText(i, QString::fromStdWString(curLang));
@@ -363,7 +363,7 @@ void NemesisEngine::GetSettings()
     }
     else
     {
-        for (unsigned int i = 0; i < languagelist.size(); ++i)
+        for (uint i = 0; i < languagelist.size(); ++i)
         {
             std::wstring curLang = GetFileName(languagelist[i]);
             ui.comboBox->setItemText(i, QString::fromStdWString(curLang));
@@ -409,7 +409,7 @@ void NemesisEngine::resizeEvent(QResizeEvent* event)
     int incre   = newSize - oldSize;
 
     int total = 0;
-    std::vector<unsigned int> columnSizes
+    std::vector<uint> columnSizes
         = {nemesisInfo->GetModNameWidth(), nemesisInfo->GetAuthorWidth(), nemesisInfo->GetPriorityWidth()};
 
     for (auto& size : columnSizes)
@@ -419,7 +419,7 @@ void NemesisEngine::resizeEvent(QResizeEvent* event)
 
     double increPerc = double(newSize) / double(oldSize);
 
-    for (unsigned int i = 0; i < columnSizes.size(); ++i)
+    for (uint i = 0; i < columnSizes.size(); ++i)
     {
         double newCSize = increPerc * double(columnSizes[i]);
         ui.modView->setColumnWidth(i, newCSize);
@@ -455,8 +455,8 @@ void NemesisEngine::handleLaunch()
     ui.animProgressBar->newValue(0);
     ui.animProgressBar->setFormat("0 animation(s)");
 
-    vecstr behaviorPriority;
-    vecstr hiddenModList = getHiddenMods();
+    VecStr behaviorPriority;
+    VecStr hiddenModList = getHiddenMods();
     std::unordered_map<std::string, bool> chosenBehavior;
 
     for (auto& mod : hiddenModList)

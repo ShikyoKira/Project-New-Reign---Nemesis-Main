@@ -6,7 +6,7 @@
 
 #include "generate/animation/animationinfo.h"
 
-typedef std::unordered_map<std::string, int> id;
+typedef std::unordered_map<std::string, int> ID;
 
 class NewAnimation;
 struct GroupTemplate;
@@ -41,26 +41,26 @@ public:
     std::shared_ptr<NewAnimation> dummyAnimation;
     std::unordered_map<int, int>& functionState;
     ImportContainer& exportID;
-    id &eventid, variableid;
+    ID &eventid, variableid;
     NewAnimLock& atomicLock;
     std::vector<int> stateID, stateMultiplier;
     std::shared_ptr<single> singleFunctionIDs;
     std::shared_ptr<group> subFunctionIDs;
     std::shared_ptr<master> groupFunctionIDs;
     std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& groupAnimInfo;
-    std::shared_ptr<vecstr> allEditLines;
+    std::shared_ptr<VecStr> allEditLines;
 
     NewAnimArgs(std::string n_modID,
                 std::string n_lowerBehaviorFile,
                 int n_lastID,
                 bool n_core,
                 std::shared_ptr<NewAnimation> n_newAnimation,
-                std::shared_ptr<vecstr> n_allEditLines,
+                std::shared_ptr<VecStr> n_allEditLines,
                 bool& n_isCoreDone,
                 std::unordered_map<int, int>& n_functionState,
                 ImportContainer& n_exportID,
-                id& n_eventid,
-                id& n_variableid,
+                ID& n_eventid,
+                ID& n_variableid,
                 NewAnimLock& n_atomicLock,
                 std::string n_ZeroEvent,
                 std::string n_ZeroVariable,
@@ -106,11 +106,11 @@ public:
     std::vector<int> stateID;
     std::shared_ptr<GroupTemplate> groupTemp;
     ImportContainer& exportID;
-    id &eventid, variableid;
+    ID &eventid, variableid;
     NewAnimLock& atomicLock;
     std::shared_ptr<master> groupFunctionIDs;
     std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& groupAnimInfo;
-    std::shared_ptr<vecstr> allEditLines;
+    std::shared_ptr<VecStr> allEditLines;
 
     newGroupArgs(std::string n_templateCode,
                  std::string n_lowerBehaviorFile,
@@ -119,10 +119,10 @@ public:
                  int n_groupCount,
                  std::vector<int> n_stateID,
                  std::shared_ptr<GroupTemplate> n_groupTemp,
-                 std::shared_ptr<vecstr> n_allEditLines,
+                 std::shared_ptr<VecStr> n_allEditLines,
                  ImportContainer& n_exportID,
-                 id& n_eventid,
-                 id& n_variableid,
+                 ID& n_eventid,
+                 ID& n_variableid,
                  NewAnimLock& n_atomicLock,
                  std::string n_ZeroEvent,
                  std::string n_ZeroVariable,
