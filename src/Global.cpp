@@ -1,20 +1,20 @@
+#include "Global.h"
+
 #include <filesystem>
 
 #include "utilities/algorithm.h"
 
-#if __cplusplus > 201402L
 #include "utilities/wstrconvert.h"
-#endif
 
 #include "utilities/readtextfile.h"
 #include "utilities/writetextfile.h"
 
-#pragma warning(disable:4503)
+#pragma warning(disable : 4503)
 
 using namespace std;
 namespace sf = filesystem;
 
-boost::atomic_flag atomLock = BOOST_ATOMIC_FLAG_INIT;
+std::atomic_flag atomLock{};
 
 bool debug = false;
 int memory = 100;
@@ -22,400 +22,355 @@ int fixedkey[257];
 
 NemesisInfo* nemesisInfo;
 
-boost::posix_time::ptime time1;
-
 unordered_map<string, string> behaviorPath;
 
 unordered_map<string, bool> activatedBehavior;
 unordered_map<string, string> behaviorProjectPath;
-unordered_map<string, vecstr> behaviorJoints;
-unordered_map<string, vecstr> behaviorProject;
+unordered_map<string, VecStr> behaviorJoints;
+unordered_map<string, VecStr> behaviorProject;
 unordered_map<string, set<string>> usedAnim;
 unordered_map<string, unordered_map<string, bool>> registeredAnim;
-unordered_map<string, unordered_map<string, vecstr>> animList;
+unordered_map<string, unordered_map<string, VecStr>> animList;
 unordered_map<string, unordered_map<string, vector<set<string>>>> animModMatch;
 
 unordered_map<string, string> AAGroup;
-unordered_map<string, vecstr> AAEvent;
-unordered_map<string, vecstr> AAHasEvent;
-unordered_map<string, vecstr> groupAA;
-unordered_map<string, vecstr> groupAAPrefix;
-unordered_map<string, vecstr> alternateAnim;
+unordered_map<string, VecStr> AAEvent;
+unordered_map<string, VecStr> AAHasEvent;
+unordered_map<string, VecStr> groupAA;
+unordered_map<string, VecStr> groupAAPrefix;
+unordered_map<string, VecStr> alternateAnim;
 unordered_map<string, unordered_map<string, int>> AAGroupCount;
 set<string> groupNameList;
 
-wstring StringToWString(string line)
+void read_directory(const string& name, VecStr& fv)
 {
-#if __cplusplus > 201402L
-	return wstrConv.from_bytes(line);
-#endif
-	return QString::fromStdString(line).toStdWString();
-}
+    fv.clear();
 
-string WStringToString(wstring line)
-{
-#if __cplusplus > 201402L
-	return wstrConv.to_bytes(line);
-#endif
-	return QString::fromStdWString(line).toStdString();
-}
+    for (const auto& entry : sf::directory_iterator(name))
+    {
+        wstring filename = entry.path().filename().wstring();
 
-void read_directory(const string& name, vecstr& fv)
-{
-	fv.clear();
+        if (filename != L"." && filename != L"..") { fv.push_back(WStringToString(filename)); }
+    }
 
-	for (const auto& entry : sf::directory_iterator(name))
-	{
-		wstring filename = entry.path().filename().wstring();
-
-		if (filename != L"." && filename != L"..")
-		{
-			fv.push_back(WStringToString(filename));
-		}
-	}
-
-	for (unsigned int i = 0; i < fv.size(); ++i)
-	{
-		if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
-		{
-			fv.erase(fv.begin() + i);
-			--i;
-		}
-	}
+    for (uint i = 0; i < fv.size(); ++i)
+    {
+        if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
+        {
+            fv.erase(fv.begin() + i);
+            --i;
+        }
+    }
 }
 
 void read_directory(const wstring& name, vector<wstring>& fv)
 {
-	fv.clear();
+    fv.clear();
 
-	for (const auto& entry : sf::directory_iterator(name))
-	{
-		wstring filename = entry.path().filename().wstring();
+    for (const auto& entry : sf::directory_iterator(name))
+    {
+        wstring filename = entry.path().filename().wstring();
 
-		if (filename != L"." && filename != L"..")
-		{
-			fv.push_back(filename);
-		}
-	}
+        if (filename != L"." && filename != L"..") { fv.push_back(filename); }
+    }
 
-	for (unsigned int i = 0; i < fv.size(); ++i)
-	{
-		if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
-		{
-			fv.erase(fv.begin() + i);
-			--i;
-		}
-	}
+    for (uint i = 0; i < fv.size(); ++i)
+    {
+        if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
+        {
+            fv.erase(fv.begin() + i);
+            --i;
+        }
+    }
 }
 
-void read_directory(const char* name, vecstr& fv)
+void read_directory(const char* name, VecStr& fv)
 {
-	fv.clear();
+    fv.clear();
 
-	for (const auto& entry : sf::directory_iterator(name))
-	{
-		wstring filename = entry.path().filename().wstring();
+    for (const auto& entry : sf::directory_iterator(name))
+    {
+        wstring filename = entry.path().filename().wstring();
 
-		if (filename != L"." && filename != L"..")
-		{
-			fv.push_back(WStringToString(filename));
-		}
-	}
+        if (filename != L"." && filename != L"..") { fv.push_back(WStringToString(filename)); }
+    }
 
-	for (unsigned int i = 0; i < fv.size(); ++i)
-	{
-		if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
-		{
-			fv.erase(fv.begin() + i);
-			--i;
-		}
-	}
+    for (uint i = 0; i < fv.size(); ++i)
+    {
+        if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
+        {
+            fv.erase(fv.begin() + i);
+            --i;
+        }
+    }
 }
 
 void read_directory(const wchar_t* name, vector<wstring>& fv)
 {
-	fv.clear();
+    fv.clear();
 
-	for (const auto& entry : sf::directory_iterator(name))
-	{
-		wstring filename = entry.path().filename().wstring();
+    for (const auto& entry : sf::directory_iterator(name))
+    {
+        wstring filename = entry.path().filename().wstring();
 
-		if (filename != L"." && filename != L"..")
-		{
-			fv.push_back(filename);
-		}
-	}
+        if (filename != L"." && filename != L"..") { fv.push_back(filename); }
+    }
 
-	for (unsigned int i = 0; i < fv.size(); ++i)
-	{
-		if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
-		{
-			fv.erase(fv.begin() + i);
-			--i;
-		}
-	}
+    for (uint i = 0; i < fv.size(); ++i)
+    {
+        if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
+        {
+            fv.erase(fv.begin() + i);
+            --i;
+        }
+    }
 }
 
 size_t fileLineCount(sf::path filepath)
 {
-	int linecount = 0;
-	string line;
-	FileReader input(filepath.c_str());
+    int linecount = 0;
+    string line;
+    FileReader input(filepath.c_str());
 
-	if (input.GetFile())
-	{
-		string line;
+    if (input.GetFile())
+    {
+        string line;
 
-		while (input.GetLines(line))
-		{
-			++linecount;
-		}
-	}
-	else
-	{
-		ErrorMessage(1002, filepath);
-	}
+        while (input.GetLines(line))
+        {
+            ++linecount;
+        }
+    }
+    else
+    {
+        ErrorMessage(1002, filepath);
+    }
 
-	return linecount;
+    return linecount;
 }
 
 size_t fileLineCount(const char* filepath)
 {
-	int linecount = 0;
-	string line;
-	FileReader input(filepath);
+    int linecount = 0;
+    string line;
+    FileReader input(filepath);
 
-	if (input.GetFile())
-	{
-		string line;
+    if (input.GetFile())
+    {
+        string line;
 
-		while (input.GetLines(line))
-		{
-			++linecount;
-		}
-	}
-	else
-	{
-		ErrorMessage(1002, filepath);
-	}
+        while (input.GetLines(line))
+        {
+            ++linecount;
+        }
+    }
+    else
+    {
+        ErrorMessage(1002, filepath);
+    }
 
-	return linecount;
+    return linecount;
+}
+
+inline std::tm localtime_xp(std::time_t timer)
+{
+    std::tm bt{};
+#if defined(__unix__)
+    localtime_r(&timer, &bt);
+#elif defined(_MSC_VER)
+    localtime_s(&bt, &timer);
+#else
+    static std::mutex mtx;
+    std::lock_guard<std::mutex> lock(mtx);
+    bt = *std::localtime(&timer);
+#endif
+    return bt;
+}
+
+string currentTime()
+{
+    using namespace std::chrono;
+    std::time_t t_c = system_clock::to_time_t(system_clock::now());
+    auto tm         = localtime_xp(t_c);
+    return (stringstream() << std::put_time(&tm, "%F %T")).str();
 }
 
 void produceBugReport(string directory, unordered_map<string, bool> chosenBehavior)
 {
-	boost::posix_time::ptime time1 = boost::posix_time::second_clock::local_time();
-	string time = to_simple_string(time1);
-	string timer;
+    string time = currentTime();
+    string timer;
 
-	for (unsigned int i = 0; i < time.size(); ++i)
-	{
-		if (time[i] != ':')
-		{
-			timer.append(1, time[i]);
-		}
-	}
+    for (uint i = 0; i < time.size(); ++i)
+    {
+        if (time[i] != ':') { timer.append(1, time[i]); }
+    }
 
-	FileWriter bugReport("Bug Report (" + timer + ").txt");
+    FileWriter bugReport("Bug Report (" + timer + ").txt");
 
-	if (bugReport.is_open())
-	{
-		bugReport << "File: " << directory << "\n\nChosen Behavior: {\n";
+    if (bugReport.is_open())
+    {
+        bugReport << "File: " << directory << "\n\nChosen Behavior: {\n";
 
-		for (auto it = chosenBehavior.begin(); it != chosenBehavior.end(); ++it)
-		{
-			bugReport << it->first << ",";
+        for (auto it = chosenBehavior.begin(); it != chosenBehavior.end(); ++it)
+        {
+            bugReport << it->first << ",";
 
-			if (it->second)
-			{
-				bugReport << "true\n";
-			}
-			else
-			{
-				bugReport << "false\n";
-			}
-		}
+            if (it->second) { bugReport << "true\n"; }
+            else
+            {
+                bugReport << "false\n";
+            }
+        }
 
-		bugReport << "}";
-	}
-	else
-	{
-		ErrorMessage(3000);
-	}
+        bugReport << "}";
+    }
+    else
+    {
+        ErrorMessage(3000);
+    }
 }
 
-int sameWordCount(string line, string word)
+bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
 {
-	size_t nextWord = -1;
-	int wordCount = 0;
+    functionlines = VecStr();
 
-	while (true)
-	{
-		nextWord = line.find(word, nextWord + 1);
+    if (!sf::is_directory(filename))
+    {
+        functionlines.reserve(fileLineCount(filename));
+        FileReader BehaviorFormat(filename.wstring());
 
-		if (nextWord != NOT_FOUND)
-		{
-			wordCount++;
-		}
-		else
-		{
-			nextWord = -1;
-			break;
-		}
-	}
+        if (BehaviorFormat.GetFile())
+        {
+            wstring line;
 
-	return wordCount;
-}
+            while (BehaviorFormat.GetLines(line))
+            {
+                if (error) throw nemesis::exception();
 
-bool GetFunctionLines(sf::path filename, vecstr& functionlines, bool emptylast)
-{
-	functionlines = vecstr();
+                functionlines.push_back(WStringToString(line));
+            }
+        }
+        else
+        {
+            ErrorMessage(3002, filename.string());
+        }
+    }
+    else
+    {
+        ErrorMessage(3001, filename.string());
+    }
 
-	if (!sf::is_directory(filename))
-	{
-		functionlines.reserve(fileLineCount(filename));
-		FileReader BehaviorFormat(filename.wstring());
+    if (functionlines.size() == 0) return false;
 
-		if (BehaviorFormat.GetFile())
-		{
-			wstring line;
+    if (emptylast)
+    {
+        if (functionlines.size() != 0 && functionlines.back().length() != 0
+            && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND
+            && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
+        { functionlines.push_back(""); }
+    }
+    else
+    {
+        if (functionlines.size() != 0 && functionlines.back().length() == 0) { functionlines.pop_back(); }
+    }
 
-			while (BehaviorFormat.GetLines(line))
-			{
-				if (error) throw nemesis::exception();
-
-				functionlines.push_back(WStringToString(line));
-			}
-		}
-		else
-		{
-			ErrorMessage(3002, filename.string());
-		}
-	}
-	else
-	{
-		ErrorMessage(3001, filename.string());
-	}
-
-	if (functionlines.size() == 0) return false;
-
-	if (emptylast)
-	{
-		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
-		{
-			functionlines.push_back("");
-		}
-	}
-	else
-	{
-		if (functionlines.size() != 0 && functionlines.back().length() == 0)
-		{
-			functionlines.pop_back();
-		}
-	}
-
-	return true;
+    return true;
 }
 
 bool GetFunctionLines(sf::path filename, vector<wstring>& functionlines, bool emptylast)
 {
-	functionlines = vector<wstring>();
+    functionlines = vector<wstring>();
 
-	if (!sf::is_directory(filename))
-	{
-		functionlines.reserve(fileLineCount(filename));
-		FileReader BehaviorFormat(filename.wstring());
+    if (!sf::is_directory(filename))
+    {
+        functionlines.reserve(fileLineCount(filename));
+        FileReader BehaviorFormat(filename.wstring());
 
-		if (BehaviorFormat.GetFile())
-		{
-			wstring line;
+        if (BehaviorFormat.GetFile())
+        {
+            wstring line;
 
-			while (BehaviorFormat.GetLines(line))
-			{
-				if (error) throw nemesis::exception();
+            while (BehaviorFormat.GetLines(line))
+            {
+                if (error) throw nemesis::exception();
 
-				functionlines.push_back(line);
-			}
-		}
-		else
-		{
-			ErrorMessage(3002, filename.string());
-		}
-	}
-	else
-	{
-		ErrorMessage(3001, filename.string());
-	}
+                functionlines.push_back(line);
+            }
+        }
+        else
+        {
+            ErrorMessage(3002, filename.string());
+        }
+    }
+    else
+    {
+        ErrorMessage(3001, filename.string());
+    }
 
-	if (functionlines.size() == 0) return false;
+    if (functionlines.size() == 0) return false;
 
-	if (emptylast)
-	{
-		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find(L"<!-- CONDITION END -->") == NOT_FOUND &&
-			functionlines.back().find(L"<!-- CLOSE -->") == NOT_FOUND)
-		{
-			functionlines.push_back(L"");
-		}
-	}
-	else
-	{
-		if (functionlines.size() != 0 && functionlines.back().length() == 0)
-		{
-			functionlines.pop_back();
-		}
-	}
+    if (emptylast)
+    {
+        if (functionlines.size() != 0 && functionlines.back().length() != 0
+            && functionlines.back().find(L"<!-- CONDITION END -->") == NOT_FOUND
+            && functionlines.back().find(L"<!-- CLOSE -->") == NOT_FOUND)
+        { functionlines.push_back(L""); }
+    }
+    else
+    {
+        if (functionlines.size() != 0 && functionlines.back().length() == 0) { functionlines.pop_back(); }
+    }
 
-	return true;
+    return true;
 }
 
 size_t wordFind(string line, string word, bool isLast)
 {
-	nemesis::to_lower(line);
-	nemesis::to_lower(word);
+    nemesis::to_lower(line);
+    nemesis::to_lower(word);
 
-	return isLast ? line.rfind(word) : line.find(word);
+    return isLast ? line.rfind(word) : line.find(word);
+}
+
+int sameWordCount(std::string line, std::string word)
+{
+    size_t nextWord = -1;
+    int wordCount   = 0;
+
+    while (true)
+    {
+        nextWord = line.find(word, nextWord + 1);
+
+        if (nextWord != NOT_FOUND) { wordCount++; }
+        else
+        {
+            nextWord = -1;
+            break;
+        }
+    }
+
+    return wordCount;
 }
 
 bool isOnlyNumber(string line)
 {
-	try
-	{
-		boost::lexical_cast<double>(line);
-	}
-	catch (boost::bad_lexical_cast&)
-	{
-		return false;
-	}
-
-	return true;
+    char* end  = nullptr;
+    double val = strtod(line.c_str(), &end);
+    return end != line.c_str() && *end == '\0' && val != HUGE_VAL;
 }
 
 bool hasAlpha(string line)
 {
-	string lower = nemesis::to_lower_copy(line);
-	string upper = boost::to_upper_copy(line);
+    string lower = nemesis::to_lower_copy(line);
+    string upper = nemesis::to_upper_copy(line);
 
-	if (lower != upper)
-	{
-		return true;
-	}
+    if (lower != upper) { return true; }
 
-	return false;
+    return false;
 }
 
 void addUsedAnim(string behaviorFile, string animPath)
 {
-	while (atomLock.test_and_set(boost::memory_order_acquire));
-
-	try
-	{
-		usedAnim[behaviorFile].insert(animPath);
-	}
-	catch (const std::exception& ex)
-	{
-		atomLock.clear(boost::memory_order_release);
-		throw ex;
-	}
-
-	atomLock.clear(boost::memory_order_release);
+    Lockless_s lock(atomLock);
+    usedAnim[behaviorFile].insert(animPath);
 }

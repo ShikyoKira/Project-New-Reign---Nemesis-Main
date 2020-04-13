@@ -6,40 +6,57 @@ struct GroupTemplate;
 struct ExistingFunction;
 struct NodePackedParameters;
 
-typedef std::unordered_map<std::string, int> id;
+#include <memory>
+#include <unordered_map>
+#include <vector>
+
+typedef std::unordered_map<std::string, int> ID;
 
 struct AnimationUtility
 {
-	id eventid;
-	id variableid;	
-	std::vector<int> fixedStateID;
-	std::vector<int> stateCountMultiplier;
-	bool hasGroup = false;
-	int optionMulti = -1;
-	int animMulti = -1;
-	int groupMulti = -1;
-	std::string multiOption;
-	std::string originalCondition;
-	JointTemplate* currentProcess;
-	std::shared_ptr<NodePackedParameters> nodeProcess;
-	bool isExisting = false;
+    ID eventid;
+    ID variableid;
+    std::vector<int> fixedStateID;
+    std::vector<int> stateCountMultiplier;
+    bool hasGroup   = false;
+    int optionMulti = -1;
+    int animMulti   = -1;
+    int groupMulti  = -1;
+    std::string multiOption;
+    std::string originalCondition;
+    JointTemplate* currentProcess{};
+    std::shared_ptr<NodePackedParameters> nodeProcess;
+    bool isExisting = false;
 
-	AnimationUtility() {}
-	AnimationUtility(std::string condition, id eventid, id variableid, std::vector<int> stateID, std::vector<int> stateCountMultiplier, bool hasGroup, int optionMulti = -1, int animMulti = -1, std::string multiOption = "");
+    AnimationUtility()
+    {}
+    AnimationUtility(std::string condition,
+                     ID eventid,
+                     ID variableid,
+                     std::vector<int> stateID,
+                     std::vector<int> stateCountMultiplier,
+                     bool hasGroup,
+                     int optionMulti         = -1,
+                     int animMulti           = -1,
+                     std::string multiOption = "");
 };
 
 class newStateID
 {
-	std::vector<std::shared_ptr<int>> lastState;
+    std::vector<std::shared_ptr<int>> lastState;
 
 public:
-	newStateID();
-	void push_back(std::shared_ptr<int> num);
-	void reset();
-	std::shared_ptr<int>& operator[](unsigned int number);
-	unsigned int size();
-	bool stateUpdate(int ID, std::string format, std::string bevaiorFile, int linecount, std::string state, bool hasGroup = false);
-
+    newStateID();
+    void push_back(std::shared_ptr<int> num);
+    void reset();
+    std::shared_ptr<int>& operator[](uint number);
+    uint size();
+    bool stateUpdate(int ID,
+                     std::string format,
+                     std::string behaviorFile,
+                     int linecount,
+                     const std::string& state,
+                     bool hasGroup = false);
 };
 
 #endif

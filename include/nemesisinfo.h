@@ -1,6 +1,8 @@
 #pragma once
-#include <string>
+
+#include "Global.h"
 #include <iostream>
+#include <string>
 
 #include "utilities/algorithm.h"
 
@@ -8,35 +10,35 @@ extern bool SSE;
 
 class NemesisInfo
 {
-	bool first = true;
-	std::string dataPath;
-	unsigned int maxAnim = 10000;
-	unsigned int width = 526;
-	unsigned int height = 750;
-	unsigned int modNameWidth = 380;
-	unsigned int authorWidth = 75;
-	unsigned int priorityWidth = 47;
-	
-	void setup();
+    bool first = true;
+    std::string dataPath;
+    uint maxAnim       = 10000;
+    uint width         = 526;
+    uint height        = 750;
+    uint modNameWidth  = 380;
+    uint authorWidth   = 75;
+    uint priorityWidth = 47;
+
+    void setup();
 
 public:
-	NemesisInfo();
-	NemesisInfo(bool& exception);
+    NemesisInfo();
+    NemesisInfo(bool& exception);
 
-	std::string GetDataPath();
-	unsigned int GetMaxAnim();
-	bool IsFirst();
-	unsigned int GetWidth();
-	unsigned int GetHeight();
-	unsigned int GetModNameWidth();
-	unsigned int GetAuthorWidth();
-	unsigned int GetPriorityWidth();
+    std::string GetDataPath();
+    uint GetMaxAnim();
+    bool IsFirst();
+    uint GetWidth();
+    uint GetHeight();
+    uint GetModNameWidth();
+    uint GetAuthorWidth();
+    uint GetPriorityWidth();
 
-	void setFirst(bool _first);
-	void setWidth(unsigned int _width);
-	void setHeight(unsigned int _height);
-	void setModNameWidth(unsigned int _width);
-	void setAuthorWidth(unsigned int _width);
-	void setPriorityWidth(unsigned int _width);
-	void iniFileUpdate();
+    void setFirst(bool _first);
+    void setWidth(uint _width);
+    void setHeight(uint _height);
+    void setModNameWidth(uint _width);
+    void setAuthorWidth(uint _width);
+    void setPriorityWidth(uint _width);
+    void iniFileUpdate();
 };
