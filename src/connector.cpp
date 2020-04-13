@@ -1,4 +1,4 @@
-﻿#include <boost/atomic.hpp>
+#include "Global.h"
 
 #include <QtCore/QString>
 
@@ -6,16 +6,16 @@
 
 #include "ui/Terminator.h"
 
-#pragma warning(disable:4503)
+#pragma warning(disable : 4503)
 
 using namespace std;
 
 mutex processlock;
 condition_variable cv;
 bool processdone = false;
-map<string, vecstr> modinfo;
+map<string, VecStr> modinfo;
 
-vecstr hiddenMods;
+VecStr hiddenMods;
 atomic<int> m_RunningThread;
 Terminator* p_terminate = new Terminator;
 
@@ -121,7 +121,7 @@ void DummyLog::message(std::string input)
 	emit incomingMessage(QString::fromStdString(input));
 }
 
-vecstr getHiddenMods()
+VecStr getHiddenMods()
 {
 	return hiddenMods;
 }

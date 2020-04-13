@@ -12,13 +12,13 @@ typedef std::unordered_map<std::string, SSMap> ImportContainer;
 
 struct AnimDataFunct
 {
-	bool skip = false;
-	bool isNew = false;
-	bool isCondition = false;
-	bool nextCondition = false;
-	bool isConditionOri = false;
+    bool skip           = false;
+    bool isNew          = false;
+    bool isCondition    = false;
+    bool nextCondition  = false;
+    bool isConditionOri = false;
 
-	int conditionOpen = false;
+    int conditionOpen = false;
 };
 
 namespace AnimDataFormat
@@ -77,8 +77,12 @@ struct AnimDataProject
 	std::vector<AnimDataPack> animdatalist;
 	std::vector<InfoDataPack> infodatalist;
 
-	AnimDataProject() {}
-	AnimDataProject(vecstr animdatafile, std::string filename, std::string filepath, std::string modcode = "nemesis");
+    AnimDataProject()
+    {}
+    AnimDataProject(VecStr animdatafile,
+                    std::string filename,
+                    std::string filepath,
+                    std::string modcode = "nemesis");
 
 	int GetAnimTotalLine();
 	int GetInfoTotalLine();

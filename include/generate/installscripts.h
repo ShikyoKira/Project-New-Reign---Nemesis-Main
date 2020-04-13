@@ -5,13 +5,13 @@
 
 class InstallScripts : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
-		public slots:
-	void Run();
+public slots:
+    void Run();
 
 signals:
-	void end();
+    void end();
 };
 
 #endif

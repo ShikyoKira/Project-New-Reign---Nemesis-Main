@@ -10,10 +10,10 @@
 
 struct AddOnInfo
 {
-	int optionMulti = -1;
-	int animMulti = -1;
-	std::string header;
-	std::string addition;
+    int optionMulti = -1;
+    int animMulti   = -1;
+    std::string header;
+    std::string addition;
 
 	AddOnInfo() {};
 	AddOnInfo(std::string n_h, std::string n_a);
@@ -22,11 +22,19 @@ struct AddOnInfo
 
 class AnimTemplate
 {
-	std::string format;
-	std::string behaviorFile;
+    std::string format;
+    std::string behaviorFile;
 
-	void Process(const std::string& line, std::string multiOption, bool& norElement, bool& isEnd, bool isGroup, bool isMaster, int& openRange, int numline,
-		OptionList& optionlist, nemesis::CondVar<std::string>* generatedlines);
+    void Process(std::string& line,
+                 std::string multiOption,
+                 bool& norElement,
+                 bool& isEnd,
+                 bool isGroup,
+                 bool isMaster,
+                 int& openRange,
+                 int numline,
+                 OptionList& optionlist,
+                 condset* generatedlines);
 
 public:
 	bool hasDuration;
@@ -35,7 +43,12 @@ public:
 	nemesis::CondVar<std::string> lines;
 	proc process;
 
-	void ExamineTemplate(std::string n_format, std::string n_file, vecstr templatelines, bool isGroup, bool isMaster, OptionList optionlist);
+    void ExamineTemplate(std::string n_format,
+                         std::string n_file,
+                         VecStr templatelines,
+                         bool isGroup,
+                         bool isMaster,
+                         OptionList optionlist);
 };
 
 std::string getOption(std::string curline);

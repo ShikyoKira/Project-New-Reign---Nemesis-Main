@@ -2,53 +2,55 @@
 #define OPTIONLIST_H_
 
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
-typedef std::vector<std::string> vecstr;
+typedef std::vector<std::string> VecStr;
 
 struct OptionList
 {
-	bool core = false;
-	bool ignoreGroup = false;
+    bool core        = false;
+    bool ignoreGroup = false;
 
-	int groupMin = -1;
-	int animObjectCount = 0;
+    int groupMin        = -1;
+    int animObjectCount = 0;
 
-	std::string coreBehavior;
-	std::string startStateID;
-	std::string templatecode;
+    std::string coreBehavior;
+    std::string startStateID;
+    std::string templatecode;
 
-	vecstr ruleOne;
-	vecstr ruleTwo;
-	vecstr compulsory;
-	vecstr optionOrder;
+    VecStr ruleOne;
+    VecStr ruleTwo;
+    VecStr compulsory;
+    VecStr optionOrder;
 
-	std::unordered_map<std::string, std::unordered_map<int, int>> multiState;		// behavior, state number, node/function ID
-	std::unordered_map<std::string, bool> storelist;
-	std::unordered_map<std::string, bool> groupOption;
-	std::unordered_map<std::string, std::string> mixOptRegis;
-	std::unordered_map<std::string, vecstr> mixOptRever;
-	std::unordered_map<std::string, vecstr> joint;
-	std::unordered_map<std::string, vecstr> addOn;											// option, list of add-on
-	std::unordered_map<std::string, std::unordered_map<std::string, std::string>> modAddOn;	// option, addon, modifier; use to modify add on, not always needed but can be useful especially for event/variable
+    std::unordered_map<std::string, std::unordered_map<int, int>>
+        multiState; // behavior, state number, node/function ID
+    std::unordered_map<std::string, bool> storelist;
+    std::unordered_map<std::string, bool> groupOption;
+    std::unordered_map<std::string, std::string> mixOptRegis;
+    std::unordered_map<std::string, VecStr> mixOptRever;
+    std::unordered_map<std::string, VecStr> joint;
+    std::unordered_map<std::string, VecStr> addOn; // option, list of add-on
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
+        modAddOn; // option, addon, modifier; use to modify add on, not always needed but can be useful especially for event/variable
 
-	std::vector<vecstr> eleEvent;
-	vecstr eleEventLine;
-	std::vector<vecstr> eleEventGroupF;
-	vecstr eleEventGroupFLine;
-	std::vector<vecstr> eleEventGroupL;
-	vecstr eleEventGroupLLine;
-	std::vector<vecstr> eleVar;
-	vecstr eleVarLine;
-	std::vector<vecstr> eleVarGroupF;
-	vecstr eleVarGroupFLine;
-	std::vector<vecstr> eleVarGroupL;
-	vecstr eleVarGroupLLine;
+    std::vector<VecStr> eleEvent;
+    VecStr eleEventLine;
+    std::vector<VecStr> eleEventGroupF;
+    VecStr eleEventGroupFLine;
+    std::vector<VecStr> eleEventGroupL;
+    VecStr eleEventGroupLLine;
+    std::vector<VecStr> eleVar;
+    VecStr eleVarLine;
+    std::vector<VecStr> eleVarGroupF;
+    VecStr eleVarGroupFLine;
+    std::vector<VecStr> eleVarGroupL;
+    VecStr eleVarGroupLLine;
 
-	OptionList(std::string filepath, std::string format);
-	OptionList();
-	void OptionList::setDebug(bool isDebug);
+    OptionList(std::string filepath, std::string format);
+    OptionList();
+    void setDebug(bool isDebug);
 };
 
 bool optionMatching(std::string option1, std::string option2);

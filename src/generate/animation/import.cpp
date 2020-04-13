@@ -1,122 +1,124 @@
+#include "Global.h"
+#include <utility>
+
+#include "generate/animation/animationinfo.h"
 #include "generate/animation/import.h"
 #include "generate/animation/newanimation.h"
-#include "generate/animation/animationinfo.h"
 
-#pragma warning(disable:4503)
+#pragma warning(disable : 4503)
 
 using namespace std;
 
-vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, string file)
+VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, string file)
 {
-	vecstr behaviorlines;
-	ImportContainer newExportID;
-	int lastID = nextID;
+    VecStr behaviorlines;
+    ImportContainer newExportID;
+    int lastID = nextID;
 
-	for (auto it = ExportID[counter].begin(); it != ExportID[counter].end(); ++it)
-	{
-		string filename = "behavior templates\\" + it->first + ".txt";
+    for (auto it = ExportID[counter].begin(); it != ExportID[counter].end(); ++it)
+    {
+        string filename = "behavior templates\\" + it->first + ".txt";
 
-		if (!isFileExist(filename))
-		{
-			ErrorMessage(1027, filename);
-		}
+        if (!isFileExist(filename)) { ErrorMessage(1027, filename); }
 
-		vecstr exportFormat;
+        VecStr exportFormat;
 
-		if (!GetFunctionLines(filename, exportFormat))
-		{
-			behaviorlines.shrink_to_fit();
-			return behaviorlines;
-		}
+        if (!GetFunctionLines(filename, exportFormat))
+        {
+            behaviorlines.shrink_to_fit();
+            return behaviorlines;
+        }
 
-		behaviorlines.reserve(exportFormat.size());
+        behaviorlines.reserve(exportFormat.size());
 
-		for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
-		{
-			if (iter->second.length() > 0)
-			{
-				bool norElement = false;
-				int openRange = 0;
-				int elementLine = 0;
-				int eleCounter = 0;
-				SSMap IDExist;
-				behaviorlines.reserve(behaviorlines.size() + exportFormat.size() + 1);
+        for (auto iter = it->second.begin(); iter != it->second.end(); ++iter)
+        {
+            if (iter->second.length() > 0)
+            {
+                bool norElement = false;
+                int openRange   = 0;
+                int elementLine = 0;
+                int eleCounter  = 0;
+                SSMap IDExist;
+                behaviorlines.reserve(behaviorlines.size() + exportFormat.size() + 1);
 
-				for (unsigned int j = 0; j < exportFormat.size(); ++j)
-				{
-					bool elementCatch = false;
-					string line = exportFormat[j];
-					
-					if (line.find("<hkparam name=\"") != NOT_FOUND && line.find("numelements=\"") != NOT_FOUND && line.find("</hkparam>") == NOT_FOUND && line.find("<!-- COMPUTE -->", line.find("numelements=\"")) != NOT_FOUND)
-					{
-						if (!norElement)
-						{
-							norElement = true;
-							elementCatch = true;
-							string templine = line.substr(0, line.find("<hkparam name=\"", 0));
-							openRange = count(templine.begin(), templine.end(), '\t');
-						}
-						else
-						{
-							ErrorMessage(1135, filename , j + 1);
-						}
-					}
-					else if (line.find("</hkparam>") != NOT_FOUND && norElement)
-					{
-						string templine = line.substr(0, line.find("</hkparam>"));
-						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
+                for (uint j = 0; j < exportFormat.size(); ++j)
+                {
+                    bool elementCatch = false;
+                    string line       = exportFormat[j];
+
+                    if (line.find("<hkparam name=\"") != NOT_FOUND && line.find("numelements=\"") != NOT_FOUND
+                        && line.find("</hkparam>") == NOT_FOUND
+                        && line.find("<!-- COMPUTE -->", line.find("numelements=\"")) != NOT_FOUND)
+                    {
+                        if (!norElement)
+                        {
+                            norElement      = true;
+                            elementCatch    = true;
+                            string templine = line.substr(0, line.find("<hkparam name=\"", 0));
+                            openRange       = count(templine.begin(), templine.end(), '\t');
+                        }
+                        else
+                        {
+                            ErrorMessage(1135, filename, j + 1);
+                        }
+                    }
+                    else if (line.find("</hkparam>") != NOT_FOUND && norElement)
+                    {
+                        string templine = line.substr(0, line.find("</hkparam>"));
+                        __int64 range   = count(templine.begin(), templine.end(), '\t');
 
 						if (openRange == t_counter)
 						{
 							string oldElement;
 
-							if (exportFormat[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
-							{
-								size_t position = exportFormat[elementLine].find("numelements=\"") + 13;
-								oldElement = exportFormat[elementLine].substr(position, exportFormat[elementLine].find("\">", position) - position);
-							}
-							else
-							{
-								oldElement = "$elements$";
-							}
+                            if (exportFormat[elementLine].find("numelements=\"$elements$\">", 0) == NOT_FOUND)
+                            {
+                                size_t position = exportFormat[elementLine].find("numelements=\"") + 13;
+                                oldElement      = exportFormat[elementLine].substr(
+                                    position, exportFormat[elementLine].find("\">", position) - position);
+                            }
+                            else
+                            {
+                                oldElement = "$elements$";
+                            }
 
-							if (oldElement != to_string(eleCounter))
-							{
-								exportFormat[elementLine].replace(exportFormat[elementLine].find(oldElement), oldElement.length(), to_string(eleCounter));
-							}
+                            if (oldElement != to_string(eleCounter))
+                            {
+                                exportFormat[elementLine].replace(exportFormat[elementLine].find(oldElement),
+                                                                  oldElement.length(),
+                                                                  to_string(eleCounter));
+                            }
 
-							norElement = false;
-							eleCounter = 0;
-							elementLine = -1;
-						}
-					}
+                            norElement  = false;
+                            eleCounter  = 0;
+                            elementLine = -1;
+                        }
+                    }
 
-					if (norElement)
-					{
-						string templine = line;
+                    if (norElement)
+                    {
+                        string templine = line;
 
 						if (templine.find("<hkobject>") != NOT_FOUND)
 						{
 							templine = templine.substr(0, templine.find("<hkobject>"));
 							__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-							if (t_counter == openRange + 1)
-							{
-								eleCounter++;
-							}
-						}
-						else if (templine.find("\t\t\t#") != NOT_FOUND)
-						{
-							templine = templine.substr(0, templine.find("#", 0));
-							__int64 reference = count(templine.begin(), templine.end(), '\t');
+                            if (range == openRange + 1) { eleCounter++; }
+                        }
+                        else if (templine.find("\t\t\t#") != NOT_FOUND)
+                        {
+                            templine          = templine.substr(0, templine.find('#', 0));
+                            __int64 reference = count(templine.begin(), templine.end(), '\t');
 
-							if (reference == openRange + 1)
-							{
-								__int64 number = count(line.begin(), line.end(), '#');
-								eleCounter += int(number);
-							}
-						}
-					}
+                            if (reference == openRange + 1)
+                            {
+                                __int64 number = count(line.begin(), line.end(), '#');
+                                eleCounter += int(number);
+                            }
+                        }
+                    }
 
 					if (line.find("$import[1][2]$", 0) != NOT_FOUND)
 					{
@@ -180,40 +182,41 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 									ErrorMessage(1169, it->first, j + 1);
 								}
 
-								line.replace(line.find("$import[" + number + "]$"), 10 + number.length(), keywords[num - 2]);
-							}
-						}
-					}
+                                line.replace(line.find("$import[" + number + "]$"),
+                                             10 + number.length(),
+                                             keywords[num - 2]);
+                            }
+                        }
+                    }
 
-					if (line.find("$crc32[") != NOT_FOUND &&  line.find("]$", line.find("crc32[")) != NOT_FOUND)
-					{
-						CRC32Replacer(line, "import", it->first, j + 1);
-					}
-					
-					if (line.find("$import[", 0) != NOT_FOUND && line.find("]$", line.find("$import[" + 1)) != NOT_FOUND)
-					{
-						size_t nextpos = line.find("$import[");
-						string importer = line.substr(nextpos + 1, line.find("]$") - nextpos);
-						size_t bracketCount = count(importer.begin(), importer.end(), '[');
-						size_t altBracketCount = count(importer.begin(), importer.end(), ']');
+                    if (line.find("$crc32[") != NOT_FOUND
+                        && line.find("]$", line.find("crc32[")) != NOT_FOUND)
+                    { CRC32Replacer(line, "import", it->first, j + 1); }
 
-						if (IDExist[importer].length() == 0)
-						{
-							if (bracketCount != altBracketCount)
-							{
-								ErrorMessage(1139, "import", it->first, j + 1, importer);
-							}
+                    if (line.find("$import[", 0) != NOT_FOUND
+                        && line.find("]$", line.find("$import[" + 1)) != NOT_FOUND)
+                    {
+                        size_t nextpos         = line.find("$import[");
+                        string importer        = line.substr(nextpos + 1, line.find("]$") - nextpos);
+                        size_t bracketCount    = count(importer.begin(), importer.end(), '[');
+                        size_t altBracketCount = count(importer.begin(), importer.end(), ']');
 
-							size_t pos = importer.find("[") + 1;
-							string file = importer.substr(pos, importer.find("]", pos) - pos);
-							string keyword;
-							string tempID;
+                        if (IDExist[importer].length() == 0)
+                        {
+                            if (bracketCount != altBracketCount)
+                            { ErrorMessage(1139, "import", it->first, j + 1, importer); }
 
-							if (bracketCount > 1)
-							{
-								pos = importer.find("[", pos);
-								string tempKeyword = importer.substr(pos, importer.find_last_of("]") + 1 - pos);
-								int openBrack = 0;
+                            size_t pos  = importer.find('[') + 1;
+                            string file = importer.substr(pos, importer.find(']', pos) - pos);
+                            string keyword;
+                            string tempID;
+
+                            if (bracketCount > 1)
+                            {
+                                pos = importer.find('[', pos);
+                                string tempKeyword
+                                    = importer.substr(pos, importer.find_last_of(']') + 1 - pos);
+                                int openBrack = 0;
 
 								for (unsigned int j = 0; j < tempKeyword.length(); ++j)
 								{
@@ -272,9 +275,9 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 									tempID = "0" + tempID;
 								}
 
-								IDExist[importer] = tempID;
-								newExportID[file][keyword] = tempID;
-								++lastID;
+                                IDExist[importer]          = tempID;
+                                newExportID[file][keyword] = tempID;
+                                ++lastID;
 
 								if (lastID == 9216)
 								{
@@ -282,13 +285,13 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 								}
 							}
 
-							line.replace(nextpos, importer.length() + 2, tempID);
-						}
-						else
-						{
-							line.replace(nextpos, importer.length() + 2, IDExist[importer]);
-						}
-					}
+                            line.replace(nextpos, importer.length() + 2, tempID);
+                        }
+                        else
+                        {
+                            line.replace(nextpos, importer.length() + 2, IDExist[importer]);
+                        }
+                    }
 
 					if (line.find("$MD$") != NOT_FOUND)
 					{
@@ -300,19 +303,20 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 						ErrorMessage(1097, "import", filename, j + 1);
 					}
 
-					if (line.find("MID$", 0) != NOT_FOUND)
-					{
-						int reference = sameWordCount(line, "MID$");
+                    if (line.find("MID$", 0) != NOT_FOUND)
+                    {
+                        int reference = sameWordCount(line, "MID$");
 
-						for (int k = 0; k < reference; ++k)
-						{
-							string tempID = line.substr(line.find("MID$"));
-							string number = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
-							string oldID = "MID$" + number;
+                        for (int k = 0; k < reference; ++k)
+                        {
+                            string tempID = line.substr(line.find("MID$"));
+                            string number = nemesis::regex_replace(
+                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string oldID = "MID$" + number;
 
-							if (line.find(oldID) != NOT_FOUND)
-							{
-								size_t nextpos = line.find(oldID);
+                            if (line.find(oldID) != NOT_FOUND)
+                            {
+                                size_t nextpos = line.find(oldID);
 
 								if (IDExist[oldID].length() > 0)
 								{

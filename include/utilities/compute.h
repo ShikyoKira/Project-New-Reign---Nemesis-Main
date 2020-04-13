@@ -4,5 +4,9 @@
 
 namespace nemesis
 {
-	bool calculate(std::string& equation, std::string format, std::string filename, int linecount, bool noDecimal = true);
+    bool calculate(std::string& equation,
+                   std::string format,
+                   std::string filename,
+                   int linecount,
+                   bool noDecimal = true);
 }

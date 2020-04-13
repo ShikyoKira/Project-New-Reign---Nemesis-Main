@@ -9,6 +9,8 @@
 
 #include "generate/animation/animationthread.h"
 
+#include "utilities/regex.h"
+
 struct proc;
 
 namespace nemesis
@@ -68,18 +70,18 @@ struct proc
 
 	double duration;
 
-	id* eventid;
-	id* variableid;
-	
-	std::string format;
-	std::string masterformat;
-	std::string behaviorFile;
-	std::string filepath;
-	std::string filename;
-	std::string mainAnimEvent;
-	std::string multiOption = "";
-	std::string project;
-	std::string header;
+    ID* eventid;
+    ID* variableid;
+
+    std::string format;
+    std::string masterformat;
+    std::string behaviorFile;
+    std::string filepath;
+    std::string filename;
+    std::string mainAnimEvent;
+    std::string multiOption = "";
+    std::string project;
+    std::string header;
 
 	std::vector<int> fixedStateID;
 	std::vector<int> stateCountMultiplier;
@@ -127,16 +129,45 @@ struct proc
 
 	std::unordered_map<int, std::vector<nemesis::MultiChoice>> multiChoice;		// numline, list of MultiChoice
 
-	proc() {}
+    proc()
+    {}
 
-	void Register(std::string n_format, std::string masterformat, std::string n_behaviorFile, std::string n_filepath, std::string n_filename, 
-		std::string n_mainAnimEvent, std::string& n_strID, std::string n_zeroEvent, std::string n_zeroVariable, bool n_hasGroup, bool& n_negative, bool& n_isEnd,
-		bool& n_norElement, bool& n_elementCatch, bool hasDuration, double duration, int& n_openRange, int& n_counter, size_t& n_elementLine, int n_furnitureCount,
-		id& n_eventid, id& n_variableid, std::vector<int> n_fixedStateID, std::vector<int> n_stateCountMultiplier, NewAnimLock* n_animLock, int n_order,
-		int n_lastorder, SSMap& n_IDExist, std::unordered_map<int, vecstr>& n_AnimObject, ImportContainer& n_addition, ImportContainer* n_newImport,
-		std::unordered_map<std::string, std::unordered_map<std::string, vecstr>>& n_groupAddition,
-		std::vector<std::unordered_map<std::string, bool>>& n_groupOptionPicked, std::shared_ptr<group> n_groupFunction, std::shared_ptr<vecstr> n_generatedlines,
-		NewAnimation* n_curAnim);
+    void Register(std::string n_format,
+                  std::string masterformat,
+                  std::string n_behaviorFile,
+                  std::string n_filepath,
+                  std::string n_filename,
+                  std::string n_mainAnimEvent,
+                  std::string& n_strID,
+                  std::string n_zeroEvent,
+                  std::string n_zeroVariable,
+                  bool n_hasGroup,
+                  bool& n_negative,
+                  bool& n_isEnd,
+                  bool& n_norElement,
+                  bool& n_elementCatch,
+                  bool hasDuration,
+                  double duration,
+                  int& n_openRange,
+                  int& n_counter,
+                  size_t& n_elementLine,
+                  int n_furnitureCount,
+                  ID& n_eventid,
+                  ID& n_variableid,
+                  std::vector<int> n_fixedStateID,
+                  std::vector<int> n_stateCountMultiplier,
+                  NewAnimLock* n_animLock,
+                  int n_order,
+                  int n_lastorder,
+                  SSMap& n_IDExist,
+                  std::unordered_map<int, VecStr>& n_AnimObject,
+                  ImportContainer& n_addition,
+                  ImportContainer* n_newImport,
+                  std::unordered_map<std::string, std::unordered_map<std::string, VecStr>>& n_groupAddition,
+                  std::vector<std::unordered_map<std::string, bool>>& n_groupOptionPicked,
+                  std::shared_ptr<group> n_groupFunction,
+                  std::shared_ptr<VecStr> n_generatedlines,
+                  NewAnimation* n_curAnim);
 
 	void installBlock(nemesis::scope blok, int curline);
 	void installBlock(nemesis::scope blok, int curline, std::vector<nemesis::MultiChoice> n_condiiton);
@@ -215,6 +246,7 @@ struct proc
 
 	void filepathSingle(nemesis::scope blok, vecstr& blocks);
 
+    void filepathSingle(range blok, VecStr& blocks);
 
 	// filename functions
 	// group
@@ -233,6 +265,7 @@ struct proc
 
 	void filenameSingle(nemesis::scope blok, vecstr& blocks);
 
+    void filenameSingle(range blok, VecStr& blocks);
 
 	// path functions
 	void pathSingle(nemesis::scope blok, vecstr& blocks);
