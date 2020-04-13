@@ -5,10 +5,17 @@
 
 #include <boost/regex.hpp>
 
+#include "utilities/scope.h"
+
 #include "generate/animation/animationthread.h"
 
 struct proc;
-struct multichoice;
+
+namespace nemesis
+{
+	struct MultiChoice;
+	struct scope;
+}
 
 namespace nemesis
 {
@@ -25,25 +32,9 @@ namespace nemesis
 	bool regex_search(std::string line, nemesis::smatch& match, boost::regex rgx);
 }
 
-struct range
-{
-	size_t front;
-	size_t back;
-	size_t size;
-	vecstr olddata;
-	std::vector<int> olddataint;
-	void (proc::*func)(range, vecstr&);
-
-	range() {}
-	range(size_t n_front, size_t n_back, void (proc::*n_func)(range, vecstr&));
-	range(size_t n_front, size_t n_back, vecstr n_olddata, void (proc::*n_func)(range, vecstr&));
-	range(size_t n_front, size_t n_back, std::vector<int> n_olddataint, void (proc::*n_func)(range, vecstr&));
-	range(size_t n_front, size_t n_back, std::vector<int> n_olddataint, vecstr n_olddata, void (proc::*n_func)(range, vecstr&));
-};
-
 struct block
 {
-	std::map<int, std::vector<range>> blocksize;
+	std::map<int, std::vector<nemesis::scope>> blocksize;
 };
 
 struct choice_c
@@ -132,9 +123,9 @@ struct proc
 	std::unordered_map<int, std::vector<int>> brackets;
 	std::unordered_map<int, std::vector<void (proc::*)()>> process;
 	std::unordered_map<int, block> lineblocks;							// numline, blocksize (order), blocks of same size
-	std::unordered_map<int, std::vector<range>> choiceblocks;			// numline, blocks
+	std::unordered_map<int, std::vector<nemesis::scope>> choiceblocks;			// numline, blocks
 
-	std::unordered_map<int, std::vector<multichoice>> multiChoice;		// numline, list of multichoice
+	std::unordered_map<int, std::vector<nemesis::MultiChoice>> multiChoice;		// numline, list of MultiChoice
 
 	proc() {}
 
@@ -147,236 +138,236 @@ struct proc
 		std::vector<std::unordered_map<std::string, bool>>& n_groupOptionPicked, std::shared_ptr<group> n_groupFunction, std::shared_ptr<vecstr> n_generatedlines,
 		NewAnimation* n_curAnim);
 
-	void installBlock(range blok, int curline);
-	void installBlock(range blok, int curline, std::vector<multichoice> n_condiiton);
+	void installBlock(nemesis::scope blok, int curline);
+	void installBlock(nemesis::scope blok, int curline, std::vector<nemesis::MultiChoice> n_condiiton);
 
 	// processes
-	void relativeNegative(range blok, vecstr& blocks);
-	void compute(range blok, vecstr& blocks);
-	void rangeCompute(range blok, vecstr& blocks);
-	void upCounter(range blok, vecstr& blocks);
-	void upCounterPlus(range blok, vecstr& blocks);
-	void animCount(range blok, vecstr& blocks);
-	void multiChoiceRegis(range blok, vecstr& blocks);
-	void groupIDRegis(range blok, vecstr& blocks);
-	void IDRegis(range blok, vecstr& blocks);
-	void IDRegisAnim(range blok, vecstr& blocks);
-	void IDRegisGroup(range blok, vecstr& blocks);
-	void IDRegisMaster(range blok, vecstr& blocks);
-	void computation(range blok, vecstr& blocks);
+	void relativeNegative(nemesis::scope blok, vecstr& blocks);
+	void compute(nemesis::scope blok, vecstr& blocks);
+	void rangeCompute(nemesis::scope blok, vecstr& blocks);
+	void upCounter(nemesis::scope blok, vecstr& blocks);
+	void upCounterPlus(nemesis::scope blok, vecstr& blocks);
+	void animCount(nemesis::scope blok, vecstr& blocks);
+	void multiChoiceRegis(nemesis::scope blok, vecstr& blocks);
+	void groupIDRegis(nemesis::scope blok, vecstr& blocks);
+	void IDRegis(nemesis::scope blok, vecstr& blocks);
+	void IDRegisAnim(nemesis::scope blok, vecstr& blocks);
+	void IDRegisGroup(nemesis::scope blok, vecstr& blocks);
+	void IDRegisMaster(nemesis::scope blok, vecstr& blocks);
+	void computation(nemesis::scope blok, vecstr& blocks);
 
 	// end functions
 	// group
-	void endMultiGroup(range blok, vecstr& blocks);
-	void endFirstGroup(range blok, vecstr& blocks);
-	void endNextGroup(range blok, vecstr& blocks);
-	void endBackGroup(range blok, vecstr& blocks);
-	void endLastGroup(range blok, vecstr& blocks);
-	void endNumGroup(range blok, vecstr& blocks);
+	void endMultiGroup(nemesis::scope blok, vecstr& blocks);
+	void endFirstGroup(nemesis::scope blok, vecstr& blocks);
+	void endNextGroup(nemesis::scope blok, vecstr& blocks);
+	void endBackGroup(nemesis::scope blok, vecstr& blocks);
+	void endLastGroup(nemesis::scope blok, vecstr& blocks);
+	void endNumGroup(nemesis::scope blok, vecstr& blocks);
 
 	// master
-	void endMultiMaster(range blok, vecstr& blocks);
-	void endFirstMaster(range blok, vecstr& blocks);
-	void endLastMaster(range blok, vecstr& blocks);
-	void endNumMaster(range blok, vecstr& blocks);
+	void endMultiMaster(nemesis::scope blok, vecstr& blocks);
+	void endFirstMaster(nemesis::scope blok, vecstr& blocks);
+	void endLastMaster(nemesis::scope blok, vecstr& blocks);
+	void endNumMaster(nemesis::scope blok, vecstr& blocks);
 
-	void endSingle(range blok, vecstr& blocks);
+	void endSingle(nemesis::scope blok, vecstr& blocks);
 
 
 	// state functions
 	// group
-	void stateMultiGroup(range blok, vecstr& blocks);
-	void stateFirstGroup(range blok, vecstr& blocks);
-	void stateNextGroup(range blok, vecstr& blocks);
-	void stateBackGroup(range blok, vecstr& blocks);
-	void stateLastGroup(range blok, vecstr& blocks);
-	void stateNumGroup(range blok, vecstr& blocks);
+	void stateMultiGroup(nemesis::scope blok, vecstr& blocks);
+	void stateFirstGroup(nemesis::scope blok, vecstr& blocks);
+	void stateNextGroup(nemesis::scope blok, vecstr& blocks);
+	void stateBackGroup(nemesis::scope blok, vecstr& blocks);
+	void stateLastGroup(nemesis::scope blok, vecstr& blocks);
+	void stateNumGroup(nemesis::scope blok, vecstr& blocks);
 
 	// master to group
-	void stateMultiMasterToGroup(range blok, vecstr& blocks);
-	/*void stateFirstMasterToGroup(range blok, vecstr& blocks);
-	void stateLastMasterToGroup(range blok, vecstr& blocks);		Not needed
-	void stateNumMasterToGroup(range blok, vecstr& blocks);*/
+	void stateMultiMasterToGroup(nemesis::scope blok, vecstr& blocks);
+	/*void stateFirstMasterToGroup(nemesis::scope blok, vecstr& blocks);
+	void stateLastMasterToGroup(nemesis::scope blok, vecstr& blocks);		Not needed
+	void stateNumMasterToGroup(nemesis::scope blok, vecstr& blocks);*/
 
 	// master
-	void stateMultiMaster(range blok, vecstr& blocks);
-	void stateFirstMaster(range blok, vecstr& blocks);
-	void stateLastMaster(range blok, vecstr& blocks);
-	void stateNumMaster(range blok, vecstr& blocks);
+	void stateMultiMaster(nemesis::scope blok, vecstr& blocks);
+	void stateFirstMaster(nemesis::scope blok, vecstr& blocks);
+	void stateLastMaster(nemesis::scope blok, vecstr& blocks);
+	void stateNumMaster(nemesis::scope blok, vecstr& blocks);
 
-	void stateSingle(range blok, vecstr& blocks);
+	void stateSingle(nemesis::scope blok, vecstr& blocks);
 
 
 	// filepath functions
 	// group
-	void filepathMultiGroup(range blok, vecstr& blocks);
-	void filepathFirstGroup(range blok, vecstr& blocks);
-	void filepathNextGroup(range blok, vecstr& blocks);
-	void filepathBackGroup(range blok, vecstr& blocks);
-	void filepathLastGroup(range blok, vecstr& blocks);
-	void filepathNumGroup(range blok, vecstr& blocks);
+	void filepathMultiGroup(nemesis::scope blok, vecstr& blocks);
+	void filepathFirstGroup(nemesis::scope blok, vecstr& blocks);
+	void filepathNextGroup(nemesis::scope blok, vecstr& blocks);
+	void filepathBackGroup(nemesis::scope blok, vecstr& blocks);
+	void filepathLastGroup(nemesis::scope blok, vecstr& blocks);
+	void filepathNumGroup(nemesis::scope blok, vecstr& blocks);
 
 	// master
-	void filepathMultiMaster(range blok, vecstr& blocks);
-	void filepathFirstMaster(range blok, vecstr& blocks);
-	void filepathLastMaster(range blok, vecstr& blocks);
-	void filepathNumMaster(range blok, vecstr& blocks);
+	void filepathMultiMaster(nemesis::scope blok, vecstr& blocks);
+	void filepathFirstMaster(nemesis::scope blok, vecstr& blocks);
+	void filepathLastMaster(nemesis::scope blok, vecstr& blocks);
+	void filepathNumMaster(nemesis::scope blok, vecstr& blocks);
 
-	void filepathSingle(range blok, vecstr& blocks);
+	void filepathSingle(nemesis::scope blok, vecstr& blocks);
 
 
 	// filename functions
 	// group
-	void filenameMultiGroup(range blok, vecstr& blocks);
-	void filenameFirstGroup(range blok, vecstr& blocks);
-	void filenameNextGroup(range blok, vecstr& blocks);
-	void filenameBackGroup(range blok, vecstr& blocks);
-	void filenameLastGroup(range blok, vecstr& blocks);
-	void filenameNumGroup(range blok, vecstr& blocks);
+	void filenameMultiGroup(nemesis::scope blok, vecstr& blocks);
+	void filenameFirstGroup(nemesis::scope blok, vecstr& blocks);
+	void filenameNextGroup(nemesis::scope blok, vecstr& blocks);
+	void filenameBackGroup(nemesis::scope blok, vecstr& blocks);
+	void filenameLastGroup(nemesis::scope blok, vecstr& blocks);
+	void filenameNumGroup(nemesis::scope blok, vecstr& blocks);
 
 	// master
-	void filenameMultiMaster(range blok, vecstr& blocks);
-	void filenameFirstMaster(range blok, vecstr& blocks);
-	void filenameLastMaster(range blok, vecstr& blocks);
-	void filenameNumMaster(range blok, vecstr& blocks);
+	void filenameMultiMaster(nemesis::scope blok, vecstr& blocks);
+	void filenameFirstMaster(nemesis::scope blok, vecstr& blocks);
+	void filenameLastMaster(nemesis::scope blok, vecstr& blocks);
+	void filenameNumMaster(nemesis::scope blok, vecstr& blocks);
 
-	void filenameSingle(range blok, vecstr& blocks);
+	void filenameSingle(nemesis::scope blok, vecstr& blocks);
 
 
 	// path functions
-	void pathSingle(range blok, vecstr& blocks);
+	void pathSingle(nemesis::scope blok, vecstr& blocks);
 
 	// AnimObject functions
 	// group
-	void AOMultiGroupA(range blok, vecstr& blocks);
-	void AOMultiGroupB(range blok, vecstr& blocks);
-	void AOFirstGroupA(range blok, vecstr& blocks);
-	void AOFirstGroupB(range blok, vecstr& blocks);
-	void AONextGroupA(range blok, vecstr& blocks);
-	void AONextGroupB(range blok, vecstr& blocks);
-	void AOBackGroupA(range blok, vecstr& blocks);
-	void AOBackGroupB(range blok, vecstr& blocks);
-	void AOLastGroupA(range blok, vecstr& blocks);
-	void AOLastGroupB(range blok, vecstr& blocks);
-	void AONumGroupA(range blok, vecstr& blocks);
-	void AONumGroupB(range blok, vecstr& blocks);
+	void AOMultiGroupA(nemesis::scope blok, vecstr& blocks);
+	void AOMultiGroupB(nemesis::scope blok, vecstr& blocks);
+	void AOFirstGroupA(nemesis::scope blok, vecstr& blocks);
+	void AOFirstGroupB(nemesis::scope blok, vecstr& blocks);
+	void AONextGroupA(nemesis::scope blok, vecstr& blocks);
+	void AONextGroupB(nemesis::scope blok, vecstr& blocks);
+	void AOBackGroupA(nemesis::scope blok, vecstr& blocks);
+	void AOBackGroupB(nemesis::scope blok, vecstr& blocks);
+	void AOLastGroupA(nemesis::scope blok, vecstr& blocks);
+	void AOLastGroupB(nemesis::scope blok, vecstr& blocks);
+	void AONumGroupA(nemesis::scope blok, vecstr& blocks);
+	void AONumGroupB(nemesis::scope blok, vecstr& blocks);
 
 	// master
-	void AOMultiMasterA(range blok, vecstr& blocks);
-	void AOMultiMasterB(range blok, vecstr& blocks);
-	void AOFirstMasterA(range blok, vecstr& blocks);
-	void AOFirstMasterB(range blok, vecstr& blocks);
-	void AOLastMasterA(range blok, vecstr& blocks);
-	void AOLastMasterB(range blok, vecstr& blocks);
-	void AONumMasterA(range blok, vecstr& blocks);
-	void AONumMasterB(range blok, vecstr& blocks);
+	void AOMultiMasterA(nemesis::scope blok, vecstr& blocks);
+	void AOMultiMasterB(nemesis::scope blok, vecstr& blocks);
+	void AOFirstMasterA(nemesis::scope blok, vecstr& blocks);
+	void AOFirstMasterB(nemesis::scope blok, vecstr& blocks);
+	void AOLastMasterA(nemesis::scope blok, vecstr& blocks);
+	void AOLastMasterB(nemesis::scope blok, vecstr& blocks);
+	void AONumMasterA(nemesis::scope blok, vecstr& blocks);
+	void AONumMasterB(nemesis::scope blok, vecstr& blocks);
 
-	void AOSingleA(range blok, vecstr& blocks);
-	void AOSingleB(range blok, vecstr& blocks);
+	void AOSingleA(nemesis::scope blok, vecstr& blocks);
+	void AOSingleB(nemesis::scope blok, vecstr& blocks);
 
 	// main_anim_event functions
 	// group
-	void MAEMultiGroup(range blok, vecstr& blocks);
-	void MAEFirstGroup(range blok, vecstr& blocks);
-	void MAENextGroup(range blok, vecstr& blocks);
-	void MAEBackGroup(range blok, vecstr& blocks);
-	void MAELastGroup(range blok, vecstr& blocks);
-	void MAENumGroup(range blok, vecstr& blocks);
+	void MAEMultiGroup(nemesis::scope blok, vecstr& blocks);
+	void MAEFirstGroup(nemesis::scope blok, vecstr& blocks);
+	void MAENextGroup(nemesis::scope blok, vecstr& blocks);
+	void MAEBackGroup(nemesis::scope blok, vecstr& blocks);
+	void MAELastGroup(nemesis::scope blok, vecstr& blocks);
+	void MAENumGroup(nemesis::scope blok, vecstr& blocks);
 
 	//master
-	void MAEMultiMaster(range blok, vecstr& blocks);
-	void MAEFirstMaster(range blok, vecstr& blocks);
-	void MAELastMaster(range blok, vecstr& blocks);
-	void MAENumMaster(range blok, vecstr& blocks);
+	void MAEMultiMaster(nemesis::scope blok, vecstr& blocks);
+	void MAEFirstMaster(nemesis::scope blok, vecstr& blocks);
+	void MAELastMaster(nemesis::scope blok, vecstr& blocks);
+	void MAENumMaster(nemesis::scope blok, vecstr& blocks);
 
-	void MAESingle(range blok, vecstr& blocks);
+	void MAESingle(nemesis::scope blok, vecstr& blocks);
 
 	// addOn functions
 	// group
-	void addOnMultiGroup(range blok, vecstr& blocks);
-	void addOnFirstGroup(range blok, vecstr& blocks);
-	void addOnNextGroup(range blok, vecstr& blocks);
-	void addOnBackGroup(range blok, vecstr& blocks);
-	void addOnLastGroup(range blok, vecstr& blocks);
-	void addOnNumGroup(range blok, vecstr& blocks);
+	void addOnMultiGroup(nemesis::scope blok, vecstr& blocks);
+	void addOnFirstGroup(nemesis::scope blok, vecstr& blocks);
+	void addOnNextGroup(nemesis::scope blok, vecstr& blocks);
+	void addOnBackGroup(nemesis::scope blok, vecstr& blocks);
+	void addOnLastGroup(nemesis::scope blok, vecstr& blocks);
+	void addOnNumGroup(nemesis::scope blok, vecstr& blocks);
 
 	// master
-	void addOnMultiMaster(range blok, vecstr& blocks);
-	void addOnFirstMaster(range blok, vecstr& blocks);
-	void addOnLastMaster(range blok, vecstr& blocks);
-	void addOnNumMaster(range blok, vecstr& blocks);
+	void addOnMultiMaster(nemesis::scope blok, vecstr& blocks);
+	void addOnFirstMaster(nemesis::scope blok, vecstr& blocks);
+	void addOnLastMaster(nemesis::scope blok, vecstr& blocks);
+	void addOnNumMaster(nemesis::scope blok, vecstr& blocks);
 
-	void addOnSingle(range blok, vecstr& blocks);
+	void addOnSingle(nemesis::scope blok, vecstr& blocks);
 
 	// last state functions
-	void lastState(range blok, vecstr& blocks);
+	void lastState(nemesis::scope blok, vecstr& blocks);
 
 	// event ID functions
-	void eventID(range blok, vecstr& blocks);
+	void eventID(nemesis::scope blok, vecstr& blocks);
 
 	// variable ID functions
-	void variableID(range blok, vecstr& blocks);
+	void variableID(nemesis::scope blok, vecstr& blocks);
 
 	// crc32 functions
-	void crc32(range blok, vecstr& blocks);
+	void crc32(nemesis::scope blok, vecstr& blocks);
 
 	// import functions
-	void import(range blok, vecstr& blocks);
+	void import(nemesis::scope blok, vecstr& blocks);
 
 	// motion data functions
 	// group
-	void motionDataMultiGroup(range blok, vecstr& blocks);
-	void motionDataFirstGroup(range blok, vecstr& blocks);
-	void motionDataNextGroup(range blok, vecstr& blocks);
-	void motionDataBackGroup(range blok, vecstr& blocks);
-	void motionDataLastGroup(range blok, vecstr& blocks);
-	void motionDataNumGroup(range blok, vecstr& blocks);
+	void motionDataMultiGroup(nemesis::scope blok, vecstr& blocks);
+	void motionDataFirstGroup(nemesis::scope blok, vecstr& blocks);
+	void motionDataNextGroup(nemesis::scope blok, vecstr& blocks);
+	void motionDataBackGroup(nemesis::scope blok, vecstr& blocks);
+	void motionDataLastGroup(nemesis::scope blok, vecstr& blocks);
+	void motionDataNumGroup(nemesis::scope blok, vecstr& blocks);
 
 	// master
-	void motionDataMultiMaster(range blok, vecstr& blocks);
-	void motionDataFirstMaster(range blok, vecstr& blocks);
-	void motionDataLastMaster(range blok, vecstr& blocks);
-	void motionDataNumMaster(range blok, vecstr& blocks);
+	void motionDataMultiMaster(nemesis::scope blok, vecstr& blocks);
+	void motionDataFirstMaster(nemesis::scope blok, vecstr& blocks);
+	void motionDataLastMaster(nemesis::scope blok, vecstr& blocks);
+	void motionDataNumMaster(nemesis::scope blok, vecstr& blocks);
 
-	void motionDataSingle(range blok, vecstr& blocks);
+	void motionDataSingle(nemesis::scope blok, vecstr& blocks);
 
 	// rotation data functions
 	// group
-	void rotationDataMultiGroup(range blok, vecstr& blocks);
-	void rotationDataFirstGroup(range blok, vecstr& blocks);
-	void rotationDataNextGroup(range blok, vecstr& blocks);
-	void rotationDataBackGroup(range blok, vecstr& blocks);
-	void rotationDataLastGroup(range blok, vecstr& blocks);
-	void rotationDataNumGroup(range blok, vecstr& blocks);
+	void rotationDataMultiGroup(nemesis::scope blok, vecstr& blocks);
+	void rotationDataFirstGroup(nemesis::scope blok, vecstr& blocks);
+	void rotationDataNextGroup(nemesis::scope blok, vecstr& blocks);
+	void rotationDataBackGroup(nemesis::scope blok, vecstr& blocks);
+	void rotationDataLastGroup(nemesis::scope blok, vecstr& blocks);
+	void rotationDataNumGroup(nemesis::scope blok, vecstr& blocks);
 
 	// master
-	void rotationDataMultiMaster(range blok, vecstr& blocks);
-	void rotationDataFirstMaster(range blok, vecstr& blocks);
-	void rotationDataLastMaster(range blok, vecstr& blocks);
-	void rotationDataNumMaster(range blok, vecstr& blocks);
+	void rotationDataMultiMaster(nemesis::scope blok, vecstr& blocks);
+	void rotationDataFirstMaster(nemesis::scope blok, vecstr& blocks);
+	void rotationDataLastMaster(nemesis::scope blok, vecstr& blocks);
+	void rotationDataNumMaster(nemesis::scope blok, vecstr& blocks);
 
-	void rotationDataSingle(range blok, vecstr& blocks);
+	void rotationDataSingle(nemesis::scope blok, vecstr& blocks);
 
 	// animOrder functions
-	void animOrder(range blok, vecstr& blocks);
+	void animOrder(nemesis::scope blok, vecstr& blocks);
 
 	// register animation
-	void regisAnim(range blok, vecstr& blocks);
+	void regisAnim(nemesis::scope blok, vecstr& blocks);
 
 	// register behavior
-	void regisBehavior(range blok, vecstr& blocks);
+	void regisBehavior(nemesis::scope blok, vecstr& blocks);
 
 	// negative local
-	void localNegative(range blok, vecstr& blocks);
+	void localNegative(nemesis::scope blok, vecstr& blocks);
 
 	// getline
 	void blocksCompile(vecstr blocks);
 	
 	// utilities
 	bool isThisMaster();
-	bool clearBlocks(range& blok, vecstr& blocks);
+	bool clearBlocks(nemesis::scope& blok, vecstr& blocks);
 	void blockCheck(size_t front, size_t back);
-	std::string combineBlocks(range& blok, vecstr& blocks);
+	std::string combineBlocks(nemesis::scope& blok, vecstr& blocks);
 	std::string combineBlocks(size_t front, size_t back, vecstr& blocks);
 };
 

@@ -1,4 +1,5 @@
 #include "utilities/compute.h"
+#include "utilities/conditions.h"
 
 #include "generate/alternateanimation.h"
 #include "generate/animationdatatracker.h"
@@ -104,42 +105,6 @@ namespace nemesis
 	}
 }
 
-range::range(size_t n_front, size_t n_back, void (proc::*n_func)(range, vecstr&))
-{
-	front = n_front;
-	back = n_back - 1;
-	size = back - front;
-	func = n_func;
-}
-
-range::range(size_t n_front, size_t n_back, vecstr n_olddata, void(proc::* n_func)(range, vecstr&))
-{
-	front = n_front;
-	back = n_back - 1;
-	size = back - front;
-	olddata = n_olddata;
-	func = n_func;
-}
-
-range::range(size_t n_front, size_t n_back, vector<int> n_olddataint, void(proc::* n_func)(range, vecstr&))
-{
-	front = n_front;
-	back = n_back - 1;
-	size = back - front;
-	olddataint = n_olddataint;
-	func = n_func;
-}
-
-range::range(size_t n_front, size_t n_back, vector<int> n_olddataint, vecstr n_olddata, void(proc::* n_func)(range, vecstr&))
-{
-	front = n_front;
-	back = n_back - 1;
-	size = back - front;
-	olddataint = n_olddataint;
-	olddata = n_olddata;
-	func = n_func;
-}
-
 void proc::Register(string n_format, string n_masterformat, string n_behaviorFile, string n_filepath, string n_filename, string n_mainAnimEvent, string& n_strID,
 	string n_zeroEvent, string n_zeroVariable, bool n_hasGroup, bool& n_negative, bool& n_isEnd, bool& n_norElement, bool& n_elementCatch, bool n_hasDuration,
 	double n_duration, int& n_openRange, int& n_counter, size_t& n_elementLine, int n_furnitureCount, id& n_eventid, id& n_variableid, vector<int> n_fixedStateID,
@@ -185,13 +150,13 @@ void proc::Register(string n_format, string n_masterformat, string n_behaviorFil
 	curAnim = n_curAnim;
 }
 
-void proc::installBlock(range blok, int curline)
+void proc::installBlock(nemesis::scope blok, int curline)
 {
 	blockCheck(blok.front, blok.back);
 	lineblocks[curline].blocksize[blok.size].push_back(blok);
 }
 
-void proc::installBlock(range blok, int curline, vector<multichoice> m_condiiton)
+void proc::installBlock(nemesis::scope blok, int curline, vector<nemesis::MultiChoice> m_condiiton)
 {
 	blockCheck(blok.front, blok.back);
 	hasMC[curline] = true;
@@ -199,7 +164,7 @@ void proc::installBlock(range blok, int curline, vector<multichoice> m_condiiton
 	choiceblocks[curline].push_back(blok);
 }
 
-void proc::relativeNegative(range blok, vecstr& blocks)
+void proc::relativeNegative(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -217,13 +182,13 @@ void proc::relativeNegative(range blok, vecstr& blocks)
 	}
 }
 
-void proc::compute(range blok, vecstr& blocks)
+void proc::compute(nemesis::scope blok, vecstr& blocks)
 {
 	*elementCatch = true;
 	*norElement = true;
 }
 
-void proc::rangeCompute(range blok, vecstr& blocks)
+void proc::rangeCompute(nemesis::scope blok, vecstr& blocks)
 {
 	(*generatedlines)[*elementLine] = boost::regex_replace(string((*generatedlines)[*elementLine]),
 		boost::regex("(.*<hkparam name\\=\".+\" numelements\\=\").+(\">.*)"), string("\\1" + to_string(*counter) + "\\2"));
@@ -232,23 +197,23 @@ void proc::rangeCompute(range blok, vecstr& blocks)
 	*elementLine = -1;
 }
 
-void proc::upCounter(range blok, vecstr& blocks)
+void proc::upCounter(nemesis::scope blok, vecstr& blocks)
 {
 	++(*counter);
 }
 
-void proc::upCounterPlus(range blok, vecstr& blocks)
+void proc::upCounterPlus(nemesis::scope blok, vecstr& blocks)
 {
 	string full = combineBlocks(0, blocks.size() - 1, blocks);
 	(*counter) += count(full.begin(), full.end(), '#');
 }
 
-void proc::animCount(range blok, vecstr& blocks)
+void proc::animCount(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = to_string(furnitureCount);
 }
 
-void proc::multiChoiceRegis(range blok, vecstr& blocks)
+void proc::multiChoiceRegis(nemesis::scope blok, vecstr& blocks)
 {
 	if (!captured)
 	{
@@ -262,7 +227,7 @@ void proc::multiChoiceRegis(range blok, vecstr& blocks)
 	}
 }
 
-void proc::groupIDRegis(range blok, vecstr& blocks)
+void proc::groupIDRegis(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -284,7 +249,7 @@ void proc::groupIDRegis(range blok, vecstr& blocks)
 	}
 }
 
-void proc::IDRegis(range blok, vecstr& blocks)
+void proc::IDRegis(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -307,7 +272,7 @@ void proc::IDRegis(range blok, vecstr& blocks)
 	}
 }
 
-void proc::IDRegisAnim(range blok, vecstr& blocks)
+void proc::IDRegisAnim(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -347,7 +312,7 @@ void proc::IDRegisAnim(range blok, vecstr& blocks)
 	}
 }
 
-void proc::IDRegisGroup(range blok, vecstr& blocks)
+void proc::IDRegisGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -384,7 +349,7 @@ void proc::IDRegisGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::IDRegisMaster(range blok, vecstr& blocks)
+void proc::IDRegisMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -416,7 +381,7 @@ void proc::IDRegisMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::computation(range blok, vecstr& blocks)
+void proc::computation(nemesis::scope blok, vecstr& blocks)
 {
 	string equation = combineBlocks(blok, blocks);
 	size_t equationLength = equation.length();
@@ -481,7 +446,7 @@ void proc::computation(range blok, vecstr& blocks)
 	}
 }
 
-void proc::endMultiGroup(range blok, vecstr& blocks)
+void proc::endMultiGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -499,7 +464,7 @@ void proc::endMultiGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::endFirstGroup(range blok, vecstr& blocks)
+void proc::endFirstGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -515,7 +480,7 @@ void proc::endFirstGroup(range blok, vecstr& blocks)
 	}	
 }
 
-void proc::endNextGroup(range blok, vecstr& blocks)
+void proc::endNextGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -535,7 +500,7 @@ void proc::endNextGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::endBackGroup(range blok, vecstr& blocks)
+void proc::endBackGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -555,7 +520,7 @@ void proc::endBackGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::endLastGroup(range blok, vecstr& blocks)
+void proc::endLastGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -571,7 +536,7 @@ void proc::endLastGroup(range blok, vecstr& blocks)
 	}	
 }
 
-void proc::endNumGroup(range blok, vecstr& blocks)
+void proc::endNumGroup(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[0];
 
@@ -591,7 +556,7 @@ void proc::endNumGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::endMultiMaster(range blok, vecstr& blocks)
+void proc::endMultiMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1057, format, behaviorFile, numline, blok.olddata[0]);
 
@@ -611,7 +576,7 @@ void proc::endMultiMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::endFirstMaster(range blok, vecstr& blocks)
+void proc::endFirstMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
@@ -629,7 +594,7 @@ void proc::endFirstMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::endLastMaster(range blok, vecstr& blocks)
+void proc::endLastMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
@@ -647,7 +612,7 @@ void proc::endLastMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::endNumMaster(range blok, vecstr& blocks)
+void proc::endNumMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
@@ -669,7 +634,7 @@ void proc::endNumMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::endSingle(range blok, vecstr& blocks)
+void proc::endSingle(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -685,18 +650,18 @@ void proc::endSingle(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateMultiGroup(range blok, vecstr& blocks)
+void proc::stateMultiGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = to_string(fixedStateID[blok.olddataint[0]] + ((animMulti - order) *
 		stateCountMultiplier[blok.olddataint[0]]) + blok.olddataint[1]);
 }
 
-void proc::stateFirstGroup(range blok, vecstr& blocks)
+void proc::stateFirstGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = to_string(fixedStateID[blok.olddataint[0]] - (order * stateCountMultiplier[blok.olddataint[0]]) + blok.olddataint[1]);
 }
 
-void proc::stateNextGroup(range blok, vecstr& blocks)
+void proc::stateNextGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -705,7 +670,7 @@ void proc::stateNextGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateBackGroup(range blok, vecstr& blocks)
+void proc::stateBackGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -714,7 +679,7 @@ void proc::stateBackGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateLastGroup(range blok, vecstr& blocks)
+void proc::stateLastGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -722,7 +687,7 @@ void proc::stateLastGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateNumGroup(range blok, vecstr& blocks)
+void proc::stateNumGroup(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[0];
 
@@ -734,7 +699,7 @@ void proc::stateNumGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateMultiMasterToGroup(range blok, vecstr& blocks)
+void proc::stateMultiMasterToGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -745,7 +710,7 @@ void proc::stateMultiMasterToGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateMultiMaster(range blok, vecstr& blocks)
+void proc::stateMultiMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -756,7 +721,7 @@ void proc::stateMultiMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateFirstMaster(range blok, vecstr& blocks)
+void proc::stateFirstMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -767,7 +732,7 @@ void proc::stateFirstMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateLastMaster(range blok, vecstr& blocks)
+void proc::stateLastMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -778,7 +743,7 @@ void proc::stateLastMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateNumMaster(range blok, vecstr& blocks)
+void proc::stateNumMaster(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[2];
 
@@ -793,7 +758,7 @@ void proc::stateNumMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::stateSingle(range blok, vecstr& blocks)
+void proc::stateSingle(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -807,19 +772,19 @@ void proc::stateSingle(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filepathMultiGroup(range blok, vecstr& blocks)
+void proc::filepathMultiGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1146, format, behaviorFile, numline);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = filepath + curAnim->GetGroupAnimInfo()[animMulti]->filename;
 }
 
-void proc::filepathFirstGroup(range blok, vecstr& blocks)
+void proc::filepathFirstGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = filepath + curAnim->GetGroupAnimInfo()[0]->filename;
 }
 
-void proc::filepathNextGroup(range blok, vecstr& blocks)
+void proc::filepathNextGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -827,7 +792,7 @@ void proc::filepathNextGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filepathBackGroup(range blok, vecstr& blocks)
+void proc::filepathBackGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -835,12 +800,12 @@ void proc::filepathBackGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filepathLastGroup(range blok, vecstr& blocks)
+void proc::filepathLastGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = filepath + curAnim->GetGroupAnimInfo()[lastorder]->filename;
 }
 
-void proc::filepathNumGroup(range blok, vecstr& blocks)
+void proc::filepathNumGroup(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[0];
 
@@ -849,7 +814,7 @@ void proc::filepathNumGroup(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = filepath + curAnim->GetGroupAnimInfo()[num]->filename;
 }
 
-void proc::filepathMultiMaster(range blok, vecstr& blocks)
+void proc::filepathMultiMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1146, format, behaviorFile, numline);
 
@@ -858,35 +823,35 @@ void proc::filepathMultiMaster(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = masterFunction->grouplist[groupMulti]->singlelist[animMulti]->format["FilePath"];
 }
 
-void proc::filepathFirstMaster(range blok, vecstr& blocks)
+void proc::filepathFirstMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = masterFunction->grouplist[groupMulti]->singlelist[0]->format["FilePath"];
 }
 
-void proc::filepathLastMaster(range blok, vecstr& blocks)
+void proc::filepathLastMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = masterFunction->grouplist[groupMulti]->singlelist.back()->format["FilePath"];
 }
 
-void proc::filepathNumMaster(range blok, vecstr& blocks)
+void proc::filepathNumMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = masterFunction->grouplist[groupMulti]->singlelist[blok.olddataint[0]]->format["FilePath"];
 }
 
-void proc::filepathSingle(range blok, vecstr& blocks)
+void proc::filepathSingle(nemesis::scope blok, vecstr& blocks)
 {
 	if (filename == combineBlocks(blok, blocks)) ErrorMessage(1134, format, behaviorFile, numline);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = filepath + filename;
 }
 
-void proc::filenameMultiGroup(range blok, vecstr& blocks)
+void proc::filenameMultiGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1146, format, behaviorFile, numline);
 
@@ -897,7 +862,7 @@ void proc::filenameMultiGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameFirstGroup(range blok, vecstr& blocks)
+void proc::filenameFirstGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -906,7 +871,7 @@ void proc::filenameFirstGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameNextGroup(range blok, vecstr& blocks)
+void proc::filenameNextGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -922,7 +887,7 @@ void proc::filenameNextGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameBackGroup(range blok, vecstr& blocks)
+void proc::filenameBackGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -938,7 +903,7 @@ void proc::filenameBackGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameLastGroup(range blok, vecstr& blocks)
+void proc::filenameLastGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -947,7 +912,7 @@ void proc::filenameLastGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameNumGroup(range blok, vecstr& blocks)
+void proc::filenameNumGroup(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[0];
 
@@ -960,7 +925,7 @@ void proc::filenameNumGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameMultiMaster(range blok, vecstr& blocks)
+void proc::filenameMultiMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
@@ -973,7 +938,7 @@ void proc::filenameMultiMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameFirstMaster(range blok, vecstr& blocks)
+void proc::filenameFirstMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
@@ -984,7 +949,7 @@ void proc::filenameFirstMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameLastMaster(range blok, vecstr& blocks)
+void proc::filenameLastMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
@@ -995,7 +960,7 @@ void proc::filenameLastMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameNumMaster(range blok, vecstr& blocks)
+void proc::filenameNumMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
@@ -1006,12 +971,12 @@ void proc::filenameNumMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::filenameSingle(range blok, vecstr& blocks)
+void proc::filenameSingle(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = filename.substr(0, filename.find_last_of("."));
 }
 
-void proc::pathSingle(range blok, vecstr& blocks)
+void proc::pathSingle(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1021,33 +986,33 @@ void proc::pathSingle(range blok, vecstr& blocks)
 	}
 }
 
-void proc::AOMultiGroupA(range blok, vecstr& blocks)
+void proc::AOMultiGroupA(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1 || optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[animMulti]->AnimObject[blok.olddataint[0]][optionMulti];
 }
 
-void proc::AOMultiGroupB(range blok, vecstr& blocks)
+void proc::AOMultiGroupB(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[animMulti]->AnimObject[blok.olddataint[0]][blok.olddataint[1]];
 }
 
-void proc::AOFirstGroupA(range blok, vecstr& blocks)
+void proc::AOFirstGroupA(nemesis::scope blok, vecstr& blocks)
 {
 	if (optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[0]->AnimObject[blok.olddataint[0]][optionMulti];
 }
 
-void proc::AOFirstGroupB(range blok, vecstr& blocks)
+void proc::AOFirstGroupB(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[0]->AnimObject[blok.olddataint[0]][blok.olddataint[1]];
 }
 
-void proc::AONextGroupA(range blok, vecstr& blocks)
+void proc::AONextGroupA(nemesis::scope blok, vecstr& blocks)
 {
 	if (optionMulti == -1)
 	{
@@ -1065,7 +1030,7 @@ void proc::AONextGroupA(range blok, vecstr& blocks)
 	}
 }
 
-void proc::AONextGroupB(range blok, vecstr& blocks)
+void proc::AONextGroupB(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1080,7 +1045,7 @@ void proc::AONextGroupB(range blok, vecstr& blocks)
 	}
 }
 
-void proc::AOBackGroupA(range blok, vecstr& blocks)
+void proc::AOBackGroupA(nemesis::scope blok, vecstr& blocks)
 {
 	if (optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
@@ -1094,7 +1059,7 @@ void proc::AOBackGroupA(range blok, vecstr& blocks)
 	}
 }
 
-void proc::AOBackGroupB(range blok, vecstr& blocks)
+void proc::AOBackGroupB(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1106,19 +1071,19 @@ void proc::AOBackGroupB(range blok, vecstr& blocks)
 	}
 }
 
-void proc::AOLastGroupA(range blok, vecstr& blocks)
+void proc::AOLastGroupA(nemesis::scope blok, vecstr& blocks)
 {
 	if (optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[lastorder]->AnimObject[blok.olddataint[0]][optionMulti];
 }
 
-void proc::AOLastGroupB(range blok, vecstr& blocks)
+void proc::AOLastGroupB(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[lastorder]->AnimObject[blok.olddataint[0]][blok.olddataint[1]];
 }
 
-void proc::AONumGroupA(range blok, vecstr& blocks)
+void proc::AONumGroupA(nemesis::scope blok, vecstr& blocks)
 {
 	if (optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
@@ -1129,7 +1094,7 @@ void proc::AONumGroupA(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[num]->AnimObject[blok.olddataint[1]][optionMulti];
 }
 
-void proc::AONumGroupB(range blok, vecstr& blocks)
+void proc::AONumGroupB(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[0];
 
@@ -1138,7 +1103,7 @@ void proc::AONumGroupB(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[num]->AnimObject[blok.olddataint[1]][blok.olddataint[2]];
 }
 
-void proc::AOMultiMasterA(range blok, vecstr& blocks)
+void proc::AOMultiMasterA(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1 || optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
@@ -1147,7 +1112,7 @@ void proc::AOMultiMasterA(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][animMulti]->AnimObject[blok.olddataint[0]][optionMulti];
 }
 
-void proc::AOMultiMasterB(range blok, vecstr& blocks)
+void proc::AOMultiMasterB(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
@@ -1156,7 +1121,7 @@ void proc::AOMultiMasterB(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][animMulti]->AnimObject[blok.olddataint[0]][blok.olddataint[1]];
 }
 
-void proc::AOFirstMasterA(range blok, vecstr& blocks)
+void proc::AOFirstMasterA(nemesis::scope blok, vecstr& blocks)
 {
 	if (optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
@@ -1165,14 +1130,14 @@ void proc::AOFirstMasterA(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][0]->AnimObject[blok.olddataint[0]][optionMulti];
 }
 
-void proc::AOFirstMasterB(range blok, vecstr& blocks)
+void proc::AOFirstMasterB(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][0]->AnimObject[blok.olddataint[0]][blok.olddataint[1]];
 }
 
-void proc::AOLastMasterA(range blok, vecstr& blocks)
+void proc::AOLastMasterA(nemesis::scope blok, vecstr& blocks)
 {
 	if (optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
@@ -1181,14 +1146,14 @@ void proc::AOLastMasterA(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][lastorder]->AnimObject[blok.olddataint[0]][optionMulti];
 }
 
-void proc::AOLastMasterB(range blok, vecstr& blocks)
+void proc::AOLastMasterB(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][lastorder]->AnimObject[blok.olddataint[0]][blok.olddataint[1]];
 }
 
-void proc::AONumMasterA(range blok, vecstr& blocks)
+void proc::AONumMasterA(nemesis::scope blok, vecstr& blocks)
 {
 	if (optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
@@ -1201,7 +1166,7 @@ void proc::AONumMasterA(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][num]->AnimObject[blok.olddataint[1]][optionMulti];
 }
 
-void proc::AONumMasterB(range blok, vecstr& blocks)
+void proc::AONumMasterB(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[0];
 
@@ -1212,31 +1177,31 @@ void proc::AONumMasterB(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][num]->AnimObject[blok.olddataint[1]][blok.olddataint[2]];
 }
 
-void proc::AOSingleA(range blok, vecstr& blocks)
+void proc::AOSingleA(nemesis::scope blok, vecstr& blocks)
 {
 	if (optionMulti == -1) ErrorMessage(1126, format, behaviorFile, numline, combineBlocks(blok, blocks));
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = (*AnimObject)[blok.olddataint[0]][optionMulti];
 }
 
-void proc::AOSingleB(range blok, vecstr& blocks)
+void proc::AOSingleB(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = (*AnimObject)[blok.olddataint[0]][blok.olddataint[1]];
 }
 
-void proc::MAEMultiGroup(range blok, vecstr& blocks)
+void proc::MAEMultiGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1146, format, behaviorFile, numline);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[animMulti]->mainAnimEvent;
 }
 
-void proc::MAEFirstGroup(range blok, vecstr& blocks)
+void proc::MAEFirstGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[0]->mainAnimEvent;
 }
 
-void proc::MAENextGroup(range blok, vecstr& blocks)
+void proc::MAENextGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1245,7 +1210,7 @@ void proc::MAENextGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::MAEBackGroup(range blok, vecstr& blocks)
+void proc::MAEBackGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1254,12 +1219,12 @@ void proc::MAEBackGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::MAELastGroup(range blok, vecstr& blocks)
+void proc::MAELastGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[lastorder]->mainAnimEvent;
 }
 
-void proc::MAENumGroup(range blok, vecstr& blocks)
+void proc::MAENumGroup(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[0];
 
@@ -1268,7 +1233,7 @@ void proc::MAENumGroup(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curAnim->GetGroupAnimInfo()[num]->mainAnimEvent;
 }
 
-void proc::MAEMultiMaster(range blok, vecstr& blocks)
+void proc::MAEMultiMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1146, format, behaviorFile, numline);
 
@@ -1277,21 +1242,21 @@ void proc::MAEMultiMaster(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][animMulti]->mainAnimEvent;
 }
 
-void proc::MAEFirstMaster(range blok, vecstr& blocks)
+void proc::MAEFirstMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][0]->mainAnimEvent;
 }
 
-void proc::MAELastMaster(range blok, vecstr& blocks)
+void proc::MAELastMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][lastorder]->mainAnimEvent;
 }
 
-void proc::MAENumMaster(range blok, vecstr& blocks)
+void proc::MAENumMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[0]);
 
@@ -1302,12 +1267,12 @@ void proc::MAENumMaster(range blok, vecstr& blocks)
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = curGroup->groupAnimInfo[groupMulti][num]->mainAnimEvent;
 }
 
-void proc::MAESingle(range blok, vecstr& blocks)
+void proc::MAESingle(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = mainAnimEvent;
 }
 
-void proc::addOnMultiGroup(range blok, vecstr& blocks)
+void proc::addOnMultiGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1146, format, behaviorFile, numline);
 
@@ -1338,7 +1303,7 @@ void proc::addOnMultiGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::addOnFirstGroup(range blok, vecstr& blocks)
+void proc::addOnFirstGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1367,7 +1332,7 @@ void proc::addOnFirstGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::addOnNextGroup(range blok, vecstr& blocks)
+void proc::addOnNextGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1400,7 +1365,7 @@ void proc::addOnNextGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::addOnBackGroup(range blok, vecstr& blocks)
+void proc::addOnBackGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1433,7 +1398,7 @@ void proc::addOnBackGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::addOnLastGroup(range blok, vecstr& blocks)
+void proc::addOnLastGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1460,7 +1425,7 @@ void proc::addOnLastGroup(range blok, vecstr& blocks)
 	}	
 }
 
-void proc::addOnNumGroup(range blok, vecstr& blocks)
+void proc::addOnNumGroup(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[0];
 
@@ -1493,7 +1458,7 @@ void proc::addOnNumGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::addOnMultiMaster(range blok, vecstr& blocks)
+void proc::addOnMultiMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (animMulti == -1) ErrorMessage(1146, format, behaviorFile, numline);
 
@@ -1526,7 +1491,7 @@ void proc::addOnMultiMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::addOnFirstMaster(range blok, vecstr& blocks)
+void proc::addOnFirstMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[2]);
 
@@ -1557,7 +1522,7 @@ void proc::addOnFirstMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::addOnLastMaster(range blok, vecstr& blocks)
+void proc::addOnLastMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (groupMulti == -1) ErrorMessage(1202, format, behaviorFile, numline, blok.olddata[2]);
 
@@ -1588,7 +1553,7 @@ void proc::addOnLastMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::addOnNumMaster(range blok, vecstr& blocks)
+void proc::addOnNumMaster(nemesis::scope blok, vecstr& blocks)
 {
 	size_t num = blok.olddataint[0];
 
@@ -1621,7 +1586,7 @@ void proc::addOnNumMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::addOnSingle(range blok, vecstr& blocks)
+void proc::addOnSingle(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1644,7 +1609,7 @@ void proc::addOnSingle(range blok, vecstr& blocks)
 	}	
 }
 
-void proc::lastState(range blok, vecstr& blocks)
+void proc::lastState(nemesis::scope blok, vecstr& blocks)
 {
 	if (clearBlocks(blok, blocks))
 	{
@@ -1664,7 +1629,7 @@ void proc::lastState(range blok, vecstr& blocks)
 	}
 }
 
-void proc::eventID(range blok, vecstr& blocks)
+void proc::eventID(nemesis::scope blok, vecstr& blocks)
 {
 	string eventname = combineBlocks(blok.olddataint[0], blok.olddataint[1], blocks);
 
@@ -1688,7 +1653,7 @@ void proc::eventID(range blok, vecstr& blocks)
 	}
 }
 
-void proc::variableID(range blok, vecstr& blocks)
+void proc::variableID(nemesis::scope blok, vecstr& blocks)
 {
 	string variablename = combineBlocks(blok.olddataint[0], blok.olddataint[1] , blocks);
 
@@ -1712,14 +1677,14 @@ void proc::variableID(range blok, vecstr& blocks)
 	}
 }
 
-void proc::crc32(range blok, vecstr& blocks)
+void proc::crc32(nemesis::scope blok, vecstr& blocks)
 {
 	string crc32line = nemesis::to_lower_copy(combineBlocks(blok, blocks));
 
 	if (clearBlocks(blok, blocks)) blocks[blok.front] = to_string(CRC32Convert(crc32line));
 }
 
-void proc::import(range blok, vecstr& blocks)
+void proc::import(nemesis::scope blok, vecstr& blocks)
 {
 	string import = combineBlocks(blok, blocks);
 
@@ -1785,7 +1750,7 @@ void proc::import(range blok, vecstr& blocks)
 	}	
 }
 
-void proc::motionDataMultiGroup(range blok, vecstr& blocks)
+void proc::motionDataMultiGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -1815,7 +1780,7 @@ void proc::motionDataMultiGroup(range blok, vecstr& blocks)
 	}	
 }
 
-void proc::motionDataFirstGroup(range blok, vecstr& blocks)
+void proc::motionDataFirstGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -1843,7 +1808,7 @@ void proc::motionDataFirstGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::motionDataNextGroup(range blok, vecstr& blocks)
+void proc::motionDataNextGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -1873,7 +1838,7 @@ void proc::motionDataNextGroup(range blok, vecstr& blocks)
 	}	
 }
 
-void proc::motionDataBackGroup(range blok, vecstr& blocks)
+void proc::motionDataBackGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -1903,7 +1868,7 @@ void proc::motionDataBackGroup(range blok, vecstr& blocks)
 	}	
 }
 
-void proc::motionDataLastGroup(range blok, vecstr& blocks)
+void proc::motionDataLastGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -1931,7 +1896,7 @@ void proc::motionDataLastGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::motionDataNumGroup(range blok, vecstr& blocks)
+void proc::motionDataNumGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -1963,7 +1928,7 @@ void proc::motionDataNumGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::motionDataMultiMaster(range blok, vecstr& blocks)
+void proc::motionDataMultiMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -1995,7 +1960,7 @@ void proc::motionDataMultiMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::motionDataFirstMaster(range blok, vecstr& blocks)
+void proc::motionDataFirstMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -2025,7 +1990,7 @@ void proc::motionDataFirstMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::motionDataLastMaster(range blok, vecstr& blocks)
+void proc::motionDataLastMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -2055,7 +2020,7 @@ void proc::motionDataLastMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::motionDataNumMaster(range blok, vecstr& blocks)
+void proc::motionDataNumMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -2089,7 +2054,7 @@ void proc::motionDataNumMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::motionDataSingle(range blok, vecstr& blocks)
+void proc::motionDataSingle(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1096, format, behaviorFile, numline);
 
@@ -2119,7 +2084,7 @@ void proc::motionDataSingle(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataMultiGroup(range blok, vecstr& blocks)
+void proc::rotationDataMultiGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2149,7 +2114,7 @@ void proc::rotationDataMultiGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataFirstGroup(range blok, vecstr& blocks)
+void proc::rotationDataFirstGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2177,7 +2142,7 @@ void proc::rotationDataFirstGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataNextGroup(range blok, vecstr& blocks)
+void proc::rotationDataNextGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2207,7 +2172,7 @@ void proc::rotationDataNextGroup(range blok, vecstr& blocks)
 	}	
 }
 
-void proc::rotationDataBackGroup(range blok, vecstr& blocks)
+void proc::rotationDataBackGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2237,7 +2202,7 @@ void proc::rotationDataBackGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataLastGroup(range blok, vecstr& blocks)
+void proc::rotationDataLastGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0)ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2265,7 +2230,7 @@ void proc::rotationDataLastGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataNumGroup(range blok, vecstr& blocks)
+void proc::rotationDataNumGroup(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2297,7 +2262,7 @@ void proc::rotationDataNumGroup(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataMultiMaster(range blok, vecstr& blocks)
+void proc::rotationDataMultiMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2329,7 +2294,7 @@ void proc::rotationDataMultiMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataFirstMaster(range blok, vecstr& blocks)
+void proc::rotationDataFirstMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2359,7 +2324,7 @@ void proc::rotationDataFirstMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataLastMaster(range blok, vecstr& blocks)
+void proc::rotationDataLastMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0)ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2389,7 +2354,7 @@ void proc::rotationDataLastMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataNumMaster(range blok, vecstr& blocks)
+void proc::rotationDataNumMaster(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2423,7 +2388,7 @@ void proc::rotationDataNumMaster(range blok, vecstr& blocks)
 	}
 }
 
-void proc::rotationDataSingle(range blok, vecstr& blocks)
+void proc::rotationDataSingle(nemesis::scope blok, vecstr& blocks)
 {
 	if (fixedStateID.size() != 0 || eventid->size() != 0 || variableid->size() != 0) ErrorMessage(1097, format, behaviorFile, numline);
 
@@ -2453,7 +2418,7 @@ void proc::rotationDataSingle(range blok, vecstr& blocks)
 	}
 }
 
-void proc::animOrder(range blok, vecstr& blocks)
+void proc::animOrder(nemesis::scope blok, vecstr& blocks)
 {
 	string animPath = combineBlocks(blok.olddataint[0], blok.olddataint[1], blocks);
 
@@ -2473,21 +2438,20 @@ void proc::animOrder(range blok, vecstr& blocks)
 	}
 }
 
-void proc::regisAnim(range blok, vecstr& blocks)
+void proc::regisAnim(nemesis::scope blok, vecstr& blocks)
 {
 	string animPath = combineBlocks(blok, blocks);
-	nemesis::to_lower(animPath);
 	addUsedAnim(behaviorFile, animPath);
 }
 
-void proc::regisBehavior(range blok, vecstr& blocks)
+void proc::regisBehavior(nemesis::scope blok, vecstr& blocks)
 {
 	string behaviorName = combineBlocks(blok, blocks);
 	nemesis::to_lower(behaviorName);
-	behaviorJoints[behaviorName].push_back(behaviorFile);
+	behaviorJoints[behaviorName].push_back(nemesis::to_lower_copy(behaviorFile));
 }
 
-void proc::localNegative(range blok, vecstr& blocks)
+void proc::localNegative(nemesis::scope blok, vecstr& blocks)
 {
 	if (combineBlocks(blok, blocks)[0] == '-') *negative = true;
 }
@@ -2556,7 +2520,7 @@ bool proc::isThisMaster()
 	return groupMulti > -1;
 }
 
-bool proc::clearBlocks(range& blok, vecstr& blocks)
+bool proc::clearBlocks(nemesis::scope& blok, vecstr& blocks)
 {
 	if (failed.size() > 0)
 	{
@@ -2592,7 +2556,7 @@ void proc::blockCheck(size_t front, size_t back)
 	}
 }
 
-string proc::combineBlocks(range& blok, vecstr& blocks)
+string proc::combineBlocks(nemesis::scope& blok, vecstr& blocks)
 {
 	string option;
 

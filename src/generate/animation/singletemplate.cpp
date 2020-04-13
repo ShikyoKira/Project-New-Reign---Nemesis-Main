@@ -1,5 +1,6 @@
 #include <boost/regex.hpp>
 
+#include "utilities/conditions.h"
 #include "utilities/stringsplit.h"
 
 #include "generate/animation/newanimation.h"
@@ -8,122 +9,11 @@
 using namespace std;
 
 void stateInstall(string line, string change, string format, string behaviorFile, int numline, size_t curPos, string animOrder, bool isMC,
-	map<int, vector<range>>& lineblocks, proc& process, void (proc::*func)(range, vecstr&));
+	map<int, vector<nemesis::scope>>& lineblocks, proc& process, void (proc::*func)(nemesis::scope, vecstr&));
 void mainAnimEventInstall(string format, string behaviorFile, string change, int numline, size_t curPos, boost::regex expr, bool isGroup, bool isMaster, proc& process);
 void ProcessFunction(string change, string line, string format, string behaviorFile, string multiOption, bool& isEnd, int numline, size_t curPos,
-	OptionList& optionlist, map<int, vector<shared_ptr<range>>>& lineblocks, vector<addOnInfo>& addInfo, bool& isTrueMulti, bool isGroup = false, bool isMaster = false,
+	OptionList& optionlist, map<int, vector<shared_ptr<nemesis::scope>>>& lineblocks, vector<AddOnInfo>& addInfo, bool& isTrueMulti, bool isGroup = false, bool isMaster = false,
 	bool isMC = true, proc& process = proc());
-void GetMultiFromAddOn(addOnInfo& addinfo, string format, string behaviorFile, string original, int numline, int animMulti, bool isGroup,
-	vector<shared_ptr<AnimationInfo>>& groupAnimInfo, int& optionMulti, int& endMulti);
-
-vecstr GetOptionInfo(string line, string format, string filename, int numline)
-{
-	vecstr optionInfo;
-	optionInfo.reserve(3);
-	optionInfo.push_back(format);
-
-	if (line.find(format + "[") != NOT_FOUND)
-	{
-		if (sameWordCount(line, format + "[") > 1)
-		{
-			ErrorMessage(1157, format, filename, numline, line);
-		}
-
-		string templine = line;
-		size_t pos = templine.find(format + "[");
-		templine = templine.substr(templine.find("[", pos) + 1);
-
-		while (true)
-		{
-			pos = templine.find("]");
-			optionInfo.push_back(templine.substr(0, pos));
-			size_t optionLength = optionInfo.back().length() + 1;
-
-			if (templine.length() > optionLength && templine[optionLength] == '[') templine = templine.substr(templine.find("[") + 1);
-			else break;
-		}
-	}
-	else
-	{
-		optionInfo.push_back("order");
-		optionInfo.push_back(line);
-	}
-
-	if (error) throw nemesis::exception();
-
-	return optionInfo;
-}
-
-vecstr GetOptionInfo(string line, string format, string masterformat, string filename, string multiOption, int numline)
-{
-	vecstr optionInfo;
-	optionInfo.reserve(5);
-	optionInfo.push_back(masterformat + "_group");
-
-	if (line.find(masterformat + "_group[") != NOT_FOUND)
-	{
-		if (sameWordCount(line, masterformat + "_group[") > 1) ErrorMessage(1157, format, filename, numline, line);
-
-		string templine = line;
-		size_t pos = templine.find(masterformat + "_group[");
-		templine = templine.substr(templine.find("[", pos) + 1);
-
-		while (true)
-		{
-			pos = templine.find("]");
-			optionInfo.push_back(templine.substr(0, pos));
-			size_t optionLength = optionInfo.back().length() + 1;
-
-			if (templine.length() > optionLength && templine[optionLength] == '[')
-			{
-				templine = templine.substr(templine.find("[") + 1);
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		if (optionInfo.size() < 2) ErrorMessage(1192, format, filename, numline, line);
-		else if (optionInfo[1].length() != 0) ErrorMessage(1201, format, filename, numline, line);
-	}
-	else if (line.find(masterformat + "[") != NOT_FOUND)
-	{
-		if (sameWordCount(line, masterformat + "[") > 1) ErrorMessage(1157, format, filename, numline, line);
-
-		if (format != masterformat + "_group" && multiOption != masterformat + "_group") ErrorMessage(1202, format, filename, numline, line);
-
-		optionInfo.push_back("");
-
-		string templine = line;
-		size_t pos = templine.find(masterformat + "[");
-		templine = templine.substr(templine.find("[", pos) + 1);
-
-		while (true)
-		{
-			pos = templine.find("]");
-			optionInfo.push_back(templine.substr(0, pos));
-			size_t optionLength = optionInfo.back().length() + 1;
-
-			if (templine.length() > optionLength && templine[optionLength] == '[') templine = templine.substr(templine.find("[") + 1);
-			else break;
-		}
-	}
-	else if (line == masterformat || line == masterformat + "_group" || multiOption == masterformat)
-	{
-		optionInfo.push_back("");
-		optionInfo.push_back("");
-		optionInfo.push_back(line);
-	}
-	else
-	{
-		ErrorMessage(1192, format, filename, numline, line);
-	}
-
-	if (error) throw nemesis::exception();
-
-	return optionInfo;
-}
 
 void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templatelines, bool isGroup, bool isMaster, OptionList optionlist)
 {
@@ -142,7 +32,7 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 	string elementline;
 	unordered_map<int, vecstr> conditionStore;
 	unordered_map<int, string> openConditions;
-	vector<condset*> generatedlines;
+	vector<nemesis::CondVar<string>*> generatedlines;
 	generatedlines.push_back(&lines);
 
 	if (isCore)
@@ -164,76 +54,74 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 			string line = templatelines[i];
 			nemesis::smatch match;
 
-			if (i == 216)
-				line = line;
-
 			if (nemesis::regex_search(line, match, boost::regex(".*<!-- CONDITION START \\^(.+?)\\^ -->.*")))
 			{
 				condition++;
 				string multiOption;
 
 				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+				{
 					if ((*it)->isMulti) multiOption = (*it)->conditions;
+				}
 
-				generatedlines.back()->lines.push_back(stackline());
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+				generatedlines.back()->rawlist.push_back(nemesis::LinkedVar<string>());
+				generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+				generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
 				generatedlines.back()->conditions = match[1];
-				generatedlines.back()->n_conditions = make_shared<condt>(match[1], format, behaviorFile, match[1], multiOption, i + 1, isGroup, isMaster, optionlist);
+				generatedlines.back()->n_conditions = make_shared<nemesis::Condt>(match[1], format, behaviorFile, match[1], multiOption, i + 1, isGroup, isMaster, optionlist);
 				generatedlines.back()->linenum = i + 1;
+				generatedlines.back()->conditionType = nemesis::CONDITION_START;
 				uniqueskip = true;
 			}
 			else if (nemesis::regex_search(line, match, boost::regex(".*<!-- CONDITION \\^(.+?)\\^ -->.*")))
 			{
-				if (condition == 0)
-				{
-					ErrorMessage(1119, format, behaviorFile, i + 1);
-				}
+				if (condition == 0) ErrorMessage(1119, format, behaviorFile, i + 1);
 
 				string multiOption;
 
 				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+				{
 					if ((*it)->isMulti) multiOption = (*it)->conditions;
+				}
 
 				generatedlines.pop_back();
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+				generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+				generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
 				generatedlines.back()->conditions = match[1];
-				generatedlines.back()->n_conditions = make_shared<condt>(match[1], format, behaviorFile, match[1], multiOption, i + 1, isGroup, isMaster, optionlist);
+				generatedlines.back()->n_conditions = make_shared<nemesis::Condt>(match[1], format, behaviorFile, match[1], multiOption, i + 1, isGroup, isMaster, optionlist);
 				generatedlines.back()->linenum = i + 1;
+				generatedlines.back()->conditionType = nemesis::CONDITION;
 				uniqueskip = true;
 			}
 			else if (line.find("<!-- CONDITION -->", 0) != NOT_FOUND)
 			{
-				if (condition == 0)
-				{
-					ErrorMessage(1119, format, behaviorFile, i + 1);
-				}
+				if (condition == 0) ErrorMessage(1119, format, behaviorFile, i + 1);
 
 				generatedlines.pop_back();
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+				generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+				generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
+				generatedlines.back()->conditionType = nemesis::CONDITION_DEFAULT;
 				uniqueskip = true;
 			}
 			else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND)
 			{
-				if (newOpen)
-				{
-					ErrorMessage(1116, format, behaviorFile, i + 1);
-				}
+				if (newOpen) ErrorMessage(1116, format, behaviorFile, i + 1);
 
 				string multiOption;
 
 				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+				{
 					if ((*it)->isMulti) multiOption = (*it)->conditions;
+				}
 
-				generatedlines.back()->lines.push_back(stackline());
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+				generatedlines.back()->rawlist.push_back(nemesis::LinkedVar<string>());
+				generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+				generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
 				generatedlines.back()->conditions = getOption(line);
-				generatedlines.back()->n_conditions = make_shared<condt>(generatedlines.back()->conditions, format, behaviorFile, generatedlines.back()->conditions,
+				generatedlines.back()->n_conditions = make_shared<nemesis::Condt>(generatedlines.back()->conditions, format, behaviorFile, generatedlines.back()->conditions,
 					multiOption, i + 1, isGroup, isMaster, optionlist);
 				generatedlines.back()->linenum = i + 1;
+				generatedlines.back()->conditionType = nemesis::NEW;
 				newOpen = true;
 				uniqueskip = true;
 			}
@@ -244,19 +132,23 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 				string multiOption;
 
 				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+				{
 					if ((*it)->isMulti) multiOption = (*it)->conditions;
+				}
 
-				generatedlines.back()->lines.push_back(stackline());
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+				generatedlines.back()->rawlist.push_back(nemesis::LinkedVar<string>());
+				generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+				generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
 				generatedlines.back()->conditions = getOption(line);
 
 				if (isMaster && generatedlines.back()->conditions == format && multiOption != format + "_group") ErrorMessage(1202, format, behaviorFile, i + 1);
 
-				generatedlines.back()->n_conditions = make_shared<condt>(generatedlines.back()->conditions, format, behaviorFile, generatedlines.back()->conditions,
+				generatedlines.back()->n_conditions = make_shared<nemesis::Condt>(generatedlines.back()->conditions, format, behaviorFile, generatedlines.back()->conditions,
 					multiOption, i + 1, isGroup, isMaster, optionlist);
 				generatedlines.back()->linenum = i + 1;
 				generatedlines.back()->isMulti = true;
+				generatedlines.back()->conditionType = nemesis::FOREACH;
+
 				newOpen = true;
 				uniqueskip = true;
 			}
@@ -269,16 +161,19 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 				string multiOption;
 
 				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+				{
 					if ((*it)->isMulti) multiOption = (*it)->conditions;
+				}
 
-				generatedlines.back()->lines.push_back(stackline());
-				generatedlines.back()->lines.back().nestedcond.push_back(condset());
-				generatedlines.push_back(&generatedlines.back()->lines.back().nestedcond.back());
+				generatedlines.back()->rawlist.push_back(nemesis::LinkedVar<string>());
+				generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+				generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
 				generatedlines.back()->conditions = boost::regex_replace(string(line), boost::regex(".*<!-- NEW ORDER (.+?) -->.*"), string("\\1"));
-				generatedlines.back()->n_conditions = make_shared<condt>(generatedlines.back()->conditions, format, behaviorFile, generatedlines.back()->conditions,
+				generatedlines.back()->n_conditions = make_shared<nemesis::Condt>(generatedlines.back()->conditions, format, behaviorFile, generatedlines.back()->conditions,
 					multiOption, i + 1, isGroup, isMaster, optionlist);
 				generatedlines.back()->linenum = i + 1;
 				generatedlines.back()->isOrder = true;
+				generatedlines.back()->conditionType = nemesis::NEW_ORDER;
 				newOpen = true;
 				uniqueskip = true;
 			}
@@ -302,7 +197,9 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 				string multiOption;
 
 				for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
+				{
 					if ((*it)->isMulti) multiOption = (*it)->conditions;
+				}
 
 				Process(line, multiOption, norElement, isEnd, isGroup, isMaster, openRange, i + 1, optionlist, generatedlines.back());
 			}
@@ -311,26 +208,17 @@ void AnimTemplate::ExamineTemplate(string n_format, string n_file, vecstr templa
 		}
 	}
 
-	if (generatedlines.size() != 1)
-	{
-		ErrorMessage(1122, format, behaviorFile);
-	}
+	if (generatedlines.size() != 1) ErrorMessage(1122, format, behaviorFile);
 
-	if (newOpen)
-	{
-		ErrorMessage(1116, format, behaviorFile, templatelines.size() + 1);
-	}
+	if (newOpen) ErrorMessage(1116, format, behaviorFile, templatelines.size() + 1);
 
-	if (condition > 0)
-	{
-		ErrorMessage(1145, format, behaviorFile);
-	}
+	if (condition > 0) ErrorMessage(1145, format, behaviorFile);
 
 	size = templatelines.size();
 }
 
-void AnimTemplate::Process(string& line, string multiOption, bool& norElement, bool& isEnd, bool isGroup, bool isMaster, int& openRange, int numline,
-	OptionList& optionlist, condset* generatedlines)
+void AnimTemplate::Process(const string& line, string multiOption, bool& norElement, bool& isEnd, bool isGroup, bool isMaster, int& openRange, int numline,
+	OptionList& optionlist, nemesis::CondVar<string>* generatedlines)
 {
 	bool hasProcess = false;
 
@@ -344,7 +232,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			hasProcess = true;
 			string templine = line.substr(0, line.find("<hkparam name=\"", 0));
 			openRange = count(templine.begin(), templine.end(), '\t');
-			process.installBlock(range(0, 0, vector<int>{ openRange }, &proc::compute), numline);
+			process.installBlock(nemesis::scope(0, 0, vector<int>{ openRange }, &proc::compute), numline);
 		}
 		else
 		{
@@ -359,7 +247,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 		{
 			hasProcess = true;
 			norElement = false;
-			process.installBlock(range(0, 0, &proc::rangeCompute), numline);
+			process.installBlock(nemesis::scope(0, 0, &proc::rangeCompute), numline);
 		}
 	}
 
@@ -374,7 +262,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			if (openRange + 1 == count(templine.begin(), templine.end(), '\t'))
 			{
 				hasProcess = true;
-				process.installBlock(range(0, 99999, &proc::upCounter), numline);
+				process.installBlock(nemesis::scope(0, 99999, &proc::upCounter), numline);
 			}
 		}
 		else if (templine.find("\t\t\t#") != NOT_FOUND)
@@ -384,7 +272,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			if (openRange + 1 == count(templine.begin(), templine.end(), '\t'))
 			{
 				hasProcess = true;
-				process.installBlock(range(0, 99999, &proc::upCounterPlus), numline);
+				process.installBlock(nemesis::scope(0, 99999, &proc::upCounterPlus), numline);
 			}
 		}
 	}
@@ -402,8 +290,8 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			size_t curPos = itr->position();
 			process.brackets[numline].push_back(itr->position());
 			process.brackets[numline].push_back(itr->position() + itr->str().length() - 1);
-			map<int, vector<shared_ptr<range>>> dummy1;
-			vector<addOnInfo> dummy2;
+			map<int, vector<shared_ptr<nemesis::scope>>> dummy1;
+			vector<AddOnInfo> dummy2;
 			bool dummy3;
 			ProcessFunction(change, line, format, behaviorFile, multiOption, isEnd, numline, curPos + 1, optionlist, dummy1, dummy2, dummy3, isGroup, isMaster, false,
 				process);
@@ -416,7 +304,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 		{
 			while (pos != NOT_FOUND)
 			{
-				process.installBlock(range(pos, pos + 3, &proc::animCount), numline);
+				process.installBlock(nemesis::scope(pos, pos + 3, &proc::animCount), numline);
 				pos = line.find("$%$", pos + 1);
 			}
 
@@ -428,7 +316,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 		// multi choice selection
 		if (pos != NOT_FOUND)
 		{
-			vector<multichoice> m_conditions;
+			vector<nemesis::MultiChoice> m_conditions;
 			process.hasMC[numline] = true;
 
 			for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("[\\s]+<!-- (.+?) -->[\\s]*?"));
@@ -441,12 +329,12 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 
 				if (curElements.size() == 1)
 				{
-					m_conditions.push_back(multichoice("", format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist, pos, pos + output.length()));
+					m_conditions.push_back(nemesis::MultiChoice("", format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist, pos, pos + output.length()));
 				}
 				else if (curElements.size() > 1)
 				{
 					pos = pos + output.length();
-					m_conditions.push_back(multichoice(curElements[0], format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist,
+					m_conditions.push_back(nemesis::MultiChoice(curElements[0], format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist,
 						pos - curElements.back().length(), pos));
 				}
 			}
@@ -454,7 +342,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("\\$MC\\$")); itr != boost::sregex_iterator(); ++itr)
 			{
 				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), &proc::multiChoiceRegis), numline, m_conditions);
+				process.installBlock(nemesis::scope(pos, pos + itr->str().length(), &proc::multiChoiceRegis), numline, m_conditions);
 				hasProcess = true;
 			}
 		}
@@ -467,7 +355,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			{
 				string ID = itr->str(1);
 				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), vecstr{ ID, line }, &proc::IDRegisAnim), numline);
+				process.installBlock(nemesis::scope(pos, pos + itr->str().length(), vecstr{ ID, line }, &proc::IDRegisAnim), numline);
 				hasProcess = true;
 			}
 
@@ -476,7 +364,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			{
 				string ID = itr->str(1);
 				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), vecstr{ ID, line }, &proc::IDRegisGroup), numline);
+				process.installBlock(nemesis::scope(pos, pos + itr->str().length(), vecstr{ ID, line }, &proc::IDRegisGroup), numline);
 				hasProcess = true;
 			}
 		}
@@ -487,7 +375,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			{
 				string ID = itr->str(1);
 				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), vecstr{ ID }, &proc::groupIDRegis), numline);
+				process.installBlock(nemesis::scope(pos, pos + itr->str().length(), vecstr{ ID }, &proc::groupIDRegis), numline);
 				hasProcess = true;
 			}
 		}
@@ -497,7 +385,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 		// set function ID
 		if (pos != NOT_FOUND)
 		{
-			void (proc::*func)(range, vecstr&);
+			void (proc::*func)(nemesis::scope, vecstr&);
 
 			if (isMaster) func = &proc::IDRegisMaster;
 			else if (isGroup) func = &proc::IDRegisGroup;
@@ -506,7 +394,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("MID\\$([0-9]+)")); itr != boost::sregex_iterator(); ++itr)
 			{
 				pos = itr->position();
-				process.installBlock(range(pos, pos + itr->str().length(), vecstr{ itr->str(1), line }, func), numline);
+				process.installBlock(nemesis::scope(pos, pos + itr->str().length(), vecstr{ itr->str(1), line }, func), numline);
 				hasProcess = true;
 			}
 		}
@@ -520,7 +408,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 			isEnd = false;
 			hasProcess = true;
 			size_t pos = itr->position(1);
-			process.installBlock(range(pos, pos + itr->str(1).length(), &proc::relativeNegative), numline);
+			process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::relativeNegative), numline);
 		}
 
 		for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("<hkparam name\\=\"localTime\">(.+?)<\\/hkparam>"));
@@ -528,7 +416,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 		{
 			hasProcess = true;
 			size_t pos = itr->position(1);
-			process.installBlock(range(pos, pos + itr->str(1).length(), &proc::localNegative), numline);
+			process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::localNegative), numline);
 		}
 	}
 
@@ -537,7 +425,7 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 	{
 		hasProcess = true;
 		size_t pos = itr->position(1);
-		process.installBlock(range(pos, pos + itr->str(1).length(), &proc::regisAnim), numline);
+		process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::regisAnim), numline);
 	}
 
 	for (auto& itr = boost::sregex_iterator(line.begin(), line.end(), boost::regex("<hkparam name\\=\"behaviorName\">(.+?)<\\/hkparam>"));
@@ -545,39 +433,23 @@ void AnimTemplate::Process(string& line, string multiOption, bool& norElement, b
 	{
 		hasProcess = true;
 		size_t pos = itr->position(1);
-		process.installBlock(range(pos, pos + itr->str(1).length(), &proc::regisBehavior), numline);
+		process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::regisBehavior), numline);
 	}
 
-	generatedlines->lines.push_back(stackline(line, hasProcess, numline));
+	auto ls = nemesis::LinkedVar<string>(line, hasProcess, numline);
+	ls.raw = line;
+	ls.hasProcess = hasProcess;
+	ls.linecount = numline;
+	generatedlines->rawlist.push_back(ls);
 }
 
-stackline::stackline(string curline, bool process, size_t num)
-{
-	lineblocks.reserve(curline.length());
-
-	if (process)
-	{
-		for (auto& ch : curline)
-		{
-			lineblocks.push_back(string(1, ch));
-		}
-	}
-	else
-	{
-		line = curline;
-	}
-
-	hasProcess = process;
-	linecount = num;
-}
-
-addOnInfo::addOnInfo(string n_h, string n_a)
+AddOnInfo::AddOnInfo(string n_h, string n_a)
 {
 	header = n_h;
 	addition = n_a;
 }
 
-addOnInfo::addOnInfo(string n_h, string n_a, int n_om)
+AddOnInfo::AddOnInfo(string n_h, string n_a, int n_om)
 {
 	header = n_h;
 	addition = n_a;
@@ -590,7 +462,7 @@ string getOption(string curline)
 }
 
 void stateInstall(string line, string change, string format, string behaviorFile, int numline, size_t curPos, string animOrder, bool isMC,
-	map<int, vector<shared_ptr<range>>>& lineblocks, proc& process, void (proc::*func)(range, vecstr&))
+	map<int, vector<shared_ptr<nemesis::scope>>>& lineblocks, proc& process, void (proc::*func)(nemesis::scope, vecstr&))
 {
 	int intID;
 	boost::regex expr(format + "\\[" + animOrder + "\\]\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]");
@@ -620,11 +492,11 @@ void stateInstall(string line, string change, string format, string behaviorFile
 			if (animOrder.length() > 0 && isOnlyNumber(animOrder))
 			{
 				string full = itr->str();
-				range blok(post, post + full.length(), vector<int>{ intID, stoi(number), stoi(animOrder) }, vecstr{ full }, func);
+				nemesis::scope blok(post, post + full.length(), vector<int>{ intID, stoi(number), stoi(animOrder) }, vecstr{ full }, func);
 
 				if (isMC)
 				{
-					lineblocks[blok.size].push_back(make_shared<range>(blok));
+					lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok));
 				}
 				else
 				{
@@ -634,11 +506,11 @@ void stateInstall(string line, string change, string format, string behaviorFile
 			}
 			else
 			{
-				range blok(post, post + itr->str().length(), vector<int>{ intID, stoi(number) }, func);
+				nemesis::scope blok(post, post + itr->str().length(), vector<int>{ intID, stoi(number) }, func);
 
 				if (isMC)
 				{
-					lineblocks[blok.size].push_back(make_shared<range>(blok));
+					lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok));
 				}
 				else
 				{
@@ -662,7 +534,7 @@ void mainAnimEventInstall(string format, string behaviorFile, string change, int
 		bool num = false;
 		string first = itr->str(1);
 		size_t post = curPos + itr->position();
-		void (proc::*func)(range, vecstr&);
+		void (proc::*func)(nemesis::scope, vecstr&);
 
 		if (first.length() == 0)
 		{
@@ -695,904 +567,19 @@ void mainAnimEventInstall(string format, string behaviorFile, string change, int
 		
 		if (num)
 		{
-			isGroup ? process.installBlock(range(post, post + itr->str().length(), vector<int> { stoi(first) }, vecstr{ itr->str() }, &proc::MAENumMaster), numline) :
-				process.installBlock(range(post, post + itr->str().length(), vector<int> { stoi(first) }, vecstr{ itr->str() }, &proc::MAENumGroup), numline);
+			isGroup ? process.installBlock(nemesis::scope(post, post + itr->str().length(), vector<int> { stoi(first) }, vecstr{ itr->str() }, &proc::MAENumMaster), numline) :
+				process.installBlock(nemesis::scope(post, post + itr->str().length(), vector<int> { stoi(first) }, vecstr{ itr->str() }, &proc::MAENumGroup), numline);
 		}
 		else
 		{
-			isGroup ? process.installBlock(range(post, post + itr->str().length(), vecstr{ itr->str() }, func), numline) :
-				process.installBlock(range(post, post + itr->str().length(), func), numline);
+			isGroup ? process.installBlock(nemesis::scope(post, post + itr->str().length(), vecstr{ itr->str() }, func), numline) :
+				process.installBlock(nemesis::scope(post, post + itr->str().length(), func), numline);
 		}
 	}
-}
-
-bool condt::isTrue(proc* process, string format, string behaviorFile, int numline, bool isGroup, bool isMaster, shared_ptr<condt> curptr)
-{
-	while (true)
-	{
-		bool result = false;
-
-		if (curptr->nestedcond)
-		{
-			result = curptr->nestedcond->isTrue(process, format, behaviorFile, numline, isGroup, isMaster, curptr->nestedcond);
-		}
-		else if (curptr->optioncondt && curptr->optioncondt->size() > 2)
-		{
-			if (isGroup)
-			{
-				size_t groupMulti;
-				size_t groupSize;
-				bool g_multi = false;
-
-				if ((*curptr->optioncondt)[3] == format + "_group" || (*curptr->optioncondt)[3] == format)
-				{
-					result = true;
-				}
-				else
-				{
-					if ((*curptr->optioncondt)[1].length() == 0)
-					{
-						if (process->groupMulti == -1 || process->multiOption != format || process->multiOption == format + "_group")
-						{
-							g_multi = true;
-							groupMulti = 0;
-							groupSize = process->masterOptionPicked->size();
-						}
-						else
-						{
-							groupMulti = process->groupMulti;
-						}
-					}
-					else
-					{
-						groupMulti = stoi((*curptr->optioncondt)[1]);
-					}
-
-					if (!g_multi)
-					{
-						groupSize = groupMulti + 1;
-					}
-
-					while (groupMulti < groupSize)
-					{
-						size_t animMulti;
-						bool a_multi = false;
-
-						if ((*curptr->optioncondt)[2].length() == 0)
-						{
-							if (process->animMulti == -1 || process->multiOption != format)
-							{
-								a_multi = true;
-							}
-							else
-							{
-								animMulti = process->animMulti;
-							}
-						}
-						else if ((*curptr->optioncondt)[2] == "F")
-						{
-							animMulti = 0;
-						}
-						else if ((*curptr->optioncondt)[2] == "L")
-						{
-							animMulti = process->masterOptionPicked[groupMulti].size() - 1;
-						}
-						else
-						{
-							animMulti = stoi((*curptr->optioncondt)[2]);
-						}
-
-						if (a_multi)
-						{
-							animMulti = 0;
-							size_t a_size = (*process->masterOptionPicked)[groupMulti].size();
-
-							while (animMulti < a_size)
-							{
-								result = curptr->isNot ? !(*process->masterOptionPicked)[groupMulti][animMulti][(*curptr->optioncondt)[3]] :
-									(*process->masterOptionPicked)[groupMulti][animMulti][(*curptr->optioncondt)[3]];
-
-								if (!result) break;
-
-								++animMulti;
-							}
-						}
-						else
-						{
-							result = curptr->isNot ? !(*process->masterOptionPicked)[groupMulti][animMulti][(*curptr->optioncondt)[3]] :
-								(*process->masterOptionPicked)[groupMulti][animMulti][(*curptr->optioncondt)[3]];
-						}
-
-						++groupMulti;
-					}
-				}
-			}
-			else if ((*curptr->optioncondt)[2] == format)
-			{
-				result = true;
-			}
-			else
-			{
-				size_t animMulti;
-				bool multi = false;
-
-				if ((*curptr->optioncondt)[1].length() == 0)
-				{
-					process->animMulti == -1 || process->multiOption != format ? multi = true : animMulti = process->animMulti;
-				}
-				else if ((*curptr->optioncondt)[1] == "order")
-				{
-					process->animMulti == -1 || process->multiOption != format ? animMulti = process->order : animMulti = process->animMulti;
-				}
-				else if ((*curptr->optioncondt)[1] == "F")
-				{
-					animMulti = 0;
-				}
-				else if ((*curptr->optioncondt)[1] == "N")
-				{
-					animMulti = process->order;
-
-					if (!process->curAnim->isLast()) ++animMulti;
-				}
-				else if ((*curptr->optioncondt)[1] == "B")
-				{
-					animMulti = process->order;
-
-					if (animMulti > 0) --animMulti;
-				}
-				else if ((*curptr->optioncondt)[1] == "L")
-				{
-					animMulti = process->lastorder;
-				}
-				else
-				{
-					animMulti = stoi((*curptr->optioncondt)[1]);
-				}
-
-				if (multi)
-				{
-					animMulti = (*process->groupOptionPicked).size();
-
-					for (size_t i = 0; i < animMulti; ++i)
-					{
-						result = curptr->isNot ? !(*process->groupOptionPicked)[i][(*curptr->optioncondt)[2]] :
-							(*process->groupOptionPicked)[i][(*curptr->optioncondt)[2]];
-
-						if (!result) break;
-					}
-				}
-				else
-				{
-					result = curptr->isNot ? !(*process->groupOptionPicked)[animMulti][(*curptr->optioncondt)[2]] :
-						(*process->groupOptionPicked)[animMulti][(*curptr->optioncondt)[2]];
-				}
-			}
-		}
-		else if (curptr->isOrder)
-		{
-			if (process->animMulti == -1 || process->multiOption != format)
-			{
-				if (curptr->isNot)
-				{
-					result = curptr->last ? !process->curAnim->isLast() : curptr->hiddenOrder != process->order;
-				}
-				else
-				{
-					result = curptr->last ? process->curAnim->isLast() : curptr->hiddenOrder == process->order;
-				}
-			}
-			else
-			{
-				if (curptr->isNot)
-				{
-					result = curptr->last ? !process->curAnim->isLast() : curptr->hiddenOrder != process->animMulti;
-				}
-				else
-				{
-					result = curptr->last ? process->curAnim->isLast() : curptr->hiddenOrder == process->animMulti;
-				}
-			}
-		}
-		else
-		{
-			result = curptr->specialIsTrueA(process, format, behaviorFile, numline, isGroup, isMaster, process->curAnim->GetGroupAnimInfo());
-		}
-
-		if (!curptr->next) return result;
-
-		if (curptr->OR)
-		{
-			if (result) return result;
-
-			curptr = curptr->next;
-		}
-		else
-		{
-			if (!result) return result;
-
-			curptr = curptr->next;
-		}
-	}
-}
-
-bool condt::isMultiTrue(proc* process, string format, string behaviorFile, int numline, int& animMulti, bool isGroup, bool isMaster, int& groupMulti)
-{
-	if (isGroup)
-	{
-		if (optioncondt && optioncondt->size() > 3)
-		{
-			if (original == format + "_group")
-			{
-				groupMulti = -1;
-				return true;
-			}
-
-			groupMulti = process->groupMulti;
-
-			if (groupMulti == -1) ErrorMessage(1202, format + "_master", behaviorFile, numline, original);
-
-			if ((*optioncondt)[2].length() == 0)
-			{
-				animMulti = -1;
-				return true;
-			}
-			else if ((*optioncondt)[2] == "F")
-			{
-				animMulti = 0;
-			}
-			else if ((*optioncondt)[2] == "L")
-			{
-				animMulti = (*process->masterOptionPicked)[groupMulti].size() - 1;
-			}
-			else
-			{
-				animMulti = stoi((*optioncondt)[2]);
-
-				if (animMulti >= int((*process->masterOptionPicked)[groupMulti].size())) ErrorMessage(1148, format + "_group", behaviorFile, numline, original);
-			}
-			
-			return (*process->masterOptionPicked)[groupMulti][animMulti][(*optioncondt)[2]];
-		}
-		else
-		{
-			ErrorMessage(1138, format + "_group", behaviorFile, numline, original);
-		}
-	}
-	else
-	{
-		if (optioncondt && optioncondt->size() > 2)
-		{
-			if ((*optioncondt)[1].length() == 0)
-			{
-				ErrorMessage(1057, format, behaviorFile, numline, original);
-			}
-			else if ((*optioncondt)[1] == "order")
-			{
-				animMulti = process->order;
-			}
-			else if ((*optioncondt)[1] == "F")
-			{
-				animMulti = 0;
-			}
-			else if ((*optioncondt)[1] == "N")
-			{
-				animMulti = process->order;
-
-				if (!process->curAnim->isLast()) ++animMulti;
-			}
-			else if ((*optioncondt)[1] == "B")
-			{
-				animMulti = process->order;
-
-				if (animMulti > 0) --animMulti;
-			}
-			else if ((*optioncondt)[1] == "L")
-			{
-				animMulti = process->lastorder;
-			}
-			else
-			{
-				animMulti = stoi((*optioncondt)[1]);
-			}
-
-			if (original == format)
-			{
-				animMulti = -1;
-				return true;
-			}
-
-			return (*process->groupOptionPicked)[animMulti][(*optioncondt)[2]];
-		}
-		else
-		{
-			ErrorMessage(1138, format, behaviorFile, numline, original);
-		}
-	}
-
-	return false;
-}
-
-bool condt::specialIsTrueA(proc* process, string format, string behaviorFile, int numline, bool isGroup, bool isMaster, vector<shared_ptr<AnimationInfo>>& groupAnimInfo)
-{
-	int animMulti = process->animMulti;
-	int optionMulti = process->optionMulti;
-	bool result = specialIsTrueB(process, format, behaviorFile, numline, isGroup, isMaster, groupAnimInfo);
-	process->animMulti = animMulti;
-	process->optionMulti = optionMulti;
-	return result;
-}
-
-bool condt::specialIsTrueB(proc* process, string format, string behaviorFile, int numline, bool isGroup, bool isMaster, vector<shared_ptr<AnimationInfo>>& groupAnimInfo)
-{
-	if (cmp1.size() > 0 || cmp2.size() > 0)
-	{
-		set<int> animMulti1_list;
-		set<int> animMulti2_list;
-
-		if (cmpbool1)
-		{
-			for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
-			{
-				animMulti1_list.insert(i);
-			}
-		}
-		else
-		{
-			animMulti1_list.insert(0);
-		}
-
-		if (cmpbool2)
-		{
-			for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
-			{
-				animMulti2_list.insert(i);
-			}
-		}
-		else
-		{
-			animMulti2_list.insert(0);
-		}
-
-		unordered_map<int, unordered_map<int, string>> history1;
-		unordered_map<int, unordered_map<int, string>> history2;
-
-		for (auto& animMulti1 : animMulti1_list)
-		{
-			for (auto& animMulti2 : animMulti2_list)
-			{
-				int optionMulti1 = -1;
-				int optionMulti2 = -1;
-				int endMulti1 = -1;
-				int endMulti2 = -1;
-				bool out = false;
-
-				if (cmp1.size() > 0 && cmpinfo1.size() > 0)
-				{
-					for (auto& addinfo : cmpinfo1)
-					{
-						if (addinfo.optionMulti == -1)
-						{
-							try
-							{
-								GetMultiFromAddOn(addinfo, format, behaviorFile, original, numline, animMulti1, isGroup, groupAnimInfo, optionMulti1, endMulti1);
-							}
-							catch (bool)
-							{
-								break;
-							}
-						}
-						else
-						{
-							if (optionMulti1 > addinfo.optionMulti || optionMulti1 == -1)
-							{
-								optionMulti1 = addinfo.optionMulti;
-							}
-
-							if (endMulti1 < addinfo.optionMulti + 1)
-							{
-								endMulti1 = addinfo.optionMulti + 1;
-							}
-						}
-					}
-				}
-				else
-				{
-					out = true;
-					optionMulti1 = 0;
-					endMulti1 = 1;
-				}
-
-				if (cmp2.size() > 0 && cmpinfo2.size() > 0)
-				{
-					for (auto& addinfo : cmpinfo2)
-					{
-						if (addinfo.optionMulti == -1)
-						{
-							try
-							{
-								GetMultiFromAddOn(addinfo, format, behaviorFile, original, numline, animMulti2, isGroup, groupAnimInfo, optionMulti2, endMulti2);
-							}
-							catch (bool)
-							{
-								break;
-							}
-						}
-						else
-						{
-							if (optionMulti2 > addinfo.optionMulti || optionMulti2 == -1)
-							{
-								optionMulti2 = addinfo.optionMulti;
-							}
-
-							if (endMulti2 < addinfo.optionMulti + 1)
-							{
-								endMulti2 = addinfo.optionMulti + 1;
-							}
-						}
-					}
-				}
-				else
-				{
-					out = true;
-					optionMulti2 = 0;
-					endMulti2 = 1;
-				}
-
-				if (error) throw nemesis::exception();
-
-				if (!out && (optionMulti1 != optionMulti2 || endMulti1 != endMulti2))
-				{
-					if (!isNot)
-					{
-						if (OR && next)
-						{
-							return next->isTrue(process, format, behaviorFile, numline, isGroup, isMaster, next);
-						}
-
-						return false;
-					}
-					else if (oneTime)
-					{
-						if (!OR && next)
-						{
-							return next->isTrue(process, format, behaviorFile, numline, isGroup, isMaster, next);
-						}
-
-						return true;
-					}
-				}
-				else
-				{
-					unordered_set<string> condlist1;
-					unordered_set<string> condlist2;
-					endMulti1 = max(endMulti1, endMulti2);
-
-					while (optionMulti1 < endMulti1)
-					{
-						string condition1;
-						string condition2;
-						process->optionMulti = optionMulti1;
-
-						if (cmp1.size() != 0)
-						{
-							if (history1[animMulti1][optionMulti1].length() == 0)
-							{
-								vecstr lines = cmp1;
-								process->animMulti = animMulti1;
-
-								for (auto& blocklist : cmp1_block)
-								{
-									for (auto& blok : blocklist.second)
-									{
-										(process->*blok->func)(*blok, lines);
-									}
-								}
-
-								for (auto& each : lines)
-								{
-									condition1.append(each);
-								}
-
-								history1[animMulti1][optionMulti1] = condition1;
-							}
-							else
-							{
-								condition1 = history1[animMulti1][optionMulti1];
-							}
-
-							if (error) throw nemesis::exception();
-
-							if (cmp1.size() == 0)
-							{
-								ErrorMessage(1172, format, behaviorFile, numline);
-							}
-						}
-
-						if (cmp2.size() != 0)
-						{
-							if (history2[animMulti2][optionMulti1].length() == 0)
-							{
-								vecstr lines = cmp2;
-								process->animMulti = animMulti2;
-
-								for (auto& blocklist : cmp2_block)
-								{
-									for (auto& blok : blocklist.second)
-									{
-										(process->*blok->func)(*blok, lines);
-									}
-								}
-
-								for (auto& each : lines)
-								{
-									condition2.append(each);
-								}
-
-								history2[animMulti2][optionMulti1] = condition2;
-							}
-							else
-							{
-								condition2 = history2[animMulti2][optionMulti1];
-							}
-
-							if (cmp2.size() == 0)
-							{
-								ErrorMessage(1172, format, behaviorFile, numline);
-							}
-						}
-
-						condlist1.insert(condition1);
-						condlist2.insert(condition2);
-
-						if (error) throw nemesis::exception();
-
-						++optionMulti1;
-					}
-
-					// NOT EUQAL
-					if (condlist1 != condlist2)
-					{
-						// BUT looking for EQUAL
-						if (!isNot)
-						{
-							// proceed to next OR condition
-							if (OR && next)
-							{
-								return next->isTrue(process, format, behaviorFile, numline, isGroup, isMaster, next);
-							}
-
-							// FALSE because AND
-							return false;
-						}
-
-						// IS NOT EQUAL 1 time only?
-						else if (oneTime)
-						{
-							// proceed to next AND condition
-							if (!OR && next)
-							{
-								return next->isTrue(process, format, behaviorFile, numline, isGroup, isMaster, next);
-							}
-
-							// TRUE because OR
-							return true;
-						}
-					}
-
-					// EQUAL
-					else
-					{
-						// BUT looking for NOT EQUAL
-						if (isNot)
-						{
-							// proceed to next OR condition
-							if (OR && next)
-							{
-								return next->isTrue(process, format, behaviorFile, numline, isGroup, isMaster, next);
-							}
-
-							// FALSE because AND
-							return false;
-						}
-
-						// IS EQUAL 1 time only?
-						else if (oneTime)
-						{
-							// proceed to next AND condition
-							if (!OR && next)
-							{
-								return next->isTrue(process, format, behaviorFile, numline, isGroup, isMaster, next);
-							}
-
-							// TRUE because OR
-							return true;
-						}
-					}
-				}
-
-				if (error) throw nemesis::exception();
-			}
-		}
-	}
-
-	return true;
-}
-
-void condt::specialCondition(string condition, string format, string behaviorFile, string multiOption, int numline, bool isGroup, bool isMaster, OptionList& optionlist)
-{
-	size_t pos;
-
-	if (condition.find("!=") != NOT_FOUND)
-	{
-		if (condition.find("==") != NOT_FOUND || sameWordCount(condition, "!=") > 1)
-		{
-			ErrorMessage(1124, format, behaviorFile, numline, original);
-		}
-
-		isNot = true;
-		pos = condition.find("!=");
-	}
-	else if (condition.find("==") != NOT_FOUND)
-	{
-		if (condition.find("!=") != NOT_FOUND || sameWordCount(condition, "==") > 1)
-		{
-			ErrorMessage(1124, format, behaviorFile, numline, original);
-		}
-
-		pos = condition.find("==");
-	}
-	else
-	{
-		ErrorMessage(1125, format, behaviorFile, numline, original);
-	}
-
-	string oriCondition1 = condition.substr(1, pos - 1);
-	string oriCondition2 = condition.substr(pos + 2);
-
-	// <optionA != optionB>*
-	// only need to fulfill the condition once
-	if (oriCondition2.length() > 0)
-	{
-		oriCondition2.pop_back();
-
-		if (condition.back() == '*' && oriCondition2.length() > 0)
-		{
-			oneTime = true;
-			oriCondition2.pop_back();
-		}
-	}
-
-	if (error) throw nemesis::exception();
-
-	if (oriCondition1.length() > 0)
-	{
-		for (auto& ch : oriCondition1)
-		{
-			cmp1.push_back(string(1, ch));
-		}
-
-		bool isEnd = false;
-		ProcessFunction(oriCondition1, oriCondition1, format, behaviorFile, multiOption, isEnd, numline, 0, optionlist, cmp1_block, cmpinfo1, cmpbool1);
-	}
-
-	if (oriCondition2.length() > 0)
-	{
-		for (auto& ch : oriCondition2)
-		{
-			cmp2.push_back(string(1, ch));
-		}
-
-		bool isEnd = false;
-		ProcessFunction(oriCondition2, oriCondition2, format, behaviorFile, multiOption, isEnd, numline, 0, optionlist, cmp2_block, cmpinfo2, cmpbool2);
-	}
-
-	if (error) throw nemesis::exception();
-}
-
-void condt::conditionProcess(string condition, string format, string behaviorFile, string multiOption, int numline, bool isGroup, bool isMaster)
-{
-	if (condition[0] == '^' && condition.back() == '^')
-	{
-		string conditionOrder;
-
-		if (isalpha(condition[1]))
-		{
-			conditionOrder = boost::regex_replace(string(condition), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
-
-			if (nemesis::iequals(conditionOrder, "last"))
-			{
-				last = true;
-			}
-			else if (nemesis::iequals(conditionOrder, "first"))
-			{
-				hiddenOrder = 0;
-			}
-			else
-			{
-				isGroup ? ErrorMessage(1138, format + "_group", behaviorFile, numline, condition) : ErrorMessage(1138, format, behaviorFile, numline, condition);
-			}
-		}
-		else
-		{
-			conditionOrder = condition.substr(1, condition.length() - 2);
-
-			if (!isOnlyNumber(conditionOrder))
-			{
-				isGroup ? ErrorMessage(1138, format + "_group", behaviorFile, numline, condition) : ErrorMessage(1138, format, behaviorFile, numline, condition);
-			}
-
-			hiddenOrder = stoi(conditionOrder);
-		}
-
-		isOrder = true;
-	}
-	else
-	{
-		optioncondt = isGroup ? (isMaster ? make_shared<vecstr>(GetOptionInfo(condition, format + "_master", format, behaviorFile, multiOption, numline)) :
-			make_shared<vecstr>(GetOptionInfo(condition, format + "_group", format, behaviorFile, multiOption, numline))) :
-			make_shared<vecstr>(GetOptionInfo(condition, format, behaviorFile, numline));
-	}
-
-	if (error) throw nemesis::exception();
-}
-
-void condt::singleCondition(string condition, string format, string behaviorFile, string multiOption, int numline, bool isGroup, bool isMaster, OptionList& optionlist)
-{
-	if (condition.find("<") == 0 && (condition.find(">") == condition.length() - 1 || condition.find(">*") == condition.length() - 2) &&
-		(condition.find("!=") != NOT_FOUND || condition.find("==") != NOT_FOUND))
-	{
-		specialCondition(condition, format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist);
-	}
-	else
-	{
-		string conditionOrder = condition;
-
-		if (conditionOrder[0] == '!')
-		{
-			isNot = true;
-			conditionOrder = conditionOrder.substr(1);
-		}
-
-		conditionProcess(conditionOrder, format, behaviorFile, multiOption, numline, isGroup, isMaster);
-	}
-}
-
-condt::condt(string condition, string format, string behaviorFile, string originalCondition, string multiOption, int numline, bool isGroup, bool isMaster,
-	OptionList& optionlist)
-{
-	original = originalCondition;
-
-	if (condition[0] == '(')
-	{
-		if (condition.find(")") == NOT_FOUND || count(condition.begin(), condition.end(), '(') != count(condition.begin(), condition.end(), ')'))
-		{
-			isGroup ? ErrorMessage(1105, format + "_group", behaviorFile, numline) : ErrorMessage(1105, format, behaviorFile, numline);
-		}
-
-		size_t c_and = 0;
-		size_t c_or = 0;
-		size_t backB = 0;
-
-		for (unsigned int i = 0; i < condition.size(); ++i)
-		{
-			if (condition[i] == '(')
-			{
-				++c_or;
-			}
-			else if (condition[i] == ')')
-			{
-				--c_or;
-
-				if (c_or == 0)
-				{
-					backB = i - 1;
-					break;
-				}
-			}
-		}
-
-		// (bool1 & bool2) | bool3 ...
-		// --------------^
-		string inHouse = condition.substr(1, backB);
-
-		if (error) throw nemesis::exception();
-
-		nestedcond = make_shared<condt>(inHouse, format, behaviorFile, original, multiOption, numline, isGroup, isMaster, optionlist);
-
-		if (backB + 2 < condition.length())
-		{
-			string outHouse = condition.substr(backB + 2);
-
-			if (outHouse.length() == 0 || (outHouse[0] != '|' && outHouse[0] != '&'))
-			{
-				isGroup ? ErrorMessage(1106, format + "_group", behaviorFile, numline, original) : ErrorMessage(1106, format, behaviorFile, numline, original);
-			}
-
-			// ... | (bool1 & bool2)...
-			// ----^
-			if (outHouse[0] == '|')
-			{
-				OR = true;
-			}
-
-			// ... & (bool1 | bool2)...
-			// ----^
-			else
-			{
-				// ntg
-			}
-
-			next = make_shared<condt>(outHouse.substr(1), format, behaviorFile, original, multiOption, numline, isGroup, isMaster, optionlist);
-		}
-	}
-	else
-	{
-		size_t c_and = condition.find("&");
-		size_t c_or = condition.find("|");
-
-		if (c_and == NOT_FOUND)
-		{
-			// AND & OR not exist
-			if (c_or == NOT_FOUND)
-			{
-				singleCondition(condition, format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist);
-			}
-
-			// OR exist but not AND
-			else
-			{
-				OR = true;
-				singleCondition(condition.substr(0, c_or), format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist);
-				next = make_shared<condt>(condition.substr(c_or + 1), format, behaviorFile, original, multiOption, numline, isGroup, isMaster, optionlist);
-			}
-		}
-
-		// AND exist but not OR
-		else if (c_or == NOT_FOUND)
-		{
-			singleCondition(condition.substr(0, c_and), format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist);
-			next = make_shared<condt>(condition.substr(c_and + 1), format, behaviorFile, original, multiOption, numline, isGroup, isMaster, optionlist);
-		}
-
-		// AND & OR exist
-		else
-		{
-			// OR before AND
-			if (c_or < c_and)
-			{
-				OR = true;
-				singleCondition(condition.substr(0, c_or), format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist);
-				next = make_shared<condt>(condition.substr(c_or + 1), format, behaviorFile, original, multiOption, numline, isGroup, isMaster, optionlist);
-			}
-
-			// AND before OR
-			else
-			{
-				singleCondition(condition.substr(0, c_and), format, behaviorFile, multiOption, numline, isGroup, isMaster, optionlist);
-				next = make_shared<condt>(condition.substr(c_and + 1), format, behaviorFile, original, multiOption, numline, isGroup, isMaster, optionlist);
-			}
-		}
-	}
-}
-
-multichoice::multichoice(string cond, string format, string behaviorFile, string multiOption, int numline, bool isGroup, bool isMaster, OptionList& optionlist,
-	size_t posA, size_t posB)
-{
-	if (cond.length() > 0)
-	{
-		condition = make_shared<condt>(cond, format, behaviorFile, cond, multiOption, numline, isGroup, isMaster, optionlist);
-	}
-	else
-	{
-		condition = make_shared<condt>(format, format, behaviorFile, cond, multiOption, numline, isGroup, isMaster, optionlist);
-	}
-
-	locateA = posA;
-	locateB = posB - 1;
 }
 
 void ProcessFunction(string change, string line, string format, string behaviorFile, string multiOption, bool& isEnd, int numline, size_t curPos,
-	OptionList& optionlist, map<int, vector<shared_ptr<range>>>& lineblocks, vector<addOnInfo>& addInfo, bool& isTrueMulti, bool isGroup, bool isMaster, bool isMC,
+	OptionList& optionlist, map<int, vector<shared_ptr<nemesis::scope>>>& lineblocks, vector<AddOnInfo>& addInfo, bool& isTrueMulti, bool isGroup, bool isMaster, bool isMC,
 	proc& process)
 {
 	if (isMaster && multiOption != format + "_group")
@@ -1637,11 +624,11 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 
 				if (equation != "(S" + ID + "+" + number + ")" && isOnlyNumber(number))
 				{
-					range blok(curPos + nextpos, curPos + nextpos + equation.length(), &proc::computation);
+					nemesis::scope blok(curPos + nextpos, curPos + nextpos + equation.length(), &proc::computation);
 
 					if (isMC)
 					{
-						lineblocks[blok.size].push_back(make_shared<range>(blok));
+						lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok));
 					}
 					else
 					{
@@ -1669,7 +656,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 		{
 			bool number = false;
 			string first = itr->str(1);
-			void (proc::*func)(range, vecstr&);
+			void (proc::*func)(nemesis::scope, vecstr&);
 
 			if (first.length() == 0)
 			{
@@ -1702,15 +689,15 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				func = isGroup ? &proc::endNumMaster : &proc::endNumGroup;
 			}
 
-			shared_ptr<range> blok;
+			shared_ptr<nemesis::scope> blok;
 
 			if (number)
 			{
-				blok = make_shared<range>(curPos + itr->position(), curPos + itr->position() + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func);
+				blok = make_shared<nemesis::scope>(curPos + itr->position(), curPos + itr->position() + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func);
 			}
 			else
 			{
-				blok = make_shared<range>(curPos + itr->position(), curPos + itr->position() + itr->str().length(), vecstr{ change }, func);
+				blok = make_shared<nemesis::scope>(curPos + itr->position(), curPos + itr->position() + itr->str().length(), vecstr{ change }, func);
 			}
 			
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
@@ -1722,8 +709,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 		{
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
-			range blok(curPos + itr->position(), curPos + itr->position() + itr->str().length(), isGroup ? &proc::endMultiMaster : &proc::endSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(curPos + itr->position(), curPos + itr->position() + itr->str().length(), isGroup ? &proc::endMultiMaster : &proc::endSingle);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 		}
 
 		if (error) throw nemesis::exception();
@@ -1739,7 +726,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
 		{
 			string first = itr->str(1);
-			void (proc::*func)(range, vecstr&);
+			void (proc::*func)(nemesis::scope, vecstr&);
 
 			if (first.length() == 0)
 			{
@@ -1787,9 +774,9 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 
 			if (format + "[" + first + "][(S" + ID + "+" + number + ")]" == compare || format + "_group[][" + first + "][(S" + ID + "+" + number + ")]" == compare)
 			{
-				shared_ptr<range> blok = first.length() > 0 && isOnlyNumber(first) ?
-					make_shared<range>(post, post + full.length(), vector<int>{ intID, stoi(number), stoi(first) }, vecstr{ full }, func) :
-					make_shared<range>(post, post + full.length(), vector<int>{ intID, stoi(number) }, vecstr{ full }, func);
+				shared_ptr<nemesis::scope> blok = first.length() > 0 && isOnlyNumber(first) ?
+					make_shared<nemesis::scope>(post, post + full.length(), vector<int>{ intID, stoi(number), stoi(first) }, vecstr{ full }, func) :
+					make_shared<nemesis::scope>(post, post + full.length(), vector<int>{ intID, stoi(number) }, vecstr{ full }, func);
 				isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 			}
 			else
@@ -1812,7 +799,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				size_t post = curPos + itr->position();
 				string full = itr->str();
 				ID.length() == 0 ? intID = 0 : intID = stoi(ID) - 1;
-				shared_ptr<range> blok = make_shared<range>(post, post + full.length(), vector<int>{ intID, stoi(number) }, vecstr{ full },
+				shared_ptr<nemesis::scope> blok = make_shared<nemesis::scope>(post, post + full.length(), vector<int>{ intID, stoi(number) }, vecstr{ full },
 					&proc::stateMultiMasterToGroup);
 				isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 
@@ -1829,8 +816,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			size_t post = curPos + itr->position();
 			string first = itr->str(1);
 			first.length() == 0 ? intID = 0 : intID = stoi(first) - 1;
-			range blok(post, post + itr->str().length(), vector<int>{ intID, stoi(itr->str(2)) }, &proc::stateSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, post + itr->str().length(), vector<int>{ intID, stoi(itr->str(2)) }, &proc::stateSingle);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 		}
 	}
 
@@ -1843,7 +830,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			bool number = false;
 			size_t post = curPos + itr->position();
 			string first = itr->str(1);
-			void (proc::*func)(range, vecstr&);
+			void (proc::*func)(nemesis::scope, vecstr&);
 
 			if (first.length() == 0)
 			{
@@ -1876,9 +863,9 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				func = isGroup ? &proc::filepathNumMaster : &proc::filepathNumGroup;
 			}
 
-			shared_ptr<range> blok;
-			number ? blok = make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) : 
-				blok = make_shared<range>(post, post + itr->str().length(), func);
+			shared_ptr<nemesis::scope> blok;
+			number ? blok = make_shared<nemesis::scope>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) : 
+				blok = make_shared<nemesis::scope>(post, post + itr->str().length(), func);
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
 
@@ -1889,8 +876,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
 			size_t post = curPos + itr->position();
-			range blok(post, post + 8, isGroup ? &proc::filepathMultiMaster : &proc::filepathSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, post + 8, isGroup ? &proc::filepathMultiMaster : &proc::filepathSingle);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 		}
 	}
 
@@ -1903,7 +890,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			bool number = false;
 			size_t post = curPos + itr->position();
 			string first = itr->str(1);
-			void (proc::*func)(range, vecstr&);
+			void (proc::*func)(nemesis::scope, vecstr&);
 
 			if (first.length() == 0)
 			{
@@ -1936,9 +923,9 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				func = isGroup ? &proc::filenameNumMaster : &proc::filenameNumGroup;
 			}
 
-			shared_ptr<range> blok;
-			number ? blok = make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
-				blok = make_shared<range>(post, post + itr->str().length(), func);
+			shared_ptr<nemesis::scope> blok;
+			number ? blok = make_shared<nemesis::scope>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
+				blok = make_shared<nemesis::scope>(post, post + itr->str().length(), func);
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
 
@@ -1949,8 +936,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
 			size_t post = curPos + itr->position();
-			range blok(post, post + 8, isGroup ? &proc::filenameMultiMaster : &proc::filenameSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, post + 8, isGroup ? &proc::filenameMultiMaster : &proc::filenameSingle);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 		}
 
 		if (error) throw nemesis::exception();
@@ -1963,8 +950,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
 		{
 			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), &proc::pathSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, post + itr->str().length(), &proc::pathSingle);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 		}
 
 		expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut + "\\[\\d\\d\\]\\[)(Path)";
@@ -1972,8 +959,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex(expstr)); itr != boost::sregex_iterator(); ++itr)
 		{
 			size_t post = curPos + itr->position();
-			range blok(post, post + 4, &proc::pathSingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, post + 4, &proc::pathSingle);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 		}
 
 		if (error) throw nemesis::exception();
@@ -1991,7 +978,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			string optionMulti = itr->str(3);
 			string full = itr->str();
 			size_t post = curPos + itr->position();
-			void (proc::*func)(range, vecstr&);
+			void (proc::*func)(nemesis::scope, vecstr&);
 			vector<int> container;
 			++counter;
 			string templine;
@@ -2076,12 +1063,12 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				container.push_back(stoi(optionMulti));
 			}
 
-			range blok(post, post + full.length(), container, vecstr{ change }, func);
+			nemesis::scope blok(post, post + full.length(), container, vecstr{ change }, func);
 
 			if (isMC)
 			{
-				lineblocks[blok.size].push_back(make_shared<range>(blok));
-				empty ? addInfo.push_back(addOnInfo("@AnimObject/" + second, "")) : addInfo.push_back(addOnInfo("@AnimObject/" + second, "", stoi(optionMulti)));
+				lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok));
+				empty ? addInfo.push_back(AddOnInfo("@AnimObject/" + second, "")) : addInfo.push_back(AddOnInfo("@AnimObject/" + second, "", stoi(optionMulti)));
 			}
 			else
 			{
@@ -2102,12 +1089,12 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 
 			if (templine.length() == 0)
 			{
-				range blok(post, post + itr->str().length(), vector<int>{ stoi(itr->str(1)) }, isGroup ? &proc::AOMultiMasterA : &proc::AOSingleA);
+				nemesis::scope blok(post, post + itr->str().length(), vector<int>{ stoi(itr->str(1)) }, isGroup ? &proc::AOMultiMasterA : &proc::AOSingleA);
 
 				if (isMC)
 				{
-					lineblocks[blok.size].push_back(make_shared<range>(blok));
-					addInfo.push_back(addOnInfo("@AnimObject/" + itr->str(1), ""));
+					lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok));
+					addInfo.push_back(AddOnInfo("@AnimObject/" + itr->str(1), ""));
 				}
 				else
 				{
@@ -2118,12 +1105,12 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			{
 				templine.pop_back();
 				templine = templine.substr(1);
-				range blok(post, post + itr->str().length(), vector<int>{ stoi(itr->str(1)), stoi(templine) }, isGroup ? &proc::AOMultiMasterB : &proc::AOSingleB);
+				nemesis::scope blok(post, post + itr->str().length(), vector<int>{ stoi(itr->str(1)), stoi(templine) }, isGroup ? &proc::AOMultiMasterB : &proc::AOSingleB);
 
 				if (isMC)
 				{
-					lineblocks[blok.size].push_back(make_shared<range>(blok));
-					addInfo.push_back(addOnInfo("@AnimObject/" + itr->str(1), "", stoi(templine)));
+					lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok));
+					addInfo.push_back(AddOnInfo("@AnimObject/" + itr->str(1), "", stoi(templine)));
 				}
 				else
 				{
@@ -2148,8 +1135,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
 			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, post + itr->str().length(), isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 		}
 
 		for (auto& itr = boost::sregex_iterator(change.begin(), change.end(), boost::regex("(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut +
@@ -2158,8 +1145,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
 			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, post + itr->str().length(), isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 		}
 	}
 
@@ -2182,7 +1169,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 					string header;
 					string first = itr->str(1);
 					size_t addpos = curPos + itr->position();
-					void (proc::*func)(range, vecstr&);
+					void (proc::*func)(nemesis::scope, vecstr&);
 
 					if (first.length() == 0)
 					{
@@ -2226,20 +1213,20 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 
 					if (number)
 					{
-						range blok(addpos, addpos + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ header, addname, change }, func);
+						nemesis::scope blok(addpos, addpos + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ header, addname, change }, func);
 
 						if (isMC)
 						{
-							lineblocks[blok.size].push_back(make_shared<range>(blok));
+							lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok));
 							string o_multi = itr->str(3);
 
 							if (o_multi.length() > 0)
 							{
-								addInfo.push_back(addOnInfo(header, addname, stoi(o_multi)));
+								addInfo.push_back(AddOnInfo(header, addname, stoi(o_multi)));
 							}
 							else
 							{
-								addInfo.push_back(addOnInfo(header, addname));
+								addInfo.push_back(AddOnInfo(header, addname));
 							}
 						}
 						else
@@ -2249,20 +1236,20 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 					}
 					else
 					{
-						range blok(addpos, addpos + itr->str().length(), vecstr{ header, addname, change }, func);
+						nemesis::scope blok(addpos, addpos + itr->str().length(), vecstr{ header, addname, change }, func);
 
 						if (isMC)
 						{
-							lineblocks[blok.size].push_back(make_shared<range>(blok));
+							lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok));
 							string o_multi = itr->str(3);
 
 							if (o_multi.length() > 0)
 							{
-								addInfo.push_back(addOnInfo(header, addname, stoi(o_multi)));
+								addInfo.push_back(AddOnInfo(header, addname, stoi(o_multi)));
 							}
 							else
 							{
-								addInfo.push_back(addOnInfo(header, addname));
+								addInfo.push_back(AddOnInfo(header, addname));
 							}
 						}
 						else
@@ -2290,20 +1277,20 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 						header = optionlist.mixOptRegis[it->first];
 					}
 
-					range blok(addpos, addpos + itr->str().length(), vecstr{ header, addname, change }, isGroup ? &proc::addOnMultiMaster : &proc::addOnSingle);
+					nemesis::scope blok(addpos, addpos + itr->str().length(), vecstr{ header, addname, change }, isGroup ? &proc::addOnMultiMaster : &proc::addOnSingle);
 
 					if (isMC)
 					{
-						lineblocks[blok.size].push_back(make_shared<range>(blok));
+						lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok));
 						string o_multi = itr->str(2);
 
 						if (o_multi.length() > 0)
 						{
-							addInfo.push_back(addOnInfo(header, addname, stoi(o_multi)));
+							addInfo.push_back(AddOnInfo(header, addname, stoi(o_multi)));
 						}
 						else
 						{
-							addInfo.push_back(addOnInfo(header, addname));
+							addInfo.push_back(AddOnInfo(header, addname));
 						}
 					}
 					else
@@ -2324,8 +1311,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			if (isGroup) ErrorMessage(1206, format + "_group", behaviorFile, numline, itr->str());
 
 			size_t post = curPos + itr->position();
-			range blok(post, post + itr->str().length(), vecstr{ itr->str(1) }, &proc::lastState);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, post + itr->str().length(), vecstr{ itr->str(1) }, &proc::lastState);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 		}
 	}
 
@@ -2357,8 +1344,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				++eventpos;
 			}
 
-			range blok(post, eventpos, vector<int> { int(post + 8), int(eventpos - 2) }, &proc::eventID);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, eventpos, vector<int> { int(post + 8), int(eventpos - 2) }, &proc::eventID);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 			pos = change.find("eventID[", pos + 1);
 		}
 	}
@@ -2391,8 +1378,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				++varpos;
 			}
 
-			range blok(post, varpos, vector<int> { int(post + 11), int(varpos - 2) }, &proc::variableID);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, varpos, vector<int> { int(post + 11), int(varpos - 2) }, &proc::variableID);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 			pos = change.find("variableID[", pos + 1);
 		}
 	}
@@ -2425,8 +1412,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				++animpos;
 			}
 
-			range blok(post, animpos, { int(post + 10), int(animpos - 2) }, &proc::animOrder);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, animpos, { int(post + 10), int(animpos - 2) }, &proc::animOrder);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 			pos = change.find("animOrder[", pos + 1);
 		}
 	}
@@ -2466,8 +1453,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				++encode;
 			}
 
-			range blok(curPos + pos, curPos + encode, &proc::crc32);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(curPos + pos, curPos + encode, &proc::crc32);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 			pos = change.find("crc32[", pos + 1);
 		}
 	}
@@ -2510,8 +1497,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				isGroup ? ErrorMessage(1139, format + "_group", behaviorFile, numline, import) : ErrorMessage(1139, format, behaviorFile, numline, import);
 			}
 
-			range blok(post, post + import.length(), &proc::import);
-			isMC ? lineblocks[blok.size].push_back(make_shared<range>(blok)) : process.installBlock(blok, numline);
+			nemesis::scope blok(post, post + import.length(), &proc::import);
+			isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok)) : process.installBlock(blok, numline);
 			pos = change.find("import[", pos + 1);
 		}
 	}
@@ -2524,7 +1511,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			bool number = false;
 			string first = itr->str(1);
 			size_t post = curPos + itr->position();
-			void (proc::*func)(range, vecstr&);
+			void (proc::*func)(nemesis::scope, vecstr&);
 
 			if (first.length() == 0)
 			{
@@ -2557,8 +1544,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				func = isGroup ? &proc::motionDataNumMaster : &proc::motionDataNumGroup;
 			}
 
-			shared_ptr<range> blok = number ? make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
-				make_shared<range>(post, post + itr->str().length(), vecstr{ change }, func);
+			shared_ptr<nemesis::scope> blok = number ? make_shared<nemesis::scope>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
+				make_shared<nemesis::scope>(post, post + itr->str().length(), vecstr{ change }, func);
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
 
@@ -2568,7 +1555,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
 			size_t post = curPos + itr->position();
-			shared_ptr<range> blok = make_shared<range>(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::motionDataMultiMaster :
+			shared_ptr<nemesis::scope> blok = make_shared<nemesis::scope>(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::motionDataMultiMaster :
 				&proc::motionDataSingle);
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
@@ -2584,7 +1571,7 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			bool number = false;
 			string first = itr->str(1);
 			size_t post = curPos + itr->position();
-			void (proc::*func)(range, vecstr&);
+			void (proc::*func)(nemesis::scope, vecstr&);
 
 			if (first.length() == 0)
 			{
@@ -2617,8 +1604,8 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 				func = isGroup ? &proc::rotationDataNumMaster : &proc::rotationDataNumGroup;
 			}
 
-			shared_ptr<range> blok = number ? make_shared<range>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
-				make_shared<range>(post, post + itr->str().length(), func);
+			shared_ptr<nemesis::scope> blok = number ? make_shared<nemesis::scope>(post, post + itr->str().length(), vector<int>{ stoi(first) }, vecstr{ change }, func) :
+				make_shared<nemesis::scope>(post, post + itr->str().length(), func);
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
 
@@ -2628,49 +1615,11 @@ void ProcessFunction(string change, string line, string format, string behaviorF
 			if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
 			size_t post = curPos + itr->position();
-			shared_ptr<range> blok = make_shared<range>(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::rotationDataMultiMaster :
+			shared_ptr<nemesis::scope> blok = make_shared<nemesis::scope>(post, post + itr->str().length(), vecstr{ change }, isGroup ? &proc::rotationDataMultiMaster :
 				&proc::rotationDataSingle);
 			isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
 		}
 
 		if (error) throw nemesis::exception();
-	}
-}
-
-void GetMultiFromAddOn(addOnInfo& addinfo, string format, string behaviorFile, string original, int numline, int animMulti, bool isGroup,
-	vector<shared_ptr<AnimationInfo>>& groupAnimInfo, int& optionMulti, int& endMulti)
-{
-	if (addinfo.header.find("@AnimObject/") != NOT_FOUND)
-	{
-		optionMulti = 0;
-		endMulti = groupAnimInfo[animMulti]->optionPickedCount[addinfo.header.substr(1)];
-	}
-	else
-	{
-		unordered_map<string, vecstr>* addOnPtr = &groupAnimInfo[animMulti]->addOn;
-
-		if (addOnPtr->find(addinfo.header) != addOnPtr->end() && (*addOnPtr)[addinfo.header].size() > 0)
-		{
-			unordered_map<string, vecstr>* groupAdditionPtr = &groupAnimInfo[animMulti]->groupAddition[addinfo.header];
-
-			if (groupAdditionPtr->find(addinfo.addition) != groupAdditionPtr->end() && (*groupAdditionPtr)[addinfo.addition].size() > 0)
-			{
-				if (addinfo.optionMulti == -1)
-				{
-					optionMulti = 0;
-					endMulti = (*groupAdditionPtr)[addinfo.addition].size();
-					throw false;
-				}
-				else if (addinfo.optionMulti < int((*groupAdditionPtr)[addinfo.addition].size()))
-				{
-					optionMulti = addinfo.optionMulti;
-					endMulti = optionMulti + 1;
-				}
-				else
-				{
-					isGroup ? ErrorMessage(1148, format + "_group", behaviorFile, numline, original) : ErrorMessage(1148, format, behaviorFile, numline, original);
-				}
-			}
-		}
 	}
 }
