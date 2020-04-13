@@ -10,7 +10,8 @@
 
 #include "utilities/writetextfile.h"
 
-#include "generate/animationdata.h"
+#include "update/animdatacont.h"
+
 #include "generate/animationsetdata.h"
 
 class NodeU
@@ -38,7 +39,7 @@ public:
 };
 
 bool AnimDataUpdate(std::string modcode, std::string animdatafile, std::string characterfile, std::string filepath, MasterAnimData& animData,
-	bool isNewCharacter, std::unordered_map<std::string, std::string>& lastUpdate, bool& openAnim, bool& openInfo);
+	bool isNewProject, std::unordered_map<std::string, std::string>& lastUpdate, bool& openAnim, bool& openInfo);
 
 bool AnimSetDataUpdate(std::string modcode, std::string animsetdatafile, std::string projectsource, std::string projectfile, std::string filepath,
 	MasterAnimSetData& animSetData, bool isNewProject, std::unordered_map<std::string, std::string>& lastUpdate);

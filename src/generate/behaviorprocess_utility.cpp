@@ -28,8 +28,7 @@ void animThreadStart(shared_ptr<NewAnimArgs> args, boost::asio::thread_pool* mt)
 			// getlines from newAnination
 			args->dummyAnimation->setZeroEvent(args->ZeroEvent);
 			args->dummyAnimation->setZeroVariable(args->ZeroVariable);
-			args->dummyAnimation->GetNewAnimationLine(args->allEditLines, args->lowerBehaviorFile, args->lastID, args->exportID, args->eventid, args->variableid, args->stateID,
-				args->stateMultiplier, args->hasGroup, args->core, args->subFunctionIDs, args->singleFunctionIDs, args->atomicLock);
+			args->dummyAnimation->GetNewAnimationLine(args);
 		}
 		catch (exception& ex)
 		{

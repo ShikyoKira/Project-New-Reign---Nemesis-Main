@@ -178,14 +178,17 @@
     <ClCompile Include="src\ui\ScrollBar.cpp" />
     <ClCompile Include="src\ui\SettingsSave.cpp" />
     <ClCompile Include="src\ui\Terminator.cpp" />
+    <ClCompile Include="src\update\animdatacont.cpp" />
     <ClCompile Include="src\update\dataunification.cpp" />
     <ClCompile Include="src\update\functionupdate.cpp" />
     <ClCompile Include="src\update\updateprocess.cpp" />
     <ClCompile Include="src\utilities\algorithm.cpp" />
     <ClCompile Include="src\utilities\compute.cpp" />
+    <ClCompile Include="src\utilities\conditions.cpp" />
     <ClCompile Include="src\utilities\filechecker.cpp" />
     <ClCompile Include="src\utilities\lastupdate.cpp" />
     <ClCompile Include="src\utilities\renew.cpp" />
+    <ClCompile Include="src\utilities\scope.cpp" />
     <ClCompile Include="src\utilities\stringsplit.cpp" />
     <ClCompile Include="src\utilities\wstrconvert.cpp" />
   </ItemGroup>
@@ -237,6 +240,7 @@
     <QtMoc Include="include\ui\Terminator.h" />
     <QtMoc Include="include\ui\NemesisEngine.h" />
     <QtMoc Include="include\ui\BehaviorListView.h" />
+    <ClInclude Include="include\update\animdatacont.h" />
     <ClInclude Include="include\update\dataunification.h" />
     <ClInclude Include="include\update\functionupdate.h" />
     <QtMoc Include="include\update\updateprocess.h" />
@@ -245,10 +249,13 @@
     <ClInclude Include="include\utilities\atomiclock.h" />
     <ClInclude Include="include\utilities\bsasupport.h" />
     <ClInclude Include="include\utilities\compute.h" />
+    <ClInclude Include="include\utilities\conditions.h" />
     <ClInclude Include="include\utilities\filechecker.h" />
     <ClInclude Include="include\utilities\lastupdate.h" />
+    <ClInclude Include="include\utilities\linkedvar.h" />
     <ClInclude Include="include\utilities\readtextfile.h" />
     <ClInclude Include="include\utilities\renew.h" />
+    <ClInclude Include="include\utilities\scope.h" />
     <ClInclude Include="include\utilities\stringsplit.h" />
     <ClInclude Include="include\utilities\writetextfile.h" />
     <ClInclude Include="include\utilities\wstrconvert.h" />

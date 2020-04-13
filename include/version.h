@@ -13,7 +13,7 @@ inline std::string GetNemesisVersion()
 
 		while (BehaviorFormat.GetLines(line))
 		{
-			boost::to_lower(line);
+			nemesis::to_lower(line);
 
 			if (line.find("version") == 0)
 			{

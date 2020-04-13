@@ -1,4 +1,5 @@
 #include "utilities/compute.h"
+#include "utilities/conditions.h"
 #include "utilities/atomiclock.h"
 #include "utilities/stringsplit.h"
 
@@ -57,10 +58,22 @@ NewAnimation::NewAnimation(shared_ptr<unordered_map<string, AnimTemplate>> animl
 	filepath = curfilepath;
 }
 
-void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines, string curBehaviorFile, int nFunctionID, ImportContainer& import, id eventid, id variableid,
-	vector<int>& stateID, vector<int> stateCountMultiplier, bool hasGroup, bool isCore, shared_ptr<group> groupFunction, shared_ptr<single> singleFunction,
-	NewAnimLock& animLock)
+void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
 {
+	shared_ptr<vecstr> generatedlines = args->allEditLines;
+	string curBehaviorFile = args->lowerBehaviorFile;
+	int nFunctionID = args->lastID;
+	ImportContainer& import = args->exportID;
+	id eventid = args->eventid;
+	id variableid = args->variableid;
+	vector<int>& stateID = args->stateID;
+	vector<int> stateCountMultiplier = args->stateMultiplier;
+	bool hasGroup = args->hasGroup;
+	bool isCore = args->core;
+	shared_ptr<group> groupFunction = args->subFunctionIDs;
+	shared_ptr<single> singleFunction = args->singleFunctionIDs;
+	NewAnimLock& animLock = args->atomicLock;
+
 	behaviorFile = curBehaviorFile;
 	newImport = const_cast<ImportContainer*>(&import);
 	atomicLock = const_cast<NewAnimLock*>(&animLock);
@@ -4275,11 +4288,11 @@ void CRC32Replacer(string& line, string format, string behaviorFile, int linecou
 	line.replace(line.find(fullline), fullline.length(), to_string(CRC32Convert(crc32line)));
 }
 
-void NewAnimation::OutputCheck(shared_ptr<vecstr> generatedlines, proc& process, condset* curset, bool& norElement, int& openRange, size_t& elementLine, int& counter,
+void NewAnimation::OutputCheck(shared_ptr<vecstr> generatedlines, proc& process, nemesis::CondVar<string>* curset, bool& norElement, int& openRange, size_t& elementLine, int& counter,
 	id& eventid, id&variableid, vector<int> fixedStateID, vector<int> stateCountMultiplier, bool hasGroup, bool& negative,
 	vector<unordered_map<string, bool>> groupOptionPicked, shared_ptr<group> groupFunction, int optionMulti, int animMulti)
 {
-	for (auto& curstack : curset->lines)
+	for (auto& curstack : curset->rawlist)
 	{
 		bool uniqueskip = false;
 		bool hasProcess = false;
@@ -4292,16 +4305,14 @@ void NewAnimation::OutputCheck(shared_ptr<vecstr> generatedlines, proc& process,
 			hasProcess = curstack.hasProcess;
 
 			if (hasProcess) lineblocks = curstack.lineblocks;
-			else line = curstack.line;
+			else line = curstack.raw;
 		}
 		else
 		{
-			size_t condcount = 0;
-
-			while (condcount < curstack.nestedcond.size())
+			// LOOP THROUGH ALL CONDITIONS
+			for (auto curcond : curstack.nestedcond)
 			{
-				condset& curcond = curstack.nestedcond[condcount];
-
+#if HIDE
 				// FOREACH
 				if (curcond.isMulti)
 				{
@@ -4445,10 +4456,164 @@ void NewAnimation::OutputCheck(shared_ptr<vecstr> generatedlines, proc& process,
 						break;
 					}
 				}
+#else
+				switch (curcond.conditionType)
+				{
+					case nemesis::FOREACH:
+					{
+						int dummy;
+						int openOrder = -2;
 
+						if (curcond.n_conditions->isMultiTrue(&process, format, behaviorFile, curstack.linecount, openOrder, false, false, dummy))
+						{
+							string oldcond = process.multiOption;
+							process.multiOption = curcond.conditions;
+
+							int size;
+
+							if (openOrder == -2)
+							{
+								openOrder = 0;
+								size = 1;
+							}
+							else if (openOrder == -1)
+							{
+								openOrder = 0;
+								size = int(groupAnimInfo.size());
+							}
+							else
+							{
+								size = openOrder + 1;
+							}
+
+							for (int m_animMulti = openOrder; m_animMulti < size; ++m_animMulti)
+							{
+								for (int m_optionMulti = 0; m_optionMulti < groupAnimInfo[m_animMulti]->optionPickedCount[curcond.conditions];
+									++m_optionMulti)
+								{
+									process.animMulti = m_animMulti;
+									process.optionMulti = m_optionMulti;
+									OutputCheck(generatedlines, process, &curcond, norElement, openRange, elementLine, counter, eventid,
+										variableid, fixedStateID, stateCountMultiplier, hasGroup, negative, groupOptionPicked, groupFunction, m_optionMulti, m_animMulti);
+								}
+							}
+
+							process.multiOption = oldcond;
+							process.animMulti = animMulti;
+							process.optionMulti = optionMulti;
+							break;
+						}
+
+						break;
+					}
+
+					case nemesis::NEW_ORDER:
+					{
+						string curOrder = curcond.conditions;
+						bool isNot = false;
+						bool skip = false;
+
+						if (curOrder[0] == '!')
+						{
+							isNot = true;
+							curOrder = curOrder.substr(1);
+						}
+
+						if (isOnlyNumber(curOrder))
+						{
+							if (order != stoi(curOrder))
+							{
+								if (!isNot) skip = true;
+							}
+							else if (isNot)
+							{
+								skip = true;
+							}
+						}
+						else
+						{
+							bool word = false;
+							bool unknown = false;
+							bool number = false;
+
+							for (unsigned int j = 0; j < curOrder.size(); ++j)
+							{
+								if (isalpha(curOrder[j])) word = true;
+								else if (isdigit(curOrder[j])) number = true;
+								else unknown = true;
+							}
+
+							if (word & number)
+							{
+								ErrorMessage(1110, format, behaviorFile, curcond.linenum);
+							}
+							else if (unknown)
+							{
+								ErrorMessage(1111, format, behaviorFile, curcond.linenum);
+							}
+							else if (word)
+							{
+								if (nemesis::iequals(curOrder, "last"))
+								{
+									if (!isLastOrder)
+									{
+										if (!isNot) skip = true;
+									}
+									else if (isNot)
+									{
+										skip = true;
+									}
+								}
+								else if (nemesis::iequals(curOrder, "first"))
+								{
+									if (order != 0)
+									{
+										if (!isNot) skip = true;
+									}
+									else if (isNot)
+									{
+										skip = true;
+									}
+								}
+								else
+								{
+									ErrorMessage(1112, format, behaviorFile, curcond.linenum);
+								}
+							}
+							else
+							{
+								ErrorMessage(1113, format, behaviorFile, curcond.linenum);
+							}
+						}
+
+						if (!skip)
+						{
+							OutputCheck(generatedlines, process, &curcond, norElement, openRange, elementLine, counter, eventid, variableid, fixedStateID,
+								stateCountMultiplier, hasGroup, negative, groupOptionPicked, groupFunction, optionMulti, animMulti);
+							break;
+						}
+
+						break;
+					}
+
+					case nemesis::CONDITION_START:
+					case nemesis::CONDITION:
+					{
+						if (curcond.n_conditions->isTrue(&process, format, behaviorFile, curstack.linecount, false, false, curcond.n_conditions))
+						{
+							OutputCheck(generatedlines, process, &curcond, norElement, openRange, elementLine, counter, eventid, variableid, fixedStateID,
+								stateCountMultiplier, hasGroup, negative, groupOptionPicked, groupFunction, optionMulti, animMulti);
+						}
+						break;
+					}
+					case nemesis::CONDITION_DEFAULT:
+					{
+						OutputCheck(generatedlines, process, &curcond, norElement, openRange, elementLine, counter, eventid, variableid, fixedStateID,
+							stateCountMultiplier, hasGroup, negative, groupOptionPicked, groupFunction, optionMulti, animMulti);
+					}
+				}
+#endif
 				if (error) throw nemesis::exception();
-
-				++condcount;
 			}
 
 			uniqueskip = true;
@@ -4510,9 +4675,9 @@ void NewAnimation::hasProcessing(string& line, bool& norElement, int& openRange,
 	else if (line.find("</hkparam>") != NOT_FOUND && norElement)
 	{
 		string templine = line.substr(0, line.find("</hkparam>"));
-		__int64 range = count(templine.begin(), templine.end(), '\t');
+		__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-		if (openRange == range)
+		if (openRange == t_counter)
 		{
 			string oldElement;
 
@@ -4544,9 +4709,9 @@ void NewAnimation::hasProcessing(string& line, bool& norElement, int& openRange,
 		if (templine.find("<hkobject>") != NOT_FOUND)
 		{
 			templine = templine.substr(0, templine.find("<hkobject>"));
-			__int64 range = count(templine.begin(), templine.end(), '\t');
+			__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-			if (range == openRange + 1) counter++;
+			if (t_counter == openRange + 1) counter++;
 		}
 		else if (templine.find("\t\t\t#") != NOT_FOUND)
 		{
@@ -4657,7 +4822,6 @@ void NewAnimation::hasProcessing(string& line, bool& norElement, int& openRange,
 	{
 		size_t pos = line.find("animationName\">") + 15;
 		string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
-		nemesis::to_lower(animPath);
 		addUsedAnim(behaviorFile, animPath);
 	}
 	else if (line.find("<hkparam name=\"behaviorName\">") != NOT_FOUND)
@@ -4665,7 +4829,7 @@ void NewAnimation::hasProcessing(string& line, bool& norElement, int& openRange,
 		size_t pos = line.find("behaviorName\">") + 14;
 		string behaviorName = line.substr(pos, line.find("</hkparam>", pos) - pos);
 		nemesis::to_lower(behaviorName);
-		behaviorJoints[behaviorName].push_back(behaviorFile);
+		behaviorJoints[behaviorName].push_back(nemesis::to_lower_copy(behaviorFile));
 	}
 	else if (line.find("<hkparam name=\"localTime\">-") != NOT_FOUND)
 	{

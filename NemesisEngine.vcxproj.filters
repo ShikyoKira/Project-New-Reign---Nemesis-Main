@@ -245,6 +245,15 @@
     <ClCompile Include="src\ui\NemesisEngine.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\update\animdatacont.cpp">
+      <Filter>Source Files\update</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\conditions.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities\scope.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Nemesis Engine.rc">
@@ -422,6 +431,18 @@
     </ClInclude>
     <ClInclude Include="include\generate\animation\grouptemplate.h">
       <Filter>Header Files\generate\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\update\animdatacont.h">
+      <Filter>Header Files\update</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\conditions.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\scope.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\linkedvar.h">
+      <Filter>Header Files\utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

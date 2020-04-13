@@ -7,6 +7,8 @@
 
 #include "ui/ProgressUp.h"
 
+#include "update/animdatacont.h"
+
 #include "generate/behaviortype.h"
 #include "generate/animationdata.h"
 

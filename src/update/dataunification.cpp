@@ -17,7 +17,7 @@ using namespace std;
 
 boost::atomic_flag newAnimAdditionLock = BOOST_ATOMIC_FLAG_INIT;
 
-void CombineAnimData(string filename, string characterfile, string modcode, string filepath, vecstr storeline, vecstr originallines, MasterAnimData& animData, bool isHeader);
+void CombineAnimData(string filename, string characterfile, string modcode, string filepath, vecstr storeline, MasterAnimData& animData, bool isHeader);
 
 bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, map<string, vecstr, alphanum_less>& newFile, map<string, vecstr>& newAnimAddition,
 	unordered_map<string, string>& lastUpdate)
@@ -234,7 +234,7 @@ bool animDataHeaderUpdate(string folderpath, string modcode, MasterAnimData& ani
 
 	if (!saveLastUpdate(nemesis::to_lower_copy(folderpath), lastUpdate)) return false;
 
-	CombineAnimData(folderpath, "$haeder$", modcode, GetFileDirectory(folderpath) + "\\$header$", storeline, animData.animDataChar, animData, true);
+	CombineAnimData(folderpath, "$haeder$", modcode, GetFileDirectory(folderpath) + "\\$header$", storeline, animData, true);
 
 	if (error) throw nemesis::exception();
 
@@ -301,6 +301,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 			ErrorMessage(3022, filepath);
 		}
 
+#if HIDE
 		if (animData.newAnimData.find(project) == animData.newAnimData.end())
 		{
 			animData.animDataChar.push_back(project);
@@ -323,6 +324,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 		{
 			ErrorMessage(2004, filepath);
 		}
+#endif
 
 		if (error) throw nemesis::exception();
 	}
@@ -520,28 +522,48 @@ void behaviorJointsOutput()
 	}
 }
 
-void CombineAnimData(string filename, string characterfile, string modcode, string filepath, vecstr storeline, vecstr originallines, MasterAnimData& animData, bool isHeader)
+void CombineAnimData(string filename, string characterfile, string modcode, string filepath, vecstr storeline, MasterAnimData& animData, bool isHeader)
 {
-	if (storeline.back().length() != 0 && originallines.back().length() == 0)
+	if (storeline.back().length() != 0
+#if HIDE
+		&& animData.animDataChar.back().length() == 0
+#endif
+		)
 	{
 		storeline.push_back("");
 	}
-
-	bool close = false;
-	bool conditionOri = false;
-
-	unordered_map<int, bool> conditionOpen;
 
 	int linecount = 0;
 	int conditionLvl = 0;
 	int type;
 	int start = 0;
 
-	vecstr newlines;
-	vecstr combinelines;
+	if (!isHeader)
+	{
+		if (filename == "$header$")
+		{
 
-	combinelines.reserve(storeline.size() + originallines.size());
+		}
+		else if (hasAlpha(storeline[0]))
+		{
 
+		}
+		else if (isOnlyNumber(storeline[0]))
+		{
+
+		}
+		else
+		{
+			ErrorMessage(3006, characterfile, filename);
+		}
+	}
+	else
+	{
+		start = 1;
+		linecount = 1;
+	}
+
+#if HIDE
 	if (!isHeader)
 	{
 		if (filename == "$header$") type = 0;
@@ -555,21 +577,30 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 		linecount = 1;
 	}
 
+	bool close = false;
+	bool conditionOri = false;
+
+	unordered_map<int, bool> conditionOpen;
+
+	vecstr newlines;
+	vecstr combinelines;
+
+	combinelines.reserve(storeline.size() + originallines.size());
+
 	for (unsigned int k = start; k < storeline.size(); ++k)
 	{
-		// condition function is not supported for animationsetdatasinglefile
-		if (storeline[k].find("<!-- CONDITION") != NOT_FOUND)
-		{
-			ErrorMessage(1173, filepath, modcode, k + 1);
-		}
+		string& line = storeline[k];
 
-		if (storeline[k].find("<!-- CONDITION START ") != NOT_FOUND)
+		// condition function is not supported for animationsetdatasinglefile
+		if (line.find("<!-- CONDITION") != NOT_FOUND) ErrorMessage(1173, filepath, modcode, k + 1);
+
+		if (line.find("<!-- CONDITION START ") != NOT_FOUND)
 		{
 			++conditionLvl;
 			conditionOpen[conditionLvl] = true;
 		}
 
-		if ((storeline[k].find("<!-- NEW", 0) == NOT_FOUND || storeline[k].find("<!-- FOREACH", 0) == NOT_FOUND) && !close)
+		if ((line.find("<!-- NEW", 0) == NOT_FOUND || line.find("<!-- FOREACH", 0) == NOT_FOUND) && !close)
 		{
 			if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND || originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND)
 			{
@@ -592,9 +623,9 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 				}
 			}
 
-			if (storeline[k].find("<!-- CONDITION END -->") != NOT_FOUND)
+			if (line.find("<!-- CONDITION END -->") != NOT_FOUND)
 			{
-				combinelines.push_back(storeline[k]);
+				combinelines.push_back(line);
 				conditionOri = false;
 				conditionOpen[conditionLvl] = false;
 				--conditionLvl;
@@ -606,10 +637,10 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 			}
 			else
 			{
-				combinelines.push_back(storeline[k]);
+				combinelines.push_back(line);
 			}
 		}
-		else if (close && storeline[k].find("<!-- CLOSE -->", 0) != NOT_FOUND)
+		else if (close && line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
 		{
 			if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND || originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND)
 			{
@@ -634,13 +665,13 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 
 			if (isHeader)
 			{
-				newlines.push_back(storeline[k]);
+				newlines.push_back(line);
 			}
 			else
 			{
 				size_t startline = combinelines.size() + 1;
 				combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
-				combinelines.push_back(storeline[k]);
+				combinelines.push_back(line);
 				newlines.clear();
 
 				for (unsigned int j = startline; j < combinelines.size() - 1; ++j)
@@ -664,13 +695,16 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 			close = true;
 		}
 
-		if (storeline[k].find("<!-- CONDITION -->") != NOT_FOUND) conditionOri = true;
+		if (line.find("<!-- CONDITION -->") != NOT_FOUND) conditionOri = true;
 
-		if (close) newlines.push_back(storeline[k]);
+		if (close) newlines.push_back(line);
 
 		if (error) throw nemesis::exception();
 	}
 
 	combinelines.shrink_to_fit();
 	originallines = combinelines;
+#else
+
+#endif
 }

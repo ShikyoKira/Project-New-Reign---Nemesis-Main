@@ -403,13 +403,24 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 	using namespace AnimDataFormat;
 
+	if (character == "FirstPerson.txt~1" && header == "791")
+	{
+		header = to_string(791);
+	}
+
 	if (linecount < int(animData.size()))
 	{
 		if (type == 0)
 		{
+			// 1. total line count
+			// 2. unknown number
+			// 3. behavior file count
+			// 4. behavior file list
+			// 5. unknown number
+
 			if (linecount < 3 && functionstart == 0)
 			{
-				return AnimDataConvert(type, linecount + 1, muteError);
+				return AnimDataConvert(type, linecount + 1);
 				// 1. total line count
 				// 2. unknown number
 				// 3. behavior file count
@@ -476,7 +487,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 				if (id < 4)
 				{
-					return AnimDataConvert(type, id, muteError);
+					return AnimDataConvert(type, id);
 				}
 			}
 
@@ -493,9 +504,18 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 		}
 		else if (type == 1)
 		{
+			// 1. animation name (clip)
+			// 2. unique code
+			// 3. unknown number (1)
+			// 4. unknown number (0)
+			// 5. unknown number (0)
+			// 6. event name count
+			// 7. event name list
+			// 8. <space>
+
 			if (linecount < 6 && functionstart > 5)
 			{
-				return AnimDataConvert(type, linecount + 1, muteError);
+				return AnimDataConvert(type, linecount + 1);
 				// 1. animation name (clip)
 				// 2. unique code
 				// 3. unknown number (1)
@@ -565,7 +585,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 				if (id < 7)
 				{
-					return AnimDataConvert(type, id, muteError);
+					return AnimDataConvert(type, id);
 				}
 			}
 
@@ -582,11 +602,19 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 		}
 		else if (type == 2)
 		{
+			// 1. unique code
+			// 2. total animation (clip) length
+			// 3. motion data count
+			// 4. motion data list
+			// 5. rotation data count
+			// 6. rotation data list
+			// 7. <space>
+
 			int nextline = 3;
 
 			if (linecount < 3 && functionstart > 2)
 			{
-				return AnimDataConvert(type, linecount + 1, muteError);
+				return AnimDataConvert(type, linecount + 1);
 				// 1. unique code
 				// 2. total animation (clip) length
 				// 3. motion data count
@@ -657,7 +685,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 				if (id < 4)
 				{
-					return AnimDataConvert(type, id, muteError);
+					return AnimDataConvert(type, id);
 				}
 			}
 
@@ -756,7 +784,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 			if (id < 7 && id > 3)
 			{
-				return AnimDataConvert(type, id, muteError);
+				return AnimDataConvert(type, id);
 				// 4. motion data list
 				// 5. rotation data count
 				// 6. rotation data list
@@ -769,97 +797,66 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 	return xerror;
 }
 
-AnimDataFormat::position AnimDataConvert(int type, int position, bool muteError)
+AnimDataFormat::position AnimDataConvert(int type, int position)
 {
 	using namespace AnimDataFormat;
 
 	if (type == 0)
 	{
-		if (position == 1)
+		switch (position)
 		{
-			return totallinecount;
-		}
-		else if (position == 2)
-		{
-			return unknown2;
-		}
-		else if (position == 3)
-		{
-			return behaviorfilecount;
-		}
-		else if (position == 4)
-		{
-			return behaviorfilelist;
-		}
-		else if (position == 5)
-		{
-			return unknown5;
+			case 1:
+				return totallinecount;
+			case 2:
+				return unknown2;
+			case 3:
+				return behaviorfilecount;
+			case 4:
+				return behaviorfilelist;
+			case 5:
+				return unknown5;
 		}
 	}
 	else if (type == 1)
 	{
-		if (position == 1)
+		switch (position)
 		{
-			return animationname;
-		}
-		else if (position == 2)
-		{
-			return uniquecode;
-		}
-		else if (position == 3)
-		{
-			return unknown3;
-		}
-		else if (position == 4)
-		{
-			return unknown4;
-		}
-		else if (position == 5)
-		{
-			return unknown5;
-		}
-		else if (position == 6)
-		{
-			return eventnamecount;
-		}
-		else if (position == 7)
-		{
-			return eventnamelist;
-		}
-		else if (position == 8)
-		{
-			return space;
+			case 1:
+				return animationname;
+			case 2:
+				return uniquecode;
+			case 3:
+				return unknown3;
+			case 4:
+				return unknown4;
+			case 5:
+				return unknown5;
+			case 6:
+				return eventnamecount;
+			case 7:
+				return eventnamelist;
+			case 8:
+				return space;
 		}
 	}
 	else
 	{
-		if (position == 1)
+		switch (position)
 		{
-			return uniquecode;
-		}
-		else if (position == 2)
-		{
-			return totalcliplength;
-		}
-		else if (position == 3)
-		{
-			return motiondatacount;
-		}
-		else if (position == 4)
-		{
-			return motiondatalist;
-		}
-		else if (position == 5)
-		{
-			return rotationdatacount;
-		}
-		else if (position == 6)
-		{
-			return rotationdatalist;
-		}
-		else if (position == 7)
-		{
-			return space;
+			case 1:
+				return uniquecode;
+			case 2:
+				return totalcliplength;
+			case 3:
+				return motiondatacount;
+			case 4:
+				return motiondatalist;
+			case 5:
+				return rotationdatacount;
+			case 6:
+				return rotationdatalist;
+			case 7:
+				return space;
 		}
 	}
 

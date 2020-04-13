@@ -64,9 +64,9 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 					else if (line.find("</hkparam>") != NOT_FOUND && norElement)
 					{
 						string templine = line.substr(0, line.find("</hkparam>"));
-						__int64 range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (openRange == range)
+						if (openRange == t_counter)
 						{
 							string oldElement;
 
@@ -98,9 +98,9 @@ vecstr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 						if (templine.find("<hkobject>") != NOT_FOUND)
 						{
 							templine = templine.substr(0, templine.find("<hkobject>"));
-							__int64 range = count(templine.begin(), templine.end(), '\t');
+							__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-							if (range == openRange + 1)
+							if (t_counter == openRange + 1)
 							{
 								eleCounter++;
 							}

@@ -11,9 +11,9 @@
 
 #include <boost/regex.hpp>
 
-#include "generate/AnimationUtility.h"
-
 #include "utilities/alphanum.hpp"
+
+#include "generate/AnimationUtility.h"
 
 #include "generate/animation/animationthread.h"
 #include "generate/animation/registeranimation.h"
@@ -23,10 +23,15 @@ typedef std::unordered_map<std::string, std::string> SSMap;
 typedef std::unordered_map<std::string, SSMap> ImportContainer;
 typedef std::unordered_map<std::string, int> id;
 
+struct proc;
 
 class AnimTemplate;
-struct condset;
-struct proc;
+
+namespace nemesis
+{
+	template<typename T>
+	struct CondVar;
+}
 
 struct MDException {};
 
@@ -120,12 +125,10 @@ public:
 
 	inline void newID();
 
-	void OutputCheck(std::shared_ptr<vecstr> generatedlines, proc& process, condset* curset, bool& norElement, int& openRange, size_t& elementLine, int& counter,
-		id& eventid, id&variableid, std::vector<int> fixedStateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool& negative,
+	void OutputCheck(std::shared_ptr<vecstr> generatedlines, proc& process, nemesis::CondVar<std::string>* curset, bool& norElement, int& openRange, size_t& elementLine,
+		int& counter, id& eventid, id& variableid, std::vector<int> fixedStateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool& negative,
 		std::vector<std::unordered_map<std::string, bool>> groupOptionPicked, std::shared_ptr<group> groupFunction, int optionMulti = -1, int animMulti = -1);
-	void GetNewAnimationLine(std::shared_ptr<vecstr> generatedlines, std::string behaviorFile, int ID, ImportContainer& import, id eventid, id variableid,
-		std::vector<int>& stateID, std::vector<int> stateCountMultiplier, bool hasGroup, bool isCore, std::shared_ptr<group> groupFunction,
-		std::shared_ptr<single> singleFunction, NewAnimLock& animLock);
+	void GetNewAnimationLine(std::shared_ptr<NewAnimArgs> args);
 	void GetAnimSetData(std::unordered_map<std::string, std::map<std::string, vecstr, alphanum_less>>& newASDLines);
 	void GetAnimData(std::unordered_map<std::string, std::map<std::string, vecstr>>& newAnimDataLines);
 	void existingASDProcess(vecstr ASDLines, std::map<int, vecstr>& extract, std::vector<int> ASD = { 0 });

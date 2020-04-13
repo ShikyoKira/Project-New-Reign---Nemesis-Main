@@ -170,13 +170,13 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 						if (addLineCount > 0)
 						{
 							NewCoordinate[linecount] = addLineCount;
-							modEditLine[to_string(linecount) + "R"] = Pair[originalline];
+							modEditLine[std::to_string(linecount) + "R"] = Pair[originalline];
 						}
 
 						for (int i = startoriline; i < originalline; ++i)
 						{
 							modEditCoordinate.push_back(i);
-							modEditLine[to_string(i)] = Pair[i];
+							modEditLine[std::to_string(i)] = Pair[i];
 						}
 
 						originalopen = false;
@@ -185,7 +185,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 					{
 						int addLineCount = editline - starteditline;
 						NewCoordinate[linecount] = addLineCount;
-						modEditLine[to_string(linecount) + "R"] = coordinate - addLineCount;
+						modEditLine[std::to_string(linecount) + "R"] = coordinate - addLineCount;
 					}
 				}
 				else if (edited)
@@ -281,12 +281,12 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 
 							if (line.find("<!-- EVENT numelement ", 0) != NOT_FOUND)
 							{
-								line.append(" <!-- EVENT numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append(" <!-- EVENT numelement " + modcode + " +" + std::to_string(tempint) + " $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
 							}
 							else
 							{
-								line.append("   				<!-- EVENT numelement " + modcode + " +" + to_string(tempint) +
-									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append("   				<!-- EVENT numelement " + modcode + " +" + std::to_string(tempint) +
+									" $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
 							}
 						}
 						else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND)
@@ -295,12 +295,12 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 
 							if (line.find("<!-- ATTRIBUTE numelement ", 0) != NOT_FOUND)
 							{
-								line.append(" <!-- ATTRIBUTE numelement " + modcode + " +" + to_string(tempint) + " $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append(" <!-- ATTRIBUTE numelement " + modcode + " +" + std::to_string(tempint) + " $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
 							}
 							else
 							{
-								line.append("   				<!-- ATTRIBUTE numelement " + modcode + " +" + to_string(tempint) +
-									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append("   				<!-- ATTRIBUTE numelement " + modcode + " +" + std::to_string(tempint) +
+									" $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
 							}
 						}
 						else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND ||
@@ -311,13 +311,13 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 
 							if (line.find("<!-- VARIABLE numelement ", 0) != NOT_FOUND)
 							{
-								line.append(" <!-- VARIABLE numelement " + modcode + " +" + to_string(tempint) +
-									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append(" <!-- VARIABLE numelement " + modcode + " +" + std::to_string(tempint) +
+									" $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
 							}
 							else
 							{
-								line.append("				<!-- VARIABLE numelement " + modcode + " +" + to_string(tempint) +
-									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append("				<!-- VARIABLE numelement " + modcode + " +" + std::to_string(tempint) +
+									" $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
 							}
 						}
 						else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0) != NOT_FOUND ||
@@ -327,43 +327,43 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 
 							if (line.find("<!-- CHARACTER numelement ", 0) != NOT_FOUND)
 							{
-								line.append(" <!-- CHARACTER numelement " + modcode + " +" + to_string(tempint) + " $" +
-									to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append(" <!-- CHARACTER numelement " + modcode + " +" + std::to_string(tempint) + " $" +
+									std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
 							}
 							else
 							{
-								line.append("				<!-- CHARACTER numelement " + modcode + " +" + to_string(tempint) +
-									" $" + to_string(modEditLine[to_string(linecount)]) + " -->");
+								line.append("				<!-- CHARACTER numelement " + modcode + " +" + std::to_string(tempint) +
+									" $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
 							}
 						}
 						else if (line.find("numelements=\"", 0) != NOT_FOUND)
 						{
 							string templine;
 
-							if (!GetFunctionEdits(templine, storeline, modEditLine[to_string(linecount)]))
+							if (!GetFunctionEdits(templine, storeline, modEditLine[std::to_string(linecount)]))
 							{
-								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[to_string(linecount)]);
+								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[std::to_string(linecount)]);
 							}
 
 							int difference = stoi(boost::regex_replace(string(templine), boost::regex("[^0-9]*([0-9]+).*"),
 								string("\\1"))) - stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
-							if (line.find("<!-- numelement *", 0) != NOT_FOUND) line.append(" <!-- numelement *" + modcode + "* +" + to_string(difference) + "-->");
-							else line.append("					<!-- numelement *" + modcode + "* +" + to_string(difference) + "-->");
+							if (line.find("<!-- numelement *", 0) != NOT_FOUND) line.append(" <!-- numelement *" + modcode + "* +" + std::to_string(difference) + "-->");
+							else line.append("					<!-- numelement *" + modcode + "* +" + std::to_string(difference) + "-->");
 						}
 						else
 						{
 							string templine;
 
-							if (!GetFunctionEdits(templine, storeline, modEditLine[to_string(linecount)]))
+							if (!GetFunctionEdits(templine, storeline, modEditLine[std::to_string(linecount)]))
 							{
-								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[to_string(linecount)]);
+								ErrorMessage(2005, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[std::to_string(linecount)]);
 							}
 
 							if (templine.find("			<hkobject>") != NOT_FOUND || templine.find("			</hkobject>") != NOT_FOUND ||
 								templine.find("			<hkparam>") != NOT_FOUND || templine.find("			<hkparam>") != NOT_FOUND)
 							{
-								WarningMessage(1022, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[to_string(linecount)]);
+								WarningMessage(1022, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, modEditLine[std::to_string(linecount)]);
 								interMsg(warningMsges.back());
 							}
 
@@ -380,7 +380,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 						functionline.push_back("<!-- NEW *" + modcode + "* -->");
 
 						vecstr storage = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline,
-							modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+							modEditLine[std::to_string(linecount) + "R"], NewCoordinate[linecount]);
 
 						functionline.insert(functionline.end(), storage.begin(), storage.end());
 						functionline.push_back("<!-- CLOSE -->");
@@ -410,7 +410,7 @@ bool NodeU::NodeUpdate(string modcode, string behaviorfile, string nodefile, uni
 					functionline.push_back("<!-- NEW *" + modcode + "* -->");
 
 					vecstr storage = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile, storeline
-						, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+						, modEditLine[std::to_string(linecount) + "R"], NewCoordinate[linecount]);
 					functionline.insert(functionline.end(), storage.begin(), storage.end());
 					functionline.push_back("<!-- CLOSE -->");
 				}
@@ -489,8 +489,8 @@ bool NodeU::FunctionUpdate(string modcode, string behaviorfile, string nodefile,
 	return result;
 }
 
-bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, string filepath, MasterAnimData& animData,
-	bool isNewCharacter, unordered_map<string, string>& lastUpdate, bool& openAnim, bool& openInfo)
+bool AnimDataUpdate(string modcode, string animdatafile, string projectfile, string filepath, MasterAnimData& animData, bool isNewProject, 
+	unordered_map<string, string>& lastUpdate, bool& openAnim, bool& openInfo)
 {
 	if (behaviorPath[nemesis::to_lower_copy(animdatafile)].empty()) ErrorMessage(2007, animdatafile);
 
@@ -498,18 +498,19 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 	if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
 
-	if (isNewCharacter)
+	if (isNewProject)
 	{
 		vecstr storeline;
 
 		if (!GetFunctionLines(filepath, storeline, !nemesis::iequals(filename, "$header$"))) return false;
 
-		// must not replace storeline with animData.newAnimData[characterfile][filename] for the total line will not get counted
-		animData.newAnimData[characterfile][filename].insert(animData.newAnimData[characterfile][filename].end(), storeline.begin(), storeline.end());
+		// must not replace storeline with animData.newAnimData[projectfile][filename] for the total line will not get counted
+#if HIDE
+		animData.newAnimData[projectfile][filename].insert(animData.newAnimData[projectfile][filename].end(), storeline.begin(), storeline.end());
 
 		if (isOnlyNumber(filename))		// info data
 		{
-			animData.animDataInfo[characterfile].push_back(filename);
+			animData.animDataInfo[projectfile].push_back(filename);
 		}
 		else if (filename.find("~") != NOT_FOUND)	// anim data
 		{
@@ -517,32 +518,172 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 			if (tempname == filename) ErrorMessage(2004, filepath);
 
-			animData.animDataHeader[characterfile].push_back(filename);
+			animData.animDataHeader[projectfile].push_back(filename);
 		}
 		else if (nemesis::iequals(filename, "$header$"))
 		{
-			animData.animDataHeader[characterfile].push_back(filename);
+			animData.animDataHeader[projectfile].push_back(filename);
 		}
 		else
 		{
 			ErrorMessage(2004, filepath);
 		}
+#else
+		if (isOnlyNumber(filename))		// info data
+		{
+			animData.find(projectfile, modcode)->iadd(filename, modcode);
+		}
+		else if (filename.find("~") != NOT_FOUND)	// anim data
+		{
+			string tempname = boost::regex_replace(string(filename), boost::regex("[^~]*~([0-9]+)"), string("\\1"));
+
+			if (tempname == filename) ErrorMessage(2004, filepath);
+
+			animData.find(projectfile, modcode)->aadd(filename, modcode, storeline, 1);
+		}
+		else if (nemesis::iequals(filename, "$header$"))
+		{
+			animData.add(projectfile, storeline, modcode);
+		}
+		else
+		{
+			ErrorMessage(2004, filepath);
+		}
+#endif
 	}
 	else
 	{
+		vecstr templines;
+		vecstr storeline;
+
+		bool edited = false;
+		bool originalopen = false;
+		bool editopen = false;
+
+		if (!GetFunctionLines(filepath, templines)) return false;
+
+		if (nemesis::iequals(projectfile, "$header$"))		// header file
+		{
+			animData.projectListUpdate(modcode, filepath, templines);
+		}
+		else
+		{
+			shared_ptr<AnimDataProject_Condt> projData = animData.find(projectfile);
+
+			if (projData == nullptr)
+			{
+				interMsg("ERROR missing project file. File: " + projectfile);
+				error = true;
+				throw nemesis::exception();
+			}
+
+			storeline.reserve(templines.size());
+
+			for (string& line : templines)
+			{
+				if (line.find("<!--") != NOT_FOUND)
+				{
+					if (!edited && line.find("<!-- MOD_CODE", 0) != NOT_FOUND && line.find("OPEN -->", 0) != NOT_FOUND)
+					{
+						edited = true;
+					}
+					else if (line.find("<!-- ORIGINAL -->", 0) != NOT_FOUND)
+					{
+						originalopen = true;
+					}
+					else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+					{
+						originalopen = false;
+						edited = false;
+					}
+
+					continue;
+				}
+
+				if (!originalopen) storeline.push_back(line);
+			}
+
+			if (nemesis::iequals(filename, "$header$"))	// project header
+			{
+				projData->modify(modcode, templines);
+			}
+			else if (filename.find(modcode + "$") == NOT_FOUND)
+			{
+				string check = boost::regex_replace(string(filename), boost::regex("[^~]*~([0-9]+)"), string("\\1"));
+
+				if (check == filename || animData.find(projectfile)->ifind(check) == nullptr) ErrorMessage(2004, filepath);
+
+				// info data confirmation
+				if (!isOnlyNumber(storeline[0])) ErrorMessage(3006, projectfile, filename);
+			}
+			else
+			{
+				string tempID = boost::regex_replace(string(filename), boost::regex("[^~]*~" + modcode + "[$]([0-9]+)"), string("\\1"));
+
+				if (filename != tempID && isOnlyNumber(tempID))		// anim data
+				{
+					// anim data
+					if (!hasAlpha(storeline[0])) ErrorMessage(3006, projectfile, filename);
+
+					nemesis::LinkedVar<shared_ptr<AnimDataPack_Condt>>* animDataPtr = projData->afindlist(filename);
+					using ADPair = std::pair<std::string, nemesis::LinkedVar<shared_ptr<AnimDataPack_Condt>>>;
+
+					// new anim data
+					if (animDataPtr == nullptr)
+					{
+						auto& pair = make_pair(storeline[0], nemesis::LinkedVar(make_shared<AnimDataPack_Condt>(storeline, 1)));
+						auto& condpair = nemesis::CondVar<ADPair>(pair, modcode, nemesis::MOD_CODE);
+						projData->animdatalist.push_back(condpair);
+					}
+					// existing anim data
+					else
+					{
+						auto& shptr = nemesis::CondVar<shared_ptr<AnimDataPack_Condt>>(make_shared<AnimDataPack_Condt>(storeline, 1));
+						//(*animDataPtr).addCond(make_shared<AnimDataPack_Condt>(storeline), modcode, nemesis::MOD_CODE); does the same thing as line below
+						(*animDataPtr).nestedcond.push_back(shptr);
+					}
+				}
+				else
+				{
+					tempID = boost::regex_replace(string(filename), boost::regex(modcode + "[$]([0-9]+)"), string("\\1"));
+
+					// info data
+					if (filename == tempID || !isOnlyNumber(tempID)) ErrorMessage(2004, filepath);
+
+					nemesis::LinkedVar<shared_ptr<InfoDataPack_Condt>>* infoDataPtr = projData->ifindlist(filename);
+					using IDPair = std::pair<std::string, nemesis::LinkedVar<shared_ptr<InfoDataPack_Condt>>>;
+
+					// new info data
+					if (infoDataPtr == nullptr)
+					{
+						auto& pair = make_pair(storeline[0], nemesis::LinkedVar(make_shared<InfoDataPack_Condt>(storeline, 1)));
+						auto& condpair = nemesis::CondVar<IDPair>(pair, modcode, nemesis::MOD_CODE);
+						projData->infodatalist.push_back(condpair);
+					}
+					// existing info data
+					else
+					{
+						auto& shptr = nemesis::CondVar<shared_ptr<InfoDataPack_Condt>>(make_shared<InfoDataPack_Condt>(storeline, 1), modcode, nemesis::MOD_CODE);
+						//(*infoDataPtr).addCond(make_shared<InfoDataPack_Condt>(storeline), modcode, nemesis::MOD_CODE); does the same thing as line below
+						(*infoDataPtr).nestedcond.push_back(shptr);
+					}
+				}
+			}
+		}
+
+#if HIDE
 		vector<int> modEditCoordinate;
 		unordered_map<string, int> modEditLine;
 		unordered_map<int, int> NewCoordinate;
 		unordered_map<int, int> Pair;
 
-		bool edited = false;
-		bool originalopen = false;
+		int originalline = 0;
+		int editedline = 0;
 
 		int coordinate = 0;
 		int startoriline = 0;
 		int starteditline = 0;
 		int editline = 0;
-		int originalline = 0;
 		int linecount = 0;
 
 		vecstr storeline;
@@ -574,12 +715,12 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 				{
 					int tempint = editline - originalline;
 					NewCoordinate[linecount] = tempint;
-					modEditLine[to_string(linecount) + "R"] = coordinate - tempint - 2;
+					modEditLine[std::to_string(linecount) + "R"] = coordinate - tempint - 2;
 
 					for (int i = startoriline; i < originalline; ++i)
 					{
 						modEditCoordinate.push_back(i);
-						modEditLine[to_string(i)] = Pair[i];
+						modEditLine[std::to_string(i)] = Pair[i];
 					}
 
 					originalopen = false;
@@ -588,7 +729,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 				{
 					int tempint = editline - starteditline;
 					NewCoordinate[linecount] = tempint;
-					modEditLine[to_string(linecount) + "R"] = coordinate - tempint;
+					modEditLine[std::to_string(linecount) + "R"] = coordinate - tempint;
 				}
 			}
 			else if (edited)
@@ -605,7 +746,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 			coordinate++;
 		}
 
-		if (animData.newAnimData[characterfile].find(filename) != animData.newAnimData[characterfile].end())
+		if (animData.newAnimData[projectfile].find(filename) != animData.newAnimData[projectfile].end())
 		{
 			if (NewCoordinate.size() == 0)
 			{
@@ -614,7 +755,7 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 				return false;
 			}
 
-			CombineAnimData(filepath, filename, characterfile, modcode, animData.newAnimData[characterfile][filename], storeline, modEditCoordinate,
+			CombineAnimData(filepath, filename, projectfile, modcode, animData.newAnimData[projectfile][filename], storeline, modEditCoordinate,
 				modEditLine, NewCoordinate, Pair, lastUpdate);
 		}
 		else if (filename.find(modcode + "$") != NOT_FOUND)
@@ -623,15 +764,15 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 
 			if (filename != tempID && isOnlyNumber(tempID))		// anim data
 			{
-				if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename])) return false;
+				animData.newAnimData[projectfile][filename].insert(animData.newAnimData[projectfile][filename].end(), storeline.begin(), storeline.end());
 
 				if (!openAnim)
 				{
-					animData.newAnimData[characterfile][filename].insert(animData.newAnimData[characterfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
+					animData.newAnimData[projectfile][filename].insert(animData.newAnimData[projectfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
 					openAnim = true;
 				}
 
-				animData.animDataHeader[characterfile].push_back(filename);
+				animData.animDataHeader[projectfile].push_back(filename);
 			}
 			else
 			{
@@ -639,15 +780,15 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 				
 				if (filename != tempID && isOnlyNumber(tempID))		// info data
 				{
-					if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename])) return false;
+					animData.newAnimData[projectfile][filename] = storeline;
 
 					if (!openInfo)
 					{
-						animData.newAnimData[characterfile][filename].insert(animData.newAnimData[characterfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
+						animData.newAnimData[projectfile][filename].insert(animData.newAnimData[projectfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
 						openInfo = true;
 					}
 
-					animData.animDataInfo[characterfile].push_back(filename);
+					animData.animDataInfo[projectfile].push_back(filename);
 				}
 				else
 				{
@@ -659,24 +800,25 @@ bool AnimDataUpdate(string modcode, string animdatafile, string characterfile, s
 		{
 			string check = boost::regex_replace(string(filename), boost::regex("[^~]*~([0-9]+)"), string("\\1"));
 
-			if (animData.newAnimData[characterfile].find(check) == animData.newAnimData[characterfile].end()) ErrorMessage(2004, filepath);
+			if (animData.newAnimData[projectfile].find(check) == animData.newAnimData[projectfile].end()) ErrorMessage(2004, filepath);
 
-			if (!GetFunctionLines(filepath, animData.newAnimData[characterfile][filename])) return false;
+			animData.newAnimData[projectfile][filename] = storeline;
 
 			if (!openAnim)
 			{
-				animData.newAnimData[characterfile][filename].insert(animData.newAnimData[characterfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
+				animData.newAnimData[projectfile][filename].insert(animData.newAnimData[projectfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
 				openAnim = true;
 			}
 
-			animData.animDataHeader[characterfile].push_back(filename);
+			animData.animDataHeader[projectfile].push_back(filename);
 		}
+#endif
 	}
 
 	return true;
 }
 
-bool CombineAnimData(string filepath, string filename, string characterfile, string modcode, vecstr& newline, vecstr& storeline, vector<int> modEditCoordinate,
+bool CombineAnimData(string filepath, string filename, string projectfile, string modcode, vecstr& newline, vecstr& storeline, vector<int> modEditCoordinate,
 	unordered_map<string, int> modEditLine, unordered_map<int, int> NewCoordinate, unordered_map<int, int> Pair, unordered_map<string, string>& lastUpdate)
 {
 	vecstr functionline;
@@ -695,17 +837,11 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 
 	if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
 
-	if (nemesis::iequals(characterfile, "$header$"))
-	{
-		isHeader = true;
-	}
-	else
-	{
-		if (nemesis::iequals(filename, "$header$")) type = 0;
-		else if (hasAlpha(storeline[0])) type = 1;
-		else if (isOnlyNumber(storeline[0])) type = 2;
-		else ErrorMessage(3006, characterfile, filename);
-	}
+	if (nemesis::iequals(projectfile, "$header$")) isHeader = true;
+	else if (nemesis::iequals(filename, "$header$")) type = 0;
+	else if (hasAlpha(storeline[0])) type = 1;
+	else if (isOnlyNumber(storeline[0])) type = 2;
+	else ErrorMessage(3006, projectfile, filename);
 
 	for (auto& counter : NewCoordinate)
 	{
@@ -716,183 +852,187 @@ bool CombineAnimData(string filepath, string filename, string characterfile, str
 		}
 	}
 
-	for (auto line : newline)
-	{
-		if (error) throw nemesis::exception();
+	//for (auto line : newline)
+	//{
+	//	if (error) throw nemesis::exception();
 
-		if (line.find("<!-- NEW", 0) != NOT_FOUND) skip = true;
+	//	if (line.find("<!-- NEW", 0) != NOT_FOUND)
+	//	{
+	//		skip = true;
+	//		continue;
+	//	}
 
-		if (line.find("<!-- *", 0) == NOT_FOUND && !skip)
-		{
-			if (modEditCoordinate.size() > 0 && modEditCoordinate[editcount] == linecount)
-			{
-				string templine;
+	//	if (line.find("<!-- *", 0) == NOT_FOUND && !skip)
+	//	{
+	//		if (modEditCoordinate.size() > 0 && modEditCoordinate[editcount] == linecount)
+	//		{
+	//			string templine;
 
-				if (!GetFunctionEdits(templine, storeline, modEditLine[to_string(linecount)]))
-				{
-					ErrorMessage(2005, filepath, modEditLine[to_string(linecount)]);
-				}
+	//			if (!GetFunctionEdits(templine, storeline, modEditLine[std::to_string(linecount)]))
+	//			{
+	//				ErrorMessage(2005, filepath, modEditLine[std::to_string(linecount)]);
+	//			}
 
-				if (!isHeader)
-				{
-					int position = AnimDataPosition(storeline, characterfile, filename, modcode, filepath, modEditLine[to_string(linecount)], type);
+	//			if (!isHeader)
+	//			{
+	//				int position = AnimDataPosition(storeline, projectfile, filename, modcode, filepath, modEditLine[std::to_string(linecount)], type);
 
-					if (error) throw nemesis::exception();
+	//				if (error) throw nemesis::exception();
 
-					if (type == 0)
-					{
-						// behavior file count
-						if (position == 3) position = -1;
-					}
-					else if (type == 1)
-					{
-						// event name count
-						if (position == 6) position = -1;
-					}
-					else if (type == 2)
-					{
-						// motion data count or rotation data count
-						if (position == 3 || position == 5) position = -1;
-					}
+	//				if (type == 0)
+	//				{
+	//					// behavior file count
+	//					if (position == 3) position = -1;
+	//				}
+	//				else if (type == 1)
+	//				{
+	//					// event name count
+	//					if (position == 6) position = -1;
+	//				}
+	//				else if (type == 2)
+	//				{
+	//					// motion data count or rotation data count
+	//					if (position == 3 || position == 5) position = -1;
+	//				}
 
-					if (position != -1)
-					{
-						templine.append("					<!-- *" + modcode + "* -->");
-						functionline.push_back(templine);
+	//				if (position != -1)
+	//				{
+	//					templine.append("					<!-- *" + modcode + "* -->");
+	//					functionline.push_back(templine);
 
-						if (line.find("<!-- original -->", 0) == NOT_FOUND) line.append("				<!-- original -->");
+	//					if (line.find("<!-- original -->", 0) == NOT_FOUND) line.append("				<!-- original -->");
 
-						if (editcount != modEditCoordinate.size() - 1) editcount++;
-					}
-				}
-				else
-				{
-					templine.append("					<!-- *" + modcode + "* -->");
-					functionline.push_back(templine);
+	//					if (editcount != modEditCoordinate.size() - 1) editcount++;
+	//				}
+	//			}
+	//			else
+	//			{
+	//				templine.append("					<!-- *" + modcode + "* -->");
+	//				functionline.push_back(templine);
 
-					if (line.find("<!-- original -->", 0) == NOT_FOUND) line.append("				<!-- original -->");
+	//				if (line.find("<!-- original -->", 0) == NOT_FOUND) line.append("				<!-- original -->");
 
-					if (editcount != modEditCoordinate.size() - 1) editcount++;
-				}
-			}
-			else if (NewCoordinate[linecount] > 0)
-			{
-				if (isHeader)
-				{
-					vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+	//				if (editcount != modEditCoordinate.size() - 1) editcount++;
+	//			}
+	//		}
+	//		else if (NewCoordinate[linecount] > 0)
+	//		{
+	//			if (isHeader)
+	//			{
+	//				vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[std::to_string(linecount) + "R"], NewCoordinate[linecount]);
 
-					if (!error)
-					{
-						headerline.push_back("<!-- NEW *" + modcode + "* -->");
-						headerline.insert(headerline.end(), storage.begin(), storage.end());
-						headerline.push_back("<!-- CLOSE -->");
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					vector<int> tempVI;
-					functionline.push_back("<!-- NEW *" + modcode + "* -->");
-					tempVI.push_back(functionline.size());
-					vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+	//				if (!error)
+	//				{
+	//					headerline.push_back("<!-- NEW *" + modcode + "* -->");
+	//					headerline.insert(headerline.end(), storage.begin(), storage.end());
+	//					headerline.push_back("<!-- CLOSE -->");
+	//				}
+	//				else
+	//				{
+	//					return false;
+	//				}
+	//			}
+	//			else
+	//			{
+	//				vector<int> tempVI;
+	//				functionline.push_back("<!-- NEW *" + modcode + "* -->");
+	//				tempVI.push_back(functionline.size());
+	//				vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[std::to_string(linecount) + "R"], NewCoordinate[linecount]);
 
-					if (!error)
-					{
-						functionline.insert(functionline.end(), storage.begin(), storage.end());
-						tempVI.push_back(functionline.size());
-						functionline.push_back("<!-- CLOSE -->");
-					}
-					else
-					{
-						return false;
-					}
+	//				if (!error)
+	//				{
+	//					functionline.insert(functionline.end(), storage.begin(), storage.end());
+	//					tempVI.push_back(functionline.size());
+	//					functionline.push_back("<!-- CLOSE -->");
+	//				}
+	//				else
+	//				{
+	//					return false;
+	//				}
 
-					newchecker.push_back(tempVI);
-				}
-			}
+	//				newchecker.push_back(tempVI);
+	//			}
+	//		}
 
-			++linecount;
-		}
+	//		++linecount;
+	//	}
 
-		if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND) skip = false;
+	//	if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND) skip = false;
 
-		functionline.push_back(line);
-	}
+	//	functionline.push_back(line);
+	//}
 
-	if (bigger)
-	{
-		for (unsigned int i = newline.size(); i < storeline.size(); ++i)
-		{
-			if (NewCoordinate[linecount] > 0)
-			{
-				if (isHeader)
-				{
-					vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+	//if (bigger)
+	//{
+	//	for (unsigned int i = newline.size(); i < storeline.size(); ++i)
+	//	{
+	//		if (NewCoordinate[linecount] > 0)
+	//		{
+	//			if (isHeader)
+	//			{
+	//				vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[std::to_string(linecount) + "R"], NewCoordinate[linecount]);
 
-					if (!error)
-					{
-						headerline.push_back("<!-- NEW *" + modcode + "* -->");
-						headerline.insert(headerline.end(), storage.begin(), storage.end());
-						headerline.push_back("<!-- CLOSE -->");
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					vector<int> tempVI;
-					functionline.push_back("<!-- NEW *" + modcode + "* -->");
-					tempVI.push_back(functionline.size());
-					vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+	//				if (!error)
+	//				{
+	//					headerline.push_back("<!-- NEW *" + modcode + "* -->");
+	//					headerline.insert(headerline.end(), storage.begin(), storage.end());
+	//					headerline.push_back("<!-- CLOSE -->");
+	//				}
+	//				else
+	//				{
+	//					return false;
+	//				}
+	//			}
+	//			else
+	//			{
+	//				vector<int> tempVI;
+	//				functionline.push_back("<!-- NEW *" + modcode + "* -->");
+	//				tempVI.push_back(functionline.size());
+	//				vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[std::to_string(linecount) + "R"], NewCoordinate[linecount]);
 
-					if (!error)
-					{
-						functionline.insert(functionline.end(), storage.begin(), storage.end());
-						tempVI.push_back(functionline.size());
-						functionline.push_back("<!-- CLOSE -->");
-					}
-					else
-					{
-						return false;
-					}
+	//				if (!error)
+	//				{
+	//					functionline.insert(functionline.end(), storage.begin(), storage.end());
+	//					tempVI.push_back(functionline.size());
+	//					functionline.push_back("<!-- CLOSE -->");
+	//				}
+	//				else
+	//				{
+	//					return false;
+	//				}
 
-					newchecker.push_back(tempVI);
-				}
-			}
+	//				newchecker.push_back(tempVI);
+	//			}
+	//		}
 
-			++linecount;
-		}
-	}
+	//		++linecount;
+	//	}
+	//}
 
-	if (isHeader && headerline.size() > 0) functionline.insert(functionline.end(), headerline.begin(), headerline.end());
+	//if (isHeader && headerline.size() > 0) functionline.insert(functionline.end(), headerline.begin(), headerline.end());
 
-	for (auto& chk : newchecker)
-	{
-		bool islast = false;
-		using namespace AnimDataFormat;
+	//for (auto& chk : newchecker)
+	//{
+	//	bool islast = false;
+	//	using namespace AnimDataFormat;
 
-		if (chk.size() != 2) ErrorMessage(3016, characterfile, filename);
+	//	if (chk.size() != 2) ErrorMessage(3016, projectfile, filename);
 
-		for (int j = chk[0]; j < chk[1]; ++j)
-		{
-			position curPosition = AnimDataPosition(functionline, characterfile, filename, modcode, filepath, j, type);
+	//	for (int j = chk[0]; j < chk[1]; ++j)
+	//	{
+	//		position curPosition = AnimDataPosition(functionline, projectfile, filename, modcode, filepath, j, type);
 
-			if (error) throw nemesis::exception();
+	//		if (error) throw nemesis::exception();
 
-			if (curPosition != behaviorfilelist && curPosition != eventnamelist && curPosition != motiondatalist && curPosition != rotationdatalist)
-			{
-				ErrorMessage(3018, modcode, characterfile, filename);
-			}
-		}
-	}
+	//		if (curPosition != behaviorfilelist && curPosition != eventnamelist && curPosition != motiondatalist && curPosition != rotationdatalist)
+	//		{
+	//			ErrorMessage(3018, modcode, projectfile, filename);
+	//		}
+	//	}
+	//}
 
-	functionline.shrink_to_fit();
-	newline = functionline;
+	//functionline.shrink_to_fit();
+	//newline = functionline;
 	return true;
 }
 
@@ -956,12 +1096,12 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 				{
 					int tempint = editline - originalline;
 					NewCoordinate[linecount] = tempint;
-					modEditLine[to_string(linecount) + "R"] = coordinate - tempint - 2;
+					modEditLine[std::to_string(linecount) + "R"] = coordinate - tempint - 2;
 
 					for (int i = startoriline; i < originalline; ++i)
 					{
 						modEditCoordinate.push_back(i);
-						modEditLine[to_string(i)] = Pair[i];
+						modEditLine[std::to_string(i)] = Pair[i];
 					}
 
 					originalopen = false;
@@ -970,7 +1110,7 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 				{
 					int tempint = editline - starteditline;
 					NewCoordinate[linecount] = tempint;
-					modEditLine[to_string(linecount) + "R"] = coordinate - tempint;
+					modEditLine[std::to_string(linecount) + "R"] = coordinate - tempint;
 				}
 			}
 			else if (edited)
@@ -1030,10 +1170,10 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 					{
 						string templine;
 						
-						if (!GetFunctionEdits(templine, storeline, modEditLine[to_string(linecount)])) ErrorMessage(2005, filepath, modEditLine[to_string(linecount)]);
+						if (!GetFunctionEdits(templine, storeline, modEditLine[std::to_string(linecount)])) ErrorMessage(2005, filepath, modEditLine[std::to_string(linecount)]);
 
 						using namespace ASDFormat;
-						position curPosition = ASDPosition(storeline, projectfile, filename, modcode, modEditLine[to_string(linecount)], false);
+						position curPosition = ASDPosition(storeline, projectfile, filename, modcode, modEditLine[std::to_string(linecount)], false);
 						
 						if (curPosition != equipcount && curPosition != typecount && curPosition != animpackcount && curPosition != attackcount && curPosition != crc32count)
 						{
@@ -1049,7 +1189,7 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 					{
 						if (isHeader)
 						{
-							vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+							vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[std::to_string(linecount) + "R"], NewCoordinate[linecount]);
 
 							if (!error)
 							{
@@ -1067,7 +1207,7 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 							if (!ClassCheck(modEditCoordinate, modEditLine, NewCoordinate, linecount, storeline, filepath, projectfile, filename, modcode)) return false;
 
 							functionline.push_back("<!-- NEW *" + modcode + "* -->");
-							vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[to_string(linecount) + "R"], NewCoordinate[linecount]);
+							vecstr storage = GetFunctionEdits(filepath, storeline, modEditLine[std::to_string(linecount) + "R"], NewCoordinate[linecount]);
 
 							if (!error)
 							{
@@ -1121,13 +1261,13 @@ bool AnimSetDataUpdate(string modcode, string animdatasetfile, string projectsou
 bool ClassCheck(vector<int>& modEditCoordinate, unordered_map<string, int>& modEditLine, unordered_map<int, int>& NewCoordinate, int linecount,
 	vecstr& storeline, string filepath,	string projectfile,	string filename, string modcode)
 {
-	unsigned int endline = modEditLine[to_string(linecount) + "R"] + NewCoordinate[linecount];
+	unsigned int endline = modEditLine[std::to_string(linecount) + "R"] + NewCoordinate[linecount];
 	bool attacknew = false;
 	bool islast = false;
 
-	if (ASDFormat::animpackname == ASDPosition(storeline, projectfile, filename, modcode, modEditLine[to_string(linecount) + "R"], true)) attacknew = true;
+	if (ASDFormat::animpackname == ASDPosition(storeline, projectfile, filename, modcode, modEditLine[std::to_string(linecount) + "R"], true)) attacknew = true;
 
-	for (unsigned int k = modEditLine[to_string(linecount) + "R"]; k < endline; ++k)
+	for (unsigned int k = modEditLine[std::to_string(linecount) + "R"]; k < endline; ++k)
 	{
 		if (error) throw nemesis::exception();
 
