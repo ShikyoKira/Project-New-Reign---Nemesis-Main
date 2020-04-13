@@ -1067,9 +1067,9 @@ void BehaviorSub::CompilingBehavior()
 					if (pos != NOT_FOUND)
 					{
 						string templine = line.substr(0, pos);
-						size_t range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (openRange == range)
+						if (openRange == t_counter)
 						{
 							unordered_map<string, bool> isExist;
 
@@ -1133,9 +1133,9 @@ void BehaviorSub::CompilingBehavior()
 						if (pos != NOT_FOUND)
 						{
 							string templine = line.substr(0, pos);
-							size_t range = count(templine.begin(), templine.end(), '\t');
+							__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-							if (openRange == range)
+							if (openRange == t_counter)
 							{
 								unordered_map<string, bool> isExist;
 
@@ -1198,9 +1198,9 @@ void BehaviorSub::CompilingBehavior()
 					if (pos != NOT_FOUND)
 					{
 						string templine = line.substr(0, pos);
-						size_t range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (openRange == range)
+						if (openRange == t_counter)
 						{
 							if (attributeelements == -1) attributeelements = counter;
 
@@ -1222,9 +1222,9 @@ void BehaviorSub::CompilingBehavior()
 					if (line.find("</hkparam>") != NOT_FOUND)
 					{
 						string templine = line.substr(0, line.find("</hkparam>"));
-						size_t range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (openRange == range)
+						if (openRange == t_counter)
 						{
 							if (characterelements == -1) characterelements = counter;
 
@@ -1253,9 +1253,9 @@ void BehaviorSub::CompilingBehavior()
 					if (pos != NOT_FOUND)
 					{
 						string templine = line.substr(0, pos);
-						size_t range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (openRange == range)
+						if (openRange == t_counter)
 						{
 							for (auto it = BehaviorTemplate->grouplist.begin(); it != BehaviorTemplate->grouplist.end(); ++it)
 							{
@@ -1372,8 +1372,8 @@ void BehaviorSub::CompilingBehavior()
 								}
 							}
 
-							boost::to_lower(animPath);
-							boost::to_lower(animFile);
+							nemesis::to_lower(animPath);
+							nemesis::to_lower(animFile);
 							isAdded[animPath] = true;
 							registeredAnim[lowerBehaviorFile][animFile] = true;
 
@@ -1416,9 +1416,9 @@ void BehaviorSub::CompilingBehavior()
 					if (pos != NOT_FOUND)
 					{
 						string templine = line.substr(0, pos);
-						size_t range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (openRange == range)
+						if (openRange == t_counter)
 						{
 							otherAnimOpen = false;
 							elementUpdate(elementLine, counter, curID, catalystMap);
@@ -1436,9 +1436,9 @@ void BehaviorSub::CompilingBehavior()
 					if (pos != NOT_FOUND)
 					{
 						string templine = line.substr(0, pos);
-						size_t range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (openRange == range)
+						if (openRange == t_counter)
 						{
 							norElement = false;
 							elementUpdate(elementLine, counter, curID, catalystMap);
@@ -1451,9 +1451,9 @@ void BehaviorSub::CompilingBehavior()
 						if (pos != NOT_FOUND)
 						{
 							string templine = line.substr(0, pos);
-							size_t range = count(templine.begin(), templine.end(), '\t');
+							__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-							if (range == openRange + 1) ++counter;
+							if (t_counter == openRange + 1) ++counter;
 						}
 						else if (line.find("\t\t\t#") != NOT_FOUND)
 						{
@@ -1761,7 +1761,6 @@ void BehaviorSub::CompilingBehavior()
 						int IDMultiplier = newAnimation[templateCode][0]->getNextID(lowerBehaviorFile);
 						NewAnimLock animLock;
 						boost::asio::thread_pool mt;
-						size_t n_core = boost::thread::hardware_concurrency();
 						boost::posix_time::ptime start_time = boost::posix_time::microsec_clock::local_time();
 
 						// individual animation

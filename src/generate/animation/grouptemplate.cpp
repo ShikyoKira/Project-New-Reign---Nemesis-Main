@@ -1,4 +1,5 @@
 #include "utilities/compute.h"
+#include "utilities/linkedvar.h"
 #include "utilities/stringsplit.h"
 
 #include "generate/animation/nodejoint.h"
@@ -27,7 +28,7 @@ bool conditionProcess(std::string condition, std::string masterformat, std::stri
 	AnimationUtility utility);
 int formatGroupReplace(string& curline, string oriline, int point, string filename, string format, shared_ptr<master> subFunctionIDs,
 	vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo, int linecount, int groupMulti, int optionMulti, int animMulti, string multiOption, bool& innerError);
-void OutputCheckGroup(string format, string behaviorFile, shared_ptr<vecstr> generatedlines, proc& process, condset* curset, bool& elementCatch, bool isMaster,
+void OutputCheckGroup(string format, string behaviorFile, shared_ptr<vecstr> generatedlines, proc& process, nemesis::CondVar<string>* curset, bool& elementCatch, bool isMaster,
 	int& openRange, size_t& elementLine, int& counter, int groupCount, id& eventid, id&variableid);
 void processing(string& line, shared_ptr<NodePackedParameters> parameters);
 bool specialCondition(string condition, string filename, vector<vector<unordered_map<string, bool>>> curOptionPicked, vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo,
@@ -713,9 +714,9 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline, string fo
 				else if (line.find("</hkparam>") != NOT_FOUND && norElement)
 				{
 					string templine = line.substr(0, line.find("</hkparam>"));
-					__int64 range = count(templine.begin(), templine.end(), '\t');
+					__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-					if (openRange == range)
+					if (openRange == t_counter)
 					{
 						string oldElement;
 
@@ -747,9 +748,9 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline, string fo
 					if (templine.find("<hkobject>") != NOT_FOUND)
 					{
 						templine = templine.substr(0, templine.find("<hkobject>"));
-						__int64 range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (range == openRange + 1)
+						if (t_counter == openRange + 1)
 						{
 							counter++;
 						}
@@ -868,7 +869,6 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline, string fo
 				{
 					pos = line.find("animationName\">") + 15;
 					string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
-					nemesis::to_lower(animPath);
 					addUsedAnim(behaviorFile, animPath);
 				}
 				else if (line.find("<hkparam name=\"localTime\">-") != NOT_FOUND)
@@ -1270,9 +1270,9 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline, string fo
 											if (templine.find("<hkobject>") != NOT_FOUND)
 											{
 												templine = templine.substr(0, templine.find("<hkobject>"));
-												__int64 range = count(templine.begin(), templine.end(), '\t');
+												__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-												if (range == openRange + 1)
+												if (t_counter == openRange + 1)
 												{
 													counter++;
 												}
@@ -1380,7 +1380,6 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<vecstr> functionline, string fo
 										{
 											pos = curLine.find("animationName\">") + 15;
 											string animPath = curLine.substr(pos, curLine.find("</hkparam>", pos) - pos);
-											nemesis::to_lower(animPath);
 											addUsedAnim(behaviorFile, animPath);
 										}
 										else if (curLine.find("<hkparam name=\"localTime\">-") != NOT_FOUND)
@@ -2029,9 +2028,9 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 				else if (line.find("</hkparam>") != NOT_FOUND && isElement)
 				{
 					string templine = line.substr(0, line.find("</hkparam>"));
-					__int64 range = count(templine.begin(), templine.end(), '\t');
+					__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-					if (openRange == range)
+					if (openRange == t_counter)
 					{
 						string oldElement;
 
@@ -2063,9 +2062,9 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 					if (templine.find("<hkobject>") != NOT_FOUND)
 					{
 						templine = templine.substr(0, templine.find("<hkobject>"));
-						__int64 range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (range == openRange + 1) elementCount++;
+						if (t_counter == openRange + 1) elementCount++;
 					}
 					else if (templine.find("\t\t\t#") != NOT_FOUND)
 					{
@@ -2388,9 +2387,9 @@ vecstr ExistingFunction::groupExistingFunctionProcess(int curFunctionID, vecstr 
 											if (templine.find("<hkobject>") != NOT_FOUND)
 											{
 												templine = templine.substr(0, templine.find("<hkobject>"));
-												__int64 range = count(templine.begin(), templine.end(), '\t');
+												__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-												if (range == openRange + 1) elementCount++;
+												if (t_counter == openRange + 1) elementCount++;
 											}
 											else if (templine.find("\t\t\t#") != NOT_FOUND)
 											{
@@ -3048,9 +3047,9 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 				else if (line.find("</hkparam>") != NOT_FOUND && isElement)
 				{
 					string templine = line.substr(0, line.find("</hkparam>"));
-					__int64 range = count(templine.begin(), templine.end(), '\t');
+					__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-					if (openRange == range)
+					if (openRange == t_counter)
 					{
 						string oldElement;
 
@@ -3082,9 +3081,9 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 					if (templine.find("<hkobject>") != NOT_FOUND)
 					{
 						templine = templine.substr(0, templine.find("<hkobject>"));
-						__int64 range = count(templine.begin(), templine.end(), '\t');
+						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (range == openRange + 1) elementCount++;
+						if (t_counter == openRange + 1) elementCount++;
 					}
 					else if (templine.find("\t\t\t#") != NOT_FOUND)
 					{
@@ -3401,9 +3400,9 @@ void ExistingFunction::outPutExistingFunction(vecstr& existingFunctionLines, vec
 											if (templine.find("<hkobject>") != NOT_FOUND)
 											{
 												templine = templine.substr(0, templine.find("<hkobject>"));
-												__int64 range = count(templine.begin(), templine.end(), '\t');
+												__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-												if (range == openRange + 1) elementCount++;
+												if (t_counter == openRange + 1) elementCount++;
 											}
 											else if (templine.find("\t\t\t#") != NOT_FOUND)
 											{
@@ -6292,10 +6291,10 @@ int formatGroupReplace(string& curline, string oriline, int point, string filena
 	return point;
 }
 
-void OutputCheckGroup(string format, string behaviorFile, shared_ptr<vecstr> generatedlines, proc& process, condset* curset, bool& elementCatch, bool isMaster,
+void OutputCheckGroup(string format, string behaviorFile, shared_ptr<vecstr> generatedlines, proc& process, nemesis::CondVar<string>* curset, bool& elementCatch, bool isMaster,
 	int& openRange, size_t& elementLine, int& counter, int groupCount, id& eventid, id&variableid)
 {
-	for (auto& curstack : curset->lines)
+	for (auto& curstack : curset->rawlist)
 	{
 		bool uniqueskip = false;
 		bool hasProcess = false;
@@ -6308,7 +6307,7 @@ void OutputCheckGroup(string format, string behaviorFile, shared_ptr<vecstr> gen
 			hasProcess = curstack.hasProcess;
 
 			if (hasProcess) lineblocks = curstack.lineblocks;
-			else line = curstack.line;
+			else line = curstack.raw;
 		}
 		else
 		{
@@ -6316,7 +6315,7 @@ void OutputCheckGroup(string format, string behaviorFile, shared_ptr<vecstr> gen
 
 			while (condcount < curstack.nestedcond.size())
 			{
-				condset& curcond = curstack.nestedcond[condcount];
+				nemesis::CondVar<string>& curcond = curstack.nestedcond[condcount];
 
 				// FOREACH
 				if (curcond.isMulti)

@@ -337,7 +337,6 @@ void NodeJoint::insertData(string format, string filename, vector<vector<unorder
 			{
 				pos = line.find("animationName\">") + 15;
 				string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
-				nemesis::to_lower(animPath);
 				addUsedAnim(behaviorFile, animPath);
 			}
 			else if (line.find("<hkparam name=\"localTime\">-") != NOT_FOUND)
@@ -685,9 +684,9 @@ vecstr NodeJoint::unpack()
 			if (line.find("</hkparam>") != NOT_FOUND)
 			{
 				string templine = line.substr(0, line.find("</hkparam>"));
-				__int64 range = count(templine.begin(), templine.end(), '\t');
+				__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-				if (openRange == range)
+				if (openRange == t_counter)
 				{
 					string oldElement;
 					string& ref_line = storeline[element];
@@ -718,9 +717,9 @@ vecstr NodeJoint::unpack()
 				if (templine.find("<hkobject>") != NOT_FOUND)
 				{
 					templine = templine.substr(0, templine.find("<hkobject>"));
-					__int64 range = count(templine.begin(), templine.end(), '\t');
+					__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-					if (range == openRange + 1) counter++;
+					if (t_counter == openRange + 1) counter++;
 				}
 				else if (templine.find("\t\t\t#") != NOT_FOUND)
 				{
