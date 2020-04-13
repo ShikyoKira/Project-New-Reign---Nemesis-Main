@@ -503,7 +503,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 			if (curBehavior->isFirstPerson) firstperson = "_1stperson\\";
 
 			curFileName = firstperson + curFileName.substr(8);
-			boost::to_lower(curFileName);
+			nemesis::to_lower(curFileName);
 			DebugLogging("Behavior Disassemble start (File: " + newPath + ")");
 
 			{
@@ -923,12 +923,15 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 #if MULTITHREADED_UPDATE
 	scoped_lock<mutex> adlock(admtx);
 #endif
-	int num;
-	MasterAnimData::AnimDataList newline;
+	size_t num;
 	vecstr storeline;
 	unordered_map<string, int> projectNameCount;
 
+#if HIDE
 	int projectcounter = 1;
+#else
+	int projectcounter = 0;
+#endif
 	size_t totallines = 0;
 
 	string project;
@@ -949,6 +952,7 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 		num = stoi(strnum) + 1;
 	}
 
+#if HIDE
 	header = "$header$";
 
 	{
@@ -966,6 +970,7 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 		animData.newAnimData[header][header] = prjlist;
 	}
 
+	MasterAnimData::AnimDataList newline;
 	project = animData.animDataChar[1];
 	animData.animDataHeader[header].push_back(header);
 	animData.animDataHeader[project].push_back(header);
@@ -1081,7 +1086,79 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
 		newline.shrink_to_fit();
 		animData.newAnimData[project][header] = newline;
 	}
+#else
+	for (size_t i = 1; i < num; ++i)
+	{
+		animData.add(storeline[i], i);
+	}
 
+	try
+	{
+		while (storeline.back().length() == 0)
+		{
+			storeline.pop_back();
+		}
+
+		for (unsigned int i = num; i < storeline.size();)
+		{
+			unsigned int size = stoi(storeline[i]) + i;
+			shared_ptr<AnimDataProject_Condt> proj = animData.projectlist[projectcounter++].raw.second;
+
+			// start project header
+			vecstr templine;
+			templine.push_back(storeline[i]);
+			templine.push_back(storeline[++i]);
+			templine.push_back(storeline[++i]);
+
+			while (!isOnlyNumber(storeline[++i]))
+			{
+				templine.push_back(storeline[i]);
+			}
+
+			templine.push_back(storeline[i++]);
+			proj->update("original", templine, i - templine.size() + 1);
+			templine.clear();
+
+			if (proj->childActive == "0") continue;
+
+			// start anim data section
+			while (i <= size)
+			{
+				templine.push_back(storeline[i]);
+
+				if (templine.back().length() == 0)
+				{
+					proj->aadd(templine[0], "original", templine, i - templine.size() + 2);
+					templine.clear();
+				}
+
+				++i;
+			}
+
+			// start info data section
+			size = stoi(storeline[i]) + i;
+			templine.clear();
+			++i;
+
+			while (i <= size)
+			{
+				templine.push_back(storeline[i]);
+
+				if (templine.back().length() == 0)
+				{
+					proj->iadd(templine[0], "original", templine, i - templine.size() + 2);
+					templine.clear();
+				}
+
+				++i;
+			}
+		}
+	}
+	catch (const exception& ex)
+	{
+		ErrorMessage(3014);
+	}
+#endif
 	return true;
 }
 
@@ -1205,7 +1282,7 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 			{
 				MasterAnimData& animData(pack[modcode]->animData);
 
-				if (animData.newAnimData.size() == 0) ErrorMessage(3017, "nemesis_animationdatasinglefile.txt");
+				if (animData.projectlist.size() == 0) ErrorMessage(3017, "nemesis_animationdatasinglefile.txt");
 
 				bool newChar = false;
 				bool openAnim = false;
@@ -1214,26 +1291,59 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 				
 				if (projectname != "$header$" && projectname.find_last_of("~") != NOT_FOUND) projectname.replace(projectname.find_last_of("~"), 0, ".txt");
 
-				if (animData.newAnimData.find(projectname) == animData.newAnimData.end())
-				{
-					animData.animDataChar.push_back(projectname);
-					newChar = true;
-				}
-
 				vecstr uniquecodelist;
 				string filepath = curPath.string();
 				read_directory(filepath, uniquecodelist);
 
-				for (string& uniquecode : uniquecodelist)
+#if HIDE
+				if (animData.newAnimData.find(projectname) == animData.newAnimData.end())
 				{
-					if (!sf::is_directory(filepath + "\\" + uniquecode))
-					{
-						AnimDataUpdate(modcode, behavior, projectname, filepath + "\\" + uniquecode, animData, newChar, lastUpdate, openAnim, openInfo);
+					animData.animDataChar.push_back(projectname);
+					newChar = true;
+#else
+				if (animData.find(projectname, modcode) == nullptr)
+				{
+					if (!isFileExist(filepath + "\\$header$")) ErrorMessage(2002, filepath + "\\$header$", "-", "-");
 
-						if (error) throw nemesis::exception();
+					newChar = true;
+					vecstr storeline;
+					GetFunctionLines(filepath + "\\$header$", storeline, false);
+					animData.projectListUpdate(modcode, filepath + "\\$header$", storeline, false);
+
+					for (string& uniquecode : uniquecodelist)
+					{
+						if (nemesis::iequals(uniquecode, "$header$")) continue;
+
+						if (!sf::is_directory(filepath + "\\" + uniquecode))
+						{
+							AnimDataUpdate(modcode, behavior, projectname, filepath + "\\" + uniquecode, animData, true, lastUpdate, openAnim, openInfo);
+
+							if (error) throw nemesis::exception();
+						}
+					}
+#endif
+				}
+				else
+				{
+					if (isFileExist(filepath + "\\$header$"))
+					{
+						AnimDataUpdate(modcode, behavior, projectname, filepath + "\\$header", animData, true, lastUpdate, openAnim, openInfo);
+					}
+
+					for (string& uniquecode : uniquecodelist)
+					{
+						if (nemesis::iequals(uniquecode, "$header$")) continue;
+
+						if (!sf::is_directory(filepath + "\\" + uniquecode))
+						{
+							AnimDataUpdate(modcode, behavior, projectname, filepath + "\\" + uniquecode, animData, false, lastUpdate, openAnim, openInfo);
+
+							if (error) throw nemesis::exception();
+						}
 					}
 				}
 
+#if HIDE
 				auto& projData = animData.newAnimData[projectname];
 				auto& headerData = animData.animDataHeader[projectname];
 				auto& infoData = animData.animDataInfo[projectname];
@@ -1294,6 +1404,9 @@ void UpdateFilesStart::ModThread(string directory, string node, string behavior,
 						if (hasHeader) projData[(infoheader.size() > 0 ? infoData : headerData).back()].push_back("<!-- CLOSE -->");
 					}
 				}
+#else
+
+#endif
 			}
 			else if (nemesis::iequals(behavior, "animationsetdatasinglefile"))
 			{
@@ -1572,7 +1685,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 				{
 					if (!sf::is_directory(directory + modcode)) continue;
 
-					boost::to_lower(modcode);
+					nemesis::to_lower(modcode);
 					read_directory(directory + modcode + "\\", filelist2[modcode]);
 					pack.insert(make_pair(modcode, make_shared<arguPack>(newFile, parent, animData, animSetData, modUpPtr
 #if MULTITHREADED_UPDATE
@@ -1582,7 +1695,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 
 					for (auto& behavior : filelist2[modcode])
 					{
-						boost::to_lower(behavior);
+						nemesis::to_lower(behavior);
 						string path = directory + modcode + "\\" + behavior;
 
 						if (!sf::is_directory(path)) continue;
@@ -1596,7 +1709,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 
 							for (auto& fbehavior : fbehaviorlist)
 							{
-								boost::to_lower(fbehavior);
+								nemesis::to_lower(fbehavior);
 								string fpath = path + fbehavior + "\\";
 								string recName = behavior + "\\" + fbehavior;
 								read_directory(fpath, modFileList[modcode][recName]);
@@ -1606,7 +1719,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 								{
 									if (sf::is_directory(fpath + node)) continue;
 
-									boost::to_lower(node);
+									nemesis::to_lower(node);
 									modQueue[recName][node].push_back(modcode);
 								}
 
@@ -1625,7 +1738,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 								{
 									if (sf::is_directory(path + node)) continue;
 
-									boost::to_lower(node);
+									nemesis::to_lower(node);
 									modQueue[behavior][node].push_back(modcode);
 								}
 
@@ -1880,6 +1993,7 @@ void UpdateFilesStart::CombiningFiles()
 			if (outputlist.is_open())
 			{
 				string total = filename + "\n";
+#if HIDE
 				writeSave(output, to_string(animData.animDataChar.size() - 1) + "\n", total);
 
 				for (auto& line : animData.newAnimData["$header$"]["$header$"])
@@ -1966,6 +2080,7 @@ void UpdateFilesStart::CombiningFiles()
 				}
 
 				bigNum2 += CRC32Convert(total);
+#endif
 			}
 			else
 			{
@@ -1977,7 +2092,6 @@ void UpdateFilesStart::CombiningFiles()
 			ErrorMessage(2009, filename);
 		}
 	}
-
 	emit progressUp();	// 29
 
 	if (CreateFolder(compilingfolder))
@@ -2130,7 +2244,7 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 							projectfile[k].find("~") != NOT_FOUND)
 						{
 							string projectname = projectfile[k];
-							boost::to_lower(projectname);
+							nemesis::to_lower(projectname);
 
 							while (projectname.find("~") != NOT_FOUND)
 							{

@@ -58,8 +58,8 @@ bool AddAnims(string& line, string animPath, string outputdir,string behaviorFil
 		}
 
 		storeline.push_back("				<hkcstring>" + animPath + "</hkcstring>");
-		boost::to_lower(animPath);
-		boost::to_lower(animFile);
+		nemesis::to_lower(animPath);
+		nemesis::to_lower(animFile);
 		isAdded[animPath] = true;
 
 		while (animdata_lock.test_and_set(boost::memory_order_acquire));

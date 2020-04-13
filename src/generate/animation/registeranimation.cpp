@@ -600,7 +600,7 @@ void registerAnimation::clear()
 
 var::var(string inputtype, string inputvalue, bool& failed)
 {
-	boost::to_lower(inputtype);
+	nemesis::to_lower(inputtype);
 
 	if (inputtype == "bool") var_type = "BOOL";
 	else if (inputtype == "int32") var_type = "INT32";
