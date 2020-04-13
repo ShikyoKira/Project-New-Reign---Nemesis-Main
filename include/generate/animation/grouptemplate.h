@@ -93,7 +93,6 @@ public:
 	inline void newID();
 	void setZeroEvent(std::string eventname);
 	void setZeroVariable(std::string variablename);
-
 };
 
 inline bool isPassed(int condition, std::unordered_map<int, bool> IsConditionOpened);
