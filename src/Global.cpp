@@ -378,44 +378,18 @@ size_t wordFind(string line, string word, bool isLast)
 
 bool isOnlyNumber(string line)
 {
-	try
-	{
-		boost::lexical_cast<double>(line);
-	}
-	catch (boost::bad_lexical_cast&)
-	{
-		return false;
-	}
-
-	return true;
+	char* end = nullptr;
+	double val = strtod(line.c_str(), &end);
+	return end != line.c_str() && *end == '\0' && val != HUGE_VAL;
 }
 
 bool hasAlpha(string line)
 {
-	string lower = nemesis::to_lower_copy(line);
-	string upper = boost::to_upper_copy(line);
-
-	if (lower != upper)
-	{
-		return true;
-	}
-
-	return false;
+	return nemesis::to_lower_copy(line) != nemesis::to_upper_copy(line);
 }
 
 void addUsedAnim(string behaviorFile, string animPath)
 {
-	while (atomLock.test_and_set(boost::memory_order_acquire));
-
-	try
-	{
-		usedAnim[behaviorFile].insert(animPath);
-	}
-	catch (const std::exception& ex)
-	{
-		atomLock.clear(boost::memory_order_release);
-		throw ex;
-	}
-
-	atomLock.clear(boost::memory_order_release);
+	Lockless lock(atomLock);
+	usedAnim[nemesis::to_lower_copy(behaviorFile)].insert(nemesis::to_lower_copy(animPath));
 }
