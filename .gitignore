@@ -268,3 +268,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/NemesisEngine.vcxproj.filters
+/NemesisEngine.vcxproj
+/NemesisEngine.sln
+/NemesisEngine.qrc
