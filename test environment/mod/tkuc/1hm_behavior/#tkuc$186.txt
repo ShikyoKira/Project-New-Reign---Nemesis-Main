@@ -1,12 +1,9 @@
-		<hkobject name="#tkuc$186" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+		<hkobject name="#tkuc$186" class="hkbModifierList" signature="0xa4180ca1">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">UCEndBlendTransition</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_BLEND</hkparam>
-			<hkparam name="eventMode">EVENT_MODE_PROCESS_ALL</hkparam>
-			<hkparam name="duration">0.800000</hkparam>
-			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
-			<hkparam name="flags">FLAG_IGNORE_TO_WORLD_FROM_MODEL</hkparam>
-			<hkparam name="endMode">END_MODE_NONE</hkparam>
-			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">CrossBow_Ready_ML</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="2">
+				#0434 #tkuc$107
+			</hkparam>
 		</hkobject>

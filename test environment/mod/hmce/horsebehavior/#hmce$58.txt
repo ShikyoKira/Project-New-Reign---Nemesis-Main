@@ -1,16 +1,10 @@
-		<hkobject name="#hmce$58" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#0530</hkparam>
+		<hkobject name="#hmce$58" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0559</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">HMMC_Spear_Release.hkx00</hkparam>
-			<hkparam name="animationName">Animations\Horsemen\HMMC_SpearCouchReturn.hkx</hkparam>
-			<hkparam name="triggers">#hmce$57</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
+			<hkparam name="name">MC_CouchRest_MSG</hkparam>
+			<hkparam name="generators" numelements="7">
+				#hmce$57 #hmce$57 #hmce$57 #hmce$57 #hmce$57 #hmce$57 #hmce$57
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

@@ -942,7 +942,11 @@
 					<hkparam name="role">
 						<hkobject>
 							<hkparam name="role">ROLE_DEFAULT</hkparam>
+<!-- MOD_CODE ~na1w~ OPEN -->
+							<hkparam name="flags">FLAG_NOT_VARIABLE|FLAG_RAGDOLL|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>
+<!-- ORIGINAL -->
 							<hkparam name="flags">FLAG_NOT_VARIABLE|FLAG_NONE|<!-- UNKNOWN BITS -->0x1680</hkparam>
+<!-- CLOSE -->
 						</hkobject>
 					</hkparam>
 					<hkparam name="type">VARIABLE_TYPE_POINTER</hkparam>

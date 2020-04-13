@@ -9,7 +9,7 @@
 				#1014
 				#1012
 <!-- MOD_CODE ~pscd~ OPEN -->
-				#pscd$6 #pscd$7 #pscd$8
+				#pscd$4 #pscd$3 #pscd$1
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

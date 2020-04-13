@@ -4,7 +4,7 @@
 			<hkparam name="name">SneakBow_IdleDrawn</hkparam>
 			<hkparam name="animationName">Animations\SneakBow_IdleDrawn.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$8</hkparam>
+			<hkparam name="triggers">#tudm$243</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

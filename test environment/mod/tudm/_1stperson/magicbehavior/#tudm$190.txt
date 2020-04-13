@@ -16,7 +16,7 @@
 					<hkparam name="localTime">0.150000</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$eventID[Right_RollStart]$</hkparam>
+							<hkparam name="id">$eventID[ForwardRollStart]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>

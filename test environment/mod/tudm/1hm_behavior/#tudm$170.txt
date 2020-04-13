@@ -5,7 +5,7 @@
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
 			<hkparam name="generator">#tudm$169</hkparam>
-			<hkparam name="name">Left_ForwardDodgeStyle_B2</hkparam>
+			<hkparam name="name">Left_BackwardDodgeStyle_A2</hkparam>
 			<hkparam name="stateId">1</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>

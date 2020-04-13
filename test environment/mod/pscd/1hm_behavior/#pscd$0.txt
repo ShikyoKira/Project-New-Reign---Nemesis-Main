@@ -4,6 +4,6 @@
 			<hkparam name="name">TwistModifierListwArm</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="modifiers" numelements="5">
-				#pscd$8 #0429 #pscd$7 #pscd$6 #pscd$5
+				#pscd$4 #0429 #pscd$3 #pscd$2 #pscd$1
 			</hkparam>
 		</hkobject>

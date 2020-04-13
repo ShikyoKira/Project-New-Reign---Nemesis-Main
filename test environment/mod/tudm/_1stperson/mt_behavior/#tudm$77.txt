@@ -1,8 +1,8 @@
 		<hkobject name="#tudm$77" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#tudm$66</hkparam>
+			<hkparam name="variableBindingSet">#tudm$62</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Left_ForwardSidestep_Clip_B</hkparam>
-			<hkparam name="animationName">Animations\Sidestep_ForwardLeft.hkx</hkparam>
+			<hkparam name="name">Left_ForwardRoll_Clip_B</hkparam>
+			<hkparam name="animationName">Animations\Roll_ForwardLeft.hkx</hkparam>
 			<hkparam name="triggers">#tudm$4</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>

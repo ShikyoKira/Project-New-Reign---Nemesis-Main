@@ -8,7 +8,7 @@
 				#0421
 				#2782
 <!-- MOD_CODE ~pscd~ OPEN -->
-				#pscd$4
+				#pscd$8
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

@@ -226,7 +226,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart1HMSpecialF]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -252,7 +252,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart1HMSpecialE]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -278,7 +278,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart1HMSpecialD]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -304,7 +304,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart1HMSpecialG]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -356,7 +356,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart2HMSpecialA]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -382,7 +382,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart1HMSpecialB]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -408,7 +408,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart2HMSpecialB]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -434,7 +434,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart1HMSpecialA]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -460,7 +460,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart2HMSpecialC]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -486,7 +486,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStart2HMSpecialD]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -512,7 +512,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[KickStart]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -538,7 +538,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[BashStartSpecial]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -564,7 +564,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStartDWSpecialA]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -590,7 +590,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStartDWRushA]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
@@ -616,7 +616,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$3</hkparam>
+					<hkparam name="transition">#tkuc$116</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[attackStartDWRushB]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>

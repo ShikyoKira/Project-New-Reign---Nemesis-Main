@@ -616,11 +616,11 @@
 				<hkcstring>iCrossbowState</hkcstring>
 <!-- MOD_CODE ~tudm~ OPEN -->
 				<hkcstring>DodgeID</hkcstring>
+				<hkcstring>DodgeSpeed</hkcstring>
 				<hkcstring>StanceID</hkcstring>
 				<hkcstring>NextStanceID</hkcstring>
 				<hkcstring>PreviousStanceID</hkcstring>
 				<hkcstring>IsDodging</hkcstring>
-				<hkcstring>DodgeSpeed</hkcstring>
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="characterPropertyNames" numelements="9">

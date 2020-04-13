@@ -1,8 +1,0 @@
-		<hkobject name="#ds360$146" class="BSModifyOnceModifier" signature="0x1e20a97a">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">3</hkparam>
-			<hkparam name="name">Move360_Reset_MOM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="pOnActivateModifier">#ds360$145</hkparam>
-			<hkparam name="pOnDeactivateModifier">null</hkparam>
-		</hkobject>

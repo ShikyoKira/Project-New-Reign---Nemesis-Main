@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">MLh_AimedConcentration_MG</hkparam>
 <!-- MOD_CODE ~pscd~ OPEN -->
-			<hkparam name="modifier">#pscd$4</hkparam>
+			<hkparam name="modifier">#pscd$13</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="modifier">#0489</hkparam>
 <!-- CLOSE -->

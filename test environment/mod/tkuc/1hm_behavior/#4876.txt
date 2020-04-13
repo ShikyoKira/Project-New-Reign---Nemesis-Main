@@ -34,7 +34,7 @@
 				#0446
 				#0259
 <!-- MOD_CODE ~tkuc~ OPEN -->
-				#tkuc$7 #tkuc$8 #tkuc$9
+				#tkuc$106 #tkuc$59 #tkuc$10
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">#0088</hkparam>

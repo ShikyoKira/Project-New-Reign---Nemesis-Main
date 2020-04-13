@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#hmce$65</hkparam>
-			<hkparam name="generator">#hmce$66</hkparam>
+			<hkparam name="transitions">#hmce$66</hkparam>
+			<hkparam name="generator">#hmce$65</hkparam>
 			<hkparam name="name">HMMC_CouchedLance_Anticipation</hkparam>
 			<hkparam name="stateId">51</hkparam>
 			<hkparam name="probability">1.000000</hkparam>

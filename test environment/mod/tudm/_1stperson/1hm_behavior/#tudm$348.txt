@@ -1,10 +1,11 @@
-		<hkobject name="#tudm$348" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tudm$248</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Weap_AttackRight_MSG</hkparam>
-			<hkparam name="generators" numelements="7">
-				#2643 #2643 #2643 #2643 #2643 #tudm$344 #tudm$345
+		<hkobject name="#tudm$348" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">playbackSpeed</hkparam>
+					<hkparam name="variableIndex">24</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>

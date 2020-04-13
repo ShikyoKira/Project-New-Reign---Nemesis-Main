@@ -980,7 +980,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tudm$1</hkparam>
+					<hkparam name="transition">#tudm$92</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[RollStart]$</hkparam>
 					<hkparam name="toStateId">25</hkparam>
@@ -1007,7 +1007,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">null</hkparam>
-					<hkparam name="condition">#tudm$76</hkparam>
+					<hkparam name="condition">#tudm$437</hkparam>
 					<hkparam name="eventId">$eventID[LeftStance]$</hkparam>
 					<hkparam name="toStateId">30</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
@@ -1033,7 +1033,7 @@
 						</hkobject>
 					</hkparam>
 					<hkparam name="transition">null</hkparam>
-					<hkparam name="condition">#tudm$77</hkparam>
+					<hkparam name="condition">#tudm$436</hkparam>
 					<hkparam name="eventId">$eventID[RightStance]$</hkparam>
 					<hkparam name="toStateId">31</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>

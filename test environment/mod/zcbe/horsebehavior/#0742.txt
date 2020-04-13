@@ -23,7 +23,92 @@
 					</hkparam>
 				</hkobject>
 			</hkparam>
-			<hkparam name="legs" numelements="0"></hkparam>
+			<hkparam name="legs" numelements="4">
+				<hkobject>
+					<hkparam name="groundPosition">
+						0.000000
+						0.000000
+						0.000000
+						0.000000
+					</hkparam>
+					<hkparam name="ungroundedEvent">
+						<hkobject>
+<!-- MOD_CODE ~zcbe~ OPEN -->
+							<hkparam name="id">0</hkparam>
+<!-- ORIGINAL -->
+							<hkparam name="id">-1</hkparam>
+<!-- CLOSE -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="verticalError">0.000000</hkparam>
+					<hkparam name="hitSomething">false</hkparam>
+					<hkparam name="isPlantedMS">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="groundPosition">
+						0.000000
+						0.000000
+						0.000000
+						0.000000
+					</hkparam>
+					<hkparam name="ungroundedEvent">
+						<hkobject>
+<!-- MOD_CODE ~zcbe~ OPEN -->
+							<hkparam name="id">0</hkparam>
+<!-- ORIGINAL -->
+							<hkparam name="id">-1</hkparam>
+<!-- CLOSE -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="verticalError">0.000000</hkparam>
+					<hkparam name="hitSomething">false</hkparam>
+					<hkparam name="isPlantedMS">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="groundPosition">
+						0.000000
+						0.000000
+						0.000000
+						0.000000
+					</hkparam>
+					<hkparam name="ungroundedEvent">
+						<hkobject>
+<!-- MOD_CODE ~zcbe~ OPEN -->
+							<hkparam name="id">0</hkparam>
+<!-- ORIGINAL -->
+							<hkparam name="id">-1</hkparam>
+<!-- CLOSE -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="verticalError">0.000000</hkparam>
+					<hkparam name="hitSomething">false</hkparam>
+					<hkparam name="isPlantedMS">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="groundPosition">
+						0.000000
+						0.000000
+						0.000000
+						0.000000
+					</hkparam>
+					<hkparam name="ungroundedEvent">
+						<hkobject>
+<!-- MOD_CODE ~zcbe~ OPEN -->
+							<hkparam name="id">0</hkparam>
+<!-- ORIGINAL -->
+							<hkparam name="id">-1</hkparam>
+<!-- CLOSE -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="verticalError">0.000000</hkparam>
+					<hkparam name="hitSomething">false</hkparam>
+					<hkparam name="isPlantedMS">false</hkparam>
+				</hkobject>
+			</hkparam>
 			<hkparam name="errorOutTranslation">
 				0.000000
 <!-- MOD_CODE ~zcbe~ OPEN -->

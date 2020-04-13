@@ -4,9 +4,9 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">null</hkparam>
-			<hkparam name="generator">#tudm$431</hkparam>
-			<hkparam name="name">2HW_AttackPowerFwd_ToDodge</hkparam>
-			<hkparam name="stateId">3</hkparam>
+			<hkparam name="generator">#tudm$51</hkparam>
+			<hkparam name="name">BackwardDodge_StateC</hkparam>
+			<hkparam name="stateId">4</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

@@ -1,15 +1,8 @@
-		<hkobject name="#tudm$328" class="hkbBlenderGenerator" signature="0x22df7147">
-			<hkparam name="variableBindingSet">#tudm$268</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">2HM_Backward_AttackRightNPC_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">1.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">17</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="3">
-				#tudm$326 #tudm$325 #tudm$321
+		<hkobject name="#tudm$328" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
+				<hkobject>
+					<hkparam name="id">$eventID[NextPowerAttackInitiate]$</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
 			</hkparam>
 		</hkobject>

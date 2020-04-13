@@ -1,16 +1,10 @@
-		<hkobject name="#hmce$83" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#0530</hkparam>
+		<hkobject name="#hmce$83" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0532</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">HMMC_1HM_ChargeRelease_R.hkx00</hkparam>
-			<hkparam name="animationName">Animations\Horsemen\HMMC_1HM_AttackRelease_R.hkx</hkparam>
-			<hkparam name="triggers">#hmce$84</hkparam>
-			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
-			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
-			<hkparam name="startTime">0.000000</hkparam>
-			<hkparam name="playbackSpeed">1.000000</hkparam>
-			<hkparam name="enforcedDuration">0.000000</hkparam>
-			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
-			<hkparam name="animationBindingIndex">-1</hkparam>
-			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
-			<hkparam name="flags">0</hkparam>
+			<hkparam name="name">MC_1HM_AttackRight_ReleaseMSG</hkparam>
+			<hkparam name="generators" numelements="7">
+				#hmce$82 #hmce$82 #hmce$82 #hmce$82 #hmce$82 #hmce$80 #hmce$80
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

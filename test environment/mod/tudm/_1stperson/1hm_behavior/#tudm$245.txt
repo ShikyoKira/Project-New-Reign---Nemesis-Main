@@ -1,10 +1,7 @@
-		<hkobject name="#tudm$245" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tudm$248</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Weap_AttackLeft_MSG</hkparam>
-			<hkparam name="generators" numelements="7">
-				#2643 #2643 #2643 #2643 #2643 #tudm$244 #tudm$246
-			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
+		<hkobject name="#tudm$245" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="generator">#tudm$244</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">75.429001</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

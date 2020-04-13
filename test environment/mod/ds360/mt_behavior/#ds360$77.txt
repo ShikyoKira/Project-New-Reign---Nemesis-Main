@@ -1,7 +1,0 @@
-		<hkobject name="#ds360$77" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
-			<hkparam name="variableBindingSet">#ds360$79</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">Move360_DontCalc_EEM</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="expressions">#ds360$78</hkparam>
-		</hkobject>

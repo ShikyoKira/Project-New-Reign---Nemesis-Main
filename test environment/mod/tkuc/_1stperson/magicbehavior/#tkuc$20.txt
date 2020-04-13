@@ -1,12 +1,12 @@
-		<hkobject name="#tkuc$20" class="hkbBlendingTransitionEffect" signature="0xfd8584fe">
+		<hkobject name="#tkuc$20" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">TKDodgeFastBlendTransitionFromAnimationDriven</hkparam>
-			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_CONTINUE</hkparam>
-			<hkparam name="eventMode">EVENT_MODE_PROCESS_ALL</hkparam>
-			<hkparam name="duration">0.200000</hkparam>
-			<hkparam name="toGeneratorStartTimeFraction">0.000000</hkparam>
-			<hkparam name="flags">FLAG_IGNORE_TO_WORLD_FROM_MODEL</hkparam>
-			<hkparam name="endMode">END_MODE_NONE</hkparam>
-			<hkparam name="blendCurve">BLEND_CURVE_SMOOTH</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">#tkuc$19</hkparam>
+			<hkparam name="generator">#tkuc$17</hkparam>
+			<hkparam name="name">TKDodgeState</hkparam>
+			<hkparam name="stateId">21</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
 		</hkobject>

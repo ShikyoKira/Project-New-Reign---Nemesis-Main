@@ -4,7 +4,7 @@
 			<hkparam name="name">MLh_ReadyLoop</hkparam>
 			<hkparam name="animationName">Animations\MLh_ReadyLoop.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$7</hkparam>
+			<hkparam name="triggers">#tudm$6</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

@@ -312,6 +312,8 @@ ERR 3021=Missing project information for a project in "animationdatasinglefile.t
 ERR 3022=Invalid file placement. "$header$" project must be a file not a folder. Please contact the mod author\nFile: <1>
 ERR 3023=Invalid filename. Do you mean this "<1>"?\nFile: <2>
 ERR 3024=Duplicated header has been detected in "animationdatasinglefile.txt". Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
+ERR 3025=Project index not found. Please contact Nemesis' author
+ERR 3026=Project comparison invalid. Please ensure your $header$ data patch is correct. Mod: <1>\nFile: <2>
 
 '4000s
 ERR 4000=Failed to open file. Please make sure <1> file is in the same directory as this program

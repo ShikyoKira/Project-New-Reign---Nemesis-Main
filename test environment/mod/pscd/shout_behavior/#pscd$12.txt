@@ -1,9 +1,7 @@
-		<hkobject name="#pscd$12" class="hkbModifierList" signature="0xa4180ca1">
+		<hkobject name="#pscd$12" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Shout_ML</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="4">
-				#0072 #pscd$14 #pscd$15 #pscd$13
-			</hkparam>
+			<hkparam name="name">Sneak1hm_Shout_Exhale_Medium_MG</hkparam>
+			<hkparam name="modifier">#pscd$1</hkparam>
+			<hkparam name="generator">#0263</hkparam>
 		</hkobject>

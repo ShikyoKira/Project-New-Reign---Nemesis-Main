@@ -1,10 +1,10 @@
-		<hkobject name="#tkuc$10" class="hkbManualSelectorGenerator" signature="0xd932fab8">
-			<hkparam name="variableBindingSet">#tkuc$11</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">TKDodgeForward_MSG</hkparam>
-			<hkparam name="generators" numelements="4">
-				#tkuc$7 #tkuc$6 #tkuc$12 #tkuc$8
+		<hkobject name="#tkuc$10" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="1">
+				<hkobject>
+					<hkparam name="expression">iStepSelector = iStep + IsPlayer</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
 			</hkparam>
-			<hkparam name="selectedGeneratorIndex">0</hkparam>
-			<hkparam name="currentGeneratorIndex">0</hkparam>
 		</hkobject>

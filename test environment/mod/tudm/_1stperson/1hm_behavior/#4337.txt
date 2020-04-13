@@ -8,7 +8,7 @@
 				#0343
 				#2567
 <!-- MOD_CODE ~tudm~ OPEN -->
-				#tudm$1
+				#tudm$68
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

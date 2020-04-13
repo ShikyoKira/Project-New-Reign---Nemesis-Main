@@ -4,9 +4,9 @@
 			<hkparam name="enterNotifyEvents">null</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#hmce$90</hkparam>
-			<hkparam name="generator">#hmce$86</hkparam>
-			<hkparam name="name">HMMC_1HM_AttackRight_Anticipation_Loop</hkparam>
-			<hkparam name="stateId">46</hkparam>
+			<hkparam name="generator">#hmce$89</hkparam>
+			<hkparam name="name">HMMC_1HM_AttackRight_Anticipation</hkparam>
+			<hkparam name="stateId">45</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

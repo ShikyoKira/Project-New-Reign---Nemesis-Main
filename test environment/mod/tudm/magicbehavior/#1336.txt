@@ -23,7 +23,7 @@
 				#1334
 				#1023
 <!-- MOD_CODE ~tudm~ OPEN -->
-				#tudm$19 #tudm$20
+				#tudm$211 #tudm$81
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">null</hkparam>

@@ -5,8 +5,8 @@
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#hmce$73</hkparam>
 			<hkparam name="generator">#hmce$72</hkparam>
-			<hkparam name="name">HMMC_SpearAttack_Anticipation</hkparam>
-			<hkparam name="stateId">50</hkparam>
+			<hkparam name="name">HMMC_Spear_Anticipation_Loop</hkparam>
+			<hkparam name="stateId">49</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
 		</hkobject>

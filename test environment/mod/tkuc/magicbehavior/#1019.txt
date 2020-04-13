@@ -9,7 +9,7 @@
 				#1014
 				#1012
 <!-- MOD_CODE ~tkuc~ OPEN -->
-				#tkuc$1
+				#tkuc$50
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

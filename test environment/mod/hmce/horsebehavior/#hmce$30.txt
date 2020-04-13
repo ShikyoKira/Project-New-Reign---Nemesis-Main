@@ -1,9 +1,9 @@
 		<hkobject name="#hmce$30" class="hkbClipGenerator" signature="0x333b85b9">
-			<hkparam name="variableBindingSet">#hmce$32</hkparam>
+			<hkparam name="variableBindingSet">#hmce$29</hkparam>
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">MC_CastConAim_Release.hkx00</hkparam>
 			<hkparam name="animationName">Animations\horsemen\HMMC_CastReleaseConAim.hkx</hkparam>
-			<hkparam name="triggers">#hmce$29</hkparam>
+			<hkparam name="triggers">#hmce$28</hkparam>
 			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
 			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
 			<hkparam name="startTime">0.000000</hkparam>

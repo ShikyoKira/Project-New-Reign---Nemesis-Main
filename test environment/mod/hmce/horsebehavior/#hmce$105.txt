@@ -3,7 +3,7 @@
 			<hkparam name="userData">0</hkparam>
 			<hkparam name="name">HM_1HM_AttackLeft_ReleaseMSG</hkparam>
 			<hkparam name="generators" numelements="7">
-				#hmce$107 #hmce$107 #hmce$107 #hmce$107 #hmce$107 #hmce$108 #hmce$108
+				#hmce$104 #hmce$104 #hmce$104 #hmce$104 #hmce$104 #hmce$101 #hmce$101
 			</hkparam>
 			<hkparam name="selectedGeneratorIndex">0</hkparam>
 			<hkparam name="currentGeneratorIndex">0</hkparam>

@@ -3,7 +3,7 @@
 			<hkparam name="userData">1</hkparam>
 			<hkparam name="name">MagicReadyRoot_MG</hkparam>
 <!-- MOD_CODE ~pscd~ OPEN -->
-			<hkparam name="modifier">#pscd$9</hkparam>
+			<hkparam name="modifier">#pscd$15</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="modifier">#1330</hkparam>
 <!-- CLOSE -->

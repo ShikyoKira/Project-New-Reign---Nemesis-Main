@@ -3,7 +3,7 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">null</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="exitNotifyEvents">#tudm$17</hkparam>
+			<hkparam name="exitNotifyEvents">#tudm$226</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="exitNotifyEvents">null</hkparam>
 <!-- CLOSE -->

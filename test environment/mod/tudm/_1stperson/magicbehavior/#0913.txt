@@ -9,7 +9,7 @@
 				#0908
 				#0906
 <!-- MOD_CODE ~tudm~ OPEN -->
-				#tudm$15
+				#tudm$1
 <!-- CLOSE -->
 			</hkparam>
 		</hkobject>

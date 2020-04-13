@@ -1,9 +1,12 @@
-		<hkobject name="#tudm$17" class="hkbModifierList" signature="0xa4180ca1">
+		<hkobject name="#tudm$17" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">MagicReadyRoot_ML</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#tudm$15</hkparam>
+			<hkparam name="name">Post_Left_DodgeStyle_1</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="2">
-				#1002 #tudm$15
-			</hkparam>
 		</hkobject>

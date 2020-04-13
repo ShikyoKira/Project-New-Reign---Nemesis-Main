@@ -17,8 +17,8 @@
 			<hkparam name="syncVariableIndex">-1</hkparam>
 			<hkparam name="wrapAroundStateId">false</hkparam>
 			<hkparam name="maxSimultaneousTransitions">32</hkparam>
-			<hkparam name="startStateMode">0</hkparam>
-			<hkparam name="selfTransitionMode">0</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
 			<hkparam name="states" numelements="13">
 				#zcbe$74 #zcbe$70 #zcbe$66 #zcbe$62 #zcbe$58 #zcbe$54 #zcbe$50 #zcbe$46 #zcbe$42 #zcbe$38 #zcbe$34 #zcbe$30 #zcbe$26
 			</hkparam>

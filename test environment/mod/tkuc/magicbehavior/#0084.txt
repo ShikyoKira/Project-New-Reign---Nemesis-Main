@@ -5,7 +5,7 @@
 			<hkparam name="exitNotifyEvents">null</hkparam>
 			<hkparam name="transitions">#0081</hkparam>
 <!-- MOD_CODE ~tkuc~ OPEN -->
-			<hkparam name="generator">#tkuc$0</hkparam>
+			<hkparam name="generator">#tkuc$49</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="generator">#0080</hkparam>
 <!-- CLOSE -->

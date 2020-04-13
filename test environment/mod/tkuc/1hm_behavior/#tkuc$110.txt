@@ -1,16 +1,18 @@
-		<hkobject name="#tkuc$110" class="BSIsActiveModifier" signature="0xb0fde45a">
-			<hkparam name="variableBindingSet">#tkuc$107</hkparam>
-			<hkparam name="userData">2</hkparam>
-			<hkparam name="name">bAllowRotationIsActiveModifier</hkparam>
+		<hkobject name="#tkuc$110" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#tkuc$109</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">AimingBowAttackLeftArmTwistModifier</hkparam>
 			<hkparam name="enable">true</hkparam>
-			<hkparam name="bIsActive0">false</hkparam>
-			<hkparam name="bInvertActive0">false</hkparam>
-			<hkparam name="bIsActive1">false</hkparam>
-			<hkparam name="bInvertActive1">false</hkparam>
-			<hkparam name="bIsActive2">false</hkparam>
-			<hkparam name="bInvertActive2">false</hkparam>
-			<hkparam name="bIsActive3">false</hkparam>
-			<hkparam name="bInvertActive3">false</hkparam>
-			<hkparam name="bIsActive4">false</hkparam>
-			<hkparam name="bInvertActive4">false</hkparam>
+			<hkparam name="axisOfRotation">
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="twistAngle">0.000000</hkparam>
+			<hkparam name="startBoneIndex">28</hkparam>
+			<hkparam name="endBoneIndex">29</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_MODEL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
 		</hkobject>

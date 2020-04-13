@@ -1,7 +1,0 @@
-		<hkobject name="#ds360$142" class="hkbModifierGenerator" signature="0x1f81fae6">
-			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">SneakIdle360_MG</hkparam>
-			<hkparam name="modifier">#ds360$76</hkparam>
-			<hkparam name="generator">#4902</hkparam>
-		</hkobject>

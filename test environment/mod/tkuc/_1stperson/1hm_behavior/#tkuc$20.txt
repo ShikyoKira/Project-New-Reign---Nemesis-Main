@@ -17,7 +17,7 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-					<hkparam name="transition">#tkuc$22</hkparam>
+					<hkparam name="transition">#tkuc$19</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[TKDodgeStop]$</hkparam>
 					<hkparam name="toStateId">0</hkparam>

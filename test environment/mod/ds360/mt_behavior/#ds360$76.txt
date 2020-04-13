@@ -1,9 +1,0 @@
-		<hkobject name="#ds360$76" class="hkbModifierList" signature="0xa4180ca1">
-			<hkparam name="variableBindingSet">#ds360$84</hkparam>
-			<hkparam name="userData">1</hkparam>
-			<hkparam name="name">Move360_ModList</hkparam>
-			<hkparam name="enable">true</hkparam>
-			<hkparam name="modifiers" numelements="3">
-				#ds360$82 #ds360$80 #ds360$77
-			</hkparam>
-		</hkobject>

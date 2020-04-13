@@ -45,7 +45,7 @@
 				#2819
 				#2814
 <!-- MOD_CODE ~tkuc~ OPEN -->
-				#tkuc$6
+				#tkuc$185
 <!-- CLOSE -->
 			</hkparam>
 			<hkparam name="wildcardTransitions">#2802</hkparam>

@@ -1,15 +1,7 @@
-		<hkobject name="#tudm$288" class="hkbBlenderGenerator" signature="0x22df7147">
+		<hkobject name="#tudm$288" class="hkbBlenderGeneratorChild" signature="0xe2b384b0">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">DodgeDirectionA_Blend</hkparam>
-			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
-			<hkparam name="blendParameter">0.000000</hkparam>
-			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
-			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
-			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
-			<hkparam name="flags">49</hkparam>
-			<hkparam name="subtractLastChild">false</hkparam>
-			<hkparam name="children" numelements="8">
-				#tudm$287 #tudm$278 #tudm$267 #tudm$263 #tudm$255 #tudm$247 #tudm$239 #tudm$229
-			</hkparam>
+			<hkparam name="generator">#tudm$289</hkparam>
+			<hkparam name="boneWeights">null</hkparam>
+			<hkparam name="weight">75.783997</hkparam>
+			<hkparam name="worldFromModelWeight">1.000000</hkparam>
 		</hkobject>

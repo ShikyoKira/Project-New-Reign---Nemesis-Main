@@ -4,7 +4,7 @@
 			<hkparam name="name">BeastH2H_AttackRight</hkparam>
 			<hkparam name="animationName">Animations\BeastH2H_AttackRight.hkx</hkparam>
 <!-- MOD_CODE ~tudm~ OPEN -->
-			<hkparam name="triggers">#tudm$61</hkparam>
+			<hkparam name="triggers">#tudm$430</hkparam>
 <!-- ORIGINAL -->
 			<hkparam name="triggers">null</hkparam>
 <!-- CLOSE -->

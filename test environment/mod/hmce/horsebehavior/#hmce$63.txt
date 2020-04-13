@@ -3,8 +3,8 @@
 			<hkparam name="listeners" numelements="0"></hkparam>
 			<hkparam name="enterNotifyEvents">#hmce$62</hkparam>
 			<hkparam name="exitNotifyEvents">null</hkparam>
-			<hkparam name="transitions">#hmce$64</hkparam>
-			<hkparam name="generator">#hmce$61</hkparam>
+			<hkparam name="transitions">#hmce$61</hkparam>
+			<hkparam name="generator">#hmce$60</hkparam>
 			<hkparam name="name">HMMC_CouchCharge_Loop</hkparam>
 			<hkparam name="stateId">52</hkparam>
 			<hkparam name="probability">1.000000</hkparam>
