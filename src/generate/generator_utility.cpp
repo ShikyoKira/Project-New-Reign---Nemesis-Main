@@ -4,9 +4,11 @@
 
 #include "version.h"
 #include "debuglog.h"
+#include "nemesisinfo.h"
 
 #include "utilities/compute.h"
 #include "utilities/lastupdate.h"
+#include "utilities/atomiclock.h"
 #include "utilities/stringsplit.h"
 #include "utilities/readtextfile.h"
 
@@ -21,8 +23,6 @@
 
 using namespace std;
 
-extern const bool SSE;
-extern const NemesisInfo* nemesisInfo;
 extern unordered_map<string, string> crc32Cache;
 extern VecStr warningMsges;
 
@@ -31,7 +31,7 @@ static bool* globalThrow;
 VecStr fileCheckMsg;
 VecStr hkxFiles;
 
-boost::atomic_flag animdata_lock = BOOST_ATOMIC_FLAG_INIT;
+atomic_flag animdata_lock{};
 
 void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, TemplateInfo& behaviortemplate, bool firstP);
 void fileArchitectureCheck(string hkxfile);
@@ -286,7 +286,7 @@ void readList(string directory, string animationDirectory, vector<unique_ptr<reg
 	}
 }
 
-vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate)
+vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate, const NemesisInfo* nemesisInfo)
 {
 	vector<unique_ptr<registerAnimation>> list;
 	set<string> animPath;
@@ -786,7 +786,7 @@ void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, b
 
 			for (auto file : characterFiles)
 			{
-				while (animdata_lock.test_and_set(boost::memory_order_acquire));
+                Lockless locker(animdata_lock);
 				shared_ptr<AnimationDataTracker>& animDataPtr = charAnimDataInfo[file][animFile];
 
 				if (animDataPtr == nullptr)
@@ -820,8 +820,6 @@ void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, b
 				{
 					clipPtrAnimData[file][clipName].push_back(animDataPtr);
 				}
-
-				animdata_lock.clear(boost::memory_order_release);
 			}
 		}
 		else

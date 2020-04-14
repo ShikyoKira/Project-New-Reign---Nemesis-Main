@@ -38,7 +38,8 @@ std::wstring GetFileName(std::wstring_view filepath);
 std::string GetFileDirectory(std::string filepath);
 std::wstring GetFileDirectory(std::wstring filepath);
 
-std::vector<std::unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate);
+std::vector<std::unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate,
+                                                         const NemesisInfo* nemesisInfo);
 void checkClipAnimData(std::string& line, VecStr& characterFiles, std::string& clipName, bool& isClip);
 void checkAllFiles(std::string filepath);
 void checkAllStoredHKX();

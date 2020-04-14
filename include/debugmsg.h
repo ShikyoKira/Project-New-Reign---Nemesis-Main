@@ -1,8 +1,8 @@
 #ifndef DEBUGMSG_H_
 #define DEBUGMSG_H_
 
-#include <memory>
 #include <mutex>
+#include <memory>
 #include <sstream>
 #include <unordered_map>
 
@@ -52,7 +52,7 @@ std::string EngLogWarning(int warningcode);
 int sameWordCount(std::string, std::string); //Forward declare
 
 template <typename current>
-void AdditionalInput(std::string& message, int counter, current input)
+inline void AdditionalInput(std::string& message, int counter, current input)
 {
     std::string newInput    = "<" + std::to_string(counter) + ">";
     std::string replacement = (std::ostringstream() << input).str();
@@ -76,7 +76,7 @@ void AdditionalInput(std::string& message, int counter, current input)
 }
 
 template <typename current, typename... other>
-void AdditionalInput(std::string& message, int counter, current input, other... rest)
+inline void AdditionalInput(std::string& message, int counter, current input, other... rest)
 {
     std::string newInput    = "<" + std::to_string(counter) + ">";
     std::string replacement = (std::ostringstream() << input).str();
@@ -89,7 +89,7 @@ void AdditionalInput(std::string& message, int counter, current input, other... 
             message.replace(message.find(newInput), newInput.size(), replacement);
         }
 
-        AdditionalInput(message, counter + 1, rest...);
+        //AdditionalInput(message, counter + 1, rest...);
     }
     else
     {
@@ -123,8 +123,8 @@ inline void ErrorMessage(int errorcode, other... rest)
         return;
     }
 
-    AdditionalInput(errormsg, 1, rest...);
-    AdditionalInput(englog, 1, rest...);
+    //AdditionalInput(errormsg, 1, rest...);
+    //AdditionalInput(englog, 1, rest...);
     interMsg(errormsg + "\n");
     DebugLogging(englog);
     throw nemesis::exception();
@@ -171,8 +171,8 @@ inline void WarningMessage(int warningcode, other... rest)
         return;
     }
 
-    AdditionalInput(warninmsg, 1, rest...);
-    AdditionalInput(englog, 1, rest...);
+    //AdditionalInput(warninmsg, 1, rest...);
+    //AdditionalInput(englog, 1, rest...);
     warningMsges.push_back(warninmsg + "\n");
     DebugLogging(englog);
 }

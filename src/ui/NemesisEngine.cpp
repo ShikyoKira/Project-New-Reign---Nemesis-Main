@@ -213,7 +213,7 @@ void NemesisEngine::setupUi()
     GetSettings();
 
     this->setWindowTitle(QString::fromStdString(UIMessage(1000)));
-    ui.label->setPixmap(QPixmap(":/background/Resources/title header.png"));
+    ui.label->setPixmap(QPixmap(":/background/title header.png"));
     ui.animProgressBar->setToolTip(QString::fromStdString(UIMessage(1004)));
     ui.buttonUpdate->setText(QString::fromStdString(UIMessage(1003)));
     ui.buttonCheck->setText(QString::fromStdString(UIMessage(1002)));
@@ -234,6 +234,7 @@ void NemesisEngine::setupUi()
 
     this->resize(nemesisInfo->GetWidth(), nemesisInfo->GetHeight());
 
+    ui.modView->setIni(nemesisInfo);
     ui.modView->header()->setStyleSheet("background: transparent");
     ui.modView->header()->setDefaultAlignment(Qt::AlignCenter);
     ui.modView->header()->setSectionResizeMode(QHeaderView::ResizeMode::Interactive);
@@ -273,7 +274,7 @@ void NemesisEngine::setupUi()
 void NemesisEngine::reset()
 {
     this->setWindowTitle(QString::fromStdString(UIMessage(1000)));
-    ui.label->setPixmap(QPixmap(":/background/Resources/title header.png"));
+    ui.label->setPixmap(QPixmap(":/background/title header.png"));
     ui.animProgressBar->setToolTip(QString::fromStdString(UIMessage(1004)));
     ui.buttonUpdate->setText(QString::fromStdString(UIMessage(1003)));
     ui.buttonCheck->setText(QString::fromStdString(UIMessage(1002)));

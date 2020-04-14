@@ -3,6 +3,8 @@
 
 #include <QtCore\QObject>
 
+struct NemesisInfo;
+
 class InstallScripts : public QObject
 {
     Q_OBJECT

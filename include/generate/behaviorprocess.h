@@ -5,8 +5,6 @@
 
 #include <QtCore/QObject>
 
-
-
 #include "ui/ProgressUp.h"
 
 class NewAnimation;

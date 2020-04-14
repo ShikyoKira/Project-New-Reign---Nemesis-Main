@@ -106,6 +106,7 @@ set(Header_Files__ui
 source_group("Header Files\\ui" FILES ${Header_Files__ui})
 
 set(Header_Files__update
+    "include/update/animdatacont.h"
     "include/update/dataunification.h"
     "include/update/functionupdate.h"
     "include/update/updateprocess.h"
@@ -118,14 +119,16 @@ set(Header_Files__utilities
     "include/utilities/atomiclock.h"
     "include/utilities/bsasupport.h"
     "include/utilities/compute.h"
+    "include/utilities/conditions.h"
     "include/utilities/filechecker.h"
     "include/utilities/lastupdate.h"
+    "include/utilities/linkedvar.h"
     "include/utilities/readtextfile.h"
     "include/utilities/regex.h"
     "include/utilities/renew.h"
+    "include/utilities/scope.h"
     "include/utilities/stringsplit.h"
     "include/utilities/writetextfile.h"
-    "include/utilities/wstrconvert.h"
     )
 source_group("Header Files\\utilities" FILES ${Header_Files__utilities})
 
@@ -196,6 +199,7 @@ set(Source_Files__ui
 source_group("Source Files\\ui" FILES ${Source_Files__ui})
 
 set(Source_Files__update
+    "src/update/animdatacont.cpp"
     "src/update/dataunification.cpp"
     "src/update/functionupdate.cpp"
     "src/update/updateprocess.cpp"
@@ -205,12 +209,13 @@ source_group("Source Files\\update" FILES ${Source_Files__update})
 set(Source_Files__utilities
     "src/utilities/algorithm.cpp"
     "src/utilities/compute.cpp"
+    "src/utilities/conditions.cpp"
     "src/utilities/filechecker.cpp"
     "src/utilities/lastupdate.cpp"
     "src/utilities/regex.cpp"
     "src/utilities/renew.cpp"
+    "src/utilities/scope.cpp"
     "src/utilities/stringsplit.cpp"
-    "src/utilities/wstrconvert.cpp"
     )
 source_group("Source Files\\utilities" FILES ${Source_Files__utilities})
 

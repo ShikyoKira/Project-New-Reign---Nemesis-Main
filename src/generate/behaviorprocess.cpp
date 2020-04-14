@@ -9,25 +9,26 @@
 #include <boost/asio/post.hpp>
 #include <boost/asio/thread_pool.hpp>
 
-#include "debuglog.h"
-#include "externalscript.h"
 #include "version.h"
+#include "debuglog.h"
+#include "nemesisinfo.h"
+#include "externalscript.h"
 
-#include "ui/MessageHandler.h"
 #include "ui/Terminator.h"
+#include "ui/MessageHandler.h"
 
+#include "utilities/renew.h"
 #include "utilities/atomiclock.h"
 #include "utilities/filechecker.h"
-#include "utilities/renew.h"
 
 #include "generate/addanims.h"
 #include "generate/behaviorcheck.h"
-#include "generate/behaviorgenerator.h"
-#include "generate/behaviorprocess.h"
-#include "generate/behaviorsubprocess.h"
-#include "generate/generator_utility.h"
 #include "generate/installscripts.h"
+#include "generate/behaviorprocess.h"
 #include "generate/playerexclusive.h"
+#include "generate/generator_utility.h"
+#include "generate/behaviorgenerator.h"
+#include "generate/behaviorsubprocess.h"
 
 #include "generate/animation/registeranimation.h"
 #include "generate/animation/singletemplate.h"
@@ -45,8 +46,6 @@ extern VecStr failedBehaviors;
 extern atomic<int> m_RunningThread;
 extern atomic<int> behaviorRun;
 extern atomic<int> extraCore;
-
-extern const bool SSE;
 
 mutex anim_lock;
 std::atomic_flag atomic_lock{};
@@ -186,7 +185,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
     shared_ptr<TemplateInfo> BehaviorTemplate = make_shared<TemplateInfo>(); // get animation type
 
     vector<unique_ptr<registerAnimation>> animationList
-        = move(openFile(BehaviorTemplate.get())); // get anim list installed by mods
+        = move(openFile(BehaviorTemplate.get(), nemesisInfo)); // get anim list installed by mods
     unordered_map<string, vector<shared_ptr<NewAnimation>>>
         newAnimation; // record each of the animation created from registerAnimation
 

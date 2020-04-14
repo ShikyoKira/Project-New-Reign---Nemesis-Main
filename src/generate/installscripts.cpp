@@ -1,10 +1,9 @@
 #include "Global.h"
+#include "nemesisinfo.h"
 
-#include "Global.h"
-
-#include "generate/alternateanimation.h"
 #include "generate/installscripts.h"
 #include "generate/playerexclusive.h"
+#include "generate/alternateanimation.h"
 
 using namespace std;
 

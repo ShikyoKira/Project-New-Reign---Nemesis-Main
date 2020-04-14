@@ -282,7 +282,7 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, WStringToString(cachedir), ex.what());
+        ErrorMessage(6002, nemesis::transform_to<string>(cachedir), ex.what());
     }
 
     sf::path source("alternate animation\\nemesis pcea.script");
@@ -375,7 +375,7 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
     string filepath    = destination + "\\Nemesis_PCEA_Core.pex";
 
     if (!PapyrusCompile(
-            pscfile, StringToWString(import), destination, filepath, cachedir, nemesisInfo->GetDataPath()))
+            pscfile, nemesis::transform_to<wstring>(import), destination, filepath, cachedir, nemesisInfo->GetDataPath()))
         return false;
 
     DebugLogging("PCEA core script complete");

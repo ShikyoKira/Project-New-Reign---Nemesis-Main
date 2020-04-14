@@ -10,8 +10,10 @@
 #include "generate/animation/newanimation.h"
 
 class BehaviorStart;
-struct TemplateInfo;
+
 struct var;
+struct NemesisInfo;
+struct TemplateInfo;
 
 class BehaviorSub : public QObject
 {

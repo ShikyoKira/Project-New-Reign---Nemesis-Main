@@ -5,6 +5,7 @@
 #include "ui/ErrorMsgBox.h"
 #include "ui/SettingsSave.h"
 
+#include "utilities/algorithm.h"
 #include "utilities/alphanum.hpp"
 #include "utilities/writetextfile.h"
 
@@ -169,7 +170,7 @@ bool getCache(std::wstring& language, std::unordered_map<std::string, bool>& cho
         msg->setIcon(QMessageBox::Warning);
         msg->show();
         language = L"english";
-        createLanguageCache(WStringToString(language));
+        createLanguageCache(nemesis::transform_to<std::string>(language));
     };
 
     if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
@@ -214,7 +215,7 @@ bool getCache(std::wstring& language, std::unordered_map<std::string, bool>& cho
 
     for (auto& line : storeline)
     {
-        if (line.length() > 0) chosenBehavior[WStringToString(line)] = true;
+        if (line.length() > 0) chosenBehavior[nemesis::transform_to<std::string>(line)] = true;
     }
 
     if (chosenBehavior.size() > 0) return true;

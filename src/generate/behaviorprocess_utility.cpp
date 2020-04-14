@@ -121,9 +121,23 @@ void unpackToCatalyst(map<int, VecStr>& catalystMap, unordered_map<int, shared_p
 	}
 }
 
-void processExistFuncID(vector<int>& funcIDs, string ZeroEvent, string ZeroVariable, map<int, VecStr>& catalystMap, shared_ptr<master> groupFunctionIDs,
-	vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo, string templateCode, ImportContainer& exportID, ID& eventid, ID& variableid, int& lastID, bool hasMaster,
-	bool hasGroup, SetStr& templateGroup, bool ignoreGroup, string behaviorFile, unordered_map<int, shared_ptr<NodeJoint>>& existingNodes)
+void processExistFuncID(std::vector<int>& funcIDs,
+                        const std::string& ZeroEvent,
+                        const std::string& ZeroVariable,
+                        std::map<int, VecStr>& catalystMap,
+                        const std::shared_ptr<master>& groupFunctionIDs,
+                        const std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& groupAnimInfo,
+                        const std::string& templateCode,
+                        ImportContainer& exportID,
+                        ID& eventid,
+                        ID& variableid,
+                        int& lastID,
+                        bool hasMaster,
+                        bool hasGroup,
+                        SetStr& templateGroup,
+                        bool ignoreGroup,
+                        const std::string& behaviorFile,
+                        std::unordered_map<int, std::shared_ptr<NodeJoint>>& existingNodes)
 {
 	for (int& functionID : funcIDs)
 	{

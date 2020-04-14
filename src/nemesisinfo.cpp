@@ -1,12 +1,11 @@
 #include "Global.h"
+#include "debuglog.h"
+#include "nemesisinfo.h"
 
 #include <Windows.h>
 
 #include <QtCore/QFile.h>
 #include <QtCore/QTextStream.h>
-
-#include "debuglog.h"
-#include "nemesisinfo.h"
 
 #include "utilities/regex.h"
 #include "utilities/writetextfile.h"

@@ -15,7 +15,6 @@
 #include <chrono>
 
 #include "debugmsg.h"
-#include "utilities/wstrconvert.h"
 
 using VecStr  = std::vector<std::string>;
 using VecChar = std::vector<char>;

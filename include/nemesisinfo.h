@@ -7,6 +7,8 @@
 
 #include "utilities/algorithm.h"
 
+extern const bool SSE;
+
 class NemesisInfo
 {
     bool first = true;

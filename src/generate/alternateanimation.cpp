@@ -12,9 +12,10 @@
 #include "debuglog.h"
 #include "nemesisinfo.h"
 
-#include "generate/alternateanimation.h"
 #include "generate/generator_utility.h"
+#include "generate/alternateanimation.h"
 
+#include "utilities/algorithm.h"
 #include "utilities/lastupdate.h"
 #include "utilities/readtextfile.h"
 #include "utilities/writetextfile.h"
@@ -68,13 +69,13 @@ void forcedRemove(wstring target, int counter)
 {
     try
     {
-        if (!sf::remove(target)) ErrorMessage(1082, WStringToString(target));
+        if (!sf::remove(target)) ErrorMessage(1082, nemesis::transform_to<string>(target));
     }
     catch (exception)
     {
         if (counter > 200)
         {
-            // ErrorMessage(6002, WStringToString(target), ex.what());
+            // ErrorMessage(6002, nemesis::transform_to<string>(target), ex.what());
             return;
         }
 
@@ -170,7 +171,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, WStringToString(cachedir), ex.what());
+        ErrorMessage(6002, nemesis::transform_to<string>(cachedir), ex.what());
     }
 
     if (error) throw nemesis::exception();
@@ -193,7 +194,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     VecStr newFunctions;
 
     if (!AACoreCompile(pscfile,
-                       StringToWString(import),
+                       nemesis::transform_to<wstring>(import),
                        destination,
                        filepath,
                        cachedir,
@@ -215,7 +216,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     DebugLogging(filepath);
 
     if (!AAnimAPICompile(pscfile2,
-                         StringToWString(import),
+                         nemesis::transform_to<wstring>(import),
                          destination,
                          filepath,
                          cachedir,
@@ -703,7 +704,7 @@ bool FolderCreate(wstring curBehaviorPath)
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, WStringToString(curBehaviorPath), ex.what());
+        ErrorMessage(6002, nemesis::transform_to<string>(curBehaviorPath), ex.what());
     }
 
     return true;
@@ -814,7 +815,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
 
     if (sf::exists(importedSource) && !sf::is_directory(importedSource) && !sf::remove(importedSource))
     {
-        ErrorMessage(1082, WStringToString(importedSource)); 
+        ErrorMessage(1082, nemesis::transform_to<string>(importedSource)); 
     }
 
     QProcess process;
@@ -840,7 +841,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
     process.waitForFinished();
 
     string tempfile      = GetFileName(filepath) + ".pex";
-    wstring tempfilepath = appdata_path.wstring() + L"\\" + StringToWString(tempfile);
+    wstring tempfilepath = appdata_path.wstring() + L"\\" + nemesis::transform_to<wstring>(tempfile);
 
     if (!sf::exists(tempfilepath))
     {
@@ -867,7 +868,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
                 temp += L" " + arg.toStdWString();
             }
 
-            interMsg("Command: " + WStringToString(temp));
+            interMsg("Command: " + nemesis::transform_to<string>(temp));
         }
         catch (nemesis::exception)
         {
@@ -875,7 +876,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
         }
     }
 
-    ByteCopyToData(tempfilepath, StringToWString(destination + "\\" + tempfile));
+    ByteCopyToData(tempfilepath, nemesis::transform_to<wstring>(destination + "\\" + tempfile));
     return true;
 }
 

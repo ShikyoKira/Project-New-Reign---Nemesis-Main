@@ -4,9 +4,9 @@
 #include "debuglog.h"
 #include "debugmsg.h"
 
+#include "utilities/algorithm.h"
 #include "utilities/readtextfile.h"
 #include "utilities/writetextfile.h"
-#include "utilities/wstrconvert.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ void NewDebugMessage(DebugMsg NewLog)
 
 DebugMsg::DebugMsg(string language)
 {
-    setup(StringToWString(language));
+    setup(nemesis::transform_to<wstring>(language));
 }
 
 DebugMsg::DebugMsg(wstring language)

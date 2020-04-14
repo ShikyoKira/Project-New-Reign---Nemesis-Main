@@ -8,6 +8,7 @@
 
 #include "version.h"
 #include "debuglog.h"
+#include "nemesisinfo.h"
 #include "externalscript.h"
 
 #include "ui/Terminator.h"
@@ -27,14 +28,13 @@ namespace sf = filesystem;
 typedef unordered_map<string, unique_ptr<SSMap>> SSSMap;
 typedef unordered_map<string, unique_ptr<map<string, unordered_map<string, bool>>>> MapChildState;
 
-extern const bool SSE;
 extern bool processdone;
 extern mutex processlock;
 extern condition_variable cv;
 extern Terminator* p_terminate;
 extern atomic<int> m_RunningThread;
-extern atomic_flag atomic_lock{};
-extern atomic_flag newAnimAdditionLock{};
+extern atomic_flag atomic_lock;
+extern atomic_flag newAnimAdditionLock;
 
 #if MULTITHREADED_UPDATE
 mutex admtx;

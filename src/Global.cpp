@@ -3,11 +3,6 @@
 #include "Global.h"
 
 #include "utilities/algorithm.h"
-
-#if __cplusplus > 201402L
-#include "utilities/wstrconvert.h"
-#endif
-
 #include "utilities/readtextfile.h"
 #include "utilities/writetextfile.h"
 
@@ -44,22 +39,6 @@ unordered_map<string, VecStr> alternateAnim;
 unordered_map<string, unordered_map<string, int>> AAGroupCount;
 set<string> groupNameList;
 
-wstring StringToWString(string line)
-{
-#if __cplusplus > 201402L
-	return wstrConv.from_bytes(line);
-#endif
-	return QString::fromStdString(line).toStdWString();
-}
-
-string WStringToString(const wstring& line)
-{
-#if __cplusplus > 201402L
-	return wstrConv.to_bytes(line);
-#endif
-	return QString::fromStdWString(line).toStdString();
-}
-
 void read_directory(const string& name, VecStr& fv)
 {
 	fv.clear();
@@ -70,7 +49,7 @@ void read_directory(const string& name, VecStr& fv)
 
 		if (filename != L"." && filename != L"..")
 		{
-			fv.push_back(WStringToString(filename));
+			fv.push_back(nemesis::transform_to<string>(filename));
 		}
 	}
 
@@ -118,7 +97,7 @@ void read_directory(const char* name, VecStr& fv)
 
 		if (filename != L"." && filename != L"..")
 		{
-			fv.push_back(WStringToString(filename));
+			fv.push_back(nemesis::transform_to<string>(filename));
 		}
 	}
 
@@ -242,7 +221,7 @@ bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
 			{
 				if (error) throw nemesis::exception();
 
-				functionlines.push_back(WStringToString(line));
+				functionlines.push_back(nemesis::transform_to<string>(line));
 			}
 		}
 		else

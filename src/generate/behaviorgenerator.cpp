@@ -1,18 +1,18 @@
 #include "Global.h"
+#include "nemesisinfo.h"
 
 #include <boost/atomic.hpp>
 
 #include <QtCore/QProcess>
 
+#include "utilities/atomiclock.h"
+
 #include "generate/alternateanimation.h"
 #include "generate/behaviorgenerator.h"
-#include "utilities/atomiclock.h"
 
 #pragma warning(disable : 4503)
 
 using namespace std;
-
-extern const bool SSE;
 
 std::atomic_flag failedBehaviorFlag{};
 VecStr failedBehaviors;
