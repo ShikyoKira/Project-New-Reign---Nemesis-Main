@@ -35,6 +35,7 @@ namespace sf = filesystem;
 
 struct NodeJoint;
 
+extern const bool SSE;
 extern Terminator* p_terminate;
 extern atomic<int> m_RunningThread; 
 extern boost::atomic_flag animdata_lock;

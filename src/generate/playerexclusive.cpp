@@ -178,9 +178,9 @@ void ReadPCEA(const NemesisInfo* nemesisInfo)
 bool PCEAInstallation(const NemesisInfo* nemesisInfo)
 {
 #ifdef DEBUG
-    string import = SSE ? "data\\source\\scripts" : "data\\scripts\\source";
+    string import = "data\\scripts\\source";
 #else
-    string import = nemesisInfo->GetDataPath() + string(SSE ? "source\\scripts" : "scripts\\source");
+    string import = nemesisInfo->GetDataPath() + "scripts\\source";
 #endif
 
     string filename = nemesisInfo->GetDataPath() + "Nemesis PCEA.esp";

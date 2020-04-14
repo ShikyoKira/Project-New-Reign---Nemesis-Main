@@ -27,6 +27,7 @@ namespace sf = filesystem;
 typedef unordered_map<string, unique_ptr<SSMap>> SSSMap;
 typedef unordered_map<string, unique_ptr<map<string, unordered_map<string, bool>>>> MapChildState;
 
+extern const bool SSE;
 extern bool processdone;
 extern mutex processlock;
 extern condition_variable cv;

@@ -21,9 +21,11 @@
 
 using namespace std;
 
+extern const bool SSE;
 extern const NemesisInfo* nemesisInfo;
 extern unordered_map<string, string> crc32Cache;
 extern VecStr warningMsges;
+
 static bool* globalThrow;
 
 VecStr fileCheckMsg;

@@ -46,6 +46,8 @@ extern atomic<int> m_RunningThread;
 extern atomic<int> behaviorRun;
 extern atomic<int> extraCore;
 
+extern const bool SSE;
+
 mutex anim_lock;
 std::atomic_flag atomic_lock{};
 

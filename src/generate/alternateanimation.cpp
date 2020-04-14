@@ -175,7 +175,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
 
     if (error) throw nemesis::exception();
 
-    string import      = nemesisInfo->GetDataPath() + string(SSE ? "source\\scripts" : "scripts\\source");
+    string import      = nemesisInfo->GetDataPath() + "scripts\\source";
     string destination = nemesisInfo->GetDataPath() + "scripts";
     sf::path source("alternate animation\\alternate animation.script");
     sf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
