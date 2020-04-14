@@ -61,11 +61,11 @@ namespace nemesis
         return false;
     }
 
-    bool regex_search(const std::string& line, const nemesis::regex& rgxStr)
+    bool regex_search(const std::string& line, const regex& rgxStr)
     {
         try
         {
-            return detail::underlying_regex_search(line, rgxStr);
+            return detail::underlying_regex_search(line, rgxStr.to_regex());
         }
         catch (const detail::underlying_exception& e)
         {

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Global.h"
 #include <boost/regex.hpp>
+
+#include "Global.h"
 
 namespace nemesis
 {
