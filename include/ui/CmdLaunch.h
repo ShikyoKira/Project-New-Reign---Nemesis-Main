@@ -1,7 +1,9 @@
 #ifndef CMDLAUNCH_H_
 #define CMDLAUNCH_H_
 
-void CmdGenerateInitialize(VecStr modlist);
-void CmdUpdateInitialize();
+struct NemesisInfo;
+
+void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo);
+void CmdUpdateInitialize(const NemesisInfo* nemesisInfo);
 
 #endif

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-extern std::atomic_flag animdata_lock;
+extern atomic_flag animdata_lock;
 
 bool AddAnims(string& line,
               string animPath,
@@ -76,8 +76,15 @@ bool AddAnims(string& line,
             Lockless lock(animdata_lock);
             shared_ptr<AnimationDataTracker>& animData = charAnimDataInfo[lowerBehaviorFile][animFile];
 
-		if (animData == nullptr) animData = make_shared<AnimationDataTracker>(counter, animFile);
-		else animData->SetOrder(counter);
+			if (animData == nullptr)
+			{
+				animData = make_shared<AnimationDataTracker>(counter, animFile);
+			}
+			else
+			{
+				animData->SetOrder(counter);
+			}
+		}
 
         newMod                                      = animPath.substr(11, animPath.find("\\", 11) - 11);
         vector<set<string>>* match_ptr              = &animModMatch[lowerBehaviorFile][animFile];

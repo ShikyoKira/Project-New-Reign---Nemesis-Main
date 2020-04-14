@@ -1,6 +1,8 @@
 #ifndef PLAYEREXCLUSIVE_H_
 #define PLAYEREXCLUSIVE_H_
 
+struct NemesisInfo;
+
 // PCEA data
 struct PCEA
 {
@@ -19,7 +21,7 @@ extern std::vector<PCEA> pcealist; // list of mods with pcea
 extern std::unordered_map<std::string, std::vector<PCEAData>>
     animReplaced; // animation file, list of ordered mod + animation path
 
-void ReadPCEA();
-bool PCEAInstallation();
+void ReadPCEA(const NemesisInfo* nemesisInfo);
+bool PCEAInstallation(const NemesisInfo* nemesisInfo);
 
 #endif

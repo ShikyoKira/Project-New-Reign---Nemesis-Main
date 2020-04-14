@@ -19,7 +19,10 @@ extern void (*interMsgPtr)(std::string);
 
 void exterMsg(std::string input)
 {
-    if (process1) { process1->message(input); }
+    if (process1) 
+    { 
+        process1->message(input);
+    }
     else if (process2)
     {
         process2->message(input);

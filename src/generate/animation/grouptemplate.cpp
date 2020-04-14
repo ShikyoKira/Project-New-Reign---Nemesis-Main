@@ -2,14 +2,13 @@
 
 #include "utilities/compute.h"
 #include "utilities/linkedvar.h"
+#include "utilities/algorithm.h"
 #include "utilities/stringsplit.h"
 
 #include "generate/animation/nodejoint.h"
 #include "generate/animation/templatetree.h"
 #include "generate/animation/grouptemplate.h"
-#include "generate/animation/nodejoint.h"
 #include "generate/animation/singletemplate.h"
-#include "generate/animation/templatetree.h"
 
 #pragma warning(disable : 4503)
 
@@ -87,19 +86,7 @@ int formatGroupReplace(string& curline,
                        int animMulti,
                        string multiOption,
                        bool& innerError);
-void OutputCheckGroup(string format,
-                      string behaviorFile,
-                      shared_ptr<VecStr> generatedlines,
-                      proc& process,
-                      condset* curset,
-                      bool& elementCatch,
-                      bool isMaster,
-                      int& openRange,
-                      size_t& elementLine,
-                      int& counter,
-                      int groupCount,
-                      ID& eventid,
-                      ID& variableid);
+void OutputCheckGroup(proc& process, nemesis::CondVar<string>* curset);
 void processing(string& line, shared_ptr<NodePackedParameters> parameters);
 bool specialCondition(string condition,
                       string filename,
@@ -218,19 +205,7 @@ void GroupTemplate::getFunctionLines(shared_ptr<VecStr> functionline,
     process.zeroVariable       = zeroVariable;
 
     // output
-    OutputCheckGroup(masterFormat,
-                     behaviorFile,
-                     functionline,
-                     process,
-                     &grouptemplate->lines,
-                     elementCatch,
-                     isMaster,
-                     openRange,
-                     elementLine,
-                     counter,
-                     groupCount,
-                     eventid,
-                     variableid);
+    OutputCheckGroup(process, &grouptemplate->lines);
 
     // OutputGroupBackup(functionline, format, masterFormat, behaviorFile, groupCount, templatelines, IsConditionOpened, masterOptionPicked, fixedStateID);
 
@@ -849,8 +824,8 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                 }
                 else if (line.find("</hkparam>") != NOT_FOUND && norElement)
                 {
-                    string templine = line.substr(0, line.find("</hkparam>"));
-                    __int64 range   = count(templine.begin(), templine.end(), '\t');
+                    string templine   = line.substr(0, line.find("</hkparam>"));
+                    __int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
 					if (openRange == t_counter)
 					{
@@ -890,7 +865,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
 						templine = templine.substr(0, templine.find("<hkobject>"));
 						__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-						if (range == openRange + 1)
+						if (t_counter == openRange + 1)
 						{
 							counter++;
 						}
@@ -1414,7 +1389,9 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                                     intID = stoi(ID) - 1;
 
                                                     if (intID >= int(fixedStateID.size()) || intID < 0)
-                                                    { ErrorMessage(1127, format, filename, linecount); }
+                                                    { 
+                                                        ErrorMessage(1127, format, filename, linecount); 
+                                                    }
                                                 }
 
                                                 if (curLine.find("$(S" + ID + "+") != NOT_FOUND)
@@ -1494,7 +1471,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
 										if (curLine.find("\t\t\t#") != NOT_FOUND && (curLine.find("#" + masterFormat + "$") != NOT_FOUND
 											|| curLine.find("#" + masterFormat + "_group$") != NOT_FOUND))
 										{
-											vecstr generator;
+											VecStr generator;
 											StringSplit(curLine, generator);
 											size_t nextpos = 0;
 
@@ -1883,7 +1860,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
 
                             if (option.find("[") == NOT_FOUND)
                             {
-                                if (format != option) { skip = true; }
+                                if (format != option) skip = true;
                             }
                             else
                             {
@@ -2207,7 +2184,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
         }
         else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
         {
-            if (!newOpen) { ErrorMessage(1171, format, IDFileName, i + 1); }
+            if (!newOpen) ErrorMessage(1171, format, IDFileName, i + 1);
 
             newOpen = false;
 
@@ -2280,7 +2257,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                 else if (line.find("</hkparam>") != NOT_FOUND && isElement)
                 {
                     string templine = line.substr(0, line.find("</hkparam>"));
-                    __int64 range   = count(templine.begin(), templine.end(), '\t');
+                    __int64 t_counter   = count(templine.begin(), templine.end(), '\t');
 
 					if (openRange == t_counter)
 					{
@@ -2540,8 +2517,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                     }
                                     else if (curLine.find("<!-- CONDITION -->", 0) != NOT_FOUND)
                                     {
-                                        if (condition == 0)
-                                        { ErrorMessage(1119, format, IDFileName, linecount); }
+                                        if (condition == 0) ErrorMessage(1119, format, IDFileName, linecount);
 
 										if (!freeze2)
 										{
@@ -3419,7 +3395,7 @@ void ExistingFunction::outPutExistingFunction(VecStr& existingFunctionLines,
                 else if (line.find("</hkparam>") != NOT_FOUND && isElement)
                 {
                     string templine = line.substr(0, line.find("</hkparam>"));
-                    __int64 range   = count(templine.begin(), templine.end(), '\t');
+                    __int64 t_counter   = count(templine.begin(), templine.end(), '\t');
 
 					if (openRange == t_counter)
 					{
@@ -3728,7 +3704,10 @@ void ExistingFunction::outPutExistingFunction(VecStr& existingFunctionLines,
 												{
 													nextpos = curLine.find("#" + format + "$", nextpos) + 1;
 													string tempID = curLine.substr(nextpos);
-													string curID = boost::regex_replace(string(tempID), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                                    string curID  = nemesis::regex_replace(
+                                                        string(tempID),
+                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
+                                                        string("\\1"));
 													curID = format + "$" + curID;
 
 													if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
@@ -4498,7 +4477,10 @@ void GroupTemplate::processing(string& line,
 
                         for (auto& curChar : tempKeyword)
                         {
-                            if (curChar == '[') { ++openBrack; }
+                            if (curChar == '[') 
+                            { 
+                                ++openBrack; 
+                            }
                             else if (curChar == ']')
                             {
                                 --openBrack;
@@ -4523,7 +4505,10 @@ void GroupTemplate::processing(string& line,
                         keyword = "";
                     }
 
-                    if ((*newImport)[file][keyword].length() > 0) { tempID = (*newImport)[file][keyword]; }
+                    if ((*newImport)[file][keyword].length() > 0) 
+                    { 
+                        tempID = (*newImport)[file][keyword]; 
+                    }
                     else
                     {
                         tempID                      = strID;
@@ -4542,7 +4527,7 @@ void GroupTemplate::processing(string& line,
                 }
             }
 
-            if (isChange) { line.replace(line.find(oldChange), oldChange.length(), change); }
+            if (isChange) line.replace(line.find(oldChange), oldChange.length(), change);
 
             break;
         }
@@ -4699,8 +4684,7 @@ void ExistingFunction::processing(string& line,
                 {
                     if (change.find(format + "[][FileName]", 0) != NOT_FOUND)
                     {
-                        if (multiOption != format || animMulti == -1)
-                        { ErrorMessage(1052, format, filename, linecount, line); }
+                        if (multiOption != format || animMulti == -1) ErrorMessage(1052, format, filename, linecount, line);
 
                         change.replace(
                             change.find(format + "[][FileName]"),
@@ -4767,8 +4751,7 @@ void ExistingFunction::processing(string& line,
                         && (change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND
                             || change.find("eventID[" + format + "[][main_anim_event]]") != pos - 7))
                     {
-                        if (multiOption != format || animMulti == -1)
-                        { ErrorMessage(1052, format, filename, linecount, line); }
+                        if (multiOption != format || animMulti == -1) ErrorMessage(1052, format, filename, linecount, line);
 
                         change.replace(pos,
                                        21 + format.length(),
@@ -4783,8 +4766,7 @@ void ExistingFunction::processing(string& line,
 
                         if (pos != NOT_FOUND)
                         {
-                            if (multiOption != format || animMulti == -1)
-                            { ErrorMessage(1052, format, filename, linecount, line); }
+                            if (multiOption != format || animMulti == -1) ErrorMessage(1052, format, filename, linecount, line);
 
                             change.replace(pos,
                                            19 + format.length(),
@@ -5040,7 +5022,7 @@ void ExistingFunction::processing(string& line,
                             isChange = true;
                         }
 
-                        if (change.length() == it->second.length()) { break; }
+                        if (change.length() == it->second.length()) break;
                     }
                 }
             }
@@ -5098,7 +5080,10 @@ void ExistingFunction::processing(string& line,
 
                         for (auto& curChar : tempKeyword)
                         {
-                            if (curChar == '[') { ++openBrack; }
+                            if (curChar == '[') 
+                            { 
+                                ++openBrack; 
+                            }
                             else if (curChar == ']')
                             {
                                 --openBrack;
@@ -5123,7 +5108,10 @@ void ExistingFunction::processing(string& line,
                         keyword = "";
                     }
 
-                    if ((*newImport)[file][keyword].length() > 0) { tempID = (*newImport)[file][keyword]; }
+                    if ((*newImport)[file][keyword].length() > 0) 
+                    {
+                        tempID = (*newImport)[file][keyword];
+                    }
                     else
                     {
                         tempID                      = strID;
@@ -5767,7 +5755,10 @@ bool andLoop(string condition,
 
             for (uint i = 0; i < nextCondition.size(); ++i)
             {
-                if (nextCondition[i] == '(') { ++c_or; }
+                if (nextCondition[i] == '(') 
+                {
+                    ++c_or; 
+                }
                 else if (nextCondition[i] == ')')
                 {
                     --c_or;
@@ -5820,7 +5811,10 @@ bool andLoop(string condition,
 
         for (uint i = 0; i < nextCondition.size(); ++i)
         {
-            if (nextCondition[i] == '(') { ++c_or; }
+            if (nextCondition[i] == '(')
+            { 
+                ++c_or; 
+            }
             else if (nextCondition[i] == ')')
             {
                 --c_or;
@@ -5966,7 +5960,7 @@ bool andParenthesis(string condition,
         }
     }
 
-    if (c_or != 0) { ErrorMessage(1106, format, filename, numline, utility.originalCondition); }
+    if (c_or != 0) ErrorMessage(1106, format, filename, numline, utility.originalCondition);
 
     // ... & (bool1 | bool2) & bool3 | (bool4 & ...
     //		 ^---------------------^
@@ -6019,7 +6013,9 @@ bool newCondition(string condition,
         if (condition.find(")") == NOT_FOUND
             || count(condition.begin(), condition.end(), '(')
                    != count(condition.begin(), condition.end(), ')'))
-        { ErrorMessage(1105, format, filename, numline); }
+        {
+            ErrorMessage(1105, format, filename, numline); 
+        }
 
         size_t c_and = 0;
         size_t c_or  = 0;
@@ -6027,7 +6023,10 @@ bool newCondition(string condition,
 
         for (uint i = 0; i < condition.size(); ++i)
         {
-            if (condition[i] == '(') { ++c_or; }
+            if (condition[i] == '(') 
+            {
+                ++c_or; 
+            }
             else if (condition[i] == ')')
             {
                 --c_or;
@@ -6153,7 +6152,10 @@ bool newCondition(string condition,
         if (c_and == NOT_FOUND)
         {
             // AND & OR not exist
-            if (c_or == NOT_FOUND) { return inHouseResult; }
+            if (c_or == NOT_FOUND) 
+            {
+                return inHouseResult; 
+            }
 
             // OR exist but not AND
             else
@@ -6407,7 +6409,9 @@ namespace backup
                                             format,
                                             masterformat,
                                             utility))
-                { inHouseResult = true; }
+                {
+                    inHouseResult = true; 
+                }
             }
             else if (y == NOT_FOUND || (x < y && x != NOT_FOUND))
             {
@@ -6467,7 +6471,9 @@ namespace backup
                                                 format,
                                                 masterformat,
                                                 utility))
-                    { inHouseResult = true; }
+                    {
+                        inHouseResult = true; 
+                    }
                 }
                 else
                 {
@@ -6512,7 +6518,10 @@ namespace backup
             x = outHouse.find("&");
             y = outHouse.find("|");
 
-            if (x == NOT_FOUND && y == NOT_FOUND) { return inHouseResult; }
+            if (x == NOT_FOUND && y == NOT_FOUND) 
+            {
+                return inHouseResult; 
+            }
             else if (x == NOT_FOUND || (x > y && y != NOT_FOUND))
             {
                 string secondCondition = outHouse.substr(outHouse.find("|") + 1);
@@ -6628,7 +6637,10 @@ namespace backup
 
                         for (uint i = 0; i < secondCondition.size(); ++i)
                         {
-                            if (secondCondition[i] == '(') { openCounter++; }
+                            if (secondCondition[i] == '(') 
+                            {
+                                openCounter++; 
+                            }
                             else if (secondCondition[i] == ')')
                             {
                                 openCounter--;
@@ -7279,7 +7291,9 @@ bool conditionProcess(string condition,
             bool conditionResult;
 
             if (condition.find(masterformat + "_group[][]") != NOT_FOUND)
-            { groupEnd = int(groupAnimInfo[GOG].size()); }
+            {
+                groupEnd = int(groupAnimInfo[GOG].size()); 
+            }
             else
             {
                 groupEnd      = int(condition.find(masterformat + "_group[][")) + masterformat.length() + 9;
@@ -7410,7 +7424,8 @@ bool conditionProcess(string condition,
 
 			if (isalpha(optionInfo.back()[1]))
 			{
-				conditionOrder = boost::regex_replace(string(optionInfo.back()), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+                conditionOrder = nemesis::regex_replace(
+                    string(optionInfo.back()), nemesis::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
 				if (nemesis::iequals(conditionOrder, "last")) return utility.animMulti == groupAnimInfo.size() - 1 ? !isNot : isNot;
 				else if (nemesis::iequals(conditionOrder, "first")) conditionOrder = "0";
@@ -7669,7 +7684,9 @@ int formatGroupReplace(string& curline,
         shared_ptr<AnimationInfo> animInfo = groupAnimInfo[stoi(groupline[1])][stoi(groupline[2])];
 
         if (mapPtr->find(input) != mapPtr->end() && (*mapPtr)[input].length() > 0)
-        { output = (*mapPtr)[input]; }
+        {
+            output = (*mapPtr)[input]; 
+        }
         else if (animInfo->addOn.find(groupline[3]) != animInfo->addOn.end()
                  && animInfo->addOn[groupline[3]].size() > 0 && optionMulti > -1)
         {
@@ -7687,7 +7704,10 @@ int formatGroupReplace(string& curline,
         {
             for (uint i = point; i < curline.length(); ++i)
             {
-                if (curline[i] == '[') { curGroup = i + 1; }
+                if (curline[i] == '[') 
+                {
+                    curGroup = i + 1; 
+                }
                 else if (curline[i] == ']')
                 {
                     string templine = curline.substr(curGroup, i - curGroup);
@@ -7737,25 +7757,13 @@ int formatGroupReplace(string& curline,
 	return point;
 }
 
-void OutputCheckGroup(string format,
-                      string behaviorFile,
-                      shared_ptr<VecStr> generatedlines,
-                      proc& process,
-                      condset* curset,
-                      bool& elementCatch,
-                      bool isMaster,
-                      int& openRange,
-                      size_t& elementLine,
-                      int& counter,
-                      int groupCount,
-                      ID& eventid,
-                      ID& variableid)
+void OutputCheckGroup(proc& process, nemesis::CondVar<string>* curset)
 {
-    for (auto& curstack : curset->lines)
+    for (auto& curstack : curset->rawlist)
     {
-        bool uniqueskip = false;
-        bool hasProcess = false;
-        elementCatch    = false;
+        bool uniqueskip       = false;
+        bool hasProcess       = false;
+        *process.elementCatch = false;
         string line;
         VecStr lineblocks;
 
@@ -7781,12 +7789,12 @@ void OutputCheckGroup(string format,
                     int animMulti  = -2;
 
                     if (curcond.n_conditions->isMultiTrue(&process,
-                                                          format,
-                                                          behaviorFile,
+                                                          process.format,
+                                                          process.behaviorFile,
                                                           curstack.linecount,
                                                           animMulti,
                                                           true,
-                                                          isMaster,
+                                                          process.isMaster,
                                                           groupMulti))
                     {
                         // master
@@ -7800,19 +7808,8 @@ void OutputCheckGroup(string format,
                             for (size_t m_groupMulti = 0; m_groupMulti < size; ++m_groupMulti)
                             {
                                 process.groupMulti = m_groupMulti;
-                                OutputCheckGroup(format,
-                                                 behaviorFile,
-                                                 generatedlines,
-                                                 process,
-                                                 &curcond,
-                                                 elementCatch,
-                                                 isMaster,
-                                                 openRange,
-                                                 elementLine,
-                                                 counter,
-                                                 groupCount,
-                                                 eventid,
-                                                 variableid);
+
+                                OutputCheckGroup(process, &curcond);
                             }
 
                             process.groupMulti  = groupMulti;
@@ -7856,19 +7853,7 @@ void OutputCheckGroup(string format,
                                      ++m_optionMulti)
                                 {
                                     process.optionMulti = m_optionMulti;
-                                    OutputCheckGroup(format,
-                                                     behaviorFile,
-                                                     generatedlines,
-                                                     process,
-                                                     &curcond,
-                                                     elementCatch,
-                                                     isMaster,
-                                                     openRange,
-                                                     elementLine,
-                                                     counter,
-                                                     groupCount,
-                                                     eventid,
-                                                     variableid);
+                                    OutputCheckGroup(process, &curcond);
                                 }
                             }
 
@@ -7886,26 +7871,14 @@ void OutputCheckGroup(string format,
                 {
                     if (!curcond.n_conditions
                         || curcond.n_conditions->isTrue(&process,
-                                                        format,
-                                                        behaviorFile,
+                                                        process.format,
+                                                        process.behaviorFile,
                                                         curstack.linecount,
                                                         true,
-                                                        isMaster,
+                                                        process.isMaster,
                                                         curcond.n_conditions))
                     {
-                        OutputCheckGroup(format,
-                                         behaviorFile,
-                                         generatedlines,
-                                         process,
-                                         &curcond,
-                                         elementCatch,
-                                         isMaster,
-                                         openRange,
-                                         elementLine,
-                                         counter,
-                                         groupCount,
-                                         eventid,
-                                         variableid);
+                        OutputCheckGroup(process, &curcond);
                         break;
                     }
                 }
@@ -7929,9 +7902,9 @@ void OutputCheckGroup(string format,
 					if (error) throw nemesis::exception();
 				}
 
-				generatedlines->push_back(line);
+				process.generatedlines->push_back(line);
 
-				if (elementCatch) elementLine = generatedlines->size() - 1;
+				if (*process.elementCatch) *process.elementLine = process.generatedlines->size() - 1;
 
 				break;
 			}

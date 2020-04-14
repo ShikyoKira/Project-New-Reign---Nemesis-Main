@@ -56,8 +56,7 @@ void comparing(std::vector<list>& storeline,
 
     for (uint k = 0; k < storeline.size(); ++k)
     {
-        if (storeline[k].name.find("<!-- CONDITION") != NOT_FOUND)
-        { ErrorMessage(5004, filename, counter + k); }
+        if (storeline[k].name.find("<!-- CONDITION") != NOT_FOUND) ErrorMessage(5004, filename, counter + k);
 
         if (storeline[k].name.find("<!-- NEW", 0) == NOT_FOUND && !close)
         {
@@ -122,7 +121,7 @@ void comparing(std::vector<list>& storeline,
             close = true;
         }
 
-        if (close) { newlines.push_back(storeline[k].name); }
+        if (close) newlines.push_back(storeline[k].name); 
     }
 
     for (uint j = 0; j < extract.size(); ++j)

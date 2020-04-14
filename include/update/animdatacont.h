@@ -16,7 +16,7 @@ struct AnimDataPack_Condt
 	std::vector<nemesis::LinkedVar<std::string>> eventname;
 
 	AnimDataPack_Condt() {}
-	AnimDataPack_Condt(const vecstr& storeline, size_t linenum);
+	AnimDataPack_Condt(const VecStr& storeline, size_t linenum);
 };
 
 struct InfoDataPack_Condt
@@ -26,11 +26,11 @@ struct InfoDataPack_Condt
 	std::string uniquecode;
 	std::string duration;
 
-	vecstr motiondata;
-	vecstr rotationdata;
+	VecStr motiondata;
+	VecStr rotationdata;
 
 	InfoDataPack_Condt() {}
-	InfoDataPack_Condt(const vecstr& storeline, size_t linenum);
+	InfoDataPack_Condt(const VecStr& storeline, size_t linenum);
 };
 
 struct AnimDataProject_Condt
@@ -49,18 +49,18 @@ struct AnimDataProject_Condt
 	std::vector<DataPackCondt<std::shared_ptr<InfoDataPack_Condt>>> infodatalist;
 
 	AnimDataProject_Condt() {}
-	AnimDataProject_Condt(const vecstr& storeline);
+	AnimDataProject_Condt(const VecStr& storeline);
 
-	void update(const ModCode& modcode, const vecstr& storeline, size_t linenum);
-	void modify(const ModCode& modcode, const vecstr& storeline);
+	void update(const ModCode& modcode, const VecStr& storeline, size_t linenum);
+	void modify(const ModCode& modcode, const VecStr& storeline);
 
-	vecstr agetline();
-	vecstr igetLine(const Header& projName);
+	VecStr agetline();
+	VecStr igetLine(const Header& projName);
 
 	AnimDataPack_Condt& aadd(const Header& header, const ModCode& modcode = "original", nemesis::CondType type = nemesis::NONE);
-	AnimDataPack_Condt& aadd(const Header& header, const ModCode& modcode, const vecstr& storeline, size_t linenum, nemesis::CondType type = nemesis::NONE);
+	AnimDataPack_Condt& aadd(const Header& header, const ModCode& modcode, const VecStr& storeline, size_t linenum, nemesis::CondType type = nemesis::NONE);
 	InfoDataPack_Condt& iadd(const Header& header, const ModCode& modcode = "original", nemesis::CondType type = nemesis::NONE);
-	InfoDataPack_Condt& iadd(const Header& header, const ModCode& modcode, const vecstr& storeline, size_t linenum, nemesis::CondType type = nemesis::NONE);
+	InfoDataPack_Condt& iadd(const Header& header, const ModCode& modcode, const VecStr& storeline, size_t linenum, nemesis::CondType type = nemesis::NONE);
 
 	nemesis::LinkedVar<std::shared_ptr<AnimDataPack_Condt>>* afindlist(const Header& header);
 	nemesis::LinkedVar<std::shared_ptr<InfoDataPack_Condt>>* ifindlist(const Header& header);
@@ -93,12 +93,12 @@ public:
 	ProjectPtr find(const ProjectName& projName, const ModCode& modcode = "original");
 
 	ProjectPtr add(const ProjectName& projName, size_t num = 0, const ModCode& modcode = "original", nemesis::CondType type = nemesis::NONE);
-	ProjectPtr add(const ProjectName& projName, const vecstr& storeline, const ModCode& modcode);
+	ProjectPtr add(const ProjectName& projName, const VecStr& storeline, const ModCode& modcode);
 
-	void projectListUpdate(const ModCode& modcode, const std::string& filepath, const vecstr& storeline, bool isTemplate = false);
+	void projectListUpdate(const ModCode& modcode, const std::string& filepath, const VecStr& storeline, bool isTemplate = false);
 
 #if HIDE
-	struct AnimDataList : vecstr
+	struct AnimDataList : VecStr
 	{
 	private:
 		size_t TotalLines = 0;
@@ -112,44 +112,44 @@ public:
 		void clear()
 		{
 			TotalLines = 0;
-			vecstr::clear();
+			VecStr::clear();
 		}
 
 		void push_back(std::string line)
 		{
 			if (line.find("<!--") == NOT_FOUND) TotalLines++;
 
-			vecstr::emplace_back(line);
+			VecStr::emplace_back(line);
 		}
 
 		void pop_back()
 		{
-			if (vecstr::back().find("<!--") == NOT_FOUND) TotalLines--;
+			if (VecStr::back().find("<!--") == NOT_FOUND) TotalLines--;
 
-			vecstr::pop_back();
+			VecStr::pop_back();
 		}
 
-		void insert(vecstr::iterator pos, const std::string& line)
+		void insert(VecStr::iterator pos, const std::string& line)
 		{
 			if (line.find("<!--") == NOT_FOUND) TotalLines--;
 
-			vecstr::insert(pos, line);
+			VecStr::insert(pos, line);
 		}
 
-		void insert(vecstr::iterator pos, vecstr::iterator whr, vecstr::iterator til)
+		void insert(VecStr::iterator pos, VecStr::iterator whr, VecStr::iterator til)
 		{
 			for (auto whe = whr; whe < til; ++whe)
 			{
 				if (whe->find("<!--") == NOT_FOUND) TotalLines++;
 			}
 
-			vecstr::insert(pos, whr, til);
+			VecStr::insert(pos, whr, til);
 		}
 	};
 
 	std::unordered_map<std::string, std::unordered_map<std::string, AnimDataList>> newAnimData;		// character, unique code, vector<string>; memory to access each node
-	vecstr animDataChar;											// order of the character
-	std::unordered_map<std::string, vecstr> animDataHeader;			// order of the character's header
-	std::unordered_map<std::string, vecstr> animDataInfo;			// order of the character's info data
+	VecStr animDataChar;											// order of the character
+	std::unordered_map<std::string, VecStr> animDataHeader;			// order of the character's header
+	std::unordered_map<std::string, VecStr> animDataInfo;			// order of the character's info data
 #endif
 };

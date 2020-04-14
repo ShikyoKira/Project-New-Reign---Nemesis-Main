@@ -4,8 +4,8 @@
 #include "utilities/alphanum.hpp"
 #include "utilities/writetextfile.h"
 
-#include "generate/animationsetdatatype.h"
 #include "generate/generator_utility.h"
+#include "generate/animationsetdatatype.h"
 
 #include "generate/animation/newanimation.h"
 #include "generate/animation/templateinfo.h"
@@ -26,7 +26,11 @@ struct AnimationDataProject
 
     AnimationDataProject()
     {}
-    AnimationDataProject(int& startline, VecStr& animdatafile, std::string filename, std::string projectname);
+    AnimationDataProject(int& startline,
+                         VecStr& animdatafile,
+                         std::string filename,
+                         std::string projectname,
+                         const NemesisInfo* nemesisInfo);
 };
 
 struct ASDFunct

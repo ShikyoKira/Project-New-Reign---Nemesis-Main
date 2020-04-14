@@ -24,8 +24,7 @@ int main(int argc, char* argv[])
 
     try
     {
-        if (isFileExist(logfile) && !std::filesystem::is_directory(logfile))
-        { std::filesystem::remove(logfile); }
+        if (isFileExist(logfile) && !std::filesystem::is_directory(logfile)) std::filesystem::remove(logfile);
     }
     catch (const std::exception&)
     {
@@ -68,9 +67,9 @@ int main(int argc, char* argv[])
                 {
                     stagePath = std::string(argv[i] + 7);
 
-                    if (stagePath.size() > 0 && stagePath[0] == '\"') { stagePath = stagePath.substr(1); }
+                    if (stagePath.size() > 0 && stagePath[0] == '\"') stagePath = stagePath.substr(1);
 
-                    if (stagePath.size() > 0 && stagePath.back() == '\"') { stagePath.pop_back(); }
+                    if (stagePath.size() > 0 && stagePath.back() == '\"') stagePath.pop_back();
                 }
                 else
                 {
@@ -101,8 +100,9 @@ int main(int argc, char* argv[])
             else
             {
                 NewDebugMessage(*new DebugMsg("english"));
-                nemesisInfo = new NemesisInfo;
-                CmdGenerateInitialize(modlist);
+                NemesisInfo* nemesisInfo = new NemesisInfo;
+                CmdGenerateInitialize(modlist, nemesisInfo);
+                delete nemesisInfo;
             }
         }
         else if (update)
@@ -125,8 +125,9 @@ int main(int argc, char* argv[])
             else
             {
                 NewDebugMessage(*new DebugMsg("english"));
-                nemesisInfo = new NemesisInfo;
-                CmdUpdateInitialize();
+                NemesisInfo* nemesisInfo = new NemesisInfo;
+                CmdUpdateInitialize(nemesisInfo);
+                delete nemesisInfo;
             }
         }
         else if (programInitiateCheck())

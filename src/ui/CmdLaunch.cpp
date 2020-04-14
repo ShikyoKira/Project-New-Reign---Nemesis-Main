@@ -19,7 +19,7 @@ extern condition_variable cv;
 extern bool processdone;
 extern map<string, VecStr> modinfo;
 
-void CmdGenerateInitialize(VecStr modlist)
+void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
 {
     string modcode, errmsg;
 
@@ -54,7 +54,7 @@ void CmdGenerateInitialize(VecStr modlist)
     }
 
     QThread* thread       = new QThread;
-    BehaviorStart* worker = new BehaviorStart;
+    BehaviorStart* worker = new BehaviorStart(nemesisInfo);
     worker->addBehaviorPick(behaviorPriority, chosenBehavior);
 
     QObject::connect(thread, SIGNAL(started()), worker, SLOT(GenerateBehavior()));
@@ -76,10 +76,10 @@ void CmdGenerateInitialize(VecStr modlist)
     exit(static_cast<int>(error));
 }
 
-void CmdUpdateInitialize()
+void CmdUpdateInitialize(const NemesisInfo* nemesisInfo)
 {
     QThread* thread          = new QThread;
-    UpdateFilesStart* worker = new UpdateFilesStart;
+    UpdateFilesStart* worker = new UpdateFilesStart(nemesisInfo);
     worker->cmdline          = true;
 
     QObject::connect(thread, SIGNAL(started()), worker, SLOT(UpdateFiles()));

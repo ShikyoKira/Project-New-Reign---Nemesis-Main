@@ -21,12 +21,13 @@
 
 using namespace std;
 
+extern const NemesisInfo* nemesisInfo;
 extern unordered_map<string, string> crc32Cache;
-extern vecstr warningMsges;
+extern VecStr warningMsges;
 static bool* globalThrow;
 
-vecstr fileCheckMsg;
-vecstr hkxFiles;
+VecStr fileCheckMsg;
+VecStr hkxFiles;
 
 boost::atomic_flag animdata_lock = BOOST_ATOMIC_FLAG_INIT;
 
@@ -34,10 +35,10 @@ void readList(string directory, string animationDirectory, vector<unique_ptr<reg
 void fileArchitectureCheck(string hkxfile);
 void checkFolder(string filepath);
 
-std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionlist, unordered_map<int, int>& functionState)
+std::vector<int> GetStateID(map<int, int> mainJoint, map<int, VecStr> functionlist, unordered_map<int, int>& functionState)
 {
 	std::vector<int> stateID;
-	vecstr storeID;
+	VecStr storeID;
 	bool open = false;
 	bool rightFunction = false;
 	size_t jointsize = mainJoint.size();
@@ -67,7 +68,7 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionli
 						{
 							size_t counter = count(curline.begin(), curline.end(), '#');
 							size_t nextpos = 0;
-							vecstr generator;
+							VecStr generator;
 							StringSplit(curline, generator);
 
 							for (size_t k = 0; k < generator.size(); ++k) // multiple IDs in 1 line
@@ -84,7 +85,10 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionli
 
 									if (line.find("<hkparam name=\"stateId\">", 0) != NOT_FOUND)
 									{
-										int tempStateID = stoi(boost::regex_replace(string(line), boost::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                        int tempStateID
+                                            = stoi(nemesis::regex_replace(string(line),
+                                                                          nemesis::regex("[^0-9]*([0-9]+).*"),
+                                                                          string("\\1")));
 
 										if (tempStateID >= curState) curState = tempStateID + 1;
 
@@ -113,7 +117,7 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, vecstr> functionli
 	return stateID;
 }
 
-bool GetStateCount(vector<int>& count, vecstr templatelines, string format, string filename, bool hasGroup)
+bool GetStateCount(vector<int>& count, VecStr templatelines, string format, string filename, bool hasGroup)
 {
 	int counter = 1;
 
@@ -123,8 +127,14 @@ bool GetStateCount(vector<int>& count, vecstr templatelines, string format, stri
 
 		if (pos != NOT_FOUND && line.find(")$</hkparam>", pos) != NOT_FOUND)
 		{
-			string ID = boost::regex_replace(string(line), boost::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"), string("\\1"));
-			string number = boost::regex_replace(string(line), boost::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"), string("\\2"));
+            string ID = nemesis::regex_replace(
+                string(line),
+                nemesis::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
+                string("\\1"));
+            string number = nemesis::regex_replace(
+                string(line),
+                nemesis::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
+                string("\\2"));
 
 			if (ID != line && number != line)
 			{
@@ -154,9 +164,9 @@ bool GetStateCount(vector<int>& count, vecstr templatelines, string format, stri
 	return true;
 }
 
-vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
+VecStr newAnimationElement(string line, vector<VecStr> element, int curNumber)
 {
-	vecstr animElement;
+	VecStr animElement;
 
 	for (unsigned int j = 0; j < element[curNumber].size(); ++j)
 	{
@@ -165,7 +175,7 @@ vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
 
 		if (templine.find("##") != NOT_FOUND)
 		{
-			vecstr tempAnimEvent = newAnimationElement(templine, element, curNumber + 1);
+			VecStr tempAnimEvent = newAnimationElement(templine, element, curNumber + 1);
 			animElement.reserve(animElement.size() + tempAnimEvent.size());
 			animElement.insert(animElement.end(), tempAnimEvent.begin(), tempAnimEvent.end());
 		}
@@ -178,7 +188,7 @@ vecstr newAnimationElement(string line, vector<vecstr> element, int curNumber)
 	return animElement;
 }
 
-string behaviorLineChooser(string originalline, unordered_map<string, string> chosenLines, vecstr behaviorPriority)
+string behaviorLineChooser(string originalline, unordered_map<string, string> chosenLines, VecStr behaviorPriority)
 {
 	int chosen = -1;
 
@@ -188,8 +198,10 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 		{
 			if (chosen == -1) chosen = i;
 
-			string line = boost::regex_replace(string(chosenLines[behaviorPriority[i]]), boost::regex("[\t]+([^\t]+).*"), string("\\1"));
-			string line2 = boost::regex_replace(string(line), boost::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
+			string line = nemesis::regex_replace(
+                string(chosenLines[behaviorPriority[i]]), nemesis::regex("[\t]+([^\t]+).*"), string("\\1"));
+            string line2 = nemesis::regex_replace(
+                string(line), nemesis::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
 
 			if (line2 != line && line.find("<!-- ") == 0)
 			{
@@ -197,7 +209,9 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 
 				if (out.find("<!-- ") != NOT_FOUND)
 				{
-					out = boost::regex_replace(string(chosenLines[behaviorPriority[i]]), boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+                    out = nemesis::regex_replace(string(chosenLines[behaviorPriority[i]]),
+                                                 nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
+                                                 string("\\1"));
 					out = chosenLines[behaviorPriority[i]].substr(0, chosenLines[behaviorPriority[i]].find(out));
 				}
 
@@ -212,7 +226,9 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 
 		if (out.find("<!-- ") != NOT_FOUND)
 		{
-			out = boost::regex_replace(string(chosenLines[behaviorPriority[chosen]]), boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+            out = nemesis::regex_replace(string(chosenLines[behaviorPriority[chosen]]),
+                                       nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
+                                       string("\\1"));
 			out = chosenLines[behaviorPriority[chosen]].substr(0, chosenLines[behaviorPriority[chosen]].find(out));
 		}
 
@@ -223,7 +239,8 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 
 	if (out.find("<!-- ") != NOT_FOUND)
 	{
-		out = boost::regex_replace(string(originalline), boost::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+        out = nemesis::regex_replace(
+            string(originalline), nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
 		out = originalline.substr(0, originalline.find(out));
 	}
 
@@ -232,7 +249,7 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 
 void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, TemplateInfo& behaviortemplate, bool firstP)
 {
-	vecstr filelist;
+	VecStr filelist;
 
 	if (error) throw nemesis::exception();
 
@@ -307,7 +324,7 @@ vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate)
 
 void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 {
-	vecstr filelist;
+	VecStr filelist;
 	read_directory(directory, filelist);
 
 	try
@@ -359,13 +376,13 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 bool isEngineUpdated(string& versionCode)
 {
 	string directory = "temp_behaviors";
-	vecstr filelist;
+	VecStr filelist;
 
 	read_directory(directory, filelist);
 
 	if (filelist.size() < 3) ErrorMessage(6006);
 
-	vecstr storeline;
+	VecStr storeline;
 	string filename = "cache\\engine_update";
 	unordered_map<string, bool> isChecked;
 
@@ -659,7 +676,7 @@ wstring GetFileDirectory(wstring filepath)
 	return filepath.substr(0, dir.length() + 1);
 }
 
-int getTemplateNextID(vecstr& templatelines)
+int getTemplateNextID(VecStr& templatelines)
 {
 	unordered_map<int, bool> taken;
 	int IDUsed = 0;
@@ -668,7 +685,10 @@ int getTemplateNextID(vecstr& templatelines)
 	{
 		if (line.find("<hkobject name=\"#MID$") != NOT_FOUND)
 		{
-			string number = boost::regex_replace(string(line), boost::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
+            string number
+                = nemesis::regex_replace(string(line),
+                                       nemesis::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"),
+                                       string("\\1"));
 
 			if (number != line && isOnlyNumber(number))
 			{
@@ -713,7 +733,7 @@ bool isEdited(TemplateInfo* BehaviorTemplate, string& lowerBehaviorFile, unorder
 
 		for (auto templist : BehaviorTemplate->grouplist)
 		{
-			vecstr behaviorNames = behaviorJoints[templist.first];
+			VecStr behaviorNames = behaviorJoints[templist.first];
 
 			for (auto name : behaviorNames)
 			{
@@ -745,7 +765,7 @@ bool newAnimSkip(vector<shared_ptr<NewAnimation>> newAnim, string modID)
 	return true;
 }
 
-void checkClipAnimData(string& line, vecstr& characterFiles, string& clipName, bool& isClip)
+void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, bool& isClip)
 {
 	if (!isClip)
 	{
@@ -858,7 +878,7 @@ void checkAllStoredHKX()
 
 void checkFolder(string filepath)
 {
-	vecstr list;
+	VecStr list;
 	read_directory(filepath, list);
 
 	for (auto& each : list)
@@ -919,15 +939,15 @@ void ClearGlobal(bool all)
 	{
 		DebugLogging("Global reset all: TRUE");
 
-		usedAnim = unordered_map<string, setstr>();
+		usedAnim = unordered_map<string, SetStr>();
 
 		registeredAnim = unordered_map<string, unordered_map<string, bool>>();
 
-		animModMatch = unordered_map<string, unordered_map<string, vector<setstr>>>();
+		animModMatch = unordered_map<string, unordered_map<string, vector<SetStr>>>();
 
-		behaviorJoints = unordered_map<string, vecstr>();
+		behaviorJoints = unordered_map<string, VecStr>();
 
-		warningMsges = vecstr();
+		warningMsges = VecStr();
 	}
 	else
 	{
@@ -942,12 +962,12 @@ void ClearGlobal(bool all)
 	AAGroup = unordered_map<string, string>();
 	crc32Cache = unordered_map<string, string>();
 	
-	behaviorProject = unordered_map<string, vecstr>();
-	alternateAnim = unordered_map<string, vecstr>();
-	groupAA = unordered_map<string, vecstr>();
-	groupAAPrefix = unordered_map<string, vecstr>();
-	AAEvent = unordered_map<string, vecstr>();
-	AAHasEvent = unordered_map<string, vecstr>();
+	behaviorProject = unordered_map<string, VecStr>();
+	alternateAnim = unordered_map<string, VecStr>();
+	groupAA = unordered_map<string, VecStr>();
+	groupAAPrefix = unordered_map<string, VecStr>();
+	AAEvent = unordered_map<string, VecStr>();
+	AAHasEvent = unordered_map<string, VecStr>();
 
 	pcealist = vector<PCEA>();
 
@@ -961,5 +981,5 @@ void ClearGlobal(bool all)
 
 	groupNameList = set<string>();
 
-	fileCheckMsg = vecstr();
+	fileCheckMsg = VecStr();
 }

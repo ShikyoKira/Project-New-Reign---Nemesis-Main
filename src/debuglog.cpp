@@ -12,6 +12,19 @@ std::atomic_flag atomlock{};
 string filename = "CriticalLog.txt";
 
 
+std::string currentTime()
+{
+    time_t rawtime;
+    struct tm* timeinfo;
+    char buffer[80];
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", timeinfo);
+    return buffer;
+}
+
 void DebugOutput()
 {
     filename.clear();

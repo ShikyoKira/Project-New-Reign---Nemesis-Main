@@ -5,9 +5,10 @@
 
 #include "debugmsg.h"
 
-#include "utilities/readtextfile.h"
 #include "utilities/regex.h"
+#include "utilities/algorithm.h"
 #include "utilities/stringsplit.h"
+#include "utilities/readtextfile.h"
 
 #include "generate/animation/optionlist.h"
 
@@ -209,15 +210,16 @@ OptionList::OptionList(string filepath, string format)
                     {
                         if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<'
                             && strline[i] != '>' && strline[i] != ' ')
-                        { ErrorMessage(1036, format, filepath, linecount); }
+                        { 
+                            ErrorMessage(1036, format, filepath, linecount);
+                        }
                     }
 
                     if (AnimInfo.size() > 2) ErrorMessage(1195, format, filepath, linecount);
 
                     string templine = AnimInfo[1];
 
-                    if (isElementExist[templine])
-                        ErrorMessage(1063, templine, format, filepath, linecount, templine);
+                    if (isElementExist[templine]) ErrorMessage(1063, templine, format, filepath, linecount, templine);
 
                     isElementExist[templine] = true;
 
@@ -275,7 +277,9 @@ OptionList::OptionList(string filepath, string format)
                     {
                         if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<'
                             && strline[i] != '>' && strline[i] != ' ')
-                        { ErrorMessage(1036, format, filepath, linecount); }
+                        {
+                            ErrorMessage(1036, format, filepath, linecount); 
+                        }
                     }
 
                     if (AnimInfo.size() > 3) ErrorMessage(1196, format, filepath, linecount);
@@ -363,7 +367,9 @@ OptionList::OptionList(string filepath, string format)
                     {
                         if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<'
                             && strline[i] != '>' && strline[i] != ' ')
-                        { ErrorMessage(1043, format, filepath, linecount); }
+                        { 
+                            ErrorMessage(1043, format, filepath, linecount);
+                        }
                     }
 
                     if (AnimInfo.size() > 2) ErrorMessage(1197, format, filepath, linecount);
@@ -419,7 +425,9 @@ OptionList::OptionList(string filepath, string format)
                     {
                         if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<'
                             && strline[i] != '>' && strline[i] != ' ')
-                        { ErrorMessage(1043, format, filepath, linecount); }
+                        {
+                            ErrorMessage(1043, format, filepath, linecount); 
+                        }
                     }
 
                     if (AnimInfo.size() > 3) ErrorMessage(1198, format, filepath, linecount);
@@ -427,11 +435,17 @@ OptionList::OptionList(string filepath, string format)
                     bool isLast;
 
                     if (AnimInfo[1] == "F")
+                    {
                         isLast = false;
+                    }
                     else if (AnimInfo[1] == "L")
+                    {
                         isLast = true;
+                    }
                     else
+                    {
                         ErrorMessage(1048, format, filepath, linecount);
+                    }
 
                     string templine = AnimInfo[2];
 
@@ -601,19 +615,22 @@ OptionList::OptionList(string filepath, string format)
 
                         if ((nemesis::iequals(tempOption, templatecode) && strline == tempOption)
                             || nemesis::iequals(tempOption, "k") || nemesis::iequals(tempOption, "bsa"))
-                        { ErrorMessage(1049, tempOption, format, filepath, linecount); }
+                        {
+                            ErrorMessage(1049, tempOption, format, filepath, linecount); 
+                        }
 
                         if (strline.find("<", lineplus) != NOT_FOUND
                             && strline.find(">", lineplus + 1) != NOT_FOUND)
                         {
                             if (nemesis::iequals(tempOption, "animobject")
                                 || nemesis::iequals(tempOption, "end"))
-                            { ErrorMessage(1049, tempOption, format, filepath, linecount); }
+                            {
+                                ErrorMessage(1049, tempOption, format, filepath, linecount); 
+                            }
 
                             if (tempOption == format) ErrorMessage(1064, format, filepath, linecount);
 
-                            if (storelist[tempOption])
-                                ErrorMessage(1177, format, filepath, linecount, tempOption);
+                            if (storelist[tempOption]) ErrorMessage(1177, format, filepath, linecount, tempOption);
 
                             storelist[tempOption] = true;
                             optionOrder.push_back(tempOption);
@@ -637,12 +654,16 @@ OptionList::OptionList(string filepath, string format)
                                                                string("\\1"));
 
                                     if (tempAddOn != addition)
-                                    { ErrorMessage(1015, format, filepath, linecount); }
+                                    {
+                                        ErrorMessage(1015, format, filepath, linecount); 
+                                    }
                                     else
                                     {
                                         if (Debug && isElementExist[addition] && addition != "variable"
                                             && addition != "event")
-                                        { WarningMessage(1001, format, filepath, linecount); }
+                                        {
+                                            WarningMessage(1001, format, filepath, linecount); 
+                                        }
 
                                         isElementExist[addition] = true;
                                         addOn[tempOption].push_back(addition);
@@ -779,7 +800,9 @@ OptionList::OptionList(string filepath, string format)
     if (eleEvent.size() != eleEventLine.size() || eleEventGroupF.size() != eleEventGroupFLine.size()
         || eleEventGroupL.size() != eleEventGroupLLine.size() || eleVar.size() != eleVarLine.size()
         || eleVarGroupF.size() != eleVarGroupFLine.size() || eleVarGroupL.size() != eleVarGroupLLine.size())
-    { ErrorMessage(1047); }
+    {
+        ErrorMessage(1047); 
+    }
 
     if (ignoreGroup)
     {
@@ -865,7 +888,9 @@ OptionList::OptionList(string filepath, string format)
             || mixOptRegis.size() != 0 || mixOptRever.size() != 0 || addOn.size() != 0 || joint.size() != 0
             || eleEvent.size() != 0 || eleEventGroupF.size() != 0 || eleEventGroupL.size() != 0
             || eleVar.size() != 0 || eleVarGroupF.size() != 0 || eleVarGroupL.size() != 0)
-        { ErrorMessage(1084, format, filepath); }
+        {
+            ErrorMessage(1084, format, filepath); 
+        }
     }
 
     // Warning message checking
@@ -878,7 +903,9 @@ OptionList::OptionList(string filepath, string format)
             {
                 if (it->first != iter->first && optionMatching(it->first, iter->first)
                     && (isAddOn[it->first] || isAddOn[iter->first]))
-                { WarningMessage(1002, it->first, iter->first, filepath); }
+                {
+                    WarningMessage(1002, it->first, iter->first, filepath); 
+                }
 
                 if (error) throw nemesis::exception();
             }
@@ -911,7 +938,10 @@ bool optionMatching(string option1, string option2)
 
     for (uint i = 0; i < shorter.size(); ++i)
     {
-        if (shorter[i] != longer[i]) { return false; }
+        if (shorter[i] != longer[i]) 
+        { 
+            return false; 
+        }
     }
 
     return true;

@@ -10,6 +10,7 @@
 #include <QtCore/QStandardPaths.h>
 
 #include "debuglog.h"
+#include "nemesisinfo.h"
 
 #include "generate/alternateanimation.h"
 #include "generate/generator_utility.h"
@@ -32,7 +33,8 @@ bool AACoreCompile(sf::path filename,
                    sf::path appdata_path,
                    VecStr& newFunctions,
                    uint& maxGroup,
-                   uint& uniquekey);
+                   uint& uniquekey,
+                   string target);
 bool AAnimAPICompile(sf::path filename,
                      wstring import,
                      string destination,
@@ -40,7 +42,8 @@ bool AAnimAPICompile(sf::path filename,
                      sf::path appdata_path,
                      VecStr& newFunctions,
                      uint maxGroup,
-                     uint& uniquekey);
+                     uint& uniquekey,
+                     string target);
 void fixedKeyInitialize();
 uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
 bool PapyrusCompileProcess(sf::path pscfile,
@@ -149,7 +152,7 @@ void AAInitialize(string AAList)
     DebugLogging("Caching alternate animation complete");
 }
 
-bool AAInstallation()
+bool AAInstallation(const NemesisInfo* nemesisInfo)
 {
     if (AAGroup.size() == 0) return true;
 
@@ -196,8 +199,11 @@ bool AAInstallation()
                        cachedir,
                        newFunctions,
                        maxGroup,
-                       uniquekey))
+                       uniquekey,
+                       nemesisInfo->GetDataPath()))
+    {
         return false;
+    }
 
     if (error) throw nemesis::exception();
 
@@ -215,8 +221,11 @@ bool AAInstallation()
                          cachedir,
                          newFunctions,
                          maxGroup,
-                         uniquekey))
+                         uniquekey,
+                         nemesisInfo->GetDataPath()))
+    {
         return false;
+    }
 
     try
     {
@@ -248,7 +257,8 @@ bool AACoreCompile(sf::path filename,
                    sf::path appdata_path,
                    VecStr& newFunctions,
                    uint& maxGroup,
-                   uint& uniquekey)
+                   uint& uniquekey,
+                   string target)
 {
     bool prefixDone = false;
     VecStr prefixList;
@@ -575,7 +585,7 @@ bool AACoreCompile(sf::path filename,
         }
     }
 
-    if (!PapyrusCompile(filename, import, destination, filepath, appdata_path)) return false;
+    if (!PapyrusCompile(filename, import, destination, filepath, appdata_path, target)) return false;
 
     DebugLogging("AA core script complete");
     return true;
@@ -588,7 +598,8 @@ bool AAnimAPICompile(sf::path filename,
                      sf::path appdata_path,
                      VecStr& newFunctions,
                      uint maxGroup,
-                     uint& uniquekey)
+                     uint& uniquekey,
+                     string target)
 {
     VecStr storeline;
     VecStr newline;
@@ -600,12 +611,18 @@ bool AAnimAPICompile(sf::path filename,
     {
         size_t pos = line.find("$InstallationKey$");
 
-        if (pos != NOT_FOUND) { line.replace(pos, 17, to_string(uniquekey)); }
+        if (pos != NOT_FOUND) 
+        { 
+            line.replace(pos, 17, to_string(uniquekey));
+        }
         else
         {
             pos = line.find("$MaxGroup$");
 
-            if (pos != NOT_FOUND) { line.replace(pos, 10, to_string(maxGroup - 1)); }
+            if (pos != NOT_FOUND) 
+            { 
+                line.replace(pos, 10, to_string(maxGroup - 1));
+            }
             else
             {
                 pos = line.find("FNBE_aa Hidden");
@@ -637,7 +654,7 @@ bool AAnimAPICompile(sf::path filename,
         }
     }
 
-    return PapyrusCompile(filename, import, destination, filepath, appdata_path);
+    return PapyrusCompile(filename, import, destination, filepath, appdata_path, target);
 }
 
 void fixedKeyInitialize()
@@ -717,14 +734,17 @@ uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
     return uniqueKey;
 }
 
-bool PapyrusCompile(
-    sf::path pscfile, wstring import, string destination, string filepath, sf::path appdata_path)
+bool PapyrusCompile(sf::path pscfile,
+                    wstring import,
+                    string destination,
+                    string filepath,
+                    sf::path appdata_path,
+                    sf::path target)
 {
     if (!sf::exists(pscfile)) ErrorMessage(1092, pscfile.string());
     if (!sf::exists(destination)) ErrorMessage(1001, destination);
 
     string timeline;
-    sf::path target = sf::path(nemesisInfo->GetDataPath());
 
     while (!nemesis::iequals(target.stem().string(), "data"))
     {
@@ -790,11 +810,12 @@ bool PapyrusCompileProcess(sf::path pscfile,
         }
     }
 
-    if (isFileExist(filepath) && !sf::is_directory(filepath) && !sf::remove(filepath))
-        ErrorMessage(1082, filepath);
+    if (isFileExist(filepath) && !sf::is_directory(filepath) && !sf::remove(filepath)) ErrorMessage(1082, filepath);
 
     if (sf::exists(importedSource) && !sf::is_directory(importedSource) && !sf::remove(importedSource))
-    { ErrorMessage(1082, WStringToString(importedSource)); }
+    {
+        ErrorMessage(1082, WStringToString(importedSource)); 
+    }
 
     QProcess process;
     QString exe = QString::fromStdWString(compiler.wstring());

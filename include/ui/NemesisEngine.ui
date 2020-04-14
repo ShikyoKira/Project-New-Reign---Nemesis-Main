@@ -32,7 +32,7 @@
    <string>NemesisEngine</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-image: url(:/background/Resources/background.png);</string>
+   <string notr="true">background-image: url(:/background/background.png);</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="sizeConstraint">
@@ -425,10 +425,10 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);
-background-image: url(:/background/Resources/title.png);</string>
+background-image: url(:/background/title.png);</string>
      </property>
      <property name="pixmap">
-      <pixmap resource="NemesisEngine.qrc">:/background/Resources/title header 2.jpg</pixmap>
+      <pixmap resource="NemesisEngine.qrc">:/background/title header 2.jpg</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -486,7 +486,7 @@ background-image: url(:/background/Resources/title.png);</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="NemesisEngine.qrc"/>
+  <include location="../../resources/NemesisEngine.qrc"/>
  </resources>
  <connections/>
 </ui>

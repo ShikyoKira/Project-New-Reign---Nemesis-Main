@@ -57,16 +57,15 @@ struct JointTemplate
 struct GroupTemplate : public JointTemplate
 {
 private:
-    std::string filename;
     VecStr templatelines;
     NewAnimLock* atomicLock;
     ImportContainer* newImport;
-    std::string format;
-    std::string strID;
+    std::string filename, format, strID;
     int nextFunctionID;
     SSMap IDExist;
     std::shared_ptr<master> subFunctionIDs;
     std::shared_ptr<AnimTemplate> grouptemplate;
+    proc* process;
 
     void OutputGroupBackup(std::shared_ptr<VecStr> functionline,
                            std::string format,

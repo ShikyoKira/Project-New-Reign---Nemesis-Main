@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include "utilities/scope.h"
 
 #include "generate/animation/optionlist.h"
@@ -43,8 +45,8 @@ namespace nemesis
 		size_t cmp1_high;
 		size_t cmp2_high;
 
-		vecstr cmp1;
-		vecstr cmp2;
+		VecStr cmp1;
+		VecStr cmp2;
 
 		bool cmpbool1 = false;
 		bool cmpbool2 = false;
@@ -55,11 +57,11 @@ namespace nemesis
 		std::map<int, std::vector<std::shared_ptr<nemesis::scope>>> cmp1_block;
 		std::map<int, std::vector<std::shared_ptr<nemesis::scope>>> cmp2_block;
 
-		std::shared_ptr<vecstr> optioncondt;
+		std::shared_ptr<VecStr> optioncondt;
 		std::shared_ptr<Condt> nestedcond;
 		std::shared_ptr<Condt> next;
 
-		vecstr olddata;
+		VecStr olddata;
 		std::vector<int> olddataint;
 
 		Condt(std::string condition, std::string format, std::string behaviorFile, std::string originalCondition, std::string multiOption, int numline, bool isGroup,

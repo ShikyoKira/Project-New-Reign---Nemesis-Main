@@ -109,7 +109,7 @@ bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value,
 
             for (auto& behavior : behaviorList)
             {
-                if (behavior.state) { chosenBehavior.push_back(behavior.modname.toStdString()); }
+                if (behavior.state) chosenBehavior.push_back(behavior.modname.toStdString());
             }
 
             createModCache(chosenBehavior);

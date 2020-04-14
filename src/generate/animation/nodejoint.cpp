@@ -262,7 +262,10 @@ void NodeJoint::insertData(string format,
     vector<uint>* rows_ptr;
     vector<uint> rows;
 
-    if (templateSection.size() > 0) { rows_ptr = &templateSection[format]; }
+    if (templateSection.size() > 0) 
+    { 
+        rows_ptr = &templateSection[format];
+    }
     else
     {
         rows_ptr = &rows;
@@ -904,7 +907,9 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
                         || condition.find(each + "_group[") != NOT_FOUND
                         || condition.find(each + "_master[") != NOT_FOUND || condition == each
                         || condition == each + "_group" || condition == each + "_master")
-                    { return; }
+                    {
+                        return; 
+                    }
                 }
 
                 ErrorMessage(1161, format, filename, storeTemplate.nested->row);
@@ -1410,7 +1415,7 @@ VecStr NodeJoint::unpack()
             if (line.find("</hkparam>") != NOT_FOUND)
             {
                 string templine = line.substr(0, line.find("</hkparam>"));
-                __int64 range   = count(templine.begin(), templine.end(), '\t');
+                __int64 t_counter   = count(templine.begin(), templine.end(), '\t');
 
 				if (openRange == t_counter)
 				{
@@ -1614,7 +1619,9 @@ void NodeJoint::dataBake(VecStr& node,
                         || multiOption == format + "_master" || multiOption.find(format + "[") == 0
                         || multiOption.find(format + "_group[") == 0
                         || multiOption.find(format + "_master[") == 0)
-                    { tempCode = format; }
+                    {
+                        tempCode = format; 
+                    }
                     else
                     {
                         for (auto& animType : otherAnimType)
@@ -1793,7 +1800,9 @@ void processing(string& lineRef,
                 {
                     if (subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format[curID].length()
                         == 0)
-                    { ErrorMessage(2011, format, filename, linecount, curID); }
+                    {
+                        ErrorMessage(2011, format, filename, linecount, curID); 
+                    }
 
                     line.replace(nextpos,
                                  curID.length(),
@@ -1815,7 +1824,9 @@ void processing(string& lineRef,
                 if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
                 {
                     if (subFunctionIDs->grouplist[groupMulti]->functionIDs[curID].length() == 0)
-                    { ErrorMessage(2011, format, filename, linecount, curID); }
+                    {
+                        ErrorMessage(2011, format, filename, linecount, curID); 
+                    }
 
                     line.replace(
                         nextpos, curID.length(), subFunctionIDs->grouplist[groupMulti]->functionIDs[curID]);
@@ -1836,7 +1847,9 @@ void processing(string& lineRef,
                 if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
                 {
                     if (subFunctionIDs->functionIDs[curID].length() == 0)
-                    { ErrorMessage(2011, format, filename, linecount, curID); }
+                    {
+                        ErrorMessage(2011, format, filename, linecount, curID); 
+                    }
 
                     line.replace(nextpos, curID.length(), subFunctionIDs->functionIDs[curID]);
                 }
@@ -1977,8 +1990,7 @@ void processing2(string& line,
 
                 if (pos != string::npos)
                 {
-                    if (multiOption != format || animMulti == -1)
-                    { ErrorMessage(1052, format, filename, linecount, line); }
+                    if (multiOption != format || animMulti == -1) ErrorMessage(1052, format, filename, linecount, line);
 
                     if (change.find("[FilePath]") != NOT_FOUND)
                     {
@@ -2494,7 +2506,10 @@ void processing2(string& line,
 
                         for (auto& curChar : tempKeyword)
                         {
-                            if (curChar == '[') { ++openBrack; }
+                            if (curChar == '[')
+                            { 
+                                ++openBrack; 
+                            }
                             else if (curChar == ']')
                             {
                                 --openBrack;
@@ -2519,7 +2534,10 @@ void processing2(string& line,
                         keyword = "";
                     }
 
-                    if (import[file][keyword].length() > 0) { tempID = import[file][keyword]; }
+                    if (import[file][keyword].length() > 0) 
+                    { 
+                        tempID = import[file][keyword];
+                    }
                     else
                     {
                         tempID                = strID;

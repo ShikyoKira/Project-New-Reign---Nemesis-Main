@@ -7,6 +7,7 @@
 #include <QtCore/QStandardPaths.h>
 
 #include "debuglog.h"
+#include "nemesisinfo.h"
 
 #include "utilities/regex.h"
 #include "utilities/writetextfile.h"
@@ -24,9 +25,9 @@ unordered_map<string, vector<PCEAData>> animReplaced;
 
 void tryDelete(string file, int repeated = 0)
 {
-    if (repeated > 100) { ErrorMessage(1082, "PCEA_animations", file); }
+    if (repeated > 100) ErrorMessage(1082, "PCEA_animations", file);
 
-    if (!sf::remove(file)) { tryDelete(file, repeated + 1); }
+    if (!sf::remove(file)) tryDelete(file, repeated + 1);
 }
 
 bool Delete(sf::path file)
@@ -98,7 +99,7 @@ void PCEASubFolder(string path, unsigned short number, string pceafolder, string
     }
 }
 
-void ReadPCEA()
+void ReadPCEA(const NemesisInfo* nemesisInfo)
 {
     DebugLogging("Reading PCEA files...");
     pcealist     = vector<PCEA>();
@@ -142,7 +143,7 @@ void ReadPCEA()
             PCEASubFolder(
                 folder.substr(0, folder.find("|")), number, pceafolder.string(), "PCEA_animations", mod);
 
-            if (mod.animPathList.size() > 0) { modlist[number] = mod; }
+            if (mod.animPathList.size() > 0) modlist[number] = mod;
         }
     }
 
@@ -174,7 +175,7 @@ void ReadPCEA()
     }
 }
 
-bool PCEAInstallation()
+bool PCEAInstallation(const NemesisInfo* nemesisInfo)
 {
 #ifdef DEBUG
     string import = SSE ? "data\\source\\scripts" : "data\\scripts\\source";
@@ -201,7 +202,10 @@ bool PCEAInstallation()
 
             size_t startnum = line.find("Which animation pack do you wish to activate?");
 
-            if (startnum == NOT_FOUND) { ErrorMessage(6009, "PCEA.esp", "PCEA mod"); }
+            if (startnum == NOT_FOUND) 
+            {
+                ErrorMessage(6009, "PCEA.esp", "PCEA mod");
+            }
             else
             {
                 startnum += 49;
@@ -290,7 +294,7 @@ bool PCEAInstallation()
     VecStr storeline;
     VecStr newline;
 
-    if (!GetFunctionLines(pscfile.string(), storeline)) { return false; }
+    if (!GetFunctionLines(pscfile.string(), storeline)) return false;
 
     for (auto& line : storeline)
     {
@@ -338,7 +342,7 @@ bool PCEAInstallation()
             line.replace(pos, 6, to_string(pcealist.size()));
         }
 
-        if (!skip) { newline.push_back(line); }
+        if (!skip) newline.push_back(line);
 
         if (error) throw nemesis::exception();
     }
@@ -360,17 +364,19 @@ bool PCEAInstallation()
             ErrorMessage(3002, filename);
         }
 
-        if (!FolderCreate(import)) { ErrorMessage(2010, import); }
+        if (!FolderCreate(import)) ErrorMessage(2010, import);
     }
 
-    if (!isFileExist(import)) { ErrorMessage(2010, import); }
+    if (!isFileExist(import)) ErrorMessage(2010, import);
 
     if (error) throw nemesis::exception();
 
     string destination = nemesisInfo->GetDataPath() + "scripts";
     string filepath    = destination + "\\Nemesis_PCEA_Core.pex";
 
-    if (!PapyrusCompile(pscfile, StringToWString(import), destination, filepath, cachedir)) { return false; }
+    if (!PapyrusCompile(
+            pscfile, StringToWString(import), destination, filepath, cachedir, nemesisInfo->GetDataPath()))
+        return false;
 
     DebugLogging("PCEA core script complete");
     return true;

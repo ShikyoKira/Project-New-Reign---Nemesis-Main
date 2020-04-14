@@ -28,7 +28,8 @@ void CRC32Process(vector<crc32>& storeline,
 AnimationDataProject::AnimationDataProject(int& startline,
                                            VecStr& animdatafile,
                                            string filename,
-                                           string projectname)
+                                           string projectname,
+                                           const NemesisInfo* nemesisInfo)
 {
     try
     {
@@ -527,11 +528,11 @@ ASDPosition(VecStr animData, string project, string header, string modcode, int 
     unordered_map<int, bool> isConditionOri;
     unordered_map<int, ASDFunct> marker;
 
-    if (linecount >= int(animData.size())) { ErrorMessage(5010, modcode, project, header); }
+    if (linecount >= int(animData.size())) ErrorMessage(5010, modcode, project, header);
 
     if (animData[linecount].find("<!-- ") != NOT_FOUND)
     {
-        if (!muteError) { ErrorMessage(3007, modcode, "animationsetdatasinglefile.txt", linecount, header); }
+        if (!muteError) ErrorMessage(3007, modcode, "animationsetdatasinglefile.txt", linecount, header);
     }
 
     bool mod = false;
@@ -540,7 +541,7 @@ ASDPosition(VecStr animData, string project, string header, string modcode, int 
     {
         if (animData[i].find("<!-- ") != NOT_FOUND)
         {
-            if (functionstart == -1) { functionstart = i; }
+            if (functionstart == -1) functionstart = i;
 
             marker[i].skip = true;
 
@@ -572,7 +573,7 @@ ASDPosition(VecStr animData, string project, string header, string modcode, int 
             }
         }
 
-        if (isOpen) { marker[i].isNew = true; }
+        if (isOpen) marker[i].isNew = true;
 
         if (isCondition[conditionOpen])
         {
@@ -635,7 +636,7 @@ ASDPosition(VecStr animData, string project, string header, string modcode, int 
     }
     else
     {
-        int id = 0;
+        int type = 0;
 
         try
         {
@@ -645,18 +646,18 @@ ASDPosition(VecStr animData, string project, string header, string modcode, int 
 
             if (result == -2)
             {
-                if (!muteError) { ErrorMessage(5008, modcode, project, header); }
+                if (!muteError) ErrorMessage(5008, modcode, project, header);
             }
         }
         catch (double curID)
         {
-            id = static_cast<int>(curID);
+            type = static_cast<int>(curID);
         }
 
-        return ASDConvert(id, muteError);
+        return ASDConvert(type, muteError);
     }
 
-    if (!muteError) { ErrorMessage(5009, project, header); }
+    if (!muteError) ErrorMessage(5009, project, header);
 
     return xerror;
 }
@@ -665,7 +666,10 @@ ASDFormat::position ASDConvert(int position, bool muteError)
 {
     using namespace ASDFormat;
 
-    if (position == 1) { return V3; }
+    if (position == 1) 
+    {
+        return V3; 
+    }
     else if (position == 2)
     {
         return equipcount;
@@ -733,19 +737,19 @@ int PositionLineCondition(int& i,
                           bool muteError)
 {
     using namespace ASDFormat;
-    double id         = curID;
+    double type         = curID;
     int conditionOpen = marker[i].conditionOpen;
     bool jump         = false;
 
-    if (id < 3)
+    if (type < 3)
     {
         while (i < linecount + 1)
         {
             if (!marker[i].skip)
             {
-                if (id == 2)
+                if (type == 2)
                 {
-                    ++id;
+                    ++type;
                     break;
                 }
 
@@ -754,9 +758,9 @@ int PositionLineCondition(int& i,
                     if (conditionOpen < marker[i].conditionOpen)
                     {
                         int exit = PositionLineCondition(
-                            i, id, linecount, animDataSet, marker, modcode, header, false, muteError);
+                            i, type, linecount, animDataSet, marker, modcode, header, false, muteError);
 
-                        if (exit == -1 && !last) { return -1; }
+                        if (exit == -1 && !last) return -1;
                     }
                     else if (conditionOpen > marker[i].conditionOpen)
                     {
@@ -765,48 +769,42 @@ int PositionLineCondition(int& i,
                     }
                     else
                     {
-                        ++id;
+                        ++type;
                     }
+                }
+                else if (marker[i].isConditionOri
+                         && marker[i].conditionOpen != conditionOpen + 1) // original condition
+                {
+                    --i;
+                    return 0;
+                }
+                else if (!last)
+                {
+                    --i;
+                    return -1;
                 }
                 else
                 {
-                    if (marker[i].isConditionOri
-                        && marker[i].conditionOpen != conditionOpen + 1) // original condition
-                    {
-                        --i;
-                        return 0;
-                    }
-                    else
-                    {
-                        if (!last)
-                        {
-                            --i;
-                            return -1;
-                        }
-                        else
-                        {
-                            ++id;
-                        }
-                    }
+                    ++type;
                 }
 
                 if (marker[i].isNew)
                 {
-                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                    if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                     return -1;
                 }
             }
             else if (marker[i].nextCondition) // next condition or close condition
             {
-                id = curID;
+                type = curID;
             }
 
             ++i;
         }
     }
 
-    if (id == 3)
+    if (type == 3)
     {
         while (i < linecount + 1)
         {
@@ -814,7 +812,7 @@ int PositionLineCondition(int& i,
             {
                 if (isOnlyNumber(animDataSet[i]))
                 {
-                    ++id;
+                    ++type;
                     break;
                 }
 
@@ -823,9 +821,9 @@ int PositionLineCondition(int& i,
                     if (conditionOpen < marker[i].conditionOpen)
                     {
                         int exit = PositionLineCondition(
-                            i, id, linecount, animDataSet, marker, modcode, header, false, muteError);
+                            i, type, linecount, animDataSet, marker, modcode, header, false, muteError);
 
-                        if (exit == -1 && !last) { return -1; }
+                        if (exit == -1 && !last) return -1;
                     }
                     else if (conditionOpen > marker[i].conditionOpen)
                     {
@@ -833,51 +831,42 @@ int PositionLineCondition(int& i,
                         return 0;
                     }
                 }
-                else
+                else if (marker[i].isConditionOri
+                         && marker[i].conditionOpen != conditionOpen + 1) // original condition
                 {
-                    if (marker[i].isConditionOri
-                        && marker[i].conditionOpen != conditionOpen + 1) // original condition
-                    {
-                        --i;
-                        return 0;
-                    }
-                    else
-                    {
-                        if (!last)
-                        {
-                            --i;
-                            return -1;
-                        }
-                    }
+                    --i;
+                    return 0;
+                }
+                else if (!last)
+                {
+                    --i;
+                    return -1;
                 }
 
-                if (marker[i].isNew)
+                if (marker[i].isNew && type != 3)
                 {
-                    if (id != 3)
-                    {
-                        if (!muteError) { ErrorMessage(5007, modcode, header, linecount); }
+                    if (!muteError) ErrorMessage(5007, modcode, header, linecount);
 
-                        return -1;
-                    }
+                    return -1;
                 }
             }
             else if (marker[i].nextCondition) // next condition or close condition
             {
-                id = curID;
+                type = curID;
             }
 
             ++i;
         }
     }
 
-    if (id == 4)
+    if (type == 4)
     {
         if (isOnlyNumber(animDataSet[i]) && animDataSet[i] == "0")
         {
-            if (i == linecount) { throw id; }
+            if (i == linecount) throw type;
 
-            ++id;
-            ++id;
+            ++type;
+            ++type;
             ++i;
         }
         else
@@ -889,7 +878,7 @@ int PositionLineCondition(int& i,
                     if (hasAlpha(animDataSet[i]))
                     {
                         jump = true;
-                        ++id;
+                        ++type;
                         break;
                     }
 
@@ -898,9 +887,9 @@ int PositionLineCondition(int& i,
                         if (conditionOpen < marker[i].conditionOpen)
                         {
                             int exit = PositionLineCondition(
-                                i, id, linecount, animDataSet, marker, modcode, header, false, muteError);
+                                i, type, linecount, animDataSet, marker, modcode, header, false, muteError);
 
-                            if (exit == -1 && !last) { return -1; }
+                            if (exit == -1 && !last) return -1;
                         }
                         else if (conditionOpen > marker[i].conditionOpen)
                         {
@@ -908,34 +897,28 @@ int PositionLineCondition(int& i,
                             return 0;
                         }
                     }
-                    else
+                    else if (marker[i].isConditionOri
+                             && marker[i].conditionOpen != conditionOpen + 1) // original condition
                     {
-                        if (marker[i].isConditionOri
-                            && marker[i].conditionOpen != conditionOpen + 1) // original condition
-                        {
-                            --i;
-                            return 0;
-                        }
-                        else
-                        {
-                            if (!last)
-                            {
-                                --i;
-                                return -1;
-                            }
-                        }
+                        --i;
+                        return 0;
+                    }
+                    else if (!last)
+                    {
+                        --i;
+                        return -1;
                     }
 
                     if (marker[i].isNew)
                     {
-                        if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                        if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                         return -1;
                     }
                 }
                 else if (marker[i].nextCondition) // next condition or close condition
                 {
-                    id = curID;
+                    type = curID;
                 }
 
                 ++i;
@@ -943,12 +926,12 @@ int PositionLineCondition(int& i,
         }
     }
 
-    if (id == 5 || id == 13 || id == 14) // change this
+    if (type == 5 || type == 13 || type == 14) // change this
     {
-        if (id == 5 && jump)
+        if (type == 5 && jump)
         {
             jump = false;
-            id   = 14;
+            type   = 14;
         }
 
         while (i < linecount + 1)
@@ -957,15 +940,15 @@ int PositionLineCondition(int& i,
             {
                 bool invert = false;
 
-                if (i == linecount && marker[i].isCondition) { invert = true; }
+                if (i == linecount && marker[i].isCondition) invert = true;
 
-                if (isOnlyNumber(animDataSet[i]) && id == 14)
+                if (isOnlyNumber(animDataSet[i]) && type == 14)
                 {
                     if (animDataSet[i] == "0")
                     {
-                        if (id == 14)
+                        if (type == 14)
                         {
-                            id = 6;
+                            type = 6;
                             break;
                         }
                     }
@@ -979,17 +962,12 @@ int PositionLineCondition(int& i,
 
                             while (true)
                             {
-                                bool isCondition;
-
-                                if (invert) { isCondition = marker[i + next].isConditionOri; }
-                                else
-                                {
-                                    isCondition = marker[i + next].isCondition;
-                                }
+                                bool isCondition
+                                    = invert ? marker[i + next].isConditionOri : marker[i + next].isCondition;
 
                                 if (!isCondition)
                                 {
-                                    if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) { ++next; }
+                                    if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) ++next;
 
                                     break;
                                 }
@@ -1008,18 +986,12 @@ int PositionLineCondition(int& i,
 
                                 while (true)
                                 {
-                                    bool isCondition;
-
-                                    if (invert) { isCondition = marker[i + next].isConditionOri; }
-                                    else
-                                    {
-                                        isCondition = marker[i + next].isCondition;
-                                    }
+                                    bool isCondition = invert ? marker[i + next].isConditionOri
+                                                              : marker[i + next].isCondition;
 
                                     if (!isCondition)
                                     {
-                                        if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
-                                        { ++next; }
+                                        if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) ++next;
 
                                         break;
                                     }
@@ -1038,18 +1010,12 @@ int PositionLineCondition(int& i,
 
                                     while (true)
                                     {
-                                        bool isCondition;
-
-                                        if (invert) { isCondition = marker[i + next].isConditionOri; }
-                                        else
-                                        {
-                                            isCondition = marker[i + next].isCondition;
-                                        }
+                                        bool isCondition = invert ? marker[i + next].isConditionOri
+                                                                  : marker[i + next].isCondition;
 
                                         if (!isCondition)
                                         {
-                                            if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
-                                            { ++next; }
+                                            if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) ++next;
 
                                             break;
                                         }
@@ -1068,18 +1034,12 @@ int PositionLineCondition(int& i,
 
                                         while (true)
                                         {
-                                            bool isCondition;
-
-                                            if (invert) { isCondition = marker[i + next].isConditionOri; }
-                                            else
-                                            {
-                                                isCondition = marker[i + next].isCondition;
-                                            }
+                                            bool isCondition = invert ? marker[i + next].isConditionOri
+                                                                      : marker[i + next].isCondition;
 
                                             if (!isCondition)
                                             {
-                                                if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
-                                                { ++next; }
+                                                if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) ++next;
 
                                                 break;
                                             }
@@ -1090,7 +1050,7 @@ int PositionLineCondition(int& i,
 
                                     if (hasAlpha(animDataSet[i + next]))
                                     {
-                                        id = 6;
+                                        type = 6;
                                         break;
                                     }
                                 }
@@ -1104,9 +1064,9 @@ int PositionLineCondition(int& i,
                     if (conditionOpen < marker[i].conditionOpen)
                     {
                         int exit = PositionLineCondition(
-                            i, id, linecount, animDataSet, marker, modcode, header, false, muteError);
+                            i, type, linecount, animDataSet, marker, modcode, header, false, muteError);
 
-                        if (exit == -1 && !last) { return -1; }
+                        if (exit == -1 && !last) return -1;
                     }
                     else if (conditionOpen > marker[i].conditionOpen)
                     {
@@ -1115,39 +1075,48 @@ int PositionLineCondition(int& i,
                     }
                     else
                     {
-                        if (id == 14)
+                        if (type == 14)
                         {
-                            if (hasAlpha(animDataSet[i])) { id = 5; }
+                            if (hasAlpha(animDataSet[i])) 
+                            { 
+                                type = 5; 
+                            }
                             else
                             {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                 return -1;
                             }
                         }
-                        else if (id == 5)
+                        else if (type == 5)
                         {
-                            if (isOnlyNumber(animDataSet[i])) { id = 13; }
+                            if (isOnlyNumber(animDataSet[i])) 
+                            {
+                                type = 13; 
+                            }
                             else
                             {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                 return -1;
                             }
                         }
-                        else if (id == 13)
+                        else if (type == 13)
                         {
-                            if (isOnlyNumber(animDataSet[i])) { id = 14; }
+                            if (isOnlyNumber(animDataSet[i])) 
+                            {
+                                type = 14; 
+                            }
                             else
                             {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                 return -1;
                             }
                         }
                         else
                         {
-                            if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                            if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                             return -1;
                         }
@@ -1170,39 +1139,48 @@ int PositionLineCondition(int& i,
                         }
                         else
                         {
-                            if (id == 14)
+                            if (type == 14)
                             {
-                                if (hasAlpha(animDataSet[i])) { id = 5; }
+                                if (hasAlpha(animDataSet[i]))
+                                {
+                                    type = 5; 
+                                }
                                 else
                                 {
-                                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                    if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                     return -1;
                                 }
                             }
-                            else if (id == 5)
+                            else if (type == 5)
                             {
-                                if (isOnlyNumber(animDataSet[i])) { id = 13; }
+                                if (isOnlyNumber(animDataSet[i])) 
+                                {
+                                    type = 13; 
+                                }
                                 else
                                 {
-                                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                    if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                     return -1;
                                 }
                             }
-                            else if (id == 13)
+                            else if (type == 13)
                             {
-                                if (isOnlyNumber(animDataSet[i])) { id = 14; }
+                                if (isOnlyNumber(animDataSet[i])) 
+                                {
+                                    type = 14; 
+                                }
                                 else
                                 {
-                                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                    if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                     return -1;
                                 }
                             }
                             else
                             {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                 return -1;
                             }
@@ -1212,9 +1190,9 @@ int PositionLineCondition(int& i,
 
                 if (marker[i].isNew)
                 {
-                    if (id != 5 && id != 13 && id != 14)
+                    if (type != 5 && type != 13 && type != 14)
                     {
-                        if (!muteError) { ErrorMessage(5007, modcode, header, linecount); }
+                        if (!muteError) ErrorMessage(5007, modcode, header, linecount);
 
                         return -1;
                     }
@@ -1222,20 +1200,20 @@ int PositionLineCondition(int& i,
             }
             else if (marker[i].nextCondition) // next condition or close condition
             {
-                id = curID;
+                type = curID;
             }
 
             ++i;
         }
     }
 
-    if (id == 6)
+    if (type == 6)
     {
         if (isOnlyNumber(animDataSet[i]) && animDataSet[i] == "0")
         {
-            if (i == linecount) { throw id; }
+            if (i == linecount) throw type;
 
-            id = 11;
+            type = 11;
             ++i;
         }
         else
@@ -1247,7 +1225,7 @@ int PositionLineCondition(int& i,
                     if (hasAlpha(animDataSet[i]))
                     {
                         jump = true;
-                        ++id;
+                        ++type;
                         break;
                     }
 
@@ -1256,23 +1234,20 @@ int PositionLineCondition(int& i,
                         if (conditionOpen < marker[i].conditionOpen)
                         {
                             int exit = PositionLineCondition(
-                                i, id, linecount, animDataSet, marker, modcode, header, false, muteError);
+                                i, type, linecount, animDataSet, marker, modcode, header, false, muteError);
 
-                            if (exit == -1 && !last) { return -1; }
+                            if (exit == -1 && !last) return -1;
                         }
                         else if (conditionOpen > marker[i].conditionOpen)
                         {
                             --i;
                             return 0;
                         }
-                        else
+                        else if (type != 6)
                         {
-                            if (id != 6)
-                            {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                            if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
-                                return -1;
-                            }
+                            return -1;
                         }
                     }
                     else
@@ -1283,35 +1258,29 @@ int PositionLineCondition(int& i,
                             --i;
                             return 0;
                         }
-                        else
+                        else if (!last)
                         {
-                            if (!last)
-                            {
-                                --i;
-                                return -1;
-                            }
-                            else
-                            {
-                                if (id != 6)
-                                {
-                                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                            --i;
+                            return -1;
+                        }
+                        else if (type != 6)
+                        {
+                            if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
-                                    return -1;
-                                }
-                            }
+                            return -1;
                         }
                     }
 
                     if (marker[i].isNew)
                     {
-                        if (!muteError) { ErrorMessage(5007, modcode, header, linecount); }
+                        if (!muteError) ErrorMessage(5007, modcode, header, linecount);
 
                         return -1;
                     }
                 }
                 else if (marker[i].nextCondition) // next condition or close condition
                 {
-                    id = curID;
+                    type = curID;
                 }
 
                 ++i;
@@ -1319,12 +1288,12 @@ int PositionLineCondition(int& i,
         }
     }
 
-    if (id > 6 && id < 11)
+    if (type > 6 && type < 11)
     {
-        if (id == 7 && jump)
+        if (type == 7 && jump)
         {
             jump = false;
-            id   = 10;
+            type   = 10;
         }
 
         while (i < linecount + 1)
@@ -1333,14 +1302,14 @@ int PositionLineCondition(int& i,
             {
                 bool invert = false;
 
-                if (i == linecount && marker[i].isCondition) { invert = true; }
+                if (i == linecount && marker[i].isCondition) invert = true;
 
-                if (isOnlyNumber(animDataSet[i]) && (id == 10 || id == 7))
+                if (isOnlyNumber(animDataSet[i]) && (type == 10 || type == 7))
                 {
                     if (animDataSet[i] == "0"
                         && (i == int(animDataSet.size()) - 1 || nemesis::iequals(animDataSet[i + 1], "V3")))
                     {
-                        ++id;
+                        ++type;
                         break;
                     }
                     else
@@ -1353,17 +1322,12 @@ int PositionLineCondition(int& i,
 
                             while (true)
                             {
-                                bool isCondition;
-
-                                if (invert) { isCondition = marker[i + next].isConditionOri; }
-                                else
-                                {
-                                    isCondition = marker[i + next].isCondition;
-                                }
+                                bool isCondition
+                                    = invert ? marker[i + next].isConditionOri : marker[i + next].isCondition;
 
                                 if (!isCondition)
                                 {
-                                    if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) { ++next; }
+                                    if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) ++next;
 
                                     break;
                                 }
@@ -1382,18 +1346,12 @@ int PositionLineCondition(int& i,
 
                                 while (true)
                                 {
-                                    bool isCondition;
-
-                                    if (invert) { isCondition = marker[i + next].isConditionOri; }
-                                    else
-                                    {
-                                        isCondition = marker[i + next].isCondition;
-                                    }
+                                    bool isCondition = invert ? marker[i + next].isConditionOri
+                                                              : marker[i + next].isCondition;
 
                                     if (!isCondition)
                                     {
-                                        if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
-                                        { ++next; }
+                                        if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) ++next;
 
                                         break;
                                     }
@@ -1408,7 +1366,7 @@ int PositionLineCondition(int& i,
                                 {
                                     if (animDataSet[i + next] == "7891816")
                                     {
-                                        id = 11;
+                                        type = 11;
                                         break;
                                     }
                                 }
@@ -1421,18 +1379,12 @@ int PositionLineCondition(int& i,
 
                                     while (true)
                                     {
-                                        bool isCondition;
-
-                                        if (invert) { isCondition = marker[i + next].isConditionOri; }
-                                        else
-                                        {
-                                            isCondition = marker[i + next].isCondition;
-                                        }
+                                        bool isCondition = invert ? marker[i + next].isConditionOri
+                                                                  : marker[i + next].isCondition;
 
                                         if (!isCondition)
                                         {
-                                            if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND)
-                                            { ++next; }
+                                            if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) ++next;
 
                                             break;
                                         }
@@ -1443,7 +1395,7 @@ int PositionLineCondition(int& i,
 
                                 if (isOnlyNumber(animDataSet[i + next]) && animDataSet[i + next] == "7891816")
                                 {
-                                    id = 11;
+                                    type = 11;
                                     break;
                                 }
                             }
@@ -1456,9 +1408,9 @@ int PositionLineCondition(int& i,
                     if (conditionOpen < marker[i].conditionOpen)
                     {
                         int exit = PositionLineCondition(
-                            i, id, linecount, animDataSet, marker, modcode, header, false, muteError);
+                            i, type, linecount, animDataSet, marker, modcode, header, false, muteError);
 
-                        if (exit == -1 && !last) { return -1; }
+                        if (exit == -1 && !last) return -1;
                     }
                     else if (conditionOpen > marker[i].conditionOpen)
                     {
@@ -1467,7 +1419,7 @@ int PositionLineCondition(int& i,
                     }
                     else
                     {
-                        if (id == 10)
+                        if (type == 10)
                         {
                             if (hasAlpha(animDataSet[i]))
                             {
@@ -1475,55 +1427,67 @@ int PositionLineCondition(int& i,
 
                                 while (true)
                                 {
-                                    if (marker[next].skip) { ++next; }
+                                    if (marker[next].skip)
+                                    { 
+                                        ++next; 
+                                    }
                                     else
                                     {
                                         break;
                                     }
                                 }
 
-                                if (isOnlyNumber(animDataSet[next])) { id = 7; }
+                                if (isOnlyNumber(animDataSet[next])) type = 7;
                             }
                             else
                             {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                 return -1;
                             }
                         }
-                        else if (id == 7)
+                        else if (type == 7)
                         {
-                            if (isOnlyNumber(animDataSet[i])) { id = 8; }
+                            if (isOnlyNumber(animDataSet[i])) 
+                            {
+                                type = 8; 
+                            }
                             else
                             {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                 return -1;
                             }
                         }
-                        else if (id == 8)
+                        else if (type == 8)
                         {
-                            if (isOnlyNumber(animDataSet[i])) { id = 9; }
+                            if (isOnlyNumber(animDataSet[i])) 
+                            {
+                                type = 9; 
+                            }
                             else
                             {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                 return -1;
                             }
                         }
-                        else if (id == 9)
+                        else if (type == 9)
                         {
-                            if (hasAlpha(animDataSet[i])) { id = 10; }
+                            if (hasAlpha(animDataSet[i])) 
+                            {
+                                type = 10; 
+                            }
                             else
                             {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                 return -1;
                             }
                         }
                         else
                         {
-                            if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                            if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                             return -1;
                         }
@@ -1546,7 +1510,7 @@ int PositionLineCondition(int& i,
                         }
                         else
                         {
-                            if (id == 10)
+                            if (type == 10)
                             {
                                 if (hasAlpha(animDataSet[i]))
                                 {
@@ -1554,55 +1518,67 @@ int PositionLineCondition(int& i,
 
                                     while (true)
                                     {
-                                        if (marker[next].skip) { ++next; }
+                                        if (marker[next].skip) 
+                                        {
+                                            ++next; 
+                                        }
                                         else
                                         {
                                             break;
                                         }
                                     }
 
-                                    if (isOnlyNumber(animDataSet[next])) { id = 7; }
+                                    if (isOnlyNumber(animDataSet[next])) type = 7;
                                 }
                                 else
                                 {
-                                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                    if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                     return -1;
                                 }
                             }
-                            else if (id == 7)
+                            else if (type == 7)
                             {
-                                if (isOnlyNumber(animDataSet[i])) { id = 8; }
+                                if (isOnlyNumber(animDataSet[i])) 
+                                {
+                                    type = 8; 
+                                }
                                 else
                                 {
-                                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                    if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                     return -1;
                                 }
                             }
-                            else if (id == 8)
+                            else if (type == 8)
                             {
-                                if (isOnlyNumber(animDataSet[i])) { id = 9; }
+                                if (isOnlyNumber(animDataSet[i])) 
+                                {
+                                    type = 9; 
+                                }
                                 else
                                 {
-                                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                    if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                     return -1;
                                 }
                             }
-                            else if (id == 9)
+                            else if (type == 9)
                             {
-                                if (hasAlpha(animDataSet[i])) { id = 10; }
+                                if (hasAlpha(animDataSet[i])) 
+                                {
+                                    type = 10; 
+                                }
                                 else
                                 {
-                                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                    if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                     return -1;
                                 }
                             }
                             else
                             {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                                if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
                                 return -1;
                             }
@@ -1612,9 +1588,9 @@ int PositionLineCondition(int& i,
 
                 if (marker[i].isNew)
                 {
-                    if (id != 7 && id != 8 && id != 9 && id != 10)
+                    if (type != 7 && type != 8 && type != 9 && type != 10)
                     {
-                        if (!muteError) { ErrorMessage(5007, modcode, header, linecount); }
+                        if (!muteError) ErrorMessage(5007, modcode, header, linecount);
 
                         return -1;
                     }
@@ -1622,20 +1598,20 @@ int PositionLineCondition(int& i,
             }
             else if (marker[i].nextCondition) // next condition or close condition
             {
-                id = curID;
+                type = curID;
             }
 
             ++i;
         }
     }
 
-    if (id == 11)
+    if (type == 11)
     {
         if (isOnlyNumber(animDataSet[i]) && animDataSet[i] == "0")
         {
-            if (i == linecount) { throw id; }
+            if (i == linecount) throw type;
 
-            ++id;
+            ++type;
         }
         else
         {
@@ -1643,7 +1619,7 @@ int PositionLineCondition(int& i,
             {
                 bool invert = false;
 
-                if (i == linecount && marker[i].isCondition) { invert = true; }
+                if (i == linecount && marker[i].isCondition) invert = true;
 
                 if (i + 3 < int(animDataSet.size()) && isOnlyNumber(animDataSet[i]))
                 {
@@ -1655,17 +1631,12 @@ int PositionLineCondition(int& i,
 
                         while (true)
                         {
-                            bool isCondition;
-
-                            if (invert) { isCondition = marker[i + next].isConditionOri; }
-                            else
-                            {
-                                isCondition = marker[i + next].isCondition;
-                            }
+                            bool isCondition
+                                = invert ? marker[i + next].isConditionOri : marker[i + next].isCondition;
 
                             if (!isCondition)
                             {
-                                if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) { ++next; }
+                                if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) ++next;
 
                                 break;
                             }
@@ -1676,13 +1647,10 @@ int PositionLineCondition(int& i,
 
                     if (isOnlyNumber(animDataSet[i + next]))
                     {
-                        if (invert)
+                        if (invert && animDataSet[i + next] == "7891816")
                         {
-                            if (animDataSet[i + next] == "7891816")
-                            {
-                                ++id;
-                                break;
-                            }
+                            ++type;
+                            break;
                         }
 
                         ++next;
@@ -1693,17 +1661,12 @@ int PositionLineCondition(int& i,
 
                             while (true)
                             {
-                                bool isCondition;
-
-                                if (invert) { isCondition = marker[i + next].isConditionOri; }
-                                else
-                                {
-                                    isCondition = marker[i + next].isCondition;
-                                }
+                                bool isCondition
+                                    = invert ? marker[i + next].isConditionOri : marker[i + next].isCondition;
 
                                 if (!isCondition)
                                 {
-                                    if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) { ++next; }
+                                    if (animDataSet[i + next].find("<!-- CLOSE -->") != NOT_FOUND) ++next;
 
                                     break;
                                 }
@@ -1715,7 +1678,7 @@ int PositionLineCondition(int& i,
                         if (animDataSet[i + next] == "7891816")
                         {
                             jump = true;
-                            ++id;
+                            ++type;
                             break;
                         }
                     }
@@ -1728,23 +1691,20 @@ int PositionLineCondition(int& i,
                         if (conditionOpen < marker[i].conditionOpen)
                         {
                             int exit = PositionLineCondition(
-                                i, id, linecount, animDataSet, marker, modcode, header, false, muteError);
+                                i, type, linecount, animDataSet, marker, modcode, header, false, muteError);
 
-                            if (exit == -1 && !last) { return -1; }
+                            if (exit == -1 && !last) return -1;
                         }
                         else if (conditionOpen > marker[i].conditionOpen)
                         {
                             --i;
                             return 0;
                         }
-                        else
+                        else if (type != 11)
                         {
-                            if (id != 11)
-                            {
-                                if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                            if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
-                                return -1;
-                            }
+                            return -1;
                         }
                     }
                     else
@@ -1755,35 +1715,29 @@ int PositionLineCondition(int& i,
                             --i;
                             return 0;
                         }
-                        else
+                        else if (!last)
                         {
-                            if (!last)
-                            {
-                                --i;
-                                return -1;
-                            }
-                            else
-                            {
-                                if (id != 11)
-                                {
-                                    if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+                            --i;
+                            return -1;
+                        }
+                        else if (type != 11)
+                        {
+                            if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
-                                    return -1;
-                                }
-                            }
+                            return -1;
                         }
                     }
 
                     if (marker[i].isNew)
                     {
-                        if (!muteError) { ErrorMessage(5007, modcode, header, linecount); }
+                        if (!muteError) ErrorMessage(5007, modcode, header, linecount);
 
                         return -1;
                     }
                 }
                 else if (marker[i].nextCondition) // next condition or close condition
                 {
-                    id = curID;
+                    type = curID;
                 }
 
                 ++i;
@@ -1791,17 +1745,17 @@ int PositionLineCondition(int& i,
         }
     }
 
-    if (id == 12)
+    if (type == 12)
     {
         if (!isOnlyNumber(animDataSet[i]))
         {
-            if (!muteError) { ErrorMessage(5007, modcode, header, i + 1); }
+            if (!muteError) ErrorMessage(5007, modcode, header, i + 1);
 
             return -1;
         }
     }
 
-    if (id < 15) { throw id; }
+    if (type < 15) throw type;
 
     return -2;
 }
@@ -1816,7 +1770,10 @@ void combineExtraction(VecStr& storeline, map<int, VecStr> extract, string proje
     {
         string line = storeline[i];
 
-        if (line.find("<!-- CONDITION START ^", 0) != NOT_FOUND) { condition++; }
+        if (line.find("<!-- CONDITION START ^", 0) != NOT_FOUND) 
+        {
+            condition++; 
+        }
         else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND
                  || line.find("<!-- FOREACH ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND
                  || line.find("<!-- NEW ORDER ", 0) != NOT_FOUND && line.find(" -->", 0) != NOT_FOUND)
@@ -1824,9 +1781,12 @@ void combineExtraction(VecStr& storeline, map<int, VecStr> extract, string proje
             newOpen = true;
         }
 
-        if (condition == 0 && !newOpen) { newline.push_back(storeline[i]); }
-
-        if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND) { newOpen = false; }
+        if (condition == 0 && !newOpen) newline.push_back(storeline[i]);
+        
+        if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND) 
+        {
+            newOpen = false; 
+        }
         else if (line.find("<!-- CONDITION END -->", 0) != NOT_FOUND)
         {
             condition--;
@@ -1834,7 +1794,7 @@ void combineExtraction(VecStr& storeline, map<int, VecStr> extract, string proje
 
         if (extract[i].size() > 0)
         {
-            if (condition == 0 && !newOpen) { ErrorMessage(5013, project, header); }
+            if (condition == 0 && !newOpen) ErrorMessage(5013, project, header);
 
             for (uint k = 0; k < extract[i].size(); ++k)
             {

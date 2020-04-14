@@ -19,7 +19,10 @@ void StringSplit(const string& line, VecStr& container, const string& anyChar)
 
     for (auto& each : line)
     {
-        if (anyChar.find(each) != NOT_FOUND) { container.push_back(string()); }
+        if (anyChar.find(each) != NOT_FOUND) 
+        {
+            container.push_back(string()); 
+        }
         else
         {
             container.back().push_back(each);

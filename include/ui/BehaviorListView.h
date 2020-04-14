@@ -6,10 +6,12 @@
 
 #include "connector.h"
 
-#include "ui/BehaviorListModel.h"
 #include "ui/ScrollBar.h"
+#include "ui/BehaviorListModel.h"
 
 extern std::unordered_map<std::string, std::string> modConvert;
+
+struct NemesisInfo;
 
 class BehaviorListView : public QTreeView
 {
@@ -18,6 +20,8 @@ public:
     explicit BehaviorListView(QWidget* parent = 0);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void setModel(QAbstractItemModel* model);
+
+    void setIni(NemesisInfo* _ini);
 
 signals:
     void dropModeUpdate(bool dropOnRows);
@@ -30,6 +34,7 @@ private:
     uint modNameWidth;
     uint authorWidth;
     uint priorityWidth;
+    NemesisInfo* nemesisInfo;
 };
 
 #endif

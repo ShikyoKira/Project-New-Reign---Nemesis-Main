@@ -5,9 +5,10 @@
 
 #include "debuglog.h"
 
-#include "utilities/readtextfile.h"
 #include "utilities/regex.h"
+#include "utilities/algorithm.h"
 #include "utilities/stringsplit.h"
+#include "utilities/readtextfile.h"
 
 #include "generate/animation/registeranimation.h"
 
@@ -34,7 +35,10 @@ bool ruleCheck(VecStr rules, VecStr curList, TemplateInfo& behaviortemplate, str
                 {
                     if (k != rule.length() - 1)
                     {
-                        if (cur[k] == rule[k]) { matching = true; }
+                        if (cur[k] == rule[k]) 
+                        {
+                            matching = true; 
+                        }
                         else
                         {
                             matching = false;
@@ -135,7 +139,9 @@ registerAnimation::registerAnimation(string curDirectory,
                 {
                     if (string(line).substr(wordFind(line, "AAprefix") + 9).length() > 3
                         || newAnimInfo[1].length() != 3 || newAnimInfo.size() != 2)
-                    { ErrorMessage(4002, filename, linecount, line); }
+                    {
+                        ErrorMessage(4002, filename, linecount, line); 
+                    }
 
                     curAAprefix        = newAnimInfo[1];
                     string lowerPrefix = nemesis::to_lower_copy(curAAprefix);
@@ -189,22 +195,22 @@ registerAnimation::registerAnimation(string curDirectory,
                             }
                         }
 
-                        if (alternateAnim[lowAnimPerson].size() > 128)
-                            ErrorMessage(4008, filename, linecount, line);
+                        if (alternateAnim[lowAnimPerson].size() > 128) ErrorMessage(4008, filename, linecount, line);
                     }
 
                     if (error) throw nemesis::exception();
                 }
                 else if (lowerformat == "t")
                 {
-                    if (newAnimInfo.size() < 4 || newAnimInfo.size() % 2 != 0)
-                        ErrorMessage(4010, filename, linecount);
+                    if (newAnimInfo.size() < 4 || newAnimInfo.size() % 2 != 0) ErrorMessage(4010, filename, linecount);
 
                     string lowerAnimName
                         = nemesis::to_lower_copy(fstP ? newAnimInfo[1] + "_1p*" : newAnimInfo[1]);
 
                     if (!AAAnimFileExist[lowerAnimName])
-                    { ErrorMessage(4011, filename, linecount, newAnimInfo[1]); }
+                    {
+                        ErrorMessage(4011, filename, linecount, newAnimInfo[1]); 
+                    }
                     else
                     {
                         string originalAnim = lowerAnimName.substr(lowerAnimName.find("_") + 1);
@@ -349,7 +355,9 @@ registerAnimation::registerAnimation(string curDirectory,
                                 if (!animInfo[previousShortline].back()->known
                                     && !isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1)
                                                     + newAnimInfo[3]))
-                                { WarningMessage(1000, newAnimInfo[3]); }
+                                {
+                                    WarningMessage(1000, newAnimInfo[3]); 
+                                }
                             }
                             else
                             {
@@ -364,7 +372,9 @@ registerAnimation::registerAnimation(string curDirectory,
 
                                 if (!isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1)
                                                  + newAnimInfo[2]))
+                                {
                                     WarningMessage(1000, newAnimInfo[2]);
+                                }
                             }
 
                             if (behaviortemplate.behaviortemplate.find(previousShortline + "_group")
@@ -424,7 +434,9 @@ registerAnimation::registerAnimation(string curDirectory,
                         if (!animInfo[lowerformat].back()->known
                             && !isFileExist(filepath.substr(0, filepath.find_last_of("\\") + 1)
                                             + newAnimInfo[3]))
-                        { WarningMessage(1000, newAnimInfo[3]); }
+                        { 
+                            WarningMessage(1000, newAnimInfo[3]);
+                        }
                     }
                     else
                     {
@@ -447,12 +459,16 @@ registerAnimation::registerAnimation(string curDirectory,
                     if (behaviortemplate.behaviortemplate.find(lowerformat + "_group")
                             != behaviortemplate.behaviortemplate.end()
                         && behaviortemplate.behaviortemplate[lowerformat + "_group"].size() != 0)
-                    { animInfo[lowerformat].back()->optionPickedCount[lowerformat + "_group"] = 1; }
+                    {
+                        animInfo[lowerformat].back()->optionPickedCount[lowerformat + "_group"] = 1; 
+                    }
 
                     if (behaviortemplate.behaviortemplate.find(lowerformat + "_master")
                             != behaviortemplate.behaviortemplate.end()
                         && behaviortemplate.behaviortemplate[lowerformat + "_master"].size() != 0)
-                    { animInfo[lowerformat].back()->optionPickedCount[lowerformat + "_master"] = 1; }
+                    {
+                        animInfo[lowerformat].back()->optionPickedCount[lowerformat + "_master"] = 1; 
+                    }
 
                     if (!isOExist) ErrorMessage(1000, filename, linecount);
 
@@ -507,7 +523,9 @@ registerAnimation::registerAnimation(string curDirectory,
                                                        curList,
                                                        behaviortemplate,
                                                        previousShortline))
-                                        { ErrorMessage(1035, filename, linecount); }
+                                        { 
+                                            ErrorMessage(1035, filename, linecount); 
+                                        }
                                     }
                                     else
                                     {
@@ -551,13 +569,17 @@ registerAnimation::registerAnimation(string curDirectory,
                                            curList,
                                            behaviortemplate,
                                            lowerformat))
-                            { ErrorMessage(1035, filename, linecount); }
+                            { 
+                                ErrorMessage(1035, filename, linecount);
+                            }
 
                             if (!ruleCheck(behaviortemplate.optionlist[lowerformat].ruleOne,
                                            curList,
                                            behaviortemplate,
                                            lowerformat))
-                            { ErrorMessage(1035, filename, linecount); }
+                            {
+                                ErrorMessage(1035, filename, linecount);
+                            }
                         }
                         else
                         {
@@ -639,7 +661,9 @@ registerAnimation::registerAnimation(string curDirectory,
                                        curList,
                                        behaviortemplate,
                                        previousShortline))
-                        { ErrorMessage(1035, filename, linecount); }
+                        { 
+                            ErrorMessage(1035, filename, linecount);
+                        }
                     }
                     else
                     {

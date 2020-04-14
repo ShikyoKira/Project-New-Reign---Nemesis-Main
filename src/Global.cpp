@@ -1,5 +1,7 @@
 #include <filesystem>
 
+#include "Global.h"
+
 #include "utilities/algorithm.h"
 
 #if __cplusplus > 201402L
@@ -14,33 +16,31 @@
 using namespace std;
 namespace sf = filesystem;
 
-boost::atomic_flag atomLock = BOOST_ATOMIC_FLAG_INIT;
+atomic_flag atomLock{};
 
 bool debug = false;
 int memory = 100;
 int fixedkey[257];
 
-NemesisInfo* nemesisInfo;
-
-boost::posix_time::ptime time1;
+chrono::steady_clock::time_point time1;
 
 unordered_map<string, string> behaviorPath;
 
 unordered_map<string, bool> activatedBehavior;
 unordered_map<string, string> behaviorProjectPath;
-unordered_map<string, vecstr> behaviorJoints;
-unordered_map<string, vecstr> behaviorProject;
+unordered_map<string, VecStr> behaviorJoints;
+unordered_map<string, VecStr> behaviorProject;
 unordered_map<string, set<string>> usedAnim;
 unordered_map<string, unordered_map<string, bool>> registeredAnim;
-unordered_map<string, unordered_map<string, vecstr>> animList;
+unordered_map<string, unordered_map<string, VecStr>> animList;
 unordered_map<string, unordered_map<string, vector<set<string>>>> animModMatch;
 
 unordered_map<string, string> AAGroup;
-unordered_map<string, vecstr> AAEvent;
-unordered_map<string, vecstr> AAHasEvent;
-unordered_map<string, vecstr> groupAA;
-unordered_map<string, vecstr> groupAAPrefix;
-unordered_map<string, vecstr> alternateAnim;
+unordered_map<string, VecStr> AAEvent;
+unordered_map<string, VecStr> AAHasEvent;
+unordered_map<string, VecStr> groupAA;
+unordered_map<string, VecStr> groupAAPrefix;
+unordered_map<string, VecStr> alternateAnim;
 unordered_map<string, unordered_map<string, int>> AAGroupCount;
 set<string> groupNameList;
 
@@ -52,7 +52,7 @@ wstring StringToWString(string line)
 	return QString::fromStdString(line).toStdWString();
 }
 
-string WStringToString(wstring line)
+string WStringToString(const wstring& line)
 {
 #if __cplusplus > 201402L
 	return wstrConv.to_bytes(line);
@@ -60,7 +60,7 @@ string WStringToString(wstring line)
 	return QString::fromStdWString(line).toStdString();
 }
 
-void read_directory(const string& name, vecstr& fv)
+void read_directory(const string& name, VecStr& fv)
 {
 	fv.clear();
 
@@ -108,7 +108,7 @@ void read_directory(const wstring& name, vector<wstring>& fv)
 	}
 }
 
-void read_directory(const char* name, vecstr& fv)
+void read_directory(const char* name, VecStr& fv)
 {
 	fv.clear();
 
@@ -202,48 +202,6 @@ size_t fileLineCount(const char* filepath)
 	return linecount;
 }
 
-void produceBugReport(string directory, unordered_map<string, bool> chosenBehavior)
-{
-	boost::posix_time::ptime time1 = boost::posix_time::second_clock::local_time();
-	string time = to_simple_string(time1);
-	string timer;
-
-	for (unsigned int i = 0; i < time.size(); ++i)
-	{
-		if (time[i] != ':')
-		{
-			timer.append(1, time[i]);
-		}
-	}
-
-	FileWriter bugReport("Bug Report (" + timer + ").txt");
-
-	if (bugReport.is_open())
-	{
-		bugReport << "File: " << directory << "\n\nChosen Behavior: {\n";
-
-		for (auto it = chosenBehavior.begin(); it != chosenBehavior.end(); ++it)
-		{
-			bugReport << it->first << ",";
-
-			if (it->second)
-			{
-				bugReport << "true\n";
-			}
-			else
-			{
-				bugReport << "false\n";
-			}
-		}
-
-		bugReport << "}";
-	}
-	else
-	{
-		ErrorMessage(3000);
-	}
-}
-
 int sameWordCount(string line, string word)
 {
 	size_t nextWord = -1;
@@ -267,9 +225,9 @@ int sameWordCount(string line, string word)
 	return wordCount;
 }
 
-bool GetFunctionLines(sf::path filename, vecstr& functionlines, bool emptylast)
+bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
 {
-	functionlines = vecstr();
+	functionlines = VecStr();
 
 	if (!sf::is_directory(filename))
 	{

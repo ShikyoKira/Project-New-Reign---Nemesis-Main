@@ -9,11 +9,13 @@
 
 #include "ui/ProgressUp.h"
 
-class NemesisEngine;
-struct TemplateInfo;
 class NewAnimation;
-struct registerAnimation;
+class NemesisEngine;
+
 struct var;
+struct NemesisInfo;
+struct TemplateInfo;
+struct registerAnimation;
 
 class BehaviorStart : public QObject
 {
@@ -22,7 +24,7 @@ class BehaviorStart : public QObject
 public:
     typedef std::unordered_map<std::string, std::set<std::string>> mapSetString;
 
-    BehaviorStart();
+    BehaviorStart(const NemesisInfo* _ini);
     virtual ~BehaviorStart();
     void milestoneStart();
     void addBehaviorPick(NemesisEngine* newWidget,
@@ -71,6 +73,9 @@ private:
     std::unordered_map<std::string, std::unordered_map<int, bool>>* ignoreFunction2;
 
     std::atomic_flag upFlag{};
+
+    // nemesis ini
+    const NemesisInfo* nemesisInfo;
 
     // timer
     std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();

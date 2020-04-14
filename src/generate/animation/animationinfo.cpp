@@ -2,6 +2,7 @@
 
 #include "utilities/regex.h"
 #include "utilities/stringsplit.h"
+#include "utilities/algorithm.h"
 
 #include "generate/animation/animationinfo.h"
 
@@ -22,7 +23,7 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
     ignoreGroup    = behaviorOption.ignoreGroup;
     groupOption    = behaviorOption.groupOption;
 
-    if (animInfo.size() < 3) { ErrorMessage(1142, curFilename, linecount); }
+    if (animInfo.size() < 3) ErrorMessage(1142, curFilename, linecount);
 
     optionPicked[behaviorOption.templatecode]             = true;
     optionPicked[behaviorOption.templatecode + "_group"]  = true;
@@ -47,7 +48,10 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
 
         for (auto& option : options)
         {
-            if (option == "o") { isOExist = true; }
+            if (option == "o") 
+            {
+                isOExist = true; 
+            }
 
             if (error) throw nemesis::exception();
 
@@ -106,7 +110,10 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                     // check on group / addon option
                     for (uint j = 0; j < optionOrder[m].size(); ++j)
                     {
-                        if (optionOrder[m][j] != option[j]) { break; }
+                        if (optionOrder[m][j] != option[j]) 
+                        {
+                            break; 
+                        }
                         else if (j == optionOrder[m].size() - 1)
                         {
                             if (header.length() < optionOrder[m].length())
@@ -136,7 +143,9 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                                                 = section.substr(section.find(joint[header][k]) + 1);
 
                                             if (newSection.length() < section.length())
-                                            { section = newSection; }
+                                            {
+                                                section = newSection; 
+                                            }
                                             else
                                             {
                                                 isPassed = false;
@@ -198,10 +207,8 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                         }
                     }
 
-                    if (loose)
-                        break;
-                    else
-                        header = "";
+                    if (loose) break;
+                    else header = "";
                 }
 
                 if (header.length() == 0) WarningMessage(1026, curFilename, linecount, option);
@@ -258,7 +265,7 @@ void AnimationInfo::storeAnimObject(VecStr animobjects, string listFilename, int
             string ObjectName = animobjects[i].substr(0, animobjects[i].find("/", position));
             int temp          = stoi(animobjects[i].substr(position + 1, 2));
 
-            if (temp == 0 || temp > animObjectCount) { ErrorMessage(1144, listFilename, linecount); }
+            if (temp == 0 || temp > animObjectCount) ErrorMessage(1144, listFilename, linecount);
 
             string AO        = "AnimObject/" + to_string(temp);
             optionPicked[AO] = true;
@@ -302,7 +309,10 @@ void AnimationInfo::groupAdditionProcess(string header,
         addition[header][addOnName] = newName;
     }
 
-    if (nemesis::iequals(addOnName, "event")) { eventID.push_back(newName); }
+    if (nemesis::iequals(addOnName, "event")) 
+    {
+        eventID.push_back(newName);
+    }
     else if (nemesis::iequals(addOnName, "variable"))
     {
         variableID.push_back(newName);

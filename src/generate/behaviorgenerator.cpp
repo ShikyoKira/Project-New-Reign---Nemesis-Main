@@ -12,6 +12,8 @@
 
 using namespace std;
 
+extern const bool SSE;
+
 std::atomic_flag failedBehaviorFlag{};
 VecStr failedBehaviors;
 
@@ -48,7 +50,9 @@ bool hkxcmdXmlInput(string hkxfile, VecStr& fileline)
     string args    = "convert -v:xml \"" + hkxfile + ".hkx\" \"" + xmlfile + "\"";
 
     if (QProcess::execute("hkxcmd " + QString::fromStdString(args)) != 0 || !isFileExist(xmlfile))
-    { ErrorMessage(1207, hkxfile); }
+    {
+        ErrorMessage(1207, hkxfile); 
+    }
     else if (!std::filesystem::is_directory(xmlfile))
     {
         if (!GetFunctionLines(xmlfile, fileline)) return false;

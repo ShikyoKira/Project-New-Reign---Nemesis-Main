@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Global.h"
 #include <iostream>
 #include <string>
 
-#include "utilities/algorithm.h"
+#include "Global.h"
 
-extern bool SSE;
+#include "utilities/algorithm.h"
 
 class NemesisInfo
 {
@@ -25,14 +24,16 @@ public:
     NemesisInfo();
     NemesisInfo(bool& exception);
 
-    std::string GetDataPath();
-    uint GetMaxAnim();
-    bool IsFirst();
-    uint GetWidth();
-    uint GetHeight();
-    uint GetModNameWidth();
-    uint GetAuthorWidth();
-    uint GetPriorityWidth();
+    void iniFileUpdate();
+
+    std::string GetDataPath() const;
+    uint GetMaxAnim() const;
+    bool IsFirst() const;
+    uint GetWidth() const;
+    uint GetHeight() const;
+    uint GetModNameWidth() const;
+    uint GetAuthorWidth() const;
+    uint GetPriorityWidth() const;
 
     void setFirst(bool _first);
     void setWidth(uint _width);
@@ -40,5 +41,4 @@ public:
     void setModNameWidth(uint _width);
     void setAuthorWidth(uint _width);
     void setPriorityWidth(uint _width);
-    void iniFileUpdate();
 };

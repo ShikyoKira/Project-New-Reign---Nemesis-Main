@@ -13,7 +13,7 @@
 
 using namespace std;
 
-bool SSE         = false;
+const bool SSE = false;
 string stagePath = "";
 
 void NemesisInfo::iniFileUpdate()
@@ -80,7 +80,41 @@ void NemesisInfo::setup()
 
                     if (!nemesis::iequals(path, "auto"))
                     {
-                        if (nemesis::iequals(input, "skyrimdatadirectory"))
+                        const unordered_map<string, std::function<void()>> variables = 
+                        {
+                            {
+                                "maxanimation", 
+                                [&] { maxAnim = stoi(path); }
+                            },
+                            {
+                                "first", 
+                                [&] { first = path != "false"; }
+                            },
+                            {
+                                "height", 
+                                [&] { height = stoi(path); }
+                            },
+                            {
+                                "width", 
+                                [&] { width = stoi(path); }
+                            },
+                            {
+                                "modNameWidth", 
+                                [&] { modNameWidth = stoi(path); }
+                            },
+                            {
+                                "authorWidth",
+                                [&] { authorWidth = stoi(path); }
+                            },
+                            {
+                                "priorityWidth", 
+                                [&] { priorityWidth = stoi(path); }
+                            },
+                        };
+
+
+
+                        if (input == "skyrimdatadirectory")
                         {
                             if (isFileExist(path) && wordFind(path, "data") != NOT_FOUND)
                             {
@@ -110,7 +144,8 @@ void NemesisInfo::setup()
                                     if (nemesis::iequals(file, "SkyrimSE.exe")
                                         || nemesis::iequals(file, "binkw64.dll"))
                                     {
-                                        SSE = true;
+                                        bool* cheatSSE = (bool*) &SSE;
+                                        *cheatSSE      = true;
                                         break;
                                     }
                                     else if (nemesis::iequals(file, "binkw32.dll"))
@@ -120,20 +155,15 @@ void NemesisInfo::setup()
                                 }
                             }
                         }
-                        else if (nemesis::iequals(input, "maxanimation") && isOnlyNumber(path))
-                            maxAnim = stoi(path);
-                        else if (nemesis::iequals(input, "first"))
-                            first = path != "false";
-                        else if (nemesis::iequals(input, "height"))
-                            height = stoi(path);
-                        else if (nemesis::iequals(input, "width"))
-                            width = stoi(path);
-                        else if (nemesis::iequals(input, "modNameWidth"))
-                            modNameWidth = stoi(path);
-                        else if (nemesis::iequals(input, "authorWidth"))
-                            authorWidth = stoi(path);
-                        else if (nemesis::iequals(input, "priorityWidth"))
-                            priorityWidth = stoi(path);
+                        else
+                        {
+                            auto& it = variables.find(input);
+
+                            if (it != variables.end())
+                            {
+                                it->second();
+                            }
+                        }
                     }
                     else if (input == "skyrimdatadirectory" || input == "maxanimation" || input == "first")
                     {
@@ -191,12 +221,14 @@ void NemesisInfo::setup()
             {
                 if (nemesis::iequals(file, "SkyrimSE.exe"))
                 {
-                    SSE = true;
+                    bool* cheatSSE = (bool*) &SSE;
+                    *cheatSSE      = true;
                     break;
                 }
                 else if (nemesis::iequals(file, "binkw64.dll"))
                 {
-                    SSE = true;
+                    bool* cheatSSE = (bool*) &SSE;
+                    *cheatSSE      = true;
                     break;
                 }
                 else if (nemesis::iequals(file, "binkw32.dll"))
@@ -277,22 +309,42 @@ void NemesisInfo::setup()
     iniFileUpdate();
 }
 
-string NemesisInfo::GetDataPath()
+string NemesisInfo::GetDataPath() const
 {
     return dataPath;
 }
 
-uint NemesisInfo::GetMaxAnim()
+bool NemesisInfo::IsFirst() const
+{
+    return first;
+}
+
+uint NemesisInfo::GetWidth() const
+{
+    return width;
+}
+
+uint NemesisInfo::GetHeight() const
+{
+    return height;
+}
+
+uint NemesisInfo::GetModNameWidth() const
+{
+    return modNameWidth;
+}
+
+uint NemesisInfo::GetMaxAnim() const
 {
     return maxAnim;
 }
 
-uint NemesisInfo::GetAuthorWidth()
+uint NemesisInfo::GetAuthorWidth() const
 {
     return authorWidth;
 }
 
-uint NemesisInfo::GetPriorityWidth()
+uint NemesisInfo::GetPriorityWidth() const
 {
     return priorityWidth;
 }
@@ -325,24 +377,4 @@ void NemesisInfo::setAuthorWidth(uint _width)
 void NemesisInfo::setPriorityWidth(uint _width)
 {
     priorityWidth = _width;
-}
-
-bool NemesisInfo::IsFirst()
-{
-    return first;
-}
-
-uint NemesisInfo::GetWidth()
-{
-    return width;
-}
-
-uint NemesisInfo::GetHeight()
-{
-    return height;
-}
-
-uint NemesisInfo::GetModNameWidth()
-{
-    return modNameWidth;
 }

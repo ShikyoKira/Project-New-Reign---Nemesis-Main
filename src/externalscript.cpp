@@ -11,6 +11,8 @@
 
 #include "generate/alternateanimation.h"
 
+#include "utilities/algorithm.h"
+
 using namespace std;
 
 bool dummyScript = false;

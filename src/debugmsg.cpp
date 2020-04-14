@@ -27,7 +27,7 @@ void writeUTF8File(string filename, VecStr storeline);
 
 void NewDebugMessage(DebugMsg NewLog)
 {
-    if (!EnglishLog) { EnglishLog = new DebugMsg("english"); }
+    if (!EnglishLog) EnglishLog = new DebugMsg("english");
 
     DMLog = NewLog;
 }
@@ -66,8 +66,8 @@ void DebugMsg::setup(const wstring& language)
                 {
                     string code = storeline[i].substr(4, storeline[i].find("=") - 4);
 
-                    if (isOnlyNumber(code))
-                    { uilist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1); }
+                    if (isOnlyNumber(code)) uilist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1); 
+
                 }
             }
             else if (wordFind(storeline[i], "TBT ") == 0)
@@ -76,8 +76,7 @@ void DebugMsg::setup(const wstring& language)
                 {
                     string code = storeline[i].substr(4, storeline[i].find("=") - 4);
 
-                    if (isOnlyNumber(code))
-                    { textlist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1); }
+                    if (isOnlyNumber(code)) textlist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1);
                 }
             }
             else if (wordFind(storeline[i], "ERR ") == 0)
@@ -86,8 +85,7 @@ void DebugMsg::setup(const wstring& language)
                 {
                     string code = storeline[i].substr(4, storeline[i].find("=") - 4);
 
-                    if (isOnlyNumber(code))
-                    { errorlist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1); }
+                    if (isOnlyNumber(code)) errorlist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1);
                 }
             }
             else if (wordFind(storeline[i], "WAR ") == 0)
@@ -96,8 +94,7 @@ void DebugMsg::setup(const wstring& language)
                 {
                     string code = storeline[i].substr(4, storeline[i].find("=") - 4);
 
-                    if (isOnlyNumber(code))
-                    { warninglist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1); }
+                    if (isOnlyNumber(code)) warninglist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1);
                 }
             }
         }
@@ -168,7 +165,7 @@ void ErrorMessage(int errorcode)
 {
     std::scoped_lock<std::mutex> err_Lock(err_Mutex);
 
-    if (error) { throw nemesis::exception(); }
+    if (error) throw nemesis::exception();
 
     error                = true;
     std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode);

@@ -510,7 +510,7 @@ void BehaviorSub::CompilingASD()
             if (error) throw nemesis::exception();
 
             ASDData[curProject]
-                = make_unique<AnimationDataProject>(startline, projectline, filepath, curProject);
+                = make_unique<AnimationDataProject>(startline, projectline, filepath, curProject, nemesisInfo);
 
             if (error) throw nemesis::exception();
         }

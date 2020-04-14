@@ -29,6 +29,7 @@ public:
     std::atomic_flag lock = ATOMIC_FLAG_INIT;
     int progressMax;
     int progressPercentage;
+    NemesisInfo* nemesisInfo;
 
     NemesisEngine(QWidget* parent = Q_NULLPTR);
     ~NemesisEngine();

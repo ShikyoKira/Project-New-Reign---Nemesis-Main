@@ -1,8 +1,10 @@
-#include "Global.h"
-
 #include <array>
 
+#include "Global.h"
 #include "debuglog.h"
+#include "nemesisinfo.h"
+
+#include "utilities/filechecker.h"
 
 using namespace std;
 
@@ -10,7 +12,7 @@ void processFileError(pair<string_view, int> err);
 
 void processFileError(pair<string_view, int> err)
 {
-    if (!isFileExist(err.first)) { ErrorMessage(err.second, err.first); }
+    if (!isFileExist(err.first)) ErrorMessage(err.second, err.first);
 }
 
 bool FileCheck(bool isUpdate)
@@ -49,7 +51,7 @@ bool FileCheck(bool isUpdate)
     return true;
 }
 
-bool PCEACheck()
+bool PCEACheck(const NemesisInfo* nemesisInfo)
 {
     DebugLogging("Initializing PCEA Check...");
     string file = nemesisInfo->GetDataPath() + "Nemesis PCEA.esp";
@@ -102,7 +104,9 @@ void behaviorActivateMod(VecStr behaviorPriority)
         for (auto& behavior : behaviorlist)
         {
             if (!nemesis::iequals(behavior, "info.ini") && !nemesis::iequals(behavior, "_1stperson"))
-            { activatedBehavior[nemesis::to_lower_copy(behavior)] = true; }
+            { 
+                activatedBehavior[nemesis::to_lower_copy(behavior)] = true;
+            }
             else if (nemesis::iequals(behavior, "_1stperson"))
             {
                 VecStr fpbehaviorlist;

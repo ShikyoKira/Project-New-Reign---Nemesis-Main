@@ -190,7 +190,7 @@ public:
 
     void OutputCheck(std::shared_ptr<VecStr> generatedlines,
                      proc& process,
-                     condset* curset,
+                     nemesis::CondVar<std::string>* curset,
                      bool& norElement,
                      int& openRange,
                      size_t& elementLine,
@@ -205,19 +205,7 @@ public:
                      std::shared_ptr<group> groupFunction,
                      int optionMulti = -1,
                      int animMulti   = -1);
-    void GetNewAnimationLine(std::shared_ptr<VecStr> generatedlines,
-                             std::string behaviorFile,
-                             int id,
-                             ImportContainer& import,
-                             ID eventid,
-                             ID variableid,
-                             std::vector<int>& stateID,
-                             std::vector<int> stateCountMultiplier,
-                             bool hasGroup,
-                             bool isCore,
-                             std::shared_ptr<group> groupFunction,
-                             std::shared_ptr<single> singleFunction,
-                             NewAnimLock& animLock);
+    void GetNewAnimationLine(std::shared_ptr<NewAnimArgs> args);
     void GetAnimSetData(
         std::unordered_map<std::string, std::map<std::string, VecStr, alphanum_less>>& newASDLines);
     void GetAnimData(std::unordered_map<std::string, std::map<std::string, VecStr>>& newAnimDataLines);
@@ -270,7 +258,7 @@ inline bool isPassed(int condition, std::unordered_map<int, bool> IsConditionOpe
 {
     for (int k = condition - 1; k > 0; k--)
     {
-        if (!IsConditionOpened[k]) { return false; }
+        if (!IsConditionOpened[k]) return false;
     }
 
     return true;

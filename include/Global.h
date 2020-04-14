@@ -14,24 +14,22 @@
 
 #include <chrono>
 
+#include "debugmsg.h"
+#include "utilities/wstrconvert.h"
+
 using VecStr  = std::vector<std::string>;
 using VecChar = std::vector<char>;
 using ID      = std::unordered_map<std::string, int>;
 using uint    = unsigned int;
-
-#include "debugmsg.h"
-#include "nemesisinfo.h"
-#include "utilities/wstrconvert.h"
 
 #pragma warning(disable : 4503)
 
 #define NOT_FOUND std::string::npos
 
 // utility
-extern bool debug;                     // if debug is on
-extern int memory;                     // not used; for setting memory allocation from 100 - 1000
-extern int fixedkey[257];              // AA installation key
-extern NemesisInfo* nemesisInfo;       // nemesis ini info
+extern bool debug;                      // if debug is on
+extern int memory;                      // not used; for setting memory allocation from 100 - 1000
+extern int fixedkey[257];               // AA installation key
 
 // update patcher
 extern std::unordered_map<std::string, std::string> behaviorPath; // hkx file name, file path
@@ -82,9 +80,6 @@ void read_directory(const std::string& name, VecStr& fv);
 void read_directory(const std::wstring& name, std::vector<std::wstring>& fv);
 void read_directory(const char* name, VecStr& fv);
 void read_directory(const wchar_t* name, std::vector<std::wstring>& fv);
-
-std::string currentTime();
-void produceBugReport(std::string directory, std::unordered_map<std::string, bool> chosenBehavior);
 
 bool GetFunctionLines(std::filesystem::path filename, VecStr& functionlines, bool emptylast = true);
 bool GetFunctionLines(std::filesystem::path filename,

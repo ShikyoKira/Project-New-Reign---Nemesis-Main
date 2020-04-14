@@ -73,7 +73,7 @@ namespace nemesis
     };
 
     bool regex_search(const std::string& line, nemesis::smatch& match, const nemesis::regex& rgx);
-    void regex_search(const std::string& line, const nemesis::regex& rgx);
+    bool regex_search(const std::string& line, const nemesis::regex& rgx);
 
     bool regex_match(const std::string& line, nemesis::smatch& match, const nemesis::regex& rgx);
     bool regex_match(const std::string& line, const nemesis::regex& rgx);

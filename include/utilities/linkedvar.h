@@ -26,7 +26,7 @@ namespace nemesis
 		bool hasProcess;
 		size_t linecount;
 		Type raw;
-		vecstr lineblocks;
+		VecStr lineblocks;
 		std::vector<CondVar<Type>> nestedcond;
 
 		LinkedVar() : preCompile(true), hasProcess(false), linecount(0)

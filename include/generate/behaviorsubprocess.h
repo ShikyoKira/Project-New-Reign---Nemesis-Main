@@ -18,7 +18,7 @@ class BehaviorSub : public QObject
     Q_OBJECT
 
 public:
-    bool isCharacter;
+    BehaviorSub(const NemesisInfo* _ini);
 
     void addInfo(std::string& newDirectory,
                  VecStr& newfilelist,
@@ -49,6 +49,8 @@ public:
     void CompilingAnimData();
     void CompilingASD();
 
+    bool isCharacter;
+
 public slots:
     void BehaviorCompilation();
     void AnimDataCompilation();
@@ -76,6 +78,7 @@ private:
     std::unordered_map<std::string, var> AnimVar;
     std::unordered_map<std::string, std::unordered_map<int, bool>> ignoreFunction;
     BehaviorStart* process;
+    const NemesisInfo* nemesisInfo;
 
     void (BehaviorSub::*tryAddAnim)() = &BehaviorSub::checkAnimation;
 };

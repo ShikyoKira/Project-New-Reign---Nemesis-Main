@@ -56,7 +56,7 @@ struct AnimDataPack
 	std::string unknown2;
 	std::string unknown3;
 
-	vecstr eventname;
+	VecStr eventname;
 };
 
 struct InfoDataPack
@@ -64,13 +64,13 @@ struct InfoDataPack
 	std::string uniquecode;
 	std::string duration;
 
-	vecstr motiondata;
-	vecstr rotationdata;
+	VecStr motiondata;
+	VecStr rotationdata;
 };
 
 struct AnimDataProject
 {
-	vecstr behaviorlist;
+	VecStr behaviorlist;
 	std::string childActive;
 	std::string projectActive;
 
@@ -88,7 +88,7 @@ struct AnimDataProject
 	int GetInfoTotalLine();
 };
 
-AnimDataFormat::position AnimDataPosition(vecstr animData, std::string character, std::string header, std::string modcode, std::string filepath, int linecount, int type, bool muteError = false);
+AnimDataFormat::position AnimDataPosition(VecStr animData, std::string character, std::string header, std::string modcode, std::string filepath, int linecount, int type, bool muteError = false);
 AnimDataFormat::position AnimDataConvert(int type, int position);
 
 #endif

@@ -10,6 +10,11 @@ using namespace std;
 
 extern atomic<int> m_RunningThread;
 
+InstallScripts::InstallScripts(const NemesisInfo* _ini)
+{
+    nemesisInfo = _ini;
+}
+
 void InstallScripts::Run()
 {
     try
@@ -20,7 +25,7 @@ void InstallScripts::Run()
         {
             if (alternateAnim.size() > 0)
             {
-                if (!AAInstallation())
+                if (!AAInstallation(nemesisInfo))
                 {
                     emit end();
                     return;
@@ -55,7 +60,7 @@ void InstallScripts::Run()
 
         try
         {
-            if (pcealist.size() > 0) PCEAInstallation();
+            if (pcealist.size() > 0) PCEAInstallation(nemesisInfo);
         }
         catch (exception& ex)
         {

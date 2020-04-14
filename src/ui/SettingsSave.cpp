@@ -14,7 +14,7 @@ void createLanguageCache(std::string language)
     {
         FileWriter cachefile("cache\\language setting");
 
-        if (cachefile.is_open()) { cachefile << language; }
+        if (cachefile.is_open()) cachefile << language;
         else
         {
             CEMsgBox* msg = new CEMsgBox;
@@ -85,7 +85,8 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
     std::string filename = "cache\\language setting";
     VecStr storeline;
 
-    auto errFunc = [](std::string& language) {
+    auto errFunc = [](std::string& language)
+    {
         QMessageBox* msg = new QMessageBox;
         msg->setWindowTitle("WARNING");
         msg->setText("Warning: Failed to read language cache file. Language is set to the default "
@@ -97,19 +98,23 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
         createLanguageCache(language);
     };
 
-    if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false)) { errFunc(language); }
+    if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
+    {
+        errFunc(language);
+    }
     else
     {
         for (auto& line : storeline)
         {
-            if (line.length() > 0) { language = line; }
+            if (line.length() > 0) language = line;
         }
 
-        if (language.length() == 0) { errFunc(language); }
+        if (language.length() == 0) errFunc(language);
     }
 
     filename      = "cache\\mod settings";
-    auto errFunc2 = []() {
+    auto errFunc2 = []() 
+    {
         QMessageBox* msg = new QMessageBox;
         msg->setWindowTitle("WARNING");
         msg->setText("Warning: Failed to read mod cache file. All mods will be reverted to unchecked state");
@@ -135,10 +140,10 @@ bool getCache(std::string& language, std::unordered_map<std::string, bool>& chos
 
     for (auto& line : storeline)
     {
-        if (line.length() > 0) { chosenBehavior[line] = true; }
+        if (line.length() > 0) chosenBehavior[line] = true;
     }
 
-    if (chosenBehavior.size() > 0) { return true; }
+    if (chosenBehavior.size() > 0) return true;
 
     return false;
 }
@@ -154,7 +159,8 @@ bool getCache(std::wstring& language, std::unordered_map<std::string, bool>& cho
     std::wstring filename = L"cache\\language setting";
     std::vector<std::wstring> storeline;
 
-    auto errFunc = [](std::wstring& language) {
+    auto errFunc = [](std::wstring& language) 
+    {
         QMessageBox* msg = new QMessageBox;
         msg->setWindowTitle("WARNING");
         msg->setText("Warning: Failed to read language cache file. Language is set to the default "
@@ -166,19 +172,23 @@ bool getCache(std::wstring& language, std::unordered_map<std::string, bool>& cho
         createLanguageCache(WStringToString(language));
     };
 
-    if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false)) { errFunc(language); }
+    if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
+    {
+        errFunc(language);
+    }
     else
     {
         for (auto& line : storeline)
         {
-            if (line.length() > 0) { language = line; }
+            if (line.length() > 0) language = line;
         }
 
-        if (language.length() == 0) { errFunc(language); }
+        if (language.length() == 0) errFunc(language);
     }
 
     filename      = L"cache\\mod settings";
-    auto errFunc2 = []() {
+    auto errFunc2 = []() 
+    {
         QMessageBox* msg = new QMessageBox;
         msg->setWindowTitle("WARNING");
         msg->setText("Warning: Failed to read mod cache file. All mods will be reverted to unchecked state");
@@ -204,10 +214,10 @@ bool getCache(std::wstring& language, std::unordered_map<std::string, bool>& cho
 
     for (auto& line : storeline)
     {
-        if (line.length() > 0) { chosenBehavior[WStringToString(line)] = true; }
+        if (line.length() > 0) chosenBehavior[WStringToString(line)] = true;
     }
 
-    if (chosenBehavior.size() > 0) { return true; }
+    if (chosenBehavior.size() > 0) return true;
 
     return false;
 }
@@ -223,16 +233,16 @@ bool getOrderCache(std::vector<std::string>& orderList)
     std::string filename = "cache\\order list";
     std::vector<std::string> storeline;
 
-    if (!isFileExist(filename)) { return false; }
+    if (!isFileExist(filename)) return false;
 
-    if (!GetFunctionLines(filename, storeline, false)) { return false; }
+    if (!GetFunctionLines(filename, storeline, false)) return false;
 
     orderList.clear();
     orderList.reserve(storeline.size());
 
     for (auto& line : storeline)
     {
-        if (line.length() > 0) { orderList.push_back(line); }
+        if (line.length() > 0) orderList.push_back(line);
     }
 
     return orderList.size() > 0;

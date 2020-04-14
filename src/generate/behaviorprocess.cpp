@@ -58,8 +58,10 @@ void addOnInstall(string templine,
                   unordered_map<string, unordered_map<string, VecStr>>& groupAddOn);
 void startThreadfromPool(boost::asio::thread_pool& mt, BehaviorSub* worker, void (BehaviorSub::*func)());
 
-BehaviorStart::BehaviorStart()
-{}
+BehaviorStart::BehaviorStart(const NemesisInfo* _ini)
+{
+    nemesisInfo = _ini;
+}
 
 BehaviorStart::~BehaviorStart()
 {
@@ -197,7 +199,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
     if (error) throw nemesis::exception();
 
-    if (PCEACheck()) ReadPCEA();
+    if (PCEACheck(nemesisInfo)) ReadPCEA(nemesisInfo);
 
     checkThread = new std::thread(checkAllFiles, nemesisInfo->GetDataPath() + "meshes\\actors");
 
@@ -429,7 +431,10 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                     newAnimVariable[templatecode + coreModName].insert(tempVariableID.begin(),
                                                                        tempVariableID.end());
 
-                    if (order != 0) { newAnimation[templatecode].back()->setOrder(order); }
+                    if (order != 0) 
+                    { 
+                        newAnimation[templatecode].back()->setOrder(order);
+                    }
                     else
                     {
                         firstAE = newAnimation[templatecode].back()->mainAnimEvent;
@@ -582,7 +587,10 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         animInfoGroup.clear();
                         animInfoGroup.reserve(100);
 
-                        if (ignoreGroup) { animationCount[templatecode]++; }
+                        if (ignoreGroup)
+                        {
+                            animationCount[templatecode]++;
+                        }
                         else
                         {
                             if (BehaviorTemplate->optionlist[templatecode].eleEventGroupL.size() != 0)
@@ -829,7 +837,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
     if (pcealist.size() > 0 || alternateAnim.size() > 0)
     {
-        InstallScripts* ScriptWorker = new InstallScripts; // install PCEA & AA script
+        InstallScripts* ScriptWorker = new InstallScripts(nemesisInfo); // install PCEA & AA script
         connect(ScriptWorker, SIGNAL(end()), this, SLOT(EndAttempt()));
         connect(ScriptWorker, SIGNAL(end()), ScriptWorker, SLOT(deleteLater()));
         QtConcurrent::run(ScriptWorker, &InstallScripts::Run);
@@ -957,7 +965,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
                     if (error) throw nemesis::exception();
 
-                    BehaviorSub* worker = new BehaviorSub;
+                    BehaviorSub* worker = new BehaviorSub(nemesisInfo);
                     behaviorSubList.push_back(worker);
 
                     worker->addInfo(directory,
@@ -1053,7 +1061,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                                 temppath = temppath.substr(nextpos, lastpos - nextpos);
                             }
 
-                            BehaviorSub* worker = new BehaviorSub;
+                            BehaviorSub* worker = new BehaviorSub(nemesisInfo);
                             behaviorSubList.push_back(worker);
 
                             worker->addInfo(directory,
@@ -1170,15 +1178,13 @@ void BehaviorStart::milestoneStart()
 
         for (auto& file : fpfilelist)
         {
-            if (!sf::is_directory(fpdirectory + "\\" + file) && file.find(".txt") == file.length() - 4)
-            { ++include; }
+            if (!sf::is_directory(fpdirectory + "\\" + file) && file.find(".txt") == file.length() - 4) ++include;
         }
     }
 
     for (auto& file : filelist)
     {
-        if (!sf::is_directory(directory + "\\" + file) && file.find(".txt") == file.length() - 4)
-        { ++include; }
+        if (!sf::is_directory(directory + "\\" + file) && file.find(".txt") == file.length() - 4) ++include;
     }
 
     filenum = (include * 10) + add;
@@ -1270,7 +1276,10 @@ void BehaviorStart::EndAttempt()
         catch (...)
         {}
 
-        if (error) { ClearGlobal(); }
+        if (error) 
+        { 
+            ClearGlobal();
+        }
         else
         {
             ClearGlobal(false);
@@ -1302,7 +1311,10 @@ void BehaviorStart::newMilestone()
 {
     Lockless lock(upFlag);
 
-    if (!error) { emit progressUp(); }
+    if (!error) 
+    {
+        emit progressUp(); 
+    }
 }
 
 void addOnInstall(string templine,

@@ -95,7 +95,7 @@ void groupThreadStart(shared_ptr<newGroupArgs> args, boost::asio::thread_pool* m
 	}
 }
 
-void elementUpdate(size_t& elementLine, int& counter, int& curID, map<int, vecstr>& catalystMap)
+void elementUpdate(size_t& elementLine, int& counter, int& curID, map<int, VecStr>& catalystMap)
 {
 	if (elementLine != -1)
 	{
@@ -113,7 +113,7 @@ void elementUpdate(size_t& elementLine, int& counter, int& curID, map<int, vecst
 	}
 }
 
-void unpackToCatalyst(map<int, vecstr>& catalystMap, unordered_map<int, shared_ptr<NodeJoint>>& existingNodes)
+void unpackToCatalyst(map<int, VecStr>& catalystMap, unordered_map<int, shared_ptr<NodeJoint>>& existingNodes)
 {
 	for (auto& node : existingNodes)
 	{
@@ -121,9 +121,9 @@ void unpackToCatalyst(map<int, vecstr>& catalystMap, unordered_map<int, shared_p
 	}
 }
 
-void processExistFuncID(vector<int>& funcIDs, string ZeroEvent, string ZeroVariable, map<int, vecstr>& catalystMap, shared_ptr<master> groupFunctionIDs,
-	vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo, string templateCode, ImportContainer& exportID, id& eventid, id& variableid, int& lastID, bool hasMaster,
-	bool hasGroup, setstr& templateGroup, bool ignoreGroup, string behaviorFile, unordered_map<int, shared_ptr<NodeJoint>>& existingNodes)
+void processExistFuncID(vector<int>& funcIDs, string ZeroEvent, string ZeroVariable, map<int, VecStr>& catalystMap, shared_ptr<master> groupFunctionIDs,
+	vector<vector<shared_ptr<AnimationInfo>>>& groupAnimInfo, string templateCode, ImportContainer& exportID, ID& eventid, ID& variableid, int& lastID, bool hasMaster,
+	bool hasGroup, SetStr& templateGroup, bool ignoreGroup, string behaviorFile, unordered_map<int, shared_ptr<NodeJoint>>& existingNodes)
 {
 	for (int& functionID : funcIDs)
 	{

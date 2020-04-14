@@ -6,8 +6,6 @@
 
 #include "nemesisinfo.h"
 
-#define MAX_ANIM nemesisInfo->GetMaxAnim()
-
 class AnimProgressBar : public QProgressBar
 {
     Q_OBJECT

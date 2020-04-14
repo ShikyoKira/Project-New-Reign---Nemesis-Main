@@ -1,6 +1,7 @@
 #include "Global.h"
 
 #include "utilities/renew.h"
+#include "utilities/algorithm.h"
 
 #pragma warning(disable : 4503)
 
@@ -11,14 +12,18 @@ void tryDelete(const string& file, bool xml, int repeated = 0)
     if (repeated > 100)
     {
         if (xml)
+        {
             WarningMessage(1009, file);
+        }
         else
+        {
             WarningMessage(1006);
+        }
     }
 
     try
     {
-        if (!std::filesystem::remove(file)) { tryDelete(file, xml, repeated + 1); }
+        if (!std::filesystem::remove(file)) tryDelete(file, xml, repeated + 1);
     }
     catch (const std::exception&)
     {
@@ -57,7 +62,7 @@ void ClearTempBehaviors()
 
         for (auto& file : filelist)
         {
-            if (!nemesis::iequals(file, "xml")) { DeleteFileFolder(tempbehavior, file, false); }
+            if (!nemesis::iequals(file, "xml")) DeleteFileFolder(tempbehavior, file, false);
         }
     }
 }

@@ -6,8 +6,8 @@
 
 using namespace std;
 
-vecstr GetOptionInfo(string line, string format, string filename, int numline);
-vecstr GetOptionInfo(string line, string format, string masterformat, string filename, string multiOption, int numline);
+VecStr GetOptionInfo(string line, string format, string filename, int numline);
+VecStr GetOptionInfo(string line, string format, string masterformat, string filename, string multiOption, int numline);
 void ProcessFunction(string change, string line, string format, string behaviorFile, string multiOption, bool& isEnd, int numline, size_t curPos,
 	OptionList& optionlist, map<int, vector<shared_ptr<nemesis::scope>>>& lineblocks, vector<AddOnInfo>& addInfo, bool& isTrueMulti, bool isGroup = false, bool isMaster = false,
 	bool isMC = true, proc& process = proc());
@@ -613,7 +613,7 @@ bool nemesis::Condt::specialIsTrueB()
 						{
 							if (history1[animMulti1][optionMulti1].length() == 0)
 							{
-								vecstr lines = cmp1;
+								VecStr lines = cmp1;
 								prcs->animMulti = animMulti1;
 
 								for (auto& blocklist : cmp1_block)
@@ -648,7 +648,7 @@ bool nemesis::Condt::specialIsTrueB()
 						{
 							if (history2[animMulti2][optionMulti1].length() == 0)
 							{
-								vecstr lines = cmp2;
+								VecStr lines = cmp2;
 								prcs->animMulti = animMulti2;
 
 								for (auto& blocklist : cmp2_block)
@@ -864,9 +864,9 @@ void nemesis::Condt::conditionProcess(string condition, string format, string be
 	}
 	else
 	{
-		optioncondt = isGroup ? (isMaster ? make_shared<vecstr>(GetOptionInfo(condition, format + "_master", format, behaviorFile, multiOption, numline)) :
-			make_shared<vecstr>(GetOptionInfo(condition, format + "_group", format, behaviorFile, multiOption, numline))) :
-			make_shared<vecstr>(GetOptionInfo(condition, format, behaviorFile, numline));
+		optioncondt = isGroup ? (isMaster ? make_shared<VecStr>(GetOptionInfo(condition, format + "_master", format, behaviorFile, multiOption, numline)) :
+			make_shared<VecStr>(GetOptionInfo(condition, format + "_group", format, behaviorFile, multiOption, numline))) :
+			make_shared<VecStr>(GetOptionInfo(condition, format, behaviorFile, numline));
 	}
 
 	if (error) throw nemesis::exception();
@@ -909,9 +909,9 @@ void nemesis::Condt::singleCondition(string condition, string format, string beh
 	}
 }
 
-vecstr GetOptionInfo(string line, string format, string filename, int numline)
+VecStr GetOptionInfo(string line, string format, string filename, int numline)
 {
-	vecstr optionInfo;
+	VecStr optionInfo;
 	optionInfo.reserve(3);
 	optionInfo.push_back(format);
 
@@ -947,9 +947,9 @@ vecstr GetOptionInfo(string line, string format, string filename, int numline)
 	return optionInfo;
 }
 
-vecstr GetOptionInfo(string line, string format, string masterformat, string filename, string multiOption, int numline)
+VecStr GetOptionInfo(string line, string format, string masterformat, string filename, string multiOption, int numline)
 {
-	vecstr optionInfo;
+	VecStr optionInfo;
 	optionInfo.reserve(5);
 	optionInfo.push_back(masterformat + "_group");
 
@@ -1029,11 +1029,11 @@ void GetMultiFromAddOn(const nemesis::Condt& curcond, const AddOnInfo& addinfo, 
 	}
 	else
 	{
-		unordered_map<string, vecstr>* addOnPtr = &groupAnimInfo[animMulti]->addOn;
+		unordered_map<string, VecStr>* addOnPtr = &groupAnimInfo[animMulti]->addOn;
 
 		if (addOnPtr->find(addinfo.header) != addOnPtr->end() && (*addOnPtr)[addinfo.header].size() > 0)
 		{
-			unordered_map<string, vecstr>* groupAdditionPtr = &groupAnimInfo[animMulti]->groupAddition[addinfo.header];
+			unordered_map<string, VecStr>* groupAdditionPtr = &groupAnimInfo[animMulti]->groupAddition[addinfo.header];
 
 			if (groupAdditionPtr->find(addinfo.addition) != groupAdditionPtr->end() && (*groupAdditionPtr)[addinfo.addition].size() > 0)
 			{

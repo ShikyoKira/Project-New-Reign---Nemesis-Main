@@ -1,5 +1,3 @@
-#include "Global.h"
-
 #include <QHeaderView>
 #include <QMessageBox>
 #include <QMimeData>
@@ -7,12 +5,16 @@
 #include <QProxyStyle>
 #include <QUrl>
 
-#include "ui/BehaviorListView.h"
+#include "Global.h"
+#include "nemesisinfo.h"
+
 #include "ui/ErrorMsgBox.h"
 #include "ui/SettingsSave.h"
+#include "ui/BehaviorListView.h"
+
+extern std::atomic<uint> resizeCount;
 
 std::unordered_map<std::string, std::string> modConvert;
-extern std::atomic<uint> resizeCount;
 
 BehaviorListView::BehaviorListView(QWidget* parent)
     : QTreeView(parent)
@@ -90,6 +92,11 @@ void BehaviorListView::setModel(QAbstractItemModel* model)
     setVerticalScrollBar(new ScrollBar(model, this));
 }
 
+void BehaviorListView::setIni(NemesisInfo* _ini)
+{
+    nemesisInfo = _ini;
+}
+
 void BehaviorListView::resizeHeader(int logicalIndex, int oldSize, int newSize)
 {
     if (resizeCount != 0) return;
@@ -99,7 +106,10 @@ void BehaviorListView::resizeHeader(int logicalIndex, int oldSize, int newSize)
         if (oldSize < newSize)
         {
             // DRAF LEFT, EXPAND
-            if (columnWidth(1) < authorWidth) {}
+            if (columnWidth(1) < authorWidth)
+            {
+
+            }
         }
 
         priorityWidth = newSize;

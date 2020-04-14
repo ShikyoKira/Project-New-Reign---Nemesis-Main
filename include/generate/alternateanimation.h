@@ -3,10 +3,12 @@
 
 #include <filesystem>
 
+struct NemesisInfo;
+
 extern std::unordered_map<std::string, int> AAgroup_Counter;
 
 void AAInitialize(std::string AAList);
-bool AAInstallation();
+bool AAInstallation(const NemesisInfo* nemesisInfo);
 
 bool FolderCreate(std::string curBehaviorPath);
 bool FolderCreate(std::wstring curBehaviorPath);
@@ -15,6 +17,7 @@ bool PapyrusCompile(std::filesystem::path pscfile,
                     std::wstring import,
                     std::string destination,
                     std::string filepath,
-                    std::filesystem::path appdata_path);
+                    std::filesystem::path appdata_path,
+                    std::filesystem::path nemesisInfo);
 
 #endif

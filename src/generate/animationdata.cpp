@@ -15,10 +15,10 @@ struct InfoDataTracker
 
 bool IDExistProcess(string change, vector<InfoDataPack>& storeline, map<string, vector<InfoDataTracker>> original, map<string, bool>& isExist,
 	map<string, string>& exchange, vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker, map<string, bool>& loopCheck);
-void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, string project, string modcode);
-void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange,
+void BehaviorListProcess(AnimDataProject& storeline, int& startline, VecStr& animdatafile, string project, string modcode);
+void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, VecStr& animdatafile, string project, string modcode, map<string, string>& exchange,
 	map<string, vector<shared_ptr<AnimationDataTracker>>>& animDataTracker, map<string, vector<int>>& codeTracker);
-void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange,
+void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, VecStr& animdatafile, string project, string modcode, map<string, string>& exchange,
 	vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker);
 
 bool IDExistProcess(string change, vector<InfoDataPack>& storeline, map<string, vector<InfoDataTracker>> original, map<string, bool>& isExist,
@@ -57,7 +57,7 @@ bool IDExistProcess(string change, vector<InfoDataPack>& storeline, map<string, 
 	return true;
 }
 
-AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string filepath, string modcode)
+AnimDataProject::AnimDataProject(VecStr animdatafile, string project, string filepath, string modcode)
 {
 	int startline = 0;
 	BehaviorListProcess(*this, startline, animdatafile, project, modcode);
@@ -78,7 +78,7 @@ AnimDataProject::AnimDataProject(vecstr animdatafile, string project, string fil
 	InfoDataProcess(infodatalist, startline, animdatafile, project, modcode, exchange, animdatalist, codeTracker);
 }
 
-void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& animdatafile, string project, string modcode)
+void BehaviorListProcess(AnimDataProject& storeline, int& startline, VecStr& animdatafile, string project, string modcode)
 {
 	if (!isOnlyNumber(animdatafile[startline])) ErrorMessage(3005, project, "Header");
 
@@ -103,7 +103,7 @@ void BehaviorListProcess(AnimDataProject& storeline, int& startline, vecstr& ani
 	if (error) throw nemesis::exception();
 }
 
-void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange, 
+void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, VecStr& animdatafile, string project, string modcode, map<string, string>& exchange, 
 	map<string, vector<shared_ptr<AnimationDataTracker>>>& animDataTracker, map<string, vector<int>>& codeTracker)
 {
 	unordered_map<string, unsigned long> tracker;
@@ -207,7 +207,7 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, vecstr& an
 	}
 }
 
-void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, vecstr& animdatafile, string project, string modcode, map<string, string>& exchange,
+void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, VecStr& animdatafile, string project, string modcode, map<string, string>& exchange,
 	vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker)
 {
 	map<string, bool> isExist;
@@ -334,7 +334,7 @@ int AnimDataProject::GetInfoTotalLine()
 	return counter;
 }
 
-AnimDataFormat::position AnimDataPosition(vecstr animData, string character, string header, string modcode, string filepath, int linecount, int type, bool muteError)
+AnimDataFormat::position AnimDataPosition(VecStr animData, string character, string header, string modcode, string filepath, int linecount, int type, bool muteError)
 {
 	// has function
 	bool isOpen = false;
@@ -432,7 +432,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 					if (!muteError) ErrorMessage(3007, modcode, filepath, linecount, header);
 				}
 
-				int id = 0;
+				int type = 0;
 				unordered_map<int, int> subid;
 
 				for (int i = 0; i < linecount + 1; ++i)
@@ -453,15 +453,15 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							else
 							{
 								subid[1] = 0;
-								++id;
+								++type;
 
-								if (id > 3) break;
+								if (type > 3) break;
 							}
 						}
 
 						if (marker[i].isNew)
 						{
-							int tempid = id;
+							int tempid = type;
 
 							for (auto it = subid.begin(); it != subid.end(); ++it)
 							{
@@ -482,12 +482,12 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 				for (auto it = subid.begin(); it != subid.end(); ++it)
 				{
-					id = id + it->second;
+					type = type + it->second;
 				}
 
-				if (id < 4)
+				if (type < 4)
 				{
-					return AnimDataConvert(type, id);
+					return AnimDataConvert(type, type);
 				}
 			}
 
@@ -530,7 +530,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 					if (!muteError) ErrorMessage(3007, modcode, filepath, linecount, header);
 				}
 
-				int id = 0;
+				int type = 0;
 				unordered_map<int, int> subid;
 
 				for (int i = 0; i < linecount + 1; ++i)
@@ -551,9 +551,9 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							else
 							{
 								subid[1] = 0;
-								++id;
+								++type;
 
-								if (id > 6)
+								if (type > 6)
 								{
 									break;
 								}
@@ -562,7 +562,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 						if (marker[i].isNew)
 						{
-							int tempid = id;
+							int tempid = type;
 
 							for (auto it = subid.begin(); it != subid.end(); ++it)
 							{
@@ -580,12 +580,12 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 				for (auto it = subid.begin(); it != subid.end(); ++it)
 				{
-					id = id + it->second;
+					type = type + it->second;
 				}
 
-				if (id < 7)
+				if (type < 7)
 				{
-					return AnimDataConvert(type, id);
+					return AnimDataConvert(type, type);
 				}
 			}
 
@@ -626,7 +626,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 					if (!muteError) ErrorMessage(3007, modcode, filepath, linecount, header);
 				}
 
-				int id = 0;
+				int type = 0;
 				unordered_map<int, int> subid;
 
 				for (int i = 0; i < linecount + 1; ++i)
@@ -647,9 +647,9 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							else
 							{
 								subid[1] = 0;
-								++id;
+								++type;
 
-								if (id > 3)
+								if (type > 3)
 								{
 									nextline = i;
 									break;
@@ -659,7 +659,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 						if (marker[i].isNew)
 						{
-							int tempid = id;
+							int tempid = type;
 
 							for (auto it = subid.begin(); it != subid.end(); ++it)
 							{
@@ -680,12 +680,12 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 				for (auto it = subid.begin(); it != subid.end(); ++it)
 				{
-					id = id + it->second;
+					type = type + it->second;
 				}
 
-				if (id < 4)
+				if (type < 4)
 				{
-					return AnimDataConvert(type, id);
+					return AnimDataConvert(type, type);
 				}
 			}
 
@@ -695,7 +695,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 				// 7. <space>
 			}
 
-			int id = 4;
+			int type = 4;
 			bool nextplus = false;
 			unordered_map<int, int> subid;
 			
@@ -746,14 +746,14 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 							if (isOnlyNumber(animData[i]) && count(animData[i].begin(), animData[i].end(), ' ') == 0)
 							{
 								subid[1] = 0;
-								++id;
+								++type;
 
 								if (marker.find(i + 1) == marker.end()) nextplus = true;
 							}
 							else if (nextplus)
 							{
 								subid[1] = 0;
-								++id;
+								++type;
 								nextplus = false;
 							}
 						}
@@ -761,7 +761,7 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 					if (marker[i].isNew)
 					{
-						int tempid = id;
+						int tempid = type;
 
 						for (auto it = subid.begin(); it != subid.end(); ++it)
 						{
@@ -779,12 +779,12 @@ AnimDataFormat::position AnimDataPosition(vecstr animData, string character, str
 
 			for (auto it = subid.begin(); it != subid.end(); ++it)
 			{
-				id = id + it->second;
+				type = type + it->second;
 			}
 
-			if (id < 7 && id > 3)
+			if (type < 7 && type > 3)
 			{
-				return AnimDataConvert(type, id);
+				return AnimDataConvert(type, type);
 				// 4. motion data list
 				// 5. rotation data count
 				// 6. rotation data list

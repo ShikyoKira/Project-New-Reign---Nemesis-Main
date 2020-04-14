@@ -18,10 +18,13 @@ bool AddEvents(const string& curNum,
 {
     if (curNum == "eventNames")
     {
-        if (isExist[input]) { WarningMessage(1010, input); }
+        if (isExist[input]) 
+        {
+            WarningMessage(1010, input); 
+        }
         else if (!orievent[input])
         {
-            if (counter == 0) { ZeroEvent = input; }
+            if (counter == 0) ZeroEvent = input;
 
             eventid[input]     = counter;
             eventName[counter] = input;

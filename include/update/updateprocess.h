@@ -18,7 +18,7 @@
 class NemesisEngine;
 class arguPack;
 
-typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, setstr>>> StateIDList;
+typedef std::unordered_map<std::string, std::map<std::string, std::unordered_map<std::string, SetStr>>> StateIDList;
 
 class UpdateFilesStart : public QObject
 {
@@ -54,7 +54,7 @@ class UpdateFilesStart : public QObject
 public:
 	bool cmdline = false;
 
-    UpdateFilesStart();
+    UpdateFilesStart(const NemesisInfo* _ini);
     virtual ~UpdateFilesStart();
     void startUpdatingFile();
     void milestoneStart(std::string directory);
@@ -104,7 +104,7 @@ private:
     std::atomic_flag stackLock{};
     std::atomic_flag queueLock{};
 
-	std::unordered_map<std::string, std::unordered_map<std::string, vecstr>> modQueue;	// behavior, node, list of mod
+	std::unordered_map<std::string, std::unordered_map<std::string, VecStr>> modQueue;	// behavior, node, list of mod
 	std::vector<TargetQueue> processQueue;
 	size_t queuing;
 
@@ -121,7 +121,7 @@ private:
 #endif
 
 	// update data container
-	std::map<std::string, std::unique_ptr<std::map<std::string, vecstr, alphanum_less>>> newFile;
+	std::map<std::string, std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>> newFile;
 	// behavior file, node ID, node data lines; memory to access each node
 #if MULTITHREADED_UPDATE
     std::atomic_flag newFileLock{};
@@ -151,6 +151,9 @@ private:
     std::atomic_flag behaviorPathLock       {};
     std::atomic_flag behaviorProjectLock    {};
     std::atomic_flag behaviorProjectPathLock{};
+
+    // nemesis ini
+    const NemesisInfo* nemesisInfo;
 
     // timer
     std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();

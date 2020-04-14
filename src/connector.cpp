@@ -1,10 +1,12 @@
-#include "Global.h"
-
 #include <QtCore/QString>
+
+#include "Global.h"
 
 #include "connector.h"
 
 #include "ui/Terminator.h"
+
+#include "utilities/algorithm.h"
 
 #pragma warning(disable : 4503)
 
@@ -30,7 +32,7 @@ bool isRunning(Terminator*& curEvent)
 bool readMod(string& errormsg)
 {
 	string folder = "mod\\";
-	vecstr modlist;
+	VecStr modlist;
 	read_directory(folder, modlist);
 
 
@@ -39,7 +41,7 @@ bool readMod(string& errormsg)
 		if (std::filesystem::is_directory(folder + modcode) && isFileExist(folder + modcode + "\\info.ini"))
 		{
 			string filename = folder + modcode + "\\info.ini";
-			vecstr storeline;
+			VecStr storeline;
 			string name, author, site, automatic, hide;
 			bool hidden = false;
 

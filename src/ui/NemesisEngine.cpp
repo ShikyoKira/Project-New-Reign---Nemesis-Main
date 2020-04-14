@@ -17,6 +17,7 @@
 
 #include "utilities/atomiclock.h"
 
+
 std::atomic<uint> resizeCount = 0;
 std::atomic_flag atm_resize        {};
 
@@ -263,7 +264,7 @@ void NemesisEngine::setupUi()
 
     ui.buttonLaunch->setDisabled(nemesisInfo->IsFirst());
 
-    ui.animProgressBar->setMaximum(MAX_ANIM);
+    ui.animProgressBar->setMaximum(nemesisInfo->GetMaxAnim());
     ui.animProgressBar->setValue(0);
 
     QMetaObject::connectSlotsByName(this);
@@ -358,8 +359,7 @@ void NemesisEngine::GetSettings()
 
             if (chosenBehavior.find(mod) != chosenBehavior.end())
             {
-                if (chosenBehavior[mod])
-                { model->setData(model->index(i, 0), Qt::Checked, Qt::CheckStateRole); }
+                if (chosenBehavior[mod]) model->setData(model->index(i, 0), Qt::Checked, Qt::CheckStateRole);
             }
         }
     }
@@ -370,7 +370,7 @@ void NemesisEngine::GetSettings()
             std::wstring curLang = GetFileName(languagelist[i]);
             ui.comboBox->setItemText(i, QString::fromStdWString(curLang));
 
-            if (curLang == language) { curindex = i; }
+            if (curLang == language) curindex = i;
         }
 
         DMsg = new DebugMsg(language);
@@ -482,7 +482,7 @@ void NemesisEngine::handleLaunch()
     }
 
     QThread* thread       = new QThread;
-    BehaviorStart* worker = new BehaviorStart;
+    BehaviorStart* worker = new BehaviorStart(nemesisInfo);
     worker->addBehaviorPick(this, behaviorPriority, chosenBehavior);
 
     connect(worker, SIGNAL(totalAnim(int)), ui.animProgressBar, SLOT(newValue(int)));
@@ -523,7 +523,7 @@ void NemesisEngine::handleUpdate()
     ui.textBrowser->append("");
 
     QThread* thread          = new QThread;
-    UpdateFilesStart* worker = new UpdateFilesStart;
+    UpdateFilesStart* worker = new UpdateFilesStart(nemesisInfo);
 
     connect(thread, SIGNAL(started()), worker, SLOT(UpdateFiles()));
     connect(worker, SIGNAL(progressUp()), this, SLOT(setProgressBarValue()));
@@ -631,7 +631,7 @@ void NemesisEngine::setProgressBarValue()
             {
                 for (int i = old + 1; i <= result; ++i)
                 {
-                    if (error) { break; }
+                    if (error) break;
 
                     ui.progressBar->setValue(i);
                     std::this_thread::sleep_for(std::chrono::milliseconds(75));

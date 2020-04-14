@@ -17,10 +17,13 @@ bool AddVariables(const string& curNum,
 {
     if (curNum == "variableNames")
     {
-        if (isExist[variablename]) { WarningMessage(1011, variablename); }
+        if (isExist[variablename])
+        {
+            WarningMessage(1011, variablename);
+        }
         else if (!orivariable[variablename])
         {
-            if (counter == 0) { ZeroVariable = variablename; }
+            if (counter == 0) ZeroVariable = variablename;
 
             string curline           = "				<hkcstring>" + variablename + "</hkcstring>";
             varName[counter]         = variablename;

@@ -22,7 +22,7 @@ void behaviorCheck()
             {
                 string filename = GetFileName(path);
 
-                if (!registeredAnim[behavior][filename]) { WarningMessage(1013, behavior + ".hkx", path); }
+                if (!registeredAnim[behavior][filename]) WarningMessage(1013, behavior + ".hkx", path);
             }
         }
     }

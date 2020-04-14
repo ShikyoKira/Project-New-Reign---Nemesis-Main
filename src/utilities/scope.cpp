@@ -10,7 +10,7 @@ nemesis::scope::scope(size_t n_front, size_t n_back, funcptr n_func)
 	func = n_func;
 }
 
-nemesis::scope::scope(size_t n_front, size_t n_back, vecstr n_olddata, funcptr n_func)
+nemesis::scope::scope(size_t n_front, size_t n_back, VecStr n_olddata, funcptr n_func)
 {
 	front = n_front;
 	back = n_back - 1;
@@ -28,7 +28,7 @@ nemesis::scope::scope(size_t n_front, size_t n_back, vector<int> n_olddataint, f
 	func = n_func;
 }
 
-nemesis::scope::scope(size_t n_front, size_t n_back, vector<int> n_olddataint, vecstr n_olddata, funcptr n_func)
+nemesis::scope::scope(size_t n_front, size_t n_back, vector<int> n_olddataint, VecStr n_olddata, funcptr n_func)
 {
 	front = n_front;
 	back = n_back - 1;

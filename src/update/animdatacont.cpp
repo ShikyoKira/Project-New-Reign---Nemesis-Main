@@ -47,7 +47,7 @@ MasterAnimData::ProjectPtr MasterAnimData::add(const ProjectName& projName, size
 	return projectlist.back().raw.second;
 }
 
-MasterAnimData::ProjectPtr MasterAnimData::add(const ProjectName& projName, const vecstr& storeline, const ModCode& modcode)
+MasterAnimData::ProjectPtr MasterAnimData::add(const ProjectName& projName, const VecStr& storeline, const ModCode& modcode)
 {
 	int type = 0;
 
@@ -63,14 +63,14 @@ MasterAnimData::ProjectPtr MasterAnimData::add(const ProjectName& projName, cons
 	return proj;
 }
 
-void MasterAnimData::projectListUpdate(const ModCode& modcode, const string& filepath, const vecstr& storeline, bool isTemplate)
+void MasterAnimData::projectListUpdate(const ModCode& modcode, const string& filepath, const VecStr& storeline, bool isTemplate)
 {
 	size_t pos;
 
 	if (isTemplate)
 	{
 		vector<ProjectNameLinked*> curPoint;
-		vector<vecstr> holdinglist;
+		vector<VecStr> holdinglist;
 		unique_ptr<ProjectData> condStringPtr;
 		int open = 0;
 
@@ -110,7 +110,7 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode, const string& fil
 			else if (line.find("<!-- CLOSE -->") != NOT_FOUND)
 			{
 				++open;
-				holdinglist.push_back(vecstr());
+				holdinglist.push_back(VecStr());
 			}
 			else if (holdinglist.size() > 0)
 			{
@@ -175,7 +175,7 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode, const string& fil
 	}
 }
 
-AnimDataProject_Condt::AnimDataProject_Condt(const vecstr& storeline)
+AnimDataProject_Condt::AnimDataProject_Condt(const VecStr& storeline)
 {
 	short type = 0;
 
@@ -208,7 +208,7 @@ AnimDataProject_Condt::AnimDataProject_Condt(const vecstr& storeline)
 	}
 }
 
-void AnimDataProject_Condt::update(const ModCode& modcode, const vecstr& storeline, size_t linenum)
+void AnimDataProject_Condt::update(const ModCode& modcode, const VecStr& storeline, size_t linenum)
 {
 	short type = 0;
 
@@ -249,7 +249,7 @@ void AnimDataProject_Condt::update(const ModCode& modcode, const vecstr& storeli
 	}
 }
 
-void AnimDataProject_Condt::modify(const ModCode& modcode, const vecstr& storeline)
+void AnimDataProject_Condt::modify(const ModCode& modcode, const VecStr& storeline)
 {
 	unsigned int bhvrCount = 0;
 	short type = 0;
@@ -316,18 +316,18 @@ void AnimDataProject_Condt::modify(const ModCode& modcode, const vecstr& storeli
 	}
 }
 
-vecstr AnimDataProject_Condt::agetline()
+VecStr AnimDataProject_Condt::agetline()
 {
-	vecstr storeline;
+	VecStr storeline;
 	
 	
 
 	return storeline;
 }
 
-vecstr AnimDataProject_Condt::igetLine(const Header& projName)
+VecStr AnimDataProject_Condt::igetLine(const Header& projName)
 {
-	return vecstr();
+	return VecStr();
 }
 
 AnimDataPack_Condt& AnimDataProject_Condt::aadd(const Header& header, const ModCode& modcode, nemesis::CondType type)
@@ -345,7 +345,7 @@ AnimDataPack_Condt& AnimDataProject_Condt::aadd(const Header& header, const ModC
 	return *animdatalist.back().raw.second.raw;
 }
 
-AnimDataPack_Condt& AnimDataProject_Condt::aadd(const Header& header, const ModCode& modcode, const vecstr& storeline, size_t linenum, nemesis::CondType type)
+AnimDataPack_Condt& AnimDataProject_Condt::aadd(const Header& header, const ModCode& modcode, const VecStr& storeline, size_t linenum, nemesis::CondType type)
 {
 	using DP = std::pair<Header, nemesis::LinkedVar<std::shared_ptr<AnimDataPack_Condt>>>;
 	DP* refPair;
@@ -386,7 +386,7 @@ InfoDataPack_Condt& AnimDataProject_Condt::iadd(const Header& header, const ModC
 	return *infodatalist.back().raw.second.raw;
 }
 
-InfoDataPack_Condt& AnimDataProject_Condt::iadd(const Header& header, const ModCode& modcode, const vecstr& storeline, size_t linenum, nemesis::CondType type)
+InfoDataPack_Condt& AnimDataProject_Condt::iadd(const Header& header, const ModCode& modcode, const VecStr& storeline, size_t linenum, nemesis::CondType type)
 {
 	using DP = std::pair<Header, nemesis::LinkedVar<std::shared_ptr<InfoDataPack_Condt>>>;
 	DP* refPair;
@@ -456,7 +456,7 @@ InfoDataPack_Condt* AnimDataProject_Condt::ifind(const Header& header, const Mod
 	return nullptr;
 }
 
-AnimDataPack_Condt::AnimDataPack_Condt(const vecstr& storeline, size_t linenum)
+AnimDataPack_Condt::AnimDataPack_Condt(const VecStr& storeline, size_t linenum)
 {
 	short type = 0;
 
@@ -506,7 +506,7 @@ AnimDataPack_Condt::AnimDataPack_Condt(const vecstr& storeline, size_t linenum)
 	}
 }
 
-InfoDataPack_Condt::InfoDataPack_Condt(const vecstr& storeline, size_t linenum)
+InfoDataPack_Condt::InfoDataPack_Condt(const VecStr& storeline, size_t linenum)
 {
 	short type = 0;
 

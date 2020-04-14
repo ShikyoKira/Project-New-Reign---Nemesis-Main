@@ -25,8 +25,8 @@ class AnimTemplate
     std::string format;
     std::string behaviorFile;
 
-    void Process(std::string& line,
-                 std::string multiOption,
+    void Process(const std::string& line,
+                 const std::string& multiOption,
                  bool& norElement,
                  bool& isEnd,
                  bool isGroup,
@@ -34,7 +34,7 @@ class AnimTemplate
                  int& openRange,
                  int numline,
                  OptionList& optionlist,
-                 condset* generatedlines);
+                 nemesis::CondVar<std::string>* generatedlines);
 
 public:
 	bool hasDuration;

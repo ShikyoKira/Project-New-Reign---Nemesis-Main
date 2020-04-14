@@ -19,7 +19,10 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
     {
         string filename = "behavior templates\\" + it->first + ".txt";
 
-        if (!isFileExist(filename)) { ErrorMessage(1027, filename); }
+        if (!isFileExist(filename)) 
+		{
+			ErrorMessage(1027, filename);
+		}
 
         VecStr exportFormat;
 
@@ -66,7 +69,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                     else if (line.find("</hkparam>") != NOT_FOUND && norElement)
                     {
                         string templine = line.substr(0, line.find("</hkparam>"));
-                        __int64 range   = count(templine.begin(), templine.end(), '\t');
+                        __int64 t_counter   = count(templine.begin(), templine.end(), '\t');
 
 						if (openRange == t_counter)
 						{
@@ -105,7 +108,10 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 							templine = templine.substr(0, templine.find("<hkobject>"));
 							__int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-                            if (range == openRange + 1) { eleCounter++; }
+                            if (t_counter == openRange + 1) 
+							{
+								eleCounter++;
+							}
                         }
                         else if (templine.find("\t\t\t#") != NOT_FOUND)
                         {
@@ -156,7 +162,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 								}
 
 								int num = stoi(number);
-								vecstr keywords;
+								VecStr keywords;
 								string templine = iter->first;
 								size_t nextWord;
 								size_t previousWord = 0;
@@ -191,7 +197,9 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 
                     if (line.find("$crc32[") != NOT_FOUND
                         && line.find("]$", line.find("crc32[")) != NOT_FOUND)
-                    { CRC32Replacer(line, "import", it->first, j + 1); }
+                    {
+						CRC32Replacer(line, "import", it->first, j + 1); 
+					}
 
                     if (line.find("$import[", 0) != NOT_FOUND
                         && line.find("]$", line.find("$import[" + 1)) != NOT_FOUND)
@@ -204,7 +212,9 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                         if (IDExist[importer].length() == 0)
                         {
                             if (bracketCount != altBracketCount)
-                            { ErrorMessage(1139, "import", it->first, j + 1, importer); }
+                            { 
+								ErrorMessage(1139, "import", it->first, j + 1, importer);
+							}
 
                             size_t pos  = importer.find('[') + 1;
                             string file = importer.substr(pos, importer.find(']', pos) - pos);
@@ -368,7 +378,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 	if (newExportID.size() != 0)
 	{
 		ExportID.push_back(newExportID);
-		vecstr additionlines = importOutput(ExportID, int(ExportID.size() - 1), lastID, file);
+		VecStr additionlines = importOutput(ExportID, int(ExportID.size() - 1), lastID, file);
 		behaviorlines.reserve(behaviorlines.size() + additionlines.size());
 		behaviorlines.insert(behaviorlines.end(), additionlines.begin(), additionlines.end());
 	}

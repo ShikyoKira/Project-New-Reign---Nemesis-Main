@@ -34,14 +34,17 @@ Paired::Paired(const string& line,
             position = line.find(' ', tempint);
             tempint  = line.find(' ', position + 1);
 
-            if (i == 2) { fileposition = position + 1; }
+            if (i == 2) fileposition = position + 1;
         }
         animobjects = line.substr(position + 1);
 
         int x = line.find(' ', fileposition);
         int y = line.length();
         int fileEndPoint;
-        if (x == -1) { fileEndPoint = y; }
+        if (x == -1) 
+        {
+            fileEndPoint = y; 
+        }
         else
         {
             fileEndPoint = min(x, y);
@@ -62,7 +65,7 @@ Paired::Paired(const string& line,
             position = line.find(' ', tempint);
             tempint  = line.find(' ', position + 1);
 
-            if (i == 1) { fileposition = position; }
+            if (i == 1) fileposition = position;
         }
         animobjects = line.substr(position + 1);
         filename    = line.substr(fileposition + 1, line.find(' ', fileposition) - fileposition - 1);
@@ -73,18 +76,26 @@ Paired::Paired(const string& line,
     {
         size_t AOcount = count(animobjects.begin(), animobjects.end(), '/');
 
-        if (AOcount > 2 && AOcount < 1) { error = true; }
+        if (AOcount > 2 && AOcount < 1) 
+        {
+            error = true; 
+        }
         else
         {
             int tempint = 0;
             int nextobj = 0;
+
             for (uint i = 0; i < AOcount; i++)
             {
                 position = animobjects.find('/', tempint);
-                if (AOcount == 2) { tempint = animobjects.find('/', position + 1); }
+
+                if (AOcount == 2) tempint = animobjects.find('/', position + 1);
+
                 string tempstr = animobjects.substr(nextobj, animobjects.find('/', position) - nextobj);
                 int temp       = stoi(animobjects.substr(position + 1, 2));
-                if (temp != 1 && temp != 2) { error = true; }
+
+                if (temp != 1 && temp != 2) error = true;
+
                 nextobj       = animobjects.find(' ');
                 AObject[temp] = tempstr;
             }
@@ -176,7 +187,10 @@ Paired::Paired(const string& line,
                         int x = templine2.find(' ');
                         int y = templine2.find(',', position + 1);
 
-                        if (y != -1) { tempInt = min(x, y); }
+                        if (y != -1) 
+                        {
+                            tempInt = min(x, y); 
+                        }
                         else
                         {
                             tempInt = x;
@@ -215,7 +229,10 @@ Paired::Paired(const string& line,
                         int x = templine2.find(' ');
                         int y = templine2.find(',', position + 1);
 
-                        if (y != -1) { tempInt = min(x, y); }
+                        if (y != -1) 
+                        {
+                            tempInt = min(x, y); 
+                        }
                         else
                         {
                             tempInt = x;
@@ -272,8 +289,7 @@ Paired::Paired(const string& line,
                 }
             }
 
-            if (templine.find("a ", 0) != string::npos || templine.find("a,", 0) != string::npos)
-            { Loop = false; }
+            if (templine.find("a ", 0) != string::npos || templine.find("a,", 0) != string::npos) Loop = false;
 
             if (templine.find("o ", 0) != string::npos || templine.find("o,", 0) != string::npos)
             {
@@ -301,7 +317,9 @@ Paired::Paired(const string& line,
                     nemesis::regex_replace(string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
             }
 
-            if (templine.find("bsa ", 0) != string::npos || templine.find("bsa,", 0) != string::npos) {}
+            if (templine.find("bsa ", 0) != string::npos || templine.find("bsa,", 0) != string::npos) 
+            {
+            }
 
             if (templine.find("h ", 0) != string::npos || templine.find("h,", 0) != string::npos)
             {
@@ -379,14 +397,12 @@ Paired::Paired(const string& line,
                 }
             }
 
-            if (templine.find("k ", 0) != string::npos || templine.find("k,", 0) != string::npos)
-            { Known = true; }
+            if (templine.find("k ", 0) != string::npos || templine.find("k,", 0) != string::npos) Known = true; 
 
-            if (templine.find("md ", 0) != string::npos || templine.find("md,", 0) != string::npos)
-            { MD = true; }
 
-            if (templine.find("st ", 0) != string::npos || templine.find("st,", 0) != string::npos)
-            { PAO = true; }
+            if (templine.find("md ", 0) != string::npos || templine.find("md,", 0) != string::npos) MD = true;
+
+            if (templine.find("st ", 0) != string::npos || templine.find("st,", 0) != string::npos) PAO = true;
 
             if (templine.find('D', 0) != string::npos)
             {
@@ -394,10 +410,16 @@ Paired::Paired(const string& line,
                 int x = templine.find(' ', templine.find('D'));
                 int y = templine.find(',', templine.find('D'));
 
-                if (y != -1 && x != -1) { tempint = min(x, y); }
+                if (y != -1 && x != -1) 
+                {
+                    tempint = min(x, y); 
+                }
                 else
                 {
-                    if (x == -1 && y != -1) { tempint = y; }
+                    if (x == -1 && y != -1) 
+                    {
+                        tempint = y; 
+                    }
                     else if (y == -1 && x != -1)
                     {
                         tempint = x;
@@ -463,18 +485,22 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
             {
                 while (true)
                 {
-                    if (strID.length() < 4) { strID = "0" + strID; }
+                    if (strID.length() < 4) 
+                    {
+                        strID = "0" + strID; 
+                    }
                     else
                     {
                         break;
                     }
                 }
 
-                if (i > 116 && i < 138 && (!AO || AObject[1].length() == 0)) { break; }
+                if (i > 116 && i < 138 && (!AO || AObject[1].length() == 0)) break;
 
-                if (i > 329 && i < 351 && (!AO || AObject[2].length() == 0)) { break; }
+                if (i > 329 && i < 351 && (!AO || AObject[2].length() == 0)) break;
 
-                if (((i > 119 && i < 124) || (i > 332 && i < 337)) && HT) { break; }
+                if (((i > 119 && i < 124) || (i > 332 && i < 337)) && HT) break;
+
                 if (i > 125 && i < 134)
                 {
                     if (AObject[1].length() > 0 && AO)
@@ -482,14 +508,18 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                         if (line.find("!AO0N!", 0) != string::npos)
                         {
                             string tempID;
+
                             if (NewAnimObject[AObject[1]].length() != 0)
-                            { tempID = NewAnimObject[AObject[1]]; }
+                            {
+                                tempID = NewAnimObject[AObject[1]]; 
+                            }
                             else
                             {
                                 tempID                    = "#" + strID;
                                 NewAnimObject[AObject[1]] = tempID;
                                 nextID                    = true;
                             }
+
                             line.replace(line.find("!AO0N!"), 6, tempID);
                         }
                     }
@@ -505,14 +535,18 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                         if (line.find("!AO1N!", 0) != string::npos)
                         {
                             string tempID;
+
                             if (NewAnimObject[AObject[2]].length() != 0)
-                            { tempID = NewAnimObject[AObject[2]]; }
+                            {
+                                tempID = NewAnimObject[AObject[2]]; 
+                            }
                             else
                             {
                                 tempID                    = "#" + strID;
                                 NewAnimObject[AObject[2]] = tempID;
                                 nextID                    = true;
                             }
+
                             line.replace(line.find("!AO1N!"), 6, tempID);
                         }
                     }
@@ -534,7 +568,11 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                     int x           = line.find('<', MIDposition);
                     int y           = line.find('\"', MIDposition);
                     int position;
-                    if (x == -1 && y != -1) { position = y; }
+
+                    if (x == -1 && y != -1) 
+                    {
+                        position = y; 
+                    }
                     else if (x != -1 && y == -1)
                     {
                         position = x;
@@ -547,10 +585,14 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                     {
                         position = line.length();
                     }
+
                     string ID    = line.substr(MIDposition, position - MIDposition);
                     int IDLength = ID.length();
 
-                    if (IDExist[ID].length() > 0) { ID = IDExist[ID]; }
+                    if (IDExist[ID].length() > 0) 
+                    {
+                        ID = IDExist[ID]; 
+                    }
                     else
                     {
                         IDExist[ID] = strID;
@@ -605,20 +647,27 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
         }
         else if (line.find("<!-- CLOSE -->", 0) != string::npos)
         {
-            if (TriggerStateIgnore) { TriggerStateIgnore = false; }
+            if (TriggerStateIgnore) 
+            {
+                TriggerStateIgnore = false; 
+            }
             else if (TriggerState)
             {
                 TriggerState = false;
+
                 for (auto& val : TriggerTime)
                 {
                     for (auto triggerline : recordTrigger)
                     {
                         if (triggerline.find("!tT$0!", 0) != string::npos)
-                        { triggerline.replace(triggerline.find("!tT$0!"), 6, val.second); }
+                        {
+                            triggerline.replace(triggerline.find("!tT$0!"), 6, val.second);
+                        }
                         else if (triggerline.find("!T$0!", 0) != string::npos)
                         {
                             triggerline.replace(triggerline.find("!T$0!"), 5, to_string(eventid[val.first]));
                         }
+
                         generatedlines.push_back(triggerline);
                     }
                 }
@@ -631,11 +680,14 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                     for (auto triggerline : recordTrigger)
                     {
                         if (triggerline.find("!tT$!", 0) != string::npos)
-                        { triggerline.replace(triggerline.find("!tT$!"), 6, val.second); }
+                        {
+                            triggerline.replace(triggerline.find("!tT$!"), 6, val.second);
+                        }
                         else if (triggerline.find("!T$!", 0) != string::npos)
                         {
                             triggerline.replace(triggerline.find("!T$!"), 5, to_string(eventid[val.first]));
                         }
+
                         generatedlines.push_back(triggerline);
                     }
                 }

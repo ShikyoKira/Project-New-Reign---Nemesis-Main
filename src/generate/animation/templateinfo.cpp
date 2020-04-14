@@ -1,5 +1,7 @@
 #include "Global.h"
 
+#include "utilities/algorithm.h"
+
 #include "generate/animation/optionlist.h"
 #include "generate/animation/templateinfo.h"
 
@@ -164,7 +166,9 @@ TemplateInfo::TemplateInfo()
                                     for (string line : storeline)
                                     {
                                         if (line.find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
-                                        { isStateMachine = true; }
+                                        {
+                                            isStateMachine = true; 
+                                        }
 
                                         if (isStateMachine && line.find("<!-- FOREACH ^" + code) != NOT_FOUND)
                                         {

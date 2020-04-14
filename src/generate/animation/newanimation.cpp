@@ -1,8 +1,9 @@
 #include "Global.h"
 
 #include "utilities/compute.h"
-#include "utilities/conditions.h"
+#include "utilities/algorithm.h"
 #include "utilities/atomiclock.h"
+#include "utilities/conditions.h"
 #include "utilities/stringsplit.h"
 
 #include "generate/alternateanimation.h"
@@ -64,21 +65,14 @@ NewAnimation::NewAnimation(shared_ptr<unordered_map<string, AnimTemplate>> animl
     filepath       = curfilepath;
 }
 
-void NewAnimation::GetNewAnimationLine(shared_ptr<vecstr> generatedlines, string curBehaviorFile, int nFunctionID, ImportContainer& import, id eventid, id variableid,
-	vector<int>& stateID, vector<int> stateCountMultiplier, bool hasGroup, bool isCore, shared_ptr<group> groupFunction, shared_ptr<single> singleFunction,
-	NewAnimLock& animLock)
+void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
 {
-    behaviorFile   = curBehaviorFile;
-    newImport      = const_cast<ImportContainer*>(&import);
-    atomicLock     = const_cast<NewAnimLock*>(&animLock);
-    nextFunctionID = id;
-    subFunctionIDs = singleFunction;
-	shared_ptr<vecstr> generatedlines = args->allEditLines;
+	shared_ptr<VecStr> generatedlines = args->allEditLines;
 	string curBehaviorFile = args->lowerBehaviorFile;
 	int nFunctionID = args->lastID;
 	ImportContainer& import = args->exportID;
-	id eventid = args->eventid;
-	id variableid = args->variableid;
+	ID eventid = args->eventid;
+	ID variableid = args->variableid;
 	vector<int>& stateID = args->stateID;
 	vector<int> stateCountMultiplier = args->stateMultiplier;
 	bool hasGroup = args->hasGroup;
@@ -415,7 +409,10 @@ int NewAnimation::getNextID(string behavior)
 	{
 		if (line.find("<hkobject name=\"#MID$") != NOT_FOUND)
 		{
-			string number = boost::regex_replace(string(line), boost::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), string("\\1"));
+            string number
+                = nemesis::regex_replace(string(line),
+                                       nemesis::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"),
+                                       string("\\1"));
 
 			if (number != line && isOnlyNumber(number))
 			{
@@ -881,11 +878,14 @@ void NewAnimation::processing(string& line,
 
 						if (equation.find("(S", 0) != NOT_FOUND)
 						{
-							ID = boost::regex_replace(string(equation), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            ID = nemesis::regex_replace(
+                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
 
 							if (change.find("(S" + ID + "+") == NOT_FOUND) ID = "";
 
-							number = boost::regex_replace(string(equation.substr(3 + ID.length())), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+							number = nemesis::regex_replace(string(equation.substr(3 + ID.length())),
+                                                          nemesis::regex("[^0-9]*([0-9]+).*"),
+                                                          string("\\1"));
 						}
 
 						if (equation != "(S" + ID + "+" + number + ")" && isOnlyNumber(number))
@@ -915,7 +915,9 @@ void NewAnimation::processing(string& line,
                             nemesis::calculate(equation, format, behaviorFile, linecount);
 
                             if (stoi(equation) > int(groupAnimInfo.size() - 1) || stoi(equation) < 0)
-                            { ErrorMessage(1148, format, behaviorFile, linecount, change); }
+                            {
+                                ErrorMessage(1148, format, behaviorFile, linecount, change); 
+                            }
 
                             change.replace(nextpos, equationLength, equation);
                             isChange = true;
@@ -1057,7 +1059,10 @@ void NewAnimation::processing(string& line,
 
                 if (change.find("END", 0) != NOT_FOUND)
                 {
-                    if (hasDuration) { change.replace(change.find("END"), 3, to_string(duration)); }
+                    if (hasDuration) 
+                    {
+                        change.replace(change.find("END"), 3, to_string(duration));
+                    }
                     else
                     {
                         change.replace(change.find("END"), 3, "0.000000");
@@ -1433,7 +1438,7 @@ void NewAnimation::processing(string& line,
             // set AnimObject
             if (change.find("@AnimObject/", 0) != NOT_FOUND)
             {
-                if (!multiAnim) { ErrorMessage(1126, format, behaviorFile, linecount, change); }
+                if (!multiAnim) ErrorMessage(1126, format, behaviorFile, linecount, change);
 
                 if (change.find(format + "[", 0) != NOT_FOUND
                     && change.find("][@AnimObject/", 0) != NOT_FOUND)
@@ -1737,7 +1742,10 @@ void NewAnimation::processing(string& line,
                         {
                             char curChar = tempKeyword[j];
 
-                            if (curChar == '[') { ++openBrack; }
+                            if (curChar == '[')
+                            { 
+                                ++openBrack; 
+                            }
                             else if (curChar == ']')
                             {
                                 --openBrack;
@@ -1760,7 +1768,10 @@ void NewAnimation::processing(string& line,
 
                     Lockless_s ilock(atomicLock->exportLock);
 
-                    if ((*newImport)[file][keyword].length() > 0) { tempID = (*newImport)[file][keyword]; }
+                    if ((*newImport)[file][keyword].length() > 0) 
+                    {
+                        tempID = (*newImport)[file][keyword]; 
+                    }
                     else
                     {
                         tempID                      = strID;
@@ -1823,7 +1834,7 @@ void NewAnimation::processing(string& line,
 
             if (error) throw nemesis::exception();
 
-            if (isChange) { line.replace(line.find(oldChange), oldChange.length(), change); }
+            if (isChange) line.replace(line.find(oldChange), oldChange.length(), change);
 
             break;
         }
@@ -1997,7 +2008,7 @@ void NewAnimation::stateReplacer(
             string(templine.substr(statenum.length() + 3)), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
         string state = "(S" + statenum + "+" + number + ")";
 
-        if (!isOnlyNumber(number)) { ErrorMessage(1152, format, behaviorFile, linecount, state); }
+        if (!isOnlyNumber(number)) ErrorMessage(1152, format, behaviorFile, linecount, state);
 
         if (line.find(state, 0) != NOT_FOUND)
         {
@@ -2139,7 +2150,10 @@ VecStr GetOptionInfo(string line,
 
         if (error) throw nemesis::exception();
 
-        if (optionInfo[1] == "F") { optionInfo[1] = "0"; }
+        if (optionInfo[1] == "F") 
+        {
+            optionInfo[1] = "0"; 
+        }
         else if (optionInfo[1] == "L")
         {
             optionInfo[1] = to_string(lastOrder);
@@ -2484,7 +2498,9 @@ bool NewAnimation::specialCondition(string condition,
                 {
                     if (!addOnConverter(
                             optionMulti2, endMulti2, optionInfo2, groupAnimInfo[animMulti2], true))
-                    { ErrorMessage(1148, format, behaviorFile, linecount, utility.originalCondition); }
+                    {
+                        ErrorMessage(1148, format, behaviorFile, linecount, utility.originalCondition); 
+                    }
                 }
                 else
                 {
@@ -2904,7 +2920,9 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                         AnimationUtility utility;
 
                         if (conditionLine.find("[") == NOT_FOUND || conditionLine.find("]") == NOT_FOUND)
-                        { ErrorMessage(1153, format, behaviorFile, i + 1, conditionLine); }
+                        {
+                            ErrorMessage(1153, format, behaviorFile, i + 1, conditionLine); 
+                        }
 
                         if (newCondition(conditionLine, newlines, groupOptionPicked, i + 1, utility))
                         {
@@ -3127,7 +3145,10 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                                 // animobject bypass
                                 if (optionInfo[2] == "AnimObject")
                                 {
-                                    if (isNot) { skip = true; }
+                                    if (isNot) 
+                                    {
+                                        skip = true; 
+                                    }
                                     else
                                     {
                                         recorder.reserve(originallines.size() / 5);
@@ -3156,7 +3177,10 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                             }
                             else
                             {
-                                if (isNot) { skip = true; }
+                                if (isNot) 
+                                {
+                                    skip = true;
+                                }
                                 else
                                 {
                                     recorder.reserve(originallines.size() / 5);
@@ -3226,7 +3250,10 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                                 unknown = true;
                         }
 
-                        if (word & number) { ErrorMessage(1110, format, behaviorFile, i + 1); }
+                        if (word & number) 
+                        { 
+                            ErrorMessage(1110, format, behaviorFile, i + 1);
+                        }
                         else if (unknown)
                         {
                             ErrorMessage(1111, format, behaviorFile, i + 1);
@@ -3319,7 +3346,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                     processing(line, newlines, format, i + 1, emptyID, emptyID, emptyVI, ASD, false);
                     line = linebreakSeparator(line, newlines);
 
-                    if (line.length() == 0) { ErrorMessage(1172, format, behaviorFile, i + 1); }
+                    if (line.length() == 0) ErrorMessage(1172, format, behaviorFile, i + 1);
                 }
 
                 if (error) throw nemesis::exception();
@@ -3333,7 +3360,10 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
 
         if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND && IsConditionOpened[condition])
         {
-            if (skip) { skip = false; }
+            if (skip) 
+            {
+                skip = false; 
+            }
             else
             {
                 if (multi)
@@ -3986,7 +4016,10 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
 
                     if (curOption.find("[") == NOT_FOUND)
                     {
-                        if (format != curOption) { skip = true; }
+                        if (format != curOption)
+                        {
+                            skip = true; 
+                        }
                         else
                         {
                             recorder.reserve(ASDLines.size() / 5);
@@ -4033,7 +4066,10 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                     // animobject bypass
                                     if (optionInfo[2] == "AnimObject")
                                     {
-                                        if (isNot) { skip = true; }
+                                        if (isNot)
+                                        {
+                                            skip = true; 
+                                        }
                                         else
                                         {
                                             recorder.reserve(ASDLines.size() / 5);
@@ -4062,7 +4098,10 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                 }
                                 else
                                 {
-                                    if (isNot) { skip = true; }
+                                    if (isNot) 
+                                    {
+                                        skip = true; 
+                                    }
                                     else
                                     {
                                         recorder.reserve(ASDLines.size() / 5);
@@ -4133,7 +4172,10 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                 unknown = true;
                         }
 
-                        if (word & number) { ErrorMessage(1110, format, behaviorFile, i + 1); }
+                        if (word & number)
+                        {
+                            ErrorMessage(1110, format, behaviorFile, i + 1);
+                        }
                         else if (unknown)
                         {
                             ErrorMessage(1111, format, behaviorFile, i + 1);
@@ -4259,7 +4301,10 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
 
         if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND && IsConditionOpened[condition])
         {
-            if (skip) { skip = false; }
+            if (skip) 
+            {
+                skip = false; 
+            }
             else
             {
                 if (multi)
@@ -4847,7 +4892,10 @@ int openEndBracket(string& line, char openBrac, char closeBrac, string format, s
 
     for (uint i = 0; i < line.length(); ++i)
     {
-        if (line[i] == openBrac) { ++open; }
+        if (line[i] == openBrac)
+        {
+            ++open; 
+        }
         else if (line[i] == closeBrac)
         {
             --open;
@@ -4873,7 +4921,10 @@ void CRC32Replacer(string& line, string format, string behaviorFile, int linecou
 
     for (uint j = pos + 6; j < line.length(); ++j)
     {
-        if (line[j] == '[') { ++counter; }
+        if (line[j] == '[') 
+        {
+            ++counter; 
+        }
         else if (line[j] == ']')
         {
             --counter;
@@ -4895,7 +4946,7 @@ void CRC32Replacer(string& line, string format, string behaviorFile, int linecou
 
 void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                proc& process,
-                               condset* curset,
+                               nemesis::CondVar<std::string>* curset,
                                bool& norElement,
                                int& openRange,
                                size_t& elementLine,
@@ -4911,7 +4962,7 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                int optionMulti,
                                int animMulti)
 {
-    for (auto& curstack : curset->lines)
+    for (auto& curstack : curset->rawlist)
     {
         bool uniqueskip = false;
         bool hasProcess = false;
@@ -5336,7 +5387,7 @@ void NewAnimation::hasProcessing(string& line,
     else if (line.find("</hkparam>") != NOT_FOUND && norElement)
     {
         string templine = line.substr(0, line.find("</hkparam>"));
-        __int64 range   = count(templine.begin(), templine.end(), '\t');
+        __int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
 		if (openRange == t_counter)
 		{
@@ -5371,9 +5422,9 @@ void NewAnimation::hasProcessing(string& line,
         if (templine.find("<hkobject>") != NOT_FOUND)
         {
             templine      = templine.substr(0, templine.find("<hkobject>"));
-            __int64 range = count(templine.begin(), templine.end(), '\t');
+            __int64 t_counter = count(templine.begin(), templine.end(), '\t');
 
-            if (range == openRange + 1) counter++;
+            if (t_counter == openRange + 1) counter++;
         }
         else if (templine.find("\t\t\t#") != NOT_FOUND)
         {

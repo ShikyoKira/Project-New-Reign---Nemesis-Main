@@ -46,14 +46,14 @@ class NewStateID
     std::vector<std::shared_ptr<int>> lastState;
 
 public:
-    newStateID();
+    NewStateID();
     void push_back(std::shared_ptr<int> num);
     void reset();
     std::shared_ptr<int>& operator[](uint number);
     uint size();
     bool stateUpdate(int ID,
-                     std::string format,
-                     std::string behaviorFile,
+                     const std::string& format,
+                     const std::string& behaviorFile,
                      int linecount,
                      const std::string& state,
                      bool hasGroup = false);

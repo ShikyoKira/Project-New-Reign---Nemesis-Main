@@ -156,7 +156,7 @@ void BehaviorSub::CompilingAnimData()
                     }
                 }
 
-                if (isOpen && !skip) { catalyst.push_back(line); }
+                if (isOpen && !skip) catalyst.push_back(line);
             }
 
             newline.clear();
@@ -210,7 +210,10 @@ void BehaviorSub::CompilingAnimData()
                 {
                     bool empty = false;
 
-                    if (catalyst[l - 1] == "") { empty = true; }
+                    if (catalyst[l - 1] == "") 
+                    {
+                        empty = true; 
+                    }
                     else
                     {
                         int next = -1;
@@ -323,7 +326,9 @@ void BehaviorSub::CompilingAnimData()
                                     {
                                         if (uniqueModCode[project].find(catalyst[l])
                                             != uniqueModCode[project].end())
-                                        { catalyst[l] = uniqueModCode[project][catalyst[l]]; }
+                                        {
+                                            catalyst[l] = uniqueModCode[project][catalyst[l]]; 
+                                        }
                                         else
                                         {
                                             WarningMessage(1024, catalyst[l]);
@@ -356,7 +361,9 @@ void BehaviorSub::CompilingAnimData()
                                 if (number != line && isOnlyNumber(number))
                                 {
                                     if (uniqueModCode[project].find(line) != uniqueModCode[project].end())
-                                    { line = uniqueModCode[project][line]; }
+                                    {
+                                        line = uniqueModCode[project][line]; 
+                                    }
                                     else
                                     {
                                         WarningMessage(1024, line);
