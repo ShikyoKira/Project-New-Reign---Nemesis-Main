@@ -1,3 +1,4 @@
+#include "utilities/algorithm.h"
 #include "utilities/conditions.h"
 
 #include "generate/animation/newanimation.h"
