@@ -30,4 +30,13 @@ namespace nemesis
     bool iequals(const std::wstring& l, const wchar_t* r);
     bool iequals(const std::string& l, const std::string& r);
     bool iequals(const std::wstring& l, const std::wstring& r);
+
+    template <typename T, typename F>
+    inline T transform_to(const F& str) noexcept
+    {
+        if (str.empty()) return {};
+
+        return {std::begin(str), std::end(str)};
+    };
+
 } // namespace nemesis
