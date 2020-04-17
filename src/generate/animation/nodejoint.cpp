@@ -767,7 +767,6 @@ void NodeJoint::insertData(string format,
             {
                 pos             = line.find("animationName\">") + 15;
                 string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
-                nemesis::to_lower(animPath);
                 addUsedAnim(behaviorFile, animPath);
             }
             else if (line.find("<hkparam name=\"localTime\">-") != NOT_FOUND)

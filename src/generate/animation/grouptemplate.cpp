@@ -994,7 +994,6 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                 {
                     pos             = line.find("animationName\">") + 15;
                     string animPath = line.substr(pos, line.find("</hkparam>", pos) - pos);
-                    nemesis::to_lower(animPath);
                     addUsedAnim(behaviorFile, animPath);
                 }
                 else if (line.find("<hkparam name=\"localTime\">-") != NOT_FOUND)
@@ -7772,7 +7771,7 @@ void OutputCheckGroup(proc& process, nemesis::CondVar<string>* curset)
 			hasProcess = curstack.hasProcess;
 
 			if (hasProcess) lineblocks = curstack.lineblocks;
-			else line = curstack.raw;
+			else line = *curstack.raw;
 		}
 		else
 		{
@@ -7788,7 +7787,7 @@ void OutputCheckGroup(proc& process, nemesis::CondVar<string>* curset)
                     int groupMulti = -2;
                     int animMulti  = -2;
 
-                    if (curcond.n_conditions->isMultiTrue(&process,
+                    if (curcond.next->isMultiTrue(&process,
                                                           process.format,
                                                           process.behaviorFile,
                                                           curstack.linecount,
@@ -7869,14 +7868,14 @@ void OutputCheckGroup(proc& process, nemesis::CondVar<string>* curset)
                 // CONDITION
                 else
                 {
-                    if (!curcond.n_conditions
-                        || curcond.n_conditions->isTrue(&process,
-                                                        process.format,
-                                                        process.behaviorFile,
-                                                        curstack.linecount,
-                                                        true,
-                                                        process.isMaster,
-                                                        curcond.n_conditions))
+                    if (!curcond.next
+                        || curcond.next->isTrue(&process,
+                                                process.format,
+                                                process.behaviorFile,
+                                                curstack.linecount,
+                                                true,
+                                                process.isMaster,
+                                                curcond.next))
                     {
                         OutputCheckGroup(process, &curcond);
                         break;
