@@ -21,8 +21,8 @@ nemesis::Condt::Condt(string condition, string format, string behaviorFile, stri
 	if (condition[0] == '(')
 	{
 		if (condition.find(")") == NOT_FOUND || count(condition.begin(), condition.end(), '(') != count(condition.begin(), condition.end(), ')'))
-		{
-			isGroup ? ErrorMessage(1105, format + "_group", behaviorFile, numline) : ErrorMessage(1105, format, behaviorFile, numline);
+        {
+            ErrorMessage(1105, isGroup ? format + "_group" : format, behaviorFile, numline);
 		}
 
 		size_t c_and = 0;
@@ -61,7 +61,7 @@ nemesis::Condt::Condt(string condition, string format, string behaviorFile, stri
 
 			if (outHouse.length() == 0 || (outHouse[0] != '|' && outHouse[0] != '&'))
 			{
-				isGroup ? ErrorMessage(1106, format + "_group", behaviorFile, numline, original) : ErrorMessage(1106, format, behaviorFile, numline, original);
+                ErrorMessage(1106, isGroup ? format + "_group" : format, behaviorFile, numline, original);
 			}
 
 			// ... | (bool1 & bool2)...
@@ -845,8 +845,8 @@ void nemesis::Condt::conditionProcess(string condition, string format, string be
 				hiddenOrder = 0;
 			}
 			else
-			{
-				isGroup ? ErrorMessage(1138, format + "_group", behaviorFile, numline, condition) : ErrorMessage(1138, format, behaviorFile, numline, condition);
+            {
+                ErrorMessage(1138, isGroup ? format + "_group" : format, behaviorFile, numline, condition);
 			}
 		}
 		else
@@ -855,7 +855,7 @@ void nemesis::Condt::conditionProcess(string condition, string format, string be
 
 			if (!isOnlyNumber(conditionOrder))
 			{
-				isGroup ? ErrorMessage(1138, format + "_group", behaviorFile, numline, condition) : ErrorMessage(1138, format, behaviorFile, numline, condition);
+                ErrorMessage(1138, isGroup ? format + "_group" : format, behaviorFile, numline, condition);
 			}
 
 			hiddenOrder = stoi(conditionOrder);
@@ -1050,9 +1050,8 @@ void GetMultiFromAddOn(const nemesis::Condt& curcond, const AddOnInfo& addinfo, 
 					endMulti = optionMulti + 1;
 				}
 				else
-				{
-					curcond.ig ? ErrorMessage(1148, curcond.fmt + "_group", curcond.bhvfile, curcond.nm, original)
-						: ErrorMessage(1148, curcond.fmt, curcond.bhvfile, curcond.nm, original);
+                {
+                    ErrorMessage(1148, curcond.ig ? curcond.fmt + "_group" : curcond.fmt, curcond.bhvfile, curcond.nm, original);
 				}
 			}
 		}

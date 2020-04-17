@@ -19,7 +19,9 @@ namespace nemesis
         parser_t parser;
 
         if (!parser.compile(expression_string, expression))
+        {
             ErrorMessage(1151, std::move(format), std::move(filename), linecount, equation);
+        }
 
         equation = to_string(noDecimal ? static_cast<int>(expression.value()) : expression.value());
         return true;
