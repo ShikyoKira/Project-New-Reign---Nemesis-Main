@@ -371,7 +371,7 @@ void BehaviorSub::CompilingBehavior()
 
                     if (line.find("<!-- ", 0) != NOT_FOUND)
                     {
-                        if (line.find("		<!-- *", 0) == NOT_FOUND && line.find("		<!-- original -->", 0)
+                        if (line.find("\t\t<!-- *", 0) == NOT_FOUND && line.find("\t\t<!-- original -->", 0)
                             && NOT_FOUND)
                         {
                             modPick(modEditStore, catalyst, modLine, hasDeleted);
