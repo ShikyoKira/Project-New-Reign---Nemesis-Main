@@ -1,5 +1,7 @@
-#include "utilities/regex.h"
 #include "debugmsg.h"
+
+#include "utilities/regex.h"
+#include "utilities/algorithm.h"
 
 namespace nemesis
 {
@@ -13,7 +15,7 @@ namespace nemesis
         , reg_(str_)
     {}
 
-    std::string_view regex::to_string() const
+    std::string regex::to_string() const
     {
         return reg_.str();
     }
@@ -56,7 +58,9 @@ namespace nemesis
         }
         catch (const detail::underlying_exception& e)
         {
-            ErrorMessage(6002, e.what(), "Error code: ", e.code(), "Regex: ", rgx.to_string());
+            ErrorMessage(6002,
+                         std::string(e.what()) + "\nError code: " + std::to_string(e.code())
+                             + "\nRegex: " + rgx.to_string());
         }
         return false;
     }
@@ -69,7 +73,9 @@ namespace nemesis
         }
         catch (const detail::underlying_exception& e)
         {
-            ErrorMessage(6002, e.what(), "Error code: ", e.code(), "Regex: ", rgxStr);
+            ErrorMessage(6002,
+                         std::string(e.what()) + "\nError code: " + std::to_string(e.code())
+                             + "\nRegex: " + rgxStr.to_string());
         }
 
         return false;
@@ -83,7 +89,9 @@ namespace nemesis
         }
         catch (const detail::underlying_exception& e)
         {
-            ErrorMessage(6002, e.what(), "Error code: ", e.code(), "Regex: ", rgx.to_string());
+            ErrorMessage(6002,
+                         std::string(e.what()) + "\nError code: " + std::to_string(e.code())
+                             + "\nRegex: " + rgx.to_string());
         }
 
         return line;
@@ -103,7 +111,9 @@ namespace nemesis
         }
         catch (const detail::underlying_exception& e)
         {
-            ErrorMessage(6002, e.what(), "Error code: ", e.code(), "Regex: ", rgx.to_string());
+            ErrorMessage(6002,
+                         std::string(e.what()) + "\nError code: " + std::to_string(e.code())
+                             + "\nRegex: " + rgx.to_string());
         }
         return false;
     }
@@ -116,7 +126,9 @@ namespace nemesis
         }
         catch (const detail::underlying_exception& e)
         {
-            ErrorMessage(6002, e.what(), "Error code: ", e.code(), "Regex: ", rgx.to_string());
+            ErrorMessage(6002,
+                         std::string(e.what()) + "\nError code: " + std::to_string(e.code())
+                             + "\nRegex: " + rgx.to_string());
         }
         return false;
     }
