@@ -26,7 +26,7 @@ namespace nemesis
         regex(const std::string& str);
         regex(const char* str);
 
-        std::string_view to_string() const;
+        std::string to_string() const;
         const detail::underlying_regex& to_regex() const;
 
     private:
