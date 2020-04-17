@@ -7,7 +7,7 @@
 
 #include "ui/ProgressUp.h"
 
-#include "update/animdatacont.h"
+#include "update/animdata/animdatacond.h"
 
 #include "generate/behaviortype.h"
 #include "generate/animationdata.h"
@@ -76,9 +76,9 @@ public:
     void SeparateMod(std::string directory,
                      TargetQueue target,
                      std::unordered_map<std::string, std::shared_ptr<arguPack>>& pack);
-    void ModThread(std::string directory,
-                   std::string node,
-                   std::string behavior,
+    void ModThread(const std::string& directory,
+                   const std::string& node,
+                   const std::string& behavior,
                    std::unordered_map<std::string, std::shared_ptr<arguPack>>& pack);
     void JoiningEdits(std::string directory);
     void CombiningFiles();

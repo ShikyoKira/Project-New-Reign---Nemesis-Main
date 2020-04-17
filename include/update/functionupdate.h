@@ -8,7 +8,7 @@
 #include "utilities/regex.h"
 #include "utilities/writetextfile.h"
 
-#include "update/animdatacont.h"
+#include "update/animdata/animdatacond.h"
 
 #include "generate/animationsetdata.h"
 
