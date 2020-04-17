@@ -19,13 +19,13 @@ namespace nemesis
 		MOD_CODE,
 	};
 
-	template<typename Type = std::string>
+	template<typename Type>
 	struct LinkedVar
 	{
 		bool preCompile;
 		bool hasProcess;
 		size_t linecount;
-		Type raw;
+		std::shared_ptr<Type> raw;
 		VecStr lineblocks;
 		std::vector<CondVar<Type>> nestedcond;
 
@@ -35,12 +35,12 @@ namespace nemesis
 
 		LinkedVar(const Type& _raw) : preCompile(true), hasProcess(false), linecount(0)
 		{
-			raw = _raw;
+            raw = std::make_shared<Type>(_raw);
 		}
 
 		LinkedVar(const Type& _raw, size_t num) : preCompile(true), hasProcess(false), linecount(num)
 		{
-			raw = _raw;
+            raw = std::make_shared<Type>(_raw);
 		}
 
 		LinkedVar(const Type& _raw, bool process, size_t num) : preCompile(true), hasProcess(process), linecount(num)
@@ -55,8 +55,8 @@ namespace nemesis
 				}
 			}
 			else
-			{
-				raw = _raw;
+            {
+                raw = std::make_shared<Type>(_raw);
 			}
 		}
 
@@ -109,7 +109,7 @@ namespace nemesis
 
 		std::string data()
 		{
-			if (raw.length() == 0)
+			if (!raw)
 			{
 				string l;
 
@@ -121,19 +121,17 @@ namespace nemesis
 				return l;
 			}
 
-			return raw;
+			return *raw;
 		}
 
-		std::string compile();
-
-		Type operator=(const Type& _raw)
+		std::shared_ptr<Type> operator=(const Type& _raw)
 		{
-			return raw = _raw;
+            return raw = std::make_shared<Type>(_raw);
 		}
 
-		Type operator+(const Type& _raw)
+		std::shared_ptr<Type> operator+(const Type& _raw)
 		{
-			return raw + _raw;
+            return std::make_shared<Type>(*raw + _raw);
 		}
 
 		bool operator==(const Type& _raw)
@@ -176,31 +174,43 @@ namespace nemesis
 		size_t curnum = 0;
 		size_t linenum;
 		std::string conditions;
-		std::shared_ptr<Condt> n_conditions;
+		std::shared_ptr<Condt> next;
 		std::vector<LinkedVar<Type>> rawlist;
 
 		CondVar() {}
 
-		CondVar(std::string _conditions, nemesis::CondType condtype)
-		{
-			rawlist.push_back(LinkedVar<Type>());
-			conditions = _conditions;
-			conditionType = condtype;
-		}
+        CondVar(std::string _conditions, nemesis::CondType condtype)
+        {
+            rawlist.push_back(Type());
+            conditions    = _conditions;
+            conditionType = condtype;
+        }
 
-		CondVar(const LinkedVar<Type> _raw)
+        CondVar(const Type& _raw)
+        {
+            rawlist.push_back(_raw);
+        }
+
+        CondVar(const Type& _raw, std::string _conditions, nemesis::CondType condtype)
+        {
+            rawlist.push_back(_raw);
+            conditions    = _conditions;
+            conditionType = condtype;
+        }
+
+		CondVar(const LinkedVar<Type>& _raw)
 		{
 			rawlist.push_back(_raw);
 		}
 
-		CondVar(const LinkedVar<Type> _raw, std::string _conditions, nemesis::CondType condtype)
+		CondVar(const LinkedVar<Type>& _raw, std::string _conditions, nemesis::CondType condtype)
 		{
 			rawlist.push_back(_raw);
 			conditions = _conditions;
 			conditionType = condtype;
 		}
-
-		void UpdateCondition(std::string condition, std::string line);
 	};
+} // namespace nemesis
 
-}
+std::shared_ptr<VecStr> getlinkedline(const nemesis::LinkedVar<std::string>& linkedline);
+void getlinkedline(const nemesis::LinkedVar<std::string>& linkedline, VecStr& storeline);
