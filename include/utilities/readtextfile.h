@@ -17,6 +17,11 @@ struct FileReader
         file.setFileName(QString::fromStdWString(filename.wstring()));
     }
 
+    std::filesystem::path GetFilePath() const
+    {
+        return std::filesystem::path(file.fileName().toStdWString());
+    }
+
     bool GetFile()
     {
         return file.open(QIODevice::ReadOnly);

@@ -14,20 +14,24 @@ class FileWriter
 {
 private:
     FILE* file;
+    std::filesystem::path filepath;
     std::atomic_flag filelock{};
 
 public:
     FileWriter(const char* filename)
+        : filepath(filename)
     {
         fopen_s(&file, filename, "w");
     }
 
     FileWriter(std::string filename)
+        : filepath(filename)
     {
         fopen_s(&file, filename.c_str(), "w");
     }
 
     FileWriter(std::filesystem::path filename)
+        : filepath(filename)
     {
         fopen_s(&file, filename.string().c_str(), "w");
     }
@@ -39,6 +43,11 @@ public:
             fflush(file);
             fclose(file);
         }
+    }
+
+    std::filesystem::path GetFilePath() const
+    {
+        return filepath;
     }
 
     bool is_open()
