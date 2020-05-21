@@ -2,10 +2,6 @@
 
 #include <filesystem>
 
-#include <boost/crc.hpp>
-#include <boost/iostreams/device/array.hpp>
-#include <boost/iostreams/stream_buffer.hpp>
-
 #include <QtCore/QProcess>
 #include <QtCore/QStandardPaths.h>
 
@@ -15,6 +11,7 @@
 #include "generate/generator_utility.h"
 #include "generate/alternateanimation.h"
 
+#include "utilities/crc32.h"
 #include "utilities/algorithm.h"
 #include "utilities/lastupdate.h"
 #include "utilities/readtextfile.h"
@@ -712,9 +709,8 @@ bool FolderCreate(wstring curBehaviorPath)
 
 uint CRC32Convert(string line)
 {
-    boost::crc_optimal<32, 0x4C11DB7, 0, 0, true, true> result;
-    result.process_bytes(line.data(), line.length());
-    return result.checksum();
+    static nemesis::CRC32 crc32;
+    return crc32.FullCRC(line);
 }
 
 uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
@@ -760,7 +756,9 @@ bool PapyrusCompile(sf::path pscfile,
     sf::path desPsc = import + L"\\" + pscfile.stem().wstring() + L".psc";
 
     if (sf::exists(desPsc) && !sf::remove(desPsc))
+    {
         ErrorMessage(1082, pscfile.string() + ".psc", desPsc.string());
+    }
 
     if (!sf::exists(target)
         || !PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, target))
@@ -811,9 +809,11 @@ bool PapyrusCompileProcess(sf::path pscfile,
         }
     }
 
-    if (isFileExist(filepath) && !sf::is_directory(filepath) && !sf::remove(filepath)) ErrorMessage(1082, filepath);
-
-    if (sf::exists(importedSource) && !sf::is_directory(importedSource) && !sf::remove(importedSource))
+    if (isFileExist(filepath) && !sf::is_directory(filepath) && !sf::remove(filepath))
+    {
+        ErrorMessage(1082, filepath);
+    }
+    else if (sf::exists(importedSource) && !sf::is_directory(importedSource) && !sf::remove(importedSource))
     {
         ErrorMessage(1082, nemesis::transform_to<string>(importedSource)); 
     }
