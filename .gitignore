@@ -16,6 +16,8 @@ UpdateLog.txt
 CriticalLog.txt
 failed.txt
 /test environment/data/meshes/actors/character/behaviors/*.hkx
+/test environment/data/meshes/actors/character/_1stperson/behaviors/*.hkx
+/test environment/data/meshes/actors/character/_1stperson/characters/*.hkx
 /test environment/data/meshes/actors/character/characters/*.hkx
 /test environment/data/meshes/actors/character/characters female/*.hkx
 /test environment/data/scripts/FNIS.pex
@@ -271,3 +273,6 @@ ModelManifest.xml
 /NemesisEngine.vcxproj.filters
 /NemesisEngine.vcxproj
 /NemesisEngine.sln
+*.lnk
+/test environment/data/scripts/FNIS_aa.pex
+/test environment/data/scripts/Nemesis_AA_Core.pex

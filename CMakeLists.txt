@@ -73,6 +73,7 @@ source_group("Header Files\\generate" FILES ${Header_Files__generate})
 set(Header_Files__generate__animation
     "include/generate/animation/animationinfo.h"
     "include/generate/animation/animationthread.h"
+    "include/generate/animation/animthreadinfo.h"
     "include/generate/animation/grouptemplate.h"
     "include/generate/animation/import.h"
     "include/generate/animation/newanimation.h"
@@ -106,12 +107,19 @@ set(Header_Files__ui
 source_group("Header Files\\ui" FILES ${Header_Files__ui})
 
 set(Header_Files__update
-    "include/update/animdatacont.h"
     "include/update/dataunification.h"
     "include/update/functionupdate.h"
     "include/update/updateprocess.h"
     )
 source_group("Header Files\\update" FILES ${Header_Files__update})
+
+set(Header_Files__update__animdata
+    "include/update/animdata/animdatacond.h"
+    "include/update/animdata/animdatapackcond.h"
+    "include/update/animdata/animdataprojectcond.h"
+    "include/update/animdata/infodatapackcond.h"
+    )
+source_group("Header Files\\update\\animdata" FILES ${Header_Files__update})
 
 set(Header_Files__utilities
     "include/utilities/algorithm.h"
@@ -120,6 +128,7 @@ set(Header_Files__utilities
     "include/utilities/bsasupport.h"
     "include/utilities/compute.h"
     "include/utilities/conditions.h"
+    "include/utilities/crc32.h"
     "include/utilities/filechecker.h"
     "include/utilities/lastupdate.h"
     "include/utilities/linkedvar.h"
@@ -129,6 +138,7 @@ set(Header_Files__utilities
     "include/utilities/scope.h"
     "include/utilities/stringsplit.h"
     "include/utilities/writetextfile.h"
+    "include/utilities/threadpool.h"
     )
 source_group("Header Files\\utilities" FILES ${Header_Files__utilities})
 
@@ -168,6 +178,7 @@ source_group("Source Files\\generate" FILES ${Source_Files__generate})
 set(Source_Files__generate__animation
     "src/generate/animation/animationinfo.cpp"
     "src/generate/animation/animationthread.cpp"
+    "src/generate/animation/animthreadinfo.cpp"
     "src/generate/animation/grouptemplate.cpp"
     "src/generate/animation/import.cpp"
     "src/generate/animation/newanimation.cpp"
@@ -199,23 +210,32 @@ set(Source_Files__ui
 source_group("Source Files\\ui" FILES ${Source_Files__ui})
 
 set(Source_Files__update
-    "src/update/animdatacont.cpp"
     "src/update/dataunification.cpp"
     "src/update/functionupdate.cpp"
     "src/update/updateprocess.cpp"
     )
 source_group("Source Files\\update" FILES ${Source_Files__update})
 
+set(Source_Files__update__animdata
+    "src/update/animdata/animdatacond.cpp"
+    "src/update/animdata/animdatapackcond.cpp"
+    "src/update/animdata/animdataprojectcond.cpp"
+    "src/update/animdata/infodatapackcond.cpp"
+    )
+source_group("Source Files\\update\\animdata" FILES ${Source_Files__update})
+
 set(Source_Files__utilities
     "src/utilities/algorithm.cpp"
     "src/utilities/compute.cpp"
     "src/utilities/conditions.cpp"
+    "src/utilities/crc32.cpp"
     "src/utilities/filechecker.cpp"
     "src/utilities/lastupdate.cpp"
     "src/utilities/regex.cpp"
     "src/utilities/renew.cpp"
     "src/utilities/scope.cpp"
     "src/utilities/stringsplit.cpp"
+    "src/utilities/threadpool.cpp"
     )
 source_group("Source Files\\utilities" FILES ${Source_Files__utilities})
 
