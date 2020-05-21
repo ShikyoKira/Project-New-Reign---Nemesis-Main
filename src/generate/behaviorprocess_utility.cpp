@@ -1,4 +1,4 @@
-#include <boost/asio/thread_pool.hpp>
+#include "utilities/atomiclock.h"
 
 #include "generate/behaviorprocess_utility.h"
 
@@ -9,20 +9,21 @@
 
 using namespace std;
 
-void animThreadStart(shared_ptr<NewAnimArgs> args, boost::asio::thread_pool* mt)
+void animThreadStart(shared_ptr<NewAnimArgs> args)
 {
+    if (error) return;
+
 	try
 	{
 		try
 		{
 			if (args->core)
 			{
-				args->atomicLock.lockCore();
+                Lockless lock(args->atomicLock.coreLock);
 
 				if (args->isCoreDone) return;
-				else args->isCoreDone = true;
 
-				args->atomicLock.releaseCore();
+				args->isCoreDone = true;
 			}
 
 			// getlines from newAnination
@@ -50,23 +51,31 @@ void animThreadStart(shared_ptr<NewAnimArgs> args, boost::asio::thread_pool* mt)
 			// resolved exception
 		}
 	}
-
-	if (error)
-	{
-		mt->stop();
-	}
 }
 
-void groupThreadStart(shared_ptr<newGroupArgs> args, boost::asio::thread_pool* mt)
+void groupThreadStart(shared_ptr<newGroupArgs> args)
 {
+    if (error) return;
+
 	try
 	{
 		try
 		{
 			args->groupTemp->setZeroEvent(args->ZeroEvent);
-			args->groupTemp->setZeroVariable(args->ZeroVariable);
-			args->groupTemp->getFunctionLines(args->allEditLines, args->lowerBehaviorFile, args->filename, args->stateID, args->groupFunctionIDs, args->groupAnimInfo,
-				args->lastID, args->exportID, args->eventid, args->variableid, args->templateCode, args->atomicLock, args->groupCount);
+            args->groupTemp->setZeroVariable(args->ZeroVariable);
+            args->groupTemp->getFunctionLines(args->allEditLines,
+                                              args->lowerBehaviorFile,
+                                              args->filename,
+                                              args->stateID,
+                                              args->groupFunctionIDs,
+                                              args->groupAnimInfo,
+                                              args->lastID,
+                                              args->exportID,
+                                              args->eventid,
+                                              args->variableid,
+                                              args->templateCode,
+                                              args->atomicLock,
+                                              args->groupCount);
 		}
 		catch (const exception& ex)
 		{
@@ -87,11 +96,6 @@ void groupThreadStart(shared_ptr<newGroupArgs> args, boost::asio::thread_pool* m
 		{
 			// resolved exception
 		}
-	}
-
-	if (error)
-	{
-		mt->stop();
 	}
 }
 

@@ -1,6 +1,7 @@
 #ifndef BEHAVIORPROCESS_UTILITY_H_
 #define BEHAVIORPROCESS_UTILITY_H_
 
+#include <map>
 #include <memory>
 
 struct master;
@@ -14,16 +15,8 @@ struct NewAnimArgs;
 struct newGroupArgs;
 struct NodeJoint;
 
-namespace boost
-{
-    namespace asio
-    {
-        class thread_pool;
-    }
-} // namespace boost
-
-void animThreadStart(std::shared_ptr<NewAnimArgs> args, boost::asio::thread_pool* mt);
-void groupThreadStart(std::shared_ptr<newGroupArgs> args, boost::asio::thread_pool* mt);
+void animThreadStart(std::shared_ptr<NewAnimArgs> args);
+void groupThreadStart(std::shared_ptr<newGroupArgs> args);
 void elementUpdate(size_t& elementLine, int& counter, int& curID, std::map<int, VecStr>& catalystMap);
 void unpackToCatalyst(std::map<int, VecStr>& catalystMap,
                       std::unordered_map<int, std::shared_ptr<NodeJoint>>& existingNodes);
