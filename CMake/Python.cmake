@@ -36,8 +36,8 @@ set(Python_INCLUDE_DIRS "${PYTHON_ROOT}/PC" "${PYTHON_ROOT}/Include")
 set(Python_BUILD_DIR_ROOT ${PYTHON_ROOT}/PCBuild)
 set(Python_BUILD_FILE ${Python_BUILD_DIR_ROOT}/build.bat)
 
-set(Python_BUILD_DIR ${Python_BUILD_DIR_ROOT}/amd64)
-set(Python_Args "-p" "x64")
+set(Python_BUILD_DIR ${Python_BUILD_DIR_ROOT}/win32)
+set(Python_Args "-p" "x86")
 
 #Configure based on build type
 
@@ -51,11 +51,8 @@ else()
     set(Python_DLL_NAME Python${Python_LIB_VERSION}.dll)
 endif()
 
-message("PYTHON : lib ${Python_LIBRARIES}")
-
 #Build
 message("Building CPython:    File: ${Python_BUILD_FILE}   Args: ${Python_Args}")
-
 execute_process(COMMAND ${Python_BUILD_FILE} ${Python_Args})
 
 
