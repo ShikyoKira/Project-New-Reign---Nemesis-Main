@@ -1,7 +1,9 @@
 #ifndef BEHAVIORCHECK_H_
 #define BEHAVIORCHECK_H_
 
-void behaviorCheck();
+class BehaviorStart;
+
+void behaviorCheck(BehaviorStart* process);
 void warningCheck();
 
 #endif

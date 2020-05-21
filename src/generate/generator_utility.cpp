@@ -1,17 +1,17 @@
-#include <thread>
-
-#include <boost/atomic.hpp>
+#include <atomic>
 
 #include "version.h"
 #include "debuglog.h"
 #include "nemesisinfo.h"
 
 #include "utilities/compute.h"
+#include "utilities/conditions.h"
 #include "utilities/lastupdate.h"
 #include "utilities/atomiclock.h"
 #include "utilities/stringsplit.h"
 #include "utilities/readtextfile.h"
 
+#include "generate/behaviorprocess.h"
 #include "generate/playerexclusive.h"
 #include "generate/generator_utility.h"
 #include "generate/animationdatatracker.h"
@@ -190,31 +190,33 @@ VecStr newAnimationElement(string line, vector<VecStr> element, int curNumber)
 	return animElement;
 }
 
-string behaviorLineChooser(string originalline, unordered_map<string, string> chosenLines, VecStr behaviorPriority)
+string behaviorLineChooser(const string& originalline, const unordered_map<string, string>& chosenLines, const VecStr& behaviorPriority)
 {
 	int chosen = -1;
 
 	for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
 	{
-		if (chosenLines[behaviorPriority[i]].length() != 0)
+        auto clitr = chosenLines.find(behaviorPriority[i]);
+
+		if (clitr != chosenLines.end() && clitr->second.length() != 0)
 		{
 			if (chosen == -1) chosen = i;
 
 			string line = nemesis::regex_replace(
-                string(chosenLines[behaviorPriority[i]]), nemesis::regex("[\t]+([^\t]+).*"), string("\\1"));
+                string(clitr->second), nemesis::regex("[\t]+([^\t]+).*"), string("\\1"));
             string line2 = nemesis::regex_replace(
                 string(line), nemesis::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
 
 			if (line2 != line && line.find("<!-- ") == 0)
 			{
-				string out = chosenLines[behaviorPriority[i]];
+                string out = clitr->second;
 
 				if (out.find("<!-- ") != NOT_FOUND)
-				{
-                    out = nemesis::regex_replace(string(chosenLines[behaviorPriority[i]]),
+                {
+                    out = nemesis::regex_replace(string(clitr->second),
                                                  nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
                                                  string("\\1"));
-					out = chosenLines[behaviorPriority[i]].substr(0, chosenLines[behaviorPriority[i]].find(out));
+                    out = clitr->second.substr(0, clitr->second.find(out));
 				}
 
 				return out;
@@ -223,15 +225,16 @@ string behaviorLineChooser(string originalline, unordered_map<string, string> ch
 	}
 
 	if (chosen != -1)
-	{
-		string out = chosenLines[behaviorPriority[chosen]];
+    {
+        auto clitr = chosenLines.find(behaviorPriority[chosen]);
+        string out = clitr != chosenLines.end() ? clitr->second : "";
+        string line = out;
 
 		if (out.find("<!-- ") != NOT_FOUND)
-		{
-            out = nemesis::regex_replace(string(chosenLines[behaviorPriority[chosen]]),
-                                       nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
-                                       string("\\1"));
-			out = chosenLines[behaviorPriority[chosen]].substr(0, chosenLines[behaviorPriority[chosen]].find(out));
+        {
+            out = nemesis::regex_replace(
+                string(line), nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+            out = line.substr(0, line.find(out));
 		}
 
 		return out;
@@ -350,19 +353,31 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 
 					if (file.find(modcode + "$") == NOT_FOUND)
 					{
-						if (isChecked->find(path) == isChecked->end()) throw false;
+                        if (isChecked->find(path) == isChecked->end())
+                        {
+                            DebugLogging("Engine update required due to this file: " + path);
+                            throw false;
+                        }
 					}
 				}
 				else if (directory.find("animationsetdatasinglefile") != NOT_FOUND)
 				{					
 					if (std::filesystem::path(directory).stem().string().find("~") != NOT_FOUND && file.length() > 0 && file[0] != '$')
 					{
-						if (isChecked->find(path) == isChecked->end()) throw false;
+                        if (isChecked->find(path) == isChecked->end())
+                        {
+                            DebugLogging("Engine update required due to this file: " + path);
+                            throw false;
+                        }
 					}
 				}
 				else if (!nemesis::iequals(file, "option_list.txt"))
 				{
-					if (isChecked->find(path) == isChecked->end()) throw false;
+                    if (isChecked->find(path) == isChecked->end())
+                    {
+                        DebugLogging("Engine update required due to this file: " + path);
+                        throw false;
+                    }
 				}
 			}
 
@@ -416,8 +431,11 @@ bool isEngineUpdated(string& versionCode)
 			string part1 = line.substr(0, pos);
 			string part2 = line.substr(pos + 2);
 
-			if (!isFileExist(part1)) return false;
-			else if (GetLastModified(part1) != part2) return false;
+			if (!isFileExist(part1) || GetLastModified(part1) != part2)
+            {
+                DebugLogging("Engine update required due to this file: " + part1);
+                return false;
+            }
 
 			isChecked[part1] = true;
 		}
@@ -767,12 +785,50 @@ bool newAnimSkip(vector<shared_ptr<NewAnimation>> newAnim, string modID)
 	return true;
 }
 
-void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, bool& isClip)
+void checkBehaviorJoint(
+    const string& filename, const string& projectdir, string& line, BehaviorStart* process, bool& isBehavior)
 {
-	if (!isClip)
-	{
-		if (line.find("class=\"hkbClipGenerator\" signature=\"0x333b85b9\">") != NOT_FOUND) isClip = true;
-	}
+    if (isBehavior)
+    {
+        if (line.find("<hkparam name=\"behaviorFilename\">") != NOT_FOUND)
+        {
+            size_t pos = line.find("<hkparam name=\"behaviorFilename\">");
+
+            if (pos != NOT_FOUND)
+            {
+                isBehavior = false;
+                pos += 33;
+                string behaviorFile = line.substr(pos, line.find("</hkparam>", pos) - pos);
+                Lockless nlock(process->postBehaviorFlag);
+                process->postBhvrRefBy[nemesis::to_lower_copy(projectdir + "\\" + behaviorFile)]
+                    .insert(nemesis::to_lower_copy(filename) + ".hkx");
+            }
+
+            isBehavior = false;
+        }
+    }
+    else if (line.find("class=\"hkbCharacterStringData\" signature=\"0x655b42bc\">") != NOT_FOUND)
+    {
+        isBehavior = true;
+    }
+}
+
+void checkClipAnimData(const string& filename, 
+					   const string& projectdir,
+					   string& line,
+                       VecStr& characterFiles,
+                       string& clipName,
+                       bool& isClip,
+                       BehaviorStart* process,
+                       bool& isBehavior)
+{
+    if (!isClip)
+    {
+        if (line.find("class=\"hkbClipGenerator\" signature=\"0x333b85b9\">") != NOT_FOUND)
+        {
+            isClip = true;
+        }
+    }
 	else
 	{
 		size_t pos = line.find("<hkparam name=\"animationName\">");
@@ -780,9 +836,11 @@ void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, b
 		if (pos != NOT_FOUND)
 		{
 			isClip = false;
-			pos += 30;
-			string animFile = std::filesystem::path(line.substr(pos, line.find("</hkparam>", pos) - pos)).filename().string();
-			nemesis::to_lower(animFile);
+            pos += 30;
+            string animFile = std::filesystem::path(line.substr(pos, line.find("</hkparam>", pos) - pos))
+                                  .filename()
+                                  .string();
+            nemesis::to_lower(animFile);
 
 			for (auto file : characterFiles)
 			{
@@ -795,8 +853,8 @@ void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, b
 					animDataPtr->filename = animFile;
 				}
 
-				animDataPtr->cliplist.insert(clipName);
-				vector<shared_ptr<AnimationDataTracker>>& listAnimData = clipPtrAnimData[file][clipName];
+                animDataPtr->cliplist.insert(clipName);
+                vector<shared_ptr<AnimationDataTracker>>& listAnimData = clipPtrAnimData[file][clipName];
 
 				if (listAnimData.size() > 0)
 				{
@@ -833,6 +891,28 @@ void checkClipAnimData(string& line, VecStr& characterFiles, string& clipName, b
 			}
 		}
 	}
+
+	if (!isBehavior)
+    {
+        if (line.find("class=\"hkbBehaviorReferenceGenerator\" signature=\"0xfcb5423\">") != NOT_FOUND)
+        {
+            isBehavior = true;
+        }
+    }
+    else
+    {
+        size_t pos = line.find("<hkparam name=\"behaviorName\">");
+
+        if (pos != NOT_FOUND)
+        {
+            isBehavior = false;
+            pos += 29;
+            string behaviorFile = line.substr(pos, line.find("</hkparam>", pos) - pos);
+            Lockless nlock(process->postBehaviorFlag);
+            process->postBhvrRefBy[nemesis::to_lower_copy(projectdir + "\\" + behaviorFile)].insert(
+                nemesis::to_lower_copy(filename) + ".hkx");
+        }
+    }
 }
 
 void fileArchitectureCheck(string hkxfile)

@@ -1,11 +1,15 @@
 #ifndef BEHAVIORPROCESS_H_
 #define BEHAVIORPROCESS_H_
 
-#include "Global.h"
+#include <unordered_set>
 
 #include <QtCore/QObject>
 
+#include "Global.h"
+
 #include "ui/ProgressUp.h"
+
+typedef std::unordered_set<std::string> USetStr;
 
 class NewAnimation;
 class NemesisEngine;
@@ -22,6 +26,9 @@ class BehaviorStart : public QObject
 public:
     typedef std::unordered_map<std::string, std::set<std::string>> mapSetString;
 
+    const VecStr behaviorPriority;
+    const std::unordered_map<std::string, bool> chosenBehavior;
+
     BehaviorStart(const NemesisInfo* _ini);
     virtual ~BehaviorStart();
     void milestoneStart();
@@ -31,6 +38,8 @@ public:
     void addBehaviorPick(VecStr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
     void message(std::string input);
     void GenerateBehavior(std::thread*& checkThread);
+
+    std::atomic_flag& getNewAnimFlag();
 
 public slots:
     void newMilestone();
@@ -56,8 +65,6 @@ private:
     int filenum;
     std::unordered_map<std::string, VecStr> coreModList; // core filename, list of modID;
 
-    VecStr behaviorPriority;
-    std::unordered_map<std::string, bool> chosenBehavior;
     ProgressUp behaviorProcess;
 
     std::string* directory2;
@@ -71,12 +78,17 @@ private:
     std::unordered_map<std::string, std::unordered_map<int, bool>>* ignoreFunction2;
 
     std::atomic_flag upFlag{};
+    std::atomic_flag newAnimFlag{};
 
     // nemesis ini
     const NemesisInfo* nemesisInfo;
 
     // timer
     std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();
+
+public:
+    std::atomic_flag postBehaviorFlag{};
+    std::unordered_map<std::string, USetStr> postBhvrRefBy;
 };
 
 #endif

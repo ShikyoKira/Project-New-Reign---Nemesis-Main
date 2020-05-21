@@ -1,15 +1,94 @@
 #include "Global.h"
 
 #include "generate/behaviorcheck.h"
+#include "generate/behaviorprocess.h"
 #include "generate/generator_utility.h"
 
 #pragma warning(disable : 4503)
 
 using namespace std;
 
+typedef unordered_set<string> USetStr;
+
 VecStr warningMsges;
 
-void behaviorCheck()
+void beginConnectionCheck(const string& current,
+                          const string& original,
+                          USetStr& noRepeat,
+                          const unordered_map<string, USetStr>& postBhvrRefBy);
+
+bool connectionCheckLoop(const string& current,
+                         const string& original,
+                         USetStr& noRepeat,
+                         const unordered_map<string, USetStr>& postBhvrRefBy,
+                         const VecStr& characterList);
+
+bool isConnectedToCharacter(const string& current,
+                            const string& original,
+                            USetStr& noRepeat,
+                            const unordered_map<string, USetStr>& postBhvrRefBy,
+                            const VecStr& characterList);
+
+void beginConnectionCheck(const string& current,
+                          const string& original,
+                          USetStr& noRepeat,
+                          const unordered_map<string, USetStr>& postBhvrRefBy)
+{
+    string file = GetFileName(original);
+    auto bhvitr = behaviorJoints.find(file);
+
+    if (bhvitr == behaviorJoints.end() || bhvitr->second.empty()) return;
+
+    connectionCheckLoop(current, original, noRepeat, postBhvrRefBy, bhvitr->second);
+}
+
+bool connectionCheckLoop(const string& current,
+                         const string& original,
+                         USetStr& noRepeat,
+                         const unordered_map<string, USetStr>& postBhvrRefBy,
+                         const VecStr& characterList)
+{
+    if (noRepeat.find(current) != noRepeat.end()) return true;
+
+    if (!isConnectedToCharacter(current, original, noRepeat, postBhvrRefBy, characterList)) return false;
+
+    if (!isFileExist(current)) ErrorMessage(1210, current);
+
+    noRepeat.insert(current);
+    return true;
+}
+
+bool isConnectedToCharacter(const string& current,
+                            const string& original,
+                            USetStr& noRepeat,
+                            const unordered_map<string, USetStr>& postBhvrRefBy,
+                            const VecStr& characterList)
+{
+    auto itr = postBhvrRefBy.find(current);
+
+    if (itr != postBhvrRefBy.end())
+    {
+        bool rst = false;
+
+        for (auto& innerLoop : itr->second)
+        {
+            if (connectionCheckLoop(innerLoop, original, noRepeat, postBhvrRefBy, characterList)) rst = true;
+        }
+
+        return rst;
+    }
+
+    string chac = GetFileName(current);
+
+    for (auto& each : characterList)
+    {
+        if (chac == each) return true;
+    }
+
+    return false;
+}
+
+void behaviorCheck(BehaviorStart* process)
 {
     // test if anim file used has been registered
     for (auto& it : usedAnim)
@@ -53,6 +132,13 @@ void behaviorCheck()
                 ErrorMessage(1066);
             }
         }
+    }
+
+    USetStr noRepeat;
+
+    for (auto& behaviorfiles : process->postBhvrRefBy)
+    {
+        beginConnectionCheck(behaviorfiles.first, behaviorfiles.first, noRepeat, process->postBhvrRefBy);
     }
 }
 
