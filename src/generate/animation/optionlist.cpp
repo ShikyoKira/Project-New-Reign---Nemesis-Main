@@ -193,7 +193,9 @@ OptionList::OptionList(string filepath, string format)
                                 currentTab = AnimInfo[j];
 
                                 if (linked[currentTab].size() != 0)
+                                {
                                     ErrorMessage(1046, currentTab, format, filepath, linecount);
+                                }
                             }
                             else
                             {
@@ -563,7 +565,9 @@ OptionList::OptionList(string filepath, string format)
                     if (AnimInfo.size() > 4) ErrorMessage(1200, format, filepath, linecount);
 
                     if (AnimInfo[3].find("$$$") == NOT_FOUND)
+                    {
                         ErrorMessage(1006, format, filepath, linecount, strline);
+                    }
 
                     if (AnimInfo[3] == "$$$") ErrorMessage(1005, format, filepath, linecount, strline);
 
@@ -572,7 +576,9 @@ OptionList::OptionList(string filepath, string format)
                 else if (lower == "animobject")
                 {
                     if (AnimInfo.size() > 2 || !isOnlyNumber(AnimInfo[1]))
+                    {
                         ErrorMessage(1175, format, filepath, linecount, strline);
+                    }
 
                     animObjectCount = stoi(AnimInfo[1]);
                 }
@@ -586,9 +592,13 @@ OptionList::OptionList(string filepath, string format)
                         if (ID == "0") ErrorMessage(1076, format, filepath, linecount);
 
                         if (AnimInfo.size() < 3)
+                        {
                             ErrorMessage(1069, format, filepath, linecount);
+                        }
                         else if (AnimInfo.size() > 3)
+                        {
                             ErrorMessage(1070, format, filepath, linecount);
+                        }
 
                         string functionID = nemesis::regex_replace(
                             string(AnimInfo[2]), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
@@ -596,7 +606,9 @@ OptionList::OptionList(string filepath, string format)
                         if (AnimInfo[2] != "#" + functionID) ErrorMessage(1071, format, filepath, linecount);
 
                         if (behaviorPath[nemesis::to_lower_copy(AnimInfo[1])].length() == 0)
+                        {
                             ErrorMessage(1083, AnimInfo[1], format, filepath, linecount);
+                        }
 
                         multiState[nemesis::to_lower_copy(AnimInfo[1])][stoi(ID)] = stoi(functionID);
                         isNumExist[stoi(ID)]                                      = true;
@@ -705,22 +717,30 @@ OptionList::OptionList(string filepath, string format)
                             for (uint i = 0; i < strline.length(); ++i)
                             {
                                 if (!isalnum(strline[i]) && strline[i] != '[' && strline[i] != ']')
+                                {
                                     ErrorMessage(1012, format, filepath, linecount);
+                                }
                             }
 
                             if (nemesis::iequals(tempOption, "animobject") || tempOption == "D")
+                            {
                                 ErrorMessage(1049, tempOption, format, filepath, linecount);
+                            }
 
                             if (tempOption == format) ErrorMessage(1064, format, filepath, strline);
 
                             if (storelist[tempOption])
+                            {
                                 ErrorMessage(1177, format, filepath, linecount, tempOption);
+                            }
 
                             storelist[tempOption] = true;
                             optionOrder.push_back(tempOption);
 
                             if (strline.length() > 2 && strline.substr(strline.length() - 2) == "[]")
+                            {
                                 ErrorMessage(1022, format, filepath, linecount);
+                            }
 
                             strline.erase(std::remove(strline.begin(), strline.end(), ' '), strline.end());
 
@@ -865,7 +885,9 @@ OptionList::OptionList(string filepath, string format)
                     for (unsigned j = 0; j < addOn[it->first].size(); ++j)
                     {
                         if (addOn[it->first][j] != addOn[it->second[i]][j])
+                        {
                             ErrorMessage(1053, format, filepath);
+                        }
                     }
 
                     isDone[it->second[i]] = true;

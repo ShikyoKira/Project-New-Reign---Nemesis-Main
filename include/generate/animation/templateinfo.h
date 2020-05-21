@@ -7,6 +7,7 @@
 #include "utilities/alphanum.hpp"
 
 typedef std::set<std::string> SetStr;
+typedef std::unordered_set<std::string> USetStr;
 
 struct OptionList;
 

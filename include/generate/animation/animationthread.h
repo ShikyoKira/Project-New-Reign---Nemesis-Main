@@ -9,32 +9,25 @@
 typedef std::unordered_map<std::string, int> ID;
 
 class NewAnimation;
-struct GroupTemplate;
+
 struct single;
 struct group;
 struct master;
+struct GroupTemplate;
 
 struct NewAnimLock
 {
     std::atomic_flag coreLock   = ATOMIC_FLAG_INIT;
     std::atomic_flag subIDLock  = ATOMIC_FLAG_INIT;
+    std::atomic_flag nodeIDLock  = ATOMIC_FLAG_INIT;
     std::atomic_flag exportLock = ATOMIC_FLAG_INIT;
-
-    void lockCore();
-    void releaseCore();
-
-    void lockID();
-    void releaseID();
-
-    void lockExport();
-    void releaseExport();
 };
 
 struct NewAnimArgs
 {
 public:
     std::string modID, lowerBehaviorFile, ZeroEvent, ZeroVariable;
-    int lastID;
+    int* lastID;
     bool core, ignoreGroup, hasGroup;
     bool skip = false;
     bool& isCoreDone;
@@ -52,7 +45,7 @@ public:
 
     NewAnimArgs(std::string n_modID,
                 std::string n_lowerBehaviorFile,
-                int n_lastID,
+                int* n_lastID,
                 bool n_core,
                 std::shared_ptr<NewAnimation> n_newAnimation,
                 std::shared_ptr<VecStr> n_allEditLines,
@@ -102,7 +95,7 @@ struct newGroupArgs
 {
 public:
     std::string templateCode, lowerBehaviorFile, ZeroEvent, ZeroVariable, filename;
-    int lastID, groupCount;
+    int* lastID, groupCount;
     std::vector<int> stateID;
     std::shared_ptr<GroupTemplate> groupTemp;
     ImportContainer& exportID;
@@ -115,7 +108,7 @@ public:
     newGroupArgs(std::string n_templateCode,
                  std::string n_lowerBehaviorFile,
                  std::string n_filename,
-                 int n_lastID,
+                 int* n_lastID,
                  int n_groupCount,
                  std::vector<int> n_stateID,
                  std::shared_ptr<GroupTemplate> n_groupTemp,

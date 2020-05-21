@@ -149,7 +149,9 @@ registerAnimation::registerAnimation(string curDirectory,
                     if (!AAprefixExist[lowerPrefix])
                     {
                         if (AAprefixExist.size() > 30)
+                        {
                             ErrorMessage(4007, filename, linecount, modID, newAnimInfo[1]);
+                        }
 
                         AAprefixExist[lowerPrefix] = true;
                     }
@@ -166,7 +168,9 @@ registerAnimation::registerAnimation(string curDirectory,
                     if (groupSize == 0) ErrorMessage(4004, filename, linecount, line);
 
                     if (newAnimInfo[2].length() > 0 && !isOnlyNumber(newAnimInfo[2]))
+                    {
                         ErrorMessage(4005, filename, linecount, line);
+                    }
 
                     int num                          = stoi(newAnimInfo[2]);
                     string lowGN                     = fstP ? lowGroupName + "_1p*" : lowGroupName;
@@ -262,7 +266,9 @@ registerAnimation::registerAnimation(string curDirectory,
                         string* strptr = &animInfo[previousShortline].back()->motionData.back();
 
                         if (stod(strptr->substr(0, strptr->find(" "))) >= timer)
+                        {
                             ErrorMessage(1087, filename, linecount);
+                        }
                     }
 
                     shared_ptr<AnimationInfo> animInfo_ptr = animInfo[previousShortline].back();
@@ -290,7 +296,9 @@ registerAnimation::registerAnimation(string curDirectory,
                     }
 
                     if (animInfo[previousShortline].back()->motionData.size() == 0)
+                    {
                         ErrorMessage(1090, filename, linecount);
+                    }
 
                     double timer = stod(newAnimInfo[1]);
 
@@ -299,7 +307,9 @@ registerAnimation::registerAnimation(string curDirectory,
                         string* strptr = &animInfo[previousShortline].back()->rotationData.back();
 
                         if (stod(strptr->substr(0, strptr->find(" "))) >= timer)
+                        {
                             ErrorMessage(1086, filename, linecount);
+                        }
                     }
 
                     shared_ptr<AnimationInfo> animInfo_ptr = animInfo[previousShortline].back();

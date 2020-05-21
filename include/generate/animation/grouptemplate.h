@@ -15,6 +15,7 @@
 
 typedef std::set<std::string> SetStr;
 typedef std::vector<std::string> VecStr;
+typedef std::unordered_set<std::string> USetStr;
 typedef std::unordered_map<std::string, int> ID;
 typedef std::unordered_map<std::string, std::string> SSMap;
 typedef std::unordered_map<std::string, std::unordered_map<std::string, std::string>> ImportContainer;
@@ -60,8 +61,8 @@ private:
     VecStr templatelines;
     NewAnimLock* atomicLock;
     ImportContainer* newImport;
-    std::string filename, format, strID;
-    int nextFunctionID;
+    std::string filename, format;
+    int* nextFunctionID;
     SSMap IDExist;
     std::shared_ptr<master> subFunctionIDs;
     std::shared_ptr<AnimTemplate> grouptemplate;
@@ -80,14 +81,14 @@ private:
 public:
     std::vector<std::vector<std::shared_ptr<AnimationInfo>>> groupAnimInfo;
 
-    GroupTemplate(VecStr groupfunctionformat, std::shared_ptr<AnimTemplate> n_grouptemplate);
+    GroupTemplate(VecStr groupfunctionformat, std::shared_ptr<AnimTemplate> _grouptemplate);
     void getFunctionLines(std::shared_ptr<VecStr> functionline,
                           std::string behaviorFile,
                           std::string formatname,
                           std::vector<int>& stateID,
                           std::shared_ptr<master> newSubFunctionIDs,
                           std::vector<std::vector<std::shared_ptr<AnimationInfo>>> newGroupAnimInfo,
-                          int nFunctionID,
+                          int* nFunctionID,
                           ImportContainer& import,
                           ID eventid,
                           ID variableID,
@@ -111,7 +112,7 @@ public:
                     int optionMulti         = -1,
                     int animMulti           = -1,
                     std::string multiOption = "");
-    void newID();
+    std::string newID();
     void setZeroEvent(std::string eventname);
     void setZeroVariable(std::string variablename);
 };
@@ -122,11 +123,11 @@ private:
     bool m_hasGroup;
     int* nextFunctionID;
     ImportContainer* newImport;
-    std::string strID;
     std::string format;
     SSMap IDExist;
     std::shared_ptr<master> subFunctionIDs;
     std::vector<std::vector<std::shared_ptr<AnimationInfo>>> groupAnimInfo;
+    std::atomic_flag* nodeIDLock;
 
 public:
     VecStr
@@ -142,26 +143,8 @@ public:
                                  bool hasMaster,
                                  bool hasGroup,
                                  SetStr templateGroup,
-                                 bool ignoreGroup);
-    void outPutExistingFunction(
-        VecStr& existingFunctionLines,
-        VecStr& newFunctionLines,
-        bool isGroup,
-        bool isMaster,
-        bool ignoreGroup,
-        std::string IDFileName,
-        std::vector<std::vector<std::unordered_map<std::string, bool>>>& masterOptionPicked,
-        std::unordered_map<std::string, bool>& otherAnimType,
-        int order,
-        int groupOrder,
-        bool& isElement,
-        int& elementLine,
-        __int64& openRange,
-        std::string& multiOption,
-        int& elementCount,
-        int curFunctionID,
-        int curLine,
-        uint scopeSize);
+                                 bool ignoreGroup,
+                                 std::atomic_flag& nodeIDFlag);
     void processing(std::string& line,
                     std::string filename,
                     int curFunctionID,
@@ -172,7 +155,7 @@ public:
                     int optionMulti         = -1,
                     int animMulti           = -1,
                     std::string multiOption = "");
-    inline void newID();
+    std::string newID();
     void setZeroEvent(std::string eventname);
     void setZeroVariable(std::string variablename);
 };

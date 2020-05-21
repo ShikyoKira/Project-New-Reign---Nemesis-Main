@@ -9,8 +9,8 @@
 #include "generate/alternateanimation.h"
 
 #include "generate/animation/newanimation.h"
-#include "generate/animation/singletemplate.h"
 #include "generate/animation/templatetree.h"
+#include "generate/animation/singletemplate.h"
 
 #pragma warning(disable : 4503)
 
@@ -31,6 +31,14 @@ string linebreakSeparator(string line, VecStr& newlines)
     }
 
     return line.substr(pos);
+}
+
+bool hasOptionPicked(const vector<unordered_map<string, bool>>& groupOptionPicked, int index, const string& key)
+{
+    auto& opt  = groupOptionPicked[index];
+    auto& pick = opt.find(key);
+
+    return pick != opt.end();
 }
 
 NewAnimation::NewAnimation(shared_ptr<unordered_map<string, AnimTemplate>> animlines,
@@ -68,24 +76,18 @@ NewAnimation::NewAnimation(shared_ptr<unordered_map<string, AnimTemplate>> animl
 void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
 {
     shared_ptr<VecStr> generatedlines = args->allEditLines;
-    string curBehaviorFile            = args->lowerBehaviorFile;
-    int nFunctionID                   = args->lastID;
-    ImportContainer& import           = args->exportID;
     ID eventid                        = args->eventid;
     ID variableid                     = args->variableid;
     vector<int>& stateID              = args->stateID;
     vector<int> stateCountMultiplier  = args->stateMultiplier;
     bool hasGroup                     = args->hasGroup;
-    bool isCore                       = args->core;
-    shared_ptr<group> groupFunction   = args->subFunctionIDs;
-    shared_ptr<single> singleFunction = args->singleFunctionIDs;
-    NewAnimLock& animLock             = args->atomicLock;
 
-    behaviorFile   = curBehaviorFile;
-    newImport      = const_cast<ImportContainer*>(&import);
-    atomicLock     = const_cast<NewAnimLock*>(&animLock);
-    nextFunctionID = nFunctionID;
-    subFunctionIDs = singleFunction;
+
+    behaviorFile   = args->lowerBehaviorFile;
+    newImport      = const_cast<ImportContainer*>(&args->exportID);
+    atomicLock     = const_cast<NewAnimLock*>(&args->atomicLock);
+    nextFunctionID = args->lastID;
+    subFunctionIDs = args->singleFunctionIDs;
 
     bool negative      = false;
     bool open          = false;
@@ -94,67 +96,57 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
     int counter        = 0;
     size_t elementLine = -1;
     vector<int> fixedStateID;
-    vector<unordered_map<string, bool>> groupOptionPicked;
-
-    strID = to_string(nextFunctionID);
-
-    while (strID.length() < 4)
-    {
-        strID = "0" + strID;
-    }
 
     for (auto ID : stateID)
     {
         fixedStateID.push_back(ID);
     }
 
-    groupOptionPicked.reserve(groupAnimInfo.size());
+    auto optPickPtr = (std::vector<unordered_map<string, bool>>*) &groupOptionPicked;
+    optPickPtr->reserve(groupAnimInfo.size());
 
     for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
     {
-        groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
+        optPickPtr->push_back(groupAnimInfo[i]->optionPicked);
     }
 
     generatedlines->reserve((*animtemplate)[behaviorFile].size + 10 * memory);
+    AnimThreadInfo curAnimInfo(filepath,
+                               filename,
+                               mainAnimEvent,
+                               zeroEvent,
+                               zeroVariable,
+                               hasGroup,
+                               negative,
+                               isEnd,
+                               norElement,
+                               elementCatch,
+                               hasDuration,
+                               duration,
+                               openRange,
+                               counter,
+                               elementLine,
+                               furnitureCount,
+                               eventid,
+                               variableid,
+                               fixedStateID,
+                               stateCountMultiplier,
+                               order,
+                               lastOrder,
+                               IDExist,
+                               AnimObject,
+                               addition,
+                               newImport,
+                               groupAddition,
+                               groupOptionPicked,
+                               std::vector<std::vector<std::unordered_map<std::string, bool>>>(),
+                               args->subFunctionIDs,
+                               generatedlines,
+                               this,
+                               atomicLock);
     proc process = (*animtemplate)[behaviorFile].process;
-    process.Register(format,
-                     format,
-                     behaviorFile,
-                     filepath,
-                     filename,
-                     mainAnimEvent,
-                     strID,
-                     zeroEvent,
-                     zeroVariable,
-                     hasGroup,
-                     negative,
-                     isEnd,
-                     norElement,
-                     elementCatch,
-                     hasDuration,
-                     duration,
-                     openRange,
-                     counter,
-                     elementLine,
-                     furnitureCount,
-                     eventid,
-                     variableid,
-                     fixedStateID,
-                     stateCountMultiplier,
-                     &animLock,
-                     order,
-                     lastOrder,
-                     IDExist,
-                     AnimObject,
-                     addition,
-                     newImport,
-                     groupAddition,
-                     groupOptionPicked,
-                     groupFunction,
-                     generatedlines,
-                     this);
 
-    if (isCore)
+    if (args->core)
     {
         for (unsigned int i = 0; i < rawtemplate[behaviorFile].size(); ++i)
         {
@@ -174,8 +166,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
                           stateCountMultiplier,
                           hasGroup,
                           negative,
-                          groupOptionPicked,
-                          groupFunction);
+                          args->subFunctionIDs);
 
             if (error) throw nemesis::exception();
 
@@ -187,6 +178,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
     else
     {
         OutputCheck(generatedlines,
+                    curAnimInfo,
                     process,
                     &(*animtemplate)[behaviorFile].lines,
                     norElement,
@@ -199,8 +191,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
                     stateCountMultiplier,
                     hasGroup,
                     negative,
-                    groupOptionPicked,
-                    groupFunction);
+                    args->subFunctionIDs);
     }
 
     for (auto it = addOn.begin(); it != addOn.end(); ++it)
@@ -335,18 +326,20 @@ unordered_map<string, unordered_map<string, VecStr>> NewAnimation::GetGroupAddit
     return groupAddition;
 }
 
-inline void NewAnimation::newID()
+string NewAnimation::newID()
 {
-    ++(nextFunctionID);
-
-    if (nextFunctionID == 9216) ++(nextFunctionID);
-
-    strID = to_string(nextFunctionID);
+    Lockless lock(atomicLock->nodeIDLock);
+    int& refID   = *nextFunctionID;
+    string strID = to_string(refID++);
 
     while (strID.length() < 4)
     {
         strID = "0" + strID;
     }
+
+    if (refID == 9216) ++refID;
+
+    return strID;
 }
 
 void NewAnimation::addGroupAnimInfo(vector<shared_ptr<AnimationInfo>> animInfo)
@@ -368,7 +361,9 @@ void NewAnimation::storeAnimObject(VecStr animobjects, string listFilename, int 
         int temp          = stoi(animobjects[i].substr(position + 1, 2));
 
         if (temp == 0 || temp > groupAnimInfo[order]->animObjectCount)
+        {
             ErrorMessage(1144, listFilename, linecount);
+        }
 
         optionPicked["AnimObject/" + to_string(temp)] = true;
         AnimObject[temp].push_back(ObjectName);
@@ -450,11 +445,7 @@ bool NewAnimation::isKnown()
     return known;
 }
 
-void NewAnimation::multiChoice(string& line,
-                               VecStr& storeline,
-                               vector<unordered_map<string, bool>> groupOptionPicked,
-                               int numline,
-                               AnimationUtility utility)
+void NewAnimation::multiChoice(string& line, VecStr& storeline, int numline, AnimationUtility utility)
 {
     if (line.find("<!-- ", 0) != NOT_FOUND)
     {
@@ -475,7 +466,9 @@ void NewAnimation::multiChoice(string& line,
         }
 
         if (line.find("*", 0) != NOT_FOUND || line.find("%", 0) != NOT_FOUND)
+        {
             ErrorMessage(1100, format, behaviorFile, numline);
+        }
 
         nextposition = 0;
 
@@ -491,7 +484,7 @@ void NewAnimation::multiChoice(string& line,
 
             if (line.find("<!-- " + tempstr + " -->", 0) == NOT_FOUND)
             {
-                if (newCondition(tempstr, storeline, groupOptionPicked, numline, utility))
+                if (newCondition(tempstr, storeline, numline, utility))
                 {
                     if (error) throw nemesis::exception();
 
@@ -524,11 +517,7 @@ void NewAnimation::multiChoice(string& line,
     }
 }
 
-bool NewAnimation::singleCondition(string condition,
-                                   VecStr& storeline,
-                                   vector<unordered_map<string, bool>> groupOptionPicked,
-                                   int numline,
-                                   AnimationUtility utility)
+bool NewAnimation::singleCondition(string condition, VecStr& storeline, int numline, AnimationUtility utility)
 {
     if (condition.find("<") == 0
         && (condition.find(">") == condition.length() - 1 || condition.find(">*") == condition.length() - 2)
@@ -547,15 +536,11 @@ bool NewAnimation::singleCondition(string condition,
             conditionOrder = conditionOrder.substr(1);
         }
 
-        return conditionProcess(conditionOrder, groupOptionPicked, isNot, numline, utility);
+        return conditionProcess(conditionOrder, isNot, numline, utility);
     }
 }
 
-bool NewAnimation::andLoop(string condition,
-                           VecStr& storeline,
-                           vector<unordered_map<string, bool>> groupOptionPicked,
-                           int numline,
-                           AnimationUtility utility)
+bool NewAnimation::andLoop(string condition, VecStr& storeline, int numline, AnimationUtility utility)
 {
     size_t lastpos = 0;
     string nextCondition;
@@ -611,9 +596,7 @@ bool NewAnimation::andLoop(string condition,
 
             if (c_or != 0) ErrorMessage(1106, format, behaviorFile, numline, utility.originalCondition);
 
-            if (!newCondition(
-                    nextCondition.substr(1, backB - 1), storeline, groupOptionPicked, numline, utility))
-                return false;
+            if (!newCondition(nextCondition.substr(1, backB - 1), storeline, numline, utility)) return false;
 
             lastpos = condition.find("&", backB + 1);
 
@@ -621,7 +604,7 @@ bool NewAnimation::andLoop(string condition,
         }
         else
         {
-            if (!singleCondition(nextCondition, storeline, groupOptionPicked, numline, utility)) return false;
+            if (!singleCondition(nextCondition, storeline, numline, utility)) return false;
 
             lastpos = condition.find("&", lastpos) + 1;
         }
@@ -654,22 +637,16 @@ bool NewAnimation::andLoop(string condition,
 
         if (c_or != 0) ErrorMessage(1106, format, behaviorFile, numline, utility.originalCondition);
 
-        return newCondition(
-            nextCondition.substr(1, backB - 1), storeline, groupOptionPicked, numline, utility);
+        return newCondition(nextCondition.substr(1, backB - 1), storeline, numline, utility);
     }
     else
     {
-        return singleCondition(nextCondition, storeline, groupOptionPicked, numline, utility);
+        return singleCondition(nextCondition, storeline, numline, utility);
     }
 }
 
-bool NewAnimation::andOrParenthesis(size_t c_and,
-                                    size_t c_or,
-                                    string condition,
-                                    VecStr& storeline,
-                                    vector<unordered_map<string, bool>> groupOptionPicked,
-                                    int numline,
-                                    AnimationUtility utility)
+bool NewAnimation::andOrParenthesis(
+    size_t c_and, size_t c_or, string condition, VecStr& storeline, int numline, AnimationUtility utility)
 {
     size_t parent = condition.find("(");
 
@@ -689,28 +666,24 @@ bool NewAnimation::andOrParenthesis(size_t c_and,
         // bool1 & bool2 | bool3... (AND before OR)
         // --------------^------>
         if (c_and < c_or)
-            return andLoop(conditionGroup, storeline, groupOptionPicked, numline, utility)
-                   || newCondition(nextCondition, storeline, groupOptionPicked, numline, utility);
+            return andLoop(conditionGroup, storeline, numline, utility)
+                   || newCondition(nextCondition, storeline, numline, utility);
 
         // bool1 | bool2 & bool3... (AND after OR)
         // ------^-------------->
         else
-            return singleCondition(conditionGroup, storeline, groupOptionPicked, numline, utility)
-                   || newCondition(nextCondition, storeline, groupOptionPicked, numline, utility);
+            return singleCondition(conditionGroup, storeline, numline, utility)
+                   || newCondition(nextCondition, storeline, numline, utility);
     }
 
     // PARENT before OR
     // bool1 & (bool2 | bool3) & bool4 | bool5...
     // --------^
     else
-        return andParenthesis(condition, storeline, groupOptionPicked, numline, utility);
+        return andParenthesis(condition, storeline, numline, utility);
 }
 
-bool NewAnimation::andParenthesis(string condition,
-                                  VecStr& storeline,
-                                  vector<unordered_map<string, bool>> groupOptionPicked,
-                                  int numline,
-                                  AnimationUtility utility)
+bool NewAnimation::andParenthesis(string condition, VecStr& storeline, int numline, AnimationUtility utility)
 {
     size_t c_or  = 0;
     size_t inner = 0;
@@ -749,8 +722,7 @@ bool NewAnimation::andParenthesis(string condition,
 
     // ... & (bool1 | bool2) & bool3
     // -----------------------------
-    if (inner == condition.length())
-        return andLoop(conditionGroup, storeline, groupOptionPicked, numline, utility);
+    if (inner == condition.length()) return andLoop(conditionGroup, storeline, numline, utility);
 
     // ... & (bool1 | bool2) & bool3 | bool4...
     // ------------------------------^
@@ -758,17 +730,16 @@ bool NewAnimation::andParenthesis(string condition,
     {
         // ... & (bool1 | bool2) & bool3 | bool4...
         // ----------------------------^
-        return newCondition(conditionGroup, storeline, groupOptionPicked, numline, utility) ||
+        return newCondition(conditionGroup, storeline, numline, utility) ||
 
                // ... & (bool1 | bool2) & bool3 | bool4...
                //								   ^----->
-               newCondition(condition.substr(inner + 2), storeline, groupOptionPicked, numline, utility);
+               newCondition(condition.substr(inner + 2), storeline, numline, utility);
     }
 }
 
 bool NewAnimation::newCondition(string condition,
                                 VecStr& storeline,
-                                vector<unordered_map<string, bool>> groupOptionPicked,
                                 int numline,
                                 AnimationUtility utility)
 {
@@ -806,7 +777,7 @@ bool NewAnimation::newCondition(string condition,
         // (bool1 & bool2) | bool3 ...
         // --------------^
         string inHouse     = condition.substr(1, backB);
-        bool inHouseResult = newCondition(inHouse, storeline, groupOptionPicked, numline, utility);
+        bool inHouseResult = newCondition(inHouse, storeline, numline, utility);
 
         if (error) throw nemesis::exception();
 
@@ -815,19 +786,19 @@ bool NewAnimation::newCondition(string condition,
         string outHouse = condition.substr(backB + 2);
 
         if (outHouse.length() == 0 || (outHouse[0] != '|' && outHouse[0] != '&'))
+        {
             ErrorMessage(1106, format, behaviorFile, numline, utility.originalCondition);
+        }
 
         // ... | (bool1 & bool2)...
         // ----^
         if (outHouse[0] == '|')
-            return inHouseResult
-                   || newCondition(outHouse.substr(1), storeline, groupOptionPicked, numline, utility);
+            return inHouseResult || newCondition(outHouse.substr(1), storeline, numline, utility);
 
         // ... & (bool1 | bool2)...
         // ----^
         else
-            return inHouseResult
-                   && newCondition(outHouse.substr(1), storeline, groupOptionPicked, numline, utility);
+            return inHouseResult && newCondition(outHouse.substr(1), storeline, numline, utility);
     }
     else
     {
@@ -837,24 +808,21 @@ bool NewAnimation::newCondition(string condition,
         if (c_and == NOT_FOUND)
         {
             // AND & OR not exist
-            if (c_or == NOT_FOUND)
-                return singleCondition(condition, storeline, groupOptionPicked, numline, utility);
+            if (c_or == NOT_FOUND) return singleCondition(condition, storeline, numline, utility);
 
             // OR exist but not AND
             else
-                return singleCondition(
-                           condition.substr(0, c_or), storeline, groupOptionPicked, numline, utility)
-                       || newCondition(
-                           condition.substr(c_or + 1), storeline, groupOptionPicked, numline, utility);
+                return singleCondition(condition.substr(0, c_or), storeline, numline, utility)
+                       || newCondition(condition.substr(c_or + 1), storeline, numline, utility);
         }
 
         // AND exist but not OR
         else if (c_or == NOT_FOUND)
-            return andLoop(condition, storeline, groupOptionPicked, numline, utility);
+            return andLoop(condition, storeline, numline, utility);
 
         // AND & OR exist
         else
-            return andOrParenthesis(c_and, c_or, condition, storeline, groupOptionPicked, numline, utility);
+            return andOrParenthesis(c_and, c_or, condition, storeline, numline, utility);
     }
 
     return false;
@@ -864,8 +832,8 @@ void NewAnimation::processing(string& line,
                               VecStr& storeline,
                               string masterFormat,
                               int linecount,
-                              ID eventid,
-                              ID variableid,
+                              const ID& eventid,
+                              const ID& variableid,
                               vector<int> fixedStateID,
                               vector<int> stateCountMultiplier,
                               bool hasGroup,
@@ -1694,7 +1662,9 @@ void NewAnimation::processing(string& line,
                         ID = stoi(number) - 1;
 
                         if (ID >= fixedStateID.size())
+                        {
                             ErrorMessage(1168, format, behaviorFile, linecount, "LastState" + number);
+                        }
                     }
                     else
                     {
@@ -1752,7 +1722,9 @@ void NewAnimation::processing(string& line,
                 if (IDExist[importer].length() == 0)
                 {
                     if (bracketCount != altBracketCount)
+                    {
                         ErrorMessage(1139, format, behaviorFile, linecount, importer);
+                    }
 
                     size_t pos     = importer.find("[") + 1;
                     string file    = importer.substr(pos, importer.find("]", pos) - pos);
@@ -1788,12 +1760,14 @@ void NewAnimation::processing(string& line,
                         pos = keyword.rfind("!~^!");
 
                         if (openBrack != 0 || pos == NOT_FOUND || pos != keyword.length() - 4)
+                        {
                             ErrorMessage(1139, format, behaviorFile, linecount, importer);
+                        }
 
                         keyword = keyword.substr(0, keyword.length() - 4);
                     }
 
-                    Lockless_s ilock(atomicLock->exportLock);
+                    Lockless_s lock(atomicLock->exportLock);
 
                     if ((*newImport)[file][keyword].length() > 0)
                     {
@@ -1801,10 +1775,9 @@ void NewAnimation::processing(string& line,
                     }
                     else
                     {
-                        tempID                      = strID;
+                        tempID                      = newID();
                         IDExist[importer]           = tempID;
                         (*newImport)[file][keyword] = tempID;
-                        newID();
                     }
 
                     change.replace(nextpos, importer.length(), tempID);
@@ -1822,7 +1795,9 @@ void NewAnimation::processing(string& line,
             if (change.find("MD") == 0)
             {
                 if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0)
+                {
                     ErrorMessage(1096, format, behaviorFile, linecount);
+                }
 
                 motionDataReplacer(change,
                                    format,
@@ -1842,7 +1817,9 @@ void NewAnimation::processing(string& line,
             if (change.find("RD") == 0)
             {
                 if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0)
+                {
                     ErrorMessage(1097, format, behaviorFile, linecount);
+                }
 
                 rotationDataReplacer(change,
                                      format,
@@ -1894,7 +1871,9 @@ void addOnReplacer(string& line,
                     if (groupAddition[it->first][it->second[j]].size() == 0 || optionMulti == -1)
                     {
                         if (addition[it->first][it->second[j]].length() == 0)
+                        {
                             ErrorMessage(1117, format + "_group", filename, numline, line);
+                        }
 
                         line.replace(pos, add.length(), addition[it->first][it->second[j]]);
                     }
@@ -1903,7 +1882,9 @@ void addOnReplacer(string& line,
                         if (int(groupAddition[it->first][it->second[j]].size()) > optionMulti)
                         {
                             if (groupAddition[it->first][it->second[j]][optionMulti].length() == 0)
+                            {
                                 ErrorMessage(1117, format + "_group", filename, numline, line);
+                            }
 
                             line.replace(
                                 pos, add.length(), groupAddition[it->first][it->second[j]][optionMulti]);
@@ -1929,7 +1910,9 @@ void addOnReplacer(string& line,
                     if (groupAddition[option][it->second[j]].size() == 0 || optionMulti == -1)
                     {
                         if (addition[option][it->second[j]].length() == 0)
+                        {
                             ErrorMessage(1117, format + "_group", filename, numline, line);
+                        }
 
                         line.replace(pos, add.length(), addition[option][it->second[j]]);
                     }
@@ -1938,7 +1921,9 @@ void addOnReplacer(string& line,
                         if (int(groupAddition[option][it->second[j]].size()) > optionMulti)
                         {
                             if (groupAddition[option][it->second[j]][optionMulti].length() == 0)
+                            {
                                 ErrorMessage(1117, format + "_group", filename, numline, line);
+                            }
 
                             line.replace(
                                 pos, add.length(), groupAddition[option][it->second[j]][optionMulti]);
@@ -1980,7 +1965,9 @@ void animObjectReplacer(string& line,
             object = format + "[" + animNum + "][@AnimObject/" + number + "]";
 
             if (line.find(object) == NOT_FOUND || !isOnlyNumber(number))
+            {
                 ErrorMessage(1108, format, filename, linecount);
+            }
 
             line.replace(nextpos, object.length(), AnimObject[stoi(number)][optionMulti]);
         }
@@ -1998,7 +1985,9 @@ void animObjectReplacer(string& line,
             object = "@AnimObject/" + number;
 
             if (line.find(object) == NOT_FOUND || !isOnlyNumber(number))
+            {
                 ErrorMessage(1108, format, filename, linecount);
+            }
 
             line.replace(nextpos, object.length(), AnimObject[stoi(number)][optionMulti]);
         }
@@ -2023,7 +2012,9 @@ void NewAnimation::stateReplacer(
             size_t stateposition = line.find(state, 0);
 
             if (state != line.substr(stateposition, line.find(")]", stateposition) - stateposition + 2))
+            {
                 ErrorMessage(1137, format, behaviorFile, linecount, state);
+            }
 
             line.replace(stateposition, state.length(), to_string(stateID + stoi(number)));
         }
@@ -2106,9 +2097,13 @@ void eventIDReplacer(
         if (newEventID == "0" && eventName != firstEvent)
         {
             if (format == "BASE")
+            {
                 ErrorMessage(1166);
+            }
             else
+            {
                 ErrorMessage(1131, format, filename, linecount, eventName);
+            }
         }
 
         line.replace(line.find(fullEventName), fullEventName.length(), newEventID);
@@ -2131,9 +2126,13 @@ void variableIDReplacer(
         if (newVarID == "0" && ZeroVariable != varName)
         {
             if (format == "BASE")
-                ErrorMessage(1166);
+            {
+                ErrorMessage(1166, varName);
+            }
             else
+            {
                 ErrorMessage(1132, format, filename, linecount, varName);
+            }
         }
 
         line.replace(line.find(fullVarName), fullVarName.length(), newVarID);
@@ -2271,7 +2270,9 @@ VecStr GetOptionInfo(string line,
             string option = optionInfo[2].substr(0, optionInfo[2].length() - 1);
 
             if (groupAnimInfo[stoi(optionInfo[1])]->mixOptRegis[option].length() == 0)
+            {
                 ErrorMessage(1109, format, filename, numline, line);
+            }
 
             optionInfo[2] = groupAnimInfo[stoi(optionInfo[1])]->mixOptRegis[option];
         }
@@ -2312,7 +2313,9 @@ VecStr GetOptionInfo(string line,
             limiter--;
 
         if (int(optionInfo.size()) != limiter)
+        {
             ErrorMessage(1054, limiter - 1, format, filename, numline, line);
+        }
 
         if (optionInfo[0] != format) ErrorMessage(1051, format, filename, numline, line);
     }
@@ -2332,7 +2335,9 @@ VecStr GetOptionInfo(string line,
             string option = line.substr(0, line.length() - 1);
 
             if (groupAnimInfo[stoi(optionInfo[1])]->mixOptRegis[option].length() == 0)
+            {
                 ErrorMessage(1109, format, filename, numline, line);
+            }
 
             optionInfo.push_back(groupAnimInfo[stoi(optionInfo[1])]->mixOptRegis[option]);
         }
@@ -2364,16 +2369,20 @@ int numDigits(T number)
 }
 
 bool clearGroupNum(string option2,
-                   unordered_map<string, bool> optionPicked,
+                   const unordered_map<string, bool>& optionPicked,
                    bool isNot,
-                   unordered_map<string, bool> groupOption)
+                   const unordered_map<string, bool>& groupOption)
 {
     string templine = nemesis::regex_replace(
         string(option2), nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"), string("\\1"));
 
-    if (groupOption[templine]) return isNot;
+    auto grpopt = groupOption.find(templine);
 
-    return (isNot ? !optionPicked[templine] : optionPicked[templine]);
+    if (grpopt != groupOption.end()) return isNot;
+
+    auto& pick = optionPicked.find(templine);
+
+    return isNot ? pick == optionPicked.end() : pick != optionPicked.end();
 }
 
 bool NewAnimation::specialCondition(string condition,
@@ -2387,7 +2396,9 @@ bool NewAnimation::specialCondition(string condition,
     if (condition.find("!=") != NOT_FOUND)
     {
         if (condition.find("==") != NOT_FOUND || sameWordCount(condition, "!=") > 1)
+        {
             ErrorMessage(1124, format, behaviorFile, linecount, utility.originalCondition);
+        }
 
         isNot = true;
         pos   = condition.find("!=");
@@ -2395,7 +2406,9 @@ bool NewAnimation::specialCondition(string condition,
     else if (condition.find("==") != NOT_FOUND)
     {
         if (condition.find("!=") != NOT_FOUND || sameWordCount(condition, "==") > 1)
+        {
             ErrorMessage(1124, format, behaviorFile, linecount, utility.originalCondition);
+        }
 
         isNot = false;
         pos   = condition.find("==");
@@ -2428,12 +2441,16 @@ bool NewAnimation::specialCondition(string condition,
     if (error) throw nemesis::exception();
 
     if (oriCondition1.length() > 0)
+    {
         optionInfo1 = GetOptionInfo(
             oriCondition1, format, behaviorFile, linecount, lastOrder, groupAnimInfo, true, false, order);
+    }
 
     if (oriCondition2.length() > 0)
+    {
         optionInfo2 = GetOptionInfo(
             oriCondition2, format, behaviorFile, linecount, lastOrder, groupAnimInfo, true, false, order);
+    }
 
     if (error) throw nemesis::exception();
 
@@ -2651,7 +2668,6 @@ bool NewAnimation::specialCondition(string condition,
 }
 
 bool NewAnimation::conditionProcess(string condition,
-                                    vector<unordered_map<string, bool>> groupOptionPicked,
                                     bool isNot,
                                     int numline,
                                     AnimationUtility utility)
@@ -2688,7 +2704,7 @@ bool NewAnimation::conditionProcess(string condition,
                                            order,
                                            utility.animMulti);
 
-            conditionResult = GetFirstCondition(condition, optionInfo, numline, groupOptionPicked, isNot);
+            conditionResult = GetFirstCondition(condition, optionInfo, numline, isNot);
             ++formatGroup;
 
             if (error) throw nemesis::exception();
@@ -2718,7 +2734,7 @@ bool NewAnimation::conditionProcess(string condition,
                                                              order,
                                                              utility.animMulti);
 
-        return GetFirstCondition(condition, optionInfo, numline, groupOptionPicked, isNot);
+        return GetFirstCondition(condition, optionInfo, numline, isNot);
 
         if (error) throw nemesis::exception();
     }
@@ -2729,7 +2745,6 @@ bool NewAnimation::conditionProcess(string condition,
 bool NewAnimation::GetFirstCondition(string firstCondition,
                                      VecStr optionInfo,
                                      int numline,
-                                     vector<unordered_map<string, bool>> groupOptionPicked,
                                      bool isNot)
 {
     if (optionInfo[2][0] == '^' && optionInfo[2].back() == '^')
@@ -2743,10 +2758,7 @@ bool NewAnimation::GetFirstCondition(string firstCondition,
 
             if (nemesis::iequals(conditionOrder, "last"))
             {
-                if (isLastOrder)
-                    return !isNot;
-                else
-                    return isNot;
+                return isLastOrder ? !isNot : isNot;
             }
             else if (nemesis::iequals(conditionOrder, "first"))
             {
@@ -2762,23 +2774,26 @@ bool NewAnimation::GetFirstCondition(string firstCondition,
             conditionOrder = optionInfo[2].substr(1, optionInfo[2].length() - 2);
 
             if (!isOnlyNumber(conditionOrder))
+            {
                 ErrorMessage(1138, format, behaviorFile, numline, firstCondition);
+            }
         }
 
-        if (order == stoi(conditionOrder))
-            return !isNot;
-        else
-            return isNot;
+        return order == stoi(conditionOrder) ? !isNot : isNot;
     }
     else
     {
-        if (groupOptionPicked[stoi(optionInfo[1])][optionInfo[2]])
+        auto& opt  = groupOptionPicked[stoi(optionInfo[1])];
+        auto& pick = opt.find(optionInfo[2]);
+
+        if (pick != opt.end())
+        {
             return !isNot;
+        }
         else
-            return clearGroupNum(optionInfo[2],
-                                 groupOptionPicked[stoi(optionInfo[1])],
-                                 isNot,
-                                 groupAnimInfo[stoi(optionInfo[1])]->groupOption);
+        {
+            return clearGroupNum(optionInfo[2], opt, isNot, groupAnimInfo[stoi(optionInfo[1])]->groupOption);
+        }
     }
 }
 
@@ -2805,12 +2820,13 @@ void NewAnimation::addAnimSetData(unordered_map<string, map<string, AnimTemplate
 void NewAnimation::GetAnimData(unordered_map<string, map<string, VecStr>>& newAnimDataLines)
 {
     unordered_map<int, bool> IsConditionOpened;
-    vector<unordered_map<string, bool>> groupOptionPicked;
-    groupOptionPicked.reserve(groupAnimInfo.size());
+    auto optPickPtr = (std::vector<unordered_map<string, bool>>*) &groupOptionPicked;
+    optPickPtr->clear();
+    optPickPtr->reserve(groupAnimInfo.size());
 
-    for (uint i = 0; i < groupAnimInfo.size(); ++i)
+    for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
     {
-        groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
+        optPickPtr->push_back(groupAnimInfo[i]->optionPicked);
     }
 
     for (auto& project : animdatatemplate)
@@ -2820,8 +2836,7 @@ void NewAnimation::GetAnimData(unordered_map<string, map<string, VecStr>>& newAn
             try
             {
                 shared_ptr<VecStr> dummy = make_shared<VecStr>();
-                AnimDataLineProcess(
-                    &header.second, dummy, format, project.first, header.first, groupOptionPicked);
+                AnimDataLineProcess(&header.second, dummy, format, project.first, header.first);
                 isEnd = false;
                 VecStr storeline;
                 storeline.reserve(dummy->size());
@@ -2833,7 +2848,7 @@ void NewAnimation::GetAnimData(unordered_map<string, map<string, VecStr>>& newAn
                         if (line.back() == '\n') line.pop_back();
 
                         VecStr split;
-                        StringSplit(line, split);
+                        StringSplit(line, split, "\n");
                         storeline.insert(storeline.end(), split.begin(), split.end());
                     }
                     else
@@ -2876,13 +2891,8 @@ void NewAnimation::GetAnimSetData(unordered_map<string, map<string, VecStr, alph
             try
             {
                 shared_ptr<VecStr> dummy = make_shared<VecStr>();
-                AnimDataLineProcess(&header.second,
-                                    dummy,
-                                    format,
-                                    project.first,
-                                    header.first,
-                                    groupOptionPicked,
-                                    vector<int>(1));
+                AnimDataLineProcess(
+                    &header.second, dummy, format, project.first, header.first, vector<int>(1));
 
                 for (auto& line : *dummy)
                 {
@@ -2904,7 +2914,6 @@ void NewAnimation::GetAnimSetData(unordered_map<string, map<string, VecStr, alph
 void NewAnimation::AnimDataLineProcess(VecStr originallines,
                                        VecStr& newlines,
                                        string format,
-                                       vector<unordered_map<string, bool>> groupOptionPicked,
                                        vector<int> ASD)
 {
     {
@@ -2952,7 +2961,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                             ErrorMessage(1153, format, behaviorFile, i + 1, conditionLine);
                         }
 
-                        if (newCondition(conditionLine, newlines, groupOptionPicked, i + 1, utility))
+                        if (newCondition(conditionLine, newlines, i + 1, utility))
                         {
                             skip                         = false;
                             IsConditionOpened[condition] = true;
@@ -2988,9 +2997,11 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                         AnimationUtility utility;
 
                         if (option.find("[") == NOT_FOUND || option.find("]") == NOT_FOUND)
+                        {
                             ErrorMessage(1153, format, behaviorFile, i + 1, option);
+                        }
 
-                        if (newCondition(option, newlines, groupOptionPicked, i + 1, utility))
+                        if (newCondition(option, newlines, i + 1, utility))
                         {
                             skip                         = false;
                             IsConditionOpened[condition] = true;
@@ -3168,7 +3179,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                         }
                         else
                         {
-                            if (!groupOptionPicked[stoi(optionInfo[1])][optionInfo[2]])
+                            if (!hasOptionPicked(groupOptionPicked, stoi(optionInfo[1]), optionInfo[2]))
                             {
                                 // animobject bypass
                                 if (optionInfo[2] == "AnimObject")
@@ -3366,7 +3377,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                     if (line.find("$MC$", 0) != NOT_FOUND)
                     {
                         AnimationUtility utility;
-                        multiChoice(line, newlines, groupOptionPicked, i + 1, utility);
+                        multiChoice(line, newlines, i + 1, utility);
                     }
 
                     ID emptyID;
@@ -3451,11 +3462,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                                                         1153, format, behaviorFile, i + 1, conditionLine);
                                                 }
 
-                                                if (newCondition(conditionLine,
-                                                                 newlines,
-                                                                 groupOptionPicked,
-                                                                 i + 1,
-                                                                 utility))
+                                                if (newCondition(conditionLine, newlines, i + 1, utility))
                                                 {
                                                     skip2                        = false;
                                                     IsConditionOpened[condition] = true;
@@ -3494,10 +3501,11 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
 
                                                 if (option.find("[") == NOT_FOUND
                                                     || option.find("]") == NOT_FOUND)
+                                                {
                                                     ErrorMessage(1153, format, behaviorFile, i + 1, option);
+                                                }
 
-                                                if (newCondition(
-                                                        option, newlines, groupOptionPicked, i + 1, utility))
+                                                if (newCondition(option, newlines, i + 1, utility))
                                                 {
                                                     skip2                        = false;
                                                     IsConditionOpened[condition] = true;
@@ -3583,7 +3591,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                                                                      optionMulti,
                                                                      animMulti,
                                                                      multiOption);
-                                            multiChoice(newline, newlines, groupOptionPicked, i + 1, utility);
+                                            multiChoice(newline, newlines, i + 1, utility);
                                         }
                                     }
 
@@ -3610,7 +3618,9 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                                         newline = linebreakSeparator(newline, newlines);
 
                                         if (newline.length() == 0)
+                                        {
                                             ErrorMessage(1172, format, behaviorFile, i + 1);
+                                        }
                                     }
 
                                     size_t pos = newline.find("(");
@@ -3702,7 +3712,6 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
                                        string format,
                                        string project,
                                        string header,
-                                       vector<unordered_map<string, bool>> groupOptionPicked,
                                        vector<int> ASD)
 {
     int counter     = 0;
@@ -3712,50 +3721,49 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
     size_t elementLine;
 
     generatedlines->reserve(originaltemplate->size + 10 * memory);
-    proc process = originaltemplate->process;
+
     ID tmpId; //FIXME
     ID tmpId2;
-    process.Register(format,
-                     format,
-                     behaviorFile,
-                     filepath,
-                     filename,
-                     mainAnimEvent,
-                     strID,
-                     zeroEvent,
-                     zeroVariable,
-                     false,
-                     negative,
-                     isEnd,
-                     norElement,
-                     elementCatch,
-                     hasDuration,
-                     duration,
-                     openRange,
-                     counter,
-                     elementLine,
-                     furnitureCount,
-                     tmpId,
-                     tmpId2,
-                     vector<int>(),
-                     vector<int>(),
-                     nullptr,
-                     order,
-                     lastOrder,
-                     IDExist,
-                     AnimObject,
-                     addition,
-                     newImport,
-                     groupAddition,
-                     groupOptionPicked,
-                     nullptr,
-                     generatedlines,
-                     this);
-    process.project = project;
-    process.header  = header;
+
+    AnimThreadInfo animThrInfo(filepath,
+                               filename,
+                               mainAnimEvent,
+                               zeroEvent,
+                               zeroVariable,
+                               false,
+                               negative,
+                               isEnd,
+                               norElement,
+                               elementCatch,
+                               hasDuration,
+                               duration,
+                               openRange,
+                               counter,
+                               elementLine,
+                               furnitureCount,
+                               tmpId,
+                               tmpId2,
+                               vector<int>(),
+                               vector<int>(),
+                               order,
+                               lastOrder,
+                               IDExist,
+                               AnimObject,
+                               addition,
+                               newImport,
+                               groupAddition,
+                               groupOptionPicked,
+                               std::vector<std::vector<std::unordered_map<std::string, bool>>>(),
+                               nullptr,
+                               generatedlines,
+                               this,
+                               nullptr);
+    animThrInfo.project = project;
+    animThrInfo.header  = header;
 
     OutputCheck(generatedlines,
-                process,
+                animThrInfo,
+                originaltemplate->process,
                 &originaltemplate->lines,
                 norElement,
                 openRange,
@@ -3767,19 +3775,18 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
                 vector<int>(),
                 false,
                 negative,
-                groupOptionPicked,
                 nullptr);
 }
 
 void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract, vector<int> ASD)
 {
     unordered_map<int, bool> IsConditionOpened;
-    vector<unordered_map<string, bool>> groupOptionPicked;
-    groupOptionPicked.reserve(groupAnimInfo.size());
+    auto optPickPtr = (std::vector<unordered_map<string, bool>>*) &groupOptionPicked;
+    optPickPtr->reserve(groupAnimInfo.size());
 
-    for (uint i = 0; i < groupAnimInfo.size(); ++i)
+    for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
     {
-        groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
+        optPickPtr->push_back(groupAnimInfo[i]->optionPicked);
     }
 
     VecStr store;
@@ -3829,7 +3836,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                         {
                             AnimationUtility utility;
 
-                            if (newCondition(conditionLine, newlines, groupOptionPicked, i + 1, utility))
+                            if (newCondition(conditionLine, newlines, i + 1, utility))
                             {
                                 skip                         = false;
                                 IsConditionOpened[condition] = true;
@@ -3872,7 +3879,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                         {
                             AnimationUtility utility;
 
-                            if (newCondition(option, newlines, groupOptionPicked, i + 1, utility))
+                            if (newCondition(option, newlines, i + 1, utility))
                             {
                                 skip                         = false;
                                 IsConditionOpened[condition] = true;
@@ -4087,44 +4094,10 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                 openOrder   = -1;
                                 multiOption = optionInfo[2];
                             }
-                            else
+                            else if (!hasOptionPicked(groupOptionPicked, stoi(optionInfo[1]), optionInfo[2]))
                             {
-                                if (!groupOptionPicked[stoi(optionInfo[1])][optionInfo[2]])
-                                {
-                                    // animobject bypass
-                                    if (optionInfo[2] == "AnimObject")
-                                    {
-                                        if (isNot)
-                                        {
-                                            skip = true;
-                                        }
-                                        else
-                                        {
-                                            recorder.reserve(ASDLines.size() / 5);
-                                            open        = true;
-                                            multi       = true;
-                                            multiOption = optionInfo[2];
-                                            openOrder   = stoi(optionInfo[1]);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // Check if current condition accepts other options that are linked
-                                        if (isNot)
-                                        {
-                                            recorder.reserve(ASDLines.size() / 5);
-                                            open        = true;
-                                            multi       = true;
-                                            multiOption = optionInfo[2];
-                                            openOrder   = stoi(optionInfo[1]);
-                                        }
-                                        else
-                                        {
-                                            skip = true;
-                                        }
-                                    }
-                                }
-                                else
+                                // animobject bypass
+                                if (optionInfo[2] == "AnimObject")
                                 {
                                     if (isNot)
                                     {
@@ -4139,6 +4112,31 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                         openOrder   = stoi(optionInfo[1]);
                                     }
                                 }
+                                // Check if current condition accepts other options that are linked
+                                else if (isNot)
+                                {
+                                    recorder.reserve(ASDLines.size() / 5);
+                                    open        = true;
+                                    multi       = true;
+                                    multiOption = optionInfo[2];
+                                    openOrder   = stoi(optionInfo[1]);
+                                }
+                                else
+                                {
+                                    skip = true;
+                                }
+                            }
+                            else if (isNot)
+                            {
+                                skip = true;
+                            }
+                            else
+                            {
+                                recorder.reserve(ASDLines.size() / 5);
+                                open        = true;
+                                multi       = true;
+                                multiOption = optionInfo[2];
+                                openOrder   = stoi(optionInfo[1]);
                             }
 
                             break;
@@ -4294,7 +4292,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                     if (line.find("$MC$", 0) != NOT_FOUND)
                     {
                         AnimationUtility utility;
-                        multiChoice(line, newlines, groupOptionPicked, i + 1, utility);
+                        multiChoice(line, newlines, i + 1, utility);
                     }
 
                     ID emptyID;
@@ -4385,11 +4383,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                                 AnimationUtility utility;
                                                 utility.animMulti = animMulti;
 
-                                                if (newCondition(conditionLine,
-                                                                 newlines,
-                                                                 groupOptionPicked,
-                                                                 i + 1,
-                                                                 utility))
+                                                if (newCondition(conditionLine, newlines, i + 1, utility))
                                                 {
                                                     skip2                        = false;
                                                     IsConditionOpened[condition] = true;
@@ -4432,8 +4426,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                                 AnimationUtility utility;
                                                 utility.animMulti = animMulti;
 
-                                                if (newCondition(
-                                                        option, newlines, groupOptionPicked, i + 1, utility))
+                                                if (newCondition(option, newlines, i + 1, utility))
                                                 {
                                                     skip2                        = false;
                                                     IsConditionOpened[condition] = true;
@@ -4512,7 +4505,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                                                      optionMulti,
                                                                      animMulti,
                                                                      multiOption);
-                                            multiChoice(newline, newlines, groupOptionPicked, i + 1, utility);
+                                            multiChoice(newline, newlines, i + 1, utility);
                                         }
                                     }
 
@@ -4539,7 +4532,9 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                         newline = linebreakSeparator(newline, extract[curExtract]);
 
                                         if (newline.length() == 0)
+                                        {
                                             ErrorMessage(1172, format, behaviorFile, i + 1);
+                                        }
                                     }
 
                                     size_t pos = newline.find("(");
@@ -4973,19 +4968,19 @@ void CRC32Replacer(string& line, string format, string behaviorFile, int linecou
 }
 
 void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
-                               proc& process,
+                               AnimThreadInfo& animThrInfo,
+                               const proc& process,
                                nemesis::CondVar<std::string>* curset,
                                bool& norElement,
                                int& openRange,
                                size_t& elementLine,
                                int& counter,
-                               ID& eventid,
-                               ID& variableid,
+                               const ID& eventid,
+                               const ID& variableid,
                                vector<int> fixedStateID,
                                vector<int> stateCountMultiplier,
                                bool hasGroup,
                                bool& negative,
-                               vector<unordered_map<string, bool>> groupOptionPicked,
                                shared_ptr<group> groupFunction,
                                int optionMulti,
                                int animMulti)
@@ -5062,6 +5057,7 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                 process.animMulti   = m_animMulti;
                                 process.optionMulti = m_optionMulti;
                                 OutputCheck(generatedlines,
+                                            curAnimInfo,
                                             process,
                                             &curcond,
                                             norElement,
@@ -5074,7 +5070,6 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                             stateCountMultiplier,
                                             hasGroup,
                                             negative,
-                                            groupOptionPicked,
                                             groupFunction,
                                             m_optionMulti,
                                             m_animMulti);
@@ -5174,6 +5169,7 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                     if (!skip)
                     {
                         OutputCheck(generatedlines,
+                                    curAnimInfo,
                                     process,
                                     &curcond,
                                     norElement,
@@ -5186,7 +5182,6 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                     stateCountMultiplier,
                                     hasGroup,
                                     negative,
-                                    groupOptionPicked,
                                     groupFunction,
                                     optionMulti,
                                     animMulti);
@@ -5197,9 +5192,10 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                 {
                     if (!curcond.next
                         || curcond.next->isTrue(
-                            &process, format, behaviorFile, curstack.linecount, false, false, curcond.next))
+                            &process, format, behaviorFile, curstack.linecount, false, false))
                     {
                         OutputCheck(generatedlines,
+                                    curAnimInfo,
                                     process,
                                     &curcond,
                                     norElement,
@@ -5212,7 +5208,6 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                     stateCountMultiplier,
                                     hasGroup,
                                     negative,
-                                    groupOptionPicked,
                                     groupFunction,
                                     optionMulti,
                                     animMulti);
@@ -5227,7 +5222,8 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                         int dummy;
                         int openOrder = -2;
 
-                        if (curcond.next->isMultiTrue(&process,
+                        if (curcond.next->isMultiTrue(animThrInfo,
+                                                      process,
                                                       format,
                                                       behaviorFile,
                                                       curstack.linecount,
@@ -5236,8 +5232,8 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                                       false,
                                                       dummy))
                         {
-                            string oldcond      = process.multiOption;
-                            process.multiOption = curcond.conditions;
+                            string oldcond           = animThrInfo.multiOption;
+                            animThrInfo.multiOption = curcond.conditions;
 
                             int size;
 
@@ -5263,9 +5259,10 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                      < groupAnimInfo[m_animMulti]->optionPickedCount[curcond.conditions];
                                      ++m_optionMulti)
                                 {
-                                    process.animMulti   = m_animMulti;
-                                    process.optionMulti = m_optionMulti;
+                                    animThrInfo.animMulti   = m_animMulti;
+                                    animThrInfo.optionMulti = m_optionMulti;
                                     OutputCheck(generatedlines,
+                                                animThrInfo,
                                                 process,
                                                 &curcond,
                                                 norElement,
@@ -5278,16 +5275,15 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                                 stateCountMultiplier,
                                                 hasGroup,
                                                 negative,
-                                                groupOptionPicked,
                                                 groupFunction,
                                                 m_optionMulti,
                                                 m_animMulti);
                                 }
                             }
 
-                            process.multiOption = oldcond;
-                            process.animMulti   = animMulti;
-                            process.optionMulti = optionMulti;
+                            animThrInfo.multiOption = oldcond;
+                            animThrInfo.animMulti   = animMulti;
+                            animThrInfo.optionMulti = optionMulti;
                             break;
                         }
 
@@ -5326,11 +5322,17 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                             for (unsigned int j = 0; j < curOrder.size(); ++j)
                             {
                                 if (isalpha(curOrder[j]))
+                                {
                                     word = true;
+                                }
                                 else if (isdigit(curOrder[j]))
+                                {
                                     number = true;
+                                }
                                 else
+                                {
                                     unknown = true;
+                                }
                             }
 
                             if (word & number)
@@ -5379,6 +5381,7 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                         if (!skip)
                         {
                             OutputCheck(generatedlines,
+                                        animThrInfo,
                                         process,
                                         &curcond,
                                         norElement,
@@ -5391,7 +5394,6 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                         stateCountMultiplier,
                                         hasGroup,
                                         negative,
-                                        groupOptionPicked,
                                         groupFunction,
                                         optionMulti,
                                         animMulti);
@@ -5404,15 +5406,11 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                     case nemesis::CONDITION_START:
                     case nemesis::CONDITION:
                     {
-                        if (curcond.next->isTrue(&process,
-                                                 format,
-                                                 behaviorFile,
-                                                 curstack.linecount,
-                                                 false,
-                                                 false,
-                                                 curcond.next))
+                        if (curcond.next->isTrue(
+                                animThrInfo, process, format, behaviorFile, curstack.linecount, false, false))
                         {
                             OutputCheck(generatedlines,
+                                        animThrInfo,
                                         process,
                                         &curcond,
                                         norElement,
@@ -5425,16 +5423,17 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                         stateCountMultiplier,
                                         hasGroup,
                                         negative,
-                                        groupOptionPicked,
                                         groupFunction,
                                         optionMulti,
                                         animMulti);
                         }
+
                         break;
                     }
                     case nemesis::CONDITION_DEFAULT:
                     {
                         OutputCheck(generatedlines,
+                                    animThrInfo,
                                     process,
                                     &curcond,
                                     norElement,
@@ -5447,10 +5446,10 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                     stateCountMultiplier,
                                     hasGroup,
                                     negative,
-                                    groupOptionPicked,
                                     groupFunction,
                                     optionMulti,
                                     animMulti);
+                        break;
                     }
                 }
 #endif
@@ -5464,9 +5463,9 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
         {
             if (hasProcess)
             {
-                process.numline = curstack.linecount;
-                process.line    = &line;
-                process.blocksCompile(lineblocks);
+                animThrInfo.numline = curstack.linecount;
+                animThrInfo.line    = &line;
+                process.blocksCompile(lineblocks, animThrInfo);
 
                 if (error) throw nemesis::exception();
             }
@@ -5487,13 +5486,12 @@ void NewAnimation::hasProcessing(string& line,
                                  shared_ptr<VecStr> generatedlines,
                                  size_t& elementLine,
                                  int& counter,
-                                 ID& eventid,
-                                 ID& variableid,
+                                 const ID& eventid,
+                                 const ID& variableid,
                                  vector<int> fixedStateID,
                                  vector<int> stateCountMultiplier,
                                  bool hasGroup,
                                  bool& negative,
-                                 vector<unordered_map<string, bool>> groupOptionPicked,
                                  shared_ptr<group> groupFunction,
                                  int optionMulti,
                                  int animMulti)
@@ -5597,7 +5595,7 @@ void NewAnimation::hasProcessing(string& line,
         if (line.find("$MC$", 0) != NOT_FOUND)
         {
             AnimationUtility utility(line, eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
-            multiChoice(line, *generatedlines, groupOptionPicked, numline, utility);
+            multiChoice(line, *generatedlines, numline, utility);
 
             if (error) throw nemesis::exception();
         }
@@ -5627,9 +5625,9 @@ void NewAnimation::hasProcessing(string& line,
                     }
                     else
                     {
+                        string strID                      = newID();
                         groupFunction->functionIDs[oldID] = strID;
                         line.replace(pos, format.length() + 7 + ID.length(), strID);
-                        newID();
                     }
                 }
             }
@@ -5655,9 +5653,8 @@ void NewAnimation::hasProcessing(string& line,
                     }
                     else
                     {
-                        IDExist[oldID] = strID;
-                        ID             = strID;
-                        newID();
+                        ID             = newID();
+                        IDExist[oldID] = ID;
                     }
 
                     subFunctionIDs->format[format + oldID.substr(3)] = ID;

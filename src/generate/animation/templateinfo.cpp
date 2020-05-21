@@ -31,7 +31,9 @@ TemplateInfo::TemplateInfo()
 
             if (code == "t" || code == "aaprefix" || code == "aaset" || code == "md" || code == "rd"
                 || code == "+")
+            {
                 ErrorMessage(3009, code);
+            }
 
             if (sf::is_directory(FOF))
             {
@@ -83,7 +85,9 @@ TemplateInfo::TemplateInfo()
                         if (isCore)
                         {
                             if (behaviorJoints[lowerBehaviorFolder].size() == 0)
+                            {
                                 ErrorMessage(1182, code, templateDirectory + code + "\\option_list.txt");
+                            }
 
                             behaviorJoints[nemesis::to_lower_copy(optionlist[code].coreBehavior)]
                                 = behaviorJoints[lowerBehaviorFolder];
@@ -282,10 +286,14 @@ TemplateInfo::TemplateInfo()
                         if (optionlist[code].multiState[lowerBehaviorFolder].size() > 1)
                         {
                             if (isStateJoint[lowerBehaviorFolder].size() == 0)
+                            {
                                 ErrorMessage(1074, templateDirectory + code);
+                            }
                             else if (isStateJoint[lowerBehaviorFolder].size()
                                      != optionlist[code].multiState[lowerBehaviorFolder].size())
+                            {
                                 ErrorMessage(1073, templateDirectory + code);
+                            }
 
                             for (auto it = optionlist[code].multiState[lowerBehaviorFolder].begin();
                                  it != optionlist[code].multiState[lowerBehaviorFolder].end();
@@ -304,9 +312,13 @@ TemplateInfo::TemplateInfo()
                                 WarningMessage(1008, templateDirectory + code + "\\option_list.txt");
 
                             if (isStateJoint[lowerBehaviorFolder].size() > 1)
+                            {
                                 ErrorMessage(1072, templateDirectory + code);
+                            }
                             else if (isStateJoint[lowerBehaviorFolder].size() == 0)
+                            {
                                 ErrorMessage(1074, templateDirectory + code);
+                            }
 
                             mainBehaviorJoint[code][lowerBehaviorFolder][0]
                                 = isStateJoint[lowerBehaviorFolder].begin()->first;
@@ -319,15 +331,19 @@ TemplateInfo::TemplateInfo()
                             {
                                 if (optionlist[code].groupMin != -1 || optionlist[code].ruleOne.size() != 0
                                     || optionlist[code].ruleTwo.size() != 0)
+                                {
                                     ErrorMessage(1061,
                                                  code,
                                                  templateDirectory + code + "\\" + behaviorFolder + "\\"
                                                      + code + "_group.txt");
+                                }
 
                                 if (behaviortemplate[code + "_master"].size() != 0)
+                                {
                                     ErrorMessage(1085,
                                                  templateDirectory + code + "\\" + behaviorFolder + "\\"
                                                      + code + "_group.txt");
+                                }
                             }
                         }
                         else if (optionlist[code].ignoreGroup)

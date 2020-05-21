@@ -1,9 +1,12 @@
-#include "Global.h"
 #include <utility>
 
-#include "generate/animation/animationinfo.h"
+#include "Global.h"
+
+#include "utilities/conditions.h"
+
 #include "generate/animation/import.h"
 #include "generate/animation/newanimation.h"
+#include "generate/animation/animationinfo.h"
 
 #pragma warning(disable : 4503)
 
@@ -152,7 +155,9 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 
 						for (int k = 0; k < reference; ++k)
 						{
-							string number = boost::regex_replace(string(line.substr(line.find("$import["))), boost::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string number = nemesis::regex_replace(string(line.substr(line.find("$import["))),
+                                                                   nemesis::regex("[^0-9]*([0-9]+).*"),
+                                                                   string("\\1"));
 
 							if (line.find("$import[" + number + "]$", 0) != NOT_FOUND)
 							{
@@ -289,10 +294,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
                                 newExportID[file][keyword] = tempID;
                                 ++lastID;
 
-								if (lastID == 9216)
-								{
-									++lastID;
-								}
+								if (lastID == 9216) ++lastID;
 							}
 
                             line.replace(nextpos, importer.length() + 2, tempID);
@@ -344,10 +346,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 									IDExist[oldID] = tempID;
 									++lastID;
 
-									if (lastID == 9216)
-									{
-										++lastID;
-									}
+									if (lastID == 9216) ++lastID;
 								}
 
 								line.replace(nextpos, oldID.length(), tempID);

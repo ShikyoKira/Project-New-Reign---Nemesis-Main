@@ -1,5 +1,3 @@
-#include <boost/regex.hpp>
-
 #include "utilities/conditions.h"
 #include "utilities/stringsplit.h"
 
@@ -18,7 +16,7 @@ void stateInstall(string line,
                   bool isMC,
                   map<int, vector<nemesis::scope>>& lineblocks,
                   proc& process,
-                  void (proc::*func)(nemesis::scope, VecStr&));
+                  void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const);
 void mainAnimEventInstall(string format,
                           string behaviorFile,
                           string change,
@@ -46,7 +44,7 @@ void ProcessFunction(string change,
                      proc& process = proc());
 
 void AnimTemplate::ExamineTemplate(
-    string n_format, string n_file, VecStr templatelines, bool isGroup, bool isMaster, OptionList optionlist)
+    string _format, string _file, VecStr templatelines, bool isGroup, bool isMaster, OptionList optionlist)
 {
     bool isCore     = optionlist.core;
     bool isEnd      = false;
@@ -58,13 +56,20 @@ void AnimTemplate::ExamineTemplate(
     int openOrder   = -2;
     int condition   = 0;
     int openRange   = 0;
-    format          = n_format;
-    behaviorFile    = n_file;
+    format          = _format;
+    behaviorFile    = _file;
+
     string elementline;
     unordered_map<int, VecStr> conditionStore;
     unordered_map<int, string> openConditions;
     vector<nemesis::CondVar<string>*> generatedlines;
     generatedlines.push_back(&lines);
+
+    process.isGroup      = isGroup;
+    process.isMaster     = isMaster;
+    process.masterformat = format;
+    process.format       = isMaster ? format + "_master" : isGroup ? format + "_group" : format;
+    process.behaviorFile = _file;
 
     if (isCore)
     {
@@ -207,7 +212,9 @@ void AnimTemplate::ExamineTemplate(
 
                 if (isMaster && generatedlines.back()->conditions == format
                     && multiOption != format + "_group")
+                {
                     ErrorMessage(1202, format, behaviorFile, i + 1);
+                }
 
                 generatedlines.back()->next = make_shared<nemesis::Condt>(generatedlines.back()->conditions,
                                                                           format,
@@ -431,7 +438,7 @@ void AnimTemplate::Process(const string& line,
         if (pos != NOT_FOUND)
         {
             vector<nemesis::MultiChoice> m_conditions;
-            process.hasMC[numline] = true;
+            process.hasMC.insert(numline);
 
             for (auto& itr = nemesis::regex_iterator(line, nemesis::regex("[\\s]+<!-- (.+?) -->[\\s]*?"));
                  itr != nemesis::regex_iterator();
@@ -529,14 +536,25 @@ void AnimTemplate::Process(const string& line,
         // set function ID
         if (pos != NOT_FOUND)
         {
-            void (proc::*func)(nemesis::scope, VecStr&);
+            if (format == "fu")
+            {
+                isEnd = false;
+            }
+
+            void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
 
             if (isMaster)
+            {
                 func = &proc::IDRegisMaster;
+            }
             else if (isGroup)
+            {
                 func = &proc::IDRegisGroup;
+            }
             else
+            {
                 func = &proc::IDRegis;
+            }
 
             for (auto& itr = nemesis::regex_iterator(line, nemesis::regex("MID\\$([0-9]+)"));
                  itr != nemesis::regex_iterator();
@@ -632,7 +650,7 @@ void stateInstall(string line,
                   bool isMC,
                   map<int, vector<shared_ptr<nemesis::scope>>>& lineblocks,
                   proc& process,
-                  void (proc::*func)(nemesis::scope, VecStr&))
+                  void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const)
 {
     int intID;
     nemesis::regex expr(format + "\\[" + animOrder + "\\]\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]");
@@ -716,7 +734,7 @@ void mainAnimEventInstall(string format,
         bool num     = false;
         string first = itr->str(1);
         size_t post  = curPos + itr->position();
-        void (proc::*func)(nemesis::scope, VecStr&);
+        void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
 
         if (first.length() == 0)
         {
@@ -814,7 +832,9 @@ void ProcessFunction(string change,
         }
     }
     else if (!isGroup && change.find(format + "_group[") != NOT_FOUND)
+    {
         ErrorMessage(1204, format, behaviorFile, numline, change);
+    }
 
     string shortcut = isMaster ? format + "_group\\[\\]" : format;
 
@@ -883,7 +903,7 @@ void ProcessFunction(string change,
         {
             bool number  = false;
             string first = itr->str(1);
-            void (proc::*func)(nemesis::scope, VecStr&);
+            void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
 
             if (first.length() == 0)
             {
@@ -980,7 +1000,7 @@ void ProcessFunction(string change,
              ++itr)
         {
             string first = itr->str(1);
-            void (proc::*func)(nemesis::scope, VecStr&);
+            void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
 
             if (first.length() == 0)
             {
@@ -1120,7 +1140,7 @@ void ProcessFunction(string change,
             bool number  = false;
             size_t post  = curPos + itr->position();
             string first = itr->str(1);
-            void (proc::*func)(nemesis::scope, VecStr&);
+            void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
 
             if (first.length() == 0)
             {
@@ -1201,7 +1221,7 @@ void ProcessFunction(string change,
             bool number  = false;
             size_t post  = curPos + itr->position();
             string first = itr->str(1);
-            void (proc::*func)(nemesis::scope, VecStr&);
+            void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
 
             if (first.length() == 0)
             {
@@ -1317,7 +1337,7 @@ void ProcessFunction(string change,
             string optionMulti = itr->str(3);
             string full        = itr->str();
             size_t post        = curPos + itr->position();
-            void (proc::*func)(nemesis::scope, VecStr&);
+            void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
             vector<int> container;
             ++counter;
             string templine;
@@ -1569,7 +1589,7 @@ void ProcessFunction(string change,
                     string header;
                     string first  = itr->str(1);
                     size_t addpos = curPos + itr->position();
-                    void (proc::*func)(nemesis::scope, VecStr&);
+                    void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
 
                     if (first.length() == 0)
                     {
@@ -1951,7 +1971,7 @@ void ProcessFunction(string change,
             bool number  = false;
             string first = itr->str(1);
             size_t post  = curPos + itr->position();
-            void (proc::*func)(nemesis::scope, VecStr&);
+            void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
 
             if (first.length() == 0)
             {
@@ -2037,7 +2057,7 @@ void ProcessFunction(string change,
             bool number  = false;
             string first = itr->str(1);
             size_t post  = curPos + itr->position();
-            void (proc::*func)(nemesis::scope, VecStr&);
+            void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
 
             if (first.length() == 0)
             {

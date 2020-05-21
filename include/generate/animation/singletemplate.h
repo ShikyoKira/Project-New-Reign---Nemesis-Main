@@ -1,8 +1,6 @@
 #ifndef SINGLETEMPLATE_H_
 #define SINGLETEMPLATE_H_
 
-#include <boost/thread.hpp>
-
 #include "utilities/linkedvar.h"
 
 #include "generate/animation/optionlist.h"

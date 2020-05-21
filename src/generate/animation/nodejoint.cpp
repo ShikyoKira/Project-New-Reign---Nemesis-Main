@@ -288,6 +288,7 @@ void NodeJoint::insertData(string format,
             switch (storeTemplate[sect].nested->type)
             {
                 case NEW:
+                {
                     if (condt.find("[") == NOT_FOUND)
                     {
                         if (hasMaster)
@@ -407,7 +408,9 @@ void NodeJoint::insertData(string format,
                                                               multiOption);
 
                             if (formatInfo[2].find("AnimObject") != NOT_FOUND)
+                            {
                                 ErrorMessage(1129, format, filename, storeTemplate[sect].nested->row);
+                            }
 
                             if (optionPicked[stoi(formatInfo[1])][stoi(formatInfo[2])][formatInfo[3]])
                             {
@@ -473,8 +476,11 @@ void NodeJoint::insertData(string format,
                             }
                         }
                     }
+
                     break;
+                }
                 case FOREACH:
+                {
                     forEachProcess(output,
                                    storeTemplate[sect],
                                    condition,
@@ -504,7 +510,9 @@ void NodeJoint::insertData(string format,
                                    subFunctionIDs,
                                    negative);
                     break;
+                }
                 case CONDITION_START:
+                {
                     utility.originalCondition = condition;
                     utility.nodeProcess       = make_shared<NodePackedParameters>(format,
                                                                             filename,
@@ -580,8 +588,11 @@ void NodeJoint::insertData(string format,
                             sect++;
                         }
                     }
+
                     break;
+                }
                 case CONDITION_ELSE:
+                {
                     if (!output[sect].back().nested->conditionSkip)
                     {
                         utility.originalCondition = condition;
@@ -661,8 +672,11 @@ void NodeJoint::insertData(string format,
                             }
                         }
                     }
+
                     break;
+                }
                 case CONDITION:
+                {
                     if (!output[sect].back().nested->conditionSkip)
                     {
                         output[sect].back().nested->insertData(format,
@@ -691,8 +705,13 @@ void NodeJoint::insertData(string format,
                                                                negative);
                         output[sect].back().deleted = false;
                     }
+
                     break;
-                default: break;
+                }
+                default:
+                {
+                    break;
+                }
             }
         }
         else
@@ -735,13 +754,21 @@ void NodeJoint::insertData(string format,
                 string num;
 
                 if (optionMulti != -1)
+                {
                     num = to_string(optionMulti);
+                }
                 else if (animMulti != -1)
+                {
                     num = to_string(animMulti);
+                }
                 else if (groupMulti != -1)
+                {
                     num = to_string(groupMulti);
+                }
                 else
+                {
                     num = "0";
+                }
 
                 for (int p = 0; p < counter; ++p)
                 {
@@ -1727,13 +1754,21 @@ void processing(string& lineRef,
         string num;
 
         if (optionMulti != -1)
+        {
             num = to_string(optionMulti);
+        }
         else if (animMulti != -1)
+        {
             num = to_string(animMulti);
+        }
         else if (groupMulti != -1)
+        {
             num = to_string(groupMulti);
+        }
         else
+        {
             num = "0";
+        }
 
         line.replace(line.find("$%$"), 3, num);
     }
@@ -1972,7 +2007,9 @@ void processing2(string& line,
 
                             if (stoi(equation) > int(groupAnimInfo[groupMulti].size() - 1)
                                 || stoi(equation) < 0)
+                            {
                                 ErrorMessage(1148, format, filename, linecount, change);
+                            }
 
                             change.replace(nextpos, equationLength, equation);
                             isChange = true;
@@ -2013,9 +2050,14 @@ void processing2(string& line,
                         }
 
                         if (change.find(format + "[N][FilePath]", 0) != NOT_FOUND)
+                        {
                             ErrorMessage(1056, format, filename, linecount, line);
+                        }
+                        
                         if (change.find(format + "[B][FilePath]", 0) != NOT_FOUND)
+                        {
                             ErrorMessage(1056, format, filename, linecount, line);
+                        }
 
                         if (change.find(format + "[L][FilePath]", 0) != NOT_FOUND)
                         {
@@ -2073,9 +2115,14 @@ void processing2(string& line,
                         }
 
                         if (change.find(format + "[N][FileName]", 0) != NOT_FOUND)
+                        {
                             ErrorMessage(1056, format, filename, linecount, line);
+                        }
+                        
                         if (change.find(format + "[B][FileName]", 0) != NOT_FOUND)
+                        {
                             ErrorMessage(1056, format, filename, linecount, line);
+                        }
 
                         if (change.find(format + "[L][FileName]", 0) != NOT_FOUND)
                         {
@@ -2173,9 +2220,14 @@ void processing2(string& line,
                         }
 
                         if (change.find(format + "[N][main_anim_event]", 0) != NOT_FOUND)
+                        {
                             ErrorMessage(1056, format, filename, linecount, line);
+                        }
+                        
                         if (change.find(format + "[B][main_anim_event]", 0) != NOT_FOUND)
+                        {
                             ErrorMessage(1056, format, filename, linecount, line);
+                        }
 
                         pos = change.find("[" + format + "[L][main_anim_event]]", 0);
 
@@ -2310,7 +2362,9 @@ void processing2(string& line,
                 if (pos != NOT_FOUND && change.find("]", pos) != NOT_FOUND)
                 {
                     if (subFunctionIDs->functionIDs.size() == 0)
+                    {
                         ErrorMessage(1208, format, filename, linecount);
+                    }
 
                     for (auto& each : subFunctionIDs->functionIDs)
                     {
@@ -2490,7 +2544,9 @@ void processing2(string& line,
                 if (IDExist[importer].length() == 0)
                 {
                     if (bracketCount != altBracketCount)
+                    {
                         ErrorMessage(2013, format, filename, linecount, importer);
+                    }
 
                     size_t pos  = importer.find("[") + 1;
                     string file = importer.substr(pos, importer.find("]", pos) - pos);
@@ -2506,8 +2562,8 @@ void processing2(string& line,
                         for (auto& curChar : tempKeyword)
                         {
                             if (curChar == '[')
-                            { 
-                                ++openBrack; 
+                            {
+                                ++openBrack;
                             }
                             else if (curChar == ']')
                             {
@@ -2524,9 +2580,13 @@ void processing2(string& line,
                         pos = keyword.rfind("!~^!");
 
                         if (openBrack != 0 || pos == NOT_FOUND || pos != keyword.length() - 4)
+                        {
                             ErrorMessage(2013, format, filename, linecount, importer);
+                        }
                         else
+                        {
                             keyword = keyword.substr(0, keyword.length() - 4);
+                        }
                     }
                     else
                     {
