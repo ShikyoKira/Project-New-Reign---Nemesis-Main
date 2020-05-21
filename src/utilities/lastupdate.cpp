@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <time.h>
 
+#include "utilities/algorithm.h"
 #include "utilities/atomiclock.h"
 #include "utilities/lastupdate.h"
 
@@ -11,17 +12,17 @@ using namespace std;
 
 atomic_flag updateLock = ATOMIC_FLAG_INIT;
 
-bool saveLastUpdate(string filename, unordered_map<string, string>& lastUpdate)
+void saveLastUpdate(const string& filename, unordered_map<string, string>& lastUpdate)
 {
-    return saveLastUpdate(filename.c_str(), lastUpdate);
+    saveLastUpdate(filename.c_str(), lastUpdate);
 }
 
-bool saveLastUpdate(string_view filename, unordered_map<string, string>& lastUpdate)
+void saveLastUpdate(const string_view& filename, unordered_map<string, string>& lastUpdate)
 {
-    return saveLastUpdate(filename.data(), lastUpdate);
+    saveLastUpdate(nemesis::transform_to<string>(filename).c_str(), lastUpdate);
 }
 
-bool saveLastUpdate(const char* filename, unordered_map<string, string>& lastUpdate)
+void saveLastUpdate(const char* filename, unordered_map<string, string>& lastUpdate)
 {
     try
     {
@@ -32,8 +33,6 @@ bool saveLastUpdate(const char* filename, unordered_map<string, string>& lastUpd
     {
         ErrorMessage(6001, ex.what());
     }
-
-    return true;
 }
 
 string GetLastModified(string filename)
@@ -48,7 +47,9 @@ string GetLastModified(string filename)
         return buffer;
     }
     catch (...)
-    {}
+    {
+        // ErrorMessage(2022);
+    }
 
     return "";
 }
