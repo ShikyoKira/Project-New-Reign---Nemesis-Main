@@ -24,11 +24,12 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, VecStr& an
 bool IDExistProcess(string change, vector<InfoDataPack>& storeline, map<string, vector<InfoDataTracker>> original, map<string, bool>& isExist,
 	map<string, string>& exchange, vector<AnimDataPack>& animDataPack, map<string, vector<int>>& codeTracker, map<string, bool>& loopCheck)
 {
-	auto& ori = original.find(change);
+    auto ori = original.find(change);
 
-	if (ori == original.end()) return false;
+    if (ori == original.end())
+        return false;
 
-	if (loopCheck[change]) return true;
+    if (loopCheck[change]) return true;
 
 	loopCheck[change] = true;
 
@@ -221,9 +222,9 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, VecStr& an
 		InfoDataPack curIP;
 		string uniquecode = animdatafile[i++];
 		locate[uniquecode] = i - 1;
-		auto& exch = exchange.find(uniquecode);
+        auto exch = exchange.find(uniquecode);
 
-		if (exch != exchange.end())
+        if (exch != exchange.end())
 		{
 			uniquecode = exch->second;
 			original[uniquecode].push_back(InfoDataTracker(exch->first, storeline.size()));

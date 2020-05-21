@@ -710,7 +710,7 @@ bool FolderCreate(wstring curBehaviorPath)
     return true;
 }
 
-uint CRC32Convert(string line)
+unsigned int CRC32Convert(string line)
 {
     boost::crc_optimal<32, 0x4C11DB7, 0, 0, true, true> result;
     result.process_bytes(line.data(), line.length());

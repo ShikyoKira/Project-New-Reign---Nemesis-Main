@@ -1,6 +1,7 @@
 #ifndef VERSION_H_
 #define VERSION_H_
 
+#include "debugmsg.h"
 #include "utilities/algorithm.h"
 #include "utilities/readtextfile.h"
 

@@ -33,17 +33,17 @@ void ProcessFunction(string change,
                      string format,
                      string behaviorFile,
                      string multiOption,
-                     bool& isEnd,
+                     bool &isEnd,
                      int numline,
                      size_t curPos,
-                     OptionList& optionlist,
-                     map<int, vector<shared_ptr<nemesis::scope>>>& lineblocks,
-                     vector<AddOnInfo>& addInfo,
-                     bool& isTrueMulti,
-                     bool isGroup  = false,
+                     OptionList &optionlist,
+                     map<int, vector<shared_ptr<nemesis::scope>>> &lineblocks,
+                     vector<AddOnInfo> &addInfo,
+                     bool &isTrueMulti,
+                     bool isGroup = false,
                      bool isMaster = false,
-                     bool isMC     = true,
-                     proc& process = proc());
+                     bool isMC = true,
+                     proc *process = nullptr);
 
 void AnimTemplate::ExamineTemplate(
     string n_format, string n_file, VecStr templatelines, bool isGroup, bool isMaster, OptionList optionlist)
@@ -100,8 +100,7 @@ void AnimTemplate::ExamineTemplate(
                 condition++;
                 string multiOption;
 
-                for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-                {
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it) {
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
@@ -128,8 +127,7 @@ void AnimTemplate::ExamineTemplate(
 
                 string multiOption;
 
-                for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-                {
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it) {
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
@@ -166,8 +164,7 @@ void AnimTemplate::ExamineTemplate(
 
                 string multiOption;
 
-                for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-                {
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it) {
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
@@ -195,8 +192,7 @@ void AnimTemplate::ExamineTemplate(
 
                 string multiOption;
 
-                for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-                {
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it) {
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
@@ -233,8 +229,7 @@ void AnimTemplate::ExamineTemplate(
 
                 string multiOption;
 
-                for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-                {
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it) {
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
@@ -277,8 +272,7 @@ void AnimTemplate::ExamineTemplate(
             {
                 string multiOption;
 
-                for (auto& it = generatedlines.rbegin(); it != generatedlines.rend(); ++it)
-                {
+                for (auto it = generatedlines.rbegin(); it != generatedlines.rend(); ++it) {
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
@@ -331,7 +325,8 @@ void AnimTemplate::Process(const string& line,
             hasProcess      = true;
             string templine = line.substr(0, line.find("<hkparam name=\"", 0));
             openRange       = count(templine.begin(), templine.end(), '\t');
-            process.installBlock(nemesis::scope(0, 0, vector<int>{openRange}, &proc::compute), numline);
+            process.installBlock(nemesis::scope(0, 0, vector<int>{openRange}, &proc::compute),
+                                 numline);
         }
         else
         {
@@ -408,7 +403,7 @@ void AnimTemplate::Process(const string& line,
                             isGroup,
                             isMaster,
                             false,
-                            process);
+                            &process);
             hasProcess = true;
         }
 
@@ -433,10 +428,10 @@ void AnimTemplate::Process(const string& line,
             vector<nemesis::MultiChoice> m_conditions;
             process.hasMC[numline] = true;
 
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex("[\\s]+<!-- (.+?) -->[\\s]*?"));
+            for (auto itr = nemesis::regex_iterator(line,
+                                                    nemesis::regex("[\\s]+<!-- (.+?) -->[\\s]*?"));
                  itr != nemesis::regex_iterator();
-                 ++itr)
-            {
+                 ++itr) {
                 string output = itr->str(1);
                 pos           = itr->position(1);
                 VecStr curElements;
@@ -471,12 +466,13 @@ void AnimTemplate::Process(const string& line,
                 }
             }
 
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex("\\$MC\\$"));
+            for (auto itr = nemesis::regex_iterator(line, nemesis::regex("\\$MC\\$"));
                  itr != nemesis::regex_iterator();
-                 ++itr)
-            {
+                 ++itr) {
                 pos = itr->position();
-                process.installBlock(nemesis::scope(pos, pos + itr->str().length(), &proc::multiChoiceRegis),
+                process.installBlock(nemesis::scope(pos,
+                                                    pos + itr->str().length(),
+                                                    &proc::multiChoiceRegis),
                                      numline,
                                      m_conditions);
                 hasProcess = true;
@@ -486,40 +482,46 @@ void AnimTemplate::Process(const string& line,
         // get group node ID
         if (isGroup)
         {
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(format + "\\$([0-9]+)"));
+            for (auto itr = nemesis::regex_iterator(line, nemesis::regex(format + "\\$([0-9]+)"));
                  itr != nemesis::regex_iterator();
-                 ++itr)
-            {
+                 ++itr) {
                 string ID = itr->str(1);
                 pos       = itr->position();
-                process.installBlock(
-                    nemesis::scope(pos, pos + itr->str().length(), VecStr{ID, line}, &proc::IDRegisAnim),
-                    numline);
+                process.installBlock(nemesis::scope(pos,
+                                                    pos + itr->str().length(),
+                                                    VecStr{ID, line},
+                                                    &proc::IDRegisAnim),
+                                     numline);
                 hasProcess = true;
             }
 
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(format + "_group\\$([0-9]+)"));
+            for (auto itr = nemesis::regex_iterator(line,
+                                                    nemesis::regex(format + "_group\\$([0-9]+)"));
                  itr != nemesis::regex_iterator();
-                 ++itr)
-            {
+                 ++itr) {
                 string ID = itr->str(1);
                 pos       = itr->position();
-                process.installBlock(
-                    nemesis::scope(pos, pos + itr->str().length(), VecStr{ID, line}, &proc::IDRegisGroup),
-                    numline);
+                process.installBlock(nemesis::scope(pos,
+                                                    pos + itr->str().length(),
+                                                    VecStr{ID, line},
+                                                    &proc::IDRegisGroup),
+                                     numline);
                 hasProcess = true;
             }
         }
         else
         {
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(format + "_group\\$([0-9]+)"));
+            for (auto itr = nemesis::regex_iterator(line,
+                                                    nemesis::regex(format + "_group\\$([0-9]+)"));
                  itr != nemesis::regex_iterator();
-                 ++itr)
-            {
+                 ++itr) {
                 string ID = itr->str(1);
                 pos       = itr->position();
-                process.installBlock(
-                    nemesis::scope(pos, pos + itr->str().length(), VecStr{ID}, &proc::groupIDRegis), numline);
+                process.installBlock(nemesis::scope(pos,
+                                                    pos + itr->str().length(),
+                                                    VecStr{ID},
+                                                    &proc::groupIDRegis),
+                                     numline);
                 hasProcess = true;
             }
         }
@@ -538,13 +540,15 @@ void AnimTemplate::Process(const string& line,
             else
                 func = &proc::IDRegis;
 
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex("MID\\$([0-9]+)"));
+            for (auto itr = nemesis::regex_iterator(line, nemesis::regex("MID\\$([0-9]+)"));
                  itr != nemesis::regex_iterator();
-                 ++itr)
-            {
+                 ++itr) {
                 pos = itr->position();
-                process.installBlock(
-                    nemesis::scope(pos, pos + itr->str().length(), VecStr{itr->str(1), line}, func), numline);
+                process.installBlock(nemesis::scope(pos,
+                                                    pos + itr->str().length(),
+                                                    VecStr{itr->str(1), line},
+                                                    func),
+                                     numline);
                 hasProcess = true;
             }
         }
@@ -552,48 +556,50 @@ void AnimTemplate::Process(const string& line,
 
     if (isEnd)
     {
-        for (auto& itr = nemesis::regex_iterator(
+        for (auto itr = nemesis::regex_iterator(
                  line, nemesis::regex("<hkparam name\\=\"relativeToEndOfClip\">(.+?)<\\/hkparam>"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             isEnd      = false;
             hasProcess = true;
             size_t pos = itr->position(1);
-            process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::relativeNegative),
+            process.installBlock(nemesis::scope(pos,
+                                                pos + itr->str(1).length(),
+                                                &proc::relativeNegative),
                                  numline);
         }
 
-        for (auto& itr = nemesis::regex_iterator(
+        for (auto itr = nemesis::regex_iterator(
                  line, nemesis::regex("<hkparam name\\=\"localTime\">(.+?)<\\/hkparam>"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             hasProcess = true;
             size_t pos = itr->position(1);
-            process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::localNegative),
+            process.installBlock(nemesis::scope(pos,
+                                                pos + itr->str(1).length(),
+                                                &proc::localNegative),
                                  numline);
         }
     }
 
-    for (auto& itr = nemesis::regex_iterator(
+    for (auto itr = nemesis::regex_iterator(
              line, nemesis::regex("<hkparam name\\=\"animationName\">(.+?)<\\/hkparam>"));
          itr != nemesis::regex_iterator();
-         ++itr)
-    {
+         ++itr) {
         hasProcess = true;
         size_t pos = itr->position(1);
-        process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::regisAnim), numline);
+        process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::regisAnim),
+                             numline);
     }
 
-    for (auto& itr = nemesis::regex_iterator(
+    for (auto itr = nemesis::regex_iterator(
              line, nemesis::regex("<hkparam name\\=\"behaviorName\">(.+?)<\\/hkparam>"));
          itr != nemesis::regex_iterator();
-         ++itr)
-    {
+         ++itr) {
         hasProcess = true;
         size_t pos = itr->position(1);
-        process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::regisBehavior), numline);
+        process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::regisBehavior),
+                             numline);
     }
 
     auto ls       = nemesis::LinkedVar(line, hasProcess, numline);
@@ -637,8 +643,7 @@ void stateInstall(string line,
     int intID;
     nemesis::regex expr(format + "\\[" + animOrder + "\\]\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]");
 
-    for (auto& itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator(); ++itr)
-    {
+    for (auto itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator(); ++itr) {
         string ID     = itr->str(1);
         string number = itr->str(2);
         size_t post   = curPos + itr->position();
@@ -711,8 +716,7 @@ void mainAnimEventInstall(string format,
                           bool isMaster,
                           proc& process)
 {
-    for (auto& itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator(); ++itr)
-    {
+    for (auto itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator(); ++itr) {
         bool num     = false;
         string first = itr->str(1);
         size_t post  = curPos + itr->position();
@@ -778,9 +782,13 @@ void mainAnimEventInstall(string format,
         }
         else
         {
-            isGroup ? process.installBlock(
-                nemesis::scope(post, post + itr->str().length(), VecStr{itr->str()}, func), numline)
-                    : process.installBlock(nemesis::scope(post, post + itr->str().length(), func), numline);
+            isGroup ? process.installBlock(nemesis::scope(post,
+                                                          post + itr->str().length(),
+                                                          VecStr{itr->str()},
+                                                          func),
+                                           numline)
+                    : process.installBlock(nemesis::scope(post, post + itr->str().length(), func),
+                                           numline);
         }
     }
 }
@@ -790,30 +798,32 @@ void ProcessFunction(string change,
                      string format,
                      string behaviorFile,
                      string multiOption,
-                     bool& isEnd,
+                     bool &isEnd,
                      int numline,
                      size_t curPos,
-                     OptionList& optionlist,
-                     map<int, vector<shared_ptr<nemesis::scope>>>& lineblocks,
-                     vector<AddOnInfo>& addInfo,
-                     bool& isTrueMulti,
+                     OptionList &optionlist,
+                     map<int, vector<shared_ptr<nemesis::scope>>> &lineblocks,
+                     vector<AddOnInfo> &addInfo,
+                     bool &isTrueMulti,
                      bool isGroup,
                      bool isMaster,
                      bool isMC,
-                     proc& process)
+                     proc *process)
 {
-    if (isMaster && multiOption != format + "_group")
-    {
+    proc tempProc;
+    if (process == nullptr)
+        process = &tempProc; //To avoid checking for null everywhere
+
+    if (isMaster && multiOption != format + "_group") {
         if (change.find(format + "[") != NOT_FOUND) ErrorMessage(1204, format, behaviorFile, numline, change);
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(format + "_group\\[(.*?)\\]"));
+        for (auto itr = nemesis::regex_iterator(change,
+                                                nemesis::regex(format + "_group\\[(.*?)\\]"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             ErrorMessage(1201, format, behaviorFile, numline);
         }
-    }
-    else if (!isGroup && change.find(format + "_group[") != NOT_FOUND)
+    } else if (!isGroup && change.find(format + "_group[") != NOT_FOUND)
         ErrorMessage(1204, format, behaviorFile, numline, change);
 
     string shortcut = isMaster ? format + "_group\\[\\]" : format;
@@ -860,7 +870,7 @@ void ProcessFunction(string change,
                     }
                     else
                     {
-                        process.installBlock(blok, numline);
+                        process->installBlock(blok, numline);
                     }
                 }
 
@@ -879,8 +889,8 @@ void ProcessFunction(string change,
     {
         nemesis::regex expr(shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[END\\]");
 
-        for (auto& itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator(); ++itr)
-        {
+        for (auto itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator();
+             ++itr) {
             bool number  = false;
             string first = itr->str(1);
             void (proc::*func)(nemesis::scope, VecStr&);
@@ -948,21 +958,21 @@ void ProcessFunction(string change,
                                                    func);
             }
 
-            isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
 
         expr = nemesis::regex("(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!"
                               + shortcut + "\\[\\d\\d\\]\\[)(END)");
 
-        for (auto& itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator(); ++itr)
-        {
+        for (auto itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator();
+             ++itr) {
             if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
             nemesis::scope blok(curPos + itr->position(),
                                 curPos + itr->position() + itr->str().length(),
                                 isGroup ? &proc::endMultiMaster : &proc::endSingle);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
         }
 
         if (error) throw nemesis::exception();
@@ -975,10 +985,9 @@ void ProcessFunction(string change,
     {
         string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             string first = itr->str(1);
             void (proc::*func)(nemesis::scope, VecStr&);
 
@@ -1055,7 +1064,8 @@ void ProcessFunction(string change,
                                                         vector<int>{intID, stoi(number)},
                                                         VecStr{full},
                                                         func);
-                isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
+                isMC ? lineblocks[blok->size].push_back(blok)
+                     : process->installBlock(*blok, numline);
             }
             else
             {
@@ -1069,10 +1079,9 @@ void ProcessFunction(string change,
         {
             expstr = shortcut + "\\[\\(S([0-9]*)\\+([0-9]+)\\)\\]";
 
-            for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+            for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
                  itr != nemesis::regex_iterator();
-                 ++itr)
-            {
+                 ++itr) {
                 int intID;
                 string ID                = itr->str(1);
                 string number            = itr->str(2);
@@ -1085,7 +1094,8 @@ void ProcessFunction(string change,
                                                   vector<int>{intID, stoi(number)},
                                                   VecStr{full},
                                                   &proc::stateMultiMasterToGroup);
-                isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
+                isMC ? lineblocks[blok->size].push_back(blok)
+                     : process->installBlock(*blok, numline);
 
                 if (error) throw nemesis::exception();
             }
@@ -1094,10 +1104,9 @@ void ProcessFunction(string change,
         expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut
                  + "\\[\\d\\d\\]\\[)(?<!" + shortcut + "\\[)\\(S([0-9]*)\\+([0-9]+)\\)";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             int intID;
             size_t post                 = curPos + itr->position();
             string first                = itr->str(1);
@@ -1105,7 +1114,7 @@ void ProcessFunction(string change,
             nemesis::scope blok(
                 post, post + itr->str().length(), vector<int>{intID, stoi(itr->str(2))}, &proc::stateSingle);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
         }
     }
 
@@ -1113,10 +1122,9 @@ void ProcessFunction(string change,
     {
         string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[FilePath\\]";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             bool number  = false;
             size_t post  = curPos + itr->position();
             string first = itr->str(1);
@@ -1171,22 +1179,21 @@ void ProcessFunction(string change,
             number ? blok = make_shared<nemesis::scope>(
                          post, post + itr->str().length(), vector<int>{stoi(first)}, VecStr{change}, func)
                    : blok = make_shared<nemesis::scope>(post, post + itr->str().length(), func);
-            isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
 
         expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut
                  + "\\[\\d\\d\\]\\[)(FilePath)";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
             size_t post = curPos + itr->position();
             nemesis::scope blok(post, post + 8, isGroup ? &proc::filepathMultiMaster : &proc::filepathSingle);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
         }
     }
 
@@ -1194,10 +1201,9 @@ void ProcessFunction(string change,
     {
         string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[FileName\\]";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             bool number  = false;
             size_t post  = curPos + itr->position();
             string first = itr->str(1);
@@ -1252,22 +1258,21 @@ void ProcessFunction(string change,
             number ? blok = make_shared<nemesis::scope>(
                          post, post + itr->str().length(), vector<int>{stoi(first)}, VecStr{change}, func)
                    : blok = make_shared<nemesis::scope>(post, post + itr->str().length(), func);
-            isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
 
         expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut
                  + "\\[\\d\\d\\]\\[)(FileName)";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
             size_t post = curPos + itr->position();
             nemesis::scope blok(post, post + 8, isGroup ? &proc::filenameMultiMaster : &proc::filenameSingle);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
         }
 
         if (error) throw nemesis::exception();
@@ -1277,27 +1282,25 @@ void ProcessFunction(string change,
     {
         string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[Path\\]";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             size_t post = curPos + itr->position();
             nemesis::scope blok(post, post + itr->str().length(), &proc::pathSingle);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
         }
 
         expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut
                  + "\\[\\d\\d\\]\\[)(Path)";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             size_t post = curPos + itr->position();
             nemesis::scope blok(post, post + 4, &proc::pathSingle);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
         }
 
         if (error) throw nemesis::exception();
@@ -1308,10 +1311,9 @@ void ProcessFunction(string change,
         int counter   = 0;
         string expstr = shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[@AnimObject\\/([0-9]+)\\](\\[[0-9]+\\]|)";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             string first       = itr->str(1);
             string second      = itr->str(2);
             string optionMulti = itr->str(3);
@@ -1434,7 +1436,7 @@ void ProcessFunction(string change,
             }
             else
             {
-                process.installBlock(blok, numline);
+                process->installBlock(blok, numline);
             }
 
             if (error) throw nemesis::exception();
@@ -1443,10 +1445,9 @@ void ProcessFunction(string change,
         expstr = "(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!" + shortcut
                  + "\\[\\d\\d\\]\\[)@AnimObject\\/([0-9]+)(\\[[0-9]+\\]|)";
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex(expstr));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
             size_t post     = curPos + itr->position();
@@ -1466,7 +1467,7 @@ void ProcessFunction(string change,
                 }
                 else
                 {
-                    process.installBlock(blok, numline);
+                    process->installBlock(blok, numline);
                 }
             }
             else
@@ -1485,7 +1486,7 @@ void ProcessFunction(string change,
                 }
                 else
                 {
-                    process.installBlock(blok, numline);
+                    process->installBlock(blok, numline);
                 }
             }
         }
@@ -1495,55 +1496,54 @@ void ProcessFunction(string change,
 
     if (change.find("main_anim_event", 0) != NOT_FOUND)
     {
-        mainAnimEventInstall(
-            format,
-            behaviorFile,
-            change,
-            numline,
-            curPos,
-            nemesis::regex("\\{" + shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[main_anim_event\\]\\}"),
-            isGroup,
-            isMaster,
-            process);
-        mainAnimEventInstall(
-            format,
-            behaviorFile,
-            change,
-            numline,
-            curPos,
-            nemesis::regex("(?<!\\{)" + shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[main_anim_event\\](?=[^\\}]|$)"),
-            isGroup,
-            isMaster,
-            process);
+        mainAnimEventInstall(format,
+                             behaviorFile,
+                             change,
+                             numline,
+                             curPos,
+                             nemesis::regex("\\{" + shortcut
+                                            + "\\[(F|N|B|L|[0-9]*)\\]\\[main_anim_event\\]\\}"),
+                             isGroup,
+                             isMaster,
+                             *process);
+        mainAnimEventInstall(format,
+                             behaviorFile,
+                             change,
+                             numline,
+                             curPos,
+                             nemesis::regex(
+                                 "(?<!\\{)" + shortcut
+                                 + "\\[(F|N|B|L|[0-9]*)\\]\\[main_anim_event\\](?=[^\\}]|$)"),
+                             isGroup,
+                             isMaster,
+                             *process);
 
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex("(\\{main_anim_event\\})"));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex("(\\{main_anim_event\\})"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
             size_t post = curPos + itr->position();
             nemesis::scope blok(
                 post, post + itr->str().length(), isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
         }
 
-        for (auto& itr = nemesis::regex_iterator(
+        for (auto itr = nemesis::regex_iterator(
                  change,
                  nemesis::regex("(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut
                                 + "\\[\\]\\[)(?<!" + shortcut
                                 + "\\[\\d\\d\\]\\[)(?<!\\{)(main_anim_event)(?=[^\\}]|$)"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
             size_t post = curPos + itr->position();
             nemesis::scope blok(
                 post, post + itr->str().length(), isGroup ? &proc::MAEMultiMaster : &proc::MAESingle);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
         }
     }
 
@@ -1558,13 +1558,13 @@ void ProcessFunction(string change,
                 // include other anim group
                 // cont here
 
-                for (auto& itr = nemesis::regex_iterator(change,
-                                                         nemesis::regex(format + "\\[(F|N|B|L|[0-9]*)\\]\\["
-                                                                        + it->first + "(\\*|)\\]\\[" + addname
-                                                                        + "\\](\\[[0-9]+\\]|)"));
+                for (auto itr = nemesis::regex_iterator(change,
+                                                        nemesis::regex(
+                                                            format + "\\[(F|N|B|L|[0-9]*)\\]\\["
+                                                            + it->first + "(\\*|)\\]\\[" + addname
+                                                            + "\\](\\[[0-9]+\\]|)"));
                      itr != nemesis::regex_iterator();
-                     ++itr)
-                {
+                     ++itr) {
                     bool number = false;
                     string header;
                     string first  = itr->str(1);
@@ -1649,7 +1649,7 @@ void ProcessFunction(string change,
                         }
                         else
                         {
-                            process.installBlock(blok, numline);
+                            process->installBlock(blok, numline);
                         }
                     }
                     else
@@ -1673,16 +1673,17 @@ void ProcessFunction(string change,
                         }
                         else
                         {
-                            process.installBlock(blok, numline);
+                            process->installBlock(blok, numline);
                         }
                     }
                 }
 
-                for (auto& itr = nemesis::regex_iterator(
-                         change, nemesis::regex(it->first + "(\\*|)\\[" + addname + "\\](\\[[0-9]+\\]|)"));
+                for (auto itr = nemesis::regex_iterator(change,
+                                                        nemesis::regex(it->first + "(\\*|)\\["
+                                                                       + addname
+                                                                       + "\\](\\[[0-9]+\\]|)"));
                      itr != nemesis::regex_iterator();
-                     ++itr)
-                {
+                     ++itr) {
                     if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
                     string header;
@@ -1719,7 +1720,7 @@ void ProcessFunction(string change,
                     }
                     else
                     {
-                        process.installBlock(blok, numline);
+                        process->installBlock(blok, numline);
                     }
                 }
             }
@@ -1728,17 +1729,16 @@ void ProcessFunction(string change,
 
     if (change.find("LastState") != NOT_FOUND)
     {
-        for (auto& itr = nemesis::regex_iterator(change, nemesis::regex("LastState([0-9]*)"));
+        for (auto itr = nemesis::regex_iterator(change, nemesis::regex("LastState([0-9]*)"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             if (isMaster) ErrorMessage(1206, format + "_master", behaviorFile, numline, itr->str());
             if (isGroup) ErrorMessage(1206, format + "_group", behaviorFile, numline, itr->str());
 
             size_t post = curPos + itr->position();
             nemesis::scope blok(post, post + itr->str().length(), VecStr{itr->str(1)}, &proc::lastState);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
         }
     }
 
@@ -1774,7 +1774,7 @@ void ProcessFunction(string change,
             nemesis::scope blok(
                 post, eventpos, vector<int>{int(post + 8), int(eventpos - 2)}, &proc::eventID);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
             pos = change.find("eventID[", pos + 1);
         }
     }
@@ -1811,7 +1811,7 @@ void ProcessFunction(string change,
             nemesis::scope blok(
                 post, varpos, vector<int>{int(post + 11), int(varpos - 2)}, &proc::variableID);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
             pos = change.find("variableID[", pos + 1);
         }
     }
@@ -1847,7 +1847,7 @@ void ProcessFunction(string change,
 
             nemesis::scope blok(post, animpos, {int(post + 10), int(animpos - 2)}, &proc::animOrder);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
             pos = change.find("animOrder[", pos + 1);
         }
     }
@@ -1890,7 +1890,7 @@ void ProcessFunction(string change,
 
             nemesis::scope blok(curPos + pos, curPos + encode, &proc::crc32);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
             pos = change.find("crc32[", pos + 1);
         }
     }
@@ -1936,18 +1936,18 @@ void ProcessFunction(string change,
 
             nemesis::scope blok(post, post + import.length(), &proc::import);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
-                 : process.installBlock(blok, numline);
+                 : process->installBlock(blok, numline);
             pos = change.find("import[", pos + 1);
         }
     }
 
     if (change.find("MD", 0) != NOT_FOUND)
     {
-        for (auto& itr
-             = nemesis::regex_iterator(change, nemesis::regex(format + "\\[(F|N|B|L|[0-9]*)\\]\\[MD\\]"));
+        for (auto itr = nemesis::regex_iterator(change,
+                                                nemesis::regex(format
+                                                               + "\\[(F|N|B|L|[0-9]*)\\]\\[MD\\]"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             bool number  = false;
             string first = itr->str(1);
             size_t post  = curPos + itr->position();
@@ -2003,16 +2003,16 @@ void ProcessFunction(string change,
                       ? make_shared<nemesis::scope>(
                           post, post + itr->str().length(), vector<int>{stoi(first)}, VecStr{change}, func)
                       : make_shared<nemesis::scope>(post, post + itr->str().length(), VecStr{change}, func);
-            isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
 
-        for (auto& itr
-             = nemesis::regex_iterator(change,
-                                       nemesis::regex("(?<!" + format + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + format
-                                                      + "\\[\\]\\[)(?<!" + format + "\\[\\d\\d\\]\\[)(MD)"));
+        for (auto itr = nemesis::regex_iterator(change,
+                                                nemesis::regex("(?<!" + format
+                                                               + "\\[[F|N|B|L|\\d]\\]\\[)(?<!"
+                                                               + format + "\\[\\]\\[)(?<!" + format
+                                                               + "\\[\\d\\d\\]\\[)(MD)"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
             size_t post                     = curPos + itr->position();
@@ -2021,7 +2021,7 @@ void ProcessFunction(string change,
                 post + itr->str().length(),
                 VecStr{change},
                 isGroup ? &proc::motionDataMultiMaster : &proc::motionDataSingle);
-            isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
 
         if (error) throw nemesis::exception();
@@ -2029,11 +2029,11 @@ void ProcessFunction(string change,
 
     if (change.find("RD", 0) != NOT_FOUND)
     {
-        for (auto& itr
-             = nemesis::regex_iterator(change, nemesis::regex(format + "\\[(F|N|B|L|[0-9]*)\\]\\[RD\\]"));
+        for (auto itr = nemesis::regex_iterator(change,
+                                                nemesis::regex(format
+                                                               + "\\[(F|N|B|L|[0-9]*)\\]\\[RD\\]"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             bool number  = false;
             string first = itr->str(1);
             size_t post  = curPos + itr->position();
@@ -2088,16 +2088,16 @@ void ProcessFunction(string change,
                 = number ? make_shared<nemesis::scope>(
                       post, post + itr->str().length(), vector<int>{stoi(first)}, VecStr{change}, func)
                          : make_shared<nemesis::scope>(post, post + itr->str().length(), func);
-            isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
 
-        for (auto& itr
-             = nemesis::regex_iterator(change,
-                                       nemesis::regex("(?<!" + format + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + format
-                                                      + "\\[\\]\\[)(?<!" + format + "\\[\\d\\d\\]\\[)(RD)"));
+        for (auto itr = nemesis::regex_iterator(change,
+                                                nemesis::regex("(?<!" + format
+                                                               + "\\[[F|N|B|L|\\d]\\]\\[)(?<!"
+                                                               + format + "\\[\\]\\[)(?<!" + format
+                                                               + "\\[\\d\\d\\]\\[)(RD)"));
              itr != nemesis::regex_iterator();
-             ++itr)
-        {
+             ++itr) {
             if (isGroup && multiOption != format) ErrorMessage(1146, format, behaviorFile, numline);
 
             size_t post                     = curPos + itr->position();
@@ -2106,7 +2106,7 @@ void ProcessFunction(string change,
                 post + itr->str().length(),
                 VecStr{change},
                 isGroup ? &proc::rotationDataMultiMaster : &proc::rotationDataSingle);
-            isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
+            isMC ? lineblocks[blok->size].push_back(blok) : process->installBlock(*blok, numline);
         }
 
         if (error) throw nemesis::exception();

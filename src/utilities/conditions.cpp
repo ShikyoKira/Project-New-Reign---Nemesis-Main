@@ -9,9 +9,22 @@ using namespace std;
 
 VecStr GetOptionInfo(string line, string format, string filename, int numline);
 VecStr GetOptionInfo(string line, string format, string masterformat, string filename, string multiOption, int numline);
-void ProcessFunction(string change, string line, string format, string behaviorFile, string multiOption, bool& isEnd, int numline, size_t curPos,
-	OptionList& optionlist, map<int, vector<shared_ptr<nemesis::scope>>>& lineblocks, vector<AddOnInfo>& addInfo, bool& isTrueMulti, bool isGroup = false, bool isMaster = false,
-	bool isMC = true, proc& process = proc());
+void ProcessFunction(string change,
+                     string line,
+                     string format,
+                     string behaviorFile,
+                     string multiOption,
+                     bool &isEnd,
+                     int numline,
+                     size_t curPos,
+                     OptionList &optionlist,
+                     map<int, vector<shared_ptr<nemesis::scope>>> &lineblocks,
+                     vector<AddOnInfo> &addInfo,
+                     bool &isTrueMulti,
+                     bool isGroup = false,
+                     bool isMaster = false,
+                     bool isMC = true,
+                     proc *process = nullptr);
 
 nemesis::Condt::Condt(string condition, string format, string behaviorFile, string originalCondition, string multiOption, int numline, bool isGroup, bool isMaster,
 	OptionList& optionlist)
@@ -1021,9 +1034,9 @@ VecStr GetOptionInfo(string line, string format, string masterformat, string fil
 
 void GetMultiFromAddOn(const nemesis::Condt& curcond, const AddOnInfo& addinfo, const string& original, int animMulti, int& optionMulti, int& endMulti)
 {
-	auto& groupAnimInfo = curcond.prcs->curAnim->GetGroupAnimInfo();
+    auto groupAnimInfo = curcond.prcs->curAnim->GetGroupAnimInfo();
 
-	if (addinfo.header.find("@AnimObject/") != NOT_FOUND)
+    if (addinfo.header.find("@AnimObject/") != NOT_FOUND)
 	{
 		optionMulti = 0;
 		endMulti = groupAnimInfo[animMulti]->optionPickedCount[addinfo.header.substr(1)];

@@ -12,7 +12,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo);
 
 bool FolderCreate(std::string curBehaviorPath);
 bool FolderCreate(std::wstring curBehaviorPath);
-uint CRC32Convert(std::string line);
+unsigned int CRC32Convert(std::string line);
 bool PapyrusCompile(std::filesystem::path pscfile,
                     std::wstring import,
                     std::string destination,

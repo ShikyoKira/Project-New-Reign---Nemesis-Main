@@ -859,13 +859,13 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
 
                                 if (curline.find("<!-- Bone$N -->") == NOT_FOUND)
                                 {
-                                    for (auto& it
+                                    for (auto it
                                          = boost::sregex_iterator(curline.begin(),
                                                                   curline.end(),
-                                                                  boost::regex("([0-9]+(\\.[0-9]+)?)"));
+                                                                  boost::regex(
+                                                                      "([0-9]+(\\.[0-9]+)?)"));
                                          it != boost::sregex_iterator();
-                                         ++it)
-                                    {
+                                         ++it) {
                                         storeline.push_back(spaces + it->str(1));
                                         bone = true;
                                     }
@@ -886,11 +886,11 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
 
                                 storeline.push_back(curline.substr(0, match.position()));
 
-                                for (auto& it
-                                     = boost::sregex_iterator(curline.begin(), curline.end(), vector4);
+                                for (auto it = boost::sregex_iterator(curline.begin(),
+                                                                      curline.end(),
+                                                                      vector4);
                                      it != boost::sregex_iterator();
-                                     ++it)
-                                {
+                                     ++it) {
                                     storeline.push_back(spaces + it->str(1));
                                     storeline.push_back(spaces + it->str(2));
                                     storeline.push_back(spaces + it->str(3));
@@ -915,11 +915,11 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
                                         break;
                                 }
 
-                                for (auto& it
-                                     = boost::sregex_iterator(curline.begin(), curline.end(), vector4);
+                                for (auto it = boost::sregex_iterator(curline.begin(),
+                                                                      curline.end(),
+                                                                      vector4);
                                      it != boost::sregex_iterator();
-                                     ++it)
-                                {
+                                     ++it) {
                                     storeline.push_back(spaces + it->str(1));
                                     storeline.push_back(spaces + it->str(2));
                                     storeline.push_back(spaces + it->str(3));

@@ -1,0 +1,81 @@
+Havok™ Physics / Havok™ Animation Limited No-Charge PC Game License Agreement 
+READ THE TERMS OF THIS LICENSE AGREEMENT (THE "AGREEMENT") CAREFULLY BEFORE INSTALLING THE ACCOMPANYING SOFTWARE.
+The Havok software (the "Software") and the accompanying documentation (the "Documentation") supplied (collectively, the "Product") are protected by United States, Irish and international copyright laws, and the copyrights and other intellectual property rights are owned by Telekinesys Research Limited (trading as Havok) First Floor, The Digital Depot, 157 Thomas Street, Dublin 8, Ireland.  This license is granted (i) by Havok.com Inc to customers based in the United States of America or (ii) by Telekinesys Research Limited to customers based outside the United States of America (both referred to herein as “Havok”).  The Product is copyrighted and licensed (not sold).  By installing the Software, you ("Licensee") are accepting and agreeing to the terms of this Agreement.  If you are not willing to be bound by the terms of this Agreement, you should promptly de-install and/or return the Product.
+What constitutes a PC Game shall be determined by Havok, in its sole discretion on a case by case basis, and Havok intends to use reasonable industry-standards to determine whether or not a specific Havok-enabled PC application constitutes a PC Game.  For the illustrative purposes, a PC Game may include, but not be limited to, any integrally developed executable PC program and its specific associated 3D digital content which presents an interactive experience designed solely for the purposes of entertainment, and not for the purposes of professional training, analysis, inspection, marketing, promotion, or benchmarking.  Redistribution of Havok Software and/or Documentation as part of a commercial or non-commercial middleware, engine, or tool offering is prohibited.
+1.      OWNERSHIP
+The Software (including any header files and demonstration code that may be included) and Documentation, and all associated copyrights and other intellectual property rights, are the property of Havok or its licensors.  Licensee acquires no title, right or interest in the Product other than the license granted herein by Havok and the title to the media upon which the Product is delivered.
+
+2.      PROPRIETARY NOTICES 
+Licensee shall not remove any trademark, trade name, copyright notice or other proprietary notice from the Software or Documentation, and shall be responsible for the conservation of same on all copies of the Software and Documentation.  Licensee may not reproduce any portion of the Software or Documentation, except as permitted by this Agreement.
+
+3.      LICENSE 
+(a) Subject to the terms and conditions of this Agreement, Havok hereby grants to Licensee a non commercial, nonexclusive, nontransferable, internal, limited license to evaluate the Product at Licensee's premises for the Term of this Agreement only.  Except as permitted under section 3 (b) below, the Product is provided for evaluation, demonstration, prototyping, testing, and/or proof of concept purposes only and no commercial product development work is authorized under this Agreement, whether such developed software is used internally or distributed to end users.
+(b) In the following cases Havok grants to Licensee a nonexclusive, nontransferable, irrevocable (except to the extent provided in section 13 below), perpetual right and license to internally develop:
+(i)	publicly demonstrate, and publicly distribute a Havok-enabled non-commercial end-user compiled, binary executable software application or game for the Windows PC Platform, in which the Software is compiled and distributed within the software application or game in an integral, non-separable way, for no direct or indirect commercial value;
+(ii)	publicly demonstrate, and publicly sell a Havok-enabled commercial PC Game only for the Windows PC Platform for a retail value of less than or equal to and for which the end user will not pay in total more than ten US Dollars (US$10.00) (or equivalent amount in other currencies based on prevailing exchange rates at the time of game launch), and in which the Software is compiled and distributed within the binary executable game in an integral, non-separable way only;
+(iii)	publicly demonstrate a Havok-enabled commercial PC Game for the Windows PC Platform, intended for commercial sale above a retail value of ten US Dollars (US$10.00) , subject to (aa) in Havok’s sole discretion, Havok’s prior written approval; and (bb) execution of a separate no-charge PC Game distribution license which must be secured from Havok at www.havok.com/PCgamedistribution; and
+(iv)	develop compatibility between the Havok SDK and PC Game tools, PC Game middleware, and PC Game engines, subject to no components of the Software being redistributed in any manner. 
+(v)	publicly distribute Havok-compatible commercial and non-commercial demo code and academic research subject to no components of the Software being redistributed in any manner. 
+(c)  The source code of the Software (other than included header files and demonstration code) and design documentation are confidential and proprietary information and trade secrets of Havok, its suppliers and/or licensors.
+(d)  To use the Product beyond the Term of this Agreement Licensee shall be required to contact Havok at www.havok.com/purchase to discuss the commercial terms of such additional use.
+
+4.      COPY RESTRICTIONS AND OTHER RESTRICTIONS
+(a)   Licensee may make such reasonable number of copies of the Product as are necessary to  exercise Licensee's rights under this Agreement, provided that such copies shall include all applicable copyright, trademark and other proprietary notices of Havok in accordance with Section 2 above.
+(b)   Unless permitted herein, Licensee will not display or disclose the Product to third parties, rent, lease, loan, sublicense, modify, adapt, translate benchmark, reverse engineer, disassemble or decompile the Product or any portion thereof, or create derivative works of the Product even for purposes of interoperability or error correction.  If Licensee desires information relating to the Software for purposes of achieving interoperability with independently created computer software, Licensee may make a written request to Havok for such information.   Licensee shall promptly report to Havok any actual or suspected violation of this section and shall take further steps as may reasonably be requested by Havok to prevent or remedy any such violation.
+(c) Save as explicitly permitted herein above, Licensee shall not use the Product for commercial or non-evaluative purposes in any capacity, including, but not limited to, the following restrictions: commercial digital content development, commercial industrial and mechanical simulation, benchmarking and/or military applications.
+
+5.	TRADEMARK LICENSE
+(a) Each party owns the trademarks, logos, service marks and tradenames (collectively “Marks”) for their respective companies, products and/or services, including, but not limited to the Licensee developed game and the Havok Product.  
+(b) Licensee hereby grants to Havok a nonexclusive, non-transferable, worldwide license to refer to Licensee and the Licensee developed game, using Licensee’s Marks, on Havok’s website as part of its customer list (subject to any reasonable usage conditions of Licensee). 
+(c) For purposes other than as outlined herein, each party grants the other party a nonexclusive, nontransferable, non-sublicenseable, worldwide license to refer to the granting party’s products and technologies using the associated Marks provided that each party shall submit to the other party for approval (which approval will not be unreasonably withheld or delayed) a sample of each proposed use of the other party’s Marks.
+(d) Except as provided herein, no license or other rights with respect to Marks of either party is conferred on the other party.  Each party acknowledges and agrees that all use of the other party’s Marks shall inure to the benefit of the owner of such Marks.  Except as set forth herein neither party shall be required to use the Marks of the other Party.
+6.	ATTRIBUTION
+Notwithstanding the foregoing, with respect to the Licensee developed game, Licensee shall:
+(a) include Havok’s logo (as provided by Havok to Licensee), on the cover of all Licensee developed game packaging (if any) and the credit screen of the Licensee Developed Game;
+(b) include the following copyright and credit notice on the credit screen or “about” box of the Licensee developed game and in the credit section of the Licensee Developed Game manual: ““Licensee Developed Game title” uses Havok®.  ©Copyright 1999-2008 Havok.com Inc. (and its Licensors). All Rights Reserved.  See www.havok.com for details.”;
+( c) permit Havok to produce and publish a Licensee developed game-specific case study linked to the Licensee’s logo on Havok’s website, permit Havok to create self-promotional materials such as press releases, advertisements, brochures, newsletters and create and display trade shows demos which may show references to or include real time game play and captured video clips and images from the Licensee developed game;
+(d) provide a quote about the Licensee’s integration of the Havok Product into the game title for use in Havok’s press materials and website; and
+(e) refer to Havok in all press coverage relating or referring to the relevant engine or tools used in the development Licensee developed game such that Havok is identified as the provider of the middleware system or tools used by Licensee in developing and creating the Licensee developed game.
+
+7.      U.S. GOVERNMENT END-USERS
+The Software and the Documentation are "commercial items" as that term is defined in applicable U.S. C.F.R. clauses; if the licensee hereunder is the U.S. Government or any agency or department thereof, the Software and the Documentation are licensed hereunder (i) only as a commercial item, and (ii) with only those rights as are granted to all other end users pursuant to the terms and conditions of this Agreement.
+	
+8.      SUPPORT
+This Product is unsupported.  Community Support is available on the web at http://softwarecommunity.intel.com/isn/Community/en-US/forums/2508/ShowForum.aspx.  
+
+9.      DURATION
+Except as permitted under section 3 (b) above, this Agreement is effective from the date this Software is installed by Licensee and shall remain in force for a period of six (6) months, unless specified otherwise herein, and unless earlier terminated as provided for herein (the “Term”).
+
+10.      REPLACEMENT AND EXCLUSION OF WARRANTIES
+(a)  Should the Product prove defective, the Licensee's sole remedy shall be to request a new copy of the Product from Havok that may be granted or withheld by Havok at its sole discretion. 
+(b)  HAVOK SPECIFICALLY DISCLAIMS ANY WARRANTY THAT THE FUNCTIONS CONTAINED IN THE SOFTWARE OR THE RESULTS OF USE WILL MEET LICENSEE'S REQUIREMENTS, OR THAT THE OPERATION OF THE SOFTWARE WILL BE UNINTERRUPTED OR ERROR FREE.  EXCEPT AS EXPRESSLY SET FORTH ABOVE, THE PRODUCT IS PROVIDED TO LICENSEE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, STATUTORY OR OTHERWISE, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.  THE ENTIRE RISK AS TO THE SUITABILITY, QUALITY AND PERFORMANCE OF THE PRODUCT IS WITH LICENSEE AND NOT WITH HAVOK.  This disclaimer of warranty constitutes an essential part of this Agreement.  
+SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF IMPLIED WARRANTIES, SO SUCH EXCLUSION MAY NOT APPLY TO YOU. 
+
+11.      LIMITED LIABILITY
+IN NO EVENT SHALL HAVOK, ITS SUPPLIERS OR LICENSORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, PUNITIVE OR EXEMPLARY DAMAGES (INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, DATA, GOODWILL OR OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OR INABILITY TO USE THE SOFTWARE, EVEN IF FORSEEABLE OR IF HAVOK HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.  IF HAVOK IS HELD LIABLE UNDER THIS AGREEMENT, HAVOK'S, ITS SUPPLIERS' AND LICENSORS' LIABILITY SHALL BE LIMITED TO THE PRICE PAID BY THE LICENSEE FOR THE PRODUCT SUPPLIED.
+
+12.     ASSIGNMENT
+This Agreement and any rights granted hereunder may not be assigned, sub-licensed or otherwise transferred by Licensee to any third party without the prior written consent of Havok.  Havok may assign or transfer its rights and obligations under this Agreement at any time without notice to or the consent of Licensee.
+
+13.     TERMINATION
+(a) This Agreement and the license granted hereunder will terminate immediately if Licensee breaches any of the provisions of this Agreement.  This Agreement and the license granted hereunder may be terminated by Havok at any time upon written notice to Licensee.
+(b)  Upon termination of this Agreement and of the license granted hereunder, Licensee shall cease any further use of the Product, and must destroy all copies of the Software and Documentation, in any form, in Licensee's possession or control.
+(c)  The provisions of Sections 1, 2, 10, 11, and 13-18 and the definitions of this Agreement shall survive the termination of this Agreement (for any reason).
+
+14.     AMENDMENT; WAIVER
+No modification or waiver of any provision of this Agreement shall be binding on either party unless specifically agreed upon in a writing signed by both parties.  Any failure or delay by Havok to exercise or enforce any of the rights or remedies granted hereunder will not operate as a waiver thereof.  No waiver by Havok of any breach of this Agreement will operate as a waiver of any other or subsequent breach.
+
+15.     SEVERABILITY 
+If any provision of this Agreement is found invalid or unenforceable, that provision will be reformed, construed and enforced to the maximum extent permissible, and the other provisions of this Agreement will remain in full force and effect.
+
+16.     LAW AND JURISDICTION
+If Licensee is based in the United States of America, this Agreement will be governed by the laws of the State of California, without regard to its conflict of laws provisions.  If Licensee is based outside the United States of America, this License Agreement is governed by the laws of the Republic of Ireland.
+
+17.     EXPORT ADMINISTRATION ACT
+Licensee will not import, export or re-export the Product (or portion thereof) to or from any country in contravention of any applicable import or export laws.
+
+18.     ENTIRE AGREEMENT
+Licensee has read this Agreement and agrees to be bound by its terms, and further agrees that, unless the parties have entered into a signed development license agreement relating to the subject matter hereof (a "Signed Agreement"), this Agreement constitutes the complete and entire agreement of the parties and supersedes all previous communications, oral or written, and all other communications between them relating to the subject matter hereof.  If, however, the parties have entered into a Signed Agreement, to the extent of any inconsistency, such Signed Agreement shall take precedence over the terms of this Agreement.  No representations or statements of any kind made by either party, which are not expressly stated herein, shall be binding on such party.
+
+
+

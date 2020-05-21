@@ -8,8 +8,7 @@ project(NemesisUnlimitedBehaviorEngine LANGUAGES CXX VERSION 0.84)
 
 # This part is the only one that should be modified by the user wanting to compile Nemesis
 
-
-set(Qt5_DIR "C:/IT/Qt/5.14.1/msvc2017_64/lib/cmake/Qt5")
+set(Qt5_DIR "C:/IT/Qt/5.14.1/msvc2017/lib/cmake/Qt5")
 
 option(UseLocalBoost "Uses local copy of Boost instead of downloading it" ON)
 set(BOOST_ROOT "C:/IT/Boost_1.72.0" CACHE PATH "Boost local path" )
@@ -31,10 +30,12 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(CMake/Python.cmake)
 include(CMake/Boost.cmake)
 include(CMake/Qt.cmake)
+add_subdirectory(external/hkxcmd)
 
 ################################################################################
 # Source groups
 ################################################################################
+
 set(Header_Files
     "include/connector.h"
     "include/debuglog.h"
@@ -106,16 +107,20 @@ set(Header_Files__ui
 source_group("Header Files\\ui" FILES ${Header_Files__ui})
 
 set(Header_Files__update
-    "include/update/animdatacont.h"
     "include/update/dataunification.h"
     "include/update/functionupdate.h"
     "include/update/updateprocess.h"
+    "include/update/animdata/animdatacond.h"
+    "include/update/animdata/animdatapackcond.h"
+    "include/update/animdata/animdataprojectcond.h"
+    "include/update/animdata/infodatapackcond.h"
     )
 source_group("Header Files\\update" FILES ${Header_Files__update})
 
 set(Header_Files__utilities
     "include/utilities/algorithm.h"
     "include/utilities/alphanum.hpp"
+    "include/utilities/animationsconvert.h"
     "include/utilities/atomiclock.h"
     "include/utilities/bsasupport.h"
     "include/utilities/compute.h"
@@ -199,19 +204,24 @@ set(Source_Files__ui
 source_group("Source Files\\ui" FILES ${Source_Files__ui})
 
 set(Source_Files__update
-    "src/update/animdatacont.cpp"
     "src/update/dataunification.cpp"
     "src/update/functionupdate.cpp"
     "src/update/updateprocess.cpp"
+    "src/update/animdata/animdatacond.cpp"
+    "src/update/animdata/animdatapackcond.cpp"
+    "src/update/animdata/animdataprojectcond.cpp"
+    "src/update/animdata/infodatacond.cpp"
     )
 source_group("Source Files\\update" FILES ${Source_Files__update})
 
 set(Source_Files__utilities
     "src/utilities/algorithm.cpp"
+    "src/utilities/animationsconvert.cpp"
     "src/utilities/compute.cpp"
     "src/utilities/conditions.cpp"
     "src/utilities/filechecker.cpp"
     "src/utilities/lastupdate.cpp"
+    "src/utilities/linkedvar.cpp"
     "src/utilities/regex.cpp"
     "src/utilities/renew.cpp"
     "src/utilities/scope.cpp"
@@ -239,7 +249,6 @@ set(ALL_FILES
     ${Source_Files__utilities}
     ${Resources_Files}
     )
-
 ################################################################################
 # Target
 ################################################################################
@@ -292,4 +301,5 @@ if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE "/bigobj")
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE BoostNemesis PythonNemesis Qt5Nemesis)
+target_link_libraries(${PROJECT_NAME} PRIVATE BoostNemesis PythonNemesis Qt5Nemesis hkxcmd#add_subdirectory(external/hkxcmd)
+)

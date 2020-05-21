@@ -1,7 +1,9 @@
 #ifndef BEHAVIORPROCESS_UTILITY_H_
 #define BEHAVIORPROCESS_UTILITY_H_
 
+#include "Global.h"
 #include <memory>
+#include <set>
 
 struct master;
 struct AnimationInfo;

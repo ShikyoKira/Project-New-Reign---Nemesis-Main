@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+#include <vector>
+using VecStr = std::vector<std::string>;
+
 struct proc;
 
 namespace nemesis
