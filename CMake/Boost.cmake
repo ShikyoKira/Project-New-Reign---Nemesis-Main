@@ -13,4 +13,4 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(BoostCMake)
 
 add_library(BoostNemesis INTERFACE)
-target_link_libraries(BoostNemesis INTERFACE Boost::thread Boost::regex)
+target_link_libraries(BoostNemesis INTERFACE Boost::regex)
