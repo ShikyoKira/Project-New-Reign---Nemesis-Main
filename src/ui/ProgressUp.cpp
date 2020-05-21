@@ -7,6 +7,8 @@
 #include "ui/NemesisEngine.h"
 #include "ui/ProgressUp.h"
 
+#include "utilities/conditions.h"
+
 #include "generate/behaviorsubprocess.h"
 
 void ProgressUp::newWidget(NemesisEngine* _widget)

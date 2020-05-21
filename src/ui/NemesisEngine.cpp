@@ -1,6 +1,6 @@
 #include "Global.h"
 
-#include <boost/atomic.hpp>
+#include <atomic>
 
 #include "connector.h"
 
@@ -36,6 +36,7 @@ NemesisEngine::~NemesisEngine()
 void NemesisEngine::setupUi()
 {
     if (this->objectName().isEmpty()) this->setObjectName(QStringLiteral("NemesisMainGUIClass"));
+
     this->resize(528, 782);
     QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
     sizePolicy.setHorizontalStretch(0);
@@ -390,12 +391,16 @@ void NemesisEngine::closeEvent(QCloseEvent* curEvent)
     if (isRunning(terminate_ptr))
     {
         curEvent->ignore();
-        connect(terminate_ptr, SIGNAL(end()), this, SLOT(close()));
+        connect(terminate_ptr, &Terminator::end, this, &NemesisEngine::close);
+
+        QTimer* timer = new QTimer;
+        connect(timer, &QTimer::timeout, this, &NemesisEngine::close);
+        timer->start(2000);
     }
     else
     {
-        curEvent->accept();
         nemesisInfo->iniFileUpdate();
+        curEvent->accept();
     }
 }
 
@@ -456,7 +461,6 @@ void NemesisEngine::handleLaunch()
     ui.animProgressBar->setStyleSheet("");
     ui.animProgressBar->font = "";
     ui.animProgressBar->newValue(0);
-    ui.animProgressBar->setFormat("0 animation(s)");
 
     VecStr behaviorPriority;
     VecStr hiddenModList = getHiddenMods();
@@ -614,29 +618,28 @@ void NemesisEngine::setProgressBarMax(int number)
 
 void NemesisEngine::setProgressBarValue()
 {
-    if (!error)
+    if (error || terminated) return;
+
+    Lockless_s plock(lock);
+    int old = progressPercentage * 100 / progressMax;
+    ++progressPercentage;
+    int result = progressPercentage * 100 / progressMax;
+
+    if (result > old)
     {
-        Lockless_s plock(lock);
-        int old = progressPercentage * 100 / progressMax;
-        ++progressPercentage;
-        int result = progressPercentage * 100 / progressMax;
-
-        if (result > old)
+        if (result - old < 2)
         {
-            if (result - old < 2)
+            ui.progressBar->setValue(old + 1);
+            std::this_thread::sleep_for(std::chrono::milliseconds(75));
+        }
+        else
+        {
+            for (int i = old + 1; i <= result; ++i)
             {
-                ui.progressBar->setValue(old + 1);
-                std::this_thread::sleep_for(std::chrono::milliseconds(75));
-            }
-            else
-            {
-                for (int i = old + 1; i <= result; ++i)
-                {
-                    if (error) break;
+                if (error) break;
 
-                    ui.progressBar->setValue(i);
-                    std::this_thread::sleep_for(std::chrono::milliseconds(75));
-                }
+                ui.progressBar->setValue(i);
+                std::this_thread::sleep_for(std::chrono::milliseconds(75));
             }
         }
     }
