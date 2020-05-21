@@ -138,13 +138,6 @@ namespace nemesis
         , it_(str_.begin(), str_.end(), reg.to_regex())
     {}
 
-    regex_iterator regex_iterator::operator++(int)
-    {
-        auto copy = *this;
-        it_++;
-        return copy;
-    }
-
     regex_iterator& regex_iterator::operator++()
     {
         it_++;
@@ -174,7 +167,7 @@ namespace nemesis
 
     nemesis::smatch* regex_iterator::updateCurrentVal()
     {
-        if (!currentVal_.has_value()) currentVal_ = *it_;
+        currentVal_ = *it_;
         return &currentVal_.value();
     }
 } // namespace nemesis

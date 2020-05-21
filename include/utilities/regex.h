@@ -58,7 +58,6 @@ namespace nemesis
         regex_iterator() = default;
         regex_iterator(const std::string& str, const nemesis::regex& reg);
 
-        regex_iterator operator++(int);
         regex_iterator& operator++();
         nemesis::smatch operator*();
         nemesis::smatch* operator->();
