@@ -30,6 +30,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(CMake/Python.cmake)
 include(CMake/Boost.cmake)
 include(CMake/Qt.cmake)
+add_subdirectory(external/hkxcmd)
 
 ################################################################################
 # Source groups
@@ -298,4 +299,5 @@ if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE "/bigobj")
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE BoostNemesis PythonNemesis Qt5Nemesis)
+target_link_libraries(${PROJECT_NAME} PRIVATE BoostNemesis PythonNemesis Qt5Nemesis hkxcmd#add_subdirectory(external/hkxcmd)
+)
