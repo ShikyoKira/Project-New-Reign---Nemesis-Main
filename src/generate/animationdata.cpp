@@ -68,7 +68,15 @@ AnimDataProject::AnimDataProject(VecStr animdatafile, string project, string fil
 
 	map<string, string> exchange;
 	map<string, vector<int>> codeTracker;
-	string characterFile = nemesis::to_lower_copy(std::filesystem::path(behaviorlist[behaviorlist.size() - 2]).stem().string());
+    string characterFile;
+
+	for (auto& each : behaviorlist)
+    {
+        if (each.find("Characters\\") != 0) continue;
+
+        characterFile = nemesis::to_lower_copy(std::filesystem::path(each).stem().string());
+	}
+
 	AnimDataProcess(animdatalist, startline, animdatafile, project, modcode, exchange, clipPtrAnimData[characterFile], codeTracker);
 
 	if (error) throw nemesis::exception();
@@ -160,8 +168,14 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, VecStr& an
 			}
 		}
 
-		if (!isExist[name]) isExist[name] = true;
-		else WarningMessage(1028, project, name);
+		if (!isExist[name])
+        {
+            isExist[name] = true;
+        }
+        else
+        {
+            WarningMessage(1028, project, name);
+        }
 
 		AnimDataPack curAP;
 		curAP.name = name;
@@ -214,7 +228,7 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, VecStr& an
 	map<string, size_t> locate;
 	map<string, vector<InfoDataTracker>> original;
 
-	for (int i = startline; i < int(animdatafile.size()); ++i)
+	for (uint i = startline; i < animdatafile.size(); ++i)
 	{
 		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(3020, project, animdatafile[i]);
 
@@ -259,7 +273,7 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, VecStr& an
 
 					exchange.erase(uniquecode);
 
-					for (unsigned int i = 0; i < original[uniquecode].size(); ++i)
+					for (uint i = 0; i < original[uniquecode].size(); ++i)
 					{
 						if (original[uniquecode][i].data == change)
 						{
@@ -350,7 +364,7 @@ AnimDataFormat::position AnimDataPosition(VecStr animData, string character, str
 		{
 			if (functionstart == -1) functionstart = i;
 
-			if (animData[i].find("<!-- original -->") == NOT_FOUND) marker[i].skip = true;
+			if (animData[i].find("\t<!-- original -->") == NOT_FOUND) marker[i].skip = true;
 
 			if (animData[i].find("<!-- CLOSE -->") != NOT_FOUND)
 			{
@@ -805,58 +819,38 @@ AnimDataFormat::position AnimDataConvert(int type, int position)
 	{
 		switch (position)
 		{
-			case 1:
-				return totallinecount;
-			case 2:
-				return unknown2;
-			case 3:
-				return behaviorfilecount;
-			case 4:
-				return behaviorfilelist;
-			case 5:
-				return unknown5;
+			case 1: return totallinecount;
+			case 2: return unknown2;
+			case 3: return behaviorfilecount;
+			case 4: return behaviorfilelist;
+			case 5: return unknown5;
 		}
 	}
 	else if (type == 1)
 	{
 		switch (position)
 		{
-			case 1:
-				return animationname;
-			case 2:
-				return uniquecode;
-			case 3:
-				return unknown3;
-			case 4:
-				return unknown4;
-			case 5:
-				return unknown5;
-			case 6:
-				return eventnamecount;
-			case 7:
-				return eventnamelist;
-			case 8:
-				return space;
+			case 1: return animationname;
+			case 2: return uniquecode;
+			case 3: return unknown3;
+			case 4: return unknown4;
+			case 5: return unknown5;
+			case 6: return eventnamecount;
+			case 7: return eventnamelist;
+			case 8: return space;
 		}
 	}
 	else
 	{
 		switch (position)
 		{
-			case 1:
-				return uniquecode;
-			case 2:
-				return totalcliplength;
-			case 3:
-				return motiondatacount;
-			case 4:
-				return motiondatalist;
-			case 5:
-				return rotationdatacount;
-			case 6:
-				return rotationdatalist;
-			case 7:
-				return space;
+			case 1: return uniquecode;
+			case 2: return totalcliplength;
+			case 3: return motiondatacount;
+			case 4: return motiondatalist;
+			case 5: return rotationdatacount;
+			case 6: return rotationdatalist;
+			case 7: return space;
 		}
 	}
 

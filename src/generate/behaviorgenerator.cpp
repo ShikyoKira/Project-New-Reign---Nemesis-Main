@@ -1,7 +1,7 @@
 #include "Global.h"
 #include "nemesisinfo.h"
 
-#include <boost/atomic.hpp>
+#include <atomic>
 
 #include <QtCore/QProcess>
 
@@ -21,8 +21,8 @@ bool hkxcmdProcess(string xmlfile, string hkxfile, bool last)
 {
     if (!last)
     {
-        if (xmlfile.find(".xml") != xmlfile.length() - 4) xmlfile.append(".xml");
-        if (hkxfile.find(".hkx") != hkxfile.length() - 4) hkxfile.append(".hkx");
+        if (wordFind(xmlfile, ".xml") != xmlfile.length() - 4) xmlfile.append(".xml");
+        if (wordFind(hkxfile, ".hkx") != hkxfile.length() - 4) hkxfile.append(".hkx");
     }
 
     if (QProcess::execute("hkxcmd.exe",
