@@ -22,31 +22,30 @@ class BehaviorSub : public QObject
 public:
     BehaviorSub(const NemesisInfo* _ini);
 
-    void addInfo(std::string& newDirectory,
-                 VecStr& newfilelist,
-                 int newCurList,
-                 VecStr& newBehaviorPriority,
-                 std::unordered_map<std::string, bool>& newChosenBehavior,
+    void addInfo(const std::string& newDirectory,
+                 const std::string& curfile,
                  std::shared_ptr<TemplateInfo> newBehaviorTemplate,
-                 std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>>& addAnimation,
-                 std::unordered_map<std::string, var>& newAnimVar,
-                 mapSetString& addAnimEvent,
-                 mapSetString& addAnimVariable,
-                 std::unordered_map<std::string, std::unordered_map<int, bool>>& newIgnoreFunction,
+                 std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>> addAnimation,
+                 std::unordered_map<std::string, var> newAnimVar,
+                 mapSetString addAnimEvent,
+                 mapSetString addAnimVariable,
+                 std::unordered_map<std::string, std::unordered_map<int, bool>> newIgnoreFunction,
                  bool newIsCharacter,
-                 std::string newModID,
+                 const std::string& newModID,
                  BehaviorStart* newProcess);
     void checkAnimation();
     void addAnimation();
-    void modPick(std::unordered_map<std::string, std::vector<std::shared_ptr<std::string>>>& modEditStore,
-                 VecStr& catalyst,
-                 VecStr& modLine,
+    void modPick(std::unordered_map<std::string, std::vector<std::pair<uint, std::shared_ptr<std::string>>>>&
+                     modEditStore,
+                 std::vector<std::pair<uint, std::string>>& catalyst,
+                 std::vector<std::pair<uint, std::string>>& modLine,
                  bool& hasDeleted);
-    bool
-    modPickProcess(std::unordered_map<std::string, std::vector<std::shared_ptr<std::string>>>& modEditStore,
-                   VecStr& catalyst,
-                   VecStr& modLine,
-                   bool& hasDeleted);
+    bool modPickProcess(
+        std::unordered_map<std::string, std::vector<std::pair<uint, std::shared_ptr<std::string>>>>&
+            modEditStore,
+        std::vector<std::pair<uint, std::string>>& catalyst,
+        std::vector<std::pair<uint, std::string>>& modLine,
+        bool& hasDeleted);
     void CompilingBehavior();
     void CompilingAnimData();
     void CompilingASD();
@@ -67,12 +66,7 @@ private:
     int base;
     int animCounter = 0;
 
-    std::string modID;
-    std::string directory;
-    VecStr filelist;
-    int curList;
-    VecStr behaviorPriority;
-    std::unordered_map<std::string, bool> chosenBehavior;
+    std::string modID, directory, curfilefromlist;
     std::shared_ptr<TemplateInfo> BehaviorTemplate;
     std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>> newAnimation;
     mapSetString newAnimEvent;

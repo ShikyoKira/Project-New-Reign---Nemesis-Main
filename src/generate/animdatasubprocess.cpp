@@ -4,6 +4,7 @@
 
 #include "ui/Terminator.h"
 
+#include "utilities/conditions.h"
 #include "utilities/readtextfile.h"
 
 #include "generate/animationdata.h"
@@ -65,7 +66,7 @@ void BehaviorSub::AnimDataCompilation()
         }
         catch (exception& ex)
         {
-            ErrorMessage(6002, filelist[curList], ex.what());
+            ErrorMessage(6002, curfilefromlist, ex.what());
         }
     }
     catch (nemesis::exception&)
@@ -76,7 +77,7 @@ void BehaviorSub::AnimDataCompilation()
     {
         try
         {
-            ErrorMessage(6002, filelist[curList], "New animation: Unknown");
+            ErrorMessage(6002, curfilefromlist, "New animation: Unknown");
         }
         catch (nemesis::exception&)
         {
@@ -89,8 +90,8 @@ void BehaviorSub::AnimDataCompilation()
 
 void BehaviorSub::CompilingAnimData()
 {
-    string filepath          = directory + filelist[curList];
-    string behaviorFile      = filelist[curList].substr(0, filelist[curList].find_last_of("."));
+    string filepath          = directory + curfilefromlist;
+    string behaviorFile      = curfilefromlist.substr(0, curfilefromlist.find_last_of("."));
     string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
     VecStr projectList;                          // list of projects
@@ -112,51 +113,141 @@ void BehaviorSub::CompilingAnimData()
 
         {
             // read behavior file
-            VecStr catalyst;
+            string newMod;
+
+            vector<pair<uint, string>> catalyst;
             VecStr newline;
+            VecStr origLines;
+
             unordered_map<string, string> chosenLines;
+            unordered_map<string, VecStr> chosenVecLines;
+
+            bool isOpen = true;
+            bool orig   = false;
+            bool modif  = false;
+
+            uint numline = 0;
 
             if (!GetFunctionLines(filepath, newline)) return;
 
             DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
             process->newMilestone();
 
-            bool isOpen  = true;
-            bool special = false;
             catalyst.reserve(newline.size());
 
             for (auto& line : newline)
             {
-                bool skip = false;
-
-                if (line.find("<!-- ", 0) != NOT_FOUND)
+                const auto storingLine = [&]() 
                 {
-                    if (line.find("<!-- NEW *", 0) != NOT_FOUND)
+                    if (line.find("<!-- *", 0) != NOT_FOUND)
                     {
-                        size_t tempint = line.find("<!-- NEW *", 0) + 10;
+                        size_t tempint     = line.find("<!-- *") + 6;
+                        string modID       = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+                        chosenLines[modID] = line;
+                        return;
+                    }
+                    else if (line.find("\t<!-- original -->", 0) != NOT_FOUND)
+                    {
+                        if (chosenLines.size() == 0) ErrorMessage(1209);
+
+                        line = behaviorLineChooser(line, chosenLines, process->behaviorPriority);
+                        chosenLines.clear();
+                    }
+
+                    catalyst.push_back(make_pair(numline, line));
+                };
+
+                bool skip = false;
+                ++numline;
+
+                if (line.find("<!-- ") != NOT_FOUND)
+                {
+                    if (line.find("<!-- NEW *") != NOT_FOUND)
+                    {
+                        size_t tempint = line.find("<!-- NEW *") + 10;
                         string modID   = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
 
-                        if (!chosenBehavior[modID]) isOpen = false;
-
-                        skip = true;
-                    }
-                    else if (line.find("<!-- NEW ^", 0) != NOT_FOUND
-                             || line.find("<!-- FOREACH ^") != NOT_FOUND)
-                    {
-                        special = true;
-                    }
-                    else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-                    {
-                        isOpen = true;
-
-                        if (!special)
-                            skip = true;
+                        if (process->chosenBehavior.find(modID) == process->chosenBehavior.end())
+                        {
+                            isOpen = false;
+                        }
                         else
-                            special = false;
+                        {
+                            newMod = modID;
+                            isOpen = true;
+                        }
+
+                        modif = true;
+                        skip  = true;
+
+                    }
+                    else if (line.find("<!-- ORIGINAL -->") != NOT_FOUND)
+                    {
+                        if (!modif) ErrorMessage(1211, filepath, numline);
+
+                        isOpen = true;
+                        orig   = true;
+                        skip   = true;
+                    }
+                    else if (line.find("<!-- CLOSE -->") != NOT_FOUND)
+                    {
+                        if (modif)
+                        {
+                            for (auto& bhv : process->behaviorPriority)
+                            {
+                                auto itr = chosenVecLines.find(bhv);
+
+                                if (itr != chosenVecLines.end())
+                                {
+                                    newMod = bhv;
+                                    modif  = false;
+
+                                    for (auto& eachline : itr->second)
+                                    {
+                                        line = eachline;
+                                        storingLine();
+                                    }
+
+                                    break;
+                                }
+                            }
+
+                            if (modif)
+                            {
+                                for (auto& eachline : origLines)
+                                {
+                                    line = eachline;
+                                    storingLine();
+                                }
+                            }
+
+                            chosenVecLines.clear();
+                            origLines.clear();
+                            newMod.clear();
+                            orig   = false;
+                            modif  = false;
+                            isOpen = true;
+                            skip   = true;
+                        }
                     }
                 }
 
-                if (isOpen && !skip) catalyst.push_back(line);
+                if (isOpen && !skip)
+                {
+                    if (modif)
+                    {
+                        if (orig)
+                        {
+                            origLines.push_back(line);
+                            continue;
+                        }
+                        
+                        chosenVecLines[newMod].push_back(line);
+                        continue;
+                    }
+
+                    storingLine();
+                }
             }
 
             newline.clear();
@@ -167,16 +258,17 @@ void BehaviorSub::CompilingAnimData()
 
             for (int i = 1; i < catalyst.size(); ++i)
             {
-                if (catalyst[i].find(".txt") == NOT_FOUND)
+                if (catalyst[i].second.find(".txt") == NOT_FOUND)
                 {
                     num = i;
                     break;
                 }
 
-                projectList.push_back(catalyst[i]);
+                projectList.push_back(catalyst[i].second);
             }
 
             projectList.shrink_to_fit();
+
             project       = projectList[0] + " " + to_string(++projectNameCount[projectList[0]]);
             string header = "$header$";
             animDataHeader[project].push_back(header);
@@ -189,28 +281,14 @@ void BehaviorSub::CompilingAnimData()
             // separation of all items for easier access and better compatibility
             for (uint l = num; l < catalyst.size(); ++l)
             {
-                string line = catalyst[l];
-
-                if (line.find("<!-- *", 0) != NOT_FOUND)
-                {
-                    size_t tempint     = line.find("<!-- *") + 6;
-                    string modID       = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-                    chosenLines[modID] = line;
-                    continue;
-                }
-                else if (line.find("<!-- original -->", 0) != NOT_FOUND)
-                {
-                    if (chosenLines.size() == 0) ErrorMessage(1165);
-
-                    line = behaviorLineChooser(line, chosenLines, behaviorPriority);
-                    chosenLines.clear();
-                }
+                auto& ref   = catalyst[l];
+                string line = catalyst[l].second;
 
                 if (l + 3 < catalyst.size() && l > 2)
                 {
                     bool empty = false;
 
-                    if (catalyst[l - 1] == "") 
+                    if (catalyst[l - 1].second == "") 
                     {
                         empty = true; 
                     }
@@ -218,12 +296,12 @@ void BehaviorSub::CompilingAnimData()
                     {
                         int next = -1;
 
-                        while (l + next >= 0 && catalyst[l + next].find("<!--") != NOT_FOUND)
+                        while (l + next >= 0 && catalyst[l + next].second.find("<!--") != NOT_FOUND)
                         {
                             --next;
                         }
 
-                        if (catalyst[l + next] == "") empty = true;
+                        if (catalyst[l + next].second == "") empty = true;
                     }
 
                     if (empty)
@@ -234,28 +312,31 @@ void BehaviorSub::CompilingAnimData()
                         {
                             int next = 1;
 
-                            if (l + next < catalyst.size() && catalyst[l + next].find("<!--") != NOT_FOUND)
+                            if (l + next < catalyst.size()
+                                && catalyst[l + next].second.find("<!--") != NOT_FOUND)
                                 ++next;
 
-                            if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+                            if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next].second))
                             {
                                 ++next;
 
                                 if (l + next < catalyst.size()
-                                    && catalyst[l + next].find("<!--") != NOT_FOUND)
+                                    && catalyst[l + next].second.find("<!--") != NOT_FOUND)
+                                {
                                     ++next;
+                                }
 
-                                if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+                                if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next].second))
                                 {
                                     int nextnext = next + 1;
 
                                     if (l + next < catalyst.size()
-                                        && catalyst[l + next].find("<!--") != NOT_FOUND)
+                                        && catalyst[l + next].second.find("<!--") != NOT_FOUND)
                                         ++nextnext;
 
-                                    if (catalyst[l + next] == "0"
+                                    if (catalyst[l + next].second == "0"
                                         || (l + nextnext < catalyst.size()
-                                            && catalyst[l + nextnext].find("\\") != NOT_FOUND))
+                                            && catalyst[l + nextnext].second.find("\\") != NOT_FOUND))
                                     {
                                         newline.shrink_to_fit();
                                         catalystMap[project][header] = newline;
@@ -279,33 +360,33 @@ void BehaviorSub::CompilingAnimData()
                             {
                                 if (hasAlpha(line))
                                 {
-                                    if (isOnlyNumber(catalyst[l + 1])) // next anim header
+                                    if (isOnlyNumber(catalyst[l + 1].second)) // next anim header
                                     {
                                         newline.shrink_to_fit();
                                         catalystMap[project][header] = newline;
                                         newline.reserve(20);
                                         newline.clear();
-                                        header = line + " " + catalyst[l + 1];
+                                        header = line + " " + catalyst[l + 1].second;
                                         animDataHeader[project].push_back(header);
                                     }
                                     else // new anim header added by mod
                                     {
                                         string number
-                                            = nemesis::regex_replace(string(catalyst[l + 1]),
+                                            = nemesis::regex_replace(string(catalyst[l + 1].second),
                                                                    nemesis::regex("[a-zA-Z]+[$]([0-9]+)"),
                                                                    string("\\1"));
 
-                                        if (number != catalyst[l + 1] && isOnlyNumber(number))
+                                        if (number != catalyst[l + 1].second && isOnlyNumber(number))
                                         {
-                                            string modcode  = catalyst[l + 1];
-                                            catalyst[l + 1] = to_string(uCode[project].to_int());
+                                            string modcode  = catalyst[l + 1].second;
+                                            catalyst[l + 1].second = to_string(uCode[project].to_int());
                                             --uCode[project];
-                                            uniqueModCode[project][modcode] = catalyst[l + 1];
+                                            uniqueModCode[project][modcode] = catalyst[l + 1].second;
                                             newline.shrink_to_fit();
                                             catalystMap[project][header] = newline;
                                             newline.reserve(20);
                                             newline.clear();
-                                            header = line + " " + catalyst[l + 1];
+                                            header = line + " " + catalyst[l + 1].second;
                                             animDataHeader[project].push_back(header);
                                         }
                                     }
@@ -315,31 +396,31 @@ void BehaviorSub::CompilingAnimData()
                                     isInfo = true;
                                     newline.shrink_to_fit();
                                     catalystMap[project][header] = newline;
-                                    ;
                                     newline.reserve(20);
                                     newline.clear();
-                                    string number = nemesis::regex_replace(string(catalyst[++l]),
+                                    string number
+                                        = nemesis::regex_replace(string(catalyst[++l].second),
                                                                          nemesis::regex("[a-zA-Z]+[$]([0-9]+)"),
                                                                          string("\\1"));
 
-                                    if (number != catalyst[l] && isOnlyNumber(number))
+                                    if (number != catalyst[l].second && isOnlyNumber(number))
                                     {
-                                        if (uniqueModCode[project].find(catalyst[l])
+                                        if (uniqueModCode[project].find(catalyst[l].second)
                                             != uniqueModCode[project].end())
                                         {
-                                            catalyst[l] = uniqueModCode[project][catalyst[l]]; 
+                                            catalyst[l].second = uniqueModCode[project][catalyst[l].second]; 
                                         }
                                         else
                                         {
-                                            WarningMessage(1024, catalyst[l]);
-                                            short& refCode                      = uCode[project].to_int();
-                                            uniqueModCode[project][catalyst[l]] = to_string(refCode);
-                                            catalyst[l]                         = to_string(refCode);
+                                            WarningMessage(1024, catalyst[l].second);
+                                            short& refCode = uCode[project].to_int();
+                                            uniqueModCode[project][catalyst[l].second] = to_string(refCode);
+                                            catalyst[l].second                         = to_string(refCode);
                                             --refCode;
                                         }
                                     }
 
-                                    line   = catalyst[l];
+                                    line   = catalyst[l].second;
                                     header = line;
                                     animDataInfo[project].push_back(header);
                                 }
@@ -387,61 +468,61 @@ void BehaviorSub::CompilingAnimData()
                     {
                         if (hasAlpha(line) && line.find("\\") == NOT_FOUND && l + 1 < catalyst.size())
                         {
-                            if (isOnlyNumber(catalyst[l + 1])) // if it is unique code
+                            if (isOnlyNumber(catalyst[l + 1].second)) // if it is unique code
                             {
                                 newline.shrink_to_fit();
                                 catalystMap[project][header] = newline;
                                 newline.reserve(20);
                                 newline.clear();
-                                header = line + " " + catalyst[l + 1];
+                                header = line + " " + catalyst[l + 1].second;
                                 animDataHeader[project].push_back(header);
                             }
                             else
                             {
-                                string number = nemesis::regex_replace(string(catalyst[l + 1]),
+                                string number = nemesis::regex_replace(string(catalyst[l + 1].second),
                                                                      nemesis::regex("[a-zA-Z]+[$]([0-9]+)"),
                                                                      string("\\1"));
 
-                                if (number != catalyst[l + 1] && isOnlyNumber(number))
+                                if (number != catalyst[l + 1].second && isOnlyNumber(number))
                                 {
-                                    string modcode  = catalyst[l + 1];
-                                    short& refCode  = uCode[project].to_int();
-                                    catalyst[l + 1] = to_string(refCode);
+                                    string modcode         = catalyst[l + 1].second;
+                                    short& refCode         = uCode[project].to_int();
+                                    catalyst[l + 1].second = to_string(refCode);
                                     --refCode;
-                                    uniqueModCode[project][modcode] = catalyst[l + 1];
+                                    uniqueModCode[project][modcode] = catalyst[l + 1].second;
                                     newline.shrink_to_fit();
                                     catalystMap[project][header] = newline;
                                     newline.reserve(20);
                                     newline.clear();
-                                    header = line + " " + catalyst[l + 1];
+                                    header = line + " " + catalyst[l + 1].second;
                                     animDataHeader[project].push_back(header);
                                 }
                             }
                         }
-                        else if (isOnlyNumber(catalyst[l - 1]) && catalyst[l - 1] == "0"
+                        else if (isOnlyNumber(catalyst[l - 1].second) && catalyst[l - 1].second == "0"
                                  && isOnlyNumber(line))
                         {
                             int next = 1;
 
-                            if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+                            if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next].second))
                             {
                                 ++next;
 
                                 if (l + next < catalyst.size()
-                                    && catalyst[l + next].find("<!--") != NOT_FOUND)
+                                    && catalyst[l + next].second.find("<!--") != NOT_FOUND)
                                     ++next;
 
-                                if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next]))
+                                if (l + next < catalyst.size() && isOnlyNumber(catalyst[l + next].second))
                                 {
                                     int nextnext = next + 1;
 
                                     if (l + next < catalyst.size()
-                                        && catalyst[l + next].find("<!--") != NOT_FOUND)
+                                        && catalyst[l + next].second.find("<!--") != NOT_FOUND)
                                         ++nextnext;
 
-                                    if (catalyst[l + next] == "0"
+                                    if (catalyst[l + next].second == "0"
                                         || (l + nextnext < catalyst.size()
-                                            && catalyst[l + nextnext].find("\\")
+                                            && catalyst[l + nextnext].second.find("\\")
                                                    != NOT_FOUND)) // next project
                                     {
                                         newline.shrink_to_fit();
@@ -467,7 +548,13 @@ void BehaviorSub::CompilingAnimData()
 
             if (newline.size() != 0)
             {
-                if (newline.back().length() == 0) newline.pop_back();
+                if (header == "$header$")
+                {
+                    while (newline.back().length() == 0)
+                    {
+                        newline.pop_back();
+                    }
+                }
 
                 newline.shrink_to_fit();
                 catalystMap[project][header] = newline;
@@ -479,30 +566,40 @@ void BehaviorSub::CompilingAnimData()
                      + " (Check point 2, AnimData general processing complete)");
         process->newMilestone();
 
-        unique_lock<mutex> ulock(cv2_m);
-
-        if (behaviorRun > 0)
         {
-            cv2.wait(ulock, [] { return behaviorRun == 0; });
+            unique_lock<mutex> ulock(cv2_m);
+
+            if (behaviorRun > 0)
+            {
+                cv2.wait(ulock, [] { return error || behaviorRun == 0; });
+            }
         }
 
+        if (error) return;
+
+        auto& bhvtemp = BehaviorTemplate->grouplist.find(lowerBehaviorFile);
+
         // check for having newAnimation for the file
-        if (BehaviorTemplate->grouplist.find(lowerBehaviorFile) != BehaviorTemplate->grouplist.end()
-            && BehaviorTemplate->grouplist[lowerBehaviorFile].size() > 0)
+        if (bhvtemp != BehaviorTemplate->grouplist.end() && bhvtemp->second.size() > 0)
         {
             unordered_map<string, unordered_map<string, vector<map<int, VecStr>>>> editExtract;
             unordered_map<string, unordered_map<string, int>> ASDCount;
 
-            for (auto& templateCode : BehaviorTemplate->grouplist[lowerBehaviorFile])
+            for (auto& templateCode : bhvtemp->second)
             {
                 bool hasGroup    = false;
                 bool hasMaster   = false;
                 bool ignoreGroup = false;
 
-                if (newAnimation.find(templateCode) != newAnimation.end()
-                    && newAnimation[templateCode].size() != 0)
+                Lockless nalock(process->getNewAnimFlag());
+                auto aitr = newAnimation.find(templateCode);
+
+                if (aitr != newAnimation.end() && aitr->second.size() != 0)
                 {
-                    for (auto& eachNewAnim : newAnimation[templateCode])
+                    auto newAnimCopy = aitr->second;
+                    nalock.Unlock();
+
+                    for (auto& eachNewAnim : newAnimCopy)
                     {
                         unordered_map<string, map<string, VecStr>> generatedAnimData;
                         eachNewAnim->GetAnimData(generatedAnimData);
@@ -572,7 +669,9 @@ void BehaviorSub::CompilingAnimData()
                                     }
 
                                     if (catalystMap[projectplus][header].size() > 0)
+                                    {
                                         ErrorMessage(3024, templateCode, project, header);
+                                    }
 
                                     if (projectNameCount[project] != 1)
                                     {
@@ -600,7 +699,9 @@ void BehaviorSub::CompilingAnimData()
                             for (string header : project_itr.second)
                             {
                                 if (catalystMap[project][header].size() == 0)
+                                {
                                     ErrorMessage(5011, templateCode, project, header);
+                                }
 
                                 map<int, VecStr> extract;
                                 eachNewAnim->existingASDProcess(catalystMap[project][header], extract);
@@ -616,6 +717,8 @@ void BehaviorSub::CompilingAnimData()
                 }
                 else
                 {
+                    nalock.Unlock();
+
                     for (auto& project_itr : BehaviorTemplate->existingAnimDataHeader[templateCode])
                     {
                         string project = project_itr.first;
@@ -623,7 +726,9 @@ void BehaviorSub::CompilingAnimData()
                         for (string header : project_itr.second)
                         {
                             if (catalystMap[project][header].size() == 0)
+                            {
                                 ErrorMessage(5011, templateCode, project, header);
+                            }
 
                             editExtract[project][header].push_back(map<int, VecStr>());
 
@@ -655,7 +760,9 @@ void BehaviorSub::CompilingAnimData()
                     }
 
                     if (totalline == 0 && header.second.size() > 0 && header.second[0].size() > 0)
+                    {
                         ErrorMessage(5014, project.first, header.first);
+                    }
 
                     for (int i = 1; i <= projectNameCount[project.first]; ++i)
                     {
@@ -772,10 +879,9 @@ void BehaviorSub::CompilingAnimData()
         {
             for (string& curProject : projectList)
             {
-                if (projectNameCount[curProject] > 1)
-                    project = curProject + " " + to_string(++nextProject[curProject]);
-                else
-                    project = curProject + " 1";
+                project = curProject
+                          + (projectNameCount[curProject] > 1 ? " " + to_string(++nextProject[curProject])
+                                                              : " 1");
 
                 VecStr combined;
 
@@ -830,15 +936,15 @@ void BehaviorSub::CompilingAnimData()
 
     // final output
 #ifdef DEBUG
-    filepath = "new_behaviors\\"
+    string outpath = "new_behaviors\\"
                + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
-    filepath = behaviorPath[lowerBehaviorFile];
+    string outpath = behaviorPath[lowerBehaviorFile];
 #endif
 
-    if (!FolderCreate(GetFileDirectory(filepath))) return;
+    if (!FolderCreate(GetFileDirectory(outpath))) return;
 
-    FileWriter output(filepath + ".txt");
+    FileWriter output(outpath + ".txt");
 
     if (output.is_open())
     {
@@ -851,7 +957,14 @@ void BehaviorSub::CompilingAnimData()
 
         for (auto& project : ADProject)
         {
-            output << to_string(project->GetAnimTotalLine()) + "\n";
+            int projectlinecount = project->GetAnimTotalLine();
+
+            if (projectlinecount > 65536)
+            {
+                WarningMessage(1029, GetFileName(outpath + ".txt") + ".txt", outpath + ".txt");
+            }
+
+            output << to_string(projectlinecount) + "\n";
             output << project->projectActive + "\n";
             output << to_string(project->behaviorlist.size()) + "\n";
 

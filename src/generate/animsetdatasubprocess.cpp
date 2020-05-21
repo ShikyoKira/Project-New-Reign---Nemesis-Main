@@ -4,6 +4,7 @@
 
 #include "ui/Terminator.h"
 
+#include "utilities/conditions.h"
 #include "utilities/readtextfile.h"
 
 #include "generate/animationdata.h"
@@ -28,7 +29,7 @@ void BehaviorSub::ASDCompilation()
         }
         catch (exception& ex)
         {
-            ErrorMessage(6002, filelist[curList], ex.what());
+            ErrorMessage(6002, curfilefromlist, ex.what());
         }
     }
     catch (nemesis::exception&)
@@ -39,7 +40,7 @@ void BehaviorSub::ASDCompilation()
     {
         try
         {
-            ErrorMessage(6002, filelist[curList], "New animation: Unknown");
+            ErrorMessage(6002, curfilefromlist, "New animation: Unknown");
         }
         catch (nemesis::exception&)
         {
@@ -52,18 +53,15 @@ void BehaviorSub::ASDCompilation()
 
 void BehaviorSub::CompilingASD()
 {
-    string filepath          = directory + filelist[curList];
-    string behaviorFile      = filelist[curList].substr(0, filelist[curList].find_last_of("."));
+    string filepath          = directory + curfilefromlist;
+    string behaviorFile      = curfilefromlist.substr(0, curfilefromlist.find_last_of("."));
     string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
     VecStr projectList;
     int projectcounter = 0;
     int headercounter  = 0;
-    bool isOpen        = true;
-    bool special       = false;
     string project     = "	";
     string header      = project;
-    unordered_map<string, string> chosenLines;
     unordered_map<string, map<string, VecStr, alphanum_less>> ASDPack;
     unordered_map<string, unique_ptr<AnimationDataProject>> ASDData;
 
@@ -73,7 +71,19 @@ void BehaviorSub::CompilingASD()
         // read behavior file
         VecStr catalyst;
         VecStr newline;
-        VecStr storeline;
+        vector<pair<uint, string>> storeline;
+        VecStr origLines;
+
+        unordered_map<string, string> chosenLines;
+        unordered_map<string, VecStr> chosenVecLines;
+
+        string newMod;
+
+        bool isOpen = true;
+        bool orig   = false;
+        bool modif  = false;
+
+        uint numline = 0;
 
         if (!GetFunctionLines(filepath, catalyst, false)) return;
 
@@ -89,37 +99,9 @@ void BehaviorSub::CompilingASD()
         // separation of all items for easier access and better compatibility
         for (string line : catalyst)
         {
-            bool skip = false;
-
-            if (line.find("<!-- ", 0) != NOT_FOUND)
+            const auto storingLine = [&]() 
             {
-                if (line.find("<!-- NEW *", 0) != NOT_FOUND)
-                {
-                    size_t tempint = line.find("<!-- NEW *", 0) + 10;
-                    string modID   = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-
-                    if (!chosenBehavior[modID]) isOpen = false;
-
-                    skip = true;
-                }
-                else if (line.find("<!-- NEW ^", 0) != NOT_FOUND || line.find("<!-- FOREACH ^") != NOT_FOUND)
-                {
-                    special = true;
-                }
-                else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-                {
-                    isOpen = true;
-
-                    if (!special)
-                        skip = true;
-                    else
-                        special = false;
-                }
-            }
-
-            if (isOpen && !skip)
-            {
-                if (line.find("<!-- *", 0) != NOT_FOUND)
+                if (line.find("<!-- *") != NOT_FOUND)
                 {
                     size_t tempint     = line.find("<!-- *") + 6;
                     string modID       = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
@@ -127,21 +109,107 @@ void BehaviorSub::CompilingASD()
                 }
                 else
                 {
-                    if (line.find("<!-- original -->", 0) != NOT_FOUND)
+                    if (line.find("\t<!-- original -->") != NOT_FOUND)
                     {
-                        if (chosenLines.size() != 0)
-                        {
-                            line = behaviorLineChooser(line, chosenLines, behaviorPriority);
-                            chosenLines.clear();
-                        }
-                        else
-                        {
-                            ErrorMessage(1165);
-                        }
+                        if (chosenLines.size() == 0) ErrorMessage(1209);
+
+                        line = behaviorLineChooser(line, chosenLines, process->behaviorPriority);
+                        chosenLines.clear();
                     }
 
-                    if (line.find("//* delete this line *//") == NOT_FOUND) storeline.push_back(line);
+                    if (line.find("//* delete this line *//") == NOT_FOUND) storeline.push_back(make_pair(numline, line));
                 }
+            };
+
+            bool skip = false;
+            ++numline;
+
+            if (line.find("<!-- ") != NOT_FOUND)
+            {
+                if (line.find("<!-- NEW *") != NOT_FOUND)
+                {
+                    size_t tempint = line.find("<!-- NEW *") + 10;
+                    string modID   = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
+                    
+                    if (process->chosenBehavior.find(modID) == process->chosenBehavior.end())
+                    {
+                        isOpen = false;
+                    }
+                    else
+                    {
+                        isOpen = true;
+                        newMod = modID;
+                    }
+
+                    modif = true;
+                    skip = true;
+                }
+                else if (line.find("<!-- ORIGINAL -->") != NOT_FOUND)
+                {
+                    if (!modif) ErrorMessage(1211, filepath, numline);
+
+                    isOpen = true;
+                    orig   = true;
+                    skip   = true;
+                }
+                else if (line.find("<!-- CLOSE -->") != NOT_FOUND)
+                {
+                    if (modif)
+                    {
+                        for (auto& bhv : process->behaviorPriority)
+                        {
+                            auto itr = chosenVecLines.find(bhv);
+
+                            if (itr != chosenVecLines.end())
+                            {
+                                newMod = bhv;
+                                modif  = false;
+
+                                for (auto& eachline : itr->second)
+                                {
+                                    line = eachline;
+                                    storingLine();
+                                }
+
+                                break;
+                            }
+                        }
+
+                        if (modif)
+                        {
+                            for (auto& eachline : origLines)
+                            {
+                                line = eachline;
+                                storingLine();
+                            }
+                        }
+
+                        chosenVecLines.clear();
+                        origLines.clear();
+                        newMod.clear();
+                        orig   = false;
+                        modif  = false;
+                        isOpen = true;
+                        skip   = true;
+                    }
+                }
+            }
+
+            if (isOpen && !skip)
+            {
+                if (modif)
+                {
+                    if (orig)
+                    {
+                        origLines.push_back(line);
+                        continue;
+                    }
+                        
+                    chosenVecLines[newMod].push_back(line);
+                    continue;
+                }
+
+                storingLine();
             }
 
             if (error) throw nemesis::exception();
@@ -149,10 +217,10 @@ void BehaviorSub::CompilingASD()
 
         for (int i = 1; i < storeline.size(); ++i)
         {
-            if (isOnlyNumber(storeline[i])) break;
+            if (isOnlyNumber(storeline[i].second)) break;
 
-            projectList.push_back(storeline[i]);
-            newline.push_back(storeline[i]);
+            projectList.push_back(storeline[i].second);
+            newline.push_back(storeline[i].second);
 
             if (error) throw nemesis::exception();
         }
@@ -169,9 +237,9 @@ void BehaviorSub::CompilingASD()
 
         for (uint i = projectList.size() + 1; i < storeline.size(); ++i)
         {
-            line = storeline[i];
+            line = storeline[i].second;
 
-            if (i != storeline.size() - 1 && wordFind(storeline[i + 1], ".txt") != NOT_FOUND)
+            if (i != storeline.size() - 1 && wordFind(storeline[i + 1].second, ".txt") != NOT_FOUND)
             {
                 if (i != projectList.size() + 1)
                 {
@@ -185,22 +253,24 @@ void BehaviorSub::CompilingASD()
                 ++projectcounter;
                 headercounter = 0;
                 animDataSetHeader[project].push_back("	");
-                newline.push_back(storeline[i]);
+                newline.push_back(storeline[i].second);
                 ++i;
 
-                if (animDataSetHeader[project].size() != 1) ErrorMessage(5005, filepath, i + 1);
+                if (animDataSetHeader[project].size() != 1) ErrorMessage(5005, filepath, storeline[i].first);
 
                 while (i < storeline.size())
                 {
-                    if (wordFind(storeline[i], ".txt") != NOT_FOUND)
+                    if (wordFind(storeline[i].second, ".txt") != NOT_FOUND)
                     {
-                        string curHeader = storeline[i];
+                        string curHeader = storeline[i].second;
                         animDataSetHeader[project].push_back(curHeader);
                     }
-                    else if (wordFind(storeline[i], "V3") != NOT_FOUND)
+                    else if (wordFind(storeline[i].second, "V3") != NOT_FOUND)
                     {
                         if (headercounter >= animDataSetHeader[project].size())
-                            ErrorMessage(5015, filepath, i + 1);
+                        {
+                            ErrorMessage(5015, filepath, storeline[i].first);
+                        }
 
                         header = animDataSetHeader[project][headercounter];
                         ++headercounter;
@@ -217,16 +287,19 @@ void BehaviorSub::CompilingASD()
                     }
                     else
                     {
-                        ErrorMessage(5020, filepath, i + 1);
+                        ErrorMessage(5020, filepath, storeline[i].first);
                     }
 
-                    newline.push_back(storeline[i]);
+                    newline.push_back(storeline[i].second);
                     ++i;
                 }
             }
-            else if (wordFind(storeline[i], "V3") != NOT_FOUND)
+            else if (wordFind(storeline[i].second, "V3") != NOT_FOUND)
             {
-                if (headercounter >= animDataSetHeader[project].size()) ErrorMessage(5015, filepath, i + 1);
+                if (headercounter >= animDataSetHeader[project].size())
+                {
+                    ErrorMessage(5015, filepath, storeline[i].first);
+                }
 
                 header = animDataSetHeader[project][headercounter];
                 ++headercounter;
@@ -243,16 +316,16 @@ void BehaviorSub::CompilingASD()
 
             if (error) throw nemesis::exception();
 
-            newline.push_back(storeline[i]);
+            newline.push_back(storeline[i].second);
         }
 
         process->newMilestone();
 
         for (int i = num; i < storeline.size(); ++i)
         {
-            line = storeline[i];
+            line = storeline[i].second;
 
-            if (i != storeline.size() - 1 && wordFind(storeline[i + 1], ".txt") != NOT_FOUND)
+            if (i != storeline.size() - 1 && wordFind(storeline[i + 1].second, ".txt") != NOT_FOUND)
             {
                 header = animDataSetHeader[project][headercounter];
 
@@ -268,22 +341,24 @@ void BehaviorSub::CompilingASD()
                 ++projectcounter;
                 headercounter = 0;
                 animDataSetHeader[project].push_back("	");
-                newline.push_back(storeline[i]);
+                newline.push_back(storeline[i].second);
                 ++i;
 
-                if (animDataSetHeader[project].size() != 1) ErrorMessage(5005, filepath, i + 1);
+                if (animDataSetHeader[project].size() != 1) ErrorMessage(5005, filepath, storeline[i].first);
 
                 while (i < storeline.size())
                 {
-                    if (wordFind(storeline[i], ".txt") != NOT_FOUND)
+                    if (wordFind(storeline[i].second, ".txt") != NOT_FOUND)
                     {
-                        string curHeader = storeline[i];
+                        string curHeader = storeline[i].second;
                         animDataSetHeader[project].push_back(curHeader);
                     }
-                    else if (wordFind(storeline[i], "V3") != NOT_FOUND)
+                    else if (wordFind(storeline[i].second, "V3") != NOT_FOUND)
                     {
                         if (headercounter >= animDataSetHeader[project].size())
-                            ErrorMessage(5015, filepath, i + 1);
+                        {
+                            ErrorMessage(5015, filepath, storeline[i].first);
+                        }
 
                         header = animDataSetHeader[project][headercounter];
                         ++headercounter;
@@ -300,17 +375,19 @@ void BehaviorSub::CompilingASD()
                     }
                     else
                     {
-                        ErrorMessage(5020, filepath, i + 1);
+                        ErrorMessage(5020, filepath, storeline[i].first);
                     }
 
-                    newline.push_back(storeline[i]);
+                    newline.push_back(storeline[i].second);
                     ++i;
                 }
             }
-            else if (wordFind(storeline[i], "V3") != NOT_FOUND)
+            else if (wordFind(storeline[i].second, "V3") != NOT_FOUND)
             {
                 if (headercounter >= animDataSetHeader[project].size() - 1)
-                    ErrorMessage(5015, filepath, i + 1);
+                {
+                    ErrorMessage(5015, filepath, storeline[i].first);
+                }
 
                 header = animDataSetHeader[project][headercounter];
                 ++headercounter;
@@ -327,7 +404,7 @@ void BehaviorSub::CompilingASD()
 
             if (error) throw nemesis::exception();
 
-            newline.push_back(storeline[i]);
+            newline.push_back(storeline[i].second);
         }
 
         if (newline.size() != 0)
@@ -360,13 +437,18 @@ void BehaviorSub::CompilingASD()
                 bool hasMaster   = false;
                 bool ignoreGroup = false;
 
-                if (newAnimation.find(templateCode) != newAnimation.end()
-                    && newAnimation[templateCode].size() != 0)
+                Lockless nalock(process->getNewAnimFlag());
+                auto aitr = newAnimation.find(templateCode);
+
+                if (aitr != newAnimation.end() && aitr->second.size() != 0)
                 {
-                    for (uint k = 0; k < newAnimation[templateCode].size(); ++k)
+                    auto newAnimCopy = aitr->second;
+                    nalock.Unlock();
+
+                    for (uint k = 0; k < newAnimCopy.size(); ++k)
                     {
                         unordered_map<string, map<string, VecStr, alphanum_less>> generatedASD;
-                        newAnimation[templateCode][k]->GetAnimSetData(generatedASD);
+                        newAnimCopy[k]->GetAnimSetData(generatedASD);
 
                         for (auto it = generatedASD.begin(); it != generatedASD.end(); ++it)
                         {
@@ -382,7 +464,9 @@ void BehaviorSub::CompilingASD()
                                                    + ".txt");
 
                                 if (ASDPack[interproject][interheader].size() > 0)
+                                {
                                     ErrorMessage(5012, templateCode, interproject, interheader);
+                                }
 
                                 if (error) throw nemesis::exception();
 
@@ -408,10 +492,12 @@ void BehaviorSub::CompilingASD()
                                 string interheader = *iter;
 
                                 if (ASDPack[interproject][interheader].size() == 0)
+                                {
                                     ErrorMessage(5011, templateCode, interproject, interheader);
+                                }
 
                                 map<int, VecStr> extract;
-                                newAnimation[templateCode][k]->existingASDProcess(
+                                newAnimCopy[k]->existingASDProcess(
                                     ASDPack[interproject][interheader], extract, vector<int>(1));
                                 editExtract[interproject][interheader].push_back(extract);
 
@@ -429,6 +515,8 @@ void BehaviorSub::CompilingASD()
                 }
                 else
                 {
+                    nalock.Unlock();
+
                     for (auto& proj : BehaviorTemplate->existingASDHeader[templateCode])
                     {
                         string interproject = proj.first;
@@ -436,7 +524,9 @@ void BehaviorSub::CompilingASD()
                         for (string interheader : proj.second)
                         {
                             if (ASDPack[interproject][interheader].size() == 0)
+                            {
                                 ErrorMessage(5011, templateCode, interproject, interheader);
+                            }
 
                             editExtract[interproject][interheader].push_back(*new map<int, VecStr>());
 
@@ -466,7 +556,9 @@ void BehaviorSub::CompilingASD()
                     }
 
                     if (totalline == 0 && header.second.size() > 0 && header.second[0].size() > 0)
+                    {
                         ErrorMessage(5014, project.first, header.first);
+                    }
 
                     combineExtraction(
                         ASDPack[project.first][header.first], combined, project.first, header.first);
@@ -521,15 +613,15 @@ void BehaviorSub::CompilingASD()
 
         // final output
 #ifdef DEBUG
-        filepath = "new_behaviors\\"
+        string outpath = "new_behaviors\\"
                    + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
-        filepath = behaviorPath[lowerBehaviorFile];
+        string outpath = behaviorPath[lowerBehaviorFile];
 #endif
 
-        if (!FolderCreate(GetFileDirectory(filepath))) return;
+        if (!FolderCreate(GetFileDirectory(outpath))) return;
 
-        FileWriter output(filepath + ".txt");
+        FileWriter output(outpath + ".txt");
 
         if (output.is_open())
         {
