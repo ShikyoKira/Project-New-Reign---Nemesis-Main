@@ -208,31 +208,21 @@ bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
 {
 	functionlines = VecStr();
 
-	if (!sf::is_directory(filename))
-	{
-		functionlines.reserve(fileLineCount(filename));
-		FileReader BehaviorFormat(filename.wstring());
+	if (sf::is_directory(filename)) ErrorMessage(3001, filename.string());
 
-		if (BehaviorFormat.GetFile())
-		{
-			wstring line;
+    functionlines.reserve(fileLineCount(filename));
+    FileReader BehaviorFormat(filename.wstring());
 
-			while (BehaviorFormat.GetLines(line))
-			{
-				if (error) throw nemesis::exception();
+    if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filename.string());
 
-				functionlines.push_back(nemesis::transform_to<string>(line));
-			}
-		}
-		else
-		{
-			ErrorMessage(3002, filename.string());
-		}
-	}
-	else
-	{
-		ErrorMessage(3001, filename.string());
-	}
+    wstring line;
+
+    while (BehaviorFormat.GetLines(line))
+    {
+        if (error) throw nemesis::exception();
+
+        functionlines.push_back(nemesis::transform_to<string>(line));
+    }
 
 	if (functionlines.size() == 0) return false;
 
@@ -258,31 +248,21 @@ bool GetFunctionLines(sf::path filename, vector<wstring>& functionlines, bool em
 {
 	functionlines = vector<wstring>();
 
-	if (!sf::is_directory(filename))
-	{
-		functionlines.reserve(fileLineCount(filename));
-		FileReader BehaviorFormat(filename.wstring());
+	if (sf::is_directory(filename)) ErrorMessage(3001, filename.string());
 
-		if (BehaviorFormat.GetFile())
-		{
-			wstring line;
+    functionlines.reserve(fileLineCount(filename));
+    FileReader BehaviorFormat(filename.wstring());
 
-			while (BehaviorFormat.GetLines(line))
-			{
-				if (error) throw nemesis::exception();
+    if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filename.string());
 
-				functionlines.push_back(line);
-			}
-		}
-		else
-		{
-			ErrorMessage(3002, filename.string());
-		}
-	}
-	else
-	{
-		ErrorMessage(3001, filename.string());
-	}
+    wstring line;
+
+    while (BehaviorFormat.GetLines(line))
+    {
+        if (error) throw nemesis::exception();
+
+        functionlines.push_back(line);
+    }
 
 	if (functionlines.size() == 0) return false;
 

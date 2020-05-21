@@ -297,7 +297,9 @@ void NemesisInfo::setup()
     }
 
     if (!force && nemesis::to_lower_copy(dataPath + "nemesis_engine") != nemesis::to_lower_copy(curpath))
+    {
         ErrorMessage(6010, curpath, dataPath + "nemesis_engine");
+    }
 
     if (stagePath.length() > 0)
     {

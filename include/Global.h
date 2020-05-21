@@ -16,8 +16,8 @@
 
 #include "debugmsg.h"
 
-using VecStr  = std::vector<std::string>;
 using VecChar = std::vector<char>;
+using VecStr  = std::vector<std::string>;
 using ID      = std::unordered_map<std::string, int>;
 using uint    = unsigned int;
 

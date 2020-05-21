@@ -374,9 +374,15 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
     string destination = nemesisInfo->GetDataPath() + "scripts";
     string filepath    = destination + "\\Nemesis_PCEA_Core.pex";
 
-    if (!PapyrusCompile(
-            pscfile, nemesis::transform_to<wstring>(import), destination, filepath, cachedir, nemesisInfo->GetDataPath()))
+    if (!PapyrusCompile(pscfile,
+                        nemesis::transform_to<wstring>(import),
+                        destination,
+                        filepath,
+                        cachedir,
+                        nemesisInfo->GetDataPath()))
+    {
         return false;
+    }
 
     DebugLogging("PCEA core script complete");
     return true;
