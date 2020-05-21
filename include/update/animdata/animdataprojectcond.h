@@ -19,7 +19,7 @@ struct AnimDataProject_Condt
     std::vector<DataPackCondt<InfoDataPack_Condt>> infodatalist;
 
     AnimDataProject_Condt() {}
-    AnimDataProject_Condt(const VecStr& storeline);
+    AnimDataProject_Condt(const VecStr& storeline, size_t linenum = 1);
 
     void update(const ModCode& modcode, const VecStr& storeline, size_t linenum);
     void modify(const ModCode& modcode, const VecStr& storeline);

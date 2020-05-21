@@ -2,10 +2,6 @@
 
 #include <QtCore/QCoreApplication.h>
 
-#if MULTITHREADED_UPDATE
-#include <boost/asio/post.hpp>
-#endif
-
 #include "debuglog.h"
 #include "externalscript.h"
 #include "nemesisinfo.h"
@@ -18,6 +14,9 @@
 #include "utilities/lastupdate.h"
 #include "utilities/renew.h"
 #include "utilities/stringsplit.h"
+#if MULTITHREADED_UPDATE
+#include "utilities/threadpool.h"
+#endif
 
 #include "update/dataunification.h"
 #include "update/updateprocess.h"
@@ -56,7 +55,7 @@ void stateCheck(SSMap& parent,
                 StateIDList& duplicatedStateList
 #if MULTITHREADED_UPDATE
                 ,
-                boost::atomic_flag& lockless
+                std::atomic_flag& lockless
 #endif
 );
 
@@ -86,7 +85,7 @@ struct arguPack
              shared_ptr<UpdateLock> n_modUpdate
 #if MULTITHREADED_UPDATE
              ,
-             boost::atomic_flag& n_parentLock
+             std::atomic_flag& n_parentLock
 #endif
              )
         : newFile(n_newFile)
@@ -105,14 +104,14 @@ struct arguPack
 
     unordered_map<string, unique_ptr<SSMap>> n_stateID;
 #if MULTITHREADED_UPDATE
-    boost::atomic_flag stateLock = BOOST_ATOMIC_FLAG_INIT;
+    std::atomic_flag stateLock{};
 #endif
 
     unordered_map<string, unique_ptr<unordered_map<string, VecStr>>> statelist;
 
     SSSMap& parent;
 #if MULTITHREADED_UPDATE
-    boost::atomic_flag& parentLock;
+    std::atomic_flag& parentLock;
 #endif
 
     MasterAnimData& animData;
@@ -159,16 +158,7 @@ void UpdateFilesStart::startUpdatingFile()
     }
     catch (...)
     {
-        try
-        {
-            ErrorMessage(6001, "Unknown: Update Failed");
-        }
-        catch (nemesis::exception&)
-        {
-            // resolved exception
-        }
-
-        return;
+        ErrorMessage(6001, "Unknown: Update Failed");
     }
 
     try
@@ -202,16 +192,7 @@ void UpdateFilesStart::startUpdatingFile()
     }
     catch (...)
     {
-        try
-        {
-            ErrorMessage(6001, "Unknown: Update Failed");
-        }
-        catch (nemesis::exception&)
-        {
-            // resolved exception
-        }
-
-        return;
+        ErrorMessage(6001, "Unknown: Update Failed");
     }
 
     try
@@ -274,16 +255,7 @@ void UpdateFilesStart::startUpdatingFile()
     }
     catch (...)
     {
-        try
-        {
-            ErrorMessage(6001, "Unknown: Update Failed");
-        }
-        catch (nemesis::exception&)
-        {
-            // resolved exception
-        }
-
-        return;
+        ErrorMessage(6001, "Unknown: Update Failed");
     }
 
     try
@@ -310,14 +282,7 @@ void UpdateFilesStart::startUpdatingFile()
     }
     catch (...)
     {
-        try
-        {
-            ErrorMessage(6001, "Unknown: Update Failed");
-        }
-        catch (nemesis::exception&)
-        {
-            // resolved exception
-        }
+        ErrorMessage(6001, "Unknown: Update Failed");
     }
 }
 
@@ -362,11 +327,11 @@ bool UpdateFilesStart::VanillaUpdate()
     if (error) throw nemesis::exception();
 
 #if MULTITHREADED_UPDATE
-    boost::asio::thread_pool mt(2);
+    nemesis::ThreadPool mt;
 
     for (shared_ptr<RegisterQueue>& curBehavior : registeredFiles)
     {
-        boost::asio::post(mt, boost::bind(&UpdateFilesStart::RegisterBehavior, this, curBehavior));
+        mt.enqueue(&UpdateFilesStart::RegisterBehavior, this, curBehavior);
     }
 
     mt.join();
@@ -492,14 +457,16 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
             DebugLogging("AnimData Disassemble start (File: " + newPath + ")");
 
             {
+#if MULTITHREADED_UPDATE
                 Lockless lock(behaviorPathLock);
+#endif
                 behaviorPath[nemesis::to_lower_copy(curFileName)]
                     = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
             }
 
             if (!AnimDataDisassemble(newPath, animData)) return;
 
-            if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
+            saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate);
 
             DebugLogging("AnimData Disassemble complete (File: " + newPath + ")");
             emit progressUp();
@@ -510,14 +477,16 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
             DebugLogging("AnimSetData Disassemble start (File: " + newPath + ")");
 
             {
+#if MULTITHREADED_UPDATE
                 Lockless lock(behaviorPathLock);
+#endif
                 behaviorPath[nemesis::to_lower_copy(curFileName)]
                     = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
             }
 
             if (!AnimSetDataDisassemble(newPath, animSetData)) return;
 
-            if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
+            saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate);
 
             DebugLogging("AnimSetData Disassemble complete (File: " + newPath + ")");
 
@@ -536,7 +505,9 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
             DebugLogging("Behavior Disassemble start (File: " + newPath + ")");
 
             {
+#if MULTITHREADED_UPDATE
                 Lockless lock(behaviorPathLock);
+#endif
                 behaviorPath[curFileName]
                     = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\"
                                              + curBehavior->file.stem().string().substr(8));
@@ -561,7 +532,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
                 parent[curFileName]        = move(_parent);
             }
 
-            if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
+            saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate);
 
             DebugLogging("Behavior Disassemble complete (File: " + newPath + ")");
             emit progressUp();
@@ -585,7 +556,9 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
                 = nemesis::to_lower_copy(firstperson + curFileName.substr(8, curFileName.length() - 16));
 
             {
+#if MULTITHREADED_UPDATE
                 Lockless lock(behaviorProjectPathLock);
+#endif
                 behaviorProjectPath[curFileName] = curPath;
             }
 
@@ -610,7 +583,9 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
                         = nemesis::to_lower_copy(line.substr(pos, line.find("</hkcstring>", pos) - pos));
                     characterfile = GetFileName(characterfile);
 
+#if MULTITHREADED_UPDATE
                     Lockless lock(behaviorProjectLock);
+#endif
                     behaviorProject[characterfile.data()].push_back(curFileName);
                 }
 
@@ -619,7 +594,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
                     record = true;
             }
 
-            if (!saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate)) return;
+            saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate);
 
             emit progressUp();
             DebugLogging("Nemesis Project Record complete (File: " + newPath + ")");
@@ -659,7 +634,9 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
                             if (nemesis::iequals(ext, "nemesis_animationdatasinglefile")
                                 || nemesis::iequals(ext, "nemesis_animationsetdatasinglefile"))
                             {
+#if MULTITHREADED_UPDATE
                                 Lockless locker(queueLock);
+#endif
                                 registeredFiles.push_back(make_shared<RegisterQueue>(curfile, false));
                             }
                             else if ((wordFind(curFileName, "Nemesis_") == 0
@@ -668,7 +645,9 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
                                      || (wordFind(curFileName, "Nemesis_") == 0
                                          && wordFind(curFileName, "_Project") + 8 == curFileName.length()))
                             {
+#if MULTITHREADED_UPDATE
                                 Lockless locker(queueLock);
+#endif
                                 registeredFiles.push_back(make_shared<RegisterQueue>(curfile, isFirstPerson));
                             }
                         }
@@ -705,7 +684,7 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
     }
 }
 
-bool UpdateFilesStart::VanillaDisassemble(string path,
+bool UpdateFilesStart::VanillaDisassemble(const string& path,
                                           unique_ptr<map<string, VecStr, alphanum_less>>& curNewFile,
                                           unique_ptr<map<string, unordered_map<string, bool>>>& childrenState,
                                           unique_ptr<SSMap>& stateID,
@@ -841,11 +820,11 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
                         else
                         {
                             bool bone = false;
-                            boost::regex vector4("\\(((?:-|)[0-9]+\\.[0-9]+) ((?:-|)[0-9]+\\.[0-9]+) "
+                            nemesis::regex vector4("\\(((?:-|)[0-9]+\\.[0-9]+) ((?:-|)[0-9]+\\.[0-9]+) "
                                                  "((?:-|)[0-9]+\\.[0-9]+) ((?:-|)[0-9]+\\.[0-9]+)\\)");
-                            boost::smatch match;
+                            nemesis::smatch match;
 
-                            if (!boost::regex_search(curline, match, vector4))
+                            if (!nemesis::regex_search(curline, match, vector4))
                             {
                                 string spaces;
 
@@ -859,11 +838,9 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
 
                                 if (curline.find("<!-- Bone$N -->") == NOT_FOUND)
                                 {
-                                    for (auto& it
-                                         = boost::sregex_iterator(curline.begin(),
-                                                                  curline.end(),
-                                                                  boost::regex("([0-9]+(\\.[0-9]+)?)"));
-                                         it != boost::sregex_iterator();
+                                    for (auto& it = nemesis::regex_iterator(
+                                             curline, nemesis::regex("([0-9]+(\\.[0-9]+)?)"));
+                                         it != nemesis::regex_iterator();
                                          ++it)
                                     {
                                         storeline.push_back(spaces + it->str(1));
@@ -886,9 +863,8 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
 
                                 storeline.push_back(curline.substr(0, match.position()));
 
-                                for (auto& it
-                                     = boost::sregex_iterator(curline.begin(), curline.end(), vector4);
-                                     it != boost::sregex_iterator();
+                                for (auto& it = nemesis::regex_iterator(curline, vector4);
+                                     it != nemesis::regex_iterator();
                                      ++it)
                                 {
                                     storeline.push_back(spaces + it->str(1));
@@ -915,9 +891,8 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
                                         break;
                                 }
 
-                                for (auto& it
-                                     = boost::sregex_iterator(curline.begin(), curline.end(), vector4);
-                                     it != boost::sregex_iterator();
+                                for (auto& it = nemesis::regex_iterator(curline, vector4);
+                                     it != nemesis::regex_iterator();
                                      ++it)
                                 {
                                     storeline.push_back(spaces + it->str(1));
@@ -993,7 +968,7 @@ bool UpdateFilesStart::VanillaDisassemble(string path,
     return true;
 }
 
-bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData)
+bool UpdateFilesStart::AnimDataDisassemble(const string& path, MasterAnimData& animData)
 {
 #if MULTITHREADED_UPDATE
     scoped_lock<mutex> adlock(admtx);
@@ -1241,7 +1216,7 @@ bool UpdateFilesStart::AnimDataDisassemble(string path, MasterAnimData& animData
     return true;
 }
 
-bool UpdateFilesStart::AnimSetDataDisassemble(string path, MasterAnimSetData& animSetData)
+bool UpdateFilesStart::AnimSetDataDisassemble(const string& path, MasterAnimSetData& animSetData)
 {
 #if MULTITHREADED_UPDATE
     scoped_lock<mutex> asdlock(asdmtx);
@@ -1366,7 +1341,9 @@ void UpdateFilesStart::ModThread(const string& directory,
                 MasterAnimData& animData(pack[modcode]->animData);
 
                 if (animData.projectlist.size() == 0)
+                {
                     ErrorMessage(3017, "nemesis_animationdatasinglefile.txt");
+                }
 
                 bool newChar       = false;
                 bool openAnim      = false;
@@ -1390,32 +1367,35 @@ void UpdateFilesStart::ModThread(const string& directory,
                     animData.animDataChar.push_back(projectname);
                     newChar = true;
 #else
-                if (projectname == "$header$")
+                if (projectname == "$header$" && !animData.find(projectname, modcode))
                 {
                     string fullpath = filepath + "\\$header$.txt";
 
                     if (!isFileExist(fullpath)) ErrorMessage(2002, fullpath, "-", "-");
 
-                    newChar = true;
+                    saveLastUpdate(nemesis::to_lower_copy(fullpath), lastUpdate);
+
                     VecStr storeline;
                     GetFunctionLines(fullpath, storeline, false);
                     animData.projectListUpdate(modcode, fullpath, storeline, false);
                 }
-                else if (animData.find(projectname, modcode) == nullptr)
+                else if (!animData.find(projectname, modcode))
                 {
-                    string fullpath = filepath + "\\$header$.txt";
+                    if (!animData.contains(projectname))
+                    {
+                        string fullpath = directory + modcode + "\\" + behavior + "\\$header$\\$header$.txt";
 
-                    if (!isFileExist(fullpath)) ErrorMessage(2002, fullpath, "-", "-");
+                        if (!isFileExist(fullpath)) ErrorMessage(2002, fullpath, "-", "-");
 
-                    newChar = true;
-                    VecStr storeline;
-                    GetFunctionLines(fullpath, storeline, false);
-                    animData.projectListUpdate(modcode, fullpath, storeline, false);
+                        saveLastUpdate(nemesis::to_lower_copy(fullpath), lastUpdate);
+
+                        VecStr storeline;
+                        GetFunctionLines(fullpath, storeline, false);
+                        animData.projectListUpdate(modcode, fullpath, storeline, false);
+                    }
 
                     for (string& uniquecode : uniquecodelist)
                     {
-                        if (nemesis::iequals(uniquecode, "$header$")) continue;
-
                         if (!sf::is_directory(filepath + "\\" + uniquecode))
                         {
                             AnimDataUpdate(modcode,
@@ -1544,7 +1524,9 @@ void UpdateFilesStart::ModThread(const string& directory,
                 MasterAnimSetData& animSetData(pack[modcode]->animSetData);
 
                 if (animSetData.newAnimSetData.size() == 0)
+                {
                     ErrorMessage(3017, "nemesis_animationsetdatasinglefile.txt");
+                }
 
                 if (!sf::is_directory(curPath)) continue;
 
@@ -1711,7 +1693,7 @@ void UpdateFilesStart::ModThread(const string& directory,
                         }
                         else if (ID.find("$") != NOT_FOUND)
                         {
-                            ErrorMessage(1190, modcode, state.first, ID);
+                            ErrorMessage(1190, modcode, behavior, state.first, ID);
                         }
                     }
                 }
@@ -1800,7 +1782,7 @@ void UpdateFilesStart::ModThread(const string& directory,
     if (error) throw nemesis::exception();
 }
 
-void UpdateFilesStart::SeparateMod(string directory,
+void UpdateFilesStart::SeparateMod(const string& directory,
                                    TargetQueue target,
                                    unordered_map<string, shared_ptr<arguPack>>& pack)
 {
@@ -1813,10 +1795,17 @@ void UpdateFilesStart::SeparateMod(string directory,
         {
             int curQueue;
             int nextQueue;
+
+#if MULTITHREADED_UPDATE
             Lockless locker(stackLock);
+#endif
+
             size_t thisQueue = queuing;
             queuing++;
+
+#if MULTITHREADED_UPDATE
             locker.Unlock();
+#endif
 
             curQueue = thisQueue * 20 / processQueue.size();
             thisQueue++;
@@ -1967,15 +1956,12 @@ void UpdateFilesStart::JoiningEdits(string directory)
                 if (processQueue.size() > 0)
                 {
                     // Using non-multithreading method due to heap corruption upon using solution below
-#if MULTITHREADED_UPDATE2
-                    boost::asio::thread_pool multiThreads(2);
+#if MULTITHREADED_UPDATE
+                    nemesis::ThreadPool multiThreads;
 
                     for (auto& each : processQueue)
                     {
-                        boost::asio::post(
-                            multiThreads,
-                            boost::bind(
-                                &UpdateFilesStart::SeparateMod, this, directory, each, boost::ref(pack)));
+                        multiThreads.enqueue(&UpdateFilesStart::SeparateMod, this, directory, each, std::ref(pack));
                     }
 
                     multiThreads.join();
@@ -2151,7 +2137,9 @@ void UpdateFilesStart::CombiningFiles()
                         nemesis::to_lower(behaviorName);
 
                         if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND)
+                        {
                             behaviorName = "_1stperson\\" + behaviorName;
+                        }
 
                         behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
                         behaviorRef = false;
@@ -2165,7 +2153,9 @@ void UpdateFilesStart::CombiningFiles()
                         nemesis::to_lower(behaviorName);
 
                         if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND)
+                        {
                             behaviorName = "_1stperson\\" + behaviorName;
+                        }
 
                         behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
                     }
@@ -2285,6 +2275,7 @@ void UpdateFilesStart::CombiningFiles()
 
                 bigNum2 += CRC32Convert(total);
 #else
+                animData.writelines(output);
 #endif
             }
             else
@@ -2438,8 +2429,7 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
                                     return;
                                 }
                             }
-                            else if (boost::regex_match(stemTemp,
-                                                        boost::regex("^\\$(?!" + curCode + ").+\\$(?:UC|)$")))
+                            else if (nemesis::regex_match(stemTemp, nemesis::regex("^\\$(?!" + curCode + ").+\\$(?:UC|)$")))
                             {
                                 ErrorMessage(3023,
                                              "$" + curCode + "$"
@@ -2508,11 +2498,7 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
     {
         VecStr storeline;
 
-        if (!saveLastUpdate(nemesis::to_lower_copy(folderpath), lastUpdate))
-        {
-            newAnimFunction = false;
-            return;
-        }
+        saveLastUpdate(nemesis::to_lower_copy(folderpath), lastUpdate);
 
         if (!GetFunctionLines(folderpath, storeline))
         {
@@ -2520,7 +2506,9 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
             return;
         }
 
+#if MULTITHREADED_UPDATE
         Lockless lock(newAnimAdditionLock);
+#endif
         newAnimAddition[nemesis::to_lower_copy(codefile.string())] = storeline;
     }
     else
@@ -2539,12 +2527,11 @@ void UpdateFilesStart::newAnimProcess(string sourcefolder)
         read_directory(sourcefolder, codelist);
 
 #if MULTITHREADED_UPDATE
-        boost::asio::thread_pool multiThreads(2);
+        nemesis::ThreadPool multiThreads;
 
         for (auto& curCode : codelist)
         {
-            boost::asio::post(multiThreads,
-                              boost::bind(&UpdateFilesStart::newAnimUpdate, this, sourcefolder, curCode));
+            multiThreads.enqueue(&UpdateFilesStart::newAnimUpdate, this, sourcefolder, curCode);
         }
 
         multiThreads.join();
@@ -2709,7 +2696,7 @@ void stateCheck(SSMap& parent,
                 StateIDList& duplicatedStateList
 #if MULTITHREADED_UPDATE
                 ,
-                boost::atomic_flag& lockless
+                std::atomic_flag& lockless
 #endif
 )
 {

@@ -1,8 +1,8 @@
-#include "update/animdata/animdatapackcond.h"
+#include "update/animdata/infodatapackcond.h"
 
 using namespace std;
 
-AnimDataPack_Condt::AnimDataPack_Condt(const VecStr& storeline, size_t linenum)
+InfoDataPack_Condt::InfoDataPack_Condt(const VecStr& storeline, size_t linenum)
 {
     short type = 0;
 
@@ -14,51 +14,56 @@ AnimDataPack_Condt::AnimDataPack_Condt(const VecStr& storeline, size_t linenum)
         {
             case 0:
             {
-                name = line;
+                uniquecode = line;
                 ++type;
                 break;
             }
             case 1:
             {
-                uniquecode           = line;
-                uniquecode.linecount = linenum + i;
+                duration = line;
                 ++type;
                 break;
             }
             case 2:
             {
-                unknown1           = line;
-                unknown1.linecount = linenum + i;
+                // motion data counter
+                if (i + 1 < storeline.size())
+                {
+                    const string& nextline = storeline[i + 1];
+
+                    if (count(nextline.begin(), nextline.end(), ' ') == 0 && isOnlyNumber(nextline)) ++type;
+                }
+
                 ++type;
                 break;
             }
             case 3:
             {
-                unknown2           = line;
-                unknown2.linecount = linenum + i;
-                ++type;
+                if (i + 1 < storeline.size())
+                {
+                    const string& nextline = storeline[i + 1];
+
+                    if (count(nextline.begin(), nextline.end(), ' ') == 0 && isOnlyNumber(nextline)) ++type;
+                }
+
+                motiondata.push_back(line);
                 break;
             }
             case 4:
             {
-                unknown3           = line;
-                unknown3.linecount = linenum + i;
+                // rotation data counter
+                if (i + 1 < storeline.size() && storeline[i + 1].length() == 0) ++type;
+
                 ++type;
+
                 break;
             }
             case 5:
             {
-                // event count
                 if (i + 1 < storeline.size() && storeline[i + 1].length() == 0) ++type;
 
-                ++type;
+                rotationdata.push_back(line);
                 break;
-            }
-            case 6:
-            {
-                if (i + 1 < storeline.size() && storeline[i + 1].length() == 0) ++type;
-
-                eventname.push_back(nemesis::LinkedVar(line, linenum + i));
             }
             default:
             {
@@ -68,43 +73,45 @@ AnimDataPack_Condt::AnimDataPack_Condt(const VecStr& storeline, size_t linenum)
     }
 }
 
-void AnimDataPack_Condt::getlines(VecStr& storeline) 
+void InfoDataPack_Condt::getlines(VecStr& storeline)
 {
-    // anim data name
-    storeline.push_back(name);
-
     // unique code
-    getlinkedline(uniquecode, storeline);
+    storeline.push_back(uniquecode);
 
-    // unknown variables
-    getlinkedline(unknown1, storeline);
-    getlinkedline(unknown2, storeline);
-    getlinkedline(unknown3, storeline);
+    // duration
+    storeline.push_back(duration);
 
-    // event name count
-    storeline.push_back(to_string(eventname.size()));
+    // motion data count
+    storeline.push_back(to_string(motiondata.size()));
 
-    // event name list
-    for (auto& each : eventname)
+    for (auto& data : motiondata)
     {
-        getlinkedline(each, storeline);
+        storeline.push_back(data);
+    }
+
+    // rotation data count
+    storeline.push_back(to_string(rotationdata.size()));
+
+    for (auto& data : rotationdata)
+    {
+        storeline.push_back(data);
     }
 
     storeline.push_back("");
 }
 
-void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata, VecStr& storeline) 
+void getlinkedline(const nemesis::LinkedVar<InfoDataPack_Condt>& linkedinfodata, VecStr& storeline)
 {
-    vector<pair<const string*, const nemesis::CondVar<AnimDataPack_Condt>*>> modcodelist;
+    vector<pair<const string*, const nemesis::CondVar<InfoDataPack_Condt>*>> modcodelist;
 
-    for (auto& cond : linkedanimdata.nestedcond)
+    for (auto& cond : linkedinfodata.nestedcond)
     {
         switch (cond.conditionType)
         {
             case nemesis::MOD_CODE:
             {
-                modcodelist.push_back(
-                    make_pair<const string*, const nemesis::CondVar<AnimDataPack_Condt>*>(&cond.conditions, &cond));
+                modcodelist.push_back(make_pair<const string*, const nemesis::CondVar<InfoDataPack_Condt>*>(
+                    &cond.conditions, &cond));
                 break;
             }
             case nemesis::FOREACH:
@@ -124,7 +131,7 @@ void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata,
 
     if (modcodelist.size() > 0)
     {
-        if (linkedanimdata.raw)
+        if (linkedinfodata.raw)
         {
             vector<pair<string, VecStr>> list;
 
@@ -151,7 +158,7 @@ void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata,
             {
                 storeline.push_back("<!-- ORIGINAL -->");
                 size_t t = storeline.size();
-                linkedanimdata.raw->getlines(storeline);
+                linkedinfodata.raw->getlines(storeline);
 
                 if (t < storeline.size()) storeline.pop_back();
 
@@ -160,7 +167,7 @@ void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata,
             }
             else
             {
-                linkedanimdata.raw->getlines(storeline);
+                linkedinfodata.raw->getlines(storeline);
             }
         }
         else
@@ -168,14 +175,14 @@ void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata,
             for (auto& modcode : modcodelist)
             {
                 storeline.push_back("<!-- NEW *" + *modcode.first + "* -->");
-                getlinkedline(*modcode.second, storeline);
+                getlinkedline(modcode.second->rawlist[0], storeline);
                 storeline.push_back("<!-- CLOSE -->");
             }
         }
     }
-    else if (linkedanimdata.raw)
+    else if (linkedinfodata.raw)
     {
-        linkedanimdata.raw->getlines(storeline);
+        linkedinfodata.raw->getlines(storeline);
     }
     else
     {

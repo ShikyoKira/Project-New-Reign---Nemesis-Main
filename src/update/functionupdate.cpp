@@ -86,9 +86,9 @@ bool NodeU::NodeUpdate(string modcode,
                        unordered_map<string, string>& lastUpdate
 #if MULTITHREADED_UPDATE
                        ,
-                       boost::atomic_flag& filelock,
-                       boost::atomic_flag& stateLock,
-                       boost::atomic_flag& parentLock
+                       atomic_flag& filelock,
+                       atomic_flag& stateLock,
+                       atomic_flag& parentLock
 #endif
 )
 {
@@ -100,7 +100,7 @@ bool NodeU::NodeUpdate(string modcode,
     string nodeID   = nodefile.substr(0, nodefile.find_last_of("."));
     string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
 
-    if (!saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate)) return false;
+    saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate);
 
     if (nemesis::iequals("#" + filecheck, nodefile))
     {
@@ -580,9 +580,9 @@ bool NodeU::FunctionUpdate(string modcode,
                            unordered_map<string, string>& lastUpdate
 #if MULTITHREADED_UPDATE
                            ,
-                           boost::atomic_flag& filelock,
-                           boost::atomic_flag& stateLock,
-                           boost::atomic_flag& parentLock
+                           atomic_flag& filelock,
+                           atomic_flag& stateLock,
+                           atomic_flag& parentLock
 #endif
 )
 {
@@ -633,7 +633,7 @@ bool AnimDataUpdate(string modcode,
     VecStr storeline;
     string filename = GetFileName(filepath);
 
-    if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
+    saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate);
 
     if (isNewProject)
     {
@@ -666,9 +666,66 @@ bool AnimDataUpdate(string modcode,
             ErrorMessage(2004, filepath);
         }
 #else
+        if (nemesis::iequals(filename, "$header$"))
+        {
+            auto& proj = animData.projectlist[animData.getIndex(projectfile)];
+
+            for (auto& cond : proj.nestedcond)
+            {
+                if (cond.conditions == modcode && !cond.rawlist[0].raw->second)
+                {
+                    storeline.insert(storeline.begin(), "");
+                    cond.rawlist[0].raw->second = make_shared<AnimDataProject_Condt>(storeline, 0);
+                    return true;
+                }
+            }
+
+            string fullpath = filesystem::path(filepath).parent_path().parent_path().string() + "\\$header$\\$header$.txt";
+
+            if (!isFileExist(fullpath)) ErrorMessage(2002, fullpath, "-", "-");
+
+            GetFunctionLines(fullpath, storeline, false);
+            animData.projectListUpdate(modcode, fullpath, storeline, false);
+
+            for (auto& cond : animData.projectlist[animData.getIndex(projectfile)].nestedcond)
+            {
+                if (cond.conditions != modcode) continue;
+
+                for (auto& each : cond.rawlist)
+                {
+                    if (!each.raw) continue;
+
+                    storeline.insert(storeline.begin(), "");
+                    each.raw->second = make_shared<AnimDataProject_Condt>(storeline, 0);
+                    return true;
+                }
+            }
+
+            ErrorMessage(2025);
+        }
+
+        MasterAnimData::ProjectPtr projptr;
+
+        for (auto& cond : animData.projectlist[animData.getIndex(projectfile)].nestedcond)
+        {
+            if (cond.conditions != modcode) continue;
+
+            for (auto& each : cond.rawlist)
+            {
+                if (!each.raw) continue;
+
+                projptr = each.raw->second;
+                break;
+            }
+
+            if (projptr) break;
+        }
+        
+        if (!projptr) ErrorMessage(3021, projectfile);
+
         if (isOnlyNumber(filename)) // info data
         {
-            animData.find(projectfile, modcode)->iadd(filename, modcode);
+            projptr->iadd(filename, "original", storeline, 1);
         }
         else if (filename.find("~") != NOT_FOUND) // anim data
         {
@@ -677,16 +734,13 @@ bool AnimDataUpdate(string modcode,
 
             if (tempname == filename) ErrorMessage(2004, filepath);
 
-            animData.find(projectfile, modcode)->aadd(filename, modcode, storeline, 1);
-        }
-        else if (nemesis::iequals(filename, "$header$"))
-        {
-            animData.add(projectfile, storeline, modcode, nemesis::MOD_CODE);
+            projptr->aadd(filename, "original", storeline, 1);
         }
         else
         {
             ErrorMessage(2004, filepath);
         }
+
 #endif
         return true;
     }
@@ -761,7 +815,9 @@ bool AnimDataUpdate(string modcode,
             auto* curptr = projData->afindlist(check);
 
             if (check == filename || projData->ifindlist(filename.substr(check.length() + 1)) == nullptr)
+            {
                 ErrorMessage(2004, filepath);
+            }
 
             if (!curptr)
             {
@@ -945,7 +1001,9 @@ bool AnimDataUpdate(string modcode,
             = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("\\1"));
 
         if (animData.newAnimData[projectfile].find(check) == animData.newAnimData[projectfile].end())
+        {
             ErrorMessage(2004, filepath);
+        }
 
         animData.newAnimData[projectfile][filename] = storeline;
 
@@ -989,7 +1047,7 @@ bool CombineAnimData(string filepath,
 
     functionline.reserve(newline.size());
 
-    if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
+    saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate);
 
     if (nemesis::iequals(projectfile, "$header$"))
     {
@@ -1276,7 +1334,7 @@ bool AnimSetDataUpdate(string modcode,
     string filename  = GetFileName(filepath);
     string lowerfile = nemesis::to_lower_copy(filename);
 
-    if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
+    saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate);
 
     if (isNewProject)
     {
@@ -1406,7 +1464,9 @@ bool AnimSetDataUpdate(string modcode,
                         string templine;
 
                         if (!GetFunctionEdits(templine, storeline, modEditLine[std::to_string(linecount)]))
+                        {
                             ErrorMessage(2005, filepath, modEditLine[std::to_string(linecount)]);
+                        }
 
                         using namespace ASDFormat;
                         position curPosition = ASDPosition(storeline,
@@ -1423,8 +1483,10 @@ bool AnimSetDataUpdate(string modcode,
                             templine.append("\t\t\t\t\t<!-- *" + modcode + "* -->");
                             functionline.push_back(templine);
 
-                            if (line.find("<!-- original -->", 0) == NOT_FOUND)
+                            if (line.find("\t<!-- original -->", 0) == NOT_FOUND)
+                            {
                                 line.append("\t\t\t\t\t<!-- original -->");
+                            }
 
                             if (editcount != modEditCoordinate.size() - 1) editcount++;
                         }
@@ -1506,7 +1568,9 @@ bool AnimSetDataUpdate(string modcode,
 
                 if (animSetData.newAnimSetData[projectfile].find(lowerheader)
                     != animSetData.newAnimSetData[projectfile].end())
+                {
                     ErrorMessage(5022, projectfile, lowerheader);
+                }
 
                 storeline.insert(storeline.begin(), "<!-- NEW *" + modcode + "* -->");
                 storeline.push_back("<!-- CLOSE -->");
@@ -1537,7 +1601,9 @@ bool ClassCheck(vector<int>& modEditCoordinate,
     if (ASDFormat::animpackname
         == ASDPosition(
             storeline, projectfile, filename, modcode, modEditLine[std::to_string(linecount) + "R"], true))
+    {
         attacknew = true;
+    }
 
     for (unsigned int k = modEditLine[std::to_string(linecount) + "R"]; k < endline; ++k)
     {
@@ -1566,7 +1632,9 @@ bool ClassCheck(vector<int>& modEditCoordinate,
             if (attacknew)
             {
                 if ((curPosition != animpackname && curPosition != unknown3 && curPosition != attackcount))
+                {
                     ErrorMessage(5021, modcode, filepath, k + 1);
+                }
             }
             else
             {

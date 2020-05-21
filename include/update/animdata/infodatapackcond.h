@@ -17,3 +17,5 @@ struct InfoDataPack_Condt
 
     void getlines(VecStr& storeline);
 };
+
+void getlinkedline(const nemesis::LinkedVar<InfoDataPack_Condt>& linkedanimdata, VecStr& storeline);

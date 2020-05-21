@@ -3,8 +3,6 @@
 
 #include <QtCore/QObject>
 
-#include <boost/asio/thread_pool.hpp>
-
 #include "ui/ProgressUp.h"
 
 #include "update/animdata/animdatacond.h"
@@ -64,16 +62,16 @@ public:
     void GetPathLoop(std::string path, bool isFirstPerson);
     void RegisterBehavior(std::shared_ptr<RegisterQueue> curBehavior);
     bool VanillaDisassemble(
-        std::string path,
+        const std::string& path,
         std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>& newFile,
         std::unique_ptr<std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState,
         std::unique_ptr<SSMap>& stateID,
         std::unique_ptr<SSMap>& n_parent);
-    bool AnimDataDisassemble(std::string path, MasterAnimData& animData);
-    bool AnimSetDataDisassemble(std::string path, MasterAnimSetData& animSetData);
+    bool AnimDataDisassemble(const std::string& path, MasterAnimData& animData);
+    bool AnimSetDataDisassemble(const std::string& path, MasterAnimSetData& animSetData);
     void newAnimUpdate(std::string sourcefolder, std::string curCode);
     void newAnimProcess(std::string sourcefolder);
-    void SeparateMod(std::string directory,
+    void SeparateMod(const std::string& directory,
                      TargetQueue target,
                      std::unordered_map<std::string, std::shared_ptr<arguPack>>& pack);
     void ModThread(const std::string& directory,
@@ -101,8 +99,10 @@ private:
     bool newAnimFunction = true;
     ProgressUp behaviorProcess;
     std::string engineVersion;
+#if MULTITHREADED_UPDATE
     std::atomic_flag stackLock{};
     std::atomic_flag queueLock{};
+#endif
 
 	std::unordered_map<std::string, std::unordered_map<std::string, VecStr>> modQueue;	// behavior, node, list of mod
 	std::vector<TargetQueue> processQueue;
@@ -148,9 +148,11 @@ private:
     std::atomic_flag fileCountLock{};
 
     // global container locker
+#if MULTITHREADED_UPDATE
     std::atomic_flag behaviorPathLock       {};
     std::atomic_flag behaviorProjectLock    {};
     std::atomic_flag behaviorProjectPathLock{};
+#endif
 
     // nemesis ini
     const NemesisInfo* nemesisInfo;

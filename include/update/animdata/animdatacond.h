@@ -10,19 +10,19 @@ struct MasterAnimData
     using ProjectName       = std::string;
     using ProjectNameLinked = nemesis::LinkedVar<ProjectName>;
     using ProjectPtr        = std::shared_ptr<AnimDataProject_Condt>;
-    using ProjectData       = nemesis::LinkedVar<std::pair<ProjectNameLinked, ProjectPtr>>;
+    using LinkedProjPair    = std::pair<ProjectNameLinked, ProjectPtr>;
+    using ProjectData       = nemesis::LinkedVar<LinkedProjPair>;
 
 private:
     std::unordered_map<ProjectName, unsigned int> projectIndexMap;
     std::unordered_map<ProjectName, unsigned int> projectCounter;
 
-    void getprojectlines(VecStr& output);
-
-    void conditionLoop(const ProjectData& data, VecStr& output);
+    void getprojectlines(const ProjectData& data, VecStr& output, VecStr& output2);
 
 public:
     std::vector<ProjectData> projectlist;
 
+    bool contains(const ProjectName& projName);
     unsigned int getIndex(const ProjectName& projName);
 
     ProjectPtr find(const ProjectName& projName, const ModCode& modcode = "original");

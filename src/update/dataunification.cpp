@@ -35,7 +35,7 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 		string filename = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
 		VecStr storeline;
 
-		if (!saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate)) return false;
+		saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate);
 
 		if (!GetFunctionLines(filename, storeline)) return false;
 
@@ -232,7 +232,7 @@ bool animDataHeaderUpdate(string folderpath, string modcode, MasterAnimData& ani
 
 	if (!GetFunctionLines(folderpath, storeline)) return false;
 
-	if (!saveLastUpdate(nemesis::to_lower_copy(folderpath), lastUpdate)) return false;
+	saveLastUpdate(nemesis::to_lower_copy(folderpath), lastUpdate);
 
 	CombineAnimData(folderpath, "$haeder$", modcode, GetFileDirectory(folderpath) + "\\$header$", storeline, animData, true);
 
@@ -257,7 +257,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 		string filename = curfile.stem().string();
 		VecStr storeline;
 
-		if (!saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate)) return false;
+		saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate);
 
 		if (!GetFunctionLines(filepath, storeline)) return false;
 
@@ -350,7 +350,7 @@ bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfi
 
 		if (std::filesystem::is_directory(curfile) || !nemesis::iequals(curfile.extension().string(), ".txt") || headerfile[k].length() == 0) continue;
 
-		if (!saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate)) return false;
+		saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate);
 
 		VecStr storeline;
 		string lowerheader = nemesis::to_lower_copy(curfile.stem().string());
