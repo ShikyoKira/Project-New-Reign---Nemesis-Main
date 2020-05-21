@@ -1675,19 +1675,22 @@ void proc::import(nemesis::scope blok, VecStr& blocks)
 
 						if (openBrack == 0)
 						{
-							keyword.append("!~^!");
-						}
-					}
-					else keyword.push_back(curChar);
-				}
+                            keyword.append("!~^!");
+                        }
+                    } else
+                        keyword.push_back(curChar);
+                }
 
-				pos = keyword.rfind("!~^!");
+                pos = keyword.rfind("!~^!");
 
-				openBrack != 0 || pos == NOT_FOUND || pos != keyword.length() - 4 ? ErrorMessage(1139, format, behaviorFile, numline, import) :
-					keyword = keyword.substr(0, keyword.length() - 4);
-			}
+                if (openBrack != 0 || pos == NOT_FOUND || pos != keyword.length() - 4) {
+                    ErrorMessage(1139, format, behaviorFile, numline, import);
+                } else {
+                    keyword = keyword.substr(0, keyword.length() - 4);
+                }
+            }
 
-			animLock->lockExport();
+            animLock->lockExport();
 
 			if ((*newImport)[file][keyword].length() > 0)
 			{
@@ -2385,13 +2388,15 @@ void proc::animOrder(nemesis::scope blok, VecStr& blocks)
 
 	if (clearBlocks(blok, blocks))
 	{
-		auto& ptr = charAnimDataInfo.find(nemesis::to_lower_copy(project.substr(0, project.rfind(".txt"))));
+        auto ptr = charAnimDataInfo.find(
+            nemesis::to_lower_copy(project.substr(0, project.rfind(".txt"))));
 
-		if (ptr != charAnimDataInfo.end())
+        if (ptr != charAnimDataInfo.end())
 		{
-			auto& ptr2 = ptr->second.find(nemesis::to_lower_copy(std::filesystem::path(animPath).filename().string()));
+            auto ptr2 = ptr->second.find(
+                nemesis::to_lower_copy(std::filesystem::path(animPath).filename().string()));
 
-			if (ptr2 != ptr->second.end())
+            if (ptr2 != ptr->second.end())
 			{
 				blocks[blok.front] = to_string(ptr2->second->GetOrder());
 			}

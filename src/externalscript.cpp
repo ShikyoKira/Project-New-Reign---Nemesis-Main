@@ -1,6 +1,7 @@
 #include "Global.h"
 
 #undef pyslots
+#define MS_NO_COREDLL
 #include <Python.h>
 #define pyslots
 

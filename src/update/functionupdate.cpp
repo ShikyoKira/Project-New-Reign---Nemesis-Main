@@ -765,8 +765,9 @@ bool AnimDataUpdate(string modcode,
 
             if (!curptr)
             {
-                auto& pair = make_pair(storeline[0], nemesis::LinkedVar(AnimDataPack_Condt(storeline, 1)));
-                auto& condpair = nemesis::CondVar(pair, modcode, nemesis::MOD_CODE);
+                auto pair = make_pair(storeline[0],
+                                      nemesis::LinkedVar(AnimDataPack_Condt(storeline, 1)));
+                auto condpair = nemesis::CondVar(pair, modcode, nemesis::MOD_CODE);
                 projData->animdatalist.push_back(condpair);
                 return true;
             }
@@ -1219,14 +1220,14 @@ void addAnimDataPack(const string& projectfile,
     // new anim data
     if (animDataPtr == nullptr)
     {
-        auto& pair     = make_pair(storeline[0], nemesis::LinkedVar(AnimDataPack_Condt(storeline, 1)));
-        auto& condpair = nemesis::CondVar(pair, modcode, nemesis::MOD_CODE);
+        auto pair = make_pair(storeline[0], nemesis::LinkedVar(AnimDataPack_Condt(storeline, 1)));
+        auto condpair = nemesis::CondVar(pair, modcode, nemesis::MOD_CODE);
         projData->animdatalist.push_back(condpair);
     }
     // existing anim data
     else
     {
-        auto& shptr = nemesis::CondVar(AnimDataPack_Condt(storeline, 1));
+        auto shptr = nemesis::CondVar(AnimDataPack_Condt(storeline, 1));
         //(*animDataPtr).addCond(make_shared<AnimDataPack_Condt>(storeline), modcode, nemesis::MOD_CODE); does the same thing as line below
         (*animDataPtr).nestedcond.push_back(shptr);
     }
@@ -1249,14 +1250,14 @@ void addInfoDataPack(const string& filepath,
     // new info data
     if (infoDataPtr == nullptr)
     {
-        auto& pair     = make_pair(storeline[0], nemesis::LinkedVar(InfoDataPack_Condt(storeline, 1)));
-        auto& condpair = nemesis::CondVar(pair, modcode, nemesis::MOD_CODE);
+        auto pair = make_pair(storeline[0], nemesis::LinkedVar(InfoDataPack_Condt(storeline, 1)));
+        auto condpair = nemesis::CondVar(pair, modcode, nemesis::MOD_CODE);
         projData->infodatalist.push_back(condpair);
     }
     // existing info data
     else
     {
-        auto& shptr = nemesis::CondVar(InfoDataPack_Condt(storeline, 1), modcode, nemesis::MOD_CODE);
+        auto shptr = nemesis::CondVar(InfoDataPack_Condt(storeline, 1), modcode, nemesis::MOD_CODE);
         //(*infoDataPtr).addCond(make_shared<InfoDataPack_Condt>(storeline), modcode, nemesis::MOD_CODE); does the same thing as line below
         (*infoDataPtr).nestedcond.push_back(shptr);
     }

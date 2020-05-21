@@ -43,6 +43,7 @@ std::shared_ptr<VecStr> getlinkedline(const nemesis::LinkedVar<std::string>& lin
     {
         storeline->push_back(*linkedline.raw);
     }
+    return storeline;
 }
 
 void getlinkedline(const nemesis::LinkedVar<std::string>& linkedline, VecStr& storeline)

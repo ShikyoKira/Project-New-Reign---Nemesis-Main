@@ -1,4 +1,5 @@
 #include "update/animdata/animdataprojectcond.h"
+#include "Global.h"
 
 using namespace std;
 
