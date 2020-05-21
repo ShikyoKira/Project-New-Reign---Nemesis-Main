@@ -10,16 +10,22 @@ set(Python_LIB_VERSION 38)
 # Download Python
 ################################################################################
 
+include(FetchContent)
+
 if(NOT UseLocalPython)
     message(STATUS Downloading CPython)
 
     FetchContent_Declare(
         CPython
         GIT_REPOSITORY https://github.com/python/cpython.git
-        GIT_TAG release-v${Python_VERSION}
+        GIT_TAG v${Python_VERSION}
         )
 
-    set(PYTHON_ROOT ${cpython_BINARY_DIR} CACHE PATH "Python local path" FORCE)
+    if(NOT CPython_POPULATED)
+      FetchContent_Populate(CPython)
+    endif()
+
+    set(PYTHON_ROOT ${cpython_SOURCE_DIR} CACHE PATH "Python local path" FORCE)
 endif()
 
 ################################################################################
@@ -45,6 +51,7 @@ else()
     set(Python_DLL_NAME Python${Python_LIB_VERSION}.dll)
 endif()
 
+message("PYTHON : lib ${Python_LIBRARIES}")
 
 #Build
 message("Building CPython:    File: ${Python_BUILD_FILE}   Args: ${Python_Args}")
