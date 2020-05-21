@@ -1,5 +1,5 @@
 #include "update/animdata/animdatacond.h"
-
+#include "Global.h"
 #include "utilities/writetextfile.h"
 
 using namespace std;
@@ -148,7 +148,7 @@ MasterAnimData::ProjectPtr
 MasterAnimData::add(const ProjectName& projName, size_t num, const ModCode& modcode, nemesis::CondType type)
 {
     projectIndexMap[projName + "~" + to_string(++projectCounter[projName])] = projectlist.size();
-    auto& ref = ProjectData(pair<ProjectNameLinked, ProjectPtr>(), num);
+    auto ref = ProjectData(pair<ProjectNameLinked, ProjectPtr>(), num);
 
     if (modcode != "original")
     {
@@ -187,7 +187,7 @@ MasterAnimData::ProjectPtr MasterAnimData::add(const ProjectName& projName,
         else
         {
             projectIndexMap[projName + "~" + to_string(++projectCounter[projName])] = projectlist.size();
-            auto& ref = ProjectData(pair<ProjectNameLinked, ProjectPtr>(), 0);
+            auto ref = ProjectData(pair<ProjectNameLinked, ProjectPtr>(), 0);
             projectlist.push_back(nemesis::CondVar(ref));
             projectlist.back().linecount       = 0;
             auto& curcond                      = projectlist.back().backCond();

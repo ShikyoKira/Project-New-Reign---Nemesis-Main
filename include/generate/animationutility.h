@@ -6,6 +6,7 @@ struct GroupTemplate;
 struct ExistingFunction;
 struct NodePackedParameters;
 
+#include "Global.h"
 #include <memory>
 #include <unordered_map>
 #include <vector>

@@ -603,36 +603,27 @@ void BehaviorSub::CompilingBehavior()
 
                         fclose(bonefile);
 
+                        using uchar = unsigned char;
                         for (unsigned int i = 0; i < chlist.size(); ++i)
                         {
-                            if (i % 16 == 0 && chlist[i] == unsigned char(0x4E)
-                                && chlist[i + 1] == unsigned char(0x50)
-                                && chlist[i + 2] == unsigned char(0x43)
-                                && chlist[i + 3] == unsigned char(0x20)
-                                && chlist[i + 4] == unsigned char(0x52)
-                                && chlist[i + 5] == unsigned char(0x6F)
-                                && chlist[i + 6] == unsigned char(0x6F)
-                                && chlist[i + 7] == unsigned char(0x74)
-                                && chlist[i + 8] == unsigned char(0x20)
-                                && chlist[i + 9] == unsigned char(0x5B)
-                                && chlist[i + 10] == unsigned char(0x52)
-                                && chlist[i + 11] == unsigned char(0x6F)
-                                && chlist[i + 12] == unsigned char(0x6F)
-                                && chlist[i + 13] == unsigned char(0x74)
-                                && chlist[i + 14] == unsigned char(0x5D)
-                                && chlist[i + 15] == unsigned char(0x0) && chlist[i + 16] == 'ÿ'
-                                && chlist[i + 17] == 'ÿ')
-                            {
-                                start = true; 
-                            }
-                            else if (start && i % 16 == 0)
-                            {
+                            if (i % 16 == 0 && chlist[i] == uchar(0x4E)
+                                && chlist[i + 1] == uchar(0x50) && chlist[i + 2] == uchar(0x43)
+                                && chlist[i + 3] == uchar(0x20) && chlist[i + 4] == uchar(0x52)
+                                && chlist[i + 5] == uchar(0x6F) && chlist[i + 6] == uchar(0x6F)
+                                && chlist[i + 7] == uchar(0x74) && chlist[i + 8] == uchar(0x20)
+                                && chlist[i + 9] == uchar(0x5B) && chlist[i + 10] == uchar(0x52)
+                                && chlist[i + 11] == uchar(0x6F) && chlist[i + 12] == uchar(0x6F)
+                                && chlist[i + 13] == uchar(0x74) && chlist[i + 14] == uchar(0x5D)
+                                && chlist[i + 15] == uchar(0x0)
+                                //TODO replace those '?' with the correct char
+                                && chlist[i + 16] == '?' && chlist[i + 17] == '?') {
+                                start = true;
+                            } else if (start && i % 16 == 0) {
                                 bool pass = true;
 
                                 for (unsigned int j = i; j < i + 16; ++j)
                                 {
-                                    if (chlist[j] != unsigned char(0x0) && chlist[j] != unsigned char(0x1))
-                                    {
+                                    if (chlist[j] != uchar(0x0) && chlist[j] != uchar(0x1)) {
                                         pass = false;
                                         break;
                                     }
@@ -645,10 +636,9 @@ void BehaviorSub::CompilingBehavior()
                                     i += 15;
                                     ++num;
                                 }
-                            }
-                            else if (startCount)
-                            {
-                                if (chlist[i] != unsigned char(0x0)) break;
+                            } else if (startCount) {
+                                if (chlist[i] != uchar(0x0))
+                                    break;
 
                                 i += 15;
                                 ++num;
@@ -1271,8 +1261,11 @@ void BehaviorSub::CompilingBehavior()
                             if (eventelements == -1) eventelements = counter;
 
                             eventOpen                 = false;
-                            replacedNum ? replacedNum = false
-                                        : elementUpdate(elementLine, counter, curID, catalystMap);
+                            if (replacedNum) {
+                                replacedNum = false;
+                            } else {
+                                elementUpdate(elementLine, counter, curID, catalystMap);
+                            }
                         }
                     }
                     else if (!replacedNum)
@@ -1391,8 +1384,11 @@ void BehaviorSub::CompilingBehavior()
                                 if (variableelements == -1) variableelements = counter;
 
                                 varOpen                   = false;
-                                replacedNum ? replacedNum = false
-                                            : elementUpdate(elementLine, counter, curID, catalystMap);
+                                if (replacedNum) {
+                                    replacedNum = false;
+                                } else {
+                                    elementUpdate(elementLine, counter, curID, catalystMap);
+                                }
                             }
                         }
                         else if (!replacedNum)
@@ -2631,7 +2627,7 @@ void BehaviorSub::CompilingBehavior()
 
                 {
                     int i_baseID       = stoi(baseID);
-                    auto& pceaBaseIter = pceaID.find(iter->first);
+                    auto pceaBaseIter = pceaID.find(iter->first);
                     catalystMap[i_baseID].reserve(catalystMap[iter->first].size());
                     catalystMap[i_baseID].push_back(
                         "		<hkobject name=\"#" + baseID
@@ -2689,7 +2685,7 @@ void BehaviorSub::CompilingBehavior()
                                       + it->second[num] + "</hkparam>");
                     string animFile = nemesis::to_lower_copy(
                         it->second[num].substr(it->second[num].find_last_of("\\") + 1));
-                    auto& aaEvent_itr = AAEvent.find(isFirstPerson ? animFile + "_1p*" : animFile);
+                    auto aaEvent_itr = AAEvent.find(isFirstPerson ? animFile + "_1p*" : animFile);
 
                     if (aaEvent_itr != AAEvent.end())
                     {
@@ -2812,8 +2808,7 @@ void BehaviorSub::CompilingBehavior()
 
             if (error) throw nemesis::exception();
 
-            for (auto& data = datalist.second->rbegin(); data != datalist.second->rend(); ++data)
-            {
+            for (auto data = datalist.second->rbegin(); data != datalist.second->rend(); ++data) {
                 while (importline.length() < 4)
                 {
                     importline = "0" + importline;
@@ -2919,8 +2914,7 @@ void BehaviorSub::CompilingBehavior()
 
             lineRe.push_back(msglines);
 
-            for (auto& it = lineRe.rbegin(); it != lineRe.rend(); ++it)
-            {
+            for (auto it = lineRe.rbegin(); it != lineRe.rend(); ++it) {
                 PCEALines.insert(PCEALines.end(), it->begin(), it->end());
             }
 

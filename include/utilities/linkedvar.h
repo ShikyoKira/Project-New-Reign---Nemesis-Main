@@ -49,11 +49,10 @@ namespace nemesis
 			{
 				lineblocks.reserve(_raw.length());
 
-				for (auto& ch : _raw)
-				{
-					lineblocks.push_back(string(1, ch));
-				}
-			}
+                for (auto &ch : _raw) {
+                    lineblocks.push_back(std::string(1, ch));
+                }
+            }
 			else
             {
                 raw = std::make_shared<Type>(_raw);
@@ -108,23 +107,21 @@ namespace nemesis
 		}
 
 		std::string data()
-		{
-			if (!raw)
-			{
-				string l;
+        {
+            if (!raw) {
+                std::string l;
 
-				for (auto c : lineblocks)
-				{
-					l.append(c);
-				}
+                for (auto c : lineblocks) {
+                    l.append(c);
+                }
 
-				return l;
-			}
+                return l;
+            }
 
-			return *raw;
-		}
+            return *raw;
+        }
 
-		std::shared_ptr<Type> operator=(const Type& _raw)
+        std::shared_ptr<Type> operator=(const Type& _raw)
 		{
             return raw = std::make_shared<Type>(_raw);
 		}
@@ -136,30 +133,30 @@ namespace nemesis
 
 		bool operator==(const Type& _raw)
 		{
-			if (preCompile) return data() == _raw;
+            if (preCompile)
+                return data() == _raw;
 
-			string l;
+            std::string l;
 
-			for (auto c : lineblocks)
-			{
-				l.append(c);
-			}
+            for (auto c : lineblocks) {
+                l.append(c);
+            }
 
-			return l == _raw;
+            return l == _raw;
 		}
 
 		bool operator!=(const Type& _raw)
 		{
-			if (preCompile) return data() != _raw;
+            if (preCompile)
+                return data() != _raw;
 
-			string l;
+            std::string l;
 
-			for (auto c : lineblocks)
-			{
-				l.append(c);
-			}
+            for (auto c : lineblocks) {
+                l.append(c);
+            }
 
-			return l != _raw;
+            return l != _raw;
 		}
 
 

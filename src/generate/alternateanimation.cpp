@@ -707,7 +707,7 @@ bool FolderCreate(wstring curBehaviorPath)
     return true;
 }
 
-uint CRC32Convert(string line)
+unsigned int CRC32Convert(string line)
 {
     static nemesis::CRC32 crc32;
     return crc32.FullCRC(line);

@@ -2,6 +2,7 @@
 #define READTEXTFILE_H_
 
 #include <QtCore\QFile.h>
+#include <filesystem>
 
 struct FileReader
 {

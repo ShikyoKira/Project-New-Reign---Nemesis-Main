@@ -156,7 +156,7 @@ void NemesisInfo::setup()
                         }
                         else
                         {
-                            auto& it = variables.find(input);
+                            auto it = variables.find(input);
 
                             if (it != variables.end())
                             {
