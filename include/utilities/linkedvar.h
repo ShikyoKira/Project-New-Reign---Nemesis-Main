@@ -212,5 +212,141 @@ namespace nemesis
 	};
 } // namespace nemesis
 
+//template <typename Type, typename Type2>
+//void AddModList(std::unordered_map<std::string, std::vector<const nemesis::CondVar<Type>*>> modcodelist,
+//                const nemesis::LinkedVar<Type>& linkedtype,
+//                void (*func)(nemesis::LinkedVar<Type2>, VecStr&),
+//                VecStr& storeline)
+//{
+//    if (linkedtype.raw)
+//    {
+//        std::vector<VecStr> vec2;
+//
+//        for (auto& modcode : modcodelist)
+//        {
+//            vec2.push_back(VecStr());
+//            func(modcode->rawlist[0], vec2.back());
+//
+//            for (auto& line : vec2.back())
+//            {
+//                line.append("\t\t\t\t\t<!-- *" + modcode->conditions + "* -->\n");
+//            }
+//        }
+//
+//        vec2.push_back(VecStr());
+//        linkedanimdata.raw->getlines(vec2.back());
+//
+//        for (auto& line : vec2.back())
+//        {
+//            line.append("\t\t\t\t\t<!-- original -->\n");
+//        }
+//
+//        for (int i = 0; i < vec2.back().size(); ++i)
+//        {
+//            for (int k = 0; k < vec2.size(); ++k)
+//            {
+//                storeline.push_back(vec2[k][i]);
+//            }
+//        }
+//    }
+//    else
+//    {
+//        for (auto& modcode : modcodelist)
+//        {
+//            storeline.push_back("<!-- NEW *" + modcode.first + "* -->");
+//
+//            for (auto& each : modcode.second)
+//            {
+//                func(each->rawlist[0], storeline);
+//            }
+//
+//            storeline.push_back("<!-- CLOSE -->");
+//        }
+//    }
+//}
+
 std::shared_ptr<VecStr> getlinkedline(const nemesis::LinkedVar<std::string>& linkedline);
 void getlinkedline(const nemesis::LinkedVar<std::string>& linkedline, VecStr& storeline);
+
+template<typename _Type>
+void getlinkedline(const nemesis::LinkedVar<_Type>& linkedtype, VecStr& storeline)
+{
+    unordered_map<string, vector<const nemesis::CondVar<_Type>*>> modcodelist;
+
+    for (auto& cond : linkedtype.nestedcond)
+    {
+        switch (cond.conditionType)
+        {
+            case nemesis::MOD_CODE:
+            {
+                modcodelist[cond.conditions].push_back(&cond);
+                break;
+            }
+            case nemesis::FOREACH:
+            {
+                storeline.push_back("<!-- FOREACH ^" + cond.conditions + "^ -->");
+
+                for (auto& each : cond.rawlist)
+                {
+                    getlinkedline(each, storeline);
+                }
+
+                storeline.push_back("<!-- CLOSE -->");
+                break;
+            }
+        }
+    }
+
+    if (modcodelist.size() > 0)
+    {
+        if (linkedtype.raw)
+        {
+            std::vector<VecStr> vec2;
+
+            for (auto& modcode : modcodelist)
+            {
+                vec2.push_back(VecStr());
+                getlinkedline(modcode->rawlist[0], vec2.back());
+
+                for (auto& line : vec2.back())
+                {
+                    line.append("\t\t\t\t\t<!-- *" + modcode->conditions + "* -->\n");
+                }
+            }
+
+            vec2.push_back(VecStr());
+            linkedtype.raw->getlines(vec2.back());
+
+            for (auto& line : vec2.back())
+            {
+                line.append("\t\t\t\t\t<!-- original -->\n");
+            }
+
+            for (int i = 0; i < vec2.back().size(); ++i)
+            {
+                for (int k = 0; k < vec2.size(); ++k)
+                {
+                    storeline.push_back(vec2[k][i]);
+                }
+            }
+        }
+        else
+        {
+            for (auto& modcode : modcodelist)
+            {
+                storeline.push_back("<!-- NEW *" + modcode.first + "* -->");
+
+                for (auto& each : modcode.second)
+                {
+                    func(each->rawlist[0], storeline);
+                }
+
+                storeline.push_back("<!-- CLOSE -->");
+            }
+        }
+    }
+    else if (linkedtype.raw)
+    {
+        getlinkedline(*linkedtype.raw, storeline);
+    }
+}

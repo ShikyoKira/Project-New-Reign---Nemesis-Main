@@ -14,6 +14,7 @@ std::shared_ptr<VecStr> getlinkedline(const nemesis::LinkedVar<std::string>& lin
             case nemesis::MOD_CODE:
             {
                 modcodelist.push_back(&cond);
+                break;
             }
             case nemesis::FOREACH:
             {
@@ -25,6 +26,7 @@ std::shared_ptr<VecStr> getlinkedline(const nemesis::LinkedVar<std::string>& lin
                 }
 
                 storeline->push_back("<!-- CLOSE -->\n");
+                break;
             }
         }
     }
@@ -43,6 +45,8 @@ std::shared_ptr<VecStr> getlinkedline(const nemesis::LinkedVar<std::string>& lin
     {
         storeline->push_back(*linkedline.raw);
     }
+
+    return storeline;
 }
 
 void getlinkedline(const nemesis::LinkedVar<std::string>& linkedline, VecStr& storeline)
@@ -56,17 +60,19 @@ void getlinkedline(const nemesis::LinkedVar<std::string>& linkedline, VecStr& st
             case nemesis::MOD_CODE:
             {
                 modcodelist.push_back(&cond);
+                break;
             }
             case nemesis::FOREACH:
             {
-                storeline.push_back("<!-- FOREACH ^" + cond.conditions + "^ -->\n");
+                storeline.push_back("<!-- FOREACH ^" + cond.conditions + "^ -->");
 
                 for (auto& each : cond.rawlist)
                 {
-                    storeline.push_back(*each.raw + "\n");
+                    storeline.push_back(*each.raw + "");
                 }
 
-                storeline.push_back("<!-- CLOSE -->\n");
+                storeline.push_back("<!-- CLOSE -->");
+                break;
             }
         }
     }
@@ -76,7 +82,7 @@ void getlinkedline(const nemesis::LinkedVar<std::string>& linkedline, VecStr& st
         for (auto& modcode : modcodelist)
         {
             storeline.push_back(*modcode->rawlist[0].raw + "\t\t\t\t\t<!-- *" + modcode->conditions
-                                 + "* -->\n");
+                                 + "* -->");
         }
 
         if (linkedline.raw) storeline.push_back(*linkedline.raw + "\t\t\t\t\t<!-- original -->");
