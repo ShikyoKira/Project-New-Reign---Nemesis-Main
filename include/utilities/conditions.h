@@ -8,26 +8,34 @@
 #include "generate/animation/animationinfo.h"
 
 struct AddOnInfo;
+struct AnimThreadInfo;
 
 namespace nemesis
 {
 	struct Condt;
 }
 
-void GetMultiFromAddOn(const nemesis::Condt& curcond, const AddOnInfo& addinfo, const std::string& original, int animMulti, int& optionMulti, int& endMulti);
+void GetMultiFromAddOn(const nemesis::Condt& curcond,
+                       const AnimThreadInfo& animthrinfo,
+					   const AddOnInfo& addinfo,
+                       const std::string& original,
+                       int animMulti,
+                       int& optionMulti,
+                       int& endMulti);
 
 namespace nemesis
 {
 	struct Condt
 	{
-		friend Condt;
-		friend void ::GetMultiFromAddOn(const Condt&, const AddOnInfo&, const std::string&, int, int&, int&);
+        friend Condt;
+        friend void ::GetMultiFromAddOn(
+            const Condt&, const AnimThreadInfo&, const AddOnInfo&, const std::string&, int, int&, int&);
 
 	private:
 		int hiddenOrder;
 		bool last = false;
 
-		proc* prcs;
+		const proc* prcs;
 		std::string fmt;
 		std::string bhvfile;
 		int nm;
@@ -67,13 +75,27 @@ namespace nemesis
 		Condt(std::string condition, std::string format, std::string behaviorFile, std::string originalCondition, std::string multiOption, int numline, bool isGroup,
 			bool isMaster, OptionList& optionlist);
 
-		bool isTrue(Condt& condt, std::shared_ptr<Condt> curptr);
-		bool isTrue(proc* process, std::string format, std::string behaviorFile, int numline, bool isGroup, bool isMaster, std::shared_ptr<Condt> curptr);
-		bool isMultiTrue(proc* process, std::string format, std::string behaviorFile, int numline, int& animMulti, bool isGroup, bool isMaster, int& groupMulti);
+		bool isTrue(Condt& condt, AnimThreadInfo& animthrinfo);
+        bool isTrue(AnimThreadInfo& animthrinfo,
+                    const proc& process,
+                    std::string format,
+                    std::string behaviorFile,
+                    int numline,
+                    bool isGroup,
+                    bool isMaster);
+        bool isMultiTrue(AnimThreadInfo& animthrinfo,
+						 const proc& process,
+                         std::string format,
+                         std::string behaviorFile,
+                         int numline,
+                         int& animMulti,
+                         bool isGroup,
+                         bool isMaster,
+                         int& groupMulti);
 
 	private:
-		bool specialIsTrueA();
-		bool specialIsTrueB();
+        bool specialIsTrueA(AnimThreadInfo& animthrinfo);
+        bool specialIsTrueB(AnimThreadInfo& animthrinfo);
 
 		void specialCondition(std::string condition, std::string format, std::string behaviorFile, std::string multiOption, int numline, bool isGroup, bool isMaster,
 			OptionList& optionlist);

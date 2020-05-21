@@ -3,6 +3,7 @@
 
 #include "generate/animation/newanimation.h"
 #include "generate/animation/singletemplate.h"
+#include "generate/animation/animthreadinfo.h"
 #include "generate/animation/templateprocessing.h"
 
 using namespace std;
@@ -131,242 +132,263 @@ nemesis::Condt::Condt(string condition, string format, string behaviorFile, stri
 	}
 }
 
-bool nemesis::Condt::isTrue(Condt& condt, shared_ptr<Condt> curptr)
+bool nemesis::Condt::isTrue(Condt& condt, AnimThreadInfo& animthrinfo)
 {
-	return isTrue(condt.prcs, condt.fmt, condt.bhvfile, condt.nm, condt.ig, condt.im, curptr);
+    return isTrue(animthrinfo, *condt.prcs, condt.fmt, condt.bhvfile, condt.nm, condt.ig, condt.im);
 }
 
-bool nemesis::Condt::isTrue(proc* process, string format, string behaviorFile, int numline, bool isGroup, bool isMaster, shared_ptr<nemesis::Condt> curptr)
+bool nemesis::Condt::isTrue(AnimThreadInfo& animthrinfo,
+							const proc& process,
+                            string format,
+                            string behaviorFile,
+                            int numline,
+                            bool isGroup,
+                            bool isMaster)
 {
-	prcs = process;
-	fmt = format;
-	bhvfile = behaviorFile;
-	nm = numline;
-	ig = isGroup;
-	im = isMaster;
+    prcs        = &process;
+    fmt         = format;
+    bhvfile     = behaviorFile;
+    nm          = numline;
+    ig          = isGroup;
+    im          = isMaster;
 
-	while (true)
-	{
-		bool result = false;
+    bool result = false;
 
-		if (curptr->nestedcond)
-		{
-			result = curptr->nestedcond->isTrue(*this, curptr->nestedcond);
-		}
-		else if (curptr->optioncondt && curptr->optioncondt->size() > 2)
-		{
-			if (isGroup)
-			{
-				size_t groupMulti;
-				size_t groupSize;
-				bool g_multi = false;
+    if (nestedcond)
+    {
+        result = nestedcond->isTrue(*this, animthrinfo);
+    }
+    else if (optioncondt && optioncondt->size() > 2)
+    {
+        if (isGroup)
+        {
+            size_t groupMulti;
+            size_t groupSize;
+            bool g_multi = false;
 
-				if ((*curptr->optioncondt)[3] == format + "_group" || (*curptr->optioncondt)[3] == format)
-				{
-					result = true;
-				}
-				else
-				{
-					if ((*curptr->optioncondt)[1].length() == 0)
-					{
-						if (prcs->groupMulti == -1 || prcs->multiOption != format || prcs->multiOption == format + "_group")
-						{
-							g_multi = true;
-							groupMulti = 0;
-							groupSize = prcs->masterOptionPicked->size();
-						}
-						else
-						{
-							groupMulti = prcs->groupMulti;
-						}
-					}
-					else
-					{
-						groupMulti = stoi((*curptr->optioncondt)[1]);
-					}
+            if ((*optioncondt)[3] == format + "_group" || (*optioncondt)[3] == format)
+            {
+                result = true;
+            }
+            else
+            {
+                if ((*optioncondt)[1].length() == 0)
+                {
+                    if (animthrinfo.groupMulti == -1 || animthrinfo.multiOption != format
+                        || animthrinfo.multiOption == format + "_group")
+                    {
+                        g_multi    = true;
+                        groupMulti = 0;
+                        groupSize  = animthrinfo.masterOptionPicked.size();
+                    }
+                    else
+                    {
+                        groupMulti = animthrinfo.groupMulti;
+                    }
+                }
+                else
+                {
+                    groupMulti = stoi((*optioncondt)[1]);
+                }
 
-					if (!g_multi)
-					{
-						groupSize = groupMulti + 1;
-					}
+                if (!g_multi)
+                {
+                    groupSize = groupMulti + 1;
+                }
 
-					while (groupMulti < groupSize)
-					{
-						size_t animMulti;
-						bool a_multi = false;
+                auto& mtOptPick = animthrinfo.masterOptionPicked;
 
-						if ((*curptr->optioncondt)[2].length() == 0)
-						{
-							if (prcs->animMulti == -1 || prcs->multiOption != format)
-							{
-								a_multi = true;
-							}
-							else
-							{
-								animMulti = prcs->animMulti;
-							}
-						}
-						else if ((*curptr->optioncondt)[2] == "F")
-						{
-							animMulti = 0;
-						}
-						else if ((*curptr->optioncondt)[2] == "L")
-						{
-							animMulti = prcs->masterOptionPicked[groupMulti].size() - 1;
-						}
-						else
-						{
-							animMulti = stoi((*curptr->optioncondt)[2]);
-						}
+                while (groupMulti < groupSize)
+                {
+                    size_t animMulti = 0;
+                    bool a_multi     = false;
 
-						if (a_multi)
-						{
-							animMulti = 0;
-							size_t a_size = (*prcs->masterOptionPicked)[groupMulti].size();
+                    if ((*optioncondt)[2].length() == 0)
+                    {
+                        if (animthrinfo.animMulti == -1 || animthrinfo.multiOption != format)
+                        {
+                            size_t a_size = mtOptPick[groupMulti].size();
 
-							while (animMulti < a_size)
-							{
-								result = curptr->isNot ? !(*prcs->masterOptionPicked)[groupMulti][animMulti][(*curptr->optioncondt)[3]] :
-									(*prcs->masterOptionPicked)[groupMulti][animMulti][(*curptr->optioncondt)[3]];
+                            while (animMulti < a_size)
+                            {
+                                auto& opt  = mtOptPick[groupMulti][animMulti];
+                                auto& pick = opt.find((*optioncondt)[3]);
 
-								if (!result) break;
+                                result = isNot ? pick == opt.end() : pick != opt.end();
 
-								++animMulti;
-							}
-						}
-						else
-						{
-							result = curptr->isNot ? !(*prcs->masterOptionPicked)[groupMulti][animMulti][(*curptr->optioncondt)[3]] :
-								(*prcs->masterOptionPicked)[groupMulti][animMulti][(*curptr->optioncondt)[3]];
-						}
+                                if (!result) break;
 
-						++groupMulti;
-					}
-				}
-			}
-			else if ((*curptr->optioncondt)[2] == format)
-			{
-				result = true;
-			}
-			else
-			{
-				size_t animMulti;
-				bool multi = false;
+                                ++animMulti;
+                            }
 
-				if ((*curptr->optioncondt)[1].length() == 0)
-				{
-					prcs->animMulti == -1 || prcs->multiOption != format ? multi = true : animMulti = prcs->animMulti;
-				}
-				else if ((*curptr->optioncondt)[1] == "order")
-				{
-					prcs->animMulti == -1 || prcs->multiOption != format ? animMulti = prcs->order : animMulti = prcs->animMulti;
-				}
-				else if ((*curptr->optioncondt)[1] == "F")
-				{
-					animMulti = 0;
-				}
-				else if ((*curptr->optioncondt)[1] == "N")
-				{
-					animMulti = prcs->order;
+                            a_multi = true;
+                        }
+                        else
+                        {
+                            animMulti = animthrinfo.animMulti;
+                        }
+                    }
+                    else if ((*optioncondt)[2] == "L")
+                    {
+                        animMulti = mtOptPick[groupMulti].size() - 1;
+                    }
+                    else if ((*optioncondt)[2] != "F")
+                    {
+                        animMulti = stoi((*optioncondt)[2]);
+                    }
 
-					if (!prcs->curAnim->isLast()) ++animMulti;
-				}
-				else if ((*curptr->optioncondt)[1] == "B")
-				{
-					animMulti = prcs->order;
+                    if (!a_multi)
+                    {
+                        auto& opt  = mtOptPick[groupMulti][animMulti];
+                        auto& pick = opt.find((*optioncondt)[3]);
+                        result     = isNot ? pick == opt.end() : pick != opt.end();
+                    }
 
-					if (animMulti > 0) --animMulti;
-				}
-				else if ((*curptr->optioncondt)[1] == "L")
-				{
-					animMulti = prcs->lastorder;
-				}
-				else
-				{
-					animMulti = stoi((*curptr->optioncondt)[1]);
-				}
+                    ++groupMulti;
+                }
+            }
+        }
+        else if ((*optioncondt)[2] == format)
+        {
+            result = true;
+        }
+        else
+        {
+            size_t animMulti;
+            bool multi = false;
 
-				if (multi)
-				{
-					animMulti = (*prcs->groupOptionPicked).size();
+            if ((*optioncondt)[1].length() == 0)
+            {
+                animthrinfo.animMulti == -1 || animthrinfo.multiOption != format
+                    ? multi     = true
+                    : animMulti = animthrinfo.animMulti;
+            }
+            else if ((*optioncondt)[1] == "order")
+            {
+                animthrinfo.animMulti == -1 || animthrinfo.multiOption != format
+                    ? animMulti = animthrinfo.order
+                    : animMulti = animthrinfo.animMulti;
+            }
+            else if ((*optioncondt)[1] == "F")
+            {
+                animMulti = 0;
+            }
+            else if ((*optioncondt)[1] == "N")
+            {
+                animMulti = animthrinfo.order;
 
-					for (size_t i = 0; i < animMulti; ++i)
-					{
-						result = curptr->isNot ? !(*prcs->groupOptionPicked)[i][(*curptr->optioncondt)[2]] :
-							(*prcs->groupOptionPicked)[i][(*curptr->optioncondt)[2]];
+                if (!animthrinfo.curAnim->isLast()) ++animMulti;
+            }
+            else if ((*optioncondt)[1] == "B")
+            {
+                animMulti = animthrinfo.order;
 
-						if (!result) break;
-					}
-				}
-				else
-				{
-					result = curptr->isNot ? !(*prcs->groupOptionPicked)[animMulti][(*curptr->optioncondt)[2]] :
-						(*prcs->groupOptionPicked)[animMulti][(*curptr->optioncondt)[2]];
-				}
-			}
-		}
-		else if (curptr->isOrder)
-		{
-			if (prcs->animMulti == -1 || prcs->multiOption != format)
-			{
-				if (curptr->isNot)
-				{
-					result = curptr->last ? !prcs->curAnim->isLast() : curptr->hiddenOrder != prcs->order;
-				}
-				else
-				{
-					result = curptr->last ? prcs->curAnim->isLast() : curptr->hiddenOrder == prcs->order;
-				}
-			}
-			else
-			{
-				if (curptr->isNot)
-				{
-					result = curptr->last ? !prcs->curAnim->isLast() : curptr->hiddenOrder != prcs->animMulti;
-				}
-				else
-				{
-					result = curptr->last ? prcs->curAnim->isLast() : curptr->hiddenOrder == prcs->animMulti;
-				}
-			}
-		}
-		else
-		{
-			result = curptr->specialIsTrueA();
-		}
+                if (animMulti > 0) --animMulti;
+            }
+            else if ((*optioncondt)[1] == "L")
+            {
+                animMulti = animthrinfo.lastorder;
+            }
+            else
+            {
+                animMulti = stoi((*optioncondt)[1]);
+            }
 
-		if (!curptr->next) return result;
+            auto& gpOptPick = animthrinfo.groupOptionPicked;
 
-		if (curptr->OR)
-		{
-			if (result) return result;
+            if (multi)
+            {
+                animMulti = gpOptPick.size();
 
-			curptr = curptr->next;
-		}
-		else
-		{
-			if (!result) return result;
+                for (size_t i = 0; i < animMulti; ++i)
+                {
+                    auto& opt  = gpOptPick[i];
+                    auto& pick = opt.find((*optioncondt)[2]);
+                    result     = isNot ? pick == opt.end() : pick != opt.end();
 
-			curptr = curptr->next;
-		}
-	}
+                    if (!result) break;
+                }
+            }
+            else
+            {
+                auto& opt  = gpOptPick[animMulti];
+                auto& pick = opt.find((*optioncondt)[2]);
+                result     = isNot ? pick == opt.end() : pick != opt.end();
+            }
+        }
+    }
+    else if (isOrder)
+    {
+        if (animthrinfo.animMulti == -1 || animthrinfo.multiOption != format)
+        {
+            if (isNot)
+            {
+                result = last ? !animthrinfo.curAnim->isLast() : hiddenOrder != animthrinfo.order;
+            }
+            else
+            {
+                result = last ? animthrinfo.curAnim->isLast() : hiddenOrder == animthrinfo.order;
+            }
+        }
+        else
+        {
+            if (isNot)
+            {
+                result = last ? !animthrinfo.curAnim->isLast() : hiddenOrder != animthrinfo.animMulti;
+            }
+            else
+            {
+                result = last ? animthrinfo.curAnim->isLast() : hiddenOrder == animthrinfo.animMulti;
+            }
+        }
+    }
+    else
+    {
+        result = specialIsTrueA(animthrinfo);
+    }
+
+    if (!next) return result;
+
+    if (OR)
+    {
+        if (result) return result;
+
+        return next->isTrue(animthrinfo, process, format, behaviorFile, numline, isGroup, isMaster);
+    }
+    else
+    {
+        if (!result) return result;
+
+        return next->isTrue(animthrinfo, process, format, behaviorFile, numline, isGroup, isMaster);
+    }
 }
 
-bool nemesis::Condt::isMultiTrue(proc* process, string format, string behaviorFile, int numline, int& animMulti, bool isGroup, bool isMaster, int& groupMulti)
+bool nemesis::Condt::isMultiTrue(AnimThreadInfo& animinfo,
+								 const proc& process,
+                                 string format,
+                                 string behaviorFile,
+                                 int numline,
+                                 int& animMulti,
+                                 bool isGroup,
+                                 bool isMaster,
+                                 int& groupMulti)
 {
 	if (isGroup)
 	{
 		if (optioncondt && optioncondt->size() > 3)
 		{
-			if (original == format + "_group")
+            if (original == process.masterformat + "_group")
 			{
 				groupMulti = -1;
 				return true;
 			}
 
-			groupMulti = process->groupMulti;
+			groupMulti = animinfo.groupMulti;
 
-			if (groupMulti == -1) ErrorMessage(1202, format + "_master", behaviorFile, numline, original);
+			if (groupMulti == -1)
+            {
+                ErrorMessage(1202, process.masterformat + "_master", behaviorFile, numline, original);
+            }
 
 			if ((*optioncondt)[2].length() == 0)
 			{
@@ -379,20 +401,25 @@ bool nemesis::Condt::isMultiTrue(proc* process, string format, string behaviorFi
 			}
 			else if ((*optioncondt)[2] == "L")
 			{
-				animMulti = (*process->masterOptionPicked)[groupMulti].size() - 1;
+                animMulti = animinfo.masterOptionPicked[groupMulti].size() - 1;
 			}
 			else
 			{
 				animMulti = stoi((*optioncondt)[2]);
 
-				if (animMulti >= int((*process->masterOptionPicked)[groupMulti].size())) ErrorMessage(1148, format + "_group", behaviorFile, numline, original);
+				if (animMulti >= int(animinfo.masterOptionPicked[groupMulti].size()))
+                {
+                    ErrorMessage(1148, format + "_group", behaviorFile, numline, original);
+                }
 			}
 
-			return (*process->masterOptionPicked)[groupMulti][animMulti][(*optioncondt)[2]];
+			auto& opt  = animinfo.masterOptionPicked[groupMulti][animMulti];
+            auto& pick = opt.find((*optioncondt)[2]);
+			return pick != opt.end();
 		}
 		else
 		{
-			ErrorMessage(1138, format + "_group", behaviorFile, numline, original);
+            ErrorMessage(1138, process.masterformat + "_group", behaviorFile, numline, original);
 		}
 	}
 	else
@@ -405,7 +432,7 @@ bool nemesis::Condt::isMultiTrue(proc* process, string format, string behaviorFi
 			}
 			else if ((*optioncondt)[1] == "order")
 			{
-				animMulti = process->order;
+                animMulti = animinfo.order;
 			}
 			else if ((*optioncondt)[1] == "F")
 			{
@@ -413,19 +440,19 @@ bool nemesis::Condt::isMultiTrue(proc* process, string format, string behaviorFi
 			}
 			else if ((*optioncondt)[1] == "N")
 			{
-				animMulti = process->order;
+                animMulti = animinfo.order;
 
-				if (!process->curAnim->isLast()) ++animMulti;
+				if (!animinfo.curAnim->isLast()) ++animMulti;
 			}
 			else if ((*optioncondt)[1] == "B")
 			{
-				animMulti = process->order;
+                animMulti = animinfo.order;
 
 				if (animMulti > 0) --animMulti;
 			}
 			else if ((*optioncondt)[1] == "L")
 			{
-				animMulti = process->lastorder;
+                animMulti = animinfo.lastorder;
 			}
 			else
 			{
@@ -438,7 +465,9 @@ bool nemesis::Condt::isMultiTrue(proc* process, string format, string behaviorFi
 				return true;
 			}
 
-			return (*process->groupOptionPicked)[animMulti][(*optioncondt)[2]];
+            auto& opt  = animinfo.groupOptionPicked[animMulti];
+            auto& pick = opt.find((*optioncondt)[2]);
+			return pick != opt.end();
 		}
 		else
 		{
@@ -449,17 +478,17 @@ bool nemesis::Condt::isMultiTrue(proc* process, string format, string behaviorFi
 	return false;
 }
 
-bool nemesis::Condt::specialIsTrueA()
+bool nemesis::Condt::specialIsTrueA(AnimThreadInfo& animthrinfo)
 {
-	int animMulti = prcs->animMulti;
-	int optionMulti = prcs->optionMulti;
-	bool result = specialIsTrueB();
-	prcs->animMulti = animMulti;
-	prcs->optionMulti = optionMulti;
-	return result;
+    const int animMulti      = animthrinfo.animMulti;
+    const int optionMulti    = animthrinfo.optionMulti;
+    bool result               = this->specialIsTrueB(animthrinfo);
+    animthrinfo.animMulti     = animMulti;
+    animthrinfo.optionMulti   = optionMulti;
+    return true;
 }
 
-bool nemesis::Condt::specialIsTrueB()
+bool nemesis::Condt::specialIsTrueB(AnimThreadInfo& animthrinfo)
 {
 	if (cmp1.size() > 0 || cmp2.size() > 0)
 	{
@@ -468,7 +497,7 @@ bool nemesis::Condt::specialIsTrueB()
 
 		if (cmpbool1)
 		{
-			for (unsigned int i = 0; i < prcs->curAnim->GetGroupAnimInfo().size(); ++i)
+            for (unsigned int i = 0; i < animthrinfo.curAnim->GetGroupAnimInfo().size(); ++i)
 			{
 				animMulti1_list.insert(i);
 			}
@@ -480,7 +509,7 @@ bool nemesis::Condt::specialIsTrueB()
 
 		if (cmpbool2)
 		{
-			for (unsigned int i = 0; i < prcs->curAnim->GetGroupAnimInfo().size(); ++i)
+            for (unsigned int i = 0; i < animthrinfo.curAnim->GetGroupAnimInfo().size(); ++i)
 			{
 				animMulti2_list.insert(i);
 			}
@@ -511,7 +540,7 @@ bool nemesis::Condt::specialIsTrueB()
 						{
 							try
 							{
-								GetMultiFromAddOn(*this, addinfo, original, animMulti1, optionMulti1, endMulti1);
+								GetMultiFromAddOn(*this, animthrinfo, addinfo, original, animMulti1, optionMulti1, endMulti1);
 							}
 							catch (bool)
 							{
@@ -547,7 +576,13 @@ bool nemesis::Condt::specialIsTrueB()
 						{
 							try
 							{
-								GetMultiFromAddOn(*this,  addinfo, original, animMulti2, optionMulti2, endMulti2);
+                                GetMultiFromAddOn(*this,
+                                                  animthrinfo,
+												  addinfo,
+                                                  original,
+                                                  animMulti2,
+                                                  optionMulti2,
+                                                  endMulti2);
 							}
 							catch (bool)
 							{
@@ -583,7 +618,7 @@ bool nemesis::Condt::specialIsTrueB()
 					{
 						if (OR && next)
 						{
-							return next->isTrue(*this, next);
+                            return next->isTrue(*this, animthrinfo);
 						}
 
 						return false;
@@ -592,7 +627,7 @@ bool nemesis::Condt::specialIsTrueB()
 					{
 						if (!OR && next)
 						{
-							return next->isTrue(*this, next);
+                            return next->isTrue(*this, animthrinfo);
 						}
 
 						return true;
@@ -608,20 +643,20 @@ bool nemesis::Condt::specialIsTrueB()
 					{
 						string condition1;
 						string condition2;
-						prcs->optionMulti = optionMulti1;
+                        animthrinfo.optionMulti = optionMulti1;
 
 						if (cmp1.size() != 0)
 						{
 							if (history1[animMulti1][optionMulti1].length() == 0)
 							{
 								VecStr lines = cmp1;
-								prcs->animMulti = animMulti1;
+                                animthrinfo.animMulti = animMulti1;
 
 								for (auto& blocklist : cmp1_block)
 								{
 									for (auto& blok : blocklist.second)
 									{
-										(prcs->*blok->func)(*blok, lines);
+                                        (&*prcs->*blok->func)(*blok, lines, animthrinfo);
 									}
 								}
 
@@ -650,13 +685,13 @@ bool nemesis::Condt::specialIsTrueB()
 							if (history2[animMulti2][optionMulti1].length() == 0)
 							{
 								VecStr lines = cmp2;
-								prcs->animMulti = animMulti2;
+                                animthrinfo.animMulti = animMulti2;
 
 								for (auto& blocklist : cmp2_block)
 								{
 									for (auto& blok : blocklist.second)
 									{
-										(prcs->*blok->func)(*blok, lines);
+                                        (&*prcs->*blok->func)(*blok, lines, animthrinfo);
 									}
 								}
 
@@ -695,7 +730,7 @@ bool nemesis::Condt::specialIsTrueB()
 							// proceed to next OR condition
 							if (OR && next)
 							{
-								return next->isTrue(*this, next);
+                                return next->isTrue(*this, animthrinfo);
 							}
 
 							// FALSE because AND
@@ -708,7 +743,7 @@ bool nemesis::Condt::specialIsTrueB()
 							// proceed to next AND condition
 							if (!OR && next)
 							{
-								return next->isTrue(*this, next);
+                                return next->isTrue(*this, animthrinfo);
 							}
 
 							// TRUE because OR
@@ -725,7 +760,7 @@ bool nemesis::Condt::specialIsTrueB()
 							// proceed to next OR condition
 							if (OR && next)
 							{
-								return next->isTrue(*this, next);
+                                return next->isTrue(*this, animthrinfo);
 							}
 
 							// FALSE because AND
@@ -738,7 +773,7 @@ bool nemesis::Condt::specialIsTrueB()
 							// proceed to next AND condition
 							if (!OR && next)
 							{
-								return next->isTrue(*this, next);
+                                return next->isTrue(*this, animthrinfo);
 							}
 
 							// TRUE because OR
@@ -834,7 +869,7 @@ void nemesis::Condt::conditionProcess(string condition, string format, string be
 
 		if (isalpha(condition[1]))
 		{
-			conditionOrder = boost::regex_replace(string(condition), boost::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+			conditionOrder = nemesis::regex_replace(string(condition), nemesis::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
 
 			if (nemesis::iequals(conditionOrder, "last"))
 			{
@@ -1019,9 +1054,15 @@ VecStr GetOptionInfo(string line, string format, string masterformat, string fil
 	return optionInfo;
 }
 
-void GetMultiFromAddOn(const nemesis::Condt& curcond, const AddOnInfo& addinfo, const string& original, int animMulti, int& optionMulti, int& endMulti)
+void GetMultiFromAddOn(const nemesis::Condt& curcond,
+                       const AnimThreadInfo& animthrinfo,
+                       const AddOnInfo& addinfo,
+                       const string& original,
+                       int animMulti,
+                       int& optionMulti,
+                       int& endMulti)
 {
-	auto& groupAnimInfo = curcond.prcs->curAnim->GetGroupAnimInfo();
+    auto& groupAnimInfo = animthrinfo.curAnim->GetGroupAnimInfo();
 
 	if (addinfo.header.find("@AnimObject/") != NOT_FOUND)
 	{

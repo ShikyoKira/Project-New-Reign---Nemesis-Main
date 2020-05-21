@@ -1,12 +1,13 @@
 #pragma once
 
 struct proc;
+struct AnimThreadInfo;
 
 namespace nemesis
 {
 	struct scope
 	{
-		using funcptr = void (proc::*)(scope, VecStr&);
+		using funcptr = void (proc::*)(scope, VecStr&, AnimThreadInfo&) const;
 
 		size_t front;
 		size_t back;
