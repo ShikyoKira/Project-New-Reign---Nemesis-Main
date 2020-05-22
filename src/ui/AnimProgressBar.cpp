@@ -36,7 +36,7 @@ void AnimProgressBar::valueUpdate()
         int counter;
 
         //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        //newValue(5000);
+        //newValue(798);
 
         auto resetRaise = [&] {
             oldvalue = trueValue;
@@ -161,7 +161,7 @@ void AnimProgressBar::ForeverLoop()
                 // <==[x|S|x]==|E|>
                 // the progress bar's chunk is small that right end of the gradient gap is hitting the end of the progress bar chunk
 
-                double num   = 255 - std::fmin(255, bGap - 1 / gap * opq);
+                double num   = 255 - std::fmin(255, (bGap - 1) / gap * opq);
                 style.append(", stop:1 hsv(%1, " + QString::number(num) + ")");
             }
             else
@@ -197,8 +197,8 @@ void AnimProgressBar::ForeverLoop()
                 // <=|S|=[xx]=|E|=>
                 // the part of the gradient area at left and right are outside of the start point and end point respectively
 
-                double bextra = bGap - 1;
-                double num    = 255 - std::fmin(255, gap + bextra / gap * opq);
+                double bextra = 1 + gap - bGap;
+                double num    = 255 - std::fmin(255, bextra / gap * opq);
                 style.append(", stop:1 hsv(%1, " + QString::number(num) + ")");
             }
             else
@@ -228,8 +228,8 @@ void AnimProgressBar::ForeverLoop()
         // ------<==[xx]=|E|=>
         // part of the right gradient is outside of the end point
 
-        double bextra   = bGap - 1;
-        double bnum     = 255 - std::fmin(255, gap + bextra / gap * opq);
+        double bextra = gap + bGap - 1;
+        double bnum   = 255 - std::fmin(255, bextra / gap * opq);
         style.append("stop:" + QString::number(aGap) + " hsv(%1), stop:" + QString::number(aRunner)
                      + " hsv(%1, " + trueopq + "), stop:" + QString::number(bRunner) + " hsv(%1, " + trueopq
                      + "), stop:1 hsv(%1, " + QString::number(bnum) + ")");
