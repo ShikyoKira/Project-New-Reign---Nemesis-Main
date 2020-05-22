@@ -7,7 +7,7 @@
 
 #include "utilities/algorithm.h"
 
-extern const bool SSE;
+extern bool SSE;
 
 class NemesisInfo
 {

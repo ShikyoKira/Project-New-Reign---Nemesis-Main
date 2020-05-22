@@ -12,7 +12,7 @@
 
 using namespace std;
 
-const bool SSE = false;
+bool SSE = false;
 string stagePath = "";
 
 void NemesisInfo::iniFileUpdate()
@@ -143,8 +143,7 @@ void NemesisInfo::setup()
                                     if (nemesis::iequals(file, "SkyrimSE.exe")
                                         || nemesis::iequals(file, "binkw64.dll"))
                                     {
-                                        bool* cheatSSE = (bool*) &SSE;
-                                        *cheatSSE      = true;
+                                        SSE = true;
                                         break;
                                     }
                                     else if (nemesis::iequals(file, "binkw32.dll"))
@@ -220,14 +219,12 @@ void NemesisInfo::setup()
             {
                 if (nemesis::iequals(file, "SkyrimSE.exe"))
                 {
-                    bool* cheatSSE = (bool*) &SSE;
-                    *cheatSSE      = true;
+                    SSE = true;
                     break;
                 }
                 else if (nemesis::iequals(file, "binkw64.dll"))
                 {
-                    bool* cheatSSE = (bool*) &SSE;
-                    *cheatSSE      = true;
+                    SSE = true;
                     break;
                 }
                 else if (nemesis::iequals(file, "binkw32.dll"))
@@ -245,10 +242,14 @@ void NemesisInfo::setup()
             LPCSTR tm;
 
             if (SSE)
+            {
                 RegOpenKey(
                     HKEY_LOCAL_MACHINE, L"SOFTWARE\\Bethesda Softworks\\Skyrim Special Edition", &hKey);
+            }
             else
+            {
                 RegOpenKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Bethesda Softworks\\Skyrim", &hKey);
+            }
 
             LONG result
                 = RegQueryValueEx(hKey, L"installed path", NULL, &dwType, (LPBYTE) &value, &value_length);
@@ -259,12 +260,16 @@ void NemesisInfo::setup()
             if (result != ERROR_SUCCESS || !isFileExist(dataPath))
             {
                 if (SSE)
+                {
                     RegOpenKey(HKEY_LOCAL_MACHINE,
                                L"SOFTWARE\\Wow6432Node\\Bethesda Softworks\\Skyrim Special Edition",
                                &hKey);
+                }
                 else
+                {
                     RegOpenKey(
                         HKEY_LOCAL_MACHINE, L"SOFTWARE\\Wow6432Node\\Bethesda Softworks\\Skyrim", &hKey);
+                }
 
                 result
                     = RegQueryValueEx(hKey, L"installed path", NULL, &dwType, (LPBYTE) &value, &value_length);
