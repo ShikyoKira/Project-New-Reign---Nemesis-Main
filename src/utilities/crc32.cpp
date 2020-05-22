@@ -2,20 +2,20 @@
 
 nemesis::CRC32::CRC32(void)
 {
-    memset(&this->iTable, 0, sizeof(this->iTable)); 
+    memset(&iTable, 0, sizeof(iTable)); 
 
     // 256 values representing ASCII character codes.
     for (int iCodes = 0; iCodes <= 0xFF; iCodes++)
     {
-        this->iTable[iCodes] = this->Reflect(iCodes, 8) << 24;
+        iTable[iCodes] = Reflect(iCodes, 8) << 24;
 
         for (int iPos = 0; iPos < 8; iPos++)
         {
-            this->iTable[iCodes]
-                = (this->iTable[iCodes] << 1) ^ ((this->iTable[iCodes] & (1 << 31)) ? iPolynomial : 0);
+            iTable[iCodes]
+                = (iTable[iCodes] << 1) ^ ((iTable[iCodes] & (1 << 31)) ? iPolynomial : 0);
         }
 
-        this->iTable[iCodes] = this->Reflect(this->iTable[iCodes], 32);
+        iTable[iCodes] = Reflect(iTable[iCodes], 32);
     }
 }
 
@@ -42,7 +42,7 @@ void nemesis::CRC32::PartialCRC(uint* iCRC, const unsigned char* sData, size_t i
 {
     while (iDataLength--)
     {
-        *iCRC = (*iCRC >> 8) ^ this->iTable[(*iCRC & 0xFF) ^ *sData++];
+        *iCRC = (*iCRC >> 8) ^ iTable[(*iCRC & 0xFF) ^ *sData++];
     }
 }
 
@@ -50,7 +50,7 @@ void nemesis::CRC32::FullCRC(const unsigned char* sData, size_t iDataLength, uin
 {
     ((uint) *iOutCRC) = initial;
 
-    this->PartialCRC(iOutCRC, sData, iDataLength);
+    PartialCRC(iOutCRC, sData, iDataLength);
 
     ((uint) *iOutCRC) ^= finalxor;
 }
@@ -69,7 +69,7 @@ uint nemesis::CRC32::FullCRC(const unsigned char* sData, size_t iDataLength)
 {
     uint iCRC = initial;
 
-    this->PartialCRC(&iCRC, sData, iDataLength);
+    PartialCRC(&iCRC, sData, iDataLength);
 
     return (iCRC ^ finalxor);
 }
@@ -105,7 +105,7 @@ bool nemesis::CRC32::FileCRC(const char* sFileName, uint* iOutCRC, size_t iBuffe
 
     while ((iBytesRead = fread(sBuf, sizeof(char), iBufferSize, fSource)))
     {
-        this->PartialCRC(iOutCRC, sBuf, iBytesRead);
+        PartialCRC(iOutCRC, sBuf, iBytesRead);
     }
 
     free(sBuf);
@@ -120,7 +120,7 @@ uint nemesis::CRC32::FileCRC(const char* sFileName)
 {
     uint iCRC;
 
-    if (this->FileCRC(sFileName, &iCRC, 1048576))
+    if (FileCRC(sFileName, &iCRC, 1048576))
     {
         return iCRC;
     }
@@ -132,7 +132,7 @@ uint nemesis::CRC32::FileCRC(const char* sFileName, size_t iBufferSize)
 {
     uint iCRC;
 
-    if (this->FileCRC(sFileName, &iCRC, iBufferSize))
+    if (FileCRC(sFileName, &iCRC, iBufferSize))
     {
         return iCRC;
     }
@@ -142,5 +142,5 @@ uint nemesis::CRC32::FileCRC(const char* sFileName, size_t iBufferSize)
 
 bool nemesis::CRC32::FileCRC(const char* sFileName, uint* iOutCRC)
 {
-    return this->FileCRC(sFileName, iOutCRC, 1048576);
+    return FileCRC(sFileName, iOutCRC, 1048576);
 }
