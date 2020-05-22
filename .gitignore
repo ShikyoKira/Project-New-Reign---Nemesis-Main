@@ -276,3 +276,5 @@ ModelManifest.xml
 *.lnk
 /test environment/data/scripts/FNIS_aa.pex
 /test environment/data/scripts/Nemesis_AA_Core.pex
+/test environment/data/meshes/animationsetdatasinglefile.txt
+/test environment/data/meshes/animationdatasinglefile.txt
