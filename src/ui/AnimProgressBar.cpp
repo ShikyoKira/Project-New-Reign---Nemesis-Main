@@ -36,7 +36,7 @@ void AnimProgressBar::valueUpdate()
         int counter;
 
         //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        //newValue(798);
+        //newValue(1074);
 
         auto resetRaise = [&] {
             oldvalue = trueValue;
@@ -197,7 +197,7 @@ void AnimProgressBar::ForeverLoop()
                 // <=|S|=[xx]=|E|=>
                 // the part of the gradient area at left and right are outside of the start point and end point respectively
 
-                double bextra = 1 + gap - bGap;
+                double bextra = bGap - 1;
                 double num    = 255 - std::fmin(255, bextra / gap * opq);
                 style.append(", stop:1 hsv(%1, " + QString::number(num) + ")");
             }
