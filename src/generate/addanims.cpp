@@ -87,16 +87,16 @@ bool AddAnims(string& line,
 			}
 		}
 
-        newMod                                      = animPath.substr(11, animPath.find("\\", 11) - 11);
-        vector<set<string>>* match_ptr              = &animModMatch[lowerBehaviorFile][animFile];
-        size_t matchSize                            = match_ptr->size();
-        registeredAnim[lowerBehaviorFile][animFile] = true;
-        addAnim                                     = true;
+        newMod                         = animPath.substr(11, animPath.find("\\", 11) - 11);
+        vector<SetStr>* match_ptr = &animModMatch[lowerBehaviorFile][animFile];
+        size_t matchSize               = match_ptr->size();
+        addAnim                        = true;
+        registeredAnim[lowerBehaviorFile].insert(animFile);
 
 		if (matchSize == 0)
 		{
-			match_ptr->push_back(set<string>{animPath});
-			match_ptr->push_back(set<string>{newMod});
+            match_ptr->push_back(SetStr{animPath});
+            match_ptr->push_back(SetStr{newMod});
 		}
 		else if (matchSize == 2)
 		{

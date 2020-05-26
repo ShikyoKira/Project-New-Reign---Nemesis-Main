@@ -542,7 +542,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
             if (nemesis::to_lower_copy(curBehavior->file.parent_path().filename().string()).find("characters")
                 == 0)
             {
-                registeredAnim[nemesis::to_lower_copy(curFileName)] = unordered_map<string, bool>();
+                registeredAnim[nemesis::to_lower_copy(curFileName)] = SetStr();
             }
         }
         else if (wordFind(curFileName, "Nemesis_") == 0

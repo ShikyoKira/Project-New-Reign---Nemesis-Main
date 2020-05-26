@@ -1022,7 +1022,7 @@ void ClearGlobal(bool all)
 
 		usedAnim = unordered_map<string, SetStr>();
 
-		registeredAnim = unordered_map<string, unordered_map<string, bool>>();
+		registeredAnim = unordered_map<string, SetStr>();
 
 		animModMatch = unordered_map<string, unordered_map<string, vector<SetStr>>>();
 

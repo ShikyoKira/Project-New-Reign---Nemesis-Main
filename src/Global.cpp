@@ -26,7 +26,7 @@ unordered_map<string, string> behaviorProjectPath;
 unordered_map<string, VecStr> behaviorJoints;
 unordered_map<string, VecStr> behaviorProject;
 unordered_map<string, set<string>> usedAnim;
-unordered_map<string, unordered_map<string, bool>> registeredAnim;
+unordered_map<string, set<string>> registeredAnim;
 unordered_map<string, unordered_map<string, VecStr>> animList;
 unordered_map<string, unordered_map<string, vector<set<string>>>> animModMatch;
 

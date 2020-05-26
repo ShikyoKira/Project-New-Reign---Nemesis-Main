@@ -97,11 +97,16 @@ void behaviorCheck(BehaviorStart* process)
 
         for (auto& behavior : forwardPort)
         {
+            auto& registBhvr = registeredAnim[nemesis::to_lower_copy(behavior)];
+
             for (auto& path : it.second)
             {
-                string filename = GetFileName(path);
+                string lowerfilename = nemesis::to_lower_copy(filesystem::path(path).filename().string());
 
-                if (!registeredAnim[behavior][filename]) WarningMessage(1013, behavior + ".hkx", path);
+                if (registBhvr.find(lowerfilename) == registBhvr.end())
+                {
+                    WarningMessage(1013, behavior + ".hkx", path);
+                }
             }
         }
     }

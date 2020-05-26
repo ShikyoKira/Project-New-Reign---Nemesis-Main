@@ -1536,8 +1536,8 @@ void BehaviorSub::CompilingBehavior()
 
                             nemesis::to_lower(animPath);
                             nemesis::to_lower(animFile);
-                            isAdded[animPath]                           = true;
-                            registeredAnim[lowerBehaviorFile][animFile] = true;
+                            isAdded[animPath] = true;
+                            registeredAnim[lowerBehaviorFile].insert(animFile);
 
                             Lockless locker(animdata_lock);
                             shared_ptr<AnimationDataTracker>& animData

@@ -44,7 +44,7 @@ extern std::unordered_map<std::string, VecStr>
     behaviorProject; // character hkx file name, list of project hkx file name; link the project
 extern std::unordered_map<std::string, std::set<std::string>>
     usedAnim; // behavior name, animation path; animation used in behavior file
-extern std::unordered_map<std::string, std::unordered_map<std::string, bool>>
+extern std::unordered_map<std::string, std::set<std::string>>
     registeredAnim; // characters hkx file name, animation name, bool; is registered in that behavior file?
 extern std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::set<std::string>>>>
     animModMatch; // characters hkx file name, animation file, animation paths & mod name; match conflicting mod (duplicated anim file)
