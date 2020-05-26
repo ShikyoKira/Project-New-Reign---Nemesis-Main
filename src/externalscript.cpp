@@ -90,7 +90,9 @@ void BatchScriptThread(string filename, string filepath, bool hidden)
 {
     try
     {
-        interMsg(TextBoxMessage(1016) + ": " + filename);
+        string msg = TextBoxMessage(1016) + ": " + filename;
+        interMsg(msg);
+        DebugLogging(msg);
 
         if (hidden)
         {
@@ -119,7 +121,9 @@ void PythonScriptThread(string filename, const char* filepath)
     try
     {
         FILE* f;
-        interMsg(TextBoxMessage(1016) + ": " + filename);
+        string msg = TextBoxMessage(1016) + ": " + filename;
+        interMsg(msg);
+        DebugLogging(msg);
         fopen_s(&f, filepath, "r");
 
         if (f)
