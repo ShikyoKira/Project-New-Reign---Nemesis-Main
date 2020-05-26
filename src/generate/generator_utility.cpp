@@ -15,6 +15,7 @@
 #include "generate/playerexclusive.h"
 #include "generate/generator_utility.h"
 #include "generate/animationdatatracker.h"
+#include "generate/behaviorprocess_utility.h"
 
 #include "generate/animation/templateinfo.h"
 #include "generate/animation/registeranimation.h"
@@ -316,7 +317,7 @@ vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate, c
 #ifdef DEBUG
 		string directory = "data\\" + path;
 #else
-		string directory = nemesisInfo->GetDataPath() + path;
+        string directory = nemesisInfo->GetDataPath() + path;
 #endif
 
 		readList(directory, directory + "animations\\", list, *behaviortemplate, false);
@@ -392,7 +393,7 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 
 bool isEngineUpdated(string& versionCode)
 {
-	string directory = "temp_behaviors";
+    string directory = getTempBhvrPath();
 	VecStr filelist;
 
 	read_directory(directory, filelist);

@@ -21,6 +21,8 @@
 #include "update/dataunification.h"
 #include "update/updateprocess.h"
 
+#include "generate/behaviorprocess_utility.h"
+
 using namespace std;
 namespace sf = filesystem;
 
@@ -977,11 +979,7 @@ bool UpdateFilesStart::AnimDataDisassemble(const string& path, MasterAnimData& a
     VecStr storeline;
     unordered_map<string, int> projectNameCount;
 
-#if HIDE
-    int projectcounter = 1;
-#else
     int projectcounter = 0;
-#endif
     size_t totallines = 0;
 
     string project;
@@ -1003,144 +1001,6 @@ bool UpdateFilesStart::AnimDataDisassemble(const string& path, MasterAnimData& a
         num = stoi(strnum) + 1;
     }
 
-#if HIDE
-    header = "$header$";
-
-    {
-        MasterAnimData::AnimDataList prjlist;
-        VecStr charlist;
-        charlist.push_back(header);
-
-        for (int i = 1; i < num; ++i)
-        {
-            prjlist.push_back(storeline[i]);
-            charlist.push_back(storeline[i] + "~" + to_string(++projectNameCount[storeline[i]]));
-        }
-
-        animData.animDataChar                = charlist;
-        animData.newAnimData[header][header] = prjlist;
-    }
-
-    MasterAnimData::AnimDataList newline;
-    project = animData.animDataChar[1];
-    animData.animDataHeader[header].push_back(header);
-    animData.animDataHeader[project].push_back(header);
-    newline.reserve(20);
-    newline.clear();
-
-    for (unsigned int i = num; i < storeline.size(); ++i)
-    {
-        string line = storeline[i];
-
-        if (i + 3 < storeline.size() && i > 2)
-        {
-            if (storeline[i - 1] == "")
-            {
-                if (isOnlyNumber(line) && isOnlyNumber(storeline[i + 1]) && isOnlyNumber(storeline[i + 2]))
-                {
-                    if (storeline[i + 2] == "0"
-                        || (i + 3 < storeline.size() && storeline[i + 3].find("\\") != NOT_FOUND))
-                    {
-                        newline.shrink_to_fit();
-                        animData.newAnimData[project][header] = newline;
-                        project                               = animData.animDataChar[++projectcounter];
-                        header                                = "$header$";
-                        animData.animDataHeader[project].push_back(header);
-                        newline.reserve(20);
-                        newline.clear();
-                        isInfo = false;
-                        out    = true;
-                    }
-                }
-
-                if (!out)
-                {
-                    if (!isInfo)
-                    {
-                        if (hasAlpha(line))
-                        {
-                            if (isOnlyNumber(storeline[i + 1]))
-                            {
-                                newline.shrink_to_fit();
-                                animData.newAnimData[project][header] = newline;
-                                newline.reserve(20);
-                                newline.clear();
-                                header = line + "~" + storeline[i + 1];
-                                animData.animDataHeader[project].push_back(header);
-                            }
-                        }
-                        else if (isOnlyNumber(line))
-                        {
-                            isInfo = true;
-                            newline.shrink_to_fit();
-                            animData.newAnimData[project][header] = newline;
-                            ;
-                            newline.reserve(20);
-                            newline.clear();
-                            header = storeline[++i];
-                            line   = storeline[i];
-                            animData.animDataInfo[project].push_back(header);
-                        }
-                    }
-                    else if (isOnlyNumber(line))
-                    {
-                        newline.shrink_to_fit();
-                        animData.newAnimData[project][header] = newline;
-                        newline.reserve(20);
-                        newline.clear();
-                        header = line;
-                        animData.animDataInfo[project].push_back(header);
-                    }
-                }
-            }
-            else if (header == "$header$")
-            {
-                if (hasAlpha(line) && line.find("\\") == NOT_FOUND && i + 1 < storeline.size())
-                {
-                    if (isOnlyNumber(storeline[i + 1])) // if it is unique code
-                    {
-                        newline.shrink_to_fit();
-                        animData.newAnimData[project][header] = newline;
-                        newline.reserve(20);
-                        newline.clear();
-                        header = line + "~" + storeline[i + 1];
-                        animData.animDataHeader[project].push_back(header);
-                    }
-                }
-                else if (isOnlyNumber(storeline[i - 1]) && storeline[i - 1] == "0" && isOnlyNumber(line)
-                         && i + 3 < storeline.size())
-                {
-                    if (isOnlyNumber(storeline[i + 1]) && isOnlyNumber(storeline[i + 2]))
-                    {
-                        if (storeline[i + 2] == "0" || storeline[i + 3].find("\\") != NOT_FOUND)
-                        {
-                            newline.shrink_to_fit();
-                            animData.newAnimData[project][header] = newline;
-                            project                               = animData.animDataChar[++projectcounter];
-                            animData.animDataHeader[project].push_back(header);
-                            newline.reserve(20);
-                            newline.clear();
-                            isInfo = false;
-                            out    = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!out) newline.push_back(line);
-
-        out = false;
-    }
-
-    if (newline.size() != 0)
-    {
-        if (newline.back().length() == 0) newline.pop_back();
-
-        newline.shrink_to_fit();
-        animData.newAnimData[project][header] = newline;
-    }
-#else
     for (size_t i = 1; i < num; ++i)
     {
         animData.add(storeline[i], i);
@@ -1212,7 +1072,7 @@ bool UpdateFilesStart::AnimDataDisassemble(const string& path, MasterAnimData& a
     {
         ErrorMessage(3014);
     }
-#endif
+
     return true;
 }
 
@@ -1361,12 +1221,6 @@ void UpdateFilesStart::ModThread(const string& directory,
                 string filepath = curPath.string();
                 read_directory(filepath, uniquecodelist);
 
-#if HIDE
-                if (animData.newAnimData.find(projectname) == animData.newAnimData.end())
-                {
-                    animData.animDataChar.push_back(projectname);
-                    newChar = true;
-#else
                 if (projectname == "$header$" && !animData.find(projectname, modcode))
                 {
                     string fullpath = filepath + "\\$header$.txt";
@@ -1411,7 +1265,6 @@ void UpdateFilesStart::ModThread(const string& directory,
                             if (error) throw nemesis::exception();
                         }
                     }
-#endif
                 }
                 else
                 {
@@ -1448,76 +1301,6 @@ void UpdateFilesStart::ModThread(const string& directory,
                         }
                     }
                 }
-
-#if HIDE
-                auto& projData   = animData.newAnimData[projectname];
-                auto& headerData = animData.animDataHeader[projectname];
-                auto& infoData   = animData.animDataInfo[projectname];
-
-                if (openAnim) projData[headerData.back()].push_back("<!-- CLOSE -->");
-
-                if (openInfo) projData[infoData.back()].push_back("<!-- CLOSE -->");
-
-                if (newChar)
-                {
-                    if (headerData.size() == 0)
-                    {
-                        animData.animDataChar.pop_back();
-                        animData.newAnimData.erase(projectname);
-                        animData.animDataHeader.erase(projectname);
-                        animData.animDataInfo.erase(projectname);
-                    }
-                    else
-                    {
-                        VecStr header;
-                        VecStr infoheader;
-                        bool hasHeader = false;
-                        newProjectList.insert(projectname);
-
-                        for (auto& it : projData)
-                        {
-                            if (!nemesis::iequals(it.first, "$header$"))
-                            {
-                                if (isOnlyNumber(it.first))
-                                    infoheader.push_back(it.first);
-                                else
-                                    header.push_back(it.first);
-                            }
-                            else
-                            {
-                                hasHeader = true;
-                            }
-                        }
-
-                        headerData.clear();
-
-                        if (hasHeader)
-                        {
-                            headerData.push_back("$header$");
-                            projData["$header$"].insert(projData["$header$"].begin(),
-                                                        "<!-- NEW *" + modcode + "* -->");
-                        }
-
-                        if (header.size() > 0)
-                        {
-                            headerData.reserve(header.size());
-                            headerData.insert(headerData.end(), header.begin(), header.end());
-                        }
-
-                        if (infoheader.size() > 0)
-                        {
-                            infoData.reserve(infoheader.size());
-                            infoData.insert(infoData.end(), infoheader.begin(), infoheader.end());
-                        }
-
-                        if (hasHeader)
-                            projData[(infoheader.size() > 0 ? infoData : headerData).back()].push_back(
-                                "<!-- CLOSE -->");
-                    }
-                }
-#else
-
-#endif
             }
             else if (nemesis::iequals(behavior, "animationsetdatasinglefile"))
             {
@@ -2028,7 +1811,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 void UpdateFilesStart::CombiningFiles()
 {
     VecStr fileline;
-    string compilingfolder     = "temp_behaviors\\";
+    string compilingfolder     = getTempBhvrPath() + "\\";
     unsigned long long bigNum  = CRC32Convert(GetNemesisVersion());
     unsigned long long bigNum2 = bigNum;
 
@@ -2187,96 +1970,7 @@ void UpdateFilesStart::CombiningFiles()
             if (outputlist.is_open())
             {
                 string total = filename + "\n";
-#if HIDE
-                writeSave(output, to_string(animData.animDataChar.size() - 1) + "\n", total);
-
-                for (auto& line : animData.newAnimData["$header$"]["$header$"])
-                {
-                    writeSave(output, line + "\n", total);
-                }
-
-                for (unsigned int i = 1; i < animData.animDataChar.size(); ++i)
-                { // character
-                    string& project = animData.animDataChar[i];
-                    outputlist << project + "\n";
-                    size_t animsize = 0;
-                    size_t infosize = 0;
-
-                    for (auto& header : animData.animDataHeader[project])
-                    {
-                        animsize += animData.newAnimData[project][header].length();
-                    }
-
-                    if (animsize > 0)
-                    {
-                        if (newProjectList.find(project) != newProjectList.end())
-                        {
-                            string header    = animData.animDataHeader[project][0];
-                            VecStr& linelist = animData.newAnimData[project][header];
-                            writeSave(output, linelist[0] + "\n", total);
-                            outputlist << header + "\n";
-                            writeSave(output, to_string(animsize) + "\n", total);
-
-                            for (unsigned int k = 1; k < linelist.size(); ++k)
-                            {
-                                writeSave(output, linelist[k] + "\n", total);
-                            }
-
-                            for (unsigned int j = 1; j < animData.animDataHeader[project].size(); ++j)
-                            {
-                                header = animData.animDataHeader[project][j];
-                                outputlist << header + "\n";
-
-                                for (string& line : animData.newAnimData[project][header])
-                                {
-                                    writeSave(output, line + "\n", total);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            writeSave(output, to_string(animsize) + "\n", total);
-
-                            for (string& header : animData.animDataHeader[project])
-                            {
-                                outputlist << header + "\n";
-
-                                for (string& line : animData.newAnimData[project][header])
-                                {
-                                    writeSave(output, line + "\n", total);
-                                }
-                            }
-                        }
-                    }
-
-                    for (auto& header : animData.animDataInfo[project])
-                    {
-                        infosize += animData.newAnimData[project][header].size();
-                    }
-
-                    if (infosize > 0)
-                    {
-                        writeSave(output, to_string(infosize) + "\n", total);
-
-                        for (unsigned int j = 0; j < animData.animDataInfo[project].size(); ++j)
-                        {
-                            string header = animData.animDataInfo[project][j];
-                            outputlist << header + "\n";
-
-                            for (unsigned int k = 0; k < animData.newAnimData[project][header].size(); ++k)
-                            {
-                                writeSave(output, animData.newAnimData[project][header][k] + "\n", total);
-                            }
-                        }
-
-                        outputlist << "\n";
-                    }
-                }
-
-                bigNum2 += CRC32Convert(total);
-#else
                 animData.writelines(output);
-#endif
             }
             else
             {

@@ -121,9 +121,13 @@ void NemesisInfo::setup()
                                 if (dataPath.back() != '\\' && dataPath.back() != '/')
                                 {
                                     if (dataPath.find("\\") != NOT_FOUND)
+                                    {
                                         dataPath.push_back('\\');
+                                    }
                                     else
+                                    {
                                         dataPath.push_back('/');
+                                    }
                                 }
 
                                 VecStr filelist;
@@ -178,10 +182,10 @@ void NemesisInfo::setup()
     string curpath = sf::current_path().string();
     replace(curpath.begin(), curpath.end(), '/', '\\');
 
-    if (sf::current_path().string().find("\\Project New Reign - Nemesis\\test environment") != NOT_FOUND)
+    if (nemesis::to_lower_copy(curpath).find("\\project new reign - nemesis\\test environment") != NOT_FOUND)
     {
         dataPath = sf::current_path().string() + "\\data\\";
-        curpath  = dataPath + "nemesis_engine";
+        curpath  = dataPath + "Nemesis_Engine";
     }
 
     if (dataPath.length() == 0)
@@ -299,23 +303,32 @@ void NemesisInfo::setup()
         }
     }
 
-    if (!force && nemesis::to_lower_copy(dataPath + "nemesis_engine") != nemesis::to_lower_copy(curpath))
+    if (!force && nemesis::to_lower_copy(dataPath + "Nemesis_Engine") != nemesis::to_lower_copy(curpath))
     {
-        ErrorMessage(6010, curpath, dataPath + "nemesis_engine");
+        ErrorMessage(6010, curpath, dataPath + "Nemesis_Engine");
     }
 
     if (stagePath.length() > 0)
     {
         sf::path stage(stagePath);
-        dataPath = stage.string() + "\\";
+        stageDirectory = stage.string() + "\\";
     }
-
+    else
+    {
+        stageDirectory = dataPath;
+    }
+    
     iniFileUpdate();
 }
 
 string NemesisInfo::GetDataPath() const
 {
     return dataPath;
+}
+
+std::string NemesisInfo::GetStagePath() const
+{
+    return stageDirectory;
 }
 
 bool NemesisInfo::IsFirst() const

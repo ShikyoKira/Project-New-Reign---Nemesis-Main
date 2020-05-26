@@ -10,6 +10,7 @@
 #include "generate/animationdata.h"
 #include "generate/animationdatatracker.h"
 #include "generate/behaviorprocess.h"
+#include "generate/behaviorprocess_utility.h"
 #include "generate/behaviorsubprocess.h"
 #include "generate/generator_utility.h"
 
@@ -941,6 +942,8 @@ void BehaviorSub::CompilingAnimData()
 #else
     string outpath = behaviorPath[lowerBehaviorFile];
 #endif
+
+    redirToStageDir(outpath);
 
     if (!FolderCreate(GetFileDirectory(outpath))) return;
 

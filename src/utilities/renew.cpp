@@ -3,6 +3,8 @@
 #include "utilities/renew.h"
 #include "utilities/algorithm.h"
 
+#include "generate/behaviorprocess_utility.h"
+
 #pragma warning(disable : 4503)
 
 using namespace std;
@@ -53,7 +55,7 @@ bool DeleteFileFolder(const string& directory, const string& file, bool xml)
 void ClearTempBehaviors()
 {
     VecStr filelist;
-    string tempbehavior = "temp_behaviors";
+    string tempbehavior = getTempBhvrPath();
 
     if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))
     {
@@ -70,7 +72,7 @@ void ClearTempBehaviors()
 void ClearTempXml()
 {
     VecStr filelist;
-    string tempbehavior = "temp_behaviors\\xml";
+    string tempbehavior = getTempBhvrPath() + "\\xml";
 
     if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))
     {

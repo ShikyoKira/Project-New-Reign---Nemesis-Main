@@ -303,31 +303,6 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 			ErrorMessage(3022, filepath);
 		}
 
-#if HIDE
-		if (animData.newAnimData.find(project) == animData.newAnimData.end())
-		{
-			animData.animDataChar.push_back(project);
-			isNew = true;
-		}
-
-		if (animData.newAnimData[project].find(filename) == animData.newAnimData[project].end())
-		{
-			if (!isinfo) animData.animDataHeader[project].push_back(filename);		// anim data
-			else animData.animDataInfo[project].push_back(filename);		// info data
-
-			isNew = true;
-		}
-
-		if (!isNew)
-		{
-			CombineAnimData(filename, characterfile, modcode, filepath, storeline, animData.newAnimData[project][filename], animData, false);
-		}
-		else if (filename[0] == '$' && (filename.back() == '$' || (filename.length() > 3 && filename.rfind("$UC") == filename.length() - 3)))
-		{
-			ErrorMessage(2004, filepath);
-		}
-#endif
-
 		if (error) throw nemesis::exception();
 	}
 
@@ -526,11 +501,7 @@ void behaviorJointsOutput()
 
 void CombineAnimData(string filename, string characterfile, string modcode, string filepath, VecStr storeline, MasterAnimData& animData, bool isHeader)
 {
-	if (storeline.back().length() != 0
-#if HIDE
-		&& animData.animDataChar.back().length() == 0
-#endif
-		)
+	if (storeline.back().length() != 0)
 	{
 		storeline.push_back("");
 	}
@@ -564,149 +535,4 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 		start = 1;
 		linecount = 1;
 	}
-
-#if HIDE
-	if (!isHeader)
-	{
-		if (filename == "$header$") type = 0;
-		else if (hasAlpha(storeline[0])) type = 1;
-		else if (isOnlyNumber(storeline[0])) type = 2;
-		else ErrorMessage(3006, characterfile, filename);
-	}
-	else
-	{
-		start = 1;
-		linecount = 1;
-	}
-
-	bool close = false;
-	bool conditionOri = false;
-
-	unordered_map<int, bool> conditionOpen;
-
-	VecStr newlines;
-	VecStr combinelines;
-
-	combinelines.reserve(storeline.size() + originallines.size());
-
-	for (unsigned int k = start; k < storeline.size(); ++k)
-	{
-		string& line = storeline[k];
-
-		// condition function is not supported for animationsetdatasinglefile
-		if (line.find("<!-- CONDITION") != NOT_FOUND) ErrorMessage(1173, filepath, modcode, k + 1);
-
-		if (line.find("<!-- CONDITION START ") != NOT_FOUND)
-		{
-			++conditionLvl;
-			conditionOpen[conditionLvl] = true;
-		}
-
-		if ((line.find("<!-- NEW", 0) == NOT_FOUND || line.find("<!-- FOREACH", 0) == NOT_FOUND) && !close)
-		{
-			if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND || originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND)
-			{
-				combinelines.push_back(originallines[linecount]);
-				++linecount;
-				combinelines.push_back(originallines[linecount]);
-				++linecount;
-
-				while (true)
-				{
-					if (originallines[linecount].find("<!-- CLOSE -->", 0) != NOT_FOUND)
-					{
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-						break;
-					}
-
-					combinelines.push_back(originallines[linecount]);
-					++linecount;
-				}
-			}
-
-			if (line.find("<!-- CONDITION END -->") != NOT_FOUND)
-			{
-				combinelines.push_back(line);
-				conditionOri = false;
-				conditionOpen[conditionLvl] = false;
-				--conditionLvl;
-			}
-			else if (conditionOri || !conditionOpen[conditionLvl])
-			{
-				combinelines.push_back(originallines[linecount]);
-				++linecount;
-			}
-			else
-			{
-				combinelines.push_back(line);
-			}
-		}
-		else if (close && line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-		{
-			if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND || originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND)
-			{
-				combinelines.push_back(originallines[linecount]);
-				++linecount;
-				combinelines.push_back(originallines[linecount]);
-				++linecount;
-
-				while (true)
-				{
-					if (originallines[linecount].find("<!-- CLOSE -->", 0) != NOT_FOUND)
-					{
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-						break;
-					}
-
-					combinelines.push_back(originallines[linecount]);
-					++linecount;
-				}
-			}
-
-			if (isHeader)
-			{
-				newlines.push_back(line);
-			}
-			else
-			{
-				size_t startline = combinelines.size() + 1;
-				combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
-				combinelines.push_back(line);
-				newlines.clear();
-
-				for (unsigned int j = startline; j < combinelines.size() - 1; ++j)
-				{
-					namespace AD = AnimDataFormat;
-					AD::position position = AnimDataPosition(storeline, characterfile, filename, modcode, filepath, linecount, type);
-					
-					if (position != AD::behaviorfilelist && position != AD::eventnamelist && position != AD::motiondatalist && position != AD::rotationdatalist)
-					{
-						ErrorMessage(3018, modcode, characterfile, filename);
-					}
-
-					if (error) throw nemesis::exception();
-				}
-			}
-
-			close = false;
-		}
-		else
-		{
-			close = true;
-		}
-
-		if (line.find("<!-- CONDITION -->") != NOT_FOUND) conditionOri = true;
-
-		if (close) newlines.push_back(line);
-
-		if (error) throw nemesis::exception();
-	}
-
-	combinelines.shrink_to_fit();
-	originallines = combinelines;
-#else
-
-#endif
 }

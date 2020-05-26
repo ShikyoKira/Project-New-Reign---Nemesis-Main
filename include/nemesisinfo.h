@@ -13,6 +13,7 @@ class NemesisInfo
 {
     bool first = true;
     std::string dataPath;
+    std::string stageDirectory;
     uint maxAnim       = 10000;
     uint width         = 526;
     uint height        = 750;
@@ -29,6 +30,7 @@ public:
     void iniFileUpdate();
 
     std::string GetDataPath() const;
+    std::string GetStagePath() const;
     uint GetMaxAnim() const;
     bool IsFirst() const;
     uint GetWidth() const;

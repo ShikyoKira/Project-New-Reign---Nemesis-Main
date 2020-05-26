@@ -1,3 +1,6 @@
+#include "nemesisinfo.h"
+
+#include "utilities/algorithm.h"
 #include "utilities/atomiclock.h"
 
 #include "generate/behaviorgenerator.h"
@@ -11,6 +14,7 @@
 using namespace std;
 
 extern bool SSE;
+extern string stagePath;
 
 void animThreadStart(shared_ptr<NewAnimArgs> args)
 {
@@ -272,4 +276,40 @@ void processExistFuncID(std::vector<int>& funcIDs,
 
 		if (error) throw nemesis::exception();
 	}
+}
+
+void redirToStageDir(string& outpath)
+{
+    if (stagePath.length() > 0)
+    {
+        size_t pos;
+
+        if (outpath.find("\\") != NOT_FOUND)
+        {
+            pos = nemesis::to_lower_copy(outpath).rfind("data\\meshes\\");
+
+            if (pos != NOT_FOUND) pos += 5;
+        }
+        else
+        {
+            pos = nemesis::to_lower_copy(outpath).rfind("data/meshes/");
+
+            if (pos != NOT_FOUND) pos += 5;
+        }
+
+        outpath = stagePath + outpath.substr(pos);
+    }
+}
+
+string getTempBhvrPath()
+{
+    if (stagePath.length() > 0)
+    {
+        string curpath = filesystem::current_path().string();
+        replace(curpath.begin(), curpath.end(), '/', '\\');
+        redirToStageDir(curpath);
+        return stagePath + "\\temp_behaviors";
+    }
+
+	return "temp_behaviors";
 }

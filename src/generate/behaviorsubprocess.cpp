@@ -2848,7 +2848,9 @@ void BehaviorSub::CompilingBehavior()
 
     if (behaviorPath[lowerBehaviorFile].size() == 0) ErrorMessage(1068, behaviorFile);
 
-    string filename = "temp_behaviors\\xml\\" + modID + lowerBehaviorFile + ".xml";
+    string filename = getTempBhvrPath() + "\\xml\\" + modID + lowerBehaviorFile + ".xml";
+
+    redirToStageDir(outputdir);
 
     if (!FolderCreate(GetFileDirectory(filename)) || !FolderCreate(GetFileDirectory(outputdir))) return;
 

@@ -27,6 +27,7 @@
 #include "generate/generator_utility.h"
 #include "generate/behaviorgenerator.h"
 #include "generate/behaviorsubprocess.h"
+#include "generate/behaviorprocess_utility.h"
 
 #include "generate/animation/registeranimation.h"
 #include "generate/animation/singletemplate.h"
@@ -181,7 +182,7 @@ void BehaviorStart::InitializeGeneration()
 void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 {
     // register animation & organize AE n Var
-    string directory = "temp_behaviors\\";
+    string directory = getTempBhvrPath() + "\\";
     unordered_map<string, int>
         animationCount; // animation type counter; use to determine how many of the that type of animation have been installed
     shared_ptr<TemplateInfo> BehaviorTemplate = make_shared<TemplateInfo>(); // get animation type
@@ -1151,7 +1152,7 @@ void BehaviorStart::milestoneStart()
     int counter = 0;
 
     connectProcess(this);
-    string directory   = "temp_behaviors";
+    string directory   = getTempBhvrPath();
     string fpdirectory = directory + "\\_1stperson";
     VecStr filelist;
     int include = 0;

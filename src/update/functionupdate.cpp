@@ -640,32 +640,6 @@ bool AnimDataUpdate(string modcode,
         if (!GetFunctionLines(filepath, storeline, !nemesis::iequals(filename, "$header$"))) return false;
 
             // must not replace storeline with animData.newAnimData[projectfile][filename] for the total line will not get counted
-#if HIDE
-        animData.newAnimData[projectfile][filename].insert(
-            animData.newAnimData[projectfile][filename].end(), storeline.begin(), storeline.end());
-
-        if (isOnlyNumber(filename)) // info data
-        {
-            animData.animDataInfo[projectfile].push_back(filename);
-        }
-        else if (filename.find("~") != NOT_FOUND) // anim data
-        {
-            string tempname
-                = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("\\1"));
-
-            if (tempname == filename) ErrorMessage(2004, filepath);
-
-            animData.animDataHeader[projectfile].push_back(filename);
-        }
-        else if (nemesis::iequals(filename, "$header$"))
-        {
-            animData.animDataHeader[projectfile].push_back(filename);
-        }
-        else
-        {
-            ErrorMessage(2004, filepath);
-        }
-#else
         if (nemesis::iequals(filename, "$header$"))
         {
             auto& proj = animData.projectlist[animData.getIndex(projectfile)];
@@ -741,7 +715,6 @@ bool AnimDataUpdate(string modcode,
             ErrorMessage(2004, filepath);
         }
 
-#endif
         return true;
     }
 
@@ -856,168 +829,6 @@ bool AnimDataUpdate(string modcode,
             addInfoDataPack(filepath, filename, modcode, projData, storeline);
         }
     }
-
-#if HIDE
-    vector<int> modEditCoordinate;
-    unordered_map<string, int> modEditLine;
-    unordered_map<int, int> NewCoordinate;
-    unordered_map<int, int> Pair;
-
-    int originalline = 0;
-    int editedline   = 0;
-
-    int coordinate    = 0;
-    int startoriline  = 0;
-    int starteditline = 0;
-    int editline      = 0;
-    int linecount     = 0;
-
-    if (!GetFunctionLines(filepath, storeline)) return false;
-
-    for (string& line : storeline)
-    {
-        if (error) throw nemesis::exception();
-
-        if ((line.find("<!-- MOD_CODE", 0) != NOT_FOUND) && (line.find("OPEN -->", 0) != NOT_FOUND)
-            && (!edited))
-        {
-            edited        = true;
-            editline      = linecount;
-            starteditline = linecount;
-        }
-        else if (line.find("<!-- ORIGINAL -->", 0) != NOT_FOUND)
-        {
-            edited       = false;
-            originalopen = true;
-            originalline = linecount;
-            startoriline = linecount;
-        }
-        else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-        {
-            edited = false;
-
-            if (originalopen)
-            {
-                int tempint                                  = editline - originalline;
-                NewCoordinate[linecount]                     = tempint;
-                modEditLine[std::to_string(linecount) + "R"] = coordinate - tempint - 2;
-
-                for (int i = startoriline; i < originalline; ++i)
-                {
-                    modEditCoordinate.push_back(i);
-                    modEditLine[std::to_string(i)] = Pair[i];
-                }
-
-                originalopen = false;
-            }
-            else
-            {
-                int tempint                                  = editline - starteditline;
-                NewCoordinate[linecount]                     = tempint;
-                modEditLine[std::to_string(linecount) + "R"] = coordinate - tempint;
-            }
-        }
-        else if (edited)
-        {
-            Pair[editline] = coordinate;
-            ++editline;
-        }
-        else if (!edited)
-        {
-            ++linecount;
-            ++originalline;
-        }
-
-        coordinate++;
-    }
-
-    if (animData.newAnimData[projectfile].find(filename) != animData.newAnimData[projectfile].end())
-    {
-        if (NewCoordinate.size() == 0)
-        {
-            WarningMessage(1017, filepath);
-            interMsg(warningMsges.back());
-            return false;
-        }
-
-        CombineAnimData(filepath,
-                        filename,
-                        projectfile,
-                        modcode,
-                        animData.newAnimData[projectfile][filename],
-                        storeline,
-                        modEditCoordinate,
-                        modEditLine,
-                        NewCoordinate,
-                        Pair,
-                        lastUpdate);
-    }
-    else if (filename.find(modcode + "$") != NOT_FOUND)
-    {
-        string tempID = nemesis::regex_replace(
-            string(filename), nemesis::regex("[^~]*~" + modcode + "[$]([0-9]+)"), string("\\1"));
-
-        if (filename != tempID && isOnlyNumber(tempID)) // anim data
-        {
-            animData.newAnimData[projectfile][filename].insert(
-                animData.newAnimData[projectfile][filename].end(), storeline.begin(), storeline.end());
-
-            if (!openAnim)
-            {
-                animData.newAnimData[projectfile][filename].insert(
-                    animData.newAnimData[projectfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
-                openAnim = true;
-            }
-
-            animData.animDataHeader[projectfile].push_back(filename);
-        }
-        else
-        {
-            tempID = nemesis::regex_replace(
-                string(filename), nemesis::regex(modcode + "[$]([0-9]+)"), string("\\1"));
-
-            if (filename != tempID && isOnlyNumber(tempID)) // info data
-            {
-                animData.newAnimData[projectfile][filename] = storeline;
-
-                if (!openInfo)
-                {
-                    animData.newAnimData[projectfile][filename].insert(
-                        animData.newAnimData[projectfile][filename].begin(),
-                        "<!-- NEW *" + modcode + "* -->");
-                    openInfo = true;
-                }
-
-                animData.animDataInfo[projectfile].push_back(filename);
-            }
-            else
-            {
-                ErrorMessage(2004, filepath);
-            }
-        }
-    }
-    else
-    {
-        string check
-            = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("\\1"));
-
-        if (animData.newAnimData[projectfile].find(check) == animData.newAnimData[projectfile].end())
-        {
-            ErrorMessage(2004, filepath);
-        }
-
-        animData.newAnimData[projectfile][filename] = storeline;
-
-        if (!openAnim)
-        {
-            animData.newAnimData[projectfile][filename].insert(
-                animData.newAnimData[projectfile][filename].begin(), "<!-- NEW *" + modcode + "* -->");
-            openAnim = true;
-        }
-
-        animData.animDataHeader[projectfile].push_back(filename);
-    }
-#endif
 
     return true;
 }
