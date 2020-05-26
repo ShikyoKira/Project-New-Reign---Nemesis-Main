@@ -111,8 +111,6 @@ void NemesisInfo::setup()
                             },
                         };
 
-
-
                         if (input == "skyrimdatadirectory")
                         {
                             if (isFileExist(path) && wordFind(path, "data") != NOT_FOUND)
