@@ -29,14 +29,14 @@ void AnimProgressBar::valueUpdate()
 {
     try
     {
-        int oldvalue ;
+        int oldvalue = trueValue;
         int base;
         double root;
         const int max = 110;
         int counter;
 
-        //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        //newValue(1074);
+        //std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+        //newValue(12574);
 
         auto resetRaise = [&] {
             oldvalue = trueValue;
@@ -49,7 +49,7 @@ void AnimProgressBar::valueUpdate()
         {
             {
                 std::unique_lock ulock(pbmtx);
-                pbcv.wait(ulock, [&] { return trueValue != value(); });
+                pbcv.wait(ulock, [&] { return trueValue != oldvalue; });
             }
 
             resetRaise();
@@ -290,17 +290,19 @@ void AnimProgressBar::commitValue(int value)
 
     try
     {
-        setValue(value);
-    }
-    catch (...)
-    {
-    }
-
-    try
-    {
         setFormat(QString::number(value) + " animation(s)");
     }
     catch (const std::exception&)
+    {
+    }
+
+    if (value > max_anim) return;
+
+    try
+    {
+        setValue(value);
+    }
+    catch (...)
     {
     }
 }
