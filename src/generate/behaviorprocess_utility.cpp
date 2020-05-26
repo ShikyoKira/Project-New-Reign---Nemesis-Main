@@ -1,5 +1,6 @@
 #include "utilities/atomiclock.h"
 
+#include "generate/behaviorgenerator.h"
 #include "generate/behaviorprocess_utility.h"
 
 #include "generate/animation/nodejoint.h"
@@ -8,6 +9,8 @@
 #include "generate/animation/animationthread.h"
 
 using namespace std;
+
+extern bool SSE;
 
 void animThreadStart(shared_ptr<NewAnimArgs> args)
 {
@@ -125,6 +128,84 @@ void unpackToCatalyst(map<int, VecStr>& catalystMap, unordered_map<int, shared_p
 	}
 }
 
+int bonePatch(const string& rigfile, int oribone, bool& newBone)
+{
+    int bonenum;
+
+    if (SSE)
+    {
+        FILE* bonefile;
+        fopen_s(&bonefile, rigfile.c_str(), "r+b");
+
+        if (bonefile)
+        {
+            uint16_t num = 0;
+            vector<char> chlist;
+            string line;
+
+            while (!feof(bonefile))
+            {
+                char c = fgetc(bonefile);
+                chlist.push_back(c);
+                line.push_back(c);
+            }
+
+            fclose(bonefile);
+
+            using uchar     = unsigned char;
+            bool startCount = false;
+            bool start      = true;
+            uint pos        = line.find("NPC Root [Root]");
+
+			if (pos != NOT_FOUND && pos > 64)
+            {
+                pos -= 64;
+                char* ch = reinterpret_cast<char*>(&num);
+                ch[0]    = chlist[pos];
+                ch[1]    = chlist[pos + 1];
+			}
+
+            if (error) throw nemesis::exception();
+
+            if (oribone < num)
+            {
+                bonenum = num - oribone;
+                newBone = true;
+            }
+        }
+        else
+        {
+            ErrorMessage(3002, rigfile);
+        }
+    }
+    else
+    {
+        VecStr storeline;
+        hkxcmdXmlInput(rigfile.substr(0, rigfile.find_last_of(".")), storeline);
+        string bonemap = "<hkparam name=\"parentIndices\" numelements=\"";
+
+        for (auto& line : storeline)
+        {
+            if (line.find(bonemap) != NOT_FOUND)
+            {
+                size_t pos = line.find(bonemap) + bonemap.length();
+                int num    = stoi(line.substr(pos, line.find("\">", pos) - pos));
+
+                if (oribone < num)
+                {
+                    bonenum = num - oribone;
+                    newBone = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (error) throw nemesis::exception();
+
+    return bonenum;
+}
+
 void processExistFuncID(std::vector<int>& funcIDs,
                         const std::string& ZeroEvent,
                         const std::string& ZeroVariable,
@@ -188,25 +269,6 @@ void processExistFuncID(std::vector<int>& funcIDs,
 
 		existingNodes[functionID]->insertData(templateCode, filename, optionPicked, groupAnimInfo, -1, -1, -1, hasMaster, hasGroup, ignoreGroup, "", lastID, strID, IDExist,
 			exportID, eventid, variableid, ZeroEvent, ZeroVariable, openRange, elementCount, nullptr, groupFunctionIDs, negative);
-
-		/*ExistingFunction exFunction;
-		exFunction.setZeroEvent(ZeroEvent);
-		exFunction.setZeroVariable(ZeroVariable);
-		catalystMap[functionID] = exFunction.groupExistingFunctionProcess(functionID, catalystMap[functionID], groupFunctionIDs, groupAnimInfo, templateCode, exportID,
-			eventid, variableid, lastID, hasMaster, hasGroup, templateGroup, ignoreGroup);
-
-		if (error) throw nemesis::exception();
-
-		if (catalystMap[functionID].size() == 0) ErrorMessage(1099);
-
-		if (catalystMap[functionID].back().empty())
-		{
-			if (catalystMap[functionID].size() > 1 && catalystMap[functionID][catalystMap[functionID].size() - 2].empty()) catalystMap[functionID].pop_back();
-		}
-		else
-		{
-			catalystMap[functionID].push_back("");
-		}*/
 
 		if (error) throw nemesis::exception();
 	}
