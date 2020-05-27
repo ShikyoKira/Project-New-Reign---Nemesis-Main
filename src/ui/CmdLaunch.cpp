@@ -1,5 +1,7 @@
 #include "Global.h"
 
+#include <conio.h>
+
 #include <QObject>
 #include <QThread>
 
@@ -34,6 +36,17 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
         return;
     }
 
+    string version;
+
+    if (!isEngineUpdated(version))
+    {
+        cout << TextBoxMessage(1000) + "\n";
+        return;
+    }
+
+    cout << TextBoxMessage(1003) + "\n";
+    cout << TextBoxMessage(1017) + ": " + version + "\n\n";
+    cout << TextBoxMessage(1004) + "\n";
     VecStr behaviorPriority;
     VecStr hiddenModList = getHiddenMods();
     unordered_map<string, bool> chosenBehavior;
@@ -46,6 +59,8 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
 
     for (auto& mod : modlist)
     {
+        nemesis::to_lower(mod);
+
         if (modinfo.find(mod) != modinfo.end() && modinfo[mod].size() > 0)
         {
             behaviorPriority.insert(behaviorPriority.begin(), mod);
@@ -73,6 +88,8 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
         }
     }
 
+    cout << "End\n";
+    getch();
     exit(static_cast<int>(error));
 }
 
