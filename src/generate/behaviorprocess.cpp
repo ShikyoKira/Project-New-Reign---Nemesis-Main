@@ -41,7 +41,7 @@ extern mutex cv2_m;
 extern condition_variable cv2;
 extern condition_variable cv;
 extern Terminator* p_terminate;
-extern VecStr failedBehaviors;
+extern VecWstr failedBehaviors;
 extern atomic<int> m_RunningThread;
 extern atomic<int> behaviorRun;
 extern atomic<int> extraCore;
@@ -49,7 +49,7 @@ extern atomic<int> extraCore;
 mutex anim_lock;
 std::atomic_flag atomic_lock{};
 
-extern VecStr fileCheckMsg;
+extern VecWstr fileCheckMsg;
 
 void addOnInstall(string templine,
                   string& elementLine,
@@ -92,6 +92,11 @@ void BehaviorStart::message(string input)
     emit incomingMessage(QString::fromStdString(input));
 }
 
+void BehaviorStart::message(wstring input)
+{
+    emit incomingMessage(QString::fromStdWString(input));
+}
+
 void BehaviorStart::InitializeGeneration()
 {
     std::thread* checkThread = nullptr;
@@ -113,7 +118,7 @@ void BehaviorStart::InitializeGeneration()
         }
 
         interMsg(TextBoxMessage(1003));
-        interMsg(TextBoxMessage(1017) + ": " + version);
+        interMsg(TextBoxMessage(1017) + L": " + nemesis::transform_to<wstring>(version));
         interMsg("");
         interMsg(TextBoxMessage(1004));
         interMsg("");
@@ -182,7 +187,7 @@ void BehaviorStart::InitializeGeneration()
 void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 {
     // register animation & organize AE n Var
-    string directory = getTempBhvrPath() + "\\";
+    wstring directory = getTempBhvrPath().wstring() + L"\\";
     unordered_map<string, int>
         animationCount; // animation type counter; use to determine how many of the that type of animation have been installed
     shared_ptr<TemplateInfo> BehaviorTemplate = make_shared<TemplateInfo>(); // get animation type
@@ -205,7 +210,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
     if (PCEACheck(nemesisInfo)) ReadPCEA(nemesisInfo);
 
-    checkThread = new std::thread(checkAllFiles, nemesisInfo->GetDataPath() + "meshes\\actors");
+    checkThread = new std::thread(checkAllFiles, nemesisInfo->GetDataPath() + L"meshes\\actors");
 
     if (animReplaced.size() > 0 || animationList.size() > 0) interMsg("");
 
@@ -253,19 +258,19 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
             if (BehaviorTemplate->coreTemplate[templatecode].length() > 0)
             {
                 coreModName     = "Nemesis_" + modID + "_";
-                string corepath = string(behaviorPath[BehaviorTemplate->coreTemplate[templatecode]]);
-                string corename = GetFileName(corepath);
+                wstring corepath = wstring(behaviorPath[nemesis::transform_to<wstring>(BehaviorTemplate->coreTemplate[templatecode])]);
+                wstring corename = GetFileName(corepath);
                 corepath        = corepath.substr(0, corepath.length() - corename.length());
-                DebugLogging("Core behavior name: " + corename);
-                DebugLogging("Core behavior destination: " + corepath);
+                DebugLogging(L"Core behavior name: " + corename);
+                DebugLogging(L"Core behavior destination: " + corepath);
 
-                if (!isFileExist(corepath + "nemesis_" + corename + ".txt")
-                    && !isFileExist(corepath + "nemesis_" + corename + ".xml"))
+                if (!isFileExist(corepath + L"nemesis_" + corename + L".txt")
+                    && !isFileExist(corepath + L"nemesis_" + corename + L".xml"))
                 {
                     WarningMessage(1004,
                                    BehaviorTemplate->optionlist[templatecode].coreBehavior,
                                    templatecode,
-                                   corepath + "nemesis_" + corename + ".txt");
+                                   corepath + L"nemesis_" + corename + L".txt");
                 }
                 else
                 {
@@ -280,8 +285,11 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                             = &BehaviorTemplate->behaviortemplate[corecode];
                         shared_ptr<AnimationInfo> dummy = make_shared<AnimationInfo>();
 
-                        if (isFileExist(corepath + "FNIS_" + modID + "_"
-                                        + BehaviorTemplate->optionlist[corecode].coreBehavior + ".hkx"))
+                        if (isFileExist(corepath + L"FNIS_" + nemesis::transform_to<wstring>(modID) + L"_"
+                                        + nemesis::transform_to<wstring>(
+                                            BehaviorTemplate->optionlist[corecode].coreBehavior)
+                                        + L".hkx"))
+                            
                         {
                             dummy->addFilename("FNIS_" + modID + "_"
                                                + BehaviorTemplate->optionlist[corecode].coreBehavior
@@ -291,10 +299,10 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         {
                             dummy->addFilename(
                                 coreModName + BehaviorTemplate->optionlist[corecode].coreBehavior + ".hkx");
-                            coreModList[nemesis::to_lower_copy(
+                            coreModList[nemesis::transform_to<wstring>(nemesis::to_lower_copy(
                                             BehaviorTemplate->optionlist[corecode].coreBehavior)
-                                        + ".txt"]
-                                .push_back(coreModName);
+                                        + ".txt")]
+                                .push_back(nemesis::transform_to<wstring>(coreModName));
                         }
 
                         dummy->ignoreGroup                 = false;
@@ -848,7 +856,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
     }
 
     {
-        string filename(nemesisInfo->GetDataPath() + "scripts\\FNIS.pex");
+        string filename(nemesis::transform_to<string>(nemesisInfo->GetDataPath()) + "scripts\\FNIS.pex");
         sf::copy_file(
             sf::path("alternate animation\\FNBE.pex"), filename, sf::copy_options::overwrite_existing);
         FILE* f;
@@ -886,7 +894,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
     if (error) throw nemesis::exception();
 
-    VecStr filelist;
+    VecWstr filelist;
     read_directory(directory, filelist);
     emit progressUp();
     behaviorRun = 1;
@@ -895,7 +903,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
     {
         if (!sf::is_directory(directory + file))
         {
-            string lowerFileName = nemesis::to_lower_copy(file);
+            wstring lowerFileName = nemesis::to_lower_copy(file);
 
             if (coreModList.find(lowerFileName) != coreModList.end())
             {
@@ -903,14 +911,14 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                 filenum += repeat * 10;
             }
         }
-        else if (wordFind(file, "_1stperson") != NOT_FOUND)
+        else if (wordFind(file, L"_1stperson") != NOT_FOUND)
         {
-            VecStr fpfilelist;
+            VecWstr fpfilelist;
             read_directory(directory + file, fpfilelist);
 
             for (auto fpfile : fpfilelist)
             {
-                string lowerFileName = nemesis::to_lower_copy(file + "\\" + fpfile);
+                wstring lowerFileName = nemesis::to_lower_copy(file + L"\\" + fpfile);
 
                 if (coreModList.find(lowerFileName) != coreModList.end())
                 {
@@ -932,11 +940,11 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 
             if (!sf::is_directory(directory + file))
             {
-                string modID         = "";
-                bool isCore          = false;
-                int repeatcount      = 0;
-                int repeat           = 1;
-                string lowerFileName = nemesis::to_lower_copy(file);
+                string modID          = "";
+                bool isCore           = false;
+                int repeatcount       = 0;
+                int repeat            = 1;
+                wstring lowerFileName = nemesis::to_lower_copy(file);
 
                 if (coreModList.find(lowerFileName) != coreModList.end())
                 {
@@ -948,20 +956,20 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                 {
                     if (error) throw nemesis::exception();
 
-                    if (isCore) modID = coreModList[lowerFileName][repeatcount];
+                    if (isCore) modID = nemesis::transform_to<string>(coreModList[lowerFileName][repeatcount]);
 
-                    bool skip           = false;
-                    string tempfilename = lowerFileName.substr(0, lowerFileName.find_last_of("."));
-                    string temppath     = behaviorPath[tempfilename];
+                    bool skip            = false;
+                    wstring tempfilename = lowerFileName.substr(0, lowerFileName.find_last_of(L"."));
+                    wstring temppath     = behaviorPath[tempfilename];
 
                     if (temppath.length() != 0)
                     {
                         size_t nextpos = 0;
-                        size_t lastpos = temppath.find_last_of("\\");
+                        size_t lastpos = temppath.find_last_of(L"\\");
 
-                        while (temppath.find("\\", nextpos) != lastpos)
+                        while (temppath.find(L"\\", nextpos) != lastpos)
                         {
-                            nextpos = temppath.find("\\", nextpos) + 1;
+                            nextpos = temppath.find(L"\\", nextpos) + 1;
                         }
 
                         temppath = temppath.substr(nextpos, lastpos - nextpos);
@@ -973,7 +981,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                     behaviorSubList.push_back(worker);
 
                     worker->addInfo(directory,
-                                    file,
+                                    nemesis::transform_to<string>(file),
                                     BehaviorTemplate,
                                     newAnimation,
                                     AnimVar,
@@ -990,17 +998,17 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         behaviorProcess.connect();
                     }
 
-                    if (lowerFileName == "animationdatasinglefile.txt")
+                    if (lowerFileName == L"animationdatasinglefile.txt")
                     {
                         tp.enqueue(&BehaviorSub::AnimDataCompilation, worker); // 9 progress ups
                     }
-                    else if (lowerFileName == "animationsetdatasinglefile.txt")
+                    else if (lowerFileName == L"animationsetdatasinglefile.txt")
                     {
                         tp.enqueue(&BehaviorSub::ASDCompilation, worker);
                     }
                     else
                     {
-                        if (temppath.find("characters") == 0) worker->isCharacter = true;
+                        if (temppath.find(L"characters") == 0) worker->isCharacter = true;
 
                         tp.enqueue(&BehaviorSub::BehaviorCompilation, worker);
                     }
@@ -1008,14 +1016,14 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                     ++repeatcount;
                 }
             }
-            else if (wordFind(file, "_1stperson") != NOT_FOUND)
+            else if (wordFind(file, L"_1stperson") != NOT_FOUND)
             {
-                VecStr fpfilelist;
+                VecWstr fpfilelist;
                 read_directory(directory + file, fpfilelist);
 
                 for (auto& curfile : fpfilelist)
                 {
-                    curfile = file + "\\" + curfile;
+                    curfile = file + L"\\" + curfile;
                 }
 
                 for (auto fpfile : fpfilelist)
@@ -1028,7 +1036,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         bool isCore          = false;
                         int repeatcount      = 0;
                         int repeat           = 1;
-                        string lowerFileName = nemesis::to_lower_copy(fpfile);
+                        wstring lowerFileName = nemesis::to_lower_copy(fpfile);
 
                         if (coreModList.find(lowerFileName) != coreModList.end())
                         {
@@ -1042,20 +1050,20 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                         {
                             if (error) throw nemesis::exception();
 
-                            if (isCore) modID = coreModList[lowerFileName][repeatcount];
+                            if (isCore) modID = nemesis::transform_to<string>(coreModList[lowerFileName][repeatcount]);
 
                             bool skip           = false;
-                            string tempfilename = lowerFileName.substr(0, lowerFileName.find_last_of("."));
-                            string temppath     = behaviorPath[tempfilename];
+                            wstring tempfilename = lowerFileName.substr(0, lowerFileName.find_last_of(L"."));
+                            wstring temppath     = behaviorPath[nemesis::transform_to<wstring>(tempfilename)];
 
                             if (temppath.length() != 0)
                             {
                                 size_t nextpos = 0;
-                                size_t lastpos = temppath.find_last_of("\\");
+                                size_t lastpos = temppath.find_last_of(L"\\");
 
-                                while (temppath.find("\\", nextpos) != lastpos)
+                                while (temppath.find(L"\\", nextpos) != lastpos)
                                 {
-                                    nextpos = temppath.find("\\", nextpos) + 1;
+                                    nextpos = temppath.find(L"\\", nextpos) + 1;
                                 }
 
                                 temppath = temppath.substr(nextpos, lastpos - nextpos);
@@ -1065,7 +1073,7 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                             behaviorSubList.push_back(worker);
 
                             worker->addInfo(directory,
-                                            fpfile,
+                                            nemesis::transform_to<string>(fpfile),
                                             BehaviorTemplate,
                                             newAnimation,
                                             AnimVar,
@@ -1082,18 +1090,18 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
                                 behaviorProcess.connect();
                             }
 
-                            if (lowerFileName == "animationdatasinglefile.txt")
+                            if (lowerFileName == L"animationdatasinglefile.txt")
                             {
                                 tp.enqueue(&BehaviorSub::AnimDataCompilation,
                                            worker); // 9 progress ups
                             }
-                            else if (lowerFileName == "animationsetdatasinglefile.txt")
+                            else if (lowerFileName == L"animationsetdatasinglefile.txt")
                             {
                                 tp.enqueue(&BehaviorSub::ASDCompilation, worker);
                             }
                             else
                             {
-                                if (temppath.find("characters") == 0) worker->isCharacter = true;
+                                if (temppath.find(L"characters") == 0) worker->isCharacter = true;
 
                                 tp.enqueue(&BehaviorSub::BehaviorCompilation, worker);
                             }
@@ -1144,17 +1152,17 @@ void BehaviorStart::milestoneStart()
     start_time = std::chrono::high_resolution_clock::now();
 
     DebugLogging("Nemesis Behavior Version: v" + GetNemesisVersion());
-    string curdir = QCoreApplication::applicationDirPath().toStdString();
-    replace(curdir.begin(), curdir.end(), '/', '\\');
-    DebugLogging("Current Directory: " + curdir);
-    DebugLogging("Data Directory: " + nemesisInfo->GetDataPath());
+    wstring curdir = QCoreApplication::applicationDirPath().toStdWString();
+    replace(curdir.begin(), curdir.end(), L'/', L'\\');
+    DebugLogging(L"Current Directory: " + curdir);
+    DebugLogging(L"Data Directory: " + nemesisInfo->GetDataPath());
     DebugLogging("Skyrim Special Edition: " + string(SSE ? "TRUE" : "FALSE"));
     int counter = 0;
 
     connectProcess(this);
-    string directory   = getTempBhvrPath();
-    string fpdirectory = directory + "\\_1stperson";
-    VecStr filelist;
+    wstring directory   = getTempBhvrPath().wstring();
+    wstring fpdirectory = directory + L"\\_1stperson";
+    VecWstr filelist;
     int include = 0;
     int add     = 5;
 
@@ -1167,24 +1175,24 @@ void BehaviorStart::milestoneStart()
     DebugLogging("Detecting processes...");
     read_directory(directory, filelist);
 
-    if (isFileExist(directory + "\\animationdatasinglefile.txt")) --add;
+    if (isFileExist(directory + L"\\animationdatasinglefile.txt")) --add;
 
-    if (isFileExist(directory + "\\animationsetdatasinglefile.txt")) --add;
+    if (isFileExist(directory + L"\\animationsetdatasinglefile.txt")) --add;
 
     if (isFileExist(fpdirectory) && sf::is_directory(fpdirectory))
     {
-        VecStr fpfilelist;
+        VecWstr fpfilelist;
         read_directory(fpdirectory, fpfilelist);
 
         for (auto& file : fpfilelist)
         {
-            if (!sf::is_directory(fpdirectory + "\\" + file) && file.find(".txt") == file.length() - 4) ++include;
+            if (!sf::is_directory(fpdirectory + L"\\" + file) && file.find(L".txt") == file.length() - 4) ++include;
         }
     }
 
     for (auto& file : filelist)
     {
-        if (!sf::is_directory(directory + "\\" + file) && file.find(".txt") == file.length() - 4) ++include;
+        if (!sf::is_directory(directory + L"\\" + file) && file.find(L".txt") == file.length() - 4) ++include;
     }
 
     filenum = (include * 10) + add;
@@ -1203,18 +1211,18 @@ void BehaviorStart::unregisterProcess(bool skip)
 
             if (error)
             {
-                string msg = TextBoxMessage(1010);
+                wstring msg = TextBoxMessage(1010);
                 interMsg(msg);
                 DebugLogging(msg);
             }
             else
             {
-                string msg;
+                wstring msg;
                 auto diff = std::chrono::high_resolution_clock::now() - start_time;
                 int seconds = std::chrono::duration_cast<std::chrono::seconds>(diff).count();
 
                 DebugLogging("Number of animations: " + to_string(animCount));
-                msg = TextBoxMessage(1009) + ": " + to_string(seconds) + " " + TextBoxMessage(1012);
+                msg = TextBoxMessage(1009) + L": " + to_wstring(seconds) + L" " + TextBoxMessage(1012);
 
                 interMsg(msg);
                 DebugLogging(msg);
@@ -1223,7 +1231,7 @@ void BehaviorStart::unregisterProcess(bool skip)
         }
         else
         {
-            string msg = TextBoxMessage(1010);
+            wstring msg = TextBoxMessage(1010);
             interMsg(msg);
             DebugLogging(msg);
         }
@@ -1263,8 +1271,8 @@ void BehaviorStart::EndAttempt()
             for (int i = 0; i < failedBehaviors.size(); i += 2)
             {
                 hkxcmdProcess(failedBehaviors[i], failedBehaviors[i + 1], true);
-                DebugLogging("Processing behavior: " + failedBehaviors[i]
-                             + " (Check point #, Behavior compile complete)");
+                DebugLogging(L"Processing behavior: " + failedBehaviors[i]
+                             + L" (Check point #, Behavior compile complete)");
                 emit progressUp();
             }
 

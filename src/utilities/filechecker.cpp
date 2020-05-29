@@ -54,15 +54,15 @@ bool FileCheck(bool isUpdate)
 bool PCEACheck(const NemesisInfo* nemesisInfo)
 {
     DebugLogging("Initializing PCEA Check...");
-    string file = nemesisInfo->GetDataPath() + "Nemesis PCEA.esp";
+    wstring file = nemesisInfo->GetDataPath() + L"Nemesis PCEA.esp";
 
     if (isFileExist(file))
     {
-        file = "alternate animation\\nemesis pcea.script";
+        file = L"alternate animation\\nemesis pcea.script";
 
         if (!isFileExist(file)) ErrorMessage(1092, file);
 
-        file = nemesisInfo->GetDataPath() + "scripts\\Nemesis_PCEA_MCM.pex";
+        file = nemesisInfo->GetDataPath() + L"scripts\\Nemesis_PCEA_MCM.pex";
 
         if (!isFileExist(file)) ErrorMessage(1092, file);
     }
@@ -88,7 +88,7 @@ void behaviorActivateMod(VecStr behaviorPriority)
         string modcode = *itr;
         string newpath = directory + modcode;
         DebugLogging("Mod Checked " + to_string(i) + ": " + modcode);
-        interMsg(TextBoxMessage(1013) + " " + to_string(i++) + ": " + modcode);
+        interMsg(TextBoxMessage(1013) + L" " + to_wstring(i++) + L": " + nemesis::transform_to<wstring>(modcode));
 
         if (!isFileExist(newpath) || !std::filesystem::is_directory(newpath)) continue;
 

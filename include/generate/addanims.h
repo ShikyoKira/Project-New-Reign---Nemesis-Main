@@ -6,11 +6,11 @@
 #include <vector>
 
 bool AddAnims(std::string& line,
-              std::string animPath,
-              std::string outputdir,
-              std::string behaviorFile,
-              std::string lowerBehaviorFile,
-              std::string& newMod,
+              const std::string& _animPath,
+              const std::wstring& outputdir,
+              const std::string& behaviorFile,
+              const std::string& lowerBehaviorFile,
+              const std::string& _newMod,
               std::vector<std::string>& storeline,
               int& counter,
               std::unordered_map<std::string, bool>& isAdded,

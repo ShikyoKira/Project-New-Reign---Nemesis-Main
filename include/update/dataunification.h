@@ -16,25 +16,25 @@ void behaviorJointsOutput();
 bool animDataHeaderUpdate(std::string folderpath,
                           std::string modcode,
                           MasterAnimData& animData,
-                          std::unordered_map<std::string, std::string>& lastUpdate);
+                          std::unordered_map<std::wstring, std::wstring>& lastUpdate);
 bool newAnimUpdateExt(std::string folderpath,
                       std::string modcode,
                       std::string behaviorfile,
                       std::map<std::string, VecStr, alphanum_less>& newFile,
                       std::map<std::string, VecStr>& newAnimAddition,
-                      std::unordered_map<std::string, std::string>& lastUpdate);
+                      std::unordered_map<std::wstring, std::wstring>& lastUpdate);
 bool newAnimDataUpdateExt(std::string folderpath,
                           std::string modcode,
                           std::string characterfile,
                           MasterAnimData& animData,
                           std::map<std::string, VecStr>& newAnimAddition,
-                          std::unordered_map<std::string, std::string>& lastUpdate);
+                          std::unordered_map<std::wstring, std::wstring>& lastUpdate);
 bool newAnimDataSetUpdateExt(std::string folderpath,
                              std::string modcode,
                              std::string characterfile,
                              MasterAnimSetData& animSetData,
                              std::map<std::string, VecStr>& newAnimAddition,
-                             std::unordered_map<std::string, std::string>& lastUpdate);
+                             std::unordered_map<std::wstring, std::wstring>& lastUpdate);
 
 template <typename list>
 void comparing(std::vector<list>& storeline,

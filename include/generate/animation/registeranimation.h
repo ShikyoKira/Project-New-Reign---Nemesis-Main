@@ -34,7 +34,6 @@ public:
                       std::string shortfilepath,
                       TemplateInfo behaviortemplate,
                       std::string behavior,
-                      std::string behaviorfile,
                       bool fstP,
                       bool isNemesis = false);
     void clear();

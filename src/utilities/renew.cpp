@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void tryDelete(const string& file, bool xml, int repeated = 0)
+void tryDelete(const wstring& file, bool xml, int repeated = 0)
 {
     if (repeated > 100)
     {
@@ -33,14 +33,14 @@ void tryDelete(const string& file, bool xml, int repeated = 0)
     }
 }
 
-bool DeleteFileFolder(const string& directory, const string& file, bool xml)
+bool DeleteFileFolder(const wstring& directory, const wstring& file, bool xml)
 {
     if (std::filesystem::is_directory(directory + file))
     {
-        string tempbehavior = directory + file;
-        VecStr filelist;
+        wstring tempbehavior = directory + file;
+        VecWstr filelist;
         read_directory(tempbehavior, filelist);
-        tempbehavior.append("\\");
+        tempbehavior.append(L"\\");
 
         for (auto& curfile : filelist)
         {
@@ -54,30 +54,30 @@ bool DeleteFileFolder(const string& directory, const string& file, bool xml)
 
 void ClearTempBehaviors()
 {
-    VecStr filelist;
-    string tempbehavior = getTempBhvrPath();
+    VecWstr filelist;
+    wstring tempbehavior = getTempBhvrPath().wstring();
 
     if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))
     {
         read_directory(tempbehavior, filelist);
-        tempbehavior.append("\\");
+        tempbehavior.append(L"\\");
 
         for (auto& file : filelist)
         {
-            if (!nemesis::iequals(file, "xml")) DeleteFileFolder(tempbehavior, file, false);
+            if (!nemesis::iequals(file, L"xml")) DeleteFileFolder(tempbehavior, file, false);
         }
     }
 }
 
 void ClearTempXml()
 {
-    VecStr filelist;
-    string tempbehavior = getTempBhvrPath() + "\\xml";
+    VecWstr filelist;
+    wstring tempbehavior = getTempBhvrPath().wstring() + L"\\xml";
 
     if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))
     {
         read_directory(tempbehavior, filelist);
-        tempbehavior.append("\\");
+        tempbehavior.append(L"\\");
 
         for (auto& file : filelist)
         {

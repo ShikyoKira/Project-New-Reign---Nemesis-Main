@@ -31,12 +31,12 @@ extern int memory;                      // not used; for setting memory allocati
 extern int fixedkey[257];               // AA installation key
 
 // update patcher
-extern std::unordered_map<std::string, std::string> behaviorPath; // hkx file name, file path
+extern std::unordered_map<std::wstring, std::wstring> behaviorPath; // hkx file name, file path
 
 // behavior generator
 extern std::unordered_map<std::string, bool>
     activatedBehavior; // behavior file, true/fast; check if the behavior is needed to be edited to character for animationdatasinglefile
-extern std::unordered_map<std::string, std::string>
+extern std::unordered_map<std::wstring, std::wstring>
     behaviorProjectPath; // project, project's path; project that has been installed
 extern std::unordered_map<std::string, VecStr>
     behaviorJoints; // lower lvl behavior file, higher lvl behavior file
@@ -66,8 +66,12 @@ extern std::set<std::string> groupNameList; // list of animation group name; for
 // string utilities
 bool isOnlyNumber(std::string line);
 bool hasAlpha(std::string line);
+bool isOnlyNumber(std::wstring line);
+bool hasAlpha(std::wstring line);
 size_t wordFind(std::string line, std::string word, bool isLast = false); // case insensitive "string.find"
+size_t wordFind(std::wstring line, std::wstring word, bool isLast = false); // case insensitive "string.find"
 int sameWordCount(std::string line, std::string word);
+int sameWordCount(std::wstring line, std::wstring word);
 
 // general file utilities
 size_t fileLineCount(const char* filepath);
@@ -75,10 +79,8 @@ size_t fileLineCount(std::filesystem::path filepath);
 
 void addUsedAnim(std::string behaviorFile, std::string animPath);
 
-void read_directory(const std::string& name, VecStr& fv);
-void read_directory(const std::wstring& name, std::vector<std::wstring>& fv);
-void read_directory(const char* name, VecStr& fv);
-void read_directory(const wchar_t* name, std::vector<std::wstring>& fv);
+void read_directory(const std::filesystem::path& name, VecStr& fv);
+void read_directory(const std::filesystem::path& name, std::vector<std::wstring>& fv);
 
 bool GetFunctionLines(std::filesystem::path filename, VecStr& functionlines, bool emptylast = true);
 bool GetFunctionLines(std::filesystem::path filename,
@@ -157,7 +159,7 @@ inline bool isFileExist(const wchar_t* filename)
     }
 }
 
-inline bool CreateFolder(const std::string& folderpath)
+inline bool CreateFolder(const std::filesystem::path& folderpath)
 {
     if (isFileExist(folderpath)) return true;
 

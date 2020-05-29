@@ -14,7 +14,7 @@
 using namespace std;
 
 extern bool SSE;
-extern string stagePath;
+extern wstring stagePath;
 
 void animThreadStart(shared_ptr<NewAnimArgs> args)
 {
@@ -297,18 +297,41 @@ void redirToStageDir(string& outpath)
             if (pos != NOT_FOUND) pos += 5;
         }
 
+        outpath = nemesis::transform_to<string>(stagePath) + outpath.substr(pos);
+    }
+}
+
+void redirToStageDir(wstring& outpath)
+{
+    if (stagePath.length() > 0)
+    {
+        size_t pos;
+
+        if (outpath.find(L"\\") != NOT_FOUND)
+        {
+            pos = nemesis::to_lower_copy(outpath).rfind(L"data\\meshes\\");
+
+            if (pos != NOT_FOUND) pos += 5;
+        }
+        else
+        {
+            pos = nemesis::to_lower_copy(outpath).rfind(L"data/meshes/");
+
+            if (pos != NOT_FOUND) pos += 5;
+        }
+
         outpath = stagePath + outpath.substr(pos);
     }
 }
 
-string getTempBhvrPath()
+std::filesystem::path getTempBhvrPath()
 {
     if (stagePath.length() > 0)
     {
-        string curpath = filesystem::current_path().string();
-        replace(curpath.begin(), curpath.end(), '/', '\\');
+        wstring curpath = filesystem::current_path().wstring();
+        replace(curpath.begin(), curpath.end(), L'/', L'\\');
         redirToStageDir(curpath);
-        return stagePath + "\\temp_behaviors";
+        return stagePath + L"\\temp_behaviors";
     }
 
 	return "temp_behaviors";

@@ -15,6 +15,7 @@
 
 using namespace std;
 
+std::wstring DMLogError(int errorcode);
 void multiChoice(std::string& line,
                  std::string filename,
                  std::vector<std::vector<std::unordered_map<std::string, bool>>> masterOptionPicked,

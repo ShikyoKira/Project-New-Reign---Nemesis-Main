@@ -1,10 +1,10 @@
 #ifndef EXTERNALSCRIPT_H_
 #define EXTERNALSCRIPT_H_
 
-#include <string>
+#include <filesystem>
 
 extern bool dummyScript;
 
-void RunScript(std::string directory, bool& hasScript = dummyScript);
+void RunScript(const std::filesystem::path& directory, bool& hasScript = dummyScript);
 
 #endif

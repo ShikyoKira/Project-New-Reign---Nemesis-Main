@@ -25,29 +25,29 @@ namespace sf = filesystem;
 unordered_map<string, int> AAgroup_Counter;
 
 bool AACoreCompile(sf::path filename,
-                   wstring import,
-                   string destination,
-                   string filepath,
+                   sf::path import,
+                   sf::path destination,
+                   sf::path filepath,
                    sf::path appdata_path,
                    VecStr& newFunctions,
                    uint& maxGroup,
                    uint& uniquekey,
-                   string target);
+                   sf::path target);
 bool AAnimAPICompile(sf::path filename,
-                     wstring import,
-                     string destination,
-                     string filepath,
+                     sf::path import,
+                     sf::path destination,
+                     sf::path filepath,
                      sf::path appdata_path,
                      VecStr& newFunctions,
                      uint maxGroup,
                      uint& uniquekey,
-                     string target);
+                     sf::path target);
 void fixedKeyInitialize();
 uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
 bool PapyrusCompileProcess(sf::path pscfile,
-                           wstring import,
-                           string destination,
-                           string filepath,
+                           sf::path import,
+                           sf::path destination,
+                           sf::path filepath,
                            sf::path appdata_path,
                            sf::path compiler,
                            bool tryagain = false);
@@ -66,7 +66,7 @@ void forcedRemove(wstring target, int counter)
 {
     try
     {
-        if (!sf::remove(target)) ErrorMessage(1082, nemesis::transform_to<string>(target));
+        if (!sf::remove(target)) ErrorMessage(1082, target);
     }
     catch (exception)
     {
@@ -168,19 +168,19 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, nemesis::transform_to<string>(cachedir), ex.what());
+        ErrorMessage(6002, cachedir, ex.what());
     }
 
     if (error) throw nemesis::exception();
 
-    string import      = nemesisInfo->GetDataPath() + "scripts\\source";
-    string destination = nemesisInfo->GetDataPath() + "scripts";
+    sf::path import(nemesisInfo->GetDataPath() + L"scripts\\source");
+    sf::path destination(nemesisInfo->GetDataPath() + L"scripts");
     sf::path source("alternate animation\\alternate animation.script");
     sf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
-    string filepath = destination + "\\Nemesis_AA_Core.pex";
+    sf::path filepath(destination.wstring() + L"\\Nemesis_AA_Core.pex");
     sf::copy_file(source, pscfile, sf::copy_options::overwrite_existing);
-    DebugLogging(pscfile.string());
-    DebugLogging(filepath);
+    DebugLogging(pscfile.wstring());
+    DebugLogging(filepath.wstring());
 
     if (!FolderCreate(import)) ErrorMessage(2010, import);
 
@@ -191,7 +191,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     VecStr newFunctions;
 
     if (!AACoreCompile(pscfile,
-                       nemesis::transform_to<wstring>(import),
+                       import,
                        destination,
                        filepath,
                        cachedir,
@@ -207,13 +207,13 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
 
     source            = sf::path("alternate animation\\alternate animation 2.script");
     sf::path pscfile2 = sf::path(cachedir + L"\\FNIS_aa.psc");
-    filepath          = destination + "\\FNIS_aa.pex";
+    filepath          = sf::path(destination.wstring() + L"\\FNIS_aa.pex");
     sf::copy_file(source, pscfile2, sf::copy_options::overwrite_existing);
     DebugLogging(pscfile2.string());
     DebugLogging(filepath);
 
     if (!AAnimAPICompile(pscfile2,
-                         nemesis::transform_to<wstring>(import),
+                         import,
                          destination,
                          filepath,
                          cachedir,
@@ -227,20 +227,20 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
 
     try
     {
-        if (!sf::remove(pscfile)) ErrorMessage(1082, pscfile.string());
+        if (!sf::remove(pscfile)) ErrorMessage(1082, pscfile);
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, pscfile.string(), ex.what());
+        ErrorMessage(6002, pscfile, ex.what());
     }
 
     try
     {
-        if (!sf::remove(pscfile2)) ErrorMessage(1082, pscfile2.string());
+        if (!sf::remove(pscfile2)) ErrorMessage(1082, pscfile2);
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, pscfile2.string(), ex.what());
+        ErrorMessage(6002, pscfile2, ex.what());
     }
 
     if (error) throw nemesis::exception();
@@ -249,14 +249,14 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
 }
 
 bool AACoreCompile(sf::path filename,
-                   wstring import,
-                   string destination,
-                   string filepath,
+                   sf::path import,
+                   sf::path destination,
+                   sf::path filepath,
                    sf::path appdata_path,
                    VecStr& newFunctions,
                    uint& maxGroup,
                    uint& uniquekey,
-                   string target)
+                   sf::path target)
 {
     bool prefixDone = false;
     VecStr prefixList;
@@ -579,7 +579,7 @@ bool AACoreCompile(sf::path filename,
         }
         else
         {
-            ErrorMessage(3002, filename.string());
+            ErrorMessage(3002, filename.wstring());
         }
     }
 
@@ -590,14 +590,14 @@ bool AACoreCompile(sf::path filename,
 }
 
 bool AAnimAPICompile(sf::path filename,
-                     wstring import,
-                     string destination,
-                     string filepath,
+                     sf::path import,
+                     sf::path destination,
+                     sf::path filepath,
                      sf::path appdata_path,
                      VecStr& newFunctions,
                      uint maxGroup,
                      uint& uniquekey,
-                     string target)
+                     sf::path target)
 {
     VecStr storeline;
     VecStr newline;
@@ -648,7 +648,7 @@ bool AAnimAPICompile(sf::path filename,
         }
         else
         {
-            ErrorMessage(3002, filename.string());
+            ErrorMessage(3002, filename);
         }
     }
 
@@ -701,7 +701,21 @@ bool FolderCreate(wstring curBehaviorPath)
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, nemesis::transform_to<string>(curBehaviorPath), ex.what());
+        ErrorMessage(6002, curBehaviorPath, ex.what());
+    }
+
+    return true;
+}
+
+bool FolderCreate(filesystem::path curBehaviorPath)
+{
+    try
+    {
+        sf::create_directories(curBehaviorPath);
+    }
+    catch (const exception& ex)
+    {
+        ErrorMessage(6002, curBehaviorPath, ex.what());
     }
 
     return true;
@@ -711,6 +725,12 @@ unsigned int CRC32Convert(string line)
 {
     static nemesis::CRC32 crc32;
     return crc32.FullCRC(line);
+}
+
+unsigned int CRC32Convert(wstring line)
+{
+    static nemesis::CRC32 crc32;
+    return crc32.FullCRC(nemesis::transform_to<string>(line));
 }
 
 uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
@@ -732,32 +752,32 @@ uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
 }
 
 bool PapyrusCompile(sf::path pscfile,
-                    wstring import,
-                    string destination,
-                    string filepath,
+                    sf::path import,
+                    sf::path destination,
+                    sf::path filepath,
                     sf::path appdata_path,
                     sf::path target)
 {
-    if (!sf::exists(pscfile)) ErrorMessage(1092, pscfile.string());
+    if (!sf::exists(pscfile)) ErrorMessage(1092, pscfile);
     if (!sf::exists(destination)) ErrorMessage(1001, destination);
 
-    string timeline;
+    wstring timeline;
 
-    while (!nemesis::iequals(target.stem().string(), "data"))
+    while (!nemesis::iequals(target.stem().wstring(), L"data"))
     {
         target = target.parent_path();
     }
 
     target = target.parent_path();
-    target = sf::path(target.string() + "\\Papyrus Compiler\\PapyrusCompiler.exe");
+    target = sf::path(target.wstring() + L"\\Papyrus Compiler\\PapyrusCompiler.exe");
 
     if (isFileExist(filepath) && !sf::remove(filepath)) timeline = GetLastModified(filepath);
 
-    sf::path desPsc = import + L"\\" + pscfile.stem().wstring() + L".psc";
+    sf::path desPsc(import.wstring() + L"\\" + pscfile.stem().wstring() + L".psc");
 
     if (sf::exists(desPsc) && !sf::remove(desPsc))
     {
-        ErrorMessage(1082, pscfile.string() + ".psc", desPsc.string());
+        ErrorMessage(1082, pscfile.replace_extension(L".psc"), desPsc);
     }
 
     if (!sf::exists(target)
@@ -768,7 +788,9 @@ bool PapyrusCompile(sf::path pscfile,
         if (sf::exists(compiler))
         {
             if (!PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, compiler, true))
+            {
                 throw nemesis::exception();
+            }
         }
         else
         {
@@ -778,25 +800,24 @@ bool PapyrusCompile(sf::path pscfile,
 
     if (timeline.length() > 0)
     {
-        if (timeline == GetLastModified(filepath)) ErrorMessage(1185, filepath);
+        if (timeline == GetLastModified(filepath.wstring())) ErrorMessage(1185, filepath);
     }
 
     return true;
 }
 
 bool PapyrusCompileProcess(sf::path pscfile,
-                           wstring import,
-                           string destination,
-                           string filepath,
+                           sf::path import,
+                           sf::path destination,
+                           sf::path filepath,
                            sf::path appdata_path,
                            sf::path compiler,
                            bool tryagain)
 {
-    namespace sf           = sf;
-    pscfile                = pscfile.stem().wstring() + L".psc";
-    wstring importedSource = import + L"\\" + pscfile.filename().wstring();
-    wstring dep            = L"Papyrus Compiler\\scripts";
-    wstring backUpDep      = L"Papyrus Compiler\\backup scripts";
+    pscfile = pscfile.replace_extension(L".psc");
+    sf::path importedSource(import.wstring() + L"\\" + pscfile.filename().wstring());
+    wstring dep       = L"Papyrus Compiler\\scripts";
+    wstring backUpDep = L"Papyrus Compiler\\backup scripts";
 
     if ((sf::exists(dep) || FolderCreate(dep)) && sf::exists(backUpDep))
     {
@@ -815,7 +836,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
     }
     else if (sf::exists(importedSource) && !sf::is_directory(importedSource) && !sf::remove(importedSource))
     {
-        ErrorMessage(1082, nemesis::transform_to<string>(importedSource)); 
+        ErrorMessage(1082, importedSource); 
     }
 
     QProcess process;
@@ -826,11 +847,11 @@ bool PapyrusCompileProcess(sf::path pscfile,
                          + QString::fromStdWString(dep),
                      "-o=" + QString::fromStdWString(appdata_path.wstring())};
 
-    string cmd = exe.toStdString();
+    wstring cmd = exe.toStdWString();
 
     for (auto& arg : args)
     {
-        cmd.append(" " + arg.toStdString());
+        cmd.append(L" " + arg.toStdWString());
     }
 
     DebugLogging(cmd);
@@ -840,8 +861,8 @@ bool PapyrusCompileProcess(sf::path pscfile,
     process.start(exe, args);
     process.waitForFinished();
 
-    string tempfile      = GetFileName(filepath) + ".pex";
-    wstring tempfilepath = appdata_path.wstring() + L"\\" + nemesis::transform_to<wstring>(tempfile);
+    wstring tempfile     = filepath.replace_extension(L".pex").wstring();
+    wstring tempfilepath = appdata_path.wstring() + L"\\" + tempfile;
 
     if (!sf::exists(tempfilepath))
     {
@@ -852,7 +873,9 @@ bool PapyrusCompileProcess(sf::path pscfile,
 
         if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND
             && line.find("0 error") != NOT_FOUND)
+        {
             return true;
+        }
 
         if (!tryagain) return false;
 
@@ -868,7 +891,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
                 temp += L" " + arg.toStdWString();
             }
 
-            interMsg("Command: " + nemesis::transform_to<string>(temp));
+            interMsg(L"Command: " + temp);
         }
         catch (nemesis::exception)
         {
@@ -876,7 +899,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
         }
     }
 
-    ByteCopyToData(tempfilepath, nemesis::transform_to<wstring>(destination + "\\" + tempfile));
+    ByteCopyToData(tempfilepath, destination.wstring() + L"\\" + tempfile);
     return true;
 }
 

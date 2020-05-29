@@ -27,7 +27,6 @@ void CRC32Process(vector<crc32>& storeline,
 
 AnimationDataProject::AnimationDataProject(int& startline,
                                            VecStr& animdatafile,
-                                           string filename,
                                            string projectname,
                                            const NemesisInfo* nemesisInfo)
 {
@@ -36,31 +35,31 @@ AnimationDataProject::AnimationDataProject(int& startline,
         // data list
         DataPackProcess(datalist, startline, animdatafile);
         ++startline;
-        string projectPath;
-        string projectPath_fp;
+        wstring projectPath;
+        wstring projectPath_fp;
         unordered_map<string, shared_ptr<VecStr>> AAList;
-        string projectFileName = nemesis::to_lower_copy(std::filesystem::path(projectname).stem().string());
+        wstring projectFileName = nemesis::to_lower_copy(std::filesystem::path(projectname).stem().wstring());
 
         // assume current project has new alternate animation installed
         if (behaviorProjectPath[projectFileName].length() > 0)
         {
             projectPath
-                = nemesis::to_lower_copy(string(behaviorProjectPath[projectFileName]) + "\\animations");
-            projectPath_fp  = projectPath + "\\_1stperson";
-            VecStr pathList = {projectPath,
-                               projectPath + "\\male",
-                               projectPath + "\\female",
-                               projectPath + "\\horse_rider",
-                               projectPath + "\\dlc01",
-                               projectPath + "\\dlc02"};
+                = nemesis::to_lower_copy(behaviorProjectPath[projectFileName] + L"\\animations");
+            projectPath_fp  = projectPath + L"\\_1stperson";
+            VecWstr pathList = {projectPath,
+                                projectPath + L"\\male",
+                                projectPath + L"\\female",
+                                projectPath + L"\\horse_rider",
+                                projectPath + L"\\dlc01",
+                                projectPath + L"\\dlc02"};
             VecStr pathCRC32;
             VecStr pathCRC32_fp;
-            VecStr pathList_fp = {projectPath_fp,
-                                  projectPath_fp + "\\male",
-                                  projectPath_fp + "\\female",
-                                  projectPath_fp + "\\horse_rider",
-                                  projectPath_fp + "\\dlc01",
-                                  projectPath_fp + "\\dlc02"};
+            VecWstr pathList_fp = {projectPath_fp,
+                                   projectPath_fp + L"\\male",
+                                   projectPath_fp + L"\\female",
+                                   projectPath_fp + L"\\horse_rider",
+                                   projectPath_fp + L"\\dlc01",
+                                   projectPath_fp + L"\\dlc02"};
             pathCRC32.reserve(pathList.size());
             pathCRC32_fp.reserve(pathList.size());
 
@@ -74,7 +73,7 @@ AnimationDataProject::AnimationDataProject(int& startline,
                 pathCRC32_fp.push_back(to_string(CRC32Convert(path)));
             }
 
-            VecStr* pathListPoint;
+            VecWstr* pathListPoint;
             VecStr* pathCRC32Point;
 
             // cache all alternate animations
@@ -103,7 +102,7 @@ AnimationDataProject::AnimationDataProject(int& startline,
                 }
             }
 
-            if (isFileExist(nemesisInfo->GetDataPath() + projectPath + "\\nemesis_pcea\\pcea_animations")
+            if (isFileExist(nemesisInfo->GetDataPath() + nemesis::transform_to<wstring>(projectPath) + L"\\nemesis_pcea\\pcea_animations")
                 && pcealist.size() > 0)
             {
                 // cache all pcea animations
@@ -144,8 +143,13 @@ AnimationDataProject::AnimationDataProject(int& startline,
             AnimPackProcess(it->second.animlist, startline, animdatafile, projectname, it->first);
 
             // crc3 list
-            CRC32Process(
-                it->second.crc32list, startline, animdatafile, projectname, it->first, AAList, projectPath);
+            CRC32Process(it->second.crc32list,
+                         startline,
+                         animdatafile,
+                         projectname,
+                         it->first,
+                         AAList,
+                         nemesis::transform_to<string>(projectPath));
         }
     }
     catch (int)

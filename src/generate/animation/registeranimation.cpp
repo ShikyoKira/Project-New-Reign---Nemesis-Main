@@ -72,7 +72,6 @@ bool ruleCheck(VecStr rules, VecStr curList, TemplateInfo& behaviortemplate, str
 registerAnimation::registerAnimation(string curDirectory,
                                      string filename,
                                      TemplateInfo behaviortemplate,
-                                     string behaviorpath,
                                      string behavior,
                                      bool fstP,
                                      bool isNemesis)
@@ -686,11 +685,11 @@ registerAnimation::registerAnimation(string curDirectory,
         if (error) throw nemesis::exception();
 
         std::filesystem::path file(filepath);
-        string msg = ": "
-                     + (fstP ? file.parent_path().stem().string() + " (1st Person)"
-                             : file.parent_path().stem().string());
+        wstring msg = L": "
+                     + (fstP ? file.parent_path().stem().wstring() + L" (1st Person)"
+                             : file.parent_path().stem().wstring());
         interMsg(TextBoxMessage(1006) + msg);
-        DebugLogging(EngTextBoxMessage(1006) + msg);
+        DebugLogging(EngTextBoxMessage(1006) + nemesis::transform_to<string>(msg));
     }
     else
     {

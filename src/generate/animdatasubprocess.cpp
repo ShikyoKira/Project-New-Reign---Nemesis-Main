@@ -91,7 +91,7 @@ void BehaviorSub::AnimDataCompilation()
 
 void BehaviorSub::CompilingAnimData()
 {
-    string filepath          = directory + curfilefromlist;
+    wstring filepath          = directory + nemesis::transform_to<wstring>(curfilefromlist);
     string behaviorFile      = curfilefromlist.substr(0, curfilefromlist.find_last_of("."));
     string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
@@ -131,7 +131,7 @@ void BehaviorSub::CompilingAnimData()
 
             if (!GetFunctionLines(filepath, newline)) return;
 
-            DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
+            DebugLogging(L"Processing behavior: " + filepath + L" (Check point 1, File extraction complete)");
             process->newMilestone();
 
             catalyst.reserve(newline.size());
@@ -563,8 +563,8 @@ void BehaviorSub::CompilingAnimData()
             }
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 2, AnimData general processing complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 2, AnimData general processing complete)");
         process->newMilestone();
 
         {
@@ -784,11 +784,11 @@ void BehaviorSub::CompilingAnimData()
             process->newMilestone();
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 3, AnimData general new animations complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 3, AnimData general new animations complete)");
         process->newMilestone();
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 3.4, AnimData general new animations complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 3.4, AnimData general new animations complete)");
 
         /* unsure of the function but is present in FNIS
 
@@ -916,7 +916,7 @@ void BehaviorSub::CompilingAnimData()
 
                 try
                 {
-                    ADProject.push_back(make_unique<AnimDataProject>(combined, curProject, filepath));
+                    ADProject.push_back(make_unique<AnimDataProject>(combined, curProject));
                 }
                 catch (int)
                 {
@@ -932,7 +932,7 @@ void BehaviorSub::CompilingAnimData()
         }
     }
 
-    DebugLogging("Processing behavior: " + filepath + " (Check point 4, AnimData format check complete)");
+    DebugLogging(L"Processing behavior: " + filepath + L" (Check point 4, AnimData format check complete)");
     process->newMilestone();
 
     // final output
@@ -940,14 +940,14 @@ void BehaviorSub::CompilingAnimData()
     string outpath = "new_behaviors\\"
                + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
-    string outpath = behaviorPath[lowerBehaviorFile];
+    wstring outpath = behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)];
 #endif
 
     redirToStageDir(outpath);
 
     if (!FolderCreate(GetFileDirectory(outpath))) return;
 
-    FileWriter output(outpath + ".txt");
+    FileWriter output(outpath + L".txt");
 
     if (output.is_open())
     {
@@ -964,7 +964,7 @@ void BehaviorSub::CompilingAnimData()
 
             if (projectlinecount > 65536)
             {
-                WarningMessage(1029, GetFileName(outpath + ".txt") + ".txt", outpath + ".txt");
+                ErrorMessage(1212, GetFileName(outpath + L".txt") + L".txt", outpath + L".txt");
             }
 
             output << to_string(projectlinecount) + "\n";
@@ -1033,6 +1033,6 @@ void BehaviorSub::CompilingAnimData()
         ErrorMessage(1025, filepath);
     }
 
-    DebugLogging("Processing behavior: " + filepath + " (Check point 5, AnimData output complete)");
+    DebugLogging(L"Processing behavior: " + filepath + L" (Check point 5, AnimData output complete)");
     process->newMilestone();
 }

@@ -5,7 +5,9 @@ class UpdateFilesStart;
 class BehaviorStart;
 class DummyLog;
 
-void initializeHandler();
+// send direct message on log
+void interMsg(std::string);
+void interMsg(std::wstring);
 
 // connect, get and disconnect running process
 void connectProcess(UpdateFilesStart* newProcess);

@@ -605,7 +605,9 @@ OptionList::OptionList(string filepath, string format)
 
                         if (AnimInfo[2] != "#" + functionID) ErrorMessage(1071, format, filepath, linecount);
 
-                        if (behaviorPath[nemesis::to_lower_copy(AnimInfo[1])].length() == 0)
+                        if (behaviorPath[nemesis::transform_to<wstring>(nemesis::to_lower_copy(AnimInfo[1]))]
+                                .length()
+                            == 0)
                         {
                             ErrorMessage(1083, AnimInfo[1], format, filepath, linecount);
                         }

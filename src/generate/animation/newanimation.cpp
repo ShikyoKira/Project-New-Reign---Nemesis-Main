@@ -1684,7 +1684,12 @@ void NewAnimation::processing(string& line,
 
             if (position != NOT_FOUND && change.find("]", position) != NOT_FOUND)
             {
-                eventIDReplacer(change, format, behaviorFile, eventid, zeroEvent, linecount);
+                eventIDReplacer(change,
+                                format,
+                                behaviorFile,
+                                eventid,
+                                zeroEvent,
+                                linecount);
                 isChange = true;
 
                 if (error) throw nemesis::exception();
@@ -1694,7 +1699,12 @@ void NewAnimation::processing(string& line,
 
             if (position != NOT_FOUND && change.find("]", position) != NOT_FOUND)
             {
-                variableIDReplacer(change, format, behaviorFile, variableid, zeroVariable, linecount);
+                variableIDReplacer(change,
+                                   format,
+                                   behaviorFile,
+                                   variableid,
+                                   zeroVariable,
+                                   linecount);
                 isChange = true;
 
                 if (error) throw nemesis::exception();
@@ -2081,8 +2091,12 @@ bool NewAnimation::addOnConverter(
     return true;
 }
 
-void eventIDReplacer(
-    string& line, string format, string filename, ID eventid, string firstEvent, int linecount)
+void eventIDReplacer(string& line,
+                     const string& format,
+                     const string& filename,
+                     const ID& eventid,
+                     const string& firstEvent,
+                     int linecount)
 {
     int count = sameWordCount(line, "eventID[");
 
@@ -2092,9 +2106,9 @@ void eventIDReplacer(
         string fullEventName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 1);
         string eventName     = nemesis::regex_replace(
             string(fullEventName), nemesis::regex(".*eventID[[](.*?)[]].*"), string("\\1"));
-        string newEventID = to_string(eventid[eventName]);
+        auto& eventItr = eventid.find(eventName);
 
-        if (newEventID == "0" && eventName != firstEvent)
+        if (eventItr == eventid.end() || (eventItr->second == 0 && eventName != firstEvent))
         {
             if (format == "BASE")
             {
@@ -2106,12 +2120,16 @@ void eventIDReplacer(
             }
         }
 
-        line.replace(line.find(fullEventName), fullEventName.length(), newEventID);
+        line.replace(line.find(fullEventName), fullEventName.length(), to_string(eventItr->second));
     }
 }
 
-void variableIDReplacer(
-    string& line, string format, string filename, ID variableid, string ZeroVariable, int linecount)
+void variableIDReplacer(string& line,
+                        const string& format,
+                        const string& filename,
+                        const ID& variableid,
+                        const string& ZeroVariable,
+                        int linecount)
 {
     int count = sameWordCount(line, "variableID[");
 
@@ -2121,21 +2139,16 @@ void variableIDReplacer(
         string fullVarName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 1);
         string varName     = nemesis::regex_replace(
             string(fullVarName), nemesis::regex(".*variableID[[](.*)[]].*"), string("\\1"));
-        string newVarID = to_string(variableid[varName]);
+        auto& varItr    = variableid.find(varName);
 
-        if (newVarID == "0" && ZeroVariable != varName)
+        if (varItr == variableid.end() || (varItr->second == 0 && ZeroVariable != varName))
         {
-            if (format == "BASE")
-            {
-                ErrorMessage(1166, varName);
-            }
-            else
-            {
-                ErrorMessage(1132, format, filename, linecount, varName);
-            }
+            if (format == "BASE") ErrorMessage(1166, varName);
+
+            ErrorMessage(1132, format, filename, linecount, varName);
         }
 
-        line.replace(line.find(fullVarName), fullVarName.length(), newVarID);
+        line.replace(line.find(fullVarName), fullVarName.length(), to_string(varItr->second));
     }
 }
 
@@ -3722,7 +3735,7 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
 
     generatedlines->reserve(originaltemplate->size + 10 * memory);
 
-    ID tmpId; //FIXME
+    ID tmpId;
     ID tmpId2;
 
     AnimThreadInfo animThrInfo(filepath,

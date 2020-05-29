@@ -8,31 +8,31 @@
 
 using namespace std;
 
-typedef unordered_set<string> USetStr;
+typedef unordered_set<wstring> USetWstr;
 
-VecStr warningMsges;
+VecWstr warningMsges;
 
 void beginConnectionCheck(const string& current,
                           const string& original,
                           USetStr& noRepeat,
-                          const unordered_map<string, USetStr>& postBhvrRefBy);
+                          const unordered_map<wstring, USetWstr>& postBhvrRefBy);
 
 bool connectionCheckLoop(const string& current,
                          const string& original,
                          USetStr& noRepeat,
-                         const unordered_map<string, USetStr>& postBhvrRefBy,
+                         const unordered_map<wstring, USetWstr>& postBhvrRefBy,
                          const VecStr& characterList);
 
 bool isConnectedToCharacter(const string& current,
                             const string& original,
                             USetStr& noRepeat,
-                            const unordered_map<string, USetStr>& postBhvrRefBy,
+                            const unordered_map<wstring, USetWstr>& postBhvrRefBy,
                             const VecStr& characterList);
 
 void beginConnectionCheck(const string& current,
                           const string& original,
                           USetStr& noRepeat,
-                          const unordered_map<string, USetStr>& postBhvrRefBy)
+                          const unordered_map<wstring, USetWstr>& postBhvrRefBy)
 {
     string file = GetFileName(original);
     auto bhvitr = behaviorJoints.find(file);
@@ -45,7 +45,7 @@ void beginConnectionCheck(const string& current,
 bool connectionCheckLoop(const string& current,
                          const string& original,
                          USetStr& noRepeat,
-                         const unordered_map<string, USetStr>& postBhvrRefBy,
+                         const unordered_map<wstring, USetWstr>& postBhvrRefBy,
                          const VecStr& characterList)
 {
     if (noRepeat.find(current) != noRepeat.end()) return true;
@@ -61,10 +61,10 @@ bool connectionCheckLoop(const string& current,
 bool isConnectedToCharacter(const string& current,
                             const string& original,
                             USetStr& noRepeat,
-                            const unordered_map<string, USetStr>& postBhvrRefBy,
+                            const unordered_map<wstring, USetWstr>& postBhvrRefBy,
                             const VecStr& characterList)
 {
-    auto itr = postBhvrRefBy.find(current);
+    auto itr = postBhvrRefBy.find(nemesis::transform_to<wstring>(current));
 
     if (itr != postBhvrRefBy.end())
     {
@@ -72,7 +72,14 @@ bool isConnectedToCharacter(const string& current,
 
         for (auto& innerLoop : itr->second)
         {
-            if (connectionCheckLoop(innerLoop, original, noRepeat, postBhvrRefBy, characterList)) rst = true;
+            if (connectionCheckLoop(nemesis::transform_to<string>(innerLoop),
+                                    original,
+                                    noRepeat,
+                                    postBhvrRefBy,
+                                    characterList))
+            {
+                rst = true;
+            }
         }
 
         return rst;
@@ -143,7 +150,10 @@ void behaviorCheck(BehaviorStart* process)
 
     for (auto& behaviorfiles : process->postBhvrRefBy)
     {
-        beginConnectionCheck(behaviorfiles.first, behaviorfiles.first, noRepeat, process->postBhvrRefBy);
+        beginConnectionCheck(nemesis::transform_to<string>(behaviorfiles.first),
+                             nemesis::transform_to<string>(behaviorfiles.first),
+                             noRepeat,
+                             process->postBhvrRefBy);
     }
 }
 

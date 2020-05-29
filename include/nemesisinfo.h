@@ -12,8 +12,8 @@ extern bool SSE;
 class NemesisInfo
 {
     bool first = true;
-    std::string dataPath;
-    std::string stageDirectory;
+    std::wstring dataPath;
+    std::wstring stageDirectory;
     uint maxAnim       = 10000;
     uint width         = 526;
     uint height        = 750;
@@ -29,15 +29,17 @@ public:
 
     void iniFileUpdate();
 
-    std::string GetDataPath() const;
-    std::string GetStagePath() const;
-    uint GetMaxAnim() const;
-    bool IsFirst() const;
-    uint GetWidth() const;
-    uint GetHeight() const;
-    uint GetModNameWidth() const;
-    uint GetAuthorWidth() const;
-    uint GetPriorityWidth() const;
+    const std::wstring& GetDataPath() const;
+    const std::wstring& GetStagePath() const;
+    const std::string& GetDataPathA() const;
+    const std::string& GetStagePathA() const;
+    const uint& GetMaxAnim() const;
+    const bool& IsFirst() const;
+    const uint& GetWidth() const;
+    const uint& GetHeight() const;
+    const uint& GetModNameWidth() const;
+    const uint& GetAuthorWidth() const;
+    const uint& GetPriorityWidth() const;
 
     void setFirst(bool _first);
     void setWidth(uint _width);

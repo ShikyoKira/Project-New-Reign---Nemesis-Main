@@ -213,12 +213,12 @@ void NemesisEngine::setupUi()
 
     GetSettings();
 
-    this->setWindowTitle(QString::fromStdString(UIMessage(1000)));
+    this->setWindowTitle(QString::fromStdWString(UIMessage(1000)));
     ui.label->setPixmap(QPixmap(":/background/title header.png"));
-    ui.animProgressBar->setToolTip(QString::fromStdString(UIMessage(1004)));
-    ui.buttonUpdate->setText(QString::fromStdString(UIMessage(1003)));
-    ui.buttonCheck->setText(QString::fromStdString(UIMessage(1002)));
-    ui.buttonLaunch->setText(QString::fromStdString(UIMessage(1001)));
+    ui.animProgressBar->setToolTip(QString::fromStdWString(UIMessage(1004)));
+    ui.buttonUpdate->setText(QString::fromStdWString(UIMessage(1003)));
+    ui.buttonCheck->setText(QString::fromStdWString(UIMessage(1002)));
+    ui.buttonLaunch->setText(QString::fromStdWString(UIMessage(1001)));
 
     bool exception = false;
     nemesisInfo    = new NemesisInfo(exception);
@@ -274,12 +274,12 @@ void NemesisEngine::setupUi()
 
 void NemesisEngine::reset()
 {
-    this->setWindowTitle(QString::fromStdString(UIMessage(1000)));
+    this->setWindowTitle(QString::fromStdWString(UIMessage(1000)));
     ui.label->setPixmap(QPixmap(":/background/title header.png"));
-    ui.animProgressBar->setToolTip(QString::fromStdString(UIMessage(1004)));
-    ui.buttonUpdate->setText(QString::fromStdString(UIMessage(1003)));
-    ui.buttonCheck->setText(QString::fromStdString(UIMessage(1002)));
-    ui.buttonLaunch->setText(QString::fromStdString(UIMessage(1001)));
+    ui.animProgressBar->setToolTip(QString::fromStdWString(UIMessage(1004)));
+    ui.buttonUpdate->setText(QString::fromStdWString(UIMessage(1003)));
+    ui.buttonCheck->setText(QString::fromStdWString(UIMessage(1002)));
+    ui.buttonLaunch->setText(QString::fromStdWString(UIMessage(1001)));
 }
 
 void NemesisEngine::GetSettings()
@@ -449,7 +449,7 @@ void NemesisEngine::handleLaunch()
     if (terminated) return;
 
     ui.textBrowser->clear();
-    ui.textBrowser->append(QString::fromStdString(TextBoxMessage(1002)));
+    ui.textBrowser->append(QString::fromStdWString(TextBoxMessage(1002)));
     ui.progressBar->setHidden(false);
     ui.progressBar->setValue(0);
     ui.buttonLaunch->setDisabled(true);
@@ -524,7 +524,7 @@ void NemesisEngine::handleUpdate()
     ui.comboBox->setDisabled(true);
     ui.modView->setDisabled(true);
     ui.textBrowser->clear();
-    ui.textBrowser->append(QString::fromStdString(TextBoxMessage(1005)));
+    ui.textBrowser->append(QString::fromStdWString(TextBoxMessage(1005)));
     ui.textBrowser->append("");
 
     QThread* thread          = new QThread;
@@ -563,8 +563,8 @@ void NemesisEngine::handleCheck()
     QMessageBox::StandardButton reply;
 
     reply = QMessageBox::information(this,
-                                     QString::fromStdString(TextBoxMessage(1019)),
-                                     QString::fromStdString(TextBoxMessage(1018)),
+                                     QString::fromStdWString(TextBoxMessage(1019)),
+                                     QString::fromStdWString(TextBoxMessage(1018)),
                                      QMessageBox::Ok,
                                      QMessageBox::Abort);
 

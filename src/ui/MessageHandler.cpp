@@ -15,9 +15,7 @@ UpdateFilesStart* process1;
 BehaviorStart* process2;
 DummyLog* process3;
 
-extern void (*interMsgPtr)(std::string);
-
-void exterMsg(std::string input)
+void interMsg(std::string input)
 {
     if (process1) 
     { 
@@ -43,9 +41,30 @@ void exterMsg(std::string input)
     }
 }
 
-void initializeHandler()
+void interMsg(std::wstring input)
 {
-    interMsgPtr = &exterMsg;
+    if (process1)
+    {
+        process1->message(input);
+    }
+    else if (process2)
+    {
+        process2->message(input);
+    }
+    else if (process3)
+    {
+        process3->message(input);
+    }
+    else
+    {
+        DebugLogging(L"Non-captured message: " + input);
+        CEMsgBox* msgbox = new CEMsgBox;
+        msgbox->setWindowTitle("CRITICAL ERROR");
+        msgbox->setText(
+            "Access process violation. Running process not found. Report to Nemesis' author immediately.");
+        msgbox->show();
+        error = true;
+    }
 }
 
 void connectProcess(UpdateFilesStart* newProcess)

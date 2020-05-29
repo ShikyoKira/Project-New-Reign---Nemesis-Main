@@ -105,27 +105,27 @@ void ReadPCEA(const NemesisInfo* nemesisInfo)
     pcealist     = vector<PCEA>();
     animReplaced = unordered_map<string, vector<PCEAData>>();
 
-    VecStr folderlist;
-    string datapath = nemesisInfo->GetDataPath() + "meshes\\actors\\character\\Animations\\Nemesis_PCEA";
-    sf::path pceafolder(datapath + "\\PCEA_animations");
+    VecWstr folderlist;
+    wstring datapath = nemesisInfo->GetDataPath() + L"meshes\\actors\\character\\Animations\\Nemesis_PCEA";
+    sf::path pceafolder(datapath + L"\\PCEA_animations");
 
     if (isFileExist(pceafolder.string())) Delete(pceafolder);
 
-    if (!FolderCreate(datapath + "\\PCEA_animations\\")) return;
+    if (!FolderCreate(datapath + L"\\PCEA_animations\\")) return;
 
     read_directory(datapath, folderlist);
     map<unsigned short, PCEA> modlist;
-    map<unsigned short, string> pceaFolderMapList;
+    map<unsigned short, wstring> pceaFolderMapList;
 
     for (auto& folder : folderlist)
     {
-        string path = datapath + "\\" + folder;
+        wstring path = datapath + L"\\" + folder;
 
         if (isdigit(folder[0]) && sf::is_directory(path))
         {
-            unsigned short number = static_cast<unsigned short>(
-                stoi(nemesis::regex_replace(string(folder), nemesis::regex("([0-9]+)[^\n]+"), string("\\1"))));
-            pceaFolderMapList[number] = path + "|" + folder;
+            unsigned short number     = static_cast<unsigned short>(stoi(nemesis::wregex_replace(
+                wstring(folder), nemesis::wregex(L"([0-9]+)[^\n]+"), wstring(L"\\1"))));
+            pceaFolderMapList[number] = path + L"|" + folder;
         }
 
         if (error) throw nemesis::exception();
@@ -133,7 +133,7 @@ void ReadPCEA(const NemesisInfo* nemesisInfo)
 
     for (auto& pceaFolderMap : pceaFolderMapList)
     {
-        string folder         = pceaFolderMap.second;
+        string folder         = nemesis::transform_to<string>(pceaFolderMap.second);
         unsigned short number = pceaFolderMap.first;
 
         if (modlist.find(number) == modlist.end())
@@ -152,7 +152,7 @@ void ReadPCEA(const NemesisInfo* nemesisInfo)
 
     if (modlist.size() > 0)
     {
-        interMsg(TextBoxMessage(1006) + ": Nemesis PCEA\n");
+        interMsg(TextBoxMessage(1006) + L": Nemesis PCEA\n");
         DebugLogging(EngTextBoxMessage(1006) + ": Nemesis PCEA");
     }
 
@@ -177,18 +177,13 @@ void ReadPCEA(const NemesisInfo* nemesisInfo)
 
 bool PCEAInstallation(const NemesisInfo* nemesisInfo)
 {
-#ifdef DEBUG
-    string import = "data\\scripts\\source";
-#else
-    string import = nemesisInfo->GetDataPath() + "scripts\\source";
-#endif
-
-    string filename = nemesisInfo->GetDataPath() + "Nemesis PCEA.esp";
+    sf::path import(nemesisInfo->GetDataPath() + L"scripts\\source");
+    wstring filename = nemesisInfo->GetDataPath() + L"Nemesis PCEA.esp";
     DebugLogging(filename);
 
     {
         FILE* f;
-        fopen_s(&f, filename.c_str(), "r+b");
+        fopen_s(&f, nemesis::transform_to<string>(filename).c_str(), "r+b");
 
         if (f)
         {
@@ -371,11 +366,11 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
 
     if (error) throw nemesis::exception();
 
-    string destination = nemesisInfo->GetDataPath() + "scripts";
-    string filepath    = destination + "\\Nemesis_PCEA_Core.pex";
+    sf::path destination(nemesisInfo->GetDataPath() + L"scripts");
+    sf::path filepath(destination.wstring() + L"\\Nemesis_PCEA_Core.pex");
 
     if (!PapyrusCompile(pscfile,
-                        nemesis::transform_to<wstring>(import),
+                        import,
                         destination,
                         filepath,
                         cachedir,

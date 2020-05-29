@@ -12,7 +12,9 @@
 
 using namespace std;
 
-VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, string file)
+std::wstring DMLogError(int errorcode);
+
+VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID)
 {
     VecStr behaviorlines;
     ImportContainer newExportID;
@@ -377,7 +379,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID, 
 	if (newExportID.size() != 0)
 	{
 		ExportID.push_back(newExportID);
-		VecStr additionlines = importOutput(ExportID, int(ExportID.size() - 1), lastID, file);
+		VecStr additionlines = importOutput(ExportID, int(ExportID.size() - 1), lastID);
 		behaviorlines.reserve(behaviorlines.size() + additionlines.size());
 		behaviorlines.insert(behaviorlines.end(), additionlines.begin(), additionlines.end());
 	}

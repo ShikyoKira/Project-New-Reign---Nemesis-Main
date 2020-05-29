@@ -45,10 +45,10 @@ private:
     std::string zeroVariable;
 
     std::string behaviorFile;
-    std::string filepath;
     std::string filename;
     std::string format;
     std::string strID;
+    std::string filepath;
 
     // VecStr clipname;		obsolete
     VecStr eventID;
@@ -306,16 +306,16 @@ void animObjectReplacer(std::string& line,
                         bool otherAnim      = false,
                         std::string animNum = "");
 void eventIDReplacer(std::string& line,
-                     std::string format,
-                     std::string filename,
-                     ID eventid,
-                     std::string firstEvent,
+                     const std::string& format,
+                     const std::string& filename,
+                     const ID& eventid,
+                     const std::string& firstEvent,
                      int linecount);
 void variableIDReplacer(std::string& line,
-                        std::string format,
-                        std::string filename,
-                        ID variableid,
-                        std::string firstVariable,
+                        const std::string& format,
+                        const std::string& filename,
+                        const ID& variableid,
+                        const std::string& firstVariable,
                         int linecount);
 VecStr GetOptionInfo(std::string line,
                      std::string format,

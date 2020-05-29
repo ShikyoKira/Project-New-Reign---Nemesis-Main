@@ -20,9 +20,8 @@ atomic<int> progressPercentage;
 DebugMsg DMLog;
 DebugMsg* EnglishLog;
 
-void (*interMsgPtr)(string);
+VecWstr readUTF8File(wstring filename);
 
-VecStr readUTF8File(wstring filename);
 void writeUTF8File(string filename, VecStr storeline);
 
 void NewDebugMessage(DebugMsg NewLog)
@@ -45,7 +44,7 @@ DebugMsg::DebugMsg(wstring language)
 void DebugMsg::setup(const wstring& language)
 {
     wstring filename = L"languages\\" + language + L".txt";
-    VecStr storeline = readUTF8File(filename);
+    VecWstr storeline = readUTF8File(filename);
 
     if (error) throw nemesis::exception();
 
@@ -53,59 +52,59 @@ void DebugMsg::setup(const wstring& language)
     {
         if (storeline[i][0] != '\'' && storeline[i].length() != 0)
         {
-            __int64 counter = sameWordCount(storeline[i], "\\n");
+            __int64 counter = sameWordCount(storeline[i], L"\\n");
 
             for (int j = 0; j < counter; ++j)
             {
-                storeline[i].replace(storeline[i].find("\\n"), 2, "\n");
+                storeline[i].replace(storeline[i].find(L"\\n"), 2, L"\n");
             }
 
-            if (wordFind(storeline[i], "UIT ") == 0)
+            if (wordFind(storeline[i], L"UIT ") == 0)
             {
-                if (storeline[i].find("=") != NOT_FOUND)
+                if (storeline[i].find(L"=") != NOT_FOUND)
                 {
-                    string code = storeline[i].substr(4, storeline[i].find("=") - 4);
+                    wstring code = storeline[i].substr(4, storeline[i].find(L"=") - 4);
 
-                    if (isOnlyNumber(code)) uilist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1); 
+                    if (isOnlyNumber(code)) uilist[stoi(code)] = storeline[i].substr(storeline[i].find(L"=") + 1); 
 
                 }
             }
-            else if (wordFind(storeline[i], "TBT ") == 0)
+            else if (wordFind(storeline[i], L"TBT ") == 0)
             {
-                if (storeline[i].find("=") != NOT_FOUND)
+                if (storeline[i].find(L"=") != NOT_FOUND)
                 {
-                    string code = storeline[i].substr(4, storeline[i].find("=") - 4);
+                    wstring code = storeline[i].substr(4, storeline[i].find(L"=") - 4);
 
-                    if (isOnlyNumber(code)) textlist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1);
+                    if (isOnlyNumber(code)) textlist[stoi(code)] = storeline[i].substr(storeline[i].find(L"=") + 1);
                 }
             }
-            else if (wordFind(storeline[i], "ERR ") == 0)
+            else if (wordFind(storeline[i], L"ERR ") == 0)
             {
-                if (storeline[i].find("=") != NOT_FOUND)
+                if (storeline[i].find(L"=") != NOT_FOUND)
                 {
-                    string code = storeline[i].substr(4, storeline[i].find("=") - 4);
+                    wstring code = storeline[i].substr(4, storeline[i].find(L"=") - 4);
 
-                    if (isOnlyNumber(code)) errorlist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1);
+                    if (isOnlyNumber(code)) errorlist[stoi(code)] = storeline[i].substr(storeline[i].find(L"=") + 1);
                 }
             }
-            else if (wordFind(storeline[i], "WAR ") == 0)
+            else if (wordFind(storeline[i], L"WAR ") == 0)
             {
-                if (storeline[i].find("=") != NOT_FOUND)
+                if (storeline[i].find(L"=") != NOT_FOUND)
                 {
-                    string code = storeline[i].substr(4, storeline[i].find("=") - 4);
+                    wstring code = storeline[i].substr(4, storeline[i].find(L"=") - 4);
 
-                    if (isOnlyNumber(code)) warninglist[stoi(code)] = storeline[i].substr(storeline[i].find("=") + 1);
+                    if (isOnlyNumber(code)) warninglist[stoi(code)] = storeline[i].substr(storeline[i].find(L"=") + 1);
                 }
             }
         }
     }
 }
 
-VecStr readUTF8File(wstring filename)
+VecWstr readUTF8File(wstring filename)
 {
-    VecStr storeline;
+    VecWstr storeline;
     FileReader file(filename);
-    string line;
+    wstring line;
 
     if (file.GetFile())
     {
@@ -141,24 +140,24 @@ void writeUTF8File(string filename, VecStr storeline)
     }
 }
 
-string DMLogError(int errorcode)
+wstring DMLogError(int errorcode)
 {
     return DMLog.errorlist[errorcode];
 }
 
-string DMLogWarning(int warningcode)
+wstring DMLogWarning(int warningcode)
 {
     return DMLog.warninglist[warningcode];
 }
 
 string EngLogError(int errorcode)
 {
-    return EnglishLog->errorlist[errorcode];
+    return nemesis::transform_to<string>(EnglishLog->errorlist[errorcode]);
 }
 
 string EngLogWarning(int warningcode)
 {
-    return EnglishLog->warninglist[warningcode];
+    return nemesis::transform_to<string>(EnglishLog->warninglist[warningcode]);
 }
 
 void ErrorMessage(int errorcode)
@@ -167,8 +166,8 @@ void ErrorMessage(int errorcode)
 
     if (error) throw nemesis::exception();
 
-    error                = true;
-    std::string errormsg = "ERROR(" + std::to_string(errorcode) + "): " + DMLogError(errorcode);
+    error                 = true;
+    std::wstring errormsg = L"ERROR(" + std::to_wstring(errorcode) + L"): " + DMLogError(errorcode);
 
     if (DMLogError(errorcode).length() == 0)
     {
@@ -177,19 +176,41 @@ void ErrorMessage(int errorcode)
         return;
     }
 
-    interMsg(errormsg + "\n");
+    interMsg(errormsg + L"\n");
     DebugLogging("ERROR(" + std::to_string(errorcode) + "): " + EngLogError(errorcode));
     throw nemesis::exception();
 }
 
-string TextBoxMessage(int textcode)
+void WarningMessage(int warningcode)
 {
-    if (DMLogWarning(textcode).length() == 0)
+    scoped_lock<mutex> err_Lock(err_Mutex);
+
+    if (error) throw nemesis::exception();
+
+    wstring warninmsg = L"WARNING(" + to_wstring(warningcode) + L"): " + DMLogWarning(warningcode);
+
+    if (DMLogWarning(warningcode).length() == 0)
+    {
+        warninmsg
+            = L"CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis";
+        interMsg(warninmsg + L"\n");
+        error = true;
+        return;
+    }
+
+    warningMsges.push_back(warninmsg + L"\n");
+    DebugLogging("WARNING(" + std::to_string(warningcode) + "): " + EngLogWarning(warningcode));
+}
+
+
+wstring TextBoxMessage(int textcode)
+{
+    if (DMLog.textlist[textcode].length() == 0)
     {
         interMsg(
             "CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
         error = true;
-        return "";
+        return L"";
     }
 
     return DMLog.textlist[textcode];
@@ -197,7 +218,7 @@ string TextBoxMessage(int textcode)
 
 string EngTextBoxMessage(int textcode)
 {
-    if (DMLogWarning(textcode).length() == 0)
+    if (EnglishLog->textlist[textcode].length() == 0)
     {
         interMsg(
             "CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
@@ -205,24 +226,18 @@ string EngTextBoxMessage(int textcode)
         return "";
     }
 
-    return EnglishLog->textlist[textcode];
+    return nemesis::transform_to<string>(EnglishLog->textlist[textcode]);
 }
 
-string UIMessage(int uicode)
+wstring UIMessage(int uicode)
 {
     if (DMLogWarning(uicode).length() == 0)
     {
         interMsg(
             "CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
         error = true;
-        return "";
+        return L"";
     }
 
     return DMLog.uilist[uicode];
-}
-
-void interMsg(string input)
-{
-    // connect to UI Message Handler
-    (*interMsgPtr)(input);
 }

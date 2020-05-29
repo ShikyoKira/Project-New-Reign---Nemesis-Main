@@ -7,7 +7,6 @@
 #include "nemesisinfo.h"
 #include "version.h"
 
-#include "ui/MessageHandler.h"
 #include "ui/Terminator.h"
 
 #include "utilities/filechecker.h"
@@ -449,70 +448,71 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
     {
         if (curBehavior == nullptr) return;
 
-        string curFileName  = curBehavior->file.stem().string();
-        string fileFullName = curBehavior->file.filename().string();
-        string newPath      = curBehavior->file.string();
+        wstring curFileName  = curBehavior->file.stem().wstring();
+        string curFileNameA  = curBehavior->file.stem().string();
+        wstring fileFullName = curBehavior->file.filename().wstring();
+        wstring newPath      = curBehavior->file.wstring();
 
-        if (nemesis::iequals(curFileName, "nemesis_animationdatasinglefile"))
+        if (nemesis::iequals(curFileName, L"nemesis_animationdatasinglefile"))
         {
             curFileName = curFileName.substr(8);
-            DebugLogging("AnimData Disassemble start (File: " + newPath + ")");
+            DebugLogging(L"AnimData Disassemble start (File: " + newPath + L")");
 
             {
 #if MULTITHREADED_UPDATE
                 Lockless lock(behaviorPathLock);
 #endif
                 behaviorPath[nemesis::to_lower_copy(curFileName)]
-                    = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
+                    = nemesis::to_lower_copy(curBehavior->file.parent_path().wstring() + L"\\" + curFileName);
             }
 
             if (!AnimDataDisassemble(newPath, animData)) return;
 
             saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate);
 
-            DebugLogging("AnimData Disassemble complete (File: " + newPath + ")");
+            DebugLogging(L"AnimData Disassemble complete (File: " + newPath + L")");
             emit progressUp();
         }
-        else if (nemesis::iequals(curFileName, "nemesis_animationsetdatasinglefile"))
+        else if (nemesis::iequals(curFileName, L"nemesis_animationsetdatasinglefile"))
         {
             curFileName = curFileName.substr(8);
-            DebugLogging("AnimSetData Disassemble start (File: " + newPath + ")");
+            DebugLogging(L"AnimSetData Disassemble start (File: " + newPath + L")");
 
             {
 #if MULTITHREADED_UPDATE
                 Lockless lock(behaviorPathLock);
 #endif
                 behaviorPath[nemesis::to_lower_copy(curFileName)]
-                    = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\" + curFileName);
+                    = nemesis::to_lower_copy(curBehavior->file.parent_path().wstring() + L"\\" + curFileName);
             }
 
             if (!AnimSetDataDisassemble(newPath, animSetData)) return;
 
             saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate);
 
-            DebugLogging("AnimSetData Disassemble complete (File: " + newPath + ")");
+            DebugLogging(L"AnimSetData Disassemble complete (File: " + newPath + L")");
 
             emit progressUp();
         }
-        else if (wordFind(curFileName, "Nemesis_") == 0
-                 && wordFind(curFileName, "_List") != curFileName.length() - 5
-                 && wordFind(curFileName, "_Project") != curFileName.length() - 8)
+        else if (wordFind(curFileName, L"Nemesis_") == 0
+                 && wordFind(curFileName, L"_List") != curFileName.length() - 5
+                 && wordFind(curFileName, L"_Project") != curFileName.length() - 8)
         {
-            string firstperson = "";
+            wstring firstperson = L"";
 
-            if (curBehavior->isFirstPerson) firstperson = "_1stperson\\";
+            if (curBehavior->isFirstPerson) firstperson = L"_1stperson\\";
 
             curFileName = firstperson + curFileName.substr(8);
             nemesis::to_lower(curFileName);
-            DebugLogging("Behavior Disassemble start (File: " + newPath + ")");
+            DebugLogging(L"Behavior Disassemble start (File: " + newPath + L")");
 
             {
 #if MULTITHREADED_UPDATE
                 Lockless lock(behaviorPathLock);
 #endif
                 behaviorPath[curFileName]
-                    = nemesis::to_lower_copy(curBehavior->file.parent_path().string() + "\\"
-                                             + curBehavior->file.stem().string().substr(8));
+                    = nemesis::to_lower_copy(curBehavior->file.parent_path().wstring() + L"\\"
+                                             + curBehavior->file.stem().wstring().substr(8));
             }
 
             unique_ptr<map<string, VecStr, alphanum_less>> _curNewFile
@@ -528,32 +528,32 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 #if MULTITHREADED_UPDATE
                 Lockless lock(newFileLock);
 #endif
-                newFile[curFileName]       = move(_curNewFile);
-                childrenState[curFileName] = move(_childrenState);
-                stateID[curFileName]       = move(_stateID);
-                parent[curFileName]        = move(_parent);
+                newFile[curFileNameA]       = move(_curNewFile);
+                childrenState[curFileNameA] = move(_childrenState);
+                stateID[curFileNameA]       = move(_stateID);
+                parent[curFileNameA]        = move(_parent);
             }
 
             saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate);
 
-            DebugLogging("Behavior Disassemble complete (File: " + newPath + ")");
+            DebugLogging(L"Behavior Disassemble complete (File: " + newPath + L")");
             emit progressUp();
 
-            if (nemesis::to_lower_copy(curBehavior->file.parent_path().filename().string()).find("characters")
+            if (nemesis::to_lower_copy(curBehavior->file.parent_path().filename().wstring()).find(L"characters")
                 == 0)
             {
-                registeredAnim[nemesis::to_lower_copy(curFileName)] = SetStr();
+                registeredAnim[nemesis::to_lower_copy(curFileNameA)] = SetStr();
             }
         }
-        else if (wordFind(curFileName, "Nemesis_") == 0
-                 && wordFind(curFileName, "_Project") + 8 == curFileName.length())
+        else if (wordFind(curFileName, L"Nemesis_") == 0
+                 && wordFind(curFileName, L"_Project") + 8 == curFileName.length())
         {
-            string firstperson = "";
+            wstring firstperson = L"";
 
-            if (curBehavior->isFirstPerson) firstperson = "_1stperson\\";
+            if (curBehavior->isFirstPerson) firstperson = L"_1stperson\\";
 
-            string curPath = nemesis::to_lower_copy(curBehavior->file.parent_path().string());
-            curPath        = curPath.substr(curPath.find("\\meshes\\") + 1);
+            wstring curPath = nemesis::to_lower_copy(curBehavior->file.parent_path().wstring());
+            curPath        = curPath.substr(curPath.find(L"\\meshes\\") + 1);
             curFileName
                 = nemesis::to_lower_copy(firstperson + curFileName.substr(8, curFileName.length() - 16));
 
@@ -566,7 +566,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 
             VecStr storeline;
             bool record = false;
-            DebugLogging("Nemesis Project Record start (File: " + newPath + ")");
+            DebugLogging(L"Nemesis Project Record start (File: " + newPath + L")");
 
             if (!GetFunctionLines(newPath, storeline)) return;
 
@@ -588,7 +588,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 #if MULTITHREADED_UPDATE
                     Lockless lock(behaviorProjectLock);
 #endif
-                    behaviorProject[characterfile.data()].push_back(curFileName);
+                    behaviorProject[characterfile.data()].push_back(nemesis::transform_to<string>(curFileName));
                 }
 
                 if (line.find("<hkparam name=\"characterFilenames\" numelements=\"") != NOT_FOUND
@@ -599,7 +599,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
             saveLastUpdate(nemesis::to_lower_copy(newPath), lastUpdate);
 
             emit progressUp();
-            DebugLogging("Nemesis Project Record complete (File: " + newPath + ")");
+            DebugLogging(L"Nemesis Project Record complete (File: " + newPath + L")");
         }
     }
     catch (const exception& ex)
@@ -608,7 +608,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
     }
 }
 
-void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
+void UpdateFilesStart::GetPathLoop(const filesystem::path& path, bool isFirstPerson)
 {
     try
     {
@@ -616,12 +616,12 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
         {
             try
             {
-                VecStr filelist;
+                VecWstr filelist;
                 read_directory(path, filelist);
 
                 for (auto& file : filelist)
                 {
-                    string newPath = path + file;
+                    wstring newPath = path.wstring() + file;
                     sf::path curfile(newPath);
 
                     if (!sf::is_directory(curfile))
@@ -656,8 +656,8 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
                     }
                     else
                     {
-                        GetPathLoop(newPath + "\\",
-                                    (nemesis::iequals(file, "_1stperson") ? true : isFirstPerson));
+                        GetPathLoop(newPath + L"\\",
+                                    (nemesis::iequals(file, L"_1stperson") ? true : isFirstPerson));
                     }
 
                     if (error) throw nemesis::exception();
@@ -686,7 +686,7 @@ void UpdateFilesStart::GetPathLoop(string path, bool isFirstPerson)
     }
 }
 
-bool UpdateFilesStart::VanillaDisassemble(const string& path,
+bool UpdateFilesStart::VanillaDisassemble(const wstring& path,
                                           unique_ptr<map<string, VecStr, alphanum_less>>& curNewFile,
                                           unique_ptr<map<string, unordered_map<string, bool>>>& childrenState,
                                           unique_ptr<SSMap>& stateID,
@@ -970,7 +970,7 @@ bool UpdateFilesStart::VanillaDisassemble(const string& path,
     return true;
 }
 
-bool UpdateFilesStart::AnimDataDisassemble(const string& path, MasterAnimData& animData)
+bool UpdateFilesStart::AnimDataDisassemble(const wstring& path, MasterAnimData& animData)
 {
 #if MULTITHREADED_UPDATE
     scoped_lock<mutex> adlock(admtx);
@@ -1076,7 +1076,7 @@ bool UpdateFilesStart::AnimDataDisassemble(const string& path, MasterAnimData& a
     return true;
 }
 
-bool UpdateFilesStart::AnimSetDataDisassemble(const string& path, MasterAnimSetData& animSetData)
+bool UpdateFilesStart::AnimSetDataDisassemble(const wstring& path, MasterAnimSetData& animSetData)
 {
 #if MULTITHREADED_UPDATE
     scoped_lock<mutex> asdlock(asdmtx);
@@ -1811,7 +1811,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 void UpdateFilesStart::CombiningFiles()
 {
     VecStr fileline;
-    string compilingfolder     = getTempBhvrPath() + "\\";
+    wstring compilingfolder     = getTempBhvrPath().wstring() + L"\\";
     unsigned long long bigNum  = CRC32Convert(GetNemesisVersion());
     unsigned long long bigNum2 = bigNum;
 
@@ -1881,17 +1881,17 @@ void UpdateFilesStart::CombiningFiles()
         if (CreateFolder(compilingfolder))
         {
             string lowerBehaviorFile = behavior.first;
-            string filename          = compilingfolder + lowerBehaviorFile + ".txt";
-            bool firstPerson         = lowerBehaviorFile.find("_1stperson\\") == 0;
+            wstring filepath = compilingfolder + nemesis::transform_to<wstring>(lowerBehaviorFile) + L".txt";
+            bool firstPerson = lowerBehaviorFile.find("_1stperson\\") == 0;
 
-            if (firstPerson) sf::create_directory(sf::path(compilingfolder + "_1stperson\\"));
+            if (firstPerson) sf::create_directory(compilingfolder + L"_1stperson\\");
 
-            FileWriter output(filename);
+            FileWriter output(filepath);
 
             if (output.is_open())
             {
                 bool behaviorRef = false;
-                string total     = filename + "\n";
+                string total     = nemesis::transform_to<string>(filepath) + "\n";
 
                 writeSave(output, "<?xml version=\"1.0\" encoding=\"ascii\"?>\n", total);
                 writeSave(
@@ -1951,7 +1951,7 @@ void UpdateFilesStart::CombiningFiles()
             }
             else
             {
-                ErrorMessage(2009, filename);
+                ErrorMessage(2009, filepath);
             }
         }
     }
@@ -1961,15 +1961,15 @@ void UpdateFilesStart::CombiningFiles()
 
     if (CreateFolder(compilingfolder))
     {
-        string filename = compilingfolder + "animationdatasinglefile.txt";
-        FileWriter output(filename);
+        wstring filepath = compilingfolder + L"animationdatasinglefile.txt";
+        FileWriter output(filepath);
         FileWriter outputlist("cache\\animationdata_list");
 
         if (output.is_open())
         {
             if (outputlist.is_open())
             {
-                string total = filename + "\n";
+                string total = nemesis::transform_to<string>(filepath) + "\n";
                 animData.writelines(output);
             }
             else
@@ -1979,22 +1979,22 @@ void UpdateFilesStart::CombiningFiles()
         }
         else
         {
-            ErrorMessage(2009, filename);
+            ErrorMessage(2009, filepath);
         }
     }
     emit progressUp(); // 29
 
     if (CreateFolder(compilingfolder))
     {
-        string filename = compilingfolder + "animationsetdatasinglefile.txt";
-        FileWriter output(filename);
+        wstring filepath = compilingfolder + L"animationsetdatasinglefile.txt";
+        FileWriter output(filepath);
         FileWriter outputlist("cache\\animationsetdata_list");
 
         if (output.is_open())
         {
             if (outputlist.is_open())
             {
-                string total = filename + "\n";
+                string total = nemesis::transform_to<string>(filepath) + "\n";
                 writeSave(output, to_string(animSetData.projectList.size() - 1) + "\n", total);
 
                 for (string& header : animSetData.newAnimSetData["$header$"]["$header$"])
@@ -2042,7 +2042,7 @@ void UpdateFilesStart::CombiningFiles()
         }
         else
         {
-            ErrorMessage(2009, filename);
+            ErrorMessage(2009, filepath);
         }
     }
 
@@ -2058,7 +2058,7 @@ void UpdateFilesStart::CombiningFiles()
 
         for (auto& it : lastUpdate)
         {
-            lastmod << it.first + ">>" + it.second + "\n";
+            lastmod << it.first + L">>" + it.second + L"\n";
         }
     }
     else
@@ -2262,18 +2262,13 @@ void UpdateFilesStart::milestoneStart(string directory)
         return;
     }
 
-    string curdir = QCoreApplication::applicationDirPath().toStdString();
-    replace(curdir.begin(), curdir.end(), '/', '\\');
-    DebugLogging("Current Directory: " + curdir);
-    DebugLogging("Data Directory: " + nemesisInfo->GetDataPath());
+    wstring curdir = QCoreApplication::applicationDirPath().toStdWString();
+    replace(curdir.begin(), curdir.end(), L'/', L'\\');
+    DebugLogging(L"Current Directory: " + curdir);
+    DebugLogging(L"Data Directory: " + nemesisInfo->GetDataPath());
     DebugLogging("Skyrim Special Edition: " + string(SSE ? "TRUE" : "FALSE"));
     filenum = 32;
-
-#ifdef DEBUG
-    string path = "data\\";
-#else
-    string path = nemesisInfo->GetDataPath() + "meshes";
-#endif
+    wstring path = nemesisInfo->GetDataPath() + L"meshes";
 
     DebugLogging("Detecting processes...");
 
@@ -2281,7 +2276,7 @@ void UpdateFilesStart::milestoneStart(string directory)
 
     queuing = 0;
 
-    GetPathLoop(nemesisInfo->GetDataPath() + "meshes\\", false);
+    GetPathLoop(nemesisInfo->GetDataPath() + L"meshes\\", false);
 
     filenum += registeredFiles.size();
 
@@ -2299,6 +2294,11 @@ void UpdateFilesStart::message(string input)
     emit incomingMessage(QString::fromStdString(input));
 }
 
+void UpdateFilesStart::message(wstring input)
+{
+    emit incomingMessage(QString::fromStdWString(input));
+}
+
 void UpdateFilesStart::unregisterProcess()
 {
     if (!error)
@@ -2307,13 +2307,13 @@ void UpdateFilesStart::unregisterProcess()
 
         if (error)
         {
-            string msg = TextBoxMessage(1008);
+            wstring msg = TextBoxMessage(1008);
             interMsg(msg);
             DebugLogging(msg);
         }
         else
         {
-            string msg;
+            wstring msg;
             chrono::duration diff = chrono::steady_clock::now() - start_time;
 
 #if MILLISECONDS
@@ -2336,14 +2336,14 @@ void UpdateFilesStart::unregisterProcess()
                 msg = TextBoxMessage(1007) + ": " + to_string(second) + " " + TextBoxMessage(1011);
             }
 #else
-            msg = TextBoxMessage(1007) + ": "
-                  + to_string(chrono::duration_cast<chrono::seconds>(diff).count()) + " "
+            msg = TextBoxMessage(1007) + L": "
+                  + to_wstring(chrono::duration_cast<chrono::seconds>(diff).count()) + L" "
                   + TextBoxMessage(1012);
 #endif
 
             interMsg(msg);
             DebugLogging(msg);
-            msg = TextBoxMessage(1017) + ": " + engineVersion;
+            msg = TextBoxMessage(1017) + L": " + nemesis::transform_to<wstring>(engineVersion);
             interMsg(msg);
             DebugLogging(msg);
             emit disableLaunch(false);
@@ -2351,7 +2351,7 @@ void UpdateFilesStart::unregisterProcess()
     }
     else
     {
-        string msg = TextBoxMessage(1008);
+        wstring msg = TextBoxMessage(1008);
         interMsg(msg);
         DebugLogging(msg);
     }

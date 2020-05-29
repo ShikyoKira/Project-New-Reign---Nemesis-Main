@@ -4,6 +4,7 @@
 
 #include "connector.h"
 
+#include "ui/UiModInfo.h"
 #include "ui/Terminator.h"
 
 #include "utilities/algorithm.h"
@@ -15,7 +16,7 @@ using namespace std;
 mutex processlock;
 condition_variable cv;
 bool processdone = false;
-map<string, VecStr> modinfo;
+map<wstring, shared_ptr<UiModInfo>> modinfo;
 
 VecStr hiddenMods;
 atomic<int> m_RunningThread;
@@ -29,20 +30,20 @@ bool isRunning(Terminator*& curEvent)
 	return true;
 }
 
-bool readMod(string& errormsg)
+bool readMod(wstring& errormsg)
 {
-	string folder = "mod\\";
-	VecStr modlist;
+	wstring folder = L"mod\\";
+	VecWstr modlist;
 	read_directory(folder, modlist);
 
 
 	for (auto& modcode : modlist)
 	{
-		if (std::filesystem::is_directory(folder + modcode) && isFileExist(folder + modcode + "\\info.ini"))
+		if (std::filesystem::is_directory(folder + modcode) && isFileExist(folder + modcode + L"\\info.ini"))
 		{
-			string filename = folder + modcode + "\\info.ini";
-			VecStr storeline;
-			string name, author, site, automatic, hide;
+			wstring filename = folder + modcode + L"\\info.ini";
+			VecWstr storeline;
+			wstring name, author, site, automatic, hide;
 			bool hidden = false;
 
 			if (!GetFunctionLines(filename, storeline, false)) return false;
@@ -51,44 +52,44 @@ bool readMod(string& errormsg)
 			{
 				while (true)
 				{
-					size_t pos = wordFind(line, "name=");
+					size_t pos = wordFind(line, L"name=");
 
 					if (pos == 0)
 					{
-						name = line.substr(line.find("=") + 1);
+						name = line.substr(line.find(L"=") + 1);
 						break;
 					}
 
-					pos = wordFind(line, "author=");
+					pos = wordFind(line, L"author=");
 
 					if (pos == 0)
 					{
-						author = line.substr(line.find("=") + 1);
+						author = line.substr(line.find(L"=") + 1);
 						break;
 					}
 
-					pos = wordFind(line, "site=");
+					pos = wordFind(line, L"site=");
 
 					if (pos == 0)
 					{
-						site = line.substr(line.find("=") + 1);
+						site = line.substr(line.find(L"=") + 1);
 						break;
 					}
 
-					pos = wordFind(line, "auto=");
+					pos = wordFind(line, L"auto=");
 
 					if (pos == 0)
 					{
-						automatic = line.substr(line.find("=") + 1);
+						automatic = line.substr(line.find(L"=") + 1);
 					}
 
-					pos = wordFind(line, "hidden=");
+					pos = wordFind(line, L"hidden=");
 
 					if (pos == 0)
 					{
-						hide = line.substr(line.find("=") + 1);
+						hide = line.substr(line.find(L"=") + 1);
 						nemesis::to_lower(hide);
-						istringstream stream(hide);
+						wistringstream stream(hide);
 						stream >> boolalpha >> hidden;
 					}
 
@@ -98,19 +99,17 @@ bool readMod(string& errormsg)
 
 			if (name.length() == 0 || author.length() == 0 || site.length() == 0)
 			{
-				errormsg = TextBoxMessage(1014) + " " + modcode;
+				errormsg = TextBoxMessage(1014) + L" " + modcode;
 				return false;
 			}
 
 			if (!hidden)
-			{
-				modinfo[modcode].push_back(name + " (" + site + ")");
-				modinfo[modcode].push_back(author);
-				modinfo[modcode].push_back(automatic);
+            {
+                modinfo[modcode] = make_shared<UiModInfo>(name + L" (" + site + L")", author, automatic);
 			}
 			else
 			{
-				hiddenMods.push_back(modcode);
+				hiddenMods.push_back(nemesis::transform_to<string>(modcode));
 			}
 		}
 	}
@@ -121,6 +120,11 @@ bool readMod(string& errormsg)
 void DummyLog::message(std::string input)
 {
 	emit incomingMessage(QString::fromStdString(input));
+}
+
+void DummyLog::message(std::wstring input)
+{
+    emit incomingMessage(QString::fromStdWString(input));
 }
 
 VecStr getHiddenMods()

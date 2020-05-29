@@ -28,7 +28,6 @@ struct AnimationDataProject
     {}
     AnimationDataProject(int& startline,
                          VecStr& animdatafile,
-                         std::string filename,
                          std::string projectname,
                          const NemesisInfo* nemesisInfo);
 };

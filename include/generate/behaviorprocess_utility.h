@@ -40,6 +40,7 @@ void processExistFuncID(std::vector<int>& funcIDs,
                         const std::string& behaviorFile,
                         std::unordered_map<int, std::shared_ptr<NodeJoint>>& existingNodes);
 void redirToStageDir(std::string& outpath);
-std::string getTempBhvrPath();
+void redirToStageDir(std::wstring& outpath);
+std::filesystem::path getTempBhvrPath();
 
 #endif

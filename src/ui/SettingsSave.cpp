@@ -223,7 +223,7 @@ bool getCache(std::wstring& language, std::unordered_map<std::string, bool>& cho
     return false;
 }
 
-bool getOrderCache(std::vector<std::string>& orderList)
+bool getOrderCache(VecStr& orderList)
 {
     if (!isFileExist("cache"))
     {

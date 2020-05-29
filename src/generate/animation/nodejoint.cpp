@@ -13,53 +13,61 @@
 
 using namespace std;
 
-extern bool newCondition(string condition,
-                         string filename,
-                         vector<vector<unordered_map<string, bool>>> optionPicked,
-                         vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo,
-                         int numline,
-                         string format,
-                         string masterformat,
-                         AnimationUtility utility);
-extern VecStr GetOptionInfo(string line,
-                            string format,
-                            string filename,
-                            int numline,
-                            vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo,
-                            bool allowNoFixAnim,
-                            bool isCondition,
-                            int groupMulti     = -1,
-                            int animMulti      = -1,
-                            int optionMulti    = -1,
-                            string multiOption = "");
-extern int formatGroupReplace(string& curline,
-                              string oriline,
-                              int point,
-                              string filename,
-                              string format,
-                              shared_ptr<master> subFunctionIDs,
-                              vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo,
-                              int linecount,
-                              int groupMulti,
-                              int optionMulti,
-                              int animMulti,
-                              string multiOption,
-                              bool& innerError);
-extern void
-eventIDReplacer(string& line, string format, string filename, ID eventid, string firstEvent, int linecount);
-extern void variableIDReplacer(
-    string& line, string format, string filename, ID variableid, string ZeroVariable, int linecount);
-extern void CRC32Replacer(string& line, string format, string behaviorFile, int linecount);
-extern void multiChoice(string& line,
-                        string filename,
-                        vector<vector<unordered_map<string, bool>>> masterOptionPicked,
-                        vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo,
-                        int numline,
-                        string format,
-                        string masterformat,
-                        AnimationUtility utility);
-extern int
-openEndBracket(string& line, char openBrac, char closeBrac, string format, string filename, int linecount);
+bool newCondition(string condition,
+                  string filename,
+                  vector<vector<unordered_map<string, bool>>> optionPicked,
+                  vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo,
+                  int numline,
+                  string format,
+                  string masterformat,
+                  AnimationUtility utility);
+VecStr GetOptionInfo(string line,
+                     string format,
+                     string filename,
+                     int numline,
+                     vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo,
+                     bool allowNoFixAnim,
+                     bool isCondition,
+                     int groupMulti     = -1,
+                     int animMulti      = -1,
+                     int optionMulti    = -1,
+                     string multiOption = "");
+int formatGroupReplace(string& curline,
+                       string oriline,
+                       int point,
+                       string filename,
+                       string format,
+                       shared_ptr<master> subFunctionIDs,
+                       vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo,
+                       int linecount,
+                       int groupMulti,
+                       int optionMulti,
+                       int animMulti,
+                       string multiOption,
+                       bool& innerError);
+void eventIDReplacer(string& line,
+                     const string& format,
+                     const string& filename,
+                     const ID& eventid,
+                     const string& firstEvent,
+                     int linecount);
+void variableIDReplacer(string& line,
+                        const string& format,
+                        const string& filename,
+                        const ID& variableid,
+                        const string& ZeroVariable,
+                        int linecount);
+void CRC32Replacer(string& line, string format, string behaviorFile, int linecount);
+void multiChoice(string& line,
+                 string filename,
+                 vector<vector<unordered_map<string, bool>>> masterOptionPicked,
+                 vector<vector<shared_ptr<AnimationInfo>>> groupAnimInfo,
+                 int numline,
+                 string format,
+                 string masterformat,
+                 AnimationUtility utility);
+int openEndBracket(
+    string& line, char openBrac, char closeBrac, string format, string filename, int linecount);
 
 void processing(string& line, shared_ptr<NodePackedParameters> parameters);
 void processing(string& line,

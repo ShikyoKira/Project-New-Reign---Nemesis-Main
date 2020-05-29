@@ -55,6 +55,13 @@ public:
         return file;
     }
 
+    FileWriter& operator<<(const std::wstring& input)
+    {
+        Lockless lock(filelock);
+        fwprintf(file, L"%s", input.c_str());
+        return *this;
+    }
+
     template <typename T>
     FileWriter& operator<<(const T& input)
     {

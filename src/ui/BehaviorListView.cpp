@@ -8,6 +8,7 @@
 #include "Global.h"
 #include "nemesisinfo.h"
 
+#include "ui/UiModInfo.h"
 #include "ui/ErrorMsgBox.h"
 #include "ui/SettingsSave.h"
 #include "ui/BehaviorListView.h"
@@ -22,13 +23,13 @@ BehaviorListView::BehaviorListView(QWidget* parent)
 {
     setVerticalScrollBar(m_Scrollbar);
     QList<BehaviorInfo> mods;
-    std::vector<std::string> orderList;
-    std::string errmsg;
+    VecStr orderList;
+    std::wstring errmsg;
 
     if (!readMod(errmsg))
     {
         CEMsgBox* msgbox = new CEMsgBox;
-        QString msg      = QString::fromStdString(errmsg);
+        QString msg      = QString::fromStdWString(errmsg);
         msgbox->setText(msg);
         msgbox->setWindowTitle("CRITITAL ERROR");
         msgbox->show();
@@ -38,16 +39,18 @@ BehaviorListView::BehaviorListView(QWidget* parent)
 
     if (getOrderCache(orderList))
     {
-        std::set<std::string> tempset;
+        std::set<std::wstring> tempset;
 
         for (auto& each : orderList)
         {
-            if (modinfo.find(each) != modinfo.end())
+            std::wstring mod = nemesis::transform_to<std::wstring>(each);
+
+            if (modinfo.find(mod) != modinfo.end())
             {
-                mods.push_back(*new BehaviorInfo(QString::fromStdString(modinfo[each][0]),
-                                                 QString::fromStdString(modinfo[each][1])));
-                modConvert[modinfo[each][0]] = each;
-                tempset.insert(each);
+                mods.push_back(*new BehaviorInfo(QString::fromStdWString(modinfo[mod]->getName()),
+                                                 QString::fromStdWString(modinfo[mod]->getAuthor())));
+                modConvert[modinfo[mod]->getNameA()] = each;
+                tempset.insert(mod);
             }
         }
 
@@ -55,8 +58,8 @@ BehaviorListView::BehaviorListView(QWidget* parent)
         {
             if (tempset.find(info.first) == tempset.end())
             {
-                mods.push_back(*new BehaviorInfo(QString::fromStdString(info.second[0]),
-                                                 QString::fromStdString(info.second[1])));
+                mods.push_back(*new BehaviorInfo(QString::fromStdWString(info.second->getName()),
+                                                 QString::fromStdWString(info.second->getAuthor())));
             }
         }
     }
@@ -64,9 +67,9 @@ BehaviorListView::BehaviorListView(QWidget* parent)
     {
         for (auto& info : modinfo)
         {
-            modConvert[info.second[0]] = info.first;
-            mods.push_back(*new BehaviorInfo(QString::fromStdString(info.second[0]),
-                                             QString::fromStdString(info.second[1])));
+            modConvert[info.second->getNameA()] = nemesis::transform_to<std::string>(info.first);
+            mods.push_back(*new BehaviorInfo(QString::fromStdWString(info.second->getName()),
+                                             QString::fromStdWString(info.second->getAuthor())));
         }
     }
 

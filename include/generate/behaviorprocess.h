@@ -10,6 +10,7 @@
 #include "ui/ProgressUp.h"
 
 typedef std::unordered_set<std::string> USetStr;
+typedef std::unordered_set<std::wstring> USetWstr;
 
 class NewAnimation;
 class NemesisEngine;
@@ -37,6 +38,7 @@ public:
                          std::unordered_map<std::string, bool> behaviorPick);
     void addBehaviorPick(VecStr behaviorOrder, std::unordered_map<std::string, bool> behaviorPick);
     void message(std::string input);
+    void message(std::wstring input);
     void GenerateBehavior(std::thread*& checkThread);
 
     std::atomic_flag& getNewAnimFlag();
@@ -63,7 +65,7 @@ private:
     bool cmdline  = false;
     int animCount = 0;
     int filenum;
-    std::unordered_map<std::string, VecStr> coreModList; // core filename, list of modID;
+    std::unordered_map<std::wstring, VecWstr> coreModList; // core filename, list of modID;
 
     ProgressUp behaviorProcess;
 
@@ -88,7 +90,7 @@ private:
 
 public:
     std::atomic_flag postBehaviorFlag{};
-    std::unordered_map<std::string, USetStr> postBhvrRefBy;
+    std::unordered_map<std::wstring, USetWstr> postBhvrRefBy;
 };
 
 #endif
