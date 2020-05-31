@@ -12,17 +12,27 @@ using namespace std;
 
 atomic_flag updateLock = ATOMIC_FLAG_INIT;
 
-void saveLastUpdate(const string& filename, unordered_map<string, string>& lastUpdate)
+void saveLastUpdate(const wstring& filepath, unordered_map<wstring, wstring>& lastUpdate)
 {
-    saveLastUpdate(filename.c_str(), lastUpdate);
+    saveLastUpdate(filepath.c_str(), lastUpdate);
 }
 
-void saveLastUpdate(const string_view& filename, unordered_map<string, string>& lastUpdate)
+void saveLastUpdate(const wstring_view& filename, unordered_map<wstring, wstring>& lastUpdate)
 {
-    saveLastUpdate(nemesis::transform_to<string>(filename).c_str(), lastUpdate);
+    saveLastUpdate(nemesis::transform_to<wstring>(filename).c_str(), lastUpdate);
 }
 
-void saveLastUpdate(const char* filename, unordered_map<string, string>& lastUpdate)
+void saveLastUpdate(const string& filepath, unordered_map<wstring, wstring>& lastUpdate)
+{
+    saveLastUpdate(nemesis::transform_to<wstring>(filepath).c_str(), lastUpdate);
+}
+
+void saveLastUpdate(const string_view& filename, unordered_map<wstring, wstring>& lastUpdate)
+{
+    saveLastUpdate(nemesis::transform_to<wstring>(filename).c_str(), lastUpdate);
+}
+
+void saveLastUpdate(const wchar_t* filename, unordered_map<wstring, wstring>& lastUpdate)
 {
     try
     {
@@ -52,4 +62,23 @@ string GetLastModified(string filename)
     }
 
     return "";
+}
+
+wstring GetLastModified(wstring filename)
+{
+    try
+    {
+        struct _stat64i32 buf;
+        _wstat(filename.data(), &buf);
+        wchar_t buffer[26];
+        _wctime_s(buffer, sizeof(buffer), &buf.st_mtime);
+        buffer[24] = '\0';
+        return buffer;
+    }
+    catch (...)
+    {
+        // ErrorMessage(2022);
+    }
+
+    return L"";
 }

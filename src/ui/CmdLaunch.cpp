@@ -8,6 +8,7 @@
 #include "connector.h"
 
 #include "ui/CmdLaunch.h"
+#include "ui/UiModInfo.h"
 #include "ui/ErrorMsgBox.h"
 
 #include "update/updateprocess.h"
@@ -16,19 +17,15 @@
 
 using namespace std;
 
-extern mutex processlock;
-extern condition_variable cv;
-extern bool processdone;
-extern map<string, VecStr> modinfo;
-
 void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
 {
-    string modcode, errmsg;
+    string modcode;
+    wstring errmsg;
 
     if (!readMod(errmsg))
     {
         CEMsgBox* msgbox = new CEMsgBox;
-        QString msg      = QString::fromStdString(errmsg);
+        QString msg      = QString::fromStdWString(errmsg);
         msgbox->setText(msg);
         msgbox->setWindowTitle("CRITITAL ERROR");
         msgbox->show();
@@ -40,13 +37,13 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
 
     if (!isEngineUpdated(version, nemesisInfo))
     {
-        cout << TextBoxMessage(1000) + "\n";
+        wcout << TextBoxMessage(1000) + L"\n";
         return;
     }
 
-    cout << TextBoxMessage(1003) + "\n";
-    cout << TextBoxMessage(1017) + ": " + version + "\n\n";
-    cout << TextBoxMessage(1004) + "\n";
+    wcout << TextBoxMessage(1003) + L"\n";
+    wcout << TextBoxMessage(1017) + L": " + nemesis::transform_to<wstring>(version) + L"\n\n";
+    wcout << TextBoxMessage(1004) + L"\n";
     VecStr behaviorPriority;
     VecStr hiddenModList = getHiddenMods();
     unordered_map<string, bool> chosenBehavior;
@@ -57,14 +54,16 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
         chosenBehavior[mod] = true;
     }
 
-    for (auto& mod : modlist)
+    for (auto& each : modlist)
     {
-        nemesis::to_lower(mod);
+        nemesis::to_lower(each);
+        wstring mod = nemesis::transform_to<wstring>(mod);
+        auto itr = modinfo.find(mod);
 
-        if (modinfo.find(mod) != modinfo.end() && modinfo[mod].size() > 0)
+        if (itr != modinfo.end())
         {
-            behaviorPriority.insert(behaviorPriority.begin(), mod);
-            chosenBehavior[mod] = true;
+            behaviorPriority.insert(behaviorPriority.begin(), each);
+            chosenBehavior[each] = true;
         }
     }
 

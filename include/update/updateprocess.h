@@ -57,18 +57,19 @@ public:
     void startUpdatingFile();
     void milestoneStart(std::string directory);
     void message(std::string input);
+    void message(std::wstring input);
     void GetFileLoop(std::string newPath);
     bool VanillaUpdate();
-    void GetPathLoop(std::string path, bool isFirstPerson);
+    void GetPathLoop(const std::filesystem::path& path, bool isFirstPerson);
     void RegisterBehavior(std::shared_ptr<RegisterQueue> curBehavior);
     bool VanillaDisassemble(
-        const std::string& path,
+        const std::wstring& path,
         std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>& newFile,
         std::unique_ptr<std::map<std::string, std::unordered_map<std::string, bool>>>& childrenState,
         std::unique_ptr<SSMap>& stateID,
         std::unique_ptr<SSMap>& n_parent);
-    bool AnimDataDisassemble(const std::string& path, MasterAnimData& animData);
-    bool AnimSetDataDisassemble(const std::string& path, MasterAnimSetData& animSetData);
+    bool AnimDataDisassemble(const std::wstring& path, MasterAnimData& animData);
+    bool AnimSetDataDisassemble(const std::wstring& path, MasterAnimSetData& animSetData);
     void newAnimUpdate(std::string sourcefolder, std::string curCode);
     void newAnimProcess(std::string sourcefolder);
     void SeparateMod(const std::string& directory,
@@ -140,7 +141,7 @@ private:
 	MasterAnimSetData animSetData;
 
     std::map<std::string, VecStr> newAnimAddition;
-    std::unordered_map<std::string, std::string> lastUpdate;
+    std::unordered_map<std::wstring, std::wstring> lastUpdate;
     std::unordered_map<std::string, std::unordered_map<std::string, size_t>>
         modFileCounter; // modcode, behavior, number of files
     std::unordered_map<std::string, std::unordered_map<std::string, VecStr>>

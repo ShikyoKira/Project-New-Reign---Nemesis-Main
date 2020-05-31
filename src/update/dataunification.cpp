@@ -20,7 +20,7 @@ atomic_flag newAnimAdditionLock{};
 void CombineAnimData(string filename, string characterfile, string modcode, string filepath, VecStr storeline, MasterAnimData& animData, bool isHeader);
 
 bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, map<string, VecStr, alphanum_less>& newFile, map<string, VecStr>& newAnimAddition,
-	unordered_map<string, string>& lastUpdate)
+                      unordered_map<wstring, wstring>& lastUpdate)
 {
 	VecStr nodelist;
 	read_directory(folderpath + "\\" + behaviorfile, nodelist);
@@ -226,7 +226,10 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 	return true;
 }
 
-bool animDataHeaderUpdate(string folderpath, string modcode, MasterAnimData& animData, unordered_map<string, string>& lastUpdate)
+bool animDataHeaderUpdate(string folderpath,
+                          string modcode,
+                          MasterAnimData& animData,
+                          unordered_map<wstring, wstring>& lastUpdate)
 {
 	VecStr storeline;
 
@@ -242,7 +245,7 @@ bool animDataHeaderUpdate(string folderpath, string modcode, MasterAnimData& ani
 }
 
 bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfile, MasterAnimData& animData, map<string, VecStr>& newAnimAddition,
-	unordered_map<string, string>& lastUpdate)
+	unordered_map<wstring, wstring>& lastUpdate)
 {
 	VecStr headerlist;
 	read_directory(folderpath, headerlist);
@@ -310,7 +313,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 }
 
 bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfile, MasterAnimSetData& animSetData, map<string, VecStr>& newAnimAddition,
-	unordered_map<string, string>& lastUpdate)
+                             unordered_map<wstring, wstring>& lastUpdate)
 {
 	if (animSetData.newAnimSetData.find(projectfile) == animSetData.newAnimSetData.end()) return true;
 

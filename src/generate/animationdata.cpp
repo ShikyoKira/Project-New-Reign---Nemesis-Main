@@ -58,7 +58,7 @@ bool IDExistProcess(string change, vector<InfoDataPack>& storeline, map<string, 
 	return true;
 }
 
-AnimDataProject::AnimDataProject(VecStr animdatafile, string project, string filepath, string modcode)
+AnimDataProject::AnimDataProject(VecStr animdatafile, string project, string modcode)
 {
 	int startline = 0;
 	BehaviorListProcess(*this, startline, animdatafile, project, modcode);

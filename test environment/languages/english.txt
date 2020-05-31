@@ -261,6 +261,7 @@ ERR 1208=Master template not found\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1209=BUG FOUND!! Report to Nemesis' author immediately
 ERR 1210=Vital behavior file cannot be found. This will cause T-pose in game. To fix this, either reinstall the mod or manually restore this behavior file\nFile: <1>
 ERR 1211=Redundant ORIGINAL syntax detected. Update your engine to fix this\nFile: <1>\nLine: <2>
+ERR 1212=Exceed skyrim supported data container in <1>, possible CTD or T-pose might occur. Remove 1 or more mods that add data in <1> to remove this warning\nFile: <1>
 
 '2000s
 ERR 2000=Failed to open file\nFile: <1>
@@ -403,7 +404,6 @@ WAR 1025=Invalid modification. "<1>" option does not exist. Please contact the t
 WAR 1026=Invalid option\nFile: <1>\nLine: <2>\nOption: <3>
 WAR 1027=<1> hkx file detected. This file is not supported by current skyrim's architecture\nFile: <2>
 WAR 1028=Duplicated clip name detected in "animationdatasinglefile.txt"\nProject: <1>\nClip Name: <2>
-WAR 1029=Exceed skyrim supported data container in <1>, possible CTD or T-pose might occur. Remove 1 or more mods that add data in <1> to remove this warning\nFile: <1>
 
 '1000
 TBT 1000=Changes in file detected. Engine update is required to be performed

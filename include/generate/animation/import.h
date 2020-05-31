@@ -6,6 +6,6 @@
 
 typedef std::unordered_map<std::string, std::unordered_map<std::string, std::string>> ImportContainer;
 
-VecStr importOutput(std::vector<ImportContainer>& ExportID, int counter, int nextID, std::string file);
+VecStr importOutput(std::vector<ImportContainer>& ExportID, int counter, int nextID);
 
 #endif

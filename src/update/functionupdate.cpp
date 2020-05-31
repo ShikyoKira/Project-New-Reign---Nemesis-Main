@@ -22,7 +22,7 @@ bool CombineAnimData(string filepath,
                      unordered_map<string, int> modEditLine,
                      unordered_map<int, int> NewCoordinate,
                      unordered_map<int, int> Pair,
-                     unordered_map<string, string>& lastUpdate);
+                     unordered_map<wstring, wstring>& lastUpdate);
 bool ClassCheck(vector<int>& modEditCoordinate,
                 unordered_map<string, int>& modEditLine,
                 unordered_map<int, int>& NewCoordinate,
@@ -83,7 +83,7 @@ bool NodeU::NodeUpdate(string modcode,
                        unique_ptr<SSMap>& stateID,
                        unique_ptr<SSMap>& parent,
                        unique_ptr<unordered_map<string, VecStr>>& statelist,
-                       unordered_map<string, string>& lastUpdate
+                       unordered_map<wstring, wstring>& lastUpdate
 #if MULTITHREADED_UPDATE
                        ,
                        atomic_flag& filelock,
@@ -92,7 +92,10 @@ bool NodeU::NodeUpdate(string modcode,
 #endif
 )
 {
-    if (behaviorPath[behaviorfile].empty()) ErrorMessage(2006, behaviorfile);
+    if (behaviorPath[nemesis::transform_to<wstring>(nemesis::to_lower_copy(behaviorfile))].empty())
+    {
+        ErrorMessage(2006, behaviorfile);
+    }
 
     string filecheck = nemesis::regex_replace(
                            string(nodefile), nemesis::regex(".+?([0-9]+)\\.[t|T][x|X][t|T]$"), string("\\1"))
@@ -577,7 +580,7 @@ bool NodeU::FunctionUpdate(string modcode,
                            unique_ptr<SSMap>& stateID,
                            unique_ptr<SSMap>& parent,
                            unique_ptr<unordered_map<string, VecStr>>& statelist,
-                           unordered_map<string, string>& lastUpdate
+                           unordered_map<wstring, wstring>& lastUpdate
 #if MULTITHREADED_UPDATE
                            ,
                            atomic_flag& filelock,
@@ -624,11 +627,14 @@ bool AnimDataUpdate(string modcode,
                     string filepath,
                     MasterAnimData& animData,
                     bool isNewProject,
-                    unordered_map<string, string>& lastUpdate,
+                    unordered_map<wstring, wstring>& lastUpdate,
                     bool& openAnim,
                     bool& openInfo)
 {
-    if (behaviorPath[nemesis::to_lower_copy(animdatafile)].empty()) ErrorMessage(2007, animdatafile);
+    if (behaviorPath[nemesis::transform_to<wstring>(nemesis::to_lower_copy(animdatafile))].empty())
+    {
+        ErrorMessage(2007, animdatafile);
+    }
 
     VecStr storeline;
     string filename = GetFileName(filepath);
@@ -843,7 +849,7 @@ bool CombineAnimData(string filepath,
                      unordered_map<string, int> modEditLine,
                      unordered_map<int, int> NewCoordinate,
                      unordered_map<int, int> Pair,
-                     unordered_map<string, string>& lastUpdate)
+                     unordered_map<wstring, wstring>& lastUpdate)
 {
     VecStr functionline;
     VecStr headerline;
@@ -1139,9 +1145,12 @@ bool AnimSetDataUpdate(string modcode,
                        string filepath,
                        MasterAnimSetData& animSetData,
                        bool isNewProject,
-                       unordered_map<string, string>& lastUpdate)
+                       unordered_map<wstring, wstring>& lastUpdate)
 {
-    if (behaviorPath[nemesis::to_lower_copy(animdatasetfile)].empty()) ErrorMessage(2007, animdatasetfile);
+    if (behaviorPath[nemesis::transform_to<wstring>(nemesis::to_lower_copy(animdatasetfile))].empty())
+    {
+        ErrorMessage(2007, animdatasetfile);
+    }
 
     string filename  = GetFileName(filepath);
     string lowerfile = nemesis::to_lower_copy(filename);

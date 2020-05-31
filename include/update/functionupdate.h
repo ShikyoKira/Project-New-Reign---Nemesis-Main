@@ -25,7 +25,7 @@ class NodeU
                     std::unique_ptr<SSMap>& stateID,
                     std::unique_ptr<SSMap>& parent,
                     std::unique_ptr<std::unordered_map<std::string, VecStr>>& statelist,
-                    std::unordered_map<std::string, std::string>& lastUpdate
+                    std::unordered_map<std::wstring, std::wstring>& lastUpdate
 #if MULTITHREADED_UPDATE
                     ,
                     std::atomic_flag& filelock,
@@ -42,7 +42,7 @@ public:
                         std::unique_ptr<SSMap>& stateID,
                         std::unique_ptr<SSMap>& parent,
                         std::unique_ptr<std::unordered_map<std::string, VecStr>>& statelist,
-                        std::unordered_map<std::string, std::string>& lastUpdate
+                        std::unordered_map<std::wstring, std::wstring>& lastUpdate
 #if MULTITHREADED_UPDATE
                         ,
                         std::atomic_flag& filelock,
@@ -58,7 +58,7 @@ bool AnimDataUpdate(std::string modcode,
                     std::string filepath,
                     MasterAnimData& animData,
                     bool isNewCharacter,
-                    std::unordered_map<std::string, std::string>& lastUpdate,
+                    std::unordered_map<std::wstring, std::wstring>& lastUpdate,
                     bool& openAnim,
                     bool& openInfo);
 
@@ -69,6 +69,6 @@ bool AnimSetDataUpdate(std::string modcode,
                        std::string filepath,
                        MasterAnimSetData& animSetData,
                        bool isNewProject,
-                       std::unordered_map<std::string, std::string>& lastUpdate);
+                       std::unordered_map<std::wstring, std::wstring>& lastUpdate);
 
 #endif

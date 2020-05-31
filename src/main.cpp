@@ -13,7 +13,7 @@
 #include "ui/MultiInstanceCheck.h"
 #include "ui/NemesisEngine.h"
 
-extern std::string stagePath;
+extern std::wstring stagePath;
 
 int main(int argc, char* argv[])
 {
@@ -65,11 +65,11 @@ int main(int argc, char* argv[])
                 }
                 else if (std::string_view(argv[i]).find("-stage=") == 0)
                 {
-                    stagePath = std::string(argv[i] + 7);
+                    stagePath = nemesis::transform_to<std::wstring>(std::string(argv[i] + 7));
 
-                    if (stagePath.size() > 0 && stagePath[0] == '\"') stagePath = stagePath.substr(1);
+                    if (stagePath.size() > 0 && stagePath[0] == L'\"') stagePath = stagePath.substr(1);
 
-                    if (stagePath.size() > 0 && stagePath.back() == '\"') stagePath.pop_back();
+                    if (stagePath.size() > 0 && stagePath.back() == L'\"') stagePath.pop_back();
                 }
                 else
                 {
@@ -77,8 +77,6 @@ int main(int argc, char* argv[])
                 }
             }
         }
-
-        initializeHandler();
 
         if (generate)
         {

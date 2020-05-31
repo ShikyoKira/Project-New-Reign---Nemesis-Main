@@ -81,7 +81,6 @@ struct AnimDataProject
     {}
     AnimDataProject(VecStr animdatafile,
                     std::string filename,
-                    std::string filepath,
                     std::string modcode = "nemesis");
 
 	int GetAnimTotalLine();

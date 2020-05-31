@@ -22,7 +22,7 @@ class BehaviorSub : public QObject
 public:
     BehaviorSub(const NemesisInfo* _ini);
 
-    void addInfo(const std::string& newDirectory,
+    void addInfo(const std::wstring& newDirectory,
                  const std::string& curfile,
                  std::shared_ptr<TemplateInfo> newBehaviorTemplate,
                  std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>> addAnimation,
@@ -66,7 +66,8 @@ private:
     int base;
     int animCounter = 0;
 
-    std::string modID, directory, curfilefromlist;
+    std::string modID, curfilefromlist;
+    std::wstring directory;
     std::shared_ptr<TemplateInfo> BehaviorTemplate;
     std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>> newAnimation;
     mapSetString newAnimEvent;
