@@ -14,7 +14,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
                            sf::path import,
                            sf::path destination,
                            sf::path filepath,
-                           sf::path appdata_path,
+                           sf::path compiling_path,
                            sf::path compiler,
                            bool tryagain = false);
 void ByteCopyToData(sf::path target, sf::path destination);
@@ -46,7 +46,7 @@ bool PapyrusCompile(sf::path pscfile,
                     sf::path import,
                     sf::path destination,
                     sf::path filepath,
-                    sf::path appdata_path,
+                    sf::path compiling_path,
                     sf::path target)
 {
     if (!sf::exists(pscfile)) ErrorMessage(1092, pscfile);
@@ -72,13 +72,14 @@ bool PapyrusCompile(sf::path pscfile,
     }
 
     if (!sf::exists(target)
-        || !PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, target))
+        || !PapyrusCompileProcess(pscfile, import, destination, filepath, compiling_path, target))
     {
         string compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
 
         if (sf::exists(compiler))
         {
-            if (!PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, compiler, true))
+            if (!PapyrusCompileProcess(
+                    pscfile, import, destination, filepath, compiling_path, compiler, true))
             {
                 throw nemesis::exception();
             }
@@ -101,7 +102,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
                            sf::path import,
                            sf::path destination,
                            sf::path filepath,
-                           sf::path appdata_path,
+                           sf::path compiling_path,
                            sf::path compiler,
                            bool tryagain)
 {
@@ -133,9 +134,9 @@ bool PapyrusCompileProcess(sf::path pscfile,
     QString exe = QString::fromStdWString(compiler.wstring());
     QStringList args{QString::fromStdWString(pscfile.wstring()),
                      "-f=TESV_Papyrus_Flags.flg",
-                     "-i=" + QString::fromStdWString(appdata_path.wstring()) + ";"
+                     "-i=" + QString::fromStdWString(compiling_path.wstring()) + ";"
                          + QString::fromStdWString(dep),
-                     "-o=" + QString::fromStdWString(appdata_path.wstring())};
+                     "-o=" + QString::fromStdWString(compiling_path.wstring())};
 
     wstring cmd = exe.toStdWString();
 
@@ -152,7 +153,7 @@ bool PapyrusCompileProcess(sf::path pscfile,
     process.waitForFinished();
 
     wstring tempfile     = filepath.filename().wstring();
-    wstring tempfilepath = appdata_path.wstring() + L"\\" + tempfile;
+    wstring tempfilepath = compiling_path.wstring() + L"\\" + tempfile;
 
     if (!sf::exists(tempfilepath))
     {
