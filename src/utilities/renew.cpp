@@ -11,7 +11,6 @@
 
 using namespace std;
 
-void tryDelete(const string& file, bool xml, int repeated = 0)
 namespace sf = std::filesystem;
 
 void tryDelete(const wstring& file, bool xml, int repeated = 0)
