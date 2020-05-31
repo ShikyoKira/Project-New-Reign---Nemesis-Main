@@ -22,6 +22,7 @@
 #include "generate/addanims.h"
 #include "generate/behaviorcheck.h"
 #include "generate/installscripts.h"
+#include "generate/papyruscompile.h"
 #include "generate/behaviorprocess.h"
 #include "generate/playerexclusive.h"
 #include "generate/generator_utility.h"
@@ -108,7 +109,7 @@ void BehaviorStart::InitializeGeneration()
         milestoneStart();
         string version;
 
-        if (!isEngineUpdated(version))
+        if (!isEngineUpdated(version, nemesisInfo))
         {
             interMsg(TextBoxMessage(1000));
             m_RunningThread = 0;
@@ -136,7 +137,7 @@ void BehaviorStart::InitializeGeneration()
         GetBehaviorProject();
         GetBehaviorProjectPath();
         behaviorActivateMod(behaviorPriority);
-        ClearTempXml();
+        ClearTempXml(nemesisInfo);
 
         if (error) throw nemesis::exception();
 
@@ -187,7 +188,7 @@ void BehaviorStart::InitializeGeneration()
 void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
 {
     // register animation & organize AE n Var
-    wstring directory = getTempBhvrPath().wstring() + L"\\";
+    wstring directory = getTempBhvrPath(nemesisInfo).wstring() + L"\\";
     unordered_map<string, int>
         animationCount; // animation type counter; use to determine how many of the that type of animation have been installed
     shared_ptr<TemplateInfo> BehaviorTemplate = make_shared<TemplateInfo>(); // get animation type
@@ -856,11 +857,11 @@ void BehaviorStart::GenerateBehavior(std::thread*& checkThread)
     }
 
     {
-        string filename(nemesis::transform_to<string>(nemesisInfo->GetDataPath()) + "scripts\\FNIS.pex");
+        wstring filename(nemesisInfo->GetDataPath() + L"scripts\\FNIS.pex");
         sf::copy_file(
             sf::path("alternate animation\\FNBE.pex"), filename, sf::copy_options::overwrite_existing);
         FILE* f;
-        fopen_s(&f, filename.c_str(), "r+b");
+        _wfopen_s(&f, filename.c_str(), L"r+b");
 
         if (f)
         {
@@ -1160,7 +1161,7 @@ void BehaviorStart::milestoneStart()
     int counter = 0;
 
     connectProcess(this);
-    wstring directory   = getTempBhvrPath().wstring();
+    wstring directory   = getTempBhvrPath(nemesisInfo).wstring();
     wstring fpdirectory = directory + L"\\_1stperson";
     VecWstr filelist;
     int include = 0;
@@ -1168,7 +1169,7 @@ void BehaviorStart::milestoneStart()
 
     if (!isFileExist(directory))
     {
-        sf::create_directory(sf::path(directory));
+        sf::create_directories(sf::path(directory));
         ErrorMessage(6006);
     }
 
@@ -1283,6 +1284,11 @@ void BehaviorStart::EndAttempt()
 
             failedBehaviors.clear();
             behaviorCheck(this);
+            
+            if (isFileExist(hkxTempCompile())) sf::remove_all(hkxTempCompile());
+
+            if (isFileExist(papyrusTempCompile())) sf::remove_all(papyrusTempCompile());
+
             emit progressUp();
         }
         catch (nemesis::exception&)

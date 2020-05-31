@@ -9,17 +9,17 @@ UiModInfo::UiModInfo(const std::wstring& _name, const std::wstring& _author, con
 {
 }
 
-const std::string& UiModInfo::getNameA() const
+std::string UiModInfo::getNameA() const
 {
     return nemesis::transform_to<std::string>(name);
 }
 
-const std::string& UiModInfo::getAuthorA() const
+std::string UiModInfo::getAuthorA() const
 {
     return nemesis::transform_to<std::string>(author);
 }
 
-const std::string& UiModInfo::getAutomaticA() const
+std::string UiModInfo::getAutomaticA() const
 {
     return nemesis::transform_to<std::string>(automatic);
 }

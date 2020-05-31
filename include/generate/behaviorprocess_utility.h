@@ -3,8 +3,10 @@
 
 #include <map>
 #include <memory>
+#include <filesystem>
 
 struct master;
+class NemesisInfo;
 struct AnimationInfo;
 
 typedef std::set<std::string> SetStr;
@@ -20,7 +22,7 @@ void groupThreadStart(std::shared_ptr<newGroupArgs> args);
 void elementUpdate(size_t& elementLine, int& counter, int& curID, std::map<int, VecStr>& catalystMap);
 void unpackToCatalyst(std::map<int, VecStr>& catalystMap,
                       std::unordered_map<int, std::shared_ptr<NodeJoint>>& existingNodes);
-int bonePatch(const std::string& rigfile, int oribone, bool& newBone);
+int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone);
 
 void processExistFuncID(std::vector<int>& funcIDs,
                         const std::string& ZeroEvent,
@@ -39,8 +41,7 @@ void processExistFuncID(std::vector<int>& funcIDs,
                         bool ignoreGroup,
                         const std::string& behaviorFile,
                         std::unordered_map<int, std::shared_ptr<NodeJoint>>& existingNodes);
-void redirToStageDir(std::string& outpath);
-void redirToStageDir(std::wstring& outpath);
-std::filesystem::path getTempBhvrPath();
+void redirToStageDir(std::filesystem::path& outpath, const NemesisInfo* nemesisInfo);
+std::filesystem::path getTempBhvrPath(const NemesisInfo* nemesisInfo);
 
 #endif

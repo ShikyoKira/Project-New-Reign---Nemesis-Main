@@ -11,7 +11,7 @@
 
 extern std::unordered_map<std::string, std::string> modConvert;
 
-struct NemesisInfo;
+class NemesisInfo;
 
 class BehaviorListView : public QTreeView
 {

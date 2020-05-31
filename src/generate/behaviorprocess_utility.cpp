@@ -132,14 +132,14 @@ void unpackToCatalyst(map<int, VecStr>& catalystMap, unordered_map<int, shared_p
 	}
 }
 
-int bonePatch(const string& rigfile, int oribone, bool& newBone)
+int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone)
 {
     int bonenum;
 
     if (SSE)
     {
         FILE* bonefile;
-        fopen_s(&bonefile, rigfile.c_str(), "r+b");
+        _wfopen_s(&bonefile, rigfile.wstring().c_str(), L"r+b");
 
         if (bonefile)
         {
@@ -185,7 +185,7 @@ int bonePatch(const string& rigfile, int oribone, bool& newBone)
     else
     {
         VecStr storeline;
-        hkxcmdXmlInput(rigfile.substr(0, rigfile.find_last_of(".")), storeline);
+        hkxcmdXmlInput(rigfile, storeline);
         string bonemap = "<hkparam name=\"parentIndices\" numelements=\"";
 
         for (auto& line : storeline)
@@ -278,60 +278,22 @@ void processExistFuncID(std::vector<int>& funcIDs,
 	}
 }
 
-void redirToStageDir(string& outpath)
+void redirToStageDir(filesystem::path& outpath, const NemesisInfo* nemesisInfo)
 {
-    if (stagePath.length() > 0)
+    wstring wout = outpath.wstring();
+
+    if (stagePath.length() > 0 && wordFind(outpath, nemesisInfo->GetDataPath()) == 0)
     {
-        size_t pos;
-
-        if (outpath.find("\\") != NOT_FOUND)
-        {
-            pos = nemesis::to_lower_copy(outpath).rfind("data\\meshes\\");
-
-            if (pos != NOT_FOUND) pos += 5;
-        }
-        else
-        {
-            pos = nemesis::to_lower_copy(outpath).rfind("data/meshes/");
-
-            if (pos != NOT_FOUND) pos += 5;
-        }
-
-        outpath = nemesis::transform_to<string>(stagePath) + outpath.substr(pos);
+        wout.replace(0, nemesisInfo->GetDataPath().length(), nemesisInfo->GetStagePath());
+        outpath = wout;
     }
 }
 
-void redirToStageDir(wstring& outpath)
+std::filesystem::path getTempBhvrPath(const NemesisInfo* nemesisInfo)
 {
     if (stagePath.length() > 0)
     {
-        size_t pos;
-
-        if (outpath.find(L"\\") != NOT_FOUND)
-        {
-            pos = nemesis::to_lower_copy(outpath).rfind(L"data\\meshes\\");
-
-            if (pos != NOT_FOUND) pos += 5;
-        }
-        else
-        {
-            pos = nemesis::to_lower_copy(outpath).rfind(L"data/meshes/");
-
-            if (pos != NOT_FOUND) pos += 5;
-        }
-
-        outpath = stagePath + outpath.substr(pos);
-    }
-}
-
-std::filesystem::path getTempBhvrPath()
-{
-    if (stagePath.length() > 0)
-    {
-        wstring curpath = filesystem::current_path().wstring();
-        replace(curpath.begin(), curpath.end(), L'/', L'\\');
-        redirToStageDir(curpath);
-        return stagePath + L"\\temp_behaviors";
+        return nemesisInfo->GetStagePath() + L"nemesis_engine\\temp_behaviors";
     }
 
 	return "temp_behaviors";

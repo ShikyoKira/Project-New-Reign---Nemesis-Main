@@ -11,9 +11,9 @@ class UiModInfo
 public:
     UiModInfo(const std::wstring& _name, const std::wstring& _author, const std::wstring& _auto);
 
-    const std::string& getNameA() const;
-    const std::string& getAuthorA() const;
-    const std::string& getAutomaticA() const;
+    std::string getNameA() const;
+    std::string getAuthorA() const;
+    std::string getAutomaticA() const;
 
     const std::wstring& getName() const;
     const std::wstring& getAuthor() const;

@@ -18,49 +18,23 @@ private:
     std::atomic_flag filelock{};
 
 public:
-    FileWriter(const char* filename)
-        : filepath(filename)
-    {
-        fopen_s(&file, filename, "w");
-    }
+    FileWriter(std::filesystem::path filename, VecWstr args = { L"ccs=UTF-8" });
 
-    FileWriter(std::string filename)
-        : filepath(filename)
-    {
-        fopen_s(&file, filename.c_str(), "w");
-    }
+    ~FileWriter();
 
-    FileWriter(std::filesystem::path filename)
-        : filepath(filename)
-    {
-        fopen_s(&file, filename.string().c_str(), "w");
-    }
+    const std::filesystem::path& GetFilePath() const;
 
-    ~FileWriter()
-    {
-        if (file)
-        {
-            fflush(file);
-            fclose(file);
-        }
-    }
+    bool is_open() const;
 
-    std::filesystem::path GetFilePath() const
-    {
-        return filepath;
-    }
+    void LockFreeWrite(const char* line);
+    void LockFreeWrite(const wchar_t* line);
+    void LockFreeWrite(const std::string& line);
+    void LockFreeWrite(const std::wstring& line);
 
-    bool is_open()
-    {
-        return file;
-    }
-
-    FileWriter& operator<<(const std::wstring& input)
-    {
-        Lockless lock(filelock);
-        fwprintf(file, L"%s", input.c_str());
-        return *this;
-    }
+    FileWriter& operator<<(const char* input);
+    FileWriter& operator<<(const wchar_t* input);
+    FileWriter& operator<<(const std::string& input);
+    FileWriter& operator<<(const std::wstring& input);
 
     template <typename T>
     FileWriter& operator<<(const T& input)
@@ -80,16 +54,6 @@ public:
         Lockless lock(filelock);
         fprintf(file, "%s", sstream.str().c_str());
         return *this;
-    }
-
-    void LockFreeWrite(std::string line)
-    {
-        fprintf(file, "%s", (line + "\n").c_str());
-    }
-
-    void LockFreeWrite(char* line)
-    {
-        fprintf(file, "%s", line + '\n');
     }
 };
 

@@ -614,18 +614,19 @@ void BehaviorSub::CompilingASD()
 
         // final output
 #ifdef DEBUG
-        wstring outpath = L"new_behaviors\\"
+        filesystem::path outpath
+            = L"new_behaviors\\"
                           + behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)].substr(
                   behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)].find(L"\\") + 1);
 #else
-        wstring outpath = behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)];
+        filesystem::path outpath = behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)];
 #endif
-
-        redirToStageDir(outpath);
+        outpath.replace_extension(".txt");
+        redirToStageDir(outpath, nemesisInfo);
 
         if (!FolderCreate(GetFileDirectory(outpath))) return;
 
-        FileWriter output(outpath + L".txt");
+        FileWriter output(outpath, VecWstr());
 
         if (output.is_open())
         {

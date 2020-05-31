@@ -182,7 +182,7 @@ void NemesisInfo::setup()
     wstring curpath = sf::current_path().wstring();
     replace(curpath.begin(), curpath.end(), '/', '\\');
 
-    if (nemesis::to_lower_copy(curpath).find(L"\\project new reign - nemesis\\ƒeƒXƒg") != NOT_FOUND)
+    if (nemesis::to_lower_copy(curpath).find(L"\\project new reign - nemesis\\test environment") != NOT_FOUND)
     {
         dataPath = sf::current_path().wstring() + L"\\data\\";
         curpath  = dataPath + L"Nemesis_Engine";

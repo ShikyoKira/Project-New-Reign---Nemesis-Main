@@ -14,101 +14,200 @@
 
 using namespace std;
 
-std::atomic_flag failedBehaviorFlag{};
+namespace sf = filesystem;
+
+std::atomic<int> fileprotek = 0;
+atomic_flag failedBehaviorFlag{};
 VecWstr failedBehaviors;
 
-bool hkxcmdProcess(string xmlfile, string hkxfile, bool last)
+class HkxCompileCount
+{
+    int cur;
+    mutable sf::path input;
+    mutable sf::path output;
+
+public:
+    HkxCompileCount()
+    {
+        cur = fileprotek++;
+    }
+
+    ~HkxCompileCount()
+    {
+        --fileprotek;
+
+        if (sf::exists(input)) sf::remove(input);
+        if (sf::exists(output)) sf::remove(output);
+    }
+
+    void AddPath(const string& _input, const string& _output) const
+    {
+        input  = _input;
+        output = _output;
+    }
+
+    int GetNum() const
+    {
+        return cur;
+    }
+};
+
+sf::path tryGetRelative(sf::path filepath)
+{
+    sf::path current = sf::current_path();
+    wstring target  = L"";
+
+    do
+    {
+        if (nemesis::to_lower_copy(filepath).find(nemesis::to_lower_copy(current.wstring())) == 0)
+        {
+            return target.append(filepath.wstring().substr(current.wstring().length() + 1));
+        }
+
+        target.append(L"..\\");
+        current = current.parent_path();
+    } while (current.has_filename());
+
+    return filepath;
+}
+
+bool hkxcmdProcess(sf::path xmlfile, sf::path hkxfile, bool last)
 {
     if (!last)
     {
-        if (wordFind(xmlfile, ".xml") != xmlfile.length() - 4) xmlfile.append(".xml");
-        if (wordFind(hkxfile, ".hkx") != hkxfile.length() - 4) hkxfile.append(".hkx");
+        if (xmlfile.has_extension() || xmlfile.extension().wstring() != L".xml")
+        {
+            xmlfile.replace_extension(L".xml");
+        }
+        
+        if (hkxfile.has_extension() || hkxfile.extension().wstring() != L".hkx")
+        {
+            hkxfile.replace_extension(L".hkx");
+        }
     }
 
+    if (!isFileExist(hkxTempCompile()) || !sf::is_directory(hkxTempCompile()))
+    {
+        sf::create_directories(hkxTempCompile());
+    }
+
+    const HkxCompileCount hkxcount;
+    string input = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
+    string output = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
+    hkxcount.AddPath(input, output);
+    sf::copy_file(xmlfile, input, sf::copy_options::overwrite_existing);
+
     if (QProcess::execute("hkxcmd.exe",
-                          QStringList() << "convert" << (SSE ? "-v:AMD64" : "-v:WIN32")
-                                        << QString::fromStdString(xmlfile) << QString::fromStdString(hkxfile))
+                          QStringList() << "convert"
+                                        << (SSE ? "-v:AMD64" : "-v:WIN32") 
+                                        << input.data()
+                                        << output.data())
             != 0
-        || !isFileExist(hkxfile))
+        || !isFileExist(output))
     {
         if (last) ErrorMessage(1003, xmlfile);
 
-        {
-            Lockless lock(failedBehaviorFlag);
-            failedBehaviors.push_back(nemesis::transform_to<wstring>(xmlfile));
-            failedBehaviors.push_back(nemesis::transform_to<wstring>(hkxfile));
-        }
+        Lockless lock(failedBehaviorFlag);
+        failedBehaviors.push_back(xmlfile);
+        failedBehaviors.push_back(hkxfile);
         return false;
     }
 
+    sf::copy_file(output, hkxfile, sf::copy_options::overwrite_existing);
     return true;
 }
 
-bool hkxcmdProcess(wstring xmlfile, wstring hkxfile, bool last)
+bool hkxcmdXmlInput(sf::path hkxfile, VecStr& fileline)
 {
-    if (!last)
+    sf::path xmlfile = hkxfile;
+
+    if (xmlfile.has_extension() || xmlfile.extension().wstring() != L".xml")
     {
-        if (wordFind(xmlfile, L".xml") != xmlfile.length() - 4) xmlfile.append(L".xml");
-        if (wordFind(hkxfile, L".hkx") != hkxfile.length() - 4) hkxfile.append(L".hkx");
+        xmlfile.replace_extension(L".xml");
     }
+
+    if (hkxfile.has_extension() || hkxfile.extension().wstring() != L".hkx")
+    {
+        hkxfile.replace_extension(L".hkx");
+    }
+
+    if (!isFileExist(hkxTempCompile()) || !sf::is_directory(hkxTempCompile()))
+    {
+        sf::create_directories(hkxTempCompile());
+    }
+
+    const HkxCompileCount hkxcount;
+    string input  = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
+    string output = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
+    hkxcount.AddPath(input, output);
+    sf::copy_file(hkxfile, input, sf::copy_options::overwrite_existing);
 
     if (QProcess::execute("hkxcmd.exe",
-                          QStringList() << "convert" << (SSE ? "-v:AMD64" : "-v:WIN32")
-                                        << QString::fromStdWString(xmlfile) << QString::fromStdWString(hkxfile))
+                          QStringList() << "convert"
+                                        << "-v:xml" 
+                                        << input.data() 
+                                        << output.data())
             != 0
-        || !isFileExist(hkxfile))
-    {
-        if (last) ErrorMessage(1003, xmlfile);
-
-        {
-            Lockless lock(failedBehaviorFlag);
-            failedBehaviors.push_back(xmlfile);
-            failedBehaviors.push_back(hkxfile);
-        }
-        return false;
-    }
-
-    return true;
-}
-
-bool hkxcmdXmlInput(string hkxfile, VecStr& fileline)
-{
-    string xmlfile = hkxfile + ".xml";
-    string args    = "convert -v:xml \"" + hkxfile + ".hkx\" \"" + xmlfile + "\"";
-
-    if (QProcess::execute("hkxcmd " + QString::fromStdString(args)) != 0 || !isFileExist(xmlfile))
+        || !isFileExist(output))
     {
         ErrorMessage(1207, hkxfile); 
     }
-    else if (!std::filesystem::is_directory(xmlfile))
-    {
-        if (!GetFunctionLines(xmlfile, fileline)) return false;
 
-        if (fileline.size() == 0) ErrorMessage(3001, xmlfile);
+    if (!GetFunctionLines(output, fileline)) return false;
 
-        if (!std::filesystem::remove(xmlfile)) ErrorMessage(1082, xmlfile, xmlfile);
-    }
+    if (fileline.size() == 0) ErrorMessage(3001, output);
+
+    if (!sf::remove(output)) ErrorMessage(1082, output, output);
 
     return true;
 }
 
-bool hkxcmdXmlInput(wstring hkxfile, VecStr& fileline)
+bool hkxcmdXmlInput(sf::path hkxfile, VecWstr& fileline)
 {
-    wstring xmlfile = hkxfile + L".xml";
-    wstring args    = L"convert -v:xml \"" + hkxfile + L".hkx\" \"" + xmlfile + L"\"";
+    sf::path xmlfile = hkxfile;
 
-    if (QProcess::execute("hkxcmd " + QString::fromStdWString(args)) != 0 || !isFileExist(xmlfile))
+    if (xmlfile.has_extension() || xmlfile.extension().wstring() != L".xml")
+    {
+        xmlfile.replace_extension(L".xml");
+    }
+
+    if (hkxfile.has_extension() || hkxfile.extension().wstring() != L".hkx")
+    {
+        hkxfile.replace_extension(L".hkx");
+    }
+
+    if (!isFileExist(hkxTempCompile()) || !sf::is_directory(hkxTempCompile()))
+    {
+        sf::create_directories(hkxTempCompile());
+    }
+
+    const HkxCompileCount hkxcount;
+    string input  = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
+    string output = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
+    hkxcount.AddPath(input, output);
+    sf::copy_file(hkxfile, input, sf::copy_options::overwrite_existing);
+
+    if (QProcess::execute("hkxcmd.exe",
+                          QStringList() << "convert"
+                                        << "-v:xml" 
+                                        << input.data() 
+                                        << output.data())
+            != 0
+        || !isFileExist(output))
     {
         ErrorMessage(1207, hkxfile);
     }
-    else if (!std::filesystem::is_directory(xmlfile))
-    {
-        if (!GetFunctionLines(xmlfile, fileline)) return false;
 
-        if (fileline.size() == 0) ErrorMessage(3001, xmlfile);
+    if (!GetFunctionLines(output, fileline)) return false;
 
-        if (!std::filesystem::remove(xmlfile)) ErrorMessage(1082, xmlfile, xmlfile);
-    }
+    if (fileline.size() == 0) ErrorMessage(3001, output);
+
+    if (!sf::remove(output)) ErrorMessage(1082, output, output);
 
     return true;
+}
+
+std::string hkxTempCompile()
+{
+    return "cache\\hkx";
 }

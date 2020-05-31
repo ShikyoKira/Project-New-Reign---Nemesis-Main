@@ -1,0 +1,439 @@
+﻿' Translator: Shikyo Kira
+' Language: English
+
+' =========================================================================
+' 				FORMATTING
+' =========================================================================
+'
+' <3 letter syntax> <numerical code>=<message>
+'	          ^ space 
+'
+' ========
+'     Input
+' ========
+' Uses of "<" and ">" that contains number in it, is to output specific string from the engine
+' Example: Failed to compute file size\nFile: <1>
+'
+'
+' =========
+'   break line
+' =========
+' Use "\n" to break line
+' Example: Failed to compute file size\nFile: <1>
+'
+' Failed to compute file size
+' File: <1>
+'
+'
+' ============
+'  3 letter syntax
+' ============
+' UIT = UI Text (for buttons)
+' TBT = TextBox Text (general message shown in textbox)
+' WAR = Warning Message
+' ERR = Error Message
+'
+'
+' ==============
+'   writing comment
+' ==============
+' Start the line with a key SHIFT + "
+' which is '
+' upon detecting the first character as ', the whole line will not be processed
+'
+' =========================================================================
+' =========================================================================
+
+'1000s
+ERR 1000="o" option not found. "o" is required for AnimObject\nFile: <1>\nLine: <2>
+ERR 1001=<1> folder not found. Please reinstall Nemesis
+ERR 1002=Failed to compute file size\nFile: <1>
+ERR 1003=Failed to output hkx file\nFile: <1>
+ERR 1004=Unable to open file\nFile: <1>
+ERR 1005=No modification has been detected. Remove this line or add modification to fix this. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nAdd: <4>
+ERR 1006=Missing add-on indicator. "Add" function must have "$$$" to act as add-on. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nAdd: <4>
+ERR 1007=Add-on not found. "<1>" option does not have "<2>" as add-on. Please contact the template creator\nTemplate: <3>\nFile: <4>\nLine: <5>\nOption: <1>
+ERR 1008=Unable to locate Skyrim Data folder. This tool must be executed in skyrim's data folder
+ERR 1009=Unable to open animation format file\nTemplate: <1>\nFile: <2>
+ERR 1010=Option contains no add-on to modify. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1011=Option contains too many characters. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1012=Option contains invalid characters, only alphabetic characters are accepted. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1013=Invalid state characters. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1014=Missing closing bracket for add-on. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1015=Add-on contain invalid characters, only alphabetic characters are accepted. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1016=Unable to read line. Please ensure that the animation type has been installed in a proper manner\nFile: <1>\nLine: <2>
+ERR 1017=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1018=Unknown Variable Type. Only "BOOL", "INT32" and "REAL" are supported\nFile: <1>\nLine: <2>\nVariable: <3>
+ERR 1019=Duplicated template file has been detected. Please contact the template creator\nFile: <1>
+ERR 1020=BUG FOUND!! Function ID Leakage. Report to Nemesis' author
+ERR 1021=Missing option list file. Please contact the template creator\nFile: <1>
+ERR 1022=Option array can only be used with add-on. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1023=Too many elements\nFile: <1>\nLine: <2>\nElement: <3>
+ERR 1024=Anomaly has been detected. State numbering must be in order (1 to <1>). Please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>
+ERR 1025=Failed to output xml file\nFile: <1>
+ERR 1026=Missing referencing ID. Could be a bug. Report to Nemesis' author if you are sure\nFile: <1>\nMod ID: <2>
+ERR 1027=Missing import file. Please contact the template creator\nFile: <1>
+ERR 1028=Invalid ID. Please contact the template creator\nFile: <1>\nLine: <2>
+ERR 1029=Invalid rule. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1030=Invalid element. Please enter valid numerical character\nFile: <1>\nLine: <2>\nElement: <3>
+ERR 1031=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1032=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1033=Something went wrong. Some text are not recognizable. Please ensure there isn't accidental empty space character. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1034=Insufficient animation in an animation group. At least <1> animations are required for <2> type animation. Add more animations using (+) in the group\nFile: <3>\nLine: <4>
+ERR 1035=Missing required option\nFile: <1>\nLine: <2>
+ERR 1036=Invalid animation event characters. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1037=Invalid structure has been detected. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1038=Reference not found. Element must be created/existed before being referred to. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nElement: <4>
+ERR 1039=Missing closing bracket for event/variable. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1040=Rule has already been registered. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1041=State has already been registered. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1042=Minimum condition has already been registered. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1043=Invalid variable characters. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1044=Invalid option characters. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1045=Compulsory options have already been registered. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1046=<1> has already been linked with other option. Please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>\nOption: <1>
+ERR 1047=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1048=Invalid group order. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1049=<1> cannot be used as it has already been registered by default. Use other name for your option. Please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>
+ERR 1050=Unregistered behavior path has been detected. Update Engine to fix this\nBehavior: <1>
+ERR 1051=Invalid header. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1052=Invalid element. Only empty, "F", "L" or digit is acceptable as input element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1053=Unable link options containing different number of elements or name of the element. Please contact the template creator\nTemplate: <1>\nFile: <2>
+ERR 1054=Invalid option. Current option only accept <1> element(s) excluding the header. Please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>\nOption: <5>
+ERR 1055=Invalid element. Only digit is acceptable as input element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1056=Invalid element. Only "F" "L", or digit is acceptable as input element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1057=Invalid element. Only "F", "N", "B", "L" or digit is acceptable as input element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1058=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1059=Failed to identify template file. Please contact the template creator\nFile: <1>
+ERR 1060=Invalid element. Specific element is required for the 3rd element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1061="<1>_group.txt" file cannot be found. Please contact the template creator\nExpected file: <2>
+ERR 1062=Different element has been detected across linked options. All linked options must have the same elements including grouping/non-grouping. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1063=Duplicated <1> registration has been detected. Please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>\nEvent: <1>
+ERR 1064=Invalid option name. The option name must not share the same name as the format of the animation. Please contact the template creator\nTemplate: <1>\nFile: <2>\nElement: <3>
+ERR 1065=Missing animation type has been detected\nFile: <1>\nLine: <2>
+ERR 1066=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1067=Invalid input. Only 2 elements are acceptable with the first element being the file name and second element being the file path\nFile: <1>\nLine: <2>
+ERR 1068=Missing "<1>" file. Update Engine to fix this\nFile: <1>
+ERR 1069=Missing input. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1070=Extra input has been detected. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1071=Invalid node(function) ID has been detected. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1072=Potential wrong state reference. Template containing multiple StateMachine joints requires registration in "option_list.txt" to work. Please contact the template creator\nFile: <1>\option_list.txt
+ERR 1073=Potential wrong or missing state reference. All joints must be registered in "option_list.txt" when using multi joints. Please contact the template creator\nFile: <1>\option_list.txt
+ERR 1074=Joint not found. Animation will not work. Please contact the template creator\nFile: <1>\option_list.txt
+ERR 1075=Missing state reference has been detected. All joints must be registered in "option_list.txt" when using multi joints. Please contact the template creator\nFile: <1>\option_list.txt
+ERR 1076=0 is not valid. Starting digit number is 1. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1077=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1078=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1079="<1>_group.txt" has been detected. Conflict with ignore_group condition in "option_list.txt". Please contact the template creator\nFile: <2>
+ERR 1080=Conflict has been detected between "ignore_group" and "event_group". Please contact the template creator\nTemplate: <1>\nFile: <2>
+ERR 1081=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1082=Failed to remove <1>. Please ensure that Nemesis has permission to create, edit and remove files\nFile: <2>
+ERR 1083=<1> not found. Update Engine to fix it. If it doesn't, please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>
+ERR 1084=Other input has been detected with CORE activated. No other input can exist when CORE is activated in "option_list.txt". Please contact the template creator\nTemplate: <1>\nFile: <2>
+ERR 1085=Missing group animation template. Master animation template is only available to group animation template. Please contact the template creator\nExpected file: <1>
+ERR 1086=Invalid rotation data time frame. Previous motion data time frame must be before the current rotation time frame\nFile: <1>\nLine: <2>
+ERR 1087=Invalid motion data time frame. Previous motion data time frame must be before the current motion time frame\nFile: <1>\nLine: <2>
+ERR 1088=Rotation data only accepts 5 numerical values. Please contact the mod author\nFile: <1>\nLine: <2>
+ERR 1089=Motion data only accepts 4 numerical values. Please contact the mod author\nFile: <1>\nLine: <2>
+ERR 1090=Missing motion data. Rotation data is only available right after at least 1 motion data has been attached to the animation\nFile: <1>\nLine: <2>
+ERR 1091=Invalid motion data character. Only digit is acceptable. Please contact the mod author\nFile: <1>\nLine: <2>
+ERR 1092=<1> file not found. Please reinstall Nemesis
+ERR 1093=Wrong format for hkx project file. Please contact the template creator\nFile: <1>\nLine: <2>
+ERR 1094=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1095=Wrong file detected in "temp_behaviors" folder. Please remove the file to fix it\nFile: <1>
+ERR 1096=Motion Data function cannot be used in behavior template\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1097=Rotation Data function cannot be used in behavior template\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1098=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1099=Missing existing behavior data. Try Update Engine to fix this issue
+
+'1100s
+ERR 1100=Invalid character input has been detected\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1101=Invalid template condition\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1102=Invalid template condition\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1103=Invalid template condition\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1104=Invalid template condition\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1105=Invalid template condition\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1106=Invalid template condition\nTemplate: <1>\nFile: <2>\nLine: <3>\nCondition: <4>
+ERR 1107=Invalid structure. "relativeToEndOfClip" is not found prior to another "END" command. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1108=Invalid AnimObject. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1109=Invalid link. The said option is not linked to any other option. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1110=Invalid order. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1111=Invalid order. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1112=Invalid order. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1113=Invalid order. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1114=Unresolved new tab. Closing of new tab is required. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1115=Unresolved new tab. Closing of new tab is required. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1116=Unresolved new tab. Closing of new tab is required. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1117=Unknown option. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1118=Unable to close condition. No opened condition is found. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1119=Opening of condition is required. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1120=Unresolved option section. Closing of option is required. Please contact the template creator\nTemplate: <1>\nFile: <2>
+ERR 1121=Unknown element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nInput: <4>
+ERR 1122=Unresolved condition. Closure of condition is not found. Please contact the template creator\nTemplate: <1>\nFile: <2>
+ERR 1123=BUG FOUND!! Report to Nemesis' author immediately\nTemplate: <1>\nFile: <2>
+ERR 1124=Invalid condition. Only 1 "==" or "!=" can be used in once at a time. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nCondition: <4>
+ERR 1125=Invalid condition. Neither "==" nor "!=" is not found. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nCondition: <4>
+ERR 1126=Invalid AnimObject. AnimObject must be under FOREACH tab. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nFunction: <4>
+ERR 1127=Invalid state. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1128=BUG FOUND!! Report to Nemesis' author immediately\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1129=AnimObject cannot be used in non-FOREACH. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1130=Invalid ID. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1131=Non-registrated event ID has been detected. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nEvent: <4>
+ERR 1132=Non-registrated variable ID has been detected. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nVariable: <4>
+ERR 1133=A state machine info not linked to any state machine detected. Please contact the mod author\nMod: <1>\nID: <2>
+ERR 1134=Error filename\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1135=Multiple computation function running concurrently has been detected. Only 1 computation function can be done at a time\nImport File: <1>\nLine: <2>
+ERR 1136=Multiple computation function running concurrently has been detected. Only 1 computation function can be done at a time\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1137=Invalid state. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nState: <4>
+ERR 1138=Invalid condition. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nCondition: <4>
+ERR 1139=Invalid import element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nImport: <4>
+ERR 1140=Unable to call computation function within FOREACH tab. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1141=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1142=Missing information\nFile: <1>\nLine: <2>
+ERR 1143=No target animation found to apply motion/rotation data\nFile: <1>\nLine: <2>
+ERR 1144=Invalid AnimObject\nFile: <1>\nLine: <2>
+ERR 1145=Unresolved option section. Closing of option is required. Please contact the template creator\nTemplate: <1>\nFile: <2>
+ERR 1146=Invalid reference. Reference cannot be accessed in master template directly. Run FOREACH tab with condition of "<template code>" before hand can bypass this\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1147=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1148="Minimum" in "option_list.txt" must be used and contain larger value than the input element being used. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1149=Invalid condition. Order condition cannot be used in group template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1150=AnimObject cannot be used in non-FOREACH. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1151=Invalid equation. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nEquation: <4>
+ERR 1152=Invalid character. Only digit is acceptable. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nState: <4>
+ERR 1153=Missing animation specification. Use Special Condition(<format>[<first element>][<second element>]) instead. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1154=Invalid import input. Only digit is acceptable. Please contact the template creator\nImport File: <1>\nLine: <2>
+ERR 1155=Invalid order number. Enter number from 0 to <1>. Please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>\nOption: <5>
+ERR 1156=BUG FOUND!! Report to Nemesis' author immediately\nTemplate: <1>
+ERR 1157=Function call within a function call is not supported. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nFunction Call: <4>
+ERR 1158=Invalid function call. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nFunction Call: <4>
+ERR 1159=Failed to access individual animation template. Master animation template has no access to individual animation template but group animation template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1160=Failed to access group animation template. Group animation template has no access to other group animation template but individual animation template. Use import function instead. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1161=Failed to access individual animation template. Existing node can only access to the highest level of animation template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1162=Failed to access master animation template. Master animation template not found. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1163=Failed to access master animation template. Only existing node has access to master animation template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1164=Basic new tab is not supported to access other template. Use FOREACH tab instead. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1165=BUG FOUND!! Report to Nemesis' author immediately\nEvent Name: <1>
+ERR 1166=BUG FOUND!! Report to Nemesis' author immediately\nVariable Name: <1>
+ERR 1167=Failed to access group animation template. Existing node can only access to the highest level of animation template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1168=Invalid state number. State number must be smaller than number of root state registered in "option_list.txt" but not smaller than 0. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nState: <4>
+ERR 1169=Missing import input. Please contact the template creator\nImport File: <1>\nLine: <2>
+ERR 1170=Non-vanilla node detected. Please ensure that the folder name in "behavior_templates/" folder is same as one of the behavior file without the extension. Please contact the template creator\nTemplate: <1>\nFile: <2>
+ERR 1171=Origin of new tab is not found. Opening of new tab is required. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1172=Failed to process line\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1173=Condition cannot be used in "<1>". Please contact the template creator\nTemplate: <2>\nFile: <1>\nLine: <3>
+ERR 1174=Invalid format. Only numerical character is allowed. Please contact the mod author\nFile: <1>\nLine: <2> (<3>)
+ERR 1175=Invalid AnimObject format. Only 2 elements are accepted and 2nd element must be in numerical character. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3> (<4>)
+ERR 1176=Missing core behavior. If creating core is not your intention then please use other option name. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1177=Duplicated option detected. Use other syntax for the option. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1178=Option has already been selected. Please contact the mod author\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1179=Invalid element detected. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1180=Unclosed bracket detected. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1181=Invalid crc32 format. Possible unclosed bracket detected. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nInput: <4>
+ERR 1182=Core behavior is either linked to a behavior that doesn't exist or is not connected to registered behavior hkx file\nPlease contact the template creator\nTemplate: <1>\nFile: <2>
+ERR 1183=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1184=Character hkx file placement incorrect. Current file must be in character folder\nFile: <1>
+ERR 1185=Failed to output <1>
+ERR 1186=Invalid format detected. Please contact the mod author\nFile: <1>\nLine: <2>\nInput: <3>
+ERR 1187=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1188=Node ID has no state ID. Please contact the mod author\nMod: <1>\nFile: <2>
+ERR 1189=Duplicated state ID and incompatibility detected. Please contact the mod author to fix the compatibility issue\nFile: <1>\nState ID: <2>\nMods: <3>
+ERR 1190=Missing state machine info node detected. Please contact the mod author\nMod: <1>\nBehavior: <2>\nID: <3>\nState Machine Info Node: <4>
+ERR 1191=Template code "<1>", must be in lowercase letter(s) like this, "<2>". Please contact the template creator\nTemplate: <1>
+ERR 1192=Invalid option format for group template. Please contact the template creator\nFormat: <template code>[<group number>][<option>]\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1193=Overlapped function detected. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1194=Invalid minimum. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1195=Invalid event. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1196=Invalid event_group. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1197=Invalid variable. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1198=Invalid variable_group. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1199=Invalid compulsory. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+
+'1200
+ERR 1200=Invalid add format detected in "option_list.txt". Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1201=Invalid group animation. Only empty value is supported for 1st element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1202=Invalid reference. Reference cannot be accessed in master template directly. Run FOREACH tab with condition of "<template code>_group" before hand can bypass this. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1203=Master template does not support order new tab. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1204=Failed to call option. Only master template can access to anim info from all group. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
+ERR 1205=Master template cannot access to import function\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1206=Master and group template does not support this function. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1207=Failed to output xml file. Please ensure that the hkx file is readable and valid by contacting the mod author\nHkx File: <1>
+ERR 1208=Master template not found\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1209=BUG FOUND!! Report to Nemesis' author immediately
+ERR 1210=Vital behavior file cannot be found. This will cause T-pose in game. To fix this, either reinstall the mod or manually restore this behavior file\nFile: <1>
+ERR 1211=Redundant ORIGINAL syntax detected. Update your engine to fix this\nFile: <1>\nLine: <2>
+ERR 1212=Exceed skyrim supported data container in <1>, possible CTD or T-pose might occur. Remove 1 or more mods that add data in <1> to remove this warning\nFile: <1>
+
+'2000s
+ERR 2000=Failed to open file\nFile: <1>
+ERR 2001=Missing node ID\nNode ID: <1>
+ERR 2002=Missing file\nFile: <1>\nStarting line: <2>\nEnding line: <3>
+ERR 2003=Invalid file name. File name must only be #<modcode>$<id> or #<id>. Please contact the mod author\nFile: <1>
+ERR 2004=Invalid file name. File name must only be either <modcode>$<id>,<modcode>$<id>$UC, <id>, "$header$" or <animation clip name>~<id>. Please contact the mod author\nFile: <1>
+ERR 2005=Missing edits\nFile: <1>\nLine: <2>
+ERR 2006=Missing behavior file. The behavior file name must be in this format ("Nemesis_<file name>.xml") and it must located in the same path as the hkx counterpart. Please contact the mod author\nFile: <1>
+ERR 2007=Missing "nemesis_animationdatasinglefile.txt". It must be located in the original file (data\meshes). Please contact the mod author\nFile: <1>
+ERR 2008=BUG FOUND!! Report to Nemesis' author immediately\nFile: <1>
+ERR 2009=Failed to create file\nFile: <1>
+ERR 2010=Failed to create new folder\nFolder: <1>
+ERR 2011=Unknown ID is found in template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nID: <4>
+ERR 2012=Incomplete ID is found in template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nID: <4>
+ERR 2013=Invalid import input. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nImport: <4>
+ERR 2014=Unknown reference. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 2015=Invalid character input has been detected\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 2016=Invalid template condition\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 2017=Unknown ID found in template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 2018=Incomplete ID found in template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nID: <4>
+ERR 2019=BUG FOUND!! Report to Nemesis' author immediately\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 2020=Invalid equation. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nEquation: <4>
+ERR 2021=Invalid format detected in "engine_update.txt". Try Update Engine to fix this issue
+ERR 2022=Something went wrong. Report to Nemesis' author immediately
+ERR 2023=BUG FOUND!! Report to Nemesis' author immediately
+ERR 2024=Unrecognized file detected in path it shouldn't be located in\nFile: <1>
+ERR 2025=BUG FOUND!! Report to Nemesis' author immediately
+ERR 2026=Invalid mod patch format. Please contact the mod author to regenerate the patch\nSection: <1>\nMod: <2>
+
+'3000s
+ERR 3000=Failed to create bug report. Report to Nemesis' author
+ERR 3001=Unknown file format\nFile: <1>
+ERR 3002=Failed to open file\nFile: <1>
+ERR 3003=Unknown file detected in behavior template for "animationdatasinglefile.txt". File name must start with "$" and end with "$" or "$UC". Please contact the template creator\nFile: <1>
+ERR 3004=Missing "animationdatasinglefile.txt" file in "temp_behaviors" folder. Please reinstall Nemesis and/or Update Engine
+ERR 3005=Invalid format for "animationdatasinglefile.txt" in AnimData section has been detected. Please contact the template creator\nProject: <1>\nHeader: <2>
+ERR 3006=Invalid file name. Please enter a file name that is within the format. Please contact the mod author\nProject: <1>\nHeader: <2>
+ERR 3007=Invalid function call. Function call cannot be use in this line for it is not in line with the format. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 3008=Duplicated header has been detected in "animationdata_list". Update Engine to fix it\nProject: <1>
+ERR 3009=Unable to use <1> as template code. <1> has been registered into the engine by default. Please contact the template creator\nTemplate Code: <1>
+ERR 3010=Duplicated project has been detected in "animationdata_list". Update Engine to fix it\nProject: <1>
+ERR 3011=Unregistered project has been detected. Update Engine to fix it\nProject: <1>
+ERR 3012=Duplicated unique code detected in InfoData section. Please contact the template creator\nProject: <1>\nUnique Code: <2>
+ERR 3013=Un-registered animation group name has been detected. Please contact the mod author\nAAPrefix: <1>\nAnimation Group Name: <2>
+ERR 3014=Wrong "nemesis_animationdatasinglefile.txt" has been detected. Abort processing. Please reinstall Nemesis
+ERR 3015=Invalid format for "animationdatasinglefile.txt" has been detected. Please contact the template creator\nFile: <1>\nLine: <2>
+ERR 3016=BUG FOUND!! Report to Nemesis' author immediately\nProject: <1>\nHeader: <2>
+ERR 3017="<1>" not found. Please re-install Nemesis
+ERR 3018=Wrong format. Current line cannot be used to run NEW tab function. Only BehaviorFileList, EventNameList, MotionDataList, or RotationDataList can use NEW tab function. Please contact the mod author\nMod: <1>\nProject: <2>\nHeader: <3>
+ERR 3019=Invalid format has been detected in "animationdata_list". Update Engine to fix it
+ERR 3020=Invalid format for "animationdatasinglefile.txt" in InfoData section has been detected. Please contact the template creator\nProject: <1>\nUnique Code: <2>
+ERR 3021=Missing project information for a project in "animationdatasinglefile.txt"\nProject: <1>
+ERR 3022=Invalid file placement. "$header$" project must be a file not a folder. Please contact the mod author\nFile: <1>
+ERR 3023=Invalid filename. Do you mean this "<1>"?\nFile: <2>
+ERR 3024=Duplicated header has been detected in "animationdatasinglefile.txt". Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
+ERR 3025=Project index not found. Please contact Nemesis' author
+ERR 3026=Project comparison invalid. Please ensure your $header$ data patch is correct. Mod: <1>\nFile: <2>
+
+'4000s
+ERR 4000=Failed to open file. Please make sure <1> file is in the same directory as this program
+ERR 4001=Duplication of animation has been detected in 2 or more groups. Please contact the template creator\nGroup: <1>, <2>
+ERR 4002=Invalid AAprefix. Please contact the mod author\nFile: <1>\nLine: <2>\nAAset: <3>
+ERR 4003=Invalid AAset. Please contact the mod author\nFile: <1>\nLine: <2>\nAAset: <3>
+ERR 4004=Unknown AAset group has been detected. Registration required in "alternate_animation_list.txt" Please contact the mod author\nFile: <1>\nLine: <2>\nAAset: <3>
+ERR 4005=Invalid AAset input. Only digit is acceptable for the 3rd element. Please contact the mod author\nFile: <1>\nLine: <2>\nAAset: <3>
+ERR 4006=Missing AAprefix. Please contact the mod author\nFile: <1>\nLine: <2>\nAAset: <3>
+ERR 4007=Alternate Animation has exceeded supported 30 mods limit. Please disable some mods that use alternate animation\nFile: <1>\nLine: <2>\nMod: <3>\nAAprefix: <4>
+ERR 4008=Alternate Animation has exceeded supported 128 sets of animation limit. Please disable some mods that use alternate animation\nFile: <1>\nLine: <2>\nAAset: <3>
+ERR 4009=Empty "alternate animation.script" has been detected. Please re-install Nemesis
+ERR 4010=Missing input regarding Alternate Animation. Please contact the mod author\nFile: <1>\nLine: <2>
+ERR 4011=Alternate animation file has not been registered. Please contact the mod author\nFile: <1>\nLine: <2>\nAnimation File: <3>
+
+'5000
+ERR 5000=Missing project has been detected. Please contact the template creator\nFile: <1>
+ERR 5001=Invalid format has been detected in "animationsetdatasinglefile.txt". Please contact the template creator or mod author\nProject: <1>\nHeader: <2>
+ERR 5002=Un-registered data has been detected. Please contact the template creator\nFile: <1>
+ERR 5003=Data deletion has been detected. Data deletion is not supported in Nemesis. Please contact the template creator\nMod: <1>\nFile: <2>\nFrom Line: <3>
+ERR 5004=Condition function is not applicable for "animationsetdatasinglefile.txt"\nFile: <1>\nLine: <2>
+ERR 5005=BUG FOUND!! Report to Nemesis' author immediately\nFile: <1>\nLine: <2>
+ERR 5006=Un-recognized anim pack treated as vanilla anim pack has been detected. Please contact the template creator\nFile: <1> \nAnim Pack: <2>
+ERR 5007=Wrong format. Current line cannot be used to run NEW tab function. Only EquipList, TypeList, AnimPack, and CRC23List can use NEW tab function. Please contact the mod author\nMod: <1>\nHeader: <2>\nLine: <3>
+ERR 5008=BUG FOUND!! Report to Nemesis' author immediately\nMod: <1>\nProject: <2>\nHeader: <3>
+ERR 5009=Invalid format has been detected in "animationsetdatasinglefile.txt". Please contact the template creator\nProject: <1>\nHeader: <2>
+ERR 5010=BUG FOUND!! Out of range! Report to Nemesis' author immediately\nTemplate\Mod: <1>\nProject: <2>\nHeader: <3>
+ERR 5011=Original header for "animationsetdatasinglefile.txt" is not found. Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
+ERR 5012=Duplicated header is detected in "animationsetdatasinglefile.txt". Please contact the template creator\nTemplate: <1>\nProject: <2>\nHeader: <3>
+ERR 5013=BUG FOUND!! Report to Nemesis' author immediately\nProject: <1>\nHeader: <2>
+ERR 5014=BUG FOUND!! Report to Nemesis' author immediately\nProject: <1>\nHeader: <2>
+ERR 5015=Un-registered header has been detected in "animationsetdatasinglefile.txt". Please contact the template creator or the mod author\nFile: <1>\nLine: <2>
+ERR 5016=BUG FOUND!! Report to Nemesis' author immediately\nProject: <1>\nHeader: <2>
+ERR 5017=Empty project detected. Could be a bug. Report to Nemesis' author if you are sure\nProject: <1>
+ERR 5018=Missing information in "animationsetdatasinglefile.txt". Please contact the template creator or mod author\nProject: <1>\nHeader: <2>
+ERR 5019=Missing information in "animationsetdatasinglefile.txt". Please contact the template creator or mod author\nProject: <1>
+ERR 5020=Invalid format has been detected in "animationsetdatasinglefile.txt". Please contact the template creator\nFile: <1>\nLine: <2>
+ERR 5021=Invalid format has been detected in "animationsetdatasinglefile.txt". Please contact the template creator\nMod: <1>\nFile: <2>\nLine: <3>
+ERR 5022=Duplicated header detected in "animationsetdatasinglefile.txt"\nProject: <1>\nHeader: <2>
+
+'6000
+ERR 6000=Fail to register new animation
+ERR 6001=An exception has occured while updating. Report to Nemesis' author immediately\nMessage: <1>
+ERR 6002=An exception has occured while patching. Report to Nemesis' author immediately\nFile: <1>\nMessage: <2>
+ERR 6003="<1>" has already been registered in this ini file. Please contact the mod author\nFile: <2>
+ERR 6004=Template does not support first person animation as the effect is non-existence. Please contact the template creator\nDirectory: <1>
+ERR 6005=Skyrim directory not found. Please make sure that your skyrim is a legal copy
+ERR 6006=Missing latest engine files. Update engine to fix it
+ERR 6007=Papyrus compiler not found. Please make sure Nemesis is placed in the correct directory
+ERR 6008=An exception has occured while running the script. Please contact the script author\nScript: <1>\nMessage: <2>
+ERR 6009=Invalid <1> file. Please reinstall <2>
+ERR 6010=Detected path does not match expected installation path. Please reinstall Nemesis correctly\nDetected path: <1>\nExpected path: <2>
+ERR 6011=Failed to execute <1> python script\nFile path: <1>
+
+'1000
+WAR 1000=Missing animation file\nFile: <1>
+WAR 1001=Duplicated element has been detected\nTemplate: <1>\nFile: <2>\nLine: <3>
+WAR 1002=Similar option's name is not encouraged unless you know what you are doing. Priority matching will be ensued. Program will function as normal\nOption 1: <1>\nOption 2: <2>\nFile: <3>
+WAR 1003=Alternate animation file doesn't exist. Current alternate animation file will not work\nMod: <1>\nAnimation File: <2>
+WAR 1004=Core behavior link is not found. Please ensure <1> exist. Current core behavior link ignored. Please contact the template creator\nTemplate: <2>\nFile: <3>
+WAR 1005=Failed to clear non-cached behavior file\nFile: <1>
+WAR 1006=Failed to clear all files in "temp_behaviors" folder
+WAR 1007=Behavior located in non-standard path has been detected. Following behavior will be ignored\nBehavior: <1>\nPath: <2>
+WAR 1008=Only 1 State Machine has been detected. Multi StateMachine ignored. Please contact the template creator\nFile: <1>
+WAR 1009=Failed to remove xml file\nFile: <1>
+WAR 1010=Duplicated event name has been detected\nEvent Name: <1>
+WAR 1011=Duplicated variable name has been detected\nVariable Name: <1>
+WAR 1012=Option with the same function as previously registered has been detected. Please contact mod author. Patcher will still function as normal
+WAR 1013=Animation has not been registered in <1> file. The animation will not work. Please contact the mod author\nAnimation: <2>
+WAR 1014=Duplicated animation file has been detected\nFile: <1>\nAnimation: <2>\nMod: <3>
+WAR 1015=Failed to register new animation
+WAR 1016=Conflicting <1> has been detected in behavior template\nFile: <2>\n<3>: <4>
+WAR 1017=No modification has been detected. Remove this file or add modification to fix warning. Please contact the mod author\nFile: <1>
+WAR 1018=Missing motion data\nTemplate: <1>\nFile: <2>\nLine: <3>
+WAR 1019=Missing rotation data\nTemplate: <1>\nFile: <2>\nLine: <3>
+WAR 1020=Modification to project/header with duplication in "animationdatasinglefile.txt" has been detected. All duplication of the project/header will be subjected to the same modification\nProject: <1>\nHeader: <2>
+WAR 1021=Failed to register mod. Missing required information in the "ini" file of the mod to register mod. Please contact the mod author\nMod: <1>
+WAR 1022=Unnecesary condition detected\nFile: <1>\nLine: <2>
+WAR 1023=An error occur when executing the script\nScript: <1>
+WAR 1024=Empty unique code detected. Current unique code is not connected to any animation. Please contact the mod author\nMod Code: <1>
+WAR 1025=Invalid modification. "<1>" option does not exist. Please contact the template creator\nTemplate: <2>\nFile: <3>\nLine: <4>\nOption: <1>
+WAR 1026=Invalid option\nFile: <1>\nLine: <2>\nOption: <3>
+WAR 1027=<1> hkx file detected. This file is not supported by current skyrim's architecture\nFile: <2>
+WAR 1028=Duplicated clip name detected in "animationdatasinglefile.txt"\nProject: <1>\nClip Name: <2>
+
+'1000
+TBT 1000=Changes in file detected. Engine update is required to be performed
+TBT 1001=Warning Check failed!
+TBT 1002=Checking engine version
+TBT 1003=Engine is up to date
+TBT 1004=Initializing behavior generation
+TBT 1005=Initializing engine update
+TBT 1006=Mod installed
+TBT 1007=Engine update complete
+TBT 1008=Failed to update engine
+TBT 1009=Behavior generation complete
+TBT 1010=Failed to generate behavior
+TBT 1011=millisecond(s) taken
+TBT 1012=second(s) taken
+TBT 1013=Mod Checked
+TBT 1014=Missing info in "info.ini" file. Please contact the mod author\nMod: 
+TBT 1015=IGNORE THE WARNING MESSAGE(S) IF YOU ARE NOT THE MOD AUTHOR. IT IS FOR DEBUGGING PURPOSES
+TBT 1016=Running script
+TBT 1017=Version Code
+TBT 1018=Following information is only useful for mod author. Mod user should IGNORE it and ABORT this request
+TBT 1019=Engine update is required due to this file
+
+'1000
+UIT 1000=Nemesis Unlimited Behavior Engine
+UIT 1001=Launch Nemesis Behavior Engine
+UIT 1002=Warning Check
+UIT 1003=Update Engine
+UIT 1004=Green = Good\nYellow = OK\nRed = Danger
+UIT 1005=Mod Name
+UIT 1006=Mod Author
+UIT 1007=Priority
+UIT 1008=unknown

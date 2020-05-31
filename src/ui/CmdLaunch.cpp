@@ -35,7 +35,7 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
 
     string version;
 
-    if (!isEngineUpdated(version))
+    if (!isEngineUpdated(version, nemesisInfo))
     {
         wcout << TextBoxMessage(1000) + L"\n";
         return;

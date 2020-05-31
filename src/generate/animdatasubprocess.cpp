@@ -940,14 +940,14 @@ void BehaviorSub::CompilingAnimData()
     string outpath = "new_behaviors\\"
                + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
-    wstring outpath = behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)];
+    filesystem::path outpath = behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)];
 #endif
-
-    redirToStageDir(outpath);
+    outpath.replace_extension(".txt");
+    redirToStageDir(outpath, nemesisInfo);
 
     if (!FolderCreate(GetFileDirectory(outpath))) return;
 
-    FileWriter output(outpath + L".txt");
+    FileWriter output(outpath, VecWstr());
 
     if (output.is_open())
     {
@@ -964,7 +964,7 @@ void BehaviorSub::CompilingAnimData()
 
             if (projectlinecount > 65536)
             {
-                ErrorMessage(1212, GetFileName(outpath + L".txt") + L".txt", outpath + L".txt");
+                ErrorMessage(1212, outpath.filename(), outpath);
             }
 
             output << to_string(projectlinecount) + "\n";

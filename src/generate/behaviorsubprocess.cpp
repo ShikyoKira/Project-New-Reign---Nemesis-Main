@@ -250,6 +250,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<pair<uint, shared_
 
 void BehaviorSub::CompilingBehavior()
 {
+    namespace sf = std::filesystem;
     ImportContainer exportID;
 
     wstring filepath         = directory + nemesis::transform_to<wstring>(curfilefromlist);
@@ -282,7 +283,7 @@ void BehaviorSub::CompilingBehavior()
     unordered_map<int, vector<PCEAData>*> pceaID; // node ID, list of mods
 
     // final output
-    wstring outputdir;
+    sf::path outputdir;
     string ZeroEvent;
     string ZeroVariable;
 
@@ -314,10 +315,10 @@ void BehaviorSub::CompilingBehavior()
     if (error) throw nemesis::exception();
 
     DebugLogging(L"Processing behavior: " + filepath);
-    DebugLogging(L"Behavior output path: " + outputdir);
+    DebugLogging(L"Behavior output path: " + outputdir.wstring());
     process->newMilestone();
 
-    if (modID.length() > 0 && isFileExist(outputdir + L".hkx"))
+    if (modID.length() > 0 && isFileExist(outputdir.wstring() + L".hkx"))
     {
         int i = 0;
 
@@ -582,11 +583,13 @@ void BehaviorSub::CompilingBehavior()
             }
 
             sf::path curFile(GetFileDirectory(outputdir));
-            rigfile = curFile.parent_path().parent_path().string() + "\\" + rigfile;
+            wstring wrigfile = curFile.parent_path().parent_path().wstring() + L"\\"
+                               + nemesis::transform_to<wstring>(rigfile);
+            
 
-            if (found && isFileExist(rigfile) && !sf::is_directory(rigfile))
+            if (found && isFileExist(wrigfile) && !sf::is_directory(wrigfile))
             {
-                bonenum = bonePatch(rigfile, oribone, newBone);
+                bonenum = bonePatch(wrigfile, oribone, newBone);
             }
 
             DebugLogging(L"Processing behavior: " + filepath
@@ -1796,6 +1799,10 @@ void BehaviorSub::CompilingBehavior()
 
                 string cachedFile = "cached_behaviors\\" + lowerBehaviorFile + ".hkx";
 
+                redirToStageDir(outputdir, nemesisInfo);
+
+                if (!FolderCreate(GetFileDirectory(outputdir))) return;
+
                 if (isFileExist(cachedFile) && !sf::is_directory(cachedFile))
                 {
                     sf::copy_file(cachedFile, outputdir, sf::copy_options::overwrite_existing); 
@@ -2850,9 +2857,9 @@ void BehaviorSub::CompilingBehavior()
 
     if (behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)].size() == 0) ErrorMessage(1068, behaviorFile);
 
-    wstring filename = getTempBhvrPath().wstring() + L"\\xml\\" + nemesis::transform_to<wstring>(modID + lowerBehaviorFile) + L".xml";
+    wstring filename = getTempBhvrPath(nemesisInfo).wstring() + L"\\xml\\" + nemesis::transform_to<wstring>(modID + lowerBehaviorFile) + L".xml";
 
-    redirToStageDir(outputdir);
+    redirToStageDir(outputdir, nemesisInfo);
 
     if (!FolderCreate(GetFileDirectory(filename)) || !FolderCreate(GetFileDirectory(outputdir))) return;
 
@@ -2860,7 +2867,7 @@ void BehaviorSub::CompilingBehavior()
     bool isClip = false;
     bool isBehavior = false;
     string clipName;
-    wstring projectdir = filesystem::path(outputdir).parent_path().parent_path().wstring();
+    wstring projectdir = outputdir.parent_path().parent_path().wstring();
 
     if (!output.is_open()) ErrorMessage(1025, filename);
 

@@ -24,6 +24,8 @@
 
 using namespace std;
 
+namespace sf = std::filesystem;
+
 extern unordered_map<string, string> crc32Cache;
 extern VecWstr warningMsges;
 
@@ -34,10 +36,29 @@ VecWstr hkxFiles;
 
 atomic_flag animdata_lock{};
 
-void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, TemplateInfo& behaviortemplate, bool firstP);
-void fileArchitectureCheck(string hkxfile);
-void checkFolder(string filepath);
-void checkFolder(wstring filepath);
+void updateRequired(sf::path filepath);
+void newFileCheck(sf::path directory, const unordered_set<wstring>& isChecked);
+void readList(sf::path directory,
+              sf::path animationDirectory,
+              vector<unique_ptr<registerAnimation>>& list,
+              TemplateInfo& behaviortemplate,
+              bool firstP);
+void fileArchitectureCheck(sf::path hkxfile);
+void checkFolder(sf::path filepath);
+
+bool FolderCreate(sf::path curBehaviorPath)
+{
+    try
+    {
+        sf::create_directories(curBehaviorPath);
+    }
+    catch (const exception& ex)
+    {
+        ErrorMessage(6002, curBehaviorPath, ex.what());
+    }
+
+    return true;
+}
 
 std::vector<int> GetStateID(map<int, int> mainJoint, map<int, VecStr> functionlist, unordered_map<int, int>& functionState)
 {
@@ -254,9 +275,13 @@ string behaviorLineChooser(const string& originalline, const unordered_map<strin
 	return out;
 }
 
-void readList(string directory, string animationDirectory, vector<unique_ptr<registerAnimation>>& list, TemplateInfo& behaviortemplate, bool firstP)
+void readList(sf::path directory,
+              sf::path animationDirectory,
+              vector<unique_ptr<registerAnimation>>& list,
+              TemplateInfo& behaviortemplate,
+              bool firstP)
 {
-	VecStr filelist;
+	VecWstr filelist;
 
 	if (error) throw nemesis::exception();
 
@@ -264,75 +289,35 @@ void readList(string directory, string animationDirectory, vector<unique_ptr<reg
 
 	read_directory(animationDirectory, filelist);
 
+	wstring wanimdir = animationDirectory.wstring();
+
 	for (auto& file1 : filelist)
 	{
-		if (std::filesystem::is_directory(animationDirectory + file1))
+        if (std::filesystem::is_directory(wanimdir + L"\\" + file1))
 		{
-			string targetfile = "FNIS_" + file1 + "_List.txt";
-			string behaviorfile = "FNIS_" + file1 + "_Behavior.hkx";
-			string targetdir = animationDirectory + file1 + "\\";
-			string modBehavior = directory + "Behaviors\\" + behaviorfile;
+            sf::path targetfile  = L"FNIS_" + file1 + L"_List.txt";
+			wstring behaviorfile = L"FNIS_" + file1 + L"_Behavior.hkx";
+            sf::path targetdir   = wanimdir + file1 + L"\\";
+            sf::path modBhvPath = directory.wstring() + L"Behaviors\\" + behaviorfile;
 
-			if (isFileExist(animationDirectory + file1 + "\\" + targetfile))
+			if (isFileExist(wanimdir + file1 + L"\\" + targetfile.wstring()))
 			{
-				list.emplace_back(make_unique<registerAnimation>(targetdir, targetfile, behaviortemplate, modBehavior, firstP));
+                list.emplace_back(make_unique<registerAnimation>(
+                    targetdir, targetfile, behaviortemplate, modBhvPath, firstP));
 			}
 
-			targetfile = "Nemesis_" + file1 + "_List.txt";
-			behaviorfile = "Nemesis_" + file1 + "_Behavior.hkx";
+			targetfile = L"Nemesis_" + file1 + L"_List.txt";
+			behaviorfile = L"Nemesis_" + file1 + L"_Behavior.hkx";
 
-			if (isFileExist(animationDirectory + file1 + "\\" + targetfile))
+			if (isFileExist(wanimdir + file1 + L"\\" + targetfile.wstring()))
 			{
-				list.emplace_back(make_unique<registerAnimation>(targetdir, targetfile, behaviortemplate, modBehavior, firstP, true));
+                list.emplace_back(make_unique<registerAnimation>(
+                    targetdir, targetfile, behaviortemplate, modBhvPath, firstP, true));
 			}
 		}
 
 		if (error) throw nemesis::exception();
 	}
-}
-
-void readList(wstring directory,
-              wstring animationDirectory,
-              vector<unique_ptr<registerAnimation>>& list,
-              TemplateInfo& behaviortemplate,
-              bool firstP)
-{
-    VecWstr filelist;
-
-    if (error) throw nemesis::exception();
-
-    if (!isFileExist(animationDirectory)) return;
-
-    read_directory(animationDirectory, filelist);
-
-    for (auto& file1 : filelist)
-    {
-        if (std::filesystem::is_directory(animationDirectory + file1))
-        {
-            string strfile      = nemesis::transform_to<string>(file1);
-            string targetfile   = "FNIS_" + strfile + "_List.txt";
-            wstring wtargetfile = L"FNIS_" + file1 + L"_List.txt";
-            string behaviorfile = "FNIS_" + strfile + "_Behavior.hkx";
-            string targetdir    = nemesis::transform_to<string>(animationDirectory) + strfile + "\\";
-
-            if (isFileExist(animationDirectory + file1 + L"\\" + wtargetfile))
-            {
-                list.emplace_back(make_unique<registerAnimation>(
-                    targetdir, targetfile, behaviortemplate, behaviorfile, firstP));
-            }
-
-            targetfile   = "Nemesis_" + strfile + "_List.txt";
-            behaviorfile = "Nemesis_" + strfile + "_Behavior.hkx";
-
-            if (isFileExist(animationDirectory + file1 + L"\\" + wtargetfile))
-            {
-                list.emplace_back(make_unique<registerAnimation>(
-                    targetdir, targetfile, behaviortemplate, behaviorfile, firstP, true));
-            }
-        }
-
-        if (error) throw nemesis::exception();
-    }
 }
 
 vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate, const NemesisInfo* nemesisInfo)
@@ -373,16 +358,24 @@ vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate, c
 	return list;
 }
 
-void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
+void updateRequired(sf::path filepath)
 {
-	VecStr filelist;
+    interMsg("");
+    interMsg(TextBoxMessage(1019) + L": " + filepath.wstring());
+    DebugLogging(nemesis::transform_to<wstring>(EngTextBoxMessage(1019)) + L": " + filepath.wstring());
+    interMsg("");
+}
+
+void newFileCheck(filesystem::path directory, const unordered_set<wstring>& isChecked)
+{
+	VecWstr filelist;
 	read_directory(directory, filelist);
 
 	try
 	{
 		for (auto& file : filelist)
 		{
-			string path = directory + "\\" + file;
+			wstring path = directory.wstring() + L"\\" + file;
 			nemesis::to_lower(path);
 			std::filesystem::path curfile(path);
 
@@ -392,36 +385,38 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 			}
 			else if (nemesis::iequals(curfile.extension().string(), ".txt"))
 			{
-				if (directory.find("animationdatasinglefile") != NOT_FOUND)
-				{
-					size_t pos = directory.find("\\") + 1;
-					string modcode = directory.substr(pos, directory.find("\\", pos) - pos);
+                wstring wdir = directory.wstring();
 
-					if (file.find(modcode + "$") == NOT_FOUND)
-					{
-                        if (isChecked->find(path) == isChecked->end())
-                        {
-                            DebugLogging("Engine update required due to this file: " + path);
-                            throw false;
-                        }
-					}
-				}
-				else if (directory.find("animationsetdatasinglefile") != NOT_FOUND)
-				{					
-					if (std::filesystem::path(directory).stem().string().find("~") != NOT_FOUND && file.length() > 0 && file[0] != '$')
-					{
-                        if (isChecked->find(path) == isChecked->end())
-                        {
-                            DebugLogging("Engine update required due to this file: " + path);
-                            throw false;
-                        }
-					}
-				}
-				else if (!nemesis::iequals(file, "option_list.txt"))
+				if (wdir.find(L"animationdatasinglefile") != NOT_FOUND)
 				{
-                    if (isChecked->find(path) == isChecked->end())
+                    size_t pos     = wdir.find(L"\\") + 1;
+                    wstring modcode = wdir.substr(pos, wdir.find(L"\\", pos) - pos);
+
+					if (file.find(modcode + L"$") == NOT_FOUND)
+					{
+                        if (isChecked.find(path) == isChecked.end())
+                        {
+                            updateRequired(path);
+                            throw false;
+                        }
+					}
+				}
+				else if (wdir.find(L"animationsetdatasinglefile") != NOT_FOUND)
+				{					
+					if (directory.stem().wstring().find(L"~") != NOT_FOUND && file.length() > 0 && file[0] != L'$')
+					{
+                        if (isChecked.find(path) == isChecked.end())
+                        {
+                            updateRequired(path);
+                            throw false;
+                        }
+					}
+				}
+				else if (!nemesis::iequals(file, L"option_list.txt"))
+				{
+                    if (isChecked.find(path) == isChecked.end())
                     {
-                        DebugLogging("Engine update required due to this file: " + path);
+                        updateRequired(path);
                         throw false;
                     }
 				}
@@ -436,18 +431,18 @@ void newFileCheck(string directory, unordered_map<string, bool>* isChecked)
 	}
 }
 
-bool isEngineUpdated(string& versionCode)
+bool isEngineUpdated(string& versionCode, const NemesisInfo* nemesisInfo)
 {
-    wstring directory = getTempBhvrPath();
+    wstring directory = getTempBhvrPath(nemesisInfo);
 	VecWstr filelist;
 
 	read_directory(directory, filelist);
 
 	if (filelist.size() < 3) ErrorMessage(6006);
 
-	VecStr storeline;
-	string filename = "cache\\engine_update";
-	unordered_map<string, bool> isChecked;
+	VecWstr storeline;
+	wstring filename = L"cache\\engine_update";
+    unordered_set<wstring> isChecked;
 
 	if (!isFileExist(filename)) return false;
 
@@ -455,14 +450,14 @@ bool isEngineUpdated(string& versionCode)
 
 	if (storeline.size() > 0)
 	{
-		if (GetNemesisVersion() != storeline[0]) return false;
+		if (nemesis::transform_to<wstring>(GetNemesisVersion()) != storeline[0]) return false;
 
 		storeline.erase(storeline.begin());
 	}
 
 	if (storeline.size() > 0)
 	{
-		versionCode = storeline[0];
+		versionCode = nemesis::transform_to<string>(storeline[0]);
 		storeline.erase(storeline.begin());
 	}
 
@@ -470,26 +465,27 @@ bool isEngineUpdated(string& versionCode)
 	{
 		if (line.length() > 0)
 		{
-			size_t pos = line.find(">>");
+			size_t pos = line.find(L">>");
 
 			if (pos == NOT_FOUND) ErrorMessage(2021);
 
-			string part1 = line.substr(0, pos);
-			string part2 = line.substr(pos + 2);
+			wstring part1 = line.substr(0, pos);
+			wstring part2 = line.substr(pos + 2);
 
 			if (!isFileExist(part1) || GetLastModified(part1) != part2)
             {
-                DebugLogging("Engine update required due to this file: " + part1);
+                interMsg(TextBoxMessage(1019) + L": " + part1);
+                DebugLogging(EngTextBoxMessage(1019) + ": " + nemesis::transform_to<string>(part1));
                 return false;
             }
 
-			isChecked[part1] = true;
+			isChecked.insert(part1);
 		}
 	}
 
 	globalThrow = nullptr;
-	std::thread t1(newFileCheck, "mod", &isChecked);
-	std::thread t2(newFileCheck, "behavior templates", &isChecked);
+	std::thread t1(newFileCheck, "mod", isChecked);
+	std::thread t2(newFileCheck, "behavior templates", isChecked);
 
 	t1.join();
 	t2.join();
@@ -832,7 +828,7 @@ bool newAnimSkip(vector<shared_ptr<NewAnimation>> newAnim, string modID)
 }
 
 void checkBehaviorJoint(
-    const wstring& filepath, const wstring& projectdir, string& line, BehaviorStart* process, bool& isBehavior)
+    sf::path filepath, sf::path projectdir, string& line, BehaviorStart* process, bool& isBehavior)
 {
     if (isBehavior)
     {
@@ -847,7 +843,7 @@ void checkBehaviorJoint(
                 string behaviorFile = line.substr(pos, line.find("</hkparam>", pos) - pos);
                 Lockless nlock(process->postBehaviorFlag);
                 process
-                    ->postBhvrRefBy[nemesis::to_lower_copy(projectdir + L"\\"
+                    ->postBhvrRefBy[nemesis::to_lower_copy(projectdir.wstring() + L"\\"
                                                            + nemesis::transform_to<wstring>(behaviorFile))]
                     .insert(nemesis::to_lower_copy(filepath) + L".hkx");
             }
@@ -861,8 +857,8 @@ void checkBehaviorJoint(
     }
 }
 
-void checkClipAnimData(const wstring& filepath, 
-					   const wstring& projectdir,
+void checkClipAnimData(sf::path filepath, 
+					   sf::path projectdir,
 					   string& line,
                        VecStr& characterFiles,
                        string& clipName,
@@ -959,16 +955,16 @@ void checkClipAnimData(const wstring& filepath,
             Lockless nlock(process->postBehaviorFlag);
             process
                 ->postBhvrRefBy[nemesis::transform_to<wstring>(nemesis::to_lower_copy(
-                    projectdir + L"\\" + nemesis::transform_to<wstring>(behaviorFile)))]
+                    projectdir.wstring() + L"\\" + nemesis::transform_to<wstring>(behaviorFile)))]
                 .insert(nemesis::to_lower_copy(filepath) + L".hkx");
         }
     }
 }
 
-void fileArchitectureCheck(string hkxfile)
+void fileArchitectureCheck(sf::path hkxfile)
 {
     FILE* f;
-    fopen_s(&f, hkxfile.c_str(), "r+b");
+    _wfopen_s(&f, hkxfile.wstring().c_str(), L"r+b");
 
     if (f)
     {
@@ -1011,51 +1007,29 @@ void checkAllStoredHKX()
 	hkxFiles.clear();
 }
 
-void checkFolder(string filepath)
+void checkFolder(sf::path filepath)
 {
-    VecStr list;
+    VecWstr list;
     read_directory(filepath, list);
 
     for (auto& each : list)
     {
-        std::filesystem::path file(filepath + "\\" + each);
+        std::filesystem::path file(filepath.wstring() + L"\\" + each);
 
         if (std::filesystem::is_directory(file))
         {
             checkFolder(file.string());
         }
-        else if (nemesis::iequals(file.extension().string(), ".hkx"))
+        else if (nemesis::iequals(file.extension().wstring(), L".hkx"))
         {
-            hkxFiles.push_back(nemesis::transform_to<wstring>(file.string()));
+            hkxFiles.push_back(file.wstring());
         }
 
         if (error) throw nemesis::exception();
     }
 }
 
-void checkFolder(wstring filepath)
-{
-	VecWstr list;
-	read_directory(filepath, list);
-
-	for (auto& each : list)
-	{
-		std::filesystem::path file(filepath + L"\\" + each);
-
-		if (std::filesystem::is_directory(file))
-		{
-			checkFolder(file.wstring());
-		}
-		else if (nemesis::iequals(file.extension().wstring(), L".hkx"))
-		{
-			hkxFiles.push_back(file.wstring());
-		}
-
-		if (error) throw nemesis::exception();
-	}
-}
-
-void checkAllFiles(wstring filepath)
+void checkAllFiles(sf::path filepath)
 {
 	try
 	{

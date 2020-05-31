@@ -10,8 +10,10 @@
 
 using namespace std;
 
+namespace sf = std::filesystem;
+
 AnimationInfo::AnimationInfo(VecStr newAnimInfo,
-                             string curFilename,
+                             sf::path curFilename,
                              OptionList behaviorOption,
                              int linecount,
                              bool& isOExist,
@@ -246,7 +248,7 @@ void AnimationInfo::addFilename(string curFilename)
     filename = curFilename;
 }
 
-void AnimationInfo::storeAnimObject(VecStr animobjects, string listFilename, int linecount)
+void AnimationInfo::storeAnimObject(VecStr animobjects, sf::path listFilename, int linecount)
 {
     size_t position;
 

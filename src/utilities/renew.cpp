@@ -3,11 +3,15 @@
 #include "utilities/renew.h"
 #include "utilities/algorithm.h"
 
+#include "generate/papyruscompile.h"
+#include "generate/behaviorgenerator.h"
 #include "generate/behaviorprocess_utility.h"
 
 #pragma warning(disable : 4503)
 
 using namespace std;
+
+namespace sf = std::filesystem;
 
 void tryDelete(const wstring& file, bool xml, int repeated = 0)
 {
@@ -25,7 +29,7 @@ void tryDelete(const wstring& file, bool xml, int repeated = 0)
 
     try
     {
-        if (!std::filesystem::remove(file)) tryDelete(file, xml, repeated + 1);
+        if (!sf::remove(file)) tryDelete(file, xml, repeated + 1);
     }
     catch (const std::exception&)
     {
@@ -35,7 +39,7 @@ void tryDelete(const wstring& file, bool xml, int repeated = 0)
 
 bool DeleteFileFolder(const wstring& directory, const wstring& file, bool xml)
 {
-    if (std::filesystem::is_directory(directory + file))
+    if (sf::is_directory(directory + file))
     {
         wstring tempbehavior = directory + file;
         VecWstr filelist;
@@ -52,12 +56,12 @@ bool DeleteFileFolder(const wstring& directory, const wstring& file, bool xml)
     return true;
 }
 
-void ClearTempBehaviors()
+void ClearTempBehaviors(const NemesisInfo* nemesisInfo)
 {
     VecWstr filelist;
-    wstring tempbehavior = getTempBhvrPath().wstring();
+    wstring tempbehavior = getTempBhvrPath(nemesisInfo).wstring();
 
-    if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))
+    if (isFileExist(tempbehavior) && sf::is_directory(tempbehavior))
     {
         read_directory(tempbehavior, filelist);
         tempbehavior.append(L"\\");
@@ -69,12 +73,12 @@ void ClearTempBehaviors()
     }
 }
 
-void ClearTempXml()
+void ClearTempXml(const NemesisInfo* nemesisInfo)
 {
     VecWstr filelist;
-    wstring tempbehavior = getTempBhvrPath().wstring() + L"\\xml";
+    wstring tempbehavior = getTempBhvrPath(nemesisInfo).wstring() + L"\\xml";
 
-    if (isFileExist(tempbehavior) && std::filesystem::is_directory(tempbehavior))
+    if (isFileExist(tempbehavior) && sf::is_directory(tempbehavior))
     {
         read_directory(tempbehavior, filelist);
         tempbehavior.append(L"\\");
@@ -84,4 +88,8 @@ void ClearTempXml()
             DeleteFileFolder(tempbehavior, file, true);
         }
     }
+
+    if (isFileExist(hkxTempCompile())) sf::remove_all(hkxTempCompile());
+
+    if (isFileExist(papyrusTempCompile())) sf::remove_all(papyrusTempCompile());
 }

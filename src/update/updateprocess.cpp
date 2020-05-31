@@ -168,7 +168,7 @@ void UpdateFilesStart::startUpdatingFile()
         DebugLogging("External script run complete");
 
         // clear the temp_behaviors folder to prevent it from bloating
-        ClearTempBehaviors();
+        ClearTempBehaviors(nemesisInfo);
         DebugLogging("Temp behavior clearance complete");
 
         // create "temp_behaviors" folder
@@ -449,7 +449,6 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
         if (curBehavior == nullptr) return;
 
         wstring curFileName  = curBehavior->file.stem().wstring();
-        string curFileNameA  = curBehavior->file.stem().string();
         wstring fileFullName = curBehavior->file.filename().wstring();
         wstring newPath      = curBehavior->file.wstring();
 
@@ -504,6 +503,7 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 
             curFileName = firstperson + curFileName.substr(8);
             nemesis::to_lower(curFileName);
+            const string curFileNameA = nemesis::transform_to<string>(curFileName);
             DebugLogging(L"Behavior Disassemble start (File: " + newPath + L")");
 
             {
@@ -1811,7 +1811,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
 void UpdateFilesStart::CombiningFiles()
 {
     VecStr fileline;
-    wstring compilingfolder     = getTempBhvrPath().wstring() + L"\\";
+    wstring compilingfolder    = getTempBhvrPath(nemesisInfo).wstring() + L"\\";
     unsigned long long bigNum  = CRC32Convert(GetNemesisVersion());
     unsigned long long bigNum2 = bigNum;
 
