@@ -250,11 +250,12 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<pair<uint, shared_
 
 void BehaviorSub::CompilingBehavior()
 {
+    namespace sf = std::filesystem;
     ImportContainer exportID;
 
-    string filepath          = directory + curfilefromlist;
+    wstring filepath         = directory + nemesis::transform_to<wstring>(curfilefromlist);
     string behaviorFile      = curfilefromlist.substr(0, curfilefromlist.find_last_of("."));
-    string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
+    string lowerBehaviorFile = nemesis::to_lower_copy(nemesis::transform_to<string>(behaviorFile));
 
     bool isFirstPerson = lowerBehaviorFile.find("_1stperson") != NOT_FOUND;
 
@@ -282,7 +283,7 @@ void BehaviorSub::CompilingBehavior()
     unordered_map<int, vector<PCEAData>*> pceaID; // node ID, list of mods
 
     // final output
-    string outputdir;
+    sf::path outputdir;
     string ZeroEvent;
     string ZeroVariable;
 
@@ -302,20 +303,22 @@ void BehaviorSub::CompilingBehavior()
 #else
     if (modID.length() > 0)
     {
-        outputdir = GetFileDirectory(behaviorPath[lowerBehaviorFile]).data() + modID + lowerBehaviorFile;
+        outputdir = GetFileDirectory(behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)]).data()
+                    + nemesis::transform_to<wstring>(modID)
+                    + nemesis::transform_to<wstring>(lowerBehaviorFile);
     }
     else
     {
-        outputdir = behaviorPath[lowerBehaviorFile];
+        outputdir = behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)];
     }
 #endif
     if (error) throw nemesis::exception();
 
-    DebugLogging("Processing behavior: " + filepath);
-    DebugLogging("Behavior output path: " + outputdir);
+    DebugLogging(L"Processing behavior: " + filepath);
+    DebugLogging(L"Behavior output path: " + outputdir.wstring());
     process->newMilestone();
 
-    if (modID.length() > 0 && isFileExist(outputdir + ".hkx"))
+    if (modID.length() > 0 && isFileExist(outputdir.wstring() + L".hkx"))
     {
         int i = 0;
 
@@ -551,12 +554,12 @@ void BehaviorSub::CompilingBehavior()
             catalyst.push_back(make_pair(catalyst.size(),""));
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 1, File extraction & mod selection complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 1, File extraction & mod selection complete)");
 
         if (isCharacter)
         {
-            DebugLogging("Processing behavior: " + filepath + " (IsCharater: TRUE)");
+            DebugLogging(L"Processing behavior: " + filepath + L" (IsCharater: TRUE)");
             string rigfile = "<hkparam name=\"rigName\">";
             string bonemap = "<hkparam name=\"bonePairMap\" numelements=\"";
             bool found     = false;
@@ -580,20 +583,22 @@ void BehaviorSub::CompilingBehavior()
             }
 
             sf::path curFile(GetFileDirectory(outputdir));
-            rigfile = curFile.parent_path().parent_path().string() + "\\" + rigfile;
+            wstring wrigfile = curFile.parent_path().parent_path().wstring() + L"\\"
+                               + nemesis::transform_to<wstring>(rigfile);
+            
 
-            if (found && isFileExist(rigfile) && !sf::is_directory(rigfile))
+            if (found && isFileExist(wrigfile) && !sf::is_directory(wrigfile))
             {
-                bonenum = bonePatch(rigfile, oribone, newBone);
+                bonenum = bonePatch(wrigfile, oribone, newBone);
             }
 
-            DebugLogging("Processing behavior: " + filepath
-                         + " (Check point 1.5, Character bone identification complete)");
+            DebugLogging(L"Processing behavior: " + filepath
+                         + L" (Check point 1.5, Character bone identification complete)");
         }
         else
         {
-            characterFiles = behaviorJoints[lowerBehaviorFile];
-            DebugLogging("Processing behavior: " + filepath + " (IsCharater: FALSE)");
+            characterFiles = behaviorJoints[nemesis::transform_to<string>(lowerBehaviorFile)];
+            DebugLogging(L"Processing behavior: " + filepath + L" (IsCharater: FALSE)");
         }
 
         if (error) throw nemesis::exception();
@@ -712,8 +717,8 @@ void BehaviorSub::CompilingBehavior()
             if (error) throw nemesis::exception();
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 2, ID replacement & PCEA record complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 2, ID replacement & PCEA record complete)");
 
         {
             size_t pos = catalyst[1].second.find("toplevelobject=");
@@ -1774,8 +1779,8 @@ void BehaviorSub::CompilingBehavior()
             if (error) throw nemesis::exception();
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 3, Behavior general processing complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 3, Behavior general processing complete)");
 
         if (clipAA.size() == 0 && pceaID.size() == 0 && !activatedBehavior[lowerBehaviorFile] && !characterAA
             && !newBone)
@@ -1788,11 +1793,15 @@ void BehaviorSub::CompilingBehavior()
                             + behaviorPath[lowerBehaviorFile].substr(
                                 behaviorPath[lowerBehaviorFile].find("\\") + 1);
 #else
-                outputdir = string(behaviorPath[lowerBehaviorFile]) + ".hkx";
+                outputdir = behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)] + L".hkx";
 #endif
                 if (SSE) lowerBehaviorFile = "SSE\\" + lowerBehaviorFile;
 
                 string cachedFile = "cached_behaviors\\" + lowerBehaviorFile + ".hkx";
+
+                redirToStageDir(outputdir, nemesisInfo);
+
+                if (!FolderCreate(GetFileDirectory(outputdir))) return;
 
                 if (isFileExist(cachedFile) && !sf::is_directory(cachedFile))
                 {
@@ -1811,7 +1820,7 @@ void BehaviorSub::CompilingBehavior()
                     ++i;
                 }
 
-                DebugLogging("Processing behavior: " + filepath + " (Check point 3.4, No changes detected)");
+                DebugLogging(L"Processing behavior: " + filepath + L" (Check point 3.4, No changes detected)");
                 return;
             }
         }
@@ -1971,8 +1980,9 @@ void BehaviorSub::CompilingBehavior()
 
                     if (newAnimCount > 0)
                     {
-                        DebugLogging("Processing behavior: " + filepath + " (Check point 3.6, Mod code: "
-                                     + templateCode + ", Animation count: " + to_string(newAnimCount) + ")");
+                        DebugLogging(L"Processing behavior: " + filepath + L" (Check point 3.6, Mod code: "
+                                     + nemesis::transform_to<wstring>(templateCode) + L", Animation count: "
+                                     + to_wstring(newAnimCount) + L")");
                         shared_ptr<NewAnimation> dummyAnimation;
                         //int IDMultiplier = newAnimCopy[0]->getNextID(lowerBehaviorFile);
                         NewAnimLock animLock;
@@ -2316,17 +2326,17 @@ void BehaviorSub::CompilingBehavior()
 
                         diff = chrono::steady_clock::now() - start_time;
                         grouptimer += chrono::duration_cast<chrono::milliseconds>(diff).count();
-                        DebugLogging("Processing behavior: " + filepath
-                                     + " (Check point 3.8, Mod code: " + templateCode
-                                     + ", Animation count: " + to_string(newAnimCount) + " COMPLETE)");
+                        DebugLogging(L"Processing behavior: " + filepath
+                                     + L" (Check point 3.8, Mod code: " + nemesis::transform_to<wstring>(templateCode)
+                                     + L", Animation count: " + to_wstring(newAnimCount) + L" COMPLETE)");
                     }
                 }
 
                 DebugLogging(
-                    "Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode
-                    + ", Existing ID count: "
-                    + to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
-                    + ")");
+                    L"Processing behavior: " + filepath + L" (Check point 3.8, Mod code: "
+                    + nemesis::transform_to<wstring>(templateCode) + L", Existing ID count: "
+                    + to_wstring(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
+                    + L")");
 
                 processExistFuncID(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile],
                                    ZeroEvent,
@@ -2347,20 +2357,20 @@ void BehaviorSub::CompilingBehavior()
                                    existingNodes);
 
                 DebugLogging(
-                    "Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode
-                    + ", Existing ID count: "
-                    + to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
-                    + " COMPLETE)");
+                    L"Processing behavior: " + filepath + L" (Check point 3.8, Mod code: "
+                    + nemesis::transform_to<wstring>(templateCode) + L", Existing ID count: "
+                    + to_wstring(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
+                    + L" COMPLETE)");
             }
             else
             {
                 nalock.Unlock();
 
                 DebugLogging(
-                    "Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode
-                    + ", Existing ID count: "
-                    + to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
-                    + ")");
+                    L"Processing behavior: " + filepath + L" (Check point 3.8, Mod code: "
+                    + nemesis::transform_to<wstring>(templateCode) + L", Existing ID count: "
+                    + to_wstring(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
+                    + L")");
 
                 processExistFuncID(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile],
                                    ZeroEvent,
@@ -2381,10 +2391,10 @@ void BehaviorSub::CompilingBehavior()
                                    existingNodes);
 
                 DebugLogging(
-                    "Processing behavior: " + filepath + " (Check point 3.8, Mod code: " + templateCode
-                    + ", Existing ID count: "
-                    + to_string(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
-                    + " COMPLETE)");
+                    L"Processing behavior: " + filepath + L" (Check point 3.8, Mod code: "
+                    + nemesis::transform_to<wstring>(templateCode) + L", Existing ID count: "
+                    + to_wstring(BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
+                    + L" COMPLETE)");
             }
 
             VecStr closing;
@@ -2403,7 +2413,7 @@ void BehaviorSub::CompilingBehavior()
 
     DebugLogging("Total single animation processing time for " + behaviorFile + ": " + to_string(onetimer));
     DebugLogging("Total group animation processing time for " + behaviorFile + ": " + to_string(grouptimer));
-    DebugLogging("Processing behavior: " + filepath + " (Check point 4, New animation inclusion complete)");
+    DebugLogging(L"Processing behavior: " + filepath + L" (Check point 4, New animation inclusion complete)");
 
     process->newMilestone();
 
@@ -2412,8 +2422,8 @@ void BehaviorSub::CompilingBehavior()
 
     if (clipAA.size() != 0)
     {
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 4.2, AA count: " + to_string(clipAA.size()) + ")");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 4.2, AA count: " + to_wstring(clipAA.size()) + L")");
         unordered_map<string, int> replacerCount;
 
         for (auto iter = clipAA.begin(); iter != clipAA.end(); ++iter)
@@ -2692,16 +2702,16 @@ void BehaviorSub::CompilingBehavior()
             if (isChange) catalystMap[iter->first] = msglines;
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 4.4, AA count: " + to_string(clipAA.size()) + " COMPLETE)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 4.4, AA count: " + to_wstring(clipAA.size()) + L" COMPLETE)");
     }
 
     VecStr PCEALines;
 
     if (pceaID.size() > 0)
     {
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 4.6, PCEA count: " + to_string(pceaID.size()) + ")");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 4.6, PCEA count: " + to_wstring(pceaID.size()) + L")");
         unordered_map<string, int> replacerCount;
 
         for (auto& datalist : pceaID)
@@ -2826,8 +2836,8 @@ void BehaviorSub::CompilingBehavior()
             catalystMap.erase(catalystMap.find(datalist.first));
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 4.8, PCEA count: " + to_string(pceaID.size()) + " COMPLETE)");
+        DebugLogging(L"Processing behavior: " + filepath + L" (Check point 4.8, PCEA count: "
+                     + to_wstring(pceaID.size()) + L" COMPLETE)");
     }
 
     process->newMilestone();
@@ -2839,18 +2849,17 @@ void BehaviorSub::CompilingBehavior()
     // Must be in vector
     vector<ImportContainer> groupExportID;
     groupExportID.push_back(exportID);
-    VecStr additionallines = importOutput(groupExportID, 0, lastID, curfilefromlist);
+    VecStr additionallines = importOutput(groupExportID, 0, lastID);
 
     process->newMilestone();
-
-    DebugLogging("Processing behavior: " + filepath + " (Check point 5, Prepare to output)");
+    DebugLogging(L"Processing behavior: " + filepath + L" (Check point 5, Prepare to output)");
     process->newMilestone();
 
-    if (behaviorPath[lowerBehaviorFile].size() == 0) ErrorMessage(1068, behaviorFile);
+    if (behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)].size() == 0) ErrorMessage(1068, behaviorFile);
 
-    string filename = getTempBhvrPath() + "\\xml\\" + modID + lowerBehaviorFile + ".xml";
+    wstring filename = getTempBhvrPath(nemesisInfo).wstring() + L"\\xml\\" + nemesis::transform_to<wstring>(modID + lowerBehaviorFile) + L".xml";
 
-    redirToStageDir(outputdir);
+    redirToStageDir(outputdir, nemesisInfo);
 
     if (!FolderCreate(GetFileDirectory(filename)) || !FolderCreate(GetFileDirectory(outputdir))) return;
 
@@ -2858,7 +2867,7 @@ void BehaviorSub::CompilingBehavior()
     bool isClip = false;
     bool isBehavior = false;
     string clipName;
-    string projectdir = filesystem::path(outputdir).parent_path().parent_path().string();
+    wstring projectdir = outputdir.parent_path().parent_path().wstring();
 
     if (!output.is_open()) ErrorMessage(1025, filename);
 
@@ -3045,21 +3054,21 @@ void BehaviorSub::CompilingBehavior()
 
     if (error) throw nemesis::exception();
 
-    DebugLogging("Processing behavior: " + filepath + " (Check point 6, Behavior output complete)");
+    DebugLogging(L"Processing behavior: " + filepath + L" (Check point 6, Behavior output complete)");
     process->newMilestone();
     --extraCore;
 
-    if (hkxcmdProcess(filename, outputdir))
+    if (hkxcmdProcess(nemesis::transform_to<wstring>(filename), outputdir))
     {
-        DebugLogging("Processing behavior: " + filepath + " (Check point 7, Behavior compile complete)");
+        DebugLogging(L"Processing behavior: " + filepath + L" (Check point 7, Behavior compile complete)");
         process->newMilestone();
     }
 
     ++extraCore;
 }
 
-void BehaviorSub::addInfo(const string& newDirectory,
-                          const std::string& curfile,
+void BehaviorSub::addInfo(const wstring& newDirectory,
+                          const string& curfile,
                           shared_ptr<TemplateInfo> newBehaviorTemplate,
                           unordered_map<string, vector<shared_ptr<NewAnimation>>> addAnimation,
                           unordered_map<string, var> newAnimVar,

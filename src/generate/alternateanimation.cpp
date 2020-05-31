@@ -1,13 +1,9 @@
 #include "Global.h"
 
-#include <filesystem>
-
-#include <QtCore/QProcess>
-#include <QtCore/QStandardPaths.h>
-
 #include "debuglog.h"
 #include "nemesisinfo.h"
 
+#include "generate/papyruscompile.h"
 #include "generate/generator_utility.h"
 #include "generate/alternateanimation.h"
 
@@ -24,79 +20,34 @@ namespace sf = filesystem;
 
 unordered_map<string, int> AAgroup_Counter;
 
-bool AACoreCompile(sf::path filename,
-                   wstring import,
-                   string destination,
-                   string filepath,
+bool AACoreCompile(sf::path pscfile,
+                   sf::path import,
+                   sf::path destination,
+                   sf::path filepath,
                    sf::path appdata_path,
                    VecStr& newFunctions,
                    uint& maxGroup,
                    uint& uniquekey,
-                   string target);
-bool AAnimAPICompile(sf::path filename,
-                     wstring import,
-                     string destination,
-                     string filepath,
+                   sf::path target);
+bool AAnimAPICompile(sf::path pscfile,
+                     sf::path import,
+                     sf::path destination,
+                     sf::path filepath,
                      sf::path appdata_path,
                      VecStr& newFunctions,
                      uint maxGroup,
                      uint& uniquekey,
-                     string target);
+                     sf::path target);
 void fixedKeyInitialize();
 uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
-bool PapyrusCompileProcess(sf::path pscfile,
-                           wstring import,
-                           string destination,
-                           string filepath,
-                           sf::path appdata_path,
-                           sf::path compiler,
-                           bool tryagain = false);
 void ByteCopyToData(string target, string destination);
 void ByteCopyToData(wstring target, wstring destination);
-void forcedRemove(wstring target, int counter = 0);
-void forcedRemove(string target, int counter = 0);
 
 struct ModIDByGroup
 {
     string groupBase;
     string modID;
 };
-
-void forcedRemove(wstring target, int counter)
-{
-    try
-    {
-        if (!sf::remove(target)) ErrorMessage(1082, nemesis::transform_to<string>(target));
-    }
-    catch (exception)
-    {
-        if (counter > 200)
-        {
-            // ErrorMessage(6002, nemesis::transform_to<string>(target), ex.what());
-            return;
-        }
-
-        forcedRemove(target, counter + 1);
-    }
-}
-
-void forcedRemove(string target, int counter)
-{
-    try
-    {
-        if (!sf::remove(target)) ErrorMessage(1082, target);
-    }
-    catch (exception)
-    {
-        if (counter > 200)
-        {
-            // ErrorMessage(6002, target, ex.what());
-            return;
-        }
-
-        forcedRemove(target, counter + 1);
-    }
-}
 
 void AAInitialize(string AAList)
 {
@@ -155,12 +106,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     if (AAGroup.size() == 0) return true;
 
     uint uniquekey;
-    wstring cachedir
-        = sf::path(QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString())
-              .parent_path()
-              .wstring()
-          + L"/Nemesis";
-    replace(cachedir.begin(), cachedir.end(), '/', '\\');
+    wstring cachedir = papyrusTempCompile();
 
     try
     {
@@ -168,19 +114,19 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, nemesis::transform_to<string>(cachedir), ex.what());
+        ErrorMessage(6002, cachedir, ex.what());
     }
 
     if (error) throw nemesis::exception();
 
-    string import      = nemesisInfo->GetDataPath() + "scripts\\source";
-    string destination = nemesisInfo->GetDataPath() + "scripts";
+    sf::path import(nemesisInfo->GetDataPath() + L"scripts\\source");
+    sf::path destination(nemesisInfo->GetDataPath() + L"scripts");
     sf::path source("alternate animation\\alternate animation.script");
     sf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
-    string filepath = destination + "\\Nemesis_AA_Core.pex";
+    sf::path filepath(destination.wstring() + L"\\Nemesis_AA_Core.pex");
     sf::copy_file(source, pscfile, sf::copy_options::overwrite_existing);
-    DebugLogging(pscfile.string());
-    DebugLogging(filepath);
+    DebugLogging(pscfile.wstring());
+    DebugLogging(filepath.wstring());
 
     if (!FolderCreate(import)) ErrorMessage(2010, import);
 
@@ -191,7 +137,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     VecStr newFunctions;
 
     if (!AACoreCompile(pscfile,
-                       nemesis::transform_to<wstring>(import),
+                       import,
                        destination,
                        filepath,
                        cachedir,
@@ -207,13 +153,13 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
 
     source            = sf::path("alternate animation\\alternate animation 2.script");
     sf::path pscfile2 = sf::path(cachedir + L"\\FNIS_aa.psc");
-    filepath          = destination + "\\FNIS_aa.pex";
+    filepath          = sf::path(destination.wstring() + L"\\FNIS_aa.pex");
     sf::copy_file(source, pscfile2, sf::copy_options::overwrite_existing);
     DebugLogging(pscfile2.string());
     DebugLogging(filepath);
 
     if (!AAnimAPICompile(pscfile2,
-                         nemesis::transform_to<wstring>(import),
+                         import,
                          destination,
                          filepath,
                          cachedir,
@@ -227,20 +173,20 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
 
     try
     {
-        if (!sf::remove(pscfile)) ErrorMessage(1082, pscfile.string());
+        if (!sf::remove(pscfile)) ErrorMessage(1082, pscfile);
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, pscfile.string(), ex.what());
+        ErrorMessage(6002, pscfile, ex.what());
     }
 
     try
     {
-        if (!sf::remove(pscfile2)) ErrorMessage(1082, pscfile2.string());
+        if (!sf::remove(pscfile2)) ErrorMessage(1082, pscfile2);
     }
     catch (const exception& ex)
     {
-        ErrorMessage(6002, pscfile2.string(), ex.what());
+        ErrorMessage(6002, pscfile2, ex.what());
     }
 
     if (error) throw nemesis::exception();
@@ -248,15 +194,15 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     return true;
 }
 
-bool AACoreCompile(sf::path filename,
-                   wstring import,
-                   string destination,
-                   string filepath,
+bool AACoreCompile(sf::path pscfile,
+                   sf::path import,
+                   sf::path destination,
+                   sf::path filepath,
                    sf::path appdata_path,
                    VecStr& newFunctions,
                    uint& maxGroup,
                    uint& uniquekey,
-                   string target)
+                   sf::path target)
 {
     bool prefixDone = false;
     VecStr prefixList;
@@ -273,7 +219,7 @@ bool AACoreCompile(sf::path filename,
     VecStr storeline;
     VecStr newline;
     newline.reserve(storeline.size());
-    GetFunctionLines(filename.c_str(), storeline);
+    GetFunctionLines(pscfile.c_str(), storeline);
 
     int AACounter = 0;
     maxGroup      = 0;
@@ -568,7 +514,7 @@ bool AACoreCompile(sf::path filename,
     }
 
     {
-        FileWriter output(filename.string());
+        FileWriter output(pscfile.string());
 
         if (output.is_open())
         {
@@ -579,31 +525,31 @@ bool AACoreCompile(sf::path filename,
         }
         else
         {
-            ErrorMessage(3002, filename.string());
+            ErrorMessage(3002, pscfile.wstring());
         }
     }
 
-    if (!PapyrusCompile(filename, import, destination, filepath, appdata_path, target)) return false;
+    if (!PapyrusCompile(pscfile, import, destination, filepath, appdata_path, target)) return false;
 
     DebugLogging("AA core script complete");
     return true;
 }
 
-bool AAnimAPICompile(sf::path filename,
-                     wstring import,
-                     string destination,
-                     string filepath,
+bool AAnimAPICompile(sf::path pscfile,
+                     sf::path import,
+                     sf::path destination,
+                     sf::path filepath,
                      sf::path appdata_path,
                      VecStr& newFunctions,
                      uint maxGroup,
                      uint& uniquekey,
-                     string target)
+                     sf::path target)
 {
     VecStr storeline;
     VecStr newline;
     newline.reserve(storeline.size());
 
-    if (!GetFunctionLines(filename.c_str(), storeline)) return false;
+    if (!GetFunctionLines(pscfile.c_str(), storeline)) return false;
 
     for (string& line : storeline)
     {
@@ -637,7 +583,7 @@ bool AAnimAPICompile(sf::path filename,
     newline.insert(newline.end(), newFunctions.begin(), newFunctions.end());
 
     {
-        FileWriter output(filename.string());
+        FileWriter output(pscfile.string());
 
         if (output.is_open())
         {
@@ -648,11 +594,11 @@ bool AAnimAPICompile(sf::path filename,
         }
         else
         {
-            ErrorMessage(3002, filename.string());
+            ErrorMessage(3002, pscfile);
         }
     }
 
-    return PapyrusCompile(filename, import, destination, filepath, appdata_path, target);
+    return PapyrusCompile(pscfile, import, destination, filepath, appdata_path, target);
 }
 
 void fixedKeyInitialize()
@@ -679,38 +625,16 @@ void fixedKeyInitialize()
     }
 }
 
-bool FolderCreate(string curBehaviorPath)
-{
-    try
-    {
-        sf::create_directories(curBehaviorPath);
-    }
-    catch (const exception& ex)
-    {
-        ErrorMessage(6002, curBehaviorPath, ex.what());
-    }
-
-    return true;
-}
-
-bool FolderCreate(wstring curBehaviorPath)
-{
-    try
-    {
-        sf::create_directories(curBehaviorPath);
-    }
-    catch (const exception& ex)
-    {
-        ErrorMessage(6002, nemesis::transform_to<string>(curBehaviorPath), ex.what());
-    }
-
-    return true;
-}
-
 unsigned int CRC32Convert(string line)
 {
     static nemesis::CRC32 crc32;
     return crc32.FullCRC(line);
+}
+
+unsigned int CRC32Convert(wstring line)
+{
+    static nemesis::CRC32 crc32;
+    return crc32.FullCRC(nemesis::transform_to<string>(line));
 }
 
 uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
@@ -729,183 +653,4 @@ uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
     }
 
     return uniqueKey;
-}
-
-bool PapyrusCompile(sf::path pscfile,
-                    wstring import,
-                    string destination,
-                    string filepath,
-                    sf::path appdata_path,
-                    sf::path target)
-{
-    if (!sf::exists(pscfile)) ErrorMessage(1092, pscfile.string());
-    if (!sf::exists(destination)) ErrorMessage(1001, destination);
-
-    string timeline;
-
-    while (!nemesis::iequals(target.stem().string(), "data"))
-    {
-        target = target.parent_path();
-    }
-
-    target = target.parent_path();
-    target = sf::path(target.string() + "\\Papyrus Compiler\\PapyrusCompiler.exe");
-
-    if (isFileExist(filepath) && !sf::remove(filepath)) timeline = GetLastModified(filepath);
-
-    sf::path desPsc = import + L"\\" + pscfile.stem().wstring() + L".psc";
-
-    if (sf::exists(desPsc) && !sf::remove(desPsc))
-    {
-        ErrorMessage(1082, pscfile.string() + ".psc", desPsc.string());
-    }
-
-    if (!sf::exists(target)
-        || !PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, target))
-    {
-        string compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
-
-        if (sf::exists(compiler))
-        {
-            if (!PapyrusCompileProcess(pscfile, import, destination, filepath, appdata_path, compiler, true))
-                throw nemesis::exception();
-        }
-        else
-        {
-            ErrorMessage(6007);
-        }
-    }
-
-    if (timeline.length() > 0)
-    {
-        if (timeline == GetLastModified(filepath)) ErrorMessage(1185, filepath);
-    }
-
-    return true;
-}
-
-bool PapyrusCompileProcess(sf::path pscfile,
-                           wstring import,
-                           string destination,
-                           string filepath,
-                           sf::path appdata_path,
-                           sf::path compiler,
-                           bool tryagain)
-{
-    namespace sf           = sf;
-    pscfile                = pscfile.stem().wstring() + L".psc";
-    wstring importedSource = import + L"\\" + pscfile.filename().wstring();
-    wstring dep            = L"Papyrus Compiler\\scripts";
-    wstring backUpDep      = L"Papyrus Compiler\\backup scripts";
-
-    if ((sf::exists(dep) || FolderCreate(dep)) && sf::exists(backUpDep))
-    {
-        vector<wstring> backUpDepList;
-        read_directory(backUpDep, backUpDepList);
-
-        for (wstring bkUp : backUpDepList)
-        {
-            sf::copy_file(backUpDep + L"\\" + bkUp, dep + L"\\" + bkUp, sf::copy_options::overwrite_existing);
-        }
-    }
-
-    if (isFileExist(filepath) && !sf::is_directory(filepath) && !sf::remove(filepath))
-    {
-        ErrorMessage(1082, filepath);
-    }
-    else if (sf::exists(importedSource) && !sf::is_directory(importedSource) && !sf::remove(importedSource))
-    {
-        ErrorMessage(1082, nemesis::transform_to<string>(importedSource)); 
-    }
-
-    QProcess process;
-    QString exe = QString::fromStdWString(compiler.wstring());
-    QStringList args{QString::fromStdWString(pscfile.wstring()),
-                     "-f=TESV_Papyrus_Flags.flg",
-                     "-i=" + QString::fromStdWString(appdata_path.wstring()) + ";"
-                         + QString::fromStdWString(dep),
-                     "-o=" + QString::fromStdWString(appdata_path.wstring())};
-
-    string cmd = exe.toStdString();
-
-    for (auto& arg : args)
-    {
-        cmd.append(" " + arg.toStdString());
-    }
-
-    DebugLogging(cmd);
-    process.setReadChannel(QProcess::StandardOutput);
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    process.setCurrentReadChannel(QProcess::StandardOutput);
-    process.start(exe, args);
-    process.waitForFinished();
-
-    string tempfile      = GetFileName(filepath) + ".pex";
-    wstring tempfilepath = appdata_path.wstring() + L"\\" + nemesis::transform_to<wstring>(tempfile);
-
-    if (!sf::exists(tempfilepath))
-    {
-        while (!process.waitForReadyRead())
-            ;
-
-        string line = process.readAllStandardOutput().toStdString();
-
-        if (line.find("Compilation succeeded") != NOT_FOUND && line.find("Assembly succeeded") != NOT_FOUND
-            && line.find("0 error") != NOT_FOUND)
-            return true;
-
-        if (!tryagain) return false;
-
-        try
-        {
-            interMsg("Output: \n" + line);
-            DebugLogging("\nOutput: \n" + line, false);
-            ErrorMessage(1185, filepath);
-            wstring temp = pscfile.wstring();
-
-            for (QString arg : args)
-            {
-                temp += L" " + arg.toStdWString();
-            }
-
-            interMsg("Command: " + nemesis::transform_to<string>(temp));
-        }
-        catch (nemesis::exception)
-        {
-            return false;
-        }
-    }
-
-    ByteCopyToData(tempfilepath, nemesis::transform_to<wstring>(destination + "\\" + tempfile));
-    return true;
-}
-
-void ByteCopyToData(string target, string destination)
-{
-    ifstream file(target, ios::binary);
-    ofstream paste(destination, ios::binary);
-    copy(istreambuf_iterator<char>(file), istreambuf_iterator<char>(), ostreambuf_iterator<char>(paste));
-
-    while (file.is_open())
-    {
-        file.close();
-    }
-
-    forcedRemove(target);
-}
-
-void ByteCopyToData(wstring target, wstring destination)
-{
-    wifstream file(target, ios::binary);
-    wofstream paste(destination, ios::binary);
-    copy(istreambuf_iterator<wchar_t>(file),
-         istreambuf_iterator<wchar_t>(),
-         ostreambuf_iterator<wchar_t>(paste));
-
-    while (file.is_open())
-    {
-        file.close();
-    }
-
-    forcedRemove(target);
 }

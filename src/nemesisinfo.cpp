@@ -13,7 +13,7 @@
 using namespace std;
 
 bool SSE = false;
-string stagePath = "";
+wstring stagePath = L"";
 
 void NemesisInfo::iniFileUpdate()
 {
@@ -22,14 +22,14 @@ void NemesisInfo::iniFileUpdate()
     if (file.open(QIODevice::Truncate | QIODevice::WriteOnly))
     {
         QTextStream stream(&file);
-        stream << QString::fromStdString("SkyrimDataDirectory=" + dataPath + "\r\n");
-        stream << QString::fromStdString("MaxAnimation=" + to_string(maxAnim) + "\r\n");
-        stream << QString::fromStdString("first=" + string(first ? "true" : "false") + "\r\n");
-        stream << QString::fromStdString("width=" + to_string(width) + "\r\n");
-        stream << QString::fromStdString("height=" + to_string(height) + "\r\n");
-        stream << QString::fromStdString("modNameWidth=" + to_string(modNameWidth) + "\r\n");
-        stream << QString::fromStdString("authorWidth=" + to_string(authorWidth) + "\r\n");
-        stream << QString::fromStdString("priorityWidth=" + to_string(priorityWidth) + "\r\n");
+        stream << QString::fromStdWString(L"SkyrimDataDirectory=" + dataPath + L"\r\n");
+        stream << QString::fromStdWString(L"MaxAnimation=" + to_wstring(maxAnim) + L"\r\n");
+        stream << QString::fromStdWString(L"first=" + wstring(first ? L"true" : L"false") + L"\r\n");
+        stream << QString::fromStdWString(L"width=" + to_wstring(width) + L"\r\n");
+        stream << QString::fromStdWString(L"height=" + to_wstring(height) + L"\r\n");
+        stream << QString::fromStdWString(L"modNameWidth=" + to_wstring(modNameWidth) + L"\r\n");
+        stream << QString::fromStdWString(L"authorWidth=" + to_wstring(authorWidth) + L"\r\n");
+        stream << QString::fromStdWString(L"priorityWidth=" + to_wstring(priorityWidth) + L"\r\n");
         stream.flush();
         file.close();
     }
@@ -59,74 +59,74 @@ NemesisInfo::NemesisInfo(bool& exception)
 
 void NemesisInfo::setup()
 {
-    set<string> hasAuto;
+    set<wstring> hasAuto;
     bool force = false;
 
     if (isFileExist("nemesis.ini"))
     {
         try
         {
-            VecStr storeline;
+            VecWstr storeline;
 
-            if (GetFunctionLines(string("nemesis.ini"), storeline))
+            if (GetFunctionLines(L"nemesis.ini", storeline))
             {
                 for (auto& line : storeline)
                 {
-                    string path = nemesis::regex_replace(
-                        string(line), nemesis::regex(".*[\\s]*=[\\s]*(.*)"), string("\\1"));
-                    string input = nemesis::to_lower_copy(nemesis::regex_replace(
-                        string(line), nemesis::regex("(.*)[\\s]*=[\\s]*.*"), string("\\1")));
+                    wstring path = nemesis::wregex_replace(
+                        wstring(line), nemesis::wregex(L".*[\\s]*=[\\s]*(.*)"), wstring(L"\\1"));
+                    wstring input = nemesis::to_lower_copy(nemesis::wregex_replace(
+                        wstring(line), nemesis::wregex(L"(.*)[\\s]*=[\\s]*.*"), wstring(L"\\1")));
 
-                    if (!nemesis::iequals(path, "auto"))
+                    if (!nemesis::iequals(path, L"auto"))
                     {
-                        const unordered_map<string, std::function<void()>> variables = 
+                        const unordered_map<wstring, std::function<void()>> variables = 
                         {
                             {
-                                "maxanimation", 
+                                L"maxanimation", 
                                 [&] { maxAnim = stoi(path); }
                             },
                             {
-                                "first", 
-                                [&] { first = path != "false"; }
+                                L"first", 
+                                [&] { first = path != L"false"; }
                             },
                             {
-                                "height", 
+                                L"height", 
                                 [&] { height = stoi(path); }
                             },
                             {
-                                "width", 
+                                L"width", 
                                 [&] { width = stoi(path); }
                             },
                             {
-                                "modNameWidth", 
+                                L"modNameWidth", 
                                 [&] { modNameWidth = stoi(path); }
                             },
                             {
-                                "authorWidth",
+                                L"authorWidth",
                                 [&] { authorWidth = stoi(path); }
                             },
                             {
-                                "priorityWidth", 
+                                L"priorityWidth", 
                                 [&] { priorityWidth = stoi(path); }
                             },
                         };
 
-                        if (input == "skyrimdatadirectory")
+                        if (input == L"skyrimdatadirectory")
                         {
-                            if (isFileExist(path) && wordFind(path, "data") != NOT_FOUND)
+                            if (isFileExist(path) && wordFind(path, L"data") != NOT_FOUND)
                             {
                                 dataPath = path;
                                 force    = true;
 
-                                if (dataPath.back() != '\\' && dataPath.back() != '/')
+                                if (dataPath.back() != L'\\' && dataPath.back() != L'/')
                                 {
-                                    if (dataPath.find("\\") != NOT_FOUND)
+                                    if (dataPath.find(L"\\") != NOT_FOUND)
                                     {
-                                        dataPath.push_back('\\');
+                                        dataPath.push_back(L'\\');
                                     }
                                     else
                                     {
-                                        dataPath.push_back('/');
+                                        dataPath.push_back(L'/');
                                     }
                                 }
 
@@ -165,7 +165,7 @@ void NemesisInfo::setup()
                             }
                         }
                     }
-                    else if (input == "skyrimdatadirectory" || input == "maxanimation" || input == "first")
+                    else if (input == L"skyrimdatadirectory" || input == L"maxanimation" || input == L"first")
                     {
                         hasAuto.insert(input);
                     }
@@ -179,34 +179,34 @@ void NemesisInfo::setup()
     }
 
     namespace sf   = filesystem;
-    string curpath = sf::current_path().string();
+    wstring curpath = sf::current_path().wstring();
     replace(curpath.begin(), curpath.end(), '/', '\\');
 
-    if (nemesis::to_lower_copy(curpath).find("\\project new reign - nemesis\\test environment") != NOT_FOUND)
+    if (nemesis::to_lower_copy(curpath).find(L"\\project new reign - nemesis\\test environment") != NOT_FOUND)
     {
-        dataPath = sf::current_path().string() + "\\data\\";
-        curpath  = dataPath + "Nemesis_Engine";
+        dataPath = sf::current_path().wstring() + L"\\data\\";
+        curpath  = dataPath + L"Nemesis_Engine";
     }
 
     if (dataPath.length() == 0)
     {
-        size_t pos = wordFind(curpath, "\\Data\\");
+        size_t pos = wordFind(curpath, L"\\Data\\");
 
         if (pos != NOT_FOUND)
         {
-            VecStr filelist;
-            string skyrimDataDirect;
+            VecWstr filelist;
+            wstring skyrimDataDirect;
 
             {
                 sf::path path(curpath);
-                size_t counter = count(curpath.begin(), curpath.end(), '\\');
+                size_t counter = count(curpath.begin(), curpath.end(), L'\\');
                 size_t i       = 0;
 
                 while (i < counter)
                 {
                     if (nemesis::iequals(path.stem().string(), "data"))
                     {
-                        skyrimDataDirect = path.string();
+                        skyrimDataDirect = path.wstring();
                         break;
                     }
 
@@ -214,22 +214,22 @@ void NemesisInfo::setup()
                     ++i;
                 }
 
-                read_directory(path.parent_path().string(), filelist);
+                read_directory(path.parent_path().wstring(), filelist);
             }
 
             for (auto& file : filelist)
             {
-                if (nemesis::iequals(file, "SkyrimSE.exe"))
+                if (nemesis::iequals(file, L"SkyrimSE.exe"))
                 {
                     SSE = true;
                     break;
                 }
-                else if (nemesis::iequals(file, "binkw64.dll"))
+                else if (nemesis::iequals(file, L"binkw64.dll"))
                 {
                     SSE = true;
                     break;
                 }
-                else if (nemesis::iequals(file, "binkw32.dll"))
+                else if (nemesis::iequals(file, L"binkw32.dll"))
                 {
                     break;
                 }
@@ -238,7 +238,7 @@ void NemesisInfo::setup()
             // get skyrim data directory from registry key
             DWORD dwType = REG_SZ;
             HKEY hKey    = 0;
-            char value[1024];
+            wchar_t value[1024];
             DWORD value_length = 1024;
 
             LPCSTR tm;
@@ -257,7 +257,7 @@ void NemesisInfo::setup()
                 = RegQueryValueEx(hKey, L"installed path", NULL, &dwType, (LPBYTE) &value, &value_length);
 
             dataPath = value;
-            dataPath = dataPath + "Data\\";
+            dataPath.append(L"Data\\");
 
             if (result != ERROR_SUCCESS || !isFileExist(dataPath))
             {
@@ -276,7 +276,7 @@ void NemesisInfo::setup()
                 result
                     = RegQueryValueEx(hKey, L"installed path", NULL, &dwType, (LPBYTE) &value, &value_length);
                 dataPath = value;
-                dataPath = dataPath + "Data\\";
+                dataPath.append(L"Data\\");
 
                 // data path directly from address
                 if (result != ERROR_SUCCESS || !isFileExist(dataPath))
@@ -290,78 +290,79 @@ void NemesisInfo::setup()
                     }
                     else
                     {
-                        dataPath.append("\\");
+                        dataPath.append(L"\\");
                     }
                 }
             }
         }
         else
         {
-            interMsg("Detected Path: " + curpath);
-            DebugLogging("Detected Path: " + curpath);
+            interMsg(L"Detected Path: " + curpath);
+            DebugLogging(L"Detected Path: " + curpath);
             ErrorMessage(1008);
         }
     }
 
-    if (!force && nemesis::to_lower_copy(dataPath + "Nemesis_Engine") != nemesis::to_lower_copy(curpath))
+    if (!force && nemesis::to_lower_copy(dataPath + L"Nemesis_Engine") != nemesis::to_lower_copy(curpath))
     {
-        ErrorMessage(6010, curpath, dataPath + "Nemesis_Engine");
+        ErrorMessage(6010, curpath, dataPath + L"Nemesis_Engine");
     }
 
-    if (stagePath.length() > 0)
-    {
-        sf::path stage(stagePath);
-        stageDirectory = stage.string() + "\\";
-    }
-    else
-    {
-        stageDirectory = dataPath;
-    }
-    
+    stageDirectory = stagePath.length() > 0 ? (stagePath + L"\\") : dataPath;
     iniFileUpdate();
 }
 
-string NemesisInfo::GetDataPath() const
+const wstring& NemesisInfo::GetDataPath() const
 {
     return dataPath;
 }
 
-std::string NemesisInfo::GetStagePath() const
+const wstring& NemesisInfo::GetStagePath() const
 {
     return stageDirectory;
 }
 
-bool NemesisInfo::IsFirst() const
+const string& NemesisInfo::GetDataPathA() const
+{
+    return nemesis::transform_to<string>(dataPath);
+}
+
+const string& NemesisInfo::GetStagePathA() const
+{
+    return nemesis::transform_to<string>(stageDirectory);
+}
+
+const bool& NemesisInfo::IsFirst() const
 {
     return first;
 }
 
-uint NemesisInfo::GetWidth() const
+const uint& NemesisInfo::GetWidth() const
 {
     return width;
 }
 
-uint NemesisInfo::GetHeight() const
+const uint& NemesisInfo::GetHeight() const
 {
     return height;
 }
 
-uint NemesisInfo::GetModNameWidth() const
+const uint& NemesisInfo::GetModNameWidth() const
 {
     return modNameWidth;
 }
 
-uint NemesisInfo::GetMaxAnim() const
+const uint& NemesisInfo::GetMaxAnim() const
 {
     return maxAnim;
 }
 
-uint NemesisInfo::GetAuthorWidth() const
+const uint& NemesisInfo::GetAuthorWidth() const
 {
     return authorWidth;
 }
 
-uint NemesisInfo::GetPriorityWidth() const
+const uint& NemesisInfo::GetPriorityWidth() const
 {
     return priorityWidth;
 }

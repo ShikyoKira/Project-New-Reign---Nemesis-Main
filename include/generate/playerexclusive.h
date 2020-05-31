@@ -1,7 +1,7 @@
 #ifndef PLAYEREXCLUSIVE_H_
 #define PLAYEREXCLUSIVE_H_
 
-struct NemesisInfo;
+class NemesisInfo;
 
 // PCEA data
 struct PCEA

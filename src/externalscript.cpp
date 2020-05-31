@@ -9,6 +9,7 @@
 
 #include "externalscript.h"
 
+#include "generate/generator_utility.h"
 #include "generate/alternateanimation.h"
 
 #include "utilities/algorithm.h"

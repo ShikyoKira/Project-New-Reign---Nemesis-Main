@@ -4,16 +4,16 @@
 #include <regex>
 #include <unordered_set>
 
-#include <QtCore/QStandardPaths.h>
-
 #include "debuglog.h"
 #include "nemesisinfo.h"
 
 #include "utilities/regex.h"
 #include "utilities/writetextfile.h"
 
-#include "generate/alternateanimation.h"
+#include "generate/papyruscompile.h"
 #include "generate/playerexclusive.h"
+#include "generate/generator_utility.h"
+#include "generate/alternateanimation.h"
 
 using namespace std;
 namespace sf = filesystem;
@@ -269,11 +269,7 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
     if (error) throw nemesis::exception();
 
     DebugLogging("PCEA begin script input");
-    wstring cachedir
-        = sf::path(QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0).toStdWString())
-              .parent_path()
-              .wstring()
-          + L"/Nemesis";
+    wstring cachedir = papyrusTempCompile();
     replace(cachedir.begin(), cachedir.end(), '/', '\\');
 
     try

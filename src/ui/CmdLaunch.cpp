@@ -38,7 +38,7 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
 
     string version;
 
-    if (!isEngineUpdated(version))
+    if (!isEngineUpdated(version, nemesisInfo))
     {
         cout << TextBoxMessage(1000) + "\n";
         return;

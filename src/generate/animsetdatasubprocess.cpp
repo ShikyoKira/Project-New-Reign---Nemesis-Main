@@ -54,7 +54,7 @@ void BehaviorSub::ASDCompilation()
 
 void BehaviorSub::CompilingASD()
 {
-    string filepath          = directory + curfilefromlist;
+    wstring filepath         = directory + nemesis::transform_to<wstring>(curfilefromlist);
     string behaviorFile      = curfilefromlist.substr(0, curfilefromlist.find_last_of("."));
     string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
@@ -93,7 +93,7 @@ void BehaviorSub::CompilingASD()
             catalyst.pop_back();
         }
 
-        DebugLogging("Processing behavior: " + filepath + " (Check point 1, File extraction complete)");
+        DebugLogging(L"Processing behavior: " + filepath + L" (Check point 1, File extraction complete)");
         process->newMilestone();
 
         // add picked behavior and remove not picked behavior
@@ -226,8 +226,8 @@ void BehaviorSub::CompilingASD()
             if (error) throw nemesis::exception();
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 2, AnimSetData mod selection complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 2, AnimSetData mod selection complete)");
         unordered_map<string, VecStr> animDataSetHeader;
         animDataSetHeader[project].push_back(header);
 
@@ -419,8 +419,8 @@ void BehaviorSub::CompilingASD()
             }
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 3, AnimSetData general processing complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 3, AnimSetData general processing complete)");
         process->newMilestone();
 
         // check for having newAnimation for the file
@@ -476,11 +476,11 @@ void BehaviorSub::CompilingASD()
                         }
 
                         DebugLogging(
-                            "Processing behavior: " + filepath
-                            + " (Check point 3.5, Mod code: " + templateCode + ", Existing AnimData"
-                            + to_string(
+                            L"Processing behavior: " + filepath + L" (Check point 3.5, Mod code: "
+                            + nemesis::transform_to<wstring>(templateCode) + L", Existing AnimData"
+                            + to_wstring(
                                 BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
-                            + ")");
+                            + L")");
 
                         for (auto it = BehaviorTemplate->existingASDHeader[templateCode].begin();
                              it != BehaviorTemplate->existingASDHeader[templateCode].end();
@@ -507,11 +507,11 @@ void BehaviorSub::CompilingASD()
                         }
 
                         DebugLogging(
-                            "Processing behavior: " + filepath
-                            + " (Check point 3.5, Mod code: " + templateCode + ", Existing AnimData"
-                            + to_string(
+                            L"Processing behavior: " + filepath + L" (Check point 3.5, Mod code: "
+                            + nemesis::transform_to<wstring>(templateCode) + L", Existing AnimData"
+                            + to_wstring(
                                 BehaviorTemplate->existingFunctionID[templateCode][lowerBehaviorFile].size())
-                            + " COMPLETE)");
+                            + L" COMPLETE)");
                     }
                 }
                 else
@@ -573,8 +573,8 @@ void BehaviorSub::CompilingASD()
             process->newMilestone();
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 4, AnimSetData new animations complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 4, AnimSetData new animations complete)");
         process->newMilestone();
 
         for (string& curProject : projectList)
@@ -603,28 +603,30 @@ void BehaviorSub::CompilingASD()
             if (error) throw nemesis::exception();
 
             ASDData[curProject]
-                = make_unique<AnimationDataProject>(startline, projectline, filepath, curProject, nemesisInfo);
+                = make_unique<AnimationDataProject>(startline, projectline, curProject, nemesisInfo);
 
             if (error) throw nemesis::exception();
         }
 
-        DebugLogging("Processing behavior: " + filepath
-                     + " (Check point 5, AnimSetData format check complete)");
+        DebugLogging(L"Processing behavior: " + filepath
+                     + L" (Check point 5, AnimSetData format check complete)");
         process->newMilestone();
 
         // final output
 #ifdef DEBUG
-        string outpath = "new_behaviors\\"
-                   + behaviorPath[lowerBehaviorFile].substr(behaviorPath[lowerBehaviorFile].find("\\") + 1);
+        filesystem::path outpath
+            = L"new_behaviors\\"
+                          + behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)].substr(
+                  behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)].find(L"\\") + 1);
 #else
-        string outpath = behaviorPath[lowerBehaviorFile];
+        filesystem::path outpath = behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)];
 #endif
-
-        redirToStageDir(outpath);
+        outpath.replace_extension(".txt");
+        redirToStageDir(outpath, nemesisInfo);
 
         if (!FolderCreate(GetFileDirectory(outpath))) return;
 
-        FileWriter output(outpath + ".txt");
+        FileWriter output(outpath, VecWstr());
 
         if (output.is_open())
         {
@@ -697,7 +699,7 @@ void BehaviorSub::CompilingASD()
             ErrorMessage(1025, filepath);
         }
 
-        DebugLogging("Processing behavior: " + filepath + " (Check point 6, AnimSetData output complete)");
+        DebugLogging(L"Processing behavior: " + filepath + L" (Check point 6, AnimSetData output complete)");
         process->newMilestone();
     }
 }

@@ -1,7 +1,7 @@
 #ifndef FILECHECKER_H_
 #define FILECHECKER_H_
 
-struct NemesisInfo;
+class NemesisInfo;
 
 bool FileCheck(bool isUpdate = false);				// Check the existence of required files
 bool PCEACheck(const NemesisInfo* nemesisInfo);		// Check if PCEA is installed

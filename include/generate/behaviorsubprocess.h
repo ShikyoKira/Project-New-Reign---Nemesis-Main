@@ -12,7 +12,7 @@
 class BehaviorStart;
 
 struct var;
-struct NemesisInfo;
+class NemesisInfo;
 struct TemplateInfo;
 
 class BehaviorSub : public QObject

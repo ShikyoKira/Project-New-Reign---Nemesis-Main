@@ -37,13 +37,13 @@ struct AnimationInfo
     AnimationInfo()
     {}
     AnimationInfo(VecStr newAnimInfo,
-                  std::string curFilename,
+                  std::filesystem::path curFilename,
                   OptionList behaviorOption,
                   int linecount,
                   bool& isOExist,
                   bool noOption = false);
     void addFilename(std::string curFilename);
-    void storeAnimObject(VecStr animobjects, std::string listFilename, int lineCount);
+    void storeAnimObject(VecStr animobjects, std::filesystem::path listFilename, int lineCount);
     void groupAdditionProcess(
         std::string header,
         std::string addOnName,

@@ -66,6 +66,7 @@ set(Header_Files__generate
     "include/generate/behaviortype.h"
     "include/generate/generator_utility.h"
     "include/generate/installscripts.h"
+    "include/generate/papyruscompile.h"
     "include/generate/playerexclusive.h"
     )
 
@@ -104,6 +105,7 @@ set(Header_Files__ui
     "include/ui/ScrollBar.h"
     "include/ui/SettingsSave.h"
     "include/ui/Terminator.h"
+    "include/ui/UiModInfo.h"
     )
 source_group("Header Files\\ui" FILES ${Header_Files__ui})
 
@@ -177,6 +179,7 @@ set(Source_Files__generate
     "src/generate/behaviorsubprocess.cpp"
     "src/generate/generator_utility.cpp"
     "src/generate/installscripts.cpp"
+    "src/generate/papyruscompile.cpp"
     "src/generate/playerexclusive.cpp"
     )
 source_group("Source Files\\generate" FILES ${Source_Files__generate})
@@ -212,6 +215,7 @@ set(Source_Files__ui
     "src/ui/ScrollBar.cpp"
     "src/ui/SettingsSave.cpp"
     "src/ui/Terminator.cpp"
+    "src/ui/UiModInfo.cpp"
     )
 source_group("Source Files\\ui" FILES ${Source_Files__ui})
 

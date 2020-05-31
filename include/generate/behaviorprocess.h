@@ -15,7 +15,7 @@ class NewAnimation;
 class NemesisEngine;
 
 struct var;
-struct NemesisInfo;
+class NemesisInfo;
 struct TemplateInfo;
 struct registerAnimation;
 

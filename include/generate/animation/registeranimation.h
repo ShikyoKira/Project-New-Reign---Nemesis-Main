@@ -1,11 +1,11 @@
 #ifndef REGISTERANIMATION_H_
 #define REGISTERANIMATION_H_
 
-#include <iostream>
 #include <string>
+#include <iostream>
 
-#include "generate/animation/animationinfo.h"
 #include "generate/animation/templateinfo.h"
+#include "generate/animation/animationinfo.h"
 
 struct var
 {
@@ -22,7 +22,7 @@ struct registerAnimation
 public:
     std::string modID;
     std::string version;
-    std::string behaviorFile;
+    std::filesystem::path behaviorFile;
     std::unordered_map<std::string, var> AnimVar;
     std::unordered_map<std::string, int> templateType;
     std::unordered_map<std::string, std::vector<int>> last;
@@ -30,11 +30,10 @@ public:
     std::unordered_map<std::string, std::vector<std::shared_ptr<AnimationInfo>>>
         animInfo; // template code, list of animinfo
 
-    registerAnimation(std::string filepath,
-                      std::string shortfilepath,
+    registerAnimation(std::filesystem::path filepath,
+                      std::filesystem::path shortfilepath,
                       TemplateInfo behaviortemplate,
-                      std::string behavior,
-                      std::string behaviorfile,
+                      std::filesystem::path bhvrPath,
                       bool fstP,
                       bool isNemesis = false);
     void clear();
