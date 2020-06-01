@@ -77,3 +77,4 @@ Before you open an issue
 14. Is the error message telling you to inform the "mod author"? If yes, then don't report to me, report it to the **MOD AUTHOR** not Nemesis' author!!!
 15. Program not launching? Check out [this issue](https://github.com/ShikyoKira/Project-New-Reign---Nemesis-Main/issues/211) and follow what's recommended by users there. I don't use windows 10 so I can't replicate it
 16. enquiry is not an issue. Google it or post on r/skyrimmods subreddit. Quite a number of people should be able to help answer your question
+17. Only post issue you face in the latest version. Any issue you aren't facing in the latest version but only in earlier version will be ignored

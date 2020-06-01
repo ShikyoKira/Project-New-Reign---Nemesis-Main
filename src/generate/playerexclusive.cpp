@@ -362,15 +362,10 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
 
     if (error) throw nemesis::exception();
 
-    sf::path destination(nemesisInfo->GetDataPath() + L"scripts");
+    sf::path destination(nemesisInfo->GetStagePath() + L"scripts");
     sf::path filepath(destination.wstring() + L"\\Nemesis_PCEA_Core.pex");
 
-    if (!PapyrusCompile(pscfile,
-                        import,
-                        destination,
-                        filepath,
-                        cachedir,
-                        nemesisInfo->GetDataPath()))
+    if (!PapyrusCompile(pscfile, import, destination, filepath, cachedir, nemesisInfo->GetDataPath()))
     {
         return false;
     }

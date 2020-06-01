@@ -2110,14 +2110,9 @@ void eventIDReplacer(string& line,
 
         if (eventItr == eventid.end() || (eventItr->second == 0 && eventName != firstEvent))
         {
-            if (format == "BASE")
-            {
-                ErrorMessage(1166);
-            }
-            else
-            {
-                ErrorMessage(1131, format, filename, linecount, eventName);
-            }
+            if (format == "BASE") ErrorMessage(1165, eventName);
+
+            ErrorMessage(1131, format, filename, linecount, eventName);
         }
 
         line.replace(line.find(fullEventName), fullEventName.length(), to_string(eventItr->second));

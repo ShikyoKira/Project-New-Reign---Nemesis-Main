@@ -47,20 +47,24 @@ bool PapyrusCompile(sf::path pscfile,
                     sf::path destination,
                     sf::path filepath,
                     sf::path compiling_path,
-                    sf::path target)
+                    sf::path compilerpath)
 {
     if (!sf::exists(pscfile)) ErrorMessage(1092, pscfile);
-    if (!sf::exists(destination)) ErrorMessage(1001, destination);
+
+    if (!sf::exists(destination))
+    {
+        sf::create_directories(destination);
+    }
 
     wstring timeline;
 
-    while (!nemesis::iequals(target.stem().wstring(), L"data"))
+    while (!nemesis::iequals(compilerpath.stem().wstring(), L"data"))
     {
-        target = target.parent_path();
+        compilerpath = compilerpath.parent_path();
     }
 
-    target = target.parent_path();
-    target = sf::path(target.wstring() + L"\\Papyrus Compiler\\PapyrusCompiler.exe");
+    compilerpath = compilerpath.parent_path();
+    compilerpath = sf::path(compilerpath.wstring() + L"\\Papyrus Compiler\\PapyrusCompiler.exe");
 
     if (isFileExist(filepath) && !sf::remove(filepath)) timeline = GetLastModified(filepath);
 
@@ -71,8 +75,8 @@ bool PapyrusCompile(sf::path pscfile,
         ErrorMessage(1082, pscfile.replace_extension(L".psc"), desPsc);
     }
 
-    if (!sf::exists(target)
-        || !PapyrusCompileProcess(pscfile, import, destination, filepath, compiling_path, target))
+    if (!sf::exists(compilerpath)
+        || !PapyrusCompileProcess(pscfile, import, destination, filepath, compiling_path, compilerpath))
     {
         string compiler = "Papyrus Compiler\\PapyrusCompiler.exe";
 

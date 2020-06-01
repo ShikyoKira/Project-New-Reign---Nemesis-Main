@@ -96,6 +96,7 @@ bool hkxcmdProcess(sf::path xmlfile, sf::path hkxfile, bool last)
     string output = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
     hkxcount.AddPath(input, output);
     sf::copy_file(xmlfile, input, sf::copy_options::overwrite_existing);
+    DebugLogging("HKX Input: " + input + "\nHKX Output: " + output);
 
     if (QProcess::execute("hkxcmd.exe",
                           QStringList() << "convert"
@@ -141,6 +142,7 @@ bool hkxcmdXmlInput(sf::path hkxfile, VecStr& fileline)
     string output = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
     hkxcount.AddPath(input, output);
     sf::copy_file(hkxfile, input, sf::copy_options::overwrite_existing);
+    DebugLogging("XML HKX Input: " + input + "\nXML HKX Output: " + output);
 
     if (QProcess::execute("hkxcmd.exe",
                           QStringList() << "convert"
@@ -186,6 +188,7 @@ bool hkxcmdXmlInput(sf::path hkxfile, VecWstr& fileline)
     string output = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
     hkxcount.AddPath(input, output);
     sf::copy_file(hkxfile, input, sf::copy_options::overwrite_existing);
+    DebugLogging("XML HKX Input: " + input + "\nXML HKX Output: " + output);
 
     if (QProcess::execute("hkxcmd.exe",
                           QStringList() << "convert"

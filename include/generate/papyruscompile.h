@@ -8,4 +8,4 @@ bool PapyrusCompile(std::filesystem::path pscfile,
                     std::filesystem::path destination,
                     std::filesystem::path filepath,
                     std::filesystem::path compiling_path,
-                    std::filesystem::path nemesisInfo);
+                    std::filesystem::path compilerpath);

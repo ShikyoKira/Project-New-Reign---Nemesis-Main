@@ -24,7 +24,7 @@ bool AACoreCompile(sf::path pscfile,
                    sf::path import,
                    sf::path destination,
                    sf::path filepath,
-                   sf::path appdata_path,
+                   sf::path tempcompiling,
                    VecStr& newFunctions,
                    uint& maxGroup,
                    uint& uniquekey,
@@ -33,15 +33,13 @@ bool AAnimAPICompile(sf::path pscfile,
                      sf::path import,
                      sf::path destination,
                      sf::path filepath,
-                     sf::path appdata_path,
+                     sf::path tempcompiling,
                      VecStr& newFunctions,
                      uint maxGroup,
                      uint& uniquekey,
-                     sf::path target);
+                     sf::path compilerpath);
 void fixedKeyInitialize();
 uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
-void ByteCopyToData(string target, string destination);
-void ByteCopyToData(wstring target, wstring destination);
 
 struct ModIDByGroup
 {
@@ -120,7 +118,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
     if (error) throw nemesis::exception();
 
     sf::path import(nemesisInfo->GetDataPath() + L"scripts\\source");
-    sf::path destination(nemesisInfo->GetDataPath() + L"scripts");
+    sf::path destination(nemesisInfo->GetStagePath() + L"scripts");
     sf::path source("alternate animation\\alternate animation.script");
     sf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
     sf::path filepath(destination.wstring() + L"\\Nemesis_AA_Core.pex");
@@ -198,11 +196,11 @@ bool AACoreCompile(sf::path pscfile,
                    sf::path import,
                    sf::path destination,
                    sf::path filepath,
-                   sf::path appdata_path,
+                   sf::path tempcompiling,
                    VecStr& newFunctions,
                    uint& maxGroup,
                    uint& uniquekey,
-                   sf::path target)
+                   sf::path compilerpath)
 {
     bool prefixDone = false;
     VecStr prefixList;
@@ -529,7 +527,7 @@ bool AACoreCompile(sf::path pscfile,
         }
     }
 
-    if (!PapyrusCompile(pscfile, import, destination, filepath, appdata_path, target)) return false;
+    if (!PapyrusCompile(pscfile, import, destination, filepath, tempcompiling, compilerpath)) return false;
 
     DebugLogging("AA core script complete");
     return true;
@@ -539,11 +537,11 @@ bool AAnimAPICompile(sf::path pscfile,
                      sf::path import,
                      sf::path destination,
                      sf::path filepath,
-                     sf::path appdata_path,
+                     sf::path tempcompiling,
                      VecStr& newFunctions,
                      uint maxGroup,
                      uint& uniquekey,
-                     sf::path target)
+                     sf::path compilerpath)
 {
     VecStr storeline;
     VecStr newline;
@@ -598,7 +596,7 @@ bool AAnimAPICompile(sf::path pscfile,
         }
     }
 
-    return PapyrusCompile(pscfile, import, destination, filepath, appdata_path, target);
+    return PapyrusCompile(pscfile, import, destination, filepath, tempcompiling, compilerpath);
 }
 
 void fixedKeyInitialize()

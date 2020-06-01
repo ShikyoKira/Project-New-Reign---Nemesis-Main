@@ -82,15 +82,15 @@ private:
     std::atomic_flag upFlag{};
     std::atomic_flag newAnimFlag{};
 
-    // nemesis ini
-    const NemesisInfo* nemesisInfo;
-
     // timer
     std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();
 
 public:
     std::atomic_flag postBehaviorFlag{};
     std::unordered_map<std::wstring, USetWstr> postBhvrRefBy;
+
+    // nemesis ini
+    const NemesisInfo* nemesisInfo;
 };
 
 #endif
