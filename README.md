@@ -74,7 +74,10 @@ Before you open an issue
 11. Is it about TUDM, PCEA or something else other than Nemesis? Then don't report it here.
 12. Is anything broken for you? No, then ignore the warnings. Don't bother me with your "I got 1000 warnings" if everything is working fine
 13. Movement issues (dodging in place, no forward movement...) it can be due to a Nemesis issue. Nemesis will not always generate a animationdatasinglefile.txt and will instead edit an existing file in your load order .This file contains the motion data. After running Nemesis, search for the most recent animationdatasinglefile.txt in your load order. It is located in the meshes folder of behavior mods (CGO, SkySA, TUDM...). Most of the time FNIS mods won't contain some but you must verify. Once you have found it, copy and paste it in the meshes folder of the Nemesis output folder". This issue can never be solved by Nemesis as file management is not done by Nemesis
-14. Is the error message telling you to inform the "mod author"? If yes, then don't report to me, report it to the **MOD AUTHOR** not Nemesis' author!!!
+14. Is the error message telling you to inform the "mod author"? If yes, then don't report to me, report it to the **MOD AUTHOR** not Nemesis' author!!! *Unless you are the mod author
 15. Program not launching? Check out [this issue](https://github.com/ShikyoKira/Project-New-Reign---Nemesis-Main/issues/211) and follow what's recommended by users there. I don't use windows 10 so I can't replicate it
 16. enquiry is not an issue. Google it or post on r/skyrimmods subreddit. Quite a number of people should be able to help answer your question
 17. Only post issue you face in the latest version. Any issue you aren't facing in the latest version but only in earlier version will be ignored
+18. "Does this work with Mod A?" Don't ask me. You test it
+19. Test the issue with or without mods. If it works without any mods, find out the culprit, only then open an issue with the culprit as the cause
+20. If you find it hard to put it into words, screenshot it
