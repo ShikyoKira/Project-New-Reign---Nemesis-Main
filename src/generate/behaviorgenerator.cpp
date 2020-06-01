@@ -71,34 +71,35 @@ sf::path tryGetRelative(sf::path filepath)
     return filepath;
 }
 
-bool hkxcmdProcess(sf::path xmlfile, sf::path hkxfile, bool last)
+HkxCompiler::HkxCompiler() 
 {
-    if (!last)
-    {
-        if (xmlfile.has_extension() || xmlfile.extension().wstring() != L".xml")
-        {
-            xmlfile.replace_extension(L".xml");
-        }
-        
-        if (hkxfile.has_extension() || hkxfile.extension().wstring() != L".hkx")
-        {
-            hkxfile.replace_extension(L".hkx");
-        }
-    }
+    tempdir = sf::current_path().root_path().string() + "Nemesis_TempHkx\\";
 
-    if (!isFileExist(hkxTempCompile()) || !sf::is_directory(hkxTempCompile()))
-    {
-        sf::create_directories(hkxTempCompile());
-    }
+    DebugLogging(tempdir);
+
+    if (!isFileExist(tempdir)) sf::create_directories(tempdir);
+
+    tempcompiler = tempdir + "hkxcmd.exe";
+    sf::copy_file("hkxcmd.exe", tempcompiler, sf::copy_options::overwrite_existing);
+}
+
+HkxCompiler::~HkxCompiler()
+{
+    if (isFileExist(tempdir)) sf::remove_all(tempdir);
+}
+
+bool HkxCompiler::hkxcmdProcess(fpath xmlfile, fpath hkxfile, bool last) const
+{
+    if (!last) ensureExtension(xmlfile, L".xml", hkxfile, L".hkx");
 
     const HkxCompileCount hkxcount;
-    string input = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
-    string output = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
+    string input  = tempdir + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
+    string output = tempdir + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
     hkxcount.AddPath(input, output);
     sf::copy_file(xmlfile, input, sf::copy_options::overwrite_existing);
     DebugLogging("HKX Input: " + input + "\nHKX Output: " + output);
 
-    if (QProcess::execute("hkxcmd.exe",
+    if (QProcess::execute(QString::fromStdString(tempcompiler),
                           QStringList() << "convert"
                                         << (SSE ? "-v:AMD64" : "-v:WIN32") 
                                         << input.data()
@@ -118,42 +119,12 @@ bool hkxcmdProcess(sf::path xmlfile, sf::path hkxfile, bool last)
     return true;
 }
 
-bool hkxcmdXmlInput(sf::path hkxfile, VecStr& fileline)
+bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecStr& fileline) const
 {
-    sf::path xmlfile = hkxfile;
-
-    if (xmlfile.has_extension() || xmlfile.extension().wstring() != L".xml")
-    {
-        xmlfile.replace_extension(L".xml");
-    }
-
-    if (hkxfile.has_extension() || hkxfile.extension().wstring() != L".hkx")
-    {
-        hkxfile.replace_extension(L".hkx");
-    }
-
-    if (!isFileExist(hkxTempCompile()) || !sf::is_directory(hkxTempCompile()))
-    {
-        sf::create_directories(hkxTempCompile());
-    }
-
-    const HkxCompileCount hkxcount;
-    string input  = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
-    string output = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
-    hkxcount.AddPath(input, output);
-    sf::copy_file(hkxfile, input, sf::copy_options::overwrite_existing);
-    DebugLogging("XML HKX Input: " + input + "\nXML HKX Output: " + output);
-
-    if (QProcess::execute("hkxcmd.exe",
-                          QStringList() << "convert"
-                                        << "-v:xml" 
-                                        << input.data() 
-                                        << output.data())
-            != 0
-        || !isFileExist(output))
-    {
-        ErrorMessage(1207, hkxfile); 
-    }
+    fpath xmlfile = hkxfile;
+    ensureExtension(xmlfile, L".xml", hkxfile, L".hkx");
+    HkxCompileCount hkxcount;
+    string output = xmlDecompile(hkxfile, xmlfile, hkxcount);
 
     if (!GetFunctionLines(output, fileline)) return false;
 
@@ -164,53 +135,51 @@ bool hkxcmdXmlInput(sf::path hkxfile, VecStr& fileline)
     return true;
 }
 
-bool hkxcmdXmlInput(sf::path hkxfile, VecWstr& fileline)
+bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecWstr& fileline) const
 {
-    sf::path xmlfile = hkxfile;
+    fpath xmlfile = hkxfile;
+    ensureExtension(xmlfile, L".xml", hkxfile, L".hkx");
+    HkxCompileCount hkxcount;
+    string output = xmlDecompile(hkxfile, xmlfile, hkxcount);
 
-    if (xmlfile.has_extension() || xmlfile.extension().wstring() != L".xml")
+    if (!GetFunctionLines(output, fileline)) return false;
+
+    if (fileline.size() == 0) ErrorMessage(3001, output);
+
+    if (!sf::remove(output)) ErrorMessage(1082, output, output);
+
+    return true;
+}
+
+void HkxCompiler::ensureExtension(fpath& file1, const wstring& ext1, fpath& file2, const wstring& ext2) const
+{
+    if (file1.has_extension() || file1.extension().wstring() != ext1)
     {
-        xmlfile.replace_extension(L".xml");
+        file1.replace_extension(ext1);
     }
 
-    if (hkxfile.has_extension() || hkxfile.extension().wstring() != L".hkx")
+    if (file2.has_extension() || file2.extension().wstring() != ext2)
     {
-        hkxfile.replace_extension(L".hkx");
+        file2.replace_extension(ext2);
     }
+}
 
-    if (!isFileExist(hkxTempCompile()) || !sf::is_directory(hkxTempCompile()))
-    {
-        sf::create_directories(hkxTempCompile());
-    }
-
-    const HkxCompileCount hkxcount;
-    string input  = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
-    string output = hkxTempCompile() + "\\" + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
+std::string HkxCompiler::xmlDecompile(fpath hkxfile, fpath xmlfile, const HkxCompileCount& hkxcount) const 
+{
+    string input  = tempdir + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
+    string output = tempdir + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
     hkxcount.AddPath(input, output);
     sf::copy_file(hkxfile, input, sf::copy_options::overwrite_existing);
     DebugLogging("XML HKX Input: " + input + "\nXML HKX Output: " + output);
 
-    if (QProcess::execute("hkxcmd.exe",
+    if (QProcess::execute(QString::fromStdString(tempcompiler),
                           QStringList() << "convert"
-                                        << "-v:xml" 
-                                        << input.data() 
-                                        << output.data())
+                                        << "-v:xml" << input.data() << output.data())
             != 0
         || !isFileExist(output))
     {
         ErrorMessage(1207, hkxfile);
     }
 
-    if (!GetFunctionLines(output, fileline)) return false;
-
-    if (fileline.size() == 0) ErrorMessage(3001, output);
-
-    if (!sf::remove(output)) ErrorMessage(1082, output, output);
-
-    return true;
-}
-
-std::string hkxTempCompile()
-{
-    return "cache\\hkx";
+    return output;
 }

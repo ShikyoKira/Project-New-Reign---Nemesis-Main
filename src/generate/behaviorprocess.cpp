@@ -1271,7 +1271,7 @@ void BehaviorStart::EndAttempt()
         {
             for (int i = 0; i < failedBehaviors.size(); i += 2)
             {
-                hkxcmdProcess(failedBehaviors[i], failedBehaviors[i + 1], true);
+                hkxCompiler.hkxcmdProcess(failedBehaviors[i], failedBehaviors[i + 1], true);
                 DebugLogging(L"Processing behavior: " + failedBehaviors[i]
                              + L" (Check point #, Behavior compile complete)");
                 emit progressUp();
@@ -1285,8 +1285,6 @@ void BehaviorStart::EndAttempt()
             failedBehaviors.clear();
             behaviorCheck(this);
             
-            if (isFileExist(hkxTempCompile())) sf::remove_all(hkxTempCompile());
-
             if (isFileExist(papyrusTempCompile())) sf::remove_all(papyrusTempCompile());
 
             emit progressUp();

@@ -9,6 +9,8 @@
 
 #include "ui/ProgressUp.h"
 
+#include "generate/behaviorgenerator.h"
+
 typedef std::unordered_set<std::string> USetStr;
 typedef std::unordered_set<std::wstring> USetWstr;
 
@@ -91,6 +93,7 @@ public:
 
     // nemesis ini
     const NemesisInfo* nemesisInfo;
+    const HkxCompiler hkxCompiler = HkxCompiler();
 };
 
 #endif

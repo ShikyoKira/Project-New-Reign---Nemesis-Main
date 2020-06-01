@@ -89,7 +89,5 @@ void ClearTempXml(const NemesisInfo* nemesisInfo)
         }
     }
 
-    if (isFileExist(hkxTempCompile())) sf::remove_all(hkxTempCompile());
-
     if (isFileExist(papyrusTempCompile())) sf::remove_all(papyrusTempCompile());
 }

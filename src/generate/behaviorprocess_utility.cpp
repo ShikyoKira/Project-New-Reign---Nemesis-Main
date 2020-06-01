@@ -132,7 +132,7 @@ void unpackToCatalyst(map<int, VecStr>& catalystMap, unordered_map<int, shared_p
 	}
 }
 
-int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone)
+int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone, const HkxCompiler& hkxCompiler)
 {
     int bonenum;
 
@@ -185,7 +185,7 @@ int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone)
     else
     {
         VecStr storeline;
-        hkxcmdXmlInput(rigfile, storeline);
+        hkxCompiler.hkxcmdXmlInput(rigfile, storeline);
         string bonemap = "<hkparam name=\"parentIndices\" numelements=\"";
 
         for (auto& line : storeline)

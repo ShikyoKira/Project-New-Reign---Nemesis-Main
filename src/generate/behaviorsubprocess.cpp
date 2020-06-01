@@ -586,10 +586,9 @@ void BehaviorSub::CompilingBehavior()
             wstring wrigfile = curFile.parent_path().parent_path().wstring() + L"\\"
                                + nemesis::transform_to<wstring>(rigfile);
             
-
             if (found && isFileExist(wrigfile) && !sf::is_directory(wrigfile))
             {
-                bonenum = bonePatch(wrigfile, oribone, newBone);
+                bonenum = bonePatch(wrigfile, oribone, newBone, process->hkxCompiler);
             }
 
             DebugLogging(L"Processing behavior: " + filepath
@@ -3058,7 +3057,7 @@ void BehaviorSub::CompilingBehavior()
     process->newMilestone();
     --extraCore;
 
-    if (hkxcmdProcess(nemesis::transform_to<wstring>(filename), outputdir))
+    if (process->hkxCompiler.hkxcmdProcess(nemesis::transform_to<wstring>(filename), outputdir))
     {
         DebugLogging(L"Processing behavior: " + filepath + L" (Check point 7, Behavior compile complete)");
         process->newMilestone();

@@ -8,6 +8,7 @@
 struct master;
 class NemesisInfo;
 struct AnimationInfo;
+class HkxCompiler;
 
 typedef std::set<std::string> SetStr;
 typedef std::unordered_map<std::string, int> ID;
@@ -22,7 +23,7 @@ void groupThreadStart(std::shared_ptr<newGroupArgs> args);
 void elementUpdate(size_t& elementLine, int& counter, int& curID, std::map<int, VecStr>& catalystMap);
 void unpackToCatalyst(std::map<int, VecStr>& catalystMap,
                       std::unordered_map<int, std::shared_ptr<NodeJoint>>& existingNodes);
-int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone);
+int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone, const HkxCompiler& hkxCompiler);
 
 void processExistFuncID(std::vector<int>& funcIDs,
                         const std::string& ZeroEvent,
