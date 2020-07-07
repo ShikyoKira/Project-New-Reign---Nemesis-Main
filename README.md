@@ -81,3 +81,7 @@ Before you open an issue
 18. "Does this work with Mod A?" Don't ask me. You test it
 19. Test the issue with or without mods. If it works without any mods, find out the culprit, only then open an issue with the culprit as the cause
 20. If you find it hard to put it into words, screenshot it
+21. No help will be given if you use mod that you have downloaded from [here](https://www.nexusmods.com/skyrimspecialedition/mods/26513). Unless you do the conversion from LE to SE yourself
+22. Error means something else is wrong. It doesn't mean Nemesis is broken!! Applying point 2,4,7 to ensure it is likely that it is a Nemesis' bug
+
+Failure in meeting any of the above criteria when posting an issue will result in the issue given a warning for its failure and be given 5 days before getting removed if failing to meet all criterias still
