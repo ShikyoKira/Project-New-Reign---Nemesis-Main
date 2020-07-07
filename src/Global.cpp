@@ -179,6 +179,91 @@ int sameWordCount(wstring line, wstring word)
     return wordCount;
 }
 
+bool GetFunctionLines(std::filesystem::path filename, VecNstr& functionlines, bool emptylast)
+{
+    functionlines = VecNstr();
+
+    if (sf::is_directory(filename)) ErrorMessage(3001, filename.string());
+
+    functionlines.reserve(fileLineCount(filename));
+    FileReader BehaviorFormat(filename.wstring());
+
+    if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filename.string());
+
+    wstring line;
+
+    while (BehaviorFormat.GetLines(line))
+    {
+        if (error) throw nemesis::exception();
+
+        functionlines.push_back(nemesis::transform_to<string>(line));
+    }
+
+    if (functionlines.size() == 0) return false;
+
+    if (emptylast)
+    {
+        if (functionlines.size() != 0 && functionlines.back().length() != 0
+            && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND
+            && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
+        {
+            functionlines.push_back("");
+        }
+    }
+    else
+    {
+        if (functionlines.size() != 0 && functionlines.back().length() == 0)
+        {
+            functionlines.pop_back();
+        }
+    }
+
+    return true;
+}
+
+bool GetFunctionLines(std::filesystem::path filename, VecNwstr& functionlines, bool emptylast)
+{
+    functionlines = VecNwstr();
+
+    if (sf::is_directory(filename)) ErrorMessage(3001, filename.string());
+
+    functionlines.reserve(fileLineCount(filename));
+    FileReader BehaviorFormat(filename.wstring());
+
+    if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filename.string());
+
+    wstring line;
+    uint linenum = 0;
+
+    while (BehaviorFormat.GetLines(line))
+    {
+        if (error) throw nemesis::exception();
+
+        functionlines.push_back(nemesis::Wline(line, ++linenum));
+    }
+
+    if (functionlines.size() == 0) return false;
+
+    if (emptylast)
+    {
+        if (functionlines.size() != 0 && functionlines.back().length() != 0
+            && functionlines.back().find(L"<!-- CONDITION END -->") == NOT_FOUND
+            && functionlines.back().find(L"<!-- CLOSE -->") == NOT_FOUND)
+        {
+            functionlines.push_back(nemesis::Wline(L"", ++linenum));
+        }
+    }
+    else
+    {
+        if (functionlines.size() != 0 && functionlines.back().length() == 0)
+        {
+            functionlines.pop_back();
+        }
+    }
+
+    return true;
+}
+
 bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
 {
 	functionlines = VecStr();

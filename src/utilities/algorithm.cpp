@@ -50,6 +50,16 @@ namespace nemesis
         return to_lower_copy(data.c_str());
     }
 
+    nemesis::Line to_lower_copy(const nemesis::Line& data)
+    {
+        return nemesis::Line(to_lower_copy(data.c_str()), data.linenum);
+    }
+
+    nemesis::Wline to_lower_copy(const nemesis::Wline& data)
+    {
+        return nemesis::Wline(to_lower_copy(data.c_str()), data.linenum);
+    }
+
     void to_lower(string& data)
     {
         data = to_lower_copy(data.c_str());
@@ -58,6 +68,16 @@ namespace nemesis
     void to_lower(wstring& data)
     {
         data = to_lower_copy(data.c_str());
+    }
+
+    void to_lower(nemesis::Line& data)
+    {
+        data = nemesis::Line(to_lower_copy(data.c_str()), data.linenum);
+    }
+
+    void to_lower(nemesis::Wline& data)
+    {
+        data = nemesis::Wline(to_lower_copy(data.c_str()), data.linenum);
     }
 
     const char* to_upper_copy(const char* data)
@@ -100,6 +120,16 @@ namespace nemesis
         return to_upper_copy(data.c_str());
     }
 
+    nemesis::Line to_upper_copy(const nemesis::Line& data)
+    {
+        return nemesis::Line(to_upper_copy(data.c_str()), data.linenum);
+    }
+
+    nemesis::Wline to_upper_copy(const nemesis::Wline& data)
+    {
+        return nemesis::Wline(to_upper_copy(data.c_str()), data.linenum);
+    }
+
     void to_upper(string& data)
     {
         data = to_upper_copy(data.c_str());
@@ -108,6 +138,16 @@ namespace nemesis
     void to_upper(wstring& data)
     {
         data = to_upper_copy(data.c_str());
+    }
+
+    void to_upper(nemesis::Line& data)
+    {
+        data = nemesis::Line(to_upper_copy(data.c_str()), data.linenum);
+    }
+
+    void to_upper(nemesis::Wline& data) 
+    {
+        data = nemesis::Wline(to_upper_copy(data.c_str()), data.linenum);
     }
 
     bool iequals(const char* l, const char* r)
@@ -148,5 +188,17 @@ namespace nemesis
     bool iequals(const wstring& l, const wstring& r)
     {
         return wcscmp(to_lower_copy(l.c_str()), to_lower_copy(r.c_str())) == 0;
+    }
+    
+    nemesis::Line transform_to(const nemesis::Wline& str) noexcept
+    {
+        string line = transform_to<string, wstring>(str);
+        return nemesis::Line(line, str.linenum);
+    }
+
+    nemesis::Wline transform_to(const nemesis::Line& str) noexcept
+    {
+        wstring line = transform_to<wstring, string>(str);
+        return nemesis::Wline(line, str.linenum);
     }
 } // namespace nemesis

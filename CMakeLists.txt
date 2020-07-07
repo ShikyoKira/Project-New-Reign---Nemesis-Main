@@ -139,6 +139,7 @@ set(Header_Files__utilities
     "include/utilities/crc32.h"
     "include/utilities/filechecker.h"
     "include/utilities/lastupdate.h"
+    "include/utilities/line.h"
     "include/utilities/linkedvar.h"
     "include/utilities/readtextfile.h"
     "include/utilities/regex.h"

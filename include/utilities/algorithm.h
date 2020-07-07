@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "utilities/line.h"
 
 namespace nemesis
 {
@@ -10,8 +10,14 @@ namespace nemesis
     std::string to_lower_copy(const std::string& data);
     std::wstring to_lower_copy(const std::wstring& data);
 
+    nemesis::Line to_lower_copy(const nemesis::Line& data);
+    nemesis::Wline to_lower_copy(const nemesis::Wline& data);
+
     void to_lower(std::string& data);
     void to_lower(std::wstring& data);
+
+    void to_lower(nemesis::Line& data);
+    void to_lower(nemesis::Wline& data);
 
     const char* to_upper_copy(const char* data);
     const wchar_t* to_upper_copy(const wchar_t* data);
@@ -19,8 +25,11 @@ namespace nemesis
     std::string to_upper_copy(const std::string& data);
     std::wstring to_upper_copy(const std::wstring& data);
 
-    void to_upper(std::string& data);
-    void to_upper(std::wstring& data);
+    nemesis::Line to_upper_copy(const nemesis::Line& data);
+    nemesis::Wline to_upper_copy(const nemesis::Wline& data);
+
+    void to_upper(nemesis::Line& data);
+    void to_upper(nemesis::Wline& data);
 
     bool iequals(const char* l, const char* r);
     bool iequals(const wchar_t* l, const wchar_t* r);
@@ -30,6 +39,9 @@ namespace nemesis
     bool iequals(const std::wstring& l, const wchar_t* r);
     bool iequals(const std::string& l, const std::string& r);
     bool iequals(const std::wstring& l, const std::wstring& r);
+
+    nemesis::Line transform_to(const nemesis::Wline& str) noexcept;
+    nemesis::Wline transform_to(const nemesis::Line& str) noexcept;
 
     template <typename T, typename F>
     inline T transform_to(const F& str) noexcept
