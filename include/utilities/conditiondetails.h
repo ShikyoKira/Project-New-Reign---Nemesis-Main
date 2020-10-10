@@ -6,15 +6,6 @@
 
 #include "utilities/line.h"
 
-#define NEM_FOREACH "<!-- FOREACH ^"
-#define NEM_IF "<!-- IF ^"
-#define NEM_ELSEIF "<!-- ELSEIF ^"
-#define NEM_ENDIF "<!-- ENDIF -->"
-#define NEM_CLOSE "<!-- CLOSE -->"
-#define NEM_MODCODE "<!-- MOD_CODE ~"
-#define NEM_ORIGINAL "<!-- ORIGINAL -->"
-#define NEM_ENDFUNC "^ -->"
-
 namespace nemesis
 {
     enum CondType
