@@ -100,7 +100,7 @@ void InfoDataPack_Condt::getlines(VecStr& storeline)
     storeline.push_back("");
 }
 
-void getlinkedline(const nemesis::LinkedVar<InfoDataPack_Condt>& linkedinfodata, VecStr& storeline)
+void getLinkedLines(const nemesis::LinkedVar<InfoDataPack_Condt>& linkedinfodata, VecStr& storeline)
 {
     vector<pair<const string*, const nemesis::CondVar<InfoDataPack_Condt>*>> modcodelist;
 
@@ -120,7 +120,7 @@ void getlinkedline(const nemesis::LinkedVar<InfoDataPack_Condt>& linkedinfodata,
 
                 for (auto& each : cond.rawlist)
                 {
-                    getlinkedline(each, storeline);
+                    getLinkedLines(each, storeline);
                 }
 
                 storeline.push_back("<!-- CLOSE -->");
@@ -139,7 +139,7 @@ void getlinkedline(const nemesis::LinkedVar<InfoDataPack_Condt>& linkedinfodata,
             {
                 list.push_back(pair<string, VecStr>());
                 list.back().first = *modcode.first;
-                getlinkedline(modcode.second->rawlist[0], list.back().second);
+                getLinkedLines(modcode.second->rawlist[0], list.back().second);
 
                 if (list.back().second.size() > 0) list.back().second.pop_back();
             }
@@ -147,11 +147,7 @@ void getlinkedline(const nemesis::LinkedVar<InfoDataPack_Condt>& linkedinfodata,
             for (auto& each : list)
             {
                 storeline.push_back("<!-- NEW *" + each.first + "* -->");
-
-                for (auto& eachline : each.second)
-                {
-                    storeline.push_back(eachline);
-                }
+                storeline.insert(storeline.end(), each.second.begin(), each.second.end());
             }
 
             if (list.size() > 0)
@@ -175,7 +171,7 @@ void getlinkedline(const nemesis::LinkedVar<InfoDataPack_Condt>& linkedinfodata,
             for (auto& modcode : modcodelist)
             {
                 storeline.push_back("<!-- NEW *" + *modcode.first + "* -->");
-                getlinkedline(modcode.second->rawlist[0], storeline);
+                getLinkedLines(modcode.second->rawlist[0], storeline);
                 storeline.push_back("<!-- CLOSE -->");
             }
         }

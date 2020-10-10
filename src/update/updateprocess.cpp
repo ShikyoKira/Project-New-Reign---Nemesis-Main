@@ -17,10 +17,12 @@
 #include "utilities/threadpool.h"
 #endif
 
-#include "update/dataunification.h"
 #include "update/updateprocess.h"
+#include "update/functionupdate.h"
+#include "update/dataunification.h"
 
 #include "generate/behaviorprocess_utility.h"
+#include <QtConcurrent\qtconcurrentrun.h>
 
 using namespace std;
 namespace sf = filesystem;
@@ -133,6 +135,22 @@ void UpdateFilesStart::startUpdatingFile()
 {
     string directory        = "mod\\";
     string newAnimDirectory = "behavior templates\\";
+
+    QtConcurrent::run([&]() {
+        while (running)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            ++timeout_timer;
+
+            // timeout after 5mins
+            if (timeout_timer == 3000)
+            {
+                error = true;
+                emit criticalError("TIMEOUT", "Update process timeout");
+                return;
+            }
+        }
+    });
 
     // Seperate try-catch for easier debugging purpose
 
@@ -1081,8 +1099,8 @@ bool UpdateFilesStart::AnimSetDataDisassemble(const wstring& path, MasterAnimSet
 #if MULTITHREADED_UPDATE
     scoped_lock<mutex> asdlock(asdmtx);
 #endif
-    VecStr storeline;
-    int num;
+    VecNstr storeline;
+    size_t num;
     VecStr newline;
     newline.reserve(500);
 
@@ -1097,85 +1115,22 @@ bool UpdateFilesStart::AnimSetDataDisassemble(const wstring& path, MasterAnimSet
         num = stoi(strnum) + 1;
     }
 
-    unordered_map<string, VecStr> animDataSetHeader;
-    string project     = "$header$";
-    string header      = project;
-    int projectcounter = 1;
-    int headercounter  = 0;
-    bool special       = false;
-    bool isInfo        = false;
-    animSetData.projectList.push_back(project);
-    animDataSetHeader[project].push_back(header);
-
-    for (int i = 1; i < num; ++i)
+    // Adding project
+    for (size_t i = 1; i < num; ++i)
     {
-        newline.push_back(storeline[i]);
-        animSetData.projectList.push_back(nemesis::to_lower_copy(storeline[i]));
+        animSetData.add(storeline[i]);
     }
 
-    for (unsigned int i = num; i < storeline.size(); ++i)
+    for (auto& project : animSetData.projects)
     {
-        if (i != storeline.size() - 1 && wordFind(storeline[i + 1], ".txt") != NOT_FOUND)
+        // Adding data set
+        project.raw->importAnimSetData(path, storeline, ++num);
+        
+        for (auto& dataset : project.raw->getAnimSetData())
         {
-            header = animDataSetHeader[project][headercounter];
-            newline.shrink_to_fit();
-            animSetData.newAnimSetData[project][header] = newline;
-            newline.reserve(100);
-            newline.clear();
-            project = animSetData.projectList[projectcounter];
-            ++projectcounter;
-            headercounter = 0;
-            animDataSetHeader[project].push_back("$header$");
-            newline.push_back(storeline[i]);
-            ++i;
-
-            if (animDataSetHeader[project].size() != 1) ErrorMessage(5005, path, i + 1);
-
-            while (i < storeline.size())
-            {
-                if (wordFind(storeline[i], ".txt") != NOT_FOUND)
-                {
-                    animDataSetHeader[project].push_back(GetFileName(nemesis::to_lower_copy(storeline[i])));
-                }
-                else if (wordFind(storeline[i], "V3") != NOT_FOUND)
-                {
-                    header = nemesis::to_lower_copy(animDataSetHeader[project][headercounter]);
-                    ++headercounter;
-                    newline.shrink_to_fit();
-                    animSetData.newAnimSetData[project][header] = newline;
-                    newline.reserve(100);
-                    newline.clear();
-                    break;
-                }
-                else
-                {
-                    ErrorMessage(5020, path, i + 1);
-                }
-
-                newline.push_back(storeline[i]);
-                ++i;
-            }
+            num += 2;
+            dataset.raw->importData(path, num, storeline);
         }
-        else if (wordFind(storeline[i], "V3") != NOT_FOUND)
-        {
-            header = animDataSetHeader[project][headercounter];
-            ++headercounter;
-            newline.shrink_to_fit();
-            animSetData.newAnimSetData[project][header] = newline;
-            newline.reserve(100);
-            newline.clear();
-        }
-
-        newline.push_back(storeline[i]);
-    }
-
-    if (newline.size() != 0)
-    {
-        if (newline.back().length() == 0) newline.pop_back();
-
-        header = animDataSetHeader[project][headercounter];
-        newline.shrink_to_fit();
-        animSetData.newAnimSetData[project][header] = newline;
     }
 
     return true;
@@ -1193,12 +1148,13 @@ void UpdateFilesStart::ModThread(const string& directory,
         if (error) throw nemesis::exception();
 
         sf::path curPath(directory + modcode + "\\" + behavior + "\\" + node);
+        auto& curpack = pack.at(modcode);
 
         if (sf::is_directory(curPath))
         {
             if (nemesis::iequals(behavior, "animationdatasinglefile"))
             {
-                MasterAnimData& animData(pack[modcode]->animData);
+                MasterAnimData& animData(curpack->animData);
 
                 if (animData.projectlist.size() == 0)
                 {
@@ -1221,7 +1177,7 @@ void UpdateFilesStart::ModThread(const string& directory,
                 string filepath = curPath.string();
                 read_directory(filepath, uniquecodelist);
 
-                if (projectname == "$header$" && !animData.find(projectname, modcode))
+                if (projectname == "$header$")
                 {
                     string fullpath = filepath + "\\$header$.txt";
 
@@ -1247,6 +1203,8 @@ void UpdateFilesStart::ModThread(const string& directory,
                         GetFunctionLines(fullpath, storeline, false);
                         animData.projectListUpdate(modcode, fullpath, storeline, false);
                     }
+
+                    if (!animData.contains(projectname)) ErrorMessage(3011, "$header$.txt", projectname);
 
                     for (string& uniquecode : uniquecodelist)
                     {
@@ -1304,76 +1262,107 @@ void UpdateFilesStart::ModThread(const string& directory,
             }
             else if (nemesis::iequals(behavior, "animationsetdatasinglefile"))
             {
-                MasterAnimSetData& animSetData(pack[modcode]->animSetData);
-
-                if (animSetData.newAnimSetData.size() == 0)
-                {
-                    ErrorMessage(3017, "nemesis_animationsetdatasinglefile.txt");
-                }
+                MasterAnimSetData& animSetData = pack.at(modcode)->animSetData;
 
                 if (!sf::is_directory(curPath)) continue;
 
-                bool newProject = false;
-                string dp       = node + (nemesis::iequals(node, "$header$") ? "" : ".txt");
+                string project  = node + (nemesis::iequals(node, "$header$") ? "" : ".txt");
 
-                while (dp.find("~") != NOT_FOUND)
+                while (project.find("~") != NOT_FOUND)
                 {
-                    dp.replace(dp.find("~"), 1, "\\");
+                    project.replace(project.find("~"), 1, "\\");
                 }
 
-                string lowerproject = nemesis::to_lower_copy(dp);
+                string lowerproject = nemesis::to_lower_copy(project);
 
-                if (animSetData.newAnimSetData.find(lowerproject) == animSetData.newAnimSetData.end())
-                {
-                    animSetData.projectList.push_back(lowerproject);
-                    newProject = true;
-                }
+                if (lowerproject == "$header$") continue;
 
                 VecStr uniquecodelist;
                 read_directory(curPath.string(), uniquecodelist);
 
-                for (string& uniquecode : uniquecodelist)
-                {
-                    AnimSetDataUpdate(modcode,
-                                      behavior,
-                                      node,
-                                      lowerproject,
-                                      curPath.string() + "\\" + uniquecode,
-                                      animSetData,
-                                      newProject,
-                                      lastUpdate);
+                bool newProject = false;
+                auto& projptr = animSetData.find(lowerproject, modcode);
 
-                    if (error) throw nemesis::exception();
+                if (!projptr)
+                {
+                    string fullpath = directory + modcode + "\\" + behavior + "\\$header$\\$header$.txt";
+
+                    if (!isFileExist(fullpath)) ErrorMessage(2002, fullpath, "-", "-");
+
+                    saveLastUpdate(nemesis::to_lower_copy(fullpath), lastUpdate);
+
+                    VecNstr storeline;
+                    newProject = true;
+                    GetFunctionLines(fullpath, storeline, false);
+                    animSetData.projectListUpdate(modcode, fullpath, storeline, nemesis::CondDetails::modCheck);
                 }
 
-                if (newProject)
+                if (!animSetData.contains(project)) ErrorMessage(5000, "$header$.txt", project, modcode);
+
+                filesystem::path headerPath = curPath.string() + "\\$header$.txt";
+
+                if (sf::exists(headerPath) && !sf::is_directory(headerPath))
                 {
-                    auto& asdProj = animSetData.newAnimSetData[lowerproject];
-                    asdProj.begin()->second.insert(asdProj.begin()->second.begin(),
-                                                   "<!-- NEW *" + modcode + "* -->");
-                    asdProj.rbegin()->second.push_back("<!-- CLOSE -->");
+                    VecNstr storeline;
+                    projptr = animSetData.find(lowerproject, modcode);
+
+                    if (!projptr) ErrorMessage(5000, "$header$.txt", project, modcode);
+
+                    if (GetFunctionLines(headerPath, storeline, false))
+                    {
+                        size_t num = 1;
+
+                        if (newProject)
+                        {
+                            projptr->importAnimSetData(headerPath, storeline, num);
+                        }
+                        else
+                        {
+                            projptr->importAnimSetData(
+                                headerPath, storeline, num, nemesis::CondDetails::modCheck, modcode);
+                        }
+                    }
+                }
+
+                for (string& uniquecode : uniquecodelist)
+                {
+                    if (uniquecode == "$header$.txt") continue;
+
+                    if (!sf::is_directory(curPath.string() + "\\" + uniquecode))
+                    {
+                        AnimSetDataUpdate(modcode,
+                                          behavior,
+                                          node,
+                                          project,
+                                          curPath.string() + "\\" + uniquecode,
+                                          animSetData,
+                                          newProject,
+                                          lastUpdate);
+
+                        if (error) throw nemesis::exception();
+                    }
                 }
             }
         }
         else
         {
-            unique_ptr<map<string, VecStr, alphanum_less>>& newFile(pack[modcode]->newFile[behavior]);
-            shared_ptr<UpdateLock> modUpdate(pack[modcode]->modUpdate);
+            unique_ptr<map<string, VecStr, alphanum_less>>& newFile(curpack->newFile[behavior]);
+            shared_ptr<UpdateLock> modUpdate(curpack->modUpdate);
 
             (*modUpdate)[behavior + node.substr(0, node.find_last_of("."))].FunctionUpdate(
                 modcode,
                 behavior,
                 node,
                 newFile,
-                pack[modcode]->n_stateID[behavior],
-                pack[modcode]->parent[behavior],
-                pack[modcode]->statelist[behavior],
+                curpack->n_stateID[behavior],
+                curpack->parent[behavior],
+                curpack->statelist[behavior],
                 lastUpdate
 #if MULTITHREADED_UPDATE
                 ,
                 newFileLock,
-                pack[modcode]->stateLock,
-                pack[modcode]->parentLock
+                curpack->stateLock,
+                curpack->parentLock
 #endif
             );
 
@@ -1651,6 +1640,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                                                 parentLock
 #endif
                                                                 )));
+                    auto& curpack = pack[modcode];
 
                     for (auto& behavior : filelist2[modcode])
                     {
@@ -1682,9 +1672,9 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                     modQueue[recName][node].push_back(modcode);
                                 }
 
-                                pack[modcode]->statelist.insert(
+                                curpack->statelist.insert(
                                     make_pair(recName, make_unique<unordered_map<string, VecStr>>()));
-                                pack[modcode]->n_stateID.insert(make_pair(recName, make_unique<SSMap>()));
+                                curpack->n_stateID.insert(make_pair(recName, make_unique<SSMap>()));
                             }
                         }
                         else
@@ -1703,9 +1693,9 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                     modQueue[behavior][node].push_back(modcode);
                                 }
 
-                                pack[modcode]->statelist.insert(
+                                curpack->statelist.insert(
                                     make_pair(behavior, make_unique<unordered_map<string, VecStr>>()));
-                                pack[modcode]->n_stateID.insert(make_pair(behavior, make_unique<SSMap>()));
+                                curpack->n_stateID.insert(make_pair(behavior, make_unique<SSMap>()));
                             }
                             else
                             {
@@ -1995,42 +1985,12 @@ void UpdateFilesStart::CombiningFiles()
             if (outputlist.is_open())
             {
                 string total = nemesis::transform_to<string>(filepath) + "\n";
-                writeSave(output, to_string(animSetData.projectList.size() - 1) + "\n", total);
+                VecStr asdlines;
+                animSetData.getlines(asdlines);
 
-                for (string& header : animSetData.newAnimSetData["$header$"]["$header$"])
+                for (string& line : asdlines)
                 {
-                    writeSave(output, header + "\n", total);
-                }
-
-                for (unsigned int i = 1; i < animSetData.projectList.size(); ++i)
-                {
-                    string& project = animSetData.projectList[i];
-                    outputlist << project + "\n"; // character
-                    outputlist << "$header$\n";
-
-                    for (string& line : animSetData.newAnimSetData[project]["$header$"])
-                    {
-                        writeSave(output, line + "\n", total);
-                    }
-
-                    for (auto it = animSetData.newAnimSetData[project].begin();
-                         it != animSetData.newAnimSetData[project].end();
-                         ++it)
-                    {
-                        string header = it->first;
-
-                        if (header != "$header$")
-                        {
-                            outputlist << header + "\n";
-
-                            for (unsigned int k = 0; k < it->second.size(); ++k)
-                            {
-                                writeSave(output, it->second[k] + "\n", total);
-                            }
-                        }
-                    }
-
-                    outputlist << "\n";
+                    writeSave(output, line + "\n", total);
                 }
 
                 bigNum2 += CRC32Convert(total);
@@ -2301,6 +2261,8 @@ void UpdateFilesStart::message(wstring input)
 
 void UpdateFilesStart::unregisterProcess()
 {
+    running = false;
+
     if (!error)
     {
         RunScript("scripts\\update\\end\\");

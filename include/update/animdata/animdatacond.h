@@ -22,10 +22,10 @@ private:
 public:
     std::vector<ProjectData> projectlist;
 
-    bool contains(const ProjectName& projName);
-    unsigned int getIndex(const ProjectName& projName);
+    bool contains(const ProjectName& projName) const;
+    unsigned int getIndex(const ProjectName& projName) const;
 
-    ProjectPtr find(const ProjectName& projName, const ModCode& modcode = "original");
+    ProjectPtr find(const ProjectName& projName, const ModCode& modcode = "original") const;
 
     ProjectPtr add(const ProjectName& projName,
                    size_t num             = 0,

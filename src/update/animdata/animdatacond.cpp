@@ -45,7 +45,7 @@ void MasterAnimData::getprojectlines(const ProjectData& proj, VecStr& output, Ve
             {
                 list.push_back(pair<string, VecStr>());
                 list.back().first = *modcode.first;
-                getlinkedline(modcode.second->rawlist[0].raw->first, list.back().second);
+                getLinkedLines(modcode.second->rawlist[0].raw->first, list.back().second);
 
                 for (auto& each : list.back().second)
                 {
@@ -56,7 +56,7 @@ void MasterAnimData::getprojectlines(const ProjectData& proj, VecStr& output, Ve
             size_t max = 0;
             list.push_back(pair<string, VecStr>());
             list.back().first = "original";
-            getlinkedline(proj.raw->first, list.back().second);
+            getLinkedLines(proj.raw->first, list.back().second);
 
             for (auto& line : list.back().second)
             {
@@ -107,7 +107,7 @@ void MasterAnimData::getprojectlines(const ProjectData& proj, VecStr& output, Ve
     }
     else if (proj.raw)
     {
-        getlinkedline(proj.raw->first, output);
+        getLinkedLines(proj.raw->first, output);
         proj.raw->second->getlines(output2);
     }
     else
@@ -117,14 +117,14 @@ void MasterAnimData::getprojectlines(const ProjectData& proj, VecStr& output, Ve
     }
 }
 
-bool MasterAnimData::contains(const ProjectName& projName)
+bool MasterAnimData::contains(const ProjectName& projName) const
 {
     auto itr = projectIndexMap.find(projName);
 
     return itr != projectIndexMap.end();
 }
 
-unsigned int MasterAnimData::getIndex(const ProjectName& projName)
+unsigned int MasterAnimData::getIndex(const ProjectName& projName) const
 {
     auto itr = projectIndexMap.find(projName);
 
@@ -133,7 +133,7 @@ unsigned int MasterAnimData::getIndex(const ProjectName& projName)
     return itr->second;
 }
 
-MasterAnimData::ProjectPtr MasterAnimData::find(const ProjectName& projName, const ModCode& modcode)
+MasterAnimData::ProjectPtr MasterAnimData::find(const ProjectName& projName, const ModCode& modcode) const
 {
     if (modcode == "original") return projectlist[getIndex(projName)].raw->second;
 
@@ -213,7 +213,6 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
     if (isTemplate)
     {
         vector<VecStr> holdinglist;
-        vector<ProjectNameLinked*> curPoint;
         unique_ptr<ProjectData> condStringPtr;
         int open = 0;
 
@@ -267,6 +266,8 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
 
     vector<pair<string, uint>> edits;
     vector<pair<string, uint>> origs;
+    map<uint, string> tempISMap;
+    map<string, uint> tempProjCounter;
 
     bool edited       = false;
     bool originalopen = false;
@@ -274,6 +275,16 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
     for (unsigned int i = 1; i < storeline.size(); ++i)
     {
         const string& line = storeline[i];
+
+        if (!edited || originalopen)
+        {
+            size_t pos = line.find(".txt");
+
+            if (pos != NOT_FOUND && line.find("<!-- ") == NOT_FOUND)
+            {
+                tempISMap[i] = line.substr(0, pos) + "~" + to_string(++tempProjCounter[line]);
+            }
+        }
 
         if (!edited)
         {
@@ -295,9 +306,24 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
 
                 for (unsigned int k = 0; k < origs.size(); ++k)
                 {
-                    auto& nestedcondt = projectlist[getIndex(origs[k].first)].raw->first.nestedcond;
-                    nestedcondt.push_back(nemesis::CondVar(
-                        nemesis::LinkedVar(edits[k].first, edits[k].second), modcode, nemesis::MOD_CODE));
+                    auto& nestedcondt
+                        = projectlist[getIndex(tempISMap[origs[k].second])].raw->first.nestedcond;
+                    bool exist = false;
+
+                    for (auto& condt : nestedcondt)
+                    {
+                        if (condt.conditions == modcode && condt.conditionType == nemesis::MOD_CODE)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+
+                    if (!exist)
+                    {
+                        nestedcondt.push_back(nemesis::CondVar(
+                            nemesis::LinkedVar(edits[k].first, edits[k].second), modcode, nemesis::MOD_CODE));
+                    }
                 }
             }
 
@@ -305,6 +331,8 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
             {
                 for (unsigned int k = origs.size(); k < edits.size(); ++k)
                 {
+                    if (contains(edits[k].first)) continue;
+
                     add(edits[k].first, edits[k].second, modcode, nemesis::MOD_CODE);
                 }
             }

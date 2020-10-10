@@ -12,6 +12,9 @@
 
 #include "generate/animationsetdata.h"
 
+struct MasterAnimData;
+struct MasterAnimSetData;
+
 class NodeU
 {
 #if MULTITHREADED_UPDATE
@@ -66,7 +69,7 @@ bool AnimSetDataUpdate(std::string modcode,
                        std::string animsetdatafile,
                        std::string projectsource,
                        std::string projectfile,
-                       std::string filepath,
+                       std::filesystem::path filepath,
                        MasterAnimSetData& animSetData,
                        bool isNewProject,
                        std::unordered_map<std::wstring, std::wstring>& lastUpdate);

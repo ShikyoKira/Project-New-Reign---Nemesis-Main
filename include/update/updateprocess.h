@@ -7,6 +7,8 @@
 
 #include "update/animdata/animdatacond.h"
 
+#include "update/animsetdata/masteranimsetdatacond.h"
+
 #include "generate/behaviortype.h"
 #include "generate/animationdata.h"
 #include "generate/behaviortype.h"
@@ -94,8 +96,11 @@ signals:
 	void disableLaunch(bool);
 	void hide(bool);
 	void incomingMessage(QString);
+    void criticalError(QString, QString);
 
 private:
+    bool running      = true;
+    int timeout_timer = 0;
     int filenum;
     bool newAnimFunction = true;
     ProgressUp behaviorProcess;

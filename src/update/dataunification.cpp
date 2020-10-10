@@ -8,6 +8,8 @@ OBJECTIVES:
 
 #include "update/dataunification.h"
 
+#include "update/animsetdata/masteranimsetdatacond.h"
+
 #include "utilities/lastupdate.h"
 #include "utilities/stringsplit.h"
 
@@ -312,145 +314,37 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 	return true;
 }
 
-bool newAnimDataSetUpdateExt(string folderpath, string modcode, string projectfile, MasterAnimSetData& animSetData, map<string, VecStr>& newAnimAddition,
+bool newAnimDataSetUpdateExt(string folderpath, string templatecode, string projectfile, MasterAnimSetData& animSetData, map<string, VecStr>& newAnimAddition,
                              unordered_map<wstring, wstring>& lastUpdate)
 {
-	if (animSetData.newAnimSetData.find(projectfile) == animSetData.newAnimSetData.end()) return true;
-
 	VecStr datalist;
-	VecStr headerfile;
-	read_directory(folderpath, headerfile);
+    VecStr headerfiles;
+    read_directory(folderpath, headerfiles);
 
-	for (unsigned int k = 0; k < headerfile.size(); ++k)
+	for (auto& file : headerfiles)
 	{
-		string filename = folderpath + "\\" + headerfile[k];
-		std::filesystem::path curfile(filename);
+        string filename = folderpath + "\\" + file;
+		std::filesystem::path filepath(filename);
 
-		if (std::filesystem::is_directory(curfile) || !nemesis::iequals(curfile.extension().string(), ".txt") || headerfile[k].length() == 0) continue;
+        if (std::filesystem::is_directory(filepath)) continue;
+
+		if (!nemesis::iequals(filepath.extension().string(), ".txt")) continue;
 
 		saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate);
 
-		VecStr storeline;
-		string lowerheader = nemesis::to_lower_copy(curfile.stem().string());
+		VecNstr storeline;
+        string lowerheader = nemesis::to_lower_copy(filepath.stem().string());
 
 		if (!GetFunctionLines(filename, storeline)) return false;
 
-		if (headerfile[k][0] == '$')
-		{
-			Lockless lock(newAnimAdditionLock);
-			newAnimAddition[nemesis::to_lower_copy(curfile.string())] = storeline;
-			continue;
-		}
+        size_t num       = 2;
+        string lowername = nemesis::to_lower_copy(filepath.stem().string());
+        auto& masterProj = animSetData.find(projectfile, templatecode);
 
-		if (animSetData.newAnimSetData[projectfile].find(lowerheader) != animSetData.newAnimSetData[projectfile].end())
-		{
-			VecStr originallines = animSetData.newAnimSetData[projectfile][lowerheader];
-			bool close = false;
-			unordered_map<int, bool> conditionOpen;
-			bool conditionOri = false;
-			int linecount = 0;
-			int conditionLvl = 0;
-			VecStr newlines;
-			VecStr combinelines;
+        if (lowername.length() > 2 && lowername.front() == '$' && lowername.back() == '$') continue;
 
-			for (string& line : storeline)
-			{
-				// condition function is not supported for animationsetdatasinglefile
-				if (line.find("<!-- CONDITION") != NOT_FOUND)
-				{
-					ErrorMessage(1173, filename, modcode, k + 1);
-				}
-
-				if (line.find("<!-- CONDITION START ") != NOT_FOUND)
-				{
-					++conditionLvl;
-					conditionOpen[conditionLvl] = true;
-				}
-
-				if (line.find("<!-- NEW", 0) == NOT_FOUND && !close)
-				{
-					if (linecount < int(originallines.size()) && (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND ||
-						originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND))
-					{
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-
-						while (true)
-						{
-							if (originallines[linecount].find("<!-- CLOSE -->", 0) != NOT_FOUND)
-							{
-								combinelines.push_back(originallines[linecount]);
-								++linecount;
-								break;
-							}
-
-							combinelines.push_back(originallines[linecount]);
-							++linecount;
-						}
-					}
-
-					if (line.find("<!-- CONDITION END -->") != NOT_FOUND)
-					{
-						combinelines.push_back(line);
-						conditionOri = false;
-						conditionOpen[conditionLvl] = false;
-						--conditionLvl;
-					}
-					else if (linecount < int(originallines.size()) && (conditionOri || !conditionOpen[conditionLvl]))
-					{
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-					}
-					else
-					{
-						combinelines.push_back(line);
-					}
-				}
-				else if (close && line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-				{
-					if (linecount < int(originallines.size()) && (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND
-						|| originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND))
-					{
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-
-						while (true)
-						{
-							if (originallines[linecount].find("<!-- CLOSE -->", 0) != NOT_FOUND)
-							{
-								combinelines.push_back(originallines[linecount]);
-								++linecount;
-								break;
-							}
-
-							combinelines.push_back(originallines[linecount]);
-							++linecount;
-						}
-					}
-
-					combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
-					combinelines.push_back(line);
-					newlines.clear();
-					close = false;
-				}
-				else
-				{
-					close = true;
-				}
-
-				if (line.find("<!-- CONDITION -->") != NOT_FOUND) conditionOri = true;
-
-				if (error) throw nemesis::exception();
-
-				if (close) newlines.push_back(line);
-			}
-
-			animSetData.newAnimSetData[projectfile][lowerheader] = combinelines;
-		}
+        masterProj->find(lowername + filepath.extension().string())
+            ->importDataTemplate(filepath, num, storeline, templatecode);
 	}
 
 	return true;

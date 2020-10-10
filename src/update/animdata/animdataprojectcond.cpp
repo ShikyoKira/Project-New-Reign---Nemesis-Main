@@ -114,20 +114,19 @@ void AnimDataProject_Condt::update(const ModCode& modcode, const VecStr& storeli
 
 void AnimDataProject_Condt::modify(const ModCode& modcode, const VecStr& storeline)
 {
-    unsigned int bhvrCount = 0;
-    short type             = 0;
-    bool edited            = false;
-    bool originalopen      = false;
-    bool editopen          = false;
+    uint bhvrCount    = 0;
+    short type        = 0;
+    bool edited       = false;
+    bool originalopen = false;
+    bool editopen     = false;
 
-    for (unsigned int i = 1; i < storeline.size(); ++i)
+    for (uint i = 1; i < storeline.size(); ++i)
     {
         const string& line = storeline[i];
 
         if (line.find("<!--") != NOT_FOUND)
         {
-            if (!edited && line.find("<!-- MOD_CODE", 0) != NOT_FOUND
-                && line.find("OPEN -->", 0) != NOT_FOUND)
+            if (!edited && line.find("<!-- MOD_CODE ~" + modcode + "~ OPEN -->", 0) != NOT_FOUND)
             {
                 edited = true;
             }
@@ -152,7 +151,7 @@ void AnimDataProject_Condt::modify(const ModCode& modcode, const VecStr& storeli
         {
             case 0:
             {
-                if (edited) projectActive.addCond(nemesis::LinkedVar(line), modcode, nemesis::MOD_CODE, i);
+                if (edited) projectActive.addCond(nemesis::LinkedVar(line), modcode, nemesis::MOD_CODE, i + 1);
 
                 ++type;
                 break;
@@ -171,7 +170,7 @@ void AnimDataProject_Condt::modify(const ModCode& modcode, const VecStr& storeli
                 {
                     if (bhvrCount < behaviorlist.size())
                     {
-                        behaviorlist[bhvrCount].addCond(line, modcode, nemesis::MOD_CODE);
+                        behaviorlist[bhvrCount].addCond(line, modcode, nemesis::MOD_CODE, i + 1);
                     }
                     else
                     {
@@ -202,17 +201,17 @@ AnimDataProject_Condt::aadd(const Header& header, const ModCode& modcode, nemesi
 {
     using DP = std::pair<Header, nemesis::LinkedVar<AnimDataPack_Condt>>;
 
-    if (modcode != "original")
+    if (modcode == "original")
     {
-        animdatalist.push_back(DataPackCondt<AnimDataPack_Condt>(nemesis::CondVar<DP>(DP(), modcode, type)));
-        animdatalist.back().nestedcond.back().rawlist.back().raw->first = header;
-        return *animdatalist.back().nestedcond.back().rawlist.back().raw->second.raw;
+        animdatalist.push_back(DataPackCondt<AnimDataPack_Condt>());
+        animdatalist.back().raw        = make_shared<DP>();
+        animdatalist.back().raw->first = header;
+        return *animdatalist.back().raw->second.raw;
     }
 
-    animdatalist.push_back(DataPackCondt<AnimDataPack_Condt>());
-    animdatalist.back().raw        = make_shared<DP>();
-    animdatalist.back().raw->first = header;
-    return *animdatalist.back().raw->second.raw;
+    animdatalist.push_back(DataPackCondt<AnimDataPack_Condt>(nemesis::CondVar<DP>(DP(), modcode, type)));
+    animdatalist.back().nestedcond.back().rawlist.back().raw->first = header;
+    return *animdatalist.back().nestedcond.back().rawlist.back().raw->second.raw;
 }
 
 AnimDataPack_Condt& AnimDataProject_Condt::aadd(const Header& header,
@@ -251,17 +250,17 @@ AnimDataProject_Condt::iadd(const Header& header, const ModCode& modcode, nemesi
 {
     using DP = std::pair<Header, nemesis::LinkedVar<InfoDataPack_Condt>>;
 
-    if (modcode != "original")
+    if (modcode == "original")
     {
-        infodatalist.push_back(DataPackCondt<InfoDataPack_Condt>(nemesis::CondVar(DP(), modcode, type)));
-        infodatalist.back().nestedcond.back().rawlist.back().raw->first = header;
-        return *infodatalist.back().nestedcond.back().rawlist.back().raw->second.raw;
+        infodatalist.push_back(DataPackCondt<InfoDataPack_Condt>());
+        infodatalist.back().raw        = make_shared<DP>();
+        infodatalist.back().raw->first = header;
+        return *infodatalist.back().raw->second.raw;
     }
 
-    infodatalist.push_back(DataPackCondt<InfoDataPack_Condt>());
-    infodatalist.back().raw        = make_shared<DP>();
-    infodatalist.back().raw->first = header;
-    return *infodatalist.back().raw->second.raw;
+    infodatalist.push_back(DataPackCondt<InfoDataPack_Condt>(nemesis::CondVar(DP(), modcode, type)));
+    infodatalist.back().nestedcond.back().rawlist.back().raw->first = header;
+    return *infodatalist.back().nestedcond.back().rawlist.back().raw->second.raw;
 }
 
 InfoDataPack_Condt& AnimDataProject_Condt::iadd(const Header& header,
@@ -362,7 +361,7 @@ InfoDataPack_Condt* AnimDataProject_Condt::ifind(const Header& header, const Mod
 void AnimDataProject_Condt::getlines(VecStr& storeline) 
 {
     // project status
-    shared_ptr<VecStr> output = getlinkedline(projectActive);
+    shared_ptr<VecStr> output = getLinkedLines(projectActive);
 
     // behavior count
     output->push_back(to_string(behaviorlist.size()));
@@ -370,11 +369,11 @@ void AnimDataProject_Condt::getlines(VecStr& storeline)
     // behavior list
     for (auto& each : behaviorlist)
     {
-        getlinkedline(each, *output);
+        getLinkedLines(each, *output);
     }
 
     // child status
-    getlinkedline(childActive, *output);
+    getLinkedLines(childActive, *output);
 
     string mod;
 
@@ -471,7 +470,7 @@ void getanimdatapack(const nemesis::LinkedVar<LinkedAnimPair>& animdatapack,
             size_t max = 0;
             list.push_back(pair<string, VecStr>());
             list.back().first = "original";
-            getlinkedline(animdatapack.raw->second, list.back().second);
+            getLinkedLines(animdatapack.raw->second, list.back().second);
 
             for (auto& line : list.back().second)
             {
@@ -522,7 +521,7 @@ void getanimdatapack(const nemesis::LinkedVar<LinkedAnimPair>& animdatapack,
     }
     else if (animdatapack.raw)
     {
-        getlinkedline(animdatapack.raw->second, storeline);
+        getLinkedLines(animdatapack.raw->second, storeline);
     }
     else
     {
@@ -594,7 +593,7 @@ void getinfodatapack(const nemesis::LinkedVar<LinkedInfoPair>& infodatapack,
             size_t max = 0;
             list.push_back(pair<string, VecStr>());
             list.back().first = "original";
-            getlinkedline(infodatapack.raw->second, list.back().second);
+            getLinkedLines(infodatapack.raw->second, list.back().second);
 
             for (auto& line : list.back().second)
             {
@@ -645,7 +644,7 @@ void getinfodatapack(const nemesis::LinkedVar<LinkedInfoPair>& infodatapack,
     }
     else if (infodatapack.raw)
     {
-        getlinkedline(infodatapack.raw->second, storeline);
+        getLinkedLines(infodatapack.raw->second, storeline);
     }
     else
     {

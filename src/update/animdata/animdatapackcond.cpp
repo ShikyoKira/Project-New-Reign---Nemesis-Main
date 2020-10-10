@@ -74,12 +74,12 @@ void AnimDataPack_Condt::getlines(VecStr& storeline)
     storeline.push_back(name);
 
     // unique code
-    getlinkedline(uniquecode, storeline);
+    getLinkedLines(uniquecode, storeline);
 
     // unknown variables
-    getlinkedline(unknown1, storeline);
-    getlinkedline(unknown2, storeline);
-    getlinkedline(unknown3, storeline);
+    getLinkedLines(unknown1, storeline);
+    getLinkedLines(unknown2, storeline);
+    getLinkedLines(unknown3, storeline);
 
     // event name count
     storeline.push_back(to_string(eventname.size()));
@@ -87,13 +87,13 @@ void AnimDataPack_Condt::getlines(VecStr& storeline)
     // event name list
     for (auto& each : eventname)
     {
-        getlinkedline(each, storeline);
+        getLinkedLines(each, storeline);
     }
 
     storeline.push_back("");
 }
 
-void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata, VecStr& storeline) 
+void getLinkedLines(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata, VecStr& storeline) 
 {
     vector<pair<const string*, const nemesis::CondVar<AnimDataPack_Condt>*>> modcodelist;
 
@@ -113,7 +113,7 @@ void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata,
 
                 for (auto& each : cond.rawlist)
                 {
-                    getlinkedline(each, storeline);
+                    getLinkedLines(each, storeline);
                 }
 
                 storeline.push_back("<!-- CLOSE -->");
@@ -132,7 +132,7 @@ void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata,
             {
                 list.push_back(pair<string, VecStr>());
                 list.back().first = *modcode.first;
-                getlinkedline(modcode.second->rawlist[0], list.back().second);
+                getLinkedLines(modcode.second->rawlist[0], list.back().second);
 
                 if (list.back().second.size() > 0) list.back().second.pop_back();
             }
@@ -140,11 +140,7 @@ void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata,
             for (auto& each : list)
             {
                 storeline.push_back("<!-- NEW *" + each.first + "* -->");
-
-                for (auto& eachline : each.second)
-                {
-                    storeline.push_back(eachline);
-                }
+                storeline.insert(storeline.end(), each.second.begin(), each.second.end());
             }
 
             if (list.size() > 0)
@@ -168,7 +164,7 @@ void getlinkedline(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata,
             for (auto& modcode : modcodelist)
             {
                 storeline.push_back("<!-- NEW *" + *modcode.first + "* -->");
-                getlinkedline(*modcode.second, storeline);
+                getLinkedLines(*modcode.second, storeline);
                 storeline.push_back("<!-- CLOSE -->");
             }
         }
