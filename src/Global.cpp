@@ -191,12 +191,13 @@ bool GetFunctionLines(std::filesystem::path filename, VecNstr& functionlines, bo
     if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filename.string());
 
     wstring line;
+    uint linenum = 0;
 
     while (BehaviorFormat.GetLines(line))
     {
         if (error) throw nemesis::exception();
 
-        functionlines.push_back(nemesis::transform_to<string>(line));
+        functionlines.push_back(nemesis::Line(nemesis::transform_to<string>(line), ++linenum));
     }
 
     if (functionlines.size() == 0) return false;
@@ -207,7 +208,7 @@ bool GetFunctionLines(std::filesystem::path filename, VecNstr& functionlines, bo
             && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND
             && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
         {
-            functionlines.push_back("");
+            functionlines.push_back(nemesis::Line("", ++linenum));
         }
     }
     else
@@ -304,9 +305,9 @@ bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
 	return true;
 }
 
-bool GetFunctionLines(sf::path filename, vector<wstring>& functionlines, bool emptylast)
+bool GetFunctionLines(sf::path filename, VecWstr& functionlines, bool emptylast)
 {
-	functionlines = vector<wstring>();
+    functionlines = VecWstr();
 
 	if (sf::is_directory(filename)) ErrorMessage(3001, filename.string());
 
