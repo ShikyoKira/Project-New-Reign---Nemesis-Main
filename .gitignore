@@ -279,3 +279,5 @@ ModelManifest.xml
 /test environment/data/scripts/Nemesis_AA_Core.pex
 /test environment/data/meshes/animationsetdatasinglefile.txt
 /test environment/data/meshes/animationdatasinglefile.txt
+/test environment/mod/*
+/test environment/data/meshes/actors/character/animations
