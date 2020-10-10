@@ -32,7 +32,7 @@ BehaviorListView::BehaviorListView(QWidget* parent)
         QString msg      = QString::fromStdWString(errmsg);
         msgbox->setText(msg);
         msgbox->setWindowTitle("CRITITAL ERROR");
-        msgbox->show();
+        msgbox->exec();
         error = true;
         return;
     }

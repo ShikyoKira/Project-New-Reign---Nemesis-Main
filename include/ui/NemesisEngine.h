@@ -10,6 +10,8 @@
 #include "debugmsg.h"
 #include "ui_NemesisEngine.h"
 
+class CEMsgBox;
+
 class NemesisEngine : public QWidget
 {
     Q_OBJECT
@@ -49,4 +51,5 @@ private slots:
     void setProgressBarValue();
     void firstNull();
     void resizeDone();
+    void criticalError(QString title, QString text);
 };

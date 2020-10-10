@@ -8,6 +8,7 @@ CEMsgBox::CEMsgBox(QWidget* parent)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setIcon(QMessageBox::Critical);
+    setStandardButtons(QMessageBox::Ok);
     QApplication::beep();
 }
 

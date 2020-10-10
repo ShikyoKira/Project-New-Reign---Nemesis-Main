@@ -4,11 +4,11 @@
 
 #include "connector.h"
 
-#include "ui/ErrorMsgBox.h"
-#include "ui/MessageHandler.h"
-#include "ui/NemesisEngine.h"
-#include "ui/SettingsSave.h"
 #include "ui/Terminator.h"
+#include "ui/ErrorMsgBox.h"
+#include "ui/SettingsSave.h"
+#include "ui/NemesisEngine.h"
+#include "ui/MessageHandler.h"
 
 #include "update/updateprocess.h"
 
@@ -495,6 +495,7 @@ void NemesisEngine::handleLaunch()
     connect(worker, SIGNAL(progressUp()), this, SLOT(setProgressBarValue()));
     connect(worker, SIGNAL(progressMax(int)), this, SLOT(setProgressBarMax(int)));
     connect(worker, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
+    connect(worker, SIGNAL(criticalError(CEMsgBox*)), this, SLOT(criticalError(CEMsgBox*)));
 
     connect(worker, SIGNAL(disableLaunch(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
     connect(worker, SIGNAL(disable(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
@@ -534,6 +535,7 @@ void NemesisEngine::handleUpdate()
     connect(worker, SIGNAL(progressUp()), this, SLOT(setProgressBarValue()));
     connect(worker, SIGNAL(progressMax(int)), this, SLOT(setProgressBarMax(int)));
     connect(worker, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
+    connect(worker, SIGNAL(criticalError(QString, QString)), this, SLOT(criticalError(QString, QString)));
 
     connect(worker, SIGNAL(disableLaunch(bool)), ui.buttonLaunch, SLOT(setDisabled(bool)));
     connect(worker, SIGNAL(disable(bool)), ui.buttonUpdate, SLOT(setDisabled(bool)));
@@ -662,4 +664,10 @@ void NemesisEngine::resizeDone()
         nemesisInfo->setHeight(height());
         nemesisInfo->iniFileUpdate();
     }
+}
+
+void NemesisEngine::criticalError(QString title, QString text)
+{
+    QMessageBox::critical(this, title, text, QMessageBox::Ok);
+    exit(1);
 }
