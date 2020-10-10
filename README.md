@@ -47,17 +47,18 @@ Build requirement for developers:
 - [Qt5](https://www.qt.io/download-open-source)
 - [boost](https://www.boost.org/users/download/) 
 - [Python-3.5.6](https://www.python.org/downloads/release/python-356/) - Prebuilt binary version [here](https://drive.google.com/open?id=1Uqq0iQhc0qsWAiz3EFzqMWxB27BG-M5T)
-
+- C++17 and/or later
 
 How to build Nemesis for developers:
 1. Download and install Qt5
 2. Download and install boost
 3. Download Python 3.5.6
-4. Open NemesisEngine.sln
-5. Go to Project Properties -> C++ -> General -> Additional Include Directories, update the boost and python directories
-6. Go to Project Properties -> Linker -> General -> Additional Library Directories, update the boost and python directories
-7. Build
-8. Test your build in "test environment"
+4. Use CMake to build project file 
+5. Check and fix (if required) the dependency path to external libraries above
+6. Check for any linking error and fix it if there is any
+7. Make sure your compiler supports C++17 and/or later
+8. Build
+9. Test your build in "test environment"
 
 
 Before you open an issue
