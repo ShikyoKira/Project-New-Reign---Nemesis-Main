@@ -9,10 +9,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include "generate/AnimationUtility.h"
-
-#include "utilities/alphanum.hpp"
 #include "utilities/regex.h"
+#include "utilities/linkedvar.h"
+#include "utilities/alphanum.hpp"
 
 #include "generate/AnimationUtility.h"
 
@@ -177,6 +176,24 @@ private:
                      std::shared_ptr<group> groupFunction,
                      int optionMulti = -1,
                      int animMulti   = -1);
+    void conditionCheck(nemesis::LinkedVar<std::string>& curstack,
+                        std::shared_ptr<VecStr> generatedlines,
+                        AnimThreadInfo& curAnimInfo,
+                        const proc& process,
+                        nemesis::CondVar<std::string>* curset,
+                        bool& norElement,
+                        int& openRange,
+                        size_t& elementLine,
+                        int& counter,
+                        const ID& eventid,
+                        const ID& variableid,
+                        std::vector<int> fixedStateID,
+                        std::vector<int> stateCountMultiplier,
+                        bool hasGroup,
+                        bool& negative,
+                        std::shared_ptr<group> groupFunction,
+                        int optionMulti,
+                        int animMulti);
 
     void hasProcessing(std::string& line,
                        bool& norElement,
