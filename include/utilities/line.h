@@ -2,6 +2,8 @@
 
 #include <string>
 
+using uint = unsigned int;
+
 namespace nemesis
 {
 	struct Line : public std::string

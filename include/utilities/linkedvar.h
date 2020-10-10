@@ -1,23 +1,12 @@
 #pragma once
 
 #include "utilities/conditions.h"
+#include "utilities/conditiondetails.h"
 
 namespace nemesis
 {
 	template<typename Type>
 	struct CondVar;
-
-	enum CondType
-	{
-		NONE,
-		FOREACH,
-		NEW,
-		NEW_ORDER,
-		CONDITION_START,
-		CONDITION,
-		CONDITION_DEFAULT,
-		MOD_CODE,
-	};
 
 	template<typename Type>
 	struct LinkedVar
@@ -30,7 +19,7 @@ namespace nemesis
 		std::vector<CondVar<Type>> nestedcond;
 
 		LinkedVar() : preCompile(true), hasProcess(false), linecount(0)
-		{
+        {
 		}
 
 		LinkedVar(const Type& _raw) : preCompile(true), hasProcess(false), linecount(0)
@@ -82,18 +71,30 @@ namespace nemesis
 			return nestedcond.back();
 		}
 
-		CondVar<Type>& addCond(const CondVar<Type>& cond)
+		CondVar<Type>& addCond(const CondVar<Type>& cond, size_t linecount = 0)
 		{
 			nestedcond.push_back(cond);
 			return nestedcond.back();
 		}
 
-		CondVar<Type>& addCond(const nemesis::LinkedVar<Type>& nestraw, const std::string& conditions, const CondType& type, size_t linecount = 0)
-		{
-			nestedcond.push_back(nemesis::CondVar<Type>(nestraw, conditions, type));
-			nestedcond.back().rawlist.back().linecount = linecount;
-			return nestedcond.back();
-		}
+        CondVar<Type>& addCond(const nemesis::LinkedVar<Type>& nestraw,
+                               const nemesis::CondDetails& conditions,
+                               size_t linecount = 0)
+        {
+            nestedcond.push_back(nemesis::CondVar<Type>(nestraw, conditions));
+            nestedcond.back().rawlist.back().linecount = linecount;
+            return nestedcond.back();
+        }
+
+        CondVar<Type>& addCond(const nemesis::LinkedVar<Type>& nestraw,
+                               const std::string& conditions,
+                               const CondType& type,
+                               size_t linecount = 0)
+        {
+            nestedcond.push_back(nemesis::CondVar<Type>(nestraw, conditions, type));
+            nestedcond.back().rawlist.back().linecount = linecount;
+            return nestedcond.back();
+        }
 
 		CondVar<Type>& addCond(const nemesis::LinkedVar<Type>& nestraw)
 		{
@@ -188,6 +189,13 @@ namespace nemesis
             rawlist.push_back(_raw);
         }
 
+        CondVar(const Type& _raw, const nemesis::CondDetails& _condition)
+        {
+            rawlist.push_back(_raw);
+            conditions    = _condition.condition;
+            conditionType = _condition.type;
+        }
+
         CondVar(const Type& _raw, std::string _conditions, nemesis::CondType condtype)
         {
             rawlist.push_back(_raw);
@@ -198,7 +206,14 @@ namespace nemesis
 		CondVar(const LinkedVar<Type>& _raw)
 		{
 			rawlist.push_back(_raw);
-		}
+        }
+
+        CondVar(const LinkedVar<Type>& _raw, const nemesis::CondDetails& _condition)
+        {
+            rawlist.push_back(_raw);
+            conditions    = _condition.condition;
+            conditionType = _condition.type;
+        }
 
 		CondVar(const LinkedVar<Type>& _raw, std::string _conditions, nemesis::CondType condtype)
 		{
@@ -209,64 +224,14 @@ namespace nemesis
 	};
 } // namespace nemesis
 
-//template <typename Type, typename Type2>
-//void AddModList(std::unordered_map<std::string, std::vector<const nemesis::CondVar<Type>*>> modcodelist,
-//                const nemesis::LinkedVar<Type>& linkedtype,
-//                void (*func)(nemesis::LinkedVar<Type2>, VecStr&),
-//                VecStr& storeline)
-//{
-//    if (linkedtype.raw)
-//    {
-//        std::vector<VecStr> vec2;
-//
-//        for (auto& modcode : modcodelist)
-//        {
-//            vec2.push_back(VecStr());
-//            func(modcode->rawlist[0], vec2.back());
-//
-//            for (auto& line : vec2.back())
-//            {
-//                line.append("\t\t\t\t\t<!-- *" + modcode->conditions + "* -->\n");
-//            }
-//        }
-//
-//        vec2.push_back(VecStr());
-//        linkedanimdata.raw->getlines(vec2.back());
-//
-//        for (auto& line : vec2.back())
-//        {
-//            line.append("\t\t\t\t\t<!-- original -->\n");
-//        }
-//
-//        for (int i = 0; i < vec2.back().size(); ++i)
-//        {
-//            for (int k = 0; k < vec2.size(); ++k)
-//            {
-//                storeline.push_back(vec2[k][i]);
-//            }
-//        }
-//    }
-//    else
-//    {
-//        for (auto& modcode : modcodelist)
-//        {
-//            storeline.push_back("<!-- NEW *" + modcode.first + "* -->");
-//
-//            for (auto& each : modcode.second)
-//            {
-//                func(each->rawlist[0], storeline);
-//            }
-//
-//            storeline.push_back("<!-- CLOSE -->");
-//        }
-//    }
-//}
 
-std::shared_ptr<VecStr> getlinkedline(const nemesis::LinkedVar<std::string>& linkedline);
-void getlinkedline(const nemesis::LinkedVar<std::string>& linkedline, VecStr& storeline);
+void combineLines(std::string& last, VecStr& temp, VecStr& combined);
+std::shared_ptr<VecStr> getLinkedLines(const nemesis::LinkedVar<std::string>& linkedline);
+void getLinkedLines(const nemesis::LinkedVar<std::string>& linkedline, VecStr& storeline);
+void getLinkedLines(std::vector<nemesis::LinkedVar<std::string>> linkedlist, VecStr& storeline);
 
-template<typename _Type>
-void getlinkedline(const nemesis::LinkedVar<_Type>& linkedtype, VecStr& storeline)
+template <typename _Type>
+void getLinkedLines(const nemesis::LinkedVar<_Type>& linkedtype, VecStr& storeline)
 {
     unordered_map<string, vector<const nemesis::CondVar<_Type>*>> modcodelist;
 
@@ -285,7 +250,7 @@ void getlinkedline(const nemesis::LinkedVar<_Type>& linkedtype, VecStr& storelin
 
                 for (auto& each : cond.rawlist)
                 {
-                    getlinkedline(each, storeline);
+                    getLinkedLines(each, storeline);
                 }
 
                 storeline.push_back("<!-- CLOSE -->");
@@ -303,7 +268,7 @@ void getlinkedline(const nemesis::LinkedVar<_Type>& linkedtype, VecStr& storelin
             for (auto& modcode : modcodelist)
             {
                 vec2.push_back(VecStr());
-                getlinkedline(modcode->rawlist[0], vec2.back());
+                getLinkedLines(modcode->rawlist[0], vec2.back());
 
                 for (auto& line : vec2.back())
                 {
@@ -344,6 +309,10 @@ void getlinkedline(const nemesis::LinkedVar<_Type>& linkedtype, VecStr& storelin
     }
     else if (linkedtype.raw)
     {
-        getlinkedline(*linkedtype.raw, storeline);
+        getLinkedLines(*linkedtype.raw, storeline);
+    }
+    else
+    {
+        storeline.push_back("//* delete this line *//");
     }
 }
