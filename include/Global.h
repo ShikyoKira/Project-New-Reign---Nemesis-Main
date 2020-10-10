@@ -16,8 +16,12 @@
 
 #include "debugmsg.h"
 
+#include "utilities/line.h"
+
 using VecChar = std::vector<char>;
 using VecStr  = std::vector<std::string>;
+using VecNstr  = std::vector<nemesis::Line>;
+using VecNwstr  = std::vector<nemesis::Wline>;
 using ID      = std::unordered_map<std::string, int>;
 using uint    = unsigned int;
 
@@ -81,6 +85,9 @@ void addUsedAnim(std::string behaviorFile, std::string animPath);
 
 void read_directory(const std::filesystem::path& name, VecStr& fv);
 void read_directory(const std::filesystem::path& name, std::vector<std::wstring>& fv);
+
+bool GetFunctionLines(std::filesystem::path filename, VecNstr& functionlines, bool emptylast = true);
+bool GetFunctionLines(std::filesystem::path filename, VecNwstr& functionlines, bool emptylast = true);
 
 bool GetFunctionLines(std::filesystem::path filename, VecStr& functionlines, bool emptylast = true);
 bool GetFunctionLines(std::filesystem::path filename,
