@@ -199,7 +199,8 @@ inline void AdditionalInput(std::string& message, int counter, const std::wstrin
 }
 
 template <typename... other>
-inline void AdditionalInput(std::string& message, int counter, const std::filesystem::path& input, other... rest)
+inline void
+AdditionalInput(std::string& message, int counter, const std::filesystem::path& input, other... rest)
 {
     std::string newInput    = "<" + std::to_string(counter) + ">";
     std::string replacement = input.string();
@@ -319,6 +320,29 @@ inline void AdditionalInput(std::wstring& message, int counter, const std::files
     }
 }
 
+inline void AdditionalInput(std::wstring& message, int counter, const nemesis::Line& input)
+{
+    std::wstring newInput    = L"<" + std::to_wstring(counter) + L">";
+    std::wstring replacement = nemesis::transform_to<std::wstring>(input);
+    int ref                  = sameWordCount(message, newInput);
+
+    if (ref != 0)
+    {
+        for (int i = 0; i < ref; ++i)
+        {
+            message.replace(message.find(newInput), newInput.size(), replacement);
+        }
+    }
+    else
+    {
+        std::wstring msg = L"CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
+        interMsg(msg + L"\n");
+        DebugLogging(msg);
+        error = true;
+        return;
+    }
+}
+
 template <typename type>
 inline void AdditionalInput(std::wstring& message, int counter, type input)
 {
@@ -396,10 +420,38 @@ inline void AdditionalInput(std::wstring& message, int counter, const std::strin
 }
 
 template <typename... other>
-inline void AdditionalInput(std::wstring& message, int counter, const std::filesystem::path& input, other... rest)
+inline void
+AdditionalInput(std::wstring& message, int counter, const std::filesystem::path& input, other... rest)
 {
     std::wstring newInput    = L"<" + std::to_wstring(counter) + L">";
     std::wstring replacement = input.wstring();
+    int ref                  = sameWordCount(message, newInput);
+
+    if (ref != 0)
+    {
+        for (int i = 0; i < ref; ++i)
+        {
+            message.replace(message.find(newInput), newInput.size(), replacement);
+        }
+
+        AdditionalInput(message, counter + 1, rest...);
+    }
+    else
+    {
+        std::string msg = "CRITICAL ERROR: Wrong error input. Please re-install Nemesis";
+        interMsg(msg + "\n");
+        DebugLogging(msg);
+        error = true;
+        return;
+    }
+}
+
+template <typename... other>
+inline void
+AdditionalInput(std::wstring& message, int counter, const nemesis::Line& input, other... rest)
+{
+    std::wstring newInput    = L"<" + std::to_wstring(counter) + L">";
+    std::wstring replacement = nemesis::transform_to<std::wstring>(input);
     int ref                  = sameWordCount(message, newInput);
 
     if (ref != 0)
