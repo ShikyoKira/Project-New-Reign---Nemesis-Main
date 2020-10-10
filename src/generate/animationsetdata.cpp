@@ -2,9 +2,11 @@
 
 #include "utilities/algorithm.h"
 
-#include "generate/animationdatatracker.h"
-#include "generate/animationsetdata.h"
+#include "update/animsetdata/animsetdatapackcond.h"
+
 #include "generate/playerexclusive.h"
+#include "generate/animationsetdata.h"
+#include "generate/animationdatatracker.h"
 
 using namespace std;
 

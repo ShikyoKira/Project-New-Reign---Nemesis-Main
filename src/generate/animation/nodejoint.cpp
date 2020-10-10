@@ -552,7 +552,7 @@ void NodeJoint::insertData(string format,
                     utility.groupMulti        = groupMulti;
                     utility.animMulti         = animMulti;
 
-                    if (newCondition(output[sect].back().nested->condt,
+                    if (!newCondition(output[sect].back().nested->condt,
                                      filename,
                                      optionPicked,
                                      groupAnimInfo,
@@ -561,159 +561,158 @@ void NodeJoint::insertData(string format,
                                      format,
                                      utility))
                     {
-                        output[sect].back().nested->insertData(format,
-                                                               filename,
-                                                               optionPicked,
-                                                               groupAnimInfo,
-                                                               groupMulti,
-                                                               animMulti,
-                                                               optionMulti,
-                                                               hasMaster,
-                                                               hasGroup,
-                                                               ignoreGroup,
-                                                               multiOption,
-                                                               nextFunctionID,
-                                                               strID,
-                                                               IDExist,
-                                                               import,
-                                                               eventid,
-                                                               variableid,
-                                                               zeroEvent,
-                                                               zeroVariable,
-                                                               openRange,
-                                                               elementCount,
-                                                               elementCatch,
-                                                               subFunctionIDs,
-                                                               negative);
-                        output[sect].back().deleted = false;
-                        ++sect;
-
-                        while (storeTemplate[sect].nested
-                               && (storeTemplate[sect].nested->type == CONDITION_ELSE
-                                   || storeTemplate[sect].nested->type == CONDITION))
-                        {
-                            output[sect].back().nested->conditionSkip = true;
-                            sect++;
-                        }
+                        break;
                     }
 
+                    output[sect].back().nested->insertData(format,
+                                                           filename,
+                                                           optionPicked,
+                                                           groupAnimInfo,
+                                                           groupMulti,
+                                                           animMulti,
+                                                           optionMulti,
+                                                           hasMaster,
+                                                           hasGroup,
+                                                           ignoreGroup,
+                                                           multiOption,
+                                                           nextFunctionID,
+                                                           strID,
+                                                           IDExist,
+                                                           import,
+                                                           eventid,
+                                                           variableid,
+                                                           zeroEvent,
+                                                           zeroVariable,
+                                                           openRange,
+                                                           elementCount,
+                                                           elementCatch,
+                                                           subFunctionIDs,
+                                                           negative);
+                    output[sect].back().deleted = false;
+                    ++sect;
+
+                    while (storeTemplate[sect].nested
+                           && (storeTemplate[sect].nested->type == CONDITION_ELSE
+                               || storeTemplate[sect].nested->type == CONDITION))
+                    {
+                        output[sect].back().nested->conditionSkip = true;
+                        sect++;
+                    }
                     break;
                 }
                 case CONDITION_ELSE:
                 {
-                    if (!output[sect].back().nested->conditionSkip)
+                    if (output[sect].back().nested->conditionSkip) break;
+
+                    utility.originalCondition = condition;
+                    utility.nodeProcess       = make_shared<NodePackedParameters>(format,
+                                                                            filename,
+                                                                            behaviorFile,
+                                                                            nextFunctionID,
+                                                                            strID,
+                                                                            groupAnimInfo,
+                                                                            IDExist,
+                                                                            subFunctionIDs,
+                                                                            import,
+                                                                            output[sect].back().row,
+                                                                            eventid,
+                                                                            variableid,
+                                                                            zeroEvent,
+                                                                            zeroVariable,
+                                                                            groupMulti,
+                                                                            animMulti,
+                                                                            optionMulti,
+                                                                            hasGroup,
+                                                                            multiOption,
+                                                                            optionPicked,
+                                                                            openRange,
+                                                                            elementCount,
+                                                                            storeTemplate[sect].nested->condt,
+                                                                            elementCatch,
+                                                                            negative);
+                    utility.isExisting        = true;
+                    utility.hasGroup          = groupMulti == -1;
+                    utility.groupMulti        = groupMulti;
+                    utility.animMulti         = animMulti;
+
+                    if (!newCondition(output[sect].back().nested->condt,
+                                      filename,
+                                      optionPicked,
+                                      groupAnimInfo,
+                                      output[sect].back().row,
+                                      format,
+                                      format,
+                                      utility))
                     {
-                        utility.originalCondition = condition;
-                        utility.nodeProcess
-                            = make_shared<NodePackedParameters>(format,
-                                                                filename,
-                                                                behaviorFile,
-                                                                nextFunctionID,
-                                                                strID,
-                                                                groupAnimInfo,
-                                                                IDExist,
-                                                                subFunctionIDs,
-                                                                import,
-                                                                output[sect].back().row,
-                                                                eventid,
-                                                                variableid,
-                                                                zeroEvent,
-                                                                zeroVariable,
-                                                                groupMulti,
-                                                                animMulti,
-                                                                optionMulti,
-                                                                hasGroup,
-                                                                multiOption,
-                                                                optionPicked,
-                                                                openRange,
-                                                                elementCount,
-                                                                storeTemplate[sect].nested->condt,
-                                                                elementCatch,
-                                                                negative);
-                        utility.isExisting = true;
-                        utility.hasGroup   = groupMulti == -1;
-                        utility.groupMulti = groupMulti;
-                        utility.animMulti  = animMulti;
+                        break;
+                    }
 
-                        if (newCondition(output[sect].back().nested->condt,
-                                         filename,
-                                         optionPicked,
-                                         groupAnimInfo,
-                                         output[sect].back().row,
-                                         format,
-                                         format,
-                                         utility))
-                        {
-                            output[sect].back().nested->insertData(format,
-                                                                   filename,
-                                                                   optionPicked,
-                                                                   groupAnimInfo,
-                                                                   groupMulti,
-                                                                   animMulti,
-                                                                   optionMulti,
-                                                                   hasMaster,
-                                                                   hasGroup,
-                                                                   ignoreGroup,
-                                                                   multiOption,
-                                                                   nextFunctionID,
-                                                                   strID,
-                                                                   IDExist,
-                                                                   import,
-                                                                   eventid,
-                                                                   variableid,
-                                                                   zeroEvent,
-                                                                   zeroVariable,
-                                                                   openRange,
-                                                                   elementCount,
-                                                                   elementCatch,
-                                                                   subFunctionIDs,
-                                                                   negative);
-                            output[sect].back().deleted = false;
-                            ++sect;
+                    output[sect].back().nested->insertData(format,
+                                                           filename,
+                                                           optionPicked,
+                                                           groupAnimInfo,
+                                                           groupMulti,
+                                                           animMulti,
+                                                           optionMulti,
+                                                           hasMaster,
+                                                           hasGroup,
+                                                           ignoreGroup,
+                                                           multiOption,
+                                                           nextFunctionID,
+                                                           strID,
+                                                           IDExist,
+                                                           import,
+                                                           eventid,
+                                                           variableid,
+                                                           zeroEvent,
+                                                           zeroVariable,
+                                                           openRange,
+                                                           elementCount,
+                                                           elementCatch,
+                                                           subFunctionIDs,
+                                                           negative);
+                    output[sect].back().deleted = false;
+                    ++sect;
 
-                            while (storeTemplate[sect].nested
-                                   && (storeTemplate[sect].nested->type == CONDITION_ELSE
-                                       || storeTemplate[sect].nested->type == CONDITION))
-                            {
-                                output[sect].back().nested->conditionSkip = true;
-                                sect++;
-                            }
-                        }
+                    while (storeTemplate[sect].nested
+                           && (storeTemplate[sect].nested->type == CONDITION_ELSE
+                               || storeTemplate[sect].nested->type == CONDITION))
+                    {
+                        output[sect].back().nested->conditionSkip = true;
+                        sect++;
                     }
 
                     break;
                 }
                 case CONDITION:
                 {
-                    if (!output[sect].back().nested->conditionSkip)
-                    {
-                        output[sect].back().nested->insertData(format,
-                                                               filename,
-                                                               optionPicked,
-                                                               groupAnimInfo,
-                                                               groupMulti,
-                                                               animMulti,
-                                                               optionMulti,
-                                                               hasMaster,
-                                                               hasGroup,
-                                                               ignoreGroup,
-                                                               multiOption,
-                                                               nextFunctionID,
-                                                               strID,
-                                                               IDExist,
-                                                               import,
-                                                               eventid,
-                                                               variableid,
-                                                               zeroEvent,
-                                                               zeroVariable,
-                                                               openRange,
-                                                               elementCount,
-                                                               elementCatch,
-                                                               subFunctionIDs,
-                                                               negative);
-                        output[sect].back().deleted = false;
-                    }
+                    if (output[sect].back().nested->conditionSkip) break;
 
+                    output[sect].back().nested->insertData(format,
+                                                           filename,
+                                                           optionPicked,
+                                                           groupAnimInfo,
+                                                           groupMulti,
+                                                           animMulti,
+                                                           optionMulti,
+                                                           hasMaster,
+                                                           hasGroup,
+                                                           ignoreGroup,
+                                                           multiOption,
+                                                           nextFunctionID,
+                                                           strID,
+                                                           IDExist,
+                                                           import,
+                                                           eventid,
+                                                           variableid,
+                                                           zeroEvent,
+                                                           zeroVariable,
+                                                           openRange,
+                                                           elementCount,
+                                                           elementCatch,
+                                                           subFunctionIDs,
+                                                           negative);
+                    output[sect].back().deleted = false;
                     break;
                 }
                 default:

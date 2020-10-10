@@ -2118,8 +2118,6 @@ void proc::eventID(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimI
 
         if (eventitr == curAnimInfo.eventid.end() && eventname != curAnimInfo.zeroEvent)
         {
-            if (format == "BASE") ErrorMessage(1165, eventname);
-
             ErrorMessage(1131, format, curAnimInfo.filename, curAnimInfo.numline, eventname);
         }
 
@@ -2137,8 +2135,6 @@ void proc::variableID(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAn
 
         if (variableitr == curAnimInfo.variableid.end() && variablename != curAnimInfo.zeroVariable)
         {
-            if (format == "BASE") ErrorMessage(1166, variablename);
-
             ErrorMessage(1132, format, curAnimInfo.filename, curAnimInfo.numline, variablename);
         }
 

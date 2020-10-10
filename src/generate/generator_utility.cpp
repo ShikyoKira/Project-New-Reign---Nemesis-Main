@@ -361,7 +361,7 @@ vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate, c
 void updateRequired(sf::path filepath)
 {
     interMsg("");
-    interMsg(TextBoxMessage(1019) + L": " + filepath.wstring());
+    interMsg(TextBoxMessage(1020) + L": " + filepath.wstring());
     DebugLogging(nemesis::transform_to<wstring>(EngTextBoxMessage(1019)) + L": " + filepath.wstring());
     interMsg("");
 }
@@ -474,7 +474,7 @@ bool isEngineUpdated(string& versionCode, const NemesisInfo* nemesisInfo)
 
 			if (!isFileExist(part1) || GetLastModified(part1) != part2)
             {
-                interMsg(TextBoxMessage(1019) + L": " + part1);
+                interMsg(TextBoxMessage(1020) + L": " + part1);
                 DebugLogging(EngTextBoxMessage(1019) + ": " + nemesis::transform_to<string>(part1));
                 return false;
             }

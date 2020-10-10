@@ -2110,8 +2110,6 @@ void eventIDReplacer(string& line,
 
         if (eventItr == eventid.end() || (eventItr->second == 0 && eventName != firstEvent))
         {
-            if (format == "BASE") ErrorMessage(1165, eventName);
-
             ErrorMessage(1131, format, filename, linecount, eventName);
         }
 
@@ -2138,8 +2136,6 @@ void variableIDReplacer(string& line,
 
         if (varItr == variableid.end() || (varItr->second == 0 && ZeroVariable != varName))
         {
-            if (format == "BASE") ErrorMessage(1166, varName);
-
             ErrorMessage(1132, format, filename, linecount, varName);
         }
 
@@ -5016,250 +5012,24 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
         }
         else
         {
-            // LOOP THROUGH ALL CONDITIONS
-            for (auto curcond : curstack.nestedcond)
-            {
-                switch (curcond.conditionType)
-                {
-                    case nemesis::FOREACH:
-                    {
-                        int dummy;
-                        int openOrder = -2;
-
-                        if (curcond.next->isMultiTrue(animThrInfo,
-                                                      process,
-                                                      format,
-                                                      behaviorFile,
-                                                      curstack.linecount,
-                                                      openOrder,
-                                                      false,
-                                                      false,
-                                                      dummy))
-                        {
-                            string oldcond           = animThrInfo.multiOption;
-                            animThrInfo.multiOption = curcond.conditions;
-
-                            int size;
-
-                            if (openOrder == -2)
-                            {
-                                openOrder = 0;
-                                size      = 1;
-                            }
-                            else if (openOrder == -1)
-                            {
-                                openOrder = 0;
-                                size      = int(groupAnimInfo.size());
-                            }
-                            else
-                            {
-                                size = openOrder + 1;
-                            }
-
-                            for (int m_animMulti = openOrder; m_animMulti < size; ++m_animMulti)
-                            {
-                                for (int m_optionMulti = 0;
-                                     m_optionMulti
-                                     < groupAnimInfo[m_animMulti]->optionPickedCount[curcond.conditions];
-                                     ++m_optionMulti)
-                                {
-                                    animThrInfo.animMulti   = m_animMulti;
-                                    animThrInfo.optionMulti = m_optionMulti;
-                                    OutputCheck(generatedlines,
-                                                animThrInfo,
-                                                process,
-                                                &curcond,
-                                                norElement,
-                                                openRange,
-                                                elementLine,
-                                                counter,
-                                                eventid,
-                                                variableid,
-                                                fixedStateID,
-                                                stateCountMultiplier,
-                                                hasGroup,
-                                                negative,
-                                                groupFunction,
-                                                m_optionMulti,
-                                                m_animMulti);
-                                }
-                            }
-
-                            animThrInfo.multiOption = oldcond;
-                            animThrInfo.animMulti   = animMulti;
-                            animThrInfo.optionMulti = optionMulti;
-                            break;
-                        }
-
-                        break;
-                    }
-
-                    case nemesis::NEW_ORDER:
-                    {
-                        string curOrder = curcond.conditions;
-                        bool isNot      = false;
-                        bool skip       = false;
-
-                        if (curOrder[0] == '!')
-                        {
-                            isNot    = true;
-                            curOrder = curOrder.substr(1);
-                        }
-
-                        if (isOnlyNumber(curOrder))
-                        {
-                            if (order != stoi(curOrder))
-                            {
-                                if (!isNot) skip = true;
-                            }
-                            else if (isNot)
-                            {
-                                skip = true;
-                            }
-                        }
-                        else
-                        {
-                            bool word    = false;
-                            bool unknown = false;
-                            bool number  = false;
-
-                            for (unsigned int j = 0; j < curOrder.size(); ++j)
-                            {
-                                if (isalpha(curOrder[j]))
-                                {
-                                    word = true;
-                                }
-                                else if (isdigit(curOrder[j]))
-                                {
-                                    number = true;
-                                }
-                                else
-                                {
-                                    unknown = true;
-                                }
-                            }
-
-                            if (word & number)
-                            {
-                                ErrorMessage(1110, format, behaviorFile, curcond.linenum);
-                            }
-                            else if (unknown)
-                            {
-                                ErrorMessage(1111, format, behaviorFile, curcond.linenum);
-                            }
-                            else if (word)
-                            {
-                                if (nemesis::iequals(curOrder, "last"))
-                                {
-                                    if (!isLastOrder)
-                                    {
-                                        if (!isNot) skip = true;
-                                    }
-                                    else if (isNot)
-                                    {
-                                        skip = true;
-                                    }
-                                }
-                                else if (nemesis::iequals(curOrder, "first"))
-                                {
-                                    if (order != 0)
-                                    {
-                                        if (!isNot) skip = true;
-                                    }
-                                    else if (isNot)
-                                    {
-                                        skip = true;
-                                    }
-                                }
-                                else
-                                {
-                                    ErrorMessage(1112, format, behaviorFile, curcond.linenum);
-                                }
-                            }
-                            else
-                            {
-                                ErrorMessage(1113, format, behaviorFile, curcond.linenum);
-                            }
-                        }
-
-                        if (!skip)
-                        {
-                            OutputCheck(generatedlines,
-                                        animThrInfo,
-                                        process,
-                                        &curcond,
-                                        norElement,
-                                        openRange,
-                                        elementLine,
-                                        counter,
-                                        eventid,
-                                        variableid,
-                                        fixedStateID,
-                                        stateCountMultiplier,
-                                        hasGroup,
-                                        negative,
-                                        groupFunction,
-                                        optionMulti,
-                                        animMulti);
-                            break;
-                        }
-
-                        break;
-                    }
-
-                    case nemesis::CONDITION_START:
-                    case nemesis::CONDITION:
-                    {
-                        if (curcond.next->isTrue(
-                                animThrInfo, process, format, behaviorFile, curstack.linecount, false, false))
-                        {
-                            OutputCheck(generatedlines,
-                                        animThrInfo,
-                                        process,
-                                        &curcond,
-                                        norElement,
-                                        openRange,
-                                        elementLine,
-                                        counter,
-                                        eventid,
-                                        variableid,
-                                        fixedStateID,
-                                        stateCountMultiplier,
-                                        hasGroup,
-                                        negative,
-                                        groupFunction,
-                                        optionMulti,
-                                        animMulti);
-                        }
-
-                        break;
-                    }
-                    case nemesis::CONDITION_DEFAULT:
-                    {
-                        OutputCheck(generatedlines,
-                                    animThrInfo,
-                                    process,
-                                    &curcond,
-                                    norElement,
-                                    openRange,
-                                    elementLine,
-                                    counter,
-                                    eventid,
-                                    variableid,
-                                    fixedStateID,
-                                    stateCountMultiplier,
-                                    hasGroup,
-                                    negative,
-                                    groupFunction,
-                                    optionMulti,
-                                    animMulti);
-                        break;
-                    }
-                }
-
-                if (error) throw nemesis::exception();
-            }
-
+            conditionCheck(curstack,
+                           generatedlines,
+                           animThrInfo,
+                           process,
+                           curset,
+                           norElement,
+                           openRange,
+                           elementLine,
+                           counter,
+                           eventid,
+                           variableid,
+                           fixedStateID,
+                           stateCountMultiplier,
+                           hasGroup,
+                           negative,
+                           groupFunction,
+                           optionMulti,
+                           animMulti);
             uniqueskip = true;
         }
 
@@ -5277,6 +5047,266 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
             generatedlines->push_back(line);
 
             if (elementCatch) elementLine = generatedlines->size() - 1;
+        }
+
+        if (error) throw nemesis::exception();
+    }
+}
+
+void NewAnimation::conditionCheck(nemesis::LinkedVar<string>& curstack,
+                                  shared_ptr<VecStr> generatedlines,
+                                  AnimThreadInfo& animThrInfo,
+                                  const proc& process,
+                                  nemesis::CondVar<std::string>* curset,
+                                  bool& norElement,
+                                  int& openRange,
+                                  size_t& elementLine,
+                                  int& counter,
+                                  const ID& eventid,
+                                  const ID& variableid,
+                                  vector<int> fixedStateID,
+                                  vector<int> stateCountMultiplier,
+                                  bool hasGroup,
+                                  bool& negative,
+                                  shared_ptr<group> groupFunction,
+                                  int optionMulti,
+                                  int animMulti)
+{
+    // LOOP THROUGH ALL CONDITIONS
+    for (auto curcond : curstack.nestedcond)
+    {
+        switch (curcond.conditionType)
+        {
+            case nemesis::FOREACH:
+            {
+                int dummy;
+                int openOrder = -2;
+
+                if (!curcond.next->isMultiTrue(animThrInfo,
+                                              process,
+                                              format,
+                                              behaviorFile,
+                                              curstack.linecount,
+                                              openOrder,
+                                              false,
+                                              false,
+                                              dummy))
+                {
+                    break;
+                }
+
+                string oldcond          = animThrInfo.multiOption;
+                animThrInfo.multiOption = curcond.conditions;
+
+                int size;
+
+                if (openOrder == -2)
+                {
+                    openOrder = 0;
+                    size      = 1;
+                }
+                else if (openOrder == -1)
+                {
+                    openOrder = 0;
+                    size      = int(groupAnimInfo.size());
+                }
+                else
+                {
+                    size = openOrder + 1;
+                }
+
+                for (int m_animMulti = openOrder; m_animMulti < size; ++m_animMulti)
+                {
+                    for (int m_optionMulti = 0;
+                         m_optionMulti < groupAnimInfo[m_animMulti]->optionPickedCount[curcond.conditions];
+                         ++m_optionMulti)
+                    {
+                        animThrInfo.animMulti   = m_animMulti;
+                        animThrInfo.optionMulti = m_optionMulti;
+                        OutputCheck(generatedlines,
+                                    animThrInfo,
+                                    process,
+                                    &curcond,
+                                    norElement,
+                                    openRange,
+                                    elementLine,
+                                    counter,
+                                    eventid,
+                                    variableid,
+                                    fixedStateID,
+                                    stateCountMultiplier,
+                                    hasGroup,
+                                    negative,
+                                    groupFunction,
+                                    m_optionMulti,
+                                    m_animMulti);
+                    }
+                }
+
+                animThrInfo.multiOption = oldcond;
+                animThrInfo.animMulti   = animMulti;
+                animThrInfo.optionMulti = optionMulti;
+                break;
+            }
+            case nemesis::NEW_ORDER:
+            {
+                string curOrder = curcond.conditions;
+                bool isNot      = false;
+                bool skip       = false;
+
+                if (curOrder[0] == '!')
+                {
+                    isNot    = true;
+                    curOrder = curOrder.substr(1);
+                }
+
+                if (isOnlyNumber(curOrder))
+                {
+                    if (order != stoi(curOrder))
+                    {
+                        if (!isNot) skip = true;
+                    }
+                    else if (isNot)
+                    {
+                        skip = true;
+                    }
+                }
+                else
+                {
+                    bool word    = false;
+                    bool unknown = false;
+                    bool number  = false;
+
+                    for (unsigned int j = 0; j < curOrder.size(); ++j)
+                    {
+                        if (isalpha(curOrder[j]))
+                        {
+                            word = true;
+                        }
+                        else if (isdigit(curOrder[j]))
+                        {
+                            number = true;
+                        }
+                        else
+                        {
+                            unknown = true;
+                        }
+                    }
+
+                    if (word & number)
+                    {
+                        ErrorMessage(1110, format, behaviorFile, curcond.linenum);
+                    }
+                    else if (unknown)
+                    {
+                        ErrorMessage(1111, format, behaviorFile, curcond.linenum);
+                    }
+                    else if (word)
+                    {
+                        if (nemesis::iequals(curOrder, "last"))
+                        {
+                            if (!isLastOrder)
+                            {
+                                if (!isNot) skip = true;
+                            }
+                            else if (isNot)
+                            {
+                                skip = true;
+                            }
+                        }
+                        else if (nemesis::iequals(curOrder, "first"))
+                        {
+                            if (order != 0)
+                            {
+                                if (!isNot) skip = true;
+                            }
+                            else if (isNot)
+                            {
+                                skip = true;
+                            }
+                        }
+                        else
+                        {
+                            ErrorMessage(1112, format, behaviorFile, curcond.linenum);
+                        }
+                    }
+                    else
+                    {
+                        ErrorMessage(1113, format, behaviorFile, curcond.linenum);
+                    }
+                }
+
+                if (skip) break;
+
+                OutputCheck(generatedlines,
+                            animThrInfo,
+                            process,
+                            &curcond,
+                            norElement,
+                            openRange,
+                            elementLine,
+                            counter,
+                            eventid,
+                            variableid,
+                            fixedStateID,
+                            stateCountMultiplier,
+                            hasGroup,
+                            negative,
+                            groupFunction,
+                            optionMulti,
+                            animMulti);
+                break;
+            }
+            case nemesis::NEW:
+            case nemesis::CONDITION_START:
+            case nemesis::CONDITION:
+            {
+                if (!curcond.next->isTrue(
+                        animThrInfo, process, format, behaviorFile, curstack.linecount, false, false))
+                {
+                    break;
+                }
+
+                OutputCheck(generatedlines,
+                            animThrInfo,
+                            process,
+                            &curcond,
+                            norElement,
+                            openRange,
+                            elementLine,
+                            counter,
+                            eventid,
+                            variableid,
+                            fixedStateID,
+                            stateCountMultiplier,
+                            hasGroup,
+                            negative,
+                            groupFunction,
+                            optionMulti,
+                            animMulti);
+                return;
+            }
+            case nemesis::CONDITION_DEFAULT:
+            {
+                OutputCheck(generatedlines,
+                            animThrInfo,
+                            process,
+                            &curcond,
+                            norElement,
+                            openRange,
+                            elementLine,
+                            counter,
+                            eventid,
+                            variableid,
+                            fixedStateID,
+                            stateCountMultiplier,
+                            hasGroup,
+                            negative,
+                            groupFunction,
+                            optionMulti,
+                            animMulti);
+                return;
+            }
         }
 
         if (error) throw nemesis::exception();

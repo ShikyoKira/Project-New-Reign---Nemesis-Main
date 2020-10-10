@@ -1664,7 +1664,8 @@ void BehaviorSub::CompilingBehavior()
                             if (change != line)
                             {
                                 string oldChange = "$" + change + "$";
-                                eventIDReplacer(change, "BASE", behaviorFile, eventid, ZeroEvent, catalyst[l].first);
+                                eventIDReplacer(
+                                    change, newMod, behaviorFile, eventid, ZeroEvent, catalyst[l].first);
                                 line.replace(line.find(oldChange), oldChange.length(), change);
                             }
 
@@ -1682,7 +1683,7 @@ void BehaviorSub::CompilingBehavior()
                             {
                                 string oldChange = "$" + change + "$";
                                 variableIDReplacer(change,
-                                                   "BASE",
+                                                   newMod,
                                                    behaviorFile,
                                                    variableid,
                                                    ZeroVariable,

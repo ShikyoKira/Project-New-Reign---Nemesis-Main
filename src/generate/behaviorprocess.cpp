@@ -102,6 +102,21 @@ void BehaviorStart::InitializeGeneration()
 {
     std::thread* checkThread = nullptr;
 
+    QtConcurrent::run([&]() {
+        while (running)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            ++timeout_timer;
+
+            // timeout after 5mins
+            if (timeout_timer == 3000)
+            {
+                error = true;
+                emit criticalError("TIMEOUT", "Behavior process timeout");
+            }
+        }
+    });
+
     try
     {
         extraCore = 0;
@@ -1201,6 +1216,8 @@ void BehaviorStart::milestoneStart()
 
 void BehaviorStart::unregisterProcess(bool skip)
 {
+    running = false;
+
     if (!skip)
     {
         if (!error)

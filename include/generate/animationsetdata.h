@@ -1,6 +1,7 @@
 #ifndef ANIMATIONSETDATA_H_
 #define ANIMATIONSETDATA_H_
 
+#include "utilities/linkedvar.h"
 #include "utilities/alphanum.hpp"
 #include "utilities/writetextfile.h"
 
@@ -66,15 +67,16 @@ namespace ASDFormat
     };
 }
 
-struct MasterAnimSetData
-{
-    VecStr projectList; // order of the project
-    std::unordered_map<std::string, std::map<std::string, VecStr, alphanum_less>>
-        newAnimSetData; // project, header, vector<string>; memory to access each node
-};
+struct AnimSetPack;
+struct AnimSetData;
+struct ProjectAnimSetData;
+struct MasterAnimSetData;
 
-extern void
-combineExtraction(VecStr& storeline, std::map<int, VecStr> extract, std::string project, std::string header);
+void combineExtraction(VecStr& storeline,
+                       std::map<int, VecStr> extract,
+                       std::string project,
+                       std::string header);
+
 
 ASDFormat::position ASDPosition(VecStr animData,
                                 std::string character,

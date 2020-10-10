@@ -134,7 +134,7 @@ void unpackToCatalyst(map<int, VecStr>& catalystMap, unordered_map<int, shared_p
 
 int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone, const HkxCompiler& hkxCompiler)
 {
-    int bonenum;
+    int bonenum = 0;
 
     if (SSE)
     {

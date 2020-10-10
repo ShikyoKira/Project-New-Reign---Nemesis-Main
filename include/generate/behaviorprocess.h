@@ -62,9 +62,12 @@ signals:
     void hide(bool);
     void incomingMessage(QString);
     void disableLaunch();
+    void criticalError(QString, QString);
 
 private:
     bool cmdline  = false;
+    bool running  = true;
+    int timeout_timer = 0;
     int animCount = 0;
     int filenum;
     std::unordered_map<std::wstring, VecWstr> coreModList; // core filename, list of modID;
