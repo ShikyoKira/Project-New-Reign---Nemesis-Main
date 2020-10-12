@@ -1,14 +1,39 @@
 #include "animsetdatacrc32packcond.h"
 
+#include "utilities/conditionsyntax.h"
+
 using namespace std;
 
 void getLinkedLines(const nemesis::LinkedVar<AnimSetCRC32Pack::crc32>& linkedcrc32, VecStr& storeline);
+
+bool AnimSetCRC32Pack::validation(const nemesis::Line& line)
+{
+    return (line.front() == '$' && line.back() == '$') || isOnlyNumber(line);
+}
 
 void AnimSetCRC32Pack::getlines(VecStr& storeline)
 {
     getLinkedLines(filepath, storeline);
     getLinkedLines(filename, storeline);
     getLinkedLines(extension, storeline);
+}
+
+bool AnimSetCRC32Pack::addFilePath(const nemesis::Line& _filepath)
+{
+    filepath = _filepath.ToLinkedVarString();
+    return validation(_filepath);
+}
+
+bool AnimSetCRC32Pack::addFileName(const nemesis::Line& _filename)
+{
+    filename = _filename.ToLinkedVarString();
+    return validation(_filename);
+}
+
+bool AnimSetCRC32Pack::addExtension(const nemesis::Line& _extension)
+{
+    extension = _extension.ToLinkedVarString();
+    return true;
 }
 
 void getLinkedLines(const nemesis::LinkedVar<AnimSetCRC32Pack>& linkedcrc32, VecStr& storeline)
@@ -35,7 +60,7 @@ void getLinkedLines(const nemesis::LinkedVar<AnimSetCRC32Pack>& linkedcrc32, Vec
                     getLinkedLines(each, storeline);
                 }
 
-                storeline.push_back("<!-- CLOSE -->");
+                storeline.push_back(nemesis::syntax::Close());
                 break;
             }
         }
