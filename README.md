@@ -31,7 +31,7 @@ What else?
 
 What's the catch?
 - With greater flexibility comes greater responsibility. Mod author and template author (Not Nemesis developer) will be responsible issue with the animation caused by their modification/template
-- Templates and patches have to be distributed under the same license (GLP) as this tool to ensure everyone enjoys the same benefits and contributions (Contact me @ShikyoKira personally if you don't want to)
+- Templates and patches have to be distributed under [the same license (GPL-3.0)](LICENSE) as this tool to ensure everyone enjoys the same benefits and contributions (Contact me @ShikyoKira personally if you don't want to)
 - With a better debugging system, users are required to do their own homework as well as trying to fix the issue themselves before bothering anyone, and provide necessary information in the event they have to ask someone for help
 
 
@@ -45,7 +45,7 @@ Youtube tutorial on how to use Nemesis: https://www.youtube.com/watch?v=mug-KFBw
 
 Build requirement for developers:
 - [Qt5](https://www.qt.io/download-open-source)
-- [boost](https://www.boost.org/users/download/) 
+- [boost](https://www.boost.org/users/download/)
 - [Python-3.5.6](https://www.python.org/downloads/release/python-356/) - Prebuilt binary version [here](https://drive.google.com/open?id=1Uqq0iQhc0qsWAiz3EFzqMWxB27BG-M5T)
 
 
