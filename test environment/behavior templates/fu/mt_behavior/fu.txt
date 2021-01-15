@@ -11,21 +11,21 @@
 			<hkparam name="enable">true</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^o|(!h&(^first^|fu[B][h]))|ac1^ -->
+<!-- IF ^o|(!h&(^first^|fu[B][h]))|ac1^ -->
 		<hkobject name="#MID$1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- CONDITION START ^!h&(^first^|fu[B][h])^ -->
+<!-- IF ^!h&(^first^|fu[B][h])^ -->
 				<hkobject>
 					<hkparam name="id">20</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CONDITION END -->
-<!-- NEW ^ac1^ -->
+<!-- ENDIF -->
+<!-- IF ^ac1^ -->
 				<hkobject>
 					<hkparam name="id">461</hkparam>
 					<hkparam name="payload">#1978</hkparam>
 				</hkobject>
-<!-- CLOSE -->
+<!-- ENDIF -->
 <!-- FOREACH ^AnimObject/1^ -->
 				<hkobject>
 					<hkparam name="id">393</hkparam>
@@ -39,39 +39,39 @@
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
-<!-- CONDITION START ^o|(!h&(^last^|fu[N][h]))|ac0|^first^^ -->
+<!-- ENDIF -->
+<!-- IF ^o|(!h&(^last^|fu[N][h]))|ac0|^first^^ -->
 		<hkobject name="#MID$2" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- CONDITION START ^!h&(^last^|fu[N][h])^ -->
+<!-- IF ^!h&(^last^|fu[N][h])^ -->
 				<hkobject>
 					<hkparam name="id">18</hkparam>			<!-- HeadTrackingOn -->
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CONDITION END -->
-<!-- NEW ^o^ -->
+<!-- ENDIF -->
+<!-- IF ^o^ -->
 				<hkobject>
 					<hkparam name="id">165</hkparam>		<!-- AnimObjectUnequip -->
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CLOSE -->
-<!-- NEW ORDER first -->
+<!-- ENDIF -->
+<!-- IF ^^first^^ -->
 				<hkobject>
 					<hkparam name="id">14</hkparam>			<!-- IdleChairSitting -->
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CLOSE -->
-<!-- NEW ^ac0^ -->
+<!-- ENDIF -->
+<!-- IF ^ac0^ -->
 				<hkobject>
 					<hkparam name="id">462</hkparam>		<!-- EndAnimatedCamera -->
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CLOSE -->
+<!-- ENDIF -->
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
-<!-- CONDITION START ^!^first^&(AV|AVI)^ -->
+<!-- ENDIF -->
+<!-- IF ^!^first^&(AV|AVI)^ -->
 		<hkobject name="#MID$3" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
@@ -111,7 +111,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
+<!-- ENDIF -->
 		<hkobject name="#MID$6" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
@@ -129,7 +129,7 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^T|a|^last^^ -->
+<!-- IF ^T|a|^last^^ -->
 		<hkobject name="#MID$7" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="$elements$">			<!-- COMPUTE -->
 <!-- FOREACH ^T^ -->
@@ -146,7 +146,7 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- CONDITION START ^^last^^ -->
+<!-- IF ^^last^^ -->
 				<hkobject>
 					<hkparam name="localTime">-0.050000</hkparam>
 					<hkparam name="event">
@@ -183,7 +183,7 @@
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
-<!-- CONDITION ^a^ -->
+<!-- ELSEIF ^a^ -->
 				<hkobject>
 					<hkparam name="localTime">-0.300000</hkparam>
 					<hkparam name="event">
@@ -196,8 +196,8 @@
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
-<!-- CONDITION END -->
+<!-- ENDIF -->
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
+<!-- ENDIF -->

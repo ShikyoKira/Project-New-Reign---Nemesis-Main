@@ -91,15 +91,15 @@
 			<hkparam name="enable">true</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^o^ -->
+<!-- IF ^o^ -->
 		<hkobject name="#MID$5" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^!h^ -->
+<!-- IF ^!h^ -->
 				<hkobject>
 					<hkparam name="id">366</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CLOSE -->
+<!-- ENDIF -->
 <!-- FOREACH ^AnimObject/1^ -->
 				<hkobject>
 					<hkparam name="id">937</hkparam>
@@ -113,7 +113,7 @@
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
+<!-- ENDIF -->
 		<hkobject name="#MID$6" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
@@ -282,15 +282,15 @@
 			<hkparam name="enable">true</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^o^ -->
+<!-- IF ^o^ -->
 		<hkobject name="#MID$14" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^!h^ -->
+<!-- IF ^!h^ -->
 				<hkobject>
 					<hkparam name="id">366</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CLOSE -->
+<!-- ENDIF -->
 <!-- FOREACH ^AnimObject/2^ -->
 				<hkobject>
 					<hkparam name="id">937</hkparam>
@@ -304,7 +304,7 @@
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
+<!-- ENDIF -->
 		<hkobject name="#MID$15" class="BSSynchronizedClipGenerator" signature="0xd83bea64">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>

@@ -1,4 +1,4 @@
-<!-- CONDITION START ^motion|rotation^ -->
+<!-- IF ^motion|rotation^ -->
 Nemesis_Basic_Animation_$%$
 $animOrder[Animations\FilePath]$
 1
@@ -6,4 +6,4 @@ $animOrder[Animations\FilePath]$
 0
 0
 
-<!-- CONDITION END -->
+<!-- ENDIF -->

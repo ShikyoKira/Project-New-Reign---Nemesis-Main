@@ -1,7 +1,7 @@
-<!-- CONDITION START ^motion|rotation^ -->
+<!-- IF ^motion|rotation^ -->
 $animOrder[Animations\FilePath]$
 $END$
 $MD$
 $RD$
 
-<!-- CONDITION END -->
+<!-- ENDIF -->

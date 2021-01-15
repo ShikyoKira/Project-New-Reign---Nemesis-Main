@@ -11,22 +11,22 @@
 			<hkparam name="enable">true</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^ac1|(o&(^first^|(<so[B][@AnimObject/1]!=@AnimObject/1>|(<so[B][@AnimObject/1]==>&<@AnimObject/1==>)))&AnimObject/1)^ -->
+<!-- IF ^ac1|(o&(^first^|(<so[B][@AnimObject/1]!=@AnimObject/1>|(<so[B][@AnimObject/1]==>&<@AnimObject/1==>)))&AnimObject/1)^ -->
 		<hkobject name="#MID$1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- CONDITION START ^!h&(^first^|so[B][h])^ -->
+<!-- IF ^!h&(^first^|so[B][h])^ -->
 				<hkobject>
 					<hkparam name="id">2</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CONDITION END -->
-<!-- NEW ^ac1^ -->
+<!-- ENDIF -->
+<!-- IF ^ac1^ -->
 				<hkobject>
 					<hkparam name="id">4</hkparam>
 					<hkparam name="payload">#$import[event_payload][Camera3rd [Cam3]]$</hkparam>
 				</hkobject>
-<!-- CLOSE -->
-<!-- CONDITION START ^o&(^first^|(<so[B][@AnimObject/1]!=@AnimObject/1>|(<so[B][@AnimObject/1]==>&<@AnimObject/1==>)))&AnimObject/1^ -->
+<!-- ENDIF -->
+<!-- IF ^o&(^first^|(<so[B][@AnimObject/1]!=@AnimObject/1>|(<so[B][@AnimObject/1]==>&<@AnimObject/1==>)))&AnimObject/1^ -->
 <!-- FOREACH ^AnimObject/1^ -->
 				<hkobject>
 					<hkparam name="id">0</hkparam>
@@ -37,38 +37,38 @@
 					<hkparam name="payload">#$import[anim_object][@AnimObject/1]$</hkparam>
 				</hkobject>
 <!-- CLOSE -->
-<!-- CONDITION END -->
+<!-- ENDIF -->
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
-<!-- CONDITION START ^ac0|(o&(^last^|(<so[N][@AnimObject/1]!=@AnimObject/1>|(<so[N][@AnimObject/1]==>&<@AnimObject/1==>))))^ -->
+<!-- ENDIF -->
+<!-- IF ^ac0|(o&(^last^|(<so[N][@AnimObject/1]!=@AnimObject/1>|(<so[N][@AnimObject/1]==>&<@AnimObject/1==>))))^ -->
 		<hkobject name="#MID$2" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- CONDITION START ^!h&(^last^|so[N][h])^ -->
+<!-- IF ^!h&(^last^|so[N][h])^ -->
 				<hkobject>
 					<hkparam name="id">3</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CONDITION END -->
-<!-- CONDITION START ^o&(^last^|(<so[N][@AnimObject/1]!=@AnimObject/1>|(<so[N][@AnimObject/1]==>&<@AnimObject/1==>)))^ -->
+<!-- ENDIF -->
+<!-- IF ^o&(^last^|(<so[N][@AnimObject/1]!=@AnimObject/1>|(<so[N][@AnimObject/1]==>&<@AnimObject/1==>)))^ -->
 				<hkobject>
 					<hkparam name="id">8</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CONDITION END -->
-<!-- NEW ^ac0^ -->
+<!-- ENDIF -->
+<!-- IF ^ac0^ -->
 				<hkobject>
 					<hkparam name="id">5</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CLOSE -->
+<!-- ENDIF -->
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
-<!-- CONDITION START ^(md|!so[][md])&!AV&!AVI^ -->
-<!-- CONDITION -->
+<!-- ENDIF -->
+<!-- IF ^(md|!so[][md])&!AV&!AVI^ -->
+<!-- ELSE -->
 		<hkobject name="#MID$3" class="hkbModifierGenerator" signature="0x1f81fae6">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">1</hkparam>
@@ -77,7 +77,7 @@
 			<hkparam name="generator">#MID$6</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^md|!so[][md]^ -->
+<!-- IF ^md|!so[][md]^ -->
 		<hkobject name="#MID$4" class="BSIsActiveModifier" signature="0xb0fde45a">
 			<hkparam name="variableBindingSet">#MID$5</hkparam>
 			<hkparam name="userData">2</hkparam>
@@ -109,7 +109,7 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-<!-- CONDITION -->
+<!-- ELSE -->
 		<hkobject name="#MID$4" class="BSIsActiveModifier" signature="0xb0fde45a">
 			<hkparam name="variableBindingSet">#MID$5</hkparam>
 			<hkparam name="userData">2</hkparam>
@@ -147,8 +147,8 @@
 			<hkparam name="indexOfBindingToEnable">-1</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
-<!-- CONDITION END -->
+<!-- ENDIF -->
+<!-- ENDIF -->
 		<hkobject name="#MID$6" class="hkbClipGenerator" signature="0x333b85b9">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
@@ -166,11 +166,11 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^a|T^ -->
+<!-- IF ^a|T^ -->
 		<hkobject name="#MID$7" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="$elements">			<!-- COMPUTE -->
-<!-- CONDITION START ^a^ -->
-<!-- CONDITION START ^!^last^^ -->
+<!-- IF ^a^ -->
+<!-- IF ^!^last^^ -->
 				<hkobject>
 					<hkparam name="localTime">-0.300000</hkparam>
 					<hkparam name="event">
@@ -183,7 +183,7 @@
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
-<!-- CONDITION -->
+<!-- ELSE -->
 				<hkobject>
 					<hkparam name="localTime">-0.05000</hkparam>
 					<hkparam name="event">
@@ -208,8 +208,8 @@
 					<hkparam name="acyclic">false</hkparam>
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
-<!-- CONDITION END -->
-<!-- CONDITION END -->
+<!-- ENDIF -->
+<!-- ENDIF -->
 <!-- FOREACH ^T^ -->
 				<hkobject>
 					<hkparam name="localTime">$T[time]$</hkparam>
@@ -227,4 +227,4 @@
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
+<!-- ENDIF -->

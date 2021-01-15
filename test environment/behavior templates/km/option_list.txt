@@ -15,7 +15,7 @@ AV<variable>[]
 event pa_<main_anim_event>
 
 'Additional function
-Add T2_ event 2_$$$
+Add T2_ event 2_<event>
 
 'AnimObject Count
 animobject 2

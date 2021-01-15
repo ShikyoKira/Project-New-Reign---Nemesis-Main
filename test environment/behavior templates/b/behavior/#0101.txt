@@ -1,7 +1,7 @@
 		<hkobject name="#0101" class="hkbStateMachine" signature="0x816c1dcb">
 			<hkparam name="variableBindingSet">null</hkparam>
 			<hkparam name="userData">0</hkparam>
-			<hkparam name="name">Nemesis_Idles_Behavior</hkparam>
+			<hkparam name="name">Nemesis_Core_Behavior</hkparam>
 			<hkparam name="eventToSendWhenStateOrTransitionChanges">
 				<hkobject>
 					<hkparam name="id">-1</hkparam>

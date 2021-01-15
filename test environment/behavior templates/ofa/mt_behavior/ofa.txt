@@ -58,15 +58,15 @@
 			<hkparam name="flags">0</hkparam>
 		</hkobject>
 
-<!-- CONDITION START ^o^ -->
+<!-- IF ^o^ -->
 		<hkobject name="#MID$4" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
 			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
-<!-- NEW ^!h^ -->
+<!-- IF ^!h^ -->
 				<hkobject>
 					<hkparam name="id">20</hkparam>
 					<hkparam name="payload">null</hkparam>
 				</hkobject>
-<!-- CLOSE -->
+<!-- ENDIF -->
 <!-- FOREACH ^AnimObject/1^ -->
 				<hkobject>
 					<hkparam name="id">393</hkparam>
@@ -80,4 +80,4 @@
 			</hkparam>
 		</hkobject>
 
-<!-- CONDITION END -->
+<!-- ENDIF -->

@@ -18,11 +18,11 @@
 							<hkparam name="exitTime">0.000000</hkparam>
 						</hkobject>
 					</hkparam>
-<!-- CONDITION START ^b[][B]^ -->
+<!-- IF ^b[][B]^ -->
 					<hkparam name="transition">#$import[blend_transition][b[][B][duration]]$</hkparam>
-<!-- CONDITION -->
+<!-- ELSE -->
 					<hkparam name="transition">#0111</hkparam>
-<!-- CONDITION END -->
+<!-- ENDIF -->
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">$eventID[main_anim_event]$</hkparam>
  					<hkparam name="toStateId">$(S+0)$</hkparam>
