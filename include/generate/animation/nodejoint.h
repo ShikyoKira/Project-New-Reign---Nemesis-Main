@@ -11,8 +11,8 @@
 using ID              = std::unordered_map<std::string, int>;
 using VecStr          = std::vector<std::string>;
 using SetStr          = std::set<std::string>;
-using SSMap           = std::unordered_map<std::string, std::string>;
-using ImportContainer = std::unordered_map<std::string, SSMap>;
+using UMapStr2           = std::unordered_map<std::string, std::string>;
+using ImportContainer = std::unordered_map<std::string, UMapStr2>;
 
 struct master;
 struct NodeJoint;
@@ -42,7 +42,7 @@ struct NodePackedParameters
     int& nextFunctionID;
     std::string& strID;
     const std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& groupAnimInfo;
-    SSMap& IDExist;
+    UMapStr2& IDExist;
     std::shared_ptr<master> subFunctionIDs;
     ImportContainer& import;
     int linecount;
@@ -68,7 +68,7 @@ struct NodePackedParameters
                          int& _nextFunctionID,
                          std::string& _strID,
                          const std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& _groupAnimInfo,
-                         SSMap& _IDExist,
+                         UMapStr2& _IDExist,
                          std::shared_ptr<master> _subFunctionIDs,
                          ImportContainer& _import,
                          int _linecount,
@@ -140,7 +140,7 @@ struct NodeJoint
                     std::string multiOption,
                     int& nextFunctionID,
                     std::string& strID,
-                    SSMap& IDExist,
+                    UMapStr2& IDExist,
                     ImportContainer& import,
                     ID eventid,
                     ID variableid,
@@ -169,7 +169,7 @@ struct NodeJoint
                         std::string multiOption,
                         int& nextFunctionID,
                         std::string& strID,
-                        SSMap& IDExist,
+                        UMapStr2& IDExist,
                         ImportContainer& import,
                         ID eventid,
                         ID variableid,
@@ -192,7 +192,7 @@ struct NodeJoint
                                 std::string multiOption,
                                 int& nextFunctionID,
                                 std::string& strID,
-                                SSMap& IDExist,
+                                UMapStr2& IDExist,
                                 ImportContainer& import,
                                 ID eventid,
                                 ID variableid,

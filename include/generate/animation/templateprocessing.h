@@ -34,10 +34,10 @@ struct proc
 
 	const std::vector<std::unordered_map<std::string, bool>>* groupOptionPicked;
 	const std::vector<std::vector<std::unordered_map<std::string, bool>>>* masterOptionPicked;
-	
+
 	bool isGroup = false;
 	bool isMaster = false;
-	
+
 	std::string format;
     std::string masterformat;
     std::string behaviorFile;
@@ -50,9 +50,13 @@ struct proc
 
 	std::unordered_map<int, std::vector<nemesis::MultiChoice>> multiChoice;		// numline, list of MultiChoice
 
-    proc()
-    {}
+    proc() = default;
 
+private:
+    void motionValidation(const AnimThreadInfo& curAnimInfo) const;
+    void rotationValidation(const AnimThreadInfo& curAnimInfo) const;
+
+public:
 	void installBlock(nemesis::scope blok, int curline);
 	void installBlock(nemesis::scope blok, int curline, std::vector<nemesis::MultiChoice> n_condiiton);
 
@@ -113,7 +117,7 @@ struct proc
 	void stateSingle(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;
 
 
-	// filepath functions
+	// file path functions
 	// group
 	void filepathMultiGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;
 	void filepathFirstGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;
@@ -273,9 +277,9 @@ struct proc
 	// negative local
 	void localNegative(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;
 
-	// getline
+	// get line
     void blocksCompile(VecStr blocks, AnimThreadInfo& curAnimInfo) const;
-	
+
 	// utilities
 	bool isThisMaster();
     bool clearBlocks(nemesis::scope& blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;

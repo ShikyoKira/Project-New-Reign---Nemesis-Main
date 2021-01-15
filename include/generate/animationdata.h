@@ -8,7 +8,7 @@
 
 #include "generate/animation/newanimation.h"
 
-typedef std::unordered_map<std::string, SSMap> ImportContainer;
+typedef std::unordered_map<std::string, UMapStr2> ImportContainer;
 
 struct AnimDataFunct
 {

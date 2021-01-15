@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+
 using VecStr = std::vector<std::string>;
 
 struct proc;
@@ -20,7 +21,7 @@ namespace nemesis
 		std::vector<int> olddataint;
 		funcptr func;
 
-		scope() {}
+		scope() = default;
 		scope(size_t n_front, size_t n_back, funcptr n_func);
 		scope(size_t n_front, size_t n_back, VecStr n_olddata, funcptr n_func);
 		scope(size_t n_front, size_t n_back, std::vector<int> n_olddataint, funcptr n_func);

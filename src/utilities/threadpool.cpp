@@ -23,7 +23,7 @@ void nemesis::ThreadPool::join_all()
     }
 }
 
-void nemesis::ThreadPool::stop() 
+void nemesis::ThreadPool::stop()
 {
     {
         lock_guard lock{queue_mutex};

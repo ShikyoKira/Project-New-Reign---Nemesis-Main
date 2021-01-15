@@ -5,8 +5,6 @@
 
 #include <QtCore/QObject>
 
-#include "behaviortype.h"
-
 #include "generate/animation/newanimation.h"
 
 class BehaviorStart;
@@ -27,8 +25,8 @@ public:
                  std::shared_ptr<TemplateInfo> newBehaviorTemplate,
                  std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>> addAnimation,
                  std::unordered_map<std::string, var> newAnimVar,
-                 mapSetString addAnimEvent,
-                 mapSetString addAnimVariable,
+                 UMapSetStr addAnimEvent,
+                 UMapSetStr addAnimVariable,
                  std::unordered_map<std::string, std::unordered_map<int, bool>> newIgnoreFunction,
                  bool newIsCharacter,
                  const std::string& newModID,
@@ -70,8 +68,8 @@ private:
     std::wstring directory;
     std::shared_ptr<TemplateInfo> BehaviorTemplate;
     std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>> newAnimation;
-    mapSetString newAnimEvent;
-    mapSetString newAnimVariable;
+    UMapSetStr newAnimEvent;
+    UMapSetStr newAnimVariable;
     std::unordered_map<std::string, var> AnimVar;
     std::unordered_map<std::string, std::unordered_map<int, bool>> ignoreFunction;
     BehaviorStart* process;

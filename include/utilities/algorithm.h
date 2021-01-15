@@ -40,11 +40,17 @@ namespace nemesis
     bool iequals(const std::string& l, const std::string& r);
     bool iequals(const std::wstring& l, const std::wstring& r);
 
+    std::string transform_to(const std::wstring& str) noexcept;
+    std::wstring transform_to(const std::string& str) noexcept;
+
+    std::string transform_to(const wchar_t* str) noexcept;
+    std::wstring transform_to(const char* str) noexcept;
+
     nemesis::Line transform_to(const nemesis::Wline& str) noexcept;
     nemesis::Wline transform_to(const nemesis::Line& str) noexcept;
 
-    template <typename T, typename F>
-    inline T transform_to(const F& str) noexcept
+    template <typename To, typename From>
+    inline To transform_to(const From& str) noexcept
     {
         if (str.empty()) return {};
 

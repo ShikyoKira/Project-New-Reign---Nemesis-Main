@@ -4,77 +4,83 @@
 #include <vector>
 #include <filesystem>
 
-#include "utilities/line.h"
+#include "utilities/condtype.h"
 
 namespace nemesis
 {
-    enum CondType
-    {
-        NONE,
-        FOREACH,
-        NEW,
-        NEW_ORDER,
-        CONDITION_START,
-        CONDITION,
-        CONDITION_DEFAULT,
-        MOD_CODE,
-        ORIGINAL,
-        CLOSE,
-        CONDITION_END,
-    };
+    struct Line;
 
     struct CondDetails
     {
-        nemesis::CondType type;
+        using CondDetailsList = Vec<CondDetails>;
+
+        CondType type;
         std::string condition;
         std::deque<nemesis::Line> contents;
 
-        CondDetails() {}
-        CondDetails(nemesis::CondType _type);
-        CondDetails(nemesis::CondType _type, std::string _condition);
+        CondDetails() = default;
+        CondDetails(CondType _type) noexcept;
+        CondDetails(CondType _type, const std::string& _condition) noexcept;
 
-        static bool templateCheck(std::filesystem::path path,
+        static bool templateCheck(const std::filesystem::path& path,
                                   const std::string& format,
                                   const nemesis::Line& line,
-                                  std::vector<nemesis::CondDetails>& condtype);
+                                  CondDetailsList& condtype);
 
-        static bool templateCheckRev(std::filesystem::path path,
+        static bool templateCheckRev(const std::filesystem::path& path,
                                      const std::string& format,
                                      const nemesis::Line& line,
-                                     std::vector<nemesis::CondDetails>& condtype);
+                                     CondDetailsList& condtype);
 
-        static bool modCheck(std::filesystem::path path,
+        static bool modCheck(const std::filesystem::path& path,
                              const std::string& format,
                              const nemesis::Line& line,
-                             std::vector<nemesis::CondDetails>& condtype);
+                             CondDetailsList& condtype);
 
-        static bool modCheckRev(std::filesystem::path path,
+        static bool modCheckRev(const std::filesystem::path& path,
                                 const std::string& format,
                                 const nemesis::Line& line,
-                                std::vector<nemesis::CondDetails>& condtype);
+                                CondDetailsList& condtype);
 
-        static bool originalScope(std::filesystem::path path,
+        static bool originalScope(const std::filesystem::path& path,
                                   const std::string& format,
                                   const nemesis::Line& line,
-                                  std::vector<nemesis::CondDetails>& condtype);
+                                  CondDetailsList& condtype);
 
-        static bool originalScopeRev(std::filesystem::path path,
+        static bool originalScopeRev(const std::filesystem::path& path,
                                      const std::string& format,
                                      const nemesis::Line& line,
-                                     std::vector<nemesis::CondDetails>& condtype);
+                                     CondDetailsList& condtype);
 
-        static bool closeScope(std::filesystem::path path,
+        static bool closeScope(const std::filesystem::path& path,
                                const std::string& format,
                                const nemesis::Line& line,
-                               std::vector<nemesis::CondDetails>& condtype);
+                               CondDetailsList& condtype);
 
-        static bool closeScopeRev(const nemesis::Line& line, std::vector<nemesis::CondDetails>& condtype);
+        static bool closeScopeRev(const nemesis::Line& line, CondDetailsList& condtype);
 
-        static nemesis::Line getOriginalLine(std::deque<nemesis::Line>* edits);
+        static nemesis::Line getOriginalLine(std::deque<Line>* edits);
+
+        class CondDetailsProcess
+        {
+            const std::filesystem::path& path;
+            const std::string& format;
+            const nemesis::Line& line;
+
+        public:
+            CondDetailsProcess(std::filesystem::path _path,
+                               const std::string& _format,
+                               const nemesis::Line& _line);
+
+            void IfValidation(CondDetailsList& condtype) const noexcept;
+            void IfValidationRev(CondDetailsList& condtype) const noexcept;
+            void EndIfValidationRev(CondDetailsList& condtype) const noexcept;
+            void ForEachValidationRev(CondDetailsList& condtype) const noexcept;
+        };
     };
 
-    using CondCheckFunc = bool (*)(std::filesystem::path,
+    using CondCheckFunc = bool (*)(const std::filesystem::path&,
                                    const std::string&,
                                    const nemesis::Line&,
-                                   std::vector<nemesis::CondDetails>&);
+                                   std::vector<CondDetails>&);
 }

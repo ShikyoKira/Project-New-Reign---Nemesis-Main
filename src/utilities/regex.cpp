@@ -1,5 +1,6 @@
 #include "debugmsg.h"
 
+#include "utilities/line.h"
 #include "utilities/regex.h"
 #include "utilities/algorithm.h"
 
@@ -139,7 +140,15 @@ namespace nemesis
     regex_iterator::regex_iterator(const std::string& str, const nemesis::regex& reg)
         : str_(str)
         , it_(str_.begin(), str_.end(), reg.to_regex())
-    {}
+    {
+    }
+
+    regex_iterator::regex_iterator(const nemesis::Line& str, const nemesis::regex& reg)
+        : str_(str.ToString())
+        , it_(str_.begin(), str_.end(), reg.to_regex())
+    {
+
+    }
 
     regex_iterator& regex_iterator::operator++()
     {
@@ -174,7 +183,7 @@ namespace nemesis
         return &currentVal_.value();
     }
 
-    
+
     // =====================================================//
     //                    WIDE CHARACTERS                   //
     // =====================================================//

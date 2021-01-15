@@ -8,14 +8,18 @@ OBJECTIVES:
 
 #include "update/dataunification.h"
 
-#include "update/animsetdata/masteranimsetdatacond.h"
+#include "update/animsetdata/masteranimsetdata.h"
 
 #include "utilities/lastupdate.h"
-#include "utilities/stringsplit.h"
+#include "utilities/stringextension.h"
+#include "utilities/conditionscope.h"
+#include "utilities/conditionsyntax.h"
+#include "utilities/hkxelementsplit.h"
 
 #pragma warning(disable:4503)
 
 using namespace std;
+namespace ns = nemesis::syntax;
 
 atomic_flag newAnimAdditionLock{};
 
@@ -25,91 +29,75 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
                       unordered_map<wstring, wstring>& lastUpdate)
 {
 	VecStr nodelist;
-	read_directory(folderpath + "\\" + behaviorfile, nodelist);
+    string dir = folderpath + "\\" + behaviorfile;
+    read_directory(dir, nodelist);
 
-	for (unsigned int k = 0; k < nodelist.size(); ++k)
+	for (auto& node : nodelist)
 	{
-		string path = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
-		std::filesystem::path curfile(path);
+        string path = dir + "\\" + node;
+        std::filesystem::path curfile(path);
 
 		if (std::filesystem::is_directory(curfile)) continue;
 
-		string filename = folderpath + "\\" + behaviorfile + "\\" + nodelist[k];
+		const string& filename = path;
 		VecStr storeline;
 
 		saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate);
 
 		if (!GetFunctionLines(filename, storeline)) return false;
 
-		if (nodelist[k][0] != '#')
+		if (node[0] != '#')
 		{
 			Lockless lock(newAnimAdditionLock);
 			newAnimAddition[nemesis::to_lower_copy(curfile.string())] = storeline;
 			continue;
 		}
 
-		VecStr newline;
+        nemesis::ConditionScope cscope(modcode, curfile);
+        nemesis::HkxElementSplit hesplit;
 		bool start = false;
 		unsigned int row = 0;
-		unsigned int scope = 0;
+        unsigned int ifscope = 0;
+        unsigned int foreachscope = 0;
 
-		for (auto& curline : storeline)
+		for (int i = 0; i < storeline.size(); ++i)
 		{
-			++row;
+            auto& curline = storeline[i];
 
-			if (curline.find("SERIALIZE_IGNORED") == NOT_FOUND)
-			{
-				if (curline.find("<!-- NEW", 0) != NOT_FOUND || curline.find("<!-- FOREACH", 0) != NOT_FOUND)
-				{
-					++scope;
-				}
-				else if (curline.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-				{
-					if (scope == 0) ErrorMessage(1171, modcode, path, row);
+			if (curline.find("SERIALIZE_IGNORED") != NOT_FOUND)
+            {
+                storeline.erase(storeline.begin() + i);
+                continue;
+            }
 
-					--scope;
-				}
+            nemesis::Line nline(curline);
+            auto conditioninfo = cscope.TryGetConditionInfo(nline);
 
-				if (curline.find("			#") != NOT_FOUND && newline.back().find("numelements=\"", 0) != NOT_FOUND) start = true;
-				else if (start && curline.find("</hkparam>") != NOT_FOUND) start = false;
+			if (conditioninfo || !cscope.Empty()) continue;
 
-				if (start)
-				{
-					if (curline.find("			#") != NOT_FOUND)
-					{
-						VecStr curElements;
-						StringSplit(curline, curElements);
+            hesplit.SplitValidation(nline);
 
-						for (auto& element : curElements)
-						{
-							newline.push_back("				" + element);
-						}
-					}
-					else
-					{
-						newline.push_back(curline);
-					}
-				}
-				else
-				{
-					newline.push_back(curline);
-				}
-			}
+			if (!hesplit.IsStart()) continue;
+
+			storeline.erase(storeline.begin() + i--);
+
+            for (auto& each : StringSplit(nline, '\n'))
+            {
+                storeline.insert(storeline.begin() + ++i, each);
+            }
 		}
 
-		storeline = newline;
-
-		string nodeID = nodelist[k].substr(0, nodelist[k].find_last_of("."));
+		string nodeID        = node.substr(0, node.find_last_of("."));
 		VecStr originallines = newFile[nodeID];
 
-		if (originallines.size() == 0) ErrorMessage(1170, modcode, curfile.string());
+		if (originallines.empty()) ErrorMessage(1170, modcode, curfile.string());
 
 		bool close = false;
 		unordered_map<int, bool> conditionOpen;
 		bool conditionOri = false;
 		int linecount = 0;
 		int conditionLvl = 0;
-		scope = 0;
+		int scope = 0;
 		VecStr newlines;
 		VecStr combinelines;
 
@@ -117,7 +105,7 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 		{
 			string& curline = storeline[i];
 
-			if (curline.find("<!-- CONDITION START ") != NOT_FOUND)
+			if (curline.find(ns::If()) != NOT_FOUND)
 			{
 				++conditionLvl;
 				conditionOpen[conditionLvl] = true;
@@ -125,9 +113,9 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 
 			if (!close)
 			{
-				if (curline.find("<!-- NEW", 0) == NOT_FOUND && curline.find("<!-- FOREACH", 0) == NOT_FOUND)
+				if (curline.find(ns::If()) == NOT_FOUND && curline.find(ns::ForEach(), 0) == NOT_FOUND)
 				{
-					if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND || originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND)
+					if (originallines[linecount].find(ns::If(), 0) != NOT_FOUND || originallines[linecount].find(ns::ForEach(), 0) != NOT_FOUND)
 					{
 						combinelines.push_back(originallines[linecount]);
 						++linecount;
@@ -135,8 +123,8 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 
 						while (oriScope != 0)
 						{
-							if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND || originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND) ++oriScope;
-							if (originallines[linecount].find("<!-- CLOSE -->", 0) != NOT_FOUND) --oriScope;
+							if (originallines[linecount].find(ns::If()) != NOT_FOUND || originallines[linecount].find(ns::ForEach()) != NOT_FOUND) ++oriScope;
+							if (originallines[linecount].find(ns::Close()) != NOT_FOUND) --oriScope;
 
 							combinelines.push_back(originallines[linecount]);
 							++linecount;
@@ -144,16 +132,19 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 							if (linecount == originallines.size() && oriScope != 0) ErrorMessage(1114, modcode, curfile.string(), i + 1);
 						}
 					}
-					else if (curline.find("<!-- ", 0) != NOT_FOUND && curline.find("numelements +", curline.find("<!-- ")) != NOT_FOUND)
+                    else if (curline.find(ns::OpenComment()) != NOT_FOUND
+                             && curline.find("numelements +", curline.find(ns::OpenComment())) != NOT_FOUND)
 					{
 						size_t position = curline.find("<!-- ");
 						string templine = curline.substr(position, curline.find("-->", position) - position + 3);
 
-						if (originallines[linecount].find("<!-- ", 0) != NOT_FOUND && originallines[linecount].find("-->", 0) != NOT_FOUND) originallines[linecount].append(" " + templine);
+						if (originallines[linecount].find(ns::OpenComment(), 0) != NOT_FOUND
+                            && originallines[linecount].find(ns::CloseComment()) != NOT_FOUND)
+                            originallines[linecount].append(" " + templine);
 						else originallines[linecount].append("			" + templine);
 					}
 
-					if (curline.find("<!-- CONDITION END -->") != NOT_FOUND)
+					if (curline.find(ns::EndIf()) != NOT_FOUND)
 					{
 						combinelines.push_back(curline);
 						conditionOri = false;
@@ -176,7 +167,7 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 					close = true;
 				}
 			}
-			else if (curline.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+			else if (curline.find(ns::Close()) != NOT_FOUND)
 			{
 				--scope;
 
@@ -220,7 +211,7 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 
 		if (scope != 0) ErrorMessage(1114, modcode, curfile.string(), storeline.size());
 
-		if (combinelines.size() != 0 && combinelines.back().length() != 0) combinelines.push_back("");
+		if (!combinelines.empty() && combinelines.back().length() != 0) combinelines.emplace_back("");
 
 		newFile[nodeID] = combinelines;
 	}
@@ -252,9 +243,9 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 	VecStr headerlist;
 	read_directory(folderpath, headerlist);
 
-	for (unsigned int k = 0; k < headerlist.size(); ++k)
+	for (auto& header : headerlist)
 	{
-		string filepath = folderpath + "\\" + headerlist[k];
+        string filepath = folderpath + "\\" + header;
 		std::filesystem::path curfile(filepath);
 
 		if (std::filesystem::is_directory(curfile)) continue;
@@ -266,7 +257,10 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 
 		if (!GetFunctionLines(filepath, storeline)) return false;
 
-		if (filename[0] == '$' && (filename.back() == '$' || (filename.length() > 3 && filename.rfind("$UC") == filename.length() - 3)) && filename != "$header$")
+		if (filename[0] == '$'
+            && (filename.back() == '$'
+                || (filename.length() > 3 && filename.rfind("$UC") == filename.length() - 3))
+            && filename != "$header$")
 		{
 			Lockless lock(newAnimAdditionLock);
 			newAnimAddition[nemesis::to_lower_copy(curfile.string())] = storeline;
@@ -344,7 +338,7 @@ bool newAnimDataSetUpdateExt(string folderpath, string templatecode, string proj
         if (lowername.length() > 2 && lowername.front() == '$' && lowername.back() == '$') continue;
 
         masterProj->find(lowername + filepath.extension().string())
-            ->importDataTemplate(filepath, num, storeline, templatecode);
+            ->ImportDataTemplate(filepath, num, storeline, templatecode);
 	}
 
 	return true;
@@ -360,9 +354,9 @@ void behaviorJointsOutput()
 		{
 			VecStr temp = it->second;
 
-			while (!behaviorJoints[temp[i].data()].empty())
+			while (!behaviorJoints[temp[i]].empty())
 			{
-				temp = behaviorJoints[temp[i].data()];
+				temp = behaviorJoints[temp[i]];
 			}
 
 			combinedBehaviorJoints[it->first] = temp;
@@ -374,33 +368,31 @@ void behaviorJointsOutput()
 
 	FileWriter output(L"cache\\behavior_joints");
 
-	if (output.is_open())
-	{
-		for (auto it : combinedBehaviorJoints)
-		{
-			output << it.first << "\n";
-
-			for (unsigned int i = 0; i < it.second.size(); ++i)
-			{
-				output << it.second[i] << "\n";
-			}
-
-			output << "\n";
-		}
-
-		if (error) throw nemesis::exception();
+	if (!output.is_open())
+    {
+        ErrorMessage(2009, "behavior_joint");
 	}
-	else
-	{
-		ErrorMessage(2009, "behavior_joint");
-	}
+
+    for (auto& it : combinedBehaviorJoints)
+    {
+        output << it.first << "\n";
+
+        for (auto& i : it.second)
+        {
+            output << i << "\n";
+        }
+
+        output << "\n";
+    }
+
+    if (error) throw nemesis::exception();
 }
 
 void CombineAnimData(string filename, string characterfile, string modcode, string filepath, VecStr storeline, MasterAnimData& animData, bool isHeader)
 {
 	if (storeline.back().length() != 0)
 	{
-		storeline.push_back("");
+        storeline.emplace_back("");
 	}
 
 	int linecount = 0;
@@ -410,6 +402,8 @@ void CombineAnimData(string filename, string characterfile, string modcode, stri
 
 	if (!isHeader)
 	{
+		// continue here
+
 		if (filename == "$header$")
 		{
 

@@ -27,7 +27,7 @@ AnimThreadInfo::AnimThreadInfo(
     std::vector<int>& _stateCountMultiplier,
     int _order,
     int _lastorder,
-    const SSMap& _IDExist,
+    const UMapStr2& _IDExist,
     const std::unordered_map<int, VecStr>& _AnimObject,
     const ImportContainer& _addition,
     ImportContainer* _newImport,

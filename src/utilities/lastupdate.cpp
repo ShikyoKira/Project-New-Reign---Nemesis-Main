@@ -7,6 +7,7 @@
 #include "utilities/algorithm.h"
 #include "utilities/atomiclock.h"
 #include "utilities/lastupdate.h"
+#include <corecrt_wtime.h>
 
 using namespace std;
 
@@ -45,14 +46,14 @@ void saveLastUpdate(const wchar_t* filename, unordered_map<wstring, wstring>& la
     }
 }
 
-string GetLastModified(string filename)
+string GetLastModified(const string& filename)
 {
     try
     {
-        struct stat buf;
-        stat(filename.data(), &buf);
+        struct _stat64 buf;
+        _stat64(filename.data(), &buf);
         char buffer[26];
-        ctime_s(buffer, sizeof(buffer), &buf.st_mtime);
+        _ctime64_s(buffer, sizeof(buffer), &buf.st_mtime);
         buffer[24] = '\0';
         return buffer;
     }
@@ -64,14 +65,14 @@ string GetLastModified(string filename)
     return "";
 }
 
-wstring GetLastModified(wstring filename)
+wstring GetLastModified(const wstring& filename)
 {
     try
     {
-        struct _stat64i32 buf;
-        _wstat(filename.data(), &buf);
+        struct _stat64 buf;
+        _wstat64(filename.data(), &buf);
         wchar_t buffer[26];
-        _wctime_s(buffer, sizeof(buffer), &buf.st_mtime);
+        _wctime64_s(buffer, 26, &buf.st_mtime);
         buffer[24] = '\0';
         return buffer;
     }

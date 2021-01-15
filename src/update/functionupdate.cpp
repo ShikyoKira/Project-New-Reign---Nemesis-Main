@@ -2,15 +2,17 @@
 
 #include "utilities/lastupdate.h"
 #include "utilities/readtextfile.h"
-#include "utilities/stringsplit.h"
+#include "utilities/stringextension.h"
+#include "utilities/conditionsyntax.h"
 
 #include "update/functionupdate.h"
 
-#include "update/animsetdata/masteranimsetdatacond.h"
+#include "update/animsetdata/masteranimsetdata.h"
 
 #pragma warning(disable : 4503)
 
 using namespace std;
+namespace ns = nemesis::syntax;
 
 typedef vector<string> VecStr;
 
@@ -71,8 +73,8 @@ bool NodeU::NodeUpdate(string modcode,
                        string behaviorfile,
                        string nodefile,
                        unique_ptr<map<string, VecStr, alphanum_less>>& newFile,
-                       unique_ptr<SSMap>& stateID,
-                       unique_ptr<SSMap>& parent,
+                       unique_ptr<UMapStr2>& stateID,
+                       unique_ptr<UMapStr2>& parent,
                        unique_ptr<unordered_map<string, VecStr>>& statelist,
                        unordered_map<wstring, wstring>& lastUpdate
 #if MULTITHREADED_UPDATE
@@ -91,10 +93,10 @@ bool NodeU::NodeUpdate(string modcode,
     string filecheck = nemesis::regex_replace(
                            string(nodefile), nemesis::regex(".+?([0-9]+)\\.[t|T][x|X][t|T]$"), string("\\1"))
                        + ".txt";
-    string nodeID   = nodefile.substr(0, nodefile.find_last_of("."));
-    string filename = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
+    string nodeID   = nodefile.substr(0, nodefile.rfind("."));
+    string filepath = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
 
-    saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate);
+    saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate);
 
     if (nemesis::iequals("#" + filecheck, nodefile))
     {
@@ -124,165 +126,158 @@ bool NodeU::NodeUpdate(string modcode,
         int characterpropertycount;
 
         VecStr storeline;
-        FileReader BehaviorFormat(filename);
+        FileReader BehaviorFormat(filepath);
 
-        if (BehaviorFormat.GetFile())
+        if (!BehaviorFormat.GetFile()) ErrorMessage(2000, filepath);
+
+        string rline;
+        bool IsEventVariable = false;
+
+        while (BehaviorFormat.GetLines(rline))
         {
-            string rline;
-            bool IsEventVariable = false;
+            string line = rline;
 
-            while (BehaviorFormat.GetLines(rline))
+            if (error) throw nemesis::exception();
+
+            if (line.find("hkbBehaviorGraphStringData", 0) != NOT_FOUND
+                || line.find("hkbVariableValueSet", 0) != NOT_FOUND
+                || line.find("hkbBehaviorGraphData", 0) != NOT_FOUND)
             {
-                string line = rline;
-
-                if (error) throw nemesis::exception();
-
-                if (line.find("hkbBehaviorGraphStringData", 0) != NOT_FOUND
-                    || line.find("hkbVariableValueSet", 0) != NOT_FOUND
-                    || line.find("hkbBehaviorGraphData", 0) != NOT_FOUND)
-                {
-                    IsEventVariable = true;
-                }
-
-                if (line.find("<hkobject name=\"", 0) != NOT_FOUND
-                    && line.find("class=\"hkbStateMachine\" signature=\"", line.find("<hkobject name=\""))
-                           != NOT_FOUND)
-                {
-                    isSM = true;
-                }
-                else if (isSM && !originalopen && line.find("			#") != NOT_FOUND)
-                {
-                    VecStr curElements;
-                    StringSplit(line, curElements);
-
-                    if (isSM)
-                    {
-                        for (auto& element : curElements)
-                        {
-#if MULTITHREADED_UPDATE
-                            Lockless lock(parentLock);
-#endif
-                            (*statelist)[nodeID].push_back(element);
-                            (*parent)[element] = nodeID;
-                        }
-                    }
-                }
-                else if (!originalopen && line.find("<hkparam name=\"stateId\">") != NOT_FOUND)
-                {
-                    string stateIDStr = nemesis::regex_replace(
-                        string(line),
-                        nemesis::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
-                        string("\\1"));
-
-                    if (stateIDStr != line)
-                    {
-#if MULTITHREADED_UPDATE
-                        Lockless lock(stateLock);
-#endif
-                        (*stateID)[nodeID] = stateIDStr;
-                    }
-                }
-
-                if (line.find("<!-- MOD_CODE ~" + modcode + "~ OPEN -->", 0) != NOT_FOUND && !edited)
-                {
-                    edited        = true;
-                    editline      = linecount;
-                    starteditline = linecount;
-                }
-                else if (line.find("<!-- ORIGINAL -->", 0) != NOT_FOUND)
-                {
-                    edited       = false;
-                    originalopen = true;
-                    originalline = linecount;
-                    startoriline = linecount;
-                }
-                else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
-                {
-                    edited = false;
-
-                    if (originalopen)
-                    {
-                        int addLineCount = editline - originalline;
-
-                        if (addLineCount > 0)
-                        {
-                            NewCoordinate[linecount]                     = addLineCount;
-                            modEditLine[std::to_string(linecount) + "R"] = Pair[originalline];
-                        }
-
-                        for (int i = startoriline; i < originalline; ++i)
-                        {
-                            modEditCoordinate.push_back(i);
-                            modEditLine[std::to_string(i)] = Pair[i];
-                        }
-
-                        originalopen = false;
-                    }
-                    else
-                    {
-                        int addLineCount                             = editline - starteditline;
-                        NewCoordinate[linecount]                     = addLineCount;
-                        modEditLine[std::to_string(linecount) + "R"] = coordinate - addLineCount;
-                    }
-                }
-                else if (edited)
-                {
-                    if (IsEventVariable && line.find("numelements=", 0) != NOT_FOUND)
-                    {
-                        if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != NOT_FOUND
-                            || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != NOT_FOUND)
-                        {
-                            eventcount = stoi(nemesis::regex_replace(
-                                string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-                        }
-                        else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND
-                                 || line.find("<hkparam name=\"attributeDefaults\" numelements=", 0)
-                                        != NOT_FOUND)
-                        {
-                            attributecount = stoi(nemesis::regex_replace(
-                                string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-                        }
-                        else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND
-                                 || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0)
-                                        != NOT_FOUND
-                                 || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
-                        {
-                            variablecount = stoi(nemesis::regex_replace(
-                                string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-                        }
-                        else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0)
-                                     != NOT_FOUND
-                                 || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0)
-                                        != NOT_FOUND)
-                        {
-                            characterpropertycount = stoi(nemesis::regex_replace(
-                                string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-                        }
-                    }
-
-                    Pair[editline] = coordinate;
-                    ++editline;
-                }
-                else if (!edited)
-                {
-                    ++linecount;
-                    ++originalline;
-                }
-
-                if (error) throw nemesis::exception();
-
-                storeline.push_back(line);
-                coordinate++;
+                IsEventVariable = true;
             }
-        }
-        else
-        {
-            ErrorMessage(2000, filename);
+
+            if (line.find("<hkobject name=\"", 0) != NOT_FOUND
+                && line.find("class=\"hkbStateMachine\" signature=\"", line.find("<hkobject name=\""))
+                       != NOT_FOUND)
+            {
+                isSM = true;
+            }
+            else if (isSM && !originalopen && line.find("\t\t\t#") != NOT_FOUND)
+            {
+                VecStr curElements;
+                StringSplit(line, curElements);
+
+                if (isSM)
+                {
+                    for (auto& element : curElements)
+                    {
+#if MULTITHREADED_UPDATE
+                        Lockless lock(parentLock);
+#endif
+                        (*statelist)[nodeID].push_back(element);
+                        (*parent)[element] = nodeID;
+                    }
+                }
+            }
+            else if (!originalopen && line.find("<hkparam name=\"stateId\">") != NOT_FOUND)
+            {
+                string stateIDStr = nemesis::regex_replace(
+                    string(line),
+                    nemesis::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
+                    string("\\1"));
+
+                if (stateIDStr != line)
+                {
+#if MULTITHREADED_UPDATE
+                    Lockless lock(stateLock);
+#endif
+                    (*stateID)[nodeID] = stateIDStr;
+                }
+            }
+
+            if (line.find(ns::ModCode(modcode)) != NOT_FOUND && !edited)
+            {
+                edited        = true;
+                editline      = linecount;
+                starteditline = linecount;
+            }
+            else if (line.find(ns::Original()) != NOT_FOUND)
+            {
+                edited       = false;
+                originalopen = true;
+                originalline = linecount;
+                startoriline = linecount;
+            }
+            else if (line.find(ns::Close(), 0) != NOT_FOUND)
+            {
+                edited = false;
+
+                if (originalopen)
+                {
+                    int addLineCount = editline - originalline;
+
+                    if (addLineCount > 0)
+                    {
+                        NewCoordinate[linecount]                     = addLineCount;
+                        modEditLine[std::to_string(linecount) + "R"] = Pair[originalline];
+                    }
+
+                    for (int i = startoriline; i < originalline; ++i)
+                    {
+                        modEditCoordinate.push_back(i);
+                        modEditLine[std::to_string(i)] = Pair[i];
+                    }
+
+                    originalopen = false;
+                }
+                else
+                {
+                    int addLineCount                             = editline - starteditline;
+                    NewCoordinate[linecount]                     = addLineCount;
+                    modEditLine[std::to_string(linecount) + "R"] = coordinate - addLineCount;
+                }
+            }
+            else if (edited)
+            {
+                if (IsEventVariable && line.find("numelements=", 0) != NOT_FOUND)
+                {
+                    if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != NOT_FOUND
+                        || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != NOT_FOUND)
+                    {
+                        eventcount = stoi(nemesis::regex_replace(
+                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                    }
+                    else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND
+                             || line.find("<hkparam name=\"attributeDefaults\" numelements=", 0) != NOT_FOUND)
+                    {
+                        attributecount = stoi(nemesis::regex_replace(
+                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                    }
+                    else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND
+                             || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0) != NOT_FOUND
+                             || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
+                    {
+                        variablecount = stoi(nemesis::regex_replace(
+                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                    }
+                    else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0)
+                                 != NOT_FOUND
+                             || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0)
+                                    != NOT_FOUND)
+                    {
+                        characterpropertycount = stoi(nemesis::regex_replace(
+                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                    }
+                }
+
+                Pair[editline] = coordinate;
+                ++editline;
+            }
+            else if (!edited)
+            {
+                ++linecount;
+                ++originalline;
+            }
+
+            if (error) throw nemesis::exception();
+
+            storeline.push_back(line);
+            coordinate++;
         }
 
-        if (modEditLine.size() == 0)
+        if (modEditLine.empty())
         {
-            WarningMessage(1017, filename);
+            WarningMessage(1017, filepath);
             interMsg(warningMsges.back());
             return false;
         }
@@ -300,202 +295,181 @@ bool NodeU::NodeUpdate(string modcode,
         int editcount = 0;
         bool skip     = false;
 
-        if (newline.size() != 0)
+        if (newline.empty()) ErrorMessage(2001, nodeID);
+
+        for (auto& counter : NewCoordinate)
         {
-            for (auto& counter : NewCoordinate)
+            if (counter.first >= int(newline.size()))
             {
-                if (counter.first >= int(newline.size()))
-                {
-                    bigger = true;
-                    break;
-                }
+                bigger = true;
+                break;
             }
+        }
 
-            for (string& line : newline)
+        for (string& line : newline)
+        {
+            if (error) throw nemesis::exception();
+
+            if (line.find("<!-- NEW", 0) != NOT_FOUND) skip = true;
+
+            if (line.find("<!-- *", 0) == NOT_FOUND && !skip)
             {
-                if (error) throw nemesis::exception();
-
-                if (line.find("<!-- NEW", 0) != NOT_FOUND) skip = true;
-
-                if (line.find("<!-- *", 0) == NOT_FOUND && !skip)
+                if (modEditCoordinate.size() > 0 && modEditCoordinate[editcount] == linecount)
                 {
-                    if (modEditCoordinate.size() > 0 && modEditCoordinate[editcount] == linecount)
+                    if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != NOT_FOUND
+                        || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != NOT_FOUND)
                     {
-                        if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != NOT_FOUND
-                            || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != NOT_FOUND)
+                        int tempint = eventcount
+                                      - stoi(nemesis::regex_replace(
+                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+
+                        if (line.find("<!-- EVENT numelement ", 0) != NOT_FOUND)
                         {
-                            int tempint
-                                = eventcount
-                                  - stoi(nemesis::regex_replace(
-                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-
-                            if (line.find("<!-- EVENT numelement ", 0) != NOT_FOUND)
-                            {
-                                line.append(
-                                    " <!-- EVENT numelement " + modcode + " +" + std::to_string(tempint)
-                                    + " $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
-                            }
-                            else
-                            {
-                                line.append("   				<!-- EVENT numelement " + modcode + " +"
-                                            + std::to_string(tempint) + " $"
-                                            + std::to_string(modEditLine[std::to_string(linecount)])
-                                            + " -->");
-                            }
-                        }
-                        else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND)
-                        {
-                            int tempint
-                                = attributecount
-                                  - stoi(nemesis::regex_replace(
-                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-
-                            if (line.find("<!-- ATTRIBUTE numelement ", 0) != NOT_FOUND)
-                            {
-                                line.append(
-                                    " <!-- ATTRIBUTE numelement " + modcode + " +" + std::to_string(tempint)
-                                    + " $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
-                            }
-                            else
-                            {
-                                line.append("   				<!-- ATTRIBUTE numelement " + modcode + " +"
-                                            + std::to_string(tempint) + " $"
-                                            + std::to_string(modEditLine[std::to_string(linecount)])
-                                            + " -->");
-                            }
-                        }
-                        else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND
-                                 || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0)
-                                        != NOT_FOUND
-                                 || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
-                        {
-                            int tempint
-                                = variablecount
-                                  - stoi(nemesis::regex_replace(
-                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-
-                            if (line.find("<!-- VARIABLE numelement ", 0) != NOT_FOUND)
-                            {
-                                line.append(
-                                    " <!-- VARIABLE numelement " + modcode + " +" + std::to_string(tempint)
-                                    + " $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
-                            }
-                            else
-                            {
-                                line.append("				<!-- VARIABLE numelement " + modcode + " +"
-                                            + std::to_string(tempint) + " $"
-                                            + std::to_string(modEditLine[std::to_string(linecount)])
-                                            + " -->");
-                            }
-                        }
-                        else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0)
-                                     != NOT_FOUND
-                                 || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0)
-                                        != NOT_FOUND)
-                        {
-                            int tempint
-                                = characterpropertycount
-                                  - stoi(nemesis::regex_replace(
-                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-
-                            if (line.find("<!-- CHARACTER numelement ", 0) != NOT_FOUND)
-                            {
-                                line.append(
-                                    " <!-- CHARACTER numelement " + modcode + " +" + std::to_string(tempint)
-                                    + " $" + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
-                            }
-                            else
-                            {
-                                line.append("				<!-- CHARACTER numelement " + modcode + " +"
-                                            + std::to_string(tempint) + " $"
-                                            + std::to_string(modEditLine[std::to_string(linecount)])
-                                            + " -->");
-                            }
-                        }
-                        else if (line.find("numelements=\"", 0) != NOT_FOUND)
-                        {
-                            string templine;
-
-                            if (!GetFunctionEdits(
-                                    templine, storeline, modEditLine[std::to_string(linecount)]))
-                            {
-                                ErrorMessage(2005,
-                                             "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile,
-                                             modEditLine[std::to_string(linecount)]);
-                            }
-
-                            int difference
-                                = stoi(nemesis::regex_replace(
-                                      string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")))
-                                  - stoi(nemesis::regex_replace(
-                                      string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
-
-                            if (line.find("<!-- numelement *", 0) != NOT_FOUND)
-                                line.append(" <!-- numelement *" + modcode + "* +"
-                                            + std::to_string(difference) + "-->");
-                            else
-                                line.append("					<!-- numelement *" + modcode + "* +"
-                                            + std::to_string(difference) + "-->");
+                            line.append(" <!-- EVENT numelement " + modcode + " +" + std::to_string(tempint)
+                                        + " $" + std::to_string(modEditLine[std::to_string(linecount)])
+                                        + " -->");
                         }
                         else
                         {
-                            string templine;
+                            line.append("   				<!-- EVENT numelement " + modcode + " +"
+                                        + std::to_string(tempint) + " $"
+                                        + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
+                        }
+                    }
+                    else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND)
+                    {
+                        int tempint = attributecount
+                                      - stoi(nemesis::regex_replace(
+                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
-                            if (!GetFunctionEdits(
-                                    templine, storeline, modEditLine[std::to_string(linecount)]))
-                            {
-                                ErrorMessage(2005,
-                                             "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile,
-                                             modEditLine[std::to_string(linecount)]);
-                            }
+                        if (line.find("<!-- ATTRIBUTE numelement ", 0) != NOT_FOUND)
+                        {
+                            line.append(" <!-- ATTRIBUTE numelement " + modcode + " +"
+                                        + std::to_string(tempint) + " $"
+                                        + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
+                        }
+                        else
+                        {
+                            line.append("   				<!-- ATTRIBUTE numelement " + modcode + " +"
+                                        + std::to_string(tempint) + " $"
+                                        + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
+                        }
+                    }
+                    else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND
+                             || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0) != NOT_FOUND
+                             || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
+                    {
+                        int tempint = variablecount
+                                      - stoi(nemesis::regex_replace(
+                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
-                            if (templine.find("			<hkobject>") != NOT_FOUND
-                                || templine.find("			</hkobject>") != NOT_FOUND
-                                || templine.find("			<hkparam>") != NOT_FOUND
-                                || templine.find("			<hkparam>") != NOT_FOUND)
-                            {
-                                WarningMessage(1022,
-                                               "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile,
-                                               modEditLine[std::to_string(linecount)]);
-                                interMsg(warningMsges.back());
-                            }
+                        if (line.find("<!-- VARIABLE numelement ", 0) != NOT_FOUND)
+                        {
+                            line.append(" <!-- VARIABLE numelement " + modcode + " +"
+                                        + std::to_string(tempint) + " $"
+                                        + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
+                        }
+                        else
+                        {
+                            line.append("				<!-- VARIABLE numelement " + modcode + " +"
+                                        + std::to_string(tempint) + " $"
+                                        + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
+                        }
+                    }
+                    else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0)
+                                 != NOT_FOUND
+                             || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0)
+                                    != NOT_FOUND)
+                    {
+                        int tempint = characterpropertycount
+                                      - stoi(nemesis::regex_replace(
+                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
 
-                            templine.append("\t\t\t\t\t<!-- *" + modcode + "* -->");
-                            functionline.push_back(templine);
+                        if (line.find("<!-- CHARACTER numelement ", 0) != NOT_FOUND)
+                        {
+                            line.append(" <!-- CHARACTER numelement " + modcode + " +"
+                                        + std::to_string(tempint) + " $"
+                                        + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
+                        }
+                        else
+                        {
+                            line.append("				<!-- CHARACTER numelement " + modcode + " +"
+                                        + std::to_string(tempint) + " $"
+                                        + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
+                        }
+                    }
+                    else if (line.find("numelements=\"", 0) != NOT_FOUND)
+                    {
+                        string templine;
 
-                            if (line.find("<!-- original -->", 0) == NOT_FOUND)
-                                line.append("\t\t\t\t\t<!-- original -->");
+                        if (!GetFunctionEdits(templine, storeline, modEditLine[std::to_string(linecount)]))
+                        {
+                            ErrorMessage(2005, filepath, modEditLine[std::to_string(linecount)]);
                         }
 
-                        if (editcount != modEditCoordinate.size() - 1) editcount++;
+                        int difference
+                            = stoi(nemesis::regex_replace(
+                                  string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")))
+                              - stoi(nemesis::regex_replace(
+                                  string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+
+                        if (line.find("<!-- numelement *", 0) != NOT_FOUND)
+                            line.append(" <!-- numelement *" + modcode + "* +" + std::to_string(difference)
+                                        + "-->");
+                        else
+                            line.append("					<!-- numelement *" + modcode + "* +"
+                                        + std::to_string(difference) + "-->");
                     }
-                    else if (NewCoordinate[linecount] > 0)
+                    else
                     {
-                        functionline.push_back("<!-- NEW *" + modcode + "* -->");
+                        string templine;
 
-                        VecStr storage
-                            = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile,
-                                               storeline,
-                                               modEditLine[std::to_string(linecount) + "R"],
-                                               NewCoordinate[linecount]);
+                        if (!GetFunctionEdits(templine, storeline, modEditLine[std::to_string(linecount)]))
+                        {
+                            ErrorMessage(2005, filepath, modEditLine[std::to_string(linecount)]);
+                        }
 
-                        functionline.insert(functionline.end(), storage.begin(), storage.end());
-                        functionline.push_back("<!-- CLOSE -->");
+                        if (templine.find("			<hkobject>") != NOT_FOUND
+                            || templine.find("			</hkobject>") != NOT_FOUND
+                            || templine.find("			<hkparam>") != NOT_FOUND
+                            || templine.find("			<hkparam>") != NOT_FOUND)
+                        {
+                            WarningMessage(1022, filepath, modEditLine[std::to_string(linecount)]);
+                            interMsg(warningMsges.back());
+                        }
+
+                        templine.append(ns::Spaces().append(ns::Aster(modcode)));
+                        functionline.push_back(templine);
+
+                        if (line.find(ns::LowerOriginal()) == NOT_FOUND)
+                        {
+                            line.append(ns::Spaces().append(ns::LowerOriginal()));
+                        }
                     }
 
-                    ++linecount;
+                    if (editcount != modEditCoordinate.size() - 1) editcount++;
+                }
+                else if (NewCoordinate[linecount] > 0)
+                {
+                    functionline.push_back(ns::ModCode(modcode));
+
+                    VecStr storage = GetFunctionEdits(filepath,
+                                                      storeline,
+                                                      modEditLine[std::to_string(linecount) + "R"],
+                                                      NewCoordinate[linecount]);
+
+                    functionline.insert(functionline.end(), storage.begin(), storage.end());
+                    functionline.push_back(ns::Close());
                 }
 
-                if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND) skip = false;
-
-                if (error) throw nemesis::exception();
-
-                functionline.push_back(line);
+                ++linecount;
             }
-        }
-        else
-        {
-            ErrorMessage(2001, nodeID);
+
+            if (line.find(ns::Close()) != NOT_FOUND) skip = false;
+
+            if (error) throw nemesis::exception();
+
+            functionline.push_back(line);
         }
 
         if (bigger)
@@ -504,15 +478,14 @@ bool NodeU::NodeUpdate(string modcode,
             {
                 if (NewCoordinate[linecount] > 0)
                 {
-                    functionline.push_back("<!-- NEW *" + modcode + "* -->");
+                    functionline.push_back(ns::ModCode(modcode));
 
-                    VecStr storage
-                        = GetFunctionEdits("mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile,
-                                           storeline,
-                                           modEditLine[std::to_string(linecount) + "R"],
-                                           NewCoordinate[linecount]);
+                    VecStr storage = GetFunctionEdits(filepath,
+                                                      storeline,
+                                                      modEditLine[std::to_string(linecount) + "R"],
+                                                      NewCoordinate[linecount]);
                     functionline.insert(functionline.end(), storage.begin(), storage.end());
-                    functionline.push_back("<!-- CLOSE -->");
+                    functionline.push_back(ns::Close());
                 }
 
                 ++linecount;
@@ -529,7 +502,7 @@ bool NodeU::NodeUpdate(string modcode,
     {
         VecStr storeline;
 
-        if (!GetFunctionLines(filename, storeline)) return false;
+        if (!GetFunctionLines(filepath, storeline)) return false;
 
         for (auto& line : storeline)
         {
@@ -557,7 +530,7 @@ bool NodeU::NodeUpdate(string modcode,
     }
     else if (nodefile != "__folder_managed_by_vortex")
     {
-        ErrorMessage(2003, "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile);
+        ErrorMessage(2003, filepath);
     }
 
     return true;
@@ -567,8 +540,8 @@ bool NodeU::FunctionUpdate(string modcode,
                            string behaviorfile,
                            string nodefile,
                            unique_ptr<map<string, VecStr, alphanum_less>>& newFile,
-                           unique_ptr<SSMap>& stateID,
-                           unique_ptr<SSMap>& parent,
+                           unique_ptr<UMapStr2>& stateID,
+                           unique_ptr<UMapStr2>& parent,
                            unique_ptr<unordered_map<string, VecStr>>& statelist,
                            unordered_map<wstring, wstring>& lastUpdate
 #if MULTITHREADED_UPDATE
@@ -654,8 +627,7 @@ bool AnimDataUpdate(string modcode,
 
             if (!isFileExist(fullpath)) ErrorMessage(2002, fullpath, "-", "-");
 
-            GetFunctionLines(fullpath, storeline, false);
-            animData.projectListUpdate(modcode, fullpath, storeline, false);
+            animData.projectListUpdate(modcode, fullpath, false);
 
             for (auto& cond : animData.projectlist[animData.getIndex(projectfile)].nestedcond)
             {
@@ -690,7 +662,7 @@ bool AnimDataUpdate(string modcode,
 
             if (projptr) break;
         }
-        
+
         if (!projptr) ErrorMessage(3021, projectfile);
 
         if (isOnlyNumber(filename)) // info data
@@ -714,13 +686,9 @@ bool AnimDataUpdate(string modcode,
         return true;
     }
 
-    VecStr templines;
-
-    if (!GetFunctionLines(filepath, templines)) return false;
-
     if (nemesis::iequals(projectfile, "$header$")) // header file
     {
-        animData.projectListUpdate(modcode, filepath, templines);
+        animData.projectListUpdate(modcode, filepath);
         return true;
     }
 
@@ -732,6 +700,10 @@ bool AnimDataUpdate(string modcode,
         error = true;
         throw nemesis::exception();
     }
+
+    VecStr templines;
+
+    if (!GetFunctionLines(filepath, templines)) return false;
 
     if (nemesis::iequals(filename, "$header$")) // project header
     {
@@ -749,15 +721,15 @@ bool AnimDataUpdate(string modcode,
     {
         if (line.find("<!--") != NOT_FOUND)
         {
-            if (!edited && line.find("<!-- MOD_CODE ~" + modcode + "~ OPEN -->", 0) != NOT_FOUND)
+            if (!edited && line.find(ns::ModCode(modcode)) != NOT_FOUND)
             {
                 edited = true;
             }
-            else if (line.find("<!-- ORIGINAL -->", 0) != NOT_FOUND)
+            else if (line.find(ns::Original()) != NOT_FOUND)
             {
                 originalopen = true;
             }
-            else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+            else if (line.find(ns::Close(), 0) != NOT_FOUND)
             {
                 originalopen = false;
                 edited       = false;
@@ -791,12 +763,12 @@ bool AnimDataUpdate(string modcode,
             {
                 auto pair = make_pair(storeline[0],
                                       nemesis::LinkedVar(AnimDataPack_Condt(storeline, 1)));
-                auto condpair = nemesis::CondVar(pair, modcode, nemesis::MOD_CODE);
+                auto condpair = nemesis::CondVar(pair, modcode, nemesis::CondType::MOD_CODE);
                 projData->animdatalist.push_back(condpair);
                 return true;
             }
 
-            curptr->addCond(nemesis::LinkedVar(AnimDataPack_Condt(storeline)), modcode, nemesis::MOD_CODE);
+            curptr->addCond(nemesis::LinkedVar(AnimDataPack_Condt(storeline)), modcode, nemesis::CondType::MOD_CODE);
         }
         else
         {
@@ -807,7 +779,7 @@ bool AnimDataUpdate(string modcode,
 
             if (curptr == nullptr) ErrorMessage(2004, filepath);
 
-            curptr->addCond(nemesis::LinkedVar(InfoDataPack_Condt(storeline)), modcode, nemesis::MOD_CODE);
+            curptr->addCond(nemesis::LinkedVar(InfoDataPack_Condt(storeline)), modcode, nemesis::CondType::MOD_CODE);
         }
     }
     else
@@ -843,14 +815,14 @@ void addAnimDataPack(const string& projectfile,
     if (animDataPtr == nullptr)
     {
         auto pair = make_pair(storeline[0], nemesis::LinkedVar(AnimDataPack_Condt(storeline, 1)));
-        auto condpair = nemesis::CondVar(pair, modcode, nemesis::MOD_CODE);
+        auto condpair = nemesis::CondVar(pair, modcode, nemesis::CondType::MOD_CODE);
         projData->animdatalist.push_back(condpair);
     }
     // existing anim data
     else
     {
         auto shptr = nemesis::CondVar(AnimDataPack_Condt(storeline, 1));
-        //(*animDataPtr).addCond(make_shared<AnimDataPack_Condt>(storeline), modcode, nemesis::MOD_CODE); does the same thing as line below
+        //(*animDataPtr).addCond(make_shared<AnimDataPack_Condt>(storeline), modcode, nemesis::CondType::MOD_CODE); does the same thing as line below
         (*animDataPtr).nestedcond.push_back(shptr);
     }
 }
@@ -873,14 +845,14 @@ void addInfoDataPack(const string& filepath,
     if (infoDataPtr == nullptr)
     {
         auto pair = make_pair(storeline[0], nemesis::LinkedVar(InfoDataPack_Condt(storeline, 1)));
-        auto condpair = nemesis::CondVar(pair, modcode, nemesis::MOD_CODE);
+        auto condpair = nemesis::CondVar(pair, modcode, nemesis::CondType::MOD_CODE);
         projData->infodatalist.push_back(condpair);
     }
     // existing info data
     else
     {
-        auto shptr = nemesis::CondVar(InfoDataPack_Condt(storeline, 1), modcode, nemesis::MOD_CODE);
-        //(*infoDataPtr).addCond(make_shared<InfoDataPack_Condt>(storeline), modcode, nemesis::MOD_CODE); does the same thing as line below
+        auto shptr = nemesis::CondVar(InfoDataPack_Condt(storeline, 1), modcode, nemesis::CondType::MOD_CODE);
+        //(*infoDataPtr).addCond(make_shared<InfoDataPack_Condt>(storeline), modcode, nemesis::CondType::MOD_CODE); does the same thing as line below
         (*infoDataPtr).nestedcond.push_back(shptr);
     }
 }
@@ -934,20 +906,20 @@ bool AnimSetDataUpdate(string modcode,
         {
             if (error) throw nemesis::exception();
 
-            if (line.find("<!-- MOD_CODE ~" + modcode + "~ OPEN -->", 0) != NOT_FOUND && !edited)
+            if (line.find(ns::ModCode(modcode)) != NOT_FOUND && !edited)
             {
                 edited        = true;
                 editline      = linecount;
                 starteditline = linecount;
             }
-            else if (line.find("<!-- ORIGINAL -->", 0) != NOT_FOUND)
+            else if (line.find(ns::Original()) != NOT_FOUND)
             {
                 edited       = false;
                 originalopen = true;
                 originalline = linecount;
                 startoriline = linecount;
             }
-            else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+            else if (line.find(ns::Close(), 0) != NOT_FOUND)
             {
                 edited = false;
 
@@ -1069,9 +1041,9 @@ bool AnimSetDataUpdate(string modcode,
 
                             if (!error)
                             {
-                                headerline.push_back("<!-- NEW *" + modcode + "* -->");
+                                headerline.push_back(ns::ModCode(modcode));
                                 headerline.insert(headerline.end(), storage.begin(), storage.end());
-                                headerline.push_back("<!-- CLOSE -->");
+                                headerline.push_back(ns::Close());
                             }
                             else
                             {
@@ -1091,7 +1063,7 @@ bool AnimSetDataUpdate(string modcode,
                                             modcode))
                                 return false;
 
-                            functionline.push_back("<!-- NEW *" + modcode + "* -->");
+                            functionline.push_back(ns::ModCode(modcode));
                             VecStr storage = GetFunctionEdits(filepath,
                                                               storeline,
                                                               modEditLine[std::to_string(linecount) + "R"],
@@ -1100,7 +1072,7 @@ bool AnimSetDataUpdate(string modcode,
                             if (!error)
                             {
                                 functionline.insert(functionline.end(), storage.begin(), storage.end());
-                                functionline.push_back("<!-- CLOSE -->");
+                                functionline.push_back(ns::Close());
                             }
                             else
                             {
@@ -1112,7 +1084,7 @@ bool AnimSetDataUpdate(string modcode,
                     ++linecount;
                 }
 
-                if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND) skip = false;
+                if (line.find(ns::Close(), 0) != NOT_FOUND) skip = false;
 
                 functionline.push_back(line);
             }
@@ -1139,8 +1111,8 @@ bool AnimSetDataUpdate(string modcode,
                     ErrorMessage(5022, projectfile, lowerheader);
                 }
 
-                storeline.insert(storeline.begin(), "<!-- NEW *" + modcode + "* -->");
-                storeline.push_back("<!-- CLOSE -->");
+                storeline.insert(storeline.begin(), ns::ModCode(modcode));
+                storeline.push_back(ns::Close());
                 animSetData.newAnimSetData[projectfile][lowerheader] = storeline;
             }
         }
@@ -1156,11 +1128,11 @@ bool AnimSetDataUpdate(string modcode,
     if (pos == 0)
     {
         masterProj->find(lowername.substr(pos + modcode.length() + 1), modcode)
-            ->importData(filepath, num, storeline, modcode);
+            ->ImportData(filepath, num, storeline, modcode);
     }
     else
     {
-        masterProj->find(lowername)->importData(filepath, num, storeline, modcode);
+        masterProj->find(lowername)->ImportData(filepath, num, storeline, modcode);
     }
     #endif
 

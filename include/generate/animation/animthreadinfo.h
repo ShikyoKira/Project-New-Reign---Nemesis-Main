@@ -4,8 +4,8 @@
 
 #include "generate/animation/templateprocessing.h"
 
-using SSMap = std::unordered_map<std::string, std::string>;
-using ImportContainer = std::unordered_map<std::string, SSMap>;
+using UMapStr2 = std::unordered_map<std::string, std::string>;
+using ImportContainer = std::unordered_map<std::string, UMapStr2>;
 
 class NewAnimation;
 
@@ -29,7 +29,7 @@ struct AnimThreadInfo
     std::string header;
 
     bool hasDuration;
-     
+
     double duration;
 
     int order;
@@ -69,7 +69,7 @@ struct AnimThreadInfo
     std::vector<choice_c> failed;
     std::shared_ptr<choice_c> captured;
 
-    SSMap IDExist;
+    UMapStr2 IDExist;
 
     const ImportContainer addition;
     ImportContainer* newImport;
@@ -104,7 +104,7 @@ struct AnimThreadInfo
                    std::vector<int>& _stateCountMultiplier,
                    int _order,
                    int _lastorder,
-                   const SSMap& _IDExist,
+                   const UMapStr2& _IDExist,
                    const std::unordered_map<int, VecStr>& _AnimObject,
                    const ImportContainer& _addition,
                    ImportContainer* _newImport,

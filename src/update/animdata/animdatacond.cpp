@@ -1,41 +1,106 @@
-#include "update/animdata/animdatacond.h"
+#include <functional>
+
 #include "Global.h"
+
 #include "utilities/writetextfile.h"
+#include "utilities/conditionsyntax.h"
+
+#include "update/animdata/animdatacond.h"
 
 using namespace std;
+namespace ns = nemesis::syntax;
 
 void MasterAnimData::getprojectlines(const ProjectData& proj, VecStr& output, VecStr& output2)
 {
     vector<pair<const string*, const nemesis::CondVar<LinkedProjPair>*>> modcodelist;
 
-    for (auto& cond : proj.nestedcond)
+    auto& addToBoth = [&](const string& input)
     {
+        output.push_back(input);
+        output2.push_back(input);
+    };
+
+    auto& cancloseif = [&](const nemesis::CondVar<LinkedProjPair>& linkedpair, uint index) -> bool {
+        if (&linkedpair != &proj.nestedcond.back())
+        {
+            switch (proj.nestedcond[index + 1].conditionType)
+            {
+                case nemesis::CondType::ELSEIF:
+                case nemesis::CondType::ELSE:
+                    return false;
+            }
+        }
+
+        return true;
+    };
+
+    for (uint i = 0; i < proj.nestedcond.size(); ++i)
+    {
+        auto& cond = proj.nestedcond[i];
+
         switch (cond.conditionType)
         {
-            case nemesis::MOD_CODE:
+            case nemesis::CondType::MOD_CODE:
             {
-                modcodelist.push_back(
+                modcodelist.emplace_back(
                     make_pair<const string*, const nemesis::CondVar<LinkedProjPair>*>(&cond.conditions, &cond));
                 break;
             }
-            case nemesis::FOREACH:
+            case nemesis::CondType::FOREACH:
             {
-                output.push_back("<!-- FOREACH ^" + cond.conditions + "^ -->");
-                output2.push_back(output.back());
+                addToBoth(ns::ForEach(cond.conditions));
 
                 for (auto& each : cond.rawlist)
                 {
                     getprojectlines(each, output, output2);
                 }
 
-                output.push_back("<!-- CLOSE -->");
-                output2.push_back(output.back());
+                addToBoth(ns::Close());
+                break;
+            }
+            case nemesis::CondType::IF:
+            {
+                addToBoth(ns::If(cond.conditions));
+
+                for (auto& each : cond.rawlist)
+                {
+                    getprojectlines(each, output, output2);
+                }
+
+                if (cancloseif(cond, i)) addToBoth(ns::Close());
+
+                break;
+            }
+            case nemesis::CondType::ELSEIF:
+            {
+                addToBoth(ns::ElseIf(cond.conditions));
+
+                for (auto& each : cond.rawlist)
+                {
+                    getprojectlines(each, output, output2);
+                }
+
+                if (cancloseif(cond, i)) addToBoth(ns::Close());
+
+                break;
+            }
+            case nemesis::CondType::ELSE:
+            {
+                addToBoth(ns::Else());
+
+                for (auto& each : cond.rawlist)
+                {
+                    getprojectlines(each, output, output2);
+                }
+
+                addToBoth(ns::Close());
+
                 break;
             }
         }
     }
 
-    if (modcodelist.size() > 0)
+    if (!modcodelist.empty())
     {
         if (proj.raw)
         {
@@ -43,24 +108,24 @@ void MasterAnimData::getprojectlines(const ProjectData& proj, VecStr& output, Ve
 
             for (auto& modcode : modcodelist)
             {
-                list.push_back(pair<string, VecStr>());
+                list.emplace_back(pair<string, VecStr>());
                 list.back().first = *modcode.first;
                 getLinkedLines(modcode.second->rawlist[0].raw->first, list.back().second);
 
                 for (auto& each : list.back().second)
                 {
-                    each.append("\t\t\t\t\t<!-- *" + *modcode.first + "* -->");
+                    each.append(ns::Spaces() + ns::Aster(*modcode.first));
                 }
             }
 
             size_t max = 0;
-            list.push_back(pair<string, VecStr>());
+            list.emplace_back(pair<string, VecStr>());
             list.back().first = "original";
             getLinkedLines(proj.raw->first, list.back().second);
 
             for (auto& line : list.back().second)
             {
-                line.append("\t\t\t\t\t<!-- original -->");
+                line.append(ns::Spaces() + ns::LowerOriginal());
             }
 
             for (auto& each : list)
@@ -70,18 +135,17 @@ void MasterAnimData::getprojectlines(const ProjectData& proj, VecStr& output, Ve
 
             for (size_t i = 0; i < max; ++i)
             {
-                for (size_t k = 0; k < list.size(); ++k)
+                for (auto& each : list)
                 {
-                    if (i >= list[k].second.size())
+                    if (i >= each.second.size())
                     {
-                        output.push_back(
-                            "//* delete this line *//\t\t\t\t\t<!-- "
-                            + (list[k].first == "original" ? "original" : "*" + list[k].first + "*")
-                            + " -->");
+                        string constr = each.first == "original" ? ns::LowerOriginal()
+                                                                 : ns::Aster(each.first);
+                        output.push_back(ns::DeleteLine() + ns::Spaces() + constr);
                     }
                     else
                     {
-                        output.push_back(list[k].second[i]);
+                        output.push_back(each.second[i]);
                     }
                 }
             }
@@ -92,16 +156,14 @@ void MasterAnimData::getprojectlines(const ProjectData& proj, VecStr& output, Ve
         {
             for (auto& modcode : modcodelist)
             {
-                output.push_back("<!-- NEW *" + *modcode.first + "* -->");
-                output2.push_back("<!-- NEW *" + *modcode.first + "* -->");
+                addToBoth(ns::ModCode(*modcode.first));
 
                 for (auto& each : modcode.second->rawlist)
                 {
                     getprojectlines(each, output, output2);
                 }
 
-                output.push_back("<!-- CLOSE -->");
-                output2.push_back("<!-- CLOSE -->");
+                addToBoth(ns::Close());
             }
         }
     }
@@ -112,8 +174,7 @@ void MasterAnimData::getprojectlines(const ProjectData& proj, VecStr& output, Ve
     }
     else
     {
-        output.push_back("//* delete this line *//");
-        output2.push_back("//* delete this line *//");
+        addToBoth(ns::DeleteLine());
     }
 }
 
@@ -152,7 +213,7 @@ MasterAnimData::add(const ProjectName& projName, size_t num, const ModCode& modc
 
     if (modcode != "original")
     {
-        projectlist.push_back(nemesis::CondVar(ref));
+        projectlist.emplace_back(nemesis::CondVar(ref));
         projectlist.back().linecount       = num;
         auto& curcond                      = projectlist.back().backCond();
         curcond.conditions                 = modcode;
@@ -188,7 +249,7 @@ MasterAnimData::ProjectPtr MasterAnimData::add(const ProjectName& projName,
         {
             projectIndexMap[projName + "~" + to_string(++projectCounter[projName])] = projectlist.size();
             auto ref = ProjectData(pair<ProjectNameLinked, ProjectPtr>(), 0);
-            projectlist.push_back(nemesis::CondVar(ref));
+            projectlist.emplace_back(nemesis::CondVar(ref));
             projectlist.back().linecount       = 0;
             auto& curcond                      = projectlist.back().backCond();
             curcond.conditions                 = modcode;
@@ -205,10 +266,12 @@ MasterAnimData::ProjectPtr MasterAnimData::add(const ProjectName& projName,
 
 void MasterAnimData::projectListUpdate(const ModCode& modcode,
                                        const string& filepath,
-                                       const VecStr& storeline,
                                        bool isTemplate)
 {
     size_t pos;
+    VecNstr storeline;
+
+    if (!GetFunctionLines(filepath, storeline, false)) return;
 
     if (isTemplate)
     {
@@ -219,28 +282,29 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
         for (unsigned int i = storeline.size() - 1; i >= 0; --i)
         {
             const string& line = storeline[i];
-            pos                = line.find("<!-- FOREACH ^");
+            pos                = line.find(ns::ForEach());
 
-            if (pos != NOT_FOUND && line.find("^ -->", pos) != NOT_FOUND)
+            if (pos != NOT_FOUND && line.find(ns::EndSyntax(), pos) != NOT_FOUND)
             {
                 pos += 14;
-                string condition = line.substr(pos, line.find("^ -->", pos));
+                string condition = line.substr(pos, line.find(ns::EndSyntax(), pos));
 
                 if (condStringPtr != nullptr)
                 {
                     condStringPtr = make_unique<ProjectData>(
-                        nemesis::CondVar(*condStringPtr, condition, nemesis::FOREACH));
+                        nemesis::CondVar(*condStringPtr, condition, nemesis::CondType::FOREACH));
                 }
                 else
                 {
                     condStringPtr = make_unique<ProjectData>();
-                    condStringPtr->addCond(nemesis::FOREACH);
+                    condStringPtr->addCond(nemesis::CondType::FOREACH);
                     condStringPtr->backCond().conditions = condition;
                 }
 
                 for (auto projname : holdinglist.back())
                 {
-                    condStringPtr->backCond().rawlist.push_back(std::pair<ProjectNameLinked, ProjectPtr>());
+                    condStringPtr->backCond().rawlist.emplace_back(
+                        std::pair<ProjectNameLinked, ProjectPtr>());
                 }
 
                 holdinglist.pop_back();
@@ -250,10 +314,10 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
                     projectlist.push_back(*condStringPtr);
                 }
             }
-            else if (line.find("<!-- CLOSE -->") != NOT_FOUND)
+            else if (line.find(ns::Close()) != NOT_FOUND)
             {
                 ++open;
-                holdinglist.push_back(VecStr());
+                holdinglist.emplace_back(VecStr());
             }
             else if (holdinglist.size() > 0)
             {
@@ -264,55 +328,56 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
         return;
     }
 
-    vector<pair<string, uint>> edits;
-    vector<pair<string, uint>> origs;
+    VecNstr edits;
+    VecNstr origs;
     map<uint, string> tempISMap;
     map<string, uint> tempProjCounter;
 
     bool edited       = false;
     bool originalopen = false;
 
-    for (unsigned int i = 1; i < storeline.size(); ++i)
+    for (auto& line : storeline)
     {
-        const string& line = storeline[i];
-
         if (!edited || originalopen)
         {
             size_t pos = line.find(".txt");
 
-            if (pos != NOT_FOUND && line.find("<!-- ") == NOT_FOUND)
+            if (pos != NOT_FOUND && line.find(ns::OpenComment()) == NOT_FOUND)
             {
-                tempISMap[i] = line.substr(0, pos) + "~" + to_string(++tempProjCounter[line]);
+                auto& templine = tempISMap[line.GetLineNumber()];
+                templine       = line.substr(0, pos).ToString();
+                templine.append("~");
+                templine.append(to_string(++tempProjCounter[line.ToString()]));
             }
         }
 
         if (!edited)
         {
-            pos    = line.find("<!-- MOD_CODE ~");
-            edited = pos != NOT_FOUND && line.find("~ OPEN -->", pos) != NOT_FOUND;
+            pos    = line.find(ns::ModCode());
+            edited = pos != NOT_FOUND && line.find(ns::EndModCodeSyntax(), pos) != NOT_FOUND;
         }
-        else if (line.find("<!-- ORIGINAL -->") != NOT_FOUND)
+        else if (line.find(ns::Original()) != NOT_FOUND)
         {
             originalopen = true;
         }
-        else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+        else if (line.find(ns::Close()) != NOT_FOUND)
         {
             edited       = false;
             originalopen = false;
 
-            if (origs.size() > 0)
+            if (!origs.empty())
             {
                 if (origs.size() > edits.size()) ErrorMessage(3026, modcode, filepath);
 
                 for (unsigned int k = 0; k < origs.size(); ++k)
                 {
                     auto& nestedcondt
-                        = projectlist[getIndex(tempISMap[origs[k].second])].raw->first.nestedcond;
+                        = projectlist[getIndex(tempISMap[origs[k].GetLineNumber()])].raw->first.nestedcond;
                     bool exist = false;
 
                     for (auto& condt : nestedcondt)
                     {
-                        if (condt.conditions == modcode && condt.conditionType == nemesis::MOD_CODE)
+                        if (condt.conditions == modcode && condt.conditionType == nemesis::CondType::MOD_CODE)
                         {
                             exist = true;
                             break;
@@ -321,8 +386,10 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
 
                     if (!exist)
                     {
-                        nestedcondt.push_back(nemesis::CondVar(
-                            nemesis::LinkedVar(edits[k].first, edits[k].second), modcode, nemesis::MOD_CODE));
+                        nestedcondt.emplace_back(nemesis::CondVar(
+                            nemesis::LinkedVar(edits[k].ToString(), edits[k].GetLineNumber()),
+                            modcode,
+                            nemesis::CondType::MOD_CODE));
                     }
                 }
             }
@@ -331,9 +398,9 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
             {
                 for (unsigned int k = origs.size(); k < edits.size(); ++k)
                 {
-                    if (contains(edits[k].first)) continue;
+                    if (contains(edits[k].ToString())) continue;
 
-                    add(edits[k].first, edits[k].second, modcode, nemesis::MOD_CODE);
+                    add(edits[k], edits[k].GetLineNumber(), modcode, nemesis::CondType::MOD_CODE);
                 }
             }
 
@@ -342,22 +409,22 @@ void MasterAnimData::projectListUpdate(const ModCode& modcode,
         }
         else if (originalopen)
         {
-            origs.push_back(make_pair(line, i));
+            origs.emplace_back(line);
         }
         else
         {
-            edits.push_back(make_pair(line, i));
+            edits.emplace_back(line);
         }
     }
 }
 
-VecStr MasterAnimData::getlines()
+void MasterAnimData::getlines(VecStr& lines)
 {
-    VecStr storeline;
-    storeline.reserve(170725);
+    lines.clear();
+    lines.reserve(170725);
 
     // project count
-    storeline.push_back(to_string(projectlist.size()));
+    lines.push_back(to_string(projectlist.size()));
 
     // project details
     VecStr projdetails;
@@ -370,22 +437,37 @@ VecStr MasterAnimData::getlines()
             int t = 10;
         }
 
-        getprojectlines(proj, storeline, projdetails);
+        getprojectlines(proj, lines, projdetails);
     }
 
-    storeline.insert(storeline.end(), projdetails.begin(), projdetails.end());
-    return storeline;
+    lines.insert(lines.end(), projdetails.begin(), projdetails.end());
 }
 
-string MasterAnimData::writelines(FileWriter& output) 
+const string& MasterAnimData::SaveTemplateAs(const filesystem::path& filepath)
 {
-    string total = output.GetFilePath().string() + "\n";
+    FileWriter writer(filepath);
 
-    for (auto& line : getlines())
+    if (!writer.is_open()) ErrorMessage(2009, writer.GetFilePath());
+
+    totalline = filepath.string();
+    ReadTemplateLine(totalline);
+    writer << totalline;
+    return totalline;
+}
+
+void MasterAnimData::ReadTemplateLine(std::string& totalline)
+{
+    VecStr adlines;
+    getlines(adlines);
+
+    for (auto& line : adlines)
     {
-        output << line + "\n";
-        total.append(line + "\n");
+        totalline.append(line);
+        totalline.push_back('\n');
     }
+}
 
-    return total;
+void MasterAnimData::ReadTemplateLines(VecStr& lines)
+{
+    getlines(lines);
 }

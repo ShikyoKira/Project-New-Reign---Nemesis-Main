@@ -24,20 +24,22 @@ struct AnimDataProject_Condt
     void update(const ModCode& modcode, const VecStr& storeline, size_t linenum);
     void modify(const ModCode& modcode, const VecStr& storeline);
 
-    AnimDataPack_Condt&
-    aadd(const Header& header, const ModCode& modcode = "original", nemesis::CondType type = nemesis::NONE);
+    AnimDataPack_Condt& aadd(const Header& header,
+                             const ModCode& modcode = "original",
+                             nemesis::CondType type = nemesis::CondType::NONE);
     AnimDataPack_Condt& aadd(const Header& header,
                              const ModCode& modcode,
                              const VecStr& storeline,
                              size_t linenum,
-                             nemesis::CondType type = nemesis::NONE);
-    InfoDataPack_Condt&
-    iadd(const Header& header, const ModCode& modcode = "original", nemesis::CondType type = nemesis::NONE);
+                             nemesis::CondType type = nemesis::CondType::NONE);
+    InfoDataPack_Condt& iadd(const Header& header,
+                             const ModCode& modcode = "original",
+                             nemesis::CondType type = nemesis::CondType::NONE);
     InfoDataPack_Condt& iadd(const Header& header,
                              const ModCode& modcode,
                              const VecStr& storeline,
                              size_t linenum,
-                             nemesis::CondType type = nemesis::NONE);
+                             nemesis::CondType type = nemesis::CondType::NONE);
 
     nemesis::LinkedVar<AnimDataPack_Condt>* afindlist(const Header& header);
     nemesis::LinkedVar<InfoDataPack_Condt>* ifindlist(const Header& header);

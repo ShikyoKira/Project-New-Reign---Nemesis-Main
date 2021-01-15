@@ -47,7 +47,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID)
                 int openRange   = 0;
                 int elementLine = 0;
                 int eleCounter  = 0;
-                SSMap IDExist;
+                UMapStr2 IDExist;
                 behaviorlines.reserve(behaviorlines.size() + exportFormat.size() + 1);
 
                 for (uint j = 0; j < exportFormat.size(); ++j)

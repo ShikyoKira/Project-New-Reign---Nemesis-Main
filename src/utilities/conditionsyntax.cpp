@@ -1,66 +1,180 @@
 #include "utilities/conditionsyntax.h"
 
-std::string nemesis::syntax::ForEach()
+namespace nemesis
 {
-    return "<!-- FOREACH ^";
-}
+    namespace syntax
+    {
+        std::string DeleteLine()
+        {
+            return "//* delete this line *//";
+        }
 
-std::string nemesis::syntax::ForEach(std::string condition)
-{
-    return ForEach() + condition + EndSyntax();
-}
+        std::string Spaces()
+        {
+            return "\t\t\t\t\t";
+        }
 
-std::string nemesis::syntax::ModCode()
-{
-    return "<!-- MOD_CODE ~";
-}
+        std::string OpenComment()
+        {
+            return "<!-- ";
+        }
 
-std::string nemesis::syntax::ModCode(std::string condition)
-{
-    return ModCode() + condition + EndModCodeSyntax();
-}
+        std::string CloseComment()
+        {
+            return " -->";
+        }
 
-std::string nemesis::syntax::EndModCodeSyntax()
-{
-    return "~ -->";
-}
+        std::string_view GetCondition(const std::string& line, std::string_view opening, std::string closing)
+        {
+            std::string_view sv = line;
+            sv.remove_prefix(sv.find(opening) + opening.length());
+            sv.remove_suffix(sv.length() - sv.find(closing));
+            return sv;
+        }
 
-std::string nemesis::syntax::Original()
-{
-    return "<!-- ORIGINAL -->";
-}
+        std::string Comment(const std::string& content)
+        {
+            return OpenComment() + content + CloseComment();
+        }
 
-std::string nemesis::syntax::Close()
-{
-    return "<!-- CLOSE -->";
-}
+        std::string Aster()
+        {
+            return OpenComment() + "*";
+        }
 
-std::string nemesis::syntax::If()
-{
-    return "<!-- IF ^";
-}
+        std::string CloseAster()
+        {
+            return "*" + CloseComment();
+        }
 
-std::string nemesis::syntax::If(std::string condition)
-{
-    return If() + condition + EndSyntax();
-}
+        std::string Aster(const std::string& condition)
+        {
+            return Aster() + condition + CloseAster();
+        }
 
-std::string nemesis::syntax::ElseIf()
-{
-    return "<!-- ELSEIF ^";
-}
+        std::string_view AsterCondition(const std::string& line)
+        {
+            return GetCondition(line, Aster(), CloseAster());
+        }
 
-std::string nemesis::syntax::ElseIf(std::string condition)
-{
-    return ElseIf() + condition + EndSyntax();
-}
+        std::string_view AsterCondition(const nemesis::Line& line)
+        {
+            return AsterCondition(line.ToString());
+        }
 
-std::string nemesis::syntax::EndIf()
-{
-    return "<!-- ENDIF -->";
-}
+        std::string ForEach()
+        {
+            return OpenComment() + "FOREACH ^";
+        }
 
-std::string nemesis::syntax::EndSyntax()
-{
-    return "^ -->";
+        std::string ForEach(const std::string& condition)
+        {
+            return ForEach() + condition + EndSyntax();
+        }
+
+        std::string_view ForEachCondition(const std::string& line)
+        {
+            return GetCondition(line, ForEach(), EndSyntax());
+        }
+
+        std::string_view ForEachCondition(const nemesis::Line& line)
+        {
+            return ForEachCondition(line.ToString());
+        }
+
+        std::string ModCode()
+        {
+            return OpenComment() + "MOD_CODE ~";
+        }
+
+        std::string ModCode(const std::string& condition)
+        {
+            return ModCode() + condition + EndModCodeSyntax();
+        }
+
+        std::string_view ModCodeCondition(const std::string& line)
+        {
+            return GetCondition(line, ModCode(), EndModCodeSyntax());
+        }
+
+        std::string_view ModCodeCondition(const nemesis::Line& line)
+        {
+            return ModCodeCondition(line.ToString());
+        }
+
+        std::string EndModCodeSyntax()
+        {
+            return "~ OPEN" + CloseComment();
+        }
+
+        std::string Original()
+        {
+            return Comment("ORIGINAL");
+        }
+
+        std::string LowerOriginal()
+        {
+            return Comment("original");
+        }
+
+        std::string Close()
+        {
+            return Comment("CLOSE");
+        }
+
+        std::string If()
+        {
+            return OpenComment() + "IF ^";
+        }
+
+        std::string If(const std::string& condition)
+        {
+            return If() + condition + EndSyntax();
+        }
+
+        std::string_view IfCondition(const std::string& line)
+        {
+            return GetCondition(line, If(), EndSyntax());
+        }
+
+        std::string_view IfCondition(const nemesis::Line& line)
+        {
+            return IfCondition(line.ToString());
+        }
+
+        std::string ElseIf()
+        {
+            return OpenComment() + "ELSEIF ^";
+        }
+
+        std::string ElseIf(const std::string& condition)
+        {
+            return ElseIf() + condition + EndSyntax();
+        }
+
+        std::string_view ElseIfCondition(const std::string& line)
+        {
+            return GetCondition(line, ElseIf(), EndSyntax());
+        }
+
+        std::string_view ElseIfCondition(const nemesis::Line& line)
+        {
+            return ElseIfCondition(line.ToString());
+        }
+
+        std::string Else()
+        {
+            return Comment("ELSE");
+        }
+
+        std::string EndIf()
+        {
+            return Comment("ENDIF");
+        }
+
+        std::string EndSyntax()
+        {
+            return "^" + CloseComment();
+        }
+    }
 }

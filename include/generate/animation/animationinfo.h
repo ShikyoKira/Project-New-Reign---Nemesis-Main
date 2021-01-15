@@ -5,8 +5,8 @@
 
 #pragma warning(disable : 4503)
 
-typedef std::unordered_map<std::string, std::string> SSMap;
-typedef std::unordered_map<std::string, SSMap> ImportContainer;
+typedef std::unordered_map<std::string, std::string> UMapStr2;
+typedef std::unordered_map<std::string, UMapStr2> ImportContainer;
 
 struct AnimationInfo
 {
@@ -23,7 +23,7 @@ struct AnimationInfo
     VecStr variableID;
     VecStr motionData;
     VecStr rotationData;
-    SSMap mixOptRegis;
+    UMapStr2 mixOptRegis;
     ImportContainer addition;
     std::unordered_map<std::string, VecStr> addOn; // option, list of add-on
     std::unordered_map<std::string, VecStr> mixOptRever;
@@ -34,8 +34,7 @@ struct AnimationInfo
     std::unordered_map<std::string, std::unordered_map<std::string, VecStr>> groupAddition;
     std::unordered_map<int, VecStr> AnimObject;
 
-    AnimationInfo()
-    {}
+    AnimationInfo() = default;
     AnimationInfo(VecStr newAnimInfo,
                   std::filesystem::path curFilename,
                   OptionList behaviorOption,

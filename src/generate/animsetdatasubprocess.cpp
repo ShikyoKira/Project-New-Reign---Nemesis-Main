@@ -100,7 +100,7 @@ void BehaviorSub::CompilingASD()
         // separation of all items for easier access and better compatibility
         for (string line : catalyst)
         {
-            const auto storingLine = [&]() 
+            const auto storingLine = [&]()
             {
                 if (line.find("<!-- *") != NOT_FOUND)
                 {
@@ -131,7 +131,7 @@ void BehaviorSub::CompilingASD()
                 {
                     size_t tempint = line.find("<!-- NEW *") + 10;
                     string modID   = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
-                    
+
                     if (process->chosenBehavior.find(modID) == process->chosenBehavior.end())
                     {
                         isOpen = false;
@@ -205,7 +205,7 @@ void BehaviorSub::CompilingASD()
                         origLines.push_back(line);
                         continue;
                     }
-                        
+
                     chosenVecLines[newMod].push_back(line);
                     continue;
                 }

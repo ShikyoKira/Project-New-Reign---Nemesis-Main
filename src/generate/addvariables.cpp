@@ -1,5 +1,7 @@
 #include "Global.h"
 
+#include "utilities/line.h"
+
 #include "generate/addvariables.h"
 
 using namespace std;

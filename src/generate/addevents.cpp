@@ -7,7 +7,7 @@
 using namespace std;
 
 bool AddEvents(const string& curNum,
-               vector<string>& storeline,
+               VecStr& storeline,
                const string& input,
                unordered_map<string, bool> orievent,
                unordered_map<string, bool>& isExist,

@@ -1,7 +1,7 @@
 #include "Global.h"
 
 #include "utilities/regex.h"
-#include "utilities/stringsplit.h"
+#include "utilities/stringextension.h"
 #include "utilities/algorithm.h"
 
 #include "generate/animation/animationinfo.h"
@@ -50,19 +50,20 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
 
         for (auto& option : options)
         {
-            if (option == "o") 
-            {
-                isOExist = true; 
-            }
+            if (option == "o") isOExist = true;
 
             if (error) throw nemesis::exception();
 
-            if (option == "k" || option == "bsa")
+            if (nemesis::iequals(option, "k") || nemesis::iequals(option, "bsa"))
             {
                 if (!known)
+                {
                     known = true;
+                }
                 else
+                {
                     WarningMessage(1012);
+                }
 
                 continue;
             }
@@ -112,9 +113,9 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                     // check on group / addon option
                     for (uint j = 0; j < optionOrder[m].size(); ++j)
                     {
-                        if (optionOrder[m][j] != option[j]) 
+                        if (optionOrder[m][j] != option[j])
                         {
-                            break; 
+                            break;
                         }
                         else if (j == optionOrder[m].size() - 1)
                         {
@@ -139,20 +140,17 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                                         bool isPassed  = true;
                                         string section = nonHeader;
 
-                                        for (uint k = 0; k < joint[header].size(); ++k)
+                                        for (auto& var : joint[header])
                                         {
-                                            string newSection
-                                                = section.substr(section.find(joint[header][k]) + 1);
+                                            string newSection = section.substr(section.find(var) + 1);
 
-                                            if (newSection.length() < section.length())
-                                            {
-                                                section = newSection; 
-                                            }
-                                            else
+                                            if (newSection.length() >= section.length())
                                             {
                                                 isPassed = false;
                                                 break;
                                             }
+
+                                            section = newSection;
                                         }
 
                                         if (!isPassed) break;
@@ -161,39 +159,31 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
 
                                         for (uint k = 0; k < addOn[header].size(); ++k)
                                         {
-                                            if (nonHeader.length() != 0)
-                                            {
-                                                string addOnName = addOn[header][k];
+                                            if (nonHeader.empty()) break;
 
-                                                if (k != addOn[header].size() - 1)
-                                                {
-                                                    size_t pos = nonHeader.find(joint[header][k], 0)
-                                                                 + joint[header][k].length();
-                                                    string name = nonHeader.substr(
-                                                        0, pos - joint[header][k].length());
-                                                    groupAdditionProcess(header,
-                                                                         addOnName,
-                                                                         name,
-                                                                         groupOption,
-                                                                         behaviorOption.modAddOn);
-                                                    isPassed  = true;
-                                                    nonHeader = nonHeader.substr(pos);
-                                                }
-                                                else
-                                                {
-                                                    groupAdditionProcess(header,
-                                                                         addOnName,
-                                                                         nonHeader,
-                                                                         groupOption,
-                                                                         behaviorOption.modAddOn);
-                                                    isPassed = true;
-                                                    break;
-                                                }
-                                            }
-                                            else
+                                            string addOnName = addOn[header][k];
+
+                                            if (k == addOn[header].size() - 1)
                                             {
+                                                groupAdditionProcess(header,
+                                                                     addOnName,
+                                                                     nonHeader,
+                                                                     groupOption,
+                                                                     behaviorOption.modAddOn);
+                                                isPassed = true;
                                                 break;
                                             }
+
+                                            isPassed         = true;
+                                            string& varjoint = joint[header][k];
+                                            size_t pos       = nonHeader.find(varjoint);
+                                            string name      = nonHeader.substr(0, pos);
+                                            nonHeader        = nonHeader.substr(pos + varjoint.length());
+                                            groupAdditionProcess(header,
+                                                                 addOnName,
+                                                                 name,
+                                                                 groupOption,
+                                                                 behaviorOption.modAddOn);
                                         }
 
                                         if (isPassed)
@@ -210,7 +200,8 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                     }
 
                     if (loose) break;
-                    else header = "";
+
+                    header = "";
                 }
 
                 if (header.length() == 0) WarningMessage(1026, curFilename, linecount, option);
@@ -285,10 +276,10 @@ void AnimationInfo::groupAdditionProcess(string header,
 {
     string newName = name;
 
-    if (modAddOn[header][addOnName].length() != 0)
+    if (!modAddOn[header][addOnName].empty())
     {
         string newAddOn = modAddOn[header][addOnName];
-        newName         = newAddOn.replace(newAddOn.find("$$$"), 3, newName);
+        newName         = newAddOn.replace(newAddOn.find("<" + addOnName + ">"), 3, newName);
     }
 
     if (groupOption[header])
@@ -311,7 +302,7 @@ void AnimationInfo::groupAdditionProcess(string header,
         addition[header][addOnName] = newName;
     }
 
-    if (nemesis::iequals(addOnName, "event")) 
+    if (nemesis::iequals(addOnName, "event"))
     {
         eventID.push_back(newName);
     }

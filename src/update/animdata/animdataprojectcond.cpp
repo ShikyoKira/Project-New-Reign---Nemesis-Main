@@ -1,7 +1,14 @@
-#include "update/animdata/animdataprojectcond.h"
+#include <functional>
+
 #include "Global.h"
 
+#include "utilities/conditionsyntax.h"
+
+#include "update/animdata/animdataprojectcond.h"
+
+
 using namespace std;
+namespace ns = nemesis::syntax;
 
 using LinkedAnimPair = pair<string, nemesis::LinkedVar<AnimDataPack_Condt>>;
 using LinkedInfoPair = pair<string, nemesis::LinkedVar<InfoDataPack_Condt>>;
@@ -40,7 +47,7 @@ AnimDataProject_Condt::AnimDataProject_Condt(const VecStr& storeline, size_t lin
             {
                 if (i + 1 < storeline.size() && isOnlyNumber(storeline[i + 1])) ++type;
 
-                behaviorlist.push_back(line);
+                behaviorlist.emplace_back(line);
                 behaviorlist.back().linecount = linenum + i;
                 break;
             }
@@ -90,7 +97,7 @@ void AnimDataProject_Condt::update(const ModCode& modcode, const VecStr& storeli
                 {
                     if (i + 1 < storeline.size() && isOnlyNumber(storeline[i + 1])) ++type;
 
-                    behaviorlist.push_back(line);
+                    behaviorlist.emplace_back(line);
                     behaviorlist.back().linecount = linenum + i;
                     break;
                 }
@@ -124,17 +131,17 @@ void AnimDataProject_Condt::modify(const ModCode& modcode, const VecStr& storeli
     {
         const string& line = storeline[i];
 
-        if (line.find("<!--") != NOT_FOUND)
+        if (line.find(ns::OpenComment()) != NOT_FOUND)
         {
-            if (!edited && line.find("<!-- MOD_CODE ~" + modcode + "~ OPEN -->", 0) != NOT_FOUND)
+            if (!edited && line.find(ns::ModCode(modcode)) != NOT_FOUND)
             {
                 edited = true;
             }
-            else if (line.find("<!-- ORIGINAL -->", 0) != NOT_FOUND)
+            else if (line.find(ns::Original()) != NOT_FOUND)
             {
                 originalopen = true;
             }
-            else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+            else if (line.find(ns::Close()) != NOT_FOUND)
             {
                 originalopen = false;
                 edited       = false;
@@ -151,7 +158,7 @@ void AnimDataProject_Condt::modify(const ModCode& modcode, const VecStr& storeli
         {
             case 0:
             {
-                if (edited) projectActive.addCond(nemesis::LinkedVar(line), modcode, nemesis::MOD_CODE, i + 1);
+                if (edited) projectActive.addCond(nemesis::LinkedVar(line), modcode, nemesis::CondType::MOD_CODE);
 
                 ++type;
                 break;
@@ -170,11 +177,11 @@ void AnimDataProject_Condt::modify(const ModCode& modcode, const VecStr& storeli
                 {
                     if (bhvrCount < behaviorlist.size())
                     {
-                        behaviorlist[bhvrCount].addCond(line, modcode, nemesis::MOD_CODE, i + 1);
+                        behaviorlist[bhvrCount].addCond(line, modcode, nemesis::CondType::MOD_CODE);
                     }
                     else
                     {
-                        behaviorlist.push_back(nemesis::CondVar<string>(line, modcode, nemesis::MOD_CODE));
+                        behaviorlist.emplace_back(nemesis::CondVar<string>(line, modcode, nemesis::CondType::MOD_CODE));
                     }
                 }
 
@@ -183,7 +190,7 @@ void AnimDataProject_Condt::modify(const ModCode& modcode, const VecStr& storeli
             }
             case 3:
             {
-                if (edited) childActive.addCond(line, modcode, nemesis::MOD_CODE);
+                if (edited) childActive.addCond(line, modcode, nemesis::CondType::MOD_CODE, i + 1);
 
                 ++type;
                 break;
@@ -203,13 +210,13 @@ AnimDataProject_Condt::aadd(const Header& header, const ModCode& modcode, nemesi
 
     if (modcode == "original")
     {
-        animdatalist.push_back(DataPackCondt<AnimDataPack_Condt>());
+        animdatalist.emplace_back(DataPackCondt<AnimDataPack_Condt>());
         animdatalist.back().raw        = make_shared<DP>();
         animdatalist.back().raw->first = header;
         return *animdatalist.back().raw->second.raw;
     }
 
-    animdatalist.push_back(DataPackCondt<AnimDataPack_Condt>(nemesis::CondVar<DP>(DP(), modcode, type)));
+    animdatalist.emplace_back(DataPackCondt<AnimDataPack_Condt>(nemesis::CondVar<DP>(DP(), modcode, type)));
     animdatalist.back().nestedcond.back().rawlist.back().raw->first = header;
     return *animdatalist.back().nestedcond.back().rawlist.back().raw->second.raw;
 }
@@ -225,14 +232,14 @@ AnimDataPack_Condt& AnimDataProject_Condt::aadd(const Header& header,
 
     if (modcode != "original")
     {
-        animdatalist.push_back(DataPackCondt<AnimDataPack_Condt>(nemesis::CondVar(DP(), modcode, type)));
+        animdatalist.emplace_back(DataPackCondt<AnimDataPack_Condt>(nemesis::CondVar(DP(), modcode, type)));
         auto& refLinked     = animdatalist.back().nestedcond.back().rawlist.back();
         refLinked.linecount = linenum;
         refPair             = refLinked.raw;
     }
     else
     {
-        animdatalist.push_back(DataPackCondt<AnimDataPack_Condt>());
+        animdatalist.emplace_back(DataPackCondt<AnimDataPack_Condt>());
         auto& refLinked     = animdatalist.back();
         refLinked.linecount = linenum;
         refLinked.raw       = make_shared<DP>(make_pair(Header(), nemesis::LinkedVar<AnimDataPack_Condt>()));
@@ -252,13 +259,13 @@ AnimDataProject_Condt::iadd(const Header& header, const ModCode& modcode, nemesi
 
     if (modcode == "original")
     {
-        infodatalist.push_back(DataPackCondt<InfoDataPack_Condt>());
+        infodatalist.emplace_back(DataPackCondt<InfoDataPack_Condt>());
         infodatalist.back().raw        = make_shared<DP>();
         infodatalist.back().raw->first = header;
         return *infodatalist.back().raw->second.raw;
     }
 
-    infodatalist.push_back(DataPackCondt<InfoDataPack_Condt>(nemesis::CondVar(DP(), modcode, type)));
+    infodatalist.emplace_back(DataPackCondt<InfoDataPack_Condt>(nemesis::CondVar(DP(), modcode, type)));
     infodatalist.back().nestedcond.back().rawlist.back().raw->first = header;
     return *infodatalist.back().nestedcond.back().rawlist.back().raw->second.raw;
 }
@@ -274,14 +281,14 @@ InfoDataPack_Condt& AnimDataProject_Condt::iadd(const Header& header,
 
     if (modcode != "original")
     {
-        infodatalist.push_back(DataPackCondt<InfoDataPack_Condt>(nemesis::CondVar(DP(), modcode, type)));
+        infodatalist.emplace_back(DataPackCondt<InfoDataPack_Condt>(nemesis::CondVar(DP(), modcode, type)));
         auto& refLinked     = infodatalist.back().nestedcond.back().rawlist.back();
         refLinked.linecount = linenum;
         refPair             = refLinked.raw;
     }
     else
     {
-        infodatalist.push_back(DataPackCondt<InfoDataPack_Condt>());
+        infodatalist.emplace_back(DataPackCondt<InfoDataPack_Condt>());
         auto& refLinked     = infodatalist.back();
         refLinked.linecount = linenum;
         refLinked.raw       = make_shared<DP>(make_pair(Header(), nemesis::LinkedVar<InfoDataPack_Condt>()));
@@ -324,14 +331,13 @@ AnimDataPack_Condt* AnimDataProject_Condt::afind(const Header& header, const Mod
     {
         if (!each.raw) continue;
 
-        if (each.raw->first + "~" + *each.raw->second.raw->uniquecode.raw == header)
-        {
-            if (modcode == "original") return &*each.raw->second.raw;
+        if (each.raw->first + "~" + *each.raw->second.raw->uniquecode.raw != header) continue;
 
-            for (auto& eachcond : each.raw->second.nestedcond)
-            {
-                if (eachcond.conditions == modcode) return &*eachcond.rawlist.back().raw;
-            }
+        if (modcode == "original") return &*each.raw->second.raw;
+
+        for (auto& eachcond : each.raw->second.nestedcond)
+        {
+            if (eachcond.conditions == modcode) return &*eachcond.rawlist.back().raw;
         }
     }
 
@@ -344,27 +350,26 @@ InfoDataPack_Condt* AnimDataProject_Condt::ifind(const Header& header, const Mod
     {
         if (!each.raw) continue;
 
-        if (each.raw->first == header)
-        {
-            if (modcode == "original") return &*each.raw->second.raw;
+        if (each.raw->first != header) continue;
 
-            for (auto& eachcond : each.raw->second.nestedcond)
-            {
-                if (eachcond.conditions == modcode) return &*eachcond.rawlist.back().raw;
-            }
+        if (modcode == "original") return &*each.raw->second.raw;
+
+        for (auto& eachcond : each.raw->second.nestedcond)
+        {
+            if (eachcond.conditions == modcode) return &*eachcond.rawlist.back().raw;
         }
     }
 
     return nullptr;
 }
 
-void AnimDataProject_Condt::getlines(VecStr& storeline) 
+void AnimDataProject_Condt::getlines(VecStr& storeline)
 {
     // project status
     shared_ptr<VecStr> output = getLinkedLines(projectActive);
 
     // behavior count
-    output->push_back(to_string(behaviorlist.size()));
+    output->emplace_back(to_string(behaviorlist.size()));
 
     // behavior list
     for (auto& each : behaviorlist)
@@ -383,13 +388,13 @@ void AnimDataProject_Condt::getlines(VecStr& storeline)
         getanimdatapack(each, *output, mod);
     }
 
-    if (mod != "") output->push_back("<!-- CLOSE -->");
+    if (mod != "") output->emplace_back(ns::Close());
 
     size_t pos = output->size();
 
     if (animdatalist.size() > 0)
     {
-        output->push_back("");
+        output->emplace_back("");
         mod.clear();
 
         // info data
@@ -398,12 +403,12 @@ void AnimDataProject_Condt::getlines(VecStr& storeline)
             getinfodatapack(each, *output, mod);
         }
 
-        if (mod != "") output->push_back("<!-- CLOSE -->");
+        if (mod != "") output->emplace_back(ns::Close());
 
         output->at(pos) = to_string(output->size() - 1 - pos);
     }
 
-    storeline.push_back(to_string(pos));
+    storeline.emplace_back(to_string(pos));
     storeline.insert(storeline.end(), output->begin(), output->end());
 }
 
@@ -417,39 +422,39 @@ void getanimdatapack(const nemesis::LinkedVar<LinkedAnimPair>& animdatapack,
     {
         switch (cond.conditionType)
         {
-            case nemesis::MOD_CODE:
+            case nemesis::CondType::MOD_CODE:
             {
-                modcodelist.push_back(make_pair<const string*, const nemesis::CondVar<LinkedAnimPair>*>(&cond.conditions, &cond));
+                modcodelist.emplace_back(make_pair<const string*, const nemesis::CondVar<LinkedAnimPair>*>(&cond.conditions, &cond));
                 break;
             }
-            case nemesis::FOREACH:
+            case nemesis::CondType::FOREACH:
             {
                 if (curmodcode != "")
                 {
-                    storeline.push_back("<!-- CLOSE -->");
+                    storeline.emplace_back(ns::Close());
                     curmodcode.clear();
                 }
 
-                storeline.push_back("<!-- FOREACH ^" + cond.conditions + "^ -->");
+                storeline.emplace_back(ns::ForEach(cond.conditions));
 
                 for (auto& each : cond.rawlist)
                 {
                     getanimdatapack(each, storeline, curmodcode);
                 }
 
-                storeline.push_back("<!-- CLOSE -->");
+                storeline.emplace_back(ns::Close());
                 break;
             }
         }
     }
 
-    if (modcodelist.size() > 0)
+    if (!modcodelist.empty())
     {
         if (animdatapack.raw)
         {
             if (curmodcode != "")
             {
-                storeline.push_back("<!-- CLOSE -->");
+                storeline.emplace_back(ns::Close());
                 curmodcode.clear();
             }
 
@@ -457,24 +462,22 @@ void getanimdatapack(const nemesis::LinkedVar<LinkedAnimPair>& animdatapack,
 
             for (auto& modcode : modcodelist)
             {
-                list.push_back(pair<string, VecStr>());
-                list.back().first = *modcode.first;
+                list.emplace_back(make_pair(*modcode.first, VecStr()));
                 getanimdatapack(modcode.second->rawlist[0], list.back().second, curmodcode);
 
                 for (auto& each : list.back().second)
                 {
-                    each.append("\t\t\t\t\t<!-- *" + *modcode.first + "* -->");
+                    each.append(ns::Spaces() + ns::Aster(*modcode.first));
                 }
             }
 
             size_t max = 0;
-            list.push_back(pair<string, VecStr>());
-            list.back().first = "original";
+            list.emplace_back(make_pair<string, VecStr>("original", VecStr()));
             getLinkedLines(animdatapack.raw->second, list.back().second);
 
             for (auto& line : list.back().second)
             {
-                line.append("\t\t\t\t\t<!-- original -->");
+                line.append(ns::Spaces() + ns::LowerOriginal());
             }
 
             for (auto& each : list)
@@ -484,18 +487,17 @@ void getanimdatapack(const nemesis::LinkedVar<LinkedAnimPair>& animdatapack,
 
             for (size_t i = 0; i < max; ++i)
             {
-                for (size_t k = 0; k < list.size(); ++k)
+                for (auto& each : list)
                 {
-                    if (i >= list[k].second.size())
+                    if (i >= each.second.size())
                     {
-                        storeline.push_back(
-                            "//* delete this line *//\t\t\t\t\t<!-- "
-                            + (list[k].first == "original" ? "original" : "*" + list[k].first + "*")
-                            + " -->");
+                        string constr = each.first == "original" ? ns::LowerOriginal()
+                                                                 : ns::Aster(each.first);
+                        storeline.emplace_back(ns::DeleteLine() + ns::Spaces() + constr);
                     }
                     else
                     {
-                        storeline.push_back(list[k].second[i]);
+                        storeline.emplace_back(each.second[i]);
                     }
                 }
             }
@@ -506,9 +508,9 @@ void getanimdatapack(const nemesis::LinkedVar<LinkedAnimPair>& animdatapack,
             {
                 if (curmodcode != *modcode.first)
                 {
-                    if (curmodcode != "") storeline.push_back("<!-- CLOSE -->");
+                    if (curmodcode != "") storeline.emplace_back(ns::Close());
 
-                    storeline.push_back("<!-- NEW *" + *modcode.first + "* -->");
+                    storeline.emplace_back(ns::ModCode(*modcode.first));
                     curmodcode = *modcode.first;
                 }
 
@@ -525,7 +527,7 @@ void getanimdatapack(const nemesis::LinkedVar<LinkedAnimPair>& animdatapack,
     }
     else
     {
-        storeline.push_back("//* delete this line *//");
+        storeline.emplace_back(ns::DeleteLine());
     }
 }
 
@@ -539,40 +541,40 @@ void getinfodatapack(const nemesis::LinkedVar<LinkedInfoPair>& infodatapack,
     {
         switch (cond.conditionType)
         {
-            case nemesis::MOD_CODE:
+            case nemesis::CondType::MOD_CODE:
             {
-                modcodelist.push_back(
+                modcodelist.emplace_back(
                     make_pair<const string*, const nemesis::CondVar<LinkedInfoPair>*>(&cond.conditions, &cond));
                 break;
             }
-            case nemesis::FOREACH:
+            case nemesis::CondType::FOREACH:
             {
                 if (curmodcode != "")
                 {
-                    storeline.push_back("<!-- CLOSE -->");
+                    storeline.emplace_back(ns::Close());
                     curmodcode.clear();
                 }
 
-                storeline.push_back("<!-- FOREACH ^" + cond.conditions + "^ -->");
+                storeline.emplace_back(ns::ForEach(cond.conditions));
 
                 for (auto& each : cond.rawlist)
                 {
                     getinfodatapack(each, storeline, curmodcode);
                 }
 
-                storeline.push_back("<!-- CLOSE -->");
+                storeline.emplace_back(ns::Close());
                 break;
             }
         }
     }
 
-    if (modcodelist.size() > 0)
+    if (!modcodelist.empty())
     {
         if (infodatapack.raw)
         {
             if (curmodcode != "")
             {
-                storeline.push_back("<!-- CLOSE -->");
+                storeline.emplace_back(ns::Close());
                 curmodcode.clear();
             }
 
@@ -580,24 +582,22 @@ void getinfodatapack(const nemesis::LinkedVar<LinkedInfoPair>& infodatapack,
 
             for (auto& modcode : modcodelist)
             {
-                list.push_back(pair<string, VecStr>());
-                list.back().first = *modcode.first;
+                list.emplace_back(make_pair(*modcode.first, VecStr()));
                 getinfodatapack(modcode.second->rawlist[0], list.back().second, curmodcode);
 
                 for (auto& each : list.back().second)
                 {
-                    each.append("\t\t\t\t\t<!-- *" + *modcode.first + "* -->");
+                    each.append(ns::Spaces() + ns::Aster(*modcode.first));
                 }
             }
 
             size_t max = 0;
-            list.push_back(pair<string, VecStr>());
-            list.back().first = "original";
+            list.emplace_back(make_pair<string, VecStr>("original", VecStr()));
             getLinkedLines(infodatapack.raw->second, list.back().second);
 
             for (auto& line : list.back().second)
             {
-                line.append("\t\t\t\t\t<!-- original -->");
+                line.append(ns::Spaces() + ns::LowerOriginal());
             }
 
             for (auto& each : list)
@@ -607,18 +607,17 @@ void getinfodatapack(const nemesis::LinkedVar<LinkedInfoPair>& infodatapack,
 
             for (size_t i = 0; i < max; ++i)
             {
-                for (size_t k = 0; k < list.size(); ++k)
+                for (auto& each : list)
                 {
-                    if (i >= list[k].second.size())
+                    if (i >= each.second.size())
                     {
-                        storeline.push_back(
-                            "//* delete this line *//\t\t\t\t\t<!-- "
-                            + (list[k].first == "original" ? "original" : "*" + list[k].first + "*")
-                            + " -->");
+                        string constr = each.first == "original" ? ns::LowerOriginal()
+                                                                 : ns::Aster(each.first);
+                        storeline.emplace_back(ns::DeleteLine() + ns::Spaces() + constr);
                     }
                     else
                     {
-                        storeline.push_back(list[k].second[i]);
+                        storeline.emplace_back(each.second[i]);
                     }
                 }
             }
@@ -629,9 +628,9 @@ void getinfodatapack(const nemesis::LinkedVar<LinkedInfoPair>& infodatapack,
             {
                 if (curmodcode != *modcode.first)
                 {
-                    if (curmodcode != "") storeline.push_back("<!-- CLOSE -->");
+                    if (curmodcode != "") storeline.emplace_back(ns::Close());
 
-                    storeline.push_back("<!-- NEW *" + *modcode.first + "* -->");
+                    storeline.emplace_back(ns::ModCode(*modcode.first));
                     curmodcode = *modcode.first;
                 }
 
@@ -648,6 +647,6 @@ void getinfodatapack(const nemesis::LinkedVar<LinkedInfoPair>& infodatapack,
     }
     else
     {
-        storeline.push_back("//* delete this line *//");
+        storeline.emplace_back(ns::DeleteLine());
     }
 }

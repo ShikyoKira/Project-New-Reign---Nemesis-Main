@@ -52,12 +52,12 @@ namespace nemesis
 
     nemesis::Line to_lower_copy(const nemesis::Line& data)
     {
-        return nemesis::Line(to_lower_copy(data.c_str()), data.linenum);
+        return nemesis::Line(to_lower_copy(data.c_str()), data.GetLineNumber());
     }
 
     nemesis::Wline to_lower_copy(const nemesis::Wline& data)
     {
-        return nemesis::Wline(to_lower_copy(data.c_str()), data.linenum);
+        return nemesis::Wline(to_lower_copy(data.c_str()), data.GetLineNumber());
     }
 
     void to_lower(string& data)
@@ -72,12 +72,12 @@ namespace nemesis
 
     void to_lower(nemesis::Line& data)
     {
-        data = nemesis::Line(to_lower_copy(data.c_str()), data.linenum);
+        data = nemesis::Line(to_lower_copy(data.c_str()), data.GetLineNumber());
     }
 
     void to_lower(nemesis::Wline& data)
     {
-        data = nemesis::Wline(to_lower_copy(data.c_str()), data.linenum);
+        data = nemesis::Wline(to_lower_copy(data.c_str()), data.GetLineNumber());
     }
 
     const char* to_upper_copy(const char* data)
@@ -122,12 +122,12 @@ namespace nemesis
 
     nemesis::Line to_upper_copy(const nemesis::Line& data)
     {
-        return nemesis::Line(to_upper_copy(data.c_str()), data.linenum);
+        return nemesis::Line(to_upper_copy(data.c_str()), data.GetLineNumber());
     }
 
     nemesis::Wline to_upper_copy(const nemesis::Wline& data)
     {
-        return nemesis::Wline(to_upper_copy(data.c_str()), data.linenum);
+        return nemesis::Wline(to_upper_copy(data.c_str()), data.GetLineNumber());
     }
 
     void to_upper(string& data)
@@ -142,12 +142,12 @@ namespace nemesis
 
     void to_upper(nemesis::Line& data)
     {
-        data = nemesis::Line(to_upper_copy(data.c_str()), data.linenum);
+        data = nemesis::Line(to_upper_copy(data.c_str()), data.GetLineNumber());
     }
 
-    void to_upper(nemesis::Wline& data) 
+    void to_upper(nemesis::Wline& data)
     {
-        data = nemesis::Wline(to_upper_copy(data.c_str()), data.linenum);
+        data = nemesis::Wline(to_upper_copy(data.c_str()), data.GetLineNumber());
     }
 
     bool iequals(const char* l, const char* r)
@@ -189,16 +189,43 @@ namespace nemesis
     {
         return wcscmp(to_lower_copy(l.c_str()), to_lower_copy(r.c_str())) == 0;
     }
-    
+
+    std::string transform_to(const std::wstring& str) noexcept
+    {
+        // Note[1]
+        return std::filesystem::path(str).string();
+    }
+
+    std::wstring transform_to(const std::string& str) noexcept
+    {
+        // Note[1]
+        return std::filesystem::path(str).wstring();
+    }
+
+    std::string transform_to(const wchar_t* str) noexcept
+    {
+        // Note[1]
+        return std::filesystem::path(str).string();
+    }
+
+    std::wstring transform_to(const char* str) noexcept
+    {
+        // Note[1]
+        return std::filesystem::path(str).wstring();
+    }
+
     nemesis::Line transform_to(const nemesis::Wline& str) noexcept
     {
-        string line = transform_to<string, wstring>(str);
-        return nemesis::Line(line, str.linenum);
+        return nemesis::Line(transform_to(str.ToWstring()), str.GetLineNumber());
     }
 
     nemesis::Wline transform_to(const nemesis::Line& str) noexcept
     {
-        wstring line = transform_to<wstring, string>(str);
-        return nemesis::Wline(line, str.linenum);
+        return nemesis::Wline(transform_to(str.ToString()), str.GetLineNumber());
     }
 } // namespace nemesis
+
+// Note [1]
+// locale convert and transform_to<wstring, string> does not give consistent result
+// so file system path is used as a temporary workaround
+// until solid workaround is found

@@ -6,6 +6,8 @@
 
 namespace nemesis
 {
+    struct Line;
+
     namespace detail
     {
         using underlying_regex     = boost::regex;
@@ -61,6 +63,7 @@ namespace nemesis
     public:
         regex_iterator() = default;
         regex_iterator(const std::string& str, const nemesis::regex& reg);
+        regex_iterator(const nemesis::Line& str, const nemesis::regex& reg);
 
         regex_iterator& operator++();
         nemesis::smatch operator*();

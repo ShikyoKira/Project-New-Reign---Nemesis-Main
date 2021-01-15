@@ -7,7 +7,7 @@
 
 #include "utilities/regex.h"
 #include "utilities/algorithm.h"
-#include "utilities/stringsplit.h"
+#include "utilities/stringextension.h"
 #include "utilities/readtextfile.h"
 
 #include "generate/animation/registeranimation.h"
@@ -37,9 +37,9 @@ bool ruleCheck(VecStr rules, VecStr curList, TemplateInfo& behaviortemplate, str
                 {
                     if (k != rule.length() - 1)
                     {
-                        if (cur[k] == rule[k]) 
+                        if (cur[k] == rule[k])
                         {
-                            matching = true; 
+                            matching = true;
                         }
                         else
                         {
@@ -132,9 +132,13 @@ registerAnimation::registerAnimation(sf::path curDirectory,
             if (lowerformat == "version")
             {
                 if (nemesis::iequals(newAnimInfo[1].substr(0, 1), "V"))
+                {
                     version = line.substr(line.find(newAnimInfo[1]));
+                }
                 else
+                {
                     version = "V" + line.substr(line.find(newAnimInfo[1]));
+                }
             }
             else if (lowerformat == "aaprefix")
             {
@@ -209,27 +213,24 @@ registerAnimation::registerAnimation(sf::path curDirectory,
             else if (lowerformat == "t")
             {
                 if (newAnimInfo.size() < 4 || newAnimInfo.size() % 2 != 0)
+                {
                     ErrorMessage(4010, filename, linecount);
+                }
 
                 string lowerAnimName
                     = nemesis::to_lower_copy(fstP ? newAnimInfo[1] + "_1p*" : newAnimInfo[1]);
 
-                if (!AAAnimFileExist[lowerAnimName])
+                if (!AAAnimFileExist[lowerAnimName]) ErrorMessage(4011, filename, linecount, newAnimInfo[1]);
+
+                string originalAnim = lowerAnimName.substr(lowerAnimName.find("_") + 1);
+
+                if (newAnimInfo.size() > 2) AAHasEvent[originalAnim].push_back(lowerAnimName);
+
+                for (uint j = 2; j < newAnimInfo.size(); ++j)
                 {
-                    ErrorMessage(4011, filename, linecount, newAnimInfo[1]);
-                }
-                else
-                {
-                    string originalAnim = lowerAnimName.substr(lowerAnimName.find("_") + 1);
+                    AAEvent[lowerAnimName].push_back(newAnimInfo[j]);
 
-                    if (newAnimInfo.size() > 2) AAHasEvent[originalAnim].push_back(lowerAnimName);
-
-                    for (uint j = 2; j < newAnimInfo.size(); ++j)
-                    {
-                        AAEvent[lowerAnimName].push_back(newAnimInfo[j]);
-
-                        if (j == 2) AAHasEvent[originalAnim].push_back(lowerAnimName);
-                    }
+                    if (j == 2) AAHasEvent[originalAnim].push_back(lowerAnimName);
                 }
             }
             else if (lowerformat == "animvar")
@@ -331,94 +332,85 @@ registerAnimation::registerAnimation(sf::path curDirectory,
             }
             else if (newAnimInfo[0] == "+")
             {
-                if (previousShortline.length() > 0)
+                if (previousShortline.empty()) ErrorMessage(1065, filename, linecount);
+
+                if (behaviortemplate.templatelist[previousShortline])
                 {
-                    if (behaviortemplate.templatelist[previousShortline])
+                    bool isOExist = true;
+                    string anim   = newAnimInfo[newAnimInfo.size() - 1];
+                    string number = nemesis::regex_replace(
+                        string(anim), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+
+                    if (isOnlyNumber(number) && anim.length() > number.length()
+                        && anim[anim.length() - number.length() - 1] == '/'
+                        && anim.rfind(number) == anim.length() - number.length())
                     {
-                        bool isOExist = true;
-                        string anim   = newAnimInfo[newAnimInfo.size() - 1];
-                        string number = nemesis::regex_replace(
-                            string(anim), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        isOExist                   = false;
+                        OptionList* behaviorOption = &behaviortemplate.optionlist[previousShortline];
 
-                        if (isOnlyNumber(number) && anim.length() > number.length()
-                            && anim[anim.length() - number.length() - 1] == '/'
-                            && anim.rfind(number) == anim.length() - number.length())
+                        if (behaviorOption->storelist.find("o") == behaviorOption->storelist.end()
+                            || !behaviorOption->storelist["o"])
                         {
-                            isOExist                   = false;
-                            OptionList* behaviorOption = &behaviortemplate.optionlist[previousShortline];
-
-                            if (behaviorOption->storelist.find("o") == behaviorOption->storelist.end()
-                                || !behaviorOption->storelist["o"])
-                            {
-                                if (behaviorOption->animObjectCount > 0) isOExist = true;
-                            }
+                            if (behaviorOption->animObjectCount > 0) isOExist = true;
                         }
-
-                        if (newAnimInfo.size() > 3 && newAnimInfo[1].length() > 0 && newAnimInfo[1][0] == '-')
-                        {
-                            animInfo[previousShortline].push_back(
-                                make_shared<AnimationInfo>(newAnimInfo,
-                                                           filename,
-                                                           behaviortemplate.optionlist[previousShortline],
-                                                           linecount,
-                                                           isOExist));
-                            animInfo[previousShortline].back()->addFilename(newAnimInfo[3]);
-
-                            if (!animInfo[previousShortline].back()->known
-                                && !isFileExist(filepath.substr(0, filepath.find_last_of(L"\\") + 1)
-                                                + nemesis::transform_to<wstring>(newAnimInfo[3])))
-                            {
-                                WarningMessage(1000, newAnimInfo[3]);
-                            }
-                        }
-                        else
-                        {
-                            animInfo[previousShortline].push_back(
-                                make_shared<AnimationInfo>(newAnimInfo,
-                                                           filename,
-                                                           behaviortemplate.optionlist[previousShortline],
-                                                           linecount,
-                                                           isOExist,
-                                                           true));
-                            animInfo[previousShortline].back()->addFilename(newAnimInfo[2]);
-
-                            if (!isFileExist(filepath.substr(0, filepath.find_last_of(L"\\") + 1)
-                                             + nemesis::transform_to<wstring>(newAnimInfo[2])))
-                            {
-                                WarningMessage(1000, newAnimInfo[2]);
-                            }
-                        }
-
-                        if (behaviortemplate.behaviortemplate.find(previousShortline + "_group")
-                                != behaviortemplate.behaviortemplate.end()
-                            && behaviortemplate.behaviortemplate[previousShortline + "_group"].size() != 0)
-                        {
-                            animInfo[previousShortline]
-                                .back()
-                                ->optionPickedCount[previousShortline + "_group"]
-                                = 1;
-                        }
-
-                        if (behaviortemplate.behaviortemplate.find(previousShortline + "_master")
-                                != behaviortemplate.behaviortemplate.end()
-                            && behaviortemplate.behaviortemplate[previousShortline + "_master"].size() != 0)
-                        {
-                            animInfo[previousShortline]
-                                .back()
-                                ->optionPickedCount[previousShortline + "_master"]
-                                = 1;
-                        }
-
-                        if (!isOExist) ErrorMessage(1000, filename, linecount);
-
-                        templateType[previousShortline]++;
-                        isMulti[previousShortline].push_back(multiCount);
-                        multiCount++;
                     }
-                }
-                else
-                {
-                    ErrorMessage(1065, filename, linecount);
+
+                    if (newAnimInfo.size() > 3 && newAnimInfo[1].length() > 0 && newAnimInfo[1][0] == '-')
+                    {
+                        animInfo[previousShortline].push_back(
+                            make_shared<AnimationInfo>(newAnimInfo,
+                                                       filename,
+                                                       behaviortemplate.optionlist[previousShortline],
+                                                       linecount,
+                                                       isOExist));
+                        animInfo[previousShortline].back()->addFilename(newAnimInfo[3]);
+
+                        if (!animInfo[previousShortline].back()->known
+                            && !isFileExist(filepath.substr(0, filepath.find_last_of(L"\\") + 1)
+                                            + nemesis::transform_to<wstring>(newAnimInfo[3])))
+                        {
+                            WarningMessage(1000, newAnimInfo[3]);
+                        }
+                    }
+                    else
+                    {
+                        animInfo[previousShortline].push_back(
+                            make_shared<AnimationInfo>(newAnimInfo,
+                                                       filename,
+                                                       behaviortemplate.optionlist[previousShortline],
+                                                       linecount,
+                                                       isOExist,
+                                                       true));
+                        animInfo[previousShortline].back()->addFilename(newAnimInfo[2]);
+
+                        if (!isFileExist(filepath.substr(0, filepath.find_last_of(L"\\") + 1)
+                                         + nemesis::transform_to<wstring>(newAnimInfo[2])))
+                        {
+                            WarningMessage(1000, newAnimInfo[2]);
+                        }
+                    }
+
+                    if (behaviortemplate.behaviortemplate.find(previousShortline + "_group")
+                            != behaviortemplate.behaviortemplate.end()
+                        && behaviortemplate.behaviortemplate[previousShortline + "_group"].size() != 0)
+                    {
+                        animInfo[previousShortline].back()->optionPickedCount[previousShortline + "_group"]
+                            = 1;
+                    }
+
+                    if (behaviortemplate.behaviortemplate.find(previousShortline + "_master")
+                            != behaviortemplate.behaviortemplate.end()
+                        && behaviortemplate.behaviortemplate[previousShortline + "_master"].size() != 0)
+                    {
+                        animInfo[previousShortline].back()->optionPickedCount[previousShortline + "_master"]
+                            = 1;
+                    }
+
+                    if (!isOExist) ErrorMessage(1000, filename, linecount);
+
+                    templateType[previousShortline]++;
+                    isMulti[previousShortline].push_back(multiCount);
+                    multiCount++;
                 }
             }
             else if (behaviortemplate.templatelist[lowerformat])
@@ -483,7 +475,7 @@ registerAnimation::registerAnimation(sf::path curDirectory,
 
                 if (!isOExist) ErrorMessage(1000, filename, linecount);
 
-                if (previousShortline.length() > 0)
+                if (!previousShortline.empty())
                 {
                     if (behaviortemplate.optionlist[previousShortline].groupMin > multiCount)
                     {
@@ -505,39 +497,37 @@ registerAnimation::registerAnimation(sf::path curDirectory,
                                 VecStr AnimInfo;
                                 StringSplit(previousLine, AnimInfo);
 
-                                if (AnimInfo.size() > 3 && AnimInfo[1].length() > 0 && AnimInfo[1][0] == '-')
+                                if (AnimInfo.size() <= 3 || AnimInfo[1].empty() || AnimInfo[1][0] != '-')
                                 {
-                                    string templine = AnimInfo[1];
-                                    templine        = templine.substr(1);
-                                    VecStr curList;
-                                    size_t numOption = count(templine.begin(), templine.end(), ',') + 1;
-                                    size_t nextOption;
-                                    size_t pos = 0;
+                                    ErrorMessage(1035, filename, linecount);
+                                }
 
-                                    for (uint i = 0; i < numOption; ++i)
+                                string templine = AnimInfo[1];
+                                templine        = templine.substr(1);
+                                VecStr curList;
+                                size_t numOption = count(templine.begin(), templine.end(), ',') + 1;
+                                size_t nextOption;
+                                size_t pos = 0;
+
+                                for (uint i = 0; i < numOption; ++i)
+                                {
+                                    nextOption = templine.find(",", pos);
+
+                                    if (nextOption != -1)
                                     {
-                                        nextOption = templine.find(",", pos);
-
-                                        if (nextOption != -1)
-                                        {
-                                            curList.push_back(templine.substr(pos, nextOption - pos));
-                                            pos = nextOption + 1;
-                                        }
-                                        else
-                                        {
-                                            curList.push_back(templine.substr(pos));
-                                        }
+                                        curList.push_back(templine.substr(pos, nextOption - pos));
+                                        pos = nextOption + 1;
                                     }
-
-                                    if (!ruleCheck(behaviortemplate.optionlist[previousShortline].ruleTwo,
-                                                   curList,
-                                                   behaviortemplate,
-                                                   previousShortline))
+                                    else
                                     {
-                                        ErrorMessage(1035, filename, linecount);
+                                        curList.push_back(templine.substr(pos));
                                     }
                                 }
-                                else
+
+                                if (!ruleCheck(behaviortemplate.optionlist[previousShortline].ruleTwo,
+                                               curList,
+                                               behaviortemplate,
+                                               previousShortline))
                                 {
                                     ErrorMessage(1035, filename, linecount);
                                 }
@@ -551,47 +541,45 @@ registerAnimation::registerAnimation(sf::path curDirectory,
                 if (behaviortemplate.optionlist[lowerformat].ruleOne.size() != 0
                     || behaviortemplate.optionlist[lowerformat].compulsory.size() != 0)
                 {
-                    if (newAnimInfo.size() > 3 && newAnimInfo[1].length() > 0 && newAnimInfo[1][0] == '-')
+                    if (newAnimInfo.size() <= 3 || newAnimInfo[1].empty() || newAnimInfo[1][0] != '-')
                     {
-                        string templine = newAnimInfo[1];
-                        templine        = templine.substr(1);
-                        VecStr curList;
-                        size_t numOption = count(templine.begin(), templine.end(), ',') + 1;
-                        size_t nextOption;
-                        size_t pos = 0;
+                        ErrorMessage(1035, filename, linecount);
+                    }
 
-                        for (size_t i = 0; i < numOption; ++i)
+                    string templine = newAnimInfo[1];
+                    templine        = templine.substr(1);
+                    VecStr curList;
+                    size_t numOption = count(templine.begin(), templine.end(), ',') + 1;
+                    size_t nextOption;
+                    size_t pos = 0;
+
+                    for (size_t i = 0; i < numOption; ++i)
+                    {
+                        nextOption = templine.find(",", pos);
+
+                        if (nextOption != -1)
                         {
-                            nextOption = templine.find(",", pos);
-
-                            if (nextOption != -1)
-                            {
-                                curList.push_back(templine.substr(pos, nextOption - pos));
-                                pos = nextOption + 1;
-                            }
-                            else
-                            {
-                                curList.push_back(templine.substr(pos));
-                            }
+                            curList.push_back(templine.substr(pos, nextOption - pos));
+                            pos = nextOption + 1;
                         }
-
-                        if (!ruleCheck(behaviortemplate.optionlist[lowerformat].compulsory,
-                                       curList,
-                                       behaviortemplate,
-                                       lowerformat))
+                        else
                         {
-                            ErrorMessage(1035, filename, linecount);
-                        }
-
-                        if (!ruleCheck(behaviortemplate.optionlist[lowerformat].ruleOne,
-                                       curList,
-                                       behaviortemplate,
-                                       lowerformat))
-                        {
-                            ErrorMessage(1035, filename, linecount);
+                            curList.push_back(templine.substr(pos));
                         }
                     }
-                    else
+
+                    if (!ruleCheck(behaviortemplate.optionlist[lowerformat].compulsory,
+                                   curList,
+                                   behaviortemplate,
+                                   lowerformat))
+                    {
+                        ErrorMessage(1035, filename, linecount);
+                    }
+
+                    if (!ruleCheck(behaviortemplate.optionlist[lowerformat].ruleOne,
+                                   curList,
+                                   behaviortemplate,
+                                   lowerformat))
                     {
                         ErrorMessage(1035, filename, linecount);
                     }

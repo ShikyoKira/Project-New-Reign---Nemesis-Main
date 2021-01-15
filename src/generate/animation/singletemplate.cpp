@@ -1,5 +1,5 @@
 #include "utilities/conditions.h"
-#include "utilities/stringsplit.h"
+#include "utilities/stringextension.h"
 
 #include "generate/animation/newanimation.h"
 #include "generate/animation/singletemplate.h"
@@ -110,8 +110,8 @@ void AnimTemplate::ExamineTemplate(
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
-                generatedlines.back()->rawlist.push_back(nemesis::LinkedVar<string>());
-                generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+                generatedlines.back()->rawlist.emplace_back(nemesis::LinkedVar<string>());
+                generatedlines.back()->rawlist.back().nestedcond.emplace_back(nemesis::CondVar<string>());
                 generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
                 generatedlines.back()->conditions    = match[1];
                 generatedlines.back()->next          = make_shared<nemesis::Condt>(match[1],
@@ -124,7 +124,7 @@ void AnimTemplate::ExamineTemplate(
                                                                           isMaster,
                                                                           optionlist);
                 generatedlines.back()->linenum       = i + 1;
-                generatedlines.back()->conditionType = nemesis::CONDITION_START;
+                generatedlines.back()->conditionType = nemesis::CondType::IF;
                 uniqueskip                           = true;
             }
             else if (nemesis::regex_search(line, match, nemesis::regex(".*<!-- CONDITION \\^(.+?)\\^ -->.*")))
@@ -139,7 +139,7 @@ void AnimTemplate::ExamineTemplate(
                 }
 
                 generatedlines.pop_back();
-                generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+                generatedlines.back()->rawlist.back().nestedcond.emplace_back(nemesis::CondVar<string>());
                 generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
                 generatedlines.back()->conditions    = match[1];
                 generatedlines.back()->next          = make_shared<nemesis::Condt>(match[1],
@@ -152,7 +152,7 @@ void AnimTemplate::ExamineTemplate(
                                                                           isMaster,
                                                                           optionlist);
                 generatedlines.back()->linenum       = i + 1;
-                generatedlines.back()->conditionType = nemesis::CONDITION;
+                generatedlines.back()->conditionType = nemesis::CondType::ELSEIF;
                 uniqueskip                           = true;
             }
             else if (line.find("<!-- CONDITION -->", 0) != NOT_FOUND)
@@ -162,7 +162,7 @@ void AnimTemplate::ExamineTemplate(
                 generatedlines.pop_back();
                 generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
                 generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
-                generatedlines.back()->conditionType = nemesis::CONDITION_DEFAULT;
+                generatedlines.back()->conditionType = nemesis::CondType::ELSE;
                 uniqueskip                           = true;
             }
             else if (line.find("<!-- NEW ^", 0) != NOT_FOUND && line.find("^ -->", 0) != NOT_FOUND)
@@ -176,8 +176,8 @@ void AnimTemplate::ExamineTemplate(
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
-                generatedlines.back()->rawlist.push_back(nemesis::LinkedVar<string>());
-                generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+                generatedlines.back()->rawlist.emplace_back(nemesis::LinkedVar<string>());
+                generatedlines.back()->rawlist.back().nestedcond.emplace_back(nemesis::CondVar<string>());
                 generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
                 generatedlines.back()->conditions = getOption(line);
                 generatedlines.back()->next = make_shared<nemesis::Condt>(generatedlines.back()->conditions,
@@ -190,7 +190,7 @@ void AnimTemplate::ExamineTemplate(
                                                                           isMaster,
                                                                           optionlist);
                 generatedlines.back()->linenum       = i + 1;
-                generatedlines.back()->conditionType = nemesis::NEW;
+                generatedlines.back()->conditionType = nemesis::CondType::IF;
                 newOpen                              = true;
                 uniqueskip                           = true;
             }
@@ -205,8 +205,8 @@ void AnimTemplate::ExamineTemplate(
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
-                generatedlines.back()->rawlist.push_back(nemesis::LinkedVar<string>());
-                generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+                generatedlines.back()->rawlist.emplace_back(nemesis::LinkedVar<string>());
+                generatedlines.back()->rawlist.back().nestedcond.emplace_back(nemesis::CondVar<string>());
                 generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
                 generatedlines.back()->conditions = getOption(line);
 
@@ -227,7 +227,7 @@ void AnimTemplate::ExamineTemplate(
                                                                           optionlist);
                 generatedlines.back()->linenum       = i + 1;
                 generatedlines.back()->isMulti       = true;
-                generatedlines.back()->conditionType = nemesis::FOREACH;
+                generatedlines.back()->conditionType = nemesis::CondType::FOREACH;
 
                 newOpen    = true;
                 uniqueskip = true;
@@ -245,8 +245,8 @@ void AnimTemplate::ExamineTemplate(
                     if ((*it)->isMulti) multiOption = (*it)->conditions;
                 }
 
-                generatedlines.back()->rawlist.push_back(nemesis::LinkedVar<string>());
-                generatedlines.back()->rawlist.back().nestedcond.push_back(nemesis::CondVar<string>());
+                generatedlines.back()->rawlist.emplace_back(nemesis::LinkedVar<string>());
+                generatedlines.back()->rawlist.back().nestedcond.emplace_back(nemesis::CondVar<string>());
                 generatedlines.push_back(&generatedlines.back()->rawlist.back().nestedcond.back());
                 generatedlines.back()->conditions = nemesis::regex_replace(
                     string(line), nemesis::regex(".*<!-- NEW ORDER (.+?) -->.*"), string("\\1"));
@@ -261,13 +261,13 @@ void AnimTemplate::ExamineTemplate(
                                                                           optionlist);
                 generatedlines.back()->linenum       = i + 1;
                 generatedlines.back()->isOrder       = true;
-                generatedlines.back()->conditionType = nemesis::NEW_ORDER;
+                generatedlines.back()->conditionType = nemesis::CondType::IF;
                 newOpen                              = true;
                 uniqueskip                           = true;
             }
             else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
             {
-                if (!newOpen) ErrorMessage(1171, format, behaviorFile, i + 1);
+                if (!newOpen) ErrorMessage(1118, format, behaviorFile, i + 1);
 
                 generatedlines.pop_back();
                 newOpen    = false;
@@ -386,9 +386,9 @@ void AnimTemplate::Process(const string& line,
     if (line.find("$") != NOT_FOUND)
     {
         nemesis::regex exp("(?<!MID)(?<!\\$MC)(?<!" + format + "_master)(?<!" + format
-                           + "_group)(?<!\\$%)\\$(?!%\\$)(?!MC\\$)(?!elements\\$)(.+?)(?<!MID)(?<!\\$MC)(?<!"
+                           + R"(_group)(?<!\$%)\$(?!%\$)(?!MC\$)(?!elements\$)(.+?)(?<!MID)(?<!\$MC)(?<!)"
                            + format + "_master)(?<!" + format
-                           + "_group)(?<!\\$%)\\$(?!%\\$)(?!MC\\$)(?!elements\\$)");
+                           + R"(_group)(?<!\$%)\$(?!%\$)(?!MC\$)(?!elements\$))");
 
         for (nemesis::regex_iterator itr(line, exp); itr != nemesis::regex_iterator(); ++itr)
         {
@@ -451,7 +451,7 @@ void AnimTemplate::Process(const string& line,
 
                 if (curElements.size() == 1)
                 {
-                    m_conditions.push_back(nemesis::MultiChoice("",
+                    m_conditions.emplace_back(nemesis::MultiChoice("",
                                                                 format,
                                                                 behaviorFile,
                                                                 multiOption,
@@ -465,7 +465,7 @@ void AnimTemplate::Process(const string& line,
                 else if (curElements.size() > 1)
                 {
                     pos = pos + output.length();
-                    m_conditions.push_back(nemesis::MultiChoice(curElements[0],
+                    m_conditions.emplace_back(nemesis::MultiChoice(curElements[0],
                                                                 format,
                                                                 behaviorFile,
                                                                 multiOption,
@@ -767,7 +767,7 @@ void mainAnimEventInstall(string format,
             {
                 ErrorMessage(1056, format + "_group", behaviorFile, numline, change);
             }
-                
+
             func = &proc::MAEBackGroup;
         }
         else if (first == "L")
@@ -851,8 +851,8 @@ void ProcessFunction(string change,
             for (__int64 j = 0; j < maths; ++j)
             {
                 string equation = change.substr(nextpos, change.find(")", nextpos) - 1);
-                string number   = "";
-                string ID       = "";
+                string number;
+                string ID;
 
                 if (equation.find("(S", 0) != NOT_FOUND)
                 {
@@ -897,7 +897,7 @@ void ProcessFunction(string change,
 
     if (change.find("END", 0) != NOT_FOUND)
     {
-        nemesis::regex expr(shortcut + "\\[(F|N|B|L|[0-9]*)\\]\\[END\\]");
+        nemesis::regex expr(shortcut + R"(\[(F|N|B|L|[0-9]*)\]\[END\])");
 
         for (auto& itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator(); ++itr)
         {
@@ -924,7 +924,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::endNextGroup;
             }
             else if (first == "B")
@@ -937,7 +937,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::endBackGroup;
             }
             else if (first == "L")
@@ -971,8 +971,8 @@ void ProcessFunction(string change,
             isMC ? lineblocks[blok->size].push_back(blok) : process.installBlock(*blok, numline);
         }
 
-        expr = nemesis::regex("(?<!" + shortcut + "\\[[F|N|B|L|\\d]\\]\\[)(?<!" + shortcut + "\\[\\]\\[)(?<!"
-                              + shortcut + "\\[\\d\\d\\]\\[)(END)");
+        expr = nemesis::regex("(?<!" + shortcut + R"(\[[F|N|B|L|\d]\]\[)(?<!)" + shortcut + R"(\[\]\[)(?<!)"
+                              + shortcut + R"(\[\d\d\]\[)(END))");
 
         for (auto& itr = nemesis::regex_iterator(change, expr); itr != nemesis::regex_iterator(); ++itr)
         {
@@ -1021,7 +1021,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::stateNextGroup;
             }
             else if (first == "B")
@@ -1034,7 +1034,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::stateBackGroup;
             }
             else if (first == "L")
@@ -1161,7 +1161,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::filepathNextGroup;
             }
             else if (first == "B")
@@ -1174,7 +1174,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::filepathBackGroup;
             }
             else if (first == "L")
@@ -1610,7 +1610,7 @@ void ProcessFunction(string change,
                         {
                             ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                         }
-                
+
                         func = &proc::addOnNextGroup;
                     }
                     else if (first == "B")
@@ -1623,7 +1623,7 @@ void ProcessFunction(string change,
                         {
                             ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                         }
-                
+
                         func = &proc::addOnBackGroup;
                     }
                     else if (first == "L")
@@ -1992,7 +1992,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::motionDataNextGroup;
             }
             else if (first == "B")
@@ -2005,7 +2005,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::motionDataBackGroup;
             }
             else if (first == "L")
@@ -2078,7 +2078,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::rotationDataNextGroup;
             }
             else if (first == "B")
@@ -2091,7 +2091,7 @@ void ProcessFunction(string change,
                 {
                     ErrorMessage(1056, format + "_group", behaviorFile, numline, line);
                 }
-                
+
                 func = &proc::rotationDataBackGroup;
             }
             else if (first == "L")

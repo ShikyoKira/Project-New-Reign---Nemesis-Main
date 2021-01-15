@@ -15,8 +15,14 @@ private:
     nemesis::LinkedVar<crc32> filename;
     nemesis::LinkedVar<std::string> extension;
 
+    bool Validation(const nemesis::Line& line);
+
 public:
     void getlines(VecStr& storeline);
+
+    bool AddFilePath(const nemesis::Line& _filepath);
+    bool AddFileName(const nemesis::Line& _filename);
+    bool AddExtension(const nemesis::Line& _extension);
 
     friend struct AnimSetData;
 };

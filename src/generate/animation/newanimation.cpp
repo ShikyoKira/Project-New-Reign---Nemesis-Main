@@ -4,7 +4,7 @@
 #include "utilities/atomiclock.h"
 #include "utilities/compute.h"
 #include "utilities/conditions.h"
-#include "utilities/stringsplit.h"
+#include "utilities/stringextension.h"
 
 #include "generate/alternateanimation.h"
 
@@ -105,9 +105,9 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
     auto optPickPtr = (std::vector<unordered_map<string, bool>>*) &groupOptionPicked;
     optPickPtr->reserve(groupAnimInfo.size());
 
-    for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+    for (const auto& i : groupAnimInfo)
     {
-        optPickPtr->push_back(groupAnimInfo[i]->optionPicked);
+        optPickPtr->push_back(i->optionPicked);
     }
 
     generatedlines->reserve((*animtemplate)[behaviorFile].size + 10 * memory);
@@ -194,23 +194,23 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
                     args->subFunctionIDs);
     }
 
-    for (auto it = addOn.begin(); it != addOn.end(); ++it)
+    for (auto & it : addOn)
     {
-        for (auto& elementName : it->second)
+        for (auto& elementName : it.second)
         {
             string optionName;
 
-            if (addition[it->first][elementName].length() != 0)
+            if (addition[it.first][elementName].length() != 0)
             {
-                optionName = it->first;
+                optionName = it.first;
                 subFunctionIDs->format[optionName + "[" + elementName + "]"]
                     = addition[optionName][elementName];
             }
             else
             {
-                if (mixOptRegis[it->first].length() != 0)
+                if (mixOptRegis[it.first].length() != 0)
                 {
-                    optionName = mixOptRegis[it->first];
+                    optionName = mixOptRegis[it.first];
 
                     for (int k = 0; k < optionPickedCount[optionName]; ++k)
                     {
@@ -223,7 +223,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
                 }
                 else
                 {
-                    optionName = it->first;
+                    optionName = it.first;
 
                     for (uint j = 0; j < groupAddition[optionName][elementName].size(); ++j)
                     {
@@ -235,14 +235,14 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
         }
     }
 
-    if (AnimObject.size() != 0)
+    if (!AnimObject.empty())
     {
-        for (auto it = AnimObject.begin(); it != AnimObject.end(); ++it)
+        for (auto& it : AnimObject)
         {
-            for (uint i = 0; i < it->second.size(); ++i)
+            for (uint i = 0; i < it.second.size(); ++i)
             {
-                subFunctionIDs->format["@AnimObject/" + to_string(it->first) + "[" + to_string(i) + "]"]
-                    = it->second[i];
+                subFunctionIDs->format["@AnimObject/" + to_string(it.first) + "[" + to_string(i) + "]"]
+                    = it.second[i];
             }
         }
     }
@@ -266,7 +266,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
     subFunctionIDs->format["FileName"]        = filename.substr(0, filename.find_last_of("."));
     subFunctionIDs->format["Path"]            = filepath.substr(0, filepath.length() - 1);
 
-    if (generatedlines->size() != 0)
+    if (!generatedlines->empty())
     {
         if (!generatedlines->back().empty())
         {
@@ -306,7 +306,7 @@ VecStr NewAnimation::GetVariableID()
     return variableID;
 }
 
-SSMap NewAnimation::GetMixOpt()
+UMapStr2 NewAnimation::GetMixOpt()
 {
     return mixOptRegis;
 }
@@ -353,12 +353,12 @@ void NewAnimation::storeAnimObject(VecStr animobjects, string listFilename, int 
 {
     size_t position;
 
-    for (unsigned int i = 0; i < animobjects.size(); ++i)
+    for (const auto& animobject : animobjects)
     {
-        position = animobjects[i].find("/");
+        position = animobject.find("/");
 
-        string ObjectName = animobjects[i].substr(0, animobjects[i].find("/", position));
-        int temp          = stoi(animobjects[i].substr(position + 1, 2));
+        string ObjectName = animobject.substr(0, animobject.find("/", position));
+        int temp          = stoi(animobject.substr(position + 1, 2));
 
         if (temp == 0 || temp > groupAnimInfo[order]->animObjectCount)
         {
@@ -1571,7 +1571,7 @@ void NewAnimation::processing(string& line,
 
                 string test = nemesis::regex_replace(
                     string(change),
-                    nemesis::regex(".*" + format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
+                    nemesis::regex(".*" + format + R"(\[([0-9]+)\]\[main_anim_event\].*)"),
                     string("\\1"));
 
                 if (test != change)
@@ -1649,7 +1649,7 @@ void NewAnimation::processing(string& line,
             if (change.find("LastState", 0) != NOT_FOUND)
             {
                 size_t ID     = 0;
-                string number = "";
+                string number;
 
                 if (fixedStateID.size() > 1)
                 {
@@ -1738,7 +1738,7 @@ void NewAnimation::processing(string& line,
 
                     size_t pos     = importer.find("[") + 1;
                     string file    = importer.substr(pos, importer.find("]", pos) - pos);
-                    string keyword = "";
+                    string keyword;
                     string tempID;
 
                     if (bracketCount > 1)
@@ -1747,10 +1747,8 @@ void NewAnimation::processing(string& line,
                         string tempKeyword = importer.substr(pos, importer.find_last_of("]") + 1 - pos);
                         int openBrack      = 0;
 
-                        for (uint j = 0; j < tempKeyword.length(); ++j)
+                        for (char curChar : tempKeyword)
                         {
-                            char curChar = tempKeyword[j];
-
                             if (curChar == '[')
                             {
                                 ++openBrack;
@@ -1860,7 +1858,7 @@ void addOnReplacer(string& line,
                    unordered_map<string, VecStr> addOn,
                    ImportContainer addition,
                    unordered_map<string, unordered_map<string, VecStr>> groupAddition,
-                   SSMap mixOpt,
+                   UMapStr2 mixOpt,
                    uint optionMulti,
                    string format,
                    int numline)
@@ -1887,22 +1885,17 @@ void addOnReplacer(string& line,
 
                         line.replace(pos, add.length(), addition[it->first][it->second[j]]);
                     }
+                    else if(int(groupAddition[it->first][it->second[j]].size()) <= optionMulti)
+                    {
+                        ErrorMessage(1141);
+                    }
+                    else if (groupAddition[it->first][it->second[j]][optionMulti].length() == 0)
+                    {
+                        ErrorMessage(1117, format + "_group", filename, numline, line);
+                    }
                     else
                     {
-                        if (int(groupAddition[it->first][it->second[j]].size()) > optionMulti)
-                        {
-                            if (groupAddition[it->first][it->second[j]][optionMulti].length() == 0)
-                            {
-                                ErrorMessage(1117, format + "_group", filename, numline, line);
-                            }
-
-                            line.replace(
-                                pos, add.length(), groupAddition[it->first][it->second[j]][optionMulti]);
-                        }
-                        else
-                        {
-                            ErrorMessage(1141);
-                        }
+                        line.replace(pos, add.length(), groupAddition[it->first][it->second[j]][optionMulti]);
                     }
                 }
             }
@@ -1926,22 +1919,17 @@ void addOnReplacer(string& line,
 
                         line.replace(pos, add.length(), addition[option][it->second[j]]);
                     }
+                    else if (int(groupAddition[option][it->second[j]].size()) <= optionMulti)
+                    {
+                        ErrorMessage(1141);
+                    }
+                    else if (groupAddition[option][it->second[j]][optionMulti].length() == 0)
+                    {
+                        ErrorMessage(1117, format + "_group", filename, numline, line);
+                    }
                     else
                     {
-                        if (int(groupAddition[option][it->second[j]].size()) > optionMulti)
-                        {
-                            if (groupAddition[option][it->second[j]][optionMulti].length() == 0)
-                            {
-                                ErrorMessage(1117, format + "_group", filename, numline, line);
-                            }
-
-                            line.replace(
-                                pos, add.length(), groupAddition[option][it->second[j]][optionMulti]);
-                        }
-                        else
-                        {
-                            ErrorMessage(1141);
-                        }
+                        line.replace(pos, add.length(), groupAddition[option][it->second[j]][optionMulti]);
                     }
                 }
             }
@@ -2043,20 +2031,18 @@ void NewAnimation::stateReplacer(
         {
             size_t stateposition = line.find(state, 0);
 
-            if (state == line.substr(stateposition, line.find(")", stateposition) - stateposition + 1))
-            {
-                size_t stateLength = state.length();
-                state.replace(1, 1 + statenum.length(), to_string(stateID));
-                nemesis::calculate(state, format, behaviorFile, linecount);
-
-                int ID = statenum.length() > 0 ? stoi(statenum) - 1 : 0;
-                subFunctionIDs->format["(S" + statenum + "+" + number + ")"] = state;
-                line.replace(stateposition, stateLength, state);
-            }
-            else
+            if (state != line.substr(stateposition, line.find(")", stateposition) - stateposition + 1))
             {
                 ErrorMessage(1137, format, behaviorFile, linecount, templine.substr(0, templine.find(")")));
             }
+
+            size_t stateLength = state.length();
+            state.replace(1, 1 + statenum.length(), to_string(stateID));
+            nemesis::calculate(state, format, behaviorFile, linecount);
+
+            int ID = statenum.length() > 0 ? stoi(statenum) - 1 : 0;
+            subFunctionIDs->format["(S" + statenum + "+" + number + ")"] = state;
+            line.replace(stateposition, stateLength, state);
         }
     }
 }
@@ -3253,22 +3239,73 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
 
             if (IsConditionOpened[condition])
             {
-                if (!open)
-                {
-                    size_t orderPosition = line.find("<!-- NEW ORDER ") + 15;
-                    string curOrder
-                        = line.substr(orderPosition, line.find(" -->", orderPosition) - orderPosition);
-                    bool isNot = false;
+                if (open) ErrorMessage(1114, format, behaviorFile, i + 1);
 
-                    if (curOrder[0] == '!')
+                size_t orderPosition = line.find("<!-- NEW ORDER ") + 15;
+                string curOrder
+                    = line.substr(orderPosition, line.find(" -->", orderPosition) - orderPosition);
+                bool isNot = false;
+
+                if (curOrder[0] == '!')
+                {
+                    isNot    = true;
+                    curOrder = curOrder.substr(1);
+                }
+
+                if (isOnlyNumber(curOrder))
+                {
+                    if (order != stoi(curOrder))
                     {
-                        isNot    = true;
-                        curOrder = curOrder.substr(1);
+                        if (!isNot) skip = true;
+                    }
+                    else if (isNot)
+                    {
+                        skip = true;
+                    }
+                }
+                else
+                {
+                    bool word    = false;
+                    bool unknown = false;
+                    bool number  = false;
+
+                    for (uint j = 0; j < curOrder.size(); ++j)
+                    {
+                        if (isalpha(curOrder[j]))
+                            word = true;
+                        else if (isdigit(curOrder[j]))
+                            number = true;
+                        else
+                            unknown = true;
                     }
 
-                    if (isOnlyNumber(curOrder))
+                    if (word & number)
                     {
-                        if (order != stoi(curOrder))
+                        ErrorMessage(1110, format, behaviorFile, i + 1);
+                    }
+                    else if (unknown)
+                    {
+                        ErrorMessage(1111, format, behaviorFile, i + 1);
+                    }
+                    else if (!word)
+                    {
+                        ErrorMessage(1113, format, behaviorFile, i + 1);
+                    }
+
+                    if (nemesis::iequals(curOrder, "last"))
+                    {
+                        if (!isLastOrder)
+                        {
+                            if (!isNot) skip = true;
+                        }
+                        else if (isNot)
+                        {
+                            skip = true;
+                        }
+                    }
+                    else if (nemesis::iequals(curOrder, "first"))
+                    {
+                        if (order != 0)
                         {
                             if (!isNot) skip = true;
                         }
@@ -3279,66 +3316,8 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                     }
                     else
                     {
-                        bool word    = false;
-                        bool unknown = false;
-                        bool number  = false;
-
-                        for (uint j = 0; j < curOrder.size(); ++j)
-                        {
-                            if (isalpha(curOrder[j]))
-                                word = true;
-                            else if (isdigit(curOrder[j]))
-                                number = true;
-                            else
-                                unknown = true;
-                        }
-
-                        if (word & number)
-                        {
-                            ErrorMessage(1110, format, behaviorFile, i + 1);
-                        }
-                        else if (unknown)
-                        {
-                            ErrorMessage(1111, format, behaviorFile, i + 1);
-                        }
-                        else if (word)
-                        {
-                            if (nemesis::iequals(curOrder, "last"))
-                            {
-                                if (!isLastOrder)
-                                {
-                                    if (!isNot) skip = true;
-                                }
-                                else if (isNot)
-                                {
-                                    skip = true;
-                                }
-                            }
-                            else if (nemesis::iequals(curOrder, "first"))
-                            {
-                                if (order != 0)
-                                {
-                                    if (!isNot) skip = true;
-                                }
-                                else if (isNot)
-                                {
-                                    skip = true;
-                                }
-                            }
-                            else
-                            {
-                                ErrorMessage(1112, format, behaviorFile, i + 1);
-                            }
-                        }
-                        else
-                        {
-                            ErrorMessage(1113, format, behaviorFile, i + 1);
-                        }
+                        ErrorMessage(1112, format, behaviorFile, i + 1);
                     }
-                }
-                else
-                {
-                    ErrorMessage(1114, format, behaviorFile, i + 1);
                 }
             }
 
@@ -3347,7 +3326,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
         }
         else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
         {
-            if (!newOpen) ErrorMessage(1171, format, behaviorFile, i + 1);
+            if (!newOpen) ErrorMessage(1118, format, behaviorFile, i + 1);
 
             newOpen    = false;
             uniqueskip = true;
@@ -4256,7 +4235,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
         }
         else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
         {
-            if (!newOpen) ErrorMessage(1171, format, behaviorFile, i + 1);
+            if (!newOpen) ErrorMessage(1118, format, behaviorFile, i + 1);
 
             newOpen    = false;
             uniqueskip = true;
@@ -5077,7 +5056,7 @@ void NewAnimation::conditionCheck(nemesis::LinkedVar<string>& curstack,
     {
         switch (curcond.conditionType)
         {
-            case nemesis::FOREACH:
+            case nemesis::CondType::FOREACH:
             {
                 int dummy;
                 int openOrder = -2;
@@ -5148,118 +5127,8 @@ void NewAnimation::conditionCheck(nemesis::LinkedVar<string>& curstack,
                 animThrInfo.optionMulti = optionMulti;
                 break;
             }
-            case nemesis::NEW_ORDER:
-            {
-                string curOrder = curcond.conditions;
-                bool isNot      = false;
-                bool skip       = false;
-
-                if (curOrder[0] == '!')
-                {
-                    isNot    = true;
-                    curOrder = curOrder.substr(1);
-                }
-
-                if (isOnlyNumber(curOrder))
-                {
-                    if (order != stoi(curOrder))
-                    {
-                        if (!isNot) skip = true;
-                    }
-                    else if (isNot)
-                    {
-                        skip = true;
-                    }
-                }
-                else
-                {
-                    bool word    = false;
-                    bool unknown = false;
-                    bool number  = false;
-
-                    for (unsigned int j = 0; j < curOrder.size(); ++j)
-                    {
-                        if (isalpha(curOrder[j]))
-                        {
-                            word = true;
-                        }
-                        else if (isdigit(curOrder[j]))
-                        {
-                            number = true;
-                        }
-                        else
-                        {
-                            unknown = true;
-                        }
-                    }
-
-                    if (word & number)
-                    {
-                        ErrorMessage(1110, format, behaviorFile, curcond.linenum);
-                    }
-                    else if (unknown)
-                    {
-                        ErrorMessage(1111, format, behaviorFile, curcond.linenum);
-                    }
-                    else if (word)
-                    {
-                        if (nemesis::iequals(curOrder, "last"))
-                        {
-                            if (!isLastOrder)
-                            {
-                                if (!isNot) skip = true;
-                            }
-                            else if (isNot)
-                            {
-                                skip = true;
-                            }
-                        }
-                        else if (nemesis::iequals(curOrder, "first"))
-                        {
-                            if (order != 0)
-                            {
-                                if (!isNot) skip = true;
-                            }
-                            else if (isNot)
-                            {
-                                skip = true;
-                            }
-                        }
-                        else
-                        {
-                            ErrorMessage(1112, format, behaviorFile, curcond.linenum);
-                        }
-                    }
-                    else
-                    {
-                        ErrorMessage(1113, format, behaviorFile, curcond.linenum);
-                    }
-                }
-
-                if (skip) break;
-
-                OutputCheck(generatedlines,
-                            animThrInfo,
-                            process,
-                            &curcond,
-                            norElement,
-                            openRange,
-                            elementLine,
-                            counter,
-                            eventid,
-                            variableid,
-                            fixedStateID,
-                            stateCountMultiplier,
-                            hasGroup,
-                            negative,
-                            groupFunction,
-                            optionMulti,
-                            animMulti);
-                break;
-            }
-            case nemesis::NEW:
-            case nemesis::CONDITION_START:
-            case nemesis::CONDITION:
+            case nemesis::CondType::IF:
+            case nemesis::CondType::ELSEIF:
             {
                 if (!curcond.next->isTrue(
                         animThrInfo, process, format, behaviorFile, curstack.linecount, false, false))
@@ -5286,7 +5155,7 @@ void NewAnimation::conditionCheck(nemesis::LinkedVar<string>& curstack,
                             animMulti);
                 return;
             }
-            case nemesis::CONDITION_DEFAULT:
+            case nemesis::CondType::ELSE:
             {
                 OutputCheck(generatedlines,
                             animThrInfo,

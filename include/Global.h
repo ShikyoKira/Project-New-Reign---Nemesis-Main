@@ -16,15 +16,6 @@
 
 #include "debugmsg.h"
 
-#include "utilities/line.h"
-
-using VecChar = std::vector<char>;
-using VecStr  = std::vector<std::string>;
-using VecNstr  = std::vector<nemesis::Line>;
-using VecNwstr  = std::vector<nemesis::Wline>;
-using ID      = std::unordered_map<std::string, int>;
-using uint    = unsigned int;
-
 #pragma warning(disable : 4503)
 
 #define NOT_FOUND std::string::npos
@@ -90,9 +81,7 @@ bool GetFunctionLines(std::filesystem::path filename, VecNstr& functionlines, bo
 bool GetFunctionLines(std::filesystem::path filename, VecNwstr& functionlines, bool emptylast = true);
 
 bool GetFunctionLines(std::filesystem::path filename, VecStr& functionlines, bool emptylast = true);
-bool GetFunctionLines(std::filesystem::path filename,
-                      std::vector<std::wstring>& functionlines,
-                      bool emptylast = true);
+bool GetFunctionLines(std::filesystem::path filename, VecWstr& functionlines, bool emptylast = true);
 
 inline bool isFileExist(const std::string& filename)
 {

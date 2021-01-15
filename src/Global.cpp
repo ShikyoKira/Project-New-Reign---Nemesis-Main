@@ -2,6 +2,7 @@
 
 #include "Global.h"
 
+#include "utilities/line.h"
 #include "utilities/algorithm.h"
 #include "utilities/readtextfile.h"
 #include "utilities/writetextfile.h"
@@ -38,6 +39,70 @@ unordered_map<string, VecStr> groupAAPrefix;
 unordered_map<string, VecStr> alternateAnim;
 unordered_map<string, unordered_map<string, int>> AAGroupCount;
 set<string> groupNameList;
+
+template<typename LineType>
+std::shared_ptr<FileReader> CreateReader(const sf::path& filename, Vec<LineType>& functionlines)
+{
+    if (sf::is_directory(filename)) ErrorMessage(3001, filename);
+
+    SPtr<FileReader> filereader = std::make_shared<FileReader>(filename.wstring());
+
+    if (!filereader->GetFile()) ErrorMessage(3002, filename);
+
+    functionlines = Vec<LineType>();
+    functionlines.reserve(100000);
+    return filereader;
+}
+
+template<typename LineType>
+bool ValidateEndLine(bool emptylast, Vec<LineType>& storeline, const Vec<LineType>& exclusions)
+{
+    if (storeline.size() == 0) return false;
+
+    if (emptylast)
+    {
+        if (storeline.back().empty()) return true;
+
+        for (auto& each : exclusions)
+        {
+            if (storeline.back().find(each) != NOT_FOUND) return true;
+        }
+
+        LineType line;
+        storeline.emplace_back(line);
+    }
+    else if (storeline.back().empty())
+    {
+        storeline.pop_back();
+    }
+
+    return true;
+}
+
+template <typename LineType>
+bool ValidateEndLine(bool emptylast, Vec<LineType>& storeline, const Vec<LineType>& exclusions, uint linenum)
+{
+    if (storeline.size() == 0) return false;
+
+    if (emptylast)
+    {
+        if (storeline.back().empty()) return true;
+
+        for (auto& each : exclusions)
+        {
+            if (storeline.back().find(each) != NOT_FOUND) return true;
+        }
+
+        LineType line(linenum);
+        storeline.emplace_back(line);
+    }
+    else if (storeline.back().empty())
+    {
+        storeline.pop_back();
+    }
+
+    return true;
+}
 
 void read_directory(const sf::path& name, VecStr& fv)
 {
@@ -179,171 +244,80 @@ int sameWordCount(wstring line, wstring word)
     return wordCount;
 }
 
+std::mutex mtxreader;
+
 bool GetFunctionLines(std::filesystem::path filename, VecNstr& functionlines, bool emptylast)
 {
-    functionlines = VecNstr();
-
-    if (sf::is_directory(filename)) ErrorMessage(3001, filename.string());
-
-    functionlines.reserve(fileLineCount(filename));
-    FileReader BehaviorFormat(filename.wstring());
-
-    if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filename.string());
-
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     wstring line;
     uint linenum = 0;
 
-    while (BehaviorFormat.GetLines(line))
     {
-        if (error) throw nemesis::exception();
+        lock_guard<mutex> locker(mtxreader);
 
-        functionlines.push_back(nemesis::Line(nemesis::transform_to<string>(line), ++linenum));
-    }
-
-    if (functionlines.size() == 0) return false;
-
-    if (emptylast)
-    {
-        if (functionlines.size() != 0 && functionlines.back().length() != 0
-            && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND
-            && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
+        while (BehaviorFormat->GetLines(line))
         {
-            functionlines.push_back(nemesis::Line("", ++linenum));
-        }
-    }
-    else
-    {
-        if (functionlines.size() != 0 && functionlines.back().length() == 0)
-        {
-            functionlines.pop_back();
+            if (error) throw nemesis::exception();
+
+            functionlines.emplace_back(nemesis::Line(nemesis::transform_to(line), ++linenum));
         }
     }
 
-    return true;
+    bool rst = ValidateEndLine(emptylast, functionlines, {"<!-- CONDITION END -->", "<!-- CLOSE -->"});
+    functionlines.shrink_to_fit();
+    return rst;
 }
 
 bool GetFunctionLines(std::filesystem::path filename, VecNwstr& functionlines, bool emptylast)
 {
-    functionlines = VecNwstr();
-
-    if (sf::is_directory(filename)) ErrorMessage(3001, filename.string());
-
-    functionlines.reserve(fileLineCount(filename));
-    FileReader BehaviorFormat(filename.wstring());
-
-    if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filename.string());
-
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     wstring line;
     uint linenum = 0;
 
-    while (BehaviorFormat.GetLines(line))
+    while (BehaviorFormat->GetLines(line))
     {
         if (error) throw nemesis::exception();
 
-        functionlines.push_back(nemesis::Wline(line, ++linenum));
+        functionlines.emplace_back(nemesis::Wline(line, ++linenum));
     }
 
-    if (functionlines.size() == 0) return false;
-
-    if (emptylast)
-    {
-        if (functionlines.size() != 0 && functionlines.back().length() != 0
-            && functionlines.back().find(L"<!-- CONDITION END -->") == NOT_FOUND
-            && functionlines.back().find(L"<!-- CLOSE -->") == NOT_FOUND)
-        {
-            functionlines.push_back(nemesis::Wline(L"", ++linenum));
-        }
-    }
-    else
-    {
-        if (functionlines.size() != 0 && functionlines.back().length() == 0)
-        {
-            functionlines.pop_back();
-        }
-    }
-
-    return true;
+    bool rst = ValidateEndLine(emptylast, functionlines, {L"<!-- CONDITION END -->", L"<!-- CLOSE -->"});
+    functionlines.shrink_to_fit();
+    return rst;
 }
 
 bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
 {
-	functionlines = VecStr();
-
-	if (sf::is_directory(filename)) ErrorMessage(3001, filename.string());
-
-    functionlines.reserve(fileLineCount(filename));
-    FileReader BehaviorFormat(filename.wstring());
-
-    if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filename.string());
-
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     wstring line;
 
-    while (BehaviorFormat.GetLines(line))
+    while (BehaviorFormat->GetLines(line))
     {
         if (error) throw nemesis::exception();
 
-        functionlines.push_back(nemesis::transform_to<string>(line));
+        functionlines.emplace_back(nemesis::transform_to(line));
     }
 
-	if (functionlines.size() == 0) return false;
-
-	if (emptylast)
-	{
-		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find("<!-- CONDITION END -->") == NOT_FOUND && functionlines.back().find("<!-- CLOSE -->") == NOT_FOUND)
-		{
-			functionlines.push_back("");
-		}
-	}
-	else
-	{
-		if (functionlines.size() != 0 && functionlines.back().length() == 0)
-		{
-			functionlines.pop_back();
-		}
-	}
-
-	return true;
+    bool rst = ValidateEndLine(emptylast, functionlines, {"<!-- CONDITION END -->", "<!-- CLOSE -->"});
+    functionlines.shrink_to_fit();
+    return rst;
 }
 
 bool GetFunctionLines(sf::path filename, VecWstr& functionlines, bool emptylast)
 {
-    functionlines = VecWstr();
-
-	if (sf::is_directory(filename)) ErrorMessage(3001, filename.string());
-
-    functionlines.reserve(fileLineCount(filename));
-    FileReader BehaviorFormat(filename.wstring());
-
-    if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filename.string());
-
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     wstring line;
 
-    while (BehaviorFormat.GetLines(line))
+    while (BehaviorFormat->GetLines(line))
     {
         if (error) throw nemesis::exception();
 
         functionlines.push_back(line);
     }
 
-	if (functionlines.size() == 0) return false;
-
-	if (emptylast)
-	{
-		if (functionlines.size() != 0 && functionlines.back().length() != 0 && functionlines.back().find(L"<!-- CONDITION END -->") == NOT_FOUND &&
-			functionlines.back().find(L"<!-- CLOSE -->") == NOT_FOUND)
-		{
-			functionlines.push_back(L"");
-		}
-	}
-	else
-	{
-		if (functionlines.size() != 0 && functionlines.back().length() == 0)
-		{
-			functionlines.pop_back();
-		}
-	}
-
-	return true;
+    bool rst = ValidateEndLine(emptylast, functionlines, {L"<!-- CONDITION END -->", L"<!-- CLOSE -->"});
+    functionlines.shrink_to_fit();
+    return rst;
 }
 
 size_t wordFind(string line, string word, bool isLast)

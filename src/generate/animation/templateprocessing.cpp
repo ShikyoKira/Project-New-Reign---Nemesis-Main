@@ -71,6 +71,22 @@ void stateInput(string& state,
     }
 }
 
+void proc::motionValidation(const AnimThreadInfo& curAnimInfo) const
+{
+    if (!curAnimInfo.fixedStateID.empty() || !curAnimInfo.eventid.empty() || !curAnimInfo.variableid.empty())
+    {
+        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
+    }
+}
+
+void proc::rotationValidation(const AnimThreadInfo& curAnimInfo) const
+{
+    if (!curAnimInfo.fixedStateID.empty() || !curAnimInfo.eventid.empty() || !curAnimInfo.variableid.empty())
+    {
+        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
+    }
+}
+
 void proc::installBlock(nemesis::scope blok, int curline)
 {
     blockCheck(blok.front, blok.back, curline);
@@ -113,7 +129,7 @@ void proc::rangeCompute(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& cur
 {
     (*curAnimInfo.generatedlines)[curAnimInfo.elementLine]
         = nemesis::regex_replace(string((*curAnimInfo.generatedlines)[curAnimInfo.elementLine]),
-                                 nemesis::regex("(.*<hkparam name\\=\".+\" numelements\\=\").+(\">.*)"),
+                                 nemesis::regex(R"((.*<hkparam name\=".+" numelements\=").+(">.*))"),
                                  string("\\1" + to_string(curAnimInfo.counter) + "\\2"));
     curAnimInfo.norElement  = false;
     curAnimInfo.counter     = 0;
@@ -1649,7 +1665,7 @@ void proc::addOnMultiGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& 
         VecStr* list = &curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]
                             ->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             string output = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]
                                 ->addition[blok.olddata[0]][blok.olddata[1]];
@@ -1684,7 +1700,7 @@ void proc::addOnFirstGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& 
         VecStr* list
             = &curAnimInfo.curAnim->GetGroupAnimInfo()[0]->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             string output
                 = curAnimInfo.curAnim->GetGroupAnimInfo()[0]->addition[blok.olddata[0]][blok.olddata[1]];
@@ -1723,7 +1739,7 @@ void proc::addOnNextGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& c
         VecStr* list = &curAnimInfo.curAnim->GetGroupAnimInfo()[curorder]
                             ->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             string output = curAnimInfo.curAnim->GetGroupAnimInfo()[curorder]
                                 ->addition[blok.olddata[0]][blok.olddata[1]];
@@ -1762,7 +1778,7 @@ void proc::addOnBackGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& c
         VecStr* list = &curAnimInfo.curAnim->GetGroupAnimInfo()[curorder]
                             ->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             string output = curAnimInfo.curAnim->GetGroupAnimInfo()[curorder]
                                 ->addition[blok.olddata[0]][blok.olddata[1]];
@@ -1797,7 +1813,7 @@ void proc::addOnLastGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& c
         VecStr* list = &curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]
                             ->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             if (curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]
                     ->addition[blok.olddata[0]][blok.olddata[1]]
@@ -1840,7 +1856,7 @@ void proc::addOnNumGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& cu
         VecStr* list
             = &curAnimInfo.curAnim->GetGroupAnimInfo()[num]->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             string output
                 = curAnimInfo.curAnim->GetGroupAnimInfo()[num]->addition[blok.olddata[0]][blok.olddata[1]];
@@ -1882,7 +1898,7 @@ void proc::addOnMultiMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo&
         VecStr* list = &curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti]
                             ->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             string output = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti]
                                 ->addition[blok.olddata[0]][blok.olddata[1]];
@@ -1922,7 +1938,7 @@ void proc::addOnFirstMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo&
         VecStr* list = &curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0]
                             ->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             string output = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0]
                                 ->addition[blok.olddata[0]][blok.olddata[1]];
@@ -1962,7 +1978,7 @@ void proc::addOnLastMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& 
         VecStr* list = &curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder]
                             ->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             string output = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder]
                                 ->addition[blok.olddata[0]][blok.olddata[1]];
@@ -2004,7 +2020,7 @@ void proc::addOnNumMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& c
         VecStr* list = &curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num]
                             ->groupAddition[blok.olddata[0]][blok.olddata[1]];
 
-        if (list->size() == 0 || curAnimInfo.optionMulti == -1)
+        if (list->empty() || curAnimInfo.optionMulti == -1)
         {
             string output = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num]
                                 ->addition[blok.olddata[0]][blok.olddata[1]];
@@ -2159,7 +2175,7 @@ void proc::import(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimIn
         {
             size_t pos     = import.find("[") + 1;
             string file    = import.substr(pos, import.find("]", pos) - pos);
-            string keyword = "";
+            string keyword;
             string tempID;
 
             if (import.find("[", pos) != NOT_FOUND)
@@ -2168,10 +2184,8 @@ void proc::import(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimIn
                 string tempKeyword = import.substr(pos, import.find_last_of("]") + 1 - pos);
                 int openBrack      = 0;
 
-                for (unsigned int j = 0; j < tempKeyword.length(); ++j)
+                for (char curChar : tempKeyword)
                 {
-                    char curChar = tempKeyword[j];
-
                     if (curChar == '[')
                     {
                         ++openBrack;
@@ -2223,11 +2237,7 @@ void proc::import(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimIn
 
 void proc::motionDataMultiGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (curAnimInfo.animMulti == -1)
     {
@@ -2249,9 +2259,9 @@ void proc::motionDataMultiGroup(nemesis::scope blok, VecStr& blocks, AnimThreadI
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2261,11 +2271,7 @@ void proc::motionDataMultiGroup(nemesis::scope blok, VecStr& blocks, AnimThreadI
 
 void proc::motionDataFirstGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
@@ -2282,9 +2288,9 @@ void proc::motionDataFirstGroup(nemesis::scope blok, VecStr& blocks, AnimThreadI
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2294,11 +2300,7 @@ void proc::motionDataFirstGroup(nemesis::scope blok, VecStr& blocks, AnimThreadI
 
 void proc::motionDataNextGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
@@ -2317,9 +2319,9 @@ void proc::motionDataNextGroup(nemesis::scope blok, VecStr& blocks, AnimThreadIn
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2329,11 +2331,7 @@ void proc::motionDataNextGroup(nemesis::scope blok, VecStr& blocks, AnimThreadIn
 
 void proc::motionDataBackGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
@@ -2352,9 +2350,9 @@ void proc::motionDataBackGroup(nemesis::scope blok, VecStr& blocks, AnimThreadIn
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2364,11 +2362,7 @@ void proc::motionDataBackGroup(nemesis::scope blok, VecStr& blocks, AnimThreadIn
 
 void proc::motionDataLastGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
@@ -2385,9 +2379,9 @@ void proc::motionDataLastGroup(nemesis::scope blok, VecStr& blocks, AnimThreadIn
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2397,11 +2391,7 @@ void proc::motionDataLastGroup(nemesis::scope blok, VecStr& blocks, AnimThreadIn
 
 void proc::motionDataNumGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     size_t num = blok.olddataint[0];
 
@@ -2425,9 +2415,9 @@ void proc::motionDataNumGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInf
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2437,11 +2427,7 @@ void proc::motionDataNumGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInf
 
 void proc::motionDataMultiMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (curAnimInfo.animMulti == -1)
     {
@@ -2469,9 +2455,9 @@ void proc::motionDataMultiMaster(nemesis::scope blok, VecStr& blocks, AnimThread
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2481,11 +2467,7 @@ void proc::motionDataMultiMaster(nemesis::scope blok, VecStr& blocks, AnimThread
 
 void proc::motionDataFirstMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (curAnimInfo.groupMulti == -1)
     {
@@ -2507,9 +2489,9 @@ void proc::motionDataFirstMaster(nemesis::scope blok, VecStr& blocks, AnimThread
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2519,11 +2501,7 @@ void proc::motionDataFirstMaster(nemesis::scope blok, VecStr& blocks, AnimThread
 
 void proc::motionDataLastMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (curAnimInfo.groupMulti == -1)
     {
@@ -2546,9 +2524,9 @@ void proc::motionDataLastMaster(nemesis::scope blok, VecStr& blocks, AnimThreadI
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2558,11 +2536,7 @@ void proc::motionDataLastMaster(nemesis::scope blok, VecStr& blocks, AnimThreadI
 
 void proc::motionDataNumMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (curAnimInfo.groupMulti == -1)
     {
@@ -2591,9 +2565,9 @@ void proc::motionDataNumMaster(nemesis::scope blok, VecStr& blocks, AnimThreadIn
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2603,11 +2577,7 @@ void proc::motionDataNumMaster(nemesis::scope blok, VecStr& blocks, AnimThreadIn
 
 void proc::motionDataSingle(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
-    }
+    motionValidation(curAnimInfo);
 
     if (curAnimInfo.filename == blok.olddata[0])
     {
@@ -2629,9 +2599,9 @@ void proc::motionDataSingle(nemesis::scope blok, VecStr& blocks, AnimThreadInfo&
         {
             motionData = to_string(curInfo->motionData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->motionData.size(); ++j)
+            for (auto& motion : curInfo->motionData)
             {
-                motionData.append(curInfo->motionData[j] + "\n");
+                motionData.append(motion + "\n");
             }
         }
 
@@ -2641,11 +2611,7 @@ void proc::motionDataSingle(nemesis::scope blok, VecStr& blocks, AnimThreadInfo&
 
 void proc::rotationDataMultiGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (curAnimInfo.animMulti == -1) ErrorMessage(1146, format, behaviorFile, curAnimInfo.numline);
 
@@ -2664,9 +2630,9 @@ void proc::rotationDataMultiGroup(nemesis::scope blok, VecStr& blocks, AnimThrea
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -2676,11 +2642,7 @@ void proc::rotationDataMultiGroup(nemesis::scope blok, VecStr& blocks, AnimThrea
 
 void proc::rotationDataFirstGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
@@ -2697,9 +2659,9 @@ void proc::rotationDataFirstGroup(nemesis::scope blok, VecStr& blocks, AnimThrea
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -2709,11 +2671,7 @@ void proc::rotationDataFirstGroup(nemesis::scope blok, VecStr& blocks, AnimThrea
 
 void proc::rotationDataNextGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
@@ -2732,9 +2690,9 @@ void proc::rotationDataNextGroup(nemesis::scope blok, VecStr& blocks, AnimThread
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -2744,11 +2702,7 @@ void proc::rotationDataNextGroup(nemesis::scope blok, VecStr& blocks, AnimThread
 
 void proc::rotationDataBackGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
@@ -2767,9 +2721,9 @@ void proc::rotationDataBackGroup(nemesis::scope blok, VecStr& blocks, AnimThread
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -2779,11 +2733,7 @@ void proc::rotationDataBackGroup(nemesis::scope blok, VecStr& blocks, AnimThread
 
 void proc::rotationDataLastGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
@@ -2800,9 +2750,9 @@ void proc::rotationDataLastGroup(nemesis::scope blok, VecStr& blocks, AnimThread
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -2812,11 +2762,7 @@ void proc::rotationDataLastGroup(nemesis::scope blok, VecStr& blocks, AnimThread
 
 void proc::rotationDataNumGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     size_t num = blok.olddataint[0];
 
@@ -2840,9 +2786,9 @@ void proc::rotationDataNumGroup(nemesis::scope blok, VecStr& blocks, AnimThreadI
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -2852,11 +2798,7 @@ void proc::rotationDataNumGroup(nemesis::scope blok, VecStr& blocks, AnimThreadI
 
 void proc::rotationDataMultiMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (curAnimInfo.animMulti == -1)
     {
@@ -2884,9 +2826,9 @@ void proc::rotationDataMultiMaster(nemesis::scope blok, VecStr& blocks, AnimThre
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -2896,11 +2838,7 @@ void proc::rotationDataMultiMaster(nemesis::scope blok, VecStr& blocks, AnimThre
 
 void proc::rotationDataFirstMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (curAnimInfo.groupMulti == -1)
     {
@@ -2922,9 +2860,9 @@ void proc::rotationDataFirstMaster(nemesis::scope blok, VecStr& blocks, AnimThre
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -2934,11 +2872,7 @@ void proc::rotationDataFirstMaster(nemesis::scope blok, VecStr& blocks, AnimThre
 
 void proc::rotationDataLastMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (curAnimInfo.groupMulti == -1)
     {
@@ -2961,9 +2895,9 @@ void proc::rotationDataLastMaster(nemesis::scope blok, VecStr& blocks, AnimThrea
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -2973,11 +2907,7 @@ void proc::rotationDataLastMaster(nemesis::scope blok, VecStr& blocks, AnimThrea
 
 void proc::rotationDataNumMaster(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (curAnimInfo.groupMulti == -1)
     {
@@ -3006,9 +2936,9 @@ void proc::rotationDataNumMaster(nemesis::scope blok, VecStr& blocks, AnimThread
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -3018,11 +2948,7 @@ void proc::rotationDataNumMaster(nemesis::scope blok, VecStr& blocks, AnimThread
 
 void proc::rotationDataSingle(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.fixedStateID.size() != 0 || curAnimInfo.eventid.size() != 0
-        || curAnimInfo.variableid.size() != 0)
-    {
-        ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
-    }
+    rotationValidation(curAnimInfo);
 
     if (curAnimInfo.filename == blok.olddata[0])
     {
@@ -3034,7 +2960,7 @@ void proc::rotationDataSingle(nemesis::scope blok, VecStr& blocks, AnimThreadInf
         shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order];
         string rotationData;
 
-        if (curInfo->rotationData.size() == 0)
+        if (curInfo->rotationData.empty())
         {
             WarningMessage(1019, format, behaviorFile, curAnimInfo.numline);
             rotationData
@@ -3044,9 +2970,9 @@ void proc::rotationDataSingle(nemesis::scope blok, VecStr& blocks, AnimThreadInf
         {
             rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-            for (unsigned int j = 0; j < curInfo->rotationData.size(); ++j)
+            for (auto& rotation : curInfo->rotationData)
             {
-                rotationData.append(curInfo->rotationData[j] + "\n");
+                rotationData.append(rotation + "\n");
             }
         }
 
@@ -3116,20 +3042,17 @@ void proc::blocksCompile(VecStr blocks, AnimThreadInfo& curAnimInfo) const
         {
             if (done)
             {
-                curAnimInfo.failed.push_back(choice_c(choice.locateA, choice.locateB));
+                curAnimInfo.failed.emplace_back(choice.locateA, choice.locateB);
+            }
+            else if (choice.condition->isTrue(
+                         curAnimInfo, *this, format, behaviorFile, curAnimInfo.numline, isGroup, isMaster))
+            {
+                done                 = true;
+                curAnimInfo.captured = make_shared<choice_c>(choice.locateA, choice.locateB);
             }
             else
             {
-                if (choice.condition->isTrue(
-                        curAnimInfo, *this, format, behaviorFile, curAnimInfo.numline, isGroup, isMaster))
-                {
-                    done                 = true;
-                    curAnimInfo.captured = make_shared<choice_c>(choice.locateA, choice.locateB);
-                }
-                else
-                {
-                    curAnimInfo.failed.push_back(choice_c(choice.locateA, choice.locateB));
-                }
+                curAnimInfo.failed.emplace_back(choice.locateA, choice.locateB);
             }
         }
     }
@@ -3173,7 +3096,7 @@ bool proc::isThisMaster()
 
 bool proc::clearBlocks(nemesis::scope& blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
-    if (curAnimInfo.failed.size() > 0)
+    if (!curAnimInfo.failed.empty())
     {
         for (auto& fail : curAnimInfo.failed)
         {

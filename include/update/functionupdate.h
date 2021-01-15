@@ -25,8 +25,8 @@ class NodeU
                     std::string f2,
                     std::string f3,
                     std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>& newFile,
-                    std::unique_ptr<SSMap>& stateID,
-                    std::unique_ptr<SSMap>& parent,
+                    std::unique_ptr<UMapStr2>& stateID,
+                    std::unique_ptr<UMapStr2>& parent,
                     std::unique_ptr<std::unordered_map<std::string, VecStr>>& statelist,
                     std::unordered_map<std::wstring, std::wstring>& lastUpdate
 #if MULTITHREADED_UPDATE
@@ -42,8 +42,8 @@ public:
                         std::string f2,
                         std::string f3,
                         std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>& newFile,
-                        std::unique_ptr<SSMap>& stateID,
-                        std::unique_ptr<SSMap>& parent,
+                        std::unique_ptr<UMapStr2>& stateID,
+                        std::unique_ptr<UMapStr2>& parent,
                         std::unique_ptr<std::unordered_map<std::string, VecStr>>& statelist,
                         std::unordered_map<std::wstring, std::wstring>& lastUpdate
 #if MULTITHREADED_UPDATE

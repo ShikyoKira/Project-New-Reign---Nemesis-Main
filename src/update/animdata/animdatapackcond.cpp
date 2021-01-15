@@ -1,6 +1,11 @@
+#include <functional>
+
+#include "utilities/conditionsyntax.h"
+
 #include "update/animdata/animdatapackcond.h"
 
 using namespace std;
+namespace ns = nemesis::syntax;
 
 AnimDataPack_Condt::AnimDataPack_Condt(const VecStr& storeline, size_t linenum)
 {
@@ -68,7 +73,7 @@ AnimDataPack_Condt::AnimDataPack_Condt(const VecStr& storeline, size_t linenum)
     }
 }
 
-void AnimDataPack_Condt::getlines(VecStr& storeline) 
+void AnimDataPack_Condt::getlines(VecStr& storeline)
 {
     // anim data name
     storeline.push_back(name);
@@ -93,81 +98,70 @@ void AnimDataPack_Condt::getlines(VecStr& storeline)
     storeline.push_back("");
 }
 
-void getLinkedLines(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata, VecStr& storeline) 
+void getLinkedLines(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata, VecStr& storeline)
 {
-    vector<pair<const string*, const nemesis::CondVar<AnimDataPack_Condt>*>> modcodelist;
+    VecStr tempstore;
+    function<void(const string&, const nemesis::CondVar<AnimDataPack_Condt>&)> modcodelambda;
+
+    if (linkedanimdata.raw)
+    {
+        modcodelambda = [&](const string& condition, const nemesis::CondVar<AnimDataPack_Condt>& pack)
+        {
+            tempstore.push_back(ns::ModCode(condition));
+            size_t t = tempstore.size();
+            getLinkedLines(pack.rawlist[0], tempstore);
+
+            if (t < tempstore.size()) tempstore.pop_back();
+        };
+    }
+    else
+    {
+        modcodelambda = [&](const string& condition, const nemesis::CondVar<AnimDataPack_Condt>& pack)
+        {
+            tempstore.push_back(ns::ModCode(condition));
+            getLinkedLines(pack, tempstore);
+            tempstore.push_back(ns::Close());
+        };
+    }
 
     for (auto& cond : linkedanimdata.nestedcond)
     {
         switch (cond.conditionType)
         {
-            case nemesis::MOD_CODE:
+            case nemesis::CondType::MOD_CODE:
             {
-                modcodelist.push_back(
-                    make_pair<const string*, const nemesis::CondVar<AnimDataPack_Condt>*>(&cond.conditions, &cond));
+                modcodelambda(cond.conditions, cond);
                 break;
             }
-            case nemesis::FOREACH:
+            case nemesis::CondType::FOREACH:
             {
-                storeline.push_back("<!-- FOREACH ^" + cond.conditions + "^ -->");
+                storeline.push_back(ns::ForEach(cond.conditions));
 
                 for (auto& each : cond.rawlist)
                 {
                     getLinkedLines(each, storeline);
                 }
 
-                storeline.push_back("<!-- CLOSE -->");
+                storeline.push_back(ns::Close());
                 break;
             }
         }
     }
 
-    if (modcodelist.size() > 0)
+    if (tempstore.size() > 0)
     {
-        if (linkedanimdata.raw)
-        {
-            vector<pair<string, VecStr>> list;
+        storeline.insert(storeline.end(), tempstore.begin(), tempstore.end());
 
-            for (auto& modcode : modcodelist)
-            {
-                list.push_back(pair<string, VecStr>());
-                list.back().first = *modcode.first;
-                getLinkedLines(modcode.second->rawlist[0], list.back().second);
+        if (!linkedanimdata.raw) return;
 
-                if (list.back().second.size() > 0) list.back().second.pop_back();
-            }
+        storeline.push_back(ns::Original());
+        size_t t = storeline.size();
+        linkedanimdata.raw->getlines(storeline);
 
-            for (auto& each : list)
-            {
-                storeline.push_back("<!-- NEW *" + each.first + "* -->");
-                storeline.insert(storeline.end(), each.second.begin(), each.second.end());
-            }
+        if (t < storeline.size()) storeline.pop_back();
 
-            if (list.size() > 0)
-            {
-                storeline.push_back("<!-- ORIGINAL -->");
-                size_t t = storeline.size();
-                linkedanimdata.raw->getlines(storeline);
-
-                if (t < storeline.size()) storeline.pop_back();
-
-                storeline.push_back("<!-- CLOSE -->");
-                storeline.push_back("");
-            }
-            else
-            {
-                linkedanimdata.raw->getlines(storeline);
-            }
-        }
-        else
-        {
-            for (auto& modcode : modcodelist)
-            {
-                storeline.push_back("<!-- NEW *" + *modcode.first + "* -->");
-                getLinkedLines(*modcode.second, storeline);
-                storeline.push_back("<!-- CLOSE -->");
-            }
-        }
+        storeline.push_back(ns::Close());
+        storeline.push_back("");
     }
     else if (linkedanimdata.raw)
     {
@@ -175,6 +169,6 @@ void getLinkedLines(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata
     }
     else
     {
-        storeline.push_back("//* delete this line *//");
+        storeline.push_back(ns::DeleteLine());
     }
 }

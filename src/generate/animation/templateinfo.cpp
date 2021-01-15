@@ -171,7 +171,7 @@ TemplateInfo::TemplateInfo()
                                     {
                                         if (line.find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
                                         {
-                                            isStateMachine = true; 
+                                            isStateMachine = true;
                                         }
 
                                         if (isStateMachine && line.find("<!-- FOREACH ^" + code) != NOT_FOUND)

@@ -3,8 +3,8 @@
 #include "utilities/renew.h"
 #include "utilities/algorithm.h"
 
+#include "generate/hkxcompiler.h"
 #include "generate/papyruscompile.h"
-#include "generate/behaviorgenerator.h"
 #include "generate/behaviorprocess_utility.h"
 
 #pragma warning(disable : 4503)

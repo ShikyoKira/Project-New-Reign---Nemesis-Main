@@ -8,7 +8,7 @@
 #include "utilities/conditions.h"
 #include "utilities/lastupdate.h"
 #include "utilities/atomiclock.h"
-#include "utilities/stringsplit.h"
+#include "utilities/stringextension.h"
 #include "utilities/readtextfile.h"
 
 #include "generate/behaviorprocess.h"
@@ -138,7 +138,7 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, VecStr> functionli
 	{
 		ErrorMessage(1078);
 	}
-	
+
 	return stateID;
 }
 
@@ -402,7 +402,7 @@ void newFileCheck(filesystem::path directory, const unordered_set<wstring>& isCh
 					}
 				}
 				else if (wdir.find(L"animationsetdatasinglefile") != NOT_FOUND)
-				{					
+				{
 					if (directory.stem().wstring().find(L"~") != NOT_FOUND && file.length() > 0 && file[0] != L'$')
 					{
                         if (isChecked.find(path) == isChecked.end())
@@ -448,39 +448,41 @@ bool isEngineUpdated(string& versionCode, const NemesisInfo* nemesisInfo)
 
 	if (!GetFunctionLines(filename, storeline, false)) return false;
 
-	if (storeline.size() > 0)
+	if (!storeline.empty())
 	{
-		if (nemesis::transform_to<wstring>(GetNemesisVersion()) != storeline[0]) return false;
+		if (nemesis::transform_to(GetNemesisVersion()) != storeline[0]) return false;
 
 		storeline.erase(storeline.begin());
 	}
 
-	if (storeline.size() > 0)
+	if (!storeline.empty())
 	{
-		versionCode = nemesis::transform_to<string>(storeline[0]);
+		versionCode = nemesis::transform_to(storeline[0]);
 		storeline.erase(storeline.begin());
 	}
 
-	for (auto& line : storeline)
+	uint i = 0;
+
+	for (const auto& line : storeline)
 	{
-		if (line.length() > 0)
-		{
-			size_t pos = line.find(L">>");
+        if (line.empty()) continue;
 
-			if (pos == NOT_FOUND) ErrorMessage(2021);
+        size_t pos = line.rfind(L">>");
 
-			wstring part1 = line.substr(0, pos);
-			wstring part2 = line.substr(pos + 2);
+        if (pos == NOT_FOUND) ErrorMessage(2021);
 
-			if (!isFileExist(part1) || GetLastModified(part1) != part2)
-            {
-                interMsg(TextBoxMessage(1020) + L": " + part1);
-                DebugLogging(EngTextBoxMessage(1019) + ": " + nemesis::transform_to<string>(part1));
-                return false;
-            }
+        wstring filepath     = line.substr(0, pos);
+        wstring modifiedtime = line.substr(pos + 2);
 
-			isChecked.insert(part1);
-		}
+        if (!isFileExist(filepath) || GetLastModified(filepath) != modifiedtime)
+        {
+            interMsg(TextBoxMessage(1020) + L": " + filepath);
+            DebugLogging(EngTextBoxMessage(1019) + ": " + nemesis::transform_to(filepath));
+            return false;
+        }
+
+        isChecked.insert(filepath);
+        i++;
 	}
 
 	globalThrow = nullptr;
@@ -644,7 +646,7 @@ void GetAnimData()
 				else if (newCharacter)
 				{
 					if (characterHeaders[character].find(line) != characterHeaders[character].end()) ErrorMessage(3008, character);
-					
+
 					characterHeaders[character].insert(line);
 				}
 			}
@@ -857,7 +859,7 @@ void checkBehaviorJoint(
     }
 }
 
-void checkClipAnimData(sf::path filepath, 
+void checkClipAnimData(sf::path filepath,
 					   sf::path projectdir,
 					   string& line,
                        VecStr& characterFiles,
@@ -1092,7 +1094,7 @@ void ClearGlobal(bool all)
 	behaviorPath = unordered_map<wstring, wstring>();
 	AAGroup = unordered_map<string, string>();
 	crc32Cache = unordered_map<string, string>();
-	
+
 	behaviorProject = unordered_map<string, VecStr>();
 	alternateAnim = unordered_map<string, VecStr>();
 	groupAA = unordered_map<string, VecStr>();
@@ -1105,7 +1107,7 @@ void ClearGlobal(bool all)
 	animReplaced = unordered_map<string, vector<PCEAData>>();
 
 	activatedBehavior = unordered_map<string, bool>();
-	
+
 	AAGroupCount = unordered_map<string, unordered_map<string, int>>();
 
 	AAgroup_Counter = unordered_map<string, int>();

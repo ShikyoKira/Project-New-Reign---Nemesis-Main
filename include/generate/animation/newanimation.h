@@ -20,8 +20,8 @@
 #include "generate/animation/registeranimation.h"
 
 typedef std::vector<std::string> VecStr;
-typedef std::unordered_map<std::string, std::string> SSMap;
-typedef std::unordered_map<std::string, SSMap> ImportContainer;
+typedef std::unordered_map<std::string, std::string> UMapStr2;
+typedef std::unordered_map<std::string, UMapStr2> ImportContainer;
 typedef std::unordered_map<std::string, int> ID;
 
 struct proc;
@@ -52,8 +52,8 @@ private:
     // VecStr clipname;		obsolete
     VecStr eventID;
     VecStr variableID;
-    SSMap IDExist;
-    SSMap mixOptRegis;
+    UMapStr2 IDExist;
+    UMapStr2 mixOptRegis;
     ImportContainer* newImport;
     NewAnimLock* atomicLock;
     ImportContainer addition;
@@ -225,7 +225,7 @@ public:
     std::string GetFormatName();
     VecStr GetEventID();
     VecStr GetVariableID();
-    SSMap GetMixOpt();
+    UMapStr2 GetMixOpt();
     ImportContainer GetAddition();
     std::vector<std::shared_ptr<AnimationInfo>> GetGroupAnimInfo();
     std::unordered_map<std::string, std::unordered_map<std::string, VecStr>> GetGroupAddition();
@@ -310,7 +310,7 @@ void addOnReplacer(std::string& line,
                    std::unordered_map<std::string, VecStr> addOn,
                    ImportContainer addition,
                    std::unordered_map<std::string, std::unordered_map<std::string, VecStr>> groupAddition,
-                   SSMap mixOpt,
+                   UMapStr2 mixOpt,
                    uint count,
                    std::string format,
                    int numline);

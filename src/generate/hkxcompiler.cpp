@@ -7,8 +7,8 @@
 
 #include "utilities/atomiclock.h"
 
+#include "generate/hkxcompiler.h"
 #include "generate/alternateanimation.h"
-#include "generate/behaviorgenerator.h"
 
 #pragma warning(disable : 4503)
 
@@ -19,6 +19,8 @@ namespace sf = filesystem;
 std::atomic<int> fileprotek = 0;
 atomic_flag failedBehaviorFlag{};
 VecWstr failedBehaviors;
+
+HkxCompiler HkxCompiler::compiler = HkxCompiler();
 
 class HkxCompileCount
 {
@@ -55,7 +57,7 @@ public:
 sf::path tryGetRelative(sf::path filepath)
 {
     sf::path current = sf::current_path();
-    wstring target  = L"";
+    wstring target;
 
     do
     {
@@ -71,7 +73,7 @@ sf::path tryGetRelative(sf::path filepath)
     return filepath;
 }
 
-HkxCompiler::HkxCompiler() 
+HkxCompiler::HkxCompiler()
 {
     tempdir = sf::current_path().root_path().string() + "Nemesis_TempHkx\\";
 
@@ -88,20 +90,20 @@ HkxCompiler::~HkxCompiler()
     if (isFileExist(tempdir)) sf::remove_all(tempdir);
 }
 
-bool HkxCompiler::hkxcmdProcess(fpath xmlfile, fpath hkxfile, bool last) const
+bool HkxCompiler::hkxcmdProcess(fpath xmlfile, fpath hkxfile, bool last)
 {
     if (!last) ensureExtension(xmlfile, L".xml", hkxfile, L".hkx");
 
     const HkxCompileCount hkxcount;
-    string input  = tempdir + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
-    string output = tempdir + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
+    string input  = compiler.tempdir + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
+    string output = compiler.tempdir + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
     hkxcount.AddPath(input, output);
     sf::copy_file(xmlfile, input, sf::copy_options::overwrite_existing);
     DebugLogging("HKX Input: " + input + "\nHKX Output: " + output);
 
-    if (QProcess::execute(QString::fromStdString(tempcompiler),
+    if (QProcess::execute(QString::fromStdString(compiler.tempcompiler),
                           QStringList() << "convert"
-                                        << (SSE ? "-v:AMD64" : "-v:WIN32") 
+                                        << (SSE ? "-v:AMD64" : "-v:WIN32")
                                         << input.data()
                                         << output.data())
             != 0
@@ -119,7 +121,7 @@ bool HkxCompiler::hkxcmdProcess(fpath xmlfile, fpath hkxfile, bool last) const
     return true;
 }
 
-bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecStr& fileline) const
+bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecStr& fileline)
 {
     fpath xmlfile = hkxfile;
     ensureExtension(xmlfile, L".xml", hkxfile, L".hkx");
@@ -128,14 +130,14 @@ bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecStr& fileline) const
 
     if (!GetFunctionLines(output, fileline)) return false;
 
-    if (fileline.size() == 0) ErrorMessage(3001, output);
+    if (fileline.empty()) ErrorMessage(3001, output);
 
     if (!sf::remove(output)) ErrorMessage(1082, output, output);
 
     return true;
 }
 
-bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecWstr& fileline) const
+bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecWstr& fileline)
 {
     fpath xmlfile = hkxfile;
     ensureExtension(xmlfile, L".xml", hkxfile, L".hkx");
@@ -144,14 +146,14 @@ bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecWstr& fileline) const
 
     if (!GetFunctionLines(output, fileline)) return false;
 
-    if (fileline.size() == 0) ErrorMessage(3001, output);
+    if (fileline.empty()) ErrorMessage(3001, output);
 
     if (!sf::remove(output)) ErrorMessage(1082, output, output);
 
     return true;
 }
 
-void HkxCompiler::ensureExtension(fpath& file1, const wstring& ext1, fpath& file2, const wstring& ext2) const
+void HkxCompiler::ensureExtension(fpath& file1, const wstring& ext1, fpath& file2, const wstring& ext2)
 {
     if (file1.has_extension() || file1.extension().wstring() != ext1)
     {
@@ -164,15 +166,15 @@ void HkxCompiler::ensureExtension(fpath& file1, const wstring& ext1, fpath& file
     }
 }
 
-std::string HkxCompiler::xmlDecompile(fpath hkxfile, fpath xmlfile, const HkxCompileCount& hkxcount) const 
+std::string HkxCompiler::xmlDecompile(fpath hkxfile, fpath xmlfile, const HkxCompileCount& hkxcount)
 {
-    string input  = tempdir + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
-    string output = tempdir + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
+    string input  = compiler.tempdir + to_string(hkxcount.GetNum()) + "_" + hkxfile.filename().string();
+    string output = compiler.tempdir + to_string(hkxcount.GetNum()) + "_" + xmlfile.filename().string();
     hkxcount.AddPath(input, output);
     sf::copy_file(hkxfile, input, sf::copy_options::overwrite_existing);
     DebugLogging("XML HKX Input: " + input + "\nXML HKX Output: " + output);
 
-    if (QProcess::execute(QString::fromStdString(tempcompiler),
+    if (QProcess::execute(QString::fromStdString(compiler.tempcompiler),
                           QStringList() << "convert"
                                         << "-v:xml" << input.data() << output.data())
             != 0

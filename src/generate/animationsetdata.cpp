@@ -2,7 +2,7 @@
 
 #include "utilities/algorithm.h"
 
-#include "update/animsetdata/animsetdatapackcond.h"
+#include "update/animsetdata/animsetpack.h"
 
 #include "generate/playerexclusive.h"
 #include "generate/animationsetdata.h"

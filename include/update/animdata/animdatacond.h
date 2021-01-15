@@ -1,7 +1,5 @@
 #pragma once
 
-#include "utilities/writetextfile.h"
-
 #include "update/animdata/animdataprojectcond.h"
 
 struct MasterAnimData
@@ -14,6 +12,7 @@ struct MasterAnimData
     using ProjectData       = nemesis::LinkedVar<LinkedProjPair>;
 
 private:
+    std::string totalline;
     std::unordered_map<ProjectName, unsigned int> projectIndexMap;
     std::unordered_map<ProjectName, unsigned int> projectCounter;
 
@@ -30,17 +29,20 @@ public:
     ProjectPtr add(const ProjectName& projName,
                    size_t num             = 0,
                    const ModCode& modcode = "original",
-                   nemesis::CondType type = nemesis::NONE);
+                   nemesis::CondType type = nemesis::CondType::NONE);
     ProjectPtr add(const ProjectName& projName,
                    const VecStr& storeline,
                    const ModCode& modcode = "original",
-                   nemesis::CondType type = nemesis::NONE);
+                   nemesis::CondType type = nemesis::CondType::NONE);
 
     void projectListUpdate(const ModCode& modcode,
                            const std::string& filepath,
-                           const VecStr& storeline,
                            bool isTemplate = false);
 
-    VecStr getlines();
-    std::string writelines(FileWriter& output);
+    const std::string& SaveTemplateAs(const std::filesystem::path& filepath);
+    void ReadTemplateLine(std::string& totalline);
+    void ReadTemplateLines(VecStr& lines);
+
+private:
+    void getlines(VecStr& lines);
 };

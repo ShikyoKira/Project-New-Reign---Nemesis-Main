@@ -185,78 +185,66 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
         FILE* f;
         fopen_s(&f, nemesis::transform_to<string>(filename).c_str(), "r+b");
 
-        if (f)
+        if (!f) ErrorMessage(3002, filename);
+
+        int c;
+        string line;
+
+        while ((c = fgetc(f)) != EOF)
         {
-            int c;
-            string line;
+            line.push_back(c);
+        }
 
-            while ((c = fgetc(f)) != EOF)
+        size_t startnum = line.find("Which animation pack do you wish to activate?");
+
+        if (startnum == NOT_FOUND) ErrorMessage(6009, "PCEA.esp", "PCEA mod");
+
+        for (uint j = 0; j < pcealist.size(); ++j)
+        {
+            string number = to_string(j + 1);
+            uint size     = min(pcealist[j].modFile.length(), 113 - number.length());
+            uint counter  = startnum + (117 * j);
+
+            for (uint i = 0; i < number.length(); ++i)
             {
-                line.push_back(c);
-            }
-
-            size_t startnum = line.find("Which animation pack do you wish to activate?");
-
-            if (startnum == NOT_FOUND) 
-            {
-                ErrorMessage(6009, "PCEA.esp", "PCEA mod");
-            }
-            else
-            {
-                startnum += 49;
-            }
-
-            for (uint j = 0; j < pcealist.size(); ++j)
-            {
-                string number        = to_string(j + 1);
-                uint size    = min(pcealist[j].modFile.length(), 113 - number.length());
-                uint counter = startnum + (117 * j);
-
-                for (uint i = 0; i < number.length(); ++i)
-                {
-                    fseek(f, counter, SEEK_SET);
-                    unsigned char charcode = static_cast<unsigned char>(number[i]);
-                    fwrite(&charcode, sizeof(charcode), 1, f);
-                    ++counter;
-                }
-
                 fseek(f, counter, SEEK_SET);
-                unsigned char charcode = 46;
+                unsigned char charcode = static_cast<unsigned char>(number[i]);
                 fwrite(&charcode, sizeof(charcode), 1, f);
                 ++counter;
-                fseek(f, counter, SEEK_SET);
-                charcode = 32;
-                fwrite(&charcode, sizeof(charcode), 1, f);
-                ++counter;
-
-                for (uint i = 0; i < size; ++i)
-                {
-                    fseek(f, counter + i, SEEK_SET);
-                    charcode = static_cast<unsigned char>(pcealist[j].modFile[i]);
-                    fwrite(&charcode, sizeof(charcode), 1, f);
-                }
-
-                if (error) throw nemesis::exception();
             }
 
-            for (uint j = pcealist.size(); j < 10; ++j)
+            fseek(f, counter, SEEK_SET);
+            unsigned char charcode = 46;
+            fwrite(&charcode, sizeof(charcode), 1, f);
+            ++counter;
+            fseek(f, counter, SEEK_SET);
+            charcode = 32;
+            fwrite(&charcode, sizeof(charcode), 1, f);
+            ++counter;
+
+            for (uint i = 0; i < size; ++i)
             {
-                for (uint i = 0; i < 115; ++i)
-                {
-                    fseek(f, startnum + (117 * j) + i, SEEK_SET);
-                    unsigned char charcode = 32;
-                    fwrite(&charcode, sizeof(charcode), 1, f);
-                }
-
-                if (error) throw nemesis::exception();
+                fseek(f, counter + i, SEEK_SET);
+                charcode = static_cast<unsigned char>(pcealist[j].modFile[i]);
+                fwrite(&charcode, sizeof(charcode), 1, f);
             }
 
-            fclose(f);
+            if (error) throw nemesis::exception();
         }
-        else
+
+        for (uint j = pcealist.size(); j < 10; ++j)
         {
-            ErrorMessage(3002, filename);
+            for (uint i = 0; i < 115; ++i)
+            {
+                fseek(f, startnum + (117 * j) + i, SEEK_SET);
+                unsigned char charcode = 32;
+                fwrite(&charcode, sizeof(charcode), 1, f);
+            }
+
+            if (error) throw nemesis::exception();
         }
+
+        fclose(f);
     }
 
     DebugLogging("PCEA esp modification complete");

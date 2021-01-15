@@ -9,16 +9,16 @@
 #include "utilities/conditions.h"
 #include "utilities/threadpool.h"
 #include "utilities/atomiclock.h"
-#include "utilities/stringsplit.h"
 #include "utilities/readtextfile.h"
+#include "utilities/stringextension.h"
 
 #include "generate/addanims.h"
 #include "generate/addevents.h"
+#include "generate/hkxcompiler.h"
 #include "generate/addvariables.h"
 #include "generate/behaviorprocess.h"
 #include "generate/playerexclusive.h"
 #include "generate/generator_utility.h"
-#include "generate/behaviorgenerator.h"
 #include "generate/behaviorsubprocess.h"
 #include "generate/animationdatatracker.h"
 #include "generate/behaviorprocess_utility.h"
@@ -146,8 +146,8 @@ void BehaviorSub::modPick(unordered_map<string, vector<pair<uint, shared_ptr<str
     {
         for (auto& line : modEditStore["current"])
         {
-            modLine.push_back(make_pair(line.first, ""));
-            catalyst.push_back(make_pair(line.first, *line.second));
+            modLine.emplace_back(make_pair(line.first, ""));
+            catalyst.emplace_back(make_pair(line.first, *line.second));
         }
     }
 
@@ -190,7 +190,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<pair<uint, shared_
         }
     }
 
-    elePoint.push_back(orig.size());
+    elePoint.emplace_back(orig.size());
     vector<pair<uint, string>> storeline;
     storeline.reserve(modEditStore["current"].size());
 
@@ -206,7 +206,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<pair<uint, shared_
                 do
                 {
                     auto& ref = modEditStore[mod][e];
-                    storeline.push_back(make_pair(ref.first, *ref.second));
+                    storeline.emplace_back(make_pair(ref.first, *ref.second));
                 } while (++e < elePoint[i + 1]);
 
                 done = true;
@@ -219,7 +219,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<pair<uint, shared_
             do
             {
                 auto& ref = modEditStore["current"][e];
-                storeline.push_back(make_pair(ref.first, *ref.second));
+                storeline.emplace_back(make_pair(ref.first, *ref.second));
             } while (++e < elePoint[i + 1]);
         }
     }
@@ -239,7 +239,7 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<pair<uint, shared_
     {
         for (auto& line : storeline)
         {
-            modLine.push_back(make_pair(line.first, ""));
+            modLine.emplace_back(make_pair(line.first, ""));
         }
 
         catalyst.insert(catalyst.end(), storeline.begin(), storeline.end());
@@ -275,7 +275,7 @@ void BehaviorSub::CompilingBehavior()
         clipAA; // node id, original animation, list of alternative animations path
     unordered_map<string, vector<IDCatcher>> catcher;
 
-    SSMap IDExist;
+    UMapStr2 IDExist;
     map<int, VecStr> catalystMap;
     VecStr characterFiles;
 
@@ -303,15 +303,16 @@ void BehaviorSub::CompilingBehavior()
 #else
     if (modID.length() > 0)
     {
-        outputdir = GetFileDirectory(behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)]).data()
-                    + nemesis::transform_to<wstring>(modID)
-                    + nemesis::transform_to<wstring>(lowerBehaviorFile);
+        outputdir = GetFileDirectory(behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)])
+                    + nemesis::transform_to(modID)
+                    + nemesis::transform_to(lowerBehaviorFile);
     }
     else
     {
         outputdir = behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)];
     }
 #endif
+
     if (error) throw nemesis::exception();
 
     DebugLogging(L"Processing behavior: " + filepath);
@@ -334,7 +335,7 @@ void BehaviorSub::CompilingBehavior()
     double duration;
 
     {
-        bool hasAA   = alternateAnim.size() != 0;
+        bool hasAA   = !alternateAnim.empty();
         bool isOpen  = true;
         bool newBone = false;
         bool modif   = false;
@@ -342,7 +343,7 @@ void BehaviorSub::CompilingBehavior()
 
         int counter           = 0;
         int oribone           = -1;
-        int bonenum           = -1;
+        int bonenum           = 0;
         int eventelements     = -1;
         int variableelements  = -1;
         int attributeelements = -1;
@@ -383,14 +384,14 @@ void BehaviorSub::CompilingBehavior()
         string line;
         unordered_map<string, vector<pair<uint, shared_ptr<string>>>> modEditStore;
 
-        auto storingLine = [&]() 
+        auto storingLine = [&]()
         {
             if (line.find("<!-- *", 0) != NOT_FOUND)
             {
                 size_t tempint   = line.find("<!-- *") + 6;
                 string mod       = line.substr(tempint, line.find("* -->", tempint + 1) - tempint);
                 chosenLines[mod] = line;
-                modEditStore[mod].push_back(make_pair(numline, make_shared<string>(line)));
+                modEditStore[mod].emplace_back(make_pair(numline, make_shared<string>(line)));
 
                 if (!hasDeleted
                     && line
@@ -400,19 +401,19 @@ void BehaviorSub::CompilingBehavior()
             }
             else if (line.find("\t<!-- original -->", 0) != NOT_FOUND)
             {
-                modEditStore["original"].push_back(make_pair(numline, make_shared<string>(line)));
+                modEditStore["original"].emplace_back(make_pair(numline, make_shared<string>(line)));
 
-                if (chosenLines.size() == 0) ErrorMessage(1209);
+                if (chosenLines.empty()) ErrorMessage(1209);
 
                 line = behaviorLineChooser(line, chosenLines, process->behaviorPriority);
                 chosenLines.clear();
-                modEditStore["current"].push_back(make_pair(numline, make_shared<string>(line)));
+                modEditStore["current"].emplace_back(make_pair(numline, make_shared<string>(line)));
 
                 for (auto& each : process->behaviorPriority)
                 {
                     if (modEditStore[each].size() != modEditStore["original"].size())
                     {
-                        modEditStore[each].push_back(make_pair(numline, nullptr));
+                        modEditStore[each].emplace_back(make_pair(numline, nullptr));
                     }
                 }
             }
@@ -436,8 +437,8 @@ void BehaviorSub::CompilingBehavior()
                     }
                 }
 
-                modLine.push_back(make_pair(numline, newMod));
-                catalyst.push_back(make_pair(numline, line));
+                modLine.emplace_back(make_pair(numline, newMod));
+                catalyst.emplace_back(make_pair(numline, line));
             }
         };
 
@@ -550,8 +551,8 @@ void BehaviorSub::CompilingBehavior()
             && catalyst.back().second.find("<!-- CONDITION END -->") == NOT_FOUND
             && catalyst.back().second.find("<!-- CLOSE -->") == NOT_FOUND)
         {
-            modLine.push_back(make_pair(modLine.size(), newMod));
-            catalyst.push_back(make_pair(catalyst.size(),""));
+            modLine.emplace_back(make_pair(modLine.size(), newMod));
+            catalyst.emplace_back(make_pair(catalyst.size(), ""));
         }
 
         DebugLogging(L"Processing behavior: " + filepath
@@ -560,8 +561,8 @@ void BehaviorSub::CompilingBehavior()
         if (isCharacter)
         {
             DebugLogging(L"Processing behavior: " + filepath + L" (IsCharater: TRUE)");
-            string rigfile = "<hkparam name=\"rigName\">";
-            string bonemap = "<hkparam name=\"bonePairMap\" numelements=\"";
+            string rigfile = R"(<hkparam name="rigName">)";
+            string bonemap = R"(<hkparam name="bonePairMap" numelements=")";
             bool found     = false;
 
             for (auto& linkedline : catalyst)
@@ -585,10 +586,10 @@ void BehaviorSub::CompilingBehavior()
             sf::path curFile(GetFileDirectory(outputdir));
             wstring wrigfile = curFile.parent_path().parent_path().wstring() + L"\\"
                                + nemesis::transform_to<wstring>(rigfile);
-            
+
             if (found && isFileExist(wrigfile) && !sf::is_directory(wrigfile))
             {
-                bonenum = bonePatch(wrigfile, oribone, newBone, process->hkxCompiler);
+                bonenum = bonePatch(wrigfile, oribone, newBone);
             }
 
             DebugLogging(L"Processing behavior: " + filepath
@@ -623,92 +624,84 @@ void BehaviorSub::CompilingBehavior()
                 pos += 17;
                 string nodeID = line.substr(pos, line.find("\" class=\"", pos) - pos);
 
-                if (isOnlyNumber(nodeID)) 
+                if (isOnlyNumber(nodeID))
                 {
-                    curID = stoi(nodeID); 
+                    curID = stoi(nodeID);
                 }
-                else
+                else if (nodeID.find("$", 0) != NOT_FOUND)
                 {
-                    if (nodeID.find("$", 0) != NOT_FOUND)
+                    string mod = nodeID.substr(0, nodeID.find("$"));
+
+                    if (process->chosenBehavior.find(mod) != process->chosenBehavior.end())
                     {
-                        string mod = nodeID.substr(0, nodeID.find("$"));
+                        string ID = to_string(lastID);
 
-                        if (process->chosenBehavior.find(mod) != process->chosenBehavior.end())
+                        while (ID.length() < 4)
                         {
-                            string ID = to_string(lastID);
-
-                            while (ID.length() < 4)
-                            {
-                                ID = "0" + ID;
-                            }
-
-                            line.replace(line.find(nodeID), nodeID.length(), ID);
-                            IDExist[nodeID] = ID;
-                            curID           = lastID;
-                            ++lastID;
-
-                            if (lastID == 9216) ++lastID;
+                            ID = "0" + ID;
                         }
-                        else if (mod == "MID")
-                        {
-                            ErrorMessage(1020);
-                        }
+
+                        line.replace(line.find(nodeID), nodeID.length(), ID);
+                        IDExist[nodeID] = ID;
+                        curID           = lastID;
+                        ++lastID;
+
+                        if (lastID == 9216) ++lastID;
+                    }
+                    else if (mod == "MID")
+                    {
+                        ErrorMessage(1020);
                     }
                 }
 
-                isClip = line.find("class=\"hkbClipGenerator\" signature=\"") != NOT_FOUND;
+                isClip = line.find(R"(class="hkbClipGenerator" signature=")") != NOT_FOUND;
             }
             else if (isClip)
             {
                 pos = line.find("<hkparam name=\"animationName\">");
 
-                if (pos != NOT_FOUND)
+                if (pos == NOT_FOUND) continue;
+
+                pos += 30;
+                string animPath
+                    = nemesis::to_lower_copy(line.substr(pos, line.find("</hkparam>", pos) - pos));
+                addUsedAnim(lowerBehaviorFile, animPath);
+                string animFile = GetFileName(animPath) + ".hkx";
+
+                if (!isFirstPerson)
                 {
-                    pos += 30;
-                    string animPath
-                        = nemesis::to_lower_copy(line.substr(pos, line.find("</hkparam>", pos) - pos));
-                    addUsedAnim(lowerBehaviorFile, animPath);
-                    string animFile = GetFileName(animPath) + ".hkx";
+                    auto replacer = animReplaced.find(animFile);
 
-                    if (!isFirstPerson)
+                    if (replacer != animReplaced.end() && replacer->second.size())
                     {
-                        auto replacer = animReplaced.find(animFile);
+                        pceaID.insert(make_pair(curID, &replacer->second));
 
-                        if (replacer != animReplaced.end() && replacer->second.size())
+                        for (auto& data : replacer->second)
                         {
-                            pceaID.insert(make_pair(curID, &replacer->second));
-
-                            for (auto& data : replacer->second)
-                            {
-                                pceaMod.insert(data.modFile);
-                            }
+                            pceaMod.insert(data.modFile);
                         }
                     }
+                }
 
-                    // Dynamic AA function without a template
-                    if (hasAA)
+                // Dynamic AA function without a template
+                if (!hasAA) continue;
+
+                string tempAnimFile = isFirstPerson ? animFile + "_1p*" : animFile;
+                auto aa             = alternateAnim.find(tempAnimFile);
+
+                if (aa == alternateAnim.end()) continue;
+
+                clipAA[curID][animFile] = aa->second;
+                AAGroupList.insert(isFirstPerson ? AAGroup[animFile] + "_1p*" : AAGroup[animFile]);
+                auto aaEvent = AAHasEvent.find(tempAnimFile);
+
+                if (aaEvent == AAHasEvent.end()) continue;
+
+                for (string& AA_animName : aaEvent->second)
+                {
+                    for (unsigned int k = 0; k < AAEvent[AA_animName].size(); ++k)
                     {
-                        string tempAnimFile = isFirstPerson ? animFile + "_1p*" : animFile;
-                        auto aa             = alternateAnim.find(tempAnimFile);
-
-                        if (aa != alternateAnim.end())
-                        {
-                            clipAA[curID][animFile] = aa->second;
-                            AAGroupList.insert(isFirstPerson ? AAGroup[animFile] + "_1p*"
-                                                             : AAGroup[animFile]);
-                            auto aaEvent = AAHasEvent.find(tempAnimFile);
-
-                            if (aaEvent != AAHasEvent.end())
-                            {
-                                for (string& AA_animName : aaEvent->second)
-                                {
-                                    for (unsigned int k = 0; k < AAEvent[AA_animName].size(); ++k)
-                                    {
-                                        if (k % 2 == 0) AAEventName.insert(AAEvent[AA_animName][k]);
-                                    }
-                                }
-                            }
-                        }
+                        if (k % 2 == 0) AAEventName.insert(AAEvent[AA_animName][k]);
                     }
                 }
             }
@@ -788,8 +781,8 @@ void BehaviorSub::CompilingBehavior()
             nemesis::smatch check;
 
             if (line.length() == 0)
-            { 
-                catalystMap[curID].push_back(line); 
+            {
+                catalystMap[curID].push_back(line);
             }
             else
             {
@@ -1202,7 +1195,7 @@ void BehaviorSub::CompilingBehavior()
                     if (!replacedNum && curNum == "wordVariableValues"
                         && line.find("<hkparam name=\"value\">") != NOT_FOUND)
                     {
-                        ++counter; 
+                        ++counter;
                     }
                     else if (!replacedNum && curNum == "variableInfos"
                              && line.find("<hkparam name=\"type\">") != NOT_FOUND)
@@ -1532,7 +1525,7 @@ void BehaviorSub::CompilingBehavior()
                                         if (isFileExist(animation.parent_path().parent_path().string()
                                                         + "\\Animations\\" + animFile))
                                         {
-                                            line.replace(pos, animPath.length(), "Animations\\" + animFile); 
+                                            line.replace(pos, animPath.length(), "Animations\\" + animFile);
                                         }
                                     }
                                 }
@@ -1648,10 +1641,7 @@ void BehaviorSub::CompilingBehavior()
 
                     if (pos != NOT_FOUND && pos == line.length() - 15)
                     {
-                        if (newBone)
-                            repeatnum = bonenum;
-                        else
-                            repeatnum = 0;
+                        repeatnum = newBone ? bonenum : 0;
                     }
 
                     if (!ignoreFunction[curfilefromlist][curID])
@@ -1742,7 +1732,7 @@ void BehaviorSub::CompilingBehavior()
 
                 if (isClipTrigger && line.find("<hkparam name=\"localTime\">-") != NOT_FOUND)
                 {
-                    negative = true; 
+                    negative = true;
                 }
                 else if (negative && line.find("<hkparam name=\"relativeToEndOfClip\">") != NOT_FOUND)
                 {
@@ -1805,7 +1795,7 @@ void BehaviorSub::CompilingBehavior()
 
                 if (isFileExist(cachedFile) && !sf::is_directory(cachedFile))
                 {
-                    sf::copy_file(cachedFile, outputdir, sf::copy_options::overwrite_existing); 
+                    sf::copy_file(cachedFile, outputdir, sf::copy_options::overwrite_existing);
                 }
                 else if (isFileExist(outputdir) && !sf::is_directory(outputdir))
                 {
@@ -1853,21 +1843,19 @@ void BehaviorSub::CompilingBehavior()
                 int tempLine = it->second[k].getLine();
                 string* line = &catalystMap[it->second[k].getID()][it->second[k].getLine()];
 
-                if (IDExist[it->first].length() != 0)
-                {
-                    line->append("%");
-                    string masterFormat = it->first.substr(0, it->first.find("$"));
-                    string numID        = it->first.substr(it->first.find("$") + 1);
-                    nemesis::smatch match;
-                    nemesis::regex_match(
-                        *line, match, nemesis::regex(".*(" + masterFormat + "[$]" + numID + ")[^0-9]+.*"));
-                    line->replace(match.position(1), it->first.length(), IDExist[it->first]);
-                    line->pop_back();
-                }
-                else
+                if (IDExist[it->first].empty())
                 {
                     ErrorMessage(1026, filepath, it->first.substr(0, it->first.find("$")));
                 }
+
+                line->append("%");
+                string masterFormat = it->first.substr(0, it->first.find("$"));
+                string numID        = it->first.substr(it->first.find("$") + 1);
+                nemesis::smatch match;
+                nemesis::regex_match(
+                    *line, match, nemesis::regex(".*(" + masterFormat + "[$]" + numID + ")[^0-9]+.*"));
+                line->replace(match.position(1), it->first.length(), IDExist[it->first]);
+                line->pop_back();
             }
         }
     }
@@ -2283,8 +2271,8 @@ void BehaviorSub::CompilingBehavior()
                         if (hasMaster)
                         {
                             // Preload master template to memory
-                            string filename                              = templateCode + "_master";
-                            shared_ptr<AnimTemplate> mastertemplate_pack = make_shared<AnimTemplate>();
+                            string filename          = templateCode + "_master";
+                            auto mastertemplate_pack = make_shared<AnimTemplate>();
                             mastertemplate_pack->ExamineTemplate(
                                 templateCode,
                                 lowerBehaviorFile,
@@ -2871,164 +2859,93 @@ void BehaviorSub::CompilingBehavior()
 
     if (!output.is_open()) ErrorMessage(1025, filename);
 
+    function<void(string&)> LineCheckFunc;
+
     if (isCharacter)
     {
-        for (int i = firstID; i < firstID + 4; ++i)
-        {
-            for (auto& eachline : catalystMap[i])
-            {
-                output << eachline + "\n";
-                checkBehaviorJoint(outputdir, projectdir, eachline, process, isBehavior);
-            }
-
-            if (error) throw nemesis::exception();
-        }
-
-        output
-            << "<!-- ======================== NEMESIS import TEMPLATE START ======================== -->\n";
-
-        if (additionallines.size() > 0)
-        {
-            output << "\n";
-
-            for (auto& eachline : additionallines)
-            {
-                output << eachline + "\n";
-                checkBehaviorJoint(outputdir, projectdir, eachline, process, isBehavior);
-            }
-
-            if (error) throw nemesis::exception();
-        }
-
-        output
-            << "<!-- ======================== NEMESIS import TEMPLATE END ======================== -->\n\n";
-        output << "<!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->\n";
-
-        if (PCEALines.size() > 0)
-        {
-            output << "\n";
-
-            for (auto& eachline : PCEALines)
-            {
-                output << eachline + "\n";
-                checkBehaviorJoint(outputdir, projectdir, eachline, process, isBehavior);
-            }
-
-            if (error) throw nemesis::exception();
-        }
-
-        output << "<!-- ======================== NEMESIS PCEA TEMPLATE END ======================== -->\n\n";
-        output << "<!-- ======================== NEMESIS alternate animation TEMPLATE START "
-                  "======================== -->\n";
-
-        if (AAlines.size() > 0)
-        {
-            output << "\n";
-
-            for (auto& eachline : AAlines)
-            {
-                output << eachline + "\n";
-                checkBehaviorJoint(outputdir, projectdir, eachline, process, isBehavior);
-            }
-
-            if (error) throw nemesis::exception();
-        }
-
-        output << "<!-- ======================== NEMESIS alternate animation TEMPLATE END "
-                  "======================== -->\n\n";
-
-        for (unsigned int j = 0; j < allEditLines.size(); ++j)
-        {
-            for (auto& eachline : (*allEditLines[j]))
-            {
-                output << eachline + "\n";
-                checkBehaviorJoint(outputdir, projectdir, eachline, process, isBehavior);
-            }
-
-            if (error) throw nemesis::exception();
-        }
+        LineCheckFunc = [&](string& line) {
+            checkBehaviorJoint(outputdir, projectdir, line, process, isBehavior);
+        };
     }
     else
     {
-        for (int i = firstID; i < firstID + 4; ++i)
-        {
-            for (auto& eachline : catalystMap[i])
-            {
-                output << eachline + "\n";
-                checkClipAnimData(
-                    outputdir, projectdir, eachline, characterFiles, clipName, isClip, process, isBehavior);
-            }
+        LineCheckFunc = [&](string& line) {
+            checkClipAnimData(
+                outputdir, projectdir, line, characterFiles, clipName, isClip, process, isBehavior);
+        };
+    }
 
-            if (error) throw nemesis::exception();
+    for (int i = firstID; i < firstID + 4; ++i)
+    {
+        for (auto& eachline : catalystMap[i])
+        {
+            output << eachline + "\n";
+            LineCheckFunc(eachline);
         }
 
-        output
-            << "<!-- ======================== NEMESIS import TEMPLATE START ======================== -->\n";
+        if (error) throw nemesis::exception();
+    }
 
-        if (additionallines.size() > 0)
+    output << "<!-- ======================== NEMESIS import TEMPLATE START ======================== -->\n";
+
+    if (additionallines.size() > 0)
+    {
+        output << "\n";
+
+        for (auto& eachline : additionallines)
         {
-            output << "\n";
-
-            for (auto& eachline : additionallines)
-            {
-                output << eachline + "\n";
-                checkClipAnimData(
-                    outputdir, projectdir, eachline, characterFiles, clipName, isClip, process, isBehavior);
-            }
-
-            if (error) throw nemesis::exception();
+            output << eachline + "\n";
+            LineCheckFunc(eachline);
         }
 
-        output
-            << "<!-- ======================== NEMESIS import TEMPLATE END ======================== -->\n\n";
-        output << "<!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->\n";
+        if (error) throw nemesis::exception();
+    }
 
-        if (PCEALines.size() > 0)
+    output << "<!-- ======================== NEMESIS import TEMPLATE END ======================== -->\n\n";
+    output << "<!-- ======================== NEMESIS PCEA TEMPLATE START ======================== -->\n";
+
+    if (PCEALines.size() > 0)
+    {
+        output << "\n";
+
+        for (auto& eachline : PCEALines)
         {
-            output << "\n";
-
-            for (auto& eachline : PCEALines)
-            {
-                output << eachline + "\n";
-                checkClipAnimData(
-                    outputdir, projectdir, eachline, characterFiles, clipName, isClip, process, isBehavior);
-            }
-
-            if (error) throw nemesis::exception();
+            output << eachline + "\n";
+            LineCheckFunc(eachline);
         }
 
-        output << "<!-- ======================== NEMESIS PCEA TEMPLATE END ======================== -->\n\n";
-        output << "<!-- ======================== NEMESIS alternate animation TEMPLATE START "
-                  "======================== -->\n";
+        if (error) throw nemesis::exception();
+    }
 
-        if (AAlines.size() > 0)
+    output << "<!-- ======================== NEMESIS PCEA TEMPLATE END ======================== -->\n\n";
+    output << "<!-- ======================== NEMESIS alternate animation TEMPLATE START "
+              "======================== -->\n";
+
+    if (AAlines.size() > 0)
+    {
+        output << "\n";
+
+        for (auto& eachline : AAlines)
         {
-            output << "\n";
-
-            for (auto& eachline : AAlines)
-            {
-                output << eachline + "\n";
-                checkClipAnimData(
-                    outputdir, projectdir, eachline, characterFiles, clipName, isClip, process, isBehavior);
-            }
-
-            if (error) throw nemesis::exception();
+            output << eachline + "\n";
+            LineCheckFunc(eachline);
         }
 
-        output << "<!-- ======================== NEMESIS alternate animation TEMPLATE END "
-                  "======================== -->\n\n";
+        if (error) throw nemesis::exception();
+    }
 
-        for (unsigned int j = 0; j < allEditLines.size(); ++j)
+    output << "<!-- ======================== NEMESIS alternate animation TEMPLATE END "
+              "======================== -->\n\n";
+
+    for (unsigned int j = 0; j < allEditLines.size(); ++j)
+    {
+        for (auto& eachline : (*allEditLines[j]))
         {
-            for (auto& eachline : (*allEditLines[j]))
-            {
-                output << eachline + "\n";
-                checkClipAnimData(
-                    outputdir, projectdir, eachline, characterFiles, clipName, isClip, process, isBehavior);
-            }
-
-            if (error) throw nemesis::exception();
+            output << eachline + "\n";
+            LineCheckFunc(eachline);
         }
+
+        if (error) throw nemesis::exception();
     }
 
     firstID     = firstID + 4;
@@ -3058,7 +2975,7 @@ void BehaviorSub::CompilingBehavior()
     process->newMilestone();
     --extraCore;
 
-    if (process->hkxCompiler.hkxcmdProcess(nemesis::transform_to<wstring>(filename), outputdir))
+    if (HkxCompiler::hkxcmdProcess(nemesis::transform_to<wstring>(filename), outputdir))
     {
         DebugLogging(L"Processing behavior: " + filepath + L" (Check point 7, Behavior compile complete)");
         process->newMilestone();
@@ -3072,8 +2989,8 @@ void BehaviorSub::addInfo(const wstring& newDirectory,
                           shared_ptr<TemplateInfo> newBehaviorTemplate,
                           unordered_map<string, vector<shared_ptr<NewAnimation>>> addAnimation,
                           unordered_map<string, var> newAnimVar,
-                          mapSetString addAnimEvent,
-                          mapSetString addAnimVariable,
+                          UMapSetStr addAnimEvent,
+                          UMapSetStr addAnimVariable,
                           unordered_map<string, unordered_map<int, bool>> newIgnoreFunction,
                           bool newIsCharacter,
                           const string& newModID,

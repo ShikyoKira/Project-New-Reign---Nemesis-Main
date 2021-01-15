@@ -1,15 +1,21 @@
+
+#include "Global.h"
+
 #include "utilities/linkedvar.h"
+#include "utilities/conditionsyntax.h"
+#include "utilities/conditiondetails.h"
 
 using namespace std;
+namespace ns = nemesis::syntax;
 
 void combineLines(std::string& last, VecStr& temp, VecStr& combined)
 {
-    if (temp.size() == 0) return;
+    if (temp.empty()) return;
 
     VecStr templaststack;
     string templast;
 
-    if (last.length() > 0 && temp.front() == last)
+    if (!last.empty() && temp.front() == last)
     {
         templaststack.push_back(last);
         temp.erase(temp.begin());
@@ -19,17 +25,17 @@ void combineLines(std::string& last, VecStr& temp, VecStr& combined)
 
     combined.reserve(combined.size() + temp.size());
 
-    if (temp.back().find("<!-- CLOSE -->") != NOT_FOUND)
+    if (temp.back().find(ns::Close()) != NOT_FOUND)
     {
         for (auto& line : temp)
         {
             combined.push_back(line);
 
-            if (line.find("<!-- NEW") != NOT_FOUND || line.find("<!-- FOREACH") != NOT_FOUND)
+            if (line.find(ns::ModCode()) != NOT_FOUND || line.find(ns::ForEach()) != NOT_FOUND)
             {
                 templaststack.push_back(line);
             }
-            else if (line.find("<!-- CLOSE -->") != NOT_FOUND)
+            else if (line.find(ns::Close()) != NOT_FOUND)
             {
                 templast = templaststack.back();
                 templaststack.pop_back();
@@ -45,7 +51,7 @@ void combineLines(std::string& last, VecStr& temp, VecStr& combined)
     }
 }
 
-std::shared_ptr<VecStr> getLinkedLines(const nemesis::LinkedVar<std::string>& linkedline)
+SPtr<VecStr> getLinkedLines(const nemesis::LinkedVar<std::string>& linkedline)
 {
     std::shared_ptr<VecStr> storeline = std::make_shared<VecStr>();
     vector<const nemesis::CondVar<string>*> modcodelist;
@@ -54,35 +60,35 @@ std::shared_ptr<VecStr> getLinkedLines(const nemesis::LinkedVar<std::string>& li
     {
         switch (cond.conditionType)
         {
-            case nemesis::MOD_CODE:
+            case nemesis::CondType::MOD_CODE:
             {
                 modcodelist.push_back(&cond);
                 break;
             }
-            case nemesis::FOREACH:
+            case nemesis::CondType::FOREACH:
             {
-                storeline->push_back("<!-- FOREACH ^" + cond.conditions + "^ -->\n");
+                storeline->push_back(ns::ForEach(cond.conditions) + "\n");
 
                 for (auto& each : cond.rawlist)
                 {
                     storeline->push_back(*each.raw + "\n");
                 }
 
-                storeline->push_back("<!-- CLOSE -->\n");
+                storeline->push_back(ns::Close() + "\n");
                 break;
             }
         }
     }
 
-    if (modcodelist.size() > 0)
+    if (!modcodelist.empty())
     {
         for (auto& modcode : modcodelist)
         {
-            storeline->push_back(*modcode->rawlist[0].raw + "\t\t\t\t\t<!-- *" + modcode->conditions
-                                 + "* -->\n");
+            storeline->push_back(*modcode->rawlist[0].raw + ns::Spaces() + ns::Aster(modcode->conditions)
+                                 + "\n");
         }
 
-        if (linkedline.raw) storeline->push_back(*linkedline.raw + "\t\t\t\t\t<!-- original -->");
+        if (linkedline.raw) storeline->push_back(*linkedline.raw + ns::Spaces() + ns::LowerOriginal());
     }
     else if (linkedline.raw)
     {
@@ -100,39 +106,85 @@ void getLinkedLines(const nemesis::LinkedVar<std::string>& linkedline, VecStr& s
     {
         switch (cond.conditionType)
         {
-            case nemesis::MOD_CODE:
+            case nemesis::CondType::MOD_CODE:
             {
                 modcodelist.push_back(&cond);
                 break;
             }
-            case nemesis::FOREACH:
+            case nemesis::CondType::FOREACH:
             {
-                storeline.push_back("<!-- FOREACH ^" + cond.conditions + "^ -->");
+                storeline.push_back(ns::ForEach(cond.conditions));
 
                 for (auto& each : cond.rawlist)
                 {
-                    storeline.push_back(*each.raw + "");
+                    storeline.push_back(*each.raw);
                 }
 
-                storeline.push_back("<!-- CLOSE -->");
+                storeline.push_back(ns::Close());
                 break;
             }
         }
     }
 
-    if (modcodelist.size() > 0)
+    if (!modcodelist.empty())
     {
         for (auto& modcode : modcodelist)
         {
-            storeline.push_back(*modcode->rawlist[0].raw + "\t\t\t\t\t<!-- *" + modcode->conditions
-                                 + "* -->");
+            storeline.push_back(*modcode->rawlist[0].raw + ns::Spaces() + ns::Aster(modcode->conditions));
         }
 
-        if (linkedline.raw) storeline.push_back(*linkedline.raw + "\t\t\t\t\t<!-- original -->");
+        if (linkedline.raw) storeline.push_back(*linkedline.raw + ns::Spaces() + ns::LowerOriginal());
     }
     else if (linkedline.raw)
     {
         storeline.push_back(*linkedline.raw);
+    }
+}
+
+void getLinkedLines(const nemesis::LinkedVar<nemesis::Line>& linkedline, VecNstr& storeline)
+{
+    vector<const nemesis::CondVar<nemesis::Line>*> modcodelist;
+
+    for (auto& cond : linkedline.nestedcond)
+    {
+        switch (cond.conditionType)
+        {
+            case nemesis::CondType::MOD_CODE:
+            {
+                modcodelist.emplace_back(&cond);
+                break;
+            }
+            case nemesis::CondType::FOREACH:
+            {
+                storeline.emplace_back(ns::ForEach(cond.conditions));
+
+                for (auto& each : cond.rawlist)
+                {
+                    storeline.push_back(*each.raw);
+                }
+
+                storeline.emplace_back(ns::Close());
+                break;
+            }
+        }
+    }
+
+    if (!modcodelist.empty())
+    {
+        for (auto& modcode : modcodelist)
+        {
+            storeline.emplace_back(modcode->rawlist[0].raw->ToString() + ns::Spaces()
+                                   + ns::Aster(modcode->conditions));
+        }
+
+        if (linkedline.raw)
+        {
+            storeline.emplace_back(linkedline.raw->ToString() + ns::Spaces() + ns::LowerOriginal());
+        }
+    }
+    else if (linkedline.raw)
+    {
+        storeline.emplace_back(*linkedline.raw);
     }
 }
 
@@ -146,23 +198,23 @@ void getLinkedLines(vector<nemesis::LinkedVar<string>> linkedlist, VecStr& store
         {
             switch (cond.conditionType)
             {
-                case nemesis::MOD_CODE:
+                case nemesis::CondType::MOD_CODE:
                 {
-                    modcodelist.push_back(
+                    modcodelist.emplace_back(
                         make_pair<const string*, const nemesis::CondVar<string>*>(&cond.conditions, &cond));
                     break;
                 }
-                case nemesis::FOREACH:
+                case nemesis::CondType::FOREACH:
                 {
-                    storeline.push_back("<!-- FOREACH ^" + cond.conditions + "^ -->");
+                    storeline.push_back(ns::ForEach(cond.conditions));
                     getLinkedLines(cond.rawlist, storeline);
-                    storeline.push_back("<!-- CLOSE -->");
+                    storeline.push_back(ns::Close());
                     break;
                 }
             }
         }
 
-        if (modcodelist.size() > 0)
+        if (!modcodelist.empty())
         {
             if (each.raw)
             {
@@ -170,22 +222,22 @@ void getLinkedLines(vector<nemesis::LinkedVar<string>> linkedlist, VecStr& store
 
                 for (auto& modcode : modcodelist)
                 {
-                    list.push_back(pair<string, VecStr>());
+                    list.emplace_back(pair<string, VecStr>());
                     list.back().first = *modcode.first;
                     getLinkedLines(modcode.second->rawlist, list.back().second);
                 }
 
                 for (auto& each : list)
                 {
-                    storeline.push_back("<!-- NEW *" + each.first + "* -->");
+                    storeline.push_back(ns::ModCode(each.first));
                     storeline.insert(storeline.end(), each.second.begin(), each.second.end());
                 }
 
-                if (list.size() > 0)
+                if (!list.empty())
                 {
-                    storeline.push_back("<!-- ORIGINAL -->");
+                    storeline.push_back(ns::Original());
                     storeline.push_back(*each.raw);
-                    storeline.push_back("<!-- CLOSE -->");
+                    storeline.push_back(ns::Close());
                 }
                 else
                 {
@@ -196,9 +248,9 @@ void getLinkedLines(vector<nemesis::LinkedVar<string>> linkedlist, VecStr& store
             {
                 for (auto& modcode : modcodelist)
                 {
-                    storeline.push_back("<!-- NEW *" + *modcode.first + "* -->");
+                    storeline.push_back(ns::ModCode(*modcode.first));
                     getLinkedLines(modcode.second->rawlist, storeline);
-                    storeline.push_back("<!-- CLOSE -->");
+                    storeline.push_back(ns::Close());
                 }
             }
         }
@@ -208,7 +260,17 @@ void getLinkedLines(vector<nemesis::LinkedVar<string>> linkedlist, VecStr& store
         }
         else
         {
-            storeline.push_back("//* delete this line *//");
+            storeline.push_back(ns::DeleteLine());
         }
     }
+}
+
+nemesis::LinkedString nemesis::ToLinkedString(const nemesis::Line& line)
+{
+    return nemesis::LinkedString(line, line.GetLineNumber());
+}
+
+nemesis::LinkedWstring nemesis::ToLinkedWstring(const nemesis::Wline& line)
+{
+    return nemesis::LinkedWstring(line, line.GetLineNumber());
 }

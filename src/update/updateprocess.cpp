@@ -2,6 +2,8 @@
 
 #include <QtCore/QCoreApplication.h>
 
+#include <QtConcurrent/qtconcurrentrun.h>
+
 #include "debuglog.h"
 #include "externalscript.h"
 #include "nemesisinfo.h"
@@ -9,10 +11,11 @@
 
 #include "ui/Terminator.h"
 
-#include "utilities/filechecker.h"
-#include "utilities/lastupdate.h"
 #include "utilities/renew.h"
-#include "utilities/stringsplit.h"
+#include "utilities/lastupdate.h"
+#include "utilities/stringextension.h"
+#include "utilities/filechecker.h"
+#include "utilities/conditionsyntax.h"
 #if MULTITHREADED_UPDATE
 #include "utilities/threadpool.h"
 #endif
@@ -22,13 +25,13 @@
 #include "update/dataunification.h"
 
 #include "generate/behaviorprocess_utility.h"
-#include <QtConcurrent\qtconcurrentrun.h>
 
 using namespace std;
 namespace sf = filesystem;
+namespace ns = nemesis::syntax;
 
-typedef unordered_map<string, unique_ptr<SSMap>> SSSMap;
-typedef unordered_map<string, unique_ptr<map<string, unordered_map<string, bool>>>> MapChildState;
+using SSSMap = UMap<string, UPtr<UMapStr2>>;
+using MapChildState = UMap<string, UPtr<Map<string, UMap<string, bool>>>>;
 
 extern bool processdone;
 extern mutex processlock;
@@ -45,12 +48,12 @@ mutex asdmtx;
 
 void writeSave(FileWriter& writer, const string& line, string& store);
 void writeSave(FileWriter& writer, const char* line, string& store);
-void stateCheck(SSMap& parent,
+void stateCheck(UMapStr2& parent,
                 string parentID,
                 string lowerbehaviorfile,
                 string sID,
-                unique_ptr<SSMap>& stateID,
-                unique_ptr<SSMap>& n_stateID,
+                UPtr<UMapStr2>& stateID,
+                UPtr<UMapStr2>& n_stateID,
                 VecStr children,
                 string filename,
                 string ID,
@@ -64,10 +67,10 @@ void stateCheck(SSMap& parent,
 
 class UpdateLock
 {
-    unordered_map<string, NodeU>& modUpdate;
+    UMap<string, NodeU>& modUpdate;
 
 public:
-    UpdateLock(unordered_map<string, NodeU>& n_modUpdate)
+    UpdateLock(UMap<string, NodeU>& n_modUpdate)
         : modUpdate(n_modUpdate)
     {
     }
@@ -81,11 +84,11 @@ public:
 
 struct arguPack
 {
-    arguPack(map<string, unique_ptr<map<string, VecStr, alphanum_less>>>& n_newFile,
+    arguPack(Map<string, UPtr<Map<string, VecStr, alphanum_less>>>& n_newFile,
              SSSMap& n_parent,
              MasterAnimData& n_animData,
              MasterAnimSetData& n_animSetData,
-             shared_ptr<UpdateLock> n_modUpdate
+             SPtr<UpdateLock> n_modUpdate
 #if MULTITHREADED_UPDATE
              ,
              std::atomic_flag& n_parentLock
@@ -102,15 +105,15 @@ struct arguPack
         modUpdate = n_modUpdate;
     }
 
-    shared_ptr<UpdateLock> modUpdate;
-    map<string, unique_ptr<map<string, VecStr, alphanum_less>>>& newFile;
+    SPtr<UpdateLock> modUpdate;
+    Map<string, UPtr<Map<string, VecStr, alphanum_less>>>& newFile;
 
-    unordered_map<string, unique_ptr<SSMap>> n_stateID;
+    UMap<string, UPtr<UMapStr2>> n_stateID;
 #if MULTITHREADED_UPDATE
     std::atomic_flag stateLock{};
 #endif
 
-    unordered_map<string, unique_ptr<unordered_map<string, VecStr>>> statelist;
+    UMap<string, UPtr<UMap<string, VecStr>>> statelist;
 
     SSSMap& parent;
 #if MULTITHREADED_UPDATE
@@ -152,7 +155,7 @@ void UpdateFilesStart::startUpdatingFile()
         }
     });
 
-    // Seperate try-catch for easier debugging purpose
+    // Separate try-catch for easier debugging purpose
 
     try
     {
@@ -182,7 +185,7 @@ void UpdateFilesStart::startUpdatingFile()
 
     try
     {
-        RunScript("scripts\\update\\start\\");
+        RunScript(R"(scripts\update\start\)");
         DebugLogging("External script run complete");
 
         // clear the temp_behaviors folder to prevent it from bloating
@@ -348,14 +351,14 @@ bool UpdateFilesStart::VanillaUpdate()
 #if MULTITHREADED_UPDATE
     nemesis::ThreadPool mt;
 
-    for (shared_ptr<RegisterQueue>& curBehavior : registeredFiles)
+    for (SPtr<RegisterQueue>& curBehavior : registeredFiles)
     {
         mt.enqueue(&UpdateFilesStart::RegisterBehavior, this, curBehavior);
     }
 
     mt.join();
 #else
-    for (shared_ptr<RegisterQueue>& curBehavior : registeredFiles)
+    for (SPtr<RegisterQueue>& curBehavior : registeredFiles)
     {
         RegisterBehavior(curBehavior);
     }
@@ -363,56 +366,50 @@ bool UpdateFilesStart::VanillaUpdate()
 
     emit progressUp(); // 3
 
-    if (behaviorPath.size() != 0)
+    if (!behaviorPath.empty())
     {
-        FileWriter output("cache\\behavior_path");
+        const string cachebpj = "cache\\behavior_project";
 
-        if (output.is_open())
+        FileWriter output(cachebpj);
+
+        if (!output.is_open()) ErrorMessage(2009, cachebpj);
+
+        for (auto& it : behaviorPath)
         {
-            for (auto it = behaviorPath.begin(); it != behaviorPath.end(); ++it)
-            {
-                output << it->first << "=" << it->second << "\n";
-            }
-        }
-        else
-        {
-            ErrorMessage(2009, "cache\\behavior_path");
+            output << it.first << "=" << it.second << "\n";
         }
     }
 
-    if (behaviorProject.size() != 0)
+    if (!behaviorProject.empty())
     {
-        FileWriter output("cache\\behavior_project");
+        const string cachebpj = "cache\\behavior_project";
 
-        if (output.is_open())
+        FileWriter output(cachebpj);
+
+        if (!output.is_open()) ErrorMessage(2009, cachebpj);
+
+        for (auto&it : behaviorProject)
         {
-            for (auto it = behaviorProject.begin(); it != behaviorProject.end(); ++it)
+            output << it.first.data() << "\n";
+
+            for (auto& pj : it.second)
             {
-                output << it->first.data() << "\n";
-
-                for (unsigned int i = 0; i < it->second.size(); ++i)
-                {
-                    output << it->second[i] << "\n";
-                }
-
-                output << "\n";
+                output << pj << "\n";
             }
-        }
-        else
-        {
-            ErrorMessage(2009, "cache\\behavior_project");
+
+            output << "\n";
         }
     }
 
-    if (behaviorProjectPath.size() != 0)
+    if (!behaviorProjectPath.empty())
     {
         FileWriter output("cache\\behavior_project_path");
 
         if (output.is_open())
         {
-            for (auto it = behaviorProjectPath.begin(); it != behaviorProjectPath.end(); ++it)
+            for (auto& it : behaviorProjectPath)
             {
-                output << it->first << "=" << it->second << "\n";
+                output << it.first << "=" << it.second << "\n";
             }
         }
         else
@@ -460,7 +457,7 @@ void UpdateFilesStart::GetFileLoop(string path)
     }
 }
 
-void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
+void UpdateFilesStart::RegisterBehavior(SPtr<RegisterQueue> curBehavior)
 {
     try
     {
@@ -533,12 +530,12 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
                                              + curBehavior->file.stem().wstring().substr(8));
             }
 
-            unique_ptr<map<string, VecStr, alphanum_less>> _curNewFile
-                = make_unique<map<string, VecStr, alphanum_less>>();
-            unique_ptr<map<string, unordered_map<string, bool>>> _childrenState
-                = make_unique<map<string, unordered_map<string, bool>>>();
-            unique_ptr<SSMap> _stateID = make_unique<SSMap>();
-            unique_ptr<SSMap> _parent  = make_unique<SSMap>();
+            UPtr<Map<string, VecStr, alphanum_less>> _curNewFile
+                = make_unique<Map<string, VecStr, alphanum_less>>();
+            UPtr<Map<string, UMap<string, bool>>> _childrenState
+                = make_unique<Map<string, UMap<string, bool>>>();
+            UPtr<UMapStr2> _stateID = make_unique<UMapStr2>();
+            UPtr<UMapStr2> _parent  = make_unique<UMapStr2>();
 
             VanillaDisassemble(newPath, _curNewFile, _childrenState, _stateID, _parent);
 
@@ -606,10 +603,10 @@ void UpdateFilesStart::RegisterBehavior(shared_ptr<RegisterQueue> curBehavior)
 #if MULTITHREADED_UPDATE
                     Lockless lock(behaviorProjectLock);
 #endif
-                    behaviorProject[characterfile.data()].push_back(nemesis::transform_to<string>(curFileName));
+                    behaviorProject[characterfile].push_back(nemesis::transform_to<string>(curFileName));
                 }
 
-                if (line.find("<hkparam name=\"characterFilenames\" numelements=\"") != NOT_FOUND
+                if (line.find(R"(<hkparam name="characterFilenames" numelements=")") != NOT_FOUND
                     && line.find("</hkparam>") == NOT_FOUND)
                     record = true;
             }
@@ -705,10 +702,10 @@ void UpdateFilesStart::GetPathLoop(const filesystem::path& path, bool isFirstPer
 }
 
 bool UpdateFilesStart::VanillaDisassemble(const wstring& path,
-                                          unique_ptr<map<string, VecStr, alphanum_less>>& curNewFile,
-                                          unique_ptr<map<string, unordered_map<string, bool>>>& childrenState,
-                                          unique_ptr<SSMap>& stateID,
-                                          unique_ptr<SSMap>& parent)
+                                          UPtr<Map<string, VecStr, alphanum_less>>& curNewFile,
+                                          UPtr<Map<string, UMap<string, bool>>>& childrenState,
+                                          UPtr<UMapStr2>& stateID,
+                                          UPtr<UMapStr2>& parent)
 {
     VecStr storeline;
     storeline.reserve(2000);
@@ -716,7 +713,7 @@ bool UpdateFilesStart::VanillaDisassemble(const wstring& path,
     FileReader vanillafile(path);
     string curID;
 
-    unordered_map<string, VecStr> statelist; // parent ID, list of children
+    UMap<string, VecStr> statelist; // parent ID, list of children
 
     if (vanillafile.GetFile())
     {
@@ -735,7 +732,7 @@ bool UpdateFilesStart::VanillaDisassemble(const wstring& path,
                 {
                     bool isVector4 = false;
 
-                    if (storeline.size() > 0 && storeline.back().find("numelements=\"") != NOT_FOUND
+                    if (!storeline.empty() && storeline.back().find("numelements=\"") != NOT_FOUND
                         && storeline.back().find("</hkparam>", storeline.back().find("numelements=\""))
                                == NOT_FOUND)
                     {
@@ -930,13 +927,18 @@ bool UpdateFilesStart::VanillaDisassemble(const wstring& path,
                         if (curline.find("<hkobject name=\"", 0) != NOT_FOUND
                             && curline.find("signature=\"", curline.find("<hkobject name=\"")) != NOT_FOUND)
                         {
-                            if (curline.find("class=\"hkbStateMachine\" signature=\"") != NOT_FOUND)
+                            if (curline.find(R"(class="hkbStateMachine" signature=")") != NOT_FOUND)
                                 isSM = true;
                             else
                                 isSM = false;
 
                             if (storeline.size() != 0 && curID.length() != 0)
                             {
+                                if (curID == "#0340")
+                                {
+                                    curID = curID;
+                                }
+
                                 storeline.shrink_to_fit();
                                 (*curNewFile)[curID] = storeline;
                                 storeline.reserve(2000);
@@ -995,7 +997,7 @@ bool UpdateFilesStart::AnimDataDisassemble(const wstring& path, MasterAnimData& 
 #endif
     size_t num;
     VecStr storeline;
-    unordered_map<string, int> projectNameCount;
+    UMap<string, int> projectNameCount;
 
     int projectcounter = 0;
     size_t totallines = 0;
@@ -1034,7 +1036,7 @@ bool UpdateFilesStart::AnimDataDisassemble(const wstring& path, MasterAnimData& 
         for (unsigned int i = num; i < storeline.size();)
         {
             unsigned int size                      = stoi(storeline[i]) + i;
-            shared_ptr<AnimDataProject_Condt> proj = animData.projectlist[projectcounter++].raw->second;
+            SPtr<AnimDataProject_Condt> proj = animData.projectlist[projectcounter++].raw->second;
 
             // start project header
             VecStr templine;
@@ -1124,12 +1126,12 @@ bool UpdateFilesStart::AnimSetDataDisassemble(const wstring& path, MasterAnimSet
     for (auto& project : animSetData.projects)
     {
         // Adding data set
-        project.raw->importAnimSetData(path, storeline, ++num);
-        
+        project.raw->ImportData(path, ++num, storeline);
+
         for (auto& dataset : project.raw->getAnimSetData())
         {
             num += 2;
-            dataset.raw->importData(path, num, storeline);
+            dataset.raw->ImportData(path, num, storeline);
         }
     }
 
@@ -1139,9 +1141,14 @@ bool UpdateFilesStart::AnimSetDataDisassemble(const wstring& path, MasterAnimSet
 void UpdateFilesStart::ModThread(const string& directory,
                                  const string& node,
                                  const string& behavior,
-                                 unordered_map<string, shared_ptr<arguPack>>& pack)
+                                 UMap<string, SPtr<arguPack>>& pack)
 {
     VecStr* modlist = &modQueue[behavior][node];
+
+    if (node == "#0340.txt")
+    {
+        modlist = modlist;
+    }
 
     for (string& modcode : *modlist)
     {
@@ -1156,7 +1163,7 @@ void UpdateFilesStart::ModThread(const string& directory,
             {
                 MasterAnimData& animData(curpack->animData);
 
-                if (animData.projectlist.size() == 0)
+                if (animData.projectlist.empty())
                 {
                     ErrorMessage(3017, "nemesis_animationdatasinglefile.txt");
                 }
@@ -1184,10 +1191,7 @@ void UpdateFilesStart::ModThread(const string& directory,
                     if (!isFileExist(fullpath)) ErrorMessage(2002, fullpath, "-", "-");
 
                     saveLastUpdate(nemesis::to_lower_copy(fullpath), lastUpdate);
-
-                    VecStr storeline;
-                    GetFunctionLines(fullpath, storeline, false);
-                    animData.projectListUpdate(modcode, fullpath, storeline, false);
+                    animData.projectListUpdate(modcode, fullpath, false);
                 }
                 else if (!animData.find(projectname, modcode))
                 {
@@ -1198,13 +1202,10 @@ void UpdateFilesStart::ModThread(const string& directory,
                         if (!isFileExist(fullpath)) ErrorMessage(2002, fullpath, "-", "-");
 
                         saveLastUpdate(nemesis::to_lower_copy(fullpath), lastUpdate);
-
-                        VecStr storeline;
-                        GetFunctionLines(fullpath, storeline, false);
-                        animData.projectListUpdate(modcode, fullpath, storeline, false);
+                        animData.projectListUpdate(modcode, fullpath, false);
                     }
 
-                    if (!animData.contains(projectname)) ErrorMessage(3011, "$header$.txt", projectname);
+                    if (!animData.contains(projectname)) ErrorMessage(3011, "$header$.txt", projectname, modcode);
 
                     for (string& uniquecode : uniquecodelist)
                     {
@@ -1291,10 +1292,8 @@ void UpdateFilesStart::ModThread(const string& directory,
 
                     saveLastUpdate(nemesis::to_lower_copy(fullpath), lastUpdate);
 
-                    VecNstr storeline;
                     newProject = true;
-                    GetFunctionLines(fullpath, storeline, false);
-                    animSetData.projectListUpdate(modcode, fullpath, storeline, nemesis::CondDetails::modCheck);
+                    animSetData.projectListUpdate(modcode, fullpath, nemesis::CondDetails::modCheck);
                 }
 
                 if (!animSetData.contains(project)) ErrorMessage(5000, "$header$.txt", project, modcode);
@@ -1314,12 +1313,11 @@ void UpdateFilesStart::ModThread(const string& directory,
 
                         if (newProject)
                         {
-                            projptr->importAnimSetData(headerPath, storeline, num);
+                            projptr->ImportData(headerPath, num, storeline);
                         }
                         else
                         {
-                            projptr->importAnimSetData(
-                                headerPath, storeline, num, nemesis::CondDetails::modCheck, modcode);
+                            projptr->ImportData(headerPath, num, storeline, modcode);
                         }
                     }
                 }
@@ -1346,8 +1344,8 @@ void UpdateFilesStart::ModThread(const string& directory,
         }
         else
         {
-            unique_ptr<map<string, VecStr, alphanum_less>>& newFile(curpack->newFile[behavior]);
-            shared_ptr<UpdateLock> modUpdate(curpack->modUpdate);
+            UPtr<Map<string, VecStr, alphanum_less>>& newFile(curpack->newFile[behavior]);
+            SPtr<UpdateLock> modUpdate(curpack->modUpdate);
 
             (*modUpdate)[behavior + node.substr(0, node.find_last_of("."))].FunctionUpdate(
                 modcode,
@@ -1381,10 +1379,10 @@ void UpdateFilesStart::ModThread(const string& directory,
         {
 #if MULTITHREADED_UPDATE
             Lockless plock(pack[modcode]->parentLock);
-            SSMap parent = *pack[modcode]->parent[behavior];
+            UMapStr2 parent = *pack[modcode]->parent[behavior];
             plock.Unlock();
 #else
-            SSMap parent = *pack[modcode]->parent[behavior];
+            UMapStr2 parent = *pack[modcode]->parent[behavior];
 #endif
             string spath = directory + modcode + "\\" + behavior + "\\";
 
@@ -1394,8 +1392,8 @@ void UpdateFilesStart::ModThread(const string& directory,
 
                 if (sf::is_directory(spath + curNode)) continue;
 
-                unordered_map<string, bool> skipped;
-                unique_ptr<SSMap>& _stateID(pack[modcode]->n_stateID[behavior]);
+                UMap<string, bool> skipped;
+                UPtr<UMapStr2>& _stateID(pack[modcode]->n_stateID[behavior]);
                 auto& statelist = pack[modcode]->statelist[behavior];
 
                 for (auto& state : *statelist)
@@ -1556,7 +1554,7 @@ void UpdateFilesStart::ModThread(const string& directory,
 
 void UpdateFilesStart::SeparateMod(const string& directory,
                                    TargetQueue target,
-                                   unordered_map<string, shared_ptr<arguPack>>& pack)
+                                   UMap<string, SPtr<arguPack>>& pack)
 {
     try
     {
@@ -1615,12 +1613,12 @@ void UpdateFilesStart::JoiningEdits(string directory)
                 VecStr filelist;
                 read_directory(directory, filelist);
 
-                unordered_map<string, NodeU> modUpdate;
-                unordered_map<string, VecStr> filelist2;
-                shared_ptr<UpdateLock> modUpPtr = make_shared<UpdateLock>(modUpdate);
+                UMap<string, NodeU> modUpdate;
+                UMap<string, VecStr> filelist2;
+                SPtr<UpdateLock> modUpPtr = make_shared<UpdateLock>(modUpdate);
 
                 atomic_flag parentLock{};
-                unordered_map<string, shared_ptr<arguPack>> pack;
+                UMap<string, SPtr<arguPack>> pack;
                 vector<sf::path> pathlist;
 
                 for (auto& modcode : filelist)
@@ -1673,8 +1671,8 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                 }
 
                                 curpack->statelist.insert(
-                                    make_pair(recName, make_unique<unordered_map<string, VecStr>>()));
-                                curpack->n_stateID.insert(make_pair(recName, make_unique<SSMap>()));
+                                    make_pair(recName, make_unique<UMap<string, VecStr>>()));
+                                curpack->n_stateID.insert(make_pair(recName, make_unique<UMapStr2>()));
                             }
                         }
                         else
@@ -1694,8 +1692,8 @@ void UpdateFilesStart::JoiningEdits(string directory)
                                 }
 
                                 curpack->statelist.insert(
-                                    make_pair(behavior, make_unique<unordered_map<string, VecStr>>()));
-                                curpack->n_stateID.insert(make_pair(behavior, make_unique<SSMap>()));
+                                    make_pair(behavior, make_unique<UMap<string, VecStr>>()));
+                                curpack->n_stateID.insert(make_pair(behavior, make_unique<UMapStr2>()));
                             }
                             else
                             {
@@ -1712,7 +1710,7 @@ void UpdateFilesStart::JoiningEdits(string directory)
                 {
                     for (auto& node : behavior.second)
                     {
-                        processQueue.push_back(TargetQueue(behavior.first, node.first));
+                        processQueue.emplace_back(behavior.first, node.first);
                     }
                 }
 
@@ -1726,9 +1724,9 @@ void UpdateFilesStart::JoiningEdits(string directory)
 
                 queuing = 0;
 
-                if (processQueue.size() > 0)
+                if (!processQueue.empty())
                 {
-                    // Using non-multithreading method due to heap corruption upon using solution below
+                    // Using non-multi threading method due to heap corruption upon using solution below
 #if MULTITHREADED_UPDATE
                     nemesis::ThreadPool multiThreads;
 
@@ -1835,13 +1833,13 @@ void UpdateFilesStart::CombiningFiles()
 
                 if (OpeningMod != modID && isOpen)
                 {
-                    fileline.push_back("<!-- CLOSE -->");
+                    fileline.push_back(ns::Close());
                     isOpen = false;
                 }
 
                 if (!isOpen)
                 {
-                    fileline.push_back("<!-- NEW *" + modID + "* -->");
+                    fileline.push_back(ns::ModCode(modID));
                     OpeningMod = modID;
                     isOpen     = true;
                 }
@@ -1851,7 +1849,7 @@ void UpdateFilesStart::CombiningFiles()
 
             for (string& line : node.second)
             {
-                if (line.find("class=\"hkRootLevelContainer\" signature=\"0x2772c11e\">", 0) != NOT_FOUND)
+                if (line.find(R"(class="hkRootLevelContainer" signature="0x2772c11e">)", 0) != NOT_FOUND)
                 {
                     rootID = "#"
                              + nemesis::regex_replace(
@@ -1864,85 +1862,95 @@ void UpdateFilesStart::CombiningFiles()
 
         if (isOpen)
         {
-            fileline.push_back("<!-- CLOSE -->");
+            fileline.push_back(ns::Close());
             isOpen = false;
         }
 
         if (CreateFolder(compilingfolder))
         {
+            const string firstp = "_1stperson";
+            const wstring wfirstp = L"_1stperson";
+
             string lowerBehaviorFile = behavior.first;
             wstring filepath = compilingfolder + nemesis::transform_to<wstring>(lowerBehaviorFile) + L".txt";
-            bool firstPerson = lowerBehaviorFile.find("_1stperson\\") == 0;
+            bool firstPerson = lowerBehaviorFile.find(firstp + "\\") == 0;
 
-            if (firstPerson) sf::create_directory(compilingfolder + L"_1stperson\\");
+            if (firstPerson) sf::create_directory(compilingfolder + wfirstp + L"\\");
 
             FileWriter output(filepath);
 
-            if (output.is_open())
+            if (!output.is_open()) ErrorMessage(2009, output.GetFilePath());
+
+            bool behaviorRef = false;
+            string total     = nemesis::transform_to<string>(filepath) + "\n";
+
+            const string hkxheader = "<?xml version=\"1.0\" encoding=\"ascii\"?>\n";
+            const string hkxpackfile
+                = R"(<hkpackfile classversion="8" contentsversion="hk_2010.2.0 - r1" toplevelobject=")"
+                  + rootID + "\">\n\n";
+            const string hkxsection = "	<hksection name=\"__data__\">\n\n";
+
+            const string endhkxsection  = "	</hksection>\n\n";
+            const string endhkxpackfile = "</hkpackfile>\n";
+
+            const string xmlbhvclass = R"(class="hkbBehaviorReferenceGenerator" signature=")";
+
+            const string xmlbhvname = R"(<hkparam name="behaviorName">)";
+            const string xmlbhvfile = R"(<hkparam name="behaviorFilename">)";
+            const string endparam   = "</hkparam>";
+            const string hkxobj     = R"(<hkobject name=")";
+
+            writeSave(output, hkxheader, total);
+            writeSave(output, hkxpackfile, total);
+            writeSave(output, hkxsection, total);
+
+            string behaviorName;
+
+            for (auto& line : fileline)
             {
-                bool behaviorRef = false;
-                string total     = nemesis::transform_to<string>(filepath) + "\n";
+                writeSave(output, line + "\n", total);
+                uint pos = line.find(hkxobj);
 
-                writeSave(output, "<?xml version=\"1.0\" encoding=\"ascii\"?>\n", total);
-                writeSave(
-                    output,
-                    "<hkpackfile classversion=\"8\" contentsversion=\"hk_2010.2.0 - r1\" toplevelobject=\""
-                        + rootID + "\">\n\n",
-                    total);
-                writeSave(output, "	<hksection name=\"__data__\">\n\n", total);
-
-                for (auto& line : fileline)
+                if (line.find(xmlbhvclass, pos) != NOT_FOUND)
                 {
-                    writeSave(output, line + "\n", total);
-                    size_t pos = line.find("<hkobject name=\"");
-
-                    if (pos != NOT_FOUND && line.find("signature=\"", pos) != NOT_FOUND)
-                    {
-                        behaviorRef = line.find("class=\"hkbBehaviorReferenceGenerator\" signature=\"", pos)
-                                      != NOT_FOUND;
-                    }
-
-                    if (behaviorRef && line.find("<hkparam name=\"behaviorName\">") != NOT_FOUND)
-                    {
-                        size_t nextpos = line.find("behaviorName\">") + 14;
-                        string behaviorName
-                            = GetFileName(line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos));
-                        nemesis::to_lower(behaviorName);
-
-                        if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND)
-                        {
-                            behaviorName = "_1stperson\\" + behaviorName;
-                        }
-
-                        behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
-                        behaviorRef = false;
-                    }
-                    else if (line.find("<hkparam name=\"behaviorFilename\">") != NOT_FOUND)
-                    {
-                        size_t nextpos = line.find("behaviorFilename\">") + 18;
-                        string behaviorName
-                            = line.substr(nextpos, line.find("</hkparam>", nextpos) - nextpos);
-                        behaviorName = GetFileName(behaviorName);
-                        nemesis::to_lower(behaviorName);
-
-                        if (lowerBehaviorFile.find("_1stperson") != NOT_FOUND)
-                        {
-                            behaviorName = "_1stperson\\" + behaviorName;
-                        }
-
-                        behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
-                    }
+                    behaviorRef = true;
                 }
 
-                writeSave(output, "	</hksection>\n\n", total);
-                writeSave(output, "</hkpackfile>\n", total);
-                fileline.clear();
-                (firstPerson ? bigNum2 : bigNum) += CRC32Convert(total);
+                if (behaviorRef)
+                {
+                    pos = line.find(xmlbhvname);
+
+                    if (pos == NOT_FOUND) continue;
+
+                    uint nextpos = pos + xmlbhvname.length();
+                    behaviorName = line.substr(nextpos, line.find(endparam, nextpos) - nextpos);
+                    behaviorRef  = false;
+                }
+                else
+                {
+                    pos = line.find(xmlbhvfile);
+
+                    if (pos == NOT_FOUND) continue;
+
+                    uint nextpos = pos + xmlbhvfile.length();
+                    behaviorName = line.substr(nextpos, line.find(endparam, nextpos) - nextpos);
+                }
+
+                behaviorName = GetFileName(behaviorName);
+                nemesis::to_lower(behaviorName);
+
+                if (lowerBehaviorFile.find(firstp) != NOT_FOUND)
+                {
+                    behaviorName = firstp + "\\" + behaviorName;
+                }
+
+                behaviorJoints[behaviorName].push_back(lowerBehaviorFile);
             }
-            else
-            {
-                ErrorMessage(2009, filepath);
-            }
+
+            writeSave(output, endhkxsection, total);
+            writeSave(output, endhkxpackfile, total);
+            fileline.clear();
+            (firstPerson ? bigNum2 : bigNum) += CRC32Convert(total);
         }
     }
 
@@ -1951,79 +1959,33 @@ void UpdateFilesStart::CombiningFiles()
 
     if (CreateFolder(compilingfolder))
     {
-        wstring filepath = compilingfolder + L"animationdatasinglefile.txt";
-        FileWriter output(filepath);
-        FileWriter outputlist("cache\\animationdata_list");
-
-        if (output.is_open())
-        {
-            if (outputlist.is_open())
-            {
-                string total = nemesis::transform_to<string>(filepath) + "\n";
-                animData.writelines(output);
-            }
-            else
-            {
-                ErrorMessage(2009, "cache\\animationdata_list");
-            }
-        }
-        else
-        {
-            ErrorMessage(2009, filepath);
-        }
+        wstring filepath  = compilingfolder + L"animationdatasinglefile.txt";
+        const auto& total = animData.SaveTemplateAs(filepath);
+        bigNum2 += CRC32Convert(total);
     }
+
     emit progressUp(); // 29
 
     if (CreateFolder(compilingfolder))
     {
-        wstring filepath = compilingfolder + L"animationsetdatasinglefile.txt";
-        FileWriter output(filepath);
-        FileWriter outputlist("cache\\animationsetdata_list");
-
-        if (output.is_open())
-        {
-            if (outputlist.is_open())
-            {
-                string total = nemesis::transform_to<string>(filepath) + "\n";
-                VecStr asdlines;
-                animSetData.getlines(asdlines);
-
-                for (string& line : asdlines)
-                {
-                    writeSave(output, line + "\n", total);
-                }
-
-                bigNum2 += CRC32Convert(total);
-            }
-            else
-            {
-                ErrorMessage(2009, "cache\\animationsetdata_list");
-            }
-        }
-        else
-        {
-            ErrorMessage(2009, filepath);
-        }
+        wstring filepath  = compilingfolder + L"animationsetdatasinglefile.txt";
+        const auto& total = animSetData.SaveTemplateAs(filepath);
+        bigNum2 += CRC32Convert(total);
     }
 
     emit progressUp(); // 30
 
     FileWriter lastmod("cache\\engine_update");
 
-    if (lastmod.is_open())
-    {
-        lastmod << GetNemesisVersion() << "\n";
-        engineVersion = to_string(bigNum % 10000) + "-" + to_string(bigNum2 % 10000);
-        lastmod << engineVersion << "\n";
+    if (!lastmod.is_open()) ErrorMessage(2009, "cache\\engine_update");
 
-        for (auto& it : lastUpdate)
-        {
-            lastmod << it.first + L">>" + it.second + L"\n";
-        }
-    }
-    else
+    lastmod << GetNemesisVersion() << "\n";
+    engineVersion = to_string(bigNum % 10000) + "-" + to_string(bigNum2 % 10000);
+    lastmod << engineVersion << "\n";
+
+    for (auto& it : lastUpdate)
     {
-        ErrorMessage(2009, "cache\\engine_update");
+        lastmod << it.first + L">>" + it.second + L"\n";
     }
 
     emit progressUp(); // 31
@@ -2048,6 +2010,8 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
 
             if (sf::is_directory(curfolder))
             {
+                DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
+
                 if (nemesis::iequals(beh, "animationdatasinglefile"))
                 {
                     VecStr characterlist;
@@ -2094,43 +2058,40 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
                 }
                 else if (nemesis::iequals(beh, "animationsetdatasinglefile"))
                 {
-                    VecStr projectfile;
-                    read_directory(curfolderstr, projectfile);
-                    DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
+                    VecStr projectfilelist;
+                    read_directory(curfolderstr, projectfilelist);
 
-                    for (unsigned int k = 0; k < projectfile.size(); ++k)
+                    for (const auto& file : projectfilelist)
                     {
-                        if (sf::is_directory(curfolderstr + "\\" + projectfile[k])
-                            && projectfile[k].find("~") != NOT_FOUND)
+                        string projfile = file;
+
+                        if (!sf::is_directory(curfolderstr + "\\" + file) || file.find("~") == NOT_FOUND)
                         {
-                            string projectname = projectfile[k];
-                            nemesis::to_lower(projectname);
+                            continue;
+                        }
 
-                            while (projectname.find("~") != NOT_FOUND)
-                            {
-                                projectname.replace(projectname.find("~"), 1, "\\");
-                            }
+                        nemesis::to_lower(projfile);
 
-                            if (!newAnimDataSetUpdateExt(curfolderstr + "\\" + projectfile[k],
-                                                         curCode,
-                                                         projectname + ".txt",
-                                                         animSetData,
-                                                         newAnimAddition,
-                                                         lastUpdate))
-                            {
-                                newAnimFunction = false;
-                                return;
-                            }
+                        while (projfile.find("~") != NOT_FOUND)
+                        {
+                            projfile.replace(projfile.find("~"), 1, "\\");
+                        }
+
+                        if (!newAnimDataSetUpdateExt(curfolderstr + "\\" + file,
+                                                     curCode,
+                                                     projfile + ".txt",
+                                                     animSetData,
+                                                     newAnimAddition,
+                                                     lastUpdate))
+                        {
+                            newAnimFunction = false;
+                            return;
                         }
                     }
-
-                    DebugLogging("New Animations extraction complete (Folder: " + curfolderstr + ")");
                 }
                 else
                 {
                     if (nemesis::iequals(beh, "_1stperson")) ErrorMessage(6004, curfolderstr);
-
-                    DebugLogging("New Animations extraction start (Folder: " + curfolderstr + ")");
 
                     if (!newAnimUpdateExt(folderpath,
                                           curCode,
@@ -2142,9 +2103,9 @@ void UpdateFilesStart::newAnimUpdate(string sourcefolder, string curCode)
                         newAnimFunction = false;
                         return;
                     }
-
-                    DebugLogging("New Animations extraction complete (Folder: " + curfolderstr + ")");
                 }
+
+                DebugLogging("New Animations extraction complete (Folder: " + curfolderstr + ")");
             }
         }
     }
@@ -2339,12 +2300,12 @@ void UpdateFilesStart::unregisterProcess()
     emit end();
 }
 
-void stateCheck(SSMap& parent,
+void stateCheck(UMapStr2& parent,
                 string parentID,
                 string lowerbehaviorfile,
                 string sID,
-                unique_ptr<SSMap>& stateID,
-                unique_ptr<SSMap>& n_stateID,
+                UPtr<UMapStr2>& stateID,
+                UPtr<UMapStr2>& n_stateID,
                 VecStr children,
                 string filename,
                 string ID,

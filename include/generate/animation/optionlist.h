@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
-typedef std::vector<std::string> VecStr;
+using VecStr = std::vector<std::string>;
 
 struct OptionList
 {

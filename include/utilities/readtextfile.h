@@ -1,21 +1,25 @@
 #ifndef READTEXTFILE_H_
 #define READTEXTFILE_H_
 
-#include <QtCore\QFile.h>
 #include <filesystem>
+
+#include <QtCore\QFile.h>
+#include <QtCore\QTextStream.h>
 
 struct FileReader
 {
     QFile file;
+    QTextStream stream;
 
     FileReader(const char* filename)
     {
         file.setFileName(QString::fromStdString(filename));
     }
 
-    FileReader(std::filesystem::path filename)
+    FileReader(const std::filesystem::path& filename)
     {
         file.setFileName(QString::fromStdWString(filename.wstring()));
+        stream.setDevice(&file);
     }
 
     std::filesystem::path GetFilePath() const
@@ -25,81 +29,40 @@ struct FileReader
 
     bool GetFile()
     {
-        return file.open(QIODevice::ReadOnly);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
+
+        stream.setDevice(&file);
+        stream.setCodec("UTF-8");
+        return true;
     }
 
-    bool GetLines(std::string& line)
+    inline bool GetLines(std::string& line)
     {
-        while (!file.atEnd())
+        if (file.atEnd()) return false;
+
+        line = file.readLine().toStdString();
+
+        while (line.length() > 0 && (line.back() == '\n' || line.back() == '\r'))
         {
-            QString qline = file.readLine();
-            line          = qline.toStdString();
-
-            while (line.length() > 0 && (line.back() == '\n' || line.back() == '\r'))
-            {
-                line.pop_back();
-            }
-
-            return true;
+            line.pop_back();
         }
 
-        return false;
+        return true;
     }
 
-    bool GetLines(std::string_view& line)
+    inline bool GetLines(std::wstring& line)
     {
-        while (!file.atEnd())
+        if (file.atEnd()) return false;
+
+        QString qline = file.readLine();
+        line          = qline.toStdWString();
+
+        while (line.length() > 0 && (line.back() == L'\n' || line.back() == L'\r'))
         {
-            QString qline        = file.readLine();
-            const char* templine = qline.toStdString().c_str();
-            line                 = std::string_view(templine);
-
-            while (line.length() > 0 && (line.back() == '\n' || line.back() == '\r'))
-            {
-                line = std::string_view(templine, line.length() - 1);
-            }
-
-            return true;
+            line.pop_back();
         }
 
-        return false;
-    }
-
-    bool GetLines(std::wstring& line)
-    {
-        while (!file.atEnd())
-        {
-            QString qline = file.readLine();
-            line          = qline.toStdWString();
-
-            while (line.length() > 0 && (line.back() == '\n' || line.back() == '\r'))
-            {
-                line.pop_back();
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    bool GetLines(std::wstring_view& line)
-    {
-        while (!file.atEnd())
-        {
-            QString qline           = file.readLine();
-            const wchar_t* templine = qline.toStdWString().c_str();
-            line                    = std::wstring_view(templine);
-
-            while (line.length() > 0 && (line.back() == '\n' || line.back() == '\r'))
-            {
-                line = std::wstring_view(templine, line.length() - 1);
-            }
-
-            return true;
-        }
-
-        return false;
+        return true;
     }
 };
 

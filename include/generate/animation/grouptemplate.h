@@ -17,7 +17,7 @@ typedef std::set<std::string> SetStr;
 typedef std::vector<std::string> VecStr;
 typedef std::unordered_set<std::string> USetStr;
 typedef std::unordered_map<std::string, int> ID;
-typedef std::unordered_map<std::string, std::string> SSMap;
+typedef std::unordered_map<std::string, std::string> UMapStr2;
 typedef std::unordered_map<std::string, std::unordered_map<std::string, std::string>> ImportContainer;
 
 struct master;
@@ -63,7 +63,7 @@ private:
     ImportContainer* newImport;
     std::string filename, format;
     int* nextFunctionID;
-    SSMap IDExist;
+    UMapStr2 IDExist;
     std::shared_ptr<master> subFunctionIDs;
     std::shared_ptr<AnimTemplate> grouptemplate;
     proc* process;
@@ -124,7 +124,7 @@ private:
     int* nextFunctionID;
     ImportContainer* newImport;
     std::string format;
-    SSMap IDExist;
+    UMapStr2 IDExist;
     std::shared_ptr<master> subFunctionIDs;
     std::vector<std::vector<std::shared_ptr<AnimationInfo>>> groupAnimInfo;
     std::atomic_flag* nodeIDLock;

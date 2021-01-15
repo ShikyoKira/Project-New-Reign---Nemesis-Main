@@ -56,20 +56,15 @@ bool PCEACheck(const NemesisInfo* nemesisInfo)
     DebugLogging("Initializing PCEA Check...");
     wstring file = nemesisInfo->GetDataPath() + L"Nemesis PCEA.esp";
 
-    if (isFileExist(file))
-    {
-        file = L"alternate animation\\nemesis pcea.script";
+    if (!isFileExist(file)) return false;
 
-        if (!isFileExist(file)) ErrorMessage(1092, file);
+    file = L"alternate animation\\nemesis pcea.script";
 
-        file = nemesisInfo->GetDataPath() + L"scripts\\Nemesis_PCEA_MCM.pex";
+    if (!isFileExist(file)) ErrorMessage(1092, file);
 
-        if (!isFileExist(file)) ErrorMessage(1092, file);
-    }
-    else
-    {
-        return false;
-    }
+    file = nemesisInfo->GetDataPath() + L"scripts\\Nemesis_PCEA_MCM.pex";
+
+    if (!isFileExist(file)) ErrorMessage(1092, file);
 
     DebugLogging("PCEA Check complete");
     return true;
@@ -104,7 +99,7 @@ void behaviorActivateMod(VecStr behaviorPriority)
         for (auto& behavior : behaviorlist)
         {
             if (!nemesis::iequals(behavior, "info.ini") && !nemesis::iequals(behavior, "_1stperson"))
-            { 
+            {
                 activatedBehavior[nemesis::to_lower_copy(behavior)] = true;
             }
             else if (nemesis::iequals(behavior, "_1stperson"))

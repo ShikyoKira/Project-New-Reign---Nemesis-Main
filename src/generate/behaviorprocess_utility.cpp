@@ -3,7 +3,7 @@
 #include "utilities/algorithm.h"
 #include "utilities/atomiclock.h"
 
-#include "generate/behaviorgenerator.h"
+#include "generate/hkxcompiler.h"
 #include "generate/behaviorprocess_utility.h"
 
 #include "generate/animation/nodejoint.h"
@@ -132,7 +132,7 @@ void unpackToCatalyst(map<int, VecStr>& catalystMap, unordered_map<int, shared_p
 	}
 }
 
-int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone, const HkxCompiler& hkxCompiler)
+int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone)
 {
     int bonenum = 0;
 
@@ -141,67 +141,63 @@ int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone, const H
         FILE* bonefile;
         _wfopen_s(&bonefile, rigfile.wstring().c_str(), L"r+b");
 
-        if (bonefile)
+        if (!bonefile) ErrorMessage(3002, rigfile);
+
+        uint16_t num = 0;
+        vector<char> chlist;
+        chlist.reserve(50000);
+        string line;
+        line.reserve(50000);
+
+        while (!feof(bonefile))
         {
-            uint16_t num = 0;
-            vector<char> chlist;
-            string line;
-
-            while (!feof(bonefile))
-            {
-                char c = fgetc(bonefile);
-                chlist.push_back(c);
-                line.push_back(c);
-            }
-
-            fclose(bonefile);
-
-            using uchar     = unsigned char;
-            bool startCount = false;
-            bool start      = true;
-            uint pos        = line.find("NPC Root [Root]");
-
-			if (pos != NOT_FOUND && pos > 64)
-            {
-                pos -= 64;
-                char* ch = reinterpret_cast<char*>(&num);
-                ch[0]    = chlist[pos];
-                ch[1]    = chlist[pos + 1];
-			}
-
-            if (error) throw nemesis::exception();
-
-            if (oribone < num)
-            {
-                bonenum = num - oribone;
-                newBone = true;
-            }
+            char c = fgetc(bonefile);
+            chlist.push_back(c);
+            line.push_back(c);
         }
-        else
+
+        fclose(bonefile);
+        chlist.shrink_to_fit();
+        line.shrink_to_fit();
+
+        using uchar     = unsigned char;
+        bool startCount = false;
+        bool start      = true;
+        uint pos        = line.find("NPC Root [Root]");
+
+        if (pos != NOT_FOUND && pos > 64)
         {
-            ErrorMessage(3002, rigfile);
+            pos -= 64;
+            char* ch = reinterpret_cast<char*>(&num);
+            ch[0]    = chlist[pos];
+            ch[1]    = chlist[pos + 1];
         }
+
+        if (error) throw nemesis::exception();
+
+        if (oribone >= num) return bonenum;
+
+        bonenum = num - oribone;
+        newBone = true;
     }
     else
     {
         VecStr storeline;
-        hkxCompiler.hkxcmdXmlInput(rigfile, storeline);
+        HkxCompiler::hkxcmdXmlInput(rigfile, storeline);
         string bonemap = "<hkparam name=\"parentIndices\" numelements=\"";
 
         for (auto& line : storeline)
         {
-            if (line.find(bonemap) != NOT_FOUND)
-            {
-                size_t pos = line.find(bonemap) + bonemap.length();
-                int num    = stoi(line.substr(pos, line.find("\">", pos) - pos));
+            if (line.find(bonemap) == NOT_FOUND) continue;
 
-                if (oribone < num)
-                {
-                    bonenum = num - oribone;
-                    newBone = true;
-                    break;
-                }
-            }
+            size_t pos = line.find(bonemap) + bonemap.length();
+            int num    = stoi(line.substr(pos, line.find("\">", pos) - pos));
+
+            if (oribone >= num) continue;
+
+            bonenum = num - oribone;
+            newBone = true;
+            break;
         }
     }
 
@@ -244,7 +240,7 @@ void processExistFuncID(std::vector<int>& funcIDs,
 			behaviorFile, templateGroup);
 
 		vector<vector<unordered_map<string, bool>>> optionPicked;
-		SSMap IDExist;
+		UMapStr2 IDExist;
 		unordered_map<string, bool> otherAnimType;
 		string strID = to_string(lastID);
 		unsigned __int64 openRange;

@@ -112,7 +112,7 @@ namespace nemesis
 		size_t locateA;
 		size_t locateB;
 
-		MultiChoice() {}
+		MultiChoice() = default;
 		MultiChoice(std::string cond, std::string format, std::string behaviorFile, std::string multiOption, int numline, bool isGroup, bool isMaster,
 			OptionList& optionlist, size_t posA, size_t posB);
 	};
