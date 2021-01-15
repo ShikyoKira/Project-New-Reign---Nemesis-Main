@@ -281,3 +281,5 @@ ModelManifest.xml
 /test environment/data/meshes/animationdatasinglefile.txt
 /test environment/mod/*
 /test environment/data/meshes/actors/character/animations
+/.vscode
+/cpp.hint
