@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     {
         if (argc > 1)
         {
-            for (uint i = 1; i < argc; ++i)
+            for (int i = 1; i < argc; ++i)
             {
                 if (nemesis::iequals(argv[i], "-update"))
                 {
@@ -98,9 +98,7 @@ int main(int argc, char* argv[])
             else
             {
                 NewDebugMessage(*new DebugMsg("english"));
-                NemesisInfo* nemesisInfo = new NemesisInfo;
-                CmdGenerateInitialize(modlist, nemesisInfo);
-                delete nemesisInfo;
+                CmdGenerateInitialize(modlist);
             }
         }
         else if (update)
@@ -123,9 +121,7 @@ int main(int argc, char* argv[])
             else
             {
                 NewDebugMessage(*new DebugMsg("english"));
-                NemesisInfo* nemesisInfo = new NemesisInfo;
-                CmdUpdateInitialize(nemesisInfo);
-                delete nemesisInfo;
+                CmdUpdateInitialize();
             }
         }
         else if (programInitiateCheck())

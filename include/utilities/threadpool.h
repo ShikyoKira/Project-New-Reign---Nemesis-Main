@@ -13,12 +13,12 @@
 
 namespace nemesis
 {
-    using uint = unsigned int;
+    using size_t = size_t;
 
     class ThreadPool
     {
     public:
-        ThreadPool(uint threads = std::thread::hardware_concurrency());
+        ThreadPool(size_t threads = std::thread::hardware_concurrency());
 
         template <class F, class... Args>
         decltype(auto) enqueue(F&& f, Args&&... args);

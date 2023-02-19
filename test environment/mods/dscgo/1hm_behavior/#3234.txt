@@ -1,0 +1,15 @@
+		<hkobject name="#3234" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">playbackSpeed</hkparam>
+<!-- MOD_CODE ~dscgo~ OPEN -->
+					<hkparam name="variableIndex">$variableID[fWeaponSpeedMult]$</hkparam>
+<!-- ORIGINAL -->
+					<hkparam name="variableIndex">24</hkparam>
+<!-- CLOSE -->
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>

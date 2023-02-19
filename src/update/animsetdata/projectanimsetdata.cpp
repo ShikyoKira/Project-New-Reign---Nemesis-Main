@@ -24,7 +24,7 @@ void ProjectAnimSetData::Parser::SetPath(std::filesystem::path path) noexcept
     this->path = path;
 }
 
-void ProjectAnimSetData::Parser::SetStartIndex(const uint& startindex) noexcept
+void ProjectAnimSetData::Parser::SetStartIndex(const size_t& startindex) noexcept
 {
     index = startindex;
 }
@@ -60,7 +60,7 @@ void ProjectAnimSetData::Parser::ImportAnimSetDataList()
 
         if (!conditioninfo)
         {
-            if (!cscope.Empty() && cscope.Back()->GetType() == nemesis::CondType::ORIGINAL)
+            if (!cscope.Empty() && cscope.Back().GetType() == nemesis::CondType::ORIGINAL)
             {
                 PointingOriAnimSetData();
             }
@@ -72,14 +72,14 @@ void ProjectAnimSetData::Parser::ImportAnimSetDataList()
         {
             case nemesis::CondType::ORIGINAL:
             {
-                tobedeleted = cscope.GetToBeDeleted();
+                tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 break;
             }
             case nemesis::CondType::CLOSE:
             {
                 if (!tobedeleted)
                 {
-                    tobedeleted = cscope.GetToBeDeleted();
+                    tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 }
 
                 CloseAnimSetData();
@@ -223,6 +223,8 @@ SPtr<AnimSetData> ProjectAnimSetData::find(const ProjectName& _name, const ModCo
 
         return animData.raw;
     }
+
+    return nullptr;
 }
 
 void ProjectAnimSetData::getlines(VecStr& storeline) const
@@ -264,7 +266,7 @@ void ProjectAnimSetData::getname(VecStr& storeline) const
     getLinkedLines(name, storeline);
 }
 
-uint ProjectAnimSetData::getIndex(const ProjectName& _name) const
+size_t ProjectAnimSetData::getIndex(const ProjectName& _name) const
 {
     auto itr = setIndexMap.find(nemesis::to_lower_copy(_name));
 
@@ -306,7 +308,7 @@ void getLinkedLines(const nemesis::LinkedVar<ProjectAnimSetData>& linkedpack,
         };
     }
 
-    auto& addToBoth = [&](const string& input)
+    auto addToBoth = [&](const string& input)
     {
         storeline.emplace_back(input);
         namelines.emplace_back(input);

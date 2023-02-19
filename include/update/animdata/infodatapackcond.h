@@ -13,7 +13,7 @@ struct InfoDataPack_Condt
     VecStr rotationdata;
 
     InfoDataPack_Condt() {}
-    InfoDataPack_Condt(const VecStr& storeline, size_t linenum = 0);
+    InfoDataPack_Condt(const VecNstr& storeline);
 
     void getlines(VecStr& storeline);
 };

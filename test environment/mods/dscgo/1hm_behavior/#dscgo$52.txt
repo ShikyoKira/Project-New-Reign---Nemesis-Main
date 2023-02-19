@@ -1,0 +1,15 @@
+		<hkobject name="#dscgo$52" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#dscgo$9</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Sneak_1HMAttackLeftHand_IsMoving_Blend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">25.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">17</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="2">
+				#dscgo$57 #dscgo$53
+			</hkparam>
+		</hkobject>

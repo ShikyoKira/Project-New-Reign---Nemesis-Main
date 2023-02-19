@@ -1,0 +1,12 @@
+		<hkobject name="#3777" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Sneak2HM_AttackRightMod</hkparam>
+<!-- MOD_CODE ~dscgo~ OPEN -->
+			<hkparam name="modifier">#dscgo$341</hkparam>
+			<hkparam name="generator">#dscgo$332</hkparam>
+<!-- ORIGINAL -->
+			<hkparam name="modifier">#2768</hkparam>
+			<hkparam name="generator">#3778</hkparam>
+<!-- CLOSE -->
+		</hkobject>

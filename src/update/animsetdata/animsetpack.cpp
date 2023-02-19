@@ -74,21 +74,21 @@ void AnimSetPack::Parser::ImportAnimSetPack()
 
         if (!conditioninfo)
         {
-            if (cscope.Empty() || cscope.Back()->GetType() == nemesis::CondType::ORIGINAL) continue;
+            if (cscope.Empty() || cscope.Back().GetType() == nemesis::CondType::ORIGINAL) continue;
         }
 
         switch (conditioninfo->GetType())
         {
             case nemesis::CondType::ORIGINAL:
             {
-                tobedeleted = cscope.GetToBeDeleted();
+                tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 break;
             }
             case nemesis::CondType::CLOSE:
             {
                 if (!tobedeleted)
                 {
-                    tobedeleted = cscope.GetToBeDeleted();
+                    tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 }
 
                 //CloseEquip();
@@ -186,7 +186,7 @@ AnimSetPack::AnimSetPack(const VecStr& storeline, const string& path, const ModC
     bool originalopen = false;
     bool editopen     = false;
     int linenum       = 1;
-    uint asdCount     = 0;
+    size_t asdCount     = 0;
 
     for (auto& line : storeline)
     {

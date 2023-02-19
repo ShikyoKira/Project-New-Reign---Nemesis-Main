@@ -1,0 +1,7 @@
+1HM_SprintStopSword
+sstop$5
+1
+0
+0
+1
+SprintStopEnd:0.0500000

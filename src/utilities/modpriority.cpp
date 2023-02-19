@@ -2,7 +2,7 @@
 
 nemesis::ModPriority::ModPriority(const VecStr& behaviorpriority)
 {
-    for (uint i = 0; i < behaviorpriority.size(); ++i)
+    for (size_t i = 0; i < behaviorpriority.size(); ++i)
     {
         ranking[behaviorpriority[i]] = i;
     }
@@ -21,4 +21,9 @@ bool nemesis::ModPriority::IsLowerThan(const std::string& code1, const std::stri
 bool nemesis::ModPriority::Contains(const std::string& code) const noexcept
 {
     return ranking.find(code) != ranking.end();
+}
+
+bool nemesis::ModPriority::Contains(std::string_view code) const noexcept
+{
+    return ranking.find(std::string(code)) != ranking.end();
 }

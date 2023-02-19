@@ -1,9 +1,6 @@
 #pragma once
 
-#include <string>
-#include <vector>
-
-using VecStr = std::vector<std::string>;
+#include "utilities/types.h"
 
 struct proc;
 struct AnimThreadInfo;

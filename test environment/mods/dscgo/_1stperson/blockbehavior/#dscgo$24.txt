@@ -1,0 +1,10 @@
+		<hkobject name="#dscgo$24" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0779</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Shd_Locomotion_MSG_ULG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#0409 #0650 #0650 #0650 #0650 #0409 #0409 #0524 #0650 #0409 #0409 #0409
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

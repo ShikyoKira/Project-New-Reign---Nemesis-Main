@@ -1,0 +1,38 @@
+		<hkobject name="#4781" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#4780</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">AttackRightMSG</hkparam>
+			<hkparam name="generators" numelements="12">
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#dscgo$328
+				#dscgo$328
+				#dscgo$328
+				#dscgo$328
+				#dscgo$328
+				#dscgo$328
+				#dscgo$328
+				#dscgo$328
+<!-- ORIGINAL -->
+				#3703
+				#3703
+				#3703
+				#3703
+				#3703
+				#3703
+				#3703
+				#3703
+<!-- CLOSE -->
+				#4779
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#dscgo$328
+				#dscgo$328
+				#dscgo$328
+<!-- ORIGINAL -->
+				#3703
+				#3703
+				#3703
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

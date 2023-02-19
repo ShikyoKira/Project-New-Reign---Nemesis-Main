@@ -1,0 +1,7 @@
+		<hkobject name="#dscgo$290" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">#dscgo$289</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">Sneak_iStateFix_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#dscgo$288</hkparam>
+		</hkobject>

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <unordered_set>
-#include <map>
-
 #include "utilities/optionmodel.h"
 
 namespace nemesis
@@ -20,12 +17,9 @@ namespace nemesis
             OptionModelList& host;
             VecNstr storeline;
             VecNstr cacheadditionline;
-            VecStr cachecompulsory;
-            std::vector<VecStr> cachelink;
-            std::pair<std::string, std::string> cacherules;
-
-            static const VecStr fixedoptions;
-            static const std::unordered_map<std::string, FuncPtr> mapfunc;
+            VecNstr cachecompulsory;
+            Vec<VecStr> cachelink;
+            Pair<std::string, std::string> cacherules;
 
             nemesis::Line TryRemoveComment(const nemesis::Line& line);
             std::string GetTemplateClass() const;
@@ -45,9 +39,13 @@ namespace nemesis
             void AddCompulsory(const nemesis::Line& line);
             void AddCore(const nemesis::Line& line);
             void AddAddition(const nemesis::Line& line);
-            void AddOption(const nemesis::Line& line);
-            void LinkedOption();
-            void VariableAddition();
+            void AddOptionModel(const nemesis::Line& line);
+
+            void Commit();
+            void CommitLinkedOption();
+            void CommitVariableAddition();
+            void CommitCompulsoryVariable();
+
             void AddFixedOptions();
 
             void ParseLine(const nemesis::Line& line);
@@ -57,28 +55,33 @@ namespace nemesis
             Parser(OptionModelList& host);
 
             void Run();
+
+        private:
+            static const VecStr fixedoptions;
+            static const UMap<std::string, FuncPtr> mapfunc;
+            const std::string animobj_prefix = "AnimObject/";
         };
 
         class Rules
         {
-            std::shared_ptr<nemesis::OptionModel> begin;
-            std::shared_ptr<nemesis::OptionModel> end;
+            SPtr<nemesis::OptionModel> begin;
+            SPtr<nemesis::OptionModel> end;
 
         public:
-            Rules(std::shared_ptr<nemesis::OptionModel> begin, std::shared_ptr<nemesis::OptionModel> end);
+            Rules(SPtr<nemesis::OptionModel> begin, SPtr<nemesis::OptionModel> end);
 
             bool HasBegin();
             bool HasEnd();
-            std::shared_ptr<nemesis::OptionModel> GetBegin();
-            std::shared_ptr<nemesis::OptionModel> GetEnd();
+            SPtr<nemesis::OptionModel> GetBegin();
+            SPtr<nemesis::OptionModel> GetEnd();
         };
 
     private:
         const nemesis::TemplateClass& templateclass;
 
-        std::unordered_set<std::shared_ptr<nemesis::OptionModel>> options;
-        std::unordered_set<std::shared_ptr<nemesis::OptionModel>> compulsory;
-        std::multimap<uint, std::shared_ptr<nemesis::OptionModel>, std::greater<uint>> optionsmap;
+        USetStr options;
+        USetStr compulsory;
+        std::multimap<size_t, SPtr<nemesis::OptionModel>, std::greater<size_t>> optionsmap;
         std::filesystem::path filepath;
 
         VecStr events;
@@ -86,28 +89,41 @@ namespace nemesis
 
         using BehaviorFile = std::string;
         using NodeId = std::string;
-        using State = uint;
+        using State = size_t;
 
-        std::unordered_map<BehaviorFile, std::unordered_map<State, NodeId>> multistates;
+        UMap<BehaviorFile, UMap<State, NodeId>> multistates;
 
-        std::unique_ptr<uint> iState;
-        std::unique_ptr<Rules> rules;
-        std::unique_ptr<uint> iMin;
-        std::unique_ptr<uint> iAnimObj;
-        std::unique_ptr<std::string> corebehavior;
+        UPtr<size_t> iState;
+        UPtr<Rules> rules;
+        UPtr<size_t> iMin;
+        UPtr<size_t> iAnimObj;
+        UPtr<std::string> corebehavior;
         bool ignore_group = false;
 
         void ReadOptionListFile();
+        void AddOptionModel(const nemesis::Line& option);
+        void SortOptionsByLength();
+
+        nemesis::OptionModel* GetInnerModel(const std::string modelname) const noexcept;
 
     public:
         OptionModelList(const std::filesystem::path& filepath,
                         const nemesis::TemplateClass& _templateclass) noexcept;
 
-        uint GetAnimObjectCount() const;
-        bool Contains(std::string name) const noexcept;
-        std::shared_ptr<nemesis::OptionModel> GetModel(std::string modelname) const noexcept;
-        void AddOptionModel(const std::string& modelinfo);
+        size_t GetAnimObjectCount() const;
+        bool Contains(const std::string& name) const;
+        nemesis::OptionModel* GetModel(const std::string& modelname) noexcept;
+        const nemesis::OptionModel* GetModel(const std::string& modelname) const noexcept;
+        bool IsCompulsoryMet(const VecStr& optionlist) const noexcept;
+        Vec<const OptionModel*> GetOptionList() const;
 
-        std::unique_ptr<nemesis::Option> CreateOption(const std::string& query) const noexcept;
+        void InjectOptionModel(const std::string& modelinfo);
+
+        UPtr<nemesis::Option> CreateOption(const std::string& name,
+                                           const nemesis::AnimQuery& animquery) const noexcept;
+
+    private:
+        const std::string motion_str   = "motion";
+        const std::string rotation_str = "rotation";
     };
 }

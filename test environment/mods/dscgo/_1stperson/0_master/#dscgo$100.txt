@@ -1,0 +1,3 @@
+		<hkobject name="#dscgo$100" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">((currentDefaultState == 12) &amp;&amp; (bAttached == 1)) || ((currentDefaultState == 13) &amp;&amp; (bAttached == 1))</hkparam>
+		</hkobject>

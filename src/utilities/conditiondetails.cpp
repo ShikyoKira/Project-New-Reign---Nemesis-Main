@@ -25,7 +25,7 @@ bool nemesis::CondDetails::templateCheck(const sf::path& path,
                                          const nemesis::Line& line,
                                          CondDetailsList& condtype)
 {
-    const pair<string, nemesis::CondType> condProcess[static_cast<uint>(nemesis::CondType::ALL)] =
+    const pair<string, nemesis::CondType> condProcess[static_cast<size_t>(nemesis::CondType::ALL)] =
     {
         {ns::ForEach(), nemesis::CondType::FOREACH},
         {ns::If(), nemesis::CondType::IF},
@@ -37,11 +37,11 @@ bool nemesis::CondDetails::templateCheck(const sf::path& path,
 
     for (auto& condition : condProcess)
     {
-        uint pos = line.find(condition.first);
+        size_t pos = line.find(condition.first);
 
         if (pos == NOT_FOUND) continue;
 
-        uint pos2 = line.find(ns::EndSyntax(), pos);
+        size_t pos2 = line.find(ns::EndSyntax(), pos);
 
         if (pos2 == NOT_FOUND) continue;
 
@@ -74,7 +74,7 @@ bool nemesis::CondDetails::templateCheckRev(const sf::path& path,
                                             const nemesis::Line& line,
                                             CondDetailsList& condtype)
 {
-    const pair<string, nemesis::CondType> conditionPair[static_cast<uint>(nemesis::CondType::ALL)] =
+    const pair<string, nemesis::CondType> conditionPair[static_cast<size_t>(nemesis::CondType::ALL)] =
     {
         {ns::ForEach(), nemesis::CondType::FOREACH},
         {ns::Close(), nemesis::CondType::CLOSE},
@@ -88,11 +88,11 @@ bool nemesis::CondDetails::templateCheckRev(const sf::path& path,
 
     for (auto& condition : conditionPair)
     {
-        uint pos = line.find(condition.first);
+        size_t pos = line.find(condition.first);
 
         if (pos == NOT_FOUND) continue;
 
-        uint pos2 = line.find(ns::EndSyntax(), pos);
+        size_t pos2 = line.find(ns::EndSyntax(), pos);
 
         if (pos2 == NOT_FOUND) continue;
 
@@ -133,11 +133,11 @@ bool nemesis::CondDetails::modCheck(const sf::path& path,
                                     const nemesis::Line& line,
                                     CondDetailsList& condtype)
 {
-    uint pos = line.find(ns::ModCode());
+    size_t pos = line.find(ns::ModCode());
 
     if (pos == NOT_FOUND) return false;
 
-    uint pos2 = line.find(ns::EndModCodeSyntax(), pos);
+    size_t pos2 = line.find(ns::EndModCodeSyntax(), pos);
 
     if (pos2 == NOT_FOUND) return false;
 
@@ -150,11 +150,11 @@ bool nemesis::CondDetails::modCheckRev(const sf::path& path,
                                        const nemesis::Line& line,
                                        CondDetailsList& condtype)
 {
-    uint pos = line.find(ns::ModCode());
+    size_t pos = line.find(ns::ModCode());
 
     if (pos == NOT_FOUND) return false;
 
-    uint pos2 = line.find(ns::EndModCodeSyntax(), pos);
+    size_t pos2 = line.find(ns::EndModCodeSyntax(), pos);
 
     if (pos2 == NOT_FOUND) return false;
 
@@ -166,6 +166,7 @@ bool nemesis::CondDetails::modCheckRev(const sf::path& path,
             return true;
         default:
             ErrorMessage(1180, format, path, line.GetLineNumber());
+            return false;
     }
 }
 
@@ -179,6 +180,7 @@ bool nemesis::CondDetails::originalScope(const sf::path& path,
     if (condtype.back().type == nemesis::CondType::MOD_CODE) return true;
 
     ErrorMessage(1216, format, path, line.GetLineNumber());
+    return false;
 }
 
 bool nemesis::CondDetails::originalScopeRev(const sf::path& path,

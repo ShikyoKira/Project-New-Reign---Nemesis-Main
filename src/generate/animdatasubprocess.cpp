@@ -91,7 +91,7 @@ void BehaviorSub::AnimDataCompilation()
 
 void BehaviorSub::CompilingAnimData()
 {
-    wstring filepath          = directory + nemesis::transform_to<wstring>(curfilefromlist);
+    wstring filepath         = directory + nemesis::transform_to<wstring>(curfilefromlist);
     string behaviorFile      = curfilefromlist.substr(0, curfilefromlist.find_last_of("."));
     string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
@@ -116,7 +116,7 @@ void BehaviorSub::CompilingAnimData()
             // read behavior file
             string newMod;
 
-            vector<pair<uint, string>> catalyst;
+            vector<pair<size_t, string>> catalyst;
             VecStr newline;
             VecStr origLines;
 
@@ -127,9 +127,9 @@ void BehaviorSub::CompilingAnimData()
             bool orig   = false;
             bool modif  = false;
 
-            uint numline = 0;
+            size_t numline = 0;
 
-            if (!GetFunctionLines(filepath, newline)) return;
+            if (!GetFileLines(filepath, newline)) return;
 
             DebugLogging(L"Processing behavior: " + filepath + L" (Check point 1, File extraction complete)");
             process->newMilestone();
@@ -257,7 +257,7 @@ void BehaviorSub::CompilingAnimData()
             int num            = 0;
             projectList.reserve(500);
 
-            for (int i = 1; i < catalyst.size(); ++i)
+            for (size_t i = 1; i < catalyst.size(); ++i)
             {
                 if (catalyst[i].second.find(".txt") == NOT_FOUND)
                 {
@@ -280,7 +280,7 @@ void BehaviorSub::CompilingAnimData()
 
             // add picked behavior and remove not picked behavior
             // separation of all items for easier access and better compatibility
-            for (uint l = num; l < catalyst.size(); ++l)
+            for (size_t l = num; l < catalyst.size(); ++l)
             {
                 auto& ref   = catalyst[l];
                 string line = catalyst[l].second;
@@ -375,7 +375,7 @@ void BehaviorSub::CompilingAnimData()
                                         string number
                                             = nemesis::regex_replace(string(catalyst[l + 1].second),
                                                                    nemesis::regex("[a-zA-Z]+[$]([0-9]+)"),
-                                                                   string("\\1"));
+                                                                   string("$1"));
 
                                         if (number != catalyst[l + 1].second && isOnlyNumber(number))
                                         {
@@ -402,7 +402,7 @@ void BehaviorSub::CompilingAnimData()
                                     string number
                                         = nemesis::regex_replace(string(catalyst[++l].second),
                                                                          nemesis::regex("[a-zA-Z]+[$]([0-9]+)"),
-                                                                         string("\\1"));
+                                                                         string("$1"));
 
                                     if (number != catalyst[l].second && isOnlyNumber(number))
                                     {
@@ -438,7 +438,7 @@ void BehaviorSub::CompilingAnimData()
                             else // new info added by mod
                             {
                                 string number = nemesis::regex_replace(
-                                    string(line), nemesis::regex("[a-zA-Z]+[$]([0-9]+)"), string("\\1"));
+                                    string(line), nemesis::regex("[a-zA-Z]+[$]([0-9]+)"), string("$1"));
 
                                 if (number != line && isOnlyNumber(number))
                                 {
@@ -482,7 +482,7 @@ void BehaviorSub::CompilingAnimData()
                             {
                                 string number = nemesis::regex_replace(string(catalyst[l + 1].second),
                                                                      nemesis::regex("[a-zA-Z]+[$]([0-9]+)"),
-                                                                     string("\\1"));
+                                                                     string("$1"));
 
                                 if (number != catalyst[l + 1].second && isOnlyNumber(number))
                                 {
@@ -578,7 +578,7 @@ void BehaviorSub::CompilingAnimData()
 
         if (error) return;
 
-        auto& bhvtemp = BehaviorTemplate->grouplist.find(lowerBehaviorFile);
+        auto bhvtemp = BehaviorTemplate->grouplist.find(lowerBehaviorFile);
 
         // check for having newAnimation for the file
         if (bhvtemp != BehaviorTemplate->grouplist.end() && bhvtemp->second.size() > 0)
@@ -949,88 +949,83 @@ void BehaviorSub::CompilingAnimData()
 
     FileWriter output(outpath, VecWstr());
 
-    if (output.is_open())
+    if (!output.is_open()) ErrorMessage(1025, filepath);
+
+    output << to_string(projectList.size()) + "\n";
+
+    for (string& project : projectList)
     {
-        output << to_string(projectList.size()) + "\n";
-
-        for (string& project : projectList)
-        {
-            output << project + "\n";
-        }
-
-        for (auto& project : ADProject)
-        {
-            int projectlinecount = project->GetAnimTotalLine();
-
-            if (projectlinecount > 65536)
-            {
-                ErrorMessage(1212, outpath.filename(), outpath);
-            }
-
-            output << to_string(projectlinecount) + "\n";
-            output << project->projectActive + "\n";
-            output << to_string(project->behaviorlist.size()) + "\n";
-
-            for (auto& behavior : project->behaviorlist)
-            {
-                output << behavior + "\n";
-            }
-
-            output << project->childActive + "\n";
-
-            if (project->childActive != "0")
-            {
-                for (auto& animdata : project->animdatalist)
-                {
-                    output << animdata.name + "\n";
-                    output << animdata.uniquecode + "\n";
-                    output << animdata.unknown1 + "\n";
-                    output << animdata.unknown2 + "\n";
-                    output << animdata.unknown3 + "\n";
-                    output << to_string(animdata.eventname.size()) + "\n";
-
-                    for (auto& eventname : animdata.eventname)
-                    {
-                        output << eventname + "\n";
-                    }
-
-                    output << "\n";
-
-                    if (error) throw nemesis::exception();
-                }
-
-                output << to_string(project->GetInfoTotalLine()) + "\n";
-
-                for (auto& infodata : project->infodatalist)
-                {
-                    output << infodata.uniquecode + "\n";
-                    output << infodata.duration + "\n";
-                    output << to_string(infodata.motiondata.size()) + "\n";
-
-                    for (auto& motiondata : infodata.motiondata)
-                    {
-                        output << motiondata + "\n";
-                    }
-
-                    output << to_string(infodata.rotationdata.size()) + "\n";
-
-                    for (auto& rotationdata : infodata.rotationdata)
-                    {
-                        output << rotationdata + "\n";
-                    }
-
-                    output << "\n";
-
-                    if (error) throw nemesis::exception();
-                }
-            }
-
-            if (error) throw nemesis::exception();
-        }
+        output << project + "\n";
     }
-    else
+
+    for (auto& project : ADProject)
     {
-        ErrorMessage(1025, filepath);
+        int projectlinecount = project->GetAnimTotalLine();
+
+        if (projectlinecount > 65536)
+        {
+            ErrorMessage(1212, outpath.filename(), outpath);
+        }
+
+        output << to_string(projectlinecount) + "\n";
+        output << project->projectActive + "\n";
+        output << to_string(project->behaviorlist.size()) + "\n";
+
+        for (auto& behavior : project->behaviorlist)
+        {
+            output << behavior + "\n";
+        }
+
+        output << project->childActive + "\n";
+
+        if (project->childActive != "0")
+        {
+            for (auto& animdata : project->animdatalist)
+            {
+                output << animdata.name + "\n";
+                output << animdata.uniquecode + "\n";
+                output << animdata.unknown1 + "\n";
+                output << animdata.unknown2 + "\n";
+                output << animdata.unknown3 + "\n";
+                output << to_string(animdata.eventname.size()) + "\n";
+
+                for (auto& eventname : animdata.eventname)
+                {
+                    output << eventname + "\n";
+                }
+
+                output << "\n";
+
+                if (error) throw nemesis::exception();
+            }
+
+            output << to_string(project->GetInfoTotalLine()) + "\n";
+
+            for (auto& infodata : project->infodatalist)
+            {
+                output << infodata.uniquecode + "\n";
+                output << infodata.duration + "\n";
+                output << to_string(infodata.motiondata.size()) + "\n";
+
+                for (auto& motiondata : infodata.motiondata)
+                {
+                    output << motiondata + "\n";
+                }
+
+                output << to_string(infodata.rotationdata.size()) + "\n";
+
+                for (auto& rotationdata : infodata.rotationdata)
+                {
+                    output << rotationdata + "\n";
+                }
+
+                output << "\n";
+
+                if (error) throw nemesis::exception();
+            }
+        }
+
+        if (error) throw nemesis::exception();
     }
 
     DebugLogging(L"Processing behavior: " + filepath + L" (Check point 5, AnimData output complete)");

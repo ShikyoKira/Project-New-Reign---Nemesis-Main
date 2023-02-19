@@ -10,7 +10,7 @@ extern std::unordered_map<std::string, int> AAgroup_Counter;
 void AAInitialize(std::string AAList);
 bool AAInstallation(const NemesisInfo* nemesisInfo);
 
-unsigned int CRC32Convert(std::string line);
-unsigned int CRC32Convert(std::wstring line);
+size_t CRC32Convert(std::string line);
+size_t CRC32Convert(std::wstring line);
 
 #endif

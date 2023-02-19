@@ -149,9 +149,9 @@ int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone)
         string line;
         line.reserve(50000);
 
-        while (!feof(bonefile))
+        while (feof(bonefile) == 0)
         {
-            char c = fgetc(bonefile);
+            char c = static_cast<char>(fgetc(bonefile));
             chlist.push_back(c);
             line.push_back(c);
         }
@@ -163,7 +163,7 @@ int bonePatch(std::filesystem::path rigfile, int oribone, bool& newBone)
         using uchar     = unsigned char;
         bool startCount = false;
         bool start      = true;
-        uint pos        = line.find("NPC Root [Root]");
+        size_t pos        = line.find("NPC Root [Root]");
 
         if (pos != NOT_FOUND && pos > 64)
         {
@@ -244,7 +244,7 @@ void processExistFuncID(std::vector<int>& funcIDs,
 		unordered_map<string, bool> otherAnimType;
 		string strID = to_string(lastID);
 		unsigned __int64 openRange;
-		unsigned int elementCount = 0;
+		size_t elementCount = 0;
 		bool negative = false;
 
 		for (auto& groupInfo : groupAnimInfo)
@@ -278,19 +278,16 @@ void redirToStageDir(filesystem::path& outpath, const NemesisInfo* nemesisInfo)
 {
     wstring wout = outpath.wstring();
 
-    if (stagePath.length() > 0 && wordFind(outpath, nemesisInfo->GetDataPath()) == 0)
+    if (!stagePath.empty() && nemesis::isearch(outpath, nemesisInfo->GetDataPath()) == 0)
     {
-        wout.replace(0, nemesisInfo->GetDataPath().length(), nemesisInfo->GetStagePath());
+        wout.replace(0, nemesisInfo->GetDataPath().wstring().length(), nemesisInfo->GetStagePath());
         outpath = wout;
     }
 }
 
-std::filesystem::path getTempBhvrPath(const NemesisInfo* nemesisInfo)
+std::filesystem::path getTempBhvrPath()
 {
-    if (stagePath.length() > 0)
-    {
-        return nemesisInfo->GetStagePath() + L"nemesis_engine\\temp_behaviors";
-    }
+    if (stagePath.empty()) return "temp_behaviors";
 
-	return "temp_behaviors";
+    return NemesisInfo::GetInstance()->GetStagePath().append(L"nemesis_engine\\temp_behaviors");
 }

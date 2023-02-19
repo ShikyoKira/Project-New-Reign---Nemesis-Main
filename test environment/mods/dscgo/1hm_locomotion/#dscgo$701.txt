@@ -1,0 +1,10 @@
+		<hkobject name="#dscgo$701" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#dscgo$19</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Melee_Direction_TestLeftHand_2HW_MSG</hkparam>
+			<hkparam name="generators" numelements="11">
+				#dscgo$700 #dscgo$24 #dscgo$24 #dscgo$24 #dscgo$24 #dscgo$24 #dscgo$24 #dscgo$240 #dscgo$240 #dscgo$240 #dscgo$507
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

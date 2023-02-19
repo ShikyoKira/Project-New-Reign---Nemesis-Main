@@ -1,0 +1,162 @@
+		<hkobject name="#NID~0" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">$MC$</hkparam>			<!-- !h|ac1|AnimObject/1 #NID~1 --> <!-- null -->
+			<hkparam name="exitNotifyEvents">#NID~2</hkparam>
+			<hkparam name="transitions">null</hkparam>
+ 			<hkparam name="generator">$MC$</hkparam>			<!-- md #NID~6 --> <!-- #NID~3 -->
+			<hkparam name="name">$main_anim_event$</hkparam>
+			<hkparam name="stateId">$S@0$</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+<!-- IF ^!h|ac1|AnimObject/1^ -->
+		<hkobject name="#NID~1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
+<!-- IF ^!h^ -->
+				<hkobject>
+					<hkparam name="id">2</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+<!-- IF ^ac1^ -->
+				<hkobject>
+					<hkparam name="id">4</hkparam>
+					<hkparam name="payload">#$import[event_payload][Camera3rd [Cam3]]$</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+<!-- FOREACH ^AnimObject/1^ -->
+				<hkobject>
+					<hkparam name="id">0</hkparam>
+					<hkparam name="payload">#$import[anim_object][AnimObject/1]$</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="id">1</hkparam>
+					<hkparam name="payload">#$import[anim_object][AnimObject/1]$</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>
+
+<!-- ENDIF -->
+		<hkobject name="#NID~2" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="$elements$">			<!-- COMPUTE -->
+<!-- IF ^!h^ -->
+				<hkobject>
+					<hkparam name="id">3</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+				<hkobject>
+					<hkparam name="id">8</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- IF ^ac0^ -->
+				<hkobject>
+					<hkparam name="id">5</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+			</hkparam>
+		</hkobject>
+
+<!-- IF ^!md^ -->
+		<hkobject name="#NID~3" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">$main_anim_event$_MG</hkparam>
+			<hkparam name="modifier">#NID~4</hkparam>
+			<hkparam name="generator">#NID~6</hkparam>
+		</hkobject>
+
+		<hkobject name="#NID~4" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#NID~5</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">$main_anim_event$_IsActive</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">false</hkparam>
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">$MC$</hkparam>			<!-- AVI[0] true --> <!-- false -->
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">$MC$</hkparam>			<!-- AVI[1] true --> <!-- false -->
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">$MC$</hkparam>			<!-- AVI[2] true --> <!-- false -->
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">$MC$</hkparam>			<!-- AVI[3] true --> <!-- false -->
+		</hkobject>
+
+		<hkobject name="#NID~5" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="$elements$">			<!-- COMPUTE -->
+				<hkobject>
+					<hkparam name="memberPath">bIsActive0</hkparam>
+					<hkparam name="variableIndex">0</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+<!-- FOREACH ^AV*^ -->
+				<hkobject>
+					<hkparam name="memberPath">bIsActive(%+1)</hkparam>
+					<hkparam name="variableIndex">$variableID[AV*[variable]]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+<!-- ENDIF -->
+		<hkobject name="#NID~6" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_AnimObject_Animation_$Index$</hkparam>
+			<hkparam name="animationName">Animations\$FilePath$</hkparam>
+			<hkparam name="triggers">$MC$</hkparam>			<!-- T|(a&!Tn) #NID~7 --> <!-- null -->
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">$MC$</hkparam>			<!-- a MODE_SINGLE_PLAY --> <!-- MODE_LOOPING -->
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+<!-- IF ^T|(a&!Tn)^ -->
+		<hkobject name="#NID~7" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="$elements$">			<!-- COMPUTE -->
+<!-- IF ^a&!Tn^ -->
+				<hkobject>
+					<hkparam name="localTime">-0.05000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">9</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+<!-- FOREACH ^T^ -->
+				<hkobject>
+					<hkparam name="localTime">$T[time]$</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$eventID[T[event]]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>
+
+<!-- ENDIF -->

@@ -1,0 +1,58 @@
+		<hkobject name="#dscgo$353" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="9">
+				<hkobject>
+					<hkparam name="expression">fAttackTimeRight = clamp(fAttackTimeRight + fWeaponSpeedMult*TimeDelta, 0, 2) - 2*(fAttackTimeRight == 2)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fAttackTwist_X_Target = fIsMoving*(-42.0805*pow(clamp(fAttackTimeRight,0,1.3), 6) - 814.791*pow(clamp(fAttackTimeRight,0,1.3), 5) + 2986.59*pow(clamp(fAttackTimeRight,0,1.3), 4) - 3282.38*pow(clamp(fAttackTimeRight,0,1.3), 3) + 1160.88*pow(clamp(fAttackTimeRight,0,1.3), 2) - 42.0947*clamp(fAttackTimeRight,0,1.3))</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fAttackTwist_X_Current = fAttackTwist_X_Current + (10*fAttackTimeRight)*TimeDelta*(fAttackTwist_X_Target - fAttackTwist_X_Current)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fAttackTwist_Y_Target = fIsMoving*(-152.701*pow(fAttackTimeRight, 6) + 962.465*pow(fAttackTimeRight, 5) - 2250.06*pow(fAttackTimeRight, 4) + 2343.17*pow(fAttackTimeRight, 3) - 994.485*pow(fAttackTimeRight, 2) + 106.17*fAttackTimeRight)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fAttackTwist_Y_Current = fAttackTwist_Y_Current + (10*fAttackTimeRight)*TimeDelta*(fAttackTwist_Y_Target - fAttackTwist_Y_Current)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fAttackTwist_Z_Target = fIsMoving*(-461.177*pow(fAttackTimeRight, 6) + 2906.18*pow(fAttackTimeRight, 5) - 6698.56*pow(fAttackTimeRight, 4) + 6629.7*pow(fAttackTimeRight, 3) - 2377.63*pow(fAttackTimeRight, 2) + 73.1484*fAttackTimeRight)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fAttackTwist_Z_Current = fAttackTwist_Z_Current + (10*fAttackTimeRight)*TimeDelta*(fAttackTwist_Z_Target - fAttackTwist_Z_Current)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fAttackTwist_Z_Current_Legs = 0.5*fAttackTwist_Z_Current</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fAttackTwist_SpreadLegs = 10*fIsMoving</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

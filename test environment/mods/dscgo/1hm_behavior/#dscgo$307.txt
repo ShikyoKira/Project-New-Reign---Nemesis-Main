@@ -1,0 +1,7 @@
+		<hkobject name="#dscgo$307" class="hkbEvaluateExpressionModifier" signature="0xf900f6be">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">fAttackTimeLeft_Reset_EEM</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="expressions">#dscgo$306</hkparam>
+		</hkobject>

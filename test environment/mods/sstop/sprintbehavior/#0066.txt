@@ -1,0 +1,14 @@
+		<hkobject name="#0066" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
+				<hkobject>
+					<hkparam name="id">25</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- MOD_CODE ~sstop~ OPEN -->
+				<hkobject>
+					<hkparam name="id">$eventID[SprintStopStart]$</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>

@@ -1,0 +1,7 @@
+		<hkobject name="#dscgo$4" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">JumpLand_MG</hkparam>
+			<hkparam name="modifier">#dscgo$220</hkparam>
+			<hkparam name="generator">#dscgo$5</hkparam>
+		</hkobject>

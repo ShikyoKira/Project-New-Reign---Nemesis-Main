@@ -2,20 +2,20 @@
 
 #include <string>
 
+#include "core/modinfo.h"
+
 class UiModInfo
 {
-    std::wstring name;
-    std::wstring author;
-    std::wstring automatic;
+    std::wstring name, author, automatic;
 
 public:
-    UiModInfo(const std::wstring& _name, const std::wstring& _author, const std::wstring& _auto);
+    UiModInfo(const nemesis::ModInfo& modinfo);
 
     std::string getNameA() const;
     std::string getAuthorA() const;
     std::string getAutomaticA() const;
 
-    const std::wstring& getName() const;
-    const std::wstring& getAuthor() const;
-    const std::wstring& getAutomatic() const;
+    std::wstring getName() const;
+    std::wstring getAuthor() const;
+    std::wstring getAutomatic() const;
 };

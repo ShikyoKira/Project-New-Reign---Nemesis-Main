@@ -1,51 +1,85 @@
 #pragma once
 
-#include <string>
+#include <filesystem>
 #include <QtCore\qvarlengtharray.h>
 
-using uint = unsigned int;
+#include "types.h"
+
+#include "base/sharablewrapper.h"
 
 namespace nemesis
 {
+    struct ScopeInfo;
     struct ConditionInfo;
 
 	struct Line
     {
         using RawChar  = char;
+        using WRawType  = std::wstring;
         using RawType  = std::string;
         using ViewType = std::string_view;
+        using QType = QString;
 
     protected:
         RawType base;
-        uint linenum = 0;
+        size_t linenum = 0;
+
+        SPtr<nemesis::SharableWrapper<std::filesystem::path>> s_path;
+        nemesis::SharableWrapper<std::filesystem::path>* r_path = nullptr;
+
+        nemesis::SharableWrapper<std::filesystem::path>* GetFilePathPtr() const noexcept;
 
     public:
         Line() = default;
-        Line(uint _linenum);
+        Line(size_t _linenum);
         Line(const RawType& _ch) noexcept;
-        Line(const RawChar* _ch, uint linenum = 0) noexcept;
-        Line(const RawType& _ch, uint linenum) noexcept;
+        Line(const RawChar* _ch) noexcept;
+        Line(const QType _ch) noexcept;
+        Line(const RawChar* _ch,
+             size_t linenum,
+             SPtr<nemesis::SharableWrapper<std::filesystem::path>> path_ptr) noexcept;
+        Line(const RawType& _ch,
+             size_t linenum,
+             SPtr<nemesis::SharableWrapper<std::filesystem::path>> path_ptr) noexcept;
+        Line(const QType& _ch,
+             size_t linenum,
+             SPtr<nemesis::SharableWrapper<std::filesystem::path>> path_ptr) noexcept;
+        Line(const RawChar* _ch,
+             size_t linenum,
+             nemesis::SharableWrapper<std::filesystem::path>* path_ptr = nullptr) noexcept;
+        Line(const RawType& _ch,
+             size_t linenum,
+             nemesis::SharableWrapper<std::filesystem::path>* path_ptr = nullptr) noexcept;
+        Line(const QType& _ch,
+             size_t linenum,
+             nemesis::SharableWrapper<std::filesystem::path>* path_ptr = nullptr) noexcept;
+        Line(nemesis::Line& line) noexcept;
+        Line(const nemesis::Line& line) noexcept;
+        Line(const RawType& _ch, const std::filesystem::path& filepath) noexcept;
+        Line(const RawType& _ch, size_t linenum, const std::filesystem::path& filepath) noexcept;
 
         operator RawType &() noexcept;
         operator RawType() const noexcept;
-        RawChar& operator[](uint index) noexcept;
-        const RawChar& operator[](uint index) const noexcept;
-        bool operator==(const RawType& str) noexcept;
+        RawChar& operator[](size_t index) noexcept;
+        const RawChar& operator[](size_t index) const noexcept;
         bool operator==(const RawType& str) const noexcept;
-        bool operator!=(const RawType& str) noexcept;
         bool operator!=(const RawType& str) const noexcept;
         RawType operator+(const RawChar* str) noexcept;
         RawType operator+(const RawChar* str) const noexcept;
         RawType operator+(const RawType& str) noexcept;
         RawType operator+(const RawType& str) const noexcept;
+        RawType operator+(const QType& str) noexcept;
+        RawType operator+(const QType& str) const noexcept;
         RawType operator+(const nemesis::Line& str) noexcept;
         RawType operator+(const nemesis::Line& str) const noexcept;
         nemesis::Line& operator+=(const RawChar* str);
         nemesis::Line& operator+=(const RawType& str);
+        nemesis::Line& operator+=(const QType& str);
         nemesis::Line& operator+=(const nemesis::Line& str);
         nemesis::Line& operator=(const nemesis::Line& line);
         nemesis::Line& operator=(const RawType& str);
         nemesis::Line& operator=(const ViewType& sv);
+        nemesis::Line& operator=(const QType& str);
 
         size_t find(const RawChar* _ch, size_t _off = 0) const noexcept;
         size_t find(const RawType& _str, size_t _off = 0) const noexcept;
@@ -69,24 +103,38 @@ namespace nemesis
 
         nemesis::Line& append(const RawChar* str);
         nemesis::Line& append(const RawType& str);
+        nemesis::Line& append(const QType& str);
         nemesis::Line& append(const nemesis::Line& line);
+        
+        nemesis::Line& insert(size_t pos, const RawChar* str);
+        nemesis::Line& insert(size_t pos, const RawType& str);
+        nemesis::Line& insert(size_t pos, const QType& str);
+        nemesis::Line& insert(size_t pos, const nemesis::Line& line);
 
-        nemesis::Line substr(uint _off, uint _count = 4294967295U) const;
+        void pop_back() noexcept;
+
+        nemesis::Line substr(size_t _off, size_t _count = 4294967295U) const;
 
         RawChar front() const noexcept;
         RawChar back() const noexcept;
 
-        uint length() const noexcept;
+        size_t length() const noexcept;
         bool empty() const noexcept;
         void clear() noexcept;
 
-        uint GetLineNumber() const noexcept;
+        size_t GetLineNumber() const noexcept;
+        std::filesystem::path GetFilePath() const noexcept;
+        std::string GetClassName() const noexcept;
 
+        WRawType ToWstring() const noexcept;
         const RawType& ToString() const noexcept;
         const RawChar* c_str() const noexcept;
 
+        virtual bool HasProcess() const noexcept;
+        virtual nemesis::Line Process(nemesis::ScopeInfo& scopeinfo) const;
+
     private:
-        void SetLineNumber(uint linenum);
+        void SetLineNumber(size_t linenum);
 
         friend ConditionInfo;
     };
@@ -95,39 +143,67 @@ namespace nemesis
     {
         using RawChar = wchar_t;
         using RawType = std::wstring;
+        using ARawType = std::string;
         using ViewType = std::wstring_view;
+        using QType = QString;
 
-    private:
+    protected:
         RawType base;
-        uint linenum;
+        size_t linenum = 0;
+
+        SPtr<nemesis::SharableWrapper<std::filesystem::path>> s_path;
+        nemesis::SharableWrapper<std::filesystem::path>* r_path = nullptr;
+
+        nemesis::SharableWrapper<std::filesystem::path>* GetFilePathPtr() const noexcept;
 
     public:
         Wline() = default;
-        Wline(uint _linenum);
-        Wline(const RawType& _wch);
-        Wline(const RawChar* _wch, uint _linenum = 0);
-        Wline(const RawType& _wch, uint _linenum = 0);
+        Wline(size_t _linenum) noexcept;
+        Wline(const RawChar* _wch) noexcept;
+        Wline(const RawType& _wch) noexcept;
+        Wline(const QType& _wch) noexcept;
+        Wline(const RawChar* _wch,
+              size_t linenum,
+              SPtr<nemesis::SharableWrapper<std::filesystem::path>> path_ptr) noexcept;
+        Wline(const RawType& _wch,
+              size_t linenum,
+              SPtr<nemesis::SharableWrapper<std::filesystem::path>> path_ptr) noexcept;
+        Wline(const QType& _wch,
+              size_t linenum,
+              SPtr<nemesis::SharableWrapper<std::filesystem::path>> path_ptr) noexcept;
+        Wline(const RawChar* _wch,
+              size_t linenum,
+              nemesis::SharableWrapper<std::filesystem::path>* path_ptr = nullptr) noexcept;
+        Wline(const RawType& _wch,
+              size_t linenum,
+              nemesis::SharableWrapper<std::filesystem::path>* path_ptr = nullptr) noexcept;
+        Wline(const QType& _wch,
+              size_t linenum,
+              nemesis::SharableWrapper<std::filesystem::path>* path_ptr = nullptr) noexcept;
+        Wline(const nemesis::Wline& line) noexcept;
 
         operator RawType&() noexcept;
         operator RawType() const noexcept;
-        RawChar& operator[](uint index) noexcept;
-        const RawChar& operator[](uint index) const noexcept;
-        bool operator==(const RawType& wstr) noexcept;
+        RawChar& operator[](size_t index) noexcept;
+        const RawChar& operator[](size_t index) const noexcept;
         bool operator==(const RawType& wstr) const noexcept;
-        bool operator!=(const RawType& wstr) noexcept;
         bool operator!=(const RawType& wstr) const noexcept;
         RawType operator+(const RawChar* wstr) noexcept;
         RawType operator+(const RawChar* wstr) const noexcept;
         RawType operator+(const RawType& wstr) noexcept;
         RawType operator+(const RawType& wstr) const noexcept;
+        RawType operator+(const QType& wstr) noexcept;
+        RawType operator+(const QType& wstr) const noexcept;
         RawType operator+(const nemesis::Wline& wstr) noexcept;
         RawType operator+(const nemesis::Wline& wstr) const noexcept;
         nemesis::Wline& operator+=(const RawChar* wstr);
         nemesis::Wline& operator+=(const RawType& wstr);
+        nemesis::Wline& operator+=(const QType& wstr);
         nemesis::Wline& operator+=(const nemesis::Wline& wstr);
         nemesis::Wline& operator=(const nemesis::Wline& line);
         nemesis::Wline& operator=(const RawType& str);
         nemesis::Wline& operator=(const ViewType& sv);
+        nemesis::Wline& operator=(const QType& str);
 
         size_t find(const RawChar* _wch, size_t _off = 0) const noexcept;
         size_t find(const RawType& str, size_t _off = 0) const noexcept;
@@ -151,23 +227,31 @@ namespace nemesis
 
         nemesis::Wline& append(const RawChar* str);
         nemesis::Wline& append(const RawType& str);
+        nemesis::Wline& append(const QType& str);
         nemesis::Wline& append(const nemesis::Wline& line);
+        
+        nemesis::Wline& insert(size_t pos, const RawChar* str);
+        nemesis::Wline& insert(size_t pos, const RawType& str);
+        nemesis::Wline& insert(size_t pos, const QType& str);
+        nemesis::Wline& insert(size_t pos, const nemesis::Wline& line);
 
-        nemesis::Wline substr(uint _off, uint _count = 4294967295U) const noexcept;
+        nemesis::Wline substr(size_t _off, size_t _count = 4294967295U) const noexcept;
 
         RawChar front() const noexcept;
         RawChar back() const noexcept;
 
-        uint length() const noexcept;
+        size_t length() const noexcept;
         bool empty() const noexcept;
         void clear() noexcept;
 
-        uint GetLineNumber() const noexcept;
+        size_t GetLineNumber() const noexcept;
+        std::filesystem::path GetFilePath() const noexcept;
 
         const RawType& ToWstring() const noexcept;
+        ARawType Tostring() const noexcept;
         const RawChar* c_str() const noexcept;
 
     private:
-        void SetLineNumber(uint linenum);
+        void SetLineNumber(size_t linenum);
     };
 }

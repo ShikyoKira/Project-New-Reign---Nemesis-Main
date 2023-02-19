@@ -1,0 +1,20 @@
+		<hkobject name="#0160" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#0167</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">2HW_LocomotionArmBlend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">1.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">17</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="3">
+				#0165
+				#0163
+				#0161
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#dscgo$21
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>

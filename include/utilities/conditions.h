@@ -3,6 +3,8 @@
 #include <map>
 #include <memory>
 
+#include "core/animvarptr.h"
+
 #include "utilities/scope.h"
 
 #include "generate/animation/optionlist.h"
@@ -14,6 +16,7 @@ struct AnimThreadInfo;
 namespace nemesis
 {
 	struct Condt;
+    struct ScopeInfo;
 }
 
 void GetMultiFromAddOn(const nemesis::Condt& curcond,
@@ -60,18 +63,18 @@ namespace nemesis
 		bool cmpbool1 = false;
 		bool cmpbool2 = false;
 
-		std::vector<AddOnInfo> cmpinfo1;
-		std::vector<AddOnInfo> cmpinfo2;
+		Vec<AddOnInfo> cmpinfo1;
+		Vec<AddOnInfo> cmpinfo2;
 
-		std::map<int, std::vector<std::shared_ptr<nemesis::scope>>> cmp1_block;
-		std::map<int, std::vector<std::shared_ptr<nemesis::scope>>> cmp2_block;
+		std::map<int, Vec<SPtr<nemesis::scope>>> cmp1_block;
+		std::map<int, Vec<SPtr<nemesis::scope>>> cmp2_block;
 
-		std::shared_ptr<VecStr> optioncondt;
-		std::shared_ptr<Condt> nestedcond;
-		std::shared_ptr<Condt> next;
+		SPtr<VecStr> optioncondt;
+		SPtr<Condt> nestedcond;
+		SPtr<Condt> next;
 
 		VecStr olddata;
-		std::vector<int> olddataint;
+		Vec<int> olddataint;
 
 		Condt(std::string condition, std::string format, std::string behaviorFile, std::string originalCondition, std::string multiOption, int numline, bool isGroup,
 			bool isMaster, OptionList& optionlist);
@@ -94,6 +97,9 @@ namespace nemesis
                          bool isMaster,
                          int& groupMulti);
 
+        bool IsTrue(nemesis::ScopeInfo& scopeinfo);
+        bool IsRecursiveTrue(nemesis::ScopeInfo& scopeinfo);
+
 	private:
         bool specialIsTrueA(AnimThreadInfo& animthrinfo);
         bool specialIsTrueB(AnimThreadInfo& animthrinfo);
@@ -105,15 +111,15 @@ namespace nemesis
 		void conditionProcess(std::string condition, std::string format, std::string behaviorFile, std::string multiOption, int numline, bool isGroup, bool isMaster);
 	};
 
-	struct MultiChoice
+	struct MultiChoice_Old
 	{
 		bool chosen = false;
-		std::shared_ptr<Condt> condition;
+		SPtr<Condt> condition;
 		size_t locateA;
 		size_t locateB;
 
-		MultiChoice() = default;
-		MultiChoice(std::string cond, std::string format, std::string behaviorFile, std::string multiOption, int numline, bool isGroup, bool isMaster,
+		MultiChoice_Old() = default;
+		MultiChoice_Old(std::string cond, std::string format, std::string behaviorFile, std::string multiOption, int numline, bool isGroup, bool isMaster,
 			OptionList& optionlist, size_t posA, size_t posB);
 	};
 }

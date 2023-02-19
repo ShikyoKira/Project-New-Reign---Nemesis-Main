@@ -1,0 +1,10 @@
+		<hkobject name="#dscgo$572" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#4842</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MeleeRecoilAlt_RHTypeMSG_ULG</hkparam>
+			<hkparam name="generators" numelements="9">
+				#4840 #4836 #4836 #4836 #4836 #4838 #4838 #4836 #4836
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

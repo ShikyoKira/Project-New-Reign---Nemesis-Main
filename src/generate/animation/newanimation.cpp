@@ -36,7 +36,7 @@ string linebreakSeparator(string line, VecStr& newlines)
 bool hasOptionPicked(const vector<unordered_map<string, bool>>& groupOptionPicked, int index, const string& key)
 {
     auto& opt  = groupOptionPicked[index];
-    auto& pick = opt.find(key);
+    auto pick = opt.find(key);
 
     return pick != opt.end();
 }
@@ -148,7 +148,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
 
     if (args->core)
     {
-        for (unsigned int i = 0; i < rawtemplate[behaviorFile].size(); ++i)
+        for (size_t i = 0; i < rawtemplate[behaviorFile].size(); ++i)
         {
             elementCatch = false;
             string line  = rawtemplate[behaviorFile][i];
@@ -214,7 +214,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
 
                     for (int k = 0; k < optionPickedCount[optionName]; ++k)
                     {
-                        for (uint j = 0; j < groupAddition[optionName][elementName].size(); ++j)
+                        for (size_t j = 0; j < groupAddition[optionName][elementName].size(); ++j)
                         {
                             subFunctionIDs->format[optionName + "[" + elementName + "][" + to_string(j) + "]"]
                                 = groupAddition[optionName][elementName][j];
@@ -225,7 +225,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
                 {
                     optionName = it.first;
 
-                    for (uint j = 0; j < groupAddition[optionName][elementName].size(); ++j)
+                    for (size_t j = 0; j < groupAddition[optionName][elementName].size(); ++j)
                     {
                         subFunctionIDs->format[optionName + "[" + elementName + "][" + to_string(j) + "]"]
                             = groupAddition[optionName][elementName][j];
@@ -239,7 +239,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
     {
         for (auto& it : AnimObject)
         {
-            for (uint i = 0; i < it.second.size(); ++i)
+            for (size_t i = 0; i < it.second.size(); ++i)
             {
                 subFunctionIDs->format["@AnimObject/" + to_string(it.first) + "[" + to_string(i) + "]"]
                     = it.second[i];
@@ -247,7 +247,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
         }
     }
 
-    for (uint i = 0; i < fixedStateID.size(); ++i)
+    for (size_t i = 0; i < fixedStateID.size(); ++i)
     {
         for (int j = 0; j < stateCountMultiplier[i]; ++j)
         {
@@ -408,7 +408,7 @@ int NewAnimation::getNextID(string behavior)
             string number
                 = nemesis::regex_replace(string(line),
                                          nemesis::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"),
-                                         string("\\1"));
+                                         string("$1"));
 
             if (number != line && isOnlyNumber(number))
             {
@@ -551,7 +551,7 @@ bool NewAnimation::andLoop(string condition, VecStr& storeline, int numline, Ani
         size_t c_or          = 0;
         size_t backB         = 0;
 
-        for (unsigned int i = 0; i < nextCondition.size(); ++i)
+        for (size_t i = 0; i < nextCondition.size(); ++i)
         {
             if (nextCondition[i] == '(')
                 ++c_or;
@@ -576,7 +576,7 @@ bool NewAnimation::andLoop(string condition, VecStr& storeline, int numline, Ani
             c_or  = 0;
             backB = nextCondition.size() - 1;
 
-            for (unsigned int i = 0; i < nextCondition.size(); ++i)
+            for (size_t i = 0; i < nextCondition.size(); ++i)
             {
                 if (nextCondition[i] == '(')
                 {
@@ -617,7 +617,7 @@ bool NewAnimation::andLoop(string condition, VecStr& storeline, int numline, Ani
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (unsigned int i = 0; i < nextCondition.size(); ++i)
+        for (size_t i = 0; i < nextCondition.size(); ++i)
         {
             if (nextCondition[i] == '(')
             {
@@ -688,7 +688,7 @@ bool NewAnimation::andParenthesis(string condition, VecStr& storeline, int numli
     size_t c_or  = 0;
     size_t inner = 0;
 
-    for (unsigned int i = 0; i < condition.length(); ++i)
+    for (size_t i = 0; i < condition.length(); ++i)
     {
         if (condition[i] == '(')
         {
@@ -756,7 +756,7 @@ bool NewAnimation::newCondition(string condition,
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (unsigned int i = 0; i < condition.size(); ++i)
+        for (size_t i = 0; i < condition.size(); ++i)
         {
             if (condition[i] == '(')
             {
@@ -874,13 +874,13 @@ void NewAnimation::processing(string& line,
                         if (equation.find("(S", 0) != NOT_FOUND)
                         {
                             ID = nemesis::regex_replace(
-                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                             if (change.find("(S" + ID + "+") == NOT_FOUND) ID = "";
 
                             number = nemesis::regex_replace(string(equation.substr(3 + ID.length())),
                                                             nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                            string("\\1"));
+                                                            string("$1"));
                         }
 
                         if (equation != "(S" + ID + "+" + number + ")" && isOnlyNumber(number))
@@ -1026,7 +1026,7 @@ void NewAnimation::processing(string& line,
                     string number = nemesis::regex_replace(
                         string(change.substr(change.find(format + "[") + 1 + format.length())),
                         nemesis::regex("[^0-9]*([0-9]+).*"),
-                        string("\\1"));
+                        string("$1"));
 
                     if (change.find(format + "[" + number + "][END]", 0) != NOT_FOUND && isOnlyNumber(number))
                     {
@@ -1075,7 +1075,7 @@ void NewAnimation::processing(string& line,
             {
                 string templine = change.substr(change.find("(S"));
                 string ID       = nemesis::regex_replace(
-                    string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                 int intID;
 
                 if (change.find("(S" + ID + "+") == NOT_FOUND)
@@ -1164,7 +1164,7 @@ void NewAnimation::processing(string& line,
                     string number = nemesis::regex_replace(
                         string(change.substr(change.find(format + "[") + 1 + format.length())),
                         nemesis::regex("[^0-9]*([0-9]+).*"),
-                        string("\\1"));
+                        string("$1"));
 
                     if (change.find(format + "[" + number + "][(S" + ID + "+") != NOT_FOUND
                         && isOnlyNumber(number))
@@ -1173,7 +1173,7 @@ void NewAnimation::processing(string& line,
                             string(change.substr(change.find(format + "[" + number + "][(S" + ID + "+")
                                                  + format.length() + number.length() + ID.length() + 6)),
                             nemesis::regex("[^0-9]*([0-9]+).*"),
-                            string("\\1"));
+                            string("$1"));
 
                         if (change.find(format + "[" + number + "][(S" + ID + "+" + number2 + ")]")
                             != NOT_FOUND)
@@ -1195,7 +1195,7 @@ void NewAnimation::processing(string& line,
                     string number = nemesis::regex_replace(
                         string(change.substr(change.find("(S" + ID + "+") + 3 + ID.length())),
                         nemesis::regex("[^0-9]*([0-9]+).*"),
-                        string("\\1"));
+                        string("$1"));
 
                     if (change.find("(S" + ID + "+" + number + ")", 0) != NOT_FOUND && isOnlyNumber(number))
                     {
@@ -1255,7 +1255,7 @@ void NewAnimation::processing(string& line,
                 if (change.find(format + "[", 0) != NOT_FOUND)
                 {
                     string number = nemesis::regex_replace(
-                        string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                     if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND
                         && isOnlyNumber(number))
@@ -1334,7 +1334,7 @@ void NewAnimation::processing(string& line,
                 if (change.find(format + "[", 0) != NOT_FOUND)
                 {
                     string number = nemesis::regex_replace(
-                        string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                     if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND
                         && isOnlyNumber(number))
@@ -1407,7 +1407,7 @@ void NewAnimation::processing(string& line,
                 if (change.find(format + "[", 0) != NOT_FOUND)
                 {
                     string number = nemesis::regex_replace(
-                        string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                     if (change.find(format + "[" + number + "][Path]", 0) != NOT_FOUND
                         && isOnlyNumber(number))
@@ -1572,7 +1572,7 @@ void NewAnimation::processing(string& line,
                 string test = nemesis::regex_replace(
                     string(change),
                     nemesis::regex(".*" + format + R"(\[([0-9]+)\]\[main_anim_event\].*)"),
-                    string("\\1"));
+                    string("$1"));
 
                 if (test != change)
                 {
@@ -1655,7 +1655,7 @@ void NewAnimation::processing(string& line,
                 {
                     number = nemesis::regex_replace(string(change.substr(change.find("LastState"))),
                                                     nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                    string("\\1"));
+                                                    string("$1"));
 
                     if (change.find("LastState" + number, 0) != NOT_FOUND && isOnlyNumber(number))
                     {
@@ -1859,13 +1859,13 @@ void addOnReplacer(string& line,
                    ImportContainer addition,
                    unordered_map<string, unordered_map<string, VecStr>> groupAddition,
                    UMapStr2 mixOpt,
-                   uint optionMulti,
+                   size_t optionMulti,
                    string format,
                    int numline)
 {
     for (auto it = addOn.begin(); it != addOn.end(); ++it)
     {
-        for (uint j = 0; j < it->second.size(); ++j)
+        for (size_t j = 0; j < it->second.size(); ++j)
         {
             if (line.find(it->first + "[" + it->second[j] + "]", 0) != NOT_FOUND)
             {
@@ -1959,7 +1959,7 @@ void animObjectReplacer(string& line,
             size_t nextpos = line.find(format + "[" + animNum + "][@AnimObject/");
             string object  = line.substr(nextpos);
             string number
-                = nemesis::regex_replace(string(object), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                = nemesis::regex_replace(string(object), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
             object = format + "[" + animNum + "][@AnimObject/" + number + "]";
 
             if (line.find(object) == NOT_FOUND || !isOnlyNumber(number))
@@ -1979,7 +1979,7 @@ void animObjectReplacer(string& line,
             size_t nextpos = line.find("@AnimObject/");
             string object  = line.substr(nextpos);
             string number
-                = nemesis::regex_replace(string(object), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                = nemesis::regex_replace(string(object), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
             object = "@AnimObject/" + number;
 
             if (line.find(object) == NOT_FOUND || !isOnlyNumber(number))
@@ -2000,7 +2000,7 @@ void NewAnimation::stateReplacer(
         string number = nemesis::regex_replace(
             string(line.substr(line.find("][(S" + statenum + "+") + 5 + statenum.length())),
             nemesis::regex("[^0-9]*([0-9]+).*"),
-            string("\\1"));
+            string("$1"));
         string state = format + "[" + otherAnimOrder + "][(S" + statenum + "+" + number + ")]";
 
         if (!isOnlyNumber(number)) ErrorMessage(1152, format, behaviorFile, linecount, state);
@@ -2022,7 +2022,7 @@ void NewAnimation::stateReplacer(
         string templine = line.substr(line.find("(S" + statenum + "+"));
         string number   = nemesis::regex_replace(string(templine.substr(statenum.length() + 3)),
                                                nemesis::regex("[^0-9]*([0-9]+).*"),
-                                               string("\\1"));
+                                               string("$1"));
         string state    = "(S" + statenum + "+" + number + ")";
 
         if (!isOnlyNumber(number)) ErrorMessage(1152, format, behaviorFile, linecount, state);
@@ -2091,8 +2091,8 @@ void eventIDReplacer(string& line,
         size_t nextpos       = line.find("eventID[");
         string fullEventName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 1);
         string eventName     = nemesis::regex_replace(
-            string(fullEventName), nemesis::regex(".*eventID[[](.*?)[]].*"), string("\\1"));
-        auto& eventItr = eventid.find(eventName);
+            string(fullEventName), nemesis::regex(".*eventID[[](.*?)[]].*"), string("$1"));
+        auto eventItr = eventid.find(eventName);
 
         if (eventItr == eventid.end() || (eventItr->second == 0 && eventName != firstEvent))
         {
@@ -2117,8 +2117,8 @@ void variableIDReplacer(string& line,
         size_t nextpos     = line.find("variableID[");
         string fullVarName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 1);
         string varName     = nemesis::regex_replace(
-            string(fullVarName), nemesis::regex(".*variableID[[](.*)[]].*"), string("\\1"));
-        auto& varItr    = variableid.find(varName);
+            string(fullVarName), nemesis::regex(".*variableID[[](.*)[]].*"), string("$1"));
+        auto varItr    = variableid.find(varName);
 
         if (varItr == variableid.end() || (varItr->second == 0 && ZeroVariable != varName))
         {
@@ -2248,7 +2248,7 @@ VecStr GetOptionInfo(string line,
             templine           = optionInfo[1];
             templine           = templine + "a";
             string newtempline = nemesis::regex_replace(
-                string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
             if (newtempline == templine) ErrorMessage(1179, format, filename, numline, line);
 
@@ -2364,13 +2364,13 @@ bool clearGroupNum(string option2,
                    const unordered_map<string, bool>& groupOption)
 {
     string templine = nemesis::regex_replace(
-        string(option2), nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"), string("\\1"));
+        string(option2), nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"), string("$1"));
 
     auto grpopt = groupOption.find(templine);
 
     if (grpopt != groupOption.end()) return isNot;
 
-    auto& pick = optionPicked.find(templine);
+    auto pick = optionPicked.find(templine);
 
     return isNot ? pick == optionPicked.end() : pick != optionPicked.end();
 }
@@ -2744,20 +2744,16 @@ bool NewAnimation::GetFirstCondition(string firstCondition,
         if (isalpha(optionInfo[2][1]))
         {
             conditionOrder = nemesis::regex_replace(
-                string(optionInfo[2]), nemesis::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+                string(optionInfo[2]), nemesis::regex("\\^([A-Za-z]+)\\^"), string("$1"));
 
-            if (nemesis::iequals(conditionOrder, "last"))
-            {
-                return isLastOrder ? !isNot : isNot;
-            }
-            else if (nemesis::iequals(conditionOrder, "first"))
-            {
-                conditionOrder = "0";
-            }
-            else
+            if (nemesis::iequals(conditionOrder, "last")) return isLastOrder ? !isNot : isNot;
+
+            if (!nemesis::iequals(conditionOrder, "first")) 
             {
                 ErrorMessage(1138, format, behaviorFile, numline, firstCondition);
             }
+
+            conditionOrder = "0";
         }
         else
         {
@@ -2771,20 +2767,13 @@ bool NewAnimation::GetFirstCondition(string firstCondition,
 
         return order == stoi(conditionOrder) ? !isNot : isNot;
     }
-    else
-    {
-        auto& opt  = groupOptionPicked[stoi(optionInfo[1])];
-        auto& pick = opt.find(optionInfo[2]);
 
-        if (pick != opt.end())
-        {
-            return !isNot;
-        }
-        else
-        {
-            return clearGroupNum(optionInfo[2], opt, isNot, groupAnimInfo[stoi(optionInfo[1])]->groupOption);
-        }
-    }
+    auto& opt  = groupOptionPicked[stoi(optionInfo[1])];
+    auto pick = opt.find(optionInfo[2]);
+
+    if (pick != opt.end()) return !isNot;
+
+    return clearGroupNum(optionInfo[2], opt, isNot, groupAnimInfo[stoi(optionInfo[1])]->groupOption);
 }
 
 //void NewAnimation::addAnimData(unordered_map<string, unordered_map<string, VecStr>> animdata)
@@ -2814,7 +2803,7 @@ void NewAnimation::GetAnimData(unordered_map<string, map<string, VecStr>>& newAn
     optPickPtr->clear();
     optPickPtr->reserve(groupAnimInfo.size());
 
-    for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+    for (size_t i = 0; i < groupAnimInfo.size(); ++i)
     {
         optPickPtr->push_back(groupAnimInfo[i]->optionPicked);
     }
@@ -2869,7 +2858,7 @@ void NewAnimation::GetAnimSetData(unordered_map<string, map<string, VecStr, alph
     vector<unordered_map<string, bool>> groupOptionPicked;
     groupOptionPicked.reserve(groupAnimInfo.size());
 
-    for (uint i = 0; i < groupAnimInfo.size(); ++i)
+    for (size_t i = 0; i < groupAnimInfo.size(); ++i)
     {
         groupOptionPicked.push_back(groupAnimInfo[i]->optionPicked);
     }
@@ -2926,7 +2915,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
     string multiOption;
     IsConditionOpened[0] = true;
 
-    for (uint i = 0; i < originallines.size(); ++i)
+    for (size_t i = 0; i < originallines.size(); ++i)
     {
         bool uniqueskip = false;
         string line     = originallines[i];
@@ -3074,7 +3063,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                             string templine
                                 = nemesis::regex_replace(string(optionInfo[2]),
                                                          nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
-                                                         string("\\1"));
+                                                         string("$1"));
 
                             if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[templine])
                             {
@@ -3086,7 +3075,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                             else
                             {
                                 string ID = nemesis::regex_replace(
-                                    string(previous), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                    string(previous), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                                 // animobject bypass
                                 if (previous == "AnimObject/" + ID)
@@ -3269,7 +3258,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                     bool unknown = false;
                     bool number  = false;
 
-                    for (uint j = 0; j < curOrder.size(); ++j)
+                    for (size_t j = 0; j < curOrder.size(); ++j)
                     {
                         if (isalpha(curOrder[j]))
                             word = true;
@@ -3415,7 +3404,7 @@ void NewAnimation::AnimDataLineProcess(VecStr originallines,
                              optionMulti < groupAnimInfo[animMulti]->optionPickedCount[multiOption];
                              ++optionMulti)
                         {
-                            for (uint k = 0; k < recorder.size(); ++k)
+                            for (size_t k = 0; k < recorder.size(); ++k)
                             {
                                 bool uniqueskip2 = false;
                                 string newline   = recorder[k];
@@ -3707,6 +3696,7 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
 
     ID tmpId;
     ID tmpId2;
+    vector<int> empty;
 
     AnimThreadInfo animThrInfo(filepath,
                                filename,
@@ -3726,8 +3716,8 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
                                furnitureCount,
                                tmpId,
                                tmpId2,
-                               vector<int>(),
-                               vector<int>(),
+                               empty,
+                               empty,
                                order,
                                lastOrder,
                                IDExist,
@@ -3754,8 +3744,8 @@ void NewAnimation::AnimDataLineProcess(AnimTemplate* originaltemplate,
                 counter,
                 tmpId,
                 tmpId2,
-                vector<int>(),
-                vector<int>(),
+                empty,
+                empty,
                 false,
                 negative,
                 nullptr);
@@ -3767,7 +3757,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
     auto optPickPtr = (std::vector<unordered_map<string, bool>>*) &groupOptionPicked;
     optPickPtr->reserve(groupAnimInfo.size());
 
-    for (unsigned int i = 0; i < groupAnimInfo.size(); ++i)
+    for (size_t i = 0; i < groupAnimInfo.size(); ++i)
     {
         optPickPtr->push_back(groupAnimInfo[i]->optionPicked);
     }
@@ -3792,7 +3782,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
     newlines.reserve(ASDLines.size() + 10 * memory);
     string line;
 
-    for (uint i = 0; i < ASDLines.size(); ++i)
+    for (size_t i = 0; i < ASDLines.size(); ++i)
     {
         line            = ASDLines[i];
         bool uniqueskip = false;
@@ -3965,7 +3955,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                 string templine
                                     = nemesis::regex_replace(string(optionInfo[2]),
                                                              nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
-                                                             string("\\1"));
+                                                             string("$1"));
 
                                 if (groupAnimInfo[stoi(optionInfo[1])]->optionPicked[templine])
                                 {
@@ -3977,7 +3967,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                                 else
                                 {
                                     string ID = nemesis::regex_replace(
-                                        string(previous), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                        string(previous), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                                     // animobject bypass
                                     if (previous == "AnimObject/" + ID)
@@ -4171,7 +4161,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                         bool unknown = false;
                         bool number  = false;
 
-                        for (uint j = 0; j < curOrder.size(); ++j)
+                        for (size_t j = 0; j < curOrder.size(); ++j)
                         {
                             if (isalpha(curOrder[j]))
                                 word = true;
@@ -4343,7 +4333,7 @@ void NewAnimation::existingASDProcess(VecStr ASDLines, map<int, VecStr>& extract
                              optionMulti < groupAnimInfo[animMulti]->optionPickedCount[multiOption];
                              ++optionMulti)
                         {
-                            for (uint k = 0; k < recorder.size(); ++k)
+                            for (size_t k = 0; k < recorder.size(); ++k)
                             {
                                 bool uniqueskip2 = false;
                                 string newline   = recorder[k];
@@ -4601,7 +4591,7 @@ void motionDataReplacer(string& change,
 
             string motionData = to_string(groupAnimInfo[animMulti]->motionData.size()) + "\n";
 
-            for (uint j = 0; j < groupAnimInfo[animMulti]->motionData.size(); ++j)
+            for (size_t j = 0; j < groupAnimInfo[animMulti]->motionData.size(); ++j)
             {
                 motionData.append(groupAnimInfo[animMulti]->motionData[j] + "\n");
             }
@@ -4623,7 +4613,7 @@ void motionDataReplacer(string& change,
 
         string motionData = to_string(groupAnimInfo[0]->motionData.size()) + "\n";
 
-        for (uint j = 0; j < groupAnimInfo[0]->motionData.size(); ++j)
+        for (size_t j = 0; j < groupAnimInfo[0]->motionData.size(); ++j)
         {
             motionData.append(groupAnimInfo[0]->motionData[j] + "\n");
         }
@@ -4642,7 +4632,7 @@ void motionDataReplacer(string& change,
 
         string motionData = to_string(groupAnimInfo[nextorder]->motionData.size()) + "\n";
 
-        for (uint j = 0; j < groupAnimInfo[nextorder]->motionData.size(); ++j)
+        for (size_t j = 0; j < groupAnimInfo[nextorder]->motionData.size(); ++j)
         {
             motionData.append(groupAnimInfo[nextorder]->motionData[j] + "\n");
         }
@@ -4661,7 +4651,7 @@ void motionDataReplacer(string& change,
 
         string motionData = to_string(groupAnimInfo[previousorder]->motionData.size()) + "\n";
 
-        for (uint j = 0; j < groupAnimInfo[previousorder]->motionData.size(); ++j)
+        for (size_t j = 0; j < groupAnimInfo[previousorder]->motionData.size(); ++j)
         {
             motionData.append(groupAnimInfo[previousorder]->motionData[j] + "\n");
         }
@@ -4678,7 +4668,7 @@ void motionDataReplacer(string& change,
 
         string motionData = to_string(groupAnimInfo[lastOrder]->motionData.size()) + "\n";
 
-        for (uint j = 0; j < groupAnimInfo[lastOrder]->motionData.size(); ++j)
+        for (size_t j = 0; j < groupAnimInfo[lastOrder]->motionData.size(); ++j)
         {
             motionData.append(groupAnimInfo[lastOrder]->motionData[j] + "\n");
         }
@@ -4692,7 +4682,7 @@ void motionDataReplacer(string& change,
     if (change.find(format + "[", 0) != NOT_FOUND)
     {
         string number
-            = nemesis::regex_replace(string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+            = nemesis::regex_replace(string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
         if (change.find(format + "[" + number + "][MD]", 0) != NOT_FOUND && isOnlyNumber(number))
         {
@@ -4702,7 +4692,7 @@ void motionDataReplacer(string& change,
 
             string motionData = to_string(groupAnimInfo[curOrder]->motionData.size()) + "\n";
 
-            for (uint j = 0; j < groupAnimInfo[curOrder]->motionData.size(); ++j)
+            for (size_t j = 0; j < groupAnimInfo[curOrder]->motionData.size(); ++j)
             {
                 motionData.append(groupAnimInfo[curOrder]->motionData[j] + "\n");
             }
@@ -4724,7 +4714,7 @@ void motionDataReplacer(string& change,
 
             string motionData = to_string(groupAnimInfo[order]->motionData.size()) + "\n";
 
-            for (uint j = 0; j < groupAnimInfo[order]->motionData.size(); ++j)
+            for (size_t j = 0; j < groupAnimInfo[order]->motionData.size(); ++j)
             {
                 if (groupAnimInfo[order]->motionData[j].length() == 0)
                     WarningMessage(1018, format, behaviorFile, linecount);
@@ -4760,7 +4750,7 @@ void rotationDataReplacer(string& change,
 
         string rotationData = to_string(groupAnimInfo[animMulti]->rotationData.size()) + "\n";
 
-        for (uint j = 0; j < groupAnimInfo[animMulti]->rotationData.size(); ++j)
+        for (size_t j = 0; j < groupAnimInfo[animMulti]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[animMulti]->rotationData[j] + "\n");
         }
@@ -4775,7 +4765,7 @@ void rotationDataReplacer(string& change,
     {
         string rotationData = to_string(groupAnimInfo[0]->rotationData.size()) + "\n";
 
-        for (uint j = 0; j < groupAnimInfo[0]->rotationData.size(); ++j)
+        for (size_t j = 0; j < groupAnimInfo[0]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[0]->rotationData[j] + "\n");
         }
@@ -4791,7 +4781,7 @@ void rotationDataReplacer(string& change,
         int nextorder       = isLastOrder ? order : order + 1;
         string rotationData = to_string(groupAnimInfo[nextorder]->rotationData.size()) + "\n";
 
-        for (uint j = 0; j < groupAnimInfo[nextorder]->rotationData.size(); ++j)
+        for (size_t j = 0; j < groupAnimInfo[nextorder]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[nextorder]->rotationData[j] + "\n");
         }
@@ -4807,7 +4797,7 @@ void rotationDataReplacer(string& change,
         int previousorder   = order == 0 ? order : order - 1;
         string rotationData = to_string(groupAnimInfo[previousorder]->rotationData.size()) + "\n";
 
-        for (uint j = 0; j < groupAnimInfo[previousorder]->rotationData.size(); ++j)
+        for (size_t j = 0; j < groupAnimInfo[previousorder]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[previousorder]->rotationData[j] + "\n");
         }
@@ -4822,7 +4812,7 @@ void rotationDataReplacer(string& change,
     {
         string rotationData = to_string(groupAnimInfo[lastOrder]->rotationData.size()) + "\n";
 
-        for (uint j = 0; j < groupAnimInfo[lastOrder]->rotationData.size(); ++j)
+        for (size_t j = 0; j < groupAnimInfo[lastOrder]->rotationData.size(); ++j)
         {
             rotationData.append(groupAnimInfo[lastOrder]->rotationData[j] + "\n");
         }
@@ -4836,14 +4826,14 @@ void rotationDataReplacer(string& change,
     if (change.find(format + "[", 0) != NOT_FOUND)
     {
         string number
-            = nemesis::regex_replace(string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+            = nemesis::regex_replace(string(change), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
         if (change.find(format + "[" + number + "][RD]", 0) != NOT_FOUND && isOnlyNumber(number))
         {
             int curOrder        = stoi(number);
             string rotationData = to_string(groupAnimInfo[curOrder]->rotationData.size()) + "\n";
 
-            for (uint j = 0; j < groupAnimInfo[curOrder]->rotationData.size(); ++j)
+            for (size_t j = 0; j < groupAnimInfo[curOrder]->rotationData.size(); ++j)
             {
                 rotationData.append(groupAnimInfo[curOrder]->rotationData[j] + "\n");
             }
@@ -4863,7 +4853,7 @@ void rotationDataReplacer(string& change,
         {
             string rotationData = to_string(groupAnimInfo[order]->rotationData.size()) + "\n";
 
-            for (uint j = 0; j < groupAnimInfo[order]->rotationData.size(); ++j)
+            for (size_t j = 0; j < groupAnimInfo[order]->rotationData.size(); ++j)
             {
                 rotationData.append(groupAnimInfo[order]->rotationData[j] + "\n");
             }
@@ -4896,7 +4886,7 @@ int openEndBracket(string& line, char openBrac, char closeBrac, string format, s
 {
     int open = 0;
 
-    for (uint i = 0; i < line.length(); ++i)
+    for (size_t i = 0; i < line.length(); ++i)
     {
         if (line[i] == openBrac)
         {
@@ -4925,7 +4915,7 @@ void CRC32Replacer(string& line, string format, string behaviorFile, int linecou
     size_t pos  = line.find("crc32[");
     size_t nextpos;
 
-    for (uint j = pos + 6; j < line.length(); ++j)
+    for (size_t j = pos + 6; j < line.length(); ++j)
     {
         if (line[j] == '[')
         {
@@ -5313,7 +5303,7 @@ void NewAnimation::hasProcessing(string& line,
             {
                 pos       = line.find(format + "_group$", pos + 1);
                 string ID = nemesis::regex_replace(
-                    string(line.substr(pos)), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string(line.substr(pos)), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                 string oldID  = "MID$" + ID;
                 size_t newpos = line.find(format + "_group$" + ID, pos);
 
@@ -5345,7 +5335,7 @@ void NewAnimation::hasProcessing(string& line,
             {
                 size_t MIDposition = line.find("MID$");
                 string ID          = nemesis::regex_replace(
-                    string(line.substr(MIDposition)), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string(line.substr(MIDposition)), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                 string oldID = "MID$" + ID;
 
                 if (line.find(oldID, MIDposition) != NOT_FOUND)

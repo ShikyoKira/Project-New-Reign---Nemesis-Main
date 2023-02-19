@@ -1,15 +1,23 @@
 #pragma once
 
-#include <regex>
+/*
+
+THE DESIGN PHILOSOPHY OF ANIM TEMPLATE
+- CONTAINS ALL TEMPLATE CLASSES
+- SHOULD BE USED AS A SINGLETON BUT NOT (1 object per generation)
+- MUST BE CONST
+
+*/
 
 #include "utilities/template.h"
 #include "utilities/templateclass.h"
-#include "utilities/animquerylist.h"
+#include "utilities/animqueryfile.h"
 
 namespace nemesis
 {
     struct Template;
     struct TemplateClass;
+    struct HkxBehavior;
 
 	struct AnimTemplate
     {
@@ -20,40 +28,49 @@ namespace nemesis
             AnimQueryPtr* lastptr;
             const nemesis::AnimTemplate& host;
             std::filesystem::path filepath;
-            SPtr<nemesis::AnimQueryList> querylist;
+            SPtr<nemesis::AnimQueryFile> querylist;
 
             void ParseQuery(const nemesis::Line& query);
             nemesis::AnimTemplate::AnimQueryPtr
-            CreateQuery(const nemesis::Line& query, const std::string& classname, const std::smatch& matches);
+            CreateQuery(const nemesis::Line& query, const std::string& classname, const nemesis::smatch& matches);
+
+            static std::string GetTranslation(const nemesis::smatch& matches);
 
         public:
-            Parser(const AnimTemplate& host, const std::filesystem::path& filepath);
+            Parser(const nemesis::AnimTemplate& host, const std::filesystem::path& filepath);
 
             void ParseLines();
 
-            SPtr<nemesis::AnimQueryList> GetResult() const noexcept;
+            SPtr<const nemesis::AnimQueryFile> GetResult() const noexcept;
+
+        private:
+            static const std::string animation_dir;
         };
 
     private:
         VecSPtr<const nemesis::TemplateClass> classlist;
-        VecSPtr<nemesis::Template> imports;
+        VecSPtr<const nemesis::Template> imports;
+
+        mutable std::atomic<size_t> behaviorindex = 0;
 
         // group 1 = template class
         // group 2 = options
         // group 3 = animation name
         // group 4 = animation filename
         // group 5 = animation objects
-        std::regex queryrgx;
+        nemesis::regex queryrgx;
 
         void TryAddTemplate(const std::filesystem::path& classdir);
+        void AddImportTemplate(const std::filesystem::path& filepath);
         void UpdateRegex();
-        SPtr<const nemesis::TemplateClass> GetClass(std::string name) const;
 
     public:
         AnimTemplate(const std::filesystem::path& templatedir);
 
-        SPtr<nemesis::AnimQueryList> ReadListFile(const std::filesystem::path& listfile) const;
-        const SPtr<nemesis::Template>& GetImport(const std::string importname) const;
-        VecSPtr<nemesis::Template> GetBehaviorTemplateList(const std::wstring behaviorname) const;
+        const nemesis::TemplateClass* GetClass(const std::string& name) const;
+        void LinkToBehaviorList(const VecSPtr<nemesis::HkxBehavior>& behaviorlist);
+        SPtr<const nemesis::AnimQueryFile> ReadListFile(const std::filesystem::path& path) const;
+        SPtr<const nemesis::Template> GetImport(const std::string importname) const;
+        VecSPtr<const nemesis::Template> GetBehaviorTemplateList(const std::wstring behaviorname) const;
     };
 }

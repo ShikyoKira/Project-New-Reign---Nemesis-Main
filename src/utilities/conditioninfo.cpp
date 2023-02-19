@@ -4,14 +4,10 @@
 
 namespace ns = nemesis::syntax;
 
-nemesis::ConditionInfo::ConditionInfo(const std::string& line)
+nemesis::ConditionInfo::ConditionInfo(const nemesis::Line& line)
+    : refline(&line)
 {
     operator=(line);
-}
-
-nemesis::ConditionInfo::ConditionInfo(const nemesis::Line& line)
-{
-    operator=(line.ToString());
 }
 
 bool nemesis::ConditionInfo::operator==(const std::string& condition) const noexcept
@@ -44,30 +40,70 @@ bool nemesis::ConditionInfo::operator!=(const nemesis::CondType type) const noex
     return this->type != type;
 }
 
+bool nemesis::ConditionInfo::IsSuccess() const noexcept
+{
+    return Success;
+}
+
 std::string& nemesis::ConditionInfo::operator=(const std::string& line)
 {
+    refline = nullptr;
     type = nemesis::ParseConditionType(line);
 
     switch (type)
     {
         case nemesis::CondType::IF:
+        {
             condition = ns::IfCondition(line);
             break;
+        }
         case nemesis::CondType::ELSEIF:
+        {
             condition = ns::ElseIfCondition(line);
             break;
+        }
+        case nemesis::CondType::ELSE:
+        case nemesis::CondType::ORIGINAL:
+        {
+            condition.clear();
+            break;
+        }
         case nemesis::CondType::FOREACH:
+        {
             condition = ns::ForEachCondition(line);
             break;
+        }
         case nemesis::CondType::MOD_CODE:
+        {
             condition = ns::ModCodeCondition(line);
             break;
+        }
         case nemesis::CondType::ASTERISK:
+        {
             condition = ns::AsterCondition(line);
+
+            if (refline)
+            {
+                contents.emplace_back(refline->substr(0, refline->rfind(ns::Spaces() + ns::Aster())));
+                break;
+            }
+
+            contents.emplace_back(line.substr(0, line.rfind(ns::Spaces() + ns::Aster())));
             break;
+        }
+        case nemesis::CondType::LOWER_ORIGINAL:
+        {
+            condition.clear();
+            size_t point = line.rfind(ns::Spaces() + ns::LowerOriginal());
+            nemesis::Line nline(refline ? refline->substr(0, point) : line.substr(0, point));
+            contents.emplace_back(nline);
+        }
         default:
+        {
+            Success = false;
             condition.clear();
             return condition;
+        }
     }
 
     return condition;
@@ -75,9 +111,17 @@ std::string& nemesis::ConditionInfo::operator=(const std::string& line)
 
 nemesis::Line& nemesis::ConditionInfo::operator=(const nemesis::Line& line)
 {
-    operator=(line.ToString());
-    condition.SetLineNumber(line.GetLineNumber());
-    return condition;
+    try
+    {
+        refline = &line;
+        operator=(line.ToString());
+        condition.SetLineNumber(line.GetLineNumber());
+        return condition;
+    }
+    catch (const std::exception&)
+    {
+        ErrorMessage(1205, line.GetClassName(), line.GetFilePath(), line.GetLineNumber());
+    }
 }
 
 void nemesis::ConditionInfo::AddContent(const nemesis::Line& line)
@@ -95,6 +139,19 @@ void nemesis::ConditionInfo::Pop_Back()
     contents.pop_back();
 }
 
+void nemesis::ConditionInfo::SetCondition(const std::string& condition, nemesis::CondType type) 
+{
+    this->condition = condition;
+    this->type      = type;
+}
+
+void nemesis::ConditionInfo::SetCondition(const nemesis::Line& condition, nemesis::CondType type)
+{
+    this->condition = condition;
+    this->refline   = &condition;
+    this->type      = type;
+}
+
 Deq<nemesis::Line>& nemesis::ConditionInfo::GetRefContents() noexcept
 {
     return contents;
@@ -105,17 +162,22 @@ const Deq<nemesis::Line>& nemesis::ConditionInfo::GetContents() const noexcept
     return contents;
 }
 
-const std::string& nemesis::ConditionInfo::GetCondition() const noexcept
+std::string nemesis::ConditionInfo::GetCondition() const noexcept
 {
     return condition.ToString();
 }
 
-uint nemesis::ConditionInfo::GetLineNumber() const noexcept
+const nemesis::Line& nemesis::ConditionInfo::GetRefLine() const noexcept
+{
+    return *refline;
+}
+
+size_t nemesis::ConditionInfo::GetLineNumber() const noexcept
 {
     return condition.GetLineNumber();
 }
 
-const nemesis::CondType& nemesis::ConditionInfo::GetType() const noexcept
+nemesis::CondType nemesis::ConditionInfo::GetType() const noexcept
 {
     return type;
 }

@@ -19,18 +19,18 @@ mutex err_Mutex;
 
 atomic<int> progressPercentage;
 
-DebugMsg DMLog;
+DebugMsg* DMLog;
 DebugMsg* EnglishLog;
 
 VecWstr readUTF8File(wstring filename);
 
 void writeUTF8File(string filename, VecStr storeline);
 
-void NewDebugMessage(DebugMsg NewLog)
+void NewDebugMessage(DebugMsg& NewLog)
 {
     if (!EnglishLog) EnglishLog = new DebugMsg("english");
 
-    DMLog = NewLog;
+    DMLog = &NewLog;
 }
 
 DebugMsg::DebugMsg(string language)
@@ -50,7 +50,7 @@ void DebugMsg::setup(const wstring& language)
 
     if (error) throw nemesis::exception();
 
-    for (uint i = 0; i < storeline.size(); ++i)
+    for (size_t i = 0; i < storeline.size(); ++i)
     {
         if (storeline[i][0] != '\'' && storeline[i].length() != 0)
         {
@@ -130,7 +130,7 @@ void writeUTF8File(string filename, VecStr storeline)
 
     if (output.is_open())
     {
-        for (uint i = 0; i < storeline.size(); ++i)
+        for (size_t i = 0; i < storeline.size(); ++i)
         {
             output << storeline[i] << "\n";
         }
@@ -144,12 +144,12 @@ void writeUTF8File(string filename, VecStr storeline)
 
 wstring DMLogError(int errorcode)
 {
-    return DMLog.errorlist[errorcode];
+    return DMLog->errorlist[errorcode];
 }
 
 wstring DMLogWarning(int warningcode)
 {
-    return DMLog.warninglist[warningcode];
+    return DMLog->warninglist[warningcode];
 }
 
 string EngLogError(int errorcode)
@@ -329,7 +329,7 @@ void WarningMessage(int warningcode)
 
 wstring TextBoxMessage(int textcode)
 {
-    if (DMLog.textlist[textcode].length() == 0)
+    if (DMLog->textlist[textcode].length() == 0)
     {
         interMsg(
             "CRITICAL ERROR: Error code not found. Unable to diagnose problem. Please re-install Nemesis\n");
@@ -337,7 +337,7 @@ wstring TextBoxMessage(int textcode)
         return L"";
     }
 
-    return DMLog.textlist[textcode];
+    return DMLog->textlist[textcode];
 }
 
 string EngTextBoxMessage(int textcode)
@@ -363,5 +363,5 @@ wstring UIMessage(int uicode)
         return L"";
     }
 
-    return DMLog.uilist[uicode];
+    return DMLog->uilist[uicode];
 }

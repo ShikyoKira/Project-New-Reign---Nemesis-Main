@@ -1,0 +1,26 @@
+		<hkobject name="#2506" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2505</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">RootBoneSwitch_MSG</hkparam>
+			<hkparam name="generators" numelements="13">
+				#2488
+				#2488
+				#2488
+				#2488
+				#2488
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#dscgo$262
+<!-- ORIGINAL -->
+				#2488
+<!-- CLOSE -->
+				#2488
+				#2488
+				#2504
+				#2488
+				#2488
+				#2488
+				#2483
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

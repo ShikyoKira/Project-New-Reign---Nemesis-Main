@@ -26,14 +26,14 @@ bool ruleCheck(VecStr rules, VecStr curList, TemplateInfo& behaviortemplate, str
         {
             bool matching = false;
             string number
-                = nemesis::regex_replace(string(cur), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                = nemesis::regex_replace(string(cur), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
             if (cur.length() == rule.length()
                 || (behaviortemplate.optionlist[lowerformat].addOn[rule].size() != 0
                     && cur.length() > rule.length())
                 || cur == rule + number)
             {
-                for (uint k = 0; k < rule.length(); ++k)
+                for (size_t k = 0; k < rule.length(); ++k)
                 {
                     if (k != rule.length() - 1)
                     {
@@ -182,7 +182,7 @@ registerAnimation::registerAnimation(sf::path curDirectory,
                 AAGroupCount[curAAprefix][lowGN] = num;
                 groupAAPrefix[lowGN].push_back(curAAprefix);
 
-                for (uint i = 0; i < groupSize; ++i) // list of animations in the animation group
+                for (size_t i = 0; i < groupSize; ++i) // list of animations in the animation group
                 {
                     string lowAnim       = groupAA[lowGroupName][i];
                     string lowAnimPerson = (fstP ? lowAnim + "_1p*" : lowAnim);
@@ -226,7 +226,7 @@ registerAnimation::registerAnimation(sf::path curDirectory,
 
                 if (newAnimInfo.size() > 2) AAHasEvent[originalAnim].push_back(lowerAnimName);
 
-                for (uint j = 2; j < newAnimInfo.size(); ++j)
+                for (size_t j = 2; j < newAnimInfo.size(); ++j)
                 {
                     AAEvent[lowerAnimName].push_back(newAnimInfo[j]);
 
@@ -258,7 +258,7 @@ registerAnimation::registerAnimation(sf::path curDirectory,
 
                 if (newAnimInfo.size() != 5) ErrorMessage(1089, filename, linecount);
 
-                for (uint i = 1; i < newAnimInfo.size(); ++i)
+                for (size_t i = 1; i < newAnimInfo.size(); ++i)
                 {
                     if (!isOnlyNumber(newAnimInfo[i])) ErrorMessage(1091, filename, linecount);
                 }
@@ -294,7 +294,7 @@ registerAnimation::registerAnimation(sf::path curDirectory,
 
                 if (newAnimInfo.size() != 6) ErrorMessage(1088, filename, linecount);
 
-                for (uint i = 1; i < newAnimInfo.size(); ++i)
+                for (size_t i = 1; i < newAnimInfo.size(); ++i)
                 {
                     if (!isOnlyNumber(newAnimInfo[i])) ErrorMessage(1088, filename, linecount);
                 }
@@ -339,7 +339,7 @@ registerAnimation::registerAnimation(sf::path curDirectory,
                     bool isOExist = true;
                     string anim   = newAnimInfo[newAnimInfo.size() - 1];
                     string number = nemesis::regex_replace(
-                        string(anim), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        string(anim), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                     if (isOnlyNumber(number) && anim.length() > number.length()
                         && anim[anim.length() - number.length() - 1] == '/'
@@ -509,7 +509,7 @@ registerAnimation::registerAnimation(sf::path curDirectory,
                                 size_t nextOption;
                                 size_t pos = 0;
 
-                                for (uint i = 0; i < numOption; ++i)
+                                for (size_t i = 0; i < numOption; ++i)
                                 {
                                     nextOption = templine.find(",", pos);
 
@@ -538,8 +538,8 @@ registerAnimation::registerAnimation(sf::path curDirectory,
                     if (error) throw nemesis::exception();
                 }
 
-                if (behaviortemplate.optionlist[lowerformat].ruleOne.size() != 0
-                    || behaviortemplate.optionlist[lowerformat].compulsory.size() != 0)
+                if (!behaviortemplate.optionlist[lowerformat].ruleOne.empty()
+                    || !behaviortemplate.optionlist[lowerformat].compulsory.empty())
                 {
                     if (newAnimInfo.size() <= 3 || newAnimInfo[1].empty() || newAnimInfo[1][0] != '-')
                     {
@@ -640,7 +640,7 @@ registerAnimation::registerAnimation(sf::path curDirectory,
                     size_t nextOption;
                     size_t pos = 0;
 
-                    for (uint i = 0; i < numOption; ++i)
+                    for (size_t i = 0; i < numOption; ++i)
                     {
                         nextOption = templine.find(",", pos);
 

@@ -1,0 +1,28 @@
+		<hkobject name="#dscgo$226" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="4">
+				<hkobject>
+					<hkparam name="expression">fJumpTwist_Start = fJumpTwist_Start + 4*fTimeDeltaSmoothed*((fIsMoving*(360*Direction - 360*(Direction &gt; 0.5))*(-Direction &gt; -0.26) + fIsMoving*(360*Direction - 360*(Direction &gt; 0.5))*(Direction &gt; 0.74)) - fJumpTwist_Start)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fJumpTwist = fJumpTwist_Start*(1 - fJumpUpperBodyBlend) + 55*fJumpUpperBodyBlend*(iRightHandType == 7)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fJumpTwist_Head = 45*fJumpUpperBodyBlend*(iRightHandType == 7)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fJumpUpperBodyBlend = fJumpUpperBodyBlend + 10*fTimeDeltaSmoothed*((1.00*(IsAttacking||IsAttackReady||IsEquipping||IsUnequipping||IsCastingDual||IsCastingRight||IsCastingLeft)) - fJumpUpperBodyBlend)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

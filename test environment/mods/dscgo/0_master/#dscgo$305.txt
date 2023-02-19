@@ -1,0 +1,9 @@
+		<hkobject name="#dscgo$305" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Lean_ModList</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="16">
+				#dscgo$304 #dscgo$302 #dscgo$301 #dscgo$299 #dscgo$298 #dscgo$297 #dscgo$295 #dscgo$294 #dscgo$293 #dscgo$291 #dscgo$290 #dscgo$287 #dscgo$285 #dscgo$282 #dscgo$280 #dscgo$278
+			</hkparam>
+		</hkobject>

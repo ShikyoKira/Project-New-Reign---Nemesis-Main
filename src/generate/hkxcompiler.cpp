@@ -128,7 +128,7 @@ bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecStr& fileline)
     HkxCompileCount hkxcount;
     string output = xmlDecompile(hkxfile, xmlfile, hkxcount);
 
-    if (!GetFunctionLines(output, fileline)) return false;
+    if (!GetFileLines(output, fileline)) return false;
 
     if (fileline.empty()) ErrorMessage(3001, output);
 
@@ -144,7 +144,7 @@ bool HkxCompiler::hkxcmdXmlInput(fpath hkxfile, VecWstr& fileline)
     HkxCompileCount hkxcount;
     string output = xmlDecompile(hkxfile, xmlfile, hkxcount);
 
-    if (!GetFunctionLines(output, fileline)) return false;
+    if (!GetFileLines(output, fileline)) return false;
 
     if (fileline.empty()) ErrorMessage(3001, output);
 

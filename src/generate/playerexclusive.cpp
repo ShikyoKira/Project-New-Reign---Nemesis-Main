@@ -106,7 +106,7 @@ void ReadPCEA(const NemesisInfo* nemesisInfo)
     animReplaced = unordered_map<string, vector<PCEAData>>();
 
     VecWstr folderlist;
-    wstring datapath = nemesisInfo->GetDataPath() + L"meshes\\actors\\character\\Animations\\Nemesis_PCEA";
+    wstring datapath = nemesisInfo->GetDataPath().wstring() + L"meshes\\actors\\character\\Animations\\Nemesis_PCEA";
     sf::path pceafolder(datapath + L"\\PCEA_animations");
 
     if (isFileExist(pceafolder.string())) Delete(pceafolder);
@@ -124,7 +124,7 @@ void ReadPCEA(const NemesisInfo* nemesisInfo)
         if (isdigit(folder[0]) && sf::is_directory(path))
         {
             unsigned short number     = static_cast<unsigned short>(stoi(nemesis::wregex_replace(
-                wstring(folder), nemesis::wregex(L"([0-9]+)[^\n]+"), wstring(L"\\1"))));
+                wstring(folder), nemesis::wregex(L"([0-9]+)[^\n]+"), wstring(L"$1"))));
             pceaFolderMapList[number] = path + L"|" + folder;
         }
 
@@ -177,8 +177,9 @@ void ReadPCEA(const NemesisInfo* nemesisInfo)
 
 bool PCEAInstallation(const NemesisInfo* nemesisInfo)
 {
-    sf::path import(nemesisInfo->GetDataPath() + L"scripts\\source");
-    wstring filename = nemesisInfo->GetDataPath() + L"Nemesis PCEA.esp";
+    wstring datapath = nemesisInfo->GetDataPath().wstring();
+    sf::path import(datapath + L"scripts\\source");
+    wstring filename = datapath + L"Nemesis PCEA.esp";
     DebugLogging(filename);
 
     {
@@ -199,13 +200,13 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
 
         if (startnum == NOT_FOUND) ErrorMessage(6009, "PCEA.esp", "PCEA mod");
 
-        for (uint j = 0; j < pcealist.size(); ++j)
+        for (size_t j = 0; j < pcealist.size(); ++j)
         {
             string number = to_string(j + 1);
-            uint size     = min(pcealist[j].modFile.length(), 113 - number.length());
-            uint counter  = startnum + (117 * j);
+            size_t size     = min(pcealist[j].modFile.length(), 113 - number.length());
+            size_t counter  = startnum + (117 * j);
 
-            for (uint i = 0; i < number.length(); ++i)
+            for (size_t i = 0; i < number.length(); ++i)
             {
                 fseek(f, counter, SEEK_SET);
                 unsigned char charcode = static_cast<unsigned char>(number[i]);
@@ -222,7 +223,7 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
             fwrite(&charcode, sizeof(charcode), 1, f);
             ++counter;
 
-            for (uint i = 0; i < size; ++i)
+            for (size_t i = 0; i < size; ++i)
             {
                 fseek(f, counter + i, SEEK_SET);
                 charcode = static_cast<unsigned char>(pcealist[j].modFile[i]);
@@ -232,9 +233,9 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
             if (error) throw nemesis::exception();
         }
 
-        for (uint j = pcealist.size(); j < 10; ++j)
+        for (size_t j = pcealist.size(); j < 10; ++j)
         {
-            for (uint i = 0; i < 115; ++i)
+            for (size_t i = 0; i < 115; ++i)
             {
                 fseek(f, startnum + (117 * j) + i, SEEK_SET);
                 unsigned char charcode = 32;
@@ -273,7 +274,7 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
     VecStr storeline;
     VecStr newline;
 
-    if (!GetFunctionLines(pscfile.string(), storeline)) return false;
+    if (!GetFileLines(pscfile.string(), storeline)) return false;
 
     for (auto& line : storeline)
     {
@@ -281,7 +282,7 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
 
         if (line.find("\tPCEA[num] =") != NOT_FOUND)
         {
-            for (uint j = 0; j < pcealist.size(); ++j)
+            for (size_t j = 0; j < pcealist.size(); ++j)
             {
                 string templine = line;
                 templine.replace(templine.find("num"), 3, to_string(j));
@@ -293,7 +294,7 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
         }
         else if (line.find("\tactivation[num]") != NOT_FOUND)
         {
-            for (uint j = 0; j < pcealist.size(); ++j)
+            for (size_t j = 0; j < pcealist.size(); ++j)
             {
                 string templine = line;
                 templine.replace(templine.find("num"), 3, to_string(j));
@@ -350,10 +351,10 @@ bool PCEAInstallation(const NemesisInfo* nemesisInfo)
 
     if (error) throw nemesis::exception();
 
-    sf::path destination(nemesisInfo->GetStagePath() + L"scripts");
+    sf::path destination(nemesisInfo->GetStagePath().wstring() + L"scripts");
     sf::path filepath(destination.wstring() + L"\\Nemesis_PCEA_Core.pex");
 
-    if (!PapyrusCompile(pscfile, import, destination, filepath, cachedir, nemesisInfo->GetDataPath()))
+    if (!PapyrusCompile(pscfile, import, destination, filepath, cachedir, nemesisInfo->GetDataPath().wstring()))
     {
         return false;
     }

@@ -11,9 +11,22 @@
 
 #include "ui/BehaviorInfo.h"
 
+namespace nemesis
+{
+    struct ModInfoManager;
+}
+
 class BehaviorListModel : public QAbstractItemModel
 {
     Q_OBJECT
+private:
+    QList<BehaviorInfo> behaviorList;
+    Qt::CheckState tempCheck                                  = Qt::CheckState::Unchecked;
+    std::chrono::high_resolution_clock::time_point click_time = std::chrono::high_resolution_clock::now();
+    bool m_DropOnItems                                        = true;
+    int draggedIndex                                          = 0;
+
+    nemesis::ModInfoManager* modinfo_manager = nullptr;
 
 public:
     enum EColumn
@@ -25,9 +38,9 @@ public:
         COL_LASTCOL = COL_PRIORITY
     };
 
-    BehaviorListModel(const QList<BehaviorInfo>& string, QObject* parent = nullptr)
+    BehaviorListModel(const QList<BehaviorInfo>& list, QObject* parent = nullptr)
         : QAbstractItemModel(parent)
-        , behaviorList(string)
+        , behaviorList(list)
     {}
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
@@ -47,16 +60,14 @@ public:
     bool insertRows(int position, int rows, const QModelIndex& index = QModelIndex());
     bool removeRows(int position, int rows, const QModelIndex& index = QModelIndex());
 
+    void setModInfoManager(nemesis::ModInfoManager* modinfo_manager);
+
+    void createModSelectionCache();
+    void createModOrderCache();
+
 public slots:
     void dropModeUpdate(bool dropOnItems);
     void goToUrl(const QModelIndex& index);
-
-private:
-    QList<BehaviorInfo> behaviorList;
-    Qt::CheckState tempCheck;
-    std::chrono::high_resolution_clock::time_point click_time = std::chrono::high_resolution_clock::now();
-    bool m_DropOnItems;
-    int draggedIndex = 0;
 };
 
 #endif

@@ -26,8 +26,8 @@ bool AACoreCompile(sf::path pscfile,
                    sf::path filepath,
                    sf::path tempcompiling,
                    VecStr& newFunctions,
-                   uint& maxGroup,
-                   uint& uniquekey,
+                   size_t& maxGroup,
+                   size_t& uniquekey,
                    sf::path target);
 bool AAnimAPICompile(sf::path pscfile,
                      sf::path import,
@@ -35,11 +35,11 @@ bool AAnimAPICompile(sf::path pscfile,
                      sf::path filepath,
                      sf::path tempcompiling,
                      VecStr& newFunctions,
-                     uint maxGroup,
-                     uint& uniquekey,
+                     size_t maxGroup,
+                     size_t& uniquekey,
                      sf::path compilerpath);
 void fixedKeyInitialize();
-uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
+size_t getUniqueKey(unsigned char bytearray[], int byte1, int byte2);
 
 struct ModIDByGroup
 {
@@ -103,7 +103,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
 {
     if (AAGroup.size() == 0) return true;
 
-    uint uniquekey;
+    size_t uniquekey;
     wstring cachedir = papyrusTempCompile();
 
     try
@@ -117,8 +117,8 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
 
     if (error) throw nemesis::exception();
 
-    sf::path import(nemesisInfo->GetDataPath() + L"scripts\\source");
-    sf::path destination(nemesisInfo->GetStagePath() + L"scripts");
+    sf::path import(nemesisInfo->GetDataPath().wstring() + L"scripts\\source");
+    sf::path destination(nemesisInfo->GetStagePath().wstring() + L"scripts");
     sf::path source("alternate animation\\alternate animation.script");
     sf::path pscfile(cachedir + L"\\Nemesis_AA_Core.psc");
     sf::path filepath(destination.wstring() + L"\\Nemesis_AA_Core.pex");
@@ -130,7 +130,7 @@ bool AAInstallation(const NemesisInfo* nemesisInfo)
 
     if (!isFileExist(import)) ErrorMessage(2010, import);
 
-    uint maxGroup;
+    size_t maxGroup;
     fixedKeyInitialize();
     VecStr newFunctions;
 
@@ -198,8 +198,8 @@ bool AACoreCompile(sf::path pscfile,
                    sf::path filepath,
                    sf::path tempcompiling,
                    VecStr& newFunctions,
-                   uint& maxGroup,
-                   uint& uniquekey,
+                   size_t& maxGroup,
+                   size_t& uniquekey,
                    sf::path compilerpath)
 {
     bool prefixDone = false;
@@ -217,7 +217,7 @@ bool AACoreCompile(sf::path pscfile,
     VecStr storeline;
     VecStr newline;
     newline.reserve(storeline.size());
-    GetFunctionLines(pscfile.c_str(), storeline);
+    GetFileLines(pscfile.c_str(), storeline);
 
     int AACounter = 0;
     maxGroup      = 0;
@@ -323,7 +323,7 @@ bool AACoreCompile(sf::path pscfile,
             groupIDFunction.push_back("	if (groupName == \"" + groupID[0] + "\")");
             groupIDFunction.push_back("		return " + groupID[1]);
 
-            for (uint k = 2; k < groupID.size(); ++k)
+            for (size_t k = 2; k < groupID.size(); ++k)
             {
                 groupIDFunction.push_back(k % 2 == 0 ? "	elseif (groupName == \"" + groupID[k] + "\")"
                                                      : "		return " + groupID[k]);
@@ -340,7 +340,7 @@ bool AACoreCompile(sf::path pscfile,
 
     DebugLogging("Group base value complete");
 
-    for (uint k = 0; k < storeline.size(); ++k)
+    for (size_t k = 0; k < storeline.size(); ++k)
     {
         bool skip   = false;
         string line = storeline[k];
@@ -367,7 +367,7 @@ bool AACoreCompile(sf::path pscfile,
                 newline.push_back("	if (" + baseMatch[0] + ")");
                 newline.push_back(baseMatch[1]);
 
-                for (uint j = 2; j < baseMatch.size(); ++j)
+                for (size_t j = 2; j < baseMatch.size(); ++j)
                 {
                     newline.push_back(j % 2 == 0 ? "	elseif (" + baseMatch[j] + ")" : baseMatch[j]);
                 }
@@ -411,7 +411,7 @@ bool AACoreCompile(sf::path pscfile,
 
                 if (firstGroup->second.size() > 1)
                 {
-                    for (uint j = 0; j < firstGroup->second.size(); ++j)
+                    for (size_t j = 0; j < firstGroup->second.size(); ++j)
                     {
                         if (j + 1 == firstGroup->second.size() - 1)
                         {
@@ -452,7 +452,7 @@ bool AACoreCompile(sf::path pscfile,
 
                     if (group->second.size() > 1)
                     {
-                        for (uint j = 0; j < group->second.size(); ++j)
+                        for (size_t j = 0; j < group->second.size(); ++j)
                         {
                             if (j + 1 == group->second.size() - 1)
                             {
@@ -539,15 +539,15 @@ bool AAnimAPICompile(sf::path pscfile,
                      sf::path filepath,
                      sf::path tempcompiling,
                      VecStr& newFunctions,
-                     uint maxGroup,
-                     uint& uniquekey,
+                     size_t maxGroup,
+                     size_t& uniquekey,
                      sf::path compilerpath)
 {
     VecStr storeline;
     VecStr newline;
     newline.reserve(storeline.size());
 
-    if (!GetFunctionLines(pscfile.c_str(), storeline)) return false;
+    if (!GetFileLines(pscfile.c_str(), storeline)) return false;
 
     for (string& line : storeline)
     {
@@ -605,7 +605,7 @@ void fixedKeyInitialize()
 
     while (counter <= 256)
     {
-        uint key1         = static_cast<uint>(counter);
+        size_t key1         = static_cast<size_t>(counter);
         int key2          = 0;
 
         while (key2 <= 7)
@@ -623,21 +623,21 @@ void fixedKeyInitialize()
     }
 }
 
-unsigned int CRC32Convert(string line)
+size_t CRC32Convert(string line)
 {
     static nemesis::CRC32 crc32;
     return crc32.FullCRC(line);
 }
 
-unsigned int CRC32Convert(wstring line)
+size_t CRC32Convert(wstring line)
 {
     static nemesis::CRC32 crc32;
     return crc32.FullCRC(nemesis::transform_to<string>(line));
 }
 
-uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
+size_t getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
 {
-    uint uniqueKey         = 0;
+    size_t uniqueKey         = 0;
     int key1               = byte1;
     int key2               = byte2;
     int counter            = byte1;
@@ -645,7 +645,7 @@ uint getUniqueKey(unsigned char bytearray[], int byte1, int byte2)
     while (counter <= key2)
     {
         unsigned char curByte = bytearray[counter];
-        uint key3             = uniqueKey ^ static_cast<uint>(curByte);
+        size_t key3             = uniqueKey ^ static_cast<size_t>(curByte);
         uniqueKey             = uniqueKey >> 8 ^ fixedkey[key3 & 255];
         counter++;
     }

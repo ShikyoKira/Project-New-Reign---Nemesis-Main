@@ -10,6 +10,7 @@ struct FileReader
 {
     QFile file;
     QTextStream stream;
+    size_t linenum;
 
     FileReader(const char* filename)
     {
@@ -22,6 +23,11 @@ struct FileReader
         stream.setDevice(&file);
     }
 
+    ~FileReader()
+    {
+        file.close();
+    }
+
     std::filesystem::path GetFilePath() const
     {
         return std::filesystem::path(file.fileName().toStdWString());
@@ -31,6 +37,7 @@ struct FileReader
     {
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
 
+        linenum = 0;
         stream.setDevice(&file);
         stream.setCodec("UTF-8");
         return true;
@@ -38,11 +45,15 @@ struct FileReader
 
     inline bool GetLines(std::string& line)
     {
+        ++linenum;
+
         if (file.atEnd()) return false;
 
         line = file.readLine().toStdString();
 
-        while (line.length() > 0 && (line.back() == '\n' || line.back() == '\r'))
+        if (line.empty()) return true;
+
+        while (!line.empty() && (line.back() == L'\n' || line.back() == L'\r'))
         {
             line.pop_back();
         }
@@ -52,17 +63,82 @@ struct FileReader
 
     inline bool GetLines(std::wstring& line)
     {
+        ++linenum;
+
         if (file.atEnd()) return false;
 
         QString qline = file.readLine();
         line          = qline.toStdWString();
 
-        while (line.length() > 0 && (line.back() == L'\n' || line.back() == L'\r'))
+        if (line.empty()) return true;
+
+        while (!line.empty() && (line.back() == L'\n' || line.back() == L'\r'))
         {
             line.pop_back();
         }
 
         return true;
+    }
+    
+    inline bool GetLines(QString& line)
+    {
+        ++linenum;
+
+        if (file.atEnd()) return false;
+
+        line = file.readLine();
+
+        if (line.isEmpty()) return true;
+
+        while (!line.isEmpty() && (line.back() == L'\n' || line.back() == L'\r'))
+        {
+            line.chop(1);
+        }
+
+        return true;
+    }
+    
+    inline bool GetLines(nemesis::Line& line)
+    {
+        ++linenum;
+
+        if (file.atEnd()) return false;
+
+        QString qline = file.readLine();
+        line          = nemesis::Line(qline.toStdString(), linenum);
+
+        if (line.empty()) return true;
+
+        while (!line.empty() && (line.back() == L'\n' || line.back() == L'\r'))
+        {
+            line.pop_back();
+        }
+
+        return true;
+    }
+    
+    inline bool GetLines(nemesis::Line& line, nemesis::SharableWrapper<std::filesystem::path>* path_ptr)
+    {
+        ++linenum;
+
+        if (file.atEnd()) return false;
+
+        QString qline = file.readLine();
+        line          = nemesis::Line(qline.toStdString(), linenum, path_ptr);
+
+        if (line.empty()) return false;
+
+        while (!line.empty() && (line.back() == L'\n' || line.back() == L'\r'))
+        {
+            line.pop_back();
+        }
+
+        return true;
+    }
+
+    std::string ErrorMessage() const
+    {
+        return file.errorString().toStdString();
     }
 };
 

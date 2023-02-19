@@ -1,0 +1,26 @@
+		<hkobject name="#0077" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0082</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MacEquipMSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#0078
+				#0080
+				#0080
+				#0080
+				#0080
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#0080
+				#0080
+<!-- ORIGINAL -->
+				#0078
+				#0078
+<!-- CLOSE -->
+				#0078
+				#0078
+				#0078
+				#0078
+				#0078
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

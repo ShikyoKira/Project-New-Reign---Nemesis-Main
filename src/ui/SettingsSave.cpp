@@ -9,221 +9,157 @@
 #include "utilities/alphanum.hpp"
 #include "utilities/writetextfile.h"
 
-void createLanguageCache(std::string language)
-{
-    if (CreateFolder("cache"))
-    {
-        FileWriter cachefile("cache\\language setting");
+namespace sf = std::filesystem;
 
-        if (cachefile.is_open()) cachefile << language;
-        else
-        {
-            CEMsgBox* msg = new CEMsgBox;
-            msg->setWindowTitle("ERROR");
-            msg->setText("Error: Failed to create cache file. Please ensure Nemesis has permission to create "
-                         "file in current folder");
-            msg->show();
-        }
-    }
+void CacheError()
+{
+    QMessageBox* msg = new QMessageBox();
+    msg->setWindowTitle("WARNING");
+    msg->setText("Warning: Failed to read mod cache file. All mods will be reverted to unchecked state");
+    msg->setAttribute(Qt::WA_DeleteOnClose);
+    msg->setIcon(QMessageBox::Warning);
+    msg->show();
+    CreateModCache({""});
 }
 
-void createModCache(std::vector<std::string> chosenBehavior)
+void CacheLanguageError(const std::wstring& language)
 {
-    if (CreateFolder("cache"))
-    {
-        FileWriter cachefile("cache\\mod settings");
-
-        if (cachefile.is_open())
-        {
-            for (auto& line : chosenBehavior)
-            {
-                cachefile << line + "\n";
-            }
-        }
-        else
-        {
-            CEMsgBox* msg = new CEMsgBox;
-            msg->setWindowTitle("ERROR");
-            msg->setText("Error: Failed to create cache file. Please ensure Nemesis has permission "
-                         "to create file in current folder");
-            msg->show();
-        }
-    }
+    QMessageBox* msg = new QMessageBox();
+    msg->setWindowTitle("WARNING");
+    msg->setText("Warning: Failed to read language cache file. Language is set to the default "
+                 "language (english)");
+    msg->setAttribute(Qt::WA_DeleteOnClose);
+    msg->setIcon(QMessageBox::Warning);
+    msg->show();
 }
 
-void createModOrderCache(std::vector<std::string> behaviorList)
+void CreateLanguageCache(const std::wstring& language)
 {
-    if (CreateFolder("cache"))
-    {
-        FileWriter cachefile("cache\\order list");
+    if (!std::filesystem::create_directories("cache")) return;
 
-        if (cachefile.is_open())
-        {
-            for (auto& line : behaviorList)
-            {
-                cachefile << line + "\n";
-            }
-        }
-        else
-        {
-            CEMsgBox* msg = new CEMsgBox;
-            msg->setWindowTitle("ERROR");
-            msg->setText("Error: Failed to create cache file. Please ensure Nemesis has permission "
-                         "to create file in current folder");
-            msg->show();
-        }
+    FileWriter cachefile("cache\\language_settings");
+
+    if (cachefile.is_open())
+    {
+        cachefile << language;
+        return;
     }
+
+    CEMsgBox* msg = new CEMsgBox();
+    msg->setWindowTitle("ERROR");
+    msg->setText("Error: Failed to create cache file. Please ensure Nemesis has permission to create "
+                 "file in current folder");
+    msg->show();
 }
 
-bool getCache(std::string& language, std::unordered_map<std::string, bool>& chosenBehavior)
+void CreateModCache(const VecStr& chosenBehavior)
 {
-    if (!isFileExist("cache"))
-    {
-        CreateFolder("cache");
-        return false;
-    }
+    if (!sf::exists("cache") && !sf::create_directories("cache")) return;
 
-    std::string filename = "cache\\language setting";
-    VecStr storeline;
+    FileWriter cachefile("cache\\mod_settings");
 
-    auto errFunc = [](std::string& language)
+    if (cachefile.is_open())
     {
-        QMessageBox* msg = new QMessageBox;
-        msg->setWindowTitle("WARNING");
-        msg->setText("Warning: Failed to read language cache file. Language is set to the default "
-                     "language (english)");
-        msg->setAttribute(Qt::WA_DeleteOnClose);
-        msg->setIcon(QMessageBox::Warning);
-        msg->show();
-        language = "english";
-        createLanguageCache(language);
-    };
-
-    if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
-    {
-        errFunc(language);
-    }
-    else
-    {
-        for (auto& line : storeline)
+        for (auto& line : chosenBehavior)
         {
-            if (line.length() > 0) language = line;
+            cachefile << line + "\n";
         }
 
-        if (language.length() == 0) errFunc(language);
+        return;
     }
 
-    filename      = "cache\\mod settings";
-    auto errFunc2 = []() 
-    {
-        QMessageBox* msg = new QMessageBox;
-        msg->setWindowTitle("WARNING");
-        msg->setText("Warning: Failed to read mod cache file. All mods will be reverted to unchecked state");
-        msg->setAttribute(Qt::WA_DeleteOnClose);
-        msg->setIcon(QMessageBox::Warning);
-        msg->show();
-        createModCache({""});
-    };
-
-    try
-    {
-        if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
-        {
-            errFunc2();
-            return false;
-        }
-    }
-    catch (const std::exception&)
-    {
-        errFunc2();
-        return false;
-    }
-
-    for (auto& line : storeline)
-    {
-        if (line.length() > 0) chosenBehavior[line] = true;
-    }
-
-    if (chosenBehavior.size() > 0) return true;
-
-    return false;
+    CEMsgBox* msg = new CEMsgBox();
+    msg->setWindowTitle("ERROR");
+    msg->setText("Error: Failed to create cache file. Please ensure Nemesis has permission "
+                 "to create file in current folder");
+    msg->show();
 }
 
-bool getCache(std::wstring& language, std::unordered_map<std::string, bool>& chosenBehavior)
+void CreateModOrderCache(const VecStr& behaviorList)
 {
-    if (!isFileExist("cache"))
+    if (!sf::exists("cache") && !sf::create_directories("cache")) return;
+
+    FileWriter cachefile("cache\\order_list");
+
+    if (cachefile.is_open())
     {
-        CreateFolder("cache");
-        return false;
+        for (auto& line : behaviorList)
+        {
+            cachefile << line + "\n";
+        }
+
+        return;
     }
 
-    std::wstring filename = L"cache\\language setting";
-    std::vector<std::wstring> storeline;
+    CEMsgBox* msg = new CEMsgBox();
+    msg->setWindowTitle("ERROR");
+    msg->setText("Error: Failed to create cache file. Please ensure Nemesis has permission "
+                 "to create file in current folder");
+    msg->show();
+}
 
-    auto errFunc = [](std::wstring& language) 
+std::wstring GetCachedLanguage()
+{
+    std::string filename = "cache\\language_settings";
+    VecWstr storeline;
+    std::wstring language;
+
+    if (!isFileExist(filename) || !GetFileLines(filename, storeline, false))
     {
-        QMessageBox* msg = new QMessageBox;
-        msg->setWindowTitle("WARNING");
-        msg->setText("Warning: Failed to read language cache file. Language is set to the default "
-                     "language (english)");
-        msg->setAttribute(Qt::WA_DeleteOnClose);
-        msg->setIcon(QMessageBox::Warning);
-        msg->show();
         language = L"english";
-        createLanguageCache(nemesis::transform_to<std::string>(language));
-    };
-
-    if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
-    {
-        errFunc(language);
-    }
-    else
-    {
-        for (auto& line : storeline)
-        {
-            if (line.length() > 0) language = line;
-        }
-
-        if (language.length() == 0) errFunc(language);
+        CreateFolder("cache");
+        CacheLanguageError(language);
+        CreateLanguageCache(language);
+        return language;
     }
 
-    filename      = L"cache\\mod settings";
-    auto errFunc2 = []() 
+    for (auto& line : storeline)
     {
-        QMessageBox* msg = new QMessageBox;
-        msg->setWindowTitle("WARNING");
-        msg->setText("Warning: Failed to read mod cache file. All mods will be reverted to unchecked state");
-        msg->setAttribute(Qt::WA_DeleteOnClose);
-        msg->setIcon(QMessageBox::Warning);
-        msg->show();
-        createModCache({""});
-    };
+        if (line.empty()) continue;
+
+        language = line;
+    }
+
+    if (language.empty())
+    {
+        language = L"english";
+        CacheLanguageError(language);
+        CreateLanguageCache(language);
+    }
+
+    return language;
+}
+
+bool GetModSelectionCache(UMap<std::string, bool>& chosenBehavior)
+{
+    std::string filename = "cache\\mod_settings";
+    VecStr lines;
 
     try
     {
-        if (!isFileExist(filename) || !GetFunctionLines(filename, storeline, false))
+        if (!isFileExist(filename) || !GetFileLines(filename, lines, false))
         {
-            errFunc2();
+            CacheError();
             return false;
         }
     }
     catch (const std::exception&)
     {
-        errFunc2();
+        CacheError();
         return false;
     }
 
-    for (auto& line : storeline)
+    for (auto& line : lines)
     {
-        if (line.length() > 0) chosenBehavior[nemesis::transform_to<std::string>(line)] = true;
+        if (line.empty()) continue;
+
+        chosenBehavior[line] = true;
     }
 
-    if (chosenBehavior.size() > 0) return true;
-
-    return false;
+    return !chosenBehavior.empty();
 }
 
-bool getOrderCache(VecStr& orderList)
+bool GetOrderCache(VecWstr& order_list)
 {
     if (!isFileExist("cache"))
     {
@@ -231,20 +167,17 @@ bool getOrderCache(VecStr& orderList)
         return false;
     }
 
-    std::string filename = "cache\\order list";
-    std::vector<std::string> storeline;
+    std::string filename = "cache\\order_list";
+    VecWstr storeline;
+    order_list.clear();
 
     if (!isFileExist(filename)) return false;
 
-    if (!GetFunctionLines(filename, storeline, false)) return false;
-
-    orderList.clear();
-    orderList.reserve(storeline.size());
-
-    for (auto& line : storeline)
+    if (!GetFileLines(
+            filename, order_list, [](std::wstring& line) { return !line.empty(); }, false))
     {
-        if (line.length() > 0) orderList.push_back(line);
+        return false;
     }
 
-    return orderList.size() > 0;
+    return !order_list.empty();
 }

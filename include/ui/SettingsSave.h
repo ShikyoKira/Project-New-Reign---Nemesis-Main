@@ -5,13 +5,14 @@
 #include <unordered_map>
 #include <vector>
 
-void createLanguageCache(std::string language);
-void createModCache(std::vector<std::string> chosenBehavior);
-void createModOrderCache(std::vector<std::string> behaviorList);
+void CreateLanguageCache(const std::wstring& language);
+void CreateModCache(const VecStr& chosenBehavior);
+void CreateModOrderCache(const VecStr& behaviorList);
 
-bool getCache(std::string& language, std::unordered_map<std::string, bool>& chosenBehavior);
-bool getCache(std::wstring& language, std::unordered_map<std::string, bool>& chosenBehavior);
+std::wstring GetCachedLanguage();
 
-bool getOrderCache(std::vector<std::string>& orderList);
+bool GetModSelectionCache(UMap<std::string, bool>& chosenBehavior);
+
+bool GetOrderCache(VecWstr& order_list);
 
 #endif

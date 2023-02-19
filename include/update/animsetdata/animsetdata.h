@@ -110,14 +110,14 @@ private:
             }
         };
 
-        mutable uint num;
+        mutable size_t num;
         mutable Vec<nemesis::CondDetails> condtype;
 
-        //short type;
-        //uint index;
-        //uint iindex;
-        uint size;
-        //Vec<uint> points;
+        short type;
+        size_t index;
+        size_t iindex;
+        size_t size;
+        Vec<size_t> points;
 
         std::string format;
         std::filesystem::path path;
@@ -125,7 +125,7 @@ private:
 
         AnimSetData& host;
         const VecNstr& storeline;
-        //SPtr<nemesis::ConditionInfo> tobedeleted;
+        SPtr<nemesis::ConditionInfo> tobedeleted;
 
         Vec<Vec<nemesis::LinkedVar<DataStr>>*> equipstream;
 
@@ -134,7 +134,7 @@ private:
 
         void SetFormat(const std::string& _format) noexcept;
         void SetPath(const std::filesystem::path& _path) noexcept;
-        void SetStartIndex(const uint& startIndex) noexcept;
+        void SetStartIndex(const size_t& startIndex) noexcept;
         void SetCondCheckFunc(const nemesis::CondCheckFunc& _condfunc) noexcept;
 
         void AddEquipList();
@@ -147,17 +147,17 @@ private:
         void ImportAttackSetData();
         void ImportCrc32Pack();
 
-        uint GetNum() const noexcept;
+        size_t GetNum() const noexcept;
 
     private:
-        uint GetEndAttackSetData();
+        size_t GetEndAttackSetData();
 
-        bool ImportNewWeapType(std::deque<nemesis::Line>* edits);
-        bool ImportNewAnimPack(std::deque<nemesis::Line>* edits, Vec<uint>& npoints);
-        bool ImportNewCRC32Pack(std::deque<nemesis::Line>* edits);
+        bool ImportNewWeapType(Deq<nemesis::Line>* edits);
+        bool ImportNewAnimPack(Deq<nemesis::Line>* edits, Vec<size_t>& npoints);
+        bool ImportNewCRC32Pack(Deq<nemesis::Line>* edits);
 
         void PointingEquip() noexcept;
-        bool PointingType(const nemesis::Line& line, uint i);
+        bool PointingType(const nemesis::Line& line, size_t i);
         void PointingAttackSetData(const nemesis::Line& line);
         void PointingCrc32Pack() noexcept;
 
@@ -171,9 +171,9 @@ private:
         void CloseAttackSetData(const nemesis::Line& line);
         void CloseCrc32Pack();
 
-        Vec<uint> GetAttackSetDataSections(uint start, uint end) const;
-        Vec<uint> GetAttackSetDataSections(uint start, uint end, const VecNstr& _storeline) const;
-        Vec<uint> GetAttackSetDataSections(uint start, uint end, const Deq<nemesis::Line>& _storeline) const;
+        Vec<size_t> GetAttackSetDataSections(size_t start, size_t end) const;
+        Vec<size_t> GetAttackSetDataSections(size_t start, size_t end, const VecNstr& _storeline) const;
+        Vec<size_t> GetAttackSetDataSections(size_t start, size_t end, const Deq<nemesis::Line>& _storeline) const;
     };
 };
 

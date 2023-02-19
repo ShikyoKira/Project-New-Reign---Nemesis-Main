@@ -18,7 +18,7 @@
 #include "utilities/atomiclock.h"
 
 
-std::atomic<uint> resizeCount = 0;
+std::atomic<size_t> resizeCount = 0;
 std::atomic_flag atm_resize        {};
 
 NemesisEngine::NemesisEngine(QWidget* parent)
@@ -183,6 +183,10 @@ void NemesisEngine::setupUi()
 
     ui.gridLayout->addWidget(ui.label, 0, 3, 2, 4);
 
+    SetupDummyLog();
+    SetupLanguageSettings();
+    SetupModListManager();
+
     ui.modView = new BehaviorListView(this);
 
     if (error) return;
@@ -207,12 +211,6 @@ void NemesisEngine::setupUi()
     ui.modView->setSortingEnabled(true);
     ui.modView->setExpandsOnDoubleClick(false);
 
-    DLog = new DummyLog;
-    connectProcess(DLog);
-    QObject::connect(DLog, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
-
-    GetSettings();
-
     this->setWindowTitle(QString::fromStdWString(UIMessage(1000)));
     ui.label->setPixmap(QPixmap(":/background/title header.png"));
     ui.animProgressBar->setToolTip(QString::fromStdWString(UIMessage(1004)));
@@ -221,7 +219,7 @@ void NemesisEngine::setupUi()
     ui.buttonLaunch->setText(QString::fromStdWString(UIMessage(1001)));
 
     bool exception = false;
-    nemesisInfo    = new NemesisInfo(exception);
+    auto nemesisInfo    = NemesisInfo::GetInstance();
 
     if (exception)
     {
@@ -282,11 +280,15 @@ void NemesisEngine::reset()
     ui.buttonLaunch->setText(QString::fromStdWString(UIMessage(1001)));
 }
 
-void NemesisEngine::GetSettings()
+void NemesisEngine::SetupDummyLog()
 {
-    std::wstring language;
-    std::unordered_map<std::string, bool> chosenBehavior;
+    DLog = new DummyLog;
+    connectProcess(DLog);
+    QObject::connect(DLog, SIGNAL(incomingMessage(QString)), this, SLOT(sendMessage(QString)));
+}
 
+void NemesisEngine::SetupLanguageSettings()
+{
     if (!isFileExist(L"languages"))
     {
         CEMsgBox* msg = new CEMsgBox;
@@ -302,84 +304,96 @@ void NemesisEngine::GetSettings()
         msg->show();
     }
 
-    std::vector<std::wstring> languagelist;
-    int curindex = -1;
-    bool cacheResult;
+    VecWstr languagelist;
 
     read_directory(L"languages", languagelist);
+    SetLanguageList(languagelist);
+    NewDebugMessage(*DMsg);
+}
 
-    for (uint i = 0; i < languagelist.size(); ++i)
+void NemesisEngine::SetupModListManager()
+{
+    try
+    {
+        modinfo_manager.ReadAllInfo();
+    }
+    catch (const std::exception& ex)
+    {
+        CEMsgBox* msgbox = new CEMsgBox;
+        QString msg      = QString::fromStdString(ex.what());
+        msgbox->setText(msg);
+        msgbox->setWindowTitle("CRITITAL ERROR");
+        msgbox->exec();
+    }
+}
+
+void NemesisEngine::SetLanguageList(const VecWstr& languagelist)
+{
+    for (size_t i = 0; i < languagelist.size(); ++i)
     {
         ui.comboBox->addItem(QString());
     }
 
-    try
+    std::wstring language = GetCachedLanguage();
+    int curindex = -1;
+    int english  = 0;
+
+    for (size_t i = 0; i < languagelist.size(); ++i)
     {
-        cacheResult = getCache(language, chosenBehavior);
+        std::wstring curLang = GetFileName(languagelist[i]);
+        ui.comboBox->setItemText(i, QString::fromStdWString(curLang));
+
+        if (curLang == language)
+        {
+            curindex = i;
+            DMsg     = new DebugMsg(language);
+            continue;
+        }
+
+        if (language != L"english") continue;
+
+        english = i;
     }
-    catch (nemesis::exception&)
+
+    if (curindex != -1)
     {
-        cacheResult = false;
-    }
-
-    if (cacheResult)
-    {
-        int english = 0;
-
-        for (uint i = 0; i < languagelist.size(); ++i)
-        {
-            std::wstring curLang = GetFileName(languagelist[i]);
-            ui.comboBox->setItemText(i, QString::fromStdWString(curLang));
-
-            if (curLang == language)
-            {
-                curindex = i;
-                DMsg     = new DebugMsg(language);
-            }
-            else if (language == L"english")
-            {
-                english = i;
-            }
-        }
-
-        if (curindex < 0)
-        {
-            DMsg = new DebugMsg("english");
-            interMsg("Previous language pack is not found. Default language is being used instead");
-            ui.comboBox->setCurrentIndex(english);
-        }
-        else
-        {
-            ui.comboBox->setCurrentIndex(curindex);
-        }
-
-        // check the check state of mods in previous runtime
-        for (int i = 0; i < ui.modView->model()->rowCount(); ++i)
-        {
-            QAbstractItemModel* model = ui.modView->model();
-            std::string mod = (model->data(model->index(i, 0), Qt::DisplayRole)).toString().toStdString();
-
-            if (chosenBehavior.find(mod) != chosenBehavior.end())
-            {
-                if (chosenBehavior[mod]) model->setData(model->index(i, 0), Qt::Checked, Qt::CheckStateRole);
-            }
-        }
-    }
-    else
-    {
-        for (uint i = 0; i < languagelist.size(); ++i)
-        {
-            std::wstring curLang = GetFileName(languagelist[i]);
-            ui.comboBox->setItemText(i, QString::fromStdWString(curLang));
-
-            if (curLang == language) curindex = i;
-        }
-
-        DMsg = new DebugMsg(language);
         ui.comboBox->setCurrentIndex(curindex);
+        return;
     }
 
-    NewDebugMessage(*DMsg);
+    DMsg = new DebugMsg("english");
+    interMsg("Previous language pack is not found. Default language is being used instead");
+    ui.comboBox->setCurrentIndex(english);
+
+    //for (size_t i = 0; i < languagelist.size(); ++i)
+    //{
+    //    std::wstring curLang = GetFileName(languagelist[i]);
+    //    ui.comboBox->setItemText(i, QString::fromStdWString(curLang));
+
+    //    if (curLang != language) continue;
+
+    //    curindex = i;
+    //}
+
+    //DMsg = new DebugMsg(language);
+    //ui.comboBox->setCurrentIndex(curindex);
+}
+
+void NemesisEngine::SetModSelectFromCache(const UMap<std::string, bool>& chosenBehavior)
+{
+    // check the check state of mods in previous runtime
+    for (int i = 0; i < ui.modView->model()->rowCount(); ++i)
+    {
+        QAbstractItemModel* model = ui.modView->model();
+        std::string mod = (model->data(model->index(i, 0), Qt::DisplayRole)).toString().toStdString();
+        auto itr        = chosenBehavior.find(mod);
+
+        if (itr == chosenBehavior.end()) continue;
+
+        if (!itr->second) continue;
+
+        model->setData(model->index(i, 0), Qt::Checked, Qt::CheckStateRole);
+    }
 }
 
 void NemesisEngine::closeEvent(QCloseEvent* curEvent)
@@ -399,7 +413,7 @@ void NemesisEngine::closeEvent(QCloseEvent* curEvent)
     }
     else
     {
-        nemesisInfo->iniFileUpdate();
+        NemesisInfo::GetInstance()->iniFileUpdate();
         curEvent->accept();
     }
 }
@@ -417,8 +431,9 @@ void NemesisEngine::resizeEvent(QResizeEvent* event)
     int incre   = newSize - oldSize;
 
     int total = 0;
-    std::vector<uint> columnSizes
-        = {nemesisInfo->GetModNameWidth(), nemesisInfo->GetAuthorWidth(), nemesisInfo->GetPriorityWidth()};
+    auto nemesisinfo = NemesisInfo::GetInstance();
+    Vec<size_t> columnSizes
+        = {nemesisinfo->GetModNameWidth(), nemesisinfo->GetAuthorWidth(), nemesisinfo->GetPriorityWidth()};
 
     for (auto& size : columnSizes)
     {
@@ -427,7 +442,7 @@ void NemesisEngine::resizeEvent(QResizeEvent* event)
 
     double increPerc = double(newSize) / double(oldSize);
 
-    for (uint i = 0; i < columnSizes.size(); ++i)
+    for (size_t i = 0; i < columnSizes.size(); ++i)
     {
         double newCSize = increPerc * double(columnSizes[i]);
         ui.modView->setColumnWidth(i, newCSize);
@@ -464,7 +479,7 @@ void NemesisEngine::handleLaunch()
 
     VecStr behaviorPriority;
     VecStr hiddenModList = getHiddenMods();
-    std::unordered_map<std::string, bool> chosenBehavior;
+    UMap<std::string, bool> chosenBehavior;
 
     for (auto& mod : hiddenModList)
     {
@@ -474,20 +489,20 @@ void NemesisEngine::handleLaunch()
 
     for (int i = 0; i < ui.modView->model()->rowCount(); ++i)
     {
-        QAbstractItemModel* model = ui.modView->model();
-        QVariant state            = model->data(model->index(i, 0), Qt::CheckStateRole);
+        auto* model    = ui.modView->model();
+        QVariant state = model->data(model->index(i, 0), Qt::CheckStateRole);
 
-        if (state == Qt::Checked)
-        {
-            std::string modcode
-                = modConvert[model->data(model->index(i, 0), Qt::DisplayRole).toString().toStdString()];
-            behaviorPriority.insert(behaviorPriority.begin(), modcode);
-            chosenBehavior[modcode] = true;
-        }
+        if (state != Qt::Checked) continue;
+
+        std::wstring display = model->data(model->index(i, 0), Qt::DisplayRole).toString().toStdWString();
+        std::string modcode
+            = nemesis::transform_to<std::string>(modinfo_manager.GetModInfoByDisplay(display)->GetModCode());
+        behaviorPriority.insert(behaviorPriority.begin(), modcode);
+        chosenBehavior[modcode] = true;
     }
 
     QThread* thread       = new QThread;
-    BehaviorStart* worker = new BehaviorStart(nemesisInfo);
+    BehaviorStart* worker = new BehaviorStart();
     worker->addBehaviorPick(this, behaviorPriority, chosenBehavior);
 
     connect(worker, SIGNAL(totalAnim(int)), ui.animProgressBar, SLOT(newValue(int)));
@@ -529,7 +544,7 @@ void NemesisEngine::handleUpdate()
     ui.textBrowser->append("");
 
     QThread* thread          = new QThread;
-    UpdateFilesStart* worker = new UpdateFilesStart(nemesisInfo);
+    UpdateFilesStart* worker = new UpdateFilesStart();
 
     connect(thread, SIGNAL(started()), worker, SLOT(UpdateFiles()));
     connect(worker, SIGNAL(progressUp()), this, SLOT(setProgressBarValue()));
@@ -606,7 +621,7 @@ void NemesisEngine::languageChange(QString language)
 
     delete DMsg;
     DMsg = new DebugMsg(language.toStdString());
-    createLanguageCache(language.toStdString());
+    CreateLanguageCache(language.toStdWString());
     NewDebugMessage(*DMsg);
     reset();
     emit ui.modView->model()->headerDataChanged(Qt::Horizontal, 0, ui.modView->model()->columnCount());
@@ -627,30 +642,29 @@ void NemesisEngine::setProgressBarValue()
     ++progressPercentage;
     int result = progressPercentage * 100 / progressMax;
 
-    if (result > old)
-    {
-        if (result - old < 2)
-        {
-            ui.progressBar->setValue(old + 1);
-            std::this_thread::sleep_for(std::chrono::milliseconds(75));
-        }
-        else
-        {
-            for (int i = old + 1; i <= result; ++i)
-            {
-                if (error) break;
+    if (result <= old) return;
 
-                ui.progressBar->setValue(i);
-                std::this_thread::sleep_for(std::chrono::milliseconds(75));
-            }
-        }
+    if (result - old < 2)
+    {
+        ui.progressBar->setValue(old + 1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(75));
+        return;
+    }
+
+    for (int i = old + 1; i <= result; ++i)
+    {
+        if (error) return;
+
+        ui.progressBar->setValue(i);
+        std::this_thread::sleep_for(std::chrono::milliseconds(75));
     }
 }
 
 void NemesisEngine::firstNull()
 {
-    nemesisInfo->setFirst(false);
-    nemesisInfo->iniFileUpdate();
+    auto nemesisinfo = NemesisInfo::GetInstance();
+    nemesisinfo->SetFirst(false);
+    nemesisinfo->iniFileUpdate();
 }
 
 void NemesisEngine::resizeDone()
@@ -658,12 +672,12 @@ void NemesisEngine::resizeDone()
     Lockless lock(atm_resize);
     --resizeCount;
 
-    if (resizeCount == 0)
-    {
-        nemesisInfo->setWidth(width());
-        nemesisInfo->setHeight(height());
-        nemesisInfo->iniFileUpdate();
-    }
+    if (resizeCount != 0) return;
+
+    auto nemesisinfo = NemesisInfo::GetInstance();
+    nemesisinfo->SetWidth(width());
+    nemesisinfo->SetHeight(height());
+    nemesisinfo->iniFileUpdate();
 }
 
 void NemesisEngine::criticalError(QString title, QString text)

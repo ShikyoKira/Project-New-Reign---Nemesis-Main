@@ -1,0 +1,26 @@
+		<hkobject name="#0457" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0462</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MLh_PreAimedCon_MSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#0150
+				#0150
+				#0150
+				#0150
+				#0150
+				#0150
+				#0150
+				#0150
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#dscgo$16
+				#dscgo$11
+<!-- ORIGINAL -->
+				#0460
+				#0458
+<!-- CLOSE -->
+				#0150
+				#0150
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

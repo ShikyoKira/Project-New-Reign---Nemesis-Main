@@ -15,55 +15,52 @@ VecWstr warningMsges;
 void beginConnectionCheck(const string& current,
                           const string& original,
                           USetStr& noRepeat,
-                          const unordered_map<wstring, USetWstr>& postBhvrRefBy,
-                          const NemesisInfo& nemesisInfo);
+                          const unordered_map<wstring, USetWstr>& postBhvrRefBy);
 
 bool connectionCheckLoop(const string& current,
                          const string& original,
                          USetStr& noRepeat,
                          const unordered_map<wstring, USetWstr>& postBhvrRefBy,
-                         const VecStr& characterList,
-                         const NemesisInfo& nemesisInfo);
+                         const VecStr& characterList);
 
 bool isConnectedToCharacter(const string& current,
                             const string& original,
                             USetStr& noRepeat,
                             const unordered_map<wstring, USetWstr>& postBhvrRefBy,
-                            const VecStr& characterList,
-                            const NemesisInfo& nemesisInfo);
+                            const VecStr& characterList);
 
 void beginConnectionCheck(const string& current,
                           const string& original,
                           USetStr& noRepeat,
-                          const unordered_map<wstring, USetWstr>& postBhvrRefBy,
-                          const NemesisInfo& nemesisInfo)
+                          const unordered_map<wstring, USetWstr>& postBhvrRefBy)
 {
     string file = GetFileName(original);
     auto bhvitr = behaviorJoints.find(file);
 
     if (bhvitr == behaviorJoints.end() || bhvitr->second.empty()) return;
 
-    connectionCheckLoop(current, original, noRepeat, postBhvrRefBy, bhvitr->second, nemesisInfo);
+    connectionCheckLoop(current, original, noRepeat, postBhvrRefBy, bhvitr->second);
 }
 
 bool connectionCheckLoop(const string& current,
                          const string& original,
                          USetStr& noRepeat,
                          const unordered_map<wstring, USetWstr>& postBhvrRefBy,
-                         const VecStr& characterList,
-                         const NemesisInfo& nemesisInfo)
+                         const VecStr& characterList)
 {
     if (noRepeat.find(current) != noRepeat.end()) return true;
 
-    if (!isConnectedToCharacter(current, original, noRepeat, postBhvrRefBy, characterList, nemesisInfo)) return false;
+    if (!isConnectedToCharacter(current, original, noRepeat, postBhvrRefBy, characterList)) return false;
 
     if (!isFileExist(current))
     {
+        auto nemesisinfo = NemesisInfo::GetInstance();
+
         // Staging
-        if (nemesisInfo.GetStagePath() != nemesisInfo.GetDataPath())
+        if (nemesisinfo->GetStagePath() != nemesisinfo->GetDataPath())
         {
-            wstring stage = nemesisInfo.GetStagePath();
-            wstring data = nemesisInfo.GetDataPath();
+            wstring stage    = nemesisinfo->GetStagePath();
+            wstring data     = nemesisinfo->GetDataPath();
             wstring wcurrent = nemesis::transform_to<wstring>(current);
 
             if (wordFind(wcurrent, stage) != 0) ErrorMessage(1210, current);
@@ -86,8 +83,7 @@ bool isConnectedToCharacter(const string& current,
                             const string& original,
                             USetStr& noRepeat,
                             const unordered_map<wstring, USetWstr>& postBhvrRefBy,
-                            const VecStr& characterList,
-                            const NemesisInfo& nemesisInfo)
+                            const VecStr& characterList)
 {
     auto itr = postBhvrRefBy.find(nemesis::transform_to<wstring>(current));
 
@@ -101,7 +97,7 @@ bool isConnectedToCharacter(const string& current,
                                     original,
                                     noRepeat,
                                     postBhvrRefBy,
-                                    characterList, nemesisInfo))
+                                    characterList))
             {
                 rst = true;
             }
@@ -178,7 +174,7 @@ void behaviorCheck(BehaviorStart* process)
         beginConnectionCheck(nemesis::transform_to<string>(behaviorfiles.first),
                              nemesis::transform_to<string>(behaviorfiles.first),
                              noRepeat,
-                             process->postBhvrRefBy, *process->nemesisInfo);
+                             process->postBhvrRefBy);
     }
 }
 

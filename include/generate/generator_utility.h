@@ -61,7 +61,7 @@ void checkClipAnimData(std::filesystem::path filename,
 void checkAllFiles(std::filesystem::path filepath);
 void checkAllStoredHKX();
 
-bool isEngineUpdated(std::string& versionCodem, const NemesisInfo* nemesisInfo);
+bool isEngineUpdated(std::string& versionCodem);
 void ClearGlobal(bool all = true);
 void GetAnimData();
 void characterHKX();

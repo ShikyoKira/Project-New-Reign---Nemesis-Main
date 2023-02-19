@@ -80,7 +80,7 @@ bool ValidateEndLine(bool emptylast, Vec<LineType>& storeline, const Vec<LineTyp
 }
 
 template <typename LineType>
-bool ValidateEndLine(bool emptylast, Vec<LineType>& storeline, const Vec<LineType>& exclusions, uint linenum)
+bool ValidateEndLine(bool emptylast, Vec<LineType>& storeline, const Vec<LineType>& exclusions, size_t linenum)
 {
     if (storeline.size() == 0) return false;
 
@@ -104,73 +104,61 @@ bool ValidateEndLine(bool emptylast, Vec<LineType>& storeline, const Vec<LineTyp
     return true;
 }
 
-void read_directory(const sf::path& name, VecStr& fv)
+void read_directory(sf::path dirpath, VecStr& fv)
 {
 	fv.clear();
 
-	for (const auto& entry : sf::directory_iterator(name))
+    if (dirpath.string().empty())
+    {
+        dirpath = sf::current_path();
+    }
+
+	for (const auto& entry : sf::directory_iterator(dirpath))
 	{
 		wstring filename = entry.path().filename().wstring();
 
-		if (filename != L"." && filename != L"..")
-		{
-			fv.push_back(nemesis::transform_to<string>(filename));
-		}
-	}
+		if (filename == L"." || filename == L"..") continue;
 
-	for (unsigned int i = 0; i < fv.size(); ++i)
-	{
-		if (nemesis::to_lower_copy(fv[i]).find("folder_managed_by_vortex") != NOT_FOUND)
-		{
-			fv.erase(fv.begin() + i);
-			--i;
-		}
+        if (nemesis::isearch(filename, L"folder_managed_by_vortex") != NOT_FOUND) continue;
+
+        fv.emplace_back(nemesis::transform_to(filename));
 	}
 }
 
-void read_directory(const sf::path& name, vector<wstring>& fv)
+void read_directory(sf::path dirpath, VecWstr& fv)
 {
 	fv.clear();
 
-	for (const auto& entry : sf::directory_iterator(name))
+    if (dirpath.string().empty())
+    {
+        dirpath = sf::current_path();
+    }
+
+	for (const auto& entry : sf::directory_iterator(dirpath))
 	{
 		wstring filename = entry.path().filename().wstring();
 
-		if (filename != L"." && filename != L"..")
-		{
-			fv.push_back(filename);
-		}
-	}
+        if (filename == L"." || filename == L"..") continue;
 
-	for (unsigned int i = 0; i < fv.size(); ++i)
-	{
-		if (nemesis::to_lower_copy(fv[i]).find(L"folder_managed_by_vortex") != NOT_FOUND)
-		{
-			fv.erase(fv.begin() + i);
-			--i;
-		}
+        if (nemesis::isearch(filename, L"folder_managed_by_vortex") != NOT_FOUND) continue;
+
+		fv.emplace_back(filename);
 	}
 }
 
 size_t fileLineCount(sf::path filepath)
 {
 	int linecount = 0;
-	string line;
 	FileReader input(filepath.c_str());
 
-	if (input.GetFile())
-	{
-		string line;
+	if (!input.GetFile()) ErrorMessage(1002, filepath);
 
-		while (input.GetLines(line))
-		{
-			++linecount;
-		}
-	}
-	else
-	{
-		ErrorMessage(1002, filepath);
-	}
+    string line;
+
+    while (input.GetLines(line))
+    {
+        ++linecount;
+    }
 
 	return linecount;
 }
@@ -178,22 +166,16 @@ size_t fileLineCount(sf::path filepath)
 size_t fileLineCount(const char* filepath)
 {
 	int linecount = 0;
-	string line;
 	FileReader input(filepath);
 
-	if (input.GetFile())
-	{
-		string line;
+	if (!input.GetFile()) ErrorMessage(1002, filepath);
 
-		while (input.GetLines(line))
-		{
-			++linecount;
-		}
-	}
-	else
-	{
-		ErrorMessage(1002, filepath);
-	}
+    string line;
+
+    while (input.GetLines(line))
+    {
+        ++linecount;
+    }
 
 	return linecount;
 }
@@ -207,15 +189,13 @@ int sameWordCount(string line, string word)
 	{
 		nextWord = line.find(word, nextWord + 1);
 
-		if (nextWord != NOT_FOUND)
-		{
-			wordCount++;
+		if (nextWord == NOT_FOUND)
+        {
+            nextWord = -1;
+            break;
 		}
-		else
-		{
-			nextWord = -1;
-			break;
-		}
+
+        wordCount++;
 	}
 
 	return wordCount;
@@ -230,63 +210,202 @@ int sameWordCount(wstring line, wstring word)
     {
         nextWord = line.find(word, nextWord + 1);
 
-        if (nextWord != NOT_FOUND)
-        {
-            wordCount++;
-        }
-        else
+        if (nextWord == NOT_FOUND)
         {
             nextWord = -1;
             break;
         }
+
+        wordCount++;
     }
 
     return wordCount;
 }
 
-std::mutex mtxreader;
+//std::mutex mtxreader;
+static const VecStr condend      = {"<!-- CONDITION END -->", "<!-- CLOSE -->"};
+static const VecWstr wcondend    = {L"<!-- CONDITION END -->", L"<!-- CLOSE -->"};
+static const VecNstr n_condend   = {"<!-- CONDITION END -->", "<!-- CLOSE -->"};
+static const VecNwstr wn_condend = {L"<!-- CONDITION END -->", L"<!-- CLOSE -->"};
 
-bool GetFunctionLines(std::filesystem::path filename, VecNstr& functionlines, bool emptylast)
+bool GetFileLines(const sf::path& filename,
+                  VecNstr& functionlines,
+                  std::function<const std::string(const std::string&)> selector,
+                  bool emptylast)
 {
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
-    wstring line;
-    uint linenum = 0;
+    QString line;
+    size_t linenum = 0;
 
+    if (BehaviorFormat->GetLines(line))
     {
-        lock_guard<mutex> locker(mtxreader);
+        auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
+        functionlines.emplace_back(line, ++linenum, filepath_ptr);
 
         while (BehaviorFormat->GetLines(line))
         {
             if (error) throw nemesis::exception();
 
-            functionlines.emplace_back(nemesis::Line(nemesis::transform_to(line), ++linenum));
+            functionlines.emplace_back(selector(line.toStdString()), ++linenum, filepath_ptr.get());
         }
     }
 
-    bool rst = ValidateEndLine(emptylast, functionlines, {"<!-- CONDITION END -->", "<!-- CLOSE -->"});
+    bool rst = ValidateEndLine(emptylast, functionlines, n_condend);
     functionlines.shrink_to_fit();
     return rst;
 }
 
-bool GetFunctionLines(std::filesystem::path filename, VecNwstr& functionlines, bool emptylast)
+bool GetFileLines(const sf::path& filename,
+                  VecNwstr& functionlines,
+                  std::function<const std::wstring(const std::wstring&)> selector,
+                  bool emptylast)
 {
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
-    wstring line;
-    uint linenum = 0;
+    QString line;
+    size_t linenum = 0;
+
+    if (BehaviorFormat->GetLines(line))
+    {
+        auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
+        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+
+        while (BehaviorFormat->GetLines(line))
+        {
+            if (error) throw nemesis::exception();
+
+            functionlines.emplace_back(selector(line.toStdWString()), ++linenum, filepath_ptr.get());
+        }
+    }
+
+    bool rst = ValidateEndLine(emptylast, functionlines, wn_condend);
+    functionlines.shrink_to_fit();
+    return rst;
+}
+
+bool GetFileLines(const sf::path& filename,
+                  VecStr& functionlines,
+                  std::function<const std::string(const std::string&)> selector,
+                  bool emptylast)
+{
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
+    QString line;
 
     while (BehaviorFormat->GetLines(line))
     {
         if (error) throw nemesis::exception();
 
-        functionlines.emplace_back(nemesis::Wline(line, ++linenum));
+        functionlines.emplace_back(selector(line.toStdString()));
     }
 
-    bool rst = ValidateEndLine(emptylast, functionlines, {L"<!-- CONDITION END -->", L"<!-- CLOSE -->"});
+    bool rst = ValidateEndLine(emptylast, functionlines, condend);
     functionlines.shrink_to_fit();
     return rst;
 }
 
-bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
+bool GetFileLines(const sf::path& filename,
+                  VecWstr& functionlines,
+                  std::function<const std::wstring(const std::wstring&)> selector,
+                  bool emptylast)
+{
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
+    QString line;
+
+    while (BehaviorFormat->GetLines(line))
+    {
+        if (error) throw nemesis::exception();
+
+        functionlines.emplace_back(selector(line.toStdWString()));
+    }
+
+    bool rst = ValidateEndLine(emptylast, functionlines, wcondend);
+    functionlines.shrink_to_fit();
+    return rst;
+}
+
+bool GetFileLines(const sf::path& filename,
+                  VecNstr& functionlines,
+                  std::function<bool(std::string&)> predicament,
+                  bool emptylast)
+{
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
+    std::string line;
+    size_t linenum = 0;
+
+    if (BehaviorFormat->GetLines(line))
+    {
+        auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
+        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+
+        while (BehaviorFormat->GetLines(line))
+        {
+            if (error) throw nemesis::exception();
+
+            if (!predicament(line)) continue;
+
+            functionlines.emplace_back(line, ++linenum, filepath_ptr.get());
+        }
+    }
+
+    bool rst = ValidateEndLine(emptylast, functionlines, n_condend);
+    functionlines.shrink_to_fit();
+    return rst;
+}
+
+bool GetFileLines(const sf::path& filename,
+                  VecNwstr& functionlines,
+                  std::function<bool(std::wstring&)> predicament,
+                  bool emptylast)
+{
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
+    std::wstring line;
+    size_t linenum = 0;
+
+    if (BehaviorFormat->GetLines(line))
+    {
+        auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
+        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+
+        while (BehaviorFormat->GetLines(line))
+        {
+            if (error) throw nemesis::exception();
+
+            if (!predicament(line)) continue;
+
+            functionlines.emplace_back(line, ++linenum, filepath_ptr.get());
+        }
+    }
+
+    bool rst = ValidateEndLine(emptylast, functionlines, wn_condend);
+    functionlines.shrink_to_fit();
+    return rst;
+}
+
+bool GetFileLines(const sf::path& filename,
+                  VecStr& functionlines,
+                  std::function<bool(std::string&)> predicament,
+                  bool emptylast)
+{
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
+    std::string line;
+
+    while (BehaviorFormat->GetLines(line))
+    {
+        if (error) throw nemesis::exception();
+
+        if (!predicament(line)) continue;
+
+        functionlines.emplace_back(line);
+    }
+
+    bool rst = ValidateEndLine(emptylast, functionlines, condend);
+    functionlines.shrink_to_fit();
+    return rst;
+}
+
+bool GetFileLines(const sf::path& filename,
+                  VecWstr& functionlines,
+                  std::function<bool(std::wstring&)> predicament,
+                  bool emptylast)
 {
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     wstring line;
@@ -295,27 +414,94 @@ bool GetFunctionLines(sf::path filename, VecStr& functionlines, bool emptylast)
     {
         if (error) throw nemesis::exception();
 
-        functionlines.emplace_back(nemesis::transform_to(line));
+        if (!predicament(line)) continue;
+
+        functionlines.emplace_back(line);
     }
 
-    bool rst = ValidateEndLine(emptylast, functionlines, {"<!-- CONDITION END -->", "<!-- CLOSE -->"});
+    bool rst = ValidateEndLine(emptylast, functionlines, wcondend);
     functionlines.shrink_to_fit();
     return rst;
 }
 
-bool GetFunctionLines(sf::path filename, VecWstr& functionlines, bool emptylast)
+bool GetFileLines(const sf::path& filename, VecNstr& functionlines, bool emptylast)
 {
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
-    wstring line;
+    QString line;
+    size_t linenum = 0;
+
+    if (BehaviorFormat->GetLines(line))
+    {
+        auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
+        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+
+        while (BehaviorFormat->GetLines(line))
+        {
+            if (error) throw nemesis::exception();
+
+            functionlines.emplace_back(line, ++linenum, filepath_ptr.get());
+        }
+    }
+
+    bool rst = ValidateEndLine(emptylast, functionlines, n_condend);
+    functionlines.shrink_to_fit();
+    return rst;
+}
+
+bool GetFileLines(const sf::path& filename, VecNwstr& functionlines, bool emptylast)
+{
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
+    QString line;
+    size_t linenum = 0;
+
+    if (BehaviorFormat->GetLines(line))
+    {
+        auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
+        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+
+        while (BehaviorFormat->GetLines(line))
+        {
+            if (error) throw nemesis::exception();
+
+            functionlines.emplace_back(line, ++linenum, filepath_ptr.get());
+        }
+    }
+
+    bool rst = ValidateEndLine(emptylast, functionlines, wn_condend);
+    functionlines.shrink_to_fit();
+    return rst;
+}
+
+bool GetFileLines(const sf::path& filename, VecStr& functionlines, bool emptylast)
+{
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
+    QString line;
 
     while (BehaviorFormat->GetLines(line))
     {
         if (error) throw nemesis::exception();
 
-        functionlines.push_back(line);
+        functionlines.emplace_back(line.toStdString());
     }
 
-    bool rst = ValidateEndLine(emptylast, functionlines, {L"<!-- CONDITION END -->", L"<!-- CLOSE -->"});
+    bool rst = ValidateEndLine(emptylast, functionlines, condend);
+    functionlines.shrink_to_fit();
+    return rst;
+}
+
+bool GetFileLines(const sf::path& filename, VecWstr& functionlines, bool emptylast)
+{
+    SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
+    QString line;
+
+    while (BehaviorFormat->GetLines(line))
+    {
+        if (error) throw nemesis::exception();
+
+        functionlines.emplace_back(line.toStdWString());
+    }
+
+    bool rst = ValidateEndLine(emptylast, functionlines, wcondend);
     functionlines.shrink_to_fit();
     return rst;
 }

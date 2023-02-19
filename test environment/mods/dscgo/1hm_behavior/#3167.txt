@@ -1,0 +1,12 @@
+		<hkobject name="#3167" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Weap_AttackPowerLft_MG</hkparam>
+<!-- MOD_CODE ~dscgo~ OPEN -->
+			<hkparam name="modifier">#dscgo$87</hkparam>
+			<hkparam name="generator">#dscgo$197</hkparam>
+<!-- ORIGINAL -->
+			<hkparam name="modifier">#2934</hkparam>
+			<hkparam name="generator">#3168</hkparam>
+<!-- CLOSE -->
+		</hkobject>

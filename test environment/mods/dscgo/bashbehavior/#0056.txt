@@ -1,0 +1,38 @@
+		<hkobject name="#0056" class="hkbBehaviorGraphStringData" signature="0xc713064e">
+			<hkparam name="eventNames" numelements="21">
+				<hkcstring>bashPowerStart</hkcstring>
+				<hkcstring>bashExit</hkcstring>
+				<hkcstring>bashRelease</hkcstring>
+				<hkcstring>SoundPlay.NPCHumanCombatShieldBash</hkcstring>
+				<hkcstring>HitFrame</hkcstring>
+				<hkcstring>FootScuffLeft</hkcstring>
+				<hkcstring>FootScuffRight</hkcstring>
+				<hkcstring>SoundPlay.NPCHumanCombatShieldBashPower</hkcstring>
+				<hkcstring>InitiateWinBegin</hkcstring>
+				<hkcstring>InitiateWinEnd</hkcstring>
+				<hkcstring>preHitFrame</hkcstring>
+				<hkcstring>SoundPlay.NPCHumanCombatTorchBash</hkcstring>
+				<hkcstring>SoundPlay.NPCHumanCombatTorchBashPower</hkcstring>
+				<hkcstring>bashStop</hkcstring>
+				<hkcstring>weaponSwing</hkcstring>
+				<hkcstring>attackPowerStartLeftHand</hkcstring>
+				<hkcstring>SneakStart</hkcstring>
+				<hkcstring>SneakStop</hkcstring>
+				<hkcstring>tailCombatIdle</hkcstring>
+				<hkcstring>tailSneakIdle</hkcstring>
+				<hkcstring>SoundPlay</hkcstring>
+			</hkparam>
+			<hkparam name="attributeNames" numelements="0"></hkparam>
+			<hkparam name="variableNames" numelements="6">
+				<hkcstring>blendFast</hkcstring>
+				<hkcstring>IsBashing</hkcstring>
+				<hkcstring>iLeftHandType</hkcstring>
+				<hkcstring>bAllowRotation</hkcstring>
+				<hkcstring>iIsInSneak</hkcstring>
+				<hkcstring>iRightHandType</hkcstring>
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				<hkcstring>bUseAltGrip</hkcstring>
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="characterPropertyNames" numelements="0"></hkparam>
+		</hkobject>

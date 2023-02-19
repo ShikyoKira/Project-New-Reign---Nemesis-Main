@@ -93,7 +93,7 @@ void proc::installBlock(nemesis::scope blok, int curline)
     lineblocks[curline].blocksize[blok.size].push_back(blok);
 }
 
-void proc::installBlock(nemesis::scope blok, int curline, vector<nemesis::MultiChoice> m_condiiton)
+void proc::installBlock(nemesis::scope blok, int curline, vector<nemesis::MultiChoice_Old> m_condiiton)
 {
     blockCheck(blok.front, blok.back, curline);
     hasMC.insert(curline);
@@ -128,9 +128,9 @@ void proc::compute(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimI
 void proc::rangeCompute(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
     (*curAnimInfo.generatedlines)[curAnimInfo.elementLine]
-        = nemesis::regex_replace(string((*curAnimInfo.generatedlines)[curAnimInfo.elementLine]),
+        = nemesis::regex_replace((*curAnimInfo.generatedlines)[curAnimInfo.elementLine],
                                  nemesis::regex(R"((.*<hkparam name\=".+" numelements\=").+(">.*))"),
-                                 string("\\1" + to_string(curAnimInfo.counter) + "\\2"));
+                                 "$1" + to_string(curAnimInfo.counter) + "$2");
     curAnimInfo.norElement  = false;
     curAnimInfo.counter     = 0;
     curAnimInfo.elementLine = -1;
@@ -336,86 +336,94 @@ void proc::computation(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curA
     string equation       = combineBlocks(blok, blocks);
     size_t equationLength = equation.length();
 
-    if (clearBlocks(blok, blocks, curAnimInfo))
+    if (!clearBlocks(blok, blocks, curAnimInfo)) return;
+
+    if (equation.find("L") != NOT_FOUND)
     {
-        if (equation.find("L") != NOT_FOUND)
+        if (isMaster)
         {
-            if (isMaster)
-            {
-                ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
-            }
-
-            if (isGroup)
-            {
-                ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
-            }
-
-            int maths2 = count(equation.begin(), equation.end(), 'L');
-
-            for (__int64 k = 0; k < maths2; ++k)
-            {
-                equation.replace(equation.find("L"), 1, to_string(curAnimInfo.lastorder));
-            }
+            ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
         }
 
-        if (equation.find("N") != NOT_FOUND)
+        if (isGroup)
         {
-            if (isMaster)
-            {
-                ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
-            }
-
-            if (isGroup)
-            {
-                ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
-            }
-
-            int maths2 = count(equation.begin(), equation.end(), 'N');
-            string nextorder;
-            nextorder = curAnimInfo.curAnim->isLast() ? to_string(curAnimInfo.order)
-                                                      : to_string(curAnimInfo.order + 1);
-
-            for (__int64 k = 0; k < maths2; ++k)
-            {
-                equation.replace(equation.find("N"), 1, nextorder);
-            }
+            ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
         }
 
-        if (equation.find("B") != NOT_FOUND)
+        int maths2 = count(equation.begin(), equation.end(), 'L');
+
+        for (__int64 k = 0; k < maths2; ++k)
         {
-            if (isMaster)
-            {
-                ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
-            }
-            if (isGroup)
-            {
-                ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
-            }
-
-            int maths2 = count(equation.begin(), equation.end(), 'B');
-            string preorder;
-            preorder
-                = curAnimInfo.order == 0 ? to_string(curAnimInfo.order) : to_string(curAnimInfo.order - 1);
-
-            for (__int64 k = 0; k < maths2; ++k)
-            {
-                equation.replace(equation.find("B"), 1, preorder);
-            }
+            equation.replace(equation.find("L"), 1, to_string(curAnimInfo.lastorder));
         }
-
-        if (equation.find("F") != NOT_FOUND)
-        {
-            int maths2 = count(equation.begin(), equation.end(), 'F');
-
-            for (__int64 k = 0; k < maths2; ++k)
-            {
-                equation.replace(equation.find("F"), 1, "0");
-            }
-        }
-
-        nemesis::calculate(equation, format, behaviorFile, curAnimInfo.numline);
-        blocks[blok.front] = equation;
     }
+
+    if (equation.find("N") != NOT_FOUND)
+    {
+        if (isMaster)
+        {
+            ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
+        }
+
+        if (isGroup)
+        {
+            ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
+        }
+
+        int maths2 = count(equation.begin(), equation.end(), 'N');
+        string nextorder;
+        nextorder
+            = curAnimInfo.curAnim->isLast() ? to_string(curAnimInfo.order) : to_string(curAnimInfo.order + 1);
+
+        for (__int64 k = 0; k < maths2; ++k)
+        {
+            equation.replace(equation.find("N"), 1, nextorder);
+        }
+    }
+
+    if (equation.find("B") != NOT_FOUND)
+    {
+        if (isMaster)
+        {
+            ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
+        }
+        if (isGroup)
+        {
+            ErrorMessage(1206, format, behaviorFile, curAnimInfo.numline, blok.olddata[0]);
+        }
+
+        int maths2 = count(equation.begin(), equation.end(), 'B');
+        string preorder;
+        preorder = curAnimInfo.order == 0 ? to_string(curAnimInfo.order) : to_string(curAnimInfo.order - 1);
+
+        for (__int64 k = 0; k < maths2; ++k)
+        {
+            equation.replace(equation.find("B"), 1, preorder);
+        }
+    }
+
+    for (auto pos = equation.find("F"); pos != NOT_FOUND; pos = equation.find("F"))
+    {
+        int maths2 = count(equation.begin(), equation.end(), 'F');
+
+        for (__int64 k = 0; k < maths2; ++k)
+        {
+            equation.replace(pos, 1, "0");
+        }
+    }
+
+    for (auto pos = equation.find("###"); pos != NOT_FOUND; pos = equation.find("###"))
+    {
+        int maths2 = count(equation.begin(), equation.end(), 'F');
+
+        for (__int64 k = 0; k < maths2; ++k)
+        {
+            equation.replace(pos, 1, to_string(curAnimInfo.furnitureCount));
+        }
+    }
+
+    nemesis::calculate(equation, format, behaviorFile, curAnimInfo.numline);
+    blocks[blok.front] = equation;
 }
 
 void proc::endMultiGroup(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
@@ -2986,12 +2994,12 @@ void proc::animOrder(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAni
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
-        auto& ptr = charAnimDataInfo.find(
+        auto ptr = charAnimDataInfo.find(
             nemesis::to_lower_copy(curAnimInfo.project.substr(0, curAnimInfo.project.rfind(".txt"))));
 
         if (ptr != charAnimDataInfo.end())
         {
-            auto& ptr2 = ptr->second.find(
+            auto ptr2 = ptr->second.find(
                 nemesis::to_lower_copy(std::filesystem::path(animPath).filename().string()));
 
             if (ptr2 != ptr->second.end())
@@ -3137,7 +3145,7 @@ string proc::combineBlocks(nemesis::scope& blok, VecStr& blocks) const
 {
     string option;
 
-    for (unsigned int i = blok.front; i <= blok.back; ++i)
+    for (size_t i = blok.front; i <= blok.back; ++i)
     {
         option.append(blocks[i]);
     }
@@ -3149,7 +3157,7 @@ string proc::combineBlocks(size_t front, size_t back, VecStr& blocks) const
 {
     string option;
 
-    for (unsigned int i = front; i <= back; ++i)
+    for (size_t i = front; i <= back; ++i)
     {
         option.append(blocks[i]);
     }

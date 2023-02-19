@@ -130,7 +130,7 @@ OptionList::OptionList(string filepath, string format)
 
                 string startState         = AnimInfo[1];
                 string filteredStartState = nemesis::regex_replace(
-                    string(startState), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string(startState), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                 if (startState != filteredStartState) ErrorMessage(1013, format, filepath, linecount);
 
@@ -144,7 +144,7 @@ OptionList::OptionList(string filepath, string format)
                 if (minDone) ErrorMessage(1042, format, filepath, linecount);
 
                 string number = nemesis::regex_replace(
-                    string(AnimInfo[1]), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string(AnimInfo[1]), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                 if (strline.find(AnimInfo[0] + " " + number) == NOT_FOUND)
                 {
@@ -160,12 +160,12 @@ OptionList::OptionList(string filepath, string format)
             }
             else if (lower == "link")
             {
-                for (uint i = 1; i < AnimInfo.size(); ++i)
+                for (size_t i = 1; i < AnimInfo.size(); ++i)
                 {
                     string currentTab;
                     VecStr linker;
 
-                    for (uint j = 1; j < AnimInfo.size(); ++j)
+                    for (size_t j = 1; j < AnimInfo.size(); ++j)
                     {
                         if (i == j)
                         {
@@ -187,7 +187,7 @@ OptionList::OptionList(string filepath, string format)
             }
             else if (lower == "event")
             {
-                for (uint i = 0; i < strline.length(); ++i)
+                for (size_t i = 0; i < strline.length(); ++i)
                 {
                     if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>'
                         && strline[i] != ' ')
@@ -242,7 +242,7 @@ OptionList::OptionList(string filepath, string format)
             }
             else if (lower == "event_group")
             {
-                for (uint i = 0; i < strline.length(); ++i)
+                for (size_t i = 0; i < strline.length(); ++i)
                 {
                     if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>'
                         && strline[i] != ' ')
@@ -316,7 +316,7 @@ OptionList::OptionList(string filepath, string format)
             }
             else if (lower == "variable")
             {
-                for (uint i = 0; i < strline.length(); ++i)
+                for (size_t i = 0; i < strline.length(); ++i)
                 {
                     if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>'
                         && strline[i] != ' ')
@@ -361,7 +361,7 @@ OptionList::OptionList(string filepath, string format)
             }
             else if (lower == "variable_group")
             {
-                for (uint i = 0; i < strline.length(); ++i)
+                for (size_t i = 0; i < strline.length(); ++i)
                 {
                     if (!isalnum(strline[i]) && strline[i] != '_' && strline[i] != '<' && strline[i] != '>'
                         && strline[i] != ' ')
@@ -429,7 +429,7 @@ OptionList::OptionList(string filepath, string format)
             }
             else if (lower == "compulsory")
             {
-                for (uint i = 0; i < strline.length(); ++i)
+                for (size_t i = 0; i < strline.length(); ++i)
                 {
                     if (!isalpha(strline[i])) ErrorMessage(1044, format, filepath, linecount);
                 }
@@ -497,7 +497,7 @@ OptionList::OptionList(string filepath, string format)
             else
             {
                 string ID = nemesis::regex_replace(
-                    string(lower), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    string(lower), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                 if (AnimInfo[0] == "S" + ID)
                 {
@@ -506,7 +506,7 @@ OptionList::OptionList(string filepath, string format)
                     if (AnimInfo.size() != 3) ErrorMessage(1069, format, filepath, linecount);
 
                     string functionID = nemesis::regex_replace(
-                        string(AnimInfo[2]), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        string(AnimInfo[2]), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                     if (AnimInfo[2] != "#" + functionID) ErrorMessage(1071, format, filepath, linecount);
 
@@ -524,7 +524,7 @@ OptionList::OptionList(string filepath, string format)
                 {
                     size_t lineplus = nemesis::regex_replace(string(strline),
                                                              nemesis::regex("[<\\s]*([^<\\s]+).*"),
-                                                             string("\\1"))
+                                                             string("$1"))
                                           .length();
 
                     if (lineplus > 4) ErrorMessage(1011, format, filepath, linecount, AnimInfo[0]);
@@ -571,7 +571,7 @@ OptionList::OptionList(string filepath, string format)
                             string tempAddOn
                                 = nemesis::regex_replace(string(addition),
                                                          nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
-                                                         string("\\1"));
+                                                         string("$1"));
 
                             if (tempAddOn != addition) ErrorMessage(1015, format, filepath, linecount);
 
@@ -612,7 +612,7 @@ OptionList::OptionList(string filepath, string format)
                     {
                         bool number = false;
 
-                        for (uint i = 0; i < strline.length(); ++i)
+                        for (size_t i = 0; i < strline.length(); ++i)
                         {
                             if (!isalnum(strline[i]) && strline[i] != '[' && strline[i] != ']')
                             {
@@ -649,7 +649,7 @@ OptionList::OptionList(string filepath, string format)
         }
     }
 
-    for (uint i = 1; i < isNumExist.size(); ++i)
+    for (size_t i = 1; i < isNumExist.size(); ++i)
     {
         if (!isNumExist[i]) ErrorMessage(1024, isNumExist.size(), format, filepath, linecount);
     }
@@ -688,7 +688,7 @@ OptionList::OptionList(string filepath, string format)
             size_t addOnSize = addOn[it->first].size();
             bool pass        = false;
 
-            for (uint i = 0; i < addOnSize; ++i)
+            for (size_t i = 0; i < addOnSize; ++i)
             {
                 if (iter->first == addOn[it->first][i])
                 {
@@ -723,7 +723,7 @@ OptionList::OptionList(string filepath, string format)
 
         string mixedOption = it->first;
 
-        for (uint i = 0; i < it->second.size(); ++i)
+        for (size_t i = 0; i < it->second.size(); ++i)
         {
             mixedOption = mixedOption + "&" + it->second[i];
         }
@@ -732,7 +732,7 @@ OptionList::OptionList(string filepath, string format)
         mixOptRever[mixedOption].push_back(it->first);
         bool l_error = false;
 
-        for (uint i = 0; i < it->second.size(); ++i)
+        for (size_t i = 0; i < it->second.size(); ++i)
         {
             if (groupOption[it->first] != groupOption[it->second[i]]
                 || addOn[it->first] != addOn[it->second[i]])
@@ -747,7 +747,7 @@ OptionList::OptionList(string filepath, string format)
         string errorElements;
         errorElements.append(it->first);
 
-        for (uint i = 0; i < it->second.size(); ++i)
+        for (size_t i = 0; i < it->second.size(); ++i)
         {
             errorElements.append("," + it->second[i]);
         }
@@ -762,7 +762,7 @@ OptionList::OptionList(string filepath, string format)
     {
         if (!isDone[it->first])
         {
-            for (uint i = 0; i < it->second.size(); ++i)
+            for (size_t i = 0; i < it->second.size(); ++i)
             {
                 if (addOn[it->first].size() != addOn[it->second[i]].size())
                 {
@@ -840,7 +840,7 @@ bool optionMatching(string option1, string option2)
         longer  = option1;
     }
 
-    for (uint i = 0; i < shorter.size(); ++i)
+    for (size_t i = 0; i < shorter.size(); ++i)
     {
         if (shorter[i] != longer[i])
         {

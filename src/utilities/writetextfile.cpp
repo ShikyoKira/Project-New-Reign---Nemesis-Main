@@ -37,22 +37,58 @@ bool FileWriter::is_open() const
 
 void FileWriter::LockFreeWrite(const char* line)
 {
-    fwprintf(file, L"%s", nemesis::transform_to<wstring>(string(line + '\n')).c_str());
+    fwprintf(file, L"%s", nemesis::transform_to<wstring>(string(line)).c_str());
 }
 
 void FileWriter::LockFreeWrite(const wchar_t* line)
 {
-    fwprintf(file, L"%s", line + L'\n');
+    fwprintf(file, L"%s", line);
 }
 
 void FileWriter::LockFreeWrite(const string& line)
 {
-    fwprintf(file, L"%s", nemesis::transform_to<wstring>(line + "\n").c_str());
+    fwprintf(file, L"%s", nemesis::transform_to<wstring>(line).c_str());
 }
 
 void FileWriter::LockFreeWrite(const std::wstring& line)
 {
+    fwprintf(file, L"%s", (line).c_str());
+}
+
+void FileWriter::LockFreeWriteLine(const char* line)
+{
+    fwprintf(file, L"%s", nemesis::transform_to<wstring>(string(line + '\n')).c_str());
+}
+
+void FileWriter::LockFreeWriteLine(const wchar_t* line)
+{
+    fwprintf(file, L"%s", line + L'\n');
+}
+
+void FileWriter::LockFreeWriteLine(const string& line)
+{
+    fwprintf(file, L"%s", nemesis::transform_to<wstring>(line + "\n").c_str());
+}
+
+void FileWriter::LockFreeWriteLine(const std::wstring& line)
+{
     fwprintf(file, L"%s", (line + L"\n").c_str());
+}
+
+void FileWriter::WriteLines(const VecStr& lines)
+{
+    for (auto& line : lines)
+    {
+        fwprintf(file, L"%s", nemesis::transform_to<wstring>(line).c_str());
+    }
+}
+
+void FileWriter::WriteLines(const VecNstr& lines)
+{
+    for (auto& line : lines)
+    {
+        fwprintf(file, L"%s", nemesis::transform_to<wstring>(line.ToString()).c_str());
+    }
 }
 
 FileWriter& FileWriter::operator<<(const char* input)

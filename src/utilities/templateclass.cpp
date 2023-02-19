@@ -1,4 +1,7 @@
+#include "utilities/lineprocess.h"
 #include "utilities/templateclass.h"
+
+#include "hkx/hkxbehavior.h"
 
 namespace sf = std::filesystem;
 
@@ -15,17 +18,33 @@ void nemesis::TemplateClass::AddTemplate(const sf::path& behaviordir)
 
         if (!IsValidTemplateFormat(filepath)) continue;
 
-        templatelist.emplace_back(std::make_shared<nemesis::Template>(*this));
-        templatelist.back()->ReadFile(filepath);
+        SPtr<nemesis::Template> tempptr(new nemesis::Template(*this));
+        tempptr->ReadFile(filepath);
+        templatelist.emplace_back(tempptr);
     }
 }
 
 nemesis::TemplateClass::TemplateClass(const sf::path& optionlistfile)
     : optionmodels(optionlistfile, *this)
 {
-    name = optionlistfile.parent_path().filename().string();
+    try
+    {
+        name = optionlistfile.parent_path().filename().string();
 
-    if (!IsNameValid(name)) ErrorMessage(3009, name);
+        if (!IsNameValid(name)) ErrorMessage(3009, name);
+    }
+    catch (const nemesis::exception&)
+    {
+    }
+    catch (const std::exception& ex)
+    {
+        ErrorMessage(6002, "None", ex.what());
+    }
+}
+
+void nemesis::TemplateClass::SetAnimTemplate(const nemesis::AnimTemplate* animtemplt)
+{
+    animtemplate = animtemplt;
 }
 
 void nemesis::TemplateClass::AddBehaviorTemplate(const sf::path& classdir)
@@ -45,19 +64,62 @@ void nemesis::TemplateClass::AddBehaviorTemplate(const sf::path& classdir)
     }
 }
 
+void nemesis::TemplateClass::TryLinkToBehavior(nemesis::HkxBehavior& behavior) const
+{
+    for (auto& each : templatelist)
+    {
+        if (each->TryAddBehavior(behavior)) return;
+    }
+
+    ErrorMessage(1220, name, behavior.GetFilePath());
+}
+
+void nemesis::TemplateClass::LinkToBehaviorList(const VecSPtr<nemesis::HkxBehavior>& behaviorlist) const
+{
+    for (auto& each : templatelist)
+    {
+        if (!each->TryAddBehaviorList(behaviorlist)) ErrorMessage(1220, name, each->GetFilePath());
+    }
+}
+
+const nemesis::AnimTemplate& nemesis::TemplateClass::GetAnimTemplate() const noexcept
+{
+    return *animtemplate;
+}
+
 const nemesis::Line& nemesis::TemplateClass::GetName() const noexcept
 {
     return name;
 }
 
-const nemesis::OptionModelList& nemesis::TemplateClass::GetOptionModels() const
+const nemesis::OptionModelList& nemesis::TemplateClass::GetOptionModels() const noexcept
 {
     return optionmodels;
 }
 
-const VecSPtr<nemesis::Template>& nemesis::TemplateClass::GetTemplateList() const
+const VecSPtr<const nemesis::Template>& nemesis::TemplateClass::GetTemplateList() const noexcept
 {
     return templatelist;
+}
+
+bool nemesis::TemplateClass::HasGroup() const noexcept
+{
+    for (auto& templt : templatelist)
+    {
+        if (templt->IsGroup()) return true;
+    }
+
+    return false;
+}
+
+bool nemesis::TemplateClass::HasMaster() const noexcept
+{
+    for (auto& templt : templatelist)
+    {
+        if (templt->IsMaster()) return true;
+    }
+
+    return false;
 }
 
 bool nemesis::TemplateClass::HasOptionList(const sf::path& classdir)

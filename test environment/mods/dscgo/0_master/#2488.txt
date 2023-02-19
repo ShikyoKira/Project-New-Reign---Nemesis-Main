@@ -1,0 +1,26 @@
+		<hkobject name="#2488" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2502</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">DualWieldShieldBoneRootMSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#2489
+				#2497
+				#2497
+				#2497
+				#2497
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#2497
+				#2497
+<!-- ORIGINAL -->
+				#2489
+				#2489
+<!-- CLOSE -->
+				#2489
+				#2491
+				#2489
+				#2489
+				#2489
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

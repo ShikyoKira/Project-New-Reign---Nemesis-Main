@@ -1,0 +1,3 @@
+		<hkobject name="#sstop$4" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">(IsAttacking == 0) &amp;&amp; (IsCastingRight == 0) &amp;&amp; (IsCastingLeft == 0) &amp;&amp; (IsCastingDual == 0) &amp;&amp; (IsInCastState == 0)</hkparam>
+		</hkobject>

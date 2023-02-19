@@ -6,8 +6,8 @@ OBJECTIVES:
 - Check for error prior to actual patching
 */
 
+#include "update/templatepatch.h"
 #include "update/dataunification.h"
-
 #include "update/animsetdata/masteranimsetdata.h"
 
 #include "utilities/lastupdate.h"
@@ -16,6 +16,8 @@ OBJECTIVES:
 #include "utilities/conditionsyntax.h"
 #include "utilities/hkxelementsplit.h"
 
+#include "hkx/hkxbehavior.h"
+
 #pragma warning(disable:4503)
 
 using namespace std;
@@ -23,10 +25,21 @@ namespace ns = nemesis::syntax;
 
 atomic_flag newAnimAdditionLock{};
 
-void CombineAnimData(string filename, string characterfile, string modcode, string filepath, VecStr storeline, MasterAnimData& animData, bool isHeader);
+void CombineAnimData(string filename,
+                     string characterfile,
+                     string modcode,
+                     string filepath,
+                     VecNstr storeline,
+                     MasterAnimData& animData,
+                     bool isHeader);
 
-bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, map<string, VecStr, alphanum_less>& newFile, map<string, VecStr>& newAnimAddition,
-                      unordered_map<wstring, wstring>& lastUpdate)
+bool newAnimUpdateExt(string folderpath,
+                      string modcode,
+                      string behaviorfile,
+                      Map<string, VecNstr, alphanum_less>& newFile,
+                      Map<string, VecNstr>& newAnimAddition,
+                      UMap<wstring, wstring>& lastUpdate,
+                      Map<std::string, SPtr<nemesis::HkxBehavior>>& behavior_map)
 {
 	VecStr nodelist;
     string dir = folderpath + "\\" + behaviorfile;
@@ -34,17 +47,19 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 
 	for (auto& node : nodelist)
 	{
-        string path = dir + "\\" + node;
-        std::filesystem::path curfile(path);
+        const string filename = dir + "\\" + node;
+        std::filesystem::path curfile(filename);
 
 		if (std::filesystem::is_directory(curfile)) continue;
 
-		const string& filename = path;
-		VecStr storeline;
+        nemesis::TemplatePatch patch(modcode, curfile, "");
+        behavior_map[nemesis::to_lower_copy(behaviorfile)]->AddPatch(patch);
 
 		saveLastUpdate(nemesis::to_lower_copy(filename), lastUpdate);
 
-		if (!GetFunctionLines(filename, storeline)) return false;
+        VecNstr storeline;
+
+		if (!GetFileLines(filename, storeline)) return false;
 
 		if (node[0] != '#')
 		{
@@ -56,22 +71,23 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
         nemesis::ConditionScope cscope(modcode, curfile);
         nemesis::HkxElementSplit hesplit;
 		bool start = false;
-		unsigned int row = 0;
-        unsigned int ifscope = 0;
-        unsigned int foreachscope = 0;
+		size_t row = 0;
+        size_t ifscope = 0;
+        size_t foreachscope = 0;
 
-		for (int i = 0; i < storeline.size(); ++i)
+		for (size_t i = 0; i < storeline.size(); ++i)
 		{
             auto& curline = storeline[i];
 
 			if (curline.find("SERIALIZE_IGNORED") != NOT_FOUND)
             {
                 storeline.erase(storeline.begin() + i);
+                --i;
                 continue;
             }
 
+            auto conditioninfo = cscope.TryGetConditionInfo(curline);
             nemesis::Line nline(curline);
-            auto conditioninfo = cscope.TryGetConditionInfo(nline);
 
 			if (conditioninfo || !cscope.Empty()) continue;
 
@@ -88,126 +104,141 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 		}
 
 		string nodeID        = node.substr(0, node.find_last_of("."));
-		VecStr originallines = newFile[nodeID];
+		VecNstr originallines = newFile[nodeID];
 
 		if (originallines.empty()) ErrorMessage(1170, modcode, curfile.string());
 
 		bool close = false;
-		unordered_map<int, bool> conditionOpen;
+		UMap<int, bool> conditionOpen;
 		bool conditionOri = false;
 		int linecount = 0;
 		int conditionLvl = 0;
 		int scope = 0;
-		VecStr newlines;
-		VecStr combinelines;
+		VecNstr newlines;
+		VecNstr combinelines;
+		
+		for (auto& curline : storeline)
+        {
+            if (curline.find(ns::If()) != NOT_FOUND)
+            {
+                ++conditionLvl;
+                conditionOpen[conditionLvl] = true;
+            }
 
-		for (unsigned int i = 0; i < storeline.size(); ++i)
-		{
-			string& curline = storeline[i];
+            if (!close)
+            {
+                if (curline.find(ns::If()) == NOT_FOUND && curline.find(ns::ForEach()) == NOT_FOUND)
+                {
+                    if (originallines[linecount].find(ns::If()) != NOT_FOUND
+                        || originallines[linecount].find(ns::ForEach()) != NOT_FOUND)
+                    {
+                        combinelines.emplace_back(originallines[linecount]);
+                        ++linecount;
+                        size_t oriScope = 1;
 
-			if (curline.find(ns::If()) != NOT_FOUND)
-			{
-				++conditionLvl;
-				conditionOpen[conditionLvl] = true;
-			}
+                        while (oriScope != 0 || originallines[linecount].find(ns::If()) != NOT_FOUND
+                               || originallines[linecount].find(ns::ForEach()) != NOT_FOUND)
+                        {
+                            if (originallines[linecount].find(ns::If()) != NOT_FOUND
+                                || originallines[linecount].find(ns::ForEach()) != NOT_FOUND)
+                                ++oriScope;
+                            if (originallines[linecount].find(ns::Close()) != NOT_FOUND) --oriScope;
 
-			if (!close)
-			{
-				if (curline.find(ns::If()) == NOT_FOUND && curline.find(ns::ForEach(), 0) == NOT_FOUND)
-				{
-					if (originallines[linecount].find(ns::If(), 0) != NOT_FOUND || originallines[linecount].find(ns::ForEach(), 0) != NOT_FOUND)
-					{
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-						size_t oriScope = 1;
+                            combinelines.emplace_back(originallines[linecount]);
+                            ++linecount;
 
-						while (oriScope != 0)
-						{
-							if (originallines[linecount].find(ns::If()) != NOT_FOUND || originallines[linecount].find(ns::ForEach()) != NOT_FOUND) ++oriScope;
-							if (originallines[linecount].find(ns::Close()) != NOT_FOUND) --oriScope;
-
-							combinelines.push_back(originallines[linecount]);
-							++linecount;
-
-							if (linecount == originallines.size() && oriScope != 0) ErrorMessage(1114, modcode, curfile.string(), i + 1);
-						}
-					}
+                            if (linecount == originallines.size() && oriScope != 0)
+                                ErrorMessage(1114, modcode, curfile.string(), curline.GetLineNumber());
+                        }
+                    }
                     else if (curline.find(ns::OpenComment()) != NOT_FOUND
                              && curline.find("numelements +", curline.find(ns::OpenComment())) != NOT_FOUND)
-					{
-						size_t position = curline.find("<!-- ");
-						string templine = curline.substr(position, curline.find("-->", position) - position + 3);
+                    {
+                        size_t position = curline.find("<!-- ");
+                        string templine
+                            = curline.substr(position, curline.find("-->", position) - position + 3);
 
-						if (originallines[linecount].find(ns::OpenComment(), 0) != NOT_FOUND
+                        if (originallines[linecount].find(ns::OpenComment()) != NOT_FOUND
                             && originallines[linecount].find(ns::CloseComment()) != NOT_FOUND)
+                        {
                             originallines[linecount].append(" " + templine);
-						else originallines[linecount].append("			" + templine);
-					}
+                        }
+                        else
+                        {
+                            originallines[linecount].append("			" + templine);
+                        }
+                    }
 
-					if (curline.find(ns::EndIf()) != NOT_FOUND)
-					{
-						combinelines.push_back(curline);
-						conditionOri = false;
-						conditionOpen[conditionLvl] = false;
-						--conditionLvl;
-					}
-					else if (conditionOri || !conditionOpen[conditionLvl])
-					{
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-					}
-					else
-					{
-						combinelines.push_back(curline);
-					}
-				}
-				else
-				{
-					++scope;
-					close = true;
-				}
-			}
-			else if (curline.find(ns::Close()) != NOT_FOUND)
-			{
-				--scope;
+                    if (curline.find(ns::EndIf()) != NOT_FOUND)
+                    {
+                        combinelines.emplace_back(curline);
+                        conditionOri                = false;
+                        conditionOpen[conditionLvl] = false;
+                        --conditionLvl;
+                    }
+                    else if (conditionOri || !conditionOpen[conditionLvl])
+                    {
+                        combinelines.emplace_back(originallines[linecount]);
+                        ++linecount;
+                    }
+                    else
+                    {
+                        combinelines.emplace_back(curline);
+                    }
+                }
+                else
+                {
+                    ++scope;
+                    close = true;
+                }
+            }
+            else if (curline.find(ns::Close()) != NOT_FOUND)
+            {
+                --scope;
 
-				if (scope == 0)
-				{
-					if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND || originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND)
-					{
-						combinelines.push_back(originallines[linecount]);
-						++linecount;
-						size_t oriScope = 1;
+                if (scope == 0)
+                {
+                    if (originallines[linecount].find("<!-- NEW") != NOT_FOUND
+                        || originallines[linecount].find("<!-- FOREACH") != NOT_FOUND)
+                    {
+                        combinelines.emplace_back(originallines[linecount]);
+                        ++linecount;
+                        size_t oriScope = 1;
 
-						while (oriScope != 0)
-						{
-							if (originallines[linecount].find("<!-- NEW", 0) != NOT_FOUND || originallines[linecount].find("<!-- FOREACH", 0) != NOT_FOUND) ++oriScope;
-							if (originallines[linecount].find("<!-- CLOSE -->", 0) != NOT_FOUND) --oriScope;
+                        while (oriScope != 0)
+                        {
+                            if (originallines[linecount].find("<!-- NEW") != NOT_FOUND
+                                || originallines[linecount].find("<!-- FOREACH") != NOT_FOUND)
+                                ++oriScope;
+                            if (originallines[linecount].find(nemesis::syntax::Close()) != NOT_FOUND)
+                                --oriScope;
 
-							combinelines.push_back(originallines[linecount]);
-							++linecount;
+                            combinelines.emplace_back(originallines[linecount]);
+                            ++linecount;
 
-							if (linecount == originallines.size() && oriScope != 0) ErrorMessage(1114, modcode, curfile.string(), i + 1);
-						}
-					}
+                            if (linecount == originallines.size() && oriScope != 0)
+                                ErrorMessage(1114, modcode, curfile.string(), curline.GetLineNumber());
+                        }
+                    }
 
-					combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
-					combinelines.push_back(curline);
-					newlines.clear();
-					close = false;
-				}
-			}
-			else if (curline.find("<!-- NEW", 0) != NOT_FOUND || curline.find("<!-- FOREACH", 0) != NOT_FOUND)
-			{
-				++scope;
-			}
+                    combinelines.insert(combinelines.end(), newlines.begin(), newlines.end());
+                    combinelines.emplace_back(curline);
+                    newlines.clear();
+                    close = false;
+                }
+            }
+            else if (curline.find("<!-- NEW") != NOT_FOUND
+                     || curline.find(nemesis::syntax::ForEach()) != NOT_FOUND)
+            {
+                ++scope;
+            }
 
-			if (curline.find("<!-- CONDITION -->") != NOT_FOUND) conditionOri = true;
+            if (curline.find("<!-- CONDITION -->") != NOT_FOUND) conditionOri = true;
 
-			if (error) throw nemesis::exception();
+            if (error) throw nemesis::exception();
 
-			if (close) newlines.push_back(curline);
-		}
+            if (close) newlines.emplace_back(curline);
+        }
 
 		if (scope != 0) ErrorMessage(1114, modcode, curfile.string(), storeline.size());
 
@@ -222,23 +253,26 @@ bool newAnimUpdateExt(string folderpath, string modcode, string behaviorfile, ma
 bool animDataHeaderUpdate(string folderpath,
                           string modcode,
                           MasterAnimData& animData,
-                          unordered_map<wstring, wstring>& lastUpdate)
+                          UMap<wstring, wstring>& lastUpdate)
 {
-	VecStr storeline;
+	VecNstr storeline;
 
-	if (!GetFunctionLines(folderpath, storeline)) return false;
+	if (!GetFileLines(folderpath, storeline)) return false;
 
 	saveLastUpdate(nemesis::to_lower_copy(folderpath), lastUpdate);
 
-	CombineAnimData(folderpath, "$haeder$", modcode, GetFileDirectory(folderpath) + "\\$header$", storeline, animData, true);
+	CombineAnimData(folderpath, "$header$", modcode, GetFileDirectory(folderpath) + "\\$header$", storeline, animData, true);
 
 	if (error) throw nemesis::exception();
 
 	return true;
 }
 
-bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfile, MasterAnimData& animData, map<string, VecStr>& newAnimAddition,
-	unordered_map<wstring, wstring>& lastUpdate)
+bool newAnimDataUpdateExt(string folderpath,
+                          string modcode,
+                          string characterfile,
+                          Map<string, VecNstr>& newAnimAddition,
+                          UMap<wstring, wstring>& lastUpdate)
 {
 	VecStr headerlist;
 	read_directory(folderpath, headerlist);
@@ -251,11 +285,11 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 		if (std::filesystem::is_directory(curfile)) continue;
 
 		string filename = curfile.stem().string();
-		VecStr storeline;
+		VecNstr storeline;
 
 		saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate);
 
-		if (!GetFunctionLines(filepath, storeline)) return false;
+		if (!GetFileLines(filepath, storeline)) return false;
 
 		if (filename[0] == '$'
             && (filename.back() == '$'
@@ -269,7 +303,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 
 		bool isinfo = false;
         string tempname
-            = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("\\1"));
+            = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("$1"));
 
 		if (tempname == filename)
 		{
@@ -290,7 +324,7 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 		{
 			//check if project/characterfile has "~<num>" or not
             string tempproject
-                = nemesis::regex_replace(string(characterfile), nemesis::regex("~([0-9]+)"), string("\\1"));
+                = nemesis::regex_replace(string(characterfile), nemesis::regex("~([0-9]+)"), string("$1"));
 			project = (tempproject == characterfile || !isOnlyNumber(tempproject)) ? project + ".txt~1" : characterfile.replace(characterfile.find_last_of("~"), 0, ".txt");
 		}
 		else if (characterfile != "$header$")
@@ -308,8 +342,11 @@ bool newAnimDataUpdateExt(string folderpath, string modcode, string characterfil
 	return true;
 }
 
-bool newAnimDataSetUpdateExt(string folderpath, string templatecode, string projectfile, MasterAnimSetData& animSetData, map<string, VecStr>& newAnimAddition,
-                             unordered_map<wstring, wstring>& lastUpdate)
+bool newAnimDataSetUpdateExt(string folderpath,
+                             string templatecode,
+                             string projectfile,
+                             MasterAnimSetData& animSetData,
+                             UMap<wstring, wstring>& lastUpdate)
 {
 	VecStr datalist;
     VecStr headerfiles;
@@ -329,11 +366,11 @@ bool newAnimDataSetUpdateExt(string folderpath, string templatecode, string proj
 		VecNstr storeline;
         string lowerheader = nemesis::to_lower_copy(filepath.stem().string());
 
-		if (!GetFunctionLines(filename, storeline)) return false;
+		if (!GetFileLines(filename, storeline)) return false;
 
         size_t num       = 2;
         string lowername = nemesis::to_lower_copy(filepath.stem().string());
-        auto& masterProj = animSetData.find(projectfile, templatecode);
+        auto masterProj = animSetData.find(projectfile, templatecode);
 
         if (lowername.length() > 2 && lowername.front() == '$' && lowername.back() == '$') continue;
 
@@ -346,11 +383,11 @@ bool newAnimDataSetUpdateExt(string folderpath, string templatecode, string proj
 
 void behaviorJointsOutput()
 {
-	unordered_map<string, VecStr> combinedBehaviorJoints;
+	UMap<string, VecStr> combinedBehaviorJoints;
 
 	for (auto it = behaviorJoints.begin(); it != behaviorJoints.end(); ++it)
 	{
-		for (unsigned int i = 0; i < it->second.size(); ++i)
+		for (size_t i = 0; i < it->second.size(); ++i)
 		{
 			VecStr temp = it->second;
 
@@ -388,22 +425,26 @@ void behaviorJointsOutput()
     if (error) throw nemesis::exception();
 }
 
-void CombineAnimData(string filename, string characterfile, string modcode, string filepath, VecStr storeline, MasterAnimData& animData, bool isHeader)
+void CombineAnimData(string filename,
+                     string characterfile,
+                     string modcode,
+                     string filepath,
+                     VecNstr storeline,
+                     MasterAnimData& animData,
+                     bool isHeader)
 {
-	if (storeline.back().length() != 0)
+	if (!storeline.back().empty())
 	{
         storeline.emplace_back("");
 	}
 
 	int linecount = 0;
 	int conditionLvl = 0;
-	int type;
 	int start = 0;
 
 	if (!isHeader)
 	{
 		// continue here
-
 		if (filename == "$header$")
 		{
 

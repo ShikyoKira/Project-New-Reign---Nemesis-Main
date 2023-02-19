@@ -1,0 +1,9 @@
+		<hkobject name="#dscgo$220" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">JumpBlend_Twist_ModList</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="3">
+				#dscgo$225 #dscgo$223 #dscgo$221
+			</hkparam>
+		</hkobject>

@@ -1,0 +1,8 @@
+		<hkobject name="#dscgo$508" class="BSiStateTaggingGenerator" signature="0xf0826fc1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Bow_iStateGen</hkparam>
+			<hkparam name="pDefaultGenerator">#dscgo$509</hkparam>
+			<hkparam name="iStateToSetAs">8</hkparam>
+			<hkparam name="iPriority">4</hkparam>
+		</hkobject>

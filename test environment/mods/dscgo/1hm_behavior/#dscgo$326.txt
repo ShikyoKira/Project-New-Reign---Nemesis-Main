@@ -1,0 +1,22 @@
+		<hkobject name="#dscgo$326" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="3">
+				<hkobject>
+					<hkparam name="expression">fShortestAngle_Combat = ((360*Direction - fCurrentAngle_Combat + 180) - 360*floor((1/360)*(360*Direction - fCurrentAngle_Combat + 180))) - 180</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fCurrentAngle_Combat = fUse360Combat*(fCurrentAngle_Combat + clamp(20*fTimeDeltaSmoothed*fShortestAngle_Combat, -0.5*fabs(fShortestAngle_Combat), 0.5*fabs(fShortestAngle_Combat)))</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fDirection360_Combat = ((fCurrentAngle_Combat + 180) -360*floor((1/360)*(fCurrentAngle_Combat + 180))) - 180</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

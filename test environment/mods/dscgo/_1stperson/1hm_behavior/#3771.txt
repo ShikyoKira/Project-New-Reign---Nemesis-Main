@@ -1,0 +1,16 @@
+		<hkobject name="#3771" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">#3848</hkparam>
+<!-- MOD_CODE ~dscgo~ OPEN -->
+			<hkparam name="generator">#dscgo$172</hkparam>
+<!-- ORIGINAL -->
+			<hkparam name="generator">#3772</hkparam>
+<!-- CLOSE -->
+			<hkparam name="name">1HM_1stP_Body_StandingState</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>

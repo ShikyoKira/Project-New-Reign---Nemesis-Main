@@ -54,17 +54,18 @@ bool FileCheck(bool isUpdate)
 bool PCEACheck(const NemesisInfo* nemesisInfo)
 {
     DebugLogging("Initializing PCEA Check...");
-    wstring file = nemesisInfo->GetDataPath() + L"Nemesis PCEA.esp";
+    wstring datapath = nemesisInfo->GetDataPath().wstring();
+    wstring file = datapath + L"Nemesis PCEA.esp";
 
-    if (!isFileExist(file)) return false;
+    if (!std::filesystem::exists(file)) return false;
 
     file = L"alternate animation\\nemesis pcea.script";
 
-    if (!isFileExist(file)) ErrorMessage(1092, file);
+    if (!std::filesystem::exists(file)) ErrorMessage(1092, file);
 
-    file = nemesisInfo->GetDataPath() + L"scripts\\Nemesis_PCEA_MCM.pex";
+    file = datapath + L"scripts\\Nemesis_PCEA_MCM.pex";
 
-    if (!isFileExist(file)) ErrorMessage(1092, file);
+    if (!std::filesystem::exists(file)) ErrorMessage(1092, file);
 
     DebugLogging("PCEA Check complete");
     return true;
@@ -76,7 +77,7 @@ void behaviorActivateMod(VecStr behaviorPriority)
         behaviorActivator; // modcode, behavior; existence of the behavior in any of these
     string directory = "mod\\";
     VecStr modlist;
-    uint i = 1;
+    size_t i = 1;
 
     for (auto itr = behaviorPriority.rbegin(); itr != behaviorPriority.rend(); ++itr)
     {
@@ -85,7 +86,7 @@ void behaviorActivateMod(VecStr behaviorPriority)
         DebugLogging("Mod Checked " + to_string(i) + ": " + modcode);
         interMsg(TextBoxMessage(1013) + L" " + to_wstring(i++) + L": " + nemesis::transform_to<wstring>(modcode));
 
-        if (!isFileExist(newpath) || !std::filesystem::is_directory(newpath)) continue;
+        if (!std::filesystem::exists(newpath) || !std::filesystem::is_directory(newpath)) continue;
 
         if (modcode == "gender")
         {

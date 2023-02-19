@@ -1,12 +1,23 @@
 #include "utilities/process.h"
+#include "utilities/template.h"
+#include "utilities/constants.h"
 #include "utilities/atomiclock.h"
+#include "utilities/lineprocess.h"
+#include "utilities/animqueryfile.h"
+
+#include "core/preprocessline.h"
 
 #include "generate/alternateanimation.h"
-#include "generate/animation/animthreadinfo.h"
+
 #include "generate/animation/grouptemplate.h"
 #include "generate/animation/templatetree.h"
 
+#include "scope/scopeinfo.h"
+
 using namespace std;
+
+const nemesis::regex nemesis::Process::elementrgx
+    = nemesis::regex(R"((.*<hkparam name\=".+" numelements\=").+(">.*))");
 
 string StrDoubleDecimal(double num, int decimal)
 {
@@ -33,7 +44,7 @@ void stateInput(const string& state,
                 const string& original,
                 bool isMaster,
                 int groupMulti,
-                int animMulti,
+                int animnum,
                 int numline,
                 const size_t& stateCount,
                 const shared_ptr<master>& masterFunction)
@@ -52,35 +63,29 @@ void stateInput(const string& state,
     //}
     //else
     //{
-    //    if (animMulti == -1) ErrorMessage(1057, GetFormat(), GetBehaviorFile(), numline, original);
+    //    if (animnum == -1) ErrorMessage(1057, GetFormat(), GetBehaviorFile(), numline, original);
 
-    //    if (masterFunction->grouplist[groupMulti]->singlelist[animMulti]->GetFormat().find(stateID)
-    //        == masterFunction->grouplist[groupMulti]->singlelist[animMulti]->GetFormat().end())
+    //    if (masterFunction->grouplist[groupMulti]->singlelist[animnum]->GetFormat().find(stateID)
+    //        == masterFunction->grouplist[groupMulti]->singlelist[animnum]->GetFormat().end())
     //    {
     //        ErrorMessage(1127, GetFormat(), GetBehaviorFile(), numline);
     //    }
 
-    //    state = masterFunction->grouplist[groupMulti]->singlelist[animMulti]->GetFormat()[stateID];
+    //    state = masterFunction->grouplist[groupMulti]->singlelist[animnum]->GetFormat()[stateID];
     //}
 }
 
-bool nemesis::Process::ClearBlocks(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::ClearBlocks(VecStr& blocks) const
 {
-    if (!curAnimInfo.failed.empty())
-    {
-        for (auto& fail : curAnimInfo.failed)
-        {
-            // fail_front < front < back < fail_back
-            if (fail.front <= begin && end <= fail.back) return false;
-        }
-    }
+    ClearBlocks(begin, end, blocks);
+}
 
-    for (uint i = begin; i <= end; ++i)
+void nemesis::Process::ClearBlocks(size_t ibegin, size_t iend, VecStr& blocks) const
+{
+    for (size_t i = ibegin; i < iend; ++i)
     {
         blocks[i].clear();
     }
-
-    return true;
 }
 
 string nemesis::Process::CombineBlocks(VecStr& blocks) const
@@ -88,11 +93,11 @@ string nemesis::Process::CombineBlocks(VecStr& blocks) const
     return CombineBlocks(begin, end, blocks);
 }
 
-string nemesis::Process::CombineBlocks(uint ibegin, uint iend, VecStr& blocks) const
+string nemesis::Process::CombineBlocks(size_t ibegin, size_t iend, VecStr& blocks) const
 {
     string option;
 
-    for (uint i = ibegin; i <= iend; ++i)
+    for (size_t i = ibegin; i < iend; ++i)
     {
         option.append(blocks[i]);
     }
@@ -100,717 +105,748 @@ string nemesis::Process::CombineBlocks(uint ibegin, uint iend, VecStr& blocks) c
     return option;
 }
 
-void nemesis::Process::MotionValidation(const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MotionValidation(nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!curAnimInfo.fixedStateID.empty() || !curAnimInfo.eventid.empty() || !curAnimInfo.variableid.empty())
-    {
-        ErrorMessage(1096, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-    }
+    if (!scopeinfo.exporter->IsBehavior()) return;
+
+    ErrorMessage(1096, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
 }
 
-void nemesis::Process::RotationValidation(const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RotationValidation(nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!curAnimInfo.fixedStateID.empty() || !curAnimInfo.eventid.empty() || !curAnimInfo.variableid.empty())
-    {
-        ErrorMessage(1097, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-    }
+    if (!scopeinfo.exporter->IsBehavior()) return;
+
+    ErrorMessage(1097, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
 }
 
-//void nemesis::Process::blockCheck(int numline)
-//{
-//    if (front < front)
-//    {
-//        // b_front < front < b_back < back
-//        if (front < back && back < back) ErrorMessage(1193, GetFormat(), GetBehaviorFile(), numline);
-//    }
-//    // front < b_front < back < b_back
-//    else if (front < back && back < back)
-//    {
-//        ErrorMessage(1193, GetFormat(), GetBehaviorFile(), numline);
-//    }
-//}
+std::string nemesis::Process::IDRegisByType(nemesis::ScopeInfo& scopeinfo, nemesis::File::FileType filetype) const
+{
+    auto* exporter               = scopeinfo.GetExporter();
+    auto* templtclass            = exporter->GetTemplateClass(fixedvarlist.front());
+    auto* animquery              = scopeinfo.GetAnim(templtclass);
+    const nemesis::File* fileptr = nullptr;
+
+    for (auto& templt : templtclass->GetTemplateList())
+    {
+        if (templt->GetType() != filetype) continue;
+
+        fileptr = templt.get();
+        break;
+    }
+
+    auto ss = exporter->GetID(fixedvarlist.back(), fileptr, animquery);
+    return std::string(ss);
+}
+
+void nemesis::Process::ExeFirstAnimFromScope(VecStr& blocks,
+                                             nemesis::ScopeInfo& scopeinfo, funcptr func) const
+{
+    scopeinfo.ExeTempNumAnim(0, GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+}
+
+void nemesis::Process::ExeNextAnimFromScope(VecStr& blocks, nemesis::ScopeInfo& scopeinfo, funcptr func) const
+{
+    scopeinfo.ExeTempNextAnim(GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+}
+
+void nemesis::Process::ExeBackAnimFromScope(VecStr& blocks, nemesis::ScopeInfo& scopeinfo, funcptr func) const
+{
+    scopeinfo.ExeTempBackAnim(GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+}
+
+void nemesis::Process::ExeLastAnimFromScope(VecStr& blocks, nemesis::ScopeInfo& scopeinfo, funcptr func) const
+{
+    scopeinfo.ExeTempLastAnim(GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+}
+
+void nemesis::Process::ExeNumAnimFromScope(size_t num,
+                                           VecStr& blocks,
+                                           nemesis::ScopeInfo& scopeinfo,
+                                           funcptr func) const
+{
+    scopeinfo.ExeTempNumAnim(0, GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+}
 
 nemesis::Process::~Process() = default;
 
-void nemesis::Process::AddFunction(funcptr pFunction)
+void nemesis::Process::AddFunction(funcptr pfunction) noexcept
 {
-    this->pFunction = pFunction;
+    this->pfunction = pfunction;
 }
 
-void nemesis::Process::AddTemplateLinePtr(std::shared_ptr<nemesis::TemplateLine> pTemplateLine)
+void nemesis::Process::AddProcessLinePtr(nemesis::PreprocessLine* linkedline) noexcept
 {
-    this->pTemplateLine = pTemplateLine;
+    plinkedline = linkedline;
 }
 
-void nemesis::Process::SetBegin(uint begin)
+void nemesis::Process::AddAnimVarPtr(UPtr<nemesis::AnimVarPtr> animvarptr) noexcept
+{
+    varptr = std::move(animvarptr);
+}
+
+void nemesis::Process::SetBegin(size_t begin) noexcept
 {
     this->begin = begin;
 }
 
-void nemesis::Process::SetEnd(uint end)
+void nemesis::Process::SetEnd(size_t end) noexcept
 {
     this->end = end;
 }
 
-void nemesis::Process::SetFixedVar(const VecStr& fixedvarlist)
+void nemesis::Process::SetFixedVar(const VecStr& fixedvarlist) noexcept
 {
     this->fixedvarlist = fixedvarlist;
 }
 
-void nemesis::Process::SetFixedVarInt(const std::vector<int>& fixedvarintlist)
+void nemesis::Process::SetFixedVarInt(const Vec<int>& fixedvarintlist) noexcept
 {
     this->fixedvarintlist = fixedvarintlist;
 }
 
-const uint& nemesis::Process::GetSize() const noexcept
+void nemesis::Process::Compile(VecStr& blocks, nemesis::ScopeInfo& scopeinfo)
+{
+    if (IsInFailedRange(scopeinfo)) return;
+
+    (this->*pfunction)(blocks, scopeinfo);
+}
+
+bool nemesis::Process::IsInFailedRange(nemesis::ScopeInfo& scopeinfo) const
+{
+    for (auto& failptr : scopeinfo.failed)
+    {
+        if (failptr->pointA <= begin && end <= failptr->pointB) return true;
+    }
+
+    return false;
+}
+
+void nemesis::Process::ClearMultiChoice(nemesis::ScopeInfo& scopeinfo) const
+{
+    scopeinfo.failed.clear();
+    scopeinfo.captured = nullptr;
+}
+
+size_t nemesis::Process::GetSize() const noexcept
 {
     return end - begin;
 }
 
-const uint& nemesis::Process::GetBegin() const noexcept
+size_t nemesis::Process::GetBegin() const noexcept
 {
     return begin;
 }
 
-const uint& nemesis::Process::GetEnd() const noexcept
+size_t nemesis::Process::GetEnd() const noexcept
 {
     return end;
 }
 
-const string& nemesis::Process::GetFormat() const
+size_t nemesis::Process::GetCurrentLineNum() const noexcept
 {
-    return pTemplateLine.lock()->GetTemplate()->GetTemplateClassName();
+    return plinkedline->GetLineNumber();
 }
 
-const std::filesystem::path& nemesis::Process::GetBehaviorFile() const
+string_view nemesis::Process::GetFormat() const
 {
-    return pTemplateLine.lock()->GetTemplate()->GetFilePath();
+    return plinkedline->GetFile()->GetFileClassName();
 }
 
-//void nemesis::Process::installBlock(int curline)
-//{
-//    blockCheck(begin, end, curline);
-//    lineblocks[curline].blocksize[getSize()].push_back(blok);
-//}
-//
-//void nemesis::Process::installBlock(int curline, vector<nemesis::MultiChoice> m_condiiton)
-//{
-//    blockCheck(begin, end, curline);
-//    hasMC.insert(curline);
-//    multiChoice[curline] = m_condiiton;
-//    choiceblocks[curline].push_back(blok);
-//}
-
-void nemesis::Process::RelativeNegative(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+std::filesystem::path nemesis::Process::GetBehaviorFile() const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin]        = curAnimInfo.isEnd || curAnimInfo.negative ? "true" : "false";
-    curAnimInfo.negative = false;
-    curAnimInfo.isEnd    = false;
+    return plinkedline->GetFile()->GetFilePath();
 }
 
-void nemesis::Process::Compute(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+const nemesis::TemplateClass* nemesis::Process::GetTemplateClass() const
 {
-    curAnimInfo.elementCatch = true;
-    curAnimInfo.norElement   = true;
+    return &plinkedline->GetTemplate()->GetTemplateClass();
 }
 
-void nemesis::Process::RangeCompute(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RelativeNegative(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    (*curAnimInfo.generatedlines)[curAnimInfo.elementLine]
-        = nemesis::regex_replace(string((*curAnimInfo.generatedlines)[curAnimInfo.elementLine]),
-                                 nemesis::regex(R"((.*<hkparam name\=".+" numelements\=").+(">.*))"),
-                                 string("\\1" + to_string(curAnimInfo.counter) + "\\2"));
-    curAnimInfo.norElement  = false;
-    curAnimInfo.counter     = 0;
-    curAnimInfo.elementLine = -1;
+    ClearBlocks(blocks);
+    blocks[begin]        = scopeinfo.isend || scopeinfo.negative ? "true" : "false";
+    scopeinfo.negative = false;
+    scopeinfo.isend      = false;
 }
 
-void nemesis::Process::UpCounter(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::Compute(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    ++curAnimInfo.counter;
+    scopeinfo.catchingelement = true;
+    scopeinfo.norelment       = true;
 }
 
-void nemesis::Process::UpCounterPlus(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RangeCompute(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    *scopeinfo.elementline = nemesis::regex_replace(
+        *scopeinfo.elementline, elementrgx, "$1" + to_string(scopeinfo.elementcounter) + "$2");
+    scopeinfo.norelment      = false;
+    scopeinfo.elementcounter = 0;
+    scopeinfo.elementline    = nullptr;
+}
+
+void nemesis::Process::UpCounter(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ++scopeinfo.elementcounter;
+}
+
+void nemesis::Process::UpCounterPlus(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     string full = CombineBlocks(0, blocks.size() - 1, blocks);
-    curAnimInfo.counter += count(full.begin(), full.end(), '#');
+    scopeinfo.elementcounter += count(full.begin(), full.end(), '#');
 }
 
-void nemesis::Process::AnimCount(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AnimCount(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (ClearBlocks(blocks, curAnimInfo)) blocks[begin] = to_string(curAnimInfo.furnitureCount);
+    ClearBlocks(blocks);
+    blocks[begin] = to_string(scopeinfo.GetCurrentQuery()->GetBehaviorIndex());
 }
 
-void nemesis::Process::MultiChoiceRegis(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MultiChoicePre(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    string result = !curAnimInfo.captured
-                        ? "null"
-                        : CombineBlocks(curAnimInfo.captured->front, curAnimInfo.captured->back, blocks);
+    // Can't use ClearBlocks because MultiChoice has to be done last
+    //ClearBlocks(blocks);
 
-    ClearBlocks(blocks, curAnimInfo);
-    blocks[begin] = result;
-}
+    auto& mc = plinkedline->GetProcess()->GetMultiChoice();
+    auto& list = mc.GetChoiceList();
 
-void nemesis::Process::GroupIDRegis(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    //string oldID = masterformat + "_group$" + fixedvarlist[0];
-    //Lockless lock(curAnimInfo.animLock->subIDLock);
-
-    //if (curAnimInfo.groupFunction->functionIDs.find(oldID) != curAnimInfo.groupFunction->functionIDs.end())
-    //{
-    //    blocks[begin] = curAnimInfo.groupFunction->functionIDs[oldID];
-    //}
-    //else
-    //{
-    //    string strID                                  = curAnimInfo.curAnim->newID();
-    //    curAnimInfo.groupFunction->functionIDs[oldID] = strID;
-    //    blocks[begin]                                 = strID;
-    //}
-}
-
-void nemesis::Process::IDRegis(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    //string ID;
-    //string oldID = masterformat + "$" + fixedvarlist[0];
-
-    //if (curAnimInfo.IDExist[oldID].length() > 0)
-    //{
-    //    ID = curAnimInfo.IDExist[oldID];
-    //}
-    //else
-    //{
-    //    ID                         = curAnimInfo.curAnim->newID();
-    //    curAnimInfo.IDExist[oldID] = ID;
-    //}
-
-    //curAnimInfo.curAnim->subFunctionIDs->GetFormat()[oldID] = ID;
-    //blocks[begin]                                      = ID;
-}
-
-void nemesis::Process::IDRegisAnim(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    //string ID;
-    //string oldID = masterformat + "$" + fixedvarlist[0];
-    //int n_groupMulti;
-
-    //if (isMaster && curAnimInfo.groupMulti == -1)
-    //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[1]);
-    //}
-
-    //n_groupMulti = curAnimInfo.groupMulti;
-
-    //if (curAnimInfo.animMulti == -1)
-    //{
-    //    ErrorMessage(1057, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    //}
-
-    //if (curAnimInfo.masterFunction->grouplist[n_groupMulti]->singlelist[curAnimInfo.animMulti]->format.find(
-    //        oldID)
-    //    != curAnimInfo.masterFunction->grouplist[n_groupMulti]
-    //           ->singlelist[curAnimInfo.animMulti]
-    //           ->format.end())
-    //{
-    //    ID = curAnimInfo.masterFunction->grouplist[n_groupMulti]
-    //             ->singlelist[curAnimInfo.animMulti]
-    //             ->format[oldID];
-    //    curAnimInfo.IDExist[oldID] = ID;
-    //}
-    //else
-    //{
-    //    if (curAnimInfo.IDExist[oldID].length() > 0)
-    //    {
-    //        ID = curAnimInfo.IDExist[oldID];
-    //    }
-    //    else
-    //    {
-    //        ID                         = curAnimInfo.curGroup->newID();
-    //        curAnimInfo.IDExist[oldID] = ID;
-    //    }
-
-    //    curAnimInfo.masterFunction->grouplist[n_groupMulti]->singlelist[curAnimInfo.animMulti]->format[oldID]
-    //        = ID;
-    //}
-
-    //blocks[begin] = ID;
-}
-
-void nemesis::Process::IDRegisGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    //string ID;
-    //string oldID = masterformat + "_group$" + fixedvarlist[0];
-    //int n_groupMulti;
-
-    //if (isMaster && curAnimInfo.groupMulti == -1)
-    //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[1]);
-    //}
-
-    //n_groupMulti = curAnimInfo.groupMulti;
-
-    //if (curAnimInfo.masterFunction->grouplist[n_groupMulti]->functionIDs.find(oldID)
-    //    != curAnimInfo.masterFunction->grouplist[n_groupMulti]->functionIDs.end())
-    //{
-    //    ID                         = curAnimInfo.masterFunction->grouplist[n_groupMulti]->functionIDs[oldID];
-    //    curAnimInfo.IDExist[oldID] = ID;
-    //}
-    //else
-    //{
-    //    if (curAnimInfo.IDExist[oldID].length() > 0)
-    //    {
-    //        ID = curAnimInfo.IDExist[oldID];
-    //    }
-    //    else
-    //    {
-    //        ID                         = curAnimInfo.curGroup->newID();
-    //        curAnimInfo.IDExist[oldID] = ID;
-    //    }
-
-    //    curAnimInfo.masterFunction->grouplist[n_groupMulti]->functionIDs[oldID] = ID;
-    //}
-
-    //blocks[begin] = ID;
-}
-
-void nemesis::Process::IDRegisMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    //string ID;
-    //string oldID = masterformat + "_master$" + fixedvarlist[0];
-
-    //if (curAnimInfo.masterFunction->functionIDs.find(oldID) != curAnimInfo.masterFunction->functionIDs.end())
-    //{
-    //    ID                         = curAnimInfo.masterFunction->functionIDs[oldID];
-    //    curAnimInfo.IDExist[oldID] = ID;
-    //}
-    //else
-    //{
-    //    if (curAnimInfo.IDExist[oldID].length() > 0)
-    //    {
-    //        ID = curAnimInfo.IDExist[oldID];
-    //    }
-    //    else
-    //    {
-    //        ID                         = curAnimInfo.curGroup->newID();
-    //        curAnimInfo.IDExist[oldID] = ID;
-    //    }
-
-    //    curAnimInfo.masterFunction->functionIDs[oldID] = ID;
-    //}
-
-    //blocks[begin] = ID;
-}
-
-void nemesis::Process::Computation(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    string equation       = CombineBlocks(blocks);
-    size_t equationLength = equation.length();
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    //if (equation.find("L") != NOT_FOUND)
-    //{
-    //    if (isMaster)
-    //    {
-    //        ErrorMessage(1206, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    //    }
-
-    //    if (isGroup)
-    //    {
-    //        ErrorMessage(1206, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    //    }
-
-    //    int maths2 = count(equation.begin(), equation.end(), 'L');
-
-    //    for (__int64 k = 0; k < maths2; ++k)
-    //    {
-    //        equation.replace(equation.find("L"), 1, to_string(curAnimInfo.lastorder));
-    //    }
-    //}
-
-    //if (equation.find("N") != NOT_FOUND)
-    //{
-    //    if (isMaster)
-    //    {
-    //        ErrorMessage(1206, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    //    }
-
-    //    if (isGroup)
-    //    {
-    //        ErrorMessage(1206, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    //    }
-
-    //    int maths2 = count(equation.begin(), equation.end(), 'N');
-    //    string nextorder;
-    //    nextorder
-    //        = curAnimInfo.curAnim->isLast() ? to_string(curAnimInfo.order) : to_string(curAnimInfo.order + 1);
-
-    //    for (__int64 k = 0; k < maths2; ++k)
-    //    {
-    //        equation.replace(equation.find("N"), 1, nextorder);
-    //    }
-    //}
-
-    //if (equation.find("B") != NOT_FOUND)
-    //{
-    //    if (isMaster)
-    //    {
-    //        ErrorMessage(1206, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    //    }
-    //    if (isGroup)
-    //    {
-    //        ErrorMessage(1206, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    //    }
-
-    //    int maths2 = count(equation.begin(), equation.end(), 'B');
-    //    string preorder;
-    //    preorder = curAnimInfo.order == 0 ? to_string(curAnimInfo.order) : to_string(curAnimInfo.order - 1);
-
-    //    for (__int64 k = 0; k < maths2; ++k)
-    //    {
-    //        equation.replace(equation.find("B"), 1, preorder);
-    //    }
-    //}
-
-    //if (equation.find("F") != NOT_FOUND)
-    //{
-    //    int maths2 = count(equation.begin(), equation.end(), 'F');
-
-    //    for (__int64 k = 0; k < maths2; ++k)
-    //    {
-    //        equation.replace(equation.find("F"), 1, "0");
-    //    }
-    //}
-
-    //nemesis::calculate(equation, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-    //blocks[begin] = equation;
-}
-
-void nemesis::Process::EndMultiGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    if (curAnimInfo.animMulti == -1)
+    for (size_t i = 0; i < list.size(); ++i)
     {
-        ErrorMessage(1057, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+        auto& choice = list[i];
 
-    if (curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]->hasDuration)
-    {
-        blocks[begin]
-            = to_string(curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]->duration);
-    }
-    else
-    {
-        blocks[begin] = "0.000000";
-        curAnimInfo.isEnd  = true;
-    }
-}
-
-void nemesis::Process::EndFirstGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    if (curAnimInfo.curAnim->GetGroupAnimInfo()[0]->hasDuration)
-    {
-        blocks[begin] = to_string(curAnimInfo.curAnim->GetGroupAnimInfo()[0]->duration);
-    }
-    else
-    {
-        blocks[begin]     = "0.000000";
-        curAnimInfo.isEnd = true;
-    }
-}
-
-void nemesis::Process::EndNextGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    int num = curAnimInfo.order;
-
-    if (!curAnimInfo.curAnim->isLast()) num++;
-
-    if (curAnimInfo.curAnim->GetGroupAnimInfo()[num]->hasDuration)
-    {
-        blocks[begin] = to_string(curAnimInfo.curAnim->GetGroupAnimInfo()[num]->duration);
-    }
-    else
-    {
-        blocks[begin]     = "0.000000";
-        curAnimInfo.isEnd = true;
-    }
-}
-
-void nemesis::Process::EndBackGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    int num = curAnimInfo.order;
-
-    if (curAnimInfo.order != 0) num--;
-
-    if (curAnimInfo.curAnim->GetGroupAnimInfo()[num]->hasDuration)
-    {
-        blocks[begin] = to_string(curAnimInfo.curAnim->GetGroupAnimInfo()[num]->duration);
-    }
-    else
-    {
-        blocks[begin]     = "0.000000";
-        curAnimInfo.isEnd = true;
-    }
-}
-
-void nemesis::Process::EndLastGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    if (curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.curAnim->GetGroupAnimInfo().size()]->hasDuration)
-    {
-        blocks[begin] = to_string(curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]->duration);
-    }
-    else
-    {
-        blocks[begin]     = "0.000000";
-        curAnimInfo.isEnd = true;
-    }
-}
-
-void nemesis::Process::EndNumGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    size_t num = fixedvarintlist[0];
-
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-        if (curAnimInfo.curAnim->GetGroupAnimInfo()[num]->hasDuration)
+        if (!choice.IsTrue(scopeinfo))
         {
-            blocks[begin] = to_string(curAnimInfo.curAnim->GetGroupAnimInfo()[num]->duration);
+            scopeinfo.failed.push_back(&choice);
+            continue;
+        }
+
+        scopeinfo.captured = &choice;
+
+        while (++i < list.size())
+        {
+            scopeinfo.failed.emplace_back(&list[i]);
+        }
+
+        break;
+    }
+}
+
+void nemesis::Process::MultiChoicePost(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    auto start    = fixedvarintlist.front();
+    auto finish   = fixedvarintlist.back();
+    auto captured = scopeinfo.captured;
+    ClearBlocks(start, finish, blocks);
+
+    blocks[start] = CombineBlocks(captured->pointA, captured->pointB, blocks);
+    ClearMultiChoice(scopeinfo);
+}
+
+void nemesis::Process::GroupIDRegis(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    /*
+    string oldID = masterformat + "_group$" + fixedvarlist[0];
+    Lockless lock(scopeinfo.animLock->subIDLock);
+
+    if (scopeinfo.groupFunction->functionIDs.find(oldID) != scopeinfo.groupFunction->functionIDs.end())
+    {
+        blocks[begin] = scopeinfo.groupFunction->functionIDs[oldID];
+    }
+    else
+    {
+        string strID                                  = scopeinfo.curAnim->newID();
+        scopeinfo.groupFunction->functionIDs[oldID] = strID;
+        blocks[begin]                                 = strID;
+    }
+    */
+}
+
+void nemesis::Process::IDRegis(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    auto* exporter  = scopeinfo.GetExporter();
+    auto* animquery = scopeinfo.GetCurrentQuery();
+
+    blocks[begin] = std::string(exporter->GetID(fixedvarlist.front(), plinkedline->GetFile(), animquery));
+
+    /*
+    string ID;
+    string oldID = masterformat + "$" + fixedvarlist[0];
+
+    if (scopeinfo.IDExist[oldID].length() > 0)
+    {
+        ID = scopeinfo.IDExist[oldID];
+    }
+    else
+    {
+        ID                         = scopeinfo.curAnim->newID();
+        scopeinfo.IDExist[oldID] = ID;
+    }
+
+    scopeinfo.curAnim->subFunctionIDs->GetFormat()[oldID] = ID;
+    blocks[begin]                                      = ID;
+    */
+}
+
+void nemesis::Process::IDRegisAnim(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+    blocks[begin] = IDRegisByType(scopeinfo, nemesis::File::FileType::SINGLE);
+
+    /*
+    string ID;
+    string oldID = masterformat + "$" + fixedvarlist[0];
+    int n_groupMulti;
+
+    if (isMaster && scopeinfo.groupMulti == -1)
+    {
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[1]);
+    }
+
+    n_groupMulti = scopeinfo.groupMulti;
+
+    if (scopeinfo.animnum == -1)
+    {
+        ErrorMessage(1057, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    }
+
+    if (scopeinfo.masterFunction->grouplist[n_groupMulti]->singlelist[scopeinfo.animnum]->format.find(
+            oldID)
+        != scopeinfo.masterFunction->grouplist[n_groupMulti]
+               ->singlelist[scopeinfo.animnum]
+               ->format.end())
+    {
+        ID = scopeinfo.masterFunction->grouplist[n_groupMulti]
+                 ->singlelist[scopeinfo.animnum]
+                 ->format[oldID];
+        scopeinfo.IDExist[oldID] = ID;
+    }
+    else
+    {
+        if (scopeinfo.IDExist[oldID].length() > 0)
+        {
+            ID = scopeinfo.IDExist[oldID];
         }
         else
         {
-            blocks[begin] = "0.000000";
-            curAnimInfo.isEnd  = true;
+            ID                         = scopeinfo.curGroup->newID();
+            scopeinfo.IDExist[oldID] = ID;
         }
+
+        scopeinfo.masterFunction->grouplist[n_groupMulti]->singlelist[scopeinfo.animnum]->format[oldID]
+            = ID;
+    }
+
+    blocks[begin] = ID;
+    */
 }
 
-void nemesis::Process::EndMultiMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::IDRegisGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.animMulti == -1)
+    ClearBlocks(blocks);
+    blocks[begin] = IDRegisByType(scopeinfo, nemesis::File::FileType::GROUP);
+
+    /*
+    string ID;
+    string oldID = masterformat + "_group$" + fixedvarlist[0];
+    int n_groupMulti;
+
+    if (isMaster && scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1057, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[1]);
     }
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    n_groupMulti = scopeinfo.groupMulti;
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    if (curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti]->hasDuration)
+    if (scopeinfo.masterFunction->grouplist[n_groupMulti]->functionIDs.find(oldID)
+        != scopeinfo.masterFunction->grouplist[n_groupMulti]->functionIDs.end())
     {
-        blocks[begin] = to_string(
-            curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti]->duration);
+        ID                         = scopeinfo.masterFunction->grouplist[n_groupMulti]->functionIDs[oldID];
+        scopeinfo.IDExist[oldID] = ID;
     }
     else
     {
-        blocks[begin]     = "0.000000";
-        curAnimInfo.isEnd = true;
+        if (scopeinfo.IDExist[oldID].length() > 0)
+        {
+            ID = scopeinfo.IDExist[oldID];
+        }
+        else
+        {
+            ID                         = scopeinfo.curGroup->newID();
+            scopeinfo.IDExist[oldID] = ID;
+        }
+
+        scopeinfo.masterFunction->grouplist[n_groupMulti]->functionIDs[oldID] = ID;
     }
+
+    blocks[begin] = ID;
+    */
 }
 
-void nemesis::Process::EndFirstMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::IDRegisMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    ClearBlocks(blocks);
+    blocks[begin] = IDRegisByType(scopeinfo, nemesis::File::FileType::MASTER);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    /*
+    string ID;
+    string oldID = masterformat + "_master$" + fixedvarlist[0];
 
-    if (curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0]->hasDuration)
+    if (scopeinfo.masterFunction->functionIDs.find(oldID) != scopeinfo.masterFunction->functionIDs.end())
     {
-        blocks[begin] = to_string(curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0]->duration);
+        ID                         = scopeinfo.masterFunction->functionIDs[oldID];
+        scopeinfo.IDExist[oldID] = ID;
     }
     else
     {
-        blocks[begin]     = "0.000000";
-        curAnimInfo.isEnd = true;
+        if (scopeinfo.IDExist[oldID].length() > 0)
+        {
+            ID = scopeinfo.IDExist[oldID];
+        }
+        else
+        {
+            ID                         = scopeinfo.curGroup->newID();
+            scopeinfo.IDExist[oldID] = ID;
+        }
+
+        scopeinfo.masterFunction->functionIDs[oldID] = ID;
     }
+
+    blocks[begin] = ID;
+    */
 }
 
-void nemesis::Process::EndLastMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::Computation(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
+    string equation       = CombineBlocks(blocks);
+    size_t equationLength = equation.length();
+    ClearBlocks(blocks);
+
+    /*
+    if (equation.find("L") != NOT_FOUND)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        if (isMaster)
+        {
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        }
+
+        if (isGroup)
+        {
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        }
+
+        int maths2 = count(equation.begin(), equation.end(), 'L');
+
+        for (__int64 k = 0; k < maths2; ++k)
+        {
+            equation.replace(equation.find("L"), 1, to_string(scopeinfo.lastorder));
+        }
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    if (equation.find("N") != NOT_FOUND)
+    {
+        if (isMaster)
+        {
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        }
 
-    if (curAnimInfo.curGroup
-            ->groupAnimInfo[curAnimInfo.groupMulti]
-                           [curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti].size()]
-            ->hasDuration)
-    {
-        blocks[begin] = to_string(
-            curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder]->duration);
+        if (isGroup)
+        {
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        }
+
+        int maths2 = count(equation.begin(), equation.end(), 'N');
+        string nextorder;
+        nextorder
+            = scopeinfo.curAnim->isLast() ? to_string(scopeinfo.order) : to_string(scopeinfo.order + 1);
+
+        for (__int64 k = 0; k < maths2; ++k)
+        {
+            equation.replace(equation.find("N"), 1, nextorder);
+        }
     }
-    else
+
+    if (equation.find("B") != NOT_FOUND)
     {
-        blocks[begin]     = "0.000000";
-        curAnimInfo.isEnd = true;
+        if (isMaster)
+        {
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        }
+        if (isGroup)
+        {
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        }
+
+        int maths2 = count(equation.begin(), equation.end(), 'B');
+        string preorder;
+        preorder = scopeinfo.order == 0 ? to_string(scopeinfo.order) : to_string(scopeinfo.order - 1);
+
+        for (__int64 k = 0; k < maths2; ++k)
+        {
+            equation.replace(equation.find("B"), 1, preorder);
+        }
     }
+
+    if (equation.find("F") != NOT_FOUND)
+    {
+        int maths2 = count(equation.begin(), equation.end(), 'F');
+
+        for (__int64 k = 0; k < maths2; ++k)
+        {
+            equation.replace(equation.find("F"), 1, "0");
+        }
+    }
+
+    nemesis::calculate(equation, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    blocks[begin] = equation;
+    */
 }
 
-void nemesis::Process::EndNumMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::ImportNode(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
+    string import_input = CombineBlocks(blocks);
+
+    ClearBlocks(blocks);
+
+    auto* exporter = scopeinfo.GetExporter();
+    blocks[begin]  = std::string(exporter->GetImportID(import_input));
+}
+
+void nemesis::Process::ImportIndex(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+    blocks[begin]  = scopeinfo.GetCurrentImport()->GetParameter(fixedvarintlist.front());
+}
+
+void nemesis::Process::EndMulti(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //EndSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist.front(), GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateClass(), [&]()
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        EndSingle(blocks, scopeinfo);
+    });
+}
+
+void nemesis::Process::EndFirst(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //EndSingle(blocks, scopeinfo.GetTempAnim(0, GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(0, GetTemplateClass(), [&]() { EndSingle(blocks, scopeinfo); });
+}
+
+void nemesis::Process::EndNext(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //EndSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempNextAnim(GetTemplateClass(), [&]() { EndSingle(blocks, scopeinfo); });
+}
+
+void nemesis::Process::EndBack(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //EndSingle(blocks, scopeinfo.GetTempBackAnim(GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempBackAnim(GetTemplateClass(), [&]() { EndSingle(blocks, scopeinfo); });
+}
+
+void nemesis::Process::EndLast(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //EndSingle(blocks, scopeinfo.GetTempLastAnim(GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempLastAnim(GetTemplateClass(), [&]() { EndSingle(blocks, scopeinfo); });
+}
+
+void nemesis::Process::EndNum(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //EndSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist[0], GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateClass(), [&]()
+    {
+        EndSingle(blocks, scopeinfo);
+    });
+}
+
+/*
+void nemesis::Process::EndMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    if (scopeinfo.animnum == -1)
+    {
+        ErrorMessage(1057, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
+    if (scopeinfo.groupnum == -1)
+    {
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    }
+
+    ClearBlocks(blocks);
+
+    auto& rootquery = scopeinfo.GetGroupNumQuery();
+    auto& curquery  = rootquery.GetGroupedQuery(scopeinfo.animnum);
+    End(blocks, scopeinfo, curquery);
+}
+
+void nemesis::Process::EndFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    if (scopeinfo.groupnum == -1)
+    {
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    }
+
+    ClearBlocks(blocks);
+
+    auto& rootquery = scopeinfo.GetGroupNumQuery();
+    auto& curquery  = rootquery.GetGroupedQuery(0);
+    End(blocks, scopeinfo, curquery);
+}
+
+void nemesis::Process::EndLastMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    if (scopeinfo.groupnum == -1)
+    {
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    }
+
+    ClearBlocks(blocks);
+
+    auto& rootquery = scopeinfo.GetGroupNumQuery();
+    auto& curquery  = rootquery.GetGroupLast();
+    End(blocks, scopeinfo, curquery);
+}
+
+void nemesis::Process::EndNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    if (scopeinfo.groupnum == -1)
+    {
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    }
+
+    size_t num      = fixedvarintlist[0];
+    auto& rootquery = scopeinfo.GetGroupNumQuery();
+
+    if (num >= rootquery.GetGroupSize())
+    {
+        ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    }
+
+    ClearBlocks(blocks);
+
+    auto& curquery = rootquery.GetGroupedQuery(num);
+    End(blocks, scopeinfo, curquery);
+}
+*/
+
+void nemesis::Process::EndSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+    auto anim = scopeinfo.GetAnim(GetTemplateClass());
+    auto option = anim->GetOptionPtr(duration::name);
+
+    if (option)
+    {
+        blocks[begin] = option->GetVariable(duration::variable);
+        return;
+    }
+
+    scopeinfo.isend = true;
+    auto& models    = anim->GetAnimClass().GetOptionModels();
+    blocks[begin]   = models.GetModel(duration::name)->GetVariablePtr(duration::variable)->GetDefaultValue();
+}
+
+void nemesis::Process::StateMulti(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+    auto templt    = plinkedline->GetTemplate();
+    auto multiplier = templt->GetStateMultiplier();
+
+    //if (templt->IsMaster())
+    //    ;
+
+    //blocks[begin] = to_string(
+    //    scopeinfo.fixedStateID[fixedvarintlist[0]]
+    //    + ((scopeinfo.animnum - scopeinfo.order) * scopeinfo.stateCountMultiplier[fixedvarintlist[0]])
+    //    + fixedvarintlist[1]);
+}
+
+void nemesis::Process::StateFirst(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    //blocks[begin] = to_string(scopeinfo.fixedStateID[fixedvarintlist[0]]
+    //                          - (scopeinfo.order * scopeinfo.stateCountMultiplier[fixedvarintlist[0]])
+    //                          + fixedvarintlist[1]);
+}
+
+void nemesis::Process::StateNext(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    //scopeinfo.curAnim->isLast()
+    //    ? blocks[begin] = to_string(scopeinfo.fixedStateID[fixedvarintlist[0]] + fixedvarintlist[1])
+    //    : blocks[begin]
+    //      = to_string(scopeinfo.fixedStateID[fixedvarintlist[0]]
+    //                  + scopeinfo.stateCountMultiplier[fixedvarintlist[0]] + fixedvarintlist[1]);
+}
+
+void nemesis::Process::StateBack(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    //scopeinfo.order == 0
+    //    ? blocks[begin] = to_string(scopeinfo.fixedStateID[fixedvarintlist[0]] + fixedvarintlist[1])
+    //    : blocks[begin]
+    //      = to_string(scopeinfo.fixedStateID[fixedvarintlist[0]]
+    //                  - scopeinfo.stateCountMultiplier[fixedvarintlist[0]] + fixedvarintlist[1]);
+}
+
+void nemesis::Process::StateLast(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    //blocks[begin] = to_string(
+    //    scopeinfo.fixedStateID[fixedvarintlist[0]]
+    //    + ((scopeinfo.lastorder - scopeinfo.order) * scopeinfo.stateCountMultiplier[fixedvarintlist[0]])
+    //    + fixedvarintlist[1]);
+}
+
+void nemesis::Process::StateNum(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
     size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti].size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (fixedvarintlist[2] >= int(scopeinfo.curAnim->GetGroupAnimInfo().size()))
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    if (curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num]->hasDuration)
-    {
-        blocks[begin] = to_string(curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num]->duration);
-    }
-    else
-    {
-        blocks[begin]     = "0.000000";
-        curAnimInfo.isEnd = true;
-    }
+    //blocks[begin]
+    //    = to_string(scopeinfo.fixedStateID[num]
+    //                + ((fixedvarintlist[2] - scopeinfo.order) * scopeinfo.stateCountMultiplier[num])
+    //                + fixedvarintlist[1]);
 }
 
-void nemesis::Process::EndSingle(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::StateMultiMasterToGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    if (curAnimInfo.hasDuration)
-    {
-        blocks[begin] = to_string(curAnimInfo.duration);
-    }
-    else
-    {
-        blocks[begin]     = "0.000000";
-        curAnimInfo.isEnd = true;
-    }
-}
-
-void nemesis::Process::StateMultiGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = to_string(
-        curAnimInfo.fixedStateID[fixedvarintlist[0]]
-        + ((curAnimInfo.animMulti - curAnimInfo.order) * curAnimInfo.stateCountMultiplier[fixedvarintlist[0]])
-        + fixedvarintlist[1]);
-}
-
-void nemesis::Process::StateFirstGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = to_string(curAnimInfo.fixedStateID[fixedvarintlist[0]]
-                              - (curAnimInfo.order * curAnimInfo.stateCountMultiplier[fixedvarintlist[0]])
-                              + fixedvarintlist[1]);
-}
-
-void nemesis::Process::StateNextGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    curAnimInfo.curAnim->isLast()
-        ? blocks[begin] = to_string(curAnimInfo.fixedStateID[fixedvarintlist[0]] + fixedvarintlist[1])
-        : blocks[begin]
-          = to_string(curAnimInfo.fixedStateID[fixedvarintlist[0]]
-                      + curAnimInfo.stateCountMultiplier[fixedvarintlist[0]] + fixedvarintlist[1]);
-}
-
-void nemesis::Process::StateBackGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    curAnimInfo.order == 0
-        ? blocks[begin] = to_string(curAnimInfo.fixedStateID[fixedvarintlist[0]] + fixedvarintlist[1])
-        : blocks[begin]
-          = to_string(curAnimInfo.fixedStateID[fixedvarintlist[0]]
-                      - curAnimInfo.stateCountMultiplier[fixedvarintlist[0]] + fixedvarintlist[1]);
-}
-
-void nemesis::Process::StateLastGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = to_string(
-        curAnimInfo.fixedStateID[fixedvarintlist[0]]
-        + ((curAnimInfo.lastorder - curAnimInfo.order) * curAnimInfo.stateCountMultiplier[fixedvarintlist[0]])
-        + fixedvarintlist[1]);
-}
-
-void nemesis::Process::StateNumGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    size_t num = fixedvarintlist[0];
-
-    if (fixedvarintlist[2] >= int(curAnimInfo.curAnim->GetGroupAnimInfo().size()))
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin]
-        = to_string(curAnimInfo.fixedStateID[num]
-                    + ((fixedvarintlist[2] - curAnimInfo.order) * curAnimInfo.stateCountMultiplier[num])
-                    + fixedvarintlist[1]);
-}
-
-void nemesis::Process::StateMultiMasterToGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     string state;
-    stateInput(state,
-               (fixedvarintlist[0] == 0 ? "(S+" : "(S" + to_string(fixedvarintlist[0] + 1) + "+")
-                   + to_string(fixedvarintlist[1]) + ")",
-               GetFormat(),
-               GetBehaviorFile().string(),
-               fixedvarlist[0],
-               true,
-               curAnimInfo.groupMulti,
-               curAnimInfo.animMulti,
-               curAnimInfo.numline,
-               curAnimInfo.stateCount,
-               curAnimInfo.masterFunction);
+    //stateInput(state,
+    //           (fixedvarintlist[0] == 0 ? "(S+" : "(S" + to_string(fixedvarintlist[0] + 1) + "+")
+    //               + to_string(fixedvarintlist[1]) + ")",
+    //           GetFormat(),
+    //           GetBehaviorFile().string(),
+    //           fixedvarlist[0],
+    //           true,
+    //           scopeinfo.groupMulti,
+    //           scopeinfo.animnum,
+    //           GetCurrentLineNum(),
+    //           scopeinfo.stateCount,
+    //           scopeinfo.masterFunction);
     blocks[begin] = state;
 }
 
-void nemesis::Process::StateMultiMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+/*
+void nemesis::Process::StateMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     string state;
     stateInput(state,
@@ -820,17 +856,17 @@ void nemesis::Process::StateMultiMaster(VecStr& blocks, const AnimThreadInfo& cu
                GetBehaviorFile().string(),
                fixedvarlist[0],
                false,
-               curAnimInfo.groupMulti,
-               curAnimInfo.animMulti,
-               curAnimInfo.numline,
-               curAnimInfo.stateCount,
-               curAnimInfo.masterFunction);
+               scopeinfo.groupMulti,
+               scopeinfo.animnum,
+               GetCurrentLineNum(),
+               scopeinfo.stateCount,
+               scopeinfo.masterFunction);
     blocks[begin] = state;
 }
 
-void nemesis::Process::StateFirstMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::StateFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     string state;
     stateInput(state,
@@ -840,17 +876,17 @@ void nemesis::Process::StateFirstMaster(VecStr& blocks, const AnimThreadInfo& cu
                GetBehaviorFile().string(),
                fixedvarlist[0],
                false,
-               curAnimInfo.groupMulti,
+               scopeinfo.groupMulti,
                0,
-               curAnimInfo.numline,
-               curAnimInfo.stateCount,
-               curAnimInfo.masterFunction);
+               GetCurrentLineNum(),
+               scopeinfo.stateCount,
+               scopeinfo.masterFunction);
     blocks[begin] = state;
 }
 
-void nemesis::Process::StateLastMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::StateLastMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     string state;
     stateInput(state,
@@ -860,24 +896,24 @@ void nemesis::Process::StateLastMaster(VecStr& blocks, const AnimThreadInfo& cur
                GetBehaviorFile().string(),
                fixedvarlist[0],
                false,
-               curAnimInfo.groupMulti,
-               curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]->singlelist.size() - 1,
-               curAnimInfo.numline,
-               curAnimInfo.stateCount,
-               curAnimInfo.masterFunction);
+               scopeinfo.groupMulti,
+               scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]->singlelist.size() - 1,
+               GetCurrentLineNum(),
+               scopeinfo.stateCount,
+               scopeinfo.masterFunction);
     blocks[begin] = state;
 }
 
-void nemesis::Process::StateNumMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::StateNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     size_t num = fixedvarintlist[2];
 
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
+    if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
     {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
+        ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     string state;
     stateInput(state,
@@ -887,397 +923,327 @@ void nemesis::Process::StateNumMaster(VecStr& blocks, const AnimThreadInfo& curA
                GetBehaviorFile().string(),
                fixedvarlist[0],
                false,
-               curAnimInfo.groupMulti,
+               scopeinfo.groupMulti,
                num,
-               curAnimInfo.numline,
-               curAnimInfo.stateCount,
-               curAnimInfo.masterFunction);
+               GetCurrentLineNum(),
+               scopeinfo.stateCount,
+               scopeinfo.masterFunction);
+    blocks[begin] = state;
+}
+*/
+
+void nemesis::Process::StateSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+    std::string state = varptr->GetResult(scopeinfo);
     blocks[begin] = state;
 }
 
-void nemesis::Process::StateSingle(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilepathMultiGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    string state    = to_string(curAnimInfo.fixedStateID[fixedvarintlist[0]] + fixedvarintlist[1]);
-    string original = "(S+" + to_string(fixedvarintlist[1]) + ")";
-
-    //if (isMaster)
-    //{
-    //    curAnimInfo.masterFunction->functionIDs[original] = state;
-    //}
-    //else if (isGroup)
-    //{
-    //    curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]->functionIDs[original] = state;
-    //}
-
-    blocks[begin] = state;
+    FilepathSingle(blocks, scopeinfo);
 }
 
-void nemesis::Process::FilepathMultiGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilepathFirstGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.animMulti == -1)
+    //FilepathSingle(blocks, scopeinfo.GetTempAnim(0, GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(0, GetTemplateClass(), [&]() { FilepathSingle(blocks, scopeinfo); });
+}
+
+void nemesis::Process::FilepathNextGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //FilepathSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempNextAnim(GetTemplateClass(), [&]() { FilepathSingle(blocks, scopeinfo); });
+}
+
+void nemesis::Process::FilepathBackGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //FilepathSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempNextAnim(GetTemplateClass(), [&]() { FilepathSingle(blocks, scopeinfo); });
+}
+
+void nemesis::Process::FilepathLastGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //FilepathSingle(blocks, scopeinfo.GetTempLastAnim(GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempLastAnim(GetTemplateClass(), [&]() { FilepathSingle(blocks, scopeinfo); });
+}
+
+void nemesis::Process::FilepathNumGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //FilepathSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist[0], GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateClass(), [&]()
     {
-        ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
+        FilepathSingle(blocks, scopeinfo);
+    });
+}
+
+/*
+void nemesis::Process::FilepathMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    if (scopeinfo.animnum == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+
+    if (scopeinfo.groupMulti == -1)
+    {
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    blocks[begin]
-        = curAnimInfo.filepath + curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]->filename;
-}
-
-void nemesis::Process::FilepathFirstGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = curAnimInfo.filepath + curAnimInfo.curAnim->GetGroupAnimInfo()[0]->filename;
-}
-
-void nemesis::Process::FilepathNextGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    curAnimInfo.curAnim->isLast()
-        ? blocks[begin] = curAnimInfo.filepath + curAnimInfo.filename
-        : blocks[begin]
-          = curAnimInfo.filepath + curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order + 1]->filename;
-}
-
-void nemesis::Process::FilepathBackGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    curAnimInfo.order == 0
-        ? blocks[begin] = curAnimInfo.filepath + curAnimInfo.filename
-        : blocks[begin]
-          = curAnimInfo.filepath + curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order - 1]->filename;
-}
-
-void nemesis::Process::FilepathLastGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin]
-        = curAnimInfo.filepath + curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]->filename;
-}
-
-void nemesis::Process::FilepathNumGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    size_t num = fixedvarintlist[0];
-
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = curAnimInfo.filepath + curAnimInfo.curAnim->GetGroupAnimInfo()[num]->filename;
-}
-
-void nemesis::Process::FilepathMultiMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (curAnimInfo.animMulti == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]
-                        ->singlelist[curAnimInfo.animMulti]
+    blocks[begin] = scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]
+                        ->singlelist[scopeinfo.animnum]
                         ->format["FilePath"];
 }
 
-void nemesis::Process::FilepathFirstMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilepathFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
+    if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]
+    blocks[begin] = scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]
                         ->singlelist[0]
                         ->format["FilePath"];
 }
 
-void nemesis::Process::FilepathLastMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilepathLastMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
+    if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]
+    blocks[begin] = scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]
                         ->singlelist.back()
                         ->format["FilePath"];
 }
 
-void nemesis::Process::FilepathNumMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilepathNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
+    if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]
+    blocks[begin] = scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]
                         ->singlelist[fixedvarintlist[0]]
                         ->format["FilePath"];
 }
+*/
 
-void nemesis::Process::FilepathSingle(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilepathSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.filename == CombineBlocks(blocks))
-    {
-        ErrorMessage(1134, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-    }
+    auto anim = scopeinfo.GetAnim(GetTemplateClass());
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.filepath + curAnimInfo.filename;
+    blocks[begin] = anim->GetAnimPath().string();
 }
 
-void nemesis::Process::FilenameMultiGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameMultiGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.animMulti == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    string* tempfile = &curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]->filename;
-    blocks[begin]    = tempfile->substr(0, tempfile->find_last_of("."));
+    FilenameSingle(blocks, scopeinfo);
 }
 
-void nemesis::Process::FilenameFirstGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameFirstGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    string* tempfile = &curAnimInfo.curAnim->GetGroupAnimInfo()[0]->filename;
-    blocks[begin]    = tempfile->substr(0, tempfile->find_last_of("."));
+    ExeFirstAnimFromScope(blocks, scopeinfo, &nemesis::Process::FilenameSingle);
 }
 
-void nemesis::Process::FilenameNextGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameNextGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    if (curAnimInfo.curAnim->isLast())
-    {
-        blocks[begin] = curAnimInfo.filename.substr(0, curAnimInfo.filename.find_last_of("."));
-    }
-    else
-    {
-        string* tempfile = &curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order + 1]->filename;
-        blocks[begin]    = tempfile->substr(0, tempfile->find_last_of("."));
-    }
+    //auto tempanim = scopeinfo.GetTempNextAnim();
+    //scopeinfo.SetTempAnim(tempanim);
+    //FilenameSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateClass())->GetScopeInfo());
 }
 
-void nemesis::Process::FilenameBackGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameBackGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    if (curAnimInfo.order == 0)
-    {
-        blocks[begin] = curAnimInfo.filename.substr(0, curAnimInfo.filename.find_last_of("."));
-    }
-    else
-    {
-        string* tempfile = &curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order - 1]->filename;
-        blocks[begin]    = tempfile->substr(0, tempfile->find_last_of("."));
-    }
+    //auto tempanim = scopeinfo.GetTempBackAnim();
+    //scopeinfo.SetTempAnim(tempanim);
+    //FilenameSingle(blocks, scopeinfo.GetTempBackAnim(GetTemplateClass())->GetScopeInfo());
 }
 
-void nemesis::Process::FilenameLastGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameLastGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    string* tempfile = &curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]->filename;
-    blocks[begin]    = tempfile->substr(0, tempfile->find_last_of("."));
+    //auto tempanim = scopeinfo.GetTempLastAnim();
+    //scopeinfo.SetTempAnim(tempanim);
+    //FilenameSingle(blocks, scopeinfo.GetTempLastAnim(GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempLastAnim(GetTemplateClass(), [&]() { FilenameSingle(blocks, scopeinfo); });
 }
 
-void nemesis::Process::FilenameNumGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameNumGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    size_t num = fixedvarintlist[0];
-
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
+    //auto tempanim = scopeinfo.GetTempAnim(fixedvarintlist[0]);
+    //scopeinfo.SetTempAnim(tempanim);
+    //FilenameSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist[0], GetTemplateClass())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateClass(), [&]()
     {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    string* tempfile = &curAnimInfo.curAnim->GetGroupAnimInfo()[num]->filename;
-    blocks[begin]    = tempfile->substr(0, tempfile->find_last_of("."));
+        FilenameSingle(blocks, scopeinfo);
+    });
 }
 
-void nemesis::Process::FilenameMultiMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+/*
+void nemesis::Process::FilenameMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
+    if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
-    if (curAnimInfo.animMulti == -1)
+    if (scopeinfo.animnum == -1)
     {
-        ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
+        ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    string* tempfile = &curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]
-                            ->singlelist[curAnimInfo.animMulti]
+    string* tempfile = &scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]
+                            ->singlelist[scopeinfo.animnum]
                             ->format["FileName"];
     blocks[begin] = tempfile->substr(0, tempfile->find_last_of("."));
 }
 
-void nemesis::Process::FilenameFirstMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
+    if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    string* tempfile = &curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]
+    string* tempfile = &scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]
                             ->singlelist[0]
                             ->format["FileName"];
     blocks[begin] = tempfile->substr(0, tempfile->find_last_of("."));
 }
 
-void nemesis::Process::FilenameLastMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameLastMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
+    if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    string* tempfile = &curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]
+    string* tempfile = &scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]
                             ->singlelist.back()
                             ->format["FileName"];
     blocks[begin] = tempfile->substr(0, tempfile->find_last_of("."));
 }
 
-void nemesis::Process::FilenameNumMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
+    if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    string* tempfile = &curAnimInfo.masterFunction->grouplist[curAnimInfo.groupMulti]
+    string* tempfile = &scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]
                             ->singlelist[fixedvarintlist[0]]
                             ->format["FileName"];
     blocks[begin] = tempfile->substr(0, tempfile->find_last_of("."));
 }
+*/
 
-void nemesis::Process::FilenameSingle(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::FilenameSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    auto anim = scopeinfo.GetAnim(GetTemplateClass());
 
-    blocks[begin] = curAnimInfo.filename.substr(0, curAnimInfo.filename.find_last_of("."));
+    ClearBlocks(blocks);
+
+    blocks[begin] = anim->GetAnimPath().stem().string();
 }
 
-void nemesis::Process::PathSingle(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::PathSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    auto anim = scopeinfo.GetAnim(GetTemplateClass());
 
-    //if (isGroup || isMaster)
+    ClearBlocks(blocks);
+
+    blocks[begin] = anim->GetAnimPath().parent_path().string();
+}
+
+void nemesis::Process::AOMulti(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    //blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.animnum]
+    //                    ->AnimObject[fixedvarintlist[0]][scopeinfo.optionMulti];
+}
+
+void nemesis::Process::AOMultiTarget(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //if (scopeinfo.animnum == -1)
     //{
-    //    blocks[begin] = curAnimInfo.masterFunction->grouplist[0]->singlelist[0]->GetFormat()["Path"];
+    //    ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
     //}
-    //else
+
+    ClearBlocks(blocks);
+
+    //blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.animnum]
+    //                    ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
+}
+
+void nemesis::Process::AOFirstGroupA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //if (curaniminfo.optionmulti == -1)
     //{
-    //    blocks[begin] = curAnimInfo.filepath.substr(0, curAnimInfo.filepath.length() - 1);
+    //    errormessage(1126, getformat(), getbehaviorfile(), getcurrentlinenum(), combineblocks(blocks));
     //}
+
+    //if (!clearblocks(blocks, curaniminfo)) return;
+
+    //blocks[begin]
+    //    = curaniminfo.curanim->getgroupaniminfo()[0]->animobject[fixedvarintlist[0]][curaniminfo.optionmulti];
 }
 
-void nemesis::Process::AOMultiGroupA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOFirstGroupB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.animMulti == -1 || curAnimInfo.optionMulti == -1)
+    ClearBlocks(blocks);
+
+    //blocks[begin]
+    //    = scopeinfo.curAnim->GetGroupAnimInfo()[0]->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
+}
+
+void nemesis::Process::AONextGroupA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{/*
+    if (scopeinfo.optionMulti == -1)
     {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
+        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
     }
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]
-                        ->AnimObject[fixedvarintlist[0]][curAnimInfo.optionMulti];
-}
-
-void nemesis::Process::AOMultiGroupB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (curAnimInfo.animMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]
-                        ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
-}
-
-void nemesis::Process::AOFirstGroupA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin]
-        = curAnimInfo.curAnim->GetGroupAnimInfo()[0]->AnimObject[fixedvarintlist[0]][curAnimInfo.optionMulti];
-}
-
-void nemesis::Process::AOFirstGroupB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin]
-        = curAnimInfo.curAnim->GetGroupAnimInfo()[0]->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
-}
-
-void nemesis::Process::AONextGroupA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     VecStr list;
 
-    curAnimInfo.curAnim->isLast()
-        ? list = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order]->AnimObject[fixedvarintlist[0]]
+    scopeinfo.curAnim->isLast()
+        ? list = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order]->AnimObject[fixedvarintlist[0]]
         : list
-          = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order + 1]->AnimObject[fixedvarintlist[0]];
+          = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order + 1]->AnimObject[fixedvarintlist[0]];
 
-    if (int(list.size()) > curAnimInfo.optionMulti) blocks[begin] = list[curAnimInfo.optionMulti];
+    if (int(list.size()) > scopeinfo.optionMulti) blocks[begin] = list[scopeinfo.optionMulti];*/
 }
 
-void nemesis::Process::AONextGroupB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AONextGroupB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     VecStr list;
-    curAnimInfo.curAnim->isLast()
-        ? list = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order]->AnimObject[fixedvarintlist[0]]
-        : list
-          = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order + 1]->AnimObject[fixedvarintlist[0]];
+    //scopeinfo.curAnim->isLast()
+    //    ? list = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order]->AnimObject[fixedvarintlist[0]]
+    //    : list
+    //      = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order + 1]->AnimObject[fixedvarintlist[0]];
 
     if (int(list.size()) > fixedvarintlist[1])
     {
@@ -1285,775 +1251,789 @@ void nemesis::Process::AONextGroupB(VecStr& blocks, const AnimThreadInfo& curAni
     }
 }
 
-void nemesis::Process::AOBackGroupA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOBackGroupA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
+    //if (scopeinfo.optionMulti == -1)
+    //{
+    //    ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    VecStr list;
-    curAnimInfo.order == 0
-        ? list = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order]->AnimObject[fixedvarintlist[0]]
-        : list
-          = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order - 1]->AnimObject[fixedvarintlist[0]];
+    //VecStr list;
+    //scopeinfo.order == 0
+    //    ? list = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order]->AnimObject[fixedvarintlist[0]]
+    //    : list
+    //      = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order - 1]->AnimObject[fixedvarintlist[0]];
 
-    if (int(list.size()) > curAnimInfo.optionMulti) blocks[begin] = list[curAnimInfo.optionMulti];
+    //if (int(list.size()) > scopeinfo.optionMulti) blocks[begin] = list[scopeinfo.optionMulti];
 }
 
-void nemesis::Process::AOBackGroupB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOBackGroupB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     VecStr list;
-    curAnimInfo.order == 0
-        ? list = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order]->AnimObject[fixedvarintlist[0]]
-        : list
-          = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order - 1]->AnimObject[fixedvarintlist[0]];
+    //scopeinfo.order == 0
+    //    ? list = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order]->AnimObject[fixedvarintlist[0]]
+    //    : list
+    //      = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order - 1]->AnimObject[fixedvarintlist[0]];
 
     if (int(list.size()) > fixedvarintlist[1]) blocks[begin] = list[fixedvarintlist[1]];
 }
 
-void nemesis::Process::AOLastGroupA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOLastGroupA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
+    //if (scopeinfo.optionMulti == -1)
+    //{
+    //    ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]
-                        ->AnimObject[fixedvarintlist[0]][curAnimInfo.optionMulti];
+    //blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder]
+    //                    ->AnimObject[fixedvarintlist[0]][scopeinfo.optionMulti];
 }
 
-void nemesis::Process::AOLastGroupB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOLastGroupB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]
-                        ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
+    //blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder]
+    //                    ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
 }
 
-void nemesis::Process::AONumGroupA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AONumGroupA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
+    //if (scopeinfo.optionMulti == -1)
+    //{
+    //    ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
+    //}
 
-    size_t num = fixedvarintlist[0];
+    //size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[num]
-                        ->AnimObject[fixedvarintlist[1]][curAnimInfo.optionMulti];
+    //blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[num]
+    //                    ->AnimObject[fixedvarintlist[1]][scopeinfo.optionMulti];
 }
 
-void nemesis::Process::AONumGroupB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AONumGroupB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    size_t num = fixedvarintlist[0];
+    //size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin]
-        = curAnimInfo.curAnim->GetGroupAnimInfo()[num]->AnimObject[fixedvarintlist[1]][fixedvarintlist[2]];
+    //blocks[begin]
+    //    = scopeinfo.curAnim->GetGroupAnimInfo()[num]->AnimObject[fixedvarintlist[1]][fixedvarintlist[2]];
 }
 
-void nemesis::Process::AOMultiMasterA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOMultiMasterA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.animMulti == -1 || curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
+    //if (scopeinfo.animnum == -1 || scopeinfo.optionMulti == -1)
+    //{
+    //    ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
+    //}
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti]
-                        ->AnimObject[fixedvarintlist[0]][curAnimInfo.optionMulti];
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.animnum]
+    //                    ->AnimObject[fixedvarintlist[0]][scopeinfo.optionMulti];
 }
 
-void nemesis::Process::AOMultiMasterB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOMultiMasterB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.animMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
+    //if (scopeinfo.animnum == -1)
+    //{
+    //    ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
+    //}
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti]
-                        ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.animnum]
+    //                    ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
 }
 
-void nemesis::Process::AOFirstMasterA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOFirstMasterA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
+    //if (scopeinfo.optionMulti == -1)
+    //{
+    //    ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
+    //}
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0]
-                        ->AnimObject[fixedvarintlist[0]][curAnimInfo.optionMulti];
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][0]
+    //                    ->AnimObject[fixedvarintlist[0]][scopeinfo.optionMulti];
 }
 
-void nemesis::Process::AOFirstMasterB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOFirstMasterB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0]
-                        ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][0]
+    //                    ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
 }
 
-void nemesis::Process::AOLastMasterA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOLastMasterA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
+    //if (scopeinfo.optionMulti == -1)
+    //{
+    //    ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
+    //}
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder]
-                        ->AnimObject[fixedvarintlist[0]][curAnimInfo.optionMulti];
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.lastorder]
+    //                    ->AnimObject[fixedvarintlist[0]][scopeinfo.optionMulti];
 }
 
-void nemesis::Process::AOLastMasterB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOLastMasterB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder]
-                        ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.lastorder]
+    //                    ->AnimObject[fixedvarintlist[0]][fixedvarintlist[1]];
 }
 
-void nemesis::Process::AONumMasterA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AONumMasterA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
+    //if (scopeinfo.optionMulti == -1)
+    //{
+    //    ErrorMessage(1126, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), CombineBlocks(blocks));
+    //}
 
-    size_t num = fixedvarintlist[0];
+    //size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti].size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num]
-                        ->AnimObject[fixedvarintlist[1]][curAnimInfo.optionMulti];
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][num]
+    //                    ->AnimObject[fixedvarintlist[1]][scopeinfo.optionMulti];
 }
 
-void nemesis::Process::AONumMasterB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AONumMasterB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    size_t num = fixedvarintlist[0];
+    //size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti].size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num]
-                        ->AnimObject[fixedvarintlist[1]][fixedvarintlist[2]];
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][num]
+    //                    ->AnimObject[fixedvarintlist[1]][fixedvarintlist[2]];
 }
 
-void nemesis::Process::AOSingleA(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOSingleA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.optionMulti == -1)
-    {
-        ErrorMessage(1126, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, CombineBlocks(blocks));
-    }
+    //int num       = fixedvarintlist.at(fixedvarintlist.size() - 2);
+    //auto templist = scopeinfo.GetTempAnimObjectList(num);
+    //scopeinfo.SetTempAnimObjectList(templist);
+    //auto animobj = scopeinfo.AnimObject.find(fixedvarintlist[0]);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    auto animobj = curAnimInfo.AnimObject.find(fixedvarintlist[0]);
-
-    if (animobj != curAnimInfo.AnimObject.end())
-    {
-        blocks[begin] = animobj->second[curAnimInfo.optionMulti];
-    }
+    //if (animobj != scopeinfo.AnimObject.end())
+    //{
+    //    blocks[begin] = animobj->second[scopeinfo.optionMulti];
+    //}
 }
 
-void nemesis::Process::AOSingleB(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOSingleB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    auto animobj = curAnimInfo.AnimObject.find(fixedvarintlist[0]);
+    //auto animobj = scopeinfo.AnimObject.find(fixedvarintlist[0]);
 
-    if (animobj != curAnimInfo.AnimObject.end())
-    {
-        blocks[begin] = animobj->second[fixedvarintlist[1]];
-    }
+    //if (animobj != scopeinfo.AnimObject.end())
+    //{
+    //    blocks[begin] = animobj->second[fixedvarintlist[1]];
+    //}
 }
 
-void nemesis::Process::MAEMultiGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AOSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.animMulti == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
+    ClearBlocks(blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]->mainAnimEvent;
+    //string tet = scopeinfo.GetAnimObject();
+    //blocks[begin] = scopeinfo.GetAnimObject();
 }
 
-void nemesis::Process::MAEFirstGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAEMultiGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //if (scopeinfo.animnum == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
 
-    blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[0]->mainAnimEvent;
+    //ClearBlocks(blocks);
+
+    //blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.animnum]->mainAnimEvent;
 }
 
-void nemesis::Process::MAENextGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAEFirstGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    curAnimInfo.curAnim->isLast()
-        ? blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order]->mainAnimEvent
-        : blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order + 1]->mainAnimEvent;
+    //blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[0]->mainAnimEvent;
 }
 
-void nemesis::Process::MAEBackGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAENextGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    curAnimInfo.order == 0
-        ? blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order]->mainAnimEvent
-        : blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order - 1]->mainAnimEvent;
+    //scopeinfo.curAnim->isLast()
+    //    ? blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order]->mainAnimEvent
+    //    : blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order + 1]->mainAnimEvent;
 }
 
-void nemesis::Process::MAELastGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAEBackGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]->mainAnimEvent;
+    //scopeinfo.order == 0
+    //    ? blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order]->mainAnimEvent
+    //    : blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order - 1]->mainAnimEvent;
 }
 
-void nemesis::Process::MAENumGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAELastGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    size_t num = fixedvarintlist[0];
+    ClearBlocks(blocks);
 
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[num]->mainAnimEvent;
+    //blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder]->mainAnimEvent;
 }
 
-void nemesis::Process::MAEMultiMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (curAnimInfo.animMulti == -1)
-    {
-        ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-    }
-
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin]
-        = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti]->mainAnimEvent;
-}
-
-void nemesis::Process::MAEFirstMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0]->mainAnimEvent;
-}
-
-void nemesis::Process::MAELastMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin]
-        = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder]->mainAnimEvent;
-}
-
-void nemesis::Process::MAENumMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    size_t num = fixedvarintlist[0];
-
-    if (num >= curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti].size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    blocks[begin] = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num]->mainAnimEvent;
-}
-
-void nemesis::Process::MAESingle(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (ClearBlocks(blocks, curAnimInfo)) blocks[begin] = curAnimInfo.mainAnimEvent;
-}
-
-void nemesis::Process::AddOnMultiGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (curAnimInfo.animMulti == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    VecStr* list = &curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]
-                        ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
-
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        string output = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti]
-                            ->addition[fixedvarlist[0]][fixedvarlist[1]];
-
-        if (output.empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
-
-        blocks[begin] = output;
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
-
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
-}
-
-void nemesis::Process::AddOnFirstGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    VecStr* list
-        = &curAnimInfo.curAnim->GetGroupAnimInfo()[0]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
-
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        string output
-            = curAnimInfo.curAnim->GetGroupAnimInfo()[0]->addition[fixedvarlist[0]][fixedvarlist[1]];
-
-        if (output.empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
-
-        blocks[begin] = output;
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
-
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
-}
-
-void nemesis::Process::AddOnNextGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    int curorder = curAnimInfo.order;
-
-    if (!curAnimInfo.curAnim->isLast()) ++curorder;
-
-    VecStr* list
-        = &curAnimInfo.curAnim->GetGroupAnimInfo()[curorder]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
-
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        string output
-            = curAnimInfo.curAnim->GetGroupAnimInfo()[curorder]->addition[fixedvarlist[0]][fixedvarlist[1]];
-
-        if (output.empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
-
-        blocks[begin] = output;
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
-
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
-}
-
-void nemesis::Process::AddOnBackGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    int curorder = curAnimInfo.order;
-
-    if (curAnimInfo.order > 0) --curorder;
-
-    VecStr* list
-        = &curAnimInfo.curAnim->GetGroupAnimInfo()[curorder]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
-
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        string output
-            = curAnimInfo.curAnim->GetGroupAnimInfo()[curorder]->addition[fixedvarlist[0]][fixedvarlist[1]];
-
-        if (output.empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
-
-        blocks[begin] = output;
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
-
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
-}
-
-void nemesis::Process::AddOnLastGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    VecStr* list = &curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]
-                        ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
-
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        if (curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]
-                ->addition[fixedvarlist[0]][fixedvarlist[1]]
-                .empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
-
-        blocks[begin] = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder]
-                            ->addition[fixedvarlist[0]][fixedvarlist[1]];
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
-
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
-}
-
-void nemesis::Process::AddOnNumGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAENumGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    VecStr* list
-        = &curAnimInfo.curAnim->GetGroupAnimInfo()[num]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
-
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        string output
-            = curAnimInfo.curAnim->GetGroupAnimInfo()[num]->addition[fixedvarlist[0]][fixedvarlist[1]];
-
-        if (output.empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
-
-        blocks[begin] = output;
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
-
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
+    //blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[num]->mainAnimEvent;
 }
 
-void nemesis::Process::AddOnMultiMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAEMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.animMulti == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
+    //if (scopeinfo.animnum == -1)
+    //{
+    //    ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //}
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[2]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    VecStr* list = &curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti]
-                        ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
-
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        string output = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti]
-                            ->addition[fixedvarlist[0]][fixedvarlist[1]];
-
-        if (output.empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
-
-        blocks[begin] = output;
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
-
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
+    //blocks[begin]
+    //    = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.animnum]->mainAnimEvent;
 }
 
-void nemesis::Process::AddOnFirstMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAEFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[2]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    VecStr* list = &curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0]
-                        ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
-
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        string output = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0]
-                            ->addition[fixedvarlist[0]][fixedvarlist[1]];
-
-        if (output.empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
-
-        blocks[begin] = output;
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
-
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][0]->mainAnimEvent;
 }
 
-void nemesis::Process::AddOnLastMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAELastMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[2]);
-    }
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    VecStr* list = &curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder]
-                        ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
-
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        string output = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder]
-                            ->addition[fixedvarlist[0]][fixedvarlist[1]];
-
-        if (output.empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
-
-        blocks[begin] = output;
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
-
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
+    //blocks[begin]
+    //    = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.lastorder]->mainAnimEvent;
 }
 
-void nemesis::Process::AddOnNumMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MAENumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
+
+    //size_t num = fixedvarintlist[0];
+
+    //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
+
+    //ClearBlocks(blocks);
+
+    //blocks[begin] = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][num]->mainAnimEvent;
+}
+
+void nemesis::Process::MAESingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+    blocks[begin] = varptr->GetResult(scopeinfo);
+}
+
+void nemesis::Process::AnimVarPtr(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+    blocks[begin] = varptr->GetResult(scopeinfo);
+}
+
+void nemesis::Process::AddOnMultiGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //if (scopeinfo.animnum == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+
+    //ClearBlocks(blocks);
+
+    //VecStr* list = &scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.animnum]
+    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    string output = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.animnum]
+    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //    if (output.empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
+
+    //    blocks[begin] = output;
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
+
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
+}
+
+void nemesis::Process::AddOnFirstGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //ClearBlocks(blocks);
+
+    //VecStr* list
+    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[0]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    string output
+    //        = scopeinfo.curAnim->GetGroupAnimInfo()[0]->addition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //    if (output.empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
+
+    //    blocks[begin] = output;
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
+
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
+}
+
+void nemesis::Process::AddOnNextGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    //int curorder = scopeinfo.order;
+
+    //if (!scopeinfo.curAnim->isLast()) ++curorder;
+
+    //VecStr* list
+    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    string output
+    //        = scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->addition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //    if (output.empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
+
+    //    blocks[begin] = output;
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
+
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
+}
+
+void nemesis::Process::AddOnBackGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    //int curorder = scopeinfo.order;
+
+    //if (scopeinfo.order > 0) --curorder;
+
+    //VecStr* list
+    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    string output
+    //        = scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->addition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //    if (output.empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
+
+    //    blocks[begin] = output;
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
+
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
+}
+
+void nemesis::Process::AddOnLastGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+
+    //VecStr* list = &scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder]
+    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    if (scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder]
+    //            ->addition[fixedvarlist[0]][fixedvarlist[1]]
+    //            .empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
+
+    //    blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder]
+    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
+
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
+}
+
+void nemesis::Process::AddOnNumGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti].size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    VecStr* list = &curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num]
-                        ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //VecStr* list
+    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[num]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
 
-    if (list->empty() || curAnimInfo.optionMulti == -1)
-    {
-        string output = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num]
-                            ->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    string output
+    //        = scopeinfo.curAnim->GetGroupAnimInfo()[num]->addition[fixedvarlist[0]][fixedvarlist[1]];
 
-        if (output.empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
-        }
+    //    if (output.empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
 
-        blocks[begin] = output;
-    }
-    else if (int(list->size()) > curAnimInfo.optionMulti)
-    {
-        if ((*list)[curAnimInfo.optionMulti].empty())
-        {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
-        }
+    //    blocks[begin] = output;
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
 
-        blocks[begin] = (*list)[curAnimInfo.optionMulti];
-    }
-    else
-    {
-        ErrorMessage(1141);
-    }
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
 }
 
-void nemesis::Process::AddOnSingle(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AddOnMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //if (scopeinfo.animnum == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
 
-    auto grpadd = curAnimInfo.groupAddition.find(fixedvarlist[0]);
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //}
 
-    if (curAnimInfo.optionMulti == -1 || grpadd == curAnimInfo.groupAddition.end()
+    //ClearBlocks(blocks);
+
+    //VecStr* list = &scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.animnum]
+    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    string output = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.animnum]
+    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //    if (output.empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
+
+    //    blocks[begin] = output;
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
+
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
+}
+
+void nemesis::Process::AddOnFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //}
+
+    //ClearBlocks(blocks);
+
+    //VecStr* list = &scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][0]
+    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    string output = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][0]
+    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //    if (output.empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
+
+    //    blocks[begin] = output;
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
+
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
+}
+
+void nemesis::Process::AddOnLastMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //}
+
+    //ClearBlocks(blocks);
+
+    //VecStr* list = &scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.lastorder]
+    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    string output = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.lastorder]
+    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //    if (output.empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
+
+    //    blocks[begin] = output;
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
+
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
+}
+
+void nemesis::Process::AddOnNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    //size_t num = fixedvarintlist[0];
+
+    //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
+
+    //ClearBlocks(blocks);
+
+    //VecStr* list = &scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][num]
+    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //if (list->empty() || scopeinfo.optionMulti == -1)
+    //{
+    //    string output = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][num]
+    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+
+    //    if (output.empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    }
+
+    //    blocks[begin] = output;
+    //}
+    //else if (int(list->size()) > scopeinfo.optionMulti)
+    //{
+    //    if ((*list)[scopeinfo.optionMulti].empty())
+    //    {
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
+    //    }
+
+    //    blocks[begin] = (*list)[scopeinfo.optionMulti];
+    //}
+    //else
+    //{
+    //    ErrorMessage(1141);
+    //}
+}
+
+void nemesis::Process::AddOnSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    ClearBlocks(blocks);
+    blocks[begin] = varptr->GetResult(scopeinfo);
+    blocks[fixedvarintlist.front()] = "";
+    blocks[fixedvarintlist.back()]  = "";
+
+    /*auto grpadd = scopeinfo.groupAddition.find(fixedvarlist[0]);
+
+    if (scopeinfo.optionMulti == -1 || grpadd == scopeinfo.groupAddition.end()
         || grpadd->second.find(fixedvarlist[1]) == grpadd->second.end()
         || grpadd->second.at(fixedvarlist[1]).empty())
     {
@@ -2061,16 +2041,16 @@ void nemesis::Process::AddOnSingle(VecStr& blocks, const AnimThreadInfo& curAnim
 
         try
         {
-            sv = curAnimInfo.addition.at(fixedvarlist[0]).at(fixedvarlist[1]);
+            sv = scopeinfo.addition.at(fixedvarlist[0]).at(fixedvarlist[1]);
         }
         catch (const std::exception&)
         {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
+            ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
         }
 
         if (sv.empty())
         {
-            ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[2]);
+            ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
         }
 
         blocks[begin] = sv.data();
@@ -2079,13 +2059,13 @@ void nemesis::Process::AddOnSingle(VecStr& blocks, const AnimThreadInfo& curAnim
     {
         const VecStr& addRef = grpadd->second.at(fixedvarlist[1]);
 
-        if (static_cast<int>(addRef.size()) > curAnimInfo.optionMulti)
+        if (static_cast<int>(addRef.size()) > scopeinfo.optionMulti)
         {
-            string_view sv = addRef[curAnimInfo.optionMulti];
+            string_view sv = addRef[scopeinfo.optionMulti];
 
             if (sv.empty())
             {
-                ErrorMessage(1117, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, *curAnimInfo.line);
+                ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), *scopeinfo.line);
             }
 
             blocks[begin] = sv.data();
@@ -2095,81 +2075,75 @@ void nemesis::Process::AddOnSingle(VecStr& blocks, const AnimThreadInfo& curAnim
             ErrorMessage(1141);
         }
     }
+    */
 }
 
-void nemesis::Process::LastState(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::LastState(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     size_t ID = 0;
 
-    if (curAnimInfo.fixedStateID.size() > 1)
-    {
-        if (!fixedvarlist[0].empty())
-        {
-            ID = stoi(fixedvarlist[0]) - 1;
+    //if (scopeinfo.fixedStateID.size() > 1)
+    //{
+    //    if (!fixedvarlist[0].empty())
+    //    {
+    //        ID = stoi(fixedvarlist[0]) - 1;
 
-            if (ID >= curAnimInfo.fixedStateID.size())
-            {
-                ErrorMessage(
-                    1168, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, "LastState" + fixedvarlist[0]);
-            }
-        }
-    }
+    //        if (ID >= scopeinfo.fixedStateID.size())
+    //        {
+    //            ErrorMessage(
+    //                1168, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), "LastState" + fixedvarlist[0]);
+    //        }
+    //    }
+    //}
 
-    blocks[begin] = to_string(curAnimInfo.lastorder - curAnimInfo.order + curAnimInfo.fixedStateID[ID]);
+    //blocks[begin] = to_string(scopeinfo.lastorder - scopeinfo.order + scopeinfo.fixedStateID[ID]);
 }
 
-void nemesis::Process::EventID(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::EventID(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     string eventname = CombineBlocks(fixedvarintlist[0], fixedvarintlist[1], blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    auto eventitr = curAnimInfo.eventid.find(eventname);
-
-    if (eventitr == curAnimInfo.eventid.end() && eventname != curAnimInfo.zeroEvent)
-    {
-        ErrorMessage(1131, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, eventname);
-    }
-
-    blocks[begin] = to_string(eventitr->second);
+    auto& eventid              = scopeinfo.GetEventID(eventname);
+    blocks[begin]              = std::to_string(eventid.GetId());
+    blocks[fixedvarintlist[2]] = "";
+    blocks[fixedvarintlist[1]] = "";
 }
 
-void nemesis::Process::VariableID(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::VariableID(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     string variablename = CombineBlocks(fixedvarintlist[0], fixedvarintlist[1], blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    auto variableitr = curAnimInfo.variableid.find(variablename);
-
-    if (variableitr == curAnimInfo.variableid.end() && variablename != curAnimInfo.zeroVariable)
-    {
-        ErrorMessage(1132, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, variablename);
-    }
-
-    blocks[begin] = to_string(variableitr->second);
+    auto& varid                = scopeinfo.GetVariableID(variablename);
+    blocks[begin]              = std::to_string(varid.GetId());
+    blocks[fixedvarintlist[2]] = "";
+    blocks[fixedvarintlist[1]] = "";
 }
 
-void nemesis::Process::Crc32(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::Crc32(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     string crc32line = nemesis::to_lower_copy(CombineBlocks(blocks));
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     blocks[begin] = to_string(CRC32Convert(crc32line));
 }
 
-void nemesis::Process::Import(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::Import(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     string import = CombineBlocks(blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    auto itr = curAnimInfo.IDExist.find(import);
+    /*
+    auto itr = scopeinfo.IDExist.find(import);
 
-    if (itr != curAnimInfo.IDExist.end())
+    if (itr != scopeinfo.IDExist.end())
     {
         blocks[begin] = itr->second;
         return;
@@ -2207,15 +2181,15 @@ void nemesis::Process::Import(VecStr& blocks, const AnimThreadInfo& curAnimInfo)
         pos = keyword.rfind("!~^!");
 
         openBrack != 0 || pos == NOT_FOUND || pos != keyword.length() - 4
-            ? ErrorMessage(1139, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, import)
+            ? ErrorMessage(1139, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), import)
             : keyword = keyword.substr(0, keyword.length() - 4);
     }
 
-    Lockless lock(curAnimInfo.animLock->exportLock);
+    Lockless lock(scopeinfo.animLock->exportLock);
 
     try
     {
-        tempID = curAnimInfo.newImport->at(file).at(keyword);
+        tempID = scopeinfo.newImport->at(file).at(keyword);
     }
     catch (const std::exception&)
     {
@@ -2223,745 +2197,739 @@ void nemesis::Process::Import(VecStr& blocks, const AnimThreadInfo& curAnimInfo)
 
     //if (tempID.empty())
     //{
-    //    tempID = (isMaster || isGroup ? curAnimInfo.curGroup->newID() : curAnimInfo.curAnim->newID());
-    //    curAnimInfo.IDExist[import]             = tempID;
-    //    (*curAnimInfo.newImport)[file][keyword] = tempID;
+    //    tempID = (isMaster || isGroup ? scopeinfo.curGroup->newID() : scopeinfo.curAnim->newID());
+    //    scopeinfo.IDExist[import]             = tempID;
+    //    (*scopeinfo.newImport)[file][keyword] = tempID;
     //}
 
-    blocks[begin] = tempID;
+    blocks[begin] = tempID;*/
 }
 
-void nemesis::Process::MotionDataMultiGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MotionDataMultiGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    MotionValidation(scopeinfo);
 
-    if (curAnimInfo.animMulti == -1)
-    {
-        ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-    }
+    //if (scopeinfo.animnum == -1)
+    //{
+    //    ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //ClearBlocks(blocks);
 
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti];
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.animnum];
     string motionData;
 
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
 
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
 
     blocks[begin] = motionData;
 }
 
-void nemesis::Process::MotionDataFirstGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MotionDataFirstGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    MotionValidation(scopeinfo);
+    ClearBlocks(blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[0];
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[0];
     string motionData;
 
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
 
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
 
     blocks[begin] = motionData;
 }
 
-void nemesis::Process::MotionDataNextGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MotionDataNextGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    MotionValidation(scopeinfo);
+    ClearBlocks(blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    int nextorder;
-    curAnimInfo.curAnim->isLast() ? nextorder = curAnimInfo.order : nextorder = curAnimInfo.order + 1;
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[nextorder];
+    //int nextorder;
+    //scopeinfo.curAnim->isLast() ? nextorder = scopeinfo.order : nextorder = scopeinfo.order + 1;
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[nextorder];
     string motionData;
 
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
 
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
 
     blocks[begin] = motionData;
 }
 
-void nemesis::Process::MotionDataBackGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MotionDataBackGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    MotionValidation(scopeinfo);
+    ClearBlocks(blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    int previousorder;
-    curAnimInfo.order == 0 ? previousorder = curAnimInfo.order : previousorder = curAnimInfo.order - 1;
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[previousorder];
+    //int previousorder;
+    //scopeinfo.order == 0 ? previousorder = scopeinfo.order : previousorder = scopeinfo.order - 1;
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[previousorder];
     string motionData;
 
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
 
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
 
     blocks[begin] = motionData;
 }
 
-void nemesis::Process::MotionDataLastGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MotionDataLastGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    MotionValidation(scopeinfo);
+    ClearBlocks(blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder];
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder];
     string motionData;
 
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
 
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
 
     blocks[begin] = motionData;
 }
 
-void nemesis::Process::MotionDataNumGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MotionDataNumGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    MotionValidation(scopeinfo);
+    size_t num = fixedvarintlist[0];
+
+    //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
+
+    ClearBlocks(blocks);
+
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[num];
+    string motionData;
+
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
+
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
+
+    blocks[begin] = motionData;
+}
+
+void nemesis::Process::MotionDataMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    MotionValidation(scopeinfo);
+    //if (scopeinfo.animnum == -1)
+    //{
+    //    ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //}
+
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
+
+    ClearBlocks(blocks);
+
+    //shared_ptr<AnimationInfo> curInfo
+    //    = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.animnum];
+    string motionData;
+
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
+
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
+
+    blocks[begin] = motionData;
+}
+
+void nemesis::Process::MotionDataFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    MotionValidation(scopeinfo);
+
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
+
+    ClearBlocks(blocks);
+
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][0];
+    string motionData;
+
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
+
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
+
+    blocks[begin] = motionData;
+}
+
+void nemesis::Process::MotionDataLastMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    MotionValidation(scopeinfo);
+
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
+
+    ClearBlocks(blocks);
+
+    //shared_ptr<AnimationInfo> curInfo
+    //    = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.lastorder];
+    string motionData;
+
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
+
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
+
+    blocks[begin] = motionData;
+}
+
+void nemesis::Process::MotionDataNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    MotionValidation(scopeinfo);
+
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
     size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[num];
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][num];
     string motionData;
 
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
 
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
 
     blocks[begin] = motionData;
 }
 
-void nemesis::Process::MotionDataMultiMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::MotionDataSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    MotionValidation(scopeinfo);
 
-    if (curAnimInfo.animMulti == -1)
+    if (GetBehaviorFile() == fixedvarlist[0])
     {
-        ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
+        ErrorMessage(1134, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
     }
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    ClearBlocks(blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo
-        = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti];
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order];
     string motionData;
 
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
+    //if (curInfo->motionData.empty())
+    //{
+    //    WarningMessage(1018, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    motionData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    motionData = to_string(curInfo->motionData.size()) + "\n";
 
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
+    //    for (auto& motion : curInfo->motionData)
+    //    {
+    //        motionData.append(motion + "\n");
+    //    }
+    //}
 
     blocks[begin] = motionData;
 }
 
-void nemesis::Process::MotionDataFirstMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RotationDataMultiGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    RotationValidation(scopeinfo);
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (scopeinfo.animnum == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0];
-    string motionData;
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.animnum];
+    string rotationData;
 
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
 
-    blocks[begin] = motionData;
+    blocks[begin] = rotationData;
 }
 
-void nemesis::Process::MotionDataLastMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RotationDataFirstGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    RotationValidation(scopeinfo);
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    ClearBlocks(blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[0];
+    string rotationData;
 
-    shared_ptr<AnimationInfo> curInfo
-        = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder];
-    string motionData;
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
 
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
-
-    blocks[begin] = motionData;
+    blocks[begin] = rotationData;
 }
 
-void nemesis::Process::MotionDataNumMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RotationDataNextGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    MotionValidation(curAnimInfo);
+    RotationValidation(scopeinfo);
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    ClearBlocks(blocks);
+
+    //int nextorder;
+    //scopeinfo.curAnim->isLast() ? nextorder = scopeinfo.order : nextorder = scopeinfo.order + 1;
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[nextorder];
+    string rotationData;
+
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
+
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
+
+    blocks[begin] = rotationData;
+}
+
+void nemesis::Process::RotationDataBackGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    RotationValidation(scopeinfo);
+
+    ClearBlocks(blocks);
+
+    //int previousorder;
+    //scopeinfo.order == 0 ? previousorder = scopeinfo.order : previousorder = scopeinfo.order - 1;
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[previousorder];
+    string rotationData;
+
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
+
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
+
+    blocks[begin] = rotationData;
+}
+
+void nemesis::Process::RotationDataLastGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    RotationValidation(scopeinfo);
+
+    ClearBlocks(blocks);
+
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder];
+    string rotationData;
+
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
+
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
+
+    blocks[begin] = rotationData;
+}
+
+void nemesis::Process::RotationDataNumGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    RotationValidation(scopeinfo);
 
     size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti].size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num];
-    string motionData;
-
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
-
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
-
-    blocks[begin] = motionData;
-}
-
-void nemesis::Process::MotionDataSingle(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    MotionValidation(curAnimInfo);
-
-    if (curAnimInfo.filename == fixedvarlist[0])
-    {
-        ErrorMessage(1134, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order];
-    string motionData;
-
-    if (curInfo->motionData.empty())
-    {
-        WarningMessage(1018, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        motionData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        motionData = to_string(curInfo->motionData.size()) + "\n";
-
-        for (auto& motion : curInfo->motionData)
-        {
-            motionData.append(motion + "\n");
-        }
-    }
-
-    blocks[begin] = motionData;
-}
-
-void nemesis::Process::RotationDataMultiGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    RotationValidation(curAnimInfo);
-
-    if (curAnimInfo.animMulti == -1) ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.animMulti];
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[num];
     string rotationData;
 
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
 
     blocks[begin] = rotationData;
 }
 
-void nemesis::Process::RotationDataFirstGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RotationDataMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    RotationValidation(curAnimInfo);
+    RotationValidation(scopeinfo);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //if (scopeinfo.animnum == -1)
+    //{
+    //    ErrorMessage(1146, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //}
 
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[0];
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
+
+    ClearBlocks(blocks);
+
+    //shared_ptr<AnimationInfo> curInfo
+    //    = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.animnum];
     string rotationData;
 
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
 
     blocks[begin] = rotationData;
 }
 
-void nemesis::Process::RotationDataNextGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RotationDataFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    RotationValidation(curAnimInfo);
+    RotationValidation(scopeinfo);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    int nextorder;
-    curAnimInfo.curAnim->isLast() ? nextorder = curAnimInfo.order : nextorder = curAnimInfo.order + 1;
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[nextorder];
+    ClearBlocks(blocks);
+
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][0];
     string rotationData;
 
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
 
     blocks[begin] = rotationData;
 }
 
-void nemesis::Process::RotationDataBackGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RotationDataLastMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    RotationValidation(curAnimInfo);
+    RotationValidation(scopeinfo);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    int previousorder;
-    curAnimInfo.order == 0 ? previousorder = curAnimInfo.order : previousorder = curAnimInfo.order - 1;
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[previousorder];
+    ClearBlocks(blocks);
+
+    //shared_ptr<AnimationInfo> curInfo
+    //    = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.lastorder];
     string rotationData;
 
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
 
     blocks[begin] = rotationData;
 }
 
-void nemesis::Process::RotationDataLastGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RotationDataNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    RotationValidation(curAnimInfo);
+    RotationValidation(scopeinfo);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.lastorder];
-    string rotationData;
-
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
-
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
-
-    blocks[begin] = rotationData;
-}
-
-void nemesis::Process::RotationDataNumGroup(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    RotationValidation(curAnimInfo);
+    //if (scopeinfo.groupMulti == -1)
+    //{
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
     size_t num = fixedvarintlist[0];
 
-    if (num >= curAnimInfo.curAnim->GetGroupAnimInfo().size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
+    //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
+    //{
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //}
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[num];
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][num];
     string rotationData;
 
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
 
     blocks[begin] = rotationData;
 }
 
-void nemesis::Process::RotationDataMultiMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RotationDataSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    RotationValidation(curAnimInfo);
+    RotationValidation(scopeinfo);
 
-    if (curAnimInfo.animMulti == -1)
+    if (GetBehaviorFile() == fixedvarlist[0])
     {
-        ErrorMessage(1146, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
+        ErrorMessage(1134, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
     }
 
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
+    ClearBlocks(blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo
-        = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.animMulti];
+    //shared_ptr<AnimationInfo> curInfo = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.order];
     string rotationData;
 
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
+    //if (curInfo->rotationData.empty())
+    //{
+    //    WarningMessage(1019, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
+    //    rotationData
+    //        = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
+    //}
+    //else
+    //{
+    //    rotationData = to_string(curInfo->rotationData.size()) + "\n";
 
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
+    //    for (auto& rotation : curInfo->rotationData)
+    //    {
+    //        rotationData.append(rotation + "\n");
+    //    }
+    //}
 
     blocks[begin] = rotationData;
 }
 
-void nemesis::Process::RotationDataFirstMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    RotationValidation(curAnimInfo);
-
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][0];
-    string rotationData;
-
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
-
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
-
-    blocks[begin] = rotationData;
-}
-
-void nemesis::Process::RotationDataLastMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    RotationValidation(curAnimInfo);
-
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo
-        = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][curAnimInfo.lastorder];
-    string rotationData;
-
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
-
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
-
-    blocks[begin] = rotationData;
-}
-
-void nemesis::Process::RotationDataNumMaster(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    RotationValidation(curAnimInfo);
-
-    if (curAnimInfo.groupMulti == -1)
-    {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    size_t num = fixedvarintlist[0];
-
-    if (num >= curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti].size())
-    {
-        ErrorMessage(1148, GetFormat(), curAnimInfo.filename, curAnimInfo.numline, fixedvarlist[0]);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curGroup->groupAnimInfo[curAnimInfo.groupMulti][num];
-    string rotationData;
-
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
-
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
-
-    blocks[begin] = rotationData;
-}
-
-void nemesis::Process::RotationDataSingle(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
-{
-    RotationValidation(curAnimInfo);
-
-    if (curAnimInfo.filename == fixedvarlist[0])
-    {
-        ErrorMessage(1134, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-    }
-
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
-
-    shared_ptr<AnimationInfo> curInfo = curAnimInfo.curAnim->GetGroupAnimInfo()[curAnimInfo.order];
-    string rotationData;
-
-    if (curInfo->rotationData.empty())
-    {
-        WarningMessage(1019, GetFormat(), GetBehaviorFile(), curAnimInfo.numline);
-        rotationData
-            = "1\n" + (curInfo->hasDuration ? StrDoubleDecimal(curInfo->duration, 6) : "0") + " 0 0 0 1";
-    }
-    else
-    {
-        rotationData = to_string(curInfo->rotationData.size()) + "\n";
-
-        for (auto& rotation : curInfo->rotationData)
-        {
-            rotationData.append(rotation + "\n");
-        }
-    }
-
-    blocks[begin] = rotationData;
-}
-
-void nemesis::Process::AnimOrder(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::AnimOrder(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     string animPath = CombineBlocks(fixedvarintlist[0], fixedvarintlist[1], blocks);
 
-    if (!ClearBlocks(blocks, curAnimInfo)) return;
+    ClearBlocks(blocks);
 
     //auto& ptr = charAnimDataInfo.find(
-    //    nemesis::to_lower_copy(curAnimInfo.project.substr(0, curAnimInfo.project.rfind(".txt"))));
+    //    nemesis::to_lower_copy(scopeinfo.project.substr(0, scopeinfo.project.rfind(".txt"))));
 
     //if (ptr != charAnimDataInfo.end())
     //{
@@ -2975,20 +2943,26 @@ void nemesis::Process::AnimOrder(VecStr& blocks, const AnimThreadInfo& curAnimIn
     //}
 }
 
-void nemesis::Process::RegisAnim(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RegisAnim(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     string animPath = CombineBlocks(blocks);
     addUsedAnim(GetBehaviorFile().string(), animPath);
 }
 
-void nemesis::Process::RegisBehavior(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::RegisBehavior(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     string behaviorName = CombineBlocks(blocks);
     nemesis::to_lower(behaviorName);
     behaviorJoints[behaviorName].push_back(nemesis::to_lower_copy(GetBehaviorFile().string()));
 }
 
-void nemesis::Process::LocalNegative(VecStr& blocks, const AnimThreadInfo& curAnimInfo) const
+void nemesis::Process::LocalNegative(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    if (CombineBlocks(blocks)[0] == '-') curAnimInfo.negative = true;
+    if (CombineBlocks(blocks)[0] == '-') scopeinfo.negative = true;
+}
+
+void nemesis::Process::RemoveProcessSyntax(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+{
+    blocks[fixedvarintlist.front()] = "";
+    blocks[fixedvarintlist.back()]  = "";
 }

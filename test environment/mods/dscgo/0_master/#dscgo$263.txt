@@ -1,0 +1,9 @@
+		<hkobject name="#dscgo$263" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">GreatswordAdjust_ModList</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="5">
+				#dscgo$272 #dscgo$270 #dscgo$268 #dscgo$266 #dscgo$264
+			</hkparam>
+		</hkobject>

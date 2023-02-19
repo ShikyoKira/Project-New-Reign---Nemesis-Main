@@ -1,0 +1,26 @@
+		<hkobject name="#3742" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#3751</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">1HMLeftHand_1stP_WalkMSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#3744
+				#3744
+				#3744
+				#3744
+				#3744
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#3744
+				#3744
+<!-- ORIGINAL -->
+				#3740
+				#3740
+<!-- CLOSE -->
+				#3741
+				#3743
+				#3743
+				#3743
+				#3743
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

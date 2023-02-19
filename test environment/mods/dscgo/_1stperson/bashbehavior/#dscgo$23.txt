@@ -1,0 +1,10 @@
+		<hkobject name="#dscgo$23" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0098</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">BlockBash_RH_MSG</hkparam>
+			<hkparam name="generators" numelements="13">
+				#0153 #0153 #0153 #0153 #0153 #0164 #0162 #0153 #0153 #0153 #0153 #0153 #0153
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

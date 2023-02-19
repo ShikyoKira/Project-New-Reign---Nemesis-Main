@@ -1,0 +1,26 @@
+		<hkobject name="#0083" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0088</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">AxeEquipMSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#0084
+				#0086
+				#0086
+				#0086
+				#0086
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#0086
+				#0086
+<!-- ORIGINAL -->
+				#0084
+				#0084
+<!-- CLOSE -->
+				#0084
+				#0084
+				#0084
+				#0084
+				#0084
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

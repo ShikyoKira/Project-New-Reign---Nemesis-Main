@@ -1,0 +1,10 @@
+		<hkobject name="#1050" class="hkbBehaviorReferenceGenerator" signature="0xfcb5423">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Magic_BFR</hkparam>
+<!-- MOD_CODE ~sstop~ OPEN -->
+			<hkparam name="behaviorName">behaviors\magicbehavior.hkx</hkparam>
+<!-- ORIGINAL -->
+			<hkparam name="behaviorName">Behaviors\MagicBehavior.hkx</hkparam>
+<!-- CLOSE -->
+		</hkobject>

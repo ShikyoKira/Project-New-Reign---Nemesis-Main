@@ -1,16 +1,21 @@
 #include "utilities/option.h"
 #include "utilities/optionmodel.h"
 
-nemesis::Option::Option(const std::string& query, const OptionModel& _model) noexcept
-    : model(_model)
+nemesis::Option::Option(const std::string& query,
+                        const nemesis::OptionModel& model,
+                        const nemesis::AnimQuery& animquery) noexcept
+    : model(model)
+    , animquery(animquery)
 {
     this->query = query;
     name        = model.GetName();
+    variables   = model.ParseVariables(query);
+    success     = model.HasVariable() != variables.empty();
 }
 
-std::string nemesis::Option::GetName() const noexcept
+const nemesis::AnimQuery& nemesis::Option::GetAnimQuery() const
 {
-    return name;
+    return animquery;
 }
 
 const nemesis::OptionModel& nemesis::Option::GetModel() const noexcept
@@ -18,11 +23,22 @@ const nemesis::OptionModel& nemesis::Option::GetModel() const noexcept
     return model;
 }
 
-std::string nemesis::Option::GetVariable(std::string key) const
+std::string nemesis::Option::GetName() const noexcept
 {
-    auto itr = variables.find(key);
+    return name;
+}
 
-    if (itr == variables.end()) return "";
+std::string nemesis::Option::GetVariable(const std::string& key) const
+{
+    for (auto& var : variables)
+    {
+        if (nemesis::iequals(var.first, key)) return var.second;
+    }
 
-    return itr->second;
+    return "";
+}
+
+bool nemesis::Option::IsSuccess() const noexcept
+{
+    return success;
 }

@@ -30,23 +30,31 @@ QVariant BehaviorListModel::data(const QModelIndex& index, int role) const
         if (index.column() == 0)
         {
             if (role == Qt::DisplayRole || role == Qt::EditRole || role == Qt::ToolTipRole)
+            {
                 return behaviorList.at(index.row()).modname;
-            else
-                return behaviorList.at(index.row()).state;
+            }
+
+            return behaviorList.at(index.row()).state;
         }
-        else if (role != Qt::CheckStateRole && role != Qt::ToolTipRole)
+        
+        if (role != Qt::CheckStateRole && role != Qt::ToolTipRole)
         {
-            if (index.column() == 1)
-                return behaviorList.at(index.row()).author;
-            else if (index.column() == 2)
-                return index.row();
+            switch (index.column())
+            {
+                case 1:
+                    return behaviorList.at(index.row()).author;
+                case 2:
+                    return index.row();
+                default:
+                    break;
+            }
         }
     }
     else if (index.column() == 2 && role == Qt::TextAlignmentRole)
     {
         return Qt::AlignCenter;
     }
-    else if (index.row() % 2 != 0 && role == Qt::BackgroundColorRole)
+    else if (index.row() % 2 != 0 && role == 8)
     {
         return QColor(235, 235, 235);
     }
@@ -56,29 +64,21 @@ QVariant BehaviorListModel::data(const QModelIndex& index, int role) const
 
 QVariant BehaviorListModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (orientation == Qt::Horizontal)
-    {
-        if (role == Qt::DisplayRole)
-        {
-            switch (section)
-            {
-                case COL_NAME:
-                    return QString::fromStdWString(UIMessage(1005));
-                case COL_AUTHOR:
-                    return QString::fromStdWString(UIMessage(1006));
-                case COL_PRIORITY:
-                    return QString::fromStdWString(UIMessage(1007));
-                default:
-                    return QString::fromStdWString(UIMessage(1008));
-            }
-        }
-    }
-    else
-    {
-        return QString("Row %1").arg(section);
-    }
+    if (orientation != Qt::Horizontal) return QString("Row %1").arg(section);
 
-    return QAbstractItemModel::headerData(section, orientation, role);
+    if (role != Qt::DisplayRole) return QAbstractItemModel::headerData(section, orientation, role);
+
+    switch (section)
+    {
+        case COL_NAME:
+            return QString::fromStdWString(UIMessage(1005));
+        case COL_AUTHOR:
+            return QString::fromStdWString(UIMessage(1006));
+        case COL_PRIORITY:
+            return QString::fromStdWString(UIMessage(1007));
+        default:
+            return QString::fromStdWString(UIMessage(1008));
+    }
 }
 
 Qt::ItemFlags BehaviorListModel::flags(const QModelIndex& index) const
@@ -87,42 +87,32 @@ Qt::ItemFlags BehaviorListModel::flags(const QModelIndex& index) const
 
     if (index.internalId() < 0) return Qt::ItemIsEnabled;
 
-    if (index.isValid())
-        return defaultflags | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsDropEnabled;
-    else
-        return defaultflags | Qt::ItemIsDropEnabled;
+    if (!index.isValid()) return defaultflags | Qt::ItemIsDropEnabled;
+
+    return defaultflags | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsDropEnabled;
 }
 
 bool BehaviorListModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if (index.isValid())
+    if (!index.isValid()) return false;
+
+    if (role == Qt::EditRole)
     {
-        if (role == Qt::EditRole)
-        {
-            BehaviorInfo item = value.value<BehaviorInfo>();
-            behaviorList.replace(index.row(), item);
-            emit dataChanged(index, index);
-            return true;
-        }
-        else if (role == Qt::CheckStateRole)
-        {
-            tempCheck                       = behaviorList[index.row()].state;
-            click_time                      = std::chrono::high_resolution_clock::now();
-            behaviorList[index.row()].state = tempCheck == Qt::Unchecked ? Qt::Checked : Qt::Unchecked;
-            VecStr chosenBehavior;
-
-            for (auto& behavior : behaviorList)
-            {
-                if (behavior.state) chosenBehavior.push_back(behavior.modname.toStdString());
-            }
-
-            createModCache(chosenBehavior);
-            emit dataChanged(index, index);
-            return true;
-        }
+        BehaviorInfo item = value.value<BehaviorInfo>();
+        behaviorList.replace(index.row(), item);
+        emit dataChanged(index, index);
+        return true;
     }
+    
+    if (role != Qt::CheckStateRole) return false;
 
-    return false;
+    tempCheck                       = behaviorList[index.row()].state;
+    click_time                      = std::chrono::high_resolution_clock::now();
+    behaviorList[index.row()].state = tempCheck == Qt::Unchecked ? Qt::Checked : Qt::Unchecked;
+
+    createModSelectionCache();
+    emit dataChanged(index, index);
+    return true;
 }
 
 bool BehaviorListModel::insertRows(int position, int rows, const QModelIndex& parent)
@@ -150,16 +140,41 @@ bool BehaviorListModel::removeRows(int position, int rows, const QModelIndex& pa
     }
 
     endRemoveRows();
+    createModOrderCache();
+    return true;
+}
+
+void BehaviorListModel::setModInfoManager(nemesis::ModInfoManager* modinfo_manager)
+{
+    this->modinfo_manager = modinfo_manager;
+}
+
+void BehaviorListModel::createModSelectionCache()
+{
+    VecStr chosenBehavior;
+
+    for (auto& behavior : behaviorList)
+    {
+        if (!behavior.state) continue;
+
+        chosenBehavior.push_back(behavior.modname.toStdString());
+    }
+
+    CreateModCache(chosenBehavior);
+}
+
+void BehaviorListModel::createModOrderCache()
+{
     VecStr behaviorOrder;
     behaviorOrder.reserve(behaviorList.size());
 
     for (auto& behavior : behaviorList)
     {
-        behaviorOrder.push_back(modConvert[behavior.modname.toStdString()]);
+        behaviorOrder.emplace_back(
+            modinfo_manager->GetModInfoByDisplay(behavior.modname.toStdWString())->GetModCodeA());
     }
 
-    createModOrderCache(behaviorOrder);
-    return true;
+    CreateModOrderCache(behaviorOrder);
 }
 
 void BehaviorListModel::goToUrl(const QModelIndex& index)
@@ -214,24 +229,21 @@ QMimeData* BehaviorListModel::mimeData(const QModelIndexList& indexes) const
 
     foreach (QModelIndex index, indexes)
     {
-        if (index.isValid())
-        {
-            stream << data(index, Qt::DisplayRole).toString();
+        if (!index.isValid()) continue;
 
-            if (index.column() == 0)
-            {
-                if (data(index, Qt::CheckStateRole) == Qt::Checked)
-                {
-                    QString text = "1";
-                    stream << text;
-                }
-                else
-                {
-                    QString text = "0";
-                    stream << text;
-                }
-            }
+        stream << data(index, Qt::DisplayRole).toString();
+
+        if (index.column() != 0) continue;
+
+        if (data(index, Qt::CheckStateRole) == Qt::Checked)
+        {
+            QString text = "1";
+            stream << text;
+            continue;
         }
+
+        QString text = "0";
+        stream << text;
     }
 
     mimeData->setData("application/vnd.text.list", encodedData);
@@ -248,18 +260,24 @@ bool BehaviorListModel::dropMimeData(
     int beginRow;
 
     if (row != -1)
+    {
         beginRow = row;
+    }
     else if (parent.isValid())
+    {
         beginRow = parent.row();
+    }
     else
+    {
         beginRow = rowCount(QModelIndex());
+    }
 
     QByteArray encodedData = data->data("application/vnd.text.list");
     QDataStream stream(&encodedData, QIODevice::ReadOnly);
     QList<BehaviorInfo> newItems;
-    int rows    = 0;
-    int counter = 0;
-    BehaviorInfo* curBehaviorInfo;
+    int rows                      = 0;
+    int counter                   = 0;
+    BehaviorInfo* curBehaviorInfo = nullptr;
 
     while (!stream.atEnd())
     {
@@ -307,5 +325,7 @@ bool BehaviorListModel::dropMimeData(
 
 void BehaviorListModel::dropModeUpdate(bool dropOnItems)
 {
-    if (m_DropOnItems != dropOnItems) m_DropOnItems = dropOnItems;
+    if (m_DropOnItems == dropOnItems) return;
+
+    m_DropOnItems = dropOnItems;
 }

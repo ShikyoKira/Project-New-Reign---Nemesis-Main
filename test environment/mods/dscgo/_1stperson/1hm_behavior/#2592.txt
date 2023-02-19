@@ -1,0 +1,7 @@
+		<hkobject name="#2592" class="hkbExpressionCondition" signature="0x1c3c1045">
+<!-- MOD_CODE ~dscgo~ OPEN -->
+			<hkparam name="expression">(iLeftHandType &gt;= 1) &amp;&amp; (iRightHandType &gt;= 1) &amp;&amp; (iRightHandType &lt;= 8) &amp;&amp; (iLeftHandType &lt;= 8) &amp;&amp; (iRightHandType != 7) &amp;&amp; (iLeftHandType != 7)</hkparam>
+<!-- ORIGINAL -->
+			<hkparam name="expression">(iLeftHandType &gt;= 1) &amp;&amp; (iRightHandType &gt;= 1) &amp;&amp; (iRightHandType &lt;= 4) &amp;&amp; (iLeftHandType &lt;= 4)</hkparam>
+<!-- CLOSE -->
+		</hkobject>

@@ -1,0 +1,10 @@
+		<hkobject name="#dscgo$368" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#4111</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">SneakIdle_TestLeftHand_2HM_MSG</hkparam>
+			<hkparam name="generators" numelements="11">
+				#4169 #dscgo$364 #dscgo$364 #dscgo$364 #dscgo$364 #dscgo$364 #dscgo$364 #4169 #dscgo$357 #4169 #dscgo$357
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

@@ -11,76 +11,69 @@
 #include "ui/UiModInfo.h"
 #include "ui/ErrorMsgBox.h"
 #include "ui/SettingsSave.h"
+#include "ui/NemesisEngine.h"
 #include "ui/BehaviorListView.h"
 
-extern std::atomic<uint> resizeCount;
-
-std::unordered_map<std::string, std::string> modConvert;
+extern std::atomic<size_t> resizeCount;
 
 BehaviorListView::BehaviorListView(QWidget* parent)
     : QTreeView(parent)
     , m_Scrollbar(new ScrollBar(this->model(), this))
 {
+}
+
+BehaviorListView::BehaviorListView(NemesisEngine* parent)
+    : QTreeView(parent)
+    , m_Scrollbar(new ScrollBar(this->model(), this))
+{
     setVerticalScrollBar(m_Scrollbar);
     QList<BehaviorInfo> mods;
-    VecStr orderList;
-    std::wstring errmsg;
+    UMap<std::string, bool> chosenBehavior;
+    VecWstr order_list;
 
-    if (!readMod(errmsg))
-    {
-        CEMsgBox* msgbox = new CEMsgBox;
-        QString msg      = QString::fromStdWString(errmsg);
-        msgbox->setText(msg);
-        msgbox->setWindowTitle("CRITITAL ERROR");
-        msgbox->exec();
-        error = true;
-        return;
-    }
-
-    if (getOrderCache(orderList))
+    if (GetOrderCache(order_list) && GetModSelectionCache(chosenBehavior))
     {
         std::set<std::wstring> tempset;
 
-        for (auto& each : orderList)
+        for (auto& modcode : order_list)
         {
-            std::wstring mod = nemesis::transform_to<std::wstring>(each);
+            auto* modinfo_ptr = parent->modinfo_manager.GetModInfo(modcode);
 
-            if (modinfo.find(mod) != modinfo.end())
-            {
-                mods.push_back(*new BehaviorInfo(QString::fromStdWString(modinfo[mod]->getName()),
-                                                 QString::fromStdWString(modinfo[mod]->getAuthor())));
-                modConvert[modinfo[mod]->getNameA()] = each;
-                tempset.insert(mod);
-            }
+            if (!modinfo_ptr) continue;
+
+            mods.push_back(*new BehaviorInfo(QString::fromStdWString(modinfo_ptr->GetDisplayName()),
+                                             QString::fromStdWString(modinfo_ptr->GetAuthor().data())));
+            tempset.insert(modcode);
+
+            if (chosenBehavior.find(modinfo_ptr->GetDisplayNameA()) == chosenBehavior.end()) continue;
+
+            mods.back().state = Qt::Checked;
         }
 
-        for (auto& info : modinfo)
+        for (auto& modinfo : parent->modinfo_manager.GetModInfoList())
         {
-            if (tempset.find(info.first) == tempset.end())
-            {
-                mods.push_back(*new BehaviorInfo(QString::fromStdWString(info.second->getName()),
-                                                 QString::fromStdWString(info.second->getAuthor())));
-            }
+            if (tempset.find(std::wstring(modinfo.GetModCode())) != tempset.end()) continue;
+
+            mods.push_back(*new BehaviorInfo(QString::fromStdWString(modinfo.GetDisplayName()),
+                                             QString::fromStdWString(modinfo.GetAuthor().data())));
         }
     }
     else
     {
-        for (auto& info : modinfo)
+        for (auto& modinfo : parent->modinfo_manager.GetModInfoList())
         {
-            modConvert[info.second->getNameA()] = nemesis::transform_to<std::string>(info.first);
-            mods.push_back(*new BehaviorInfo(QString::fromStdWString(info.second->getName()),
-                                             QString::fromStdWString(info.second->getAuthor())));
+            mods.push_back(*new BehaviorInfo(QString::fromStdWString(modinfo.GetDisplayName()),
+                                             QString::fromStdWString(modinfo.GetAuthor().data())));
         }
     }
 
     setRootIsDecorated(false);
-    setModel(new BehaviorListModel(mods));
+    auto bhvmodel = new BehaviorListModel(mods);
+    bhvmodel->setModInfoManager(&parent->modinfo_manager);
+    setModel(bhvmodel);
 
     connect(header(), &QHeaderView::sectionResized, this, &BehaviorListView::resizeHeader);
-    connect(this,
-            &QAbstractItemView::doubleClicked,
-            static_cast<BehaviorListModel*>(model()),
-            &BehaviorListModel::goToUrl);
+    connect(this, &QAbstractItemView::doubleClicked, bhvmodel, &BehaviorListModel::goToUrl);
 }
 
 void BehaviorListView::dragEnterEvent(QDragEnterEvent* event)
@@ -106,24 +99,15 @@ void BehaviorListView::resizeHeader(int logicalIndex, int oldSize, int newSize)
 
     if (logicalIndex == 2)
     {
-        if (oldSize < newSize)
-        {
-            // DRAF LEFT, EXPAND
-            if (columnWidth(1) < authorWidth)
-            {
-
-            }
-        }
-
         priorityWidth = newSize;
-        nemesisInfo->setPriorityWidth(newSize);
+        nemesisInfo->SetPriorityWidth(newSize);
     }
     else if (logicalIndex == 1)
     {
-        nemesisInfo->setAuthorWidth(newSize);
+        nemesisInfo->SetAuthorWidth(newSize);
     }
     else
     {
-        nemesisInfo->setModNameWidth(newSize);
+        nemesisInfo->SetModNameWidth(newSize);
     }
 }

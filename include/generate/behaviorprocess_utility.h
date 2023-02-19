@@ -43,6 +43,6 @@ void processExistFuncID(std::vector<int>& funcIDs,
                         const std::string& behaviorFile,
                         std::unordered_map<int, std::shared_ptr<NodeJoint>>& existingNodes);
 void redirToStageDir(std::filesystem::path& outpath, const NemesisInfo* nemesisInfo);
-std::filesystem::path getTempBhvrPath(const NemesisInfo* nemesisInfo);
+std::filesystem::path getTempBhvrPath();
 
 #endif

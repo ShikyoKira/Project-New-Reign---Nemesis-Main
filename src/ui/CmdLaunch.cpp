@@ -7,8 +7,9 @@
 
 #include "connector.h"
 
+#include "core/modinfomanager.h"
+
 #include "ui/CmdLaunch.h"
-#include "ui/UiModInfo.h"
 #include "ui/ErrorMsgBox.h"
 
 #include "update/updateprocess.h"
@@ -17,15 +18,20 @@
 
 using namespace std;
 
-void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
+void CmdGenerateInitialize(VecStr modlist)
 {
     string modcode;
     wstring errmsg;
+    nemesis::ModInfoManager modinfo_manager;
 
-    if (!readMod(errmsg))
+    try
+    {
+        modinfo_manager.ReadAllInfo();
+    }
+    catch (const std::exception& ex)
     {
         CEMsgBox* msgbox = new CEMsgBox;
-        QString msg      = QString::fromStdWString(errmsg);
+        QString msg      = QString::fromStdString(ex.what());
         msgbox->setText(msg);
         msgbox->setWindowTitle("CRITITAL ERROR");
         msgbox->show();
@@ -35,7 +41,7 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
 
     string version;
 
-    if (!isEngineUpdated(version, nemesisInfo))
+    if (!isEngineUpdated(version))
     {
         wcout << TextBoxMessage(1000) + L"\n";
         return;
@@ -57,18 +63,17 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
     for (auto& each : modlist)
     {
         nemesis::to_lower(each);
-        wstring mod = nemesis::transform_to<wstring>(mod);
-        auto itr = modinfo.find(mod);
+        wstring mod  = nemesis::transform_to<wstring>(mod);
+        auto modinfo = modinfo_manager.GetModInfo(mod);
 
-        if (itr != modinfo.end())
-        {
-            behaviorPriority.insert(behaviorPriority.begin(), each);
-            chosenBehavior[each] = true;
-        }
+        if (!modinfo) continue;
+
+        behaviorPriority.insert(behaviorPriority.begin(), each);
+        chosenBehavior[each] = true;
     }
 
     QThread* thread       = new QThread;
-    BehaviorStart* worker = new BehaviorStart(nemesisInfo);
+    BehaviorStart* worker = new BehaviorStart();
     worker->addBehaviorPick(behaviorPriority, chosenBehavior);
 
     QObject::connect(thread, SIGNAL(started()), worker, SLOT(GenerateBehavior()));
@@ -88,14 +93,14 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
     }
 
     cout << "End\n";
-    getch();
+    _getch();
     exit(static_cast<int>(error));
 }
 
-void CmdUpdateInitialize(const NemesisInfo* nemesisInfo)
+void CmdUpdateInitialize()
 {
     QThread* thread          = new QThread;
-    UpdateFilesStart* worker = new UpdateFilesStart(nemesisInfo);
+    UpdateFilesStart* worker = new UpdateFilesStart();
     worker->cmdline          = true;
 
     QObject::connect(thread, SIGNAL(started()), worker, SLOT(UpdateFiles()));

@@ -1,4 +1,4 @@
-		<hkobject name="#$import[1][2]$" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
+		<hkobject name="#$import[0]$" class="hkbStateMachineTransitionInfoArray" signature="0xe397b11e">
 			<hkparam name="transitions" numelements="1">
 				<hkobject>
 					<hkparam name="triggerInterval">
@@ -20,7 +20,7 @@
 					<hkparam name="transition">#$import[blend_transition][0.600000]$</hkparam>
 					<hkparam name="condition">null</hkparam>
 					<hkparam name="eventId">152</hkparam>				<!-- IdleChairExitStart -->
-					<hkparam name="toStateId">$import[2]$</hkparam>
+					<hkparam name="toStateId">$import[1]$</hkparam>
 					<hkparam name="fromNestedStateId">0</hkparam>
 					<hkparam name="toNestedStateId">0</hkparam>
 					<hkparam name="priority">0</hkparam>

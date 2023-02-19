@@ -1,0 +1,16 @@
+		<hkobject name="#dscgo$252" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="2">
+				<hkobject>
+					<hkparam name="expression">fJumpTwist_Start = fIsMoving*(360*Direction - 360*(Direction &gt; 0.5))*(-Direction &gt; -0.26) + fIsMoving*(360*Direction - 360*(Direction &gt; 0.5))*(Direction &gt; 0.74)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fJumpUpperBodyBlend = 1.00*(IsAttacking||IsAttackReady||IsEquipping||IsUnequipping||IsCastingDual||IsCastingRight||IsCastingLeft)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

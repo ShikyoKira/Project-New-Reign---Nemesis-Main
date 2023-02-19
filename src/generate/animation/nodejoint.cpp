@@ -92,7 +92,7 @@ void processing(string& line,
                 string multiOption,
                 vector<vector<unordered_map<string, bool>>>& optionPicked,
                 unsigned __int64& openRange,
-                uint& elementCount,
+                size_t& elementCount,
                 string& templateLine,
                 LineCheck* elementCatch,
                 bool& negative);
@@ -118,13 +118,13 @@ void processing2(string& line,
                  string multiOption);
 void newID(int& nextFunctionID, string& strID);
 
-LineCheck::LineCheck(string _line, uint _row)
+LineCheck::LineCheck(string _line, size_t _row)
 {
     line = _line;
     row  = _row;
 }
 
-LineCheck::LineCheck(shared_ptr<NodeJoint> _nested, uint _row)
+LineCheck::LineCheck(shared_ptr<NodeJoint> _nested, size_t _row)
 {
     nested = _nested;
     row    = _row;
@@ -165,7 +165,7 @@ NodePackedParameters::NodePackedParameters(string _format,
                                            string _multiOption,
                                            vector<vector<unordered_map<string, bool>>>& _optionPicked,
                                            unsigned __int64& _openRange,
-                                           uint& _elementCount,
+                                           size_t& _elementCount,
                                            string& _line,
                                            LineCheck* _elementCatch,
                                            bool& _negative)
@@ -202,8 +202,8 @@ NodeJoint::NodeJoint(VecStr& node,
                      string filename,
                      string _behaviorFile,
                      unordered_map<string, string> otherAnimType,
-                     uint startline,
-                     uint size)
+                     size_t startline,
+                     size_t size)
 {
     behaviorFile = _behaviorFile;
 
@@ -221,8 +221,8 @@ NodeJoint::NodeJoint(VecStr& node,
                      string filename,
                      string _behaviorFile,
                      SetStr _templateGroup,
-                     uint startline,
-                     uint size)
+                     size_t startline,
+                     size_t size)
 {
     behaviorFile  = _behaviorFile;
     templateGroup = _templateGroup;
@@ -262,13 +262,13 @@ void NodeJoint::insertData(string format,
                            string zeroEvent,
                            string zeroVariable,
                            unsigned __int64& openRange,
-                           uint elementCount,
+                           size_t elementCount,
                            LineCheck* elementCatch,
                            shared_ptr<master> subFunctionIDs,
                            bool& negative)
 {
-    vector<uint>* rows_ptr;
-    vector<uint> rows;
+    vector<size_t>* rows_ptr;
+    vector<size_t> rows;
 
     if (templateSection.size() > 0) 
     { 
@@ -278,13 +278,13 @@ void NodeJoint::insertData(string format,
     {
         rows_ptr = &rows;
 
-        for (uint sect = 0; sect < storeTemplate.size(); ++sect)
+        for (size_t sect = 0; sect < storeTemplate.size(); ++sect)
         {
             rows_ptr->push_back(sect);
         }
     }
 
-    for (uint sect : *rows_ptr)
+    for (size_t sect : *rows_ptr)
     {
         if (storeTemplate[sect].nested)
         {
@@ -824,7 +824,7 @@ void NodeJoint::insertData(string format,
 void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
                                LineCheck& storeTemplate,
                                string condition,
-                               uint sect,
+                               size_t sect,
                                string format,
                                string filename,
                                vector<vector<unordered_map<string, bool>>>& optionPicked,
@@ -845,7 +845,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
                                string zeroEvent,
                                string zeroVariable,
                                unsigned __int64 openRange,
-                               uint elementCount,
+                               size_t elementCount,
                                LineCheck* elementCatch,
                                shared_ptr<master> subFunctionIDs,
                                bool& negative)
@@ -886,8 +886,8 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
     }
     else if (hasGroup)
     {
-        uint groupOrder;
-        uint groupSize;
+        size_t groupOrder;
+        size_t groupSize;
 
         // <!-- FOREACH ^format_group^ -->
         if (condition == format + "_group")
@@ -895,7 +895,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
             groupOrder = 0;
             groupSize  = groupAnimInfo.size();
 
-            for (uint multi = groupOrder; multi < groupSize; ++multi)
+            for (size_t multi = groupOrder; multi < groupSize; ++multi)
             {
                 output[sect].back().nested->insertData(format,
                                                        filename,
@@ -982,10 +982,10 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
 
             if (groupSize <= groupAnimInfo.size())
             {
-                for (uint multi = groupOrder; multi < groupSize; ++multi)
+                for (size_t multi = groupOrder; multi < groupSize; ++multi)
                 {
-                    uint order;
-                    uint size;
+                    size_t order;
+                    size_t size;
 
                     if (formatInfo[2].length() == 0)
                     {
@@ -1000,7 +1000,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
 
                     if (size <= subFunctionIDs->grouplist[multi]->singlelist.size())
                     {
-                        for (uint animMulti = order; animMulti < size; ++animMulti)
+                        for (size_t animMulti = order; animMulti < size; ++animMulti)
                         {
                             optionMultiLoop(output[sect],
                                             format,
@@ -1039,7 +1039,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
         {
             bool changed = false;
 
-            for (uint multi = 0; multi < groupAnimInfo.size(); ++multi)
+            for (size_t multi = 0; multi < groupAnimInfo.size(); ++multi)
             {
                 output[sect].back().nested->insertData(format,
                                                        filename,
@@ -1076,14 +1076,14 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
         }
         else
         {
-            uint multi = groupMulti == -1 ? 0 : groupMulti;
+            size_t multi = groupMulti == -1 ? 0 : groupMulti;
 
             if (multi < subFunctionIDs->grouplist.size())
             {
-                uint order = 0;
-                uint size  = subFunctionIDs->grouplist[multi]->singlelist.size();
+                size_t order = 0;
+                size_t size  = subFunctionIDs->grouplist[multi]->singlelist.size();
 
-                for (uint animMulti = order; animMulti < size; ++animMulti)
+                for (size_t animMulti = order; animMulti < size; ++animMulti)
                 {
                     output[sect].back().nested->insertData(format,
                                                            filename,
@@ -1195,7 +1195,7 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
                 return;
             }
 
-            uint groupOrder = formatInfo[1].length() == 0 ? groupMulti : stoi(formatInfo[1]);
+            size_t groupOrder = formatInfo[1].length() == 0 ? groupMulti : stoi(formatInfo[1]);
 
             if (animMulti != -1)
             {
@@ -1226,8 +1226,8 @@ void NodeJoint::forEachProcess(vector<vector<LineCheck>>& output,
             }
             else if (groupOrder < subFunctionIDs->grouplist.size())
             {
-                uint order;
-                uint size;
+                size_t order;
+                size_t size;
 
                 if (formatInfo[2].length() == 0)
                 {
@@ -1343,21 +1343,21 @@ void NodeJoint::optionMultiLoop(vector<LineCheck>& output,
                                 string zeroEvent,
                                 string zeroVariable,
                                 unsigned __int64 openRange,
-                                uint elementCount,
+                                size_t elementCount,
                                 LineCheck* elementCatch,
                                 shared_ptr<master> subFunctionIDs,
                                 bool& negative,
                                 LineCheck temp)
 {
-    if (static_cast<uint>(groupMulti) < groupAnimInfo.size()
-        && static_cast<uint>(animMulti) < groupAnimInfo[groupMulti].size())
+    if (static_cast<size_t>(groupMulti) < groupAnimInfo.size()
+        && static_cast<size_t>(animMulti) < groupAnimInfo[groupMulti].size())
     {
-        uint order       = optionMulti == -1 ? 0 : optionMulti;
-        uint repeatCount = groupAnimInfo[groupMulti][animMulti]->optionPickedCount[multiOption];
+        size_t order       = optionMulti == -1 ? 0 : optionMulti;
+        size_t repeatCount = groupAnimInfo[groupMulti][animMulti]->optionPickedCount[multiOption];
 
         if (order < repeatCount)
         {
-            for (uint optionMulti = order; optionMulti < repeatCount; ++optionMulti)
+            for (size_t optionMulti = order; optionMulti < repeatCount; ++optionMulti)
             {
                 output.back().nested->insertData(format,
                                                  filename,
@@ -1423,7 +1423,7 @@ VecStr NodeJoint::unpack()
     int counter   = 0;
     int openRange = 0;
 
-    for (uint i = 0; i < storeline.size(); ++i)
+    for (size_t i = 0; i < storeline.size(); ++i)
     {
         string& line = storeline[i];
 
@@ -1435,7 +1435,7 @@ VecStr NodeJoint::unpack()
             {
                 elementCatch    = true;
                 element         = i;
-                string templine = line.substr(0, line.find("<hkparam name=\"", 0));
+                string templine = line.substr(0, line.find("<hkparam name=\""));
                 openRange       = count(templine.begin(), templine.end(), '\t');
             }
             else
@@ -1455,7 +1455,7 @@ VecStr NodeJoint::unpack()
 					string oldElement;
 					string& ref_line = storeline[element];
 
-					if (ref_line.find("numelements=\"$elements$\">", 0) == NOT_FOUND)
+					if (ref_line.find("numelements=\"$elements$\">") == NOT_FOUND)
 					{
 						size_t position = ref_line.find("numelements=\"") + 13;
 						oldElement = ref_line.substr(position, ref_line.find("\">", position) - position);
@@ -1487,7 +1487,7 @@ VecStr NodeJoint::unpack()
                 }
                 else if (templine.find("\t\t\t#") != NOT_FOUND)
                 {
-                    templine          = templine.substr(0, templine.find("#", 0));
+                    templine          = templine.substr(0, templine.find("#"));
                     __int64 reference = count(templine.begin(), templine.end(), '\t');
 
                     if (reference == openRange + 1)
@@ -1506,14 +1506,14 @@ void NodeJoint::dataBake(VecStr& node,
                          string format,
                          string filename,
                          unordered_map<string, string> otherAnimType,
-                         uint startline,
-                         uint size)
+                         size_t startline,
+                         size_t size)
 {
     string multiOption;
     VecStr tempstore;
     FuncType curType = NONE;
     int scope        = 0;
-    uint start;
+    size_t start;
     bool conditionOpen = false;
     bool root;
 
@@ -1528,24 +1528,24 @@ void NodeJoint::dataBake(VecStr& node,
         root = false;
     }
 
-    for (uint i = startline; i < size; ++i)
+    for (size_t i = startline; i < size; ++i)
     {
         string line = node[i];
 
-        if (line.find("<!-- CONDITION START ^", 0) != NOT_FOUND)
+        if (line.find("<!-- CONDITION START ^") != NOT_FOUND)
         {
             if (scope == 0)
             {
                 curType          = CONDITION_START;
                 start            = i + 1;
-                uint pos         = line.find("<!-- CONDITION START ^") + 22;
+                size_t pos         = line.find("<!-- CONDITION START ^") + 22;
                 multiOption      = line.substr(pos, line.find("^ -->", pos) - pos);
                 conditionOpen    = true;
             }
 
             ++scope;
         }
-        else if (line.find("<!-- CONDITION ^", 0) != NOT_FOUND)
+        else if (line.find("<!-- CONDITION ^") != NOT_FOUND)
         {
             --scope;
 
@@ -1563,13 +1563,13 @@ void NodeJoint::dataBake(VecStr& node,
 
                 curType          = CONDITION_ELSE;
                 start            = i + 1;
-                uint pos         = line.find("<!-- CONDITION ^") + 16;
+                size_t pos         = line.find("<!-- CONDITION ^") + 16;
                 multiOption      = line.substr(pos, line.find("^", pos) - pos);
             }
 
             ++scope;
         }
-        else if (line.find("<!-- CONDITION -->", 0) != NOT_FOUND)
+        else if (line.find("<!-- CONDITION -->") != NOT_FOUND)
         {
             --scope;
 
@@ -1592,32 +1592,32 @@ void NodeJoint::dataBake(VecStr& node,
 
             ++scope;
         }
-        else if (line.find("<!-- FOREACH ^", 0) != NOT_FOUND)
+        else if (line.find("<!-- FOREACH ^") != NOT_FOUND)
         {
             if (scope == 0)
             {
                 curType          = FOREACH;
                 start            = i + 1;
-                uint pos         = line.find("<!-- FOREACH ^") + 14;
+                size_t pos         = line.find("<!-- FOREACH ^") + 14;
                 multiOption      = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
             }
 
             ++scope;
         }
-        else if (line.find("<!-- NEW ^", 0) != NOT_FOUND
-                 && line.find("^ -->", line.find("<!-- NEW ^", 0)) != NOT_FOUND)
+        else if (line.find("<!-- NEW ^") != NOT_FOUND
+                 && line.find("^ -->", line.find("<!-- NEW ^")) != NOT_FOUND)
         {
             if (scope == 0)
             {
                 curType          = NEW;
                 start            = i + 1;
-                uint pos         = line.find("<!-- NEW ^") + 10;
+                size_t pos         = line.find("<!-- NEW ^") + 10;
                 multiOption      = nemesis::to_lower_copy(line.substr(pos, line.find("^", pos) - pos));
             }
 
             ++scope;
         }
-        else if (line.find("<!-- CONDITION END -->", 0) != NOT_FOUND)
+        else if (line.find("<!-- CONDITION END -->") != NOT_FOUND)
         {
             --scope;
 
@@ -1636,7 +1636,7 @@ void NodeJoint::dataBake(VecStr& node,
                 conditionOpen = false;
             }
         }
-        else if (line.find("<!-- CLOSE -->", 0) != NOT_FOUND)
+        else if (line.find("<!-- CLOSE -->") != NOT_FOUND)
         {
             if (scope == 0) ErrorMessage(1118, format, filename, i + 1);
 
@@ -1748,7 +1748,7 @@ void processing(string& lineRef,
                 string multiOption,
                 vector<vector<unordered_map<string, bool>>>& optionPicked,
                 unsigned __int64& openRange,
-                uint& elementCount,
+                size_t& elementCount,
                 string& templateLine,
                 LineCheck* elementCatch,
                 bool& negative)
@@ -1756,7 +1756,7 @@ void processing(string& lineRef,
     string line = templateLine;
 
     // set animation ID
-    while (line.find("$%$", 0) != NOT_FOUND)
+    while (line.find("$%$") != NOT_FOUND)
     {
         string num;
 
@@ -1781,7 +1781,7 @@ void processing(string& lineRef,
     }
 
     // multi choice selection
-    if (line.find("$MC$", 0) != NOT_FOUND)
+    if (line.find("$MC$") != NOT_FOUND)
     {
         AnimationUtility utility;
         utility.originalCondition = line;
@@ -1834,10 +1834,10 @@ void processing(string& lineRef,
                 nextpos       = line.find("#" + format + "$", nextpos) + 1;
                 string tempID = line.substr(nextpos);
                 string curID
-                    = nemesis::regex_replace(string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    = nemesis::regex_replace(string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                 curID = format + "$" + curID;
 
-                if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
+                if (tempID.find(curID) != NOT_FOUND && nextpos == line.find(curID))
                 {
                     if (subFunctionIDs->grouplist[groupMulti]->singlelist[animMulti]->format[curID].length()
                         == 0)
@@ -1859,10 +1859,10 @@ void processing(string& lineRef,
                 nextpos       = line.find("#" + multiOption, nextpos) + 1;
                 string tempID = line.substr(nextpos);
                 string curID
-                    = nemesis::regex_replace(string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    = nemesis::regex_replace(string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                 curID = multiOption + "$" + curID;
 
-                if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
+                if (tempID.find(curID) != NOT_FOUND && nextpos == line.find(curID))
                 {
                     if (subFunctionIDs->grouplist[groupMulti]->functionIDs[curID].length() == 0)
                     {
@@ -1882,10 +1882,10 @@ void processing(string& lineRef,
                 nextpos       = line.find("#" + multiOption, nextpos) + 1;
                 string tempID = line.substr(nextpos);
                 string curID
-                    = nemesis::regex_replace(string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                    = nemesis::regex_replace(string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                 curID = multiOption + "$" + curID;
 
-                if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
+                if (tempID.find(curID) != NOT_FOUND && nextpos == line.find(curID))
                 {
                     if (subFunctionIDs->functionIDs[curID].length() == 0)
                     {
@@ -1961,7 +1961,7 @@ void processing2(string& line,
         string oldChange = change;
         change           = change.substr(1, change.length() - 2);
         curPos           = line.find("$", curPos + 1);
-        size_t pos       = change.find(format + "[", 0);
+        size_t pos       = change.find(format + "[");
         bool innerError  = false;
 
         while (true)
@@ -1982,16 +1982,16 @@ void processing2(string& line,
                         string number   = "";
                         string ID       = "";
 
-                        if (equation.find("(S", 0) != NOT_FOUND)
+                        if (equation.find("(S") != NOT_FOUND)
                         {
                             ID = nemesis::regex_replace(
-                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                             if (change.find("(S" + ID + "+") == NOT_FOUND) ID = "";
 
                             number = nemesis::regex_replace(string(equation.substr(3 + ID.length())),
                                                           nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                          string("\\1"));
+                                                          string("$1"));
                         }
 
                         if (equation != "(S" + ID + "+" + number + ")")
@@ -2037,7 +2037,7 @@ void processing2(string& line,
 
                     if (change.find("[FilePath]") != NOT_FOUND)
                     {
-                        if (change.find(format + "[][FilePath]", 0) != NOT_FOUND)
+                        if (change.find(format + "[][FilePath]") != NOT_FOUND)
                         {
                             change.replace(change.find(format + "[][FilePath]"),
                                            13 + format.length(),
@@ -2047,7 +2047,7 @@ void processing2(string& line,
                             isChange = true;
                         }
 
-                        if (change.find(format + "[F][FilePath]", 0) != NOT_FOUND)
+                        if (change.find(format + "[F][FilePath]") != NOT_FOUND)
                         {
                             change.replace(
                                 change.find(format + "[F][FilePath]"),
@@ -2056,17 +2056,17 @@ void processing2(string& line,
                             isChange = true;
                         }
 
-                        if (change.find(format + "[N][FilePath]", 0) != NOT_FOUND)
+                        if (change.find(format + "[N][FilePath]") != NOT_FOUND)
                         {
                             ErrorMessage(1056, format, filename, linecount, line);
                         }
                         
-                        if (change.find(format + "[B][FilePath]", 0) != NOT_FOUND)
+                        if (change.find(format + "[B][FilePath]") != NOT_FOUND)
                         {
                             ErrorMessage(1056, format, filename, linecount, line);
                         }
 
-                        if (change.find(format + "[L][FilePath]", 0) != NOT_FOUND)
+                        if (change.find(format + "[L][FilePath]") != NOT_FOUND)
                         {
                             change.replace(
                                 change.find(format + "[L][FilePath]"),
@@ -2075,16 +2075,16 @@ void processing2(string& line,
                             isChange = true;
                         }
 
-                        if (change.find(format + "[", 0) != NOT_FOUND)
+                        if (change.find(format + "[") != NOT_FOUND)
                         {
                             string number
-                                = nemesis::regex_replace(string(change.substr(change.find(format + "[", 0))),
+                                = nemesis::regex_replace(string(change.substr(change.find(format + "["))),
                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                       string("\\1"));
+                                                       string("$1"));
 
-                            if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND)
+                            if (change.find(format + "[" + number + "][FilePath]") != NOT_FOUND)
                             {
-                                if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                                if (static_cast<size_t>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                                 {
                                     change.replace(change.find(format + "[" + number + "][FilePath]"),
                                                    8 + format.length() + number.length(),
@@ -2103,7 +2103,7 @@ void processing2(string& line,
 
                     if (change.find("[FileName]") != NOT_FOUND)
                     {
-                        if (change.find(format + "[][FileName]", 0) != NOT_FOUND)
+                        if (change.find(format + "[][FileName]") != NOT_FOUND)
                         {
                             change.replace(change.find(format + "[][FileName]"),
                                            12 + format.length(),
@@ -2112,7 +2112,7 @@ void processing2(string& line,
                                                ->format["FileName"]);
                         }
 
-                        if (change.find(format + "[F][FileName]", 0) != NOT_FOUND)
+                        if (change.find(format + "[F][FileName]") != NOT_FOUND)
                         {
                             change.replace(
                                 change.find(format + "[F][FileName]"),
@@ -2121,17 +2121,17 @@ void processing2(string& line,
                             isChange = true;
                         }
 
-                        if (change.find(format + "[N][FileName]", 0) != NOT_FOUND)
+                        if (change.find(format + "[N][FileName]") != NOT_FOUND)
                         {
                             ErrorMessage(1056, format, filename, linecount, line);
                         }
                         
-                        if (change.find(format + "[B][FileName]", 0) != NOT_FOUND)
+                        if (change.find(format + "[B][FileName]") != NOT_FOUND)
                         {
                             ErrorMessage(1056, format, filename, linecount, line);
                         }
 
-                        if (change.find(format + "[L][FileName]", 0) != NOT_FOUND)
+                        if (change.find(format + "[L][FileName]") != NOT_FOUND)
                         {
                             change.replace(
                                 change.find(format + "[L][FileName]"),
@@ -2140,16 +2140,16 @@ void processing2(string& line,
                             isChange = true;
                         }
 
-                        if (change.find(format + "[", 0) != NOT_FOUND)
+                        if (change.find(format + "[") != NOT_FOUND)
                         {
                             string number
-                                = nemesis::regex_replace(string(change.substr(change.find(format + "[", 0))),
+                                = nemesis::regex_replace(string(change.substr(change.find(format + "["))),
                                                        nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                       string("\\1"));
+                                                       string("$1"));
 
-                            if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND)
+                            if (change.find(format + "[" + number + "][FileName]") != NOT_FOUND)
                             {
-                                if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                                if (static_cast<size_t>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                                 {
                                     change.replace(change.find(format + "[" + number + "][FileName]"),
                                                    8 + format.length() + number.length(),
@@ -2170,7 +2170,7 @@ void processing2(string& line,
 
                     if (change.find("main_anim_event") != NOT_FOUND)
                     {
-                        size_t pos = change.find("[" + format + "[][main_anim_event]]", 0);
+                        size_t pos = change.find("[" + format + "[][main_anim_event]]");
 
                         if (pos != NOT_FOUND
                             && (change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND
@@ -2185,7 +2185,7 @@ void processing2(string& line,
                         }
                         else
                         {
-                            pos = change.find(format + "[][main_anim_event]", 0);
+                            pos = change.find(format + "[][main_anim_event]");
 
                             if (pos != NOT_FOUND)
                             {
@@ -2198,7 +2198,7 @@ void processing2(string& line,
                             }
                         }
 
-                        pos = change.find("[" + format + "[F][main_anim_event]]", 0);
+                        pos = change.find("[" + format + "[F][main_anim_event]]");
 
                         if (pos != NOT_FOUND
                             && (change.find("eventID[" + format + "[F][main_anim_event]]") == NOT_FOUND
@@ -2213,7 +2213,7 @@ void processing2(string& line,
                         }
                         else
                         {
-                            pos = change.find(format + "[F][main_anim_event]", 0);
+                            pos = change.find(format + "[F][main_anim_event]");
 
                             if (pos != NOT_FOUND)
                             {
@@ -2226,17 +2226,17 @@ void processing2(string& line,
                             }
                         }
 
-                        if (change.find(format + "[N][main_anim_event]", 0) != NOT_FOUND)
+                        if (change.find(format + "[N][main_anim_event]") != NOT_FOUND)
                         {
                             ErrorMessage(1056, format, filename, linecount, line);
                         }
                         
-                        if (change.find(format + "[B][main_anim_event]", 0) != NOT_FOUND)
+                        if (change.find(format + "[B][main_anim_event]") != NOT_FOUND)
                         {
                             ErrorMessage(1056, format, filename, linecount, line);
                         }
 
-                        pos = change.find("[" + format + "[L][main_anim_event]]", 0);
+                        pos = change.find("[" + format + "[L][main_anim_event]]");
 
                         if (pos != NOT_FOUND
                             && (change.find("eventID[" + format + "[L][main_anim_event]]") == NOT_FOUND
@@ -2251,7 +2251,7 @@ void processing2(string& line,
                         }
                         else
                         {
-                            pos = change.find(format + "[L][main_anim_event]", 0);
+                            pos = change.find(format + "[L][main_anim_event]");
 
                             if (pos != NOT_FOUND)
                             {
@@ -2264,18 +2264,18 @@ void processing2(string& line,
                             }
                         }
 
-                        if (change.find(format + "[", 0) != NOT_FOUND)
+                        if (change.find(format + "[") != NOT_FOUND)
                         {
                             string number = nemesis::regex_replace(
                                 string(change),
                                 nemesis::regex(format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
-                                string("\\1"));
+                                string("$1"));
 
                             if (number != change)
                             {
-                                if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                                if (static_cast<size_t>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                                 {
-                                    pos = change.find("[" + format + "[" + number + "][main_anim_event]]", 0);
+                                    pos = change.find("[" + format + "[" + number + "][main_anim_event]]");
 
                                     if (pos != NOT_FOUND
                                         && (change.find("eventID[" + format + "[" + number
@@ -2294,7 +2294,7 @@ void processing2(string& line,
                                     }
                                     else
                                     {
-                                        pos = change.find(format + "[" + number + "][main_anim_event]", 0);
+                                        pos = change.find(format + "[" + number + "][main_anim_event]");
 
                                         if (pos != NOT_FOUND)
                                         {
@@ -2397,7 +2397,7 @@ void processing2(string& line,
                     string tempchange = change;
                     pos               = change.find("[");
 
-                    pos = change.find("{main_anim_event}", 0);
+                    pos = change.find("{main_anim_event}");
 
                     if (pos != NOT_FOUND)
                     {
@@ -2410,7 +2410,7 @@ void processing2(string& line,
                     }
                     else
                     {
-                        pos = change.find("main_anim_event", 0);
+                        pos = change.find("main_anim_event");
 
                         if (pos != NOT_FOUND)
                         {

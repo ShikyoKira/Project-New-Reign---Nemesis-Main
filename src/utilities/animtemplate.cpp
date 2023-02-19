@@ -1,53 +1,83 @@
 #include "Global.h"
 
+#include "hkx/hkxbehavior.h"
+
 #include "utilities/animtemplate.h"
 
 namespace sf = std::filesystem;
 
 
+const std::string nemesis::AnimTemplate::Parser::animation_dir("\\animations\\");
+
 void nemesis::AnimTemplate::Parser::ParseQuery(const nemesis::Line& query)
 {
-    std::smatch matches;
+    nemesis::smatch matches;
 
-    if (!std::regex_match(query.ToString(), matches, host.queryrgx)) return;
+    if (!regex_match(query.ToString(), matches, host.queryrgx)) return;
 
     std::string classname = matches.str(1);
 
-    if (classname != "+")
+    if (classname == "+")
     {
-        querylist->AddQuery(CreateQuery(query, classname, matches));
+        if (querylist->IsEmpty()) ErrorMessage(1065, filepath, query.GetLineNumber());
+
+        auto& last     = querylist->GetList().back();
+        auto animquery = CreateQuery(query, last->GetAnimClass().GetName(), matches);
+        animquery->AddBehaviorIndex(host.behaviorindex++);
+        last->AddQueryToGroup(*animquery);
+        return;
+    }
+    else if (classname == "MD")
+    {
+        auto translation = GetTranslation(matches);
+        querylist->AddMotionData(query.GetLineNumber(), translation);
+        return;
+    }
+    else if (classname == "RD")
+    {
+        auto translation = GetTranslation(matches);
+        querylist->AddRotationData(query.GetLineNumber(), translation);
         return;
     }
 
-    if (querylist->IsEmpty()) ErrorMessage(1065, filepath, query.GetLineNumber());
-
-    auto& last     = querylist->GetList().back();
-    auto animquery = CreateQuery(query, last->GetAnimClass()->GetName(), matches);
-    last->AddQueryToGroup(animquery);
+    auto queryptr = CreateQuery(query, classname, matches);
+    queryptr->AddSelfToArray();
+    queryptr->AddBehaviorIndex(host.behaviorindex++);
+    querylist->AddQuery(queryptr);
 }
 
 nemesis::AnimTemplate::AnimQueryPtr nemesis::AnimTemplate::Parser::CreateQuery(const nemesis::Line& query,
                                                                                const std::string& classname,
-                                                                               const std::smatch& matches)
+                                                                               const nemesis::smatch& matches)
 {
     auto animclass = host.GetClass(classname);
 
     if (animclass == nullptr) ErrorMessage(1016, filepath, query.GetLineNumber());
+
+    auto animpath = filepath.parent_path().string() + "\\" + matches.str(4);
+    animpath      = animpath.substr(nemesis::risearch(animpath, animation_dir) + animation_dir.length());
 
     // group 1 = template class
     // group 2 = options
     // group 3 = animation name
     // group 4 = animation filename
     // group 5 = animation objects
-    auto animquery = std::make_shared<nemesis::AnimQuery>(query, *querylist, animclass);
+    auto animquery = std::make_shared<nemesis::AnimQuery>(query, *querylist, *animclass);
     animquery->AddOptions(matches.str(2));
     animquery->AddAnimName(matches.str(3));
-    animquery->AddAnimFile(matches.str(4));
-    animquery->AddAnimObject(matches.str(5));
+    animquery->AddAnimPath(animpath);
+    animquery->AddAnimObjects(matches.str(5));
     return animquery;
 }
 
-nemesis::AnimTemplate::Parser::Parser(const AnimTemplate& host, const std::filesystem::path& filepath)
+std::string nemesis::AnimTemplate::Parser::GetTranslation(const nemesis::smatch& matches)
+{
+    auto fullmatch = matches.str(0);
+    return fullmatch.substr(matches.str(1).length() + 1);
+}
+
+nemesis::AnimTemplate::Parser::Parser(const nemesis::AnimTemplate& host,
+                                      const std::filesystem::path& filepath)
     : host(host)
 {
     this->filepath = filepath;
@@ -56,8 +86,8 @@ nemesis::AnimTemplate::Parser::Parser(const AnimTemplate& host, const std::files
 void nemesis::AnimTemplate::Parser::ParseLines()
 {
     VecNstr storeline;
-    GetFunctionLines(filepath, storeline);
-    querylist = std::make_shared<nemesis::AnimQueryList>(filepath);
+    GetFileLines(filepath, storeline);
+    querylist = std::make_shared<nemesis::AnimQueryFile>(filepath);
 
     for (auto& line : storeline)
     {
@@ -70,25 +100,32 @@ void nemesis::AnimTemplate::Parser::ParseLines()
     }
 }
 
-SPtr<nemesis::AnimQueryList> nemesis::AnimTemplate::Parser::GetResult() const noexcept
+SPtr<const nemesis::AnimQueryFile> nemesis::AnimTemplate::Parser::GetResult() const noexcept
 {
     return querylist;
 }
 
 void nemesis::AnimTemplate::TryAddTemplate(const sf::path& classdir)
 {
-    auto optionlist = nemesis::TemplateClass::CreateTemplate(classdir);
+    auto templateclass = nemesis::TemplateClass::CreateTemplate(classdir);
 
-    if (!optionlist) return;
+    if (!templateclass) return;
 
-    optionlist->AddBehaviorTemplate(classdir);
-    classlist.emplace_back(optionlist);
+    templateclass->AddBehaviorTemplate(classdir);
+    templateclass->SetAnimTemplate(this);
+    classlist.emplace_back(templateclass);
+}
+
+void nemesis::AnimTemplate::AddImportTemplate(const std::filesystem::path& filepath)
+{
+    auto ptr = nemesis::Template::CreateImport(filepath);
+    imports.emplace_back(ptr);
 }
 
 void nemesis::AnimTemplate::UpdateRegex()
 {
     const char* prefix = "^(";
-    const char* suffix = "\\+)\\s+(-.+?(?=\\s)|)\\s*([^,]+?)\\s+([^,]+?)(?:\\s+([^,]*?)|\\s*)$";
+    const char* suffix = "MD|RD|\\+)\\s+(-.+?(?=\\s)|)\\s*([^,]+?)\\s+([^,]+?)(?:\\s+([^,]*?)|\\s*)$";
     std::string classes;
 
     for (auto& tempclass : classlist)
@@ -96,65 +133,82 @@ void nemesis::AnimTemplate::UpdateRegex()
         classes.append(tempclass->GetName() + "|");
     }
 
-    queryrgx = std::regex(prefix + classes + suffix);
+    queryrgx = prefix + classes + suffix;
 }
 
-SPtr<const nemesis::TemplateClass> nemesis::AnimTemplate::GetClass(std::string name) const
+nemesis::AnimTemplate::AnimTemplate(const sf::path& templatedir)
+{
+    try
+    {
+        VecWstr contents;
+        read_directory(templatedir, contents);
+
+        for (auto& each : contents)
+        {
+            sf::path fullpath = templatedir.wstring() + L"\\" + each;
+
+            if (sf::is_directory(fullpath))
+            {
+                TryAddTemplate(fullpath);
+            }
+            else if (nemesis::iequals(fullpath.extension().wstring(), L".txt"))
+            {
+                AddImportTemplate(fullpath);
+            }
+        }
+
+        UpdateRegex();
+    }
+    catch (const nemesis::exception&)
+    {
+    }
+    catch (const std::exception& ex)
+    {
+        ErrorMessage(6002, "None", ex.what());
+    }
+}
+
+const nemesis::TemplateClass* nemesis::AnimTemplate::GetClass(const std::string& name) const
 {
     for (auto& each : classlist)
     {
-        if (each->GetName() == name) return each;
+        if (nemesis::iequals(each->GetName(), name)) return each.get();
     }
 
     return nullptr;
 }
 
-nemesis::AnimTemplate::AnimTemplate(const sf::path& templatedir)
+void nemesis::AnimTemplate::LinkToBehaviorList(const VecSPtr<nemesis::HkxBehavior>& behaviorlist)
 {
-    VecWstr contents;
-    read_directory(templatedir, contents);
-
-    for (auto& each : contents)
+    for (auto& each : classlist)
     {
-        sf::path fullpath = templatedir.wstring() + L"\\" + each;
-
-        if (sf::is_directory(fullpath))
-        {
-            TryAddTemplate(fullpath);
-        }
-        else if (fullpath.extension().wstring() == L".txt")
-        {
-            imports.emplace_back(std::make_shared<Template>());
-            imports.back()->ReadFile(fullpath);
-        }
+        each->LinkToBehaviorList(behaviorlist);
     }
-
-    UpdateRegex();
 }
 
-SPtr<nemesis::AnimQueryList> nemesis::AnimTemplate::ReadListFile(const sf::path& listfile) const
+SPtr<const nemesis::AnimQueryFile> nemesis::AnimTemplate::ReadListFile(const sf::path& path) const
 {
-    Parser parser(*this, listfile);
+    Parser parser(*this, path);
     parser.ParseLines();
     return parser.GetResult();
 }
 
-const SPtr<nemesis::Template>& nemesis::AnimTemplate::GetImport(const std::string importname) const
+SPtr<const nemesis::Template> nemesis::AnimTemplate::GetImport(const std::string importname) const
 {
     std::wstring wimport = nemesis::transform_to(importname);
 
     for (auto& imp : imports)
     {
-        if (imp->GetBehaviorFileW() == wimport) return imp;
+        if (nemesis::iequals(imp->GetFilePath().stem().wstring(), wimport)) return imp;
     }
 
     return nullptr;
 }
 
-VecSPtr<nemesis::Template>
+VecSPtr<const nemesis::Template>
 nemesis::AnimTemplate::GetBehaviorTemplateList(const std::wstring behaviorname) const
 {
-    VecSPtr<nemesis::Template> templatelist;
+    VecSPtr<const nemesis::Template> templatelist;
 
     for (auto& eachclass : classlist)
     {

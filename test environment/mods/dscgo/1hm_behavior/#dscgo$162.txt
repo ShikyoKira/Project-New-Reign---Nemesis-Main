@@ -1,0 +1,3 @@
+		<hkobject name="#dscgo$162" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">iIsInSneak == 0</hkparam>
+		</hkobject>

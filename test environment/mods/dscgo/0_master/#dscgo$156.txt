@@ -1,0 +1,16 @@
+		<hkobject name="#dscgo$156" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="2">
+				<hkobject>
+					<hkparam name="expression">fPowerAttackLocomotionBlend = fPowerAttackLocomotionBlend + 10*TimeDelta*(clamp(8*fabs(fPowerAttackDirection - Direction) + 0.01*fabs(315 - Speed) - 0.1, 0, 1) - fPowerAttackLocomotionBlend)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">bPowerAttackShouldCalcLocoBlend = (fPowerAttackLocomotionBlend != 1)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

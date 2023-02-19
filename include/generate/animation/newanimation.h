@@ -311,7 +311,7 @@ void addOnReplacer(std::string& line,
                    ImportContainer addition,
                    std::unordered_map<std::string, std::unordered_map<std::string, VecStr>> groupAddition,
                    UMapStr2 mixOpt,
-                   uint count,
+                   size_t count,
                    std::string format,
                    int numline);
 void animObjectReplacer(std::string& line,

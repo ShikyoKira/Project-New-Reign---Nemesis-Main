@@ -97,14 +97,15 @@ AnimationDataProject::AnimationDataProject(int& startline,
                     pathCRC32Point = &pathCRC32;
                 }
 
-                for (uint i = 0; i < pathCRC32Point->size(); ++i)
+                for (size_t i = 0; i < pathCRC32Point->size(); ++i)
                 {
                     AAList[pathCRC32Point->at(i) + "," + animCRC32 + ",7891816"]
                         = make_shared<VecStr>(anim.second);
                 }
             }
 
-            if (isFileExist(nemesisInfo->GetDataPath() + nemesis::transform_to<wstring>(projectPath) + L"\\nemesis_pcea\\pcea_animations")
+            if (isFileExist(nemesisInfo->GetDataPath().wstring() + nemesis::transform_to<wstring>(projectPath)
+                            + L"\\nemesis_pcea\\pcea_animations")
                 && pcealist.size() > 0)
             {
                 // cache all pcea animations
@@ -116,7 +117,7 @@ AnimationDataProject::AnimationDataProject(int& startline,
                             = to_string(CRC32Convert(nemesis::to_lower_copy(GetFileName(animPath.first))));
                         string pathline = animPath.second.substr(wordFind(animPath.second, "Nemesis_PCEA"));
 
-                        for (uint i = 0; i < pathCRC32.size(); ++i)
+                        for (size_t i = 0; i < pathCRC32.size(); ++i)
                         {
                             string crc32line = pathCRC32[i] + "," + animCRC32 + ",7891816";
 
@@ -585,7 +586,7 @@ ASDPosition(VecStr animData, string project, string header, string modcode, int 
 
     bool mod = false;
 
-    for (uint i = 0; i < animData.size(); ++i)
+    for (size_t i = 0; i < animData.size(); ++i)
     {
         if (animData[i].find("<!-- ") != NOT_FOUND)
         {
@@ -1814,7 +1815,7 @@ void combineExtraction(VecStr& storeline, map<int, VecStr> extract, string proje
     bool newOpen  = false;
     int condition = 0;
 
-    for (uint i = 0; i < storeline.size(); ++i)
+    for (size_t i = 0; i < storeline.size(); ++i)
     {
         string line = storeline[i];
 
@@ -1844,7 +1845,7 @@ void combineExtraction(VecStr& storeline, map<int, VecStr> extract, string proje
         {
             if (condition == 0 && !newOpen) ErrorMessage(5013, project, header);
 
-            for (uint k = 0; k < extract[i].size(); ++k)
+            for (size_t k = 0; k < extract[i].size(); ++k)
             {
                 newline.push_back(extract[i][k]);
             }

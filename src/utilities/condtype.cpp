@@ -8,9 +8,9 @@
 using namespace std;
 namespace ns = nemesis::syntax;
 
-nemesis::CondType nemesis::ParseConditionType(std::string_view line)
+namespace nemesis
 {
-    const unordered_map<string, nemesis::CondType> typeMap = {
+    const UMap<string, nemesis::CondType> conditionTypeMap = {
         {ns::If(), nemesis::CondType::IF},
         {ns::ElseIf(), nemesis::CondType::ELSEIF},
         {ns::Else(), nemesis::CondType::ELSE},
@@ -22,8 +22,11 @@ nemesis::CondType nemesis::ParseConditionType(std::string_view line)
         {ns::Close(), nemesis::CondType::CLOSE},
         {ns::Aster(), nemesis::CondType::ASTERISK},
     };
+}
 
-    for (auto& type : typeMap)
+nemesis::CondType nemesis::ParseConditionType(std::string_view line)
+{
+    for (auto& type : nemesis::conditionTypeMap)
     {
         if (line.find(type.first) != NOT_FOUND) return type.second;
     }

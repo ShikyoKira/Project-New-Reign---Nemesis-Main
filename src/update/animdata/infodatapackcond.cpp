@@ -7,19 +7,20 @@
 using namespace std;
 namespace ns = nemesis::syntax;
 
-InfoDataPack_Condt::InfoDataPack_Condt(const VecStr& storeline, size_t linenum)
+InfoDataPack_Condt::InfoDataPack_Condt(const VecNstr& storeline)
 {
     short type = 0;
+    size_t linecounter = 0;
 
-    for (unsigned int i = 0; i < storeline.size(); ++i)
+    for (auto& line : storeline)
     {
-        const string& line = storeline[i];
+        linecounter += 1;
 
         switch (type)
         {
             case 0:
             {
-                uniquecode = line;
+                uniquecode = line.ToString();
                 ++type;
                 break;
             }
@@ -32,9 +33,9 @@ InfoDataPack_Condt::InfoDataPack_Condt(const VecStr& storeline, size_t linenum)
             case 2:
             {
                 // motion data counter
-                if (i + 1 < storeline.size())
+                if (linecounter < storeline.size())
                 {
-                    const string& nextline = storeline[i + 1];
+                    const string& nextline = storeline[linecounter];
 
                     if (count(nextline.begin(), nextline.end(), ' ') == 0 && isOnlyNumber(nextline)) ++type;
                 }
@@ -44,20 +45,20 @@ InfoDataPack_Condt::InfoDataPack_Condt(const VecStr& storeline, size_t linenum)
             }
             case 3:
             {
-                if (i + 1 < storeline.size())
+                if (linecounter < storeline.size())
                 {
-                    const string& nextline = storeline[i + 1];
+                    const string& nextline = storeline[linecounter];
 
                     if (count(nextline.begin(), nextline.end(), ' ') == 0 && isOnlyNumber(nextline)) ++type;
                 }
 
-                motiondata.push_back(line);
+                motiondata.emplace_back(line);
                 break;
             }
             case 4:
             {
                 // rotation data counter
-                if (i + 1 < storeline.size() && storeline[i + 1].length() == 0) ++type;
+                if (linecounter < storeline.size() && storeline[linecounter].empty()) ++type;
 
                 ++type;
 
@@ -65,9 +66,9 @@ InfoDataPack_Condt::InfoDataPack_Condt(const VecStr& storeline, size_t linenum)
             }
             case 5:
             {
-                if (i + 1 < storeline.size() && storeline[i + 1].length() == 0) ++type;
+                if (linecounter < storeline.size() && storeline[linecounter].empty()) ++type;
 
-                rotationdata.push_back(line);
+                rotationdata.emplace_back(line);
                 break;
             }
             default:

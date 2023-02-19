@@ -7,63 +7,64 @@
 using namespace std;
 namespace ns = nemesis::syntax;
 
-AnimDataPack_Condt::AnimDataPack_Condt(const VecStr& storeline, size_t linenum)
+AnimDataPack_Condt::AnimDataPack_Condt(const VecNstr& storeline)
 {
     short type = 0;
+    size_t linecounter = 0;
 
-    for (unsigned int i = 0; i < storeline.size(); ++i)
+    for (auto& line : storeline)
     {
-        const string& line = storeline[i];
+        linecounter += 1;
 
         switch (type)
         {
             case 0:
             {
-                name = line;
+                name = line.ToString();
                 ++type;
                 break;
             }
             case 1:
             {
-                uniquecode           = line;
-                uniquecode.linecount = linenum + i;
+                uniquecode           = line.ToString();
+                uniquecode.linecount = line.GetLineNumber();
                 ++type;
                 break;
             }
             case 2:
             {
-                unknown1           = line;
-                unknown1.linecount = linenum + i;
+                unknown1           = line.ToString();
+                unknown1.linecount = line.GetLineNumber();
                 ++type;
                 break;
             }
             case 3:
             {
-                unknown2           = line;
-                unknown2.linecount = linenum + i;
+                unknown2           = line.ToString();
+                unknown2.linecount = line.GetLineNumber();
                 ++type;
                 break;
             }
             case 4:
             {
-                unknown3           = line;
-                unknown3.linecount = linenum + i;
+                unknown3           = line.ToString();
+                unknown3.linecount = line.GetLineNumber();
                 ++type;
                 break;
             }
             case 5:
             {
                 // event count
-                if (i + 1 < storeline.size() && storeline[i + 1].length() == 0) ++type;
+                if (linecounter < storeline.size() && storeline[linecounter].empty()) ++type;
 
                 ++type;
                 break;
             }
             case 6:
             {
-                if (i + 1 < storeline.size() && storeline[i + 1].length() == 0) ++type;
+                if (linecounter < storeline.size() && storeline[linecounter].empty()) ++type;
 
-                eventname.push_back(nemesis::LinkedVar(line, linenum + i));
+                eventname.emplace_back(nemesis::LinkedVar(line.ToString(), line.GetLineNumber()));
             }
             default:
             {
@@ -76,7 +77,7 @@ AnimDataPack_Condt::AnimDataPack_Condt(const VecStr& storeline, size_t linenum)
 void AnimDataPack_Condt::getlines(VecStr& storeline)
 {
     // anim data name
-    storeline.push_back(name);
+    storeline.emplace_back(name);
 
     // unique code
     getLinkedLines(uniquecode, storeline);
@@ -87,7 +88,7 @@ void AnimDataPack_Condt::getlines(VecStr& storeline)
     getLinkedLines(unknown3, storeline);
 
     // event name count
-    storeline.push_back(to_string(eventname.size()));
+    storeline.emplace_back(to_string(eventname.size()));
 
     // event name list
     for (auto& each : eventname)
@@ -95,7 +96,7 @@ void AnimDataPack_Condt::getlines(VecStr& storeline)
         getLinkedLines(each, storeline);
     }
 
-    storeline.push_back("");
+    storeline.emplace_back("");
 }
 
 void getLinkedLines(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata, VecStr& storeline)
@@ -148,7 +149,7 @@ void getLinkedLines(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata
         }
     }
 
-    if (tempstore.size() > 0)
+    if (!tempstore.empty())
     {
         storeline.insert(storeline.end(), tempstore.begin(), tempstore.end());
 

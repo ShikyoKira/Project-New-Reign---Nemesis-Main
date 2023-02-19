@@ -40,6 +40,15 @@ namespace nemesis
     bool iequals(const std::string& l, const std::string& r);
     bool iequals(const std::wstring& l, const std::wstring& r);
 
+    size_t isearch(const std::string& data, const std::string& key, size_t off = 0U);
+    size_t isearch(const std::wstring& data, const std::wstring& key, size_t off = 0U);
+    
+    size_t risearch(const std::string& data, const std::string& key, size_t off = std::string::npos);
+    size_t risearch(const std::wstring& data, const std::wstring& key, size_t off = std::wstring::npos);
+
+    std::string_view between(const std::string& line, std::string_view prefix, std::string_view suffix);
+    std::wstring_view between(const std::wstring& line, std::wstring_view prefix, std::wstring_view suffix);
+
     std::string transform_to(const std::wstring& str) noexcept;
     std::wstring transform_to(const std::string& str) noexcept;
 

@@ -137,9 +137,9 @@ void BehaviorSub::BehaviorCompilation()
     }
 }
 
-void BehaviorSub::modPick(unordered_map<string, vector<pair<uint, shared_ptr<string>>>>& modEditStore,
-                          vector<pair<uint, string>>& catalyst,
-                          vector<pair<uint, string>>& modLine,
+void BehaviorSub::modPick(unordered_map<string, vector<pair<size_t, shared_ptr<string>>>>& modEditStore,
+                          vector<pair<size_t, string>>& catalyst,
+                          vector<pair<size_t, string>>& modLine,
                           bool& hasDeleted)
 {
     if (!modPickProcess(modEditStore, catalyst, modLine, hasDeleted))
@@ -155,9 +155,9 @@ void BehaviorSub::modPick(unordered_map<string, vector<pair<uint, shared_ptr<str
     hasDeleted = false;
 }
 
-bool BehaviorSub::modPickProcess(unordered_map<string, vector<pair<uint, shared_ptr<string>>>>& modEditStore,
-                                 vector<pair<uint, string>>& catalyst,
-                                 vector<pair<uint, string>>& modLine,
+bool BehaviorSub::modPickProcess(unordered_map<string, vector<pair<size_t, shared_ptr<string>>>>& modEditStore,
+                                 vector<pair<size_t, string>>& catalyst,
+                                 vector<pair<size_t, string>>& modLine,
                                  bool& hasDeleted)
 {
     if (modEditStore.size() > 0) return false;
@@ -166,67 +166,66 @@ bool BehaviorSub::modPickProcess(unordered_map<string, vector<pair<uint, shared_
 
     if (hasDeleted || orig.size() <= 2) return false;
 
-    string templine = nemesis::regex_replace(*orig[0].second, nemesis::regex("^([\t]+).*$"), string("\\1"));
+    string templine = nemesis::regex_replace(*orig[0].second, nemesis::regex("^([\t]+).*$"), string("$1"));
     int counter     = count(templine.begin(), templine.end(), '\t');
 
     string lastline
-        = nemesis::regex_replace(*orig.back().second, nemesis::regex("^([\t]+).*$"), string("\\1"));
+        = nemesis::regex_replace(*orig.back().second, nemesis::regex("^([\t]+).*$"), string("$1"));
     int counter2    = count(lastline.begin(), lastline.end(), '\t');
 
     if (counter != counter2) return false;
 
     vector<size_t> elePoint;
 
-    for (unsigned int i = 0; i < orig.size(); ++i)
+    for (size_t i = 0; i < orig.size(); ++i)
     {
         string templine
-            = nemesis::regex_replace(*orig[i].second, nemesis::regex("^([\t]+).*$"), string("\\1"));
+            = nemesis::regex_replace(*orig[i].second, nemesis::regex("^([\t]+).*$"), string("$1"));
 
-        if (*orig[i].second != templine)
-        {
-            counter2 = count(templine.begin(), templine.end(), '\t');
+        if (*orig[i].second == templine) continue;
 
-            if (counter == counter2) elePoint.push_back(i);
-        }
+        counter2 = count(templine.begin(), templine.end(), '\t');
+
+        if (counter != counter2) continue;
+
+        elePoint.push_back(i);
     }
 
     elePoint.emplace_back(orig.size());
-    vector<pair<uint, string>> storeline;
+    vector<pair<size_t, string>> storeline;
     storeline.reserve(modEditStore["current"].size());
 
-    for (unsigned int i = 0; i < elePoint.back() - 1; ++i)
+    for (size_t i = 0; i < elePoint.back() - 1; ++i)
     {
         bool done      = false;
-        unsigned int e = elePoint[i];
+        size_t e = elePoint[i];
 
         for (const string& mod : process->behaviorPriority)
         {
-            if (modEditStore[mod][e].second != nullptr)
-            {
-                do
-                {
-                    auto& ref = modEditStore[mod][e];
-                    storeline.emplace_back(make_pair(ref.first, *ref.second));
-                } while (++e < elePoint[i + 1]);
+            if (modEditStore[mod][e].second == nullptr) continue;
 
-                done = true;
-                break;
-            }
-        }
-
-        if (!done)
-        {
             do
             {
-                auto& ref = modEditStore["current"][e];
+                auto& ref = modEditStore[mod][e];
                 storeline.emplace_back(make_pair(ref.first, *ref.second));
             } while (++e < elePoint[i + 1]);
+
+            done = true;
+            break;
         }
+
+        if (done) continue;
+
+        do
+        {
+            auto& ref = modEditStore["current"][e];
+            storeline.emplace_back(make_pair(ref.first, *ref.second));
+        } while (++e < elePoint[i + 1]);
     }
 
     int g = 0;
 
-    for (unsigned int i = 0; i < storeline.size(); ++i)
+    for (size_t i = 0; i < storeline.size(); ++i)
     {
         if (storeline[i].second != *modEditStore["current"][i].second)
         {
@@ -321,18 +320,13 @@ void BehaviorSub::CompilingBehavior()
 
     if (modID.length() > 0 && isFileExist(outputdir.wstring() + L".hkx"))
     {
-        int i = 0;
-
-        while (i < 9)
+        for (size_t i = 0; i < 9; i++)
         {
             process->newMilestone();
-            ++i;
         }
 
         return;
     }
-
-    double duration;
 
     {
         bool hasAA   = !alternateAnim.empty();
@@ -365,8 +359,8 @@ void BehaviorSub::CompilingBehavior()
         set<string> AAEventName;
 
         // read behavior file
-        vector<pair<uint, string>> catalyst;
-        vector<pair<uint, string>> modLine;
+        vector<pair<size_t, string>> catalyst;
+        vector<pair<size_t, string>> modLine;
         VecStr origLines;
 
         if (sf::is_directory(filepath)) ErrorMessage(3001, filepath);
@@ -376,13 +370,13 @@ void BehaviorSub::CompilingBehavior()
         modLine.reserve(size);
         FileReader BehaviorFormat(filepath);
 
-        if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filepath);
+        if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filepath, BehaviorFormat.ErrorMessage());
 
         bool hasDeleted = false;
-        uint numline    = 0;
+        size_t numline    = 0;
 
         string line;
-        unordered_map<string, vector<pair<uint, shared_ptr<string>>>> modEditStore;
+        unordered_map<string, vector<pair<size_t, shared_ptr<string>>>> modEditStore;
 
         auto storingLine = [&]()
         {
@@ -396,7 +390,7 @@ void BehaviorSub::CompilingBehavior()
                 if (!hasDeleted
                     && line
                            == nemesis::regex_replace(
-                               line, nemesis::regex("^[\t]+<!-- \\*([\\w]+)\\* -->"), string("\\1")))
+                               line, nemesis::regex("^[\t]+<!-- \\*([\\w]+)\\* -->"), string("$1")))
                     hasDeleted = true;
             }
             else if (line.find("\t<!-- original -->", 0) != NOT_FOUND)
@@ -427,7 +421,7 @@ void BehaviorSub::CompilingBehavior()
                         string(line),
                         nemesis::regex(".*<hkobject name=\"#([0-9]+)\" class=\"[a-zA-Z]+\" "
                                        "signature=\".*\">.*"),
-                        string("\\1"));
+                        string("$1"));
 
                     if (ID != line)
                     {
@@ -699,7 +693,7 @@ void BehaviorSub::CompilingBehavior()
 
                 for (string& AA_animName : aaEvent->second)
                 {
-                    for (unsigned int k = 0; k < AAEvent[AA_animName].size(); ++k)
+                    for (size_t k = 0; k < AAEvent[AA_animName].size(); ++k)
                     {
                         if (k % 2 == 0) AAEventName.insert(AAEvent[AA_animName][k]);
                     }
@@ -717,7 +711,7 @@ void BehaviorSub::CompilingBehavior()
 
             if (pos == NOT_FOUND)
             {
-                for (unsigned int l = 0; l < catalyst.size(); ++l)
+                for (size_t l = 0; l < catalyst.size(); ++l)
                 {
                     if (l > 50) break;
 
@@ -728,7 +722,7 @@ void BehaviorSub::CompilingBehavior()
                     if (pos != NOT_FOUND)
                     {
                         firstID = stoi(nemesis::regex_replace(
-                            string(vline.substr(pos)), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                            string(vline.substr(pos)), nemesis::regex("[^0-9]*([0-9]+).*"), "$1"));
                         break;
                     }
                 }
@@ -737,9 +731,8 @@ void BehaviorSub::CompilingBehavior()
             }
             else
             {
-                firstID = stoi(nemesis::regex_replace(string(catalyst[1].second.substr(pos)),
-                                                      nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                      string("\\1")));
+                firstID = stoi(nemesis::regex_replace(
+                    catalyst[1].second.substr(pos), nemesis::regex("[^0-9]*([0-9]+).*"), "$1"));
             }
         }
 
@@ -774,7 +767,7 @@ void BehaviorSub::CompilingBehavior()
         bool characterAA   = false;
 
         // add picked behavior and remove not picked behavior
-        for (uint l = 0; l < catalyst.size(); ++l)
+        for (size_t l = 0; l < catalyst.size(); ++l)
         {
             bool elementCatch = false;
             string line       = catalyst[l].second;
@@ -829,9 +822,8 @@ void BehaviorSub::CompilingBehavior()
                         for (size_t k = 0; k < reference; ++k)
                         {
                             nextpos      = line.find("#", nextpos) + 1;
-                            string numID = nemesis::regex_replace(string(line.substr(nextpos)),
-                                                                  nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                                  string("\\1"));
+                            string numID = nemesis::regex_replace(
+                                line.substr(nextpos), nemesis::regex("[^0-9]*([0-9]+).*"), "$1");
                             string ID    = line.substr(nextpos, line.find(numID) - nextpos + numID.length());
 
                             if (line.find(ID, 0) != NOT_FOUND && ID.find("$") != NOT_FOUND)
@@ -860,11 +852,11 @@ void BehaviorSub::CompilingBehavior()
                         StringSplit(line, generator);
                         line.append("%");
 
-                        for (unsigned int p = 0; p < generator.size(); p++)
+                        for (size_t p = 0; p < generator.size(); p++)
                         {
                             string ID    = generator[p];
-                            string numID = nemesis::regex_replace(
-                                string(ID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                            string numID
+                                = nemesis::regex_replace(ID, nemesis::regex("[^0-9]*([0-9]+).*"), "$1");
 
                             if (ID.find("$") != NOT_FOUND)
                             {
@@ -1380,7 +1372,7 @@ void BehaviorSub::CompilingBehavior()
                                  it != BehaviorTemplate->grouplist.end();
                                  ++it)
                             {
-                                for (unsigned int k = 0; k < behaviorJoints[it->first].size(); ++k)
+                                for (size_t k = 0; k < behaviorJoints[it->first].size(); ++k)
                                 {
                                     if (lowerBehaviorFile != behaviorJoints[it->first][k]) continue;
 
@@ -1388,7 +1380,7 @@ void BehaviorSub::CompilingBehavior()
                                     {
                                         if (BehaviorTemplate->optionlist[templatecode].core) continue;
 
-                                        for (unsigned int k = 0; k < newAnimation[templatecode].size(); ++k)
+                                        for (size_t k = 0; k < newAnimation[templatecode].size(); ++k)
                                         {
                                             if (!newAnimation[templatecode][k]->isKnown())
                                             {
@@ -1649,7 +1641,7 @@ void BehaviorSub::CompilingBehavior()
                         if (line.find("$eventID[", 0) != NOT_FOUND && line.find("]$", 0) != NOT_FOUND)
                         {
                             string change = nemesis::regex_replace(
-                                string(line), nemesis::regex(".*[$](eventID[[].*[]])[$].*"), string("\\1"));
+                                string(line), nemesis::regex(".*[$](eventID[[].*[]])[$].*"), string("$1"));
 
                             if (change != line)
                             {
@@ -1667,7 +1659,7 @@ void BehaviorSub::CompilingBehavior()
                             string change
                                 = nemesis::regex_replace(string(line),
                                                          nemesis::regex(".*[$](variableID[[].*[]])[$].*"),
-                                                         string("\\1"));
+                                                         string("$1"));
 
                             if (change != line)
                             {
@@ -1690,7 +1682,7 @@ void BehaviorSub::CompilingBehavior()
                         string change = nemesis::regex_replace(
                             string(line),
                             nemesis::regex(".*[$](stateID[[].*[]][[][0-9]+[]][[].*[]][[][0-9]+[]])[$].*"),
-                            string("\\1"));
+                            string("$1"));
 
                         if (change != line)
                         {
@@ -1707,7 +1699,7 @@ void BehaviorSub::CompilingBehavior()
                                     string(line),
                                     nemesis::regex(
                                         ".*[$]stateID[[](.*)[]][[]([0-9]+)[]][[].*[]][[][0-9]+[]][$].*"),
-                                    string("\\1"));
+                                    string("$1"));
                                 string base = nemesis::regex_replace(
                                     string(line),
                                     nemesis::regex(
@@ -1802,12 +1794,9 @@ void BehaviorSub::CompilingBehavior()
                     if (!sf::remove(outputdir)) WarningMessage(1005, outputdir);
                 }
 
-                int i = 0;
-
-                while (i < 8)
+                for (size_t i = 0; i < 8; i++)
                 {
                     process->newMilestone();
-                    ++i;
                 }
 
                 DebugLogging(L"Processing behavior: " + filepath + L" (Check point 3.4, No changes detected)");
@@ -1837,7 +1826,7 @@ void BehaviorSub::CompilingBehavior()
     {
         for (auto it = catcher.begin(); it != catcher.end(); ++it)
         {
-            for (unsigned int k = 0; k < it->second.size(); ++k)
+            for (size_t k = 0; k < it->second.size(); ++k)
             {
                 int tempID   = it->second[k].getID();
                 int tempLine = it->second[k].getLine();
@@ -1980,7 +1969,7 @@ void BehaviorSub::CompilingBehavior()
                         // individual animation
                         if (hasGroup)
                         {
-                            for (unsigned int k = 0; k < newAnimCount; ++k)
+                            for (size_t k = 0; k < newAnimCount; ++k)
                             {
                                 try
                                 {
@@ -2034,7 +2023,7 @@ void BehaviorSub::CompilingBehavior()
                                             subFunctionIDs->singlelist.reserve(memory);
                                             groupAnimInfo.push_back(newAnimCopy[k]->GetGroupAnimInfo());
 
-                                            for (unsigned int statenum = 0; statenum < stateID.size();
+                                            for (size_t statenum = 0; statenum < stateID.size();
                                                  ++statenum)
                                             {
                                                 stateID[statenum] = 0;
@@ -2042,7 +2031,7 @@ void BehaviorSub::CompilingBehavior()
                                         }
                                         else
                                         {
-                                            for (unsigned int statenum = 0; statenum < stateID.size();
+                                            for (size_t statenum = 0; statenum < stateID.size();
                                                  ++statenum)
                                             {
                                                 stateID[statenum] += stateMultiplier[statenum];
@@ -2064,7 +2053,7 @@ void BehaviorSub::CompilingBehavior()
                         }
                         else
                         {
-                            for (unsigned int k = 0; k < newAnimCount; ++k)
+                            for (size_t k = 0; k < newAnimCount; ++k)
                             {
                                 try
                                 {
@@ -2118,7 +2107,7 @@ void BehaviorSub::CompilingBehavior()
                                                 subFunctionIDs->singlelist.reserve(memory);
                                                 groupAnimInfo.push_back(newAnimCopy[k]->GetGroupAnimInfo());
 
-                                                for (unsigned int statenum = 0; statenum < stateID.size();
+                                                for (size_t statenum = 0; statenum < stateID.size();
                                                      ++statenum)
                                                 {
                                                     stateID[statenum] += stateMultiplier[statenum];
@@ -2129,7 +2118,7 @@ void BehaviorSub::CompilingBehavior()
                                         {
                                             groupAnimInfo.push_back(newAnimCopy[k]->GetGroupAnimInfo());
 
-                                            for (unsigned int statenum = 0; statenum < stateID.size();
+                                            for (size_t statenum = 0; statenum < stateID.size();
                                                  ++statenum)
                                             {
                                                 stateID[statenum] += stateMultiplier[statenum];
@@ -2160,7 +2149,7 @@ void BehaviorSub::CompilingBehavior()
                             vector<shared_ptr<AnimationInfo>> subGroupAnimInfo;
                             vector<vector<shared_ptr<AnimationInfo>>> newGroupAnimInfo;
 
-                            for (unsigned int l = 0; l < groupAnimInfo.size(); ++l)
+                            for (size_t l = 0; l < groupAnimInfo.size(); ++l)
                             {
                                 subGroupAnimInfo.push_back(groupAnimInfo[l][0]);
                             }
@@ -2170,7 +2159,7 @@ void BehaviorSub::CompilingBehavior()
                         }
 
                         // check error before initialization
-                        for (unsigned int curGroup = 0; curGroup < groupFunctionIDs->grouplist.size();
+                        for (size_t curGroup = 0; curGroup < groupFunctionIDs->grouplist.size();
                              ++curGroup)
                         {
                             if (groupFunctionIDs->grouplist[curGroup]->singlelist.size()
@@ -2220,7 +2209,7 @@ void BehaviorSub::CompilingBehavior()
                             // Execute group template from memory
                             nemesis::ThreadPool tp2;
 
-                            for (unsigned int k = 0; k < n_newAnimCount; ++k)
+                            for (size_t k = 0; k < n_newAnimCount; ++k)
                             {
                                 try
                                 {
@@ -2248,7 +2237,7 @@ void BehaviorSub::CompilingBehavior()
                                                                     groupFunctionIDs,
                                                                     groupAnimInfo);
 
-                                    for (unsigned int statenum = 0; statenum < stateID.size(); ++statenum)
+                                    for (size_t statenum = 0; statenum < stateID.size(); ++statenum)
                                     {
                                         stateID[statenum] += stateMultiplier[statenum];
                                     }
@@ -2493,7 +2482,7 @@ void BehaviorSub::CompilingBehavior()
 
                 if (lastID == 9216) ++lastID;
 
-                for (unsigned int i = 0; i < it->second.size(); ++i)
+                for (size_t i = 0; i < it->second.size(); ++i)
                 {
                     if (it->second[i] != "x")
                     {
@@ -2534,7 +2523,7 @@ void BehaviorSub::CompilingBehavior()
                         "		<hkobject name=\"#" + baseID
                         + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
 
-                    for (unsigned int i = 1; i < catalystMap[iter->first].size(); ++i)
+                    for (size_t i = 1; i < catalystMap[iter->first].size(); ++i)
                     {
                         string line = catalystMap[iter->first][i];
                         catalystMap[i_baseID].push_back(line);
@@ -2569,7 +2558,7 @@ void BehaviorSub::CompilingBehavior()
                 int num = 0;
                 AAlines.reserve(catalystMap[iter->first].size() * children.size());
 
-                for (unsigned int i = 0; i < children.size(); ++i)
+                for (size_t i = 0; i < children.size(); ++i)
                 {
                     AAlines.push_back("		<hkobject name=\"#" + children[i]
                                       + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">");
@@ -2616,7 +2605,7 @@ void BehaviorSub::CompilingBehavior()
                         AAlines.push_back(catalystMap[iter->first][5]);
                     }
 
-                    for (unsigned int j = 6; j < catalystMap[iter->first].size(); ++j)
+                    for (size_t j = 6; j < catalystMap[iter->first].size(); ++j)
                     {
                         AAlines.push_back(catalystMap[iter->first][j]);
                     }
@@ -2636,7 +2625,7 @@ void BehaviorSub::CompilingBehavior()
                     AAlines.push_back("			<hkparam name=\"triggers\" numelements=\""
                                       + to_string(itera->second.size() / 2) + "\">");
 
-                    for (unsigned int i = 0; i < itera->second.size(); ++i)
+                    for (size_t i = 0; i < itera->second.size(); ++i)
                     {
                         bool negative = false;
                         string time   = itera->second[i + 1];
@@ -2793,7 +2782,7 @@ void BehaviorSub::CompilingBehavior()
                 msglines.push_back("			<hkparam name=\"animationName\">" + data->animPath
                                    + "</hkparam>");
 
-                for (unsigned int j = 5; j < catalystMap[datalist.first].size(); ++j)
+                for (size_t j = 5; j < catalystMap[datalist.first].size(); ++j)
                 {
                     msglines.push_back(catalystMap[datalist.first][j]);
                 }
@@ -2843,9 +2832,10 @@ void BehaviorSub::CompilingBehavior()
     DebugLogging(L"Processing behavior: " + filepath + L" (Check point 5, Prepare to output)");
     process->newMilestone();
 
-    if (behaviorPath[nemesis::transform_to<wstring>(lowerBehaviorFile)].size() == 0) ErrorMessage(1068, behaviorFile);
+    if (behaviorPath[nemesis::transform_to(lowerBehaviorFile)].empty()) ErrorMessage(1068, behaviorFile);
 
-    wstring filename = getTempBhvrPath(nemesisInfo).wstring() + L"\\xml\\" + nemesis::transform_to<wstring>(modID + lowerBehaviorFile) + L".xml";
+    wstring filename = getTempBhvrPath().wstring() + L"\\xml\\"
+                       + nemesis::transform_to(modID + lowerBehaviorFile) + L".xml";
 
     redirToStageDir(outputdir, nemesisInfo);
 
@@ -2937,7 +2927,7 @@ void BehaviorSub::CompilingBehavior()
     output << "<!-- ======================== NEMESIS alternate animation TEMPLATE END "
               "======================== -->\n\n";
 
-    for (unsigned int j = 0; j < allEditLines.size(); ++j)
+    for (size_t j = 0; j < allEditLines.size(); ++j)
     {
         for (auto& eachline : (*allEditLines[j]))
         {

@@ -1,24 +1,282 @@
 #include "Global.h"
 
+#include "nemesisinfo.h"
+
 #include "hkx/hkxbehavior.h"
 
-#include "utilities/regex.h"
-#include "utilities/template.h"
-#include "utilities/readtextfile.h"
+#include "core/querymanager.h"
+#include "core/linkedpreprocessline.h"
+
+#include "update/patch.h"
+
+#include "utilities/atomic.h"
 #include "utilities/conditionscope.h"
 #include "utilities/conditionsyntax.h"
+#include "utilities/lineprocess.h"
+#include "utilities/readtextfile.h"
+#include "utilities/regex.h"
+#include "utilities/template.h"
+#include "utilities/stringextension.h"
+
+#include "template/processparser.h"
 
 using namespace std;
 namespace sf = filesystem;
 namespace ns = nemesis::syntax;
 
-const string_view nemesis::HkxBehavior::Parser::ignore    = "SERIALIZE_IGNORED";
-const string_view nemesis::HkxBehavior::Parser::signature = "signature=";
-const string_view nemesis::HkxBehavior::Parser::end       = "\t</hksection>";
+using HB = nemesis::HkxBehavior;
 
-const string nemesis::HkxBehavior::xmlstart  = "\t<hksection name=\"__data__\">\n";
-const string nemesis::HkxBehavior::xmlend    = "\t</hksection>\n\n</hkpackfile>\n";
-const wstring nemesis::HkxBehavior::xmlext   = L".xml";
+const nemesis::regex
+    nemesis::HkxBehavior::Parser::statergx_id("<hkobject name=\"(.+?)\" class=\"hkbStateMachineStateInfo\"");
+const nemesis::regex nemesis::HkxBehavior::Parser::statergx("<hkparam name=\"stateId\">([0-9]+)<\\/hkparam>");
+
+const nemesis::regex
+    nemesis::HkxBehavior::Parser::smachinergx_id("<hkobject name=\"(.+?)\" class=\"hkbStateMachine\"");
+const nemesis::regex nemesis::HkxBehavior::Parser::smachinergx_list("[\\s\\t]+(#[^\\s\\t]+?)(?=$|[\\s\\t])");
+
+const USet<string> nemesis::HkxBehavior::Exporter::dataclasses
+    = {"hkbBehaviorGraphStringData", "hkbVariableValueSet", "hkbBehaviorGraphData", "hkRootLevelContainer"};
+
+const nemesis::regex nemesis::HkxBehavior::Exporter::datastr_rgx("<hkcstring>(.+?)<\\/hkcstring>");
+
+const string nemesis::HkxBehavior::xmlstart = "\t<hksection name=\"__data__\">\n";
+const string nemesis::HkxBehavior::xmlend   = "\t</hksection>\n\n</hkpackfile>\n";
+const wstring nemesis::HkxBehavior::xmlext  = L".xml";
+const nemesis::regex nemesis::HkxBehavior::nodergx_id("<hkobject name=\"(.+?)\" class=\"(.+?)\"");
+
+nemesis::LinkedPreprocessLine* nemesis::HkxBehavior::Node::operator[](size_t index)
+{
+    return (begin() + index)->get();
+}
+
+size_t nemesis::HkxBehavior::Node::size() const
+{
+    size_t s = 0;
+    auto itr1 = begin();
+    auto itr2 = end();
+
+    while (itr1 != itr2)
+    {
+        s++;
+        itr1++;
+    }
+
+    return s;
+}
+
+Vec<SPtr<nemesis::LinkedPreprocessLine>>::iterator nemesis::HkxBehavior::Node::begin()
+{
+    if (!start) return Vec<SPtr<nemesis::LinkedPreprocessLine>>::iterator();
+
+    return std::find_if(list->begin(), list->end(), [&](const SPtr<nemesis::LinkedPreprocessLine>& line_ptr) {
+        return line_ptr.get() == start;
+    });
+}
+
+Vec<SPtr<nemesis::LinkedPreprocessLine>>::iterator nemesis::HkxBehavior::Node::end()
+{
+    if (!ending) return Vec<SPtr<nemesis::LinkedPreprocessLine>>::iterator();
+
+    auto itr
+        = std::find_if(list->begin(), list->end(), [&](const SPtr<nemesis::LinkedPreprocessLine>& line_ptr) {
+              return line_ptr.get() == ending;
+          });
+
+    if (itr == list->end()) return itr;
+
+    return ++itr;
+}
+
+Vec<SPtr<nemesis::LinkedPreprocessLine>>::const_iterator nemesis::HkxBehavior::Node::begin() const
+{
+    if (!start) return Vec<SPtr<nemesis::LinkedPreprocessLine>>::const_iterator();
+
+    return std::find_if(list->begin(), list->end(), [&](const SPtr<nemesis::LinkedPreprocessLine>& line_ptr) {
+        return line_ptr.get() == start;
+    });
+}
+
+Vec<SPtr<nemesis::LinkedPreprocessLine>>::const_iterator nemesis::HkxBehavior::Node::end() const
+{
+    if (!ending) return Vec<SPtr<nemesis::LinkedPreprocessLine>>::const_iterator();
+
+    auto itr
+        = std::find_if(list->begin(), list->end(), [&](const SPtr<nemesis::LinkedPreprocessLine>& line_ptr) {
+              return line_ptr.get() == ending;
+          });
+
+    if (itr == list->end()) return itr;
+
+    return ++itr;
+}
+
+Vec<SPtr<nemesis::LinkedPreprocessLine>>::iterator
+nemesis::HkxBehavior::Node::insert(Vec<SPtr<nemesis::LinkedPreprocessLine>>::const_iterator itr,
+                                   SPtr<nemesis::LinkedPreprocessLine> value)
+{
+    return list->insert(itr, value);
+}
+
+void nemesis::HkxBehavior::Node::push_back(SPtr<nemesis::LinkedPreprocessLine> lnkline_ptr)
+{
+    list->insert(end(), lnkline_ptr);
+}
+
+USet<const nemesis::TemplateClass*>& nemesis::HkxBehavior::Parser::GetTemplateClasses()
+{
+    if (!templateclasses.empty()) return templateclasses;
+
+    if (hostref.templatelist.empty()) return templateclasses;
+
+    for (auto& templt : hostref.templatelist)
+    {
+        templateclasses.insert(&templt->GetTemplateClass());
+    }
+
+    return templateclasses;
+}
+
+bool nemesis::HkxBehavior::Parser::TrySetNewNodeZone()
+{
+    if (!findnewnodezone) return false;
+
+    auto raw = stream.back()->back()->GetRawPtr();
+
+    if (!raw) return false;
+
+    std::string classname;
+
+    if (!Exporter::IsNewClass(*raw, classname)) return false;
+
+    if (Exporter::IsDataClass(classname)) return false;
+
+    findnewnodezone = false;
+    hostref.newnode_zone = stream.front()->back().get();
+    return true;
+}
+
+bool nemesis::HkxBehavior::Parser::TryGetNodeId(const std::string& line, std::string& nodeid)
+{
+    if (line.find(hkobj_prefix) == NOT_FOUND) return false;
+
+    nemesis::smatch sm;
+
+    if (!nemesis::regex_search(line, sm, nodergx_id)) return false;
+
+    nodeid = sm.str(1);
+    return true;
+}
+
+void nemesis::HkxBehavior::Parser::TrySaveTopNodeId(const std::string& nodeid)
+{
+    if (!topnode_active) return;
+
+    if (!isOnlyNumber(nodeid)) return;
+
+    size_t curid = std::stoi(nodeid);
+
+    if (curid < hostref.topnodeid.Read()) return;
+
+    hostref.topnodeid.Write().AsObject() = curid + 1;
+}
+
+void nemesis::HkxBehavior::Parser::TryCacheStateInfo(const std::string& line)
+{
+    if (!state_active) return;
+
+    (this->*cachestate)(line);
+}
+
+void nemesis::HkxBehavior::Parser::TryCacheStateNodeId(const std::string& line)
+{
+    if (line.find(statemachineinfo_str) == NOT_FOUND) return;
+
+    if (!nemesis::regex_search(line, statergx_id)) return;
+
+    cachestate                       = &nemesis::HkxBehavior::Parser::TryCacheStateId;
+    hostref.node_map[currentid].list = stream.back();
+}
+
+void nemesis::HkxBehavior::Parser::TryCacheStateId(const std::string& line)
+{
+    if (line.find(stateid_str) == NOT_FOUND) return;
+
+    nemesis::smatch sm;
+
+    if (!nemesis::regex_search(line, sm, statergx)) return;
+
+    hostref.stateids[currentid] = std::stoi(sm.str(1));
+    cachestate                  = &nemesis::HkxBehavior::Parser::TryCacheStateNodeId;
+}
+
+void nemesis::HkxBehavior::Parser::TryCacheStateMachineInfo(const std::string& line)
+{
+    if (!state_active) return;
+
+    (this->*cachestatemachine)(line);
+}
+
+void nemesis::HkxBehavior::Parser::TryCacheTemplateSMInfo(const std::string& line,
+                                                          const nemesis::ConditionInfo* conditioninfo)
+{
+    if (!state_active) return;
+
+    if (conditioninfo || cscope->Empty()) return;
+
+    switch (cscope->Back().GetType())
+    {
+        case nemesis::CondType::IF:
+        case nemesis::CondType::FOREACH:
+            break;
+        default:
+            return;
+    }
+
+    if (line.find("#") == NOT_FOUND) return;
+
+    const nemesis::regex_iterator end;
+
+    for (nemesis::regex_iterator itr(line, smachinergx_list); itr != end; ++itr)
+    {
+        hostref.statelinks[smachineid].emplace_back(itr->str(1));
+    }
+}
+
+void nemesis::HkxBehavior::Parser::TryCacheStateMachineNodeId(const std::string& line)
+{
+    if (line.find(statemachine_str) == NOT_FOUND) return;
+
+    nemesis::smatch sm;
+
+    if (!nemesis::regex_search(line, sm, smachinergx_id)) return;
+
+    smachineid        = sm.str(1);
+    cachestatemachine = &nemesis::HkxBehavior::Parser::TryCacheStateMachineNum;
+}
+
+void nemesis::HkxBehavior::Parser::TryCacheStateMachineNum(const std::string& line)
+{
+    if (line.find(smachine_num) == NOT_FOUND) return;
+
+    cachestatemachine = &nemesis::HkxBehavior::Parser::TryCacheStateMachineId;
+}
+
+void nemesis::HkxBehavior::Parser::TryCacheStateMachineId(const std::string& line)
+{
+    if (line.find(smachine_close) != NOT_FOUND)
+    {
+        cachestatemachine = &nemesis::HkxBehavior::Parser::TryCacheStateMachineNodeId;
+        return;
+    }
+
+    const nemesis::regex_iterator end;
+
+    for (nemesis::regex_iterator itr(line, smachinergx_list); itr != end; ++itr)
+    {
+        auto state = itr->str(1);
+        hostref.statemachines[smachineid].emplace_back(make_pair(state, &hostref.stateids[state]));
+    }
+}
 
 void nemesis::HkxBehavior::Parser::BonePatch(const sf::path& rigfile, int oribone)
 {
@@ -26,10 +284,9 @@ void nemesis::HkxBehavior::Parser::BonePatch(const sf::path& rigfile, int oribon
 
     if (hostref.sse)
     {
-        FILE* bonefile;
-        _wfopen_s(&bonefile, rigfile.wstring().c_str(), L"r+b");
+        FILE* bonefile = _wfsopen(rigfile.wstring().c_str(), L"r+b", 1);
 
-        if (!bonefile) ErrorMessage(3002, rigfile);
+        if (!bonefile) ErrorMessage(3002, rigfile, "Unable to access bone file");
 
         uint16_t num = 0;
         vector<char> chlist;
@@ -45,13 +302,7 @@ void nemesis::HkxBehavior::Parser::BonePatch(const sf::path& rigfile, int oribon
         }
 
         fclose(bonefile);
-        chlist.shrink_to_fit();
-        line.shrink_to_fit();
-
-        using uchar     = unsigned char;
-        bool startCount = false;
-        bool start      = true;
-        uint pos        = line.find("NPC Root [Root]");
+        size_t pos        = line.find("NPC Root [Root]");
 
         if (pos != NOT_FOUND && pos > 64)
         {
@@ -72,13 +323,12 @@ void nemesis::HkxBehavior::Parser::BonePatch(const sf::path& rigfile, int oribon
     {
         VecStr storeline;
         HkxCompiler::hkxcmdXmlInput(rigfile, storeline);
-        const string_view bonemap = R"(<hkparam name="parentIndices" numelements=")";
 
         for (auto& line : storeline)
         {
-            if (line.find(bonemap) == NOT_FOUND) continue;
+            if (line.find(parentindices) == NOT_FOUND) continue;
 
-            size_t pos = line.find(bonemap) + bonemap.length();
+            size_t pos = line.find(parentindices) + parentindices.length();
             int num    = stoi(line.substr(pos, line.find("\">", pos) - pos));
 
             if (oribone >= num) continue;
@@ -96,18 +346,16 @@ void nemesis::HkxBehavior::Parser::BonePatch(const sf::path& rigfile, int oribon
 
 bool nemesis::HkxBehavior::Parser::TryPatchBone(const nemesis::Line& line)
 {
-    const string_view rigname = R"(<hkparam name="rigName">)";
-    const string_view bonemap = R"(<hkparam name="bonePairMap" numelements=")";
+    size_t pos = line.find(bonemap);
 
-    if (line.find(bonemap) != NOT_FOUND)
+    if (pos != NOT_FOUND)
     {
-        size_t pos = line.find(bonemap) + bonemap.length();
-        oribone    = stoi(line.substr(pos, line.find("\">", pos) - pos));
+        pos += bonemap.length();
+        oribone = stoi(line.substr(pos, line.find("\">", pos) - pos));
 
         if (rigfile.empty()) return false;
 
-        sf::path curFile(filepath);
-        curFile          = curFile.parent_path().parent_path();
+        sf::path curFile(file.GetFilePath().parent_path().parent_path());
         wstring wrigfile = curFile.wstring() + L"\\" + nemesis::transform_to<wstring>(rigfile);
 
         if (!sf::exists(wrigfile)) return false;
@@ -115,15 +363,17 @@ bool nemesis::HkxBehavior::Parser::TryPatchBone(const nemesis::Line& line)
         BonePatch(wrigfile, oribone);
         return true;
     }
-    else if (line.find(rigname) != NOT_FOUND)
+
+    pos = line.find(rigname);
+
+    if (pos != NOT_FOUND)
     {
-        size_t pos = line.find(rigname) + rigname.length();
-        rigfile    = line.substr(pos, line.find("</hkparam>", pos) - pos).ToString();
+        pos += rigname.length();
+        rigfile = line.substr(pos, line.find("</hkparam>", pos) - pos).ToString();
 
         if (oribone == 0) return false;
 
-        sf::path curFile(filepath);
-        curFile          = curFile.parent_path().parent_path();
+        sf::path curFile(file.GetFilePath().parent_path().parent_path());
         wstring wrigfile = curFile.wstring() + L"\\" + nemesis::transform_to<wstring>(rigfile);
 
         if (sf::exists(wrigfile)) return false;
@@ -135,43 +385,226 @@ bool nemesis::HkxBehavior::Parser::TryPatchBone(const nemesis::Line& line)
     return false;
 }
 
-void nemesis::HkxBehavior::Parser::ReadBehaviorFile(VecNstr& storeline)
+void nemesis::HkxBehavior::Parser::UpdateHightStateId()
 {
-    GetFunctionLines(filepath, storeline, false);
-    stream.clear();
-    hostref.rootnode = storeline.size() < 1 ? "" : storeline[1];
-
-    while (!storeline.empty())
+    for (auto& pairlist : hostref.statemachines)
     {
-        if (storeline.front().find(signature) != NOT_FOUND) break;
+        for (auto& pair : pairlist.second)
+        {
+            hostref.AddStateId(pairlist.first, *pair.second);
+        }
+    }
 
-        if (error) throw nemesis::exception();
+    for (auto& statelink : hostref.statelinks)
+    {
+        if (hostref.statemachines.find(statelink.first) != hostref.statemachines.end()) continue;
 
-        storeline.erase(storeline.begin());
+        hostref.AddStateId(statelink.first, 0);
     }
 }
 
-void nemesis::HkxBehavior::Parser::ParseLine(const nemesis::Line& line)
+void nemesis::HkxBehavior::Parser::GetFileLines()
 {
-    if (error) throw nemesis::exception();
+    stream.clear();
+    int linestoremove = 1;
+    bool done         = false;
 
-    if (line.empty() || line.find(ignore) != NOT_FOUND) return;
+    filelines = file.GetLines(
+        [&](const std::string& line)
+        {
+            if (done) return line;
 
-    auto conditioninfo = cscope->TryGetConditionInfo(line);
+            if (line.find(hkobj_prefix) != NOT_FOUND)
+            {
+                done = true;
+                return line;
+            }
 
-    if (!HasConditionMet(line, conditioninfo)) return;
+            if (error) throw nemesis::exception();
 
-    AddLine(line, conditioninfo);
+            linestoremove++;
+            return line;
+        });
+
+    if (filelines.size() < 2)
+    {
+        hostref.rootnode = nemesis::Line("", file.GetFilePath());
+    }
+    else
+    {
+        hostref.rootnode = filelines.front();
+        hostref.rootnode.append("\n");
+        hostref.rootnode.append(filelines[1]);
+    }
+
+    if (linestoremove == 0) return;
+
+    filelines.erase(filelines.begin(), filelines.begin() + linestoremove);
+}
+
+std::string nemesis::HkxBehavior::Parser::GetRegexClassNames()
+{
+    std::string classnames;
+
+    for (auto& templt : hostref.templatelist)
+    {
+        classnames.append(templt->GetFileClassName());
+        classnames.append("|");
+    }
+
+    if (!classnames.empty())
+    {
+        classnames.pop_back();
+    }
+
+    return classnames;
+}
+
+void nemesis::HkxBehavior::Parser::PrepareAllRegexes()
+{
+    PrepareStateIdRegex();
+    PrepareNodeIdRegex();
+    PrepareAnimObjRegex();
+}
+
+void nemesis::HkxBehavior::Parser::PrepareStateIdRegex()
+{
+    std::stringstream ss;
+    ss << "\\$.*?((?:(";
+    ss << GetRegexClassNames();
+    ss << ")(?:_group\\[([0-9]*)\\]|)\\[(F|N|L|B|[0-9]*)\\]\\[S@(?=[0-9]+\\]\\$)|S@(?=[0-9]+\\$))([0-9]+)\\]?"
+          ").*?\\$";
+    stateid_rgx = std::make_unique<nemesis::regex>(ss.str());
+}
+
+void nemesis::HkxBehavior::Parser::PrepareNodeIdRegex()
+{
+    for (auto& templt : hostref.templatelist)
+    {
+        switch (templt->GetType())
+        {
+            case nemesis::File::FileType::SINGLE:
+                AddAnimNodeIdRegex(templt->GetTemplateClass().GetName().ToString());
+                break;
+            case nemesis::File::FileType::GROUP:
+                AddGroupNodeIdRegex(templt->GetTemplateClass().GetName().ToString());
+                break;
+            case nemesis::File::FileType::MASTER:
+                AddMasterNodeIdRegex(templt->GetTemplateClass().GetName().ToString());
+                break;
+        }
+    }
+}
+
+void nemesis::HkxBehavior::Parser::PrepareAnimObjRegex()
+{
+    std::stringstream ss;
+    ss << "\\$.*?((?:(";
+    ss << GetRegexClassNames();
+    ss << ")(?:_group\\[([0-9]*)\\]|)\\[(F|N|L|B|[0-9]*)\\]\\[(?=AnimObject/[0-9]+\\])|(?=AnimObject/[0-9]+[^"
+          "\\]]))AnimObject/[0-9]+\\]?).*?\\$";
+    animobj_rgx = std::make_unique<nemesis::regex>(ss.str());
+}
+
+void nemesis::HkxBehavior::Parser::PrepareAllLexers()
+{
+    for (auto& templtclass : GetTemplateClasses())
+    {
+        PrepareVariableLexer(templtclass);
+
+        std::string classname = templtclass->GetName().ToString();
+
+        PrepareLexer("main_anim_event", classname, [templtclass](nemesis::ScopeInfo& scopeinfo) {
+            return std::string(scopeinfo.GetAnim(templtclass)->GetAnimationName());
+        });
+        PrepareLexer("FilePath", classname, [templtclass](nemesis::ScopeInfo& scopeinfo) {
+            return scopeinfo.GetAnim(templtclass)->GetAnimPath().string();
+        });
+        PrepareLexer("Index", classname, [templtclass](nemesis::ScopeInfo& scopeinfo) {
+            return std::to_string(scopeinfo.GetAnim(templtclass)->GetBehaviorIndex());
+        });
+        PrepareLexer("GroupIndex", classname, [templtclass](nemesis::ScopeInfo& scopeinfo) {
+            return std::to_string(scopeinfo.GetAnim(templtclass)->GetIndex());
+        });
+        PrepareLexer("ArrayIndex", classname, [templtclass](nemesis::ScopeInfo& scopeinfo) {
+            return std::to_string(scopeinfo.GetAnim(templtclass)->GetArrayIndex());
+        });
+    }
+}
+
+void nemesis::HkxBehavior::Parser::PrepareLexer(const std::string& keyword,
+                                                const std::string& classname,
+                                                RtnFunc callback)
+{
+    auto uptr = std::make_unique<LexerSearch>(keyword);
+    uptr->AddLexer(classname, callback);
+    lexersearch_list.emplace_back(std::move(uptr));
+}
+
+void nemesis::HkxBehavior::Parser::PrepareVariableLexer(const nemesis::TemplateClass* templtclass)
+{
+    for (auto& option : templtclass->GetOptionModels().GetOptionList())
+    {
+        auto optname = option->GetName();
+
+        for (auto& varptr : option->GetVariablesList())
+        {
+            auto varname = varptr->GetName();
+            nemesis::AnimVarPtr::Lexer lexer(
+                std::string(templtclass->GetName()), std::string(optname), std::string(varname));
+            varlexer_list.emplace_back(std::make_pair(varname, lexer));
+        }
+    }
+}
+
+void nemesis::HkxBehavior::Parser::TryUpdateNode()
+{
+    if (currentid.empty()) return;
+
+    if (currentid == currentid_late) return;
+
+    TryEndNode();
+    AddStartNode();
+}
+
+void nemesis::HkxBehavior::Parser::AddStartNode()
+{
+    currentid_late  = currentid;
+    node_ptr        = &hostref.node_map[currentid_late];
+    node_ptr->list  = stream.back();
+    node_ptr->start = stream.back()->back().get();
+}
+
+void nemesis::HkxBehavior::Parser::TryEndNode()
+{
+    if (!node_ptr) return;
+
+    auto line_ptr    = node_ptr->list != stream.back() ? node_ptr->list->back().get()
+                                                       : stream.back()->at(stream.back()->size() - 2).get();
+    node_ptr->ending = line_ptr;
+}
+
+void nemesis::HkxBehavior::Parser::ParseProcesses(const nemesis::Line& line)
+{
+    if (!process_active) return;
+
+    processparser = std::make_unique<nemesis::ProcessParser>(*this);
+    processparser->SetLine(line);
+    processparser->Parse();
 }
 
 void nemesis::HkxBehavior::Parser::ParseLines(const VecNstr& storeline)
 {
-    int i = 0;
+    size_t i = 0;
+    stream.clear();
+    stream.emplace_back(&hostref.lines);
 
     if (hostref.ischaracter)
     {
         for (i; i < storeline.size(); ++i)
         {
+            if (error) throw nemesis::exception();
+
             auto& line = storeline[i];
 
             if (line.find(end) != NOT_FOUND) return;
@@ -192,189 +625,540 @@ void nemesis::HkxBehavior::Parser::ParseLines(const VecNstr& storeline)
     }
 }
 
-void nemesis::HkxBehavior::Parser::AddNewNode(const nemesis::Line& line)
+void nemesis::HkxBehavior::Parser::ReadFile(const std::filesystem::path& filepath)
 {
-    nemesis::Line id(string(HkxNode::GetID(line.ToString())), line.GetLineNumber());
-    stream.emplace_back(HkxNode(id, hostref));
-    stream.back().raw->InitializeStream();
+    Base::ReadFile(filepath);
+    GetFileLines();
 }
 
-void nemesis::HkxBehavior::Parser::AddLine(const nemesis::Line& line,
-                                           const SPtr<nemesis::ConditionInfo>& conditioninfo)
+void nemesis::HkxBehavior::Parser::TryCacheData(const nemesis::Line& line,
+                                                const nemesis::ConditionInfo* conditioninfo)
 {
-    if (line.find(signature) != NOT_FOUND)
+    ParseProcesses(line);
+
+    if (stream.size() > 1)
     {
-        AddNewNode(line);
+        TryCacheTemplateSMInfo(line, conditioninfo);
+        return;
     }
 
-    stream.back().raw->AddLine(line, conditioninfo);
+    TryGetNodeId(line, currentid);
+    TryCacheStateInfo(line);
+    TryCacheStateMachineInfo(line);
+    TrySaveTopNodeId(currentid.front() == '#' ? currentid.substr(1) : currentid);
 }
 
-bool nemesis::HkxBehavior::Parser::HasConditionMet(const nemesis::Line& line,
-                                                   const SPtr<nemesis::ConditionInfo>& conditioninfo)
+void nemesis::HkxBehavior::Parser::PostAddLineProcess(nemesis::LinkedPreprocessLine& linkedline)
 {
-    if (!conditioninfo)
-    {
-        if (cscope->Empty()) return true;
+    if (linkedline.HasCondition() || linkedline.GetRawPtr()->empty()) return;
 
-        return success;
-    }
+    auto raw = linkedline.GetRawPtr();
+    raw->AddBehavior(hostref);
 
-    switch (conditioninfo->GetType())
-    {
-        case nemesis::CondType::ASTERISK:
-        {
-            AsteriskCondition(line);
-            return false;
-        }
-        case nemesis::CondType::LOWER_ORIGINAL:
-        {
-            LowerOriginal(line, conditioninfo);
-            return false;
-        }
-        case nemesis::CondType::MOD_CODE:
-        {
-            ModCodeCondition(conditioninfo);
-            return false;
-        }
-        case nemesis::CondType::CLOSE:
-        {
-            auto tobedeleted = cscope->GetToBeDeleted();
+    if (!processparser || processparser->IsEmpty()) return;
 
-            if (tobedeleted->GetType() != nemesis::CondType::MOD_CODE) return true;
-
-            ModCloseCondition(tobedeleted);
-            return false;
-        }
-        default:
-            return true;
-    }
+    processparser->ToLine(*raw);
 }
 
-void nemesis::HkxBehavior::Parser::AsteriskCondition(const nemesis::Line& line)
+void nemesis::HkxBehavior::Parser::AddLine(const nemesis::Line& line)
 {
-    auto condition = cscope->Back()->GetCondition();
-
-    if (!priorities->Contains(condition)) return;
-
-    if (!astercache.first || priorities->IsHigherThan(condition, astercache.first->GetCondition()))
-    {
-        AddToAsterCache(&line, cscope->Back());
-    }
+    Base::AddLine(line);
+    TryUpdateNode();
+    TrySetNewNodeZone();
 }
 
-void nemesis::HkxBehavior::Parser::ModCodeCondition(const SPtr<nemesis::ConditionInfo>& conditioninfo)
+nemesis::HkxBehavior::Parser::Parser(nemesis::HkxBehavior& host, const VecStr& behaviorpriotiy)
+    : hostref(host)
+    , Base(host)
 {
-    success = priorities->Contains(conditioninfo->GetCondition());
-}
-
-void nemesis::HkxBehavior::Parser::ModCloseCondition(const SPtr<nemesis::ConditionInfo>& tobedeleted)
-{
-    if (openmodcondinfo != tobedeleted) return;
-
-    success = true;
-}
-
-void nemesis::HkxBehavior::Parser::LowerOriginal(const nemesis::Line& line,
-                                                 const SPtr<nemesis::ConditionInfo>& conditioninfo)
-{
-    if (astercache.first)
-    {
-        AddLine(*astercache.second, astercache.first);
-    }
-    else
-    {
-        AddLine(line, conditioninfo);
-    }
-
+    AddModPriority(behaviorpriotiy);
     ResetAsterCache();
-}
 
-void nemesis::HkxBehavior::Parser::ResetAsterCache()
-{
-    AddToAsterCache(nullptr, nullptr);
-}
-
-void nemesis::HkxBehavior::Parser::AddToAsterCache(const nemesis::Line* line,
-                                                   SPtr<nemesis::ConditionInfo> conditioninfo)
-{
-    astercache = std::make_pair(conditioninfo, line);
-}
-
-nemesis::HkxBehavior::Parser::Parser(const string& modcode, const sf::path& filepath, HkxBehavior& host)
-    : stream(host.nodes)
-    , hostref(host)
-{
-    DebugLogging(L"Parsing behavior: " + filepath.wstring());
-    this->cscope   = std::make_unique<nemesis::ConditionScope>(modcode, filepath);
-    this->filepath = filepath;
-    ResetAsterCache();
+    PrepareAllRegexes();
+    PrepareAllLexers();
 }
 
 nemesis::HkxBehavior::Parser::~Parser()
 {
     cscope.reset();
-    DebugLogging(L"Parsing behavior complete: " + filepath.wstring());
+    DebugLogging(L"Parsing behavior complete: " + file.GetFilePath().wstring());
 }
 
-VecNstr outlines;
-
-void nemesis::HkxBehavior::Parser::GenerateNodes(const VecStr& behaviorpriority)
+void nemesis::HkxBehavior::Parser::SetParseProcess(bool is_active) noexcept
 {
-    priorities = make_unique<ModPriority>(behaviorpriority);
-    VecNstr storeline = outlines;
-    //ReadBehaviorFile(storeline);
-    ParseLines(storeline);
+    process_active = is_active;
 }
 
-void nemesis::HkxBehavior::Exporter::Compile()
+void nemesis::HkxBehavior::Parser::SetParseState(bool is_active) noexcept
 {
-    for (auto& curstack : hostref.templatelist)
+    state_active = is_active;
+}
+
+void nemesis::HkxBehavior::Parser::SetParseTopNode(bool is_active) noexcept
+{
+    topnode_active = is_active;
+}
+
+void nemesis::HkxBehavior::Parser::ParseFile()
+{
+    Base::ParseFile();
+    UpdateHightStateId();
+}
+
+const nemesis::HkxBehavior& nemesis::HkxBehavior::Exporter::GetSelf()
+{
+    return static_cast<const nemesis::HkxBehavior&>(file);
+}
+
+void nemesis::HkxBehavior::Exporter::ProcessDataLine(const nemesis::Line& line)
+{
+    if (!isdata) return;
+
+    if (line.find(charpropelem) != NOT_FOUND)
     {
-        bool uniqueskip = false;
-        VecStr lineblocks;
-
-        // continue here
-
-        if (error) throw nemesis::exception();
+        isdata = false;
+        return;
     }
+    else if (line.find(varelem) != NOT_FOUND)
+    {
+        isevent = false;
+        return;
+    }
+
+    if (line.find(hkxstr_str) == NOT_FOUND) return;
+
+    nemesis::smatch sm;
+
+    if (!nemesis::regex_search(line.ToString(), sm, datastr_rgx)) return;
+
+    size_t size       = sm.size();
+    std::string value = sm.str(1);
+
+    if (isevent)
+    {
+        events->Add(value, eventcounter++);
+        return;
+    }
+
+    variables->Add(value, varcounter++);
+}
+
+void nemesis::HkxBehavior::Exporter::CompileBehavior(VecNstr& datalines, VecNstr& behaviorlines)
+{
+    std::string classname;
+    auto& self = GetSelf();
+
+    auto bhvfunc  = [&](const nemesis::Line& line) {
+        behaviorlines.emplace_back(line);
+    };
+    auto datafunc = [&](const nemesis::Line& line) {
+        ProcessDataLine(line);
+
+        if (!isdata && line.find(eventelem) != NOT_FOUND) isdata = true;
+
+        datalines.emplace_back(line);
+    };
+
+    std::function<void(const nemesis::Line&)> funcptr = bhvfunc;
+
+    for (auto& line : self.lines)
+    {
+        VecNstr compiledlines = line->GetProcessedLines(*scopeinfo);
+
+        for (auto& compiledline : compiledlines)
+        {
+            if (IsNewClass(compiledline, classname))
+            {
+                if (IsDataClass(classname))
+                {
+                    funcptr = datafunc;
+                }
+                else
+                {
+                    funcptr = bhvfunc;
+                }
+            }
+
+            if (error) throw nemesis::exception();
+
+            funcptr(compiledline);
+        }
+    }
+
+    for (auto& line : behaviorlines)
+    {
+        CheckNumElement(line);
+    }
+
+    for (auto& line : datalines)
+    {
+        CheckNumElement(line);
+    }
+
+    if (error) throw nemesis::exception();
+}
+
+void nemesis::HkxBehavior::Exporter::CompileTemplate(VecNstr& templines)
+{
+    auto& self = GetSelf();
+
+    if (self.queries.empty()) return;
+
+    for (auto& each : self.templatelist)
+    {
+        auto templateptr = each;
+        auto itr         = self.queries.find(templateptr);
+
+        if (itr == self.queries.end()) continue;
+
+        for (auto& query : self.queries.at(templateptr))
+        {
+            each->GetQueryResult(*query, templines, *this);
+
+            if (error) throw nemesis::exception();
+        }
+    }
+
+    if (error) throw nemesis::exception();
+}
+
+void nemesis::HkxBehavior::Exporter::CompileImport(VecNstr& importlines)
+{
+    auto& self = GetSelf();
+
+    if (self.queries.empty()) return;
+
+    auto* templt     = self.templatelist.front();
+    auto& animtemplt = templt->GetTemplateClass().GetAnimTemplate();
+    Vec<VecNstr> vec_lines;
+
+    for (auto& animimport : animimportpair_list)
+    {
+        vec_lines.emplace_back(VecNstr());
+        scopeinfo->SetCurrentImport(animimport.second.get());
+        animimport.second->GetLines(vec_lines.back(), *this);
+    }
+
+    for (int i = vec_lines.size() - 1; i >= 0; i--)
+    {
+        auto& lines = vec_lines[i];
+        importlines.insert(importlines.end(), lines.begin(), lines.end());
+    }
+}
+
+void nemesis::HkxBehavior::Exporter::AddStateIdManager()
+{
+    scopeinfo->GenerateStateIdManager(GetSelf());
 }
 
 nemesis::HkxBehavior::Exporter::Exporter(const HkxBehavior& host, VecNstr& storeline)
-    : hostref(host)
-    , linesref(storeline)
+    : linesref(storeline)
+    , nemesis::Exporter(host)
 {
+    AddEvents();
+    AddVariables();
+    AddAttributes();
+    AddStateIdManager();
 }
 
-void nemesis::HkxBehavior::Exporter::CompileNodes()
+const nemesis::AnimTemplate* nemesis::HkxBehavior::Exporter::GetAnimTemplate()
 {
-    for (auto& node : hostref.nodes)
+    return GetSelf().GetAnimTemplate();
+}
+
+const nemesis::TemplateClass* nemesis::HkxBehavior::Exporter::GetTemplateClass(const std::string& name)
+{
+    return GetAnimTemplate()->GetClass(name);
+}
+
+void nemesis::HkxBehavior::Exporter::Export()
+{
+    auto& self = GetSelf();
+    topid      = self.topnodeid.Read();
+
+    VecNstr templatelines;
+    VecNstr datalines;
+    VecNstr behaviorlines;
+    VecNstr importlines;
+
+    CompileBehavior(datalines, behaviorlines);
+    CompileTemplate(templatelines);
+    CompileImport(importlines);
+
+    linesref.clear();
+    linesref.reserve(datalines.size() + templatelines.size() + behaviorlines.size() + 3);
+    linesref.emplace_back(self.rootnode + "\n\n");
+    linesref.emplace_back(xmlstart);
+
+    // datalines: must be initialized first before being possibly used by any node
+    // templatelines: must be initizlized first before being used in base behavior
+    linesref.insert(linesref.end(), datalines.begin(), datalines.end());
+    linesref.insert(linesref.end(), importlines.begin(), importlines.end());
+    linesref.insert(linesref.end(), templatelines.begin(), templatelines.end());
+    linesref.insert(linesref.end(), behaviorlines.begin(), behaviorlines.end());
+
+    linesref.emplace_back(xmlend);
+}
+
+bool nemesis::HkxBehavior::Exporter::IsTemplateActive(const std::string& name)
+{
+    auto* querylist_ptr = GetQueriesByTemplate(name);
+    return querylist_ptr && !querylist_ptr->empty();
+}
+
+const Vec<const nemesis::AnimQuery*>*
+nemesis::HkxBehavior::Exporter::GetQueriesByTemplate(const std::string& name)
+{
+    auto& self     = GetSelf();
+    auto* classptr = self.animtemplate->GetClass(name);
+
+    if (classptr == nullptr) ErrorMessage(1225, self.GetFilePath(), name);
+
+    for (auto& queryinfo : self.queries)
     {
-        CompileNode(node);
+        if (classptr != &queryinfo.first->GetTemplateClass()) continue;
+
+        return &queryinfo.second;
+    }
+
+    return nullptr;
+}
+
+bool nemesis::HkxBehavior::Exporter::IsDataClass(const std::string& classname)
+{
+    return dataclasses.find(classname) != dataclasses.end();
+}
+
+bool nemesis::HkxBehavior::Exporter::IsNewClass(const nemesis::Line& line, std::string& classname)
+{
+    if (line.find(hkobj_prefix) == NOT_FOUND) return false;
+
+    nemesis::smatch sm;
+    classname.clear();
+
+    if (!nemesis::regex_search(line.ToString(), sm, nodergx_id)) return false;
+
+    classname = sm.str(2);
+    return true;
+}
+
+nemesis::HkxBehavior::HkxBehavior()
+{
+    classname = "Behavior Base";
+}
+
+void nemesis::HkxBehavior::CompileBehavior(VecNstr& contents)
+{
+    HkxBehavior::Exporter exporter(*this, contents);
+    exporter.Export();
+}
+
+nemesis::HkxBehavior::Node* nemesis::HkxBehavior::TryGetNodeExist(const nemesis::Patch& patch)
+{
+    auto node_id = patch.GetFilePath().stem().string();
+    auto itr     = node_map.find(node_id);
+
+    if (itr == node_map.end()) return nullptr;
+
+    return &itr->second;
+}
+
+void nemesis::HkxBehavior::AddNewNode(const nemesis::Patch& patch)
+{
+    auto itr = std::find_if(
+        lines.begin(), lines.end(), [&](const SPtr<nemesis::LinkedPreprocessLine>& linkedline)
+        {
+              return linkedline.get() == newnode_zone;
+        });
+    itr--;
+    auto contents = patch.contents;
+    auto& node    = node_map[patch.GetFilePath().stem().string()];
+    node.start    = contents.front().get();
+    node.ending   = contents.back().get();
+
+    if (!lines.empty() && (*itr)->HasCondition()
+        && nemesis::iequals((*itr)->GetLastCondition().GetExpression(), patch.code))
+    {
+        auto list = &(*itr)->GetLastCondition().GetDataList();
+        node.list = list;
+        list->insert(list->end(), contents.begin(), contents.end());
+        return;
+    }
+
+    auto modcode_line = CreateCondLine(patch);
+    auto list         = &modcode_line->GetLastCondition().GetDataList();
+    list->insert(list->end(), contents.begin(), contents.end());
+    lines.insert(++itr, modcode_line);
+    node.list = list;
+}
+
+void nemesis::HkxBehavior::PatchNode(nemesis::HkxBehavior::Node& node, const nemesis::Patch& patch)
+{
+    try
+    {
+        auto contents = patch.contents;
+        auto p_itr    = contents.begin();
+
+        //VecNstr templist;
+        //VecNstr temp2list;
+        //VecNstr temp3list;
+        //VecNstr temp4list;
+
+        //for (auto itr = node.begin(); itr < node.end(); ++itr)
+        //{
+        //    auto raw = *itr;
+
+        //    if (!raw->GetRawPtr()) continue;
+
+        //    templist.push_back(raw->GetRawPtr()->ToString());
+        //}
+
+        //for (size_t i = 0; i < contents.size(); i++)
+        //{
+        //    auto raw = contents[i]->GetRawPtr();
+
+        //    if (!raw) continue;
+
+        //    temp2list.push_back(raw->ToString());
+        //}
+
+        for (auto itr = node.begin(); itr < node.end(); ++itr)
+        {
+            auto& line = **itr;
+
+            if (!line.GetRawPtr()) continue;
+
+            //temp3list.push_back(line.GetRawPtr()->ToString());
+            auto p_line = *p_itr++;
+
+            //if (p_line->GetRawPtr())
+            //{
+            //    temp4list.push_back(p_line->GetRawPtr()->ToString());
+            //}
+            //else
+            //{
+            //    int i = 2;
+            //}
+
+            if (!p_line->HasCondition()) continue;
+
+            if (!p_line->GetRawPtr())
+            {
+                do
+                {
+                    itr = ++node.insert(itr, p_line);
+                    p_line->SetToStandAlone();
+                    p_line = *p_itr++;
+                } while (!p_line->GetRawPtr());
+
+                //temp4list.push_back(p_line->GetRawPtr()->ToString());
+                //std::string str1 = *p_line->GetRawPtr(), str2 = *line.GetRawPtr();
+
+                //if (str1 != str2)
+                //{
+                //    int i = 0;
+                //}
+
+                if (!p_line->HasCondition()) continue;
+            }
+
+            line.AddCondition(p_line->GetLastCondition());
+            p_line->SetToStandAlone();
+        }
+
+        //VecNstr temp5list;
+        //
+        //for (auto& itr = node.begin(); itr < node.end(); ++itr)
+        //{
+        //    auto raw = *itr;
+        //    raw->GetRawData(temp5list);
+        //}
+
+        if (p_itr == contents.end()) return;
+
+        auto cond_line = CreateCondLine(patch);
+        auto& list     = cond_line->GetLastCondition().GetDataList();
+
+        for (; p_itr != contents.end(); ++p_itr)
+        {
+            list.emplace_back(*p_itr);
+        }
+
+        node.push_back(cond_line);
+    }
+    catch (const std::exception&)
+    {
+        ErrorMessage(1231, patch.GetFilePath());
     }
 }
 
-void nemesis::HkxBehavior::Exporter::CompileNode(const LinkedNode& linkednode)
+SPtr<nemesis::LinkedPreprocessLine> nemesis::HkxBehavior::CreateCondLine(const nemesis::Patch& patch)
 {
-    if (linkednode.nestedcond.empty())
-    {
-    }
+    return CreateCondLine(patch.code, patch.GetConditionType(), patch);
 }
 
-void nemesis::HkxBehavior::CompileBehavior(VecNstr& storeline)
+SPtr<nemesis::LinkedPreprocessLine> nemesis::HkxBehavior::CreateCondLine(const nemesis::Line& condition,
+                                                                         nemesis::CondType type,
+                                                                         const nemesis::File& file)
 {
-    Exporter exporter(*this, storeline);
-    exporter.Compile();
+    auto cond_line = std::make_shared<nemesis::LinkedPreprocessLine>();
+    ConditionInfo condinfo;
+    condinfo.SetCondition(condition, type);
+    cond_line->AddCondition(condinfo, file);
+    return cond_line;
 }
 
-sf::path nemesis::HkxBehavior::GetFilePath() const
+SPtr<nemesis::LinkedPreprocessLine> nemesis::HkxBehavior::CreateCondLine(const std::string& condition,
+                                                                         nemesis::CondType type,
+                                                                         const nemesis::File& file)
 {
-    return filepath;
+    nemesis::Line nline(condition, file.GetFilePath());
+    return CreateCondLine(nline, type, file);
 }
 
 std::wstring nemesis::HkxBehavior::GetBehaviorName() const
 {
     return (isfirstperson ? L"_1stperson\\" : L"") + filepath.stem().wstring();
+}
+
+const nemesis::AnimTemplate* nemesis::HkxBehavior::GetAnimTemplate() const noexcept
+{
+    return animtemplate;
+}
+
+void nemesis::HkxBehavior::PatchTemplateNode(nemesis::Template& templt)
+{
+    auto filename = templt.GetFilePath().stem().string();
+    auto itr      = node_map.find(filename);
+
+    if (itr == node_map.end()) return;
+
+    auto& contents = templt.GetContents();
+
+    for (size_t i = 0, b = 0; i < contents.size(); ++i, ++b)
+    {
+        auto* nodeline = itr->second[b];
+
+        while (nodeline->HasCondition())
+        {
+            b++;
+        }
+
+        auto& templtline = contents[i];
+
+        if (templtline->RawToString() == nodeline->RawToString())
+        {
+        }
+    }
+
+    // continue here
+}
+
+void nemesis::HkxBehavior::AddStateId(const string& smid, size_t id)
+{
+    if (topstate[smid] > id) return;
+
+    topstate[smid] = id + 1;
 }
 
 void nemesis::HkxBehavior::AddSelection(const VecStr& _behaviorlist)
@@ -388,24 +1172,95 @@ void nemesis::HkxBehavior::ClearSelection()
     behaviorinfo.Clear();
 }
 
-void nemesis::HkxBehavior::AddQueries(const VecSPtr<nemesis::AnimQueryList>& queries)
+void nemesis::HkxBehavior::AddQueries(const VecSPtr<const nemesis::AnimQueryFile>& animqueries)
 {
-    this->queries = queries;
+    USet<const nemesis::Template*> templateset;
+
+    for (auto& each : templatelist)
+    {
+        templateset.insert(each);
+    }
+
+    for (auto& queryfile : animqueries)
+    {
+        AddQueriesByFile(*queryfile, templateset);
+    }
 }
 
-void nemesis::HkxBehavior::ClearQueries()
+void nemesis::HkxBehavior::AddQueries(const QueryManager& query_manager)
+{
+    if (type == FileType::NEMESIS_TEMPLATE)
+    {
+        queryfiles = &query_manager.GetFileList();
+        return;
+    }
+
+    for (auto& templt : templatelist)
+    {
+        auto list_ptr = query_manager.GetQueryList(&templt->GetTemplateClass());
+
+        if (list_ptr == nullptr) continue;
+
+        for (auto& each : *list_ptr)
+        {
+            queries[templt].emplace_back(each);
+        }
+    }
+}
+
+void nemesis::HkxBehavior::AddQueriesByFile(const nemesis::AnimQueryFile& queryfile,
+                                            USet<const nemesis::Template*>& templateset)
+{
+    for (auto& query : queryfile.GetList())
+    {
+        auto templateptr = query->MatchTemplate(templateset);
+
+        if (templateptr == nullptr) continue;
+
+        queries[templateptr].emplace_back(query);
+    }
+}
+
+void nemesis::HkxBehavior::AddPatch(const nemesis::Patch& patch)
+{
+    std::string behavior = patch.GetFilePath().parent_path().stem().string();
+
+    if (!nemesis::iequals(filepath.stem().string(), "nemesis_" + behavior)) return;
+
+    auto node_ptr = TryGetNodeExist(patch);
+
+    if (!node_ptr)
+    {
+        AddNewNode(patch);
+        return;
+    }
+
+    PatchNode(*node_ptr, patch);
+}
+
+void nemesis::HkxBehavior::ClearQueries() noexcept
 {
     queries.clear();
 }
 
-void nemesis::HkxBehavior::AddTemplateList(const VecSPtr<nemesis::Template> templatelist)
+void nemesis::HkxBehavior::AddTemplate(const nemesis::Template& ntemplate)
 {
-    this->templatelist = templatelist;
+    templatelist.emplace_back(&ntemplate);
 }
 
-void nemesis::HkxBehavior::ClearTemplateList()
+void nemesis::HkxBehavior::ClearTemplateList() noexcept
 {
     templatelist.clear();
+}
+
+void nemesis::HkxBehavior::AddAnimImport(const nemesis::Template& animimport)
+{
+    animimportlist.emplace_back(&animimport);
+}
+
+void nemesis::HkxBehavior::ClearAnimImportList() noexcept
+{
+    animimportlist.clear();
 }
 
 void nemesis::HkxBehavior::SetToFirstPerson()
@@ -423,53 +1278,147 @@ void nemesis::HkxBehavior::SetToSSE()
     sse = true;
 }
 
-void nemesis::HkxBehavior::getlines(VecNstr& storeline)
+void nemesis::HkxBehavior::SetAnimTemplate(nemesis::AnimTemplate* animtemplate) noexcept
 {
-    for (auto& each : nodes)
+    this->animtemplate = animtemplate;
+}
+
+void nemesis::HkxBehavior::GetRawBehavior(VecNstr& storeline)
+{
+    storeline.emplace_back(rootnode + "\n");
+    storeline.emplace_back(xmlstart);
+
+    for (auto& each : lines)
     {
-        getLinkedLines(each, storeline);
+        each->GetRawData(storeline);
     }
+
+    storeline.emplace_back(xmlend);
 }
 
 void nemesis::HkxBehavior::SaveStagedBehavior(const sf::path& outputpath) {}
 
-void nemesis::HkxBehavior::SaveAsXml(const sf::path& outputpath)
+void nemesis::HkxBehavior::SaveAs(const sf::path& outputpath, bool compile)
 {
-    sf::path _outputpath;
+    sf::create_directories(outputpath.parent_path());
+    ofstream outstream(outputpath.string());
 
-    if (_outputpath.has_extension() || _outputpath.extension().wstring() != xmlext)
-    {
-        _outputpath.replace_extension(xmlext);
-    }
+    if (!outstream.is_open()) ErrorMessage(1025, outputpath);
 
-    ofstream outstream(_outputpath.string());
     VecNstr contents;
-    CompileBehavior(contents);
-
-    if (!outstream.is_open()) ErrorMessage(1025, _outputpath);
-
-    outstream << rootnode.ToString() + "\n\n";
-    outstream << xmlstart;
+    
+    if (compile)
+    {
+        CompileBehavior(contents);
+    }
+    else
+    {
+        GetRawBehavior(contents);
+    }
 
     for (auto& line : contents)
     {
         outstream << line.ToString() + "\n";
     }
-
-    outstream << xmlend;
-    outstream.clear();
 }
 
-void nemesis::HkxBehavior::SaveAsHkx(const sf::path& outputpath)
+void nemesis::HkxBehavior::SaveAsHkx(const std::filesystem::path& xmldir)
 {
-    SaveAsXml(outputpath);
-    HkxCompiler::hkxcmdProcess(outputpath, outputpath);
+    try
+    {
+        constexpr std::string_view prefix = "nemesis_";
+        std::wstring filename             = GetFilePath().filename().wstring().substr(prefix.length());
+        sf::path shortpath
+            = GetFilePath().wstring().substr(NemesisInfo::GetInstance()->GetDataPath().wstring().length());
+        sf::path xmlpath = xmldir.wstring() + shortpath.wstring();
+        xmlpath.replace_filename(filename);
+        SaveAs(xmlpath, true);
+        HkxCompiler::hkxcmdProcess(xmlpath, GetFilePath().replace_filename(filename));
+        return;
+    }
+    catch (const nemesis::exception&)
+    {
+    }
+#ifndef _DEBUG
+    catch (const std::exception& ex)
+    {
+        ErrorMessage(6001, ex.what());
+    }
+#endif
 }
 
-void nemesis::HkxBehavior::ReadAndProcess(const VecStr& behaviorpriority)
+void nemesis::HkxBehavior::SaveAsStaged(const std::filesystem::path& xmldir)
 {
-    Parser parser("Base", filepath, *this);
-    parser.GenerateNodes(behaviorpriority);
+    try
+    {
+        constexpr std::string_view prefix = "nemesis_";
+        std::wstring filename             = GetFilePath().filename().wstring().substr(prefix.length());
+        sf::path shortpath
+            = GetFilePath().wstring().substr(NemesisInfo::GetInstance()->GetDataPath().wstring().length());
+        sf::path xmlpath = xmldir.wstring() + shortpath.wstring();
+        xmlpath.replace_filename(filename);
+        SaveAs(xmlpath, false);
+    }
+    catch (const nemesis::exception&)
+    {
+    }
+#ifndef _DEBUG
+    catch (const std::exception& ex)
+    {
+        ErrorMessage(6001, ex.what());
+    }
+#endif
+}
+
+void nemesis::HkxBehavior::SaveAsTemplateBehavior()
+{
+    try
+    {
+        if (!queryfiles || queryfiles->empty()) return;
+
+        sf::path xmlpath = "temp_behaviors\\xml\\f";
+        USet<const nemesis::Template*> templateset;
+
+        for (auto& each : templatelist)
+        {
+            templateset.insert(each);
+        }
+
+        for (auto& file : *queryfiles)
+        {
+            AddQueriesByFile(*file, templateset);
+
+            auto filename = file->GetFilePath().parent_path().filename();
+            filename.replace_filename("nemesis_" + filename.string());
+            filename.replace_extension(".xml");
+            xmlpath.replace_filename(filename);
+            SaveAs(xmlpath, true);
+            return;
+
+            filename.replace_extension(".hkx");
+            HkxCompiler::hkxcmdProcess(xmlpath, filename);
+            ClearQueries();
+        }
+    }
+    catch (const nemesis::exception&)
+    {
+    }
+#ifndef _DEBUG
+    catch (const std::exception& ex)
+    {
+        ErrorMessage(6001, ex.what());
+    }
+#endif
+}
+
+void nemesis::HkxBehavior::ParseBehavior(const VecStr& behaviorpriority)
+{
+    Parser parser(*this, behaviorpriority);
+    parser.SetParseProcess(false);
+    parser.SetParseState(false);
+    parser.SetParseTopNode(false);
+    parser.ReadFile(filepath);
+    parser.ParseFile();
 }
 
 bool nemesis::HkxBehavior::IsFirstPerson() const
@@ -487,40 +1436,40 @@ bool nemesis::HkxBehavior::IsSSE() const
     return sse;
 }
 
-SPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::File(const sf::path& filepath)
+SPtr<HB> nemesis::HkxBehavior::File(const sf::path& filepath)
 {
-    HkxBehavior hkxbhv; // must pre-create the object because of private constructor
-    auto bhv      = std::make_shared<nemesis::HkxBehavior>(hkxbhv);
-    bhv->filepath = filepath;
+    SPtr<HkxBehavior> bhvptr(new HkxBehavior());
+    bhvptr->SetFilePath(filepath);
 
-    auto wstrpath      = nemesis::to_lower_copy(filepath.wstring());
-    auto file          = L"_1stperson\\" + filepath.stem().wstring();
-    auto pos           = wstrpath.rfind(file);
-    bhv->isfirstperson = wstrpath.length() - file.length() == pos;
+    auto wstrpath         = nemesis::to_lower_copy(filepath.wstring());
+    auto file             = L"_1stperson\\" + filepath.filename().wstring();
+    auto pos              = wstrpath.rfind(file);
+    bhvptr->isfirstperson = wstrpath.length() - file.length() == pos;
 
     if (sf::is_directory(filepath)) ErrorMessage(3001, filepath);
 
-    return bhv;
+    return bhvptr;
 }
 
-SPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::ReadPatchedFile(const sf::path& filepath,
-                                                                 const VecStr& behaviorpriority)
+SPtr<HB> nemesis::HkxBehavior::ReadPatchedFile(const sf::path& filepath, const VecStr& behaviorpriority)
 {
     auto bhv = File(filepath);
-    bhv->ReadAndProcess(behaviorpriority);
+    bhv->ParseBehavior(behaviorpriority);
     return bhv;
 }
-
-void nemesis::HkxBehavior::AddFileLines()
-{
-    GetFunctionLines("temp_behaviors\\0_master.txt", outlines, false);
-
-    while (!outlines.empty())
-    {
-        if (outlines.front().find("signature=") != NOT_FOUND) break;
-
-        if (error) throw nemesis::exception();
-
-        outlines.erase(outlines.begin());
-    }
-}
+//
+//VecNstr outlines;
+//
+//void nemesis::HkxBehavior::AddFileLines()
+//{
+//    GetFileLines("temp_behaviors\\0_master.txt", outlines, false);
+//
+//    while (!outlines.empty())
+//    {
+//        if (outlines.front().find("signature=") != NOT_FOUND) break;
+//
+//        if (error) throw nemesis::exception();
+//
+//        outlines.erase(outlines.begin());
+//    }
+//}

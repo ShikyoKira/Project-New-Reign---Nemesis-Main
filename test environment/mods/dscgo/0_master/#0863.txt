@@ -1,0 +1,37 @@
+		<hkobject name="#0863" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#1254</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MRhLeftHandOverride</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="9">
+				#1154
+				#1153
+				#1052
+				#1051
+				#1049
+				#1048
+				#1047
+				#1046
+				#0867
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#dscgo$205 #dscgo$98
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="wildcardTransitions">#0864</hkparam>
+		</hkobject>

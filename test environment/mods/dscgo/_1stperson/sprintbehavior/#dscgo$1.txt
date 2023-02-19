@@ -1,0 +1,10 @@
+		<hkobject name="#dscgo$1" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0098</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">SprintLeftSideManualSelectorGenerator</hkparam>
+			<hkparam name="generators" numelements="13">
+				#0110 #0110 #0110 #0110 #0110 #0110 #0110 #0110 #0105 #0110 #0110 #0097 #0110
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

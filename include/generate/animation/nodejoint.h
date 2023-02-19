@@ -23,12 +23,12 @@ struct LineCheck
 {
     bool deleted = true;
     bool process = false;
-    uint row;
+    size_t row;
     std::string line;
     std::shared_ptr<NodeJoint> nested;
 
-    LineCheck(std::string _line, uint _row);
-    LineCheck(std::shared_ptr<NodeJoint> _nested, uint _row);
+    LineCheck(std::string _line, size_t _row);
+    LineCheck(std::shared_ptr<NodeJoint> _nested, size_t _row);
 
     LineCheck& operator=(std::string _line);
     LineCheck& operator=(std::shared_ptr<NodeJoint> _nested);
@@ -57,7 +57,7 @@ struct NodePackedParameters
     std::string multiOption;
     std::vector<std::vector<std::unordered_map<std::string, bool>>>& optionPicked;
     unsigned __int64& openRange;
-    uint& elementCount;
+    size_t& elementCount;
     std::string& line;
     LineCheck* elementCatch;
     bool& negative;
@@ -83,7 +83,7 @@ struct NodePackedParameters
                          std::string _multiOption,
                          std::vector<std::vector<std::unordered_map<std::string, bool>>>& _optionPicked,
                          unsigned __int64& _openRange,
-                         uint& _elementCount,
+                         size_t& _elementCount,
                          std::string& _line,
                          LineCheck* _elementCatch,
                          bool& _negative);
@@ -102,12 +102,12 @@ struct NodeJoint
     };
 
     bool conditionSkip = false;
-    uint row;
+    size_t row;
     FuncType type     = NONE;
     std::string condt = "";
     std::vector<LineCheck> storeTemplate;
     std::vector<std::vector<LineCheck>> output;
-    std::unordered_map<std::string, std::vector<uint>>
+    std::unordered_map<std::string, std::vector<size_t>>
         templateSection; // template code, list of index of template section
     std::string behaviorFile;
     SetStr templateGroup;
@@ -117,15 +117,15 @@ struct NodeJoint
               std::string filename,
               std::string _behaviorFile,
               std::unordered_map<std::string, std::string> otherAnimType,
-              uint startline = 0,
-              uint size      = -1);
+              size_t startline = 0,
+              size_t size      = -1);
     NodeJoint(VecStr& node,
               std::string format,
               std::string filename,
               std::string _behaviorFile,
               SetStr _templateGroup,
-              uint startline = 0,
-              uint size      = -1);
+              size_t startline = 0,
+              size_t size      = -1);
 
     void insertData(std::string format,
                     std::string filename,
@@ -147,7 +147,7 @@ struct NodeJoint
                     std::string zeroEvent,
                     std::string zeroVariable,
                     unsigned __int64& openRange,
-                    uint elementCount,
+                    size_t elementCount,
                     LineCheck* elementCatch,
                     std::shared_ptr<master> subFunctionIDs,
                     bool& negative);
@@ -155,7 +155,7 @@ struct NodeJoint
     void forEachProcess(std::vector<std::vector<LineCheck>>& output,
                         LineCheck& storeTemplate,
                         std::string condition,
-                        uint sect,
+                        size_t sect,
                         std::string format,
                         std::string filename,
                         std::vector<std::vector<std::unordered_map<std::string, bool>>>& optionPicked,
@@ -176,7 +176,7 @@ struct NodeJoint
                         std::string zeroEvent,
                         std::string zeroVariable,
                         unsigned __int64 openRange,
-                        uint elementCount,
+                        size_t elementCount,
                         LineCheck* elementCatch,
                         std::shared_ptr<master> subFunctionIDs,
                         bool& negative);
@@ -199,7 +199,7 @@ struct NodeJoint
                                 std::string zeroEvent,
                                 std::string zeroVariable,
                                 unsigned __int64 openRange,
-                                uint elementCount,
+                                size_t elementCount,
                                 LineCheck* elementCatch,
                                 std::shared_ptr<master> subFunctionIDs,
                                 bool& negative,
@@ -212,8 +212,8 @@ private:
                   std::string format,
                   std::string filename,
                   std::unordered_map<std::string, std::string> otherAnimType,
-                  uint startline = 0,
-                  uint size      = -1);
+                  size_t startline = 0,
+                  size_t size      = -1);
 };
 
 #endif

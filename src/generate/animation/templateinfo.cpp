@@ -71,7 +71,7 @@ TemplateInfo::TemplateInfo()
                     pathVector.push_back(FOF2);
                 }
 
-                for (uint l = 0; l < pathVector.size(); ++l)
+                for (size_t l = 0; l < pathVector.size(); ++l)
                 {
                     if (sf::is_directory(pathVector[l]))
                     {
@@ -93,7 +93,7 @@ TemplateInfo::TemplateInfo()
                                 = behaviorJoints[lowerBehaviorFolder];
                         }
 
-                        for (uint i = 0; i < filelist.size(); ++i)
+                        for (size_t i = 0; i < filelist.size(); ++i)
                         {
                             newpath = templateDirectory + code + "\\" + behaviorFolder + "\\" + filelist[i];
                             sf::path file(newpath);
@@ -107,7 +107,7 @@ TemplateInfo::TemplateInfo()
                                     {
                                         noGroup = false;
 
-                                        if (!GetFunctionLines(
+                                        if (!GetFileLines(
                                                 newpath,
                                                 behaviortemplate[code + "_group"][lowerBehaviorFolder]))
                                             return;
@@ -123,7 +123,7 @@ TemplateInfo::TemplateInfo()
                                     {
                                         noGroup = false;
 
-                                        if (!GetFunctionLines(
+                                        if (!GetFileLines(
                                                 newpath,
                                                 behaviortemplate[code + "_master"][lowerBehaviorFolder]))
                                             return;
@@ -140,7 +140,7 @@ TemplateInfo::TemplateInfo()
 
                                     if (behaviortemplate[code][lowerBehaviorFolder].size() == 0)
                                     {
-                                        if (!GetFunctionLines(newpath,
+                                        if (!GetFileLines(newpath,
                                                               behaviortemplate[code][lowerBehaviorFolder]))
                                             return;
                                     }
@@ -153,7 +153,7 @@ TemplateInfo::TemplateInfo()
                                 {
                                     string number = nemesis::regex_replace(string(lowerfilename),
                                                                          nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                                         string("\\1"));
+                                                                         string("$1"));
 
                                     if (lowerfilename == "#" + number + ".txt" && isOnlyNumber(number))
                                     {
@@ -162,7 +162,7 @@ TemplateInfo::TemplateInfo()
 
                                     VecStr storeline;
 
-                                    if (!GetFunctionLines(newpath, storeline)) return;
+                                    if (!GetFileLines(newpath, storeline)) return;
 
                                     bool isJoint        = false;
                                     bool isStateMachine = false;
@@ -203,7 +203,7 @@ TemplateInfo::TemplateInfo()
                                     grouplist[lowerBehaviorFolder].insert(code);
                                     string project = filelist[i] + ".txt";
 
-                                    for (uint j = 0; j < headerlist.size(); ++j)
+                                    for (size_t j = 0; j < headerlist.size(); ++j)
                                     {
                                         string header
                                             = headerlist[j].substr(0, headerlist[j].find_last_of("."));
@@ -215,7 +215,7 @@ TemplateInfo::TemplateInfo()
                                         {
                                             if (animdatatemplate[code][project][header].size() == 0)
                                             {
-                                                if (!GetFunctionLines(newpath + "\\" + headerlist[j],
+                                                if (!GetFileLines(newpath + "\\" + headerlist[j],
                                                                       animdatatemplate[code][project][header],
                                                                       true))
                                                     return;
@@ -261,7 +261,7 @@ TemplateInfo::TemplateInfo()
                                             {
                                                 if (asdtemplate[code][project][header].size() == 0)
                                                 {
-                                                    if (!GetFunctionLines(thisfile.string(),
+                                                    if (!GetFileLines(thisfile.string(),
                                                                           asdtemplate[code][project][header],
                                                                           false))
                                                         return;

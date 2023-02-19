@@ -1,5 +1,6 @@
 #include <regex>
 
+#include "utilities/constants.h"
 #include "utilities/optionmodel.h"
 #include "utilities/templateclass.h"
 #include "utilities/optionmodellist.h"
@@ -8,7 +9,7 @@
 using pType = nemesis::OptionModelList::Parser;
 using pFuncPtr = void(nemesis::OptionModelList::Parser::*)(const nemesis::Line&);
 
-const std::unordered_map<std::string, pFuncPtr> nemesis::OptionModelList::Parser::mapfunc =
+const UMap<std::string, pFuncPtr> nemesis::OptionModelList::Parser::mapfunc =
 {
     {"event", &pType::AddEvent},
     {"event_group", &pType::AddRules},
@@ -40,7 +41,7 @@ nemesis::Line nemesis::OptionModelList::Parser::TryRemoveComment(const nemesis::
 
     if (str.length() == 0) return nemesis::Line(str, line.GetLineNumber());
 
-    uint pos = str.find("'");
+    size_t pos = str.find("'");
 
     if (pos == NOT_FOUND) return nemesis::Line(str, line.GetLineNumber());
 
@@ -64,13 +65,13 @@ void nemesis::OptionModelList::Parser::ErrorTemplate(int errcode, int linenum)
 
 void nemesis::OptionModelList::Parser::AddEvent(const nemesis::Line& line)
 {
-    const std::string evntsyntax = "event ";
+    constexpr std::string_view evntsyntax = "event ";
     host.events.emplace_back(line.substr(evntsyntax.length()));
 }
 
 void nemesis::OptionModelList::Parser::AddVariable(const nemesis::Line& line)
 {
-    const std::string evntsyntax = "variable ";
+    constexpr std::string_view evntsyntax = "variable ";
     host.variables.emplace_back(line.substr(evntsyntax.length()));
 }
 
@@ -84,7 +85,13 @@ void nemesis::OptionModelList::Parser::AddAnimObject(const nemesis::Line& line)
         ErrorMessage(1175, GetTemplateClass(), GetFilePath(), line.GetLineNumber(), line.ToString());
     }
 
-    host.iAnimObj = std::make_unique<uint>(stoi(animinfo.back()));
+    host.iAnimObj = std::make_unique<size_t>(stoi(animinfo.back()));
+
+    //for (size_t i = 1; i <= *host.iAnimObj; i++)
+    //{
+    //    nemesis::Line line(animobj_prefix + std::to_string(i), line.GetLineNumber());
+    //    AddOptionModel(line);
+    //}
 }
 
 void nemesis::OptionModelList::Parser::AddOptionLink(const nemesis::Line& line)
@@ -134,7 +141,7 @@ void nemesis::OptionModelList::Parser::AddStartState(const nemesis::Line& line)
         ErrorTemplate(1013, line.GetLineNumber());
     }
 
-    host.iState = std::make_unique<uint>(std::stoi(number));
+    host.iState = std::make_unique<size_t>(std::stoi(number));
 }
 
 void nemesis::OptionModelList::Parser::AddMinimum(const nemesis::Line& line)
@@ -157,7 +164,7 @@ void nemesis::OptionModelList::Parser::AddMinimum(const nemesis::Line& line)
         ErrorTemplate(1194, line.GetLineNumber());
     }
 
-    host.iMin = std::make_unique<uint>(std::stoi(num));
+    host.iMin = std::make_unique<size_t>(std::stoi(num));
 }
 
 void nemesis::OptionModelList::Parser::FlagIgnoreGroup(const nemesis::Line& line)
@@ -173,12 +180,17 @@ void nemesis::OptionModelList::Parser::AddCompulsory(const nemesis::Line& line)
     {
         ErrorTemplate(1199, line.GetLineNumber());
     }
-    else if (!cachecompulsory.empty())
+    else if (!host.compulsory.empty())
     {
         ErrorTemplate(1045, line.GetLineNumber());
     }
 
-    cachecompulsory = StringSplit(split.back(), ',');
+    VecStr compulsories = StringSplit(split.back(), ',');
+
+    for (auto& compulsory : compulsories)
+    {
+        cachecompulsory.emplace_back(nemesis::Line(compulsory, line.GetLineNumber()));
+    }
 }
 
 void nemesis::OptionModelList::Parser::AddCore(const nemesis::Line& line)
@@ -198,33 +210,31 @@ void nemesis::OptionModelList::Parser::AddAddition(const nemesis::Line& line)
     cacheadditionline.emplace_back(line);
 }
 
-void nemesis::OptionModelList::Parser::AddOption(const nemesis::Line& line)
+void nemesis::OptionModelList::Parser::AddOptionModel(const nemesis::Line& line)
 {
-    auto shptr       = std::make_shared<nemesis::OptionModel>(line, GetFilePath(), host.templateclass);
-    std::string name = shptr->GetName();
-
-    if (host.Contains(name))
-    {
-        ErrorMessage(1177, GetTemplateClass(), GetFilePath(), line.GetLineNumber(), name);
-    }
-
-    host.optionsmap.insert(std::make_pair(name.length(), shptr));
-    host.options.insert(shptr);
+    host.AddOptionModel(line);
 }
 
-void nemesis::OptionModelList::Parser::LinkedOption()
+void nemesis::OptionModelList::Parser::Commit()
+{
+    CommitLinkedOption();
+    CommitVariableAddition();
+    CommitCompulsoryVariable();
+}
+
+void nemesis::OptionModelList::Parser::CommitLinkedOption()
 {
     for (auto& eachlist : cachelink)
     {
-        std::vector<std::shared_ptr<nemesis::OptionModel>> modellist;
+        Vec<nemesis::OptionModel*> modellist;
 
         for (auto& each : eachlist)
         {
-            auto& ptr = host.GetModel(each);
+            auto ptr = host.GetModel(each);
 
             if (ptr == nullptr) continue;
 
-            modellist.emplace_back(ptr);
+            modellist.push_back(ptr);
         }
 
         for (auto& model : modellist)
@@ -239,7 +249,7 @@ void nemesis::OptionModelList::Parser::LinkedOption()
     }
 }
 
-void nemesis::OptionModelList::Parser::VariableAddition()
+void nemesis::OptionModelList::Parser::CommitVariableAddition()
 {
     for (auto& line : cacheadditionline)
     {
@@ -256,11 +266,26 @@ void nemesis::OptionModelList::Parser::VariableAddition()
 
         if (split.back() == key) ErrorTemplate(1005, line.GetLineNumber());
 
-        auto& model = host.GetModel(split[1]);
+        auto model = host.GetModel(split[1]);
 
         if (model == nullptr) continue;
 
         model->AddVarBlock(split);
+    }
+}
+
+void nemesis::OptionModelList::Parser::CommitCompulsoryVariable()
+{
+    for (auto& option : cachecompulsory)
+    {
+        if (host.Contains(option))
+        {
+            host.compulsory.insert(option.ToString());
+            continue;
+        }
+
+        auto& templtclass = host.templateclass;
+        ErrorMessage(1221, templtclass.GetName(), host.filepath, option.GetLineNumber());
     }
 }
 
@@ -293,7 +318,7 @@ void nemesis::OptionModelList::Parser::ParseLine(const nemesis::Line& line)
 
     if (rtn > 0) ErrorTemplate(rtn, line.GetLineNumber());
 
-    AddOption(str);
+    AddOptionModel(str);
 }
 
 int nemesis::OptionModelList::Parser::TryAddMultiRoot(const nemesis::Line& line)
@@ -308,7 +333,7 @@ int nemesis::OptionModelList::Parser::TryAddMultiRoot(const nemesis::Line& line)
 
     if (match.str(3)[0] != '#' || !isOnlyNumber(match.str(3).substr(1))) return 1071;
 
-    auto& itr = host.multistates.find(match.str(2));
+    auto itr = host.multistates.find(match.str(2));
 
     if (itr != host.multistates.end())
     {
@@ -327,19 +352,18 @@ nemesis::OptionModelList::Parser::Parser(OptionModelList& host)
 void nemesis::OptionModelList::Parser::Run()
 {
     AddFixedOptions();
-    GetFunctionLines(GetFilePath(), storeline);
+    GetFileLines(GetFilePath(), storeline);
 
     for (auto& line : storeline)
     {
         ParseLine(line);
     }
 
-    LinkedOption();
-    VariableAddition();
+    Commit();
 }
 
-nemesis::OptionModelList::Rules::Rules(std::shared_ptr<nemesis::OptionModel> begin,
-                                     std::shared_ptr<nemesis::OptionModel> end)
+nemesis::OptionModelList::Rules::Rules(SPtr<nemesis::OptionModel> begin,
+                                     SPtr<nemesis::OptionModel> end)
 {
     this->begin = begin;
     this->end   = end;
@@ -355,12 +379,12 @@ bool nemesis::OptionModelList::Rules::HasEnd()
     return end != nullptr;
 }
 
-std::shared_ptr<nemesis::OptionModel> nemesis::OptionModelList::Rules::GetBegin()
+SPtr<nemesis::OptionModel> nemesis::OptionModelList::Rules::GetBegin()
 {
     return begin;
 }
 
-std::shared_ptr<nemesis::OptionModel> nemesis::OptionModelList::Rules::GetEnd()
+SPtr<nemesis::OptionModel> nemesis::OptionModelList::Rules::GetEnd()
 {
     return end;
 }
@@ -369,57 +393,131 @@ void nemesis::OptionModelList::ReadOptionListFile()
 {
     Parser parser(*this);
     parser.Run();
+}
 
+void nemesis::OptionModelList::AddOptionModel(const nemesis::Line& option)
+{
+    auto shptr = std::make_shared<nemesis::OptionModel>(option, filepath, templateclass);
+    auto name  = std::string(shptr->GetName());
+
+    if (Contains(name)) ErrorMessage(1177, templateclass.GetName(), filepath, option.GetLineNumber(), name);
+
+    optionsmap.insert(std::make_pair(name.length(), shptr));
+    options.insert(name);
+}
+
+void nemesis::OptionModelList::SortOptionsByLength() {}
+
+nemesis::OptionModel* nemesis::OptionModelList::GetInnerModel(const std::string modelname) const noexcept
+{
+    for (auto& option : optionsmap)
+    {
+        if (option.second->GetName() == modelname) return option.second.get();
+    }
+
+    return nullptr;
 }
 
 nemesis::OptionModelList::OptionModelList(const std::filesystem::path& filepath,
                                           const nemesis::TemplateClass& _templateclass) noexcept
     : templateclass(_templateclass)
 {
-    this->filepath = filepath;
-    ReadOptionListFile();
+    try
+    {
+        this->filepath = filepath;
+        InjectOptionModel(motion_str);
+        InjectOptionModel(rotation_str);
+        AddOptionModel(duration::fullname);
+        ReadOptionListFile();
+    }
+    catch (const std::exception& ex)
+    {
+        ErrorMessage(6002, "None", ex.what());
+    }
+    catch (const nemesis::exception&)
+    {
+    }
 }
 
-uint nemesis::OptionModelList::GetAnimObjectCount() const
+size_t nemesis::OptionModelList::GetAnimObjectCount() const
 {
     if (!iAnimObj) ErrorMessage(1017, templateclass.GetName(), filepath);
 
     return *iAnimObj;
 }
 
-bool nemesis::OptionModelList::Contains(std::string name) const noexcept
+bool nemesis::OptionModelList::Contains(const std::string& name) const
 {
-    for (auto& option : options)
+    return options.find(name) != options.end();
+}
+
+nemesis::OptionModel* nemesis::OptionModelList::GetModel(const std::string& modelname) noexcept
+{
+    return GetInnerModel(modelname);
+}
+
+const nemesis::OptionModel* nemesis::OptionModelList::GetModel(const std::string& modelname) const noexcept
+{
+    return GetInnerModel(modelname);
+}
+
+bool nemesis::OptionModelList::IsCompulsoryMet(const VecStr& optionlist) const noexcept
+{
+    auto contains_option = [&](const std::string& name) {
+        for (auto& option : optionlist)
+        {
+            if (option == name) return true;
+        }
+
+        return false;
+    };
+
+    for (auto& name : compulsory)
     {
-        if (option->GetName() == name) return true;
+        if (!contains_option(name)) return false;
     }
 
-    return false;
+    return true;
 }
 
-std::shared_ptr<nemesis::OptionModel> nemesis::OptionModelList::GetModel(std::string name) const noexcept
+Vec<const nemesis::OptionModel*> nemesis::OptionModelList::GetOptionList() const
 {
-    for (auto& option : options)
-    {
-        if (option->GetName() == name) return option;
-    }
+    Vec<const OptionModel*> optionmodellist;
 
-    return nullptr;
-}
-
-void nemesis::OptionModelList::AddOptionModel(const std::string& modelinfo)
-{
-    options.insert(std::make_shared<OptionModel>(modelinfo, filepath, templateclass));
-}
-
-std::unique_ptr<nemesis::Option>
-nemesis::OptionModelList::CreateOption(const std::string& query) const noexcept
-{
     for (auto& each : optionsmap)
     {
-        if (!StringStartWith(query, each.second->GetName())) continue;
+        optionmodellist.emplace_back(each.second.get());
+    }
 
-        return std::move(each.second->CreateOption(query));
+    return optionmodellist;
+}
+
+void nemesis::OptionModelList::InjectOptionModel(const std::string& modelinfo)
+{
+    auto optptr = std::make_shared<OptionModel>(filepath, templateclass);
+    optptr->AddModelInfoNoCheck(modelinfo);
+    auto name = optptr->GetName();
+    optionsmap.insert(std::make_pair(name.length(), optptr));
+    options.insert(std::string(name));
+}
+
+UPtr<nemesis::Option>
+nemesis::OptionModelList::CreateOption(const std::string& name,
+                                       const nemesis::AnimQuery& animquery) const noexcept
+{
+    auto model = GetModel(name);
+
+    if (model != nullptr) return std::move(model->CreateOption(name, animquery));
+
+    for (const auto& each : optionsmap)
+    {
+        model = each.second.get();
+
+        if (!model->HasVariable()) continue;
+
+        if (!StringStartWith(name, model->GetName())) continue;
+
+        return std::move(model->CreateOption(name, animquery));
     }
 
     return nullptr;

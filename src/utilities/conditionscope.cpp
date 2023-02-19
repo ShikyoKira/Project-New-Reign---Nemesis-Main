@@ -12,13 +12,17 @@ namespace ns = nemesis::syntax;
 void nemesis::ConditionScope::ScopeValidation(const nemesis::Line& line, const SPtr<nemesis::ConditionInfo>& current)
 {
     auto type = current->GetType();
-    tobedeleted = nullptr;
+
+    if (tobedeleted) tobedeleted.reset();
 
     switch (type)
     {
         case nemesis::CondType::ASTERISK:
         {
             if (!scopelayers.empty() && *scopelayers.back() == type) break;
+
+            scopelayers.emplace_back(current);
+            break;
         }
         case nemesis::CondType::IF:
         case nemesis::CondType::FOREACH:
@@ -35,6 +39,7 @@ void nemesis::ConditionScope::ScopeValidation(const nemesis::Line& line, const S
         case nemesis::CondType::ORIGINAL:
         {
             OriginalValidation(line.GetLineNumber());
+            break;
         }
         case nemesis::CondType::ELSEIF:
         {
@@ -61,36 +66,34 @@ void nemesis::ConditionScope::ScopeValidation(const nemesis::Line& line, const S
         }
         case nemesis::CondType::NONE:
         {
-            if (!scopelayers.empty())
-            {
-                scopelayers.back()->AddContent(line);
-            }
+            if (scopelayers.empty()) break;
 
+            scopelayers.back()->AddContent(line);
             break;
         }
     }
 }
 
-void nemesis::ConditionScope::ScopeCountValidation(uint linenum)
+void nemesis::ConditionScope::ScopeCountValidation(size_t linenum)
 {
     if (scopelayers.empty()) ErrorMessage(1118, modcode, path, linenum);
 }
 
-void nemesis::ConditionScope::OriginalValidation(uint linenum)
+void nemesis::ConditionScope::OriginalValidation(size_t linenum)
 {
     if (!scopelayers.empty() && *scopelayers.back() == nemesis::CondType::MOD_CODE) return;
 
     ErrorMessage(1216, modcode, path, linenum);
 }
 
-void nemesis::ConditionScope::LowerOriginalValidation(uint linenum)
+void nemesis::ConditionScope::LowerOriginalValidation(size_t linenum)
 {
     if (!scopelayers.empty() && *scopelayers.back() == nemesis::CondType::ASTERISK) return;
 
     ErrorMessage(1209, modcode, path, linenum);
 }
 
-void nemesis::ConditionScope::EndIfValidation(uint linenum)
+void nemesis::ConditionScope::EndIfValidation(size_t linenum)
 {
     ScopeCountValidation(linenum);
 
@@ -105,7 +108,7 @@ void nemesis::ConditionScope::EndIfValidation(uint linenum)
     ErrorMessage(1214, modcode, path, linenum);
 }
 
-void nemesis::ConditionScope::ElseIfValidation(uint linenum)
+void nemesis::ConditionScope::ElseIfValidation(size_t linenum)
 {
     ScopeCountValidation(linenum);
 
@@ -119,7 +122,7 @@ void nemesis::ConditionScope::ElseIfValidation(uint linenum)
     ErrorMessage(1119, modcode, path, linenum);
 }
 
-void nemesis::ConditionScope::CloseValidation(uint linenum)
+void nemesis::ConditionScope::CloseValidation(size_t linenum)
 {
     ScopeCountValidation(linenum);
 
@@ -127,13 +130,14 @@ void nemesis::ConditionScope::CloseValidation(uint linenum)
     {
         case nemesis::CondType::FOREACH:
         case nemesis::CondType::MOD_CODE:
+        case nemesis::CondType::ORIGINAL:
             return;
     }
 
     ErrorMessage(1213, modcode, path, linenum);
 }
 
-void nemesis::ConditionScope::ModCodeValidation(uint linenum)
+void nemesis::ConditionScope::ModCodeValidation(size_t linenum)
 {
     if (scopelayers.empty()) return;
 
@@ -162,14 +166,14 @@ SPtr<nemesis::ConditionInfo>& nemesis::ConditionScope::operator[](size_t index)
     return scopelayers[index];
 }
 
-SPtr<nemesis::ConditionInfo>& nemesis::ConditionScope::Front()
+nemesis::ConditionInfo& nemesis::ConditionScope::Front()
 {
-    return scopelayers.front();
+    return *scopelayers.front();
 }
 
-SPtr<nemesis::ConditionInfo>& nemesis::ConditionScope::Back()
+nemesis::ConditionInfo& nemesis::ConditionScope::Back()
 {
-    return scopelayers.back();
+    return *scopelayers.back();
 }
 
 SPtr<nemesis::ConditionInfo> nemesis::ConditionScope::TryGetConditionInfo(const nemesis::Line& line)
@@ -179,12 +183,12 @@ SPtr<nemesis::ConditionInfo> nemesis::ConditionScope::TryGetConditionInfo(const 
     return conditioninfo->GetType() == nemesis::CondType::NONE ? nullptr : conditioninfo;
 }
 
-SPtr<nemesis::ConditionInfo> nemesis::ConditionScope::GetToBeDeleted()
+nemesis::ConditionInfo& nemesis::ConditionScope::GetToBeDeleted()
 {
-    return tobedeleted;
+    return *tobedeleted;
 }
 
-std::string_view nemesis::ConditionScope::GetCurrentCondition() const
+std::string nemesis::ConditionScope::GetCurrentCondition() const
 {
     return scopelayers.back()->GetCondition();
 }

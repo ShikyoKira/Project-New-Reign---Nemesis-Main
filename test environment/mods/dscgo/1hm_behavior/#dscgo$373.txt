@@ -1,0 +1,7 @@
+		<hkobject name="#dscgo$373" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">MeleeTurnLeft_AdjustShield_ModGen</hkparam>
+			<hkparam name="modifier">#dscgo$363</hkparam>
+			<hkparam name="generator">#dscgo$374</hkparam>
+		</hkobject>

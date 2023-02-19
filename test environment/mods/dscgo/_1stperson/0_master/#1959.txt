@@ -1,0 +1,15 @@
+		<hkobject name="#1959" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#1960</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">1st3rdPerson_MSG</hkparam>
+			<hkparam name="generators" numelements="2">
+				#0165
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#dscgo$0
+<!-- ORIGINAL -->
+				#0167
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

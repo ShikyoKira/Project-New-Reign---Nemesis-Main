@@ -162,6 +162,7 @@ void GroupTemplate::getFunctionLines(shared_ptr<VecStr> functionline,
 
 	IsConditionOpened[0] = true;
 	functionline->reserve(templatelines.size() + 20 * memory);
+    Vec<int> empty;
 
     AnimThreadInfo animthrinfo("",
                                filename,
@@ -182,7 +183,7 @@ void GroupTemplate::getFunctionLines(shared_ptr<VecStr> functionline,
                                eventid,
                                variableid,
                                fixedStateID,
-                               vector<int>(),
+                               empty,
                                0,
                                true,
                                IDExist,
@@ -273,7 +274,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
     int groupOrder     = -2;
     size_t elementLine = -1;
 
-    for (uint i = 0; i < templatelines.size(); ++i)
+    for (size_t i = 0; i < templatelines.size(); ++i)
     {
         bool uniqueskip   = false;
         bool elementCatch = false;
@@ -289,9 +290,9 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                 {
                     if (isPassed(condition, IsConditionOpened))
                     {
-                        auto& conditionline   = ns::IfCondition(line);
+                        auto conditionline   = ns::IfCondition(line);
                         AnimationUtility utility;
-                        utility.originalCondition = conditionline;
+                        utility.originalCondition = std::string(conditionline);
                         utility.currentProcess    = this;
                         utility.hasGroup          = true;
                         utility.groupMulti        = curGroup;
@@ -335,7 +336,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                 {
                     if (isPassed(condition, IsConditionOpened))
                     {
-                        auto& curcond = ns::ElseIfCondition(line);
+                        auto curcond = ns::ElseIfCondition(line);
                         AnimationUtility utility;
                         utility.originalCondition = curcond;
                         utility.currentProcess    = this;
@@ -476,7 +477,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                     // clear group number
                     curOption = nemesis::regex_replace(string(optionInfo[2]),
                                                        nemesis::regex("[^A-Za-z\\s]*([A-Za-z\\s]+).*"),
-                                                       string("\\1"));
+                                                       string("$1"));
 
                     if (groupAnimInfo[stoi(optionInfo[1])][stoi(optionInfo[2])]->optionPicked[curOption])
                     {
@@ -583,7 +584,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                         size_t MIDposition = line.find("MID$");
                         string ID          = nemesis::regex_replace(string(line.substr(MIDposition)),
                                                          nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                         string("\\1"));
+                                                         string("$1"));
                         string oldID       = "MID$" + ID;
 
 						if (line.find(oldID, MIDposition) != NOT_FOUND)
@@ -634,7 +635,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                 {
                     string templine = line.substr(line.find("$(S"));
                     string ID       = nemesis::regex_replace(
-                        string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                        string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                     int intID;
 
                     if (line.find("$(S" + ID + "+") == NOT_FOUND)
@@ -794,7 +795,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                             nextpos         = line.find("#" + masterFormat, nextpos + 1);
                             string templine = line.substr(nextpos);
                             string ID       = nemesis::regex_replace(
-                                string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                             templine = line.substr(nextpos, line.find(ID, nextpos) - nextpos);
                             generator.push_back(templine);
                         }
@@ -802,7 +803,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
 
 					nextpos = 0;
 
-					for (unsigned int p = 0; p < generator.size(); p++)
+					for (size_t p = 0; p < generator.size(); p++)
 					{
 						string ID = generator[p];
 
@@ -811,7 +812,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                             nextpos       = line.find("#" + masterFormat + "$", nextpos) + 1;
                             string tempID = line.substr(nextpos);
                             string curID  = nemesis::regex_replace(
-                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                             curID = masterFormat + "$" + curID;
 
 							if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
@@ -837,12 +838,12 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                             nextpos       = line.find("#" + masterFormat + "_group$", nextpos) + 1;
                             string tempID = line.substr(nextpos);
                             string curID  = nemesis::regex_replace(
-                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                             curID = multiOption + "$" + curID;
 
 							if (tempID.find(curID, 0) != NOT_FOUND && nextpos == line.find(curID))
 							{
-								for (unsigned int k = 0; k < subFunctionIDs->grouplist.size(); ++k) // number of variation
+								for (size_t k = 0; k < subFunctionIDs->grouplist.size(); ++k) // number of variation
 								{
 									if (subFunctionIDs->grouplist[k]->functionIDs[curID].length() == 0)
 									{
@@ -978,7 +979,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
 								bool skip2 = false;
 								bool freeze2 = false;
 
-                                for (uint l = 0; l < tempstore.size(); ++l) // part lines need to add
+                                for (size_t l = 0; l < tempstore.size(); ++l) // part lines need to add
                                 {
                                     string curLine   = tempstore[l];
                                     bool uniqueskip2 = false;
@@ -1206,7 +1207,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                                     string ID          = nemesis::regex_replace(
                                                         string(curLine.substr(MIDposition)),
                                                         nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                        string("\\1"));
+                                                        string("$1"));
                                                     string oldID = "MID$" + ID;
 
 													if (curLine.find(oldID, MIDposition) != NOT_FOUND)
@@ -1265,7 +1266,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                                 string ID
                                                     = nemesis::regex_replace(string(templine),
                                                                            nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                                           string("\\1"));
+                                                                           string("$1"));
                                                 int intID;
 
                                                 if (curLine.find("$(S" + ID + "+") == NOT_FOUND)
@@ -1364,7 +1365,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
 											StringSplit(curLine, generator);
 											size_t nextpos = 0;
 
-                                            for (uint p = 0; p < generator.size(); p++)
+                                            for (size_t p = 0; p < generator.size(); p++)
                                             {
                                                 string ID = generator[p];
 
@@ -1377,7 +1378,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                                     string curID  = nemesis::regex_replace(
                                                         string(tempID),
                                                         nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                        string("\\1"));
+                                                        string("$1"));
                                                     curID = masterFormat + "$" + curID;
 
 													if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
@@ -1407,7 +1408,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                                     string curID  = nemesis::regex_replace(
                                                         string(tempID),
                                                         nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                        string("\\1"));
+                                                        string("$1"));
                                                     curID = multiOption + "$" + curID;
 
 													if (tempID.find(curID, 0) != NOT_FOUND && nextpos == curLine.find(curID))
@@ -1663,7 +1664,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
 	IsConditionOpened[0] = true;
 	newFunctionLines.reserve(existingFunctionLines.size() + 20 * memory);
 
-    for (uint i = 0; i < existingFunctionLines.size(); ++i)
+    for (size_t i = 0; i < existingFunctionLines.size(); ++i)
     {
         bool uniqueskip   = false;
         bool elementCatch = false;
@@ -2266,7 +2267,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                 bool skip2   = false;
                                 bool freeze2 = false;
 
-                                for (uint l = 0; l < tempstore.size(); ++l) // part lines need to add
+                                for (size_t l = 0; l < tempstore.size(); ++l) // part lines need to add
                                 {
                                     string curLine   = tempstore[l];
                                     size_t linecount = i + 1 + l - int(tempstore.size());
@@ -2440,7 +2441,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                                     string curID  = nemesis::regex_replace(
                                                         string(tempID),
                                                         nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                        string("\\1"));
+                                                        string("$1"));
                                                     curID = format + "$" + curID;
 
                                                     if (tempID.find(curID, 0) != NOT_FOUND
@@ -2476,7 +2477,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                                     string curID  = nemesis::regex_replace(
                                                         string(tempID),
                                                         nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                        string("\\1"));
+                                                        string("$1"));
                                                     curID = multiOption + "$" + curID;
 
                                                     if (tempID.find(curID, 0) != NOT_FOUND
@@ -2510,7 +2511,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                                     string curID  = nemesis::regex_replace(
                                                         string(tempID),
                                                         nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                        string("\\1"));
+                                                        string("$1"));
                                                     curID = multiOption + "$" + curID;
 
                                                     if (tempID.find(curID, 0) != NOT_FOUND
@@ -2718,7 +2719,7 @@ void GroupTemplate::stateReplacer(
         string number = nemesis::regex_replace(
             string(line.substr(line.find("$(S" + statenum + "+") + statenum.length() + 4)),
             nemesis::regex("[^0-9]*([0-9]+).*"),
-            string("\\1"));
+            string("$1"));
         string state = "$(S" + statenum + "+" + number + ")$";
 
         if (line.find(state, 0) != NOT_FOUND)
@@ -2794,13 +2795,13 @@ void GroupTemplate::processing(string& line,
                         if (equation.find("(S", 0) != NOT_FOUND)
                         {
                             ID = nemesis::regex_replace(
-                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                             if (change.find("(S" + ID + "+") == NOT_FOUND) ID = "";
 
                             number = nemesis::regex_replace(string(equation.substr(3 + ID.length())),
                                                           nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                          string("\\1"));
+                                                          string("$1"));
                         }
 
                         if (equation != "(S" + ID + "+" + number + ")")
@@ -2878,11 +2879,11 @@ void GroupTemplate::processing(string& line,
                     string number
                         = nemesis::regex_replace(string(change.substr(change.find(masterFormat + "[", 0))),
                                                nemesis::regex("[^0-9]*([0-9]+).*"),
-                                               string("\\1"));
+                                               string("$1"));
 
                     if (change.find(masterFormat + "[" + number + "][FilePath]", 0) != NOT_FOUND)
                     {
-                        if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                        if (static_cast<size_t>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                         {
                             change.replace(change.find(masterFormat + "[" + number + "][FilePath]"),
                                            8 + masterFormat.length() + number.length(),
@@ -2948,11 +2949,11 @@ void GroupTemplate::processing(string& line,
                     string number
                         = nemesis::regex_replace(string(change.substr(change.find(masterFormat + "[", 0))),
                                                nemesis::regex("[^0-9]*([0-9]+).*"),
-                                               string("\\1"));
+                                               string("$1"));
 
                     if (change.find(masterFormat + "[" + number + "][FileName]", 0) != NOT_FOUND)
                     {
-                        if (static_cast<uint>(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                        if (static_cast<size_t>(stoi(number)) >= groupAnimInfo[groupMulti].size())
                         {
                             change.replace(change.find(masterFormat + "[" + number + "][FileName]"),
                                            8 + masterFormat.length() + number.length(),
@@ -3075,11 +3076,11 @@ void GroupTemplate::processing(string& line,
                     string number = nemesis::regex_replace(
                         string(change),
                         nemesis::regex(masterFormat + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
-                        string("\\1"));
+                        string("$1"));
 
                     if (number != change)
                     {
-                        if (uint(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                        if (size_t(stoi(number)) >= groupAnimInfo[groupMulti].size())
                         {
                             pos = change.find("{" + masterFormat + "[" + number + "][main_anim_event]}", 0);
 
@@ -3361,13 +3362,13 @@ void ExistingFunction::processing(string& line,
                         if (equation.find("(S", 0) != NOT_FOUND)
                         {
                             ID = nemesis::regex_replace(
-                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string(equation), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                             if (change.find("(S" + ID + "+") == NOT_FOUND) ID = "";
 
                             number = nemesis::regex_replace(string(equation.substr(3 + ID.length())),
                                                           nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                          string("\\1"));
+                                                          string("$1"));
                         }
 
                         if (equation != "(S" + ID + "+" + number + ")")
@@ -3449,11 +3450,11 @@ void ExistingFunction::processing(string& line,
                         string number
                             = nemesis::regex_replace(string(change.substr(change.find(format + "[", 0))),
                                                    nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                   string("\\1"));
+                                                   string("$1"));
 
                         if (change.find(format + "[" + number + "][FilePath]", 0) != NOT_FOUND)
                         {
-                            if (uint(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                            if (size_t(stoi(number)) >= groupAnimInfo[groupMulti].size())
                             {
                                 change.replace(change.find(format + "[" + number + "][FilePath]"),
                                                8 + format.length() + number.length(),
@@ -3515,11 +3516,11 @@ void ExistingFunction::processing(string& line,
                         string number
                             = nemesis::regex_replace(string(change.substr(change.find(format + "[", 0))),
                                                    nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                   string("\\1"));
+                                                   string("$1"));
 
                         if (change.find(format + "[" + number + "][FileName]", 0) != NOT_FOUND)
                         {
-                            if (uint(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                            if (size_t(stoi(number)) >= groupAnimInfo[groupMulti].size())
                             {
                                 change.replace(change.find(format + "[" + number + "][FileName]"),
                                                8 + format.length() + number.length(),
@@ -3642,11 +3643,11 @@ void ExistingFunction::processing(string& line,
                         string number = nemesis::regex_replace(
                             string(change),
                             nemesis::regex(format + "\\[([0-9]+)\\]\\[main_anim_event\\].*"),
-                            string("\\1"));
+                            string("$1"));
 
                         if (number != change)
                         {
-                            if (uint(stoi(number)) >= groupAnimInfo[groupMulti].size())
+                            if (size_t(stoi(number)) >= groupAnimInfo[groupMulti].size())
                             {
                                 pos = change.find("[" + format + "[" + number + "][main_anim_event]]", 0);
 
@@ -4564,7 +4565,7 @@ bool andLoop(string condition,
             size_t c_or  = 0;
             size_t backB = 0;
 
-            for (uint i = 0; i < nextCondition.size(); ++i)
+            for (size_t i = 0; i < nextCondition.size(); ++i)
             {
                 if (nextCondition[i] == '(')
                 {
@@ -4620,7 +4621,7 @@ bool andLoop(string condition,
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (uint i = 0; i < nextCondition.size(); ++i)
+        for (size_t i = 0; i < nextCondition.size(); ++i)
         {
             if (nextCondition[i] == '(')
             {
@@ -4749,7 +4750,7 @@ bool andParenthesis(string condition,
     size_t c_or  = 0;
     size_t inner = 0;
 
-    for (uint i = 0; i < condition.length(); ++i)
+    for (size_t i = 0; i < condition.length(); ++i)
     {
         if (condition[i] == '(')
             ++c_or;
@@ -4832,7 +4833,7 @@ bool newCondition(string condition,
         size_t c_or  = 0;
         size_t backB = 0;
 
-        for (uint i = 0; i < condition.size(); ++i)
+        for (size_t i = 0; i < condition.size(); ++i)
         {
             if (condition[i] == '(')
             {
@@ -5448,7 +5449,7 @@ namespace backup
                         int position;
                         int openCounter = 0;
 
-                        for (uint i = 0; i < secondCondition.size(); ++i)
+                        for (size_t i = 0; i < secondCondition.size(); ++i)
                         {
                             if (secondCondition[i] == '(')
                             {
@@ -6073,7 +6074,7 @@ string optionOrderProcess(string line,
         string templine = newline;
         templine        = templine + "a";
         string newtempline
-            = nemesis::regex_replace(string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+            = nemesis::regex_replace(string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
 		if (newtempline == templine) ErrorMessage(1055, format, filename, numline, line);
 		if (stoi(newline) > int(lastOrder)) ErrorMessage(1148, format, filename, numline, line);
@@ -6190,7 +6191,7 @@ bool conditionProcess(string condition,
                 if (isalpha(optionInfo.back()[1]))
                 {
                     conditionOrder = nemesis::regex_replace(
-                        string(optionInfo.back()), nemesis::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+                        string(optionInfo.back()), nemesis::regex("\\^([A-Za-z]+)\\^"), string("$1"));
 
 					if (nemesis::iequals(conditionOrder, "last")) conditionResult = utility.animMulti == groupAnimInfo.size() - 1 ? !isNot : isNot;
 					else if (nemesis::iequals(conditionOrder, "first")) conditionOrder = "0";
@@ -6239,7 +6240,7 @@ bool conditionProcess(string condition,
 			if (isalpha(optionInfo.back()[1]))
 			{
                 conditionOrder = nemesis::regex_replace(
-                    string(optionInfo.back()), nemesis::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+                    string(optionInfo.back()), nemesis::regex("\\^([A-Za-z]+)\\^"), string("$1"));
 
 				if (nemesis::iequals(conditionOrder, "last")) return utility.animMulti == groupAnimInfo.size() - 1 ? !isNot : isNot;
 				else if (nemesis::iequals(conditionOrder, "first")) conditionOrder = "0";
@@ -6341,7 +6342,7 @@ int formatGroupReplace(string& curline,
 
 	if (animMulti > -1 && groupMulti > -1)
 	{
-		for (unsigned int i = point; i < curline.length(); ++i)
+		for (size_t i = point; i < curline.length(); ++i)
 		{
 			if (curline[i] == '[')
 			{
@@ -6381,7 +6382,7 @@ int formatGroupReplace(string& curline,
 	}
 	else
 	{
-		for (unsigned int i = point; i < curline.length(); ++i)
+		for (size_t i = point; i < curline.length(); ++i)
 		{
 			if (curline[i] == '[')
 			{
@@ -6470,7 +6471,7 @@ int formatGroupReplace(string& curline,
         if (optionMulti == -1) ErrorMessage(1128, format + "_group", filename, linecount);
         if (groupline.size() < 5) groupline.push_back(to_string(optionMulti));
 
-        for (uint d = open; d < groupline.size(); ++d)
+        for (size_t d = open; d < groupline.size(); ++d)
         {
             input.append("[" + groupline[d] + "]");
         }
@@ -6481,14 +6482,14 @@ int formatGroupReplace(string& curline,
 
 		groupline.back().append(to_string(optionMulti));
 
-        for (uint d = open; d < groupline.size() - 1; ++d)
+        for (size_t d = open; d < groupline.size() - 1; ++d)
         {
             input = input + "[" + groupline[d] + "]";
         }
     }
     else
     {
-        for (uint d = open; d < groupline.size(); ++d)
+        for (size_t d = open; d < groupline.size(); ++d)
         {
             input = input + "[" + groupline[d] + "]";
         }
@@ -6519,7 +6520,7 @@ int formatGroupReplace(string& curline,
         }
         else if (multiOption == format && groupMulti != -1 && animMulti != -1)
         {
-            for (uint i = point; i < curline.length(); ++i)
+            for (size_t i = point; i < curline.length(); ++i)
             {
                 if (curline[i] == '[')
                 {

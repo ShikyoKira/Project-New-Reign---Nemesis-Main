@@ -15,13 +15,14 @@ namespace nemesis
         using ParseFuncPtr = std::function<void(const nemesis::Line&)>;
 
         short type = 0;
-        uint index = 0;
+        size_t index = 0;
 
         Vec<Vec<nemesis::LinkedVar<T>>*> stream;
         SPtr<nemesis::ConditionInfo> tobedeleted;
+        Vec<nemesis::LinkedVar<T>> modcache;
+        UPtr<ConditionScope> cscope;
 
     private:
-        UPtr<ConditionScope> cscope;
 
         Vec<std::function<bool(const nemesis::Line&)>> typeconditions;
         Vec<std::function<void(nemesis::LinkedVar<std::string>&)>> typerefs;
@@ -34,71 +35,94 @@ namespace nemesis
 
         void InParseLine(const nemesis::Line& line)
         {
-            auto conditioninfo = cscope->TryGetConditionInfo(line);
-
-            if (!conditioninfo)
+            try
             {
-                if (cscope->Empty())
-                {
-                    pointinglist();
-                }
-                else if (cscope->Back()->GetType() == nemesis::CondType::ORIGINAL)
-                {
-                    pointingoriginal();
-                }
-                else
-                {
-                    stream.back()->emplace_back(line.ToString());
-                }
+                auto conditioninfo = cscope->TryGetConditionInfo(line);
 
-                return;
-            }
-
-            switch (conditioninfo->GetType())
-            {
-                case nemesis::CondType::IF:
-                case nemesis::CondType::FOREACH:
+                if (!conditioninfo)
                 {
-                    auto cond = nemesis::CondVar<T>(*conditioninfo);
-                    Vec<nemesis::LinkedVar<T>>* listptr;
-
-                    stream.back()->emplace_back(nemesis::LinkedVar<T>(cond, line.GetLineNumber()));
-                    listptr = &stream.back()->back().backCond().rawlist;
-                    stream.emplace_back(listptr);
-                    break;
-                }
-                case nemesis::CondType::ELSEIF:
-                {
-                    auto& cond    = nemesis::CondVar<T>(*conditioninfo);
-                    stream.back() = &stream.back()->back().addCond(cond).rawlist;
-                    break;
-                }
-                case nemesis::CondType::ELSE:
-                {
-                    auto& cond    = nemesis::CondVar<T>(conditioninfo->GetType());
-                    stream.back() = &stream.back()->back().addCond(cond).rawlist;
-                    break;
-                }
-                case nemesis::CondType::ENDIF:
-                {
-                    stream.pop_back();
-                    break;
-                }
-                case nemesis::CondType::ORIGINAL:
-                {
-                    tobedeleted = cscope->GetToBeDeleted();
-                    break;
-                }
-                case nemesis::CondType::CLOSE:
-                {
-                    if (!tobedeleted)
+                    if (cscope->Empty())
                     {
-                        tobedeleted = cscope->GetToBeDeleted();
+                        pointinglist();
+                    }
+                    else if (cscope->Back().GetType() == nemesis::CondType::ORIGINAL)
+                    {
+                        pointingoriginal();
+                    }
+                    else
+                    {
+                        stream.back()->emplace_back(line.ToString());
                     }
 
-                    closinglist();
-                    tobedeleted = nullptr;
-                    break;
+                    return;
+                }
+
+                switch (conditioninfo->GetType())
+                {
+                    case nemesis::CondType::IF:
+                    case nemesis::CondType::FOREACH:
+                    {
+                        auto cond = nemesis::CondVar<T>(*conditioninfo);
+                        Vec<nemesis::LinkedVar<T>>* listptr;
+
+                        stream.back()->emplace_back(nemesis::LinkedVar<T>(cond, line.GetLineNumber()));
+                        listptr = &stream.back()->back().backCond().rawlist;
+                        stream.emplace_back(listptr);
+                        break;
+                    }
+                    case nemesis::CondType::ELSEIF:
+                    {
+                        auto cond    = nemesis::CondVar<T>(*conditioninfo);
+                        stream.back() = &stream.back()->back().addCond(cond).rawlist;
+                        break;
+                    }
+                    case nemesis::CondType::ELSE:
+                    {
+                        auto cond    = nemesis::CondVar<T>(conditioninfo->GetType());
+                        stream.back() = &stream.back()->back().addCond(cond).rawlist;
+                        break;
+                    }
+                    case nemesis::CondType::ENDIF:
+                    {
+                        stream.pop_back();
+                        break;
+                    }
+                    case nemesis::CondType::MOD_CODE:
+                    {
+                        stream.emplace_back(&modcache);
+                        break;
+                    }
+                    case nemesis::CondType::ORIGINAL:
+                    {
+                        tobedeleted = cscope->GetToBeDeleted().shared_from_this();
+                        break;
+                    }
+                    case nemesis::CondType::CLOSE:
+                    {
+                        if (!tobedeleted)
+                        {
+                            tobedeleted = cscope->GetToBeDeleted().shared_from_this();
+                        }
+
+                        closinglist();
+                        stream.pop_back();
+                        modcache.clear();
+                        tobedeleted.reset();
+                        break;
+                    }
+                }
+            }
+            catch (const nemesis::exception&)
+            {
+            }
+            catch (const std::exception& ex)
+            {
+                try
+                {
+                    ErrorMessage(6002, ex.what());
+                }
+                catch (const nemesis::exception&)
+                {
                 }
             }
         }
@@ -120,13 +144,13 @@ namespace nemesis
             to_parse = std::bind(&LinkedParser<T>::InParseLine, this, std::placeholders::_1);
         }
 
-    public:
         LinkedParser() = default;
 
-        void ParseLine(const nemesis::Line& line);
-
-        void SetTypeCondition(std::function<bool(const nemesis::Line&)> func);
-        void SetTypeRef(std::function<void(nemesis::LinkedVar<std::string>&)> func);
+    public:
+        void ParseLine(const nemesis::Line& line)
+        {
+            to_parse(line);
+        }
 
         void SetPointingListFunc(FuncPtr func) noexcept
         {
@@ -148,6 +172,12 @@ namespace nemesis
 
         static nemesis::LinkedParser<T> CreateParser(Vec<nemesis::LinkedVar<T>>& list,
                                                      const std::string& modcode,
-                                                     const std::filesystem::path& path);
+                                                     const std::filesystem::path& path)
+        {
+            LinkedParser<T> parser;
+            parser.stream.emplace_back(&list);
+            parser.cscope = std::make_unique<ConditionScope>(modcode, path);
+            return parser;
+        }
     };
 } // namespace nemesis

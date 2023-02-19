@@ -1,0 +1,9 @@
+<!-- IF ^motion|rotation^ -->
+Nemesis_AnimObject_Animation_$Index$
+$animOrder[Animations\FilePath]$
+1
+0
+0
+0
+
+<!-- ENDIF -->

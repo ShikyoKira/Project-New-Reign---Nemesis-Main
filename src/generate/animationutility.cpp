@@ -33,12 +33,12 @@ void NewStateID::reset()
 	lastState = { make_shared<int>(0) };
 }
 
-shared_ptr<int>& NewStateID::operator[](uint number)
+shared_ptr<int>& NewStateID::operator[](size_t number)
 {
 	return lastState[number];
 }
 
-unsigned int NewStateID::size()
+size_t NewStateID::size()
 {
 	return lastState.size();
 }

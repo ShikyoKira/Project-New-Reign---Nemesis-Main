@@ -48,7 +48,7 @@ struct proc
 	std::unordered_map<int, block> lineblocks;							// numline, blocksize (order), blocks of same size
 	std::unordered_map<int, std::vector<nemesis::scope>> choiceblocks;			// numline, blocks
 
-	std::unordered_map<int, std::vector<nemesis::MultiChoice>> multiChoice;		// numline, list of MultiChoice
+	std::unordered_map<int, std::vector<nemesis::MultiChoice_Old>> multiChoice;		// numline, list of MultiChoice_Old
 
     proc() = default;
 
@@ -58,7 +58,7 @@ private:
 
 public:
 	void installBlock(nemesis::scope blok, int curline);
-	void installBlock(nemesis::scope blok, int curline, std::vector<nemesis::MultiChoice> n_condiiton);
+	void installBlock(nemesis::scope blok, int curline, std::vector<nemesis::MultiChoice_Old> n_condiiton);
 
 	// processes
 	void relativeNegative(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;

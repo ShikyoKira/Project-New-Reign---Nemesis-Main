@@ -24,7 +24,7 @@ class NodeU
     bool NodeUpdate(std::string modcode,
                     std::string f2,
                     std::string f3,
-                    std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>& newFile,
+                    std::unique_ptr<std::map<std::string, VecNstr, alphanum_less>>& newFile,
                     std::unique_ptr<UMapStr2>& stateID,
                     std::unique_ptr<UMapStr2>& parent,
                     std::unique_ptr<std::unordered_map<std::string, VecStr>>& statelist,
@@ -41,7 +41,7 @@ public:
     bool FunctionUpdate(std::string modcode,
                         std::string f2,
                         std::string f3,
-                        std::unique_ptr<std::map<std::string, VecStr, alphanum_less>>& newFile,
+                        std::unique_ptr<std::map<std::string, VecNstr, alphanum_less>>& newFile,
                         std::unique_ptr<UMapStr2>& stateID,
                         std::unique_ptr<UMapStr2>& parent,
                         std::unique_ptr<std::unordered_map<std::string, VecStr>>& statelist,
@@ -61,9 +61,7 @@ bool AnimDataUpdate(std::string modcode,
                     std::string filepath,
                     MasterAnimData& animData,
                     bool isNewCharacter,
-                    std::unordered_map<std::wstring, std::wstring>& lastUpdate,
-                    bool& openAnim,
-                    bool& openInfo);
+                    std::unordered_map<std::wstring, std::wstring>& lastUpdate);
 
 bool AnimSetDataUpdate(std::string modcode,
                        std::string animsetdatafile,

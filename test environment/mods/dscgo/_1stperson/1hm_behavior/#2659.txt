@@ -1,0 +1,20 @@
+		<hkobject name="#2659" class="BSIsActiveModifier" signature="0xb0fde45a">
+<!-- MOD_CODE ~dscgo~ OPEN -->
+			<hkparam name="variableBindingSet">null</hkparam>
+<!-- ORIGINAL -->
+			<hkparam name="variableBindingSet">#2660</hkparam>
+<!-- CLOSE -->
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">PowerAttackIsActiveModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">false</hkparam>
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">false</hkparam>
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">false</hkparam>
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">false</hkparam>
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">false</hkparam>
+		</hkobject>

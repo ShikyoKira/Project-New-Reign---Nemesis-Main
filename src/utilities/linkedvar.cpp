@@ -8,7 +8,7 @@
 using namespace std;
 namespace ns = nemesis::syntax;
 
-void combineLines(std::string& last, VecStr& temp, VecStr& combined)
+void combineLines(string& last, VecStr& temp, VecStr& combined)
 {
     if (temp.empty()) return;
 
@@ -51,10 +51,10 @@ void combineLines(std::string& last, VecStr& temp, VecStr& combined)
     }
 }
 
-SPtr<VecStr> getLinkedLines(const nemesis::LinkedVar<std::string>& linkedline)
+SPtr<VecStr> getLinkedLines(const nemesis::LinkedVar<string>& linkedline)
 {
-    std::shared_ptr<VecStr> storeline = std::make_shared<VecStr>();
-    vector<const nemesis::CondVar<string>*> modcodelist;
+    SPtr<VecStr> storeline = make_shared<VecStr>();
+    Vec<const nemesis::CondVar<string>*> modcodelist;
 
     for (auto& cond : linkedline.nestedcond)
     {
@@ -98,9 +98,9 @@ SPtr<VecStr> getLinkedLines(const nemesis::LinkedVar<std::string>& linkedline)
     return storeline;
 }
 
-void getLinkedLines(const nemesis::LinkedVar<std::string>& linkedline, VecStr& storeline)
+void getLinkedLines(const nemesis::LinkedVar<string>& linkedline, VecStr& storeline)
 {
-    vector<const nemesis::CondVar<string>*> modcodelist;
+    Vec<const nemesis::CondVar<string>*> modcodelist;
 
     for (auto& cond : linkedline.nestedcond)
     {
@@ -143,7 +143,7 @@ void getLinkedLines(const nemesis::LinkedVar<std::string>& linkedline, VecStr& s
 
 void getLinkedLines(const nemesis::LinkedVar<nemesis::Line>& linkedline, VecNstr& storeline)
 {
-    vector<const nemesis::CondVar<nemesis::Line>*> modcodelist;
+    Vec<const nemesis::CondVar<nemesis::Line>*> modcodelist;
 
     for (auto& cond : linkedline.nestedcond)
     {
@@ -188,11 +188,11 @@ void getLinkedLines(const nemesis::LinkedVar<nemesis::Line>& linkedline, VecNstr
     }
 }
 
-void getLinkedLines(vector<nemesis::LinkedVar<string>> linkedlist, VecStr& storeline)
+void getLinkedLines(Vec<nemesis::LinkedVar<string>> linkedlist, VecStr& storeline)
 {
     for (auto& each : linkedlist)
     {
-        vector<pair<const string*, const nemesis::CondVar<string>*>> modcodelist;
+        Vec<pair<const string*, const nemesis::CondVar<string>*>> modcodelist;
 
         for (auto& cond : each.nestedcond)
         {
@@ -218,7 +218,7 @@ void getLinkedLines(vector<nemesis::LinkedVar<string>> linkedlist, VecStr& store
         {
             if (each.raw)
             {
-                vector<pair<string, VecStr>> list;
+                Vec<pair<string, VecStr>> list;
 
                 for (auto& modcode : modcodelist)
                 {

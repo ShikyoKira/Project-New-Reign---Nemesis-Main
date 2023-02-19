@@ -31,7 +31,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID)
 
         VecStr exportFormat;
 
-        if (!GetFunctionLines(filename, exportFormat))
+        if (!GetFileLines(filename, exportFormat))
         {
             behaviorlines.shrink_to_fit();
             return behaviorlines;
@@ -50,7 +50,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID)
                 UMapStr2 IDExist;
                 behaviorlines.reserve(behaviorlines.size() + exportFormat.size() + 1);
 
-                for (uint j = 0; j < exportFormat.size(); ++j)
+                for (size_t j = 0; j < exportFormat.size(); ++j)
                 {
                     bool elementCatch = false;
                     string line       = exportFormat[j];
@@ -159,7 +159,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID)
 						{
                             string number = nemesis::regex_replace(string(line.substr(line.find("$import["))),
                                                                    nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                                   string("\\1"));
+                                                                   string("$1"));
 
 							if (line.find("$import[" + number + "]$", 0) != NOT_FOUND)
 							{
@@ -235,7 +235,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID)
                                     = importer.substr(pos, importer.find_last_of(']') + 1 - pos);
                                 int openBrack = 0;
 
-								for (unsigned int j = 0; j < tempKeyword.length(); ++j)
+								for (size_t j = 0; j < tempKeyword.length(); ++j)
 								{
 									char curChar = tempKeyword[j];
 
@@ -274,7 +274,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID)
 								keyword = "";
 							}
 
-							for (unsigned int i = 0; i < ExportID.size(); ++i)
+							for (size_t i = 0; i < ExportID.size(); ++i)
 							{
 								if (ExportID[i][file][keyword].length() > 0)
 								{
@@ -325,7 +325,7 @@ VecStr importOutput(vector<ImportContainer>& ExportID, int counter, int nextID)
                         {
                             string tempID = line.substr(line.find("MID$"));
                             string number = nemesis::regex_replace(
-                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                string(tempID), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
                             string oldID = "MID$" + number;
 
                             if (line.find(oldID) != NOT_FOUND)

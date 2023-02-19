@@ -3,7 +3,7 @@
 
 class NemesisInfo;
 
-void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo);
-void CmdUpdateInitialize(const NemesisInfo* nemesisInfo);
+void CmdGenerateInitialize(VecStr modlist);
+void CmdUpdateInitialize();
 
 #endif

@@ -1,0 +1,3 @@
+		<hkobject name="#dscgo$13" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">!IsAttacking &amp;&amp; !IsAttackReady &amp;&amp; !IsEquipping &amp;&amp;!IsUnequipping &amp;&amp; !IsCastingDual &amp;&amp; !IsCastingRight &amp;&amp; !IsCastingLeft</hkparam>
+		</hkobject>

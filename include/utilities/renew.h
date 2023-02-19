@@ -3,7 +3,7 @@
 
 class NemesisInfo;
 
-void ClearTempBehaviors(const NemesisInfo* nemesisInfo);
-void ClearTempXml(const NemesisInfo* nemesisInfo);
+void ClearTempBehaviors();
+void ClearTempXml();
 
 #endif

@@ -8,9 +8,9 @@ using namespace std;
 struct InfoDataTracker
 {
 	string data;
-	unsigned int index;
+	size_t index;
 
-	InfoDataTracker(string d, unsigned int i) : data(d), index(i) {}
+	InfoDataTracker(string d, size_t i) : data(d), index(i) {}
 };
 
 bool IDExistProcess(string change, vector<InfoDataPack>& storeline, map<string, vector<InfoDataTracker>> original, map<string, bool>& isExist,
@@ -135,7 +135,7 @@ void AnimDataProcess(vector<AnimDataPack>& storeline, int& startline, VecStr& an
 		{
 			int first = -1;
 
-			for (unsigned int i = 0; i < animDataInfo->second.size(); ++i)
+			for (size_t i = 0; i < animDataInfo->second.size(); ++i)
 			{
 				if (!(tracker[name] & (1 << i)))
 				{
@@ -229,7 +229,7 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, VecStr& an
 	map<string, size_t> locate;
 	map<string, vector<InfoDataTracker>> original;
 
-	for (uint i = startline; i < animdatafile.size(); ++i)
+	for (size_t i = startline; i < animdatafile.size(); ++i)
 	{
 		if (!isOnlyNumber(animdatafile[i])) ErrorMessage(3020, project, animdatafile[i]);
 
@@ -274,7 +274,7 @@ void InfoDataProcess(vector<InfoDataPack>& storeline, int& startline, VecStr& an
 
 					exchange.erase(uniquecode);
 
-					for (uint i = 0; i < original[uniquecode].size(); ++i)
+					for (size_t i = 0; i < original[uniquecode].size(); ++i)
 					{
 						if (original[uniquecode][i].data == change)
 						{
@@ -359,7 +359,7 @@ AnimDataFormat::position AnimDataPosition(VecStr animData, string character, str
 	unordered_map<int, bool> isConditionOri;
 	unordered_map<int, AnimDataFunct> marker;
 
-	for (unsigned int i = 0; i < animData.size(); ++i)
+	for (size_t i = 0; i < animData.size(); ++i)
 	{
 		if (animData[i].find("<!-- ") != NOT_FOUND)
 		{

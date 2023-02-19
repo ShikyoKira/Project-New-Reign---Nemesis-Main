@@ -1,0 +1,22 @@
+		<hkobject name="#0532" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0537</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Weap_1stP_Walk_MSG</hkparam>
+			<hkparam name="generators" numelements="8">
+				#0536
+				#0535
+				#0535
+				#0535
+				#0535
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#0535
+				#0535
+<!-- ORIGINAL -->
+				#0534
+				#0534
+<!-- CLOSE -->
+				#0533
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

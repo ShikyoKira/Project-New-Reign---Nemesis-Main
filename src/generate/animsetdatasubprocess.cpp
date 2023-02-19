@@ -59,8 +59,8 @@ void BehaviorSub::CompilingASD()
     string lowerBehaviorFile = nemesis::to_lower_copy(behaviorFile);
 
     VecStr projectList;
-    int projectcounter = 0;
-    int headercounter  = 0;
+    size_t projectcounter = 0;
+    size_t headercounter  = 0;
     string project     = "	";
     string header      = project;
     unordered_map<string, map<string, VecStr, alphanum_less>> ASDPack;
@@ -72,7 +72,7 @@ void BehaviorSub::CompilingASD()
         // read behavior file
         VecStr catalyst;
         VecStr newline;
-        vector<pair<uint, string>> storeline;
+        vector<pair<size_t, string>> storeline;
         VecStr origLines;
 
         unordered_map<string, string> chosenLines;
@@ -84,9 +84,9 @@ void BehaviorSub::CompilingASD()
         bool orig   = false;
         bool modif  = false;
 
-        uint numline = 0;
+        size_t numline = 0;
 
-        if (!GetFunctionLines(filepath, catalyst, false)) return;
+        if (!GetFileLines(filepath, catalyst, false)) return;
 
         while (catalyst.back().length() == 0)
         {
@@ -216,7 +216,7 @@ void BehaviorSub::CompilingASD()
             if (error) throw nemesis::exception();
         }
 
-        for (int i = 1; i < storeline.size(); ++i)
+        for (size_t i = 1; i < storeline.size(); ++i)
         {
             if (isOnlyNumber(storeline[i].second)) break;
 
@@ -233,10 +233,10 @@ void BehaviorSub::CompilingASD()
 
         process->newMilestone();
 
-        int num;
+        size_t num = 0;
         string line;
 
-        for (uint i = projectList.size() + 1; i < storeline.size(); ++i)
+        for (size_t i = projectList.size() + 1; i < storeline.size(); ++i)
         {
             line = storeline[i].second;
 
@@ -322,7 +322,7 @@ void BehaviorSub::CompilingASD()
 
         process->newMilestone();
 
-        for (int i = num; i < storeline.size(); ++i)
+        for (size_t i = num; i < storeline.size(); ++i)
         {
             line = storeline[i].second;
 
@@ -446,7 +446,7 @@ void BehaviorSub::CompilingASD()
                     auto newAnimCopy = aitr->second;
                     nalock.Unlock();
 
-                    for (uint k = 0; k < newAnimCopy.size(); ++k)
+                    for (size_t k = 0; k < newAnimCopy.size(); ++k)
                     {
                         unordered_map<string, map<string, VecStr, alphanum_less>> generatedASD;
                         newAnimCopy[k]->GetAnimSetData(generatedASD);

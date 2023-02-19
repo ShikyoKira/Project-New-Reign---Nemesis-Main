@@ -11,40 +11,56 @@ extern bool SSE;
 
 class NemesisInfo
 {
+    static NemesisInfo* nemesisinfo;
+    static std::atomic_flag lock;
+
+    bool forceDirectory = false;
+    bool exception = false;
     bool first = true;
-    std::wstring dataPath;
-    std::wstring stageDirectory;
-    uint maxAnim       = 10000;
-    uint width         = 526;
-    uint height        = 750;
-    uint modNameWidth  = 380;
-    uint authorWidth   = 75;
-    uint priorityWidth = 47;
+
+    std::filesystem::path dataPath;
+    std::filesystem::path stageDirectory;
+    
+    size_t maxAnim       = 10000;
+    size_t width         = 526;
+    size_t height        = 750;
+    size_t modNameWidth  = 380;
+    size_t authorWidth   = 75;
+    size_t priorityWidth = 47;
+    size_t timeout_timer = 3000;
 
     void setup();
 
-public:
     NemesisInfo();
     NemesisInfo(bool& exception);
 
+    void ReadNemesisInfoFile();
+    void SetDataPath();
+    void PathValidation();
+
+public:
     void iniFileUpdate();
 
-    const std::wstring& GetDataPath() const;
-    const std::wstring& GetStagePath() const;
-    const std::string& GetDataPathA() const;
-    const std::string& GetStagePathA() const;
-    const uint& GetMaxAnim() const;
-    const bool& IsFirst() const;
-    const uint& GetWidth() const;
-    const uint& GetHeight() const;
-    const uint& GetModNameWidth() const;
-    const uint& GetAuthorWidth() const;
-    const uint& GetPriorityWidth() const;
+    std::filesystem::path GetDataPath() const;
+    std::filesystem::path GetStagePath() const;
 
-    void setFirst(bool _first);
-    void setWidth(uint _width);
-    void setHeight(uint _height);
-    void setModNameWidth(uint _width);
-    void setAuthorWidth(uint _width);
-    void setPriorityWidth(uint _width);
+    size_t GetMaxAnim() const;
+    size_t GetWidth() const;
+    size_t GetHeight() const;
+    size_t GetModNameWidth() const;
+    size_t GetAuthorWidth() const;
+    size_t GetPriorityWidth() const;
+    size_t GetTimeout() const;
+
+    bool IsFirst() const;
+    bool HasException() const;
+
+    void SetFirst(bool _first);
+    void SetWidth(size_t _width);
+    void SetHeight(size_t _height);
+    void SetModNameWidth(size_t _width);
+    void SetAuthorWidth(size_t _width);
+    void SetPriorityWidth(size_t _width);
+
+    static NemesisInfo* GetInstance();
 };

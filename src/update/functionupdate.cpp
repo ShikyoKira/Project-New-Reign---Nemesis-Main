@@ -9,6 +9,8 @@
 
 #include "update/animsetdata/masteranimsetdata.h"
 
+#include "update/patch.h"
+
 #pragma warning(disable : 4503)
 
 using namespace std;
@@ -29,14 +31,14 @@ void addAnimDataPack(const string& projectfile,
                      const string& filename,
                      const string& modcode,
                      const MasterAnimData::ProjectPtr& projData,
-                     const VecStr& storeline);
+                     const VecNstr& storeline);
 void addInfoDataPack(const string& filepath,
                      const string& filename,
                      const string& modcode,
                      const MasterAnimData::ProjectPtr& projData,
-                     const VecStr& storeline);
+                     const VecNstr& storeline);
 
-bool GetFunctionEdits(string& line, VecStr storeline, int numline)
+bool GetFunctionEdits(nemesis::Line& line, VecNstr storeline, int numline)
 {
     if (numline < int(storeline.size()))
     {
@@ -48,31 +50,22 @@ bool GetFunctionEdits(string& line, VecStr storeline, int numline)
     return false;
 }
 
-VecStr GetFunctionEdits(string filename, VecStr storeline, int startline, int endline)
+VecNstr GetFunctionEdits(const string& filename, VecNstr storeline, int startline, int endline)
 {
-    VecStr storage;
+    VecNstr storage;
     storage.reserve(endline);
     int combine = endline + startline;
 
-    if (int(storeline.size()) > combine)
-    {
-        for (int i = startline; i < combine; ++i)
-        {
-            storage.push_back(storeline[i]);
-        }
-    }
-    else
-    {
-        ErrorMessage(2002, filename, startline, startline + endline);
-    }
+    if (int(storeline.size()) <= combine) ErrorMessage(2002, filename, startline, startline + endline);
 
+    storage.insert(storage.end(), storeline.begin() + startline, storeline.begin() + combine);
     return storage;
 }
 
 bool NodeU::NodeUpdate(string modcode,
                        string behaviorfile,
                        string nodefile,
-                       unique_ptr<map<string, VecStr, alphanum_less>>& newFile,
+                       unique_ptr<map<string, VecNstr, alphanum_less>>& newFile,
                        unique_ptr<UMapStr2>& stateID,
                        unique_ptr<UMapStr2>& parent,
                        unique_ptr<unordered_map<string, VecStr>>& statelist,
@@ -91,7 +84,7 @@ bool NodeU::NodeUpdate(string modcode,
     }
 
     string filecheck = nemesis::regex_replace(
-                           string(nodefile), nemesis::regex(".+?([0-9]+)\\.[t|T][x|X][t|T]$"), string("\\1"))
+                           string(nodefile), nemesis::regex(".+?([0-9]+)\\.[t|T][x|X][t|T]$"), string("$1"))
                        + ".txt";
     string nodeID   = nodefile.substr(0, nodefile.rfind("."));
     string filepath = "mod\\" + modcode + "\\" + behaviorfile + "\\" + nodefile;
@@ -118,19 +111,19 @@ bool NodeU::NodeUpdate(string modcode,
         bool bigger       = false;
         bool isSM         = false;
 
-        int startoriline  = 0;
-        int starteditline = 0;
+        size_t startoriline = 0;
+        size_t starteditline = 0;
         int variablecount;
         int eventcount;
         int attributecount;
         int characterpropertycount;
 
-        VecStr storeline;
+        VecNstr storeline;
         FileReader BehaviorFormat(filepath);
 
-        if (!BehaviorFormat.GetFile()) ErrorMessage(2000, filepath);
+        if (!BehaviorFormat.GetFile()) ErrorMessage(2000, filepath, BehaviorFormat.ErrorMessage());
 
-        string rline;
+        nemesis::Line rline;
         bool IsEventVariable = false;
 
         while (BehaviorFormat.GetLines(rline))
@@ -139,14 +132,14 @@ bool NodeU::NodeUpdate(string modcode,
 
             if (error) throw nemesis::exception();
 
-            if (line.find("hkbBehaviorGraphStringData", 0) != NOT_FOUND
-                || line.find("hkbVariableValueSet", 0) != NOT_FOUND
-                || line.find("hkbBehaviorGraphData", 0) != NOT_FOUND)
+            if (line.find("hkbBehaviorGraphStringData") != NOT_FOUND
+                || line.find("hkbVariableValueSet") != NOT_FOUND
+                || line.find("hkbBehaviorGraphData") != NOT_FOUND)
             {
                 IsEventVariable = true;
             }
 
-            if (line.find("<hkobject name=\"", 0) != NOT_FOUND
+            if (line.find("<hkobject name=\"") != NOT_FOUND
                 && line.find("class=\"hkbStateMachine\" signature=\"", line.find("<hkobject name=\""))
                        != NOT_FOUND)
             {
@@ -171,12 +164,11 @@ bool NodeU::NodeUpdate(string modcode,
             }
             else if (!originalopen && line.find("<hkparam name=\"stateId\">") != NOT_FOUND)
             {
-                string stateIDStr = nemesis::regex_replace(
-                    string(line),
-                    nemesis::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
-                    string("\\1"));
+                constexpr std::string_view openparam = "<hkparam name=\"stateId\">";
+                constexpr std::string_view closeparam = "</hkparam>";
+                string stateIDStr = std::string(nemesis::between(line, openparam, closeparam));
 
-                if (stateIDStr != line)
+                if (isOnlyNumber(stateIDStr))
                 {
 #if MULTITHREADED_UPDATE
                     Lockless lock(stateLock);
@@ -198,7 +190,7 @@ bool NodeU::NodeUpdate(string modcode,
                 originalline = linecount;
                 startoriline = linecount;
             }
-            else if (line.find(ns::Close(), 0) != NOT_FOUND)
+            else if (line.find(ns::Close()) != NOT_FOUND)
             {
                 edited = false;
 
@@ -229,34 +221,34 @@ bool NodeU::NodeUpdate(string modcode,
             }
             else if (edited)
             {
-                if (IsEventVariable && line.find("numelements=", 0) != NOT_FOUND)
+                if (IsEventVariable && line.find("numelements=") != NOT_FOUND)
                 {
-                    if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != NOT_FOUND
-                        || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != NOT_FOUND)
+                    if (line.find("<hkparam name=\"eventNames\" numelements=") != NOT_FOUND
+                        || line.find("<hkparam name=\"eventInfos\" numelements=") != NOT_FOUND)
                     {
                         eventcount = stoi(nemesis::regex_replace(
-                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")));
                     }
-                    else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND
-                             || line.find("<hkparam name=\"attributeDefaults\" numelements=", 0) != NOT_FOUND)
+                    else if (line.find("<hkparam name=\"attributeNames\" numelements=") != NOT_FOUND
+                             || line.find("<hkparam name=\"attributeDefaults\" numelements=") != NOT_FOUND)
                     {
                         attributecount = stoi(nemesis::regex_replace(
-                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")));
                     }
-                    else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND
-                             || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0) != NOT_FOUND
-                             || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
+                    else if (line.find("<hkparam name=\"variableNames\" numelements=") != NOT_FOUND
+                             || line.find("<hkparam name=\"wordVariableValues\" numelements=") != NOT_FOUND
+                             || line.find("<hkparam name=\"variableInfos\" numelements=") != NOT_FOUND)
                     {
                         variablecount = stoi(nemesis::regex_replace(
-                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")));
                     }
-                    else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0)
+                    else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=")
                                  != NOT_FOUND
-                             || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0)
+                             || line.find("<hkparam name=\"characterPropertyInfos\" numelements=")
                                     != NOT_FOUND)
                     {
                         characterpropertycount = stoi(nemesis::regex_replace(
-                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                            string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")));
                     }
                 }
 
@@ -287,9 +279,9 @@ bool NodeU::NodeUpdate(string modcode,
         VecStr newline = (*newFile)[nodeID];
         prelock.Unlock();
 #else
-        VecStr newline = (*newFile)[nodeID];
+        VecNstr newline = (*newFile)[nodeID];
 #endif
-        VecStr functionline;
+        VecNstr functionline;
         functionline.reserve(newline.size());
         linecount     = 0;
         int editcount = 0;
@@ -310,20 +302,20 @@ bool NodeU::NodeUpdate(string modcode,
         {
             if (error) throw nemesis::exception();
 
-            if (line.find("<!-- NEW", 0) != NOT_FOUND) skip = true;
+            if (line.find(ns::ModCode()) != NOT_FOUND) skip = true;
 
-            if (line.find("<!-- *", 0) == NOT_FOUND && !skip)
+            if (line.find(ns::Aster()) == NOT_FOUND && !skip)
             {
                 if (modEditCoordinate.size() > 0 && modEditCoordinate[editcount] == linecount)
                 {
-                    if (line.find("<hkparam name=\"eventNames\" numelements=", 0) != NOT_FOUND
-                        || line.find("<hkparam name=\"eventInfos\" numelements=", 0) != NOT_FOUND)
+                    if (line.find("<hkparam name=\"eventNames\" numelements=") != NOT_FOUND
+                        || line.find("<hkparam name=\"eventInfos\" numelements=") != NOT_FOUND)
                     {
                         int tempint = eventcount
                                       - stoi(nemesis::regex_replace(
-                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")));
 
-                        if (line.find("<!-- EVENT numelement ", 0) != NOT_FOUND)
+                        if (line.find("<!-- EVENT numelement ") != NOT_FOUND)
                         {
                             line.append(" <!-- EVENT numelement " + modcode + " +" + std::to_string(tempint)
                                         + " $" + std::to_string(modEditLine[std::to_string(linecount)])
@@ -336,13 +328,13 @@ bool NodeU::NodeUpdate(string modcode,
                                         + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
                         }
                     }
-                    else if (line.find("<hkparam name=\"attributeNames\" numelements=", 0) != NOT_FOUND)
+                    else if (line.find("<hkparam name=\"attributeNames\" numelements=") != NOT_FOUND)
                     {
                         int tempint = attributecount
                                       - stoi(nemesis::regex_replace(
-                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")));
 
-                        if (line.find("<!-- ATTRIBUTE numelement ", 0) != NOT_FOUND)
+                        if (line.find("<!-- ATTRIBUTE numelement ") != NOT_FOUND)
                         {
                             line.append(" <!-- ATTRIBUTE numelement " + modcode + " +"
                                         + std::to_string(tempint) + " $"
@@ -355,15 +347,15 @@ bool NodeU::NodeUpdate(string modcode,
                                         + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
                         }
                     }
-                    else if (line.find("<hkparam name=\"variableNames\" numelements=", 0) != NOT_FOUND
-                             || line.find("<hkparam name=\"wordVariableValues\" numelements=", 0) != NOT_FOUND
-                             || line.find("<hkparam name=\"variableInfos\" numelements=", 0) != NOT_FOUND)
+                    else if (line.find("<hkparam name=\"variableNames\" numelements=") != NOT_FOUND
+                             || line.find("<hkparam name=\"wordVariableValues\" numelements=") != NOT_FOUND
+                             || line.find("<hkparam name=\"variableInfos\" numelements=") != NOT_FOUND)
                     {
                         int tempint = variablecount
                                       - stoi(nemesis::regex_replace(
-                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")));
 
-                        if (line.find("<!-- VARIABLE numelement ", 0) != NOT_FOUND)
+                        if (line.find("<!-- VARIABLE numelement ") != NOT_FOUND)
                         {
                             line.append(" <!-- VARIABLE numelement " + modcode + " +"
                                         + std::to_string(tempint) + " $"
@@ -376,16 +368,16 @@ bool NodeU::NodeUpdate(string modcode,
                                         + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
                         }
                     }
-                    else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=", 0)
+                    else if (line.find("<hkparam name=\"characterPropertyNames\" numelements=")
                                  != NOT_FOUND
-                             || line.find("<hkparam name=\"characterPropertyInfos\" numelements=", 0)
+                             || line.find("<hkparam name=\"characterPropertyInfos\" numelements=")
                                     != NOT_FOUND)
                     {
                         int tempint = characterpropertycount
                                       - stoi(nemesis::regex_replace(
-                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                          string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")));
 
-                        if (line.find("<!-- CHARACTER numelement ", 0) != NOT_FOUND)
+                        if (line.find("<!-- CHARACTER numelement ") != NOT_FOUND)
                         {
                             line.append(" <!-- CHARACTER numelement " + modcode + " +"
                                         + std::to_string(tempint) + " $"
@@ -398,9 +390,9 @@ bool NodeU::NodeUpdate(string modcode,
                                         + std::to_string(modEditLine[std::to_string(linecount)]) + " -->");
                         }
                     }
-                    else if (line.find("numelements=\"", 0) != NOT_FOUND)
+                    else if (line.find("numelements=\"") != NOT_FOUND)
                     {
-                        string templine;
+                        nemesis::Line templine;
 
                         if (!GetFunctionEdits(templine, storeline, modEditLine[std::to_string(linecount)]))
                         {
@@ -409,11 +401,11 @@ bool NodeU::NodeUpdate(string modcode,
 
                         int difference
                             = stoi(nemesis::regex_replace(
-                                  string(templine), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")))
+                                  templine.ToString(), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")))
                               - stoi(nemesis::regex_replace(
-                                  string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                                  string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1")));
 
-                        if (line.find("<!-- numelement *", 0) != NOT_FOUND)
+                        if (line.find("<!-- numelement *") != NOT_FOUND)
                             line.append(" <!-- numelement *" + modcode + "* +" + std::to_string(difference)
                                         + "-->");
                         else
@@ -422,7 +414,7 @@ bool NodeU::NodeUpdate(string modcode,
                     }
                     else
                     {
-                        string templine;
+                        nemesis::Line templine;
 
                         if (!GetFunctionEdits(templine, storeline, modEditLine[std::to_string(linecount)]))
                         {
@@ -453,7 +445,7 @@ bool NodeU::NodeUpdate(string modcode,
                 {
                     functionline.push_back(ns::ModCode(modcode));
 
-                    VecStr storage = GetFunctionEdits(filepath,
+                    VecNstr storage = GetFunctionEdits(filepath,
                                                       storeline,
                                                       modEditLine[std::to_string(linecount) + "R"],
                                                       NewCoordinate[linecount]);
@@ -474,13 +466,13 @@ bool NodeU::NodeUpdate(string modcode,
 
         if (bigger)
         {
-            for (unsigned int i = newline.size(); i < storeline.size(); ++i)
+            for (size_t i = newline.size(); i < storeline.size(); ++i)
             {
                 if (NewCoordinate[linecount] > 0)
                 {
                     functionline.push_back(ns::ModCode(modcode));
 
-                    VecStr storage = GetFunctionEdits(filepath,
+                    VecNstr storage = GetFunctionEdits(filepath,
                                                       storeline,
                                                       modEditLine[std::to_string(linecount) + "R"],
                                                       NewCoordinate[linecount]);
@@ -500,27 +492,25 @@ bool NodeU::NodeUpdate(string modcode,
     }
     else if (nemesis::iequals(nodefile, "#" + modcode + "$" + filecheck))
     {
-        VecStr storeline;
+        VecNstr storeline;
 
-        if (!GetFunctionLines(filepath, storeline)) return false;
+        if (!GetFileLines(filepath, storeline)) return false;
 
         for (auto& line : storeline)
         {
-            if (line.find("<hkparam name=\"stateId\">") != NOT_FOUND)
-            {
-                string stateIDStr = nemesis::regex_replace(
-                    string(line),
-                    nemesis::regex(".*<hkparam name=\"stateId\">([0-9]+)</hkparam>.*"),
-                    string("\\1"));
+            constexpr std::string_view openparam  = "<hkparam name=\"stateId\">";
 
-                if (stateIDStr != line)
-                {
+            if (line.find(openparam) == NOT_FOUND) continue;
+
+            constexpr std::string_view closeparam = "</hkparam>";
+            string stateIDStr = std::string(nemesis::between(line, openparam, closeparam));
+
+            if (!isOnlyNumber(stateIDStr)) continue;
+
 #if MULTITHREADED_UPDATE
-                    Lockless lock(stateLock);
+            Lockless lock(stateLock);
 #endif
-                    (*stateID)[nodeID] = stateIDStr;
-                }
-            }
+            (*stateID)[nodeID] = stateIDStr;
         }
 
 #if MULTITHREADED_UPDATE
@@ -539,7 +529,7 @@ bool NodeU::NodeUpdate(string modcode,
 bool NodeU::FunctionUpdate(string modcode,
                            string behaviorfile,
                            string nodefile,
-                           unique_ptr<map<string, VecStr, alphanum_less>>& newFile,
+                           unique_ptr<map<string, VecNstr, alphanum_less>>& newFile,
                            unique_ptr<UMapStr2>& stateID,
                            unique_ptr<UMapStr2>& parent,
                            unique_ptr<unordered_map<string, VecStr>>& statelist,
@@ -590,37 +580,36 @@ bool AnimDataUpdate(string modcode,
                     string filepath,
                     MasterAnimData& animData,
                     bool isNewProject,
-                    unordered_map<wstring, wstring>& lastUpdate,
-                    bool& openAnim,
-                    bool& openInfo)
+                    unordered_map<wstring, wstring>& lastUpdate)
 {
     if (behaviorPath[nemesis::transform_to<wstring>(nemesis::to_lower_copy(animdatafile))].empty())
     {
         ErrorMessage(2007, animdatafile);
     }
 
-    VecStr storeline;
+    VecNstr storeline;
     string filename = GetFileName(filepath);
 
     saveLastUpdate(nemesis::to_lower_copy(filepath), lastUpdate);
 
     if (isNewProject)
     {
-        if (!GetFunctionLines(filepath, storeline, !nemesis::iequals(filename, "$header$"))) return false;
+        if (!GetFileLines(filepath, storeline, !nemesis::iequals(filename, "$header$"))) return false;
 
-            // must not replace storeline with animData.newAnimData[projectfile][filename] for the total line will not get counted
+        // must not replace storeline with animData.newAnimData[projectfile][filename] for the total line will not get counted
         if (nemesis::iequals(filename, "$header$"))
         {
             auto& proj = animData.projectlist[animData.getIndex(projectfile)];
 
             for (auto& cond : proj.nestedcond)
             {
-                if (cond.conditions == modcode && !cond.rawlist[0].raw->second)
-                {
-                    storeline.insert(storeline.begin(), "");
-                    cond.rawlist[0].raw->second = make_shared<AnimDataProject_Condt>(storeline, 0);
-                    return true;
-                }
+                if (cond.conditions != modcode) continue;
+
+                if (cond.rawlist[0].raw->second) continue;
+
+                storeline.insert(storeline.begin(), "");
+                cond.rawlist[0].raw->second = make_shared<AnimDataProject_Condt>(storeline);
+                return true;
             }
 
             string fullpath = filesystem::path(filepath).parent_path().parent_path().string() + "\\$header$\\$header$.txt";
@@ -638,7 +627,7 @@ bool AnimDataUpdate(string modcode,
                     if (!each.raw) continue;
 
                     storeline.insert(storeline.begin(), "");
-                    each.raw->second = make_shared<AnimDataProject_Condt>(storeline, 0);
+                    each.raw->second = make_shared<AnimDataProject_Condt>(storeline);
                     return true;
                 }
             }
@@ -672,7 +661,7 @@ bool AnimDataUpdate(string modcode,
         else if (filename.find("~") != NOT_FOUND) // anim data
         {
             string tempname
-                = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("\\1"));
+                = nemesis::regex_replace(string(filename), nemesis::regex("[^~]*~([0-9]+)"), string("$1"));
 
             if (tempname == filename) ErrorMessage(2004, filepath);
 
@@ -692,7 +681,7 @@ bool AnimDataUpdate(string modcode,
         return true;
     }
 
-    shared_ptr<AnimDataProject_Condt> projData = animData.find(projectfile);
+    SPtr<AnimDataProject_Condt> projData = animData.find(projectfile);
 
     if (projData == nullptr)
     {
@@ -701,9 +690,9 @@ bool AnimDataUpdate(string modcode,
         throw nemesis::exception();
     }
 
-    VecStr templines;
+    VecNstr templines;
 
-    if (!GetFunctionLines(filepath, templines)) return false;
+    if (!GetFileLines(filepath, templines)) return false;
 
     if (nemesis::iequals(filename, "$header$")) // project header
     {
@@ -729,7 +718,7 @@ bool AnimDataUpdate(string modcode,
             {
                 originalopen = true;
             }
-            else if (line.find(ns::Close(), 0) != NOT_FOUND)
+            else if (line.find(ns::Close()) != NOT_FOUND)
             {
                 originalopen = false;
                 edited       = false;
@@ -750,7 +739,7 @@ bool AnimDataUpdate(string modcode,
             if (!hasAlpha(storeline[0])) ErrorMessage(3006, projectfile, filename);
 
             string check
-                = nemesis::regex_replace(string(filename), nemesis::regex("^([^~]+)~[0-9]+$"), string("\\1"));
+                = nemesis::regex_replace(string(filename), nemesis::regex("^([^~]+)~[0-9]+$"), string("$1"));
 
             auto* curptr = projData->afindlist(check);
 
@@ -761,8 +750,8 @@ bool AnimDataUpdate(string modcode,
 
             if (!curptr)
             {
-                auto pair = make_pair(storeline[0],
-                                      nemesis::LinkedVar(AnimDataPack_Condt(storeline, 1)));
+                auto pair = make_pair(std::string(storeline[0]),
+                                      nemesis::LinkedVar(AnimDataPack_Condt(storeline)));
                 auto condpair = nemesis::CondVar(pair, modcode, nemesis::CondType::MOD_CODE);
                 projData->animdatalist.push_back(condpair);
                 return true;
@@ -773,7 +762,7 @@ bool AnimDataUpdate(string modcode,
         else
         {
             // info data confirmation
-            if (!isOnlyNumber(storeline[0])) ErrorMessage(3006, projectfile, filename);
+            if (!isOnlyNumber(storeline[0].ToString())) ErrorMessage(3006, projectfile, filename);
 
             auto* curptr = projData->ifindlist(filename);
 
@@ -785,7 +774,7 @@ bool AnimDataUpdate(string modcode,
     else
     {
         string tempID = nemesis::regex_replace(
-            string(filename), nemesis::regex("[^~]*~" + modcode + "[$]([0-9]+)"), string("\\1"));
+            string(filename), nemesis::regex("[^~]*~" + modcode + "[$]([0-9]+)"), string("$1"));
 
         if (filename != tempID && isOnlyNumber(tempID)) // anim data
         {
@@ -804,7 +793,7 @@ void addAnimDataPack(const string& projectfile,
                      const string& filename,
                      const string& modcode,
                      const MasterAnimData::ProjectPtr& projData,
-                     const VecStr& storeline)
+                     const VecNstr& storeline)
 {
     // anim data
     if (!hasAlpha(storeline[0])) ErrorMessage(3006, projectfile, filename);
@@ -814,14 +803,14 @@ void addAnimDataPack(const string& projectfile,
     // new anim data
     if (animDataPtr == nullptr)
     {
-        auto pair = make_pair(storeline[0], nemesis::LinkedVar(AnimDataPack_Condt(storeline, 1)));
+        auto pair = make_pair(std::string(storeline[0]), nemesis::LinkedVar(AnimDataPack_Condt(storeline)));
         auto condpair = nemesis::CondVar(pair, modcode, nemesis::CondType::MOD_CODE);
         projData->animdatalist.push_back(condpair);
     }
     // existing anim data
     else
     {
-        auto shptr = nemesis::CondVar(AnimDataPack_Condt(storeline, 1));
+        auto shptr = nemesis::CondVar(AnimDataPack_Condt(storeline));
         //(*animDataPtr).addCond(make_shared<AnimDataPack_Condt>(storeline), modcode, nemesis::CondType::MOD_CODE); does the same thing as line below
         (*animDataPtr).nestedcond.push_back(shptr);
     }
@@ -831,10 +820,10 @@ void addInfoDataPack(const string& filepath,
                      const string& filename,
                      const string& modcode,
                      const MasterAnimData::ProjectPtr& projData,
-                     const VecStr& storeline)
+                     const VecNstr& storeline)
 {
     string tempID
-        = nemesis::regex_replace(string(filename), nemesis::regex(modcode + "[$]([0-9]+)"), string("\\1"));
+        = nemesis::regex_replace(string(filename), nemesis::regex(modcode + "[$]([0-9]+)"), string("$1"));
 
     // info data
     if (filename == tempID || !isOnlyNumber(tempID)) ErrorMessage(2004, filepath);
@@ -844,14 +833,14 @@ void addInfoDataPack(const string& filepath,
     // new info data
     if (infoDataPtr == nullptr)
     {
-        auto pair = make_pair(storeline[0], nemesis::LinkedVar(InfoDataPack_Condt(storeline, 1)));
+        auto pair = make_pair(std::string(storeline[0]), nemesis::LinkedVar(InfoDataPack_Condt(storeline)));
         auto condpair = nemesis::CondVar(pair, modcode, nemesis::CondType::MOD_CODE);
         projData->infodatalist.push_back(condpair);
     }
     // existing info data
     else
     {
-        auto shptr = nemesis::CondVar(InfoDataPack_Condt(storeline, 1), modcode, nemesis::CondType::MOD_CODE);
+        auto shptr = nemesis::CondVar(InfoDataPack_Condt(storeline), modcode, nemesis::CondType::MOD_CODE);
         //(*infoDataPtr).addCond(make_shared<InfoDataPack_Condt>(storeline), modcode, nemesis::CondType::MOD_CODE); does the same thing as line below
         (*infoDataPtr).nestedcond.push_back(shptr);
     }
@@ -878,7 +867,7 @@ bool AnimSetDataUpdate(string modcode,
 
     VecNstr storeline;
 
-    if (!GetFunctionLines(filepath, storeline, false)) return false;
+    if (!GetFileLines(filepath, storeline, false)) return false;
 
     #if REMOVE
     if (isNewProject)
@@ -919,7 +908,7 @@ bool AnimSetDataUpdate(string modcode,
                 originalline = linecount;
                 startoriline = linecount;
             }
-            else if (line.find(ns::Close(), 0) != NOT_FOUND)
+            else if (line.find(ns::Close()) != NOT_FOUND)
             {
                 edited = false;
 
@@ -929,7 +918,7 @@ bool AnimSetDataUpdate(string modcode,
                     NewCoordinate[linecount]                     = tempint;
                     modEditLine[std::to_string(linecount) + "R"] = coordinate - tempint - 2;
 
-                    for (int i = startoriline; i < originalline; ++i)
+                    for (size_t i = startoriline; i < originalline; ++i)
                     {
                         modEditCoordinate.push_back(i);
                         modEditLine[std::to_string(i)] = Pair[i];
@@ -991,12 +980,12 @@ bool AnimSetDataUpdate(string modcode,
 
             for (string& line : newline)
             {
-                if (line.find("<!-- NEW", 0) != NOT_FOUND || line.find("<!-- FOREACH", 0) != NOT_FOUND)
+                if (line.find("<!-- NEW") != NOT_FOUND || line.find("<!-- FOREACH") != NOT_FOUND)
                 {
                     skip = true;
                 }
 
-                if (line.find("<!-- *", 0) == NOT_FOUND && !skip)
+                if (line.find("<!-- *") == NOT_FOUND && !skip)
                 {
                     if (modEditCoordinate.size() > 0 && modEditCoordinate[editcount] == linecount)
                     {
@@ -1022,7 +1011,7 @@ bool AnimSetDataUpdate(string modcode,
                             templine.append("\t\t\t\t\t<!-- *" + modcode + "* -->");
                             functionline.push_back(templine);
 
-                            if (line.find("\t<!-- original -->", 0) == NOT_FOUND)
+                            if (line.find("\t<!-- original -->") == NOT_FOUND)
                             {
                                 line.append("\t\t\t\t\t<!-- original -->");
                             }
@@ -1084,7 +1073,7 @@ bool AnimSetDataUpdate(string modcode,
                     ++linecount;
                 }
 
-                if (line.find(ns::Close(), 0) != NOT_FOUND) skip = false;
+                if (line.find(ns::Close()) != NOT_FOUND) skip = false;
 
                 functionline.push_back(line);
             }
@@ -1122,7 +1111,7 @@ bool AnimSetDataUpdate(string modcode,
 
     size_t num = 2;
     string lowername = nemesis::to_lower_copy(filepath.filename().string());
-    auto& masterProj = animSetData.find(projectfile, modcode);
+    auto masterProj = animSetData.find(projectfile, modcode);
     size_t pos = lowername.find(nemesis::to_lower_copy(modcode) + "$");
 
     if (pos == 0)
@@ -1149,7 +1138,7 @@ bool ClassCheck(vector<int>& modEditCoordinate,
                 string filename,
                 string modcode)
 {
-    unsigned int endline = modEditLine[std::to_string(linecount) + "R"] + NewCoordinate[linecount];
+    size_t endline = modEditLine[std::to_string(linecount) + "R"] + NewCoordinate[linecount];
     bool attacknew       = false;
     bool islast          = false;
 
@@ -1160,7 +1149,7 @@ bool ClassCheck(vector<int>& modEditCoordinate,
         attacknew = true;
     }
 
-    for (unsigned int k = modEditLine[std::to_string(linecount) + "R"]; k < endline; ++k)
+    for (size_t k = modEditLine[std::to_string(linecount) + "R"]; k < endline; ++k)
     {
         if (error) throw nemesis::exception();
 

@@ -9,16 +9,30 @@ namespace nemesis
     regex::regex(const std::string& str)
         : str_(str)
         , reg_(str_)
-    {}
+    {
+    }
 
     regex::regex(const char* str)
         : str_(str)
         , reg_(str_)
-    {}
+    {
+    }
+
+    regex::regex(const std::string& str, regex_constants::syntax_option_type flag)
+        : str_(str)
+        , reg_(str_, flag)
+    {
+    }
+
+    regex::regex(const char* str, regex_constants::syntax_option_type flag)
+        : str_(str)
+        , reg_(str_, flag)
+    {
+    }
 
     std::string regex::to_string() const
     {
-        return reg_.str();
+        return str_;
     }
 
     const detail::underlying_regex& regex::to_regex() const
@@ -44,6 +58,11 @@ namespace nemesis
     size_t smatch::size() const
     {
         return match_.size();
+    }
+
+    bool smatch::empty() const
+    {
+        return match_.empty();
     }
 
     bool regex_search(const std::string& line, nemesis::smatch& n_match, const regex& rgx)
@@ -152,7 +171,7 @@ namespace nemesis
 
     regex_iterator& regex_iterator::operator++()
     {
-        it_++;
+        ++it_;
         return *this;
     }
 
@@ -202,7 +221,7 @@ namespace nemesis
 
     std::wstring wregex::to_wstring() const
     {
-        return reg_.str();
+        return str_;
     }
 
     const detail::underlying_wregex& wregex::to_wregex() const
@@ -289,6 +308,7 @@ namespace nemesis
     bool wregex_match(const std::wstring& line, wsmatch& match, const wregex& rgx)
     {
         match = {};
+
         try
         {
             detail::underlying_wsmatch m;
@@ -299,9 +319,10 @@ namespace nemesis
             match = {m};
             return true;
         }
-        catch (const detail::underlying_exception& e)
+        catch (const detail::underlying_exception&)
         {
         }
+
         return false;
     }
 

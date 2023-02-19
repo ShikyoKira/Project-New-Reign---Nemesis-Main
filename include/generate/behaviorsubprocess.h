@@ -33,16 +33,16 @@ public:
                  BehaviorStart* newProcess);
     void checkAnimation();
     void addAnimation();
-    void modPick(std::unordered_map<std::string, std::vector<std::pair<uint, std::shared_ptr<std::string>>>>&
+    void modPick(std::unordered_map<std::string, std::vector<std::pair<size_t, std::shared_ptr<std::string>>>>&
                      modEditStore,
-                 std::vector<std::pair<uint, std::string>>& catalyst,
-                 std::vector<std::pair<uint, std::string>>& modLine,
+                 std::vector<std::pair<size_t, std::string>>& catalyst,
+                 std::vector<std::pair<size_t, std::string>>& modLine,
                  bool& hasDeleted);
     bool modPickProcess(
-        std::unordered_map<std::string, std::vector<std::pair<uint, std::shared_ptr<std::string>>>>&
+        std::unordered_map<std::string, std::vector<std::pair<size_t, std::shared_ptr<std::string>>>>&
             modEditStore,
-        std::vector<std::pair<uint, std::string>>& catalyst,
-        std::vector<std::pair<uint, std::string>>& modLine,
+        std::vector<std::pair<size_t, std::string>>& catalyst,
+        std::vector<std::pair<size_t, std::string>>& modLine,
         bool& hasDeleted);
     void CompilingBehavior();
     void CompilingAnimData();

@@ -2,11 +2,11 @@
 
 using namespace std;
 
-nemesis::ThreadPool::ThreadPool(uint threads)
+nemesis::ThreadPool::ThreadPool(size_t threads)
 {
     workers.reserve(threads);
 
-    for (unsigned int i = 0; i < threads; ++i)
+    for (size_t i = 0; i < threads; ++i)
     {
         newWorker();
     }

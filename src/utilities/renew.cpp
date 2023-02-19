@@ -13,27 +13,27 @@ using namespace std;
 
 namespace sf = std::filesystem;
 
-void tryDelete(const wstring& file, bool xml, int repeated = 0)
+void tryDelete(const wstring& file, bool xml, int retry = 0)
 {
-    if (repeated > 100)
-    {
-        if (xml)
-        {
-            WarningMessage(1009, file);
-        }
-        else
-        {
-            WarningMessage(1006);
-        }
-    }
-
     try
     {
-        if (!sf::remove(file)) tryDelete(file, xml, repeated + 1);
+        if (!sf::remove(file)) tryDelete(file, xml, --retry);
     }
     catch (const std::exception&)
     {
-        tryDelete(file, xml, repeated + 1);
+        if (retry > 0)
+        {
+            tryDelete(file, xml, --retry);
+            return;
+        }
+
+        if (xml)
+        {
+            WarningMessage(1009, file);
+            return;
+        }
+
+        WarningMessage(1006);
     }
 }
 
@@ -56,10 +56,10 @@ bool DeleteFileFolder(const wstring& directory, const wstring& file, bool xml)
     return true;
 }
 
-void ClearTempBehaviors(const NemesisInfo* nemesisInfo)
+void ClearTempBehaviors()
 {
     VecWstr filelist;
-    wstring tempbehavior = getTempBhvrPath(nemesisInfo).wstring();
+    wstring tempbehavior = getTempBhvrPath().wstring();
 
     if (isFileExist(tempbehavior) && sf::is_directory(tempbehavior))
     {
@@ -73,10 +73,10 @@ void ClearTempBehaviors(const NemesisInfo* nemesisInfo)
     }
 }
 
-void ClearTempXml(const NemesisInfo* nemesisInfo)
+void ClearTempXml()
 {
     VecWstr filelist;
-    wstring tempbehavior = getTempBhvrPath(nemesisInfo).wstring() + L"\\xml";
+    wstring tempbehavior = getTempBhvrPath().wstring() + L"\\xml";
 
     if (isFileExist(tempbehavior) && sf::is_directory(tempbehavior))
     {

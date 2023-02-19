@@ -1,0 +1,18 @@
+		<hkobject name="#dscgo$320" class="hkbTwistModifier" signature="0xb6b76b32">
+			<hkparam name="variableBindingSet">#dscgo$321</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">fAttackTwist_COM_X_TwistModifier</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="axisOfRotation">
+				1.000000
+				0.000000
+				0.000000
+				0.000000
+			</hkparam>
+			<hkparam name="twistAngle">0.000000</hkparam>
+			<hkparam name="startBoneIndex">24</hkparam>
+			<hkparam name="endBoneIndex">24</hkparam>
+			<hkparam name="setAngleMethod">LINEAR</hkparam>
+			<hkparam name="rotationAxisCoordinates">ROTATION_AXIS_IN_LOCAL_COORDINATES</hkparam>
+			<hkparam name="isAdditive">true</hkparam>
+		</hkobject>

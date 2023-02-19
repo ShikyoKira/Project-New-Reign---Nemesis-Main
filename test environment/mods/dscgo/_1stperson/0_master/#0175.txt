@@ -1,0 +1,7 @@
+		<hkobject name="#0175" class="hkbExpressionCondition" signature="0x1c3c1045">
+<!-- MOD_CODE ~dscgo~ OPEN -->
+			<hkparam name="expression">!bIsSynced &amp;&amp; !bIsRiding &amp;&amp; !bIsRolling</hkparam>
+<!-- ORIGINAL -->
+			<hkparam name="expression">!bIsSynced &amp;&amp; !bIsRiding</hkparam>
+<!-- CLOSE -->
+		</hkobject>

@@ -15,7 +15,7 @@ private:
     private:
         short type    = 0;
         int linenum   = 1;
-        uint asdCount = 0;
+        size_t asdCount = 0;
 
         ModCode format;
         std::filesystem::path path;

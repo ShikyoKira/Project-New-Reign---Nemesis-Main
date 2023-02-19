@@ -1,0 +1,26 @@
+		<hkobject name="#0099" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#0104</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">H2HEquipMSG</hkparam>
+			<hkparam name="generators" numelements="12">
+				#0100
+				#0102
+				#0102
+				#0102
+				#0102
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#0102
+				#0102
+<!-- ORIGINAL -->
+				#0100
+				#0100
+<!-- CLOSE -->
+				#0100
+				#0069
+				#0100
+				#0100
+				#0100
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

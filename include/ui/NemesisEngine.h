@@ -10,6 +10,8 @@
 #include "debugmsg.h"
 #include "ui_NemesisEngine.h"
 
+#include "core/modinfomanager.h"
+
 class CEMsgBox;
 
 class NemesisEngine : public QWidget
@@ -24,14 +26,18 @@ private:
 
     void setupUi();
     void reset();
-    void GetSettings();
+    void SetupDummyLog();
+    void SetupLanguageSettings();
+    void SetupModListManager();
+    void SetLanguageList(const VecWstr& languagelist);
+    void SetModSelectFromCache(const UMap<std::string, bool>& chosenBehavior);
 
 public:
     Ui::NemesisEngine ui;
     std::atomic_flag lock = ATOMIC_FLAG_INIT;
     int progressMax;
     int progressPercentage;
-    NemesisInfo* nemesisInfo;
+    nemesis::ModInfoManager modinfo_manager;
 
     NemesisEngine(QWidget* parent = Q_NULLPTR);
     ~NemesisEngine();

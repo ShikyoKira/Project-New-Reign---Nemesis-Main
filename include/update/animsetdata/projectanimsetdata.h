@@ -30,7 +30,7 @@ private:
 
         void SetFormat(const std::string& format) noexcept;
         void SetPath(std::filesystem::path path) noexcept;
-        void SetStartIndex(const uint& startindex) noexcept;
+        void SetStartIndex(const size_t& startindex) noexcept;
 
         void AddAnimSetDataList();
         void ImportAnimSetDataList();
@@ -68,7 +68,7 @@ public:
     void getname(VecStr& storeline) const;
 
 private:
-    uint getIndex(const ProjectName& _name) const;
+    size_t getIndex(const ProjectName& _name) const;
     bool contains(const ProjectName& _name) const;
 };
 

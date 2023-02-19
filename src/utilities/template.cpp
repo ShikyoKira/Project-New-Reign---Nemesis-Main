@@ -1,810 +1,404 @@
-#include "utilities/regex.h"
+#include "hkx/hkxbehavior.h"
+
+#include "generate/animation/singletemplate.h"
+
+#include "template/processparser.h"
+
 #include "utilities/process.h"
 #include "utilities/template.h"
+#include "utilities/animquery.h"
 #include "utilities/lineprocess.h"
 #include "utilities/templateclass.h"
 
 using namespace std;
 namespace sf = std::filesystem;
 
-void nemesis::Template::Parser::LineParser::CommitProcess(const nemesis::Line& line)
+const nemesis::Template& nemesis::Template::Exporter::GetSelf()
 {
-    unique_ptr<nemesis::TemplateLine> templine = make_unique<nemesis::TemplateLine>(line);
-    templine->TryAddLineProcess(pLineProcess);
-    parser.rTemplate.AddLine(templine);
-    ResetStagingProcess();
+    return static_cast<const nemesis::Template&>(file);
 }
 
-void nemesis::Template::Parser::LineParser::StagingProcess(std::unique_ptr<nemesis::Process>& process)
+nemesis::Template::Exporter::Exporter(const nemesis::Template& templateref, VecNstr& storeline)
+    : storeline(storeline)
+    , nemesis::Exporter(templateref)
 {
-    processlist.emplace_back(move(process));
 }
 
-void nemesis::Template::Parser::LineParser::ResetStagingProcess()
+void nemesis::Template::Exporter::ExportCurrentQuery(const nemesis::AnimQuery& query)
 {
-    pLineProcess = make_shared<nemesis::LineProcess>();
-}
+    scopeinfo->SetCurrentQuery(query);
+    auto& self = GetSelf();
 
-nemesis::Template::Parser::LineParser::LineParser(const nemesis::Line& line, Parser& parser)
-    : line(line)
-    , parser(parser)
-{
-    ResetStagingProcess();
-}
-
-shared_ptr<nemesis::LineProcess> nemesis::Template::Parser::LineParser::GetLineProcess()
-{
-    return pLineProcess;
-}
-
-void nemesis::Template::Parser::LineParser::StartCountingElement()
-{
-    if (IsCountingElement())
+    if (!self.IsGroup())
     {
-        string classname = parser.IsTemplateImport() ? "import" : parser.GetTemplateClassName();
-        ErrorMessage(1136, classname, parser.GetFilePath(), line.GetLineNumber());
+        scopeinfo->InsertAnim(query, &self.GetTemplateClass());
+    }
+    
+    if (!self.IsMaster())
+    {
+        scopeinfo->InsertQuery(query, &self.GetTemplateClass());
     }
 
-    const char tab = '\t';
-    const string openParam = "<hkparam name=\"";
-
-    parser.bCountElement = true;
-    string templine      = line.substr(0, line.find(openParam));
-    parser.iElementRange = count(templine.begin(), templine.end(), tab);
-
-    auto process = GenerateProcess(&nemesis::Process::Compute);
-    process->SetFixedVarInt(vector<int>{parser.iElementRange});
-    StagingProcess(process);
+    Export();
 }
 
-bool nemesis::Template::Parser::LineParser::HasNemesisSyntax()
+const nemesis::AnimTemplate* nemesis::Template::Exporter::GetAnimTemplate()
 {
-    return line.find("$") != NOT_FOUND;
+    return &GetSelf().GetTemplateClass().GetAnimTemplate();
 }
 
-void nemesis::Template::Parser::LineParser::TryCountAnimation()
+const nemesis::TemplateClass* nemesis::Template::Exporter::GetTemplateClass(const std::string& name)
 {
-    const auto syntax = "$%$";
-    size_t pos        = line.find(syntax);
+    auto& self = GetSelf();
 
-    while (pos != NOT_FOUND)
+    if (nemesis::iequals(self.GetTemplateClass().GetName(), name)) return &self.GetTemplateClass();
+
+    return GetAnimTemplate()->GetClass(name);
+}
+
+void nemesis::Template::Exporter::Export()
+{
+    auto& self = GetSelf();
+
+    for (auto& line : self.contents)
     {
-        auto process = GenerateProcess(pos, pos + 3, &nemesis::Process::AnimCount);
-        StagingProcess(process);
-        pos = line.find(syntax, pos + 1);
+        VecNstr compiledlines = line->GetCompiledData<nemesis::Line>(*scopeinfo);
+        storeline.insert(storeline.end(), compiledlines.begin(), compiledlines.end());
     }
+
+    for (auto& line : storeline)
+    {
+        CheckNumElement(line);
+    }
+
+    storeline.emplace_back(std::string());
 }
 
-void nemesis::Template::Parser::LineParser::TryAddValidNodeID()
+bool nemesis::Template::Exporter::IsTemplateActive(const std::string& name)
 {
-    if (parser.IsTemplateImport()) return;
+    throw std::runtime_error("Template does not support checking the active status of any other template");
+}
 
-    string classname = parser.GetTemplateClassName();
-    const string idrgx     = classname + "\\$([0-9]+)";
-    const string grprgx    = classname + "_group\\$([0-9]+)";
-    uint pos;
+const Vec<const nemesis::AnimQuery*>*
+nemesis::Template::Exporter::GetQueriesByTemplate(const std::string& name)
+{
+    auto& self = GetSelf();
+    ErrorMessage(1227, self.GetTemplateClass().GetName(), self.GetFilePath());
+    return nullptr;
+}
 
-    if (parser.rTemplate.IsGroup())
+sf::path nemesis::Template::Parser::GetFilePath() const noexcept
+{
+    return rTemplate.GetFilePath();
+}
+
+void nemesis::Template::Parser::GetFileLines()
+{
+    filelines = file.GetLines();
+}
+
+void nemesis::Template::Parser::PrepareAllRegexes()
+{
+    PrepareStateIdRegex();
+    PrepareNodeIdRegex();
+    PrepareAnimObjRegex();
+}
+
+void nemesis::Template::Parser::PrepareStateIdRegex()
+{
+    auto classname = rTemplate.GetFileClassName();
+
+    std::stringstream ss;
+    ss << "\\$.*?((?:(";
+    ss << classname;
+    ss << ")(?:_group\\[([0-9]*)\\]|)\\[(F|N|L|B|[0-9]*)\\]\\[S@(?=[0-9]+\\]\\$)|S@(?=[0-9]+\\$))([0-9]+)\\]?"
+          ").*?\\$";
+    stateid_rgx = std::make_unique<nemesis::regex>(ss.str());
+}
+
+void nemesis::Template::Parser::PrepareNodeIdRegex()
+{
+    auto classname = std::string(rTemplate.GetFileClassName());
+    AddMasterNodeIdRegex(classname);
+    AddGroupNodeIdRegex(classname);
+    AddAnimNodeIdRegex(classname);
+}
+
+void nemesis::Template::Parser::PrepareAnimObjRegex()
+{
+    std::stringstream ss;
+    ss << "\\$.*?((";
+    ss << rTemplate.GetFileClassName();
+    ss << ")(?:_group\\[([0-9]*)\\]|)\\[(F|N|L|B|[0-9]*)\\]\\[AnimObject/[0-9]+\\]|AnimObject/"
+          "[0-9]+).*?\\$";
+    animobj_rgx = std::make_unique<nemesis::regex>(ss.str());
+}
+
+void nemesis::Template::Parser::PrepareAllLexers()
+{
+    if (rTemplate.IsImport()) return;
+
+    PrepareVariableLexer();
+
+    auto templtclass = &rTemplate.GetTemplateClass();
+    PrepareLexer("main_anim_event", [templtclass](nemesis::ScopeInfo& scopeinfo) {
+        return std::string(scopeinfo.GetAnim(templtclass)->GetAnimationName());
+    });
+    PrepareLexer("FilePath", [templtclass](nemesis::ScopeInfo& scopeinfo) {
+        return scopeinfo.GetAnim(templtclass)->GetAnimPath().string();
+    });
+    PrepareLexer("Index", [templtclass](nemesis::ScopeInfo& scopeinfo) {
+        return std::to_string(scopeinfo.GetAnim(templtclass)->GetBehaviorIndex());
+    });
+    PrepareLexer("GroupIndex", [templtclass](nemesis::ScopeInfo& scopeinfo) {
+        return std::to_string(scopeinfo.GetAnim(templtclass)->GetIndex());
+    });
+    PrepareLexer("ArrayIndex", [templtclass](nemesis::ScopeInfo& scopeinfo) {
+        return std::to_string(scopeinfo.GetAnim(templtclass)->GetArrayIndex());
+    });
+}
+
+void nemesis::Template::Parser::PrepareVariableLexer()
+{
+    auto classname = rTemplate.GetFileClassName();
+
+    for (auto& option : rTemplate.GetTemplateClass().GetOptionModels().GetOptionList())
     {
-        for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(idrgx));
-             itr != nemesis::regex_iterator();
-             ++itr)
+        auto optname = option->GetName();
+
+        for (auto& varptr : option->GetVariablesList())
         {
-            auto pos  = itr->position();
-            auto process = GenerateProcess(pos, pos + itr->str().length(), &nemesis::Process::IDRegisAnim);
-            process->SetFixedVar(VecStr{itr->str(1), line});
-            StagingProcess(process);
-        }
-
-        for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(grprgx));
-             itr != nemesis::regex_iterator();
-             ++itr)
-        {
-            auto pos     = itr->position();
-            auto process = GenerateProcess(pos, pos + itr->str().length(), &nemesis::Process::IDRegisGroup);
-            process->SetFixedVar(VecStr{itr->str(1), line});
-            StagingProcess(process);
-        }
-
-        return;
-    }
-
-    for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(grprgx));
-         itr != nemesis::regex_iterator();
-         ++itr)
-    {
-        auto pos  = itr->position();
-        auto process = GenerateProcess(pos, pos + itr->str().length(), &nemesis::Process::GroupIDRegis);
-        process->SetFixedVar(VecStr{itr->str(1)});
-        StagingProcess(process);
-    }
-}
-
-bool nemesis::Template::Parser::LineParser::TryStartCountingElement()
-{
-    const string openParam      = "<hkparam name=\"";
-    const string closeParam     = "</hkparam>";
-    const string numElementName = "numelements=\"";
-    const string computeFunc    = "<!-- COMPUTE -->";
-
-    if (line.find(closeParam) != NOT_FOUND) return false;
-
-    auto computepos = line.rfind(computeFunc);
-
-    if (computepos == NOT_FOUND) return false;
-
-    auto pos = line.find(openParam);
-
-    if (pos == NOT_FOUND) return false;
-
-    pos = line.find(numElementName, pos);
-
-    if (pos == NOT_FOUND || pos > computepos) return false;
-
-    StartCountingElement();
-    return true;
-}
-
-bool nemesis::Template::Parser::LineParser::IsCountingElement() const
-{
-    return parser.bCountElement;
-}
-
-bool nemesis::Template::Parser::LineParser::TryRegisterAnimation()
-{
-    const string animname  = "animationName";
-
-    if (line.find(animname) == NOT_FOUND) return false;
-
-    const string animregex = HkxParamToRgxStr(animname);
-
-    for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(animregex));
-         itr != nemesis::regex_iterator();
-         ++itr)
-    {
-        size_t pos = itr->position(1);
-        auto process = GenerateProcess(pos, pos + itr->str(1).length(), &nemesis::Process::RegisAnim);
-        StagingProcess(move(process));
-    }
-
-    return true;
-}
-
-bool nemesis::Template::Parser::LineParser::TryRegisterBehavior()
-{
-    const string bhvname = "behaviorName";
-
-    if (line.find(bhvname) == NOT_FOUND) return false;
-
-    const string bhvregex = HkxParamToRgxStr(bhvname);
-
-    for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(bhvregex));
-         itr != nemesis::regex_iterator();
-         ++itr)
-    {
-        size_t pos = itr->position(1);
-        auto process = GenerateProcess(pos, pos + itr->str(1).length(), &nemesis::Process::RegisBehavior);
-        StagingProcess(move(process));
-    }
-
-    return true;
-}
-
-void nemesis::Template::Parser::LineParser::AutoEndAnim()
-{
-    if (!parser.bEnding) return;
-
-    const string relativename  = "relativeToEndOfClip";
-    const string timename      = "localTime";
-    const string relativeregex = HkxParamToRgxStr(relativename);
-    const string timeregex     = HkxParamToRgxStr(timename);
-
-    if (line.find(relativename) != NOT_FOUND)
-    {
-        for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(relativeregex));
-             itr != nemesis::regex_iterator();
-             ++itr)
-        {
-            parser.bEnding = false;
-            size_t pos     = itr->position(1);
-            StagingProcess(
-                GenerateProcess(pos, pos + itr->str(1).length(), &nemesis::Process::RelativeNegative));
-        }
-    }
-    else if (line.find(timename) != NOT_FOUND)
-    {
-        for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(timeregex));
-             itr != nemesis::regex_iterator();
-             ++itr)
-        {
-            size_t pos = itr->position(1);
-            StagingProcess(
-                GenerateProcess(pos, pos + itr->str(1).length(), &nemesis::Process::LocalNegative));
+            auto varname   = varptr->GetName();
+            varlexer_list.emplace_back(std::make_pair(varname,
+                                                      nemesis::AnimVarPtr::Lexer(std::string(classname),
+                                                                                 std::string(optname),
+                                                                                 std::string(varname))));
         }
     }
 }
 
-void nemesis::Template::Parser::LineParser::AutoIdUpdate()
+void nemesis::Template::Parser::PrepareLexer(const std::string& keyword, RtnFunc callback)
 {
-    uint pos = line.find("MID$");
-
-    // set function ID
-    if (pos != NOT_FOUND)
-    {
-        void (nemesis::Process::*func)(VecStr&, const AnimThreadInfo&) const;
-
-        if (parser.rTemplate.IsMaster())
-        {
-            func = &nemesis::Process::IDRegisMaster;
-        }
-        else if (parser.rTemplate.IsGroup())
-        {
-            func = &nemesis::Process::IDRegisGroup;
-        }
-        else
-        {
-            func = &nemesis::Process::IDRegis;
-        }
-
-        for (auto& itr = nemesis::regex_iterator(line, nemesis::regex("MID\\$([0-9]+)"));
-             itr != nemesis::regex_iterator();
-             ++itr)
-        {
-            pos = itr->position();
-            auto process = GenerateProcess(pos, pos + itr->str().length(), func);
-            process->SetFixedVar(VecStr{itr->str(1), line});
-            StagingProcess(process);
-        }
-    }
-}
-
-void nemesis::Template::Parser::LineParser::NodeIdRegister()
-{
-    string classname = parser.IsTemplateImport() ? "import" : parser.GetTemplateClassName();
-
-    if (parser.rTemplate.IsGroup())
-    {
-        for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(classname + "\\$([0-9]+)"));
-             itr != nemesis::regex_iterator();
-             ++itr)
-        {
-            uint pos     = itr->position();
-            auto process = GenerateProcess(pos, pos + itr->str().length(), &nemesis::Process::IDRegisAnim);
-            process->SetFixedVar(VecStr{itr->str(1), line});
-            StagingProcess(process);
-        }
-
-        for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(classname + "_group\\$([0-9]+)"));
-             itr != nemesis::regex_iterator();
-             ++itr)
-        {
-            uint pos     = itr->position();
-            auto process = GenerateProcess(pos, pos + itr->str().length(), &nemesis::Process::IDRegisGroup);
-            process->SetFixedVar(VecStr{itr->str(1), line});
-            StagingProcess(process);
-        }
-    }
-    else
-    {
-        for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(classname + "_group\\$([0-9]+)"));
-             itr != nemesis::regex_iterator();
-             ++itr)
-        {
-            uint pos     = itr->position();
-            auto process = GenerateProcess(pos, pos + itr->str().length(), &nemesis::Process::GroupIDRegis);
-            process->SetFixedVar(VecStr{itr->str(1), line});
-            StagingProcess(process);
-        }
-    }
-}
-
-void nemesis::Template::Parser::LineParser::StopCountingElement()
-{
-    parser.bCountElement = false;
-    StagingProcess(GenerateProcess(&nemesis::Process::RangeCompute));
-}
-
-bool nemesis::Template::Parser::LineParser::TryStopCountingElement()
-{
-    if (!IsCountingElement()) return false;
-
-    const string closeParam = "</hkparam>";
-    const char tab          = '\t';
-
-    auto pos                = line.find(closeParam);
-
-    if (pos == NOT_FOUND) return false;
-
-    string templine = line.substr(0, pos);
-
-    if (parser.iElementRange != count(templine.begin(), templine.end(), tab)) return false;
-
-    StopCountingElement();
-    return true;
-}
-
-bool nemesis::Template::Parser::LineParser::TryCountingElement()
-{
-    if (!IsCountingElement()) return false;
-
-    const char tab          = '\t';
-    const string openObject = "<hkobject>";
-    const string refElement = "\t\t\t#";
-    const string refPrefix  = "#";
-    funcptr pFunc;
-
-    string templine = line;
-
-    if (line.find(openObject) != NOT_FOUND)
-    {
-        templine = templine.substr(0, templine.find(openObject));
-        pFunc    = &nemesis::Process::UpCounter;
-    }
-    else if (templine.find(refElement) != NOT_FOUND)
-    {
-        templine = templine.substr(0, templine.find(refPrefix));
-        pFunc    = &nemesis::Process::UpCounterPlus;
-    }
-    else
-    {
-        return false;
-    }
-
-    if (parser.iElementRange + 1 != count(templine.begin(), templine.end(), tab)) return false;
-
-    StagingProcess(move(GenerateProcess(0, 99999, pFunc)));
-    return true;
-}
-
-string nemesis::Template::Parser::LineParser::HkxParamToRgxStr(string name)
-{
-    return R"(<hkparam name\=")" + name + R"(">(.+?)<\/hkparam>)";
-}
-
-unique_ptr<nemesis::Process> nemesis::Template::Parser::LineParser::GenerateProcess(funcptr func)
-{
-    return move(GenerateProcess(0, 0, func));
-}
-
-unique_ptr<nemesis::Process>
-nemesis::Template::Parser::LineParser::GenerateProcess(uint begin, uint end, funcptr func)
-{
-    unique_ptr<nemesis::Process> process = make_unique<nemesis::Process>();
-    process->SetBegin(begin);
-    process->SetEnd(end);
-    process->AddFunction(func);
-    return move(process);
-}
-
-bool nemesis::Template::Parser::IsTemplateImport() const noexcept
-{
-    return rTemplate.IsImport();
-}
-
-const string& nemesis::Template::Parser::GetTemplateClassName() const
-{
-    return rTemplate.GetTemplateClassName();
-}
-
-const sf::path& nemesis::Template::Parser::GetFilePath() const noexcept
-{
-    return rTemplate.behaviorfile;
+    auto uptr = std::make_unique<LexerSearch>(keyword);
+    uptr->AddLexer(std::string(rTemplate.GetFileClassName()), callback);
+    lexersearch_list.emplace_back(std::move(uptr));
 }
 
 void nemesis::Template::Parser::ParseLines(const VecNstr& lineList)
 {
+    size_t i = 0;
+    stream.clear();
+    stream.emplace_back(&rTemplate.contents);
+
     for (auto& line : lineList)
     {
+        if (error) throw nemesis::exception();
+
         ParseLine(line);
     }
 }
 
-nemesis::Template::Parser::Parser(Template& host, const filesystem::path& filepath)
+void nemesis::Template::Parser::TryCacheData(const nemesis::Line& line,
+                                             const nemesis::ConditionInfo* conditioninfo)
+{
+    processparser = std::make_unique<nemesis::ProcessParser>(*this);
+    processparser->SetLine(line);
+    processparser->Parse();
+}
+
+void nemesis::Template::Parser::AddConditionScope(const nemesis::ConditionInfo* conditioninfo)
+{
+    size_t linenum = conditioninfo->GetLineNumber();
+    auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<std::filesystem::path>>(file.GetFilePath());
+    nemesis::Line conditionstr(conditioninfo->GetCondition(), linenum, filepath_ptr);
+    auto condptr    = std::make_shared<nemesis::Condition>(conditionstr, conditionstr, rTemplate);
+    auto condvar   = nemesis::CondVar<nemesis::PreprocessLine>(conditioninfo->GetType(), condptr);
+    condvar.linenum = linenum;
+    SPtr<nemesis::LinkedPreprocessLine> linkedline;
+    linkedline->AddCondition(*conditioninfo, file);
+    AddLinkedLine(linkedline);
+    LevelUpScope();
+}
+
+void nemesis::Template::Parser::PostAddLineProcess(nemesis::LinkedPreprocessLine& linkedline)
+{
+    if (linkedline.HasCondition() || linkedline.GetRawPtr()->empty()) return;
+
+    linkedline.GetRawPtr()->AddTemplate(rTemplate);
+
+    if (!processparser || processparser->IsEmpty()) return;
+
+    processparser->ToLine(*linkedline.GetRawPtr());
+}
+
+nemesis::Template::Parser::Parser(Template& host)
     : rTemplate(host)
+    , nemesis::HkxParserBase(host)
 {
-    VecNstr lineList;
-    GetFunctionLines(filepath, lineList);
-    ParseLines(lineList);
+    PrepareAllRegexes();
+    PrepareAllLexers();
 }
 
-nemesis::Template::Parser::Parser(Template& host, const VecNstr& lineList)
-    : rTemplate(host)
+void nemesis::Template::Parser::ReadFile(const sf::path& filepath)
 {
-    ParseLines(lineList);
+    DebugLogging(L"Parsing template: " + filepath.wstring());
+    auto code    = rTemplate.GetFileClassName();
+    this->cscope = std::make_unique<nemesis::ConditionScope>(std::string(code), filepath);
+    GetFileLines();
 }
 
-void nemesis::Template::Parser::ParseLine(const nemesis::Line& line)
+void nemesis::Template::SetFilePath(const sf::path& filepath)
 {
-    bool hasProcess          = false;
-    const uint& linenum      = line.GetLineNumber();
-    shared_ptr<nemesis::LineProcess> pLineProcess;
-    LineParser lineparser(line, *this);
-
-    if (!lineparser.TryStartCountingElement())
-    {
-        if (!lineparser.TryCountingElement())
-        {
-            lineparser.TryStopCountingElement();
-        }
-    }
-
-    lineparser.AutoEndAnim();
-    lineparser.TryRegisterAnimation();
-    lineparser.TryRegisterBehavior();
-
-    if (lineparser.HasNemesisSyntax())
-    {
-        lineparser.TryCountAnimation();
-        lineparser.TryAddValidNodeID();
-        lineparser.AutoIdUpdate();
-    }
-
-    /*
-    if (line.find("<hkparam name=\"") != NOT_FOUND && line.find("numelements=\"") != NOT_FOUND
-        && line.find("</hkparam>") == NOT_FOUND
-        && line.find("<!-- COMPUTE -->", line.find("numelements=\"")) != NOT_FOUND)
-    {
-        if (!IsCountingElement())
-        {
-            elementCount    = true;
-            hasProcess      = true;
-            string templine = line.substr(0, line.find("<hkparam name=\"", 0));
-            iElementRange   = count(templine.begin(), templine.end(), '\t');
-            process.installBlock(nemesis::scope(0, 0, vector<int>{openRange}, &proc::compute), linenum);
-        }
-        else
-        {
-            ErrorMessage(1136, GetFormat(), GetFilePath(), linenum);
-        }
-    }
-    else if (elementCount && line.find("</hkparam>") != NOT_FOUND)
-    {
-        string templine = line.substr(0, line.find("</hkparam>"));
-
-        if (openRange == count(templine.begin(), templine.end(), '\t'))
-        {
-            hasProcess = true;
-            elementCount = false;
-            process.installBlock(nemesis::scope(0, 0, &proc::rangeCompute), linenum);
-        }
-    }
-
-    if (elementCount)
-    {
-        string_view templine = line;
-
-        if (line.find("<hkobject>") != NOT_FOUND)
-        {
-            templine = templine.substr(0, templine.find("<hkobject>"));
-
-            if (openRange + 1 == count(templine.begin(), templine.end(), '\t'))
-            {
-                hasProcess = true;
-                process.installBlock(nemesis::scope(0, 99999, &proc::upCounter), linenum);
-            }
-        }
-        else if (templine.find("\t\t\t#") != NOT_FOUND)
-        {
-            templine = templine.substr(0, templine.find("#", 0));
-
-            if (openRange + 1 == count(templine.begin(), templine.end(), '\t'))
-            {
-                hasProcess = true;
-                process.installBlock(nemesis::scope(0, 99999, &proc::upCounterPlus), linenum);
-            }
-        }
-    }
-
-    if (line.find("$") != NOT_FOUND)
-    {
-        nemesis::regex exp("(?<!MID)(?<!\\$MC)(?<!" + GetTemplateClassName() + "_master)(?<!" + GetTemplateClassName()
-                           + R"(_group)(?<!\$%)\$(?!%\$)(?!MC\$)(?!elements\$)(.+?)(?<!MID)(?<!\$MC)(?<!)"
-                           + GetTemplateClassName() + "_master)(?<!" + GetTemplateClassName()
-                           + R"(_group)(?<!\$%)\$(?!%\$)(?!MC\$)(?!elements\$))");
-
-        for (nemesis::regex_iterator itr(line, exp); itr != nemesis::regex_iterator(); ++itr)
-        {
-            bool isChange = false;
-            string change = itr->str(1);
-            size_t curPos = itr->position();
-            process.brackets[linenum].emplace_back(itr->position());
-            process.brackets[linenum].emplace_back(itr->position() + itr->str().length() - 1);
-            map<int, vector<shared_ptr<nemesis::scope>>> dummy1;
-            vector<AddOnInfo> dummy2;
-            bool dummy3;
-            ProcessFunction(change,
-                            line,
-                            GetTemplateClassName(),
-                            GetFilePath(),
-                            multiOption,
-                            isEnd,
-                            linenum,
-                            curPos + 1,
-                            optionlist,
-                            dummy1,
-                            dummy2,
-                            dummy3,
-                            isGroup,
-                            isMaster,
-                            false,
-                            process);
-            hasProcess = true;
-        }
-
-        size_t pos = line.find("$%$");
-
-        if (pos != NOT_FOUND)
-        {
-            while (pos != NOT_FOUND)
-            {
-                process.installBlock(nemesis::scope(pos, pos + 3, &proc::animCount), linenum);
-                pos = line.find("$%$", pos + 1);
-            }
-
-            hasProcess = true;
-        }
-
-        pos = line.find("$MC$");
-
-        // multi choice selection
-        if (pos != NOT_FOUND)
-        {
-            vector<nemesis::MultiChoice> m_conditions;
-            process.hasMC.insert(linenum);
-
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex("[\\s]+<!-- (.+?) -->[\\s]*?"));
-                 itr != nemesis::regex_iterator();
-                 ++itr)
-            {
-                string output = itr->str(1);
-                pos           = itr->position(1);
-                VecStr curElements;
-                StringSplit(output, curElements);
-
-                if (curElements.size() == 1)
-                {
-                    m_conditions.emplace_back(nemesis::MultiChoice("",
-                                                                   GetTemplateClassName(),
-                                                                   GetFilePath(),
-                                                                   multiOption,
-                                                                   linenum,
-                                                                   isGroup,
-                                                                   isMaster,
-                                                                   optionlist,
-                                                                   pos,
-                                                                   pos + output.length()));
-                }
-                else if (curElements.size() > 1)
-                {
-                    pos = pos + output.length();
-                    m_conditions.emplace_back(nemesis::MultiChoice(curElements[0],
-                                                                   GetTemplateClassName(),
-                                                                   GetFilePath(),
-                                                                   multiOption,
-                                                                   linenum,
-                                                                   isGroup,
-                                                                   isMaster,
-                                                                   optionlist,
-                                                                   pos - curElements.back().length(),
-                                                                   pos));
-                }
-            }
-
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex("\\$MC\\$"));
-                 itr != nemesis::regex_iterator();
-                 ++itr)
-            {
-                pos = itr->position();
-                process.installBlock(nemesis::scope(pos, pos + itr->str().length(), &proc::multiChoiceRegis),
-                                     linenum,
-                                     m_conditions);
-                hasProcess = true;
-            }
-        }
-
-        // get group node ID
-        if (isGroup)
-        {
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(GetTemplateClassName() + "\\$([0-9]+)"));
-                 itr != nemesis::regex_iterator();
-                 ++itr)
-            {
-                string ID = itr->str(1);
-                pos       = itr->position();
-                process.installBlock(
-                    nemesis::scope(pos, pos + itr->str().length(), VecStr{ID, line}, &proc::IDRegisAnim),
-                    linenum);
-                hasProcess = true;
-            }
-
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(GetTemplateClassName() + "_group\\$([0-9]+)"));
-                 itr != nemesis::regex_iterator();
-                 ++itr)
-            {
-                string ID = itr->str(1);
-                pos       = itr->position();
-                process.installBlock(
-                    nemesis::scope(pos, pos + itr->str().length(), VecStr{ID, line}, &proc::IDRegisGroup),
-                    linenum);
-                hasProcess = true;
-            }
-        }
-        else
-        {
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex(GetTemplateClassName() + "_group\\$([0-9]+)"));
-                 itr != nemesis::regex_iterator();
-                 ++itr)
-            {
-                string ID = itr->str(1);
-                pos       = itr->position();
-                process.installBlock(
-                    nemesis::scope(pos, pos + itr->str().length(), VecStr{ID}, &proc::groupIDRegis), linenum);
-                hasProcess = true;
-            }
-        }
-
-        pos = line.find("MID$");
-
-        // set function ID
-        if (pos != NOT_FOUND)
-        {
-            if (GetTemplateClassName() == "fu")
-            {
-                isEnd = false;
-            }
-
-            void (proc::*func)(nemesis::scope, VecStr&, AnimThreadInfo&) const;
-
-            if (isMaster)
-            {
-                func = &proc::IDRegisMaster;
-            }
-            else if (isGroup)
-            {
-                func = &proc::IDRegisGroup;
-            }
-            else
-            {
-                func = &proc::IDRegis;
-            }
-
-            for (auto& itr = nemesis::regex_iterator(line, nemesis::regex("MID\\$([0-9]+)"));
-                 itr != nemesis::regex_iterator();
-                 ++itr)
-            {
-                pos = itr->position();
-                process.installBlock(
-                    nemesis::scope(pos, pos + itr->str().length(), VecStr{itr->str(1), line}, func), linenum);
-                hasProcess = true;
-            }
-        }
-    }
-
-    if (isEnd)
-    {
-        for (auto& itr = nemesis::regex_iterator(
-                 line, nemesis::regex("<hkparam name\\=\"relativeToEndOfClip\">(.+?)<\\/hkparam>"));
-             itr != nemesis::regex_iterator();
-             ++itr)
-        {
-            isEnd      = false;
-            size_t pos = itr->position(1);
-            process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::relativeNegative),
-                                 linenum);
-        }
-
-        for (auto& itr = nemesis::regex_iterator(
-                 line, nemesis::regex("<hkparam name\\=\"localTime\">(.+?)<\\/hkparam>"));
-             itr != nemesis::regex_iterator();
-             ++itr)
-        {
-            hasProcess = true;
-            size_t pos = itr->position(1);
-            process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::localNegative),
-                                 linenum);
-        }
-    }
-
-    for (auto& itr = nemesis::regex_iterator(
-             line, nemesis::regex("<hkparam name\\=\"animationName\">(.+?)<\\/hkparam>"));
-         itr != nemesis::regex_iterator();
-         ++itr)
-    {
-        hasProcess = true;
-        size_t pos = itr->position(1);
-        process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::regisAnim), linenum);
-    }
-
-    for (auto& itr = nemesis::regex_iterator(
-             line, nemesis::regex("<hkparam name\\=\"behaviorName\">(.+?)<\\/hkparam>"));
-         itr != nemesis::regex_iterator();
-         ++itr)
-    {
-        hasProcess = true;
-        size_t pos = itr->position(1);
-        process.installBlock(nemesis::scope(pos, pos + itr->str(1).length(), &proc::regisBehavior), linenum);
-    }
-    */
-
-    lineparser.CommitProcess(line);
+    this->filepath = filepath;
+    SetBehaviorFile();
+    SetTemplateType();
 }
 
-void nemesis::Template::SetBehaviorFile(const sf::path& filepath)
+void nemesis::Template::SetBehaviorFile()
 {
     // import file does not have behavior file
-    if (pTemplateClass.expired()) return;
+    if (IsImport()) return;
 
     std::wstring pathstr = filepath.wstring();
     nemesis::to_lower(pathstr);
-    std::wstring name = nemesis::transform_to(pTemplateClass.lock()->GetName().ToString()) + L"\\";
+    std::wstring name = nemesis::transform_to(pTemplateClass->GetName().ToString()) + L"\\";
     behaviorfile      = sf::path(pathstr.substr(pathstr.rfind(name) + name.length()));
     behaviorfile      = behaviorfile.substr(0, behaviorfile.find(L"\\"));
     nemesis::to_lower(behaviorfile);
 }
 
-void nemesis::Template::SetFilePath(const sf::path& filepath)
+void nemesis::Template::SetTemplateType()
 {
-    const wstring master = L"_master";
-    const wstring group  = L"_group";
-    this->filepath             = filepath;
-    wstring lowername = nemesis::to_lower_copy(filepath.stem().wstring());
-    bMaster           = lowername.rfind(master) == lowername.length() - master.length();
-    bGroup            = bMaster || lowername.rfind(group) == lowername.length() - group.length();
-    SetBehaviorFile(filepath);
+    std::wstring lowername    = nemesis::to_lower_copy(filepath.stem().wstring());
+    const std::wstring master = L"_master";
+    const std::wstring group  = L"_group";
+
+    if (lowername.rfind(master) == lowername.length() - master.length())
+    {
+        type = FileType::MASTER;
+    }
+    else if (lowername.rfind(group) == lowername.length() - group.length())
+    {
+        type = FileType::GROUP;
+    }
+    else
+    {
+        type = FileType::SINGLE;
+    }
 }
 
-nemesis::Template::Template() noexcept
+nemesis::Template::Template(const nemesis::TemplateClass& templtclass) noexcept
 {
-    bMaster = false;
-    bGroup  = false;
-    bImport = true;
-}
-
-nemesis::Template::Template(const nemesis::TemplateClass& templateclass) noexcept
-{
-    pTemplateClass = templateclass.weak_from_this();
+    pTemplateClass = &templtclass;
+    classname      = templtclass.GetName();
 }
 
 bool nemesis::Template::IsGroup() const noexcept
 {
-    return bGroup;
+    return type != FileType::SINGLE;
 }
 
 bool nemesis::Template::IsMaster() const noexcept
 {
-    return bMaster;
+    return type == FileType::MASTER;
 }
 
 bool nemesis::Template::IsImport() const noexcept
 {
-    return bImport;
+    return classname == GetImporterStr();
 }
 
-const std::string& nemesis::Template::GetTemplateClassName() const
+nemesis::File::FileType nemesis::Template::GetType() const noexcept
 {
-    if (pTemplateClass.expired()) ErrorMessage(6002, filepath, "No class name for imported template");
-
-    return pTemplateClass.lock()->GetName().ToString();
+    return type;
 }
 
-const sf::path& nemesis::Template::GetFilePath() const noexcept
+const Vec<SPtr<nemesis::LinkedPreprocessLine>> nemesis::Template::GetContents() const noexcept
 {
-    return filepath;
+    return contents;
 }
 
-const std::wstring& nemesis::Template::GetBehaviorFileW() const noexcept
+std::wstring nemesis::Template::GetBehaviorFileW() const noexcept
 {
     return behaviorfile;
+}
+
+const Vec<int>& nemesis::Template::GetStateMultiplier() const noexcept
+{
+    return statemultiplier;
+}
+
+const nemesis::HkxBehavior& nemesis::Template::GetBehavior() const noexcept
+{
+    return *hkxbehavior;
+}
+
+const nemesis::TemplateClass& nemesis::Template::GetTemplateClass() const noexcept
+{
+    return *pTemplateClass;
+}
+
+void nemesis::Template::GetQueryResult(const nemesis::AnimQuery& query,
+                                       VecNstr& storeline,
+                                       nemesis::Exporter& exptr) const
+{
+    if (!exporter)
+    {
+        exporter = std::make_unique<nemesis::Template::Exporter>(*this, storeline);
+        exporter->SetInnerExporter(exptr);
+    }
+
+    exporter->ExportCurrentQuery(query);
+}
+
+void nemesis::Template::GetImportResult(VecNstr& storeline, nemesis::Exporter& exptr) const
+{
+    exporter = std::make_unique<nemesis::Template::Exporter>(*this, storeline);
+    exporter->SetInnerExporter(exptr);
+    exporter->Export();
 }
 
 void nemesis::Template::ReadFile(const sf::path& filepath)
 {
     SetFilePath(filepath);
-    Parser parser(*this, filepath);
+    Parser parser(*this);
+    parser.ReadFile(filepath);
+    parser.ParseFile();
 }
 
-void nemesis::Template::AddLine(std::unique_ptr<nemesis::TemplateLine>& pline)
+void nemesis::Template::AddBehavior(nemesis::HkxBehavior& behavior) const noexcept
 {
-    contents.emplace_back(move(pline));
-    contents.back()->AddTemplate(weak_from_this());
+    hkxbehavior = &behavior;
+}
+
+bool nemesis::Template::TryAddBehavior(nemesis::HkxBehavior& behavior) const
+{
+    if (!nemesis::iequals(behavior.GetBehaviorName(), behaviorfile)) return false;
+
+    behavior.AddTemplate(*this);
+    AddBehavior(behavior);
+    return true;
+}
+
+bool nemesis::Template::TryAddBehaviorList(const VecSPtr<nemesis::HkxBehavior>& behaviorlist) const
+{
+    for (auto& each : behaviorlist)
+    {
+        if (!nemesis::iequals(each->GetBehaviorName(), behaviorfile)) continue;
+
+        each->AddTemplate(*this);
+        AddBehavior(*each);
+        return true;
+    }
+
+    return false;
+}
+
+SPtr<nemesis::Template> nemesis::Template::CreateImport(const std::filesystem::path& filepath)
+{
+    SPtr<Template> tempptr(new Template());
+    tempptr->classname = GetImporterStr();
+    tempptr->type = FileType::IMPORT;
+    tempptr->ReadFile(filepath);
+    return tempptr;
 }

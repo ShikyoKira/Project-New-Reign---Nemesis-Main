@@ -1,0 +1,11 @@
+		<hkobject name="#2991" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">DualWieldAttack_Mod</hkparam>
+<!-- MOD_CODE ~dscgo~ OPEN -->
+			<hkparam name="modifier">#dscgo$153</hkparam>
+<!-- ORIGINAL -->
+			<hkparam name="modifier">#2768</hkparam>
+<!-- CLOSE -->
+			<hkparam name="generator">#2990</hkparam>
+		</hkobject>

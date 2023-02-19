@@ -1,0 +1,7 @@
+DW_SprintStopSword
+sstop$3
+1
+0
+0
+1
+SprintStopEnd:0.0500000

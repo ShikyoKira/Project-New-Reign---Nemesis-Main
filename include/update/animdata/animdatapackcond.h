@@ -13,10 +13,10 @@ struct AnimDataPack_Condt
     nemesis::LinkedVar<std::string> unknown2;
     nemesis::LinkedVar<std::string> unknown3;
 
-    std::vector<nemesis::LinkedVar<std::string>> eventname;
+    Vec<nemesis::LinkedVar<std::string>> eventname;
 
     AnimDataPack_Condt() {}
-    AnimDataPack_Condt(const VecStr& storeline, size_t linenum = 0);
+    AnimDataPack_Condt(const VecNstr& storeline);
 
     void getlines(VecStr& storeline);
 };

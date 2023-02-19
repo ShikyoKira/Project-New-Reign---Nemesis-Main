@@ -1,0 +1,18 @@
+		<hkobject name="#0053" class="hkbVariableValueSet" signature="0x27812d8d">
+			<hkparam name="wordVariableValues" numelements="1">
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+<!-- FOREACH ^s_group^ -->
+<!-- FOREACH ^s^ -->
+<!-- FOREACH ^s_group[][][AV*]^ -->
+				<hkobject>
+					<hkparam name="value">0</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+<!-- CLOSE -->
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="quadVariableValues" numelements="0"></hkparam>
+			<hkparam name="variantVariableValues" numelements="0"></hkparam>
+		</hkobject>

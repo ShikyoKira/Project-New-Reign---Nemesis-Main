@@ -11,6 +11,10 @@
 
 #include "generate/hkxcompiler.h"
 
+#include "core/querymanager.h"
+
+#include "animdata/animdata-singlefile.h"
+
 class NewAnimation;
 class NemesisEngine;
 
@@ -22,7 +26,7 @@ struct registerAnimation;
 namespace nemesis
 {
     struct AnimTemplate;
-    struct AnimQueryList;
+    struct AnimQueryFile;
     struct HkxBehavior;
 }
 
@@ -36,7 +40,7 @@ public:
     const VecStr behaviorPriority;
     const UMap<std::string, bool> chosenBehavior;
 
-    BehaviorStart(const NemesisInfo* _ini);
+    BehaviorStart();
     virtual ~BehaviorStart();
     void milestoneStart();
     void addBehaviorPick(NemesisEngine* newWidget,
@@ -48,13 +52,18 @@ public:
     void GenerateBehavior(UPtr<std::thread>& checkThread);
 
     void GenerateAnimTemplate();
-    void GenerateQueryList();
     void GetBehaviorList();
+    void LinkTemplateToBehaviors();
+    void ParseBehaviorList();
+    void GenerateQueryList();
+    void AddQueriesToBehaviors();
     void ExportBehaviorList();
 
-    void BehaviorInitialize(const std::wstring& behaviorfile, SPtr<nemesis::HkxBehavior>& behaviorptr);
+    void BehaviorInitialize(nemesis::HkxBehavior* behaviorptr);
     void CheckQueryInAnimDir(const std::filesystem::path& animdir);
-    void TryAddModQueryList(const std::filesystem::path& moddir);
+    void AddModQueryList(const std::filesystem::path& moddir);
+
+    void SetTimeout(size_t ms);
 
     std::atomic_flag& getNewAnimFlag();
 
@@ -79,15 +88,18 @@ signals:
 
 private:
     bool cmdline  = false;
-    bool running  = true;
-    int timeout_timer = 0;
-    int animCount = 0;
+    size_t animCount = 0;
     int filenum;
     UMap<std::wstring, VecWstr> coreModList; // core filename, list of modID;
 
     UPtr<nemesis::AnimTemplate> animtemp;
-    VecSPtr<nemesis::AnimQueryList> querylist;
+    VecSPtr<const nemesis::AnimQueryFile> querylist;
+    UPtr<nemesis::QueryManager> querymanager = std::make_unique<nemesis::QueryManager>();
     VecSPtr<nemesis::HkxBehavior> behaviorlist;
+    UPtr<nemesis::animdata::SingleFile> adsf;
+
+    SPtr<bool> running_ptr       = std::make_shared<bool>(true);
+    SPtr<size_t> timeout_timer_ptr = std::make_shared<size_t>(0);
 
     ProgressUp behaviorProcess;
 
@@ -110,9 +122,6 @@ private:
 public:
     std::atomic_flag postBehaviorFlag{};
     UMap<std::wstring, USetWstr> postBhvrRefBy;
-
-    // nemesis ini
-    const NemesisInfo* nemesisInfo;
 };
 
 #endif

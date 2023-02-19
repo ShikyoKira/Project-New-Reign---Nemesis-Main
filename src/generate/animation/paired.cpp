@@ -85,7 +85,7 @@ Paired::Paired(const string& line,
             int tempint = 0;
             int nextobj = 0;
 
-            for (uint i = 0; i < AOcount; i++)
+            for (size_t i = 0; i < AOcount; i++)
             {
                 position = animobjects.find('/', tempint);
 
@@ -144,14 +144,14 @@ Paired::Paired(const string& line,
     {
         while (true)
         {
-            if (templine.find("Tn,", 0) != string::npos || templine.find("Tn ", 0) != string::npos)
+            if (templine.find("Tn,") != NOT_FOUND || templine.find("Tn ") != NOT_FOUND)
             {
                 nextTrans = true;
                 templine.replace(templine.find("Tn"), 2, "Xx");
             }
 
             // part 2 - get triggers and timing
-            if (templine.find("T2_", 0) != string::npos)
+            if (templine.find("T2_") != NOT_FOUND)
             {
                 string templine2 = templine.substr(templine.find("T2_"));
 
@@ -159,7 +159,7 @@ Paired::Paired(const string& line,
                 int tempInt      = 0;
                 while (true)
                 {
-                    if (templine2.find("T2_", tempInt) != string::npos)
+                    if (templine2.find("T2_", tempInt) != NOT_FOUND)
                     {
                         triggercount++;
                         tempInt = templine2.find("T2_", tempInt) + 1;
@@ -209,13 +209,13 @@ Paired::Paired(const string& line,
                 pairedlines[384].replace(pairedlines[384].find("!nT2$!"), 7, "1");
             }
 
-            if (templine.find('T', 0) != string::npos)
+            if (templine.find('T') != NOT_FOUND)
             {
                 string templine2    = templine.substr(templine.find('T'));
                 size_t triggercount = count(templine2.begin(), templine2.end(), 'T');
                 pairedlines[171].replace(pairedlines[171].find("!nT$2!"), 6, to_string(triggercount + 2));
                 int tempInt = 0;
-                for (uint i = 0; i < triggercount; i++)
+                for (size_t i = 0; i < triggercount; i++)
                 {
                     string tempstr;
                     int position = templine2.find('T', tempInt);
@@ -250,21 +250,21 @@ Paired::Paired(const string& line,
                 pairedlines[171].replace(pairedlines[171].find("!nT$2!"), 6, "2");
             }
 
-            if (templine.find("ac0", 0) != string::npos)
+            if (templine.find("ac0") != NOT_FOUND)
             {
                 AC0 = true;
                 pairedlines[4].replace(pairedlines[4].find("!AC0!"), 5, import["endcamera"]);
                 pairedlines[217].replace(pairedlines[217].find("!AC0!"), 5, import["endcamera"]);
             }
 
-            if (templine.find("ac1", 0) != string::npos)
+            if (templine.find("ac1") != NOT_FOUND)
             {
                 AC1 = true;
                 pairedlines[3].replace(pairedlines[3].find("!AC1!"), 5, import["startcamera"]);
                 pairedlines[216].replace(pairedlines[216].find("!AC1!"), 5, import["startcamera"]);
             }
 
-            if (templine.find("ac ", 0) != string::npos || templine.find("ac,", 0) != string::npos)
+            if (templine.find("ac ") != NOT_FOUND || templine.find("ac,") != NOT_FOUND)
             {
                 AC  = true;
                 AC0 = true;
@@ -289,9 +289,9 @@ Paired::Paired(const string& line,
                 }
             }
 
-            if (templine.find("a ", 0) != string::npos || templine.find("a,", 0) != string::npos) Loop = false;
+            if (templine.find("a ") != NOT_FOUND || templine.find("a,") != NOT_FOUND) Loop = false;
 
-            if (templine.find("o ", 0) != string::npos || templine.find("o,", 0) != string::npos)
+            if (templine.find("o ") != NOT_FOUND || templine.find("o,") != NOT_FOUND)
             {
                 if (animobjects == line)
                 {
@@ -310,18 +310,17 @@ Paired::Paired(const string& line,
                 }
             }
 
-            if (templine.find('B', 0) != string::npos)
+            if (templine.find('B') != NOT_FOUND)
             {
                 string temp = templine.substr(templine.find('B'));
-                int tempint = stoi(
-                    nemesis::regex_replace(string(line), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1")));
+                int tempint = stoi(nemesis::regex_replace(line, nemesis::regex("[^0-9]*([0-9]+).*"), "$1"));
             }
 
-            if (templine.find("bsa ", 0) != string::npos || templine.find("bsa,", 0) != string::npos) 
+            if (templine.find("bsa ") != NOT_FOUND || templine.find("bsa,") != NOT_FOUND) 
             {
             }
 
-            if (templine.find("h ", 0) != string::npos || templine.find("h,", 0) != string::npos)
+            if (templine.find("h ") != NOT_FOUND || templine.find("h,") != NOT_FOUND)
             {
                 HT = true;
                 if (!AO)
@@ -397,14 +396,14 @@ Paired::Paired(const string& line,
                 }
             }
 
-            if (templine.find("k ", 0) != string::npos || templine.find("k,", 0) != string::npos) Known = true; 
+            if (templine.find("k ") != NOT_FOUND || templine.find("k,") != NOT_FOUND) Known = true; 
 
 
-            if (templine.find("md ", 0) != string::npos || templine.find("md,", 0) != string::npos) MD = true;
+            if (templine.find("md ") != NOT_FOUND || templine.find("md,") != NOT_FOUND) MD = true;
 
-            if (templine.find("st ", 0) != string::npos || templine.find("st,", 0) != string::npos) PAO = true;
+            if (templine.find("st ") != NOT_FOUND || templine.find("st,") != NOT_FOUND) PAO = true;
 
-            if (templine.find('D', 0) != string::npos)
+            if (templine.find('D') != NOT_FOUND)
             {
                 int tempint;
                 int x = templine.find(' ', templine.find('D'));
@@ -476,10 +475,10 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
 
     string strID = to_string(nextFunctionID);
 
-    for (uint i = 0; i < pairedlines.size(); i++)
+    for (size_t i = 0; i < pairedlines.size(); i++)
     {
         string line = pairedlines[i];
-        if (line.find("<!--", 0) == string::npos && !TriggerStateIgnore)
+        if (line.find("<!--") == NOT_FOUND && !TriggerStateIgnore)
         {
             while (true)
             {
@@ -505,7 +504,7 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                 {
                     if (AObject[1].length() > 0 && AO)
                     {
-                        if (line.find("!AO0N!", 0) != string::npos)
+                        if (line.find("!AO0N!") != NOT_FOUND)
                         {
                             string tempID;
 
@@ -532,7 +531,7 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                 {
                     if (AObject[2].length() > 0 && AO)
                     {
-                        if (line.find("!AO1N!", 0) != string::npos)
+                        if (line.find("!AO1N!") != NOT_FOUND)
                         {
                             string tempID;
 
@@ -562,7 +561,7 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                     break;
                 }
 
-                if (line.find("MID$", 0) != string::npos)
+                if (line.find("MID$") != NOT_FOUND)
                 {
                     int MIDposition = line.find("MID$");
                     int x           = line.find('<', MIDposition);
@@ -621,7 +620,7 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                 break;
             }
         }
-        else if (line.find("<!-- NEW *Trigger0* +% -->", 0) != string::npos)
+        else if (line.find("<!-- NEW *Trigger0* +% -->") != NOT_FOUND)
         {
             if (!TriggerTime.empty())
             {
@@ -633,7 +632,7 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                 TriggerStateIgnore = true;
             }
         }
-        else if (line.find("<!-- NEW *Trigger1* +% -->", 0) != string::npos)
+        else if (line.find("<!-- NEW *Trigger1* +% -->") != NOT_FOUND)
         {
             if (!TriggerTime1.empty())
             {
@@ -645,7 +644,7 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                 TriggerStateIgnore = true;
             }
         }
-        else if (line.find("<!-- CLOSE -->", 0) != string::npos)
+        else if (line.find("<!-- CLOSE -->") != NOT_FOUND)
         {
             if (TriggerStateIgnore) 
             {
@@ -659,11 +658,11 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                 {
                     for (auto triggerline : recordTrigger)
                     {
-                        if (triggerline.find("!tT$0!", 0) != string::npos)
+                        if (triggerline.find("!tT$0!") != NOT_FOUND)
                         {
                             triggerline.replace(triggerline.find("!tT$0!"), 6, val.second);
                         }
-                        else if (triggerline.find("!T$0!", 0) != string::npos)
+                        else if (triggerline.find("!T$0!") != NOT_FOUND)
                         {
                             triggerline.replace(triggerline.find("!T$0!"), 5, to_string(eventid[val.first]));
                         }
@@ -679,11 +678,11 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                 {
                     for (auto triggerline : recordTrigger)
                     {
-                        if (triggerline.find("!tT$!", 0) != string::npos)
+                        if (triggerline.find("!tT$!") != NOT_FOUND)
                         {
                             triggerline.replace(triggerline.find("!tT$!"), 6, val.second);
                         }
-                        else if (triggerline.find("!T$!", 0) != string::npos)
+                        else if (triggerline.find("!T$!") != NOT_FOUND)
                         {
                             triggerline.replace(triggerline.find("!T$!"), 5, to_string(eventid[val.first]));
                         }

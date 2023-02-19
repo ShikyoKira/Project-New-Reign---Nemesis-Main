@@ -1,0 +1,20 @@
+		<hkobject name="#2806" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2816</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">DualWield_PowerAttackForwardMSG</hkparam>
+			<hkparam name="generators" numelements="7">
+				#2807
+				#2807
+				#2812
+				#2807
+				#2807
+<!-- MOD_CODE ~dscgo~ OPEN -->
+				#2807
+<!-- ORIGINAL -->
+				#2810
+<!-- CLOSE -->
+				#2807
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

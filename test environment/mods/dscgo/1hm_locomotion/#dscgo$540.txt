@@ -1,0 +1,15 @@
+		<hkobject name="#dscgo$540" class="hkbBlenderGenerator" signature="0x22df7147">
+			<hkparam name="variableBindingSet">#dscgo$556</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Bow_LeftBlend</hkparam>
+			<hkparam name="referencePoseWeightThreshold">0.000000</hkparam>
+			<hkparam name="blendParameter">0.000000</hkparam>
+			<hkparam name="minCyclicBlendParameter">0.000000</hkparam>
+			<hkparam name="maxCyclicBlendParameter">1.000000</hkparam>
+			<hkparam name="indexOfSyncMasterChild">-1</hkparam>
+			<hkparam name="flags">17</hkparam>
+			<hkparam name="subtractLastChild">false</hkparam>
+			<hkparam name="children" numelements="5">
+				#dscgo$553 #dscgo$550 #dscgo$547 #dscgo$544 #dscgo$541
+			</hkparam>
+		</hkobject>

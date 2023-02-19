@@ -1,0 +1,20 @@
+		<hkobject name="#3228" class="hkbClipGenerator" signature="0x333b85b9">
+<!-- MOD_CODE ~dscgo~ OPEN -->
+			<hkparam name="variableBindingSet">#3110</hkparam>
+<!-- ORIGINAL -->
+			<hkparam name="variableBindingSet">#3230</hkparam>
+<!-- CLOSE -->
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">2HM_AttackLeft</hkparam>
+			<hkparam name="animationName">Animations\2HM_AttackLeft.hkx</hkparam>
+			<hkparam name="triggers">#3229</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.333333</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">16</hkparam>
+		</hkobject>

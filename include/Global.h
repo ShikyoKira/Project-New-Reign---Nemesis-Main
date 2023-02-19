@@ -74,14 +74,50 @@ size_t fileLineCount(std::filesystem::path filepath);
 
 void addUsedAnim(std::string behaviorFile, std::string animPath);
 
-void read_directory(const std::filesystem::path& name, VecStr& fv);
-void read_directory(const std::filesystem::path& name, std::vector<std::wstring>& fv);
+void read_directory(std::filesystem::path dirpath, VecStr& fv);
+void read_directory(std::filesystem::path dirpath, VecWstr& fv);
 
-bool GetFunctionLines(std::filesystem::path filename, VecNstr& functionlines, bool emptylast = true);
-bool GetFunctionLines(std::filesystem::path filename, VecNwstr& functionlines, bool emptylast = true);
+bool GetFileLines(const std::filesystem::path& filename,
+                  VecNstr& functionlines,
+                  std::function<const std::string(const std::string&)> selector,
+                  bool emptylast = true);
+bool GetFileLines(const std::filesystem::path& filename,
+                  VecNwstr& functionlines,
+                  std::function<const std::wstring(const std::wstring&)> selector,
+                  bool emptylast = true);
 
-bool GetFunctionLines(std::filesystem::path filename, VecStr& functionlines, bool emptylast = true);
-bool GetFunctionLines(std::filesystem::path filename, VecWstr& functionlines, bool emptylast = true);
+bool GetFileLines(const std::filesystem::path& filename,
+                  VecStr& functionlines,
+                  std::function<const std::string(const std::string&)> selector,
+                  bool emptylast = true);
+bool GetFileLines(const std::filesystem::path& filename,
+                  VecWstr& functionlines,
+                  std::function<const std::wstring(const std::wstring&)> selector,
+                  bool emptylast = true);
+
+bool GetFileLines(const std::filesystem::path& filename,
+                  VecNstr& functionlines,
+                  std::function<bool(std::string&)> predicament,
+                  bool emptylast = true);
+bool GetFileLines(const std::filesystem::path& filename,
+                  VecNwstr& functionlines,
+                  std::function<bool(std::wstring&)> predicament,
+                  bool emptylast = true);
+
+bool GetFileLines(const std::filesystem::path& filename,
+                  VecStr& functionlines,
+                  std::function<bool(std::string&)> predicament,
+                  bool emptylast = true);
+bool GetFileLines(const std::filesystem::path& filename,
+                  VecWstr& functionlines,
+                  std::function<bool(std::wstring&)> predicament,
+                  bool emptylast = true);
+
+bool GetFileLines(const std::filesystem::path& filename, VecNstr& functionlines, bool emptylast = true);
+bool GetFileLines(const std::filesystem::path& filename, VecNwstr& functionlines, bool emptylast = true);
+
+bool GetFileLines(const std::filesystem::path& filename, VecStr& functionlines, bool emptylast = true);
+bool GetFileLines(const std::filesystem::path& filename, VecWstr& functionlines, bool emptylast = true);
 
 inline bool isFileExist(const std::string& filename)
 {

@@ -24,14 +24,6 @@ namespace nemesis
             return " -->";
         }
 
-        std::string_view GetCondition(const std::string& line, std::string_view opening, std::string closing)
-        {
-            std::string_view sv = line;
-            sv.remove_prefix(sv.find(opening) + opening.length());
-            sv.remove_suffix(sv.length() - sv.find(closing));
-            return sv;
-        }
-
         std::string Comment(const std::string& content)
         {
             return OpenComment() + content + CloseComment();
@@ -54,7 +46,7 @@ namespace nemesis
 
         std::string_view AsterCondition(const std::string& line)
         {
-            return GetCondition(line, Aster(), CloseAster());
+            return nemesis::between(line, Aster(), CloseAster());
         }
 
         std::string_view AsterCondition(const nemesis::Line& line)
@@ -74,7 +66,7 @@ namespace nemesis
 
         std::string_view ForEachCondition(const std::string& line)
         {
-            return GetCondition(line, ForEach(), EndSyntax());
+            return nemesis::between(line, ForEach(), EndSyntax());
         }
 
         std::string_view ForEachCondition(const nemesis::Line& line)
@@ -94,7 +86,7 @@ namespace nemesis
 
         std::string_view ModCodeCondition(const std::string& line)
         {
-            return GetCondition(line, ModCode(), EndModCodeSyntax());
+            return nemesis::between(line, ModCode(), EndModCodeSyntax());
         }
 
         std::string_view ModCodeCondition(const nemesis::Line& line)
@@ -134,7 +126,7 @@ namespace nemesis
 
         std::string_view IfCondition(const std::string& line)
         {
-            return GetCondition(line, If(), EndSyntax());
+            return nemesis::between(line, If(), EndSyntax());
         }
 
         std::string_view IfCondition(const nemesis::Line& line)
@@ -154,7 +146,7 @@ namespace nemesis
 
         std::string_view ElseIfCondition(const std::string& line)
         {
-            return GetCondition(line, ElseIf(), EndSyntax());
+            return nemesis::between(line, ElseIf(), EndSyntax());
         }
 
         std::string_view ElseIfCondition(const nemesis::Line& line)

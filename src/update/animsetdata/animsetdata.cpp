@@ -327,7 +327,7 @@ void AnimSetData::Parser::SetPath(const filesystem::path& _path) noexcept
     path = _path;
 }
 
-void AnimSetData::Parser::SetStartIndex(const uint& startIndex) noexcept
+void AnimSetData::Parser::SetStartIndex(const size_t& startIndex) noexcept
 {
     num = startIndex;
 }
@@ -339,7 +339,7 @@ void AnimSetData::Parser::SetCondCheckFunc(const nemesis::CondCheckFunc& _condfu
 
 void AnimSetData::Parser::AddEquipList()
 {
-    for (uint i = num; i < storeline.size(); ++i)
+    for (size_t i = num; i < storeline.size(); ++i)
     {
         auto& line = storeline[i];
 
@@ -355,7 +355,7 @@ void AnimSetData::Parser::AddEquipList()
 
 void AnimSetData::Parser::AddTypeList()
 {
-    for (uint i = num; i < storeline.size(); ++i)
+    for (size_t i = num; i < storeline.size(); ++i)
     {
         if (isOnlyNumber(storeline[i]))
         {
@@ -373,7 +373,7 @@ void AnimSetData::Parser::AddTypeList()
 
 void AnimSetData::Parser::AddAttackSetDataList()
 {
-    for (uint i = num; i < storeline.size(); ++i)
+    for (size_t i = num; i < storeline.size(); ++i)
     {
         if (isOnlyNumber(storeline[i]))
         {
@@ -390,9 +390,9 @@ void AnimSetData::Parser::AddAttackSetDataList()
 
         if (!pack.AddUnknown(unknown)) ErrorMessage(5020, path, unknown.GetLineNumber());
 
-        uint length = stoi(storeline[i]);
+        size_t length = stoi(storeline[i]);
 
-        for (uint k = i + 1; k < length + i + 1; ++k)
+        for (size_t k = i + 1; k < length + i + 1; ++k)
         {
             pack.AddAttackSetData(storeline[k]);
         }
@@ -404,7 +404,7 @@ void AnimSetData::Parser::AddAttackSetDataList()
 
 void AnimSetData::Parser::AddCrc32PackList()
 {
-    for (uint i = num; i < storeline.size(); ++i)
+    for (size_t i = num; i < storeline.size(); ++i)
     {
         if (i + 1 >= storeline.size() || storeline[i] == "V3" || !isOnlyNumber(storeline[i + 1]))
         {
@@ -439,15 +439,14 @@ void AnimSetData::Parser::ImportEquip()
     //deque<nemesis::Line>* edits = nullptr;
     EquipConditionScope cscope(format, path);
     auto& stream = equipstream;
-    //auto parser  = nemesis::LinkedParser<DataStr>::CreateParser(host.equiplist, format, path);
+    auto parser  = nemesis::LinkedParser<DataStr>::CreateParser(host.equiplist, format, path);
 
-    nemesis::LinkedParser<DataStr> parser;
-
-    function<void()> func = [&parser]() { ++parser.index; };
-    parser.SetPointingListFunc(func);
+    parser.SetPointingListFunc([&parser]() {
+        ++parser.index;
+    });
     parser.SetPointingOriginalFunc([&parser]() {
         auto& predelete = parser.tobedeleted;
-        auto& linkedvar = (*parser.stream.back())[parser.index++];
+        auto& linkedvar = (*parser.stream.front())[parser.index++];
         auto vline      = nemesis::CondDetails::getOriginalLine(&predelete->GetRefContents());
         auto linkedline = nemesis::ToLinkedString(vline);
         linkedvar.addCond(linkedline, predelete->GetType(), vline.GetLineNumber());
@@ -461,27 +460,26 @@ void AnimSetData::Parser::ImportEquip()
             case nemesis::CondType::ORIGINAL:
             {
                 auto& contents = predelete->GetContents();
+
+                if (contents.empty()) return;
+
                 auto cond      = nemesis::CondVar<DataStr>(*predelete);
                 auto linkedvar = nemesis::LinkedVar<DataStr>(cond, predelete->GetLineNumber());
-                (*parser.stream.back()).emplace_back(linkedvar);
+                parser.stream.front()->emplace_back(linkedvar);
+                auto& modstream = parser.stream.front()->back().backCond().rawlist;
 
                 for (auto& edit : contents)
                 {
-                    AnimSetData::AddData<std::string>(
-                        *parser.stream.back(), edit, edit.GetLineNumber(), *predelete);
+                    AnimSetData::AddData<std::string>(modstream, edit, edit.GetLineNumber(), *predelete);
                 }
-                break;
-            }
-            default:
-            {
-                parser.stream.pop_back();
+
                 break;
             }
         }
     });
 
     // Adding equip
-    for (uint i = num; i < storeline.size(); ++i)
+    for (size_t i = num; i < storeline.size(); ++i)
     {
         const auto& line = storeline[i];
 
@@ -490,6 +488,12 @@ void AnimSetData::Parser::ImportEquip()
             num = i + 1;
             break;
         }
+
+        parser.ParseLine(line);
+
+        if (error) throw nemesis::exception();
+
+        continue;
 
         /*
         if (condfunc(path, format, line, condtype))
@@ -531,7 +535,16 @@ void AnimSetData::Parser::ImportEquip()
         }
         */
 
-        auto conditioninfo = cscope.TryGetConditionInfo(line);
+        SPtr<nemesis::ConditionInfo> conditioninfo;
+
+        try
+        {
+            conditioninfo = cscope.TryGetConditionInfo(line);
+        }
+        catch (const std::exception&)
+        {
+            ErrorMessage(1205, format, path, line.GetLineNumber());
+        }
 
         if (!conditioninfo)
         {
@@ -539,7 +552,7 @@ void AnimSetData::Parser::ImportEquip()
             {
                 PointingEquip();
             }
-            else if (cscope.Back()->GetType() == nemesis::CondType::ORIGINAL)
+            else if (cscope.Back().GetType() == nemesis::CondType::ORIGINAL)
             {
                 PointingOriEquip();
             }
@@ -576,13 +589,13 @@ void AnimSetData::Parser::ImportEquip()
             }
             case nemesis::CondType::ELSEIF:
             {
-                auto& cond    = nemesis::CondVar<DataStr>(*conditioninfo);
+                auto cond    = nemesis::CondVar<DataStr>(*conditioninfo);
                 stream.back() = &stream.back()->back().addCond(cond).rawlist;
                 break;
             }
             case nemesis::CondType::ELSE:
             {
-                auto& cond    = nemesis::CondVar<DataStr>(conditioninfo->GetType());
+                auto cond    = nemesis::CondVar<DataStr>(conditioninfo->GetType());
                 stream.back() = &stream.back()->back().addCond(cond).rawlist;
                 break;
             }
@@ -593,14 +606,14 @@ void AnimSetData::Parser::ImportEquip()
             }
             case nemesis::CondType::ORIGINAL:
             {
-                tobedeleted = cscope.GetToBeDeleted();
+                tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 break;
             }
             case nemesis::CondType::CLOSE:
             {
                 if (!tobedeleted)
                 {
-                    tobedeleted = cscope.GetToBeDeleted();
+                    tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 }
 
                 CloseEquip();
@@ -630,7 +643,7 @@ void AnimSetData::Parser::ImportType()
     nemesis::ConditionScope cscope(format, path);
 
     // Adding type
-    for (uint i = num; i < storeline.size(); ++i)
+    for (size_t i = num; i < storeline.size(); ++i)
     {
         const auto& line = storeline[i];
 
@@ -648,7 +661,7 @@ void AnimSetData::Parser::ImportType()
             {
                 if (!PointingType(line, i)) return;
             }
-            else if (cscope.Back()->GetType() == nemesis::CondType::ORIGINAL)
+            else if (cscope.Back().GetType() == nemesis::CondType::ORIGINAL)
             {
                 PointingOriType();
             }
@@ -660,14 +673,14 @@ void AnimSetData::Parser::ImportType()
         {
             case nemesis::CondType::ORIGINAL:
             {
-                tobedeleted = cscope.GetToBeDeleted();
+                tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 break;
             }
             case nemesis::CondType::CLOSE:
             {
                 if (!tobedeleted)
                 {
-                    tobedeleted = cscope.GetToBeDeleted();
+                    tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 }
 
                 CloseType(line);
@@ -787,7 +800,7 @@ void AnimSetData::Parser::ImportAttackSetData()
     deque<nemesis::Line>* edits = nullptr;
     nemesis::ConditionScope cscope(format, path);
 
-    for (uint i = num; i < size; ++i)
+    for (size_t i = num; i < size; ++i)
     {
         const auto& line   = storeline[i];
         auto conditioninfo = cscope.TryGetConditionInfo(line);
@@ -798,7 +811,7 @@ void AnimSetData::Parser::ImportAttackSetData()
             {
                 PointingAttackSetData(line);
             }
-            else if (cscope.Back()->GetType() == nemesis::CondType::ORIGINAL)
+            else if (cscope.Back().GetType() == nemesis::CondType::ORIGINAL)
             {
                 PointingOriAttackSetData(line);
             }
@@ -810,14 +823,14 @@ void AnimSetData::Parser::ImportAttackSetData()
         {
             case nemesis::CondType::ORIGINAL:
             {
-                tobedeleted = cscope.GetToBeDeleted();
+                tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 break;
             }
             case nemesis::CondType::CLOSE:
             {
                 if (!tobedeleted)
                 {
-                    tobedeleted = cscope.GetToBeDeleted();
+                    tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 }
 
                 CloseAttackSetData(line);
@@ -845,8 +858,8 @@ void AnimSetData::Parser::ImportAttackSetData()
         }
         else if (nemesis::CondDetails::closeScope(path, format, line, condtype))
         {
-            uint k = 0;
-            Vec<uint> npoints = GetAttackSetDataSections(0, edits->size(), *edits);
+            size_t k = 0;
+            Vec<size_t> npoints = GetAttackSetDataSections(0, edits->size(), *edits);
 
             if (type == 3)
             {
@@ -973,7 +986,7 @@ void AnimSetData::Parser::ImportCrc32Pack()
     nemesis::ConditionScope cscope(format, path);
 
     // Adding CRC32 file path
-    for (uint i = num; i < storeline.size(); ++i)
+    for (size_t i = num; i < storeline.size(); ++i)
     {
         const auto& line   = storeline[i];
         auto conditioninfo = cscope.TryGetConditionInfo(line);
@@ -984,7 +997,7 @@ void AnimSetData::Parser::ImportCrc32Pack()
             {
                 PointingCrc32Pack();
             }
-            else if (cscope.Back()->GetType() == nemesis::CondType::ORIGINAL)
+            else if (cscope.Back().GetType() == nemesis::CondType::ORIGINAL)
             {
                 PointingOriCrc32Pack();
             }
@@ -996,14 +1009,14 @@ void AnimSetData::Parser::ImportCrc32Pack()
         {
             case nemesis::CondType::ORIGINAL:
             {
-                tobedeleted = cscope.GetToBeDeleted();
+                tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 break;
             }
             case nemesis::CondType::CLOSE:
             {
                 if (!tobedeleted)
                 {
-                    tobedeleted = cscope.GetToBeDeleted();
+                    tobedeleted = cscope.GetToBeDeleted().shared_from_this();
                 }
 
                 CloseCrc32Pack();
@@ -1098,14 +1111,14 @@ void AnimSetData::Parser::ImportCrc32Pack()
     //if (!condtype.empty()) ErrorMessage(5024, format, path, edits->front().GetLineNumber());
 }
 
-uint AnimSetData::Parser::GetNum() const noexcept
+size_t AnimSetData::Parser::GetNum() const noexcept
 {
     return num;
 }
 
-uint AnimSetData::Parser::GetEndAttackSetData()
+size_t AnimSetData::Parser::GetEndAttackSetData()
 {
-    uint sp = storeline.size() - 1;
+    size_t sp = storeline.size() - 1;
 
     while (sp > 0 && storeline[sp].empty())
     {
@@ -1114,11 +1127,11 @@ uint AnimSetData::Parser::GetEndAttackSetData()
 
     short type = 2;
     Vec<nemesis::CondDetails> tempcondtype;
-    deque<nemesis::Line>* records;
+    deque<nemesis::Line>* records = nullptr;
     auto& curcondfunc = condfunc == nemesis::CondDetails::modCheck ? nemesis::CondDetails::modCheckRev
                                                                    : nemesis::CondDetails::templateCheckRev;
 
-    for (int i = sp; i >= 0; --i)
+    for (size_t i = sp; i >= 0; --i)
     {
         const auto& line = storeline[i];
 
@@ -1194,7 +1207,7 @@ uint AnimSetData::Parser::GetEndAttackSetData()
     return -1;
 }
 
-bool AnimSetData::Parser::ImportNewWeapType(deque<nemesis::Line>* edits)
+bool AnimSetData::Parser::ImportNewWeapType(Deq<nemesis::Line>* edits)
 {
     while (!edits->empty())
     {
@@ -1219,33 +1232,33 @@ bool AnimSetData::Parser::ImportNewWeapType(deque<nemesis::Line>* edits)
     return true;
 }
 
-bool AnimSetData::Parser::ImportNewAnimPack(deque<nemesis::Line>* edits, Vec<uint>& npoints)
+bool AnimSetData::Parser::ImportNewAnimPack(Deq<nemesis::Line>* edits, Vec<size_t>& npoints)
 {
     while (!edits->empty())
     {
-        auto& edit = edits->front();
+        auto* edit = &edits->front();
 
         if (3 > edits->size()) ErrorMessage(5021, format, path, edits->back().GetLineNumber());
 
         AnimSetPack ap;
 
-        if (!ap.AddName(edit)) return false;
+        if (!ap.AddName(*edit)) return false;
 
         edits->pop_front();
-        edit = edits->front();
+        edit = &edits->front();
 
-        if (!ap.AddUnknown(edit)) return false;
+        if (!ap.AddUnknown(*edit)) return false;
 
         edits->pop_front();
-        edit = edits->front();
+        edit = &edits->front();
 
-        if (!isOnlyNumber(edit)) return false;
+        if (!isOnlyNumber(*edit)) return false;
 
-        while (npoints.back() != edit.GetLineNumber())
+        while (npoints.back() != edit->GetLineNumber())
         {
             edits->pop_front();
-            edit = edits->front();
-            ap.AddAttackSetData(edit);
+            edit = &edits->front();
+            ap.AddAttackSetData(*edit);
         }
 
         edits->pop_front();
@@ -1256,7 +1269,7 @@ bool AnimSetData::Parser::ImportNewAnimPack(deque<nemesis::Line>* edits, Vec<uin
     return true;
 }
 
-bool AnimSetData::Parser::ImportNewCRC32Pack(deque<nemesis::Line>* edits)
+bool AnimSetData::Parser::ImportNewCRC32Pack(Deq<nemesis::Line>* edits)
 {
     while (!edits->empty())
     {
@@ -1293,7 +1306,7 @@ void AnimSetData::Parser::PointingOriEquip()
     host.equiplist[index++].addCond(linkedline, tobedeleted->GetType(), vline.GetLineNumber());
 }
 
-bool AnimSetData::Parser::PointingType(const nemesis::Line& line, uint i)
+bool AnimSetData::Parser::PointingType(const nemesis::Line& line, size_t i)
 {
     switch (type)
     {
@@ -1326,7 +1339,7 @@ void AnimSetData::Parser::PointingOriType()
     auto& typelist      = host.typelist;
     nemesis::Line vline = nemesis::CondDetails::getOriginalLine(&tobedeleted->GetRefContents());
     nemesis::LinkedVar linkedline(vline.ToString());
-    auto& AddLinkedCond = [&](nemesis::LinkedVar<string>& curline) {
+    auto AddLinkedCond = [&](nemesis::LinkedVar<string>& curline) {
         curline.addCond(linkedline, tobedeleted->GetType(), vline.GetLineNumber());
     };
 
@@ -1420,7 +1433,7 @@ void AnimSetData::Parser::PointingOriAttackSetData(const nemesis::Line& line)
     auto& animlist      = host.animlist;
     nemesis::Line vline = nemesis::CondDetails::getOriginalLine(&tobedeleted->GetRefContents());
     nemesis::LinkedVar linkedline(vline.ToString());
-    auto& AddLinkedCond = [&](nemesis::LinkedVar<string>& curline) {
+    auto AddLinkedCond = [&](nemesis::LinkedVar<string>& curline) {
         curline.addCond(linkedline, tobedeleted->GetType(), vline.GetLineNumber());
     };
 
@@ -1480,7 +1493,7 @@ void AnimSetData::Parser::PointingOriCrc32Pack()
     if (!isOnlyNumber(vline)) ErrorMessage(5021, format, path, vline.GetLineNumber());
 
     nemesis::LinkedVar linkedline(vline.ToString());
-    auto& AddCondFunc = [&](nemesis::LinkedVar<string>& data) {
+    auto AddCondFunc = [&](nemesis::LinkedVar<string>& data) {
         data.addCond(linkedline, tobedeleted->GetType(), vline.GetLineNumber());
     };
 
@@ -1570,7 +1583,6 @@ void AnimSetData::Parser::CloseAttackSetData(const nemesis::Line& line)
 
             if (npoints.back() == edit.GetLineNumber())
             {
-                npoints.back();
                 edits.pop_front();
                 type = 0;
                 break;
@@ -1675,23 +1687,23 @@ void getLinkedLines(const nemesis::LinkedVar<AnimSetData::WeapType>& linkedtype,
     }
 }
 
-Vec<uint> AnimSetData::Parser::GetAttackSetDataSections(uint start, uint end) const
+Vec<size_t> AnimSetData::Parser::GetAttackSetDataSections(size_t start, size_t end) const
 {
     return GetAttackSetDataSections(start, end, storeline);
 }
 
-Vec<uint>
-AnimSetData::Parser::GetAttackSetDataSections(uint start, uint end, const VecNstr& _storeline) const
+Vec<size_t>
+AnimSetData::Parser::GetAttackSetDataSections(size_t start, size_t end, const VecNstr& _storeline) const
 {
     short type  = 0;
     bool edited = false;
-    Vec<uint> points;
+    Vec<size_t> points;
     Vec<nemesis::CondDetails> tempcondtype;
-    deque<nemesis::Line>* records;
+    deque<nemesis::Line>* records = nullptr;
     auto& curcondfunc = condfunc == nemesis::CondDetails::modCheck ? nemesis::CondDetails::modCheckRev
                                                                    : nemesis::CondDetails::templateCheckRev;
 
-    auto& cacheAndValidate = [&](const nemesis::Line& curline) {
+    auto cacheAndValidate = [&](const nemesis::Line& curline) {
         switch (type)
         {
             case 0:
@@ -1768,8 +1780,8 @@ AnimSetData::Parser::GetAttackSetDataSections(uint start, uint end, const VecNst
     return points;
 }
 
-Vec<uint> AnimSetData::Parser::GetAttackSetDataSections(uint start,
-                                                        uint end,
+Vec<size_t> AnimSetData::Parser::GetAttackSetDataSections(size_t start,
+                                                        size_t end,
                                                         const Deq<nemesis::Line>& _storeline) const
 {
     VecNstr temp(_storeline.begin(), _storeline.end());

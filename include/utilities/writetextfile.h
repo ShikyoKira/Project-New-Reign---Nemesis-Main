@@ -30,6 +30,14 @@ public:
     void LockFreeWrite(const wchar_t* line);
     void LockFreeWrite(const std::string& line);
     void LockFreeWrite(const std::wstring& line);
+    
+    void LockFreeWriteLine(const char* line);
+    void LockFreeWriteLine(const wchar_t* line);
+    void LockFreeWriteLine(const std::string& line);
+    void LockFreeWriteLine(const std::wstring& line);
+
+    void WriteLines(const VecStr& lines);
+    void WriteLines(const VecNstr& lines);
 
     FileWriter& operator<<(const char* input);
     FileWriter& operator<<(const wchar_t* input);

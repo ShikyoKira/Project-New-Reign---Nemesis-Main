@@ -1,10 +1,10 @@
-		<hkobject name="#$import[1][2]$" class="hkbClipTriggerArray" signature="0x59c23a0f">
+		<hkobject name="#$import[0]$" class="hkbClipTriggerArray" signature="0x59c23a0f">
 			<hkparam name="triggers" numelements="3">
 				<hkobject>
-					<hkparam name="localTime">$import[2]$</hkparam>
+					<hkparam name="localTime">$import[1]$</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$import[3]$</hkparam>
+							<hkparam name="id">$import[2]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
@@ -13,10 +13,10 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">$import[4]$</hkparam>
+					<hkparam name="localTime">$import[3]$</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$import[5]$</hkparam>
+							<hkparam name="id">$import[4]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>
@@ -25,10 +25,10 @@
 					<hkparam name="isAnnotation">false</hkparam>
 				</hkobject>
 				<hkobject>
-					<hkparam name="localTime">$import[6]$</hkparam>
+					<hkparam name="localTime">$import[5]$</hkparam>
 					<hkparam name="event">
 						<hkobject>
-							<hkparam name="id">$import[7]$</hkparam>
+							<hkparam name="id">$import[6]$</hkparam>
 							<hkparam name="payload">null</hkparam>
 						</hkobject>
 					</hkparam>

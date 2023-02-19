@@ -15,14 +15,14 @@ string filename = "CriticalLog.txt";
 
 std::string currentTime()
 {
-    time_t rawtime;
-    struct tm* timeinfo;
+    __time64_t rawtime;
+    struct tm timeinfo;
     char buffer[80];
 
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
+    _time64(&rawtime);
+    _localtime64_s(&timeinfo, &rawtime);
 
-    strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", timeinfo);
+    strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", &timeinfo);
     return buffer;
 }
 

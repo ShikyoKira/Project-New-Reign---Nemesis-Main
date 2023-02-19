@@ -1,7 +1,6 @@
 #pragma once
 
 #include "utilities/line.h"
-#include "utilities/stringextension.h"
 
 namespace nemesis
 {

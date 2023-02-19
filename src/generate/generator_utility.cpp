@@ -76,7 +76,7 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, VecStr> functionli
 			{
 				int curState = 0;
 
-				for (unsigned int j = 0; j < functionlist[it->second].size(); ++j)
+				for (size_t j = 0; j < functionlist[it->second].size(); ++j)
 				{
 					string curline = functionlist[it->second][j];
 
@@ -104,16 +104,14 @@ std::vector<int> GetStateID(map<int, int> mainJoint, map<int, VecStr> functionli
 
 								int ID = stoi(curline.substr(1));
 
-								for (unsigned int l = 0; l < functionlist[ID].size(); ++l)
+								for (size_t l = 0; l < functionlist[ID].size(); ++l)
 								{
 									string line = functionlist[ID][l];
 
-									if (line.find("<hkparam name=\"stateId\">", 0) != NOT_FOUND)
+									if (line.find("<hkparam name=\"stateId\">") != NOT_FOUND)
 									{
-                                        int tempStateID
-                                            = stoi(nemesis::regex_replace(string(line),
-                                                                          nemesis::regex("[^0-9]*([0-9]+).*"),
-                                                                          string("\\1")));
+                                        int tempStateID = stoi(nemesis::regex_replace(
+                                            line, nemesis::regex("[^0-9]*([0-9]+).*"), "$1"));
 
 										if (tempStateID >= curState) curState = tempStateID + 1;
 
@@ -153,13 +151,13 @@ bool GetStateCount(vector<int>& count, VecStr templatelines, string format, stri
 		if (pos != NOT_FOUND && line.find(")$</hkparam>", pos) != NOT_FOUND)
 		{
             string ID = nemesis::regex_replace(
-                string(line),
+                line,
                 nemesis::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
-                string("\\1"));
+                "$1");
             string number = nemesis::regex_replace(
-                string(line),
+                line,
                 nemesis::regex(".*<hkparam name=\"stateId\">[$]\\(S([0-9]*)(.*)\\)[$]</hkparam>.*"),
-                string("\\2"));
+                "$2");
 
 			if (ID != line && number != line)
 			{
@@ -193,7 +191,7 @@ VecStr newAnimationElement(string line, vector<VecStr> element, int curNumber)
 {
 	VecStr animElement;
 
-	for (unsigned int j = 0; j < element[curNumber].size(); ++j)
+	for (size_t j = 0; j < element[curNumber].size(); ++j)
 	{
 		string templine = line;
 		templine.replace(templine.find("##"), 2, element[curNumber][j]);
@@ -217,7 +215,7 @@ string behaviorLineChooser(const string& originalline, const unordered_map<strin
 {
 	int chosen = -1;
 
-	for (unsigned int i = 0; i < behaviorPriority.size(); ++i)
+	for (size_t i = 0; i < behaviorPriority.size(); ++i)
 	{
         auto clitr = chosenLines.find(behaviorPriority[i]);
 
@@ -225,10 +223,8 @@ string behaviorLineChooser(const string& originalline, const unordered_map<strin
 		{
 			if (chosen == -1) chosen = i;
 
-			string line = nemesis::regex_replace(
-                string(clitr->second), nemesis::regex("[\t]+([^\t]+).*"), string("\\1"));
-            string line2 = nemesis::regex_replace(
-                string(line), nemesis::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), string("\\1"));
+			string line  = nemesis::regex_replace(clitr->second, nemesis::regex("[\t]+([^\t]+).*"), "$1");
+            string line2 = nemesis::regex_replace(line, nemesis::regex("[^ ]+[ ]([^ ]+)[ ][^ ]+"), "$1");
 
 			if (line2 != line && line.find("<!-- ") == 0)
 			{
@@ -236,9 +232,8 @@ string behaviorLineChooser(const string& originalline, const unordered_map<strin
 
 				if (out.find("<!-- ") != NOT_FOUND)
                 {
-                    out = nemesis::regex_replace(string(clitr->second),
-                                                 nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"),
-                                                 string("\\1"));
+                    out = nemesis::regex_replace(
+                        clitr->second, nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), "$1");
                     out = clitr->second.substr(0, clitr->second.find(out));
 				}
 
@@ -255,8 +250,7 @@ string behaviorLineChooser(const string& originalline, const unordered_map<strin
 
 		if (out.find("<!-- ") != NOT_FOUND)
         {
-            out = nemesis::regex_replace(
-                string(line), nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+            out = nemesis::regex_replace(line, nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), "$1");
             out = line.substr(0, line.find(out));
 		}
 
@@ -267,8 +261,7 @@ string behaviorLineChooser(const string& originalline, const unordered_map<strin
 
 	if (out.find("<!-- ") != NOT_FOUND)
 	{
-        out = nemesis::regex_replace(
-            string(originalline), nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), string("\\1"));
+        out = nemesis::regex_replace(originalline, nemesis::regex("[^\t]+([\t]+<!-- [^ ]+ -->).*"), "$1");
 		out = originalline.substr(0, originalline.find(out));
 	}
 
@@ -347,7 +340,7 @@ vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate, c
 #ifdef DEBUG
 		string directory = "data\\" + path;
 #else
-        wstring directory = nemesisInfo->GetDataPath() + path;
+        wstring directory = nemesisInfo->GetDataPath().wstring() + path;
 #endif
 
 		readList(directory, directory + L"animations\\", list, *behaviortemplate, false);
@@ -431,9 +424,9 @@ void newFileCheck(filesystem::path directory, const unordered_set<wstring>& isCh
 	}
 }
 
-bool isEngineUpdated(string& versionCode, const NemesisInfo* nemesisInfo)
+bool isEngineUpdated(string& versionCode)
 {
-    wstring directory = getTempBhvrPath(nemesisInfo);
+    wstring directory = getTempBhvrPath();
 	VecWstr filelist;
 
 	read_directory(directory, filelist);
@@ -446,7 +439,7 @@ bool isEngineUpdated(string& versionCode, const NemesisInfo* nemesisInfo)
 
 	if (!isFileExist(filename)) return false;
 
-	if (!GetFunctionLines(filename, storeline, false)) return false;
+	if (!GetFileLines(filename, storeline, false)) return false;
 
 	if (!storeline.empty())
 	{
@@ -461,7 +454,7 @@ bool isEngineUpdated(string& versionCode, const NemesisInfo* nemesisInfo)
 		storeline.erase(storeline.begin());
 	}
 
-	uint i = 0;
+	size_t i = 0;
 
 	for (const auto& line : storeline)
 	{
@@ -506,207 +499,159 @@ void GetBehaviorPath()
 {
 	wstring filename = L"cache\\behavior_path";
 
-	if (isFileExist(filename))
-	{
-		int linecount = 0;
-		FileReader pathFile(filename);
+	if (!isFileExist(filename)) ErrorMessage(1068, filename);
 
-		if (pathFile.GetFile())
-		{
-			wstring line;
+    int linecount = 0;
+    FileReader pathFile(filename);
 
-			while (pathFile.GetLines(line))
-			{
-				++linecount;
-				size_t pos = line.find(L"=");
+    if (!pathFile.GetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
 
-				if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
+    wstring line;
 
-				behaviorPath[line.substr(0, pos)] = line.substr(pos + 1);
-			}
-		}
-		else
-		{
-			ErrorMessage(2000, filename);
-		}
-	}
-	else
-	{
-		ErrorMessage(1068, filename);
-	}
+    while (pathFile.GetLines(line))
+    {
+        ++linecount;
+        size_t pos = line.find(L"=");
+
+        if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
+
+        behaviorPath[line.substr(0, pos)] = line.substr(pos + 1);
+    }
 }
 
 void GetBehaviorProject()
 {
 	string filename = "cache\\behavior_project";
 
-	if (isFileExist(filename))
-	{
-		string characterfile;
-		bool newChar = true;
-		FileReader pathFile(filename);
+	if (!isFileExist(filename)) ErrorMessage(1068, filename);
 
-		if (pathFile.GetFile())
-		{
-			string line;
+    string characterfile;
+    bool newChar = true;
+    FileReader pathFile(filename);
 
-			while (pathFile.GetLines(line))
-			{
-				if (line.length() == 0)
-				{
-					newChar = true;
-				}
-				else if (newChar)
-				{
-					characterfile = line;
-					newChar = false;
-				}
-				else
-				{
-					behaviorProject[characterfile].push_back(line);
-				}
-			}
-		}
-		else
-		{
-			ErrorMessage(2000, filename);
-		}
-	}
-	else
-	{
-		ErrorMessage(1068, filename);
-	}
+    if (!pathFile.GetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
+
+    string line;
+
+    while (pathFile.GetLines(line))
+    {
+        if (line.length() == 0)
+        {
+            newChar = true;
+        }
+        else if (newChar)
+        {
+            characterfile = line;
+            newChar       = false;
+        }
+        else
+        {
+            behaviorProject[characterfile].push_back(line);
+        }
+    }
 }
 
 void GetBehaviorProjectPath()
 {
 	string filename = "cache\\behavior_project_path";
 
-	if (isFileExist(filename))
-	{
-		int linecount = 0;
-		FileReader pathFile(filename);
+	if (!isFileExist(filename)) ErrorMessage(1068, filename);
 
-		if (pathFile.GetFile())
-		{
-			wstring line;
+    int linecount = 0;
+    FileReader pathFile(filename);
 
-			while (pathFile.GetLines(line))
-			{
-				++linecount;
-				size_t pos = line.find(L"=");
+    if (!pathFile.GetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
 
-				if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
+    wstring line;
 
-				behaviorProjectPath[line.substr(0, pos)] = line.substr(pos + 1);
-			}
-		}
-		else
-		{
-			ErrorMessage(2000, filename);
-		}
-	}
-	else
-	{
-		ErrorMessage(1068, filename);
-	}
+    while (pathFile.GetLines(line))
+    {
+        ++linecount;
+        size_t pos = line.find(L"=");
+
+        if (pos == NOT_FOUND) ErrorMessage(1067, filename, linecount);
+
+        behaviorProjectPath[line.substr(0, pos)] = line.substr(pos + 1);
+    }
 }
 
 void GetAnimData()
 {
 	string filename = "cache\\animationdata_list";
+
+	if (!isFileExist(filename)) ErrorMessage(1068, filename);
+
 	unordered_map<string, set<string>> characterHeaders;
+    int linecount = 0;
+    FileReader pathFile(filename);
+    bool newCharacter = false;
+    string character;
 
-	if (isFileExist(filename))
-	{
-		int linecount = 0;
-		FileReader pathFile(filename);
-		bool newCharacter = false;
-		string character;
+    if (!pathFile.GetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
 
-		if (pathFile.GetFile())
-		{
-			string line;
+    string line;
 
-			while (pathFile.GetLines(line))
-			{
-				if (!newCharacter)
-				{
-					if (line.length() == 0) ErrorMessage(3019);
+    while (pathFile.GetLines(line))
+    {
+        if (!newCharacter)
+        {
+            if (line.empty()) ErrorMessage(3019);
 
-					character = line;
-					newCharacter = true;
+            character    = line;
+            newCharacter = true;
 
-					if (characterHeaders.find(character) != characterHeaders.end()) ErrorMessage(3010, character);
-				}
-				else if (line.length() == 0)
-				{
-					newCharacter = false;
-				}
-				else if (newCharacter)
-				{
-					if (characterHeaders[character].find(line) != characterHeaders[character].end()) ErrorMessage(3008, character);
+            if (characterHeaders.find(character) != characterHeaders.end()) ErrorMessage(3010, character);
+        }
+        else if (line.empty())
+        {
+            newCharacter = false;
+        }
+        else if (newCharacter)
+        {
+            if (characterHeaders[character].find(line) != characterHeaders[character].end())
+            {
+                characterHeaders[character].insert(line);
+                continue;
+            }
 
-					characterHeaders[character].insert(line);
-				}
-			}
-		}
-		else
-		{
-			ErrorMessage(2000, filename);
-		}
-	}
-	else
-	{
-		ErrorMessage(1068, filename);
-	}
+            ErrorMessage(3008, character);
+        }
+    }
 }
 
 void characterHKX()
 {
 	string filename = "cache\\behavior_joints";
 
-	if (isFileExist(filename))
-	{
-		bool open = false;
-		FileReader file(filename);
+	if (!isFileExist(filename)) ErrorMessage(1068, filename);
 
-		if (file.GetFile())
-		{
-			string line;
-			string header;
+    bool open = false;
+    FileReader file(filename);
 
-			while (file.GetLines(line))
-			{
-				if (line.length() != 0)
-				{
-					if (!open)
-					{
-						open = true;
-						header = line;
-					}
-					else
-					{
-						if (header.length() == 0) ErrorMessage(1094);
+    if (!file.GetFile()) ErrorMessage(3002, filename, file.ErrorMessage());
 
-						behaviorJoints[header].push_back(line);
-					}
-				}
-				else
-				{
-					open = false;
-				}
-			}
-		}
-		else
-		{
-			ErrorMessage(3002, filename);
-		}
-	}
-	else
-	{
-		ErrorMessage(1068, filename);
-	}
+    string line;
+    string header;
+
+    while (file.GetLines(line))
+    {
+        if (line.empty())
+        {
+            open = false;
+            continue;
+        }
+
+        if (!open)
+        {
+            open   = true;
+            header = line;
+            continue;
+        }
+
+        if (header.empty()) ErrorMessage(1094);
+
+        behaviorJoints[header].push_back(line);
+    }
 }
 
 string GetFileName(string filepath)
@@ -749,10 +694,8 @@ int getTemplateNextID(VecStr& templatelines)
 	{
 		if (line.find("<hkobject name=\"#MID$") != NOT_FOUND)
 		{
-            string number
-                = nemesis::regex_replace(string(line),
-                                       nemesis::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"),
-                                       string("\\1"));
+            string number = nemesis::regex_replace(
+                line, nemesis::regex(".*<hkobject name=\"#MID[$]([0-9]+)\" class=\".*"), "$1");
 
 			if (number != line && isOnlyNumber(number))
 			{
@@ -1072,47 +1015,47 @@ void ClearGlobal(bool all)
 	{
 		DebugLogging("Global reset all: TRUE");
 
-		usedAnim = unordered_map<string, SetStr>();
+		usedAnim.clear();
 
-		registeredAnim = unordered_map<string, SetStr>();
+		registeredAnim.clear();
 
-		animModMatch = unordered_map<string, unordered_map<string, vector<SetStr>>>();
+		animModMatch.clear();
 
-		behaviorJoints = unordered_map<string, VecStr>();
+		behaviorJoints.clear();
 
-		warningMsges = VecWstr();
+		warningMsges.clear();
 	}
 	else
 	{
 		DebugLogging("Global reset all: FALSE");
 	}
 
-	clipPtrAnimData = map<string, map<string, vector<shared_ptr<AnimationDataTracker>>>>();
-	charAnimDataInfo = map<string, map<string, shared_ptr<AnimationDataTracker>>>();
+	clipPtrAnimData.clear();
+    charAnimDataInfo.clear();
 
-	behaviorProjectPath = unordered_map<wstring, wstring>();
-	behaviorPath = unordered_map<wstring, wstring>();
-	AAGroup = unordered_map<string, string>();
-	crc32Cache = unordered_map<string, string>();
+	behaviorProjectPath.clear();
+	behaviorPath.clear();
+	AAGroup.clear();
+	crc32Cache.clear();
 
-	behaviorProject = unordered_map<string, VecStr>();
-	alternateAnim = unordered_map<string, VecStr>();
-	groupAA = unordered_map<string, VecStr>();
-	groupAAPrefix = unordered_map<string, VecStr>();
-	AAEvent = unordered_map<string, VecStr>();
-	AAHasEvent = unordered_map<string, VecStr>();
+	behaviorProject.clear();
+    alternateAnim.clear();
+    groupAA.clear();
+    groupAAPrefix.clear();
+    AAEvent.clear();
+    AAHasEvent.clear();
 
-	pcealist = vector<PCEA>();
+	pcealist.clear();
 
-	animReplaced = unordered_map<string, vector<PCEAData>>();
+	animReplaced.clear();
 
-	activatedBehavior = unordered_map<string, bool>();
+	activatedBehavior.clear();
 
-	AAGroupCount = unordered_map<string, unordered_map<string, int>>();
+	AAGroupCount.clear();
 
-	AAgroup_Counter = unordered_map<string, int>();
+	AAgroup_Counter.clear();
 
-	groupNameList = set<string>();
+	groupNameList.clear();
 
-	fileCheckMsg = VecWstr();
+	fileCheckMsg.clear();
 }

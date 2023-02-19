@@ -1,0 +1,10 @@
+		<hkobject name="#dscgo$76" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#2964</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Weap_AttackPower_MSG_ULG</hkparam>
+			<hkparam name="generators" numelements="9">
+				#2949 #dscgo$65 #dscgo$65 #dscgo$65 #dscgo$65 #2949 #2949 #2942 #dscgo$65
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

@@ -16,25 +16,24 @@ void behaviorJointsOutput();
 bool animDataHeaderUpdate(std::string folderpath,
                           std::string modcode,
                           MasterAnimData& animData,
-                          std::unordered_map<std::wstring, std::wstring>& lastUpdate);
+                          UMap<std::wstring, std::wstring>& lastUpdate);
 bool newAnimUpdateExt(std::string folderpath,
                       std::string modcode,
                       std::string behaviorfile,
-                      std::map<std::string, VecStr, alphanum_less>& newFile,
-                      std::map<std::string, VecStr>& newAnimAddition,
-                      std::unordered_map<std::wstring, std::wstring>& lastUpdate);
+                      Map<std::string, VecNstr, alphanum_less>& newFile,
+                      Map<std::string, VecNstr>& newAnimAddition,
+                      UMap<std::wstring, std::wstring>& lastUpdate,
+                      Map<std::string, SPtr<nemesis::HkxBehavior>>& behavior_map);
 bool newAnimDataUpdateExt(std::string folderpath,
                           std::string modcode,
                           std::string characterfile,
-                          MasterAnimData& animData,
-                          std::map<std::string, VecStr>& newAnimAddition,
-                          std::unordered_map<std::wstring, std::wstring>& lastUpdate);
+                          Map<std::string, VecNstr>& newAnimAddition,
+                          UMap<std::wstring, std::wstring>& lastUpdate);
 bool newAnimDataSetUpdateExt(std::string folderpath,
                              std::string modcode,
                              std::string characterfile,
                              MasterAnimSetData& animSetData,
-                             std::map<std::string, VecStr>& newAnimAddition,
-                             std::unordered_map<std::wstring, std::wstring>& lastUpdate);
+                             UMap<std::wstring, std::wstring>& lastUpdate);
 
 template <typename list>
 void comparing(std::vector<list>& storeline,
@@ -54,7 +53,7 @@ void comparing(std::vector<list>& storeline,
     int linecount = 0;
     bool close    = false;
 
-    for (uint k = 0; k < storeline.size(); ++k)
+    for (size_t k = 0; k < storeline.size(); ++k)
     {
         if (storeline[k].name.find("<!-- CONDITION") != NOT_FOUND) ErrorMessage(5004, filename, counter + k);
 
@@ -121,10 +120,10 @@ void comparing(std::vector<list>& storeline,
             close = true;
         }
 
-        if (close) newlines.push_back(storeline[k].name); 
+        if (close) newlines.push_back(storeline[k].name);
     }
 
-    for (uint j = 0; j < extract.size(); ++j)
+    for (size_t j = 0; j < extract.size(); ++j)
     {
         combinelines.push_back(extract[j]);
     }

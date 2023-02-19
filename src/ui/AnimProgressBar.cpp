@@ -69,7 +69,7 @@ void AnimProgressBar::valueUpdate()
             }
         }
     }
-    catch (const std::exception& ex)
+    catch (const std::exception&)
     {
     }
     catch (...)

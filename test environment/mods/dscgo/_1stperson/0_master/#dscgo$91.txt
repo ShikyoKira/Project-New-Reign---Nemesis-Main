@@ -1,0 +1,9 @@
+		<hkobject name="#dscgo$91" class="hkbModifierList" signature="0xa4180ca1">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">DodgeRoll_Stage2_ModList</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="modifiers" numelements="4">
+				#dscgo$66 #dscgo$23 #dscgo$94 #dscgo$92
+			</hkparam>
+		</hkobject>

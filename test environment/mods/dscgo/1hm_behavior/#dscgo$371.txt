@@ -1,0 +1,10 @@
+		<hkobject name="#dscgo$371" class="hkbManualSelectorGenerator" signature="0xd932fab8">
+			<hkparam name="variableBindingSet">#4173</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">MeleeTurnLeft_Behavior_ULG</hkparam>
+			<hkparam name="generators" numelements="9">
+				#dscgo$376 #dscgo$372 #dscgo$372 #dscgo$372 #dscgo$372 #dscgo$376 #dscgo$376 #dscgo$376 #dscgo$372
+			</hkparam>
+			<hkparam name="selectedGeneratorIndex">0</hkparam>
+			<hkparam name="currentGeneratorIndex">0</hkparam>
+		</hkobject>

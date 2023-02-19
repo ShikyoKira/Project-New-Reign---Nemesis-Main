@@ -1,0 +1,106 @@
+		<hkobject name="#dscgo$303" class="hkbExpressionDataArray" signature="0x4b9ee1a2">
+			<hkparam name="expressionsData" numelements="17">
+				<hkobject>
+					<hkparam name="expression">fTimeDeltaSmoothed = fTimeDeltaSmoothed + 0.033333*(TimeDelta - fTimeDeltaSmoothed)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fSpeedX = Speed*sind(360*Direction)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fSpeedY = Speed*cosd(360*Direction)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fSpeedInterpX = fSpeedInterpX + (10*fTimeDeltaSmoothed*(fSpeedX - fSpeedInterpX))</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fSpeedInterpY = fSpeedInterpY + (10*fTimeDeltaSmoothed*(fSpeedY - fSpeedInterpY))</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fLeanTarget_AccelerationX = clamp(fLeanMult_ThirdPerson*0.0005*(!bIsRolling)*(0.002*pow(Speed,2) + 200)*clamp(fSpeedX - fSpeedInterpX, -120, 120), -30*fLeanMult_ThirdPerson, 30*fLeanMult_ThirdPerson)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fLeanTarget_AccelerationY = clamp(fLeanMult_ThirdPerson*0.0005*(!bIsRolling)*(0.002*pow(Speed,2) + 200)*clamp(fSpeedY - fSpeedInterpY, -120, 120), -30*fLeanMult_ThirdPerson, 30*fLeanMult_ThirdPerson)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fLeanCurrent_AccelerationX = fLeanCurrent_AccelerationX + (4*fTimeDeltaSmoothed*clamp(-0.0086*Speed + 4, 1, 4)*(fLeanTarget_AccelerationX - fLeanCurrent_AccelerationX))</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fLeanCurrent_AccelerationY = fLeanCurrent_AccelerationY + (4*fTimeDeltaSmoothed*clamp(-0.0086*Speed + 4, 1, 4)*(fLeanTarget_AccelerationY - fLeanCurrent_AccelerationY))</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fLeanTarget_Turning = clamp(fLeanMult_ThirdPerson*0.0005*(!bIsRiding)*(0.5*Speed + 0.00125*pow(Speed,2))*TurnDelta*clamp(clamp(-20*pow(Direction - 0.5, 2) + 1.3, 0, 1) - clamp(20*pow(Direction - 0.5, 2) - 0.3, 0, 1) - (10*fabs(fDirection360_Combat)) - (10*fabs(fDirection360)), -1, 1), -30*fLeanMult_ThirdPerson, 30*fLeanMult_ThirdPerson)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fLeanCurrent_Turning = fLeanCurrent_Turning + (4*fTimeDeltaSmoothed*(fLeanTarget_Turning - fLeanCurrent_Turning))</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fCurrentTime = fCurrentTime + TimeDelta -1*((fCurrentTime + TimeDelta) &gt;= 1.00)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">bNotUseAltGrip = !bUseAltGrip</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fUseAltGrip = fUseAltGrip + 10*fTimeDeltaSmoothed*clamp(1.00*bUseAltGrip - fUseAltGrip, -0.5, 0.5)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fIsMoving = fIsMoving + 5*fTimeDeltaSmoothed*(1.00*(Speed &gt; 10) - fIsMoving)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fGripSwitchAdjust = 20*(1 - pow(2*fUseAltGrip - 1, 2))</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="expression">fUse360Combat = fUse360Combat + 10*fTimeDeltaSmoothed*clamp(1.00*bUse360Combat - fUse360Combat, -0.5, 0.5)</hkparam>
+					<hkparam name="assignmentVariableIndex">-1</hkparam>
+					<hkparam name="assignmentEventIndex">-1</hkparam>
+					<hkparam name="eventMode">EVENT_MODE_SEND_ONCE</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

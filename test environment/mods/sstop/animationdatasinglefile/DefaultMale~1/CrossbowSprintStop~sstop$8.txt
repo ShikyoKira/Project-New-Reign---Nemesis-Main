@@ -1,0 +1,7 @@
+CrossbowSprintStop
+sstop$8
+1
+0
+0
+1
+SprintStopEnd:0.0500000

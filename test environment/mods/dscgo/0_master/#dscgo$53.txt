@@ -1,0 +1,3 @@
+		<hkobject name="#dscgo$53" class="hkbExpressionCondition" signature="0x1c3c1045">
+			<hkparam name="expression">(fRollAngle &gt; 22.5) &amp;&amp; (fRollAngle &lt;= 67.5)</hkparam>
+		</hkobject>

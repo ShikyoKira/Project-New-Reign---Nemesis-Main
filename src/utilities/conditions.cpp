@@ -6,13 +6,15 @@
 #include "generate/animation/animthreadinfo.h"
 #include "generate/animation/templateprocessing.h"
 
+#include "scope/scopeinfo.h"
+
 using namespace std;
 
 VecStr GetOptionInfo(string line, string format, string filename, int numline);
 VecStr GetOptionInfo(string line, string format, string masterformat, string filename, string multiOption, int numline);
 void ProcessFunction(string change, string line, string format, string behaviorFile, string multiOption, bool& isEnd, int numline, size_t curPos,
 	OptionList& optionlist, map<int, vector<shared_ptr<nemesis::scope>>>& lineblocks, vector<AddOnInfo>& addInfo, bool& isTrueMulti, bool isGroup = false, bool isMaster = false,
-	bool isMC = true, proc& process = proc());
+	bool isMC = true, proc& process = *new proc());
 
 nemesis::Condt::Condt(string condition, string format, string behaviorFile, string originalCondition, string multiOption, int numline, bool isGroup, bool isMaster,
 	OptionList& optionlist)
@@ -30,7 +32,7 @@ nemesis::Condt::Condt(string condition, string format, string behaviorFile, stri
 		size_t c_or = 0;
 		size_t backB = 0;
 
-		for (unsigned int i = 0; i < condition.size(); ++i)
+		for (size_t i = 0; i < condition.size(); ++i)
 		{
 			if (condition[i] == '(')
 			{
@@ -212,7 +214,7 @@ bool nemesis::Condt::isTrue(AnimThreadInfo& animthrinfo,
                             while (animMulti < a_size)
                             {
                                 auto& opt  = mtOptPick[groupMulti][animMulti];
-                                auto& pick = opt.find((*optioncondt)[3]);
+                                auto pick = opt.find((*optioncondt)[3]);
 
                                 result = isNot ? pick == opt.end() : pick != opt.end();
 
@@ -240,7 +242,7 @@ bool nemesis::Condt::isTrue(AnimThreadInfo& animthrinfo,
                     if (!a_multi)
                     {
                         auto& opt  = mtOptPick[groupMulti][animMulti];
-                        auto& pick = opt.find((*optioncondt)[3]);
+                        auto pick = opt.find((*optioncondt)[3]);
                         result     = isNot ? pick == opt.end() : pick != opt.end();
                     }
 
@@ -303,7 +305,7 @@ bool nemesis::Condt::isTrue(AnimThreadInfo& animthrinfo,
                 for (size_t i = 0; i < animMulti; ++i)
                 {
                     auto& opt  = gpOptPick[i];
-                    auto& pick = opt.find((*optioncondt)[2]);
+                    auto pick  = opt.find((*optioncondt)[2]);
                     result     = isNot ? pick == opt.end() : pick != opt.end();
 
                     if (!result) break;
@@ -312,7 +314,7 @@ bool nemesis::Condt::isTrue(AnimThreadInfo& animthrinfo,
             else
             {
                 auto& opt  = gpOptPick[animMulti];
-                auto& pick = opt.find((*optioncondt)[2]);
+                auto pick  = opt.find((*optioncondt)[2]);
                 result     = isNot ? pick == opt.end() : pick != opt.end();
             }
         }
@@ -375,107 +377,111 @@ bool nemesis::Condt::isMultiTrue(AnimThreadInfo& animinfo,
 {
 	if (isGroup)
 	{
-		if (optioncondt && optioncondt->size() > 3)
-		{
-            if (original == process.masterformat + "_group")
-			{
-				groupMulti = -1;
-				return true;
-			}
-
-			groupMulti = animinfo.groupMulti;
-
-			if (groupMulti == -1)
-            {
-                ErrorMessage(1202, process.masterformat + "_master", behaviorFile, numline, original);
-            }
-
-			if ((*optioncondt)[2].length() == 0)
-			{
-				animMulti = -1;
-				return true;
-			}
-			else if ((*optioncondt)[2] == "F")
-			{
-				animMulti = 0;
-			}
-			else if ((*optioncondt)[2] == "L")
-			{
-                animMulti = animinfo.masterOptionPicked[groupMulti].size() - 1;
-			}
-			else
-			{
-				animMulti = stoi((*optioncondt)[2]);
-
-				if (animMulti >= int(animinfo.masterOptionPicked[groupMulti].size()))
-                {
-                    ErrorMessage(1148, format + "_group", behaviorFile, numline, original);
-                }
-			}
-
-			auto& opt  = animinfo.masterOptionPicked[groupMulti][animMulti];
-            auto& pick = opt.find((*optioncondt)[2]);
-			return pick != opt.end();
-		}
-		else
+		if (!optioncondt || optioncondt->size() <= 3)
 		{
             ErrorMessage(1138, process.masterformat + "_group", behaviorFile, numline, original);
 		}
-	}
-	else
-	{
-		if (optioncondt && optioncondt->size() > 2)
-		{
-			if ((*optioncondt)[1].length() == 0)
-			{
-				ErrorMessage(1057, format, behaviorFile, numline, original);
-			}
-			else if ((*optioncondt)[1] == "order")
-			{
-                animMulti = animinfo.order;
-			}
-			else if ((*optioncondt)[1] == "F")
-			{
-				animMulti = 0;
-			}
-			else if ((*optioncondt)[1] == "N")
-			{
-                animMulti = animinfo.order;
 
-				if (!animinfo.curAnim->isLast()) ++animMulti;
-			}
-			else if ((*optioncondt)[1] == "B")
-			{
-                animMulti = animinfo.order;
+        if (original == process.masterformat + "_group")
+        {
+            groupMulti = -1;
+            return true;
+        }
 
-				if (animMulti > 0) --animMulti;
-			}
-			else if ((*optioncondt)[1] == "L")
-			{
-                animMulti = animinfo.lastorder;
-			}
-			else
-			{
-				animMulti = stoi((*optioncondt)[1]);
-			}
+        groupMulti = animinfo.groupMulti;
 
-			if (original == format)
-			{
-				animMulti = -1;
-				return true;
-			}
+        if (groupMulti == -1)
+        {
+            ErrorMessage(1202, process.masterformat + "_master", behaviorFile, numline, original);
+        }
 
-            auto& opt  = animinfo.groupOptionPicked[animMulti];
-            auto& pick = opt.find((*optioncondt)[2]);
-			return pick != opt.end();
-		}
-		else
-		{
-			ErrorMessage(1138, format, behaviorFile, numline, original);
-		}
+        if ((*optioncondt)[2].length() == 0)
+        {
+            animMulti = -1;
+            return true;
+        }
+        else if ((*optioncondt)[2] == "F")
+        {
+            animMulti = 0;
+        }
+        else if ((*optioncondt)[2] == "L")
+        {
+            animMulti = animinfo.masterOptionPicked[groupMulti].size() - 1;
+        }
+        else
+        {
+            animMulti = stoi((*optioncondt)[2]);
+
+            if (animMulti >= int(animinfo.masterOptionPicked[groupMulti].size()))
+            {
+                ErrorMessage(1148, process.masterformat + "_group", behaviorFile, numline, original);
+            }
+        }
+
+        auto& opt  = animinfo.masterOptionPicked[groupMulti][animMulti];
+        auto pick  = opt.find((*optioncondt)[2]);
+        return pick != opt.end();
 	}
 
-	return false;
+    if (!optioncondt || optioncondt->size() <= 2) ErrorMessage(1138, format, behaviorFile, numline, original);
+
+    if ((*optioncondt)[1].length() == 0) ErrorMessage(1057, format, behaviorFile, numline, original);
+
+    if ((*optioncondt)[1] == "order")
+    {
+        animMulti = animinfo.order;
+    }
+    else if ((*optioncondt)[1] == "F")
+    {
+        animMulti = 0;
+    }
+    else if ((*optioncondt)[1] == "N")
+    {
+        animMulti = animinfo.order;
+
+        if (!animinfo.curAnim->isLast()) ++animMulti;
+    }
+    else if ((*optioncondt)[1] == "B")
+    {
+        animMulti = animinfo.order;
+
+        if (animMulti > 0) --animMulti;
+    }
+    else if ((*optioncondt)[1] == "L")
+    {
+        animMulti = animinfo.lastorder;
+    }
+    else
+    {
+        animMulti = stoi((*optioncondt)[1]);
+    }
+
+    if (original == format)
+    {
+        animMulti = -1;
+        return true;
+    }
+
+    auto& opt  = animinfo.groupOptionPicked[animMulti];
+    auto pick  = opt.find((*optioncondt)[2]);
+    return pick != opt.end();
+}
+
+bool nemesis::Condt::IsTrue(nemesis::ScopeInfo& scopeinfo)
+{
+    // condition
+
+    if (next) return next->IsTrue(scopeinfo);
+
+    return true;
+}
+
+bool nemesis::Condt::IsRecursiveTrue(nemesis::ScopeInfo& scopeinfo)
+{
+
+    if (next) return next->IsTrue(scopeinfo);
+
+    return true;
 }
 
 bool nemesis::Condt::specialIsTrueA(AnimThreadInfo& animthrinfo)
@@ -497,7 +503,7 @@ bool nemesis::Condt::specialIsTrueB(AnimThreadInfo& animthrinfo)
 
 		if (cmpbool1)
 		{
-            for (unsigned int i = 0; i < animthrinfo.curAnim->GetGroupAnimInfo().size(); ++i)
+            for (size_t i = 0; i < animthrinfo.curAnim->GetGroupAnimInfo().size(); ++i)
 			{
 				animMulti1_list.insert(i);
 			}
@@ -509,7 +515,7 @@ bool nemesis::Condt::specialIsTrueB(AnimThreadInfo& animthrinfo)
 
 		if (cmpbool2)
 		{
-            for (unsigned int i = 0; i < animthrinfo.curAnim->GetGroupAnimInfo().size(); ++i)
+            for (size_t i = 0; i < animthrinfo.curAnim->GetGroupAnimInfo().size(); ++i)
 			{
 				animMulti2_list.insert(i);
 			}
@@ -869,7 +875,7 @@ void nemesis::Condt::conditionProcess(string condition, string format, string be
 
 		if (isalpha(condition[1]))
 		{
-			conditionOrder = nemesis::regex_replace(string(condition), nemesis::regex("\\^([A-Za-z]+)\\^"), string("\\1"));
+			conditionOrder = nemesis::regex_replace(string(condition), nemesis::regex("\\^([A-Za-z]+)\\^"), string("$1"));
 
 			if (nemesis::iequals(conditionOrder, "last"))
 			{
@@ -908,7 +914,7 @@ void nemesis::Condt::conditionProcess(string condition, string format, string be
 	if (error) throw nemesis::exception();
 }
 
-nemesis::MultiChoice::MultiChoice(string cond, string format, string behaviorFile, string multiOption, int numline, bool isGroup, bool isMaster, OptionList& optionlist,
+nemesis::MultiChoice_Old::MultiChoice_Old(string cond, string format, string behaviorFile, string multiOption, int numline, bool isGroup, bool isMaster, OptionList& optionlist,
 	size_t posA, size_t posB)
 {
 	if (cond.length() > 0)
@@ -1062,7 +1068,7 @@ void GetMultiFromAddOn(const nemesis::Condt& curcond,
                        int& optionMulti,
                        int& endMulti)
 {
-    auto& groupAnimInfo = animthrinfo.curAnim->GetGroupAnimInfo();
+    auto groupAnimInfo = animthrinfo.curAnim->GetGroupAnimInfo();
 
 	if (addinfo.header.find("@AnimObject/") != NOT_FOUND)
 	{

@@ -165,7 +165,7 @@ ERR 1114=Unresolved condition scope. Closing scope is required. Please contact t
 ERR 1115=Unresolved condition scope. Closing scope is required. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1116=Unresolved condition scope. Closing scope is required. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1117=Unknown option. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
-ERR 1118=Unable to close condition. No condition supporting this close condition is opened within the scope. Please contact the template creator\nTemplate\Mod: <1>\nFile: <2>\nLine: <3>
+ERR 1118=Unable to close condition. No condition supporting this close condition is opened within the scope. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1119=Opening of condition is required. Please contact the template creator\nTemplate\Mod: <1>\nFile: <2>\nLine: <3>
 ERR 1120=Unresolved option section. Closing of option is required. Please contact the template creator\nTemplate: <1>\nFile: <2>
 ERR 1121=Unknown element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nInput: <4>
@@ -173,7 +173,7 @@ ERR 1122=Unresolved condition. Closure of condition is not found. Please contact
 ERR 1123=BUG FOUND!! Report to Nemesis' author immediately\nTemplate: <1>\nFile: <2>
 ERR 1124=Invalid condition. Only 1 "==" or "!=" can be used in once at a time. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nCondition: <4>
 ERR 1125=Invalid condition. Neither "==" nor "!=" is not found. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nCondition: <4>
-ERR 1126=Invalid AnimObject. AnimObject must be under FOREACH scope. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nFunction: <4>
+ERR 1126=Invalid AnimObject. AnimObject must be within FOREACH scope. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nFunction: <4>
 ERR 1127=Invalid state. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1128=BUG FOUND!! Report to Nemesis' author immediately\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1129=AnimObject cannot be used in non-FOREACH. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
@@ -212,8 +212,8 @@ ERR 1161=Failed to access individual animation template. Existing node can only 
 ERR 1162=Failed to access master animation template. Master animation template not found. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1163=Failed to access master animation template. Only existing node has access to master animation template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1164=Basic IF scope is not supported to access other template. Use FOREACH scope instead. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
-ERR 1165=
-ERR 1166=
+ERR 1165=Specified animation group not found. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1166=Specified animation in a group not found. Use "minimum" command in option_list.txt to prevent this issue. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1167=Failed to access group animation template. Existing node can only access to the highest level of animation template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1168=Invalid state number. State number must be smaller than number of root state registered in "option_list.txt" but not smaller than 0. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nState: <4>
 ERR 1169=Missing import input. Please contact the template creator\nImport File: <1>\nLine: <2>
@@ -251,10 +251,10 @@ ERR 1199=Invalid compulsory. Please contact the template creator\nTemplate: <1>\
 '1200
 ERR 1200=Invalid add format detected in "option_list.txt". Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1201=Invalid group animation. Only empty value is supported for 1st element. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
-ERR 1202=Invalid reference. Reference cannot be accessed in master template directly. Run FOREACH scope with condition of "<template code>_group" before hand can bypass this. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
-ERR 1203=Master template does not support order NEW scope. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1202=Invalid reference. Make sure reference is made within FOREACH scope with a condition of "<1>_group". Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1203=Invalid reference. Make sure reference is made within FOREACH scope with a condition of "<1>". Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1204=Failed to call option. Only master template can access to anim info from all group. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>\nOption: <4>
-ERR 1205=Master template cannot access to import function\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1205=Invalid condition detected in template. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1206=Master and group template does not support this function. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1207=Failed to output xml file. Please ensure that the hkx file is readable and valid by contacting the mod author\nHkx File: <1>
 ERR 1208=Master template not found\nTemplate: <1>\nFile: <2>\nLine: <3>
@@ -269,13 +269,28 @@ ERR 1216=Original scope falls not within a mod code scope. Please contact the mo
 ERR 1217=Mod code scope cannot be within any other scope. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1218=There must not be any other scope within mod code scope. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
 ERR 1219=Incompletely linked parser detected. Code review required. Report to Nemesis' author immediately
+ERR 1220=Missing behavior detected for one of the templates. Please contact the template creator\nTemplate: <1>\nFile: <2>
+ERR 1221=Unregistered option detected. Register option in option_list to fix this. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1222=Required AnimObject not found. Add required AnimObject in animation list txt to fix this. Please contact the mod author\nFile: <1>\nLine: <2>
+ERR 1223=Syntax error. Please contact the template creator\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1224=Syntax not supported. Please contact the template creator\nFile: <1>\nLine: <2>
+ERR 1225=Template not found. Failed when attempting to get "<2>" template in behavior\nBehavior File: <1>\nTemplate: <2>
+ERR 1226=Access violation. Master template cannot directly reference to group or individual animation info\nBehavior File: <1>\nTemplate: <2>
+ERR 1227=Template access violation. Local template cannot access to other template's query info\nTemplate: <1>\nFile: <2>
+ERR 1228=Unable to refer to null group query. Please contact the template creator to fix this\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1229=Mod code scope must not be any smaller than original scope\nTemplate: <1>\nFile: <2>\nLine: <3>
+ERR 1230=Unsupported xml element format found. Please use original program that generates valid format. Please contact the mod author to fix this\nFile: <1>\nLine: <2>
+ERR 1231=Failed to patch file. Invalid format detected. Please contact the file creator\nFile: <1>
+ERR 1232=Missing project file in animationdatasinglefile. Please contact the mod author\nMod: <1>\nFile: <2>
+ERR 1233=No matching base file detected. Please contact the mod author\nMod: <1>\nFile: <2>
+
 
 '2000s
-ERR 2000=Failed to open file\nFile: <1>
+ERR 2000=Failed to open file\nFile: <1>\nMessage: <2>
 ERR 2001=Missing node ID\nNode ID: <1>
 ERR 2002=Missing file\nFile: <1>\nStarting line: <2>\nEnding line: <3>
 ERR 2003=Invalid file name. File name must only be #<modcode>$<id> or #<id>. Please contact the mod author\nFile: <1>
-ERR 2004=Invalid file name. File name must only be either <modcode>$<id>,<modcode>$<id>$UC, <id>, "$header$" or <animation clip name>~<id>. Please contact the mod author\nFile: <1>
+ERR 2004=Invalid file name. File name must only be either <modcode>$<id>, <modcode>$<id>$UC, <id>, "$header$" or <animation clip name>~<modcode>$<id>. Please contact the mod author\nFile: <1>
 ERR 2005=Missing edits\nFile: <1>\nLine: <2>
 ERR 2006=Missing behavior file. The behavior file name must be in this format ("Nemesis_<file name>.xml") and it must located in the same path as the hkx counterpart. Please contact the mod author\nFile: <1>
 ERR 2007=Missing "nemesis_animationdatasinglefile.txt". It must be located in the original file (data\meshes). Please contact the mod author\nFile: <1>
@@ -298,6 +313,7 @@ ERR 2023=BUG FOUND!! Report to Nemesis' author immediately
 ERR 2024=Unrecognized file detected in path it shouldn't be located in\nFile: <1>
 ERR 2025=BUG FOUND!! Report to Nemesis' author immediately
 ERR 2026=Invalid mod patch format. Please contact the mod author to regenerate the patch\nSection: <1>\nMod: <2>
+ERR 2027=Invalid anim data. Please contact the mod author\nMod: <1>\nAnim Data: <2>\nFile: <3>
 
 '3000s
 ERR 3000=Failed to create bug report. Report to Nemesis' author
@@ -383,6 +399,7 @@ ERR 6008=An exception has occured while running the script. Please contact the s
 ERR 6009=Invalid <1> file. Please reinstall <2>
 ERR 6010=Detected path does not match expected installation path. Please reinstall Nemesis correctly\nDetected path: <1>\nExpected path: <2>
 ERR 6011=Failed to execute <1> python script\nFile path: <1>
+ERR 6012=Access violation. Event ID does not exist in file\nFile: <1>
 
 '1000
 WAR 1000=Missing animation file\nFile: <1>

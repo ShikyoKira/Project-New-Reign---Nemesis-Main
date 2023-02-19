@@ -19,7 +19,7 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                              bool& isOExist,
                              bool noOption)
 {
-    uint k         = 0;
+    size_t k         = 0;
     string line    = newAnimInfo[1];
     animInfo       = newAnimInfo;
     ignoreGroup    = behaviorOption.ignoreGroup;
@@ -71,7 +71,7 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
             if (option[0] == 'D' && isOnlyNumber(option.substr(1)))
             {
                 string time = nemesis::regex_replace(
-                    string(option), nemesis::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("\\1"));
+                    string(option), nemesis::regex("[^0-9]*([0-9]+(\\.([0-9]+)?)?).*"), string("$1"));
 
                 if ("D" + time == option)
                 {
@@ -106,12 +106,12 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                 bool isSameOption = true;
                 string header     = "";
 
-                for (uint m = 0; m < optionOrder.size(); ++m)
+                for (size_t m = 0; m < optionOrder.size(); ++m)
                 {
                     bool loose = false;
 
                     // check on group / addon option
-                    for (uint j = 0; j < optionOrder[m].size(); ++j)
+                    for (size_t j = 0; j < optionOrder[m].size(); ++j)
                     {
                         if (optionOrder[m][j] != option[j])
                         {
@@ -124,7 +124,7 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
                                 header           = optionOrder[m];
                                 string nonHeader = option.substr(header.length());
                                 string group     = nemesis::regex_replace(
-                                    string(nonHeader), nemesis::regex("[^0-9]*([0-9]+).*"), string("\\1"));
+                                    string(nonHeader), nemesis::regex("[^0-9]*([0-9]+).*"), string("$1"));
 
                                 if (group.length() != 0 && option == header + group && group != nonHeader)
                                 {
@@ -157,7 +157,7 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
 
                                         isPassed = false;
 
-                                        for (uint k = 0; k < addOn[header].size(); ++k)
+                                        for (size_t k = 0; k < addOn[header].size(); ++k)
                                         {
                                             if (nonHeader.empty()) break;
 
@@ -218,7 +218,7 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
     if (animInfo.size() > k + 3)
     {
         VecStr animobjects;
-        uint add = 3;
+        size_t add = 3;
 
         while (k + add < animInfo.size())
         {
@@ -243,7 +243,7 @@ void AnimationInfo::storeAnimObject(VecStr animobjects, sf::path listFilename, i
 {
     size_t position;
 
-    for (uint i = 0; i < animobjects.size(); ++i)
+    for (size_t i = 0; i < animobjects.size(); ++i)
     {
         if (animobjects[i].find("/") == NOT_FOUND)
         {
