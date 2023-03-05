@@ -592,7 +592,7 @@ bool nemesis::AnimVarPtr::Parser::TryAddAsBase()
 
 void nemesis::AnimVarPtr::Parser::AddAnimValue()
 {
-    auto& anim = animvar_ptr->anim;
+    auto& anim = animvar_ptr->anim_index;
     anim       = std::make_unique<AnimIndex>(components.front(), *animvar_ptr);
 
     if (!anim->HasValue()) return;
@@ -643,12 +643,16 @@ size_t nemesis::AnimVarPtr::AnimIndex::GetValue(nemesis::ScopeInfo& scopeinfo) c
     {
         case Order::NEXT:
             animquery = scopeinfo.GetNextAnim(animvar.templateclass);
+            break;
         case Order::BACK:
             animquery = scopeinfo.GetBackAnim(animvar.templateclass);
+            break;
         case Order::LAST:
             animquery = scopeinfo.GetLastAnim(animvar.templateclass);
+            break;
         default:
             animquery = scopeinfo.GetAnim(animvar.templateclass);
+            break;
     }
 
     return animquery->GetArrayNum();
@@ -682,7 +686,7 @@ std::string nemesis::AnimVarPtr::GetResultFromAnim(nemesis::ScopeInfo& scopeinfo
 {
     std::string rtn;
     scopeinfo.ExeTempNumAnim(
-        anim->GetValue(scopeinfo), templateclass, [&]() { rtn = GetFromOption(scopeinfo); });
+        GetAnim(scopeinfo), templateclass, [&]() { rtn = GetFromOption(scopeinfo); });
     return rtn;
 }
 
@@ -835,7 +839,7 @@ bool nemesis::AnimVarPtr::HasGroup() const noexcept
 
 bool nemesis::AnimVarPtr::HasAnim() const noexcept
 {
-    return anim != nullptr && anim->HasValue();
+    return anim_index != nullptr && anim_index->HasValue();
 }
 
 bool nemesis::AnimVarPtr::HasOption() const noexcept
@@ -875,7 +879,7 @@ size_t nemesis::AnimVarPtr::GetGroup() const
 
 size_t nemesis::AnimVarPtr::GetAnim(nemesis::ScopeInfo& scopeinfo) const
 {
-    return anim->GetValue(scopeinfo);
+    return anim_index->GetValue(scopeinfo);
 }
 
 std::string nemesis::AnimVarPtr::GetOption() const
@@ -931,13 +935,17 @@ bool nemesis::AnimVarPtr::IsGroupExist(nemesis::ScopeInfo& scopeinfo) const
 
 bool nemesis::AnimVarPtr::IsAnimExist(nemesis::ScopeInfo& scopeinfo) const
 {
-    if (!HasAnim() || !anim->HasValue()) return IsOptionExist(scopeinfo);
+    if (!HasAnim())
+    {
+        return IsOptionExist(scopeinfo);
+    }
 
-    if (!scopeinfo.HasAnim(anim->GetValue(scopeinfo), templateclass)) return false;
+    size_t anim_index = GetAnim(scopeinfo);
+
+    if (!scopeinfo.HasAnim(anim_index, templateclass)) return false;
 
     bool rtn;
-    scopeinfo.ExeTempNumAnim(
-        anim->GetValue(scopeinfo), templateclass, [&]() { rtn = IsOptionExist(scopeinfo); });
+    scopeinfo.ExeTempNumAnim(anim_index, templateclass, [&]() { rtn = IsOptionExist(scopeinfo); });
     return rtn;
 }
 

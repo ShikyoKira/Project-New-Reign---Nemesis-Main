@@ -203,7 +203,10 @@ namespace nemesis
                 NONE,
                 LAST,
                 NEXT,
-                BACK
+                BACK,
+                ALL,
+                ANY,
+                CURRENT,
             };
 
         private:
@@ -233,8 +236,8 @@ namespace nemesis
         bool b_modcode   = false;
 
         UPtr<std::string> constant = nullptr;
-        UPtr<size_t> group           = nullptr;
-        UPtr<AnimIndex> anim       = nullptr;
+        UPtr<size_t> group         = nullptr;
+        UPtr<AnimIndex> anim_index = nullptr;
         UPtr<std::string> option   = nullptr;
         std::string optionvar;
         UPtr<size_t> optionindex = nullptr;
