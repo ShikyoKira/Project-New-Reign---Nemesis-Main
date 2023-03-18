@@ -170,7 +170,7 @@ bool nemesis::ScopeInfo::TrySetNodeId(nemesis::Line& line)
     return true;
 }
 
-void nemesis::ScopeInfo::SetCurrentCondition(nemesis::Condition* conditionptr)
+void nemesis::ScopeInfo::SetCurrentCondition(const nemesis::Condition* conditionptr)
 {
     this->conditionptr = conditionptr;
 }

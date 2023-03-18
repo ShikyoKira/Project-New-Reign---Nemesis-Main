@@ -219,9 +219,9 @@ namespace nemesis
         const nemesis::AnimQueryFile* querylist = nullptr;
         const nemesis::AnimQuery* basequery     = nullptr;
 
-        const nemesis::Line* lineptr     = nullptr;
-        nemesis::Condition* conditionptr = nullptr;
-        nemesis::Process* processptr     = nullptr;
+        const nemesis::Line* lineptr           = nullptr;
+        const nemesis::Condition* conditionptr = nullptr;
+        nemesis::Process* processptr           = nullptr;
 
         ScopeInfo() = default;
 
@@ -262,7 +262,7 @@ namespace nemesis
         void SetCurrentImport(nemesis::AnimImport* animimport_ptr);
         void SetCurrentLine(nemesis::Line* lineptr);
         void SetCurrentLine(const nemesis::Line* lineptr);
-        void SetCurrentCondition(nemesis::Condition* conditionptr);
+        void SetCurrentCondition(const nemesis::Condition* conditionptr);
         void SetCurrentProcess(nemesis::Process* processptr);
         void SetAnimCounter(size_t animcounter);
         void SetCurrentQuery(const nemesis::AnimQuery& query);
