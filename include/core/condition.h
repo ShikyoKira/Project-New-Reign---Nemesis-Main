@@ -90,8 +90,10 @@ namespace nemesis
         const nemesis::File* fileptr;
         nemesis::Line refline;
 
+        CondType type;
+
     public:
-        Condition(const std::string& expression, const nemesis::Line& line, const nemesis::File& file);
+        Condition(const std::string& expression, const nemesis::Line& line, const nemesis::File& file, CondType type);
         Condition(const Lexer::Iter& tokens, Condition& condition);
 
         const nemesis::AnimVarPtr& GetVariableA() const;
@@ -99,6 +101,7 @@ namespace nemesis
         std::string GetExpression() const;
         size_t GetLineNum() const;
         const nemesis::File& GetFile() const;
+        CondType GetType() const;
 
         bool IsTrue(nemesis::ScopeInfo& scopeinfo) const;
 

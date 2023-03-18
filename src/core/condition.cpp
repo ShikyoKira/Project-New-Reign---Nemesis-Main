@@ -357,10 +357,12 @@ void nemesis::Condition::Parser::Or(Condition& condition)
 
 nemesis::Condition::Condition(const std::string& expression,
                               const nemesis::Line& line,
-                              const nemesis::File& file)
+                              const nemesis::File& file,
+                              CondType type)
     : fileptr(&file)
     , refline(line)
     , expression(expression)
+    , type(type)
 {
     Lexer lexer(expression);
     Parser parser(lexer, *this);
@@ -399,6 +401,11 @@ size_t nemesis::Condition::GetLineNum() const
 const nemesis::File& nemesis::Condition::GetFile() const
 {
     return *fileptr;
+}
+
+nemesis::CondType nemesis::Condition::GetType() const
+{
+    return type;
 }
 
 bool nemesis::Condition::IsTrue(nemesis::ScopeInfo& scopeinfo) const
