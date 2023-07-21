@@ -27,7 +27,7 @@ namespace nemesis
                 const VecNstr GetLines() const;
 
                 const nemesis::AnimTemplate* GetAnimTemplate() override;
-                const nemesis::TemplateClass* GetTemplateClass(const std::string& name) override;
+                const nemesis::TemplateCategory* GetTemplateCategory(const std::string& name) override;
                 void Export() override;
                 bool IsTemplateActive(const std::string& name) override;
                 const Vec<const nemesis::AnimQuery*>* GetQueriesByTemplate(const std::string& name) override;

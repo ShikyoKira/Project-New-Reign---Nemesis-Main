@@ -8,12 +8,16 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <deque>
+#include <stack>
 
 namespace nemesis
 {
     struct Line;
     struct Wline;
 }
+
+template<class T>
+using Stack = std::stack<T>;
 
 template <class T>
 using Vec = std::vector<T>;

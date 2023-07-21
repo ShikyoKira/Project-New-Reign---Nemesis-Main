@@ -2,7 +2,7 @@
 
 #include "utilities/constants.h"
 #include "utilities/optionmodel.h"
-#include "utilities/templateclass.h"
+#include "utilities/templatecategory.h"
 #include "utilities/optionmodellist.h"
 #include "utilities/stringextension.h"
 
@@ -48,9 +48,9 @@ nemesis::Line nemesis::OptionModelList::Parser::TryRemoveComment(const nemesis::
     return nemesis::Line(str.substr(0, pos), line.GetLineNumber());
 }
 
-std::string nemesis::OptionModelList::Parser::GetTemplateClass() const
+std::string nemesis::OptionModelList::Parser::GetTemplateCategory() const
 {
-    return host.templateclass.GetName();
+    return host.templatecategory->GetName();
 }
 
 std::filesystem::path nemesis::OptionModelList::Parser::GetFilePath() const
@@ -60,7 +60,7 @@ std::filesystem::path nemesis::OptionModelList::Parser::GetFilePath() const
 
 void nemesis::OptionModelList::Parser::ErrorTemplate(int errcode, int linenum)
 {
-    ErrorMessage(errcode, GetTemplateClass(), GetFilePath(), linenum);
+    ErrorMessage(errcode, GetTemplateCategory(), GetFilePath(), linenum);
 }
 
 void nemesis::OptionModelList::Parser::AddEvent(const nemesis::Line& line)
@@ -82,7 +82,7 @@ void nemesis::OptionModelList::Parser::AddAnimObject(const nemesis::Line& line)
 
     if (animinfo.size() != 2 || !isOnlyNumber(animinfo.back()))
     {
-        ErrorMessage(1175, GetTemplateClass(), GetFilePath(), line.GetLineNumber(), line.ToString());
+        ErrorMessage(1175, GetTemplateCategory(), GetFilePath(), line.GetLineNumber(), line.ToString());
     }
 
     host.iAnimObj = std::make_unique<size_t>(stoi(animinfo.back()));
@@ -261,7 +261,7 @@ void nemesis::OptionModelList::Parser::CommitVariableAddition()
 
         if (split.back().find(key) == NOT_FOUND)
         {
-            ErrorMessage(1006, GetTemplateClass(), GetFilePath(), line.GetLineNumber(), line);
+            ErrorMessage(1006, GetTemplateCategory(), GetFilePath(), line.GetLineNumber(), line);
         }
 
         if (split.back() == key) ErrorTemplate(1005, line.GetLineNumber());
@@ -284,8 +284,8 @@ void nemesis::OptionModelList::Parser::CommitCompulsoryVariable()
             continue;
         }
 
-        auto& templtclass = host.templateclass;
-        ErrorMessage(1221, templtclass.GetName(), host.filepath, option.GetLineNumber());
+        auto& templtclass = host.templatecategory;
+        ErrorMessage(1221, templtclass->GetName(), host.filepath, option.GetLineNumber());
     }
 }
 
@@ -397,10 +397,10 @@ void nemesis::OptionModelList::ReadOptionListFile()
 
 void nemesis::OptionModelList::AddOptionModel(const nemesis::Line& option)
 {
-    auto shptr = std::make_shared<nemesis::OptionModel>(option, filepath, templateclass);
+    auto shptr = std::make_shared<nemesis::OptionModel>(option, filepath, *templatecategory);
     auto name  = std::string(shptr->GetName());
 
-    if (Contains(name)) ErrorMessage(1177, templateclass.GetName(), filepath, option.GetLineNumber(), name);
+    if (Contains(name)) ErrorMessage(1177, templatecategory->GetName(), filepath, option.GetLineNumber(), name);
 
     optionsmap.insert(std::make_pair(name.length(), shptr));
     options.insert(name);
@@ -418,9 +418,14 @@ nemesis::OptionModel* nemesis::OptionModelList::GetInnerModel(const std::string 
     return nullptr;
 }
 
+nemesis::OptionModelList::OptionModelList(const nemesis::TemplateCategory& _templateclass) noexcept
+    : templatecategory(&_templateclass)
+{
+}
+
 nemesis::OptionModelList::OptionModelList(const std::filesystem::path& filepath,
-                                          const nemesis::TemplateClass& _templateclass) noexcept
-    : templateclass(_templateclass)
+                                          const nemesis::TemplateCategory& _templateclass) noexcept
+    : templatecategory(&_templateclass)
 {
     try
     {
@@ -441,7 +446,7 @@ nemesis::OptionModelList::OptionModelList(const std::filesystem::path& filepath,
 
 size_t nemesis::OptionModelList::GetAnimObjectCount() const
 {
-    if (!iAnimObj) ErrorMessage(1017, templateclass.GetName(), filepath);
+    if (!iAnimObj) ErrorMessage(1017, templatecategory->GetName(), filepath);
 
     return *iAnimObj;
 }
@@ -494,7 +499,7 @@ Vec<const nemesis::OptionModel*> nemesis::OptionModelList::GetOptionList() const
 
 void nemesis::OptionModelList::InjectOptionModel(const std::string& modelinfo)
 {
-    auto optptr = std::make_shared<OptionModel>(filepath, templateclass);
+    auto optptr = std::make_shared<OptionModel>(filepath, *templatecategory);
     optptr->AddModelInfoNoCheck(modelinfo);
     auto name = optptr->GetName();
     optionsmap.insert(std::make_pair(name.length(), optptr));

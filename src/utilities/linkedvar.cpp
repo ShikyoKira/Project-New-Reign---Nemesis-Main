@@ -235,7 +235,7 @@ void getLinkedLines(Vec<nemesis::LinkedVar<string>> linkedlist, VecStr& storelin
 
                 if (!list.empty())
                 {
-                    storeline.push_back(ns::Original());
+                    storeline.push_back(ns::ModOriginal());
                     storeline.push_back(*each.raw);
                     storeline.push_back(ns::Close());
                 }

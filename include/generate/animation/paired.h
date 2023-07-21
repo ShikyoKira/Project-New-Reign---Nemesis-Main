@@ -14,7 +14,7 @@ class Paired
 private:
     VecStr pairedlines;
 
-    VecStr eventID;
+    VecStr HkxEvent;
     VecStr variableID;
     std::string nextState;
     std::unordered_map<int, std::string> AObject;
@@ -45,9 +45,9 @@ public:
            const std::string& filepath,
            int stateID);
     bool HasError();
-    VecStr GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, const ID& variableid);
+    VecStr GetPairedLine(int id, AOConvert AnimObjectNames, ID HkxEvent, const ID& variableid);
     AOConvert GetAnimObjectName();
-    VecStr GetEventID();
+    VecStr GetHkxEvent();
     VecStr GetVariableID();
     std::string mainAnimEvent;
 };

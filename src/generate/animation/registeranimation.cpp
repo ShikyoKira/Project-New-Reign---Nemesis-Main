@@ -16,7 +16,7 @@ using namespace std;
 
 namespace sf = std::filesystem;
 
-bool ruleCheck(VecStr rules, VecStr curList, TemplateInfo& behaviortemplate, string lowerformat)
+bool ruleCheck(VecStr rules, VecStr curList, TemplateDataBase& behaviortemplate, string lowerformat)
 {
     for (auto& rule : rules)
     {
@@ -73,7 +73,7 @@ bool ruleCheck(VecStr rules, VecStr curList, TemplateInfo& behaviortemplate, str
 
 registerAnimation::registerAnimation(sf::path curDirectory,
                                      sf::path filename,
-                                     TemplateInfo behaviortemplate,
+                                     TemplateDataBase behaviortemplate,
                                      sf::path bhvrPath,
                                      bool fstP,
                                      bool isNemesis)

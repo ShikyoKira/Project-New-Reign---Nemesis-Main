@@ -1,4 +1,4 @@
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 #include "generate/animation/singletemplate.h"
 
@@ -8,7 +8,7 @@
 #include "utilities/template.h"
 #include "utilities/animquery.h"
 #include "utilities/lineprocess.h"
-#include "utilities/templateclass.h"
+#include "utilities/templatecategory.h"
 
 using namespace std;
 namespace sf = std::filesystem;
@@ -31,12 +31,12 @@ void nemesis::Template::Exporter::ExportCurrentQuery(const nemesis::AnimQuery& q
 
     if (!self.IsGroup())
     {
-        scopeinfo->InsertAnim(query, &self.GetTemplateClass());
+        scopeinfo->InsertAnim(query, &self.GetTemplateCategory());
     }
     
     if (!self.IsMaster())
     {
-        scopeinfo->InsertQuery(query, &self.GetTemplateClass());
+        scopeinfo->InsertQuery(query, &self.GetTemplateCategory());
     }
 
     Export();
@@ -44,14 +44,14 @@ void nemesis::Template::Exporter::ExportCurrentQuery(const nemesis::AnimQuery& q
 
 const nemesis::AnimTemplate* nemesis::Template::Exporter::GetAnimTemplate()
 {
-    return &GetSelf().GetTemplateClass().GetAnimTemplate();
+    return &GetSelf().GetTemplateCategory().GetAnimTemplate();
 }
 
-const nemesis::TemplateClass* nemesis::Template::Exporter::GetTemplateClass(const std::string& name)
+const nemesis::TemplateCategory* nemesis::Template::Exporter::GetTemplateCategory(const std::string& name)
 {
     auto& self = GetSelf();
 
-    if (nemesis::iequals(self.GetTemplateClass().GetName(), name)) return &self.GetTemplateClass();
+    if (nemesis::iequals(self.GetTemplateCategory().GetName(), name)) return &self.GetTemplateCategory();
 
     return GetAnimTemplate()->GetClass(name);
 }
@@ -83,7 +83,7 @@ const Vec<const nemesis::AnimQuery*>*
 nemesis::Template::Exporter::GetQueriesByTemplate(const std::string& name)
 {
     auto& self = GetSelf();
-    ErrorMessage(1227, self.GetTemplateClass().GetName(), self.GetFilePath());
+    ErrorMessage(1227, self.GetTemplateCategory().GetName(), self.GetFilePath());
     return nullptr;
 }
 
@@ -140,7 +140,7 @@ void nemesis::Template::Parser::PrepareAllLexers()
 
     PrepareVariableLexer();
 
-    auto templtclass = &rTemplate.GetTemplateClass();
+    auto templtclass = &rTemplate.GetTemplateCategory();
     PrepareLexer("main_anim_event", [templtclass](nemesis::ScopeInfo& scopeinfo) {
         return std::string(scopeinfo.GetAnim(templtclass)->GetAnimationName());
     });
@@ -162,7 +162,7 @@ void nemesis::Template::Parser::PrepareVariableLexer()
 {
     auto classname = rTemplate.GetFileClassName();
 
-    for (auto& option : rTemplate.GetTemplateClass().GetOptionModels().GetOptionList())
+    for (auto& option : rTemplate.GetTemplateCategory().GetOptionModels().GetOptionList())
     {
         auto optname = option->GetName();
 
@@ -211,7 +211,7 @@ void nemesis::Template::Parser::AddConditionScope(const nemesis::ConditionInfo* 
     size_t linenum = conditioninfo->GetLineNumber();
     auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<std::filesystem::path>>(file.GetFilePath());
     nemesis::Line conditionstr(conditioninfo->GetCondition(), linenum, filepath_ptr);
-    auto condptr    = std::make_shared<nemesis::Condition>(conditionstr, conditionstr, rTemplate);
+    auto condptr    = std::make_shared<nemesis::Condition>(conditionstr, conditionstr, rTemplate, conditioninfo->GetType());
     auto condvar   = nemesis::CondVar<nemesis::PreprocessLine>(conditioninfo->GetType(), condptr);
     condvar.linenum = linenum;
     SPtr<nemesis::LinkedPreprocessLine> linkedline;
@@ -261,7 +261,7 @@ void nemesis::Template::SetBehaviorFile()
 
     std::wstring pathstr = filepath.wstring();
     nemesis::to_lower(pathstr);
-    std::wstring name = nemesis::transform_to(pTemplateClass->GetName().ToString()) + L"\\";
+    std::wstring name = nemesis::transform_to(pTemplateCategory->GetName().ToString()) + L"\\";
     behaviorfile      = sf::path(pathstr.substr(pathstr.rfind(name) + name.length()));
     behaviorfile      = behaviorfile.substr(0, behaviorfile.find(L"\\"));
     nemesis::to_lower(behaviorfile);
@@ -287,9 +287,9 @@ void nemesis::Template::SetTemplateType()
     }
 }
 
-nemesis::Template::Template(const nemesis::TemplateClass& templtclass) noexcept
+nemesis::Template::Template(const nemesis::TemplateCategory& templtclass) noexcept
 {
-    pTemplateClass = &templtclass;
+    pTemplateCategory = &templtclass;
     classname      = templtclass.GetName();
 }
 
@@ -328,14 +328,14 @@ const Vec<int>& nemesis::Template::GetStateMultiplier() const noexcept
     return statemultiplier;
 }
 
-const nemesis::HkxBehavior& nemesis::Template::GetBehavior() const noexcept
+const nemesis::HkxBehaviorFile& nemesis::Template::GetBehavior() const noexcept
 {
     return *hkxbehavior;
 }
 
-const nemesis::TemplateClass& nemesis::Template::GetTemplateClass() const noexcept
+const nemesis::TemplateCategory& nemesis::Template::GetTemplateCategory() const noexcept
 {
-    return *pTemplateClass;
+    return *pTemplateCategory;
 }
 
 void nemesis::Template::GetQueryResult(const nemesis::AnimQuery& query,
@@ -366,12 +366,12 @@ void nemesis::Template::ReadFile(const sf::path& filepath)
     parser.ParseFile();
 }
 
-void nemesis::Template::AddBehavior(nemesis::HkxBehavior& behavior) const noexcept
+void nemesis::Template::AddBehavior(nemesis::HkxBehaviorFile& behavior) const noexcept
 {
     hkxbehavior = &behavior;
 }
 
-bool nemesis::Template::TryAddBehavior(nemesis::HkxBehavior& behavior) const
+bool nemesis::Template::TryAddBehavior(nemesis::HkxBehaviorFile& behavior) const
 {
     if (!nemesis::iequals(behavior.GetBehaviorName(), behaviorfile)) return false;
 
@@ -380,7 +380,7 @@ bool nemesis::Template::TryAddBehavior(nemesis::HkxBehavior& behavior) const
     return true;
 }
 
-bool nemesis::Template::TryAddBehaviorList(const VecSPtr<nemesis::HkxBehavior>& behaviorlist) const
+bool nemesis::Template::TryAddBehaviorList(const VecSPtr<nemesis::HkxBehaviorFile>& behaviorlist) const
 {
     for (auto& each : behaviorlist)
     {

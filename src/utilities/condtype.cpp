@@ -17,7 +17,7 @@ namespace nemesis
         {ns::EndIf(), nemesis::CondType::ENDIF},
         {ns::ForEach(), nemesis::CondType::FOREACH},
         {ns::ModCode(), nemesis::CondType::MOD_CODE},
-        {ns::Original(), nemesis::CondType::ORIGINAL},
+        {ns::ModOriginal(), nemesis::CondType::ORIGINAL},
         {ns::LowerOriginal(), nemesis::CondType::LOWER_ORIGINAL},
         {ns::Close(), nemesis::CondType::CLOSE},
         {ns::Aster(), nemesis::CondType::ASTERISK},

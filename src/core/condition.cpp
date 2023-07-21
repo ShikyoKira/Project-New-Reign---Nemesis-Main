@@ -51,12 +51,6 @@ nemesis::Condition::Parser::Parser(const Lexer& lexer, Condition& condition)
     try
     {
         size_t i = 0;
-
-        if (condition.expression == "(md|!s[][md])&!AV&!AVI")
-        {
-            i = 0;
-        }
-
         Compare(lexer.tokens, i, condition);
         FollowingExpression(lexer.tokens, i, condition);
     }
@@ -418,6 +412,19 @@ bool nemesis::Condition::IsTrue(nemesis::ScopeInfo& scopeinfo) const
     }
 
     return IsOrTrue(scopeinfo);
+}
+
+bool nemesis::Condition::IsTrue(nemesis::CompileState& state) const
+{
+    if (expression.empty()) return true;
+
+    //if (IsCurrentTrue(scopeinfo))
+    //{
+    //    if (IsAndTrue(scopeinfo)) return true;
+    //}
+
+    //return IsOrTrue(scopeinfo);
+    return true;
 }
 
 bool nemesis::Condition::IsCurrentTrue(nemesis::ScopeInfo& scopeinfo) const

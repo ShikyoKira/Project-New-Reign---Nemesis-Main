@@ -13,7 +13,7 @@ bool AddEvents(const string& curNum,
                unordered_map<string, bool>& isExist,
                int& counter,
                string& ZeroEvent,
-               unordered_map<string, int>& eventid,
+               unordered_map<string, int>& HkxEvent,
                unordered_map<int, string>& eventName)
 {
     if (curNum == "eventNames")
@@ -26,7 +26,7 @@ bool AddEvents(const string& curNum,
         {
             if (counter == 0) ZeroEvent = input;
 
-            eventid[input]     = counter;
+            HkxEvent[input]     = counter;
             eventName[counter] = input;
             storeline.push_back("				<hkcstring>" + input + "</hkcstring>");
             isExist[input] = true;

@@ -220,7 +220,7 @@ public:
 	void lastState(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;
 
 	// event ID functions
-	void eventID(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;
+	void HkxEvent(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;
 
 	// variable ID functions
 	void variableID(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const;

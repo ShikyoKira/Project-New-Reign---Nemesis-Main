@@ -1,19 +1,9 @@
 #include "utilities/stringextension.h"
 
 
-size_t GetNewPosition(const std::string& _ch, const std::string& oldvalue)
-{
-    return _ch.find(oldvalue);
-}
-
 size_t GetNewPosition_NC(const std::string& _ch, const std::string& oldvalue)
 {
     return nemesis::to_lower_copy(_ch).find(nemesis::to_lower_copy(oldvalue));
-}
-
-size_t GetNewPosition(const std::wstring& _ch, const std::wstring& oldvalue)
-{
-    return _ch.find(oldvalue);
 }
 
 size_t GetNewPosition_NC(const std::wstring& _ch, const std::wstring& oldvalue)
@@ -21,14 +11,24 @@ size_t GetNewPosition_NC(const std::wstring& _ch, const std::wstring& oldvalue)
     return nemesis::to_lower_copy(_ch).find(nemesis::to_lower_copy(oldvalue));
 }
 
+std::string StringTrim(const std::string& str, const std::string& whitespace)
+{
+    auto strBegin = str.find_first_not_of(whitespace);
+
+    if (strBegin == NOT_FOUND) return "";
+
+    auto strEnd   = str.find_last_not_of(whitespace);
+    return str.substr(strBegin, strEnd - strBegin + 1);
+}
+
 void StringReplace(std::string& _ch, const std::string& oldvalue, const std::string& newvalue)
 {
-    size_t position = GetNewPosition(_ch, oldvalue);
+    size_t position = _ch.find(oldvalue);
 
     while (position != NOT_FOUND)
     {
         _ch.replace(position, position + oldvalue.length(), newvalue);
-        position = GetNewPosition(_ch, oldvalue);
+        position = _ch.find(oldvalue);
     }
 }
 
@@ -134,14 +134,24 @@ bool StringEndWith_NC(const std::string& line, const std::string& end) noexcept
     return StringEndWith(nemesis::to_lower_copy(line), nemesis::to_lower_copy(end));
 }
 
+std::wstring StringTrim(const std::wstring& str, const std::wstring& whitespace)
+{
+    auto strBegin = str.find_first_not_of(whitespace);
+
+    if (strBegin == NOT_FOUND) return L"";
+
+    auto strEnd = str.find_last_not_of(whitespace);
+    return str.substr(strBegin, strEnd - strBegin + 1);
+}
+
 void StringReplace(std::wstring& _ch, const std::wstring& oldvalue, const std::wstring& newvalue)
 {
-    size_t position = GetNewPosition(_ch, oldvalue);
+    size_t position = _ch.find(oldvalue);
 
     while (position != NOT_FOUND)
     {
         _ch.replace(position, position + oldvalue.length(), newvalue);
-        position = GetNewPosition(_ch, oldvalue);
+        position = _ch.find(oldvalue);
     }
 }
 

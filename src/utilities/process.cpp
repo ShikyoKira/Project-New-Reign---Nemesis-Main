@@ -122,7 +122,7 @@ void nemesis::Process::RotationValidation(nemesis::ScopeInfo& scopeinfo) const
 std::string nemesis::Process::IDRegisByType(nemesis::ScopeInfo& scopeinfo, nemesis::File::FileType filetype) const
 {
     auto* exporter               = scopeinfo.GetExporter();
-    auto* templtclass            = exporter->GetTemplateClass(fixedvarlist.front());
+    auto* templtclass            = exporter->GetTemplateCategory(fixedHkxVariableList.front());
     auto* animquery              = scopeinfo.GetAnim(templtclass);
     const nemesis::File* fileptr = nullptr;
 
@@ -134,29 +134,29 @@ std::string nemesis::Process::IDRegisByType(nemesis::ScopeInfo& scopeinfo, nemes
         break;
     }
 
-    auto ss = exporter->GetID(fixedvarlist.back(), fileptr, animquery);
+    auto ss = exporter->GetID(fixedHkxVariableList.back(), fileptr, animquery);
     return std::string(ss);
 }
 
 void nemesis::Process::ExeFirstAnimFromScope(VecStr& blocks,
                                              nemesis::ScopeInfo& scopeinfo, funcptr func) const
 {
-    scopeinfo.ExeTempNumAnim(0, GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+    scopeinfo.ExeTempNumAnim(0, GetTemplateCategory(), [&]() { (this->*func)(blocks, scopeinfo); });
 }
 
 void nemesis::Process::ExeNextAnimFromScope(VecStr& blocks, nemesis::ScopeInfo& scopeinfo, funcptr func) const
 {
-    scopeinfo.ExeTempNextAnim(GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+    scopeinfo.ExeTempNextAnim(GetTemplateCategory(), [&]() { (this->*func)(blocks, scopeinfo); });
 }
 
 void nemesis::Process::ExeBackAnimFromScope(VecStr& blocks, nemesis::ScopeInfo& scopeinfo, funcptr func) const
 {
-    scopeinfo.ExeTempBackAnim(GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+    scopeinfo.ExeTempBackAnim(GetTemplateCategory(), [&]() { (this->*func)(blocks, scopeinfo); });
 }
 
 void nemesis::Process::ExeLastAnimFromScope(VecStr& blocks, nemesis::ScopeInfo& scopeinfo, funcptr func) const
 {
-    scopeinfo.ExeTempLastAnim(GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+    scopeinfo.ExeTempLastAnim(GetTemplateCategory(), [&]() { (this->*func)(blocks, scopeinfo); });
 }
 
 void nemesis::Process::ExeNumAnimFromScope(size_t num,
@@ -164,7 +164,7 @@ void nemesis::Process::ExeNumAnimFromScope(size_t num,
                                            nemesis::ScopeInfo& scopeinfo,
                                            funcptr func) const
 {
-    scopeinfo.ExeTempNumAnim(0, GetTemplateClass(), [&]() { (this->*func)(blocks, scopeinfo); });
+    scopeinfo.ExeTempNumAnim(num, GetTemplateCategory(), [&]() { (this->*func)(blocks, scopeinfo); });
 }
 
 nemesis::Process::~Process() = default;
@@ -194,9 +194,9 @@ void nemesis::Process::SetEnd(size_t end) noexcept
     this->end = end;
 }
 
-void nemesis::Process::SetFixedVar(const VecStr& fixedvarlist) noexcept
+void nemesis::Process::SetFixedVar(const VecStr& fixedHkxVariableList) noexcept
 {
-    this->fixedvarlist = fixedvarlist;
+    this->fixedHkxVariableList = fixedHkxVariableList;
 }
 
 void nemesis::Process::SetFixedVarInt(const Vec<int>& fixedvarintlist) noexcept
@@ -257,9 +257,9 @@ std::filesystem::path nemesis::Process::GetBehaviorFile() const
     return plinkedline->GetFile()->GetFilePath();
 }
 
-const nemesis::TemplateClass* nemesis::Process::GetTemplateClass() const
+const nemesis::TemplateCategory* nemesis::Process::GetTemplateCategory() const
 {
-    return &plinkedline->GetTemplate()->GetTemplateClass();
+    return &plinkedline->GetTemplate()->GetTemplateCategory();
 }
 
 void nemesis::Process::RelativeNegative(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
@@ -347,7 +347,7 @@ void nemesis::Process::GroupIDRegis(VecStr& blocks, nemesis::ScopeInfo& scopeinf
     ClearBlocks(blocks);
 
     /*
-    string oldID = masterformat + "_group$" + fixedvarlist[0];
+    string oldID = masterformat + "_group$" + fixedHkxVariableList[0];
     Lockless lock(scopeinfo.animLock->subIDLock);
 
     if (scopeinfo.groupFunction->functionIDs.find(oldID) != scopeinfo.groupFunction->functionIDs.end())
@@ -370,11 +370,11 @@ void nemesis::Process::IDRegis(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) co
     auto* exporter  = scopeinfo.GetExporter();
     auto* animquery = scopeinfo.GetCurrentQuery();
 
-    blocks[begin] = std::string(exporter->GetID(fixedvarlist.front(), plinkedline->GetFile(), animquery));
+    blocks[begin] = std::string(exporter->GetID(fixedHkxVariableList.front(), plinkedline->GetFile(), animquery));
 
     /*
     string ID;
-    string oldID = masterformat + "$" + fixedvarlist[0];
+    string oldID = masterformat + "$" + fixedHkxVariableList[0];
 
     if (scopeinfo.IDExist[oldID].length() > 0)
     {
@@ -398,19 +398,19 @@ void nemesis::Process::IDRegisAnim(VecStr& blocks, nemesis::ScopeInfo& scopeinfo
 
     /*
     string ID;
-    string oldID = masterformat + "$" + fixedvarlist[0];
+    string oldID = masterformat + "$" + fixedHkxVariableList[0];
     int n_groupMulti;
 
     if (isMaster && scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[1]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[1]);
     }
 
     n_groupMulti = scopeinfo.groupMulti;
 
     if (scopeinfo.animnum == -1)
     {
-        ErrorMessage(1057, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1057, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     if (scopeinfo.masterFunction->grouplist[n_groupMulti]->singlelist[scopeinfo.animnum]->format.find(
@@ -451,12 +451,12 @@ void nemesis::Process::IDRegisGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinf
 
     /*
     string ID;
-    string oldID = masterformat + "_group$" + fixedvarlist[0];
+    string oldID = masterformat + "_group$" + fixedHkxVariableList[0];
     int n_groupMulti;
 
     if (isMaster && scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[1]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[1]);
     }
 
     n_groupMulti = scopeinfo.groupMulti;
@@ -493,7 +493,7 @@ void nemesis::Process::IDRegisMaster(VecStr& blocks, nemesis::ScopeInfo& scopein
 
     /*
     string ID;
-    string oldID = masterformat + "_master$" + fixedvarlist[0];
+    string oldID = masterformat + "_master$" + fixedHkxVariableList[0];
 
     if (scopeinfo.masterFunction->functionIDs.find(oldID) != scopeinfo.masterFunction->functionIDs.end())
     {
@@ -530,12 +530,12 @@ void nemesis::Process::Computation(VecStr& blocks, nemesis::ScopeInfo& scopeinfo
     {
         if (isMaster)
         {
-            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
         }
 
         if (isGroup)
         {
-            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
         }
 
         int maths2 = count(equation.begin(), equation.end(), 'L');
@@ -550,12 +550,12 @@ void nemesis::Process::Computation(VecStr& blocks, nemesis::ScopeInfo& scopeinfo
     {
         if (isMaster)
         {
-            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
         }
 
         if (isGroup)
         {
-            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
         }
 
         int maths2 = count(equation.begin(), equation.end(), 'N');
@@ -573,11 +573,11 @@ void nemesis::Process::Computation(VecStr& blocks, nemesis::ScopeInfo& scopeinfo
     {
         if (isMaster)
         {
-            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
         }
         if (isGroup)
         {
-            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+            ErrorMessage(1206, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
         }
 
         int maths2 = count(equation.begin(), equation.end(), 'B');
@@ -623,8 +623,8 @@ void nemesis::Process::ImportIndex(VecStr& blocks, nemesis::ScopeInfo& scopeinfo
 
 void nemesis::Process::EndMulti(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //EndSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist.front(), GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateClass(), [&]()
+    //EndSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist.front(), GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateCategory(), [&]()
     {
         EndSingle(blocks, scopeinfo);
     });
@@ -632,32 +632,32 @@ void nemesis::Process::EndMulti(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) c
 
 void nemesis::Process::EndFirst(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //EndSingle(blocks, scopeinfo.GetTempAnim(0, GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempNumAnim(0, GetTemplateClass(), [&]() { EndSingle(blocks, scopeinfo); });
+    //EndSingle(blocks, scopeinfo.GetTempAnim(0, GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(0, GetTemplateCategory(), [&]() { EndSingle(blocks, scopeinfo); });
 }
 
 void nemesis::Process::EndNext(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //EndSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempNextAnim(GetTemplateClass(), [&]() { EndSingle(blocks, scopeinfo); });
+    //EndSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempNextAnim(GetTemplateCategory(), [&]() { EndSingle(blocks, scopeinfo); });
 }
 
 void nemesis::Process::EndBack(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //EndSingle(blocks, scopeinfo.GetTempBackAnim(GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempBackAnim(GetTemplateClass(), [&]() { EndSingle(blocks, scopeinfo); });
+    //EndSingle(blocks, scopeinfo.GetTempBackAnim(GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempBackAnim(GetTemplateCategory(), [&]() { EndSingle(blocks, scopeinfo); });
 }
 
 void nemesis::Process::EndLast(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //EndSingle(blocks, scopeinfo.GetTempLastAnim(GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempLastAnim(GetTemplateClass(), [&]() { EndSingle(blocks, scopeinfo); });
+    //EndSingle(blocks, scopeinfo.GetTempLastAnim(GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempLastAnim(GetTemplateCategory(), [&]() { EndSingle(blocks, scopeinfo); });
 }
 
 void nemesis::Process::EndNum(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //EndSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist[0], GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateClass(), [&]()
+    //EndSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist[0], GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateCategory(), [&]()
     {
         EndSingle(blocks, scopeinfo);
     });
@@ -668,12 +668,12 @@ void nemesis::Process::EndMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopei
 {
     if (scopeinfo.animnum == -1)
     {
-        ErrorMessage(1057, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1057, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     if (scopeinfo.groupnum == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -687,7 +687,7 @@ void nemesis::Process::EndFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopei
 {
     if (scopeinfo.groupnum == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -701,7 +701,7 @@ void nemesis::Process::EndLastMaster(VecStr& blocks, nemesis::ScopeInfo& scopein
 {
     if (scopeinfo.groupnum == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -715,7 +715,7 @@ void nemesis::Process::EndNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinf
 {
     if (scopeinfo.groupnum == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     size_t num      = fixedvarintlist[0];
@@ -723,7 +723,7 @@ void nemesis::Process::EndNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinf
 
     if (num >= rootquery.GetGroupSize())
     {
-        ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -736,7 +736,7 @@ void nemesis::Process::EndNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinf
 void nemesis::Process::EndSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     ClearBlocks(blocks);
-    auto anim = scopeinfo.GetAnim(GetTemplateClass());
+    auto anim = scopeinfo.GetAnim(GetTemplateCategory());
     auto option = anim->GetOptionPtr(duration::name);
 
     if (option)
@@ -812,7 +812,7 @@ void nemesis::Process::StateNum(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) c
 
     //if (fixedvarintlist[2] >= int(scopeinfo.curAnim->GetGroupAnimInfo().size()))
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -833,7 +833,7 @@ void nemesis::Process::StateMultiMasterToGroup(VecStr& blocks, nemesis::ScopeInf
     //               + to_string(fixedvarintlist[1]) + ")",
     //           GetFormat(),
     //           GetBehaviorFile().string(),
-    //           fixedvarlist[0],
+    //           fixedHkxVariableList[0],
     //           true,
     //           scopeinfo.groupMulti,
     //           scopeinfo.animnum,
@@ -854,7 +854,7 @@ void nemesis::Process::StateMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scop
                    + to_string(fixedvarintlist[1]) + ")",
                GetFormat(),
                GetBehaviorFile().string(),
-               fixedvarlist[0],
+               fixedHkxVariableList[0],
                false,
                scopeinfo.groupMulti,
                scopeinfo.animnum,
@@ -874,7 +874,7 @@ void nemesis::Process::StateFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scop
                    + to_string(fixedvarintlist[1]) + ")",
                GetFormat(),
                GetBehaviorFile().string(),
-               fixedvarlist[0],
+               fixedHkxVariableList[0],
                false,
                scopeinfo.groupMulti,
                0,
@@ -894,7 +894,7 @@ void nemesis::Process::StateLastMaster(VecStr& blocks, nemesis::ScopeInfo& scope
                    + to_string(fixedvarintlist[1]) + ")",
                GetFormat(),
                GetBehaviorFile().string(),
-               fixedvarlist[0],
+               fixedHkxVariableList[0],
                false,
                scopeinfo.groupMulti,
                scopeinfo.masterFunction->grouplist[scopeinfo.groupMulti]->singlelist.size() - 1,
@@ -910,7 +910,7 @@ void nemesis::Process::StateNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopei
 
     if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
     {
-        ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -921,7 +921,7 @@ void nemesis::Process::StateNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopei
                    + to_string(fixedvarintlist[1]) + ")",
                GetFormat(),
                GetBehaviorFile().string(),
-               fixedvarlist[0],
+               fixedHkxVariableList[0],
                false,
                scopeinfo.groupMulti,
                num,
@@ -946,32 +946,32 @@ void nemesis::Process::FilepathMultiGroup(VecStr& blocks, nemesis::ScopeInfo& sc
 
 void nemesis::Process::FilepathFirstGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //FilepathSingle(blocks, scopeinfo.GetTempAnim(0, GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempNumAnim(0, GetTemplateClass(), [&]() { FilepathSingle(blocks, scopeinfo); });
+    //FilepathSingle(blocks, scopeinfo.GetTempAnim(0, GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(0, GetTemplateCategory(), [&]() { FilepathSingle(blocks, scopeinfo); });
 }
 
 void nemesis::Process::FilepathNextGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //FilepathSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempNextAnim(GetTemplateClass(), [&]() { FilepathSingle(blocks, scopeinfo); });
+    //FilepathSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempNextAnim(GetTemplateCategory(), [&]() { FilepathSingle(blocks, scopeinfo); });
 }
 
 void nemesis::Process::FilepathBackGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //FilepathSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempNextAnim(GetTemplateClass(), [&]() { FilepathSingle(blocks, scopeinfo); });
+    //FilepathSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempNextAnim(GetTemplateCategory(), [&]() { FilepathSingle(blocks, scopeinfo); });
 }
 
 void nemesis::Process::FilepathLastGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //FilepathSingle(blocks, scopeinfo.GetTempLastAnim(GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempLastAnim(GetTemplateClass(), [&]() { FilepathSingle(blocks, scopeinfo); });
+    //FilepathSingle(blocks, scopeinfo.GetTempLastAnim(GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempLastAnim(GetTemplateCategory(), [&]() { FilepathSingle(blocks, scopeinfo); });
 }
 
 void nemesis::Process::FilepathNumGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    //FilepathSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist[0], GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateClass(), [&]()
+    //FilepathSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist[0], GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateCategory(), [&]()
     {
         FilepathSingle(blocks, scopeinfo);
     });
@@ -984,7 +984,7 @@ void nemesis::Process::FilepathMultiMaster(VecStr& blocks, nemesis::ScopeInfo& s
 
     if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -998,7 +998,7 @@ void nemesis::Process::FilepathFirstMaster(VecStr& blocks, nemesis::ScopeInfo& s
 {
     if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -1012,7 +1012,7 @@ void nemesis::Process::FilepathLastMaster(VecStr& blocks, nemesis::ScopeInfo& sc
 {
     if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -1026,7 +1026,7 @@ void nemesis::Process::FilepathNumMaster(VecStr& blocks, nemesis::ScopeInfo& sco
 {
     if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -1039,7 +1039,7 @@ void nemesis::Process::FilepathNumMaster(VecStr& blocks, nemesis::ScopeInfo& sco
 
 void nemesis::Process::FilepathSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    auto anim = scopeinfo.GetAnim(GetTemplateClass());
+    auto anim = scopeinfo.GetAnim(GetTemplateCategory());
 
     ClearBlocks(blocks);
 
@@ -1060,30 +1060,30 @@ void nemesis::Process::FilenameNextGroup(VecStr& blocks, nemesis::ScopeInfo& sco
 {
     //auto tempanim = scopeinfo.GetTempNextAnim();
     //scopeinfo.SetTempAnim(tempanim);
-    //FilenameSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateClass())->GetScopeInfo());
+    //FilenameSingle(blocks, scopeinfo.GetTempNextAnim(GetTemplateCategory())->GetScopeInfo());
 }
 
 void nemesis::Process::FilenameBackGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     //auto tempanim = scopeinfo.GetTempBackAnim();
     //scopeinfo.SetTempAnim(tempanim);
-    //FilenameSingle(blocks, scopeinfo.GetTempBackAnim(GetTemplateClass())->GetScopeInfo());
+    //FilenameSingle(blocks, scopeinfo.GetTempBackAnim(GetTemplateCategory())->GetScopeInfo());
 }
 
 void nemesis::Process::FilenameLastGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     //auto tempanim = scopeinfo.GetTempLastAnim();
     //scopeinfo.SetTempAnim(tempanim);
-    //FilenameSingle(blocks, scopeinfo.GetTempLastAnim(GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempLastAnim(GetTemplateClass(), [&]() { FilenameSingle(blocks, scopeinfo); });
+    //FilenameSingle(blocks, scopeinfo.GetTempLastAnim(GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempLastAnim(GetTemplateCategory(), [&]() { FilenameSingle(blocks, scopeinfo); });
 }
 
 void nemesis::Process::FilenameNumGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     //auto tempanim = scopeinfo.GetTempAnim(fixedvarintlist[0]);
     //scopeinfo.SetTempAnim(tempanim);
-    //FilenameSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist[0], GetTemplateClass())->GetScopeInfo());
-    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateClass(), [&]()
+    //FilenameSingle(blocks, scopeinfo.GetTempAnim(fixedvarintlist[0], GetTemplateCategory())->GetScopeInfo());
+    scopeinfo.ExeTempNumAnim(fixedvarintlist.front(), GetTemplateCategory(), [&]()
     {
         FilenameSingle(blocks, scopeinfo);
     });
@@ -1094,7 +1094,7 @@ void nemesis::Process::FilenameMultiMaster(VecStr& blocks, nemesis::ScopeInfo& s
 {
     if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     if (scopeinfo.animnum == -1)
@@ -1114,7 +1114,7 @@ void nemesis::Process::FilenameFirstMaster(VecStr& blocks, nemesis::ScopeInfo& s
 {
     if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -1129,7 +1129,7 @@ void nemesis::Process::FilenameLastMaster(VecStr& blocks, nemesis::ScopeInfo& sc
 {
     if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -1144,7 +1144,7 @@ void nemesis::Process::FilenameNumMaster(VecStr& blocks, nemesis::ScopeInfo& sco
 {
     if (scopeinfo.groupMulti == -1)
     {
-        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+        ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     }
 
     ClearBlocks(blocks);
@@ -1158,7 +1158,7 @@ void nemesis::Process::FilenameNumMaster(VecStr& blocks, nemesis::ScopeInfo& sco
 
 void nemesis::Process::FilenameSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    auto anim = scopeinfo.GetAnim(GetTemplateClass());
+    auto anim = scopeinfo.GetAnim(GetTemplateCategory());
 
     ClearBlocks(blocks);
 
@@ -1167,7 +1167,7 @@ void nemesis::Process::FilenameSingle(VecStr& blocks, nemesis::ScopeInfo& scopei
 
 void nemesis::Process::PathSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
-    auto anim = scopeinfo.GetAnim(GetTemplateClass());
+    auto anim = scopeinfo.GetAnim(GetTemplateCategory());
 
     ClearBlocks(blocks);
 
@@ -1314,7 +1314,7 @@ void nemesis::Process::AONumGroupA(VecStr& blocks, nemesis::ScopeInfo& scopeinfo
 
     //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1329,7 +1329,7 @@ void nemesis::Process::AONumGroupB(VecStr& blocks, nemesis::ScopeInfo& scopeinfo
 
     //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1347,7 +1347,7 @@ void nemesis::Process::AOMultiMasterA(VecStr& blocks, nemesis::ScopeInfo& scopei
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1365,7 +1365,7 @@ void nemesis::Process::AOMultiMasterB(VecStr& blocks, nemesis::ScopeInfo& scopei
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1383,7 +1383,7 @@ void nemesis::Process::AOFirstMasterA(VecStr& blocks, nemesis::ScopeInfo& scopei
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1396,7 +1396,7 @@ void nemesis::Process::AOFirstMasterB(VecStr& blocks, nemesis::ScopeInfo& scopei
 {
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1414,7 +1414,7 @@ void nemesis::Process::AOLastMasterA(VecStr& blocks, nemesis::ScopeInfo& scopein
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1427,7 +1427,7 @@ void nemesis::Process::AOLastMasterB(VecStr& blocks, nemesis::ScopeInfo& scopein
 {
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1447,12 +1447,12 @@ void nemesis::Process::AONumMasterA(VecStr& blocks, nemesis::ScopeInfo& scopeinf
 
     //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1467,12 +1467,12 @@ void nemesis::Process::AONumMasterB(VecStr& blocks, nemesis::ScopeInfo& scopeinf
 
     //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1561,7 +1561,7 @@ void nemesis::Process::MAENumGroup(VecStr& blocks, nemesis::ScopeInfo& scopeinfo
 
     //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1578,7 +1578,7 @@ void nemesis::Process::MAEMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scopei
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1591,7 +1591,7 @@ void nemesis::Process::MAEFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scopei
 {
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1603,7 +1603,7 @@ void nemesis::Process::MAELastMaster(VecStr& blocks, nemesis::ScopeInfo& scopein
 {
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1616,14 +1616,14 @@ void nemesis::Process::MAENumMaster(VecStr& blocks, nemesis::ScopeInfo& scopeinf
 {
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //size_t num = fixedvarintlist[0];
 
     //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
@@ -1650,16 +1650,16 @@ void nemesis::Process::AddOnMultiGroup(VecStr& blocks, nemesis::ScopeInfo& scope
     //ClearBlocks(blocks);
 
     //VecStr* list = &scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.animnum]
-    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //                    ->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    string output = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.animnum]
-    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //                        ->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //    if (output.empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = output;
@@ -1684,16 +1684,16 @@ void nemesis::Process::AddOnFirstGroup(VecStr& blocks, nemesis::ScopeInfo& scope
     //ClearBlocks(blocks);
 
     //VecStr* list
-    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[0]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[0]->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    string output
-    //        = scopeinfo.curAnim->GetGroupAnimInfo()[0]->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //        = scopeinfo.curAnim->GetGroupAnimInfo()[0]->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //    if (output.empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = output;
@@ -1722,16 +1722,16 @@ void nemesis::Process::AddOnNextGroup(VecStr& blocks, nemesis::ScopeInfo& scopei
     //if (!scopeinfo.curAnim->isLast()) ++curorder;
 
     //VecStr* list
-    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    string output
-    //        = scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //        = scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //    if (output.empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = output;
@@ -1760,16 +1760,16 @@ void nemesis::Process::AddOnBackGroup(VecStr& blocks, nemesis::ScopeInfo& scopei
     //if (scopeinfo.order > 0) --curorder;
 
     //VecStr* list
-    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    string output
-    //        = scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //        = scopeinfo.curAnim->GetGroupAnimInfo()[curorder]->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //    if (output.empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = output;
@@ -1794,19 +1794,19 @@ void nemesis::Process::AddOnLastGroup(VecStr& blocks, nemesis::ScopeInfo& scopei
     ClearBlocks(blocks);
 
     //VecStr* list = &scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder]
-    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //                    ->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    if (scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder]
-    //            ->addition[fixedvarlist[0]][fixedvarlist[1]]
+    //            ->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]]
     //            .empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = scopeinfo.curAnim->GetGroupAnimInfo()[scopeinfo.lastorder]
-    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //                        ->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
     //}
     //else if (int(list->size()) > scopeinfo.optionMulti)
     //{
@@ -1829,22 +1829,22 @@ void nemesis::Process::AddOnNumGroup(VecStr& blocks, nemesis::ScopeInfo& scopein
 
     //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
 
     //VecStr* list
-    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[num]->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //    = &scopeinfo.curAnim->GetGroupAnimInfo()[num]->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    string output
-    //        = scopeinfo.curAnim->GetGroupAnimInfo()[num]->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //        = scopeinfo.curAnim->GetGroupAnimInfo()[num]->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //    if (output.empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = output;
@@ -1870,22 +1870,22 @@ void nemesis::Process::AddOnMultiMaster(VecStr& blocks, nemesis::ScopeInfo& scop
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //}
 
     //ClearBlocks(blocks);
 
     //VecStr* list = &scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.animnum]
-    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //                    ->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    string output = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.animnum]
-    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //                        ->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //    if (output.empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = output;
@@ -1909,22 +1909,22 @@ void nemesis::Process::AddOnFirstMaster(VecStr& blocks, nemesis::ScopeInfo& scop
 {
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //}
 
     //ClearBlocks(blocks);
 
     //VecStr* list = &scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][0]
-    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //                    ->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    string output = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][0]
-    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //                        ->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //    if (output.empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = output;
@@ -1948,22 +1948,22 @@ void nemesis::Process::AddOnLastMaster(VecStr& blocks, nemesis::ScopeInfo& scope
 {
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //}
 
     //ClearBlocks(blocks);
 
     //VecStr* list = &scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.lastorder]
-    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //                    ->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    string output = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][scopeinfo.lastorder]
-    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //                        ->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //    if (output.empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = output;
@@ -1989,22 +1989,22 @@ void nemesis::Process::AddOnNumMaster(VecStr& blocks, nemesis::ScopeInfo& scopei
 
     //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     //ClearBlocks(blocks);
 
     //VecStr* list = &scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][num]
-    //                    ->groupAddition[fixedvarlist[0]][fixedvarlist[1]];
+    //                    ->groupAddition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //if (list->empty() || scopeinfo.optionMulti == -1)
     //{
     //    string output = scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti][num]
-    //                        ->addition[fixedvarlist[0]][fixedvarlist[1]];
+    //                        ->addition[fixedHkxVariableList[0]][fixedHkxVariableList[1]];
 
     //    if (output.empty())
     //    {
-    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+    //        ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
     //    }
 
     //    blocks[begin] = output;
@@ -2031,33 +2031,33 @@ void nemesis::Process::AddOnSingle(VecStr& blocks, nemesis::ScopeInfo& scopeinfo
     blocks[fixedvarintlist.front()] = "";
     blocks[fixedvarintlist.back()]  = "";
 
-    /*auto grpadd = scopeinfo.groupAddition.find(fixedvarlist[0]);
+    /*auto grpadd = scopeinfo.groupAddition.find(fixedHkxVariableList[0]);
 
     if (scopeinfo.optionMulti == -1 || grpadd == scopeinfo.groupAddition.end()
-        || grpadd->second.find(fixedvarlist[1]) == grpadd->second.end()
-        || grpadd->second.at(fixedvarlist[1]).empty())
+        || grpadd->second.find(fixedHkxVariableList[1]) == grpadd->second.end()
+        || grpadd->second.at(fixedHkxVariableList[1]).empty())
     {
         string_view sv;
 
         try
         {
-            sv = scopeinfo.addition.at(fixedvarlist[0]).at(fixedvarlist[1]);
+            sv = scopeinfo.addition.at(fixedHkxVariableList[0]).at(fixedHkxVariableList[1]);
         }
         catch (const std::exception&)
         {
-            ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+            ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
         }
 
         if (sv.empty())
         {
-            ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[2]);
+            ErrorMessage(1117, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[2]);
         }
 
         blocks[begin] = sv.data();
     }
     else
     {
-        const VecStr& addRef = grpadd->second.at(fixedvarlist[1]);
+        const VecStr& addRef = grpadd->second.at(fixedHkxVariableList[1]);
 
         if (static_cast<int>(addRef.size()) > scopeinfo.optionMulti)
         {
@@ -2086,14 +2086,14 @@ void nemesis::Process::LastState(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) 
 
     //if (scopeinfo.fixedStateID.size() > 1)
     //{
-    //    if (!fixedvarlist[0].empty())
+    //    if (!fixedHkxVariableList[0].empty())
     //    {
-    //        ID = stoi(fixedvarlist[0]) - 1;
+    //        ID = stoi(fixedHkxVariableList[0]) - 1;
 
     //        if (ID >= scopeinfo.fixedStateID.size())
     //        {
     //            ErrorMessage(
-    //                1168, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), "LastState" + fixedvarlist[0]);
+    //                1168, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), "LastState" + fixedHkxVariableList[0]);
     //        }
     //    }
     //}
@@ -2101,14 +2101,14 @@ void nemesis::Process::LastState(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) 
     //blocks[begin] = to_string(scopeinfo.lastorder - scopeinfo.order + scopeinfo.fixedStateID[ID]);
 }
 
-void nemesis::Process::EventID(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
+void nemesis::Process::HkxEvent(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const
 {
     string eventname = CombineBlocks(fixedvarintlist[0], fixedvarintlist[1], blocks);
 
     ClearBlocks(blocks);
 
-    auto& eventid              = scopeinfo.GetEventID(eventname);
-    blocks[begin]              = std::to_string(eventid.GetId());
+    auto& HkxEvent              = scopeinfo.GetHkxEvent(eventname);
+    blocks[begin]              = std::to_string(HkxEvent.GetId());
     blocks[fixedvarintlist[2]] = "";
     blocks[fixedvarintlist[1]] = "";
 }
@@ -2119,8 +2119,8 @@ void nemesis::Process::VariableID(VecStr& blocks, nemesis::ScopeInfo& scopeinfo)
 
     ClearBlocks(blocks);
 
-    auto& varid                = scopeinfo.GetVariableID(variablename);
-    blocks[begin]              = std::to_string(varid.GetId());
+    auto& HkxVariable                = scopeinfo.GetVariableID(variablename);
+    blocks[begin]              = std::to_string(HkxVariable.GetId());
     blocks[fixedvarintlist[2]] = "";
     blocks[fixedvarintlist[1]] = "";
 }
@@ -2357,7 +2357,7 @@ void nemesis::Process::MotionDataNumGroup(VecStr& blocks, nemesis::ScopeInfo& sc
 
     //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2394,7 +2394,7 @@ void nemesis::Process::MotionDataMultiMaster(VecStr& blocks, nemesis::ScopeInfo&
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2428,7 +2428,7 @@ void nemesis::Process::MotionDataFirstMaster(VecStr& blocks, nemesis::ScopeInfo&
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2461,7 +2461,7 @@ void nemesis::Process::MotionDataLastMaster(VecStr& blocks, nemesis::ScopeInfo& 
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2495,14 +2495,14 @@ void nemesis::Process::MotionDataNumMaster(VecStr& blocks, nemesis::ScopeInfo& s
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     size_t num = fixedvarintlist[0];
 
     //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2533,7 +2533,7 @@ void nemesis::Process::MotionDataSingle(VecStr& blocks, nemesis::ScopeInfo& scop
 {
     MotionValidation(scopeinfo);
 
-    if (GetBehaviorFile() == fixedvarlist[0])
+    if (GetBehaviorFile() == fixedHkxVariableList[0])
     {
         ErrorMessage(1134, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
     }
@@ -2716,7 +2716,7 @@ void nemesis::Process::RotationDataNumGroup(VecStr& blocks, nemesis::ScopeInfo& 
 
     //if (num >= scopeinfo.curAnim->GetGroupAnimInfo().size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2754,7 +2754,7 @@ void nemesis::Process::RotationDataMultiMaster(VecStr& blocks, nemesis::ScopeInf
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2788,7 +2788,7 @@ void nemesis::Process::RotationDataFirstMaster(VecStr& blocks, nemesis::ScopeInf
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2821,7 +2821,7 @@ void nemesis::Process::RotationDataLastMaster(VecStr& blocks, nemesis::ScopeInfo
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2855,14 +2855,14 @@ void nemesis::Process::RotationDataNumMaster(VecStr& blocks, nemesis::ScopeInfo&
 
     //if (scopeinfo.groupMulti == -1)
     //{
-    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1202, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     size_t num = fixedvarintlist[0];
 
     //if (num >= scopeinfo.curGroup->groupAnimInfo[scopeinfo.groupMulti].size())
     //{
-    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedvarlist[0]);
+    //    ErrorMessage(1148, GetFormat(), GetBehaviorFile(), GetCurrentLineNum(), fixedHkxVariableList[0]);
     //}
 
     ClearBlocks(blocks);
@@ -2893,7 +2893,7 @@ void nemesis::Process::RotationDataSingle(VecStr& blocks, nemesis::ScopeInfo& sc
 {
     RotationValidation(scopeinfo);
 
-    if (GetBehaviorFile() == fixedvarlist[0])
+    if (GetBehaviorFile() == fixedHkxVariableList[0])
     {
         ErrorMessage(1134, GetFormat(), GetBehaviorFile(), GetCurrentLineNum());
     }

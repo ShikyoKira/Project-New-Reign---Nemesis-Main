@@ -10,7 +10,7 @@ struct FileReader
 {
     QFile file;
     QTextStream stream;
-    size_t linenum;
+    size_t linenum = 0;
 
     FileReader(const char* filename)
     {

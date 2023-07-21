@@ -60,7 +60,7 @@ struct AnimThreadInfo
     size_t& elementLine;
     size_t stateCount = 0;
 
-    ID& eventid;
+    ID& HkxEvent;
     ID& variableid;
 
     std::vector<int>& fixedStateID;
@@ -98,7 +98,7 @@ struct AnimThreadInfo
                    int& _counter,
                    size_t& _elementLine,
                    int _furnitureCount,
-                   ID& _eventid,
+                   ID& _HkxEvent,
                    ID& _variableid,
                    std::vector<int>& _fixedStateID,
                    std::vector<int>& _stateCountMultiplier,

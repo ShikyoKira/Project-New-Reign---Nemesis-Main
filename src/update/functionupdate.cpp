@@ -183,7 +183,7 @@ bool NodeU::NodeUpdate(string modcode,
                 editline      = linecount;
                 starteditline = linecount;
             }
-            else if (line.find(ns::Original()) != NOT_FOUND)
+            else if (line.find(ns::ModOriginal()) != NOT_FOUND)
             {
                 edited       = false;
                 originalopen = true;
@@ -714,7 +714,7 @@ bool AnimDataUpdate(string modcode,
             {
                 edited = true;
             }
-            else if (line.find(ns::Original()) != NOT_FOUND)
+            else if (line.find(ns::ModOriginal()) != NOT_FOUND)
             {
                 originalopen = true;
             }
@@ -901,7 +901,7 @@ bool AnimSetDataUpdate(string modcode,
                 editline      = linecount;
                 starteditline = linecount;
             }
-            else if (line.find(ns::Original()) != NOT_FOUND)
+            else if (line.find(ns::ModOriginal()) != NOT_FOUND)
             {
                 edited       = false;
                 originalopen = true;

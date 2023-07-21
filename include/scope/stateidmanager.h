@@ -7,12 +7,12 @@ namespace nemesis
     struct AnimQuery;
     struct AnimQueryFile;
     struct Template;
-    struct HkxBehavior;
+    struct HkxBehaviorFile;
 
     struct StateIdManager
     {
     private:
-        const HkxBehavior& behavior;
+        const HkxBehaviorFile& behavior;
 
         UMap<const nemesis::AnimQuery*, UMap<size_t, size_t>> id_byquery;
         UMap<const nemesis::AnimQueryFile*, UMap<size_t, size_t>> id_bygroup;
@@ -87,7 +87,7 @@ namespace nemesis
         }
 
     public:
-        StateIdManager(const HkxBehavior& behavior);
+        StateIdManager(const HkxBehaviorFile& behavior);
 
         size_t GetStateId(const nemesis::AnimQuery& query, size_t index, const std::string& node_id);
         size_t GetStateId(const nemesis::AnimQueryFile& querylist, size_t index, const std::string& node_id);

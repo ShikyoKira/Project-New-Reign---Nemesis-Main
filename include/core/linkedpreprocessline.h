@@ -8,7 +8,7 @@
 
 namespace nemesis
 {
-    struct HkxBehavior;
+    struct HkxBehaviorFile;
     struct Template;
 
 	struct LinkedPreprocessLine
@@ -22,7 +22,7 @@ namespace nemesis
             const nemesis::Linked<nemesis::PreprocessLine, nemesis::LinkedPreprocessLine>& line) noexcept;
 
         void TryAddLineProcess(SPtr<nemesis::LineProcess>& processptr);
-        void AddBehavior(nemesis::HkxBehavior& behavior);
+        void AddBehavior(nemesis::HkxBehaviorFile& behavior);
         void AddTemplate(nemesis::Template& templateref);
 
         void SetToStandAlone();

@@ -1,44 +1,53 @@
 #pragma once
 
-#include "utilities/linkedvar.h"
-#include "utilities/conditionscope.h"
+#include "utilities/regex.h"
+
+#include "core/LineStream.h"
+#include "core/CollectionObject.h"
 
 namespace nemesis
 {
-    struct HkxBehavior;
+    struct IfObject;
+    struct TemplateClass;
+    struct ForEachObject;
+    struct SemanticManager;
 
-	struct HkxNode
+	struct HkxNode : public nemesis::NObject
     {
     private:
-        struct Exporter
-        {
-        private:
-            const HkxNode& hostref;
-            VecNstr& lines;
+        std::string NodeId;
+        std::string ClassName;
+        UPtr<nemesis::CollectionObject> Data;
 
-        public:
-            Exporter(const HkxNode& host, VecNstr& lines);
-            void Compile(VecNstr& storeline);
-            SPtr<nemesis::Line> TryProcessLine(const nemesis::LinkedVar<nemesis::Line>& line);
-        };
+        static const USetStr DataClasses;
 
-        const nemesis::Line id;
-        const nemesis::HkxBehavior& parent;
-        Vec<nemesis::LinkedVar<nemesis::Line>> lines;
-        Vec<Vec<nemesis::LinkedVar<nemesis::Line>>*> stream;
-        Vec<nemesis::LinkedVar<nemesis::Line>> modscope;
+        static bool IsNodeEnd(nemesis::LineStream& stream, bool& start);
+
 
     public:
-        HkxNode(const nemesis::Line& _id, const nemesis::HkxBehavior& _parent);
+        void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
+        void SerializeTo(DeqNstr& lines) const override;
 
-        void InitializeStream();
-        void AddLine(const nemesis::Line& line, const SPtr<nemesis::ConditionInfo>& conditioninfo);
-        void Compile(VecNstr& storeline) const;
-        void getlines(VecNstr& storeline) const;
+        //void AddData(UPtr<nemesis::NObject>&& data);
 
-        static std::string_view GetIDView(std::string_view line);
-        static std::string GetID(const std::string& line);
+        const std::string& GetNodeId() const noexcept;
+        const std::string& GetClassName() const noexcept;
+
+        static bool IsDataClass(nemesis::LineStream& stream);
+
+        static UPtr<nemesis::NObject>
+        ParseHkxNode(nemesis::LineStream& stream, nemesis::SemanticManager& manager);
+        static UPtr<nemesis::NObject>
+        ParseHkxNode(nemesis::LineStream& stream, nemesis::SemanticManager& manager, nemesis::HkxNode*& node);
+
+        static UPtr<nemesis::HkxNode> ParseHkxNodeFromFile(const std::filesystem::path& filepath);
+        static UPtr<nemesis::HkxNode> ParseHkxNodeFromFile(const std::filesystem::path& filepath,
+                                                   const nemesis::TemplateClass* template_class);
+        static UPtr<nemesis::HkxNode> ParseHkxNodeFromFile(const std::filesystem::path& filepath,
+                                                   nemesis::SemanticManager& manager);
+
+        void MatchAndUpdate(const UPtr<nemesis::HkxNode>&& hkxnode);
+
+        static const nemesis::regex NodeIdRgx;
     };
-} // namespace nemesis
-
-void getLinkedLines(const nemesis::LinkedVar<nemesis::HkxNode>& linkedline, VecNstr& storeline);
+}

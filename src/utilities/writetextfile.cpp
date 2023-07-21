@@ -3,7 +3,7 @@
 
 using namespace std;
 
-FileWriter::FileWriter(filesystem::path filename, VecWstr args)
+FileWriter::FileWriter(const std::filesystem::path& filename, VecWstr args)
     : filepath(filename)
 {
     wstring mode = L"w";

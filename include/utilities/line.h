@@ -111,6 +111,11 @@ namespace nemesis
         nemesis::Line& insert(size_t pos, const QType& str);
         nemesis::Line& insert(size_t pos, const nemesis::Line& line);
 
+        nemesis::Line& replace(const RawChar* from, const RawChar* to);
+        nemesis::Line& replace(const RawType& from, const RawType& to);
+        nemesis::Line& replace(const QType& from, const QType& to);
+        nemesis::Line& replace(const nemesis::Line& from, const nemesis::Line& to);
+
         void pop_back() noexcept;
 
         nemesis::Line substr(size_t _off, size_t _count = 4294967295U) const;
@@ -248,7 +253,7 @@ namespace nemesis
         std::filesystem::path GetFilePath() const noexcept;
 
         const RawType& ToWstring() const noexcept;
-        ARawType Tostring() const noexcept;
+        ARawType ToString() const noexcept;
         const RawChar* c_str() const noexcept;
 
     private:

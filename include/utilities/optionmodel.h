@@ -6,8 +6,9 @@
 namespace nemesis
 {
     struct Line;
-    struct TemplateClass;
+    struct TemplateCategory;
     struct OptionModelList;
+    struct TemplateClass;
 
     struct OptionModel : public std::enable_shared_from_this<OptionModel>
     {
@@ -42,7 +43,8 @@ namespace nemesis
 
         Vec<nemesis::OptionModel*> linkedmodel;
 
-        const nemesis::TemplateClass& templateclass;
+        const nemesis::TemplateCategory* templateclass;
+        const nemesis::TemplateClass* TemplateClass;
 
         void AddModelInfoNoCheck(const nemesis::Line& modelinfo);
         void SetName(const nemesis::Line& modelinfo);
@@ -54,9 +56,13 @@ namespace nemesis
     public:
         OptionModel(const nemesis::Line& modelinfo,
                     std::filesystem::path& _filepath,
-                    const nemesis::TemplateClass& _templateclass);
+                    const nemesis::TemplateCategory& _templateclass);
         OptionModel(std::filesystem::path& _filepath,
-                    const nemesis::TemplateClass& _templateclass);
+                    const nemesis::TemplateCategory& _templateclass);
+
+        OptionModel(const nemesis::Line& modelinfo,
+                    std::filesystem::path& _filepath,
+                    const nemesis::TemplateClass& template_class);
 
         std::string_view GetName() const noexcept;
         std::string_view GetFullName() const noexcept;

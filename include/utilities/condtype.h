@@ -17,6 +17,7 @@ namespace nemesis
         LOWER_ORIGINAL,
         CLOSE,
         ASTERISK,
+        MULTI_CHOICE,
         ALL
     };
 

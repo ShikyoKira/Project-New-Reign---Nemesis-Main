@@ -23,7 +23,7 @@ void nemesis::LinkedPreprocessLine::TryAddLineProcess(SPtr<nemesis::LineProcess>
     raw->TryAddLineProcess(processptr);
 }
 
-void nemesis::LinkedPreprocessLine::AddBehavior(nemesis::HkxBehavior& behavior)
+void nemesis::LinkedPreprocessLine::AddBehavior(nemesis::HkxBehaviorFile& behavior)
 {
     if (!raw) throw std::runtime_error("Failed to add behavior. Raw value cannot be found");
 
@@ -88,10 +88,11 @@ VecNstr nemesis::LinkedPreprocessLine::GetProcessedLines(nemesis::ScopeInfo& sco
 {
     VecNstr lines;
     auto prepro_lines = GetCompiledData(scopeinfo);
-    std::transform(prepro_lines.begin(),
-                   prepro_lines.end(),
-                   std::back_inserter(lines),
-                   [&scopeinfo](const nemesis::PreprocessLine* prepro_line)
-                   { return prepro_line->Process(scopeinfo); });
+
+    for (size_t i = 0; i < prepro_lines.size(); i++)
+    {
+        lines.emplace_back(prepro_lines[i]->Process(scopeinfo));
+    }
+
     return lines;
 }

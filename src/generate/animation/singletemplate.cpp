@@ -1762,9 +1762,9 @@ void ProcessFunction(string change,
         }
     }
 
-    if (change.find("eventID[") != NOT_FOUND)
+    if (change.find("HkxEvent[") != NOT_FOUND)
     {
-        pos = change.find("eventID[");
+        pos = change.find("HkxEvent[");
 
         while (pos != NOT_FOUND)
         {
@@ -1792,10 +1792,10 @@ void ProcessFunction(string change,
             }
 
             nemesis::scope blok(
-                post, eventpos, vector<int>{int(post + 8), int(eventpos - 2)}, &proc::eventID);
+                post, eventpos, vector<int>{int(post + 8), int(eventpos - 2)}, &proc::HkxEvent);
             isMC ? lineblocks[blok.size].push_back(make_shared<nemesis::scope>(blok))
                  : process.installBlock(blok, numline);
-            pos = change.find("eventID[", pos + 1);
+            pos = change.find("HkxEvent[", pos + 1);
         }
     }
 

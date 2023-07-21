@@ -4,11 +4,11 @@
 
 using namespace std;
 
-AnimationUtility::AnimationUtility(string condition, ID neweventid, ID newvariableid, vector<int> newFixedStateID, vector<int> newStateCountMultiplier, bool newHasGroup,
+AnimationUtility::AnimationUtility(string condition, ID newHkxEvent, ID newvariableid, vector<int> newFixedStateID, vector<int> newStateCountMultiplier, bool newHasGroup,
 	int newOptionMulti, int newAnimMulti, string newMultiOption)
 {
 	originalCondition = condition;
-	eventid = neweventid;
+	HkxEvent = newHkxEvent;
 	variableid = newvariableid;
 	fixedStateID = newFixedStateID;
 	stateCountMultiplier = newStateCountMultiplier;

@@ -65,18 +65,24 @@ namespace nemesis
         return match_.empty();
     }
 
+    std::ssub_match smatch::prefix() const
+    {
+        return match_.prefix();
+    }
+
+    std::ssub_match smatch::suffix() const
+    {
+        return match_.suffix();
+    }
+
     bool regex_search(const std::string& line, nemesis::smatch& n_match, const regex& rgx)
     {
-        n_match     = {};
-        detail::underlying_smatch match;
         try
         {
+            detail::underlying_smatch match;
             auto result = detail::underlying_regex_search(line, match, rgx.to_regex());
-
-            if (!result) return false;
-
-            n_match = {match};
-            return true;
+            n_match     = nemesis::smatch(match);
+            return result;
         }
         catch (const detail::underlying_exception& e)
         {
@@ -119,18 +125,24 @@ namespace nemesis
         return line;
     }
 
+    bool regex_search(const nemesis::Line& line, nemesis::smatch& match, const nemesis::regex& rgx)
+    {
+        return regex_search(line.ToString(), match, rgx);
+    }
+
+    bool regex_match(const nemesis::Line& line, nemesis::smatch& match, const nemesis::regex& rgx)
+    {
+        return regex_match(line.ToString(), match, rgx);
+    }
+
     bool regex_match(const std::string& line, smatch& match, const regex& rgx)
     {
-        match = {};
         try
         {
             detail::underlying_smatch m;
             auto result = detail::underlying_regex_match(line, m, rgx.to_regex());
-
-            if (!result) return false;
-
-            match = {m};
-            return true;
+            match       = nemesis::smatch(m);
+            return result;
         }
         catch (const detail::underlying_exception& e)
         {
@@ -249,6 +261,16 @@ namespace nemesis
         return match_.size();
     }
 
+    std::wssub_match wsmatch::prefix() const
+    {
+        return match_.prefix();
+    }
+
+    std::wssub_match wsmatch::suffix() const
+    {
+        return match_.suffix();
+    }
+
     bool wregex_search(const std::wstring& line, nemesis::wsmatch& n_match, const wregex& rgx)
     {
         n_match = {};
@@ -303,6 +325,16 @@ namespace nemesis
         }
 
         return line;
+    }
+
+    bool wregex_search(const nemesis::Wline& line, nemesis::wsmatch& match, const nemesis::wregex& rgx)
+    {
+        return wregex_search(line.ToWstring(), match, rgx);
+    }
+
+    bool wregex_match(const nemesis::Wline& line, nemesis::wsmatch& match, const nemesis::wregex& rgx)
+    {
+        return wregex_match(line.ToWstring(), match, rgx);
     }
 
     bool wregex_match(const std::wstring& line, wsmatch& match, const wregex& rgx)

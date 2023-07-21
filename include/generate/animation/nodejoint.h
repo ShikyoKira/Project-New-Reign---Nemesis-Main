@@ -46,7 +46,7 @@ struct NodePackedParameters
     std::shared_ptr<master> subFunctionIDs;
     ImportContainer& import;
     int linecount;
-    ID eventid;
+    ID HkxEvent;
     ID variableid;
     std::string zeroEvent;
     std::string zeroVariable;
@@ -72,7 +72,7 @@ struct NodePackedParameters
                          std::shared_ptr<master> _subFunctionIDs,
                          ImportContainer& _import,
                          int _linecount,
-                         ID _eventid,
+                         ID _HkxEvent,
                          ID _variableid,
                          std::string _zeroEvent,
                          std::string _zeroVariable,
@@ -142,7 +142,7 @@ struct NodeJoint
                     std::string& strID,
                     UMapStr2& IDExist,
                     ImportContainer& import,
-                    ID eventid,
+                    ID HkxEvent,
                     ID variableid,
                     std::string zeroEvent,
                     std::string zeroVariable,
@@ -171,7 +171,7 @@ struct NodeJoint
                         std::string& strID,
                         UMapStr2& IDExist,
                         ImportContainer& import,
-                        ID eventid,
+                        ID HkxEvent,
                         ID variableid,
                         std::string zeroEvent,
                         std::string zeroVariable,
@@ -194,7 +194,7 @@ struct NodeJoint
                                 std::string& strID,
                                 UMapStr2& IDExist,
                                 ImportContainer& import,
-                                ID eventid,
+                                ID HkxEvent,
                                 ID variableid,
                                 std::string zeroEvent,
                                 std::string zeroVariable,

@@ -345,7 +345,7 @@ void getLinkedLines(const nemesis::LinkedVar<ProjectAnimSetData>& linkedpack,
             storeline.insert(storeline.end(), tempstore.begin(), tempstore.end());
             namelines.insert(namelines.end(), tempnames.begin(), tempnames.end());
 
-            addToBoth(ns::Original());
+            addToBoth(ns::ModOriginal());
             linkedpack.raw->getlines(storeline);
             linkedpack.raw->getname(namelines);
             addToBoth(ns::Close());

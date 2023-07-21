@@ -1,199 +1,357 @@
-#include "hkx/hkxnode.h"
-#include "hkx/hkxbehavior.h"
+#include <array>
 
-#include "utilities/linkedvar.h"
+#include "hkx/HkxNode.h"
+
 #include "utilities/conditionsyntax.h"
+#include "utilities/stringextension.h"
+
+#include "core/ModLine.h"
+#include "core/NObjectParser.h"
+
+#include "../../Test/StopWatch.h"
 
 namespace ns = nemesis::syntax;
 
-nemesis::HkxNode::Exporter::Exporter(const HkxNode& host, VecNstr& lines)
-    : hostref(host)
-    , lines(lines)
-{
-}
+const USetStr nemesis::HkxNode::DataClasses
+    = {"hkbBehaviorGraphStringData", "hkbVariableValueSet", "hkbBehaviorGraphData", "hkRootLevelContainer"};
 
-void nemesis::HkxNode::Exporter::Compile(VecNstr& storeline)
+const nemesis::regex nemesis::HkxNode::NodeIdRgx(
+    "^\\s*\\<hkobject name\\=\"(.+?)\" class\\=\"(.+?)\" signature\\=\"(.+?)\"\\>.*$");
+
+bool nemesis::HkxNode::IsNodeEnd(nemesis::LineStream& stream, bool& start)
 {
-    for (auto& curstack : hostref.lines)
+    if (stream.IsEoF()) return true;
+
+    int pos         = stream.GetPosition();
+    auto& token     = stream.GetToken();
+    auto& token_val = token.Value;
+
+    if (token_val.find("</hksection>") != NOT_FOUND) return true;
+
+    if (token.Type != nemesis::LineStream::TokenType::NONE)
     {
-        bool uniqueskip = false;
-        std::shared_ptr<nemesis::Line> line;
-        VecStr lineblocks;
+        auto ctoken = token;
 
-        if (curstack.nestedcond.empty())
+        do
         {
-            line = TryProcessLine(curstack);
-        }
-        else
-        {
-            uniqueskip = true;
-        }
-
-        if (!uniqueskip)
-        {
-            storeline.emplace_back(*line);
-        }
-
-        if (error) throw nemesis::exception();
-    }
-}
-
-SPtr<nemesis::Line> nemesis::HkxNode::Exporter::TryProcessLine(const nemesis::LinkedVar<nemesis::Line>& line)
-{
-    if (!line.hasProcess) return line.raw;
-
-    // continue here
-    //process.blocksCompile(line.lineblocks, );
-
-    return std::make_shared<nemesis::Line>();
-}
-
-nemesis::HkxNode::HkxNode(const nemesis::Line& _id, const nemesis::HkxBehavior& _parent)
-    : id(_id)
-    , parent(_parent)
-{
-}
-
-void nemesis::HkxNode::InitializeStream()
-{
-    stream.emplace_back(&lines);
-}
-
-void nemesis::HkxNode::AddLine(const nemesis::Line& line, const SPtr<nemesis::ConditionInfo>& conditioninfo)
-{
-    if (line == ns::DeleteLine()) return;
-
-    if (!conditioninfo)
-    {
-        stream.back()->emplace_back(line);
-        return;
-    }
-
-    auto type = conditioninfo->GetType();
-
-    switch (type)
-    {
-        case nemesis::CondType::NONE:
-        {
-            stream.back()->emplace_back(line);
-            break;
-        }
-        case nemesis::CondType::IF:
-        case nemesis::CondType::FOREACH:
-        {
-            auto cond = nemesis::CondVar<nemesis::Line>(conditioninfo->GetCondition(), type);
-            stream.back()->emplace_back(nemesis::LinkedVar<nemesis::Line>(cond, line.GetLineNumber()));
-            stream.emplace_back(&stream.back()->back().backCond().rawlist);
-            break;
-        }
-        case nemesis::CondType::ELSEIF:
-        {
-            auto cond    = nemesis::CondVar<nemesis::Line>(conditioninfo->GetCondition(), type);
-            stream.back() = &stream.back()->back().addCond(cond).rawlist;
-            break;
-        }
-        case nemesis::CondType::ELSE:
-        {
-            auto cond    = nemesis::CondVar<nemesis::Line>(type);
-            stream.back() = &stream.back()->back().addCond(cond).rawlist;
-            break;
-        }
-        case nemesis::CondType::ENDIF:
-        case nemesis::CondType::CLOSE:
-        {
-            stream.pop_back();
-            break;
-        }
-    }
-}
-
-void nemesis::HkxNode::Compile(VecNstr& storeline) const
-{
-    for (auto& line : lines)
-    {
-        if (line.HasCondition())
-        {
-            for (auto& condition : line.nestedcond)
+            if (ctoken.Type == nemesis::LineStream::TokenType::CLOSE
+                || ctoken.Type == nemesis::LineStream::TokenType::MOD_CLOSE
+                || ctoken.Type == nemesis::LineStream::TokenType::END_IF)
             {
+                stream -= (stream.GetPosition() - pos);
+                return false;
             }
+
+            ++stream;
+
+            if (stream.IsEoF())
+            {
+                stream -= (stream.GetPosition() - pos);
+                return false;
+            }
+
+            ctoken = stream.GetToken();
+        } while (ctoken.Type != nemesis::LineStream::TokenType::NONE);
+    }
+
+    size_t fpos = 0;
+    constexpr std::array<std::string_view, 3> hkxheader_checkers
+        = {R"(<hkobject name=")", R"(" class=")", R"(" signature=")"};
+
+    for (auto& checker : hkxheader_checkers)
+    {
+        fpos = token_val.find(checker, fpos);
+
+        if (fpos != NOT_FOUND) continue;
+
+        stream -= (stream.GetPosition() - pos);
+
+        return false;
+    }
+
+    stream -= (stream.GetPosition() - pos);
+
+    if (start)
+    {
+        start = false;
+        return false;
+    }
+
+    return true;
+}
+
+void nemesis::HkxNode::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
+{
+    Data->CompileTo(lines, state);
+}
+
+void nemesis::HkxNode::SerializeTo(DeqNstr& lines) const
+{
+    Data->SerializeTo(lines);
+}
+
+//void nemesis::HkxNode::AddData(UPtr<nemesis::NObject>&& data)
+//{
+//    DataList->AddObject(std::move(data));
+//}
+
+const std::string& nemesis::HkxNode::GetNodeId() const noexcept
+{
+    return NodeId;
+}
+
+const std::string& nemesis::HkxNode::GetClassName() const noexcept
+{
+    return ClassName;
+}
+
+bool nemesis::HkxNode::IsDataClass(nemesis::LineStream& stream)
+{
+    auto* start = &*stream;
+
+    while (!stream.IsEoF())
+    {
+        nemesis::smatch match;
+
+        if (nemesis::regex_match(*stream, match, NodeIdRgx))
+        {
+            while (start != &*stream)
+            {
+                --stream;
+            }
+
+            return DataClasses.find(match[2]) != DataClasses.end();
+        }
+
+        ++stream;
+    }
+
+    return false;
+}
+
+UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& stream,
+                                                      nemesis::SemanticManager& manager)
+{
+    nemesis::HkxNode* node;
+    return ParseHkxNode(stream, manager, node);
+}
+
+UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& stream,
+                                                      nemesis::SemanticManager& manager,
+                                                      nemesis::HkxNode*& node)
+{
+    auto token        = stream.GetToken();
+    auto& token_value = token.Value;
+    auto hkx_node     = std::make_unique<nemesis::HkxNode>();
+    node              = hkx_node.get();
+    bool start        = true;
+
+    auto collection = std::make_unique<nemesis::CollectionObject>();
+    auto col_ptr    = collection.get();
+
+    switch (token.Type)
+    {
+        case nemesis::LineStream::TokenType::IF:
+        {
+            ++stream;
+            nemesis::smatch match;
+
+            if (!nemesis::regex_match(*stream, match, NodeIdRgx))
+            {
+                throw std::runtime_error("Behavior Format Error: Node Id not found (Line: "
+                                         + std::to_string(token_value.GetLineNumber())
+                                         + ", File: " + token_value.GetFilePath().string() + ")");
+            }
+            
+            hkx_node->NodeId = match[1];
+            hkx_node->ClassName = match[2];
+
+            for (; !IsNodeEnd(stream, start); ++stream)
+            {
+                auto& ntoken = stream.GetToken();
+
+                if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
+
+                if (ntoken.Type == nemesis::LineStream::TokenType::MOD_OPEN)
+                {
+                    auto objects = nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
+
+                    for (auto& object : objects)
+                    {
+                        col_ptr->AddObject(std::move(object));
+                    }
+                }
+                else if (ntoken.Type == nemesis::LineStream::TokenType::END_IF)
+                {
+                    ++stream;
+
+                    if (IsNodeEnd(stream, start))
+                    {
+                        auto* node_ptr = hkx_node.get();
+                        hkx_node->Data = std::move(collection);
+                        auto if_obj    = std::make_unique<nemesis::IfObject>(token_value,
+                                                                          token_value.GetLineNumber(),
+                                                                          token_value.GetFilePath(),
+                                                                          manager,
+                                                                          std::move(hkx_node));
+                        return if_obj;
+                    }
+
+                    hkx_node->Data = std::make_unique<CollectionObject>();
+                    col_ptr        = hkx_node->Data.get();
+                    col_ptr->AddObject(std::make_unique<nemesis::IfObject>(token_value,
+                                                                           token_value.GetLineNumber(),
+                                                                           token_value.GetFilePath(),
+                                                                           manager,
+                                                                           std::move(collection)));
+
+                    for (; !IsNodeEnd(stream, start); ++stream)
+                    {
+                        auto& ntoken = stream.GetToken();
+
+                        if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
+
+                        Vec<UPtr<nemesis::NObject>> objects
+                            = ntoken.Type != nemesis::LineStream::TokenType::MOD_OPEN
+                                  ? nemesis::NObjectParser::ParseHkxObjects(stream, manager)
+                                  : nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
+
+                        for (auto& object : objects)
+                        {
+                            col_ptr->AddObject(std::move(object));
+                        }
+                    }
+
+                    return hkx_node;
+                }
+                else
+                {
+                    Vec<UPtr<nemesis::NObject>> objects
+                        = ntoken.Type != nemesis::LineStream::TokenType::MOD_OPEN
+                              ? nemesis::NObjectParser::ParseHkxObjects(stream, manager)
+                              : nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
+
+                    for (auto& object : objects)
+                    {
+                        col_ptr->AddObject(std::move(object));
+                    }
+                }
+            }
+
+            throw std::runtime_error("Syntax Error: Unclosed If Statement (Line: "
+                                     + std::to_string(token_value.GetLineNumber())
+                                     + ", File: " + token_value.GetFilePath().string() + ")");
+        }
+        case nemesis::LineStream::TokenType::NONE:
+        {
+            nemesis::smatch match;
+
+            if (!nemesis::regex_match(token_value, match, NodeIdRgx))
+            {
+                throw std::runtime_error("Behavior Format Error: Node Id not found (Line: "
+                                         + std::to_string(token_value.GetLineNumber())
+                                         + ", File: " + token_value.GetFilePath().string() + ")");
+            }
+
+            hkx_node->NodeId    = match[1];
+            hkx_node->ClassName = match[2];
+            int counter         = 0;
+
+            for (; !IsNodeEnd(stream, start); ++stream)
+            {
+                counter++;
+                auto& ntoken = stream.GetToken();
+
+                if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
+
+                Vec<UPtr<nemesis::NObject>> objects
+                    = ntoken.Type != nemesis::LineStream::TokenType::MOD_OPEN
+                          ? nemesis::NObjectParser::ParseHkxObjects(stream, manager)
+                          : nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
+                
+                for (auto& object : objects)
+                {
+                    col_ptr->AddObject(std::move(object));
+                }
+            }
+
+            hkx_node->Data = std::move(collection);
+            return hkx_node;
+        }
+        default:
+        {
+            throw std::runtime_error("Syntax Error: Unsupported syntax (Line: "
+                                     + std::to_string(token_value.GetLineNumber())
+                                     + ", File: " + token_value.GetFilePath().string() + ")");
         }
     }
 }
 
-void nemesis::HkxNode::getlines(VecNstr& storeline) const
+UPtr<nemesis::HkxNode> nemesis::HkxNode::ParseHkxNodeFromFile(const std::filesystem::path& filepath)
 {
-    for (auto& line : lines)
+    nemesis::SemanticManager manager;
+    return ParseHkxNodeFromFile(filepath, manager);
+}
+
+UPtr<nemesis::HkxNode> nemesis::HkxNode::ParseHkxNodeFromFile(const std::filesystem::path& filepath,
+                                                      const nemesis::TemplateClass* template_class)
+{
+    nemesis::SemanticManager manager;
+    manager.SetCurrentTemplateClass(template_class);
+    return ParseHkxNodeFromFile(filepath, manager);
+}
+
+UPtr<nemesis::HkxNode> nemesis::HkxNode::ParseHkxNodeFromFile(const std::filesystem::path& filepath,
+                                                      nemesis::SemanticManager& manager)
+{
+    VecNstr lines;
+    GetFileLines(filepath, lines);
+    nemesis::LineStream stream(lines.begin(), lines.end());
+
+    auto hkx_node     = std::make_unique<nemesis::HkxNode>();
+    auto token        = stream.GetToken();
+    auto& token_value = token.Value;
+    bool start        = true;
+
+    auto collection = std::make_unique<nemesis::CollectionObject>();
+    auto col_ptr    = collection.get();
+
+    nemesis::smatch match;
+
+    if (!nemesis::regex_match(token_value, match, NodeIdRgx))
     {
-        //getLinkedLines(line, storeline);
+        throw std::runtime_error("Behavior Format Error: Node Id not found (Line: "
+                                 + std::to_string(token_value.GetLineNumber())
+                                 + ", File: " + token_value.GetFilePath().string() + ")");
     }
+
+    hkx_node->NodeId    = match[1];
+    hkx_node->ClassName = match[2];
+    int counter         = 0;
+
+    for (; !IsNodeEnd(stream, start); ++stream)
+    {
+        counter++;
+        auto& ntoken = stream.GetToken();
+
+        if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
+
+        Vec<UPtr<nemesis::NObject>> objects
+            = ntoken.Type != nemesis::LineStream::TokenType::MOD_OPEN
+                  ? nemesis::NObjectParser::ParseHkxObjects(stream, manager)
+                  : nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
+
+        for (auto& object : objects)
+        {
+            col_ptr->AddObject(std::move(object));
+        }
+    }
+
+    hkx_node->Data = std::move(collection);
+    return hkx_node;
 }
 
-void getLinkedLines(const nemesis::LinkedVar<nemesis::HkxNode>& linkednode, VecNstr& storeline)
+void nemesis::HkxNode::MatchAndUpdate(const UPtr<nemesis::HkxNode>&& hkxnode)
 {
-    Vec<const nemesis::CondVar<nemesis::HkxNode>*> tempstore;
-
-    //for (auto& cond : linkednode.nestedcond)
-    //{
-    //    switch (cond.conditionType)
-    //    {
-    //        case nemesis::CondType::MOD_CODE:
-    //        {
-    //            tempstore.emplace_back(&cond);
-    //            break;
-    //        }
-    //        case nemesis::CondType::FOREACH:
-    //        {
-    //            storeline.emplace_back(ns::ForEach(cond.conditions));
-
-    //            for (auto& each : cond.rawlist)
-    //            {
-    //                getLinkedLines(each, storeline);
-    //            }
-
-    //            storeline.emplace_back(nemesis::syntax::Close());
-    //            break;
-    //        }
-    //    }
-    //}
-
-    //if (!tempstore.empty())
-    //{
-    //    if (linkednode.raw)
-    //    {
-    //        for (auto& each : tempstore)
-    //        {
-    //            storeline.emplace_back(ns::ModCode(each->conditions));
-    //            getLinkedLines(each->rawlist[0], storeline);
-    //        }
-
-    //        storeline.emplace_back(ns::Original());
-    //        linkednode.raw->getlines(storeline);
-    //        storeline.emplace_back(ns::Close());
-    //        return;
-    //    }
-
-    //    for (auto& each : tempstore)
-    //    {
-    //        storeline.emplace_back(ns::ModCode(each->conditions));
-    //        getLinkedLines(each->rawlist[0], storeline);
-    //        storeline.emplace_back(ns::Close());
-    //    }
-    //}
-    //else if (linkednode.raw)
-    //{
-    //    linkednode.raw->getlines(storeline);
-    //}
+    Data->MatchAndUpdate(*hkxnode->Data);
 }
-
-//std::string_view nemesis::HkxNode::GetIDView(std::string_view line)
-//{
-//    std::string_view openSyntax = "<hkobject name=\"";
-//    line.remove_prefix(line.find(openSyntax) + openSyntax.length());
-//    line.remove_suffix(line.length() - line.find("\""));
-//    return line;
-//}
-//
-//std::string nemesis::HkxNode::GetID(const std::string& line)
-//{
-//    return std::string(GetIDView(line));
-//}

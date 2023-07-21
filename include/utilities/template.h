@@ -12,9 +12,9 @@
 namespace nemesis
 {
     struct Process;
-    struct TemplateClass;
+    struct TemplateCategory;
     struct AnimQuery;
-    struct HkxBehavior;
+    struct HkxBehaviorFile;
     struct ScopeInfo;
 
     struct Template : public std::enable_shared_from_this<Template>, public nemesis::File
@@ -70,7 +70,7 @@ namespace nemesis
             void ExportCurrentQuery(const nemesis::AnimQuery& query);
 
             const nemesis::AnimTemplate* GetAnimTemplate() override;
-            const nemesis::TemplateClass* GetTemplateClass(const std::string& name) override;
+            const nemesis::TemplateCategory* GetTemplateCategory(const std::string& name) override;
             void Export() override;
             bool IsTemplateActive(const std::string& name) override;
             const Vec<const nemesis::AnimQuery*>* GetQueriesByTemplate(const std::string& name) override;
@@ -78,8 +78,8 @@ namespace nemesis
 
     private:
         Vec<SPtr<nemesis::LinkedPreprocessLine>> contents;
-        const nemesis::TemplateClass* pTemplateClass;
-        mutable nemesis::HkxBehavior* hkxbehavior;
+        const nemesis::TemplateCategory* pTemplateCategory;
+        mutable nemesis::HkxBehaviorFile* hkxbehavior;
 
         std::wstring behaviorfile;
         Vec<int> statemultiplier;
@@ -96,7 +96,7 @@ namespace nemesis
         Template() = default;
 
     public:
-        Template(const nemesis::TemplateClass& templateclass) noexcept;     // for common template
+        Template(const nemesis::TemplateCategory& templateclass) noexcept;     // for common template
 
         bool IsGroup() const noexcept;
         bool IsMaster() const noexcept;
@@ -106,17 +106,17 @@ namespace nemesis
         const Vec<SPtr<nemesis::LinkedPreprocessLine>> GetContents() const noexcept;
         std::wstring GetBehaviorFileW() const noexcept;
         const Vec<int>& GetStateMultiplier() const noexcept;
-        const nemesis::HkxBehavior& GetBehavior() const noexcept;
-        const nemesis::TemplateClass& GetTemplateClass() const noexcept;
+        const nemesis::HkxBehaviorFile& GetBehavior() const noexcept;
+        const nemesis::TemplateCategory& GetTemplateCategory() const noexcept;
 
         void GetQueryResult(const nemesis::AnimQuery& query, VecNstr& storeline, nemesis::Exporter& exptr) const;
         void GetImportResult(VecNstr& storeline, nemesis::Exporter& exptr) const;
 
         void ReadFile(const std::filesystem::path& filepath);
 
-        void AddBehavior(nemesis::HkxBehavior& behavior) const noexcept;
-        bool TryAddBehavior(nemesis::HkxBehavior& behavior) const;
-        bool TryAddBehaviorList(const VecSPtr<nemesis::HkxBehavior>& behaviorlist) const;
+        void AddBehavior(nemesis::HkxBehaviorFile& behavior) const noexcept;
+        bool TryAddBehavior(nemesis::HkxBehaviorFile& behavior) const;
+        bool TryAddBehaviorList(const VecSPtr<nemesis::HkxBehaviorFile>& behaviorlist) const;
 
         static SPtr<Template> CreateImport(const std::filesystem::path& filepath);
 

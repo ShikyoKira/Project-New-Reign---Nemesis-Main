@@ -11,7 +11,7 @@
 
 #include "ui/Terminator.h"
 
-#include "../../Test/StopWatch.h"
+//#include "../../Test/StopWatch.h"
 
 #include "utilities/renew.h"
 #include "utilities/constants.h"
@@ -23,7 +23,7 @@
 #include "utilities/threadpool.h"
 #endif
 
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 #include "update/modpatch.h"
 #include "update/templatepatch.h"
@@ -478,11 +478,11 @@ void UpdateFilesStart::RegisterBehavior(SPtr<RegisterQueue> curBehavior)
                 //StopWatch::Stop();
                 //interMsg(L"Vanilla Time: " + std::to_wstring(StopWatch::GetMilliSeconds()) + L"ms");
 
-                StopWatch::Start();
-                auto behavior = nemesis::HkxBehavior::File(newPath);
+                //StopWatch::Start();
+                auto behavior = nemesis::HkxBehaviorFile::File(newPath);
                 behavior->ParseBehavior({});
-                StopWatch::Stop();
-                interMsg(L"HkxBehavior Time: " + std::to_wstring(StopWatch::GetMilliSeconds()) + L"ms");
+                //StopWatch::Stop();
+                //interMsg(L"HkxBehaviorFile Time: " + std::to_wstring(StopWatch::GetMilliSeconds()) + L"ms");
 
                 string curFileNameA = relativepath.string();
                 nemesis::to_lower(curFileNameA);
@@ -1963,7 +1963,7 @@ void UpdateFilesStart::AddAnimDataExistingCodeModPatch(const std::string& code,
                 {
                     edited = true;
                 }
-                else if (line.find(ns::Original()) != NOT_FOUND)
+                else if (line.find(ns::ModOriginal()) != NOT_FOUND)
                 {
                     originalopen = true;
                 }

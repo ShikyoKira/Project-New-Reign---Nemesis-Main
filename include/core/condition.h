@@ -12,6 +12,7 @@ namespace nemesis
 {
     struct ScopeInfo;
     struct Template;
+    struct CompileState;
 
     struct Condition : std::enable_shared_from_this<nemesis::Condition>
     {
@@ -104,6 +105,7 @@ namespace nemesis
         CondType GetType() const;
 
         bool IsTrue(nemesis::ScopeInfo& scopeinfo) const;
+        bool IsTrue(nemesis::CompileState& state) const;
 
     private:
         bool IsCurrentTrue(nemesis::ScopeInfo& scopeinfo) const;

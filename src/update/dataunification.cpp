@@ -16,7 +16,7 @@ OBJECTIVES:
 #include "utilities/conditionsyntax.h"
 #include "utilities/hkxelementsplit.h"
 
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 #pragma warning(disable:4503)
 
@@ -39,7 +39,7 @@ bool newAnimUpdateExt(string folderpath,
                       Map<string, VecNstr, alphanum_less>& newFile,
                       Map<string, VecNstr>& newAnimAddition,
                       UMap<wstring, wstring>& lastUpdate,
-                      Map<std::string, SPtr<nemesis::HkxBehavior>>& behavior_map)
+                      Map<std::string, SPtr<nemesis::HkxBehaviorFile>>& behavior_map)
 {
 	VecStr nodelist;
     string dir = folderpath + "\\" + behaviorfile;

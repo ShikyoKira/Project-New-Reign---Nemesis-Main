@@ -6,9 +6,15 @@ namespace nemesis
 {
     struct OptionModel;
     struct AnimQuery;
+    struct AnimationRequest;
 
     struct Option
     {
+        struct Model
+        {
+
+        };
+
     private:
         std::string name;
         std::string query;
@@ -16,14 +22,20 @@ namespace nemesis
 
         bool success = false;
 
-        const nemesis::AnimQuery& animquery;
+        const nemesis::AnimationRequest* Request;
+        const nemesis::AnimQuery* animquery;
         const nemesis::OptionModel& model;
 
     public:
         Option(const std::string& query,
                const nemesis::OptionModel& model,
+               const nemesis::AnimationRequest& request) noexcept;
+        
+        Option(const std::string& query,
+               const nemesis::OptionModel& model,
                const nemesis::AnimQuery& animquery) noexcept;
 
+        const nemesis::AnimationRequest& GetAnimationRequest() const;
         const nemesis::AnimQuery& GetAnimQuery() const;
         std::string GetName() const noexcept;
         const nemesis::OptionModel& GetModel() const noexcept;

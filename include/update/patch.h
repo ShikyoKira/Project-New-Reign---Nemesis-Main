@@ -11,7 +11,7 @@
 
 namespace nemesis
 {
-    struct HkxBehavior;
+    struct HkxBehaviorFile;
 
     struct Patch : public nemesis::File
     {
@@ -53,6 +53,6 @@ namespace nemesis
 
         virtual nemesis::CondType GetConditionType() const = 0;
 
-        friend nemesis::HkxBehavior;
+        friend nemesis::HkxBehaviorFile;
     };
 }

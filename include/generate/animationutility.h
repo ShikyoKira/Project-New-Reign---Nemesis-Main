@@ -16,7 +16,7 @@ typedef std::unordered_map<std::string, int> ID;
 
 struct AnimationUtility
 {
-    ID eventid;
+    ID HkxEvent;
     ID variableid;
     std::vector<int> fixedStateID;
     std::vector<int> stateCountMultiplier;
@@ -33,7 +33,7 @@ struct AnimationUtility
     AnimationUtility()
     {}
     AnimationUtility(std::string condition,
-                     ID eventid,
+                     ID HkxEvent,
                      ID variableid,
                      std::vector<int> stateID,
                      std::vector<int> stateCountMultiplier,

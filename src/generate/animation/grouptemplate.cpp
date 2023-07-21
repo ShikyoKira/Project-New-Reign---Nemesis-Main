@@ -117,7 +117,7 @@ void GroupTemplate::getFunctionLines(shared_ptr<VecStr> functionline,
                                      vector<vector<shared_ptr<AnimationInfo>>> newGroupAnimInfo,
                                      int* nFunctionID,
                                      ImportContainer& import,
-                                     ID newEventID,
+                                     ID newHkxEvent,
                                      ID newVariableID,
                                      string masterFormat,
                                      NewAnimLock& animLock,
@@ -130,7 +130,7 @@ void GroupTemplate::getFunctionLines(shared_ptr<VecStr> functionline,
     atomicLock     = const_cast<NewAnimLock*>(&animLock);
     subFunctionIDs = newSubFunctionIDs;
     groupAnimInfo  = newGroupAnimInfo;
-    eventid        = newEventID;
+    HkxEvent        = newHkxEvent;
     variableid     = newVariableID;
 
     bool elementCatch  = false;
@@ -180,7 +180,7 @@ void GroupTemplate::getFunctionLines(shared_ptr<VecStr> functionline,
                                counter,
                                elementLine,
                                groupCount,
-                               eventid,
+                               HkxEvent,
                                variableid,
                                fixedStateID,
                                empty,
@@ -865,7 +865,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
 
 				if (line.find("$") != NOT_FOUND && groupCount != -1)
 				{
-					processing(line, filename, masterFormat, i + 1, eventid, variableid, curGroup);
+					processing(line, filename, masterFormat, i + 1, HkxEvent, variableid, curGroup);
 				}
 
                 if (error) throw nemesis::exception();
@@ -1434,7 +1434,7 @@ void GroupTemplate::OutputGroupBackup(shared_ptr<VecStr> functionline,
                                                        filename,
                                                        masterFormat,
                                                        linecount,
-                                                       eventid,
+                                                       HkxEvent,
                                                        variableid,
                                                        curGroup,
                                                        optionMulti,
@@ -1581,7 +1581,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                                vector<vector<shared_ptr<AnimationInfo>>> newGroupAnimInfo,
                                                string curformat,
                                                ImportContainer& import,
-                                               ID newEventID,
+                                               ID newHkxEvent,
                                                ID newVariableID,
                                                int& nFunctionID,
                                                bool hasMaster,
@@ -1600,7 +1600,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
     format         = curformat;
     subFunctionIDs = newSubFunctionIDs;
     groupAnimInfo  = newGroupAnimInfo;
-    eventid        = newEventID;
+    HkxEvent        = newHkxEvent;
     variableid     = newVariableID;
     m_hasGroup     = hasGroup;
     nodeIDLock     = &nodeIDFlag;
@@ -2181,7 +2181,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
 
 				if (line.find("$") != NOT_FOUND && !hasGroup)
 				{
-					processing(line, IDFileName, curFunctionID, i + 1, eventid, variableid, 0);
+					processing(line, IDFileName, curFunctionID, i + 1, HkxEvent, variableid, 0);
 				}
 
 				size_t pos = line.find("(");
@@ -2607,7 +2607,7 @@ ExistingFunction::groupExistingFunctionProcess(int curFunctionID,
                                                        IDFileName,
                                                        curFunctionID,
                                                        linecount,
-                                                       eventid,
+                                                       HkxEvent,
                                                        variableid,
                                                        groupMulti,
                                                        optionMulti,
@@ -2756,7 +2756,7 @@ void GroupTemplate::processing(string& line,
                                string filename,
                                string masterFormat,
                                int linecount,
-                               ID eventid,
+                               ID HkxEvent,
                                ID variableid,
                                int groupMulti,
                                int optionMulti,
@@ -3198,11 +3198,11 @@ void GroupTemplate::processing(string& line,
 
             if (error) throw nemesis::exception();
 
-            size_t position = change.find("eventID[");
+            size_t position = change.find("HkxEvent[");
 
             if (position != NOT_FOUND && change.find("]", position) != NOT_FOUND)
             {
-                eventIDReplacer(change, format, filename, eventid, zeroEvent, linecount);
+                eventIDReplacer(change, format, filename, HkxEvent, zeroEvent, linecount);
                 isChange = true;
 
                 if (error) throw nemesis::exception();
@@ -3322,7 +3322,7 @@ void ExistingFunction::processing(string& line,
                                   string filename,
                                   int curFunctionID,
                                   int linecount,
-                                  ID eventid,
+                                  ID HkxEvent,
                                   ID variableid,
                                   int groupMulti,
                                   int optionMulti,
@@ -3544,8 +3544,8 @@ void ExistingFunction::processing(string& line,
                     size_t pos = change.find("[" + format + "[][main_anim_event]]", 0);
 
                     if (pos != NOT_FOUND
-                        && (change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND
-                            || change.find("eventID[" + format + "[][main_anim_event]]") != pos - 7))
+                        && (change.find("HkxEvent[" + format + "[][main_anim_event]]") == NOT_FOUND
+                            || change.find("HkxEvent[" + format + "[][main_anim_event]]") != pos - 7))
                     {
                         if (multiOption != format || animMulti == -1) ErrorMessage(1052, format, filename, linecount, line);
 
@@ -3576,8 +3576,8 @@ void ExistingFunction::processing(string& line,
                     pos = change.find("[" + format + "[F][main_anim_event]]", 0);
 
                     if (pos != NOT_FOUND
-                        && (change.find("eventID[" + format + "[F][main_anim_event]]") == NOT_FOUND
-                            || change.find("eventID[" + format + "[F][main_anim_event]]") != pos - 7))
+                        && (change.find("HkxEvent[" + format + "[F][main_anim_event]]") == NOT_FOUND
+                            || change.find("HkxEvent[" + format + "[F][main_anim_event]]") != pos - 7))
                     {
                         change.replace(
                             pos,
@@ -3613,8 +3613,8 @@ void ExistingFunction::processing(string& line,
                     pos = change.find("[" + format + "[L][main_anim_event]]", 0);
 
                     if (pos != NOT_FOUND
-                        && (change.find("eventID[" + format + "[L][main_anim_event]]") == NOT_FOUND
-                            || change.find("eventID[" + format + "[L][main_anim_event]]") != pos - 7))
+                        && (change.find("HkxEvent[" + format + "[L][main_anim_event]]") == NOT_FOUND
+                            || change.find("HkxEvent[" + format + "[L][main_anim_event]]") != pos - 7))
                     {
                         change.replace(pos,
                                        22 + format.length(),
@@ -3652,10 +3652,10 @@ void ExistingFunction::processing(string& line,
                                 pos = change.find("[" + format + "[" + number + "][main_anim_event]]", 0);
 
                                 if (pos != NOT_FOUND
-                                    && (change.find("eventID[" + format + "[" + number
+                                    && (change.find("HkxEvent[" + format + "[" + number
                                                     + "][main_anim_event]]")
                                             == NOT_FOUND
-                                        || change.find("eventID[" + format + "[" + number
+                                        || change.find("HkxEvent[" + format + "[" + number
                                                        + "][main_anim_event]]")
                                                != pos - 7))
                                 {
@@ -3828,11 +3828,11 @@ void ExistingFunction::processing(string& line,
                 }
             }
 
-            size_t position = change.find("eventID[");
+            size_t position = change.find("HkxEvent[");
 
             if (position != NOT_FOUND && change.find("]", position) != NOT_FOUND)
             {
-                eventIDReplacer(change, format, filename, eventid, zeroEvent, linecount);
+                eventIDReplacer(change, format, filename, HkxEvent, zeroEvent, linecount);
                 isChange = true;
             }
 
@@ -4346,7 +4346,7 @@ bool specialCondition(string condition,
                                                 filename,
                                                 stoi(filename.substr(1)),
                                                 numline,
-                                                utility.currentProcess->eventid,
+                                                utility.currentProcess->HkxEvent,
                                                 utility.currentProcess->variableid,
                                                 groupMulti1,
                                                 optionMulti1,
@@ -4368,7 +4368,7 @@ bool specialCondition(string condition,
                                                                            filename,
                                                                            masterformat,
                                                                            numline,
-                                                                           utility.currentProcess->eventid,
+                                                                           utility.currentProcess->HkxEvent,
                                                                            utility.currentProcess->variableid,
                                                                            groupMulti1,
                                                                            optionMulti1,
@@ -4411,7 +4411,7 @@ bool specialCondition(string condition,
                                                 filename,
                                                 stoi(filename.substr(1)),
                                                 numline,
-                                                utility.currentProcess->eventid,
+                                                utility.currentProcess->HkxEvent,
                                                 utility.currentProcess->variableid,
                                                 groupMulti2,
                                                 optionMulti1,
@@ -4433,7 +4433,7 @@ bool specialCondition(string condition,
                                                                            filename,
                                                                            masterformat,
                                                                            numline,
-                                                                           utility.currentProcess->eventid,
+                                                                           utility.currentProcess->HkxEvent,
                                                                            utility.currentProcess->variableid,
                                                                            groupMulti2,
                                                                            optionMulti1,
@@ -5846,7 +5846,7 @@ VecStr GetOptionInfo(string line,
                            multiOption);
 
         if (optionInfo.back().find("import[") == NOT_FOUND && optionInfo.back().find("crc32[") == NOT_FOUND
-            && optionInfo.back().find("eventID[") == NOT_FOUND
+            && optionInfo.back().find("HkxEvent[") == NOT_FOUND
             && optionInfo.back().find("variableID[") == NOT_FOUND)
         {
             optionLimiter(optionInfo,

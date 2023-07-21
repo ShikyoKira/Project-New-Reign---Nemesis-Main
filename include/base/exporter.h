@@ -8,12 +8,11 @@
 #include "utilities/types.h"
 #include "utilities/atomic.h"
 
-#include "hkx/varlist.h"
-#include "hkx/attrlist.h"
-#include "hkx/eventlist.h"
+#include "hkx/HkxVariableList.h"
+#include "hkx/HkxAttributeList.h"
+#include "hkx/HkxEventList.h"
 #include "hkx/numelement.h"
 
-#include "core/object.h"
 #include "core/animimport.h"
 
 namespace nemesis
@@ -21,7 +20,7 @@ namespace nemesis
     struct Process;
     struct AnimQuery;
     struct ScopeInfo;
-    struct TemplateClass;
+    struct TemplateCategory;
     struct Template;
     struct AnimTemplate;
 
@@ -61,9 +60,9 @@ namespace nemesis
             const NodeIdByQuery* GetByFile(const nemesis::File* file) const;
         };
 
-        UPtr<nemesis::EventList> events;
-        UPtr<nemesis::VarList> variables;
-        UPtr<nemesis::AttrList> attibutes;
+        UPtr<nemesis::HkxEventList> events;
+        UPtr<nemesis::HkxVariableList> variables;
+        UPtr<nemesis::HkxAttributeList> attibutes;
 
         Vec<UPtr<nemesis::NumElement>> numelement_layer;
         Vec<Pair<std::string, UPtr<nemesis::AnimImport>>> animimportpair_list;
@@ -94,12 +93,12 @@ namespace nemesis
         std::string_view
         GetID(const std::string& key, const nemesis::File* file, const nemesis::AnimQuery* animquery);
         std::string_view GetImportID(const std::string& key);
-        const nemesis::EventId* GetEventIDPtr(const std::string& eventname) const;
-        const nemesis::VarId* GetVariableIDPtr(const std::string& varname) const;
+        const nemesis::HkxEvent* GetHkxEventPtr(const std::string& eventname) const;
+        const nemesis::HkxVariable* GetVariableIDPtr(const std::string& varname) const;
         const nemesis::File& GetFile() const;
 
         virtual const nemesis::AnimTemplate* GetAnimTemplate()                                      = 0;
-        virtual const nemesis::TemplateClass* GetTemplateClass(const std::string& name)             = 0;
+        virtual const nemesis::TemplateCategory* GetTemplateCategory(const std::string& name)             = 0;
         virtual void Export()                                                                       = 0;
         virtual bool IsTemplateActive(const std::string& name)                                      = 0;
         virtual const Vec<const nemesis::AnimQuery*>* GetQueriesByTemplate(const std::string& name) = 0;

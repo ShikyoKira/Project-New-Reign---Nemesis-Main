@@ -2976,7 +2976,7 @@ void BehaviorSub::CompilingBehavior()
 
 void BehaviorSub::addInfo(const wstring& newDirectory,
                           const string& curfile,
-                          shared_ptr<TemplateInfo> newBehaviorTemplate,
+                          shared_ptr<TemplateDataBase> newBehaviorTemplate,
                           unordered_map<string, vector<shared_ptr<NewAnimation>>> addAnimation,
                           unordered_map<string, var> newAnimVar,
                           UMapSetStr addAnimEvent,

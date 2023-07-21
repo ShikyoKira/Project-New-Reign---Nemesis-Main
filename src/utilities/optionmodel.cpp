@@ -1,7 +1,7 @@
 #include "utilities/line.h"
 #include "utilities/option.h"
 #include "utilities/optionmodel.h"
-#include "utilities/templateclass.h"
+#include "utilities/templatecategory.h"
 #include "utilities/stringextension.h"
 
 const nemesis::regex nemesis::OptionModel::nameexclusion_rgx("AnimObject/[0-9]+");
@@ -89,7 +89,7 @@ void nemesis::OptionModel::SetName(const nemesis::Line& modelinfo)
 
     if (nemesis::regex_match(name, nameexclusion_rgx)) return;
 
-    ErrorMessage(1011, templateclass.GetName(), filepath, modelinfo.GetLineNumber(), name);
+    ErrorMessage(1011, templateclass->GetName(), filepath, modelinfo.GetLineNumber(), name);
 }
 
 void nemesis::OptionModel::SetNameNoCheck(const nemesis::Line& modelinfo)
@@ -126,28 +126,35 @@ void nemesis::OptionModel::AddVarBlock(const VecStr& additioninfo)
 
 nemesis::OptionModel::OptionModel(const nemesis::Line& modelinfo,
                                   std::filesystem::path& _filepath,
-                                  const nemesis::TemplateClass& _templateclass)
-    : templateclass(_templateclass)
+                                  const nemesis::TemplateCategory& _templateclass)
+    : templateclass(&_templateclass)
 {
     filepath = _filepath;
     AddModelInfo(modelinfo);
 }
 
 nemesis::OptionModel::OptionModel(std::filesystem::path& _filepath,
-                                  const nemesis::TemplateClass& _templateclass)
-    : templateclass(_templateclass)
+                                  const nemesis::TemplateCategory& _templateclass)
+    : templateclass(&_templateclass)
 {
     filepath = _filepath;
 }
 
+nemesis::OptionModel::OptionModel(const nemesis::Line& modelinfo,
+                                  std::filesystem::path& _filepath,
+                                  const nemesis::TemplateClass& template_class)
+    : TemplateClass(&template_class)
+{
+}
+
 void nemesis::OptionModel::TryAddVariables(const nemesis::Line& modelinfo)
 {
-    if (modelinfo.find("<") == NOT_FOUND || modelinfo.find(">") == NOT_FOUND) return;
+    if (modelinfo.find("<") == NOT_FOUND && modelinfo.find(">") == NOT_FOUND) return;
 
     auto opening  = count(modelinfo.begin(), modelinfo.end(), '<');
     auto closing  = count(modelinfo.begin(), modelinfo.end(), '>');
     auto throwerr = [&]() {
-        ErrorMessage(1014, templateclass.GetName(), filepath, modelinfo.GetLineNumber());
+        ErrorMessage(1014, templateclass->GetName(), filepath, modelinfo.GetLineNumber());
     };
 
     if (opening != closing) throwerr();
@@ -257,14 +264,14 @@ nemesis::OptionModel::GetVariablePtr(const std::string name) const noexcept
 
 Vec<const nemesis::OptionModel::Variable*> nemesis::OptionModel::GetVariablesList() const
 {
-    Vec<const nemesis::OptionModel::Variable*> varlist;
+    Vec<const nemesis::OptionModel::Variable*> HkxVariableList;
 
     for (auto& var : variables)
     {
-        varlist.emplace_back(&var);
+        HkxVariableList.emplace_back(&var);
     }
 
-    return varlist;
+    return HkxVariableList;
 }
 
 void nemesis::OptionModel::AddModelInfo(const nemesis::Line& modelinfo)

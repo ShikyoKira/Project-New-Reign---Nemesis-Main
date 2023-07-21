@@ -1,6 +1,6 @@
 #include "base/exporter.h"
 
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 #include "utilities/animquery.h"
 
@@ -101,17 +101,17 @@ void nemesis::Exporter::SetCurrentQuery(const nemesis::AnimQuery& query)
 
 void nemesis::Exporter::AddEvents()
 {
-    events = std::make_unique<nemesis::EventList>();
+    events = std::make_unique<nemesis::HkxEventList>();
 }
 
 void nemesis::Exporter::AddVariables()
 {
-    variables = std::make_unique<nemesis::VarList>();
+    variables = std::make_unique<nemesis::HkxVariableList>();
 }
 
 void nemesis::Exporter::AddAttributes()
 {
-    attibutes = std::make_unique<nemesis::AttrList>();
+    attibutes = std::make_unique<nemesis::HkxAttributeList>();
 }
 
 void nemesis::Exporter::AddAnimImport(const std::string& key, UPtr<nemesis::AnimImport>& animimport_ptr)
@@ -167,14 +167,14 @@ std::string_view nemesis::Exporter::GetImportID(const std::string& key)
     return sv;
 }
 
-const nemesis::EventId* nemesis::Exporter::GetEventIDPtr(const std::string& eventname) const
+const nemesis::HkxEvent* nemesis::Exporter::GetHkxEventPtr(const std::string& eventname) const
 {
     if (!IsBehavior()) ErrorMessage(1228, file.GetFilePath());
 
     return events->GetEvent(eventname);
 }
 
-const nemesis::VarId* nemesis::Exporter::GetVariableIDPtr(const std::string& varname) const
+const nemesis::HkxVariable* nemesis::Exporter::GetVariableIDPtr(const std::string& varname) const
 {
     if (!IsBehavior()) return &scopeinfo->GetVariableID(varname);
 

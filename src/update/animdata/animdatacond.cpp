@@ -492,7 +492,7 @@ void MasterAnimData::UpdateBaseProjectList(const ModCode& modcode, const std::fi
             auto pos = line.find(ns::ModCode());
             edited = pos != NOT_FOUND && line.find(ns::EndModCodeSyntax(), pos) != NOT_FOUND;
         }
-        else if (line.find(ns::Original()) != NOT_FOUND)
+        else if (line.find(ns::ModOriginal()) != NOT_FOUND)
         {
             originalopen = true;
         }

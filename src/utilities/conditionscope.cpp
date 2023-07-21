@@ -4,7 +4,7 @@
 
 #include "utilities/conditionscope.h"
 
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 using namespace std;
 namespace ns = nemesis::syntax;

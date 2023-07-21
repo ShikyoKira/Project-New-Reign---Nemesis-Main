@@ -1,6 +1,6 @@
 #include "Global.h"
 
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 #include "utilities/animtemplate.h"
 
@@ -107,7 +107,7 @@ SPtr<const nemesis::AnimQueryFile> nemesis::AnimTemplate::Parser::GetResult() co
 
 void nemesis::AnimTemplate::TryAddTemplate(const sf::path& classdir)
 {
-    auto templateclass = nemesis::TemplateClass::CreateTemplate(classdir);
+    auto templateclass = nemesis::TemplateCategory::CreateTemplate(classdir);
 
     if (!templateclass) return;
 
@@ -168,7 +168,7 @@ nemesis::AnimTemplate::AnimTemplate(const sf::path& templatedir)
     }
 }
 
-const nemesis::TemplateClass* nemesis::AnimTemplate::GetClass(const std::string& name) const
+const nemesis::TemplateCategory* nemesis::AnimTemplate::GetClass(const std::string& name) const
 {
     for (auto& each : classlist)
     {
@@ -178,7 +178,7 @@ const nemesis::TemplateClass* nemesis::AnimTemplate::GetClass(const std::string&
     return nullptr;
 }
 
-void nemesis::AnimTemplate::LinkToBehaviorList(const VecSPtr<nemesis::HkxBehavior>& behaviorlist)
+void nemesis::AnimTemplate::LinkToBehaviorList(const VecSPtr<nemesis::HkxBehaviorFile>& behaviorlist)
 {
     for (auto& each : classlist)
     {

@@ -11,7 +11,7 @@ namespace nemesis
 {
     struct ScopeInfo;
     struct Template;
-    struct HkxBehavior;
+    struct HkxBehaviorFile;
 
     struct PreprocessLine : public nemesis::Line
     {
@@ -19,14 +19,14 @@ namespace nemesis
         SPtr<nemesis::LineProcess> processptr = nullptr;
         const nemesis::File* file             = nullptr;
         const nemesis::Template* templateptr = nullptr;
-        const nemesis::HkxBehavior* pbehavior = nullptr;
+        const nemesis::HkxBehaviorFile* pbehavior = nullptr;
         VecStr cacheblocks;
 
     public:
         PreprocessLine(const nemesis::Line& line) noexcept;
         PreprocessLine(const nemesis::PreprocessLine& linkedline) noexcept;
 
-        void AddBehavior(nemesis::HkxBehavior& behavior);
+        void AddBehavior(nemesis::HkxBehaviorFile& behavior);
         void AddTemplate(nemesis::Template& templateref);
         void TryAddLineProcess(SPtr<nemesis::LineProcess>& processptr);
 

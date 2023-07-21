@@ -162,7 +162,7 @@ void getLinkedLines(const nemesis::LinkedVar<InfoDataPack_Condt>& linkedinfodata
 
         if (!linkedinfodata.raw) return;
 
-        storeline.push_back(ns::Original());
+        storeline.push_back(ns::ModOriginal());
         size_t t = storeline.size();
         linkedinfodata.raw->getlines(storeline);
 

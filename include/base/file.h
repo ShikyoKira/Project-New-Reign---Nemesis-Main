@@ -3,15 +3,13 @@
 #include <filesystem>
 #include <string>
 
-#include "core/object.h"
-
 #include "base/sharablewrapper.h"
 
 #include "utilities/readtextfile.h"
 
 namespace nemesis
 {
-    struct File : public nemesis::Object
+    struct File
     {
         enum class FileType
         {

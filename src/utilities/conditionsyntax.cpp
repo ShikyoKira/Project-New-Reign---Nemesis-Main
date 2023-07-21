@@ -4,42 +4,42 @@ namespace nemesis
 {
     namespace syntax
     {
-        std::string DeleteLine()
+        std::string DeleteLine() noexcept
         {
             return "//* delete this line *//";
         }
 
-        std::string Spaces()
+        std::string Spaces() noexcept
         {
             return "\t\t\t\t\t";
         }
 
-        std::string OpenComment()
+        std::string OpenComment() noexcept
         {
             return "<!-- ";
         }
 
-        std::string CloseComment()
+        std::string CloseComment() noexcept
         {
             return " -->";
         }
 
-        std::string Comment(const std::string& content)
+        std::string Comment(const std::string& content) noexcept
         {
             return OpenComment() + content + CloseComment();
         }
 
-        std::string Aster()
+        std::string Aster() noexcept
         {
             return OpenComment() + "*";
         }
 
-        std::string CloseAster()
+        std::string CloseAster() noexcept
         {
             return "*" + CloseComment();
         }
 
-        std::string Aster(const std::string& condition)
+        std::string Aster(const std::string& condition) noexcept
         {
             return Aster() + condition + CloseAster();
         }
@@ -54,12 +54,12 @@ namespace nemesis
             return AsterCondition(line.ToString());
         }
 
-        std::string ForEach()
+        std::string ForEach() noexcept
         {
             return OpenComment() + "FOREACH ^";
         }
 
-        std::string ForEach(const std::string& condition)
+        std::string ForEach(const std::string& condition) noexcept
         {
             return ForEach() + condition + EndSyntax();
         }
@@ -74,12 +74,12 @@ namespace nemesis
             return ForEachCondition(line.ToString());
         }
 
-        std::string ModCode()
+        std::string ModCode() noexcept
         {
             return OpenComment() + "MOD_CODE ~";
         }
 
-        std::string ModCode(const std::string& condition)
+        std::string ModCode(const std::string& condition) noexcept
         {
             return ModCode() + condition + EndModCodeSyntax();
         }
@@ -94,32 +94,37 @@ namespace nemesis
             return ModCodeCondition(line.ToString());
         }
 
-        std::string EndModCodeSyntax()
+        std::string EndModCodeSyntax() noexcept
         {
             return "~ OPEN" + CloseComment();
         }
 
-        std::string Original()
+        std::string ModOriginal() noexcept
         {
-            return Comment("ORIGINAL");
+            return Comment("MOD_CODE_ORIGINAL");
         }
 
-        std::string LowerOriginal()
+        std::string LowerOriginal() noexcept
         {
             return Comment("original");
         }
 
-        std::string Close()
+        std::string Close() noexcept
         {
             return Comment("CLOSE");
         }
 
-        std::string If()
+        std::string ModClose() noexcept
+        {
+            return Comment("MOD_CODE_CLOSE");
+        }
+
+        std::string If() noexcept
         {
             return OpenComment() + "IF ^";
         }
 
-        std::string If(const std::string& condition)
+        std::string If(const std::string& condition) noexcept
         {
             return If() + condition + EndSyntax();
         }
@@ -134,12 +139,12 @@ namespace nemesis
             return IfCondition(line.ToString());
         }
 
-        std::string ElseIf()
+        std::string ElseIf() noexcept
         {
             return OpenComment() + "ELSEIF ^";
         }
 
-        std::string ElseIf(const std::string& condition)
+        std::string ElseIf(const std::string& condition) noexcept
         {
             return ElseIf() + condition + EndSyntax();
         }
@@ -154,17 +159,17 @@ namespace nemesis
             return ElseIfCondition(line.ToString());
         }
 
-        std::string Else()
+        std::string Else() noexcept
         {
             return Comment("ELSE");
         }
 
-        std::string EndIf()
+        std::string EndIf() noexcept
         {
             return Comment("ENDIF");
         }
 
-        std::string EndSyntax()
+        std::string EndSyntax() noexcept
         {
             return "^" + CloseComment();
         }

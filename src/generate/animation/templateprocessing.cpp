@@ -73,7 +73,7 @@ void stateInput(string& state,
 
 void proc::motionValidation(const AnimThreadInfo& curAnimInfo) const
 {
-    if (!curAnimInfo.fixedStateID.empty() || !curAnimInfo.eventid.empty() || !curAnimInfo.variableid.empty())
+    if (!curAnimInfo.fixedStateID.empty() || !curAnimInfo.HkxEvent.empty() || !curAnimInfo.variableid.empty())
     {
         ErrorMessage(1096, format, behaviorFile, curAnimInfo.numline);
     }
@@ -81,7 +81,7 @@ void proc::motionValidation(const AnimThreadInfo& curAnimInfo) const
 
 void proc::rotationValidation(const AnimThreadInfo& curAnimInfo) const
 {
-    if (!curAnimInfo.fixedStateID.empty() || !curAnimInfo.eventid.empty() || !curAnimInfo.variableid.empty())
+    if (!curAnimInfo.fixedStateID.empty() || !curAnimInfo.HkxEvent.empty() || !curAnimInfo.variableid.empty())
     {
         ErrorMessage(1097, format, behaviorFile, curAnimInfo.numline);
     }
@@ -2132,15 +2132,15 @@ void proc::lastState(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAni
     }
 }
 
-void proc::eventID(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
+void proc::HkxEvent(nemesis::scope blok, VecStr& blocks, AnimThreadInfo& curAnimInfo) const
 {
     string eventname = combineBlocks(blok.olddataint[0], blok.olddataint[1], blocks);
 
     if (clearBlocks(blok, blocks, curAnimInfo))
     {
-        auto eventitr = curAnimInfo.eventid.find(eventname);
+        auto eventitr = curAnimInfo.HkxEvent.find(eventname);
 
-        if (eventitr == curAnimInfo.eventid.end() && eventname != curAnimInfo.zeroEvent)
+        if (eventitr == curAnimInfo.HkxEvent.end() && eventname != curAnimInfo.zeroEvent)
         {
             ErrorMessage(1131, format, curAnimInfo.filename, curAnimInfo.numline, eventname);
         }

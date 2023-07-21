@@ -11,7 +11,7 @@ bool AddEvents(const std::string& curNum,
                std::unordered_map<std::string, bool>& isExist,
                int& counter,
                std::string& ZeroEvent,
-               std::unordered_map<std::string, int>& eventid,
+               std::unordered_map<std::string, int>& HkxEvent,
                std::unordered_map<int, std::string>& eventName);
 
 #endif

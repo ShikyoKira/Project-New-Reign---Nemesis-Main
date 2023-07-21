@@ -22,7 +22,7 @@ namespace nemesis
             Pair<std::string, std::string> cacherules;
 
             nemesis::Line TryRemoveComment(const nemesis::Line& line);
-            std::string GetTemplateClass() const;
+            std::string GetTemplateCategory() const;
             std::filesystem::path GetFilePath() const;
 
         public:
@@ -77,7 +77,7 @@ namespace nemesis
         };
 
     private:
-        const nemesis::TemplateClass& templateclass;
+        const nemesis::TemplateCategory* templatecategory;
 
         USetStr options;
         USetStr compulsory;
@@ -107,8 +107,9 @@ namespace nemesis
         nemesis::OptionModel* GetInnerModel(const std::string modelname) const noexcept;
 
     public:
+        OptionModelList(const nemesis::TemplateCategory& _templateclass) noexcept;
         OptionModelList(const std::filesystem::path& filepath,
-                        const nemesis::TemplateClass& _templateclass) noexcept;
+                        const nemesis::TemplateCategory& _templateclass) noexcept;
 
         size_t GetAnimObjectCount() const;
         bool Contains(const std::string& name) const;

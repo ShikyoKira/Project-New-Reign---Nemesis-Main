@@ -104,7 +104,7 @@ void AnimSetPack::Parser::ImportAnimSetPack()
             {
                 edited = true;
             }
-            else if (line.find(ns::Original()) != NOT_FOUND)
+            else if (line.find(ns::ModOriginal()) != NOT_FOUND)
             {
                 originalopen = true;
             }
@@ -196,7 +196,7 @@ AnimSetPack::AnimSetPack(const VecStr& storeline, const string& path, const ModC
             {
                 edited = true;
             }
-            else if (line.find(ns::Original()) != NOT_FOUND)
+            else if (line.find(ns::ModOriginal()) != NOT_FOUND)
             {
                 originalopen = true;
             }
@@ -349,7 +349,7 @@ void getLinkedLines(const nemesis::LinkedVar<AnimSetPack>& linkedpack, VecStr& s
                 getLinkedLines(each->rawlist[0], storeline);
             }
 
-            storeline.emplace_back(ns::Original());
+            storeline.emplace_back(ns::ModOriginal());
             linkedpack.raw->getlines(storeline);
             storeline.emplace_back(ns::Close());
             return;

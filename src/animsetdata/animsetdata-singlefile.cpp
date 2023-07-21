@@ -27,8 +27,8 @@ const nemesis::AnimTemplate* nemesis::animsetdata::SingleFile::Exporter::GetAnim
     return singlefile.animtemplate;
 }
 
-const nemesis::TemplateClass*
-nemesis::animsetdata::SingleFile::Exporter::GetTemplateClass(const std::string& name)
+const nemesis::TemplateCategory*
+nemesis::animsetdata::SingleFile::Exporter::GetTemplateCategory(const std::string& name)
 {
     return nullptr;
 }
@@ -69,7 +69,7 @@ nemesis::animsetdata::SingleFile::Exporter::GetQueriesByTemplate(const std::stri
 
     for (auto& queryinfo : singlefile.queries)
     {
-        if (classptr != &queryinfo.first->GetTemplateClass()) continue;
+        if (classptr != &queryinfo.first->GetTemplateCategory()) continue;
 
         return &queryinfo.second;
     }

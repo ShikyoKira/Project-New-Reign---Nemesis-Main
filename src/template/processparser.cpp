@@ -1,7 +1,7 @@
 #include "template/processparser.h"
 
 #include "utilities/lineprocess.h"
-#include "utilities/templateclass.h"
+#include "utilities/templatecategory.h"
 
 const std::string relativename = "relativeToEndOfClip";
 const std::string timename     = "localTime";
@@ -430,7 +430,8 @@ void nemesis::ProcessParser::TryRegisterMultiChoice()
     for (nemesis::regex_iterator itr(*lineptr, multichoice_rgx); itr != end; ++itr)
     {
         auto pos       = itr->position(2);
-        auto condition = std::make_unique<Condition>(itr->str(1), *lineptr, importer.GetFile());
+        auto condition
+            = std::make_unique<Condition>(itr->str(1), *lineptr, importer.GetFile(), CondType::MULTI_CHOICE);
         lineprocessptr->AddChoice(pos, pos + itr->str(2).length(), condition);
     }
 
@@ -463,9 +464,9 @@ void nemesis::ProcessParser::TryOptionAddVariable()
     }
 }
 
-void nemesis::ProcessParser::TryAddEventIdProcessor()
+void nemesis::ProcessParser::TryAddHkxEventProcessor()
 {
-    TryAnimVarProcessor("eventId", &nemesis::Process::EventID);
+    TryAnimVarProcessor("HkxEvent", &nemesis::Process::HkxEvent);
 }
 
 void nemesis::ProcessParser::TryAddVariableIdProcessor()
@@ -714,7 +715,7 @@ void nemesis::ProcessParser::Parse()
         TryCountAnimation();
         TryCountState();
         TryOptionAddVariable();
-        TryAddEventIdProcessor();
+        TryAddHkxEventProcessor();
         TryAddVariableIdProcessor();
         TryAddAnimObject();
         TryAddImportTemplateRef();

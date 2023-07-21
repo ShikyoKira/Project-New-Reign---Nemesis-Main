@@ -3,19 +3,36 @@
 
 nemesis::Option::Option(const std::string& query,
                         const nemesis::OptionModel& model,
+                        const nemesis::AnimationRequest& request) noexcept
+    : model(model)
+    , Request(&request)
+    , query(query)
+    , name(model.GetName())
+    , variables(model.ParseVariables(query))
+{
+    success = model.HasVariable() != variables.empty();
+}
+
+nemesis::Option::Option(const std::string& query,
+                        const nemesis::OptionModel& model,
                         const nemesis::AnimQuery& animquery) noexcept
     : model(model)
-    , animquery(animquery)
+    , animquery(&animquery)
+    , query(query)
+    , name(model.GetName())
+    , variables(model.ParseVariables(query))
 {
-    this->query = query;
-    name        = model.GetName();
-    variables   = model.ParseVariables(query);
     success     = model.HasVariable() != variables.empty();
+}
+
+const nemesis::AnimationRequest& nemesis::Option::GetAnimationRequest() const
+{
+    return *Request;
 }
 
 const nemesis::AnimQuery& nemesis::Option::GetAnimQuery() const
 {
-    return animquery;
+    return *animquery;
 }
 
 const nemesis::OptionModel& nemesis::Option::GetModel() const noexcept

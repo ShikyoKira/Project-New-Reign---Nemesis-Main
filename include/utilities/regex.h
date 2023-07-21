@@ -8,6 +8,7 @@
 namespace nemesis
 {
     struct Line;
+    struct Wline;
 
     namespace detail
     {
@@ -60,6 +61,8 @@ namespace nemesis
         size_t position(size_t number = 0) const;
         size_t size() const;
         bool empty() const;
+        std::ssub_match prefix() const;
+        std::ssub_match suffix() const;
 
     private:
         detail::underlying_smatch match_;
@@ -94,6 +97,10 @@ namespace nemesis
 
     std::string regex_replace(const std::string& line, const nemesis::regex& rgx, const std::string& replace);
 
+    bool regex_search(const nemesis::Line& line, nemesis::smatch& match, const nemesis::regex& rgx);
+
+    bool regex_match(const nemesis::Line& line, nemesis::smatch& match, const nemesis::regex& rgx);
+
     // =====================================================//
     //                    WIDE CHARACTERS                   //
     // =====================================================//
@@ -126,6 +133,8 @@ namespace nemesis
         std::wstring str(size_t number = 0) const;
         size_t position(size_t number = 0) const;
         size_t size() const;
+        std::wssub_match prefix() const;
+        std::wssub_match suffix() const;
 
     private:
         detail::underlying_wsmatch match_;
@@ -159,4 +168,7 @@ namespace nemesis
 
     std::wstring wregex_replace(const std::wstring& line, const nemesis::wregex& rgx, const std::wstring& replace);
 
+    bool wregex_search(const nemesis::Wline& line, nemesis::wsmatch& match, const nemesis::wregex& rgx);
+
+    bool wregex_match(const nemesis::Wline& line, nemesis::wsmatch& match, const nemesis::wregex& rgx);
 } // namespace nemesis

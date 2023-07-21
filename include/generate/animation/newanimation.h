@@ -50,7 +50,7 @@ private:
     std::string filepath;
 
     // VecStr clipname;		obsolete
-    VecStr eventID;
+    VecStr HkxEvent;
     VecStr variableID;
     UMapStr2 IDExist;
     UMapStr2 mixOptRegis;
@@ -140,7 +140,7 @@ private:
                     VecStr& storeline,
                     std::string masterFormat,
                     int linecount,
-                    const ID& eventid,
+                    const ID& HkxEvent,
                     const ID& variableid,
                     std::vector<int> stateID,
                     std::vector<int> stateCountMultiplier,
@@ -167,7 +167,7 @@ private:
                      int& openRange,
                      size_t& elementLine,
                      int& counter,
-                     const ID& eventid,
+                     const ID& HkxEvent,
                      const ID& variableid,
                      std::vector<int> fixedStateID,
                      std::vector<int> stateCountMultiplier,
@@ -185,7 +185,7 @@ private:
                         int& openRange,
                         size_t& elementLine,
                         int& counter,
-                        const ID& eventid,
+                        const ID& HkxEvent,
                         const ID& variableid,
                         std::vector<int> fixedStateID,
                         std::vector<int> stateCountMultiplier,
@@ -202,7 +202,7 @@ private:
                        std::shared_ptr<VecStr> generatedlines,
                        size_t& elementLine,
                        int& counter,
-                       const ID& eventid,
+                       const ID& HkxEvent,
                        const ID& variableid,
                        std::vector<int> fixedStateID,
                        std::vector<int> stateCountMultiplier,
@@ -223,7 +223,7 @@ public:
 
     std::string GetFilePath();
     std::string GetFormatName();
-    VecStr GetEventID();
+    VecStr GetHkxEvent();
     VecStr GetVariableID();
     UMapStr2 GetMixOpt();
     ImportContainer GetAddition();
@@ -325,7 +325,7 @@ void animObjectReplacer(std::string& line,
 void eventIDReplacer(std::string& line,
                      const std::string& format,
                      const std::string& filename,
-                     const ID& eventid,
+                     const ID& HkxEvent,
                      const std::string& firstEvent,
                      int linecount);
 void variableIDReplacer(std::string& line,

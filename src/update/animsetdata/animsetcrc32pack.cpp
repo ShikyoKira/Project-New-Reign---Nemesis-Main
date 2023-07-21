@@ -75,7 +75,7 @@ void getLinkedLines(const nemesis::LinkedVar<AnimSetCRC32Pack>& linkedcrc32, Vec
                 getLinkedLines(each->rawlist[0], storeline);
             }
 
-            storeline.emplace_back(ns::Original());
+            storeline.emplace_back(ns::ModOriginal());
             linkedcrc32.raw->getlines(storeline);
             storeline.emplace_back(ns::Close());
             return;

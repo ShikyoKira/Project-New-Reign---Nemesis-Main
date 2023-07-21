@@ -63,7 +63,7 @@ namespace nemesis
         void TryRegisterMultiChoice();
 
         void TryOptionAddVariable();
-        void TryAddEventIdProcessor();
+        void TryAddHkxEventProcessor();
         void TryAddVariableIdProcessor();
         void TryAddAnimObject();
         void TryAddImportTemplateRef();

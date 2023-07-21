@@ -1662,7 +1662,7 @@ void getLinkedLines(const nemesis::LinkedVar<AnimSetData::WeapType>& linkedtype,
 
             if (!list.empty())
             {
-                storeline.emplace_back(ns::Original());
+                storeline.emplace_back(ns::ModOriginal());
                 linkedtype.raw->Getlines(storeline);
                 storeline.emplace_back(ns::Close());
             }
@@ -1781,8 +1781,8 @@ AnimSetData::Parser::GetAttackSetDataSections(size_t start, size_t end, const Ve
 }
 
 Vec<size_t> AnimSetData::Parser::GetAttackSetDataSections(size_t start,
-                                                        size_t end,
-                                                        const Deq<nemesis::Line>& _storeline) const
+                                                          size_t end,
+                                                          const Deq<nemesis::Line>& _storeline) const
 {
     VecNstr temp(_storeline.begin(), _storeline.end());
     return GetAttackSetDataSections(start, end, temp);
@@ -1847,7 +1847,7 @@ void getLinkedLines(const nemesis::LinkedVar<AnimSetData>& linkeddata, VecStr& s
             getLinkedLines(each->rawlist[0], storeline, namelines);
         }
 
-        AddToBoth(ns::Original());
+        AddToBoth(ns::ModOriginal());
         linkeddata.raw->Getlines(storeline);
         linkeddata.raw->Getname(namelines);
         AddToBoth(ns::Close());

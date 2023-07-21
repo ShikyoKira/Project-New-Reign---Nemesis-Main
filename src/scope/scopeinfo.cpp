@@ -51,7 +51,7 @@ nemesis::ScopeInfo::ChoiceRange::ChoiceRange(size_t posA, size_t posB)
 //}
 
 const Vec<const nemesis::AnimQuery*>*
-nemesis::ScopeInfo::GetTemplateAllQueries(const nemesis::TemplateClass* templtclass) const
+nemesis::ScopeInfo::GetTemplateAllQueries(const nemesis::TemplateCategory* templtclass) const
 {
     auto query = GetQuery(templtclass);
     return query ? &query->GetQueryList().GetList() : exporter->GetQueriesByTemplate(templtclass->GetName());
@@ -61,7 +61,7 @@ const Vec<const nemesis::AnimQuery*>*
 nemesis::ScopeInfo::GetTemplateAllAnim(const nemesis::Condition& condition) const
 {
     auto& var         = condition.GetVariableA();
-    auto* templtclass = var.GetTemplateClass();
+    auto* templtclass = var.GetTemplateCategory();
 
     if (!templtclass->HasGroup()) return GetTemplateAllQueries(templtclass);
     
@@ -74,7 +74,7 @@ nemesis::ScopeInfo::GetTemplateAllAnim(const nemesis::Condition& condition) cons
 }
 
 const nemesis::Option* nemesis::ScopeInfo::GetCurrentOptionPtr(
-    const std::string& optionname, size_t index, const nemesis::TemplateClass* templtclass) const
+    const std::string& optionname, size_t index, const nemesis::TemplateCategory* templtclass) const
 {
     auto itr = scopelayer.find(templtclass);
 
@@ -89,19 +89,19 @@ const nemesis::Option* nemesis::ScopeInfo::GetCurrentOptionPtr(
 }
 
 nemesis::Layers<const nemesis::Option*>&
-nemesis::ScopeInfo::GetOptionLayers(const nemesis::Option& opt, const nemesis::TemplateClass* templtclass)
+nemesis::ScopeInfo::GetOptionLayers(const nemesis::Option& opt, const nemesis::TemplateCategory* templtclass)
 {
     return scopelayer[templtclass].qdlayers_map[&opt.GetAnimQuery()].optionlayers[opt.GetName()];
 }
 
 nemesis::Layers<const std::string*>& nemesis::ScopeInfo::GetAnimObjListLayers(
-    size_t animobj_grp, const nemesis::AnimQuery* animquery, const nemesis::TemplateClass* templtclass)
+    size_t animobj_grp, const nemesis::AnimQuery* animquery, const nemesis::TemplateCategory* templtclass)
 {
     return scopelayer[templtclass].qdlayers_map[animquery].aolistlayers[animobj_grp];
 }
 
 const nemesis::ScopeInfo::ScopeLayer::QueryDataLayers*
-nemesis::ScopeInfo::GetCurrentQueryDataLayers(const nemesis::TemplateClass* templtclass) const
+nemesis::ScopeInfo::GetCurrentQueryDataLayers(const nemesis::TemplateCategory* templtclass) const
 {
     auto itr = scopelayer.find(templtclass);
 
@@ -131,21 +131,21 @@ void nemesis::ScopeInfo::SetCurrentLine(const nemesis::Line* lineptr)
 }
 
 void nemesis::ScopeInfo::ExeTempQuery(SPtr<const AnimQuery*>& shptr,
-                                      const nemesis::TemplateClass* templtclass,
+                                      const nemesis::TemplateCategory* templtclass,
                                       std::function<void()> callback)
 {
-    auto class_shr_ptr = std::make_shared<const nemesis::TemplateClass*>(templtclass);
-    SetTempTemplateClass(class_shr_ptr);
+    auto class_shr_ptr = std::make_shared<const nemesis::TemplateCategory*>(templtclass);
+    SetTempTemplateCategory(class_shr_ptr);
     SetTempQuery(shptr, templtclass);
     callback();
 }
 
 void nemesis::ScopeInfo::ExeTempAnim(SPtr<const AnimQuery*>& shptr,
-                                     const nemesis::TemplateClass* templtclass,
+                                     const nemesis::TemplateCategory* templtclass,
                                      std::function<void()> callback)
 {
-    auto class_shr_ptr = std::make_shared<const nemesis::TemplateClass*>(templtclass);
-    SetTempTemplateClass(class_shr_ptr);
+    auto class_shr_ptr = std::make_shared<const nemesis::TemplateCategory*>(templtclass);
+    SetTempTemplateCategory(class_shr_ptr);
     SetTempAnim(shptr, templtclass);
     callback();
 }
@@ -191,7 +191,7 @@ void nemesis::ScopeInfo::SetCurrentQuery(const nemesis::AnimQuery& query)
     querylist = &query.GetQueryList();
 }
 
-void nemesis::ScopeInfo::SetTempTemplateClass(SPtr<const nemesis::TemplateClass*> templtclass_ptr) noexcept
+void nemesis::ScopeInfo::SetTempTemplateCategory(SPtr<const nemesis::TemplateCategory*> templtclass_ptr) noexcept
 {
     if (!temp_templtclass_ptr.expired()) return;
 
@@ -199,19 +199,19 @@ void nemesis::ScopeInfo::SetTempTemplateClass(SPtr<const nemesis::TemplateClass*
 }
 
 void nemesis::ScopeInfo::SetTempQuery(SPtr<const nemesis::AnimQuery*>& index,
-                                      const nemesis::TemplateClass* templtclass) noexcept
+                                      const nemesis::TemplateCategory* templtclass) noexcept
 {
     scopelayer[templtclass].querylayers.SetTemp(index);
 }
 
 void nemesis::ScopeInfo::SetTempAnim(SPtr<const nemesis::AnimQuery*>& anim,
-                                     const nemesis::TemplateClass* templtclass) noexcept
+                                     const nemesis::TemplateCategory* templtclass) noexcept
 {
     scopelayer[templtclass].animlayers.SetTemp(anim);
 }
 
 void nemesis::ScopeInfo::SetTempOption(SPtr<const Option*>& opt,
-                                       const nemesis::TemplateClass* templtclass) noexcept
+                                       const nemesis::TemplateCategory* templtclass) noexcept
 {
     auto& optionlayers = GetOptionLayers(**opt, templtclass);
     optionlayers.SetTemp(opt);
@@ -220,24 +220,24 @@ void nemesis::ScopeInfo::SetTempOption(SPtr<const Option*>& opt,
 void nemesis::ScopeInfo::SetTempAnimObject(SPtr<const std::string*>& animobj,
                                            size_t animobj_grp,
                                            const nemesis::AnimQuery* animquery,
-                                           const nemesis::TemplateClass* templtclass) noexcept
+                                           const nemesis::TemplateCategory* templtclass) noexcept
 {
     auto& aolistlayers = GetAnimObjListLayers(animobj_grp, animquery, templtclass);
     aolistlayers.SetTemp(animobj);
 }
 
 void nemesis::ScopeInfo::InsertQuery(const nemesis::AnimQuery& index,
-                                     const nemesis::TemplateClass* templtclass)
+                                     const nemesis::TemplateCategory* templtclass)
 {
     Insert(scopelayer[templtclass].querylayers, &index);
 }
 
-void nemesis::ScopeInfo::InsertAnim(const nemesis::AnimQuery& anim, const nemesis::TemplateClass* templtclass)
+void nemesis::ScopeInfo::InsertAnim(const nemesis::AnimQuery& anim, const nemesis::TemplateCategory* templtclass)
 {
     Insert(scopelayer[templtclass].animlayers, &anim);
 }
 
-void nemesis::ScopeInfo::InsertOption(const nemesis::Option& opt, const nemesis::TemplateClass* templtclass)
+void nemesis::ScopeInfo::InsertOption(const nemesis::Option& opt, const nemesis::TemplateCategory* templtclass)
 {
     auto& optionlayers = GetOptionLayers(opt, templtclass);
     Insert(optionlayers, &opt);
@@ -246,7 +246,7 @@ void nemesis::ScopeInfo::InsertOption(const nemesis::Option& opt, const nemesis:
 void nemesis::ScopeInfo::InsertAnimObject(const std::string& animobj,
                                           size_t animobj_grp,
                                           const nemesis::AnimQuery* animquery,
-                                          const nemesis::TemplateClass* templtclass)
+                                          const nemesis::TemplateCategory* templtclass)
 {
     auto& aolistlayers = GetAnimObjListLayers(animobj_grp, animquery, templtclass);
     Insert(aolistlayers, &animobj);
@@ -269,7 +269,7 @@ bool nemesis::ScopeInfo::HasQuery(size_t index) const
     return index < querylist->GetListSize();
 }
 
-bool nemesis::ScopeInfo::HasAnim(size_t index, const nemesis::TemplateClass* templtclass) const
+bool nemesis::ScopeInfo::HasAnim(size_t index, const nemesis::TemplateCategory* templtclass) const
 {
     auto queryptr = GetQuery(templtclass);
 
@@ -280,7 +280,7 @@ bool nemesis::ScopeInfo::HasAnim(size_t index, const nemesis::TemplateClass* tem
 
 bool nemesis::ScopeInfo::HasOption(std::string optionname,
                                    size_t index,
-                                   const nemesis::TemplateClass* templtclass) const
+                                   const nemesis::TemplateCategory* templtclass) const
 {
     auto anim = GetAnim(templtclass);
 
@@ -290,7 +290,7 @@ bool nemesis::ScopeInfo::HasOption(std::string optionname,
 }
 
 void nemesis::ScopeInfo::ExeTempNumQuery(size_t index,
-                                         const nemesis::TemplateClass* templtclass,
+                                         const nemesis::TemplateCategory* templtclass,
                                          std::function<void()> callback)
 {
     auto queries = GetQuery(templtclass)->GetQueryList();
@@ -302,7 +302,7 @@ void nemesis::ScopeInfo::ExeTempNumQuery(size_t index,
 }
 
 void nemesis::ScopeInfo::ExeTempNumAnim(size_t index,
-                                        const nemesis::TemplateClass* templtclass,
+                                        const nemesis::TemplateCategory* templtclass,
                                         std::function<void()> callback)
 {
     auto queries = GetQuery(templtclass);
@@ -314,38 +314,38 @@ void nemesis::ScopeInfo::ExeTempNumAnim(size_t index,
 }
 
 void nemesis::ScopeInfo::ExeTempOption(const nemesis::Option& opt,
-                                       const nemesis::TemplateClass* templtclass,
+                                       const nemesis::TemplateCategory* templtclass,
                                        std::function<void()> callback)
 {
     auto shptr         = std::make_shared<const nemesis::Option*>(&opt);
-    auto class_shr_ptr = std::make_shared<const nemesis::TemplateClass*>(templtclass);
-    SetTempTemplateClass(class_shr_ptr);
+    auto class_shr_ptr = std::make_shared<const nemesis::TemplateCategory*>(templtclass);
+    SetTempTemplateCategory(class_shr_ptr);
     SetTempOption(shptr, templtclass);
     callback();
 }
 
 void nemesis::ScopeInfo::ExeTempAnimObject(size_t animobj_grp,
                                            size_t animobj_index,
-                                           const nemesis::TemplateClass* templtclass,
+                                           const nemesis::TemplateCategory* templtclass,
                                            std::function<void()> callback)
 {
     auto anim          = GetAnim(templtclass);
     auto animobj       = &anim->GetAnimObject(animobj_grp).at(animobj_index);
     auto shptr         = std::make_shared<const std::string*>(animobj);
-    auto class_shr_ptr = std::make_shared<const nemesis::TemplateClass*>(templtclass);
-    SetTempTemplateClass(class_shr_ptr);
+    auto class_shr_ptr = std::make_shared<const nemesis::TemplateCategory*>(templtclass);
+    SetTempTemplateCategory(class_shr_ptr);
     SetTempAnimObject(shptr, animobj_grp, anim, templtclass);
     callback();
 }
 
-void nemesis::ScopeInfo::ExeTempBaseQuery(const nemesis::TemplateClass* templtclass,
+void nemesis::ScopeInfo::ExeTempBaseQuery(const nemesis::TemplateCategory* templtclass,
                                           std::function<void()> callback)
 {
     auto queryptr = std::make_shared<const AnimQuery*>(basequery);
     ExeTempQuery(queryptr, templtclass, callback);
 }
 
-void nemesis::ScopeInfo::ExeTempBackAnim(const nemesis::TemplateClass* templtclass,
+void nemesis::ScopeInfo::ExeTempBackAnim(const nemesis::TemplateCategory* templtclass,
                                          std::function<void()> callback)
 {
     auto anim     = GetAnim(templtclass);
@@ -353,7 +353,7 @@ void nemesis::ScopeInfo::ExeTempBackAnim(const nemesis::TemplateClass* templtcla
     ExeTempAnim(queryptr, templtclass, callback);
 }
 
-void nemesis::ScopeInfo::ExeTempNextAnim(const nemesis::TemplateClass* templtclass,
+void nemesis::ScopeInfo::ExeTempNextAnim(const nemesis::TemplateCategory* templtclass,
                                          std::function<void()> callback)
 {
     auto anim     = GetAnim(templtclass);
@@ -361,7 +361,7 @@ void nemesis::ScopeInfo::ExeTempNextAnim(const nemesis::TemplateClass* templtcla
     ExeTempAnim(queryptr, templtclass, callback);
 }
 
-void nemesis::ScopeInfo::ExeTempLastAnim(const nemesis::TemplateClass* templtclass,
+void nemesis::ScopeInfo::ExeTempLastAnim(const nemesis::TemplateCategory* templtclass,
                                          std::function<void()> callback)
 {
     auto anim     = GetAnim(templtclass);
@@ -369,14 +369,14 @@ void nemesis::ScopeInfo::ExeTempLastAnim(const nemesis::TemplateClass* templtcla
     ExeTempAnim(queryptr, templtclass, callback);
 }
 
-const nemesis::TemplateClass* nemesis::ScopeInfo::GetTemplateClass() const
+const nemesis::TemplateCategory* nemesis::ScopeInfo::GetTemplateCategory() const
 {
     if (temp_templtclass_ptr.expired()) return nullptr;
 
     return *temp_templtclass_ptr.lock().get();
 }
 
-const nemesis::AnimQuery* nemesis::ScopeInfo::GetQuery(const nemesis::TemplateClass* templtclass) const
+const nemesis::AnimQuery* nemesis::ScopeInfo::GetQuery(const nemesis::TemplateCategory* templtclass) const
 {
     auto itr = scopelayer.find(templtclass);
 
@@ -385,7 +385,7 @@ const nemesis::AnimQuery* nemesis::ScopeInfo::GetQuery(const nemesis::TemplateCl
     return itr->second.querylayers.GetValue();
 }
 
-const nemesis::AnimQuery* nemesis::ScopeInfo::GetAnim(const nemesis::TemplateClass* templtclass) const
+const nemesis::AnimQuery* nemesis::ScopeInfo::GetAnim(const nemesis::TemplateCategory* templtclass) const
 {
     auto itr = scopelayer.find(templtclass);
 
@@ -395,7 +395,7 @@ const nemesis::AnimQuery* nemesis::ScopeInfo::GetAnim(const nemesis::TemplateCla
 }
 
 const nemesis::Option* nemesis::ScopeInfo::GetOption(const std::string& name,
-                                                     const nemesis::TemplateClass* templtclass) const
+                                                     const nemesis::TemplateCategory* templtclass) const
 {
     auto qdlayers_ptr = GetCurrentQueryDataLayers(templtclass);
 
@@ -410,7 +410,7 @@ const nemesis::Option* nemesis::ScopeInfo::GetOption(const std::string& name,
 }
 
 const std::string* nemesis::ScopeInfo::GetAnimObject(size_t animobj_grp,
-                                                     const nemesis::TemplateClass* templtclass) const
+                                                     const nemesis::TemplateCategory* templtclass) const
 {
     auto qdlayers_ptr = GetCurrentQueryDataLayers(templtclass);
 
@@ -455,17 +455,17 @@ std::string_view nemesis::ScopeInfo::GetCurrentNodeId() const
     return nodeid_sv;
 }
 
-const nemesis::AnimQuery* nemesis::ScopeInfo::GetLastAnim(const nemesis::TemplateClass* templtclass) const
+const nemesis::AnimQuery* nemesis::ScopeInfo::GetLastAnim(const nemesis::TemplateCategory* templtclass) const
 {
     return &GetAnim(templtclass)->GetLastInArray();
 }
 
-const nemesis::AnimQuery* nemesis::ScopeInfo::GetBackAnim(const nemesis::TemplateClass* templtclass) const
+const nemesis::AnimQuery* nemesis::ScopeInfo::GetBackAnim(const nemesis::TemplateCategory* templtclass) const
 {
     return &GetAnim(templtclass)->GetBackInArray();
 }
 
-const nemesis::AnimQuery* nemesis::ScopeInfo::GetNextAnim(const nemesis::TemplateClass* templtclass) const
+const nemesis::AnimQuery* nemesis::ScopeInfo::GetNextAnim(const nemesis::TemplateCategory* templtclass) const
 {
     return &GetAnim(templtclass)->GetNextInArray();
 }
@@ -477,7 +477,7 @@ const nemesis::AnimQuery* nemesis::ScopeInfo::GetCurrentQuery() const
 
 const nemesis::Option* nemesis::ScopeInfo::GetBaseOptionPtr(const std::string& optionname,
                                                             size_t index,
-                                                            const nemesis::TemplateClass* templtclass) const
+                                                            const nemesis::TemplateCategory* templtclass) const
 {
     auto optptr = GetCurrentOptionPtr(optionname, index, templtclass);
 
@@ -492,7 +492,7 @@ const nemesis::Option* nemesis::ScopeInfo::GetBaseOptionPtr(const std::string& o
 
 const nemesis::Option* nemesis::ScopeInfo::GetOptionPtr(const std::string& optionname,
                                                         const nemesis::AnimQuery* animquery,
-                                                        const nemesis::TemplateClass* templtclass) const
+                                                        const nemesis::TemplateCategory* templtclass) const
 {
     auto itr = scopelayer.find(templtclass);
 
@@ -512,7 +512,7 @@ const nemesis::Option* nemesis::ScopeInfo::GetOptionPtr(const std::string& optio
 
 const nemesis::Option* nemesis::ScopeInfo::GetOptionPtr(const std::string& optionname,
                                                         size_t index,
-                                                        const nemesis::TemplateClass* templtclass) const
+                                                        const nemesis::TemplateCategory* templtclass) const
 {
     auto anim = GetAnim(templtclass);
 
@@ -523,7 +523,7 @@ const nemesis::Option* nemesis::ScopeInfo::GetOptionPtr(const std::string& optio
 
 const Vec<const nemesis::Option*>*
 nemesis::ScopeInfo::GetOptionListPtr(const std::string& optionname,
-                                     const nemesis::TemplateClass* templtclass) const
+                                     const nemesis::TemplateCategory* templtclass) const
 {
     auto anim = GetAnim(templtclass);
 
@@ -532,7 +532,7 @@ nemesis::ScopeInfo::GetOptionListPtr(const std::string& optionname,
     return anim->GetOptionListPtr(optionname);
 }
 
-void nemesis::ScopeInfo::GenerateStateIdManager(const nemesis::HkxBehavior& behavior)
+void nemesis::ScopeInfo::GenerateStateIdManager(const nemesis::HkxBehaviorFile& behavior)
 {
     stateidmanager = std::make_unique<nemesis::StateIdManager>(behavior);
 }
@@ -542,30 +542,30 @@ nemesis::StateIdManager* nemesis::ScopeInfo::GetStateIdManager()
     return stateidmanager.get();
 }
 
-const nemesis::EventId& nemesis::ScopeInfo::GetEventID(const std::string& eventname) const
+const nemesis::HkxEvent& nemesis::ScopeInfo::GetHkxEvent(const std::string& eventname) const
 {
-    auto eventid = exporter->GetEventIDPtr(eventname);
+    auto HkxEvent = exporter->GetHkxEventPtr(eventname);
 
-    if (!eventid)
+    if (!HkxEvent)
     {
         ErrorMessage(
             1131, lineptr->GetClassName(), lineptr->GetFilePath(), lineptr->GetLineNumber(), eventname);
     }
     
-    return *eventid;
+    return *HkxEvent;
 }
 
-const nemesis::VarId& nemesis::ScopeInfo::GetVariableID(const std::string& varname) const
+const nemesis::HkxVariable& nemesis::ScopeInfo::GetVariableID(const std::string& varname) const
 {
-    auto varid = exporter->GetVariableIDPtr(varname);
+    auto HkxVariable = exporter->GetVariableIDPtr(varname);
 
-    if (!varid)
+    if (!HkxVariable)
     {
         ErrorMessage(
             1132, lineptr->GetClassName(), lineptr->GetFilePath(), lineptr->GetLineNumber(), varname);
     }
     
-    return *varid;
+    return *HkxVariable;
 }
 
 nemesis::Exporter* nemesis::ScopeInfo::GetExporter()
@@ -580,17 +580,17 @@ UPtr<nemesis::ScopeInfo::ScopeIterator> nemesis::ScopeInfo::ExeQuery(const Condi
     if (var.IsBase())
     {
         UPtr<nemesis::ScopeInfo::ScopeIterator> rtn;
-        ExeTempBaseQuery(var.GetTemplateClass(), [&]() { rtn = ExeAnimQuery(condition); });
+        ExeTempBaseQuery(var.GetTemplateCategory(), [&]() { rtn = ExeAnimQuery(condition); });
         return std::move(rtn);
     }
 
     if (var.IsAllMaster())
     {
-        auto* tempclass      = var.GetTemplateClass();
-        auto templtclass_ptr = std::make_shared<Vec<const nemesis::TemplateClass*>>();
+        auto* tempclass      = var.GetTemplateCategory();
+        auto templtclass_ptr = std::make_shared<Vec<const nemesis::TemplateCategory*>>();
         templtclass_ptr->emplace_back(tempclass);
         templtclass_cache.emplace_back(templtclass_ptr);
-        return std::make_unique<ScopeIteratorValue<const TemplateClass*>>(templtclass_ptr.get(), classlayers);
+        return std::make_unique<ScopeIteratorValue<const TemplateCategory*>>(templtclass_ptr.get(), classlayers);
     }
 
     return std::move(ExeMasterQuery(condition));
@@ -602,7 +602,7 @@ UPtr<nemesis::ScopeInfo::ScopeIterator> nemesis::ScopeInfo::ExeMasterQuery(const
 
     if (var.IsAllGroup())
     {
-        auto templtclass = var.GetTemplateClass();
+        auto templtclass = var.GetTemplateCategory();
         auto* list       = GetTemplateAllQueries(templtclass);
 
         if (!list) return nullptr;
@@ -614,7 +614,7 @@ UPtr<nemesis::ScopeInfo::ScopeIterator> nemesis::ScopeInfo::ExeMasterQuery(const
     if (!var.HasGroup()) return std::move(ExeGroupQuery(condition));
 
     UPtr<nemesis::ScopeInfo::ScopeIterator> rtn;
-    ExeTempNumQuery(var.GetGroup(), var.GetTemplateClass(), [&]() { rtn = ExeGroupQuery(condition); });
+    ExeTempNumQuery(var.GetGroup(), var.GetTemplateCategory(), [&]() { rtn = ExeGroupQuery(condition); });
     return std::move(rtn);
 }
 
@@ -624,7 +624,7 @@ UPtr<nemesis::ScopeInfo::ScopeIterator> nemesis::ScopeInfo::ExeGroupQuery(const 
 
     if (var.IsAllAnim())
     {
-        auto* templtclass = var.GetTemplateClass();
+        auto* templtclass = var.GetTemplateCategory();
         auto* list        = GetTemplateAllAnim(condition);
 
         if (!list) return nullptr;
@@ -636,7 +636,7 @@ UPtr<nemesis::ScopeInfo::ScopeIterator> nemesis::ScopeInfo::ExeGroupQuery(const 
     if (!var.HasAnim()) return std::move(ExeAnimQuery(condition));
 
     UPtr<nemesis::ScopeInfo::ScopeIterator> rtn;
-    ExeTempNumAnim(var.GetAnim(*this), var.GetTemplateClass(), [&]() { rtn = ExeAnimQuery(condition); });
+    ExeTempNumAnim(var.GetAnim(*this), var.GetTemplateCategory(), [&]() { rtn = ExeAnimQuery(condition); });
     return std::move(rtn);
 }
 
@@ -648,7 +648,7 @@ UPtr<nemesis::ScopeInfo::ScopeIterator> nemesis::ScopeInfo::ExeAnimQuery(const C
 
     if (!var.HasOption()) return nullptr;
 
-    auto templtclass = var.GetTemplateClass();
+    auto templtclass = var.GetTemplateCategory();
     auto anim        = GetAnim(templtclass);
     std::string name = var.GetOption();
     auto* optionlist = anim->GetOptionListPtr(name);
@@ -661,7 +661,7 @@ UPtr<nemesis::ScopeInfo::ScopeIterator> nemesis::ScopeInfo::ExeAnimQuery(const C
 
 UPtr<nemesis::ScopeInfo::ScopeIterator> nemesis::ScopeInfo::ExeAnimObjectQuery(const AnimVarPtr& var)
 {
-    auto templtclass   = var.GetTemplateClass();
+    auto templtclass   = var.GetTemplateCategory();
     auto anim          = GetAnim(templtclass);
     size_t grp_num       = var.GetAnimObj();
     auto* animobj_list = &anim->GetAnimObject(grp_num);

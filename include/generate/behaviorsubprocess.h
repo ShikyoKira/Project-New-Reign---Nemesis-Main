@@ -11,7 +11,7 @@ class BehaviorStart;
 
 struct var;
 class NemesisInfo;
-struct TemplateInfo;
+struct TemplateDataBase;
 
 class BehaviorSub : public QObject
 {
@@ -22,7 +22,7 @@ public:
 
     void addInfo(const std::wstring& newDirectory,
                  const std::string& curfile,
-                 std::shared_ptr<TemplateInfo> newBehaviorTemplate,
+                 std::shared_ptr<TemplateDataBase> newBehaviorTemplate,
                  std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>> addAnimation,
                  std::unordered_map<std::string, var> newAnimVar,
                  UMapSetStr addAnimEvent,
@@ -66,7 +66,7 @@ private:
 
     std::string modID, curfilefromlist;
     std::wstring directory;
-    std::shared_ptr<TemplateInfo> BehaviorTemplate;
+    std::shared_ptr<TemplateDataBase> BehaviorTemplate;
     std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>> newAnimation;
     UMapSetStr newAnimEvent;
     UMapSetStr newAnimVariable;

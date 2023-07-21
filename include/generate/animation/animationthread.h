@@ -34,7 +34,7 @@ public:
     std::shared_ptr<NewAnimation> dummyAnimation;
     std::unordered_map<int, int>& functionState;
     ImportContainer& exportID;
-    ID &eventid, variableid;
+    ID &HkxEvent, variableid;
     NewAnimLock& atomicLock;
     std::vector<int> stateID, stateMultiplier;
     std::shared_ptr<single> singleFunctionIDs;
@@ -52,7 +52,7 @@ public:
                 bool& n_isCoreDone,
                 std::unordered_map<int, int>& n_functionState,
                 ImportContainer& n_exportID,
-                ID& n_eventid,
+                ID& n_HkxEvent,
                 ID& n_variableid,
                 NewAnimLock& n_atomicLock,
                 std::string n_ZeroEvent,
@@ -68,7 +68,7 @@ public:
         : isCoreDone(n_isCoreDone)
         , functionState(n_functionState)
         , exportID(n_exportID)
-        , eventid(n_eventid)
+        , HkxEvent(n_HkxEvent)
         , variableid(n_variableid)
         , atomicLock(n_atomicLock)
         , groupAnimInfo(n_groupAnimInfo)
@@ -99,7 +99,7 @@ public:
     std::vector<int> stateID;
     std::shared_ptr<GroupTemplate> groupTemp;
     ImportContainer& exportID;
-    ID &eventid, variableid;
+    ID &HkxEvent, variableid;
     NewAnimLock& atomicLock;
     std::shared_ptr<master> groupFunctionIDs;
     std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& groupAnimInfo;
@@ -114,7 +114,7 @@ public:
                  std::shared_ptr<GroupTemplate> n_groupTemp,
                  std::shared_ptr<VecStr> n_allEditLines,
                  ImportContainer& n_exportID,
-                 ID& n_eventid,
+                 ID& n_HkxEvent,
                  ID& n_variableid,
                  NewAnimLock& n_atomicLock,
                  std::string n_ZeroEvent,
@@ -122,7 +122,7 @@ public:
                  std::shared_ptr<master> n_groupFunctionIDs,
                  std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& n_groupAnimInfo)
         : exportID(n_exportID)
-        , eventid(n_eventid)
+        , HkxEvent(n_HkxEvent)
         , variableid(n_variableid)
         , atomicLock(n_atomicLock)
         , groupAnimInfo(n_groupAnimInfo)

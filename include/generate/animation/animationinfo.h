@@ -18,7 +18,7 @@ struct AnimationInfo
     std::string filename      = "";
     std::string mainAnimEvent = "";
     // VecStr clipname;		obsolete
-    VecStr eventID;
+    VecStr HkxEvent;
     VecStr animInfo;
     VecStr variableID;
     VecStr motionData;

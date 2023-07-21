@@ -24,7 +24,7 @@ struct master;
 
 struct JointTemplate
 {
-    ID eventid;
+    ID HkxEvent;
     ID variableid;
 
     std::string zeroEvent;
@@ -34,7 +34,7 @@ struct JointTemplate
                             std::string filename,
                             std::string masterFormat,
                             int linecount,
-                            ID eventid,
+                            ID HkxEvent,
                             ID variableid,
                             int groupMulti          = -1,
                             int optionMulti         = -1,
@@ -46,7 +46,7 @@ struct JointTemplate
                             std::string filename,
                             int curFunctionID,
                             int linecount,
-                            ID eventid,
+                            ID HkxEvent,
                             ID variableid,
                             int groupMulti,
                             int optionMulti         = -1,
@@ -90,7 +90,7 @@ public:
                           std::vector<std::vector<std::shared_ptr<AnimationInfo>>> newGroupAnimInfo,
                           int* nFunctionID,
                           ImportContainer& import,
-                          ID eventid,
+                          ID HkxEvent,
                           ID variableID,
                           std::string masterFormat,
                           NewAnimLock& atomicLock,
@@ -106,7 +106,7 @@ public:
                     std::string filename,
                     std::string masterFormat,
                     int linecount,
-                    ID eventid,
+                    ID HkxEvent,
                     ID variableid,
                     int groupMulti          = -1,
                     int optionMulti         = -1,
@@ -137,7 +137,7 @@ public:
                                  std::vector<std::vector<std::shared_ptr<AnimationInfo>>> newGroupAnimInfo,
                                  std::string format,
                                  ImportContainer& import,
-                                 ID newEventID,
+                                 ID newHkxEvent,
                                  ID newVariableID,
                                  int& nFunctionID,
                                  bool hasMaster,
@@ -149,7 +149,7 @@ public:
                     std::string filename,
                     int curFunctionID,
                     int linecount,
-                    ID eventid,
+                    ID HkxEvent,
                     ID variableid,
                     int groupMulti,
                     int optionMulti         = -1,

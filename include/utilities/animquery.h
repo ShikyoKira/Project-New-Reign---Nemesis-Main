@@ -1,21 +1,19 @@
 #pragma once
 
-#include "core/object.h"
-
 #include "utilities/option.h"
-#include "utilities/templateclass.h"
+#include "utilities/templatecategory.h"
 
 namespace nemesis
 {
     struct AnimQueryFile;
 
-	struct AnimQuery : public nemesis::Object, public std::enable_shared_from_this<AnimQuery>
+	struct AnimQuery : public std::enable_shared_from_this<AnimQuery>
     {
     private:
         static nemesis::regex animobj_rgx;
 
         const nemesis::AnimQueryFile& querylist;
-        const nemesis::TemplateClass& animclass;
+        const nemesis::TemplateCategory& animclass;
         Vec<UPtr<nemesis::Option>> options;
         UMap<std::string, Vec<const nemesis::Option*>> optionsmap;
 
@@ -42,7 +40,7 @@ namespace nemesis
         AnimQuery() = default;
         AnimQuery(const nemesis::Line& query,
                   const nemesis::AnimQueryFile& querylist,
-                  const nemesis::TemplateClass& animclass);
+                  const nemesis::TemplateCategory& animclass);
 
         void AddIndex(size_t index) noexcept;
         void AddBehaviorIndex(size_t index) noexcept;
@@ -84,7 +82,7 @@ namespace nemesis
         size_t GetIndex() const noexcept;
         size_t GetArrayIndex() const noexcept;
         size_t GetBehaviorIndex() const noexcept;
-        const nemesis::TemplateClass& GetAnimClass() const noexcept;
+        const nemesis::TemplateCategory& GetAnimClass() const noexcept;
         const nemesis::AnimQueryFile& GetQueryList() const noexcept;
 
         bool IsKnown() const noexcept;

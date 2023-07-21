@@ -20,7 +20,7 @@
 #include "utilities/filechecker.h"
 #include "utilities/animtemplate.h"
 
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 #include "generate/addanims.h"
 #include "generate/hkxcompiler.h"
@@ -213,7 +213,7 @@ void BehaviorStart::GetBehaviorList()
         //    continue;
 
         sf::path path    = L"temp_behaviors\\" + nemesis::to_lower_copy(each.first) + L".txt";
-        auto behaviorptr = nemesis::HkxBehavior::File(path);
+        auto behaviorptr = nemesis::HkxBehaviorFile::File(path);
         behaviorptr->SetAnimTemplate(animtemp.get());
         behaviorlist.emplace_back(behaviorptr);
         //BehaviorInitialize(behaviorptr);
@@ -286,7 +286,7 @@ void BehaviorStart::ExportBehaviorList()
 
         if (behavior->GetType() == nemesis::File::FileType::NEMESIS_TEMPLATE)
         {
-            //tp.enqueue(&nemesis::HkxBehavior::SaveAsTemplateBehavior, behavior);
+            //tp.enqueue(&nemesis::HkxBehaviorFile::SaveAsTemplateBehavior, behavior);
             continue;
         }
 
@@ -294,13 +294,13 @@ void BehaviorStart::ExportBehaviorList()
                        + behaviorPath[lowerbehaviorname].substr(sf::current_path().string().length()) + L".txt";
         sf::create_directories(xmlpath.parent_path());
         sf::path hkxpath = behaviorPath[lowerbehaviorname] + L".hkx";
-        //tp.enqueue(&nemesis::HkxBehavior::SaveAsHkx, behavior, xmlpath, hkxpath);
+        //tp.enqueue(&nemesis::HkxBehaviorFile::SaveAsHkx, behavior, xmlpath, hkxpath);
     }
 
     tp.join_all();
 }
 
-void BehaviorStart::BehaviorInitialize(nemesis::HkxBehavior* behaviorptr)
+void BehaviorStart::BehaviorInitialize(nemesis::HkxBehaviorFile* behaviorptr)
 {
     try
     {

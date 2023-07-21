@@ -397,6 +397,46 @@ nemesis::Line& nemesis::Line::insert(size_t pos, const nemesis::Line& line)
     return insert(pos, line.base);
 }
 
+nemesis::Line& nemesis::Line::replace(const RawChar* from, const RawChar* to)
+{
+    size_t pos = base.find(from);
+
+    if (pos == NOT_FOUND) return *this;
+
+    base.replace(pos, strlen(from), to);
+    return *this;
+}
+
+nemesis::Line& nemesis::Line::replace(const RawType& from, const RawType& to)
+{
+    size_t pos = base.find(from);
+
+    if (pos == NOT_FOUND) return *this;
+
+    base.replace(pos, from.length(), to);
+    return *this;
+}
+
+nemesis::Line& nemesis::Line::replace(const QType& from, const QType& to)
+{
+    size_t pos = base.find(from.toStdString());
+
+    if (pos == NOT_FOUND) return *this;
+
+    base.replace(pos, from.length(), to.toStdString());
+    return *this;
+}
+
+nemesis::Line& nemesis::Line::replace(const nemesis::Line& from, const nemesis::Line& to)
+{
+    size_t pos = base.find(from);
+
+    if (pos == NOT_FOUND) return *this;
+
+    base.replace(pos, from.length(), to);
+    return *this;
+}
+
 void nemesis::Line::pop_back() noexcept
 {
     base.pop_back();
@@ -858,7 +898,7 @@ const nemesis::Wline::RawType& nemesis::Wline::ToWstring() const noexcept
     return base;
 }
 
-nemesis::Wline::ARawType nemesis::Wline::Tostring() const noexcept
+nemesis::Wline::ARawType nemesis::Wline::ToString() const noexcept
 {
     return nemesis::transform_to(base);
 }

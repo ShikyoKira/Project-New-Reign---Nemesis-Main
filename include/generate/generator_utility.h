@@ -16,7 +16,7 @@ typedef std::vector<std::string> VecStr;
 class BehaviorStart;
 class NemesisInfo;
 
-bool isEdited(TemplateInfo* BehaviorTemplate,
+bool isEdited(TemplateDataBase* BehaviorTemplate,
               std::string& lowerBehaviorFile,
               std::unordered_map<std::string, std::vector<std::shared_ptr<NewAnimation>>>& newAnimation,
               bool isCharacter,
@@ -48,7 +48,7 @@ std::wstring GetFileDirectory(std::wstring filepath);
 
 bool FolderCreate(std::filesystem::path curBehaviorPath);
 
-std::vector<std::unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate,
+std::vector<std::unique_ptr<registerAnimation>> openFile(TemplateDataBase* behaviortemplate,
                                                          const NemesisInfo* nemesisInfo);
 void checkClipAnimData(std::filesystem::path filename,
                        std::filesystem::path projectdir,

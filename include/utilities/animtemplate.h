@@ -10,14 +10,14 @@ THE DESIGN PHILOSOPHY OF ANIM TEMPLATE
 */
 
 #include "utilities/template.h"
-#include "utilities/templateclass.h"
+#include "utilities/templatecategory.h"
 #include "utilities/animqueryfile.h"
 
 namespace nemesis
 {
     struct Template;
-    struct TemplateClass;
-    struct HkxBehavior;
+    struct TemplateCategory;
+    struct HkxBehaviorFile;
 
 	struct AnimTemplate
     {
@@ -48,7 +48,7 @@ namespace nemesis
         };
 
     private:
-        VecSPtr<const nemesis::TemplateClass> classlist;
+        VecSPtr<const nemesis::TemplateCategory> classlist;
         VecSPtr<const nemesis::Template> imports;
 
         mutable std::atomic<size_t> behaviorindex = 0;
@@ -67,8 +67,8 @@ namespace nemesis
     public:
         AnimTemplate(const std::filesystem::path& templatedir);
 
-        const nemesis::TemplateClass* GetClass(const std::string& name) const;
-        void LinkToBehaviorList(const VecSPtr<nemesis::HkxBehavior>& behaviorlist);
+        const nemesis::TemplateCategory* GetClass(const std::string& name) const;
+        void LinkToBehaviorList(const VecSPtr<nemesis::HkxBehaviorFile>& behaviorlist);
         SPtr<const nemesis::AnimQueryFile> ReadListFile(const std::filesystem::path& path) const;
         SPtr<const nemesis::Template> GetImport(const std::string importname) const;
         VecSPtr<const nemesis::Template> GetBehaviorTemplateList(const std::wstring behaviorname) const;

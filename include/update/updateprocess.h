@@ -182,7 +182,7 @@ private:
 
     // update data container
     Map<std::string, UPtr<Map<std::string, VecNstr, alphanum_less>>> newFile;
-    Map<std::string, SPtr<nemesis::HkxBehavior>> behavior_map;
+    Map<std::string, SPtr<nemesis::HkxBehaviorFile>> behavior_map;
     Vec<nemesis::File> corefiles;
 
     // behavior file, node ID, node data lines; memory to access each node

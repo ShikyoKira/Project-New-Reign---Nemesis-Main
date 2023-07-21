@@ -57,7 +57,7 @@ NewAnimation::NewAnimation(shared_ptr<unordered_map<string, AnimTemplate>> animl
     groupAddition     = animationinfo.groupAddition;
     mixOptRegis       = animationinfo.mixOptRegis;
     mixOptRever       = animationinfo.mixOptRever;
-    eventID           = animationinfo.eventID;
+    HkxEvent           = animationinfo.HkxEvent;
     variableID        = animationinfo.variableID;
     hasDuration       = animationinfo.hasDuration;
     duration          = animationinfo.duration;
@@ -76,7 +76,7 @@ NewAnimation::NewAnimation(shared_ptr<unordered_map<string, AnimTemplate>> animl
 void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
 {
     shared_ptr<VecStr> generatedlines = args->allEditLines;
-    ID eventid                        = args->eventid;
+    ID HkxEvent                        = args->HkxEvent;
     ID variableid                     = args->variableid;
     vector<int>& stateID              = args->stateID;
     vector<int> stateCountMultiplier  = args->stateMultiplier;
@@ -127,7 +127,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
                                counter,
                                elementLine,
                                furnitureCount,
-                               eventid,
+                               HkxEvent,
                                variableid,
                                fixedStateID,
                                stateCountMultiplier,
@@ -160,7 +160,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
                           generatedlines,
                           elementLine,
                           counter,
-                          eventid,
+                          HkxEvent,
                           variableid,
                           fixedStateID,
                           stateCountMultiplier,
@@ -185,7 +185,7 @@ void NewAnimation::GetNewAnimationLine(shared_ptr<NewAnimArgs> args)
                     openRange,
                     elementLine,
                     counter,
-                    eventid,
+                    HkxEvent,
                     variableid,
                     fixedStateID,
                     stateCountMultiplier,
@@ -296,9 +296,9 @@ std::string NewAnimation::GetFormatName()
     return format;
 }
 
-VecStr NewAnimation::GetEventID()
+VecStr NewAnimation::GetHkxEvent()
 {
-    return eventID;
+    return HkxEvent;
 }
 
 VecStr NewAnimation::GetVariableID()
@@ -832,7 +832,7 @@ void NewAnimation::processing(string& line,
                               VecStr& storeline,
                               string masterFormat,
                               int linecount,
-                              const ID& eventid,
+                              const ID& HkxEvent,
                               const ID& variableid,
                               vector<int> fixedStateID,
                               vector<int> stateCountMultiplier,
@@ -1506,7 +1506,7 @@ void NewAnimation::processing(string& line,
             if (change.find("main_anim_event", 0) != NOT_FOUND)
             {
                 if (change.find("[" + format + "[][main_anim_event]]", 0) != NOT_FOUND
-                    && change.find("eventID[" + format + "[][main_anim_event]]") == NOT_FOUND)
+                    && change.find("HkxEvent[" + format + "[][main_anim_event]]") == NOT_FOUND)
                 {
                     change.replace(change.find("[" + format + "[][main_anim_event]]"),
                                    21 + format.length(),
@@ -1522,7 +1522,7 @@ void NewAnimation::processing(string& line,
                 }
 
                 if (change.find("[" + format + "[F][main_anim_event]]", 0) != NOT_FOUND
-                    && change.find("eventID[" + format + "[F][main_anim_event]]", 0) == NOT_FOUND)
+                    && change.find("HkxEvent[" + format + "[F][main_anim_event]]", 0) == NOT_FOUND)
                 {
                     change.replace(change.find("[" + format + "[F][main_anim_event]]"),
                                    22 + format.length(),
@@ -1538,7 +1538,7 @@ void NewAnimation::processing(string& line,
                 }
 
                 if (change.find("[" + format + "[N][main_anim_event]]", 0) != NOT_FOUND
-                    && change.find("eventID[" + format + "[N][main_anim_event]]", 0) == NOT_FOUND)
+                    && change.find("HkxEvent[" + format + "[N][main_anim_event]]", 0) == NOT_FOUND)
                 {
                     change.replace(change.find("[" + format + "[N][main_anim_event]]"),
                                    22 + format.length(),
@@ -1554,7 +1554,7 @@ void NewAnimation::processing(string& line,
                 }
 
                 if (change.find("[" + format + "[L][main_anim_event]]", 0) != NOT_FOUND
-                    && change.find("eventID[" + format + "[L][main_anim_event]]", 0) == NOT_FOUND)
+                    && change.find("HkxEvent[" + format + "[L][main_anim_event]]", 0) == NOT_FOUND)
                 {
                     change.replace(change.find("[" + format + "[L][main_anim_event]]"),
                                    22 + format.length(),
@@ -1577,7 +1577,7 @@ void NewAnimation::processing(string& line,
                 if (test != change)
                 {
                     if (change.find("[" + format + "[" + test + "][main_anim_event]]", 0) != NOT_FOUND
-                        && change.find("eventID[" + format + "[" + test + "][main_anim_event]]", 0)
+                        && change.find("HkxEvent[" + format + "[" + test + "][main_anim_event]]", 0)
                                == NOT_FOUND)
                     {
                         if (isLastOrder)
@@ -1615,7 +1615,7 @@ void NewAnimation::processing(string& line,
                 }
 
                 if (change.find("[main_anim_event]", 0) != NOT_FOUND
-                    && change.find("eventID[main_anim_event]") == NOT_FOUND)
+                    && change.find("HkxEvent[main_anim_event]") == NOT_FOUND)
                 {
                     change.replace(change.find("[main_anim_event]"), 17, mainAnimEvent);
                     isChange = true;
@@ -1680,14 +1680,14 @@ void NewAnimation::processing(string& line,
 
             if (error) throw nemesis::exception();
 
-            position = change.find("eventID[");
+            position = change.find("HkxEvent[");
 
             if (position != NOT_FOUND && change.find("]", position) != NOT_FOUND)
             {
                 eventIDReplacer(change,
                                 format,
                                 behaviorFile,
-                                eventid,
+                                HkxEvent,
                                 zeroEvent,
                                 linecount);
                 isChange = true;
@@ -1802,7 +1802,7 @@ void NewAnimation::processing(string& line,
 
             if (change.find("MD") == 0)
             {
-                if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0)
+                if (fixedStateID.size() != 0 || HkxEvent.size() != 0 || variableid.size() != 0)
                 {
                     ErrorMessage(1096, format, behaviorFile, linecount);
                 }
@@ -1824,7 +1824,7 @@ void NewAnimation::processing(string& line,
 
             if (change.find("RD") == 0)
             {
-                if (fixedStateID.size() != 0 || eventid.size() != 0 || variableid.size() != 0)
+                if (fixedStateID.size() != 0 || HkxEvent.size() != 0 || variableid.size() != 0)
                 {
                     ErrorMessage(1097, format, behaviorFile, linecount);
                 }
@@ -2080,21 +2080,21 @@ bool NewAnimation::addOnConverter(
 void eventIDReplacer(string& line,
                      const string& format,
                      const string& filename,
-                     const ID& eventid,
+                     const ID& HkxEvent,
                      const string& firstEvent,
                      int linecount)
 {
-    int count = sameWordCount(line, "eventID[");
+    int count = sameWordCount(line, "HkxEvent[");
 
     for (int i = 0; i < count; ++i)
     {
-        size_t nextpos       = line.find("eventID[");
+        size_t nextpos       = line.find("HkxEvent[");
         string fullEventName = line.substr(nextpos, line.find("]", nextpos) - nextpos + 1);
         string eventName     = nemesis::regex_replace(
-            string(fullEventName), nemesis::regex(".*eventID[[](.*?)[]].*"), string("$1"));
-        auto eventItr = eventid.find(eventName);
+            string(fullEventName), nemesis::regex(".*HkxEvent[[](.*?)[]].*"), string("$1"));
+        auto eventItr = HkxEvent.find(eventName);
 
-        if (eventItr == eventid.end() || (eventItr->second == 0 && eventName != firstEvent))
+        if (eventItr == HkxEvent.end() || (eventItr->second == 0 && eventName != firstEvent))
         {
             ErrorMessage(1131, format, filename, linecount, eventName);
         }
@@ -2577,7 +2577,7 @@ bool NewAnimation::specialCondition(string condition,
                                        storeline,
                                        format,
                                        linecount,
-                                       utility.eventid,
+                                       utility.HkxEvent,
                                        utility.variableid,
                                        utility.fixedStateID,
                                        utility.stateCountMultiplier,
@@ -2604,7 +2604,7 @@ bool NewAnimation::specialCondition(string condition,
                                        storeline,
                                        format,
                                        linecount,
-                                       utility.eventid,
+                                       utility.HkxEvent,
                                        utility.variableid,
                                        utility.fixedStateID,
                                        utility.stateCountMultiplier,
@@ -4948,7 +4948,7 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                                int& openRange,
                                size_t& elementLine,
                                int& counter,
-                               const ID& eventid,
+                               const ID& HkxEvent,
                                const ID& variableid,
                                vector<int> fixedStateID,
                                vector<int> stateCountMultiplier,
@@ -4990,7 +4990,7 @@ void NewAnimation::OutputCheck(shared_ptr<VecStr> generatedlines,
                            openRange,
                            elementLine,
                            counter,
-                           eventid,
+                           HkxEvent,
                            variableid,
                            fixedStateID,
                            stateCountMultiplier,
@@ -5031,7 +5031,7 @@ void NewAnimation::conditionCheck(nemesis::LinkedVar<string>& curstack,
                                   int& openRange,
                                   size_t& elementLine,
                                   int& counter,
-                                  const ID& eventid,
+                                  const ID& HkxEvent,
                                   const ID& variableid,
                                   vector<int> fixedStateID,
                                   vector<int> stateCountMultiplier,
@@ -5100,7 +5100,7 @@ void NewAnimation::conditionCheck(nemesis::LinkedVar<string>& curstack,
                                     openRange,
                                     elementLine,
                                     counter,
-                                    eventid,
+                                    HkxEvent,
                                     variableid,
                                     fixedStateID,
                                     stateCountMultiplier,
@@ -5134,7 +5134,7 @@ void NewAnimation::conditionCheck(nemesis::LinkedVar<string>& curstack,
                             openRange,
                             elementLine,
                             counter,
-                            eventid,
+                            HkxEvent,
                             variableid,
                             fixedStateID,
                             stateCountMultiplier,
@@ -5155,7 +5155,7 @@ void NewAnimation::conditionCheck(nemesis::LinkedVar<string>& curstack,
                             openRange,
                             elementLine,
                             counter,
-                            eventid,
+                            HkxEvent,
                             variableid,
                             fixedStateID,
                             stateCountMultiplier,
@@ -5179,7 +5179,7 @@ void NewAnimation::hasProcessing(string& line,
                                  shared_ptr<VecStr> generatedlines,
                                  size_t& elementLine,
                                  int& counter,
-                                 const ID& eventid,
+                                 const ID& HkxEvent,
                                  const ID& variableid,
                                  vector<int> fixedStateID,
                                  vector<int> stateCountMultiplier,
@@ -5287,7 +5287,7 @@ void NewAnimation::hasProcessing(string& line,
         // multi choice selection
         if (line.find("$MC$", 0) != NOT_FOUND)
         {
-            AnimationUtility utility(line, eventid, variableid, fixedStateID, stateCountMultiplier, hasGroup);
+            AnimationUtility utility(line, HkxEvent, variableid, fixedStateID, stateCountMultiplier, hasGroup);
             multiChoice(line, *generatedlines, numline, utility);
 
             if (error) throw nemesis::exception();
@@ -5364,7 +5364,7 @@ void NewAnimation::hasProcessing(string& line,
                    *generatedlines,
                    format,
                    numline,
-                   eventid,
+                   HkxEvent,
                    variableid,
                    fixedStateID,
                    stateCountMultiplier,

@@ -175,7 +175,7 @@ bool nemesis::CondDetails::originalScope(const sf::path& path,
                                          const nemesis::Line& line,
                                          CondDetailsList& condtype)
 {
-    if (line.find(ns::Original()) == NOT_FOUND) return false;
+    if (line.find(ns::ModOriginal()) == NOT_FOUND) return false;
 
     if (condtype.back().type == nemesis::CondType::MOD_CODE) return true;
 
@@ -188,7 +188,7 @@ bool nemesis::CondDetails::originalScopeRev(const sf::path& path,
                                             const nemesis::Line& line,
                                             CondDetailsList& condtype)
 {
-    if (line.find(ns::Original()) == NOT_FOUND) return false;
+    if (line.find(ns::ModOriginal()) == NOT_FOUND) return false;
 
     if (condtype.back().type != nemesis::CondType::CLOSE)
     {

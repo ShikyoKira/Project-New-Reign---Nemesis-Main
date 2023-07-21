@@ -14,7 +14,7 @@ void nemesis::QueryManager::AddFile(SPtr<const AnimQueryFile> fileptr)
 }
 
 const Vec<const nemesis::AnimQuery*>*
-nemesis::QueryManager::GetQueryList(const TemplateClass* templtclass) const
+nemesis::QueryManager::GetQueryList(const TemplateCategory* templtclass) const
 {
     auto itr = template_querylist.find(templtclass);
 

@@ -7,7 +7,7 @@
 namespace nemesis
 {
     struct ScopeInfo;
-    struct TemplateClass;
+    struct TemplateCategory;
     struct PreprocessLine;
 
     struct Process
@@ -17,7 +17,7 @@ namespace nemesis
 
         size_t begin;
         size_t end;
-        VecStr fixedvarlist;
+        VecStr fixedHkxVariableList;
         Vec<int> fixedvarintlist;
         UPtr<nemesis::AnimVarPtr> varptr;
 
@@ -48,7 +48,7 @@ namespace nemesis
         void AddAnimVarPtr(UPtr<nemesis::AnimVarPtr> animvarptr) noexcept;
         void SetBegin(size_t begin) noexcept;
         void SetEnd(size_t end) noexcept;
-        void SetFixedVar(const VecStr& fixedvarlist) noexcept;
+        void SetFixedVar(const VecStr& fixedHkxVariableList) noexcept;
         void SetFixedVarInt(const Vec<int>& fixedvarintlist) noexcept;
 
         void Compile(VecStr& blocks, nemesis::ScopeInfo& scopeinfo);
@@ -62,7 +62,7 @@ namespace nemesis
         size_t GetCurrentLineNum() const noexcept;
         std::string_view GetFormat() const;
         std::filesystem::path GetBehaviorFile() const;
-        const nemesis::TemplateClass* GetTemplateClass() const;
+        const nemesis::TemplateCategory* GetTemplateCategory() const;
 
         // processes
         void RelativeNegative(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const;
@@ -241,7 +241,7 @@ namespace nemesis
         void LastState(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const;
 
         // event ID functions
-        void EventID(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const;
+        void HkxEvent(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const;
 
         // variable ID functions
         void VariableID(VecStr& blocks, nemesis::ScopeInfo& scopeinfo) const;

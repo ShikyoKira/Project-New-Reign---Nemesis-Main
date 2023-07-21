@@ -13,8 +13,6 @@
 
 namespace nemesis
 {
-    using size_t = size_t;
-
     class ThreadPool
     {
     public:
@@ -27,7 +25,6 @@ namespace nemesis
         void stop();
 
         ~ThreadPool();
-
     private:
         std::vector<std::thread> workers;
         std::queue<std::function<void()>> tasks;
@@ -37,6 +34,7 @@ namespace nemesis
         std::mutex queue_mutex;
         bool abort = false;
         bool sync = false;
+        bool started = false;
     };
 
     // add new work item to the pool
@@ -62,6 +60,7 @@ namespace nemesis
         }
 
         condition.notify_one();
+        started = true;
         return res;
     }
 }

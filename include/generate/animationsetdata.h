@@ -9,7 +9,7 @@
 #include "generate/animationsetdatatype.h"
 
 #include "generate/animation/newanimation.h"
-#include "generate/animation/templateinfo.h"
+#include "generate/animation/templatedatabase.h"
 
 struct datapack
 {

@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-#include "generate/animation/templateinfo.h"
+#include "generate/animation/templatedatabase.h"
 #include "generate/animation/animationinfo.h"
 
 struct var
@@ -32,7 +32,7 @@ public:
 
     registerAnimation(std::filesystem::path filepath,
                       std::filesystem::path shortfilepath,
-                      TemplateInfo behaviortemplate,
+                      TemplateDataBase behaviortemplate,
                       std::filesystem::path bhvrPath,
                       bool fstP,
                       bool isNemesis = false);

@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <cctype>
 #include <string>
+#include <random>
+#include <sstream>
+#include <iomanip>
 
 #include "utilities/algorithm.h"
 
@@ -296,25 +299,27 @@ namespace nemesis
     std::string transform_to(const std::wstring& str) noexcept
     {
         // Note[1]
-        return std::filesystem::path(str).string();
+        return std::filesystem::_Convert_wide_to_narrow<char_traits<char>>(
+            __std_fs_code_page(), str, allocator<char>());
     }
 
     std::wstring transform_to(const std::string& str) noexcept
     {
         // Note[1]
-        return std::filesystem::path(str).wstring();
+        return std::filesystem::_Convert_narrow_to_wide(__std_fs_code_page(), str);
     }
 
     std::string transform_to(const wchar_t* str) noexcept
     {
         // Note[1]
-        return std::filesystem::path(str).string();
+        return std::filesystem::_Convert_wide_to_narrow<char_traits<char>>(
+            __std_fs_code_page(), str, allocator<char>());
     }
 
     std::wstring transform_to(const char* str) noexcept
     {
         // Note[1]
-        return std::filesystem::path(str).wstring();
+        return std::filesystem::_Convert_narrow_to_wide(__std_fs_code_page(), str);
     }
 
     nemesis::Line transform_to(const nemesis::Wline& str) noexcept
@@ -325,6 +330,41 @@ namespace nemesis
     nemesis::Wline transform_to(const nemesis::Line& str) noexcept
     {
         return nemesis::Wline(transform_to(str.ToString()), str.GetLineNumber());
+    }
+    std::string generate_guid()
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, 15);
+
+        std::stringstream ss;
+        ss << std::hex;
+
+        for (int i = 0; i < 32; ++i)
+        {
+            int rand_num = dis(gen);
+            ss << (i == 8 || i == 12 || i == 16 || i == 20 ? "-" : "") << rand_num;
+        }
+
+        return ss.str();
+    }
+
+    std::wstring generate_guid_w()
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, 15);
+
+        std::wstringstream ss;
+        ss << std::hex;
+
+        for (int i = 0; i < 32; ++i)
+        {
+            int rand_num = dis(gen);
+            ss << (i == 8 || i == 12 || i == 16 || i == 20 ? L"-" : L"") << rand_num;
+        }
+
+        return ss.str();
     }
 } // namespace nemesis
 

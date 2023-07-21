@@ -66,4 +66,6 @@ namespace nemesis
         return {std::begin(str), std::end(str)};
     };
 
+    std::string generate_guid();
+    std::wstring generate_guid_w();
 } // namespace nemesis

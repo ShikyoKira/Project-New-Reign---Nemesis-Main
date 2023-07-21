@@ -17,7 +17,7 @@
 #include "generate/animationdatatracker.h"
 #include "generate/behaviorprocess_utility.h"
 
-#include "generate/animation/templateinfo.h"
+#include "generate/animation/templatedatabase.h"
 #include "generate/animation/registeranimation.h"
 
 #pragma warning(disable:4503)
@@ -41,7 +41,7 @@ void newFileCheck(sf::path directory, const unordered_set<wstring>& isChecked);
 void readList(sf::path directory,
               sf::path animationDirectory,
               vector<unique_ptr<registerAnimation>>& list,
-              TemplateInfo& behaviortemplate,
+              TemplateDataBase& behaviortemplate,
               bool firstP);
 void fileArchitectureCheck(sf::path hkxfile);
 void checkFolder(sf::path filepath);
@@ -271,7 +271,7 @@ string behaviorLineChooser(const string& originalline, const unordered_map<strin
 void readList(sf::path directory,
               sf::path animationDirectory,
               vector<unique_ptr<registerAnimation>>& list,
-              TemplateInfo& behaviortemplate,
+              TemplateDataBase& behaviortemplate,
               bool firstP)
 {
 	VecWstr filelist;
@@ -313,7 +313,7 @@ void readList(sf::path directory,
 	}
 }
 
-vector<unique_ptr<registerAnimation>> openFile(TemplateInfo* behaviortemplate, const NemesisInfo* nemesisInfo)
+vector<unique_ptr<registerAnimation>> openFile(TemplateDataBase* behaviortemplate, const NemesisInfo* nemesisInfo)
 {
 	vector<unique_ptr<registerAnimation>> list;
 	set<wstring> animPath;
@@ -719,7 +719,7 @@ int getTemplateNextID(VecStr& templatelines)
 	return IDUsed;
 }
 
-bool isEdited(TemplateInfo* BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<NewAnimation>>>& newAnimation, bool isCharacter, string modID)
+bool isEdited(TemplateDataBase* BehaviorTemplate, string& lowerBehaviorFile, unordered_map<string, vector<shared_ptr<NewAnimation>>>& newAnimation, bool isCharacter, string modID)
 {
 	if (BehaviorTemplate->grouplist.find(lowerBehaviorFile) != BehaviorTemplate->grouplist.end() && BehaviorTemplate->grouplist[lowerBehaviorFile].size() > 0)
 	{

@@ -19,22 +19,19 @@ namespace nemesis
         using LinkedFunc = void (_LnkTy::*)(VecNstr&) const;
 
     protected:
-        CondType type;
         SPtr<nemesis::Condition> condition;
         Vec<SPtr<_LnkTy>> datalist;
 
     public:
-        LinkedCond(SPtr<nemesis::Condition> condition, CondType type)
+        LinkedCond(SPtr<nemesis::Condition> condition)
             : condition(condition)
-            , type(type)
         {
         }
         
         LinkedCond(const nemesis::ConditionInfo& conditioninfo, const nemesis::File& file)
         {
             condition = std::make_shared<nemesis::Condition>(
-                conditioninfo.GetCondition(), conditioninfo.GetRefLine(), file);
-            type      = conditioninfo.GetType();
+                conditioninfo.GetCondition(), conditioninfo.GetRefLine(), file, condition->GetType());
         }
 
         std::string GetExpression() const
@@ -44,7 +41,7 @@ namespace nemesis
 
         CondType GetType() const
         {
-            return type;
+            return condition->GetType();
         }
 
         nemesis::Condition* GetCondition() const

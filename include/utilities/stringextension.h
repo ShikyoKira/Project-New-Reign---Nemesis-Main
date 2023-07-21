@@ -2,6 +2,8 @@
 
 #include "utilities/types.h"
 
+std::string StringTrim(const std::string& str, const std::string& whitespace = " \t");
+
 // case sensitive. Use StringStartWith_NC for case insensitive function
 void StringReplace(std::string& _ch, const std::string& oldvalue, const std::string& newvalue);
 
@@ -28,6 +30,8 @@ bool StringStartWith_NC(const std::string& line, const std::string& start) noexc
 // case insensitive. Use StringEndWith for case sensitive function
 bool StringEndWith_NC(const std::string& line, const std::string& end) noexcept;
 
+
+std::wstring StringTrim(const std::wstring& str, const std::wstring& whitespace = L" \t");
 
 // case sensitive. Use StringStartWith_NC for case insensitive function
 void StringReplace(std::wstring& _ch, const std::wstring& oldvalue, const std::wstring& newvalue);

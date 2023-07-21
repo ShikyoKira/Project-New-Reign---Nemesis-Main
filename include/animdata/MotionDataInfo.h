@@ -1,18 +1,25 @@
 #pragma once
 
-#include "core/linkedpreprocessline.h"
+#include "core/NLine.h"
 
 namespace nemesis
 {
 	namespace animdata
     {
-        struct MotionDataInfo
+        struct MotionDataInfo : public nemesis::NObject
         {
-            nemesis::LinkedPreprocessLine UniqueCode;
-            nemesis::LinkedPreprocessLine Duration;
+        protected:
+            nemesis::NLine UniqueCode;
+            nemesis::NLine Duration;
 
-            Vec<SPtr<nemesis::LinkedPreprocessLine>> CoordinationData;
-            Vec<SPtr<nemesis::LinkedPreprocessLine>> RotationData;
+            Vec<UPtr<nemesis::NLine>> CoordinationData;
+            Vec<UPtr<nemesis::NLine>> RotationData;
+
+        public:
+            MotionDataInfo() = default;
+
+            void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
+            void SerializeTo(DeqNstr& lines) const override;
         };
     }
 }

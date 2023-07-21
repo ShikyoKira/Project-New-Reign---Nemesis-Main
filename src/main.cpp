@@ -13,10 +13,32 @@
 #include "ui/MultiInstanceCheck.h"
 #include "ui/NemesisEngine.h"
 
+//#if _DEBUG
+#include "Testers/TesterRepo.h"
+//#endif
+#include <regex>
+
+namespace sf = std::filesystem;
+
 extern std::wstring stagePath;
+extern sf::path CurrentExePath;
+extern sf::path CurrentExeDirectory;
 
 int main(int argc, char* argv[])
 {
+    CurrentExePath = argv[0];
+
+#if _DEBUG
+    CurrentExeDirectory = sf::current_path();
+#else
+    CurrentExeDirectory = CurrentExePath.parent_path();
+#endif
+
+//#if _DEBUG
+    nemesis::RunAllTest();
+    return 0;
+//#endif
+
     bool generate = false;
     bool update   = false;
     VecStr modlist;
@@ -31,7 +53,7 @@ int main(int argc, char* argv[])
         // empty
     }
 
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
     try
     {
@@ -129,10 +151,10 @@ int main(int argc, char* argv[])
             NemesisEngine w;
             w.setWindowIcon(QIcon(":/icon/title icon.png"));
             w.show();
-            return a.exec();
+            return app.exec();
         }
 
-        return a.exec();
+        return app.exec();
     }
     catch (const std::exception& ex)
     {

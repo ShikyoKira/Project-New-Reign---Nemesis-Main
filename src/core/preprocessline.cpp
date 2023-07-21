@@ -1,6 +1,6 @@
 #include "core/preprocessline.h"
 
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 #include "utilities/lineprocess.h"
 #include "utilities/templateline.h"
@@ -33,7 +33,7 @@ nemesis::PreprocessLine::PreprocessLine(const nemesis::PreprocessLine& linkedlin
     }
 }
 
-void nemesis::PreprocessLine::AddBehavior(nemesis::HkxBehavior& behavior)
+void nemesis::PreprocessLine::AddBehavior(nemesis::HkxBehaviorFile& behavior)
 {
     file      = &behavior;
     pbehavior = &behavior;

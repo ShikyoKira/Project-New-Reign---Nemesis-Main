@@ -155,7 +155,7 @@ void getLinkedLines(const nemesis::LinkedVar<AnimDataPack_Condt>& linkedanimdata
 
         if (!linkedanimdata.raw) return;
 
-        storeline.push_back(ns::Original());
+        storeline.push_back(ns::ModOriginal());
         size_t t = storeline.size();
         linkedanimdata.raw->getlines(storeline);
 

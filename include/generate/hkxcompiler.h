@@ -1,5 +1,4 @@
-#ifndef BEHAVIORGENERATOR_H_
-#define BEHAVIORGENERATOR_H_
+#pragma once
 
 #include <string>
 #include <filesystem>
@@ -25,6 +24,7 @@ class HkxCompiler
     static HkxCompiler compiler;
 
 public:
+    static bool ConvertToHkx(fpath xmlfile, fpath hkxfile);
     static bool hkxcmdProcess(fpath xmlfile, fpath hkxfile, bool last = false);
     static bool hkxcmdXmlInput(fpath hkxfile, VecStr& fileline);
     static bool hkxcmdXmlInput(fpath hkxfile, VecWstr& fileline);
@@ -33,5 +33,3 @@ private:
     static void ensureExtension(fpath& file1, const std::wstring& ext1, fpath& file2, const std::wstring& ext2);
     static std::string xmlDecompile(fpath hkxfile, fpath xmlfile, const HkxCompileCount& hkxcount);
 };
-
-#endif

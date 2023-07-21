@@ -23,7 +23,7 @@ bool newAnimUpdateExt(std::string folderpath,
                       Map<std::string, VecNstr, alphanum_less>& newFile,
                       Map<std::string, VecNstr>& newAnimAddition,
                       UMap<std::wstring, std::wstring>& lastUpdate,
-                      Map<std::string, SPtr<nemesis::HkxBehavior>>& behavior_map);
+                      Map<std::string, SPtr<nemesis::HkxBehaviorFile>>& behavior_map);
 bool newAnimDataUpdateExt(std::string folderpath,
                           std::string modcode,
                           std::string characterfile,

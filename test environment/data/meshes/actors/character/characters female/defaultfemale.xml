@@ -174,108 +174,110 @@
 				0.000000
 				0.000000
 			</hkparam>
-			<hkparam name="bonePairMap" numelements="99">
-				0
-				1
-				2
-				3
-				4
-				5
-				9
-				10
-				11
-				6
-				7
-				8
-				15
-				16
-				17
-				12
-				13
-				14
-				18
-				19
-				20
-				21
-				22
-				23
-				24
-				25
-				26
-				30
-				31
-				32
-				27
-				28
-				29
-				33
-				34
-				35
-				36
-				37
-				39
-				38
-				41
-				40
-				42
-				43
-				45
-				44
-				46
-				48
-				47
-				49
-				51
-				50
-				56
-				57
-				58
-				59
-				52
-				53
-				54
-				55
-				60
-				61
-				62
-				63
-				64
-				65
-				66
-				82
-				83
-				84
-				85
-				86
-				87
-				88
-				89
-				90
-				91
-				92
-				93
-				94
-				95
-				96
-				67
-				68
-				69
-				70
-				71
-				72
-				73
-				74
-				75
-				76
-				77
-				78
-				79
-				80
-				81
-				97
-				98
-				%n			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="bonePairMap" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0																			<!-- ADD_COUNTER_0 -->
+				1																			<!-- ADD_COUNTER_0 -->
+				2																			<!-- ADD_COUNTER_0 -->
+				3																			<!-- ADD_COUNTER_0 -->
+				4																			<!-- ADD_COUNTER_0 -->
+				5																			<!-- ADD_COUNTER_0 -->
+				9																			<!-- ADD_COUNTER_0 -->
+				10																			<!-- ADD_COUNTER_0 -->
+				11																			<!-- ADD_COUNTER_0 -->
+				6																			<!-- ADD_COUNTER_0 -->
+				7																			<!-- ADD_COUNTER_0 -->
+				8																			<!-- ADD_COUNTER_0 -->
+				15																			<!-- ADD_COUNTER_0 -->
+				16																			<!-- ADD_COUNTER_0 -->
+				17																			<!-- ADD_COUNTER_0 -->
+				12																			<!-- ADD_COUNTER_0 -->
+				13																			<!-- ADD_COUNTER_0 -->
+				14																			<!-- ADD_COUNTER_0 -->
+				18																			<!-- ADD_COUNTER_0 -->
+				19																			<!-- ADD_COUNTER_0 -->
+				20																			<!-- ADD_COUNTER_0 -->
+				21																			<!-- ADD_COUNTER_0 -->
+				22																			<!-- ADD_COUNTER_0 -->
+				23																			<!-- ADD_COUNTER_0 -->
+				24																			<!-- ADD_COUNTER_0 -->
+				25																			<!-- ADD_COUNTER_0 -->
+				26																			<!-- ADD_COUNTER_0 -->
+				30																			<!-- ADD_COUNTER_0 -->
+				31																			<!-- ADD_COUNTER_0 -->
+				32																			<!-- ADD_COUNTER_0 -->
+				27																			<!-- ADD_COUNTER_0 -->
+				28																			<!-- ADD_COUNTER_0 -->
+				29																			<!-- ADD_COUNTER_0 -->
+				33																			<!-- ADD_COUNTER_0 -->
+				34																			<!-- ADD_COUNTER_0 -->
+				35																			<!-- ADD_COUNTER_0 -->
+				36																			<!-- ADD_COUNTER_0 -->
+				37																			<!-- ADD_COUNTER_0 -->
+				39																			<!-- ADD_COUNTER_0 -->
+				38																			<!-- ADD_COUNTER_0 -->
+				41																			<!-- ADD_COUNTER_0 -->
+				40																			<!-- ADD_COUNTER_0 -->
+				42																			<!-- ADD_COUNTER_0 -->
+				43																			<!-- ADD_COUNTER_0 -->
+				45																			<!-- ADD_COUNTER_0 -->
+				44																			<!-- ADD_COUNTER_0 -->
+				46																			<!-- ADD_COUNTER_0 -->
+				48																			<!-- ADD_COUNTER_0 -->
+				47																			<!-- ADD_COUNTER_0 -->
+				49																			<!-- ADD_COUNTER_0 -->
+				51																			<!-- ADD_COUNTER_0 -->
+				50																			<!-- ADD_COUNTER_0 -->
+				56																			<!-- ADD_COUNTER_0 -->
+				57																			<!-- ADD_COUNTER_0 -->
+				58																			<!-- ADD_COUNTER_0 -->
+				59																			<!-- ADD_COUNTER_0 -->
+				52																			<!-- ADD_COUNTER_0 -->
+				53																			<!-- ADD_COUNTER_0 -->
+				54																			<!-- ADD_COUNTER_0 -->
+				55																			<!-- ADD_COUNTER_0 -->
+				60																			<!-- ADD_COUNTER_0 -->
+				61																			<!-- ADD_COUNTER_0 -->
+				62																			<!-- ADD_COUNTER_0 -->
+				63																			<!-- ADD_COUNTER_0 -->
+				64																			<!-- ADD_COUNTER_0 -->
+				65																			<!-- ADD_COUNTER_0 -->
+				66																			<!-- ADD_COUNTER_0 -->
+				82																			<!-- ADD_COUNTER_0 -->
+				83																			<!-- ADD_COUNTER_0 -->
+				84																			<!-- ADD_COUNTER_0 -->
+				85																			<!-- ADD_COUNTER_0 -->
+				86																			<!-- ADD_COUNTER_0 -->
+				87																			<!-- ADD_COUNTER_0 -->
+				88																			<!-- ADD_COUNTER_0 -->
+				89																			<!-- ADD_COUNTER_0 -->
+				90																			<!-- ADD_COUNTER_0 -->
+				91																			<!-- ADD_COUNTER_0 -->
+				92																			<!-- ADD_COUNTER_0 -->
+				93																			<!-- ADD_COUNTER_0 -->
+				94																			<!-- ADD_COUNTER_0 -->
+				95																			<!-- ADD_COUNTER_0 -->
+				96																			<!-- ADD_COUNTER_0 -->
+				67																			<!-- ADD_COUNTER_0 -->
+				68																			<!-- ADD_COUNTER_0 -->
+				69																			<!-- ADD_COUNTER_0 -->
+				70																			<!-- ADD_COUNTER_0 -->
+				71																			<!-- ADD_COUNTER_0 -->
+				72																			<!-- ADD_COUNTER_0 -->
+				73																			<!-- ADD_COUNTER_0 -->
+				74																			<!-- ADD_COUNTER_0 -->
+				75																			<!-- ADD_COUNTER_0 -->
+				76																			<!-- ADD_COUNTER_0 -->
+				77																			<!-- ADD_COUNTER_0 -->
+				78																			<!-- ADD_COUNTER_0 -->
+				79																			<!-- ADD_COUNTER_0 -->
+				80																			<!-- ADD_COUNTER_0 -->
+				81																			<!-- ADD_COUNTER_0 -->
+				97																			<!-- ADD_COUNTER_0 -->
+				98																			<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				$Math[{CurrentCount[0]}]$										<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0029" class="hkbCharacterStringData" signature="0x655b42bc">
@@ -2102,1168 +2104,1191 @@
 
 		<hkobject name="#0031" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0032" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0033" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0034" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0035" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0036" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0037" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0038" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
 			</hkparam>
 		</hkobject>
 
 		<hkobject name="#0039" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0040" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0041" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0042" class="hkbBoneWeightArray" signature="0xcd902b77">
@@ -3278,1486 +3303,1514 @@
 
 		<hkobject name="#0044" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0045" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0046" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0047" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0048" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0049" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0050" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0051" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				1.000000
-				1.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0052" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0053" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0054" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0055" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0056" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				1.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				1.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0057" class="hkbBoneWeightArray" signature="0xcd902b77">
 			<hkparam name="variableBindingSet">null</hkparam>
-			<hkparam name="boneWeights" numelements="99">
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000
-				0.000000			<!-- Bone$N -->
-			</hkparam>
+			<hkparam name="boneWeights" numelements="$@ElementCount$">			<!-- START_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- FOREACH ^10^ -->
+				0.000000														<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>															<!-- END_COUNTER_0 -->
 		</hkobject>
 
 		<hkobject name="#0058" class="hkbBoneWeightArray" signature="0xcd902b77">

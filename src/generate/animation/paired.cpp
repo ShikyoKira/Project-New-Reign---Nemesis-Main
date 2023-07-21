@@ -200,7 +200,7 @@ Paired::Paired(const string& line,
                     }
                     string eventname        = tempstr.substr(3, tempstr.find('/') - 3);
                     TriggerTime1[eventname] = tempstr.substr(tempstr.find('/') + 1);
-                    eventID.push_back(eventname);
+                    HkxEvent.push_back(eventname);
                     templine.replace(templine.find(tempstr), tempstr.length(), "xxx");
                 }
             }
@@ -241,7 +241,7 @@ Paired::Paired(const string& line,
                     }
                     string eventname       = tempstr.substr(1, tempstr.find('/') - 1);
                     TriggerTime[eventname] = tempstr.substr(tempstr.find('/') + 1);
-                    eventID.push_back(eventname);
+                    HkxEvent.push_back(eventname);
                     templine.replace(templine.find(tempstr), tempstr.length(), "xxx");
                 }
             }
@@ -459,7 +459,7 @@ Paired::Paired(const string& line,
     }
 }
 
-VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, const ID& variableid)
+VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID HkxEvent, const ID& variableid)
 {
     VecStr generatedlines;
     VecStr recordTrigger;
@@ -664,7 +664,7 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                         }
                         else if (triggerline.find("!T$0!") != NOT_FOUND)
                         {
-                            triggerline.replace(triggerline.find("!T$0!"), 5, to_string(eventid[val.first]));
+                            triggerline.replace(triggerline.find("!T$0!"), 5, to_string(HkxEvent[val.first]));
                         }
 
                         generatedlines.push_back(triggerline);
@@ -684,7 +684,7 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID eventid, cons
                         }
                         else if (triggerline.find("!T$!") != NOT_FOUND)
                         {
-                            triggerline.replace(triggerline.find("!T$!"), 5, to_string(eventid[val.first]));
+                            triggerline.replace(triggerline.find("!T$!"), 5, to_string(HkxEvent[val.first]));
                         }
 
                         generatedlines.push_back(triggerline);
@@ -707,9 +707,9 @@ bool Paired::HasError()
     return error;
 }
 
-VecStr Paired::GetEventID()
+VecStr Paired::GetHkxEvent()
 {
-    return eventID;
+    return HkxEvent;
 }
 
 VecStr Paired::GetVariableID()

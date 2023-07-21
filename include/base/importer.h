@@ -232,7 +232,7 @@ namespace nemesis
                 {
                     auto& lnkcond  = lastlinked->GetCondition(i);
                     auto* raw_cond = lnkcond.GetCondition();
-                    ori_lnk->AddCondition(raw_cond->shared_from_this(), lnkcond.GetType());
+                    ori_lnk->AddCondition(raw_cond->shared_from_this());
 
                     auto& datalist = lnkcond.GetDataList();
                     auto& lastcond = ori_lnk->GetLastCondition();

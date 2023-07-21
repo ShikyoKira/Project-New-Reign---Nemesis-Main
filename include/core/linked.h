@@ -36,9 +36,9 @@ namespace nemesis
             conditions.emplace_back(std::make_shared<LinkedCondition>(conditioninfo, file));
         }
         
-        void AddCondition(SPtr<nemesis::Condition> condition, CondType type)
+        void AddCondition(SPtr<nemesis::Condition> condition)
         {
-            conditions.emplace_back(std::make_shared<LinkedCondition>(condition, type));
+            conditions.emplace_back(std::make_shared<LinkedCondition>(condition));
         }
         
         void AddCondition(LinkedCondition& linkedcond)

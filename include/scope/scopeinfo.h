@@ -22,8 +22,8 @@ conditions that will create another nested scope and so on
 
 #include "utilities/noncopyable.h"
 
-#include "hkx/varid.h"
-#include "hkx/eventid.h"
+#include "hkx/HkxVariable.h"
+#include "hkx/HkxEvent.h"
 
 namespace nemesis
 {
@@ -35,7 +35,7 @@ namespace nemesis
     struct AnimQueryFile;
     struct AnimVarPtr;
     struct Condt;
-    struct HkxBehavior;
+    struct HkxBehaviorFile;
 
 	struct ScopeInfo
     {
@@ -193,13 +193,13 @@ namespace nemesis
 
         int duration = 0;
 
-        UMap<const nemesis::TemplateClass*, ScopeLayer> scopelayer;
-        WPtr<const nemesis::TemplateClass*> temp_templtclass_ptr;
+        UMap<const nemesis::TemplateCategory*, ScopeLayer> scopelayer;
+        WPtr<const nemesis::TemplateCategory*> temp_templtclass_ptr;
 
-        Vec<SPtr<Vec<const nemesis::TemplateClass*>>> templtclass_cache;
+        Vec<SPtr<Vec<const nemesis::TemplateCategory*>>> templtclass_cache;
 
         // class layer
-        nemesis::Layers<const nemesis::TemplateClass*> classlayers;
+        nemesis::Layers<const nemesis::TemplateCategory*> classlayers;
 
         Vec<nemesis::ILayers*> layerorder;
         //Vec<AnimObjects*> ao_layerorder;
@@ -232,7 +232,7 @@ namespace nemesis
         }
 
         const Vec<const nemesis::AnimQuery*>*
-        GetTemplateAllQueries(const nemesis::TemplateClass* templtclass) const;
+        GetTemplateAllQueries(const nemesis::TemplateCategory* templtclass) const;
 
         const Vec<const nemesis::AnimQuery*>*
         GetTemplateAllAnim(const nemesis::Condition& condition) const;
@@ -240,20 +240,20 @@ namespace nemesis
         
         const nemesis::Option* GetCurrentOptionPtr(const std::string& optionname,
                                                    size_t index,
-                                                   const nemesis::TemplateClass* templtclass) const;
+                                                   const nemesis::TemplateCategory* templtclass) const;
         nemesis::Layers<const nemesis::Option*>& GetOptionLayers(const nemesis::Option& opt,
-                                                                 const nemesis::TemplateClass* templtclass);
+                                                                 const nemesis::TemplateCategory* templtclass);
         nemesis::Layers<const std::string*>& GetAnimObjListLayers(size_t animobj_grp,
                                                             const nemesis::AnimQuery* animquery,
-                                                            const nemesis::TemplateClass* templtclass);
+                                                            const nemesis::TemplateCategory* templtclass);
         const ScopeLayer::QueryDataLayers*
-        GetCurrentQueryDataLayers(const nemesis::TemplateClass* templtclass) const;
+        GetCurrentQueryDataLayers(const nemesis::TemplateCategory* templtclass) const;
 
         void ExeTempQuery(SPtr<const AnimQuery*>& shptr,
-                          const nemesis::TemplateClass* templtclass,
+                          const nemesis::TemplateCategory* templtclass,
                           std::function<void()> callback);
         void ExeTempAnim(SPtr<const AnimQuery*>& shptr,
-                         const nemesis::TemplateClass* templtclass,
+                         const nemesis::TemplateCategory* templtclass,
                          std::function<void()> callback);
 
     public:
@@ -267,17 +267,17 @@ namespace nemesis
         void SetAnimCounter(size_t animcounter);
         void SetCurrentQuery(const nemesis::AnimQuery& query);
 
-        void SetTempTemplateClass(SPtr<const nemesis::TemplateClass*> templtclass_ptr) noexcept;
+        void SetTempTemplateCategory(SPtr<const nemesis::TemplateCategory*> templtclass_ptr) noexcept;
         void SetTempQuery(SPtr<const nemesis::AnimQuery*>& index,
-                          const nemesis::TemplateClass* templtclass) noexcept;
+                          const nemesis::TemplateCategory* templtclass) noexcept;
         void SetTempAnim(SPtr<const nemesis::AnimQuery*>& anim,
-                         const nemesis::TemplateClass* templtclass) noexcept;
+                         const nemesis::TemplateCategory* templtclass) noexcept;
         void SetTempOption(SPtr<const nemesis::Option*>& opt,
-                           const nemesis::TemplateClass* templtclass) noexcept;
+                           const nemesis::TemplateCategory* templtclass) noexcept;
         void SetTempAnimObject(SPtr<const std::string*>& animobj,
                                size_t animobj_grp,
                                const nemesis::AnimQuery* animquery,
-                               const nemesis::TemplateClass* templtclass) noexcept;
+                               const nemesis::TemplateCategory* templtclass) noexcept;
         
         template <typename T>
         void Insert(nemesis::Layers<T>& layers, T value)
@@ -286,47 +286,47 @@ namespace nemesis
             layerorder.emplace_back(&layers);
         }
         
-        void InsertQuery(const nemesis::AnimQuery& index, const nemesis::TemplateClass* templtclass);
-        void InsertAnim(const nemesis::AnimQuery& anim, const nemesis::TemplateClass* templtclass);
-        void InsertOption(const nemesis::Option& opt, const nemesis::TemplateClass* templtclass);
+        void InsertQuery(const nemesis::AnimQuery& index, const nemesis::TemplateCategory* templtclass);
+        void InsertAnim(const nemesis::AnimQuery& anim, const nemesis::TemplateCategory* templtclass);
+        void InsertOption(const nemesis::Option& opt, const nemesis::TemplateCategory* templtclass);
         void InsertAnimObject(const std::string& animobj,
                               size_t animobj_grp,
                               const nemesis::AnimQuery* animquery,
-                              const nemesis::TemplateClass* templtclass);
+                              const nemesis::TemplateCategory* templtclass);
 
         void DropLayer() noexcept;
         
         bool IsTemplateActive(const std::string& name) const;
         bool HasQuery(size_t index) const;
-        bool HasAnim(size_t index, const nemesis::TemplateClass* templtclass) const;
-        bool HasOption(std::string optionname, size_t index, const nemesis::TemplateClass* templtclass) const;
+        bool HasAnim(size_t index, const nemesis::TemplateCategory* templtclass) const;
+        bool HasOption(std::string optionname, size_t index, const nemesis::TemplateCategory* templtclass) const;
 
         void ExeTempNumQuery(size_t index,
-                             const nemesis::TemplateClass* templtclass,
+                             const nemesis::TemplateCategory* templtclass,
                              std::function<void()> callback);
         void
-        ExeTempNumAnim(size_t index, const nemesis::TemplateClass* templtclass, std::function<void()> callback);
+        ExeTempNumAnim(size_t index, const nemesis::TemplateCategory* templtclass, std::function<void()> callback);
         void ExeTempOption(const nemesis::Option& opt,
-                           const nemesis::TemplateClass* templtclass,
+                           const nemesis::TemplateCategory* templtclass,
                            std::function<void()> callback);
         void ExeTempAnimObject(size_t animobj_grp,
                                size_t animobj_index,
-                               const nemesis::TemplateClass* templtclass,
+                               const nemesis::TemplateCategory* templtclass,
                                std::function<void()> callback);
 
-        void ExeTempBaseQuery(const nemesis::TemplateClass* templtclass, std::function<void()> callback);
+        void ExeTempBaseQuery(const nemesis::TemplateCategory* templtclass, std::function<void()> callback);
 
-        void ExeTempBackAnim(const nemesis::TemplateClass* templtclass, std::function<void()> callback);
-        void ExeTempNextAnim(const nemesis::TemplateClass* templtclass, std::function<void()> callback);
-        void ExeTempLastAnim(const nemesis::TemplateClass* templtclass, std::function<void()> callback);
+        void ExeTempBackAnim(const nemesis::TemplateCategory* templtclass, std::function<void()> callback);
+        void ExeTempNextAnim(const nemesis::TemplateCategory* templtclass, std::function<void()> callback);
+        void ExeTempLastAnim(const nemesis::TemplateCategory* templtclass, std::function<void()> callback);
 
-        const nemesis::TemplateClass* GetTemplateClass() const;
-        const nemesis::AnimQuery* GetQuery(const nemesis::TemplateClass* templtclass) const;
-        const nemesis::AnimQuery* GetAnim(const nemesis::TemplateClass* templtclass) const;
+        const nemesis::TemplateCategory* GetTemplateCategory() const;
+        const nemesis::AnimQuery* GetQuery(const nemesis::TemplateCategory* templtclass) const;
+        const nemesis::AnimQuery* GetAnim(const nemesis::TemplateCategory* templtclass) const;
         const nemesis::Option* GetOption(const std::string& name,
-                                         const nemesis::TemplateClass* templtclass) const;
+                                         const nemesis::TemplateCategory* templtclass) const;
         const std::string* GetAnimObject(size_t animobj_grp,
-                                         const nemesis::TemplateClass* templtclass) const;
+                                         const nemesis::TemplateCategory* templtclass) const;
 
         const nemesis::AnimImport* GetCurrentImport() const;
         std::string_view GetFormat() const;
@@ -334,27 +334,27 @@ namespace nemesis
         size_t GetCurrentLineNum() const;
         std::string_view GetCurrentNodeId() const;
 
-        const nemesis::AnimQuery* GetLastAnim(const nemesis::TemplateClass* templtclass) const;
-        const nemesis::AnimQuery* GetBackAnim(const nemesis::TemplateClass* templtclass) const;
-        const nemesis::AnimQuery* GetNextAnim(const nemesis::TemplateClass* templtclass) const;
+        const nemesis::AnimQuery* GetLastAnim(const nemesis::TemplateCategory* templtclass) const;
+        const nemesis::AnimQuery* GetBackAnim(const nemesis::TemplateCategory* templtclass) const;
+        const nemesis::AnimQuery* GetNextAnim(const nemesis::TemplateCategory* templtclass) const;
         const nemesis::AnimQuery* GetCurrentQuery() const;
         const nemesis::Option* GetBaseOptionPtr(const std::string& optionname,
                                                 size_t index,
-                                                const nemesis::TemplateClass* templtclass) const;
+                                                const nemesis::TemplateCategory* templtclass) const;
         const nemesis::Option* GetOptionPtr(const std::string& optionname,
                                             const nemesis::AnimQuery* animquery,
-                                            const nemesis::TemplateClass* templtclass) const;
+                                            const nemesis::TemplateCategory* templtclass) const;
         const nemesis::Option* GetOptionPtr(const std::string& optionname,
                                             size_t index,
-                                            const nemesis::TemplateClass* templtclass) const;
+                                            const nemesis::TemplateCategory* templtclass) const;
         const Vec<const nemesis::Option*>* GetOptionListPtr(const std::string& optionname,
-                                                            const nemesis::TemplateClass* templtclass) const;
+                                                            const nemesis::TemplateCategory* templtclass) const;
         
-        void GenerateStateIdManager(const nemesis::HkxBehavior& behavior);
+        void GenerateStateIdManager(const nemesis::HkxBehaviorFile& behavior);
         nemesis::StateIdManager* GetStateIdManager();
 
-        const nemesis::EventId& GetEventID(const std::string& eventname) const;
-        const nemesis::VarId& GetVariableID(const std::string& varname) const;
+        const nemesis::HkxEvent& GetHkxEvent(const std::string& eventname) const;
+        const nemesis::HkxVariable& GetVariableID(const std::string& varname) const;
 
         nemesis::Exporter* GetExporter();
 

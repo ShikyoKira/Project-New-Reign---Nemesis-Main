@@ -1,7 +1,7 @@
 #include "utilities/template.h"
 #include "utilities/animquery.h"
 #include "utilities/animqueryfile.h"
-#include "utilities/templateclass.h"
+#include "utilities/templatecategory.h"
 #include "utilities/stringextension.h"
 
 nemesis::regex nemesis::AnimQuery::animobj_rgx = "^(.+?)(?=$|\\/[0-9]+$)\\/?([0-9]*)$";
@@ -17,7 +17,7 @@ bool nemesis::AnimQuery::OptionValidation(const UPtr<nemesis::Option>& option)
 
 nemesis::AnimQuery::AnimQuery(const nemesis::Line& query,
                               const nemesis::AnimQueryFile& querylist,
-                              const nemesis::TemplateClass& animclass)
+                              const nemesis::TemplateCategory& animclass)
     : querylist(querylist)
     , animclass(animclass)
 {
@@ -302,7 +302,7 @@ size_t nemesis::AnimQuery::GetBehaviorIndex() const noexcept
     return behaviorindex;
 }
 
-const nemesis::TemplateClass& nemesis::AnimQuery::GetAnimClass() const noexcept
+const nemesis::TemplateCategory& nemesis::AnimQuery::GetAnimClass() const noexcept
 {
     return animclass;
 }

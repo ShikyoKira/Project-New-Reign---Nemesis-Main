@@ -18,7 +18,7 @@ private:
     std::atomic_flag filelock{};
 
 public:
-    FileWriter(std::filesystem::path filename, VecWstr args = { L"ccs=UTF-8" });
+    FileWriter(const std::filesystem::path& filename, VecWstr args = { L"ccs=UTF-8" });
 
     ~FileWriter();
 

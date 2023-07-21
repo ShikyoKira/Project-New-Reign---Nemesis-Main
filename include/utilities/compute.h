@@ -9,4 +9,6 @@ namespace nemesis
                    std::string filename,
                    int linecount,
                    bool noDecimal = true);
+
+    bool calculate(const std::string& equation, std::string& result, bool no_decimal = false);
 }

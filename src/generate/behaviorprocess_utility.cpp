@@ -78,7 +78,7 @@ void groupThreadStart(shared_ptr<newGroupArgs> args)
                                               args->groupAnimInfo,
                                               args->lastID,
                                               args->exportID,
-                                              args->eventid,
+                                              args->HkxEvent,
                                               args->variableid,
                                               args->templateCode,
                                               args->atomicLock,
@@ -214,7 +214,7 @@ void processExistFuncID(std::vector<int>& funcIDs,
                         const std::vector<std::vector<std::shared_ptr<AnimationInfo>>>& groupAnimInfo,
                         const std::string& templateCode,
                         ImportContainer& exportID,
-                        ID& eventid,
+                        ID& HkxEvent,
                         ID& variableid,
                         int& lastID,
                         bool hasMaster,
@@ -268,7 +268,7 @@ void processExistFuncID(std::vector<int>& funcIDs,
 		}
 
 		existingNodes[functionID]->insertData(templateCode, filename, optionPicked, groupAnimInfo, -1, -1, -1, hasMaster, hasGroup, ignoreGroup, "", lastID, strID, IDExist,
-			exportID, eventid, variableid, ZeroEvent, ZeroVariable, openRange, elementCount, nullptr, groupFunctionIDs, negative);
+			exportID, HkxEvent, variableid, ZeroEvent, ZeroVariable, openRange, elementCount, nullptr, groupFunctionIDs, negative);
 
 		if (error) throw nemesis::exception();
 	}

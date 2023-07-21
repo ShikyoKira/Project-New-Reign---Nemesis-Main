@@ -14,6 +14,8 @@ nemesis::ThreadPool::ThreadPool(size_t threads)
 
 void nemesis::ThreadPool::join_all()
 {
+    if (!started) return;
+
     sync = true;
     condition.notify_all();
 
@@ -61,4 +63,3 @@ void nemesis::ThreadPool::newWorker()
         }
     });
 }
-

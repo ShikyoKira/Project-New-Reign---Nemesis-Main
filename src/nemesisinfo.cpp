@@ -15,6 +15,8 @@ namespace sf = filesystem;
 
 bool SSE = false;
 wstring stagePath = L"";
+sf::path CurrentExePath;
+sf::path CurrentExeDirectory;
 
 NemesisInfo* NemesisInfo::nemesisinfo = nullptr;
 std::atomic_flag NemesisInfo::lock{};

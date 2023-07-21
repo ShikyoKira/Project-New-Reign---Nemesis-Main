@@ -1,10 +1,10 @@
 #include "core/animvarptr.h"
 
 #include "utilities/option.h"
-#include "utilities/templateclass.h"
+#include "utilities/templatecategory.h"
 #include "utilities/stringextension.h"
 
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 #include "scope/scopeinfo.h"
 
@@ -284,7 +284,7 @@ UPtr<nemesis::AnimVarPtr> nemesis::AnimVarPtr::Parser::Parse()
 
         if (TryPopulateAsModPatch()) return std::move(animvar_uptr);
 
-        SetupTemplateClass();
+        SetupTemplateCategory();
 
         if (animvar_ptr->IsConstant()) return std::move(animvar_uptr);
 
@@ -319,19 +319,19 @@ bool nemesis::AnimVarPtr::Parser::TryPopulateAsModPatch()
     return true;
 }
 
-void nemesis::AnimVarPtr::Parser::SetupTemplateClass()
+void nemesis::AnimVarPtr::Parser::SetupTemplateCategory()
 {
     const nemesis::Template* templatefile = dynamic_cast<const nemesis::Template*>(&fileref);
-    const nemesis::HkxBehavior* behavior  = nullptr;
+    const nemesis::HkxBehaviorFile* behavior  = nullptr;
 
     if (templatefile)
     {
-        animvar_ptr->templateclass = &templatefile->GetTemplateClass();
+        animvar_ptr->templateclass = &templatefile->GetTemplateCategory();
         animvar_ptr->templatename  = animvar_ptr->templateclass->GetName();
         return;
     }
 
-    behavior = dynamic_cast<const nemesis::HkxBehavior*>(&fileref);
+    behavior = dynamic_cast<const nemesis::HkxBehaviorFile*>(&fileref);
 
     if (!behavior) throw std::runtime_error("Unsupported nemesis file object");
 
@@ -360,7 +360,7 @@ bool nemesis::AnimVarPtr::Parser::TryPopulateConstant()
 
 bool nemesis::AnimVarPtr::Parser::TryPopulateFromMaster()
 {
-    auto* behavior = dynamic_cast<const nemesis::HkxBehavior*>(&fileref);
+    auto* behavior = dynamic_cast<const nemesis::HkxBehaviorFile*>(&fileref);
 
     if (!behavior) return false;
 
@@ -578,16 +578,24 @@ void nemesis::AnimVarPtr::Parser::AddStateId()
 
 bool nemesis::AnimVarPtr::Parser::TryAddAsBase()
 {
-    for (auto& func : base_functions)
+    if (BaseCheck())
     {
-        if (!(this->*func)()) continue;
-
         animvar_ptr->b_base         = true;
         animvar_ptr->grp_result_ptr = &nemesis::AnimVarPtr::GetResultFromBase;
-        break;
     }
 
     return animvar_ptr->b_base;
+}
+
+bool nemesis::AnimVarPtr::Parser::BaseCheck()
+{
+    if (TryPopulateFromOption()) return true;
+
+    if (TestCustomSelector()) return true;
+
+    if (TryAddAnimObject()) return true;
+
+    return TryAddStateId();
 }
 
 void nemesis::AnimVarPtr::Parser::AddAnimValue()
@@ -649,6 +657,9 @@ size_t nemesis::AnimVarPtr::AnimIndex::GetValue(nemesis::ScopeInfo& scopeinfo) c
             break;
         case Order::LAST:
             animquery = scopeinfo.GetLastAnim(animvar.templateclass);
+            break;
+        case Order::CURRENT:
+            animquery = scopeinfo.basequery;
             break;
         default:
             animquery = scopeinfo.GetAnim(animvar.templateclass);
@@ -797,6 +808,11 @@ bool nemesis::AnimVarPtr::IsExist(nemesis::ScopeInfo& scopeinfo) const
     return querylist && !querylist->empty();
 }
 
+bool nemesis::AnimVarPtr::IsMatch(const nemesis::AnimVarPtr& animvarptr) const
+{
+    return false;
+}
+
 bool nemesis::AnimVarPtr::IsConstant() const noexcept
 {
     return constant != nullptr;
@@ -912,7 +928,7 @@ size_t nemesis::AnimVarPtr::GetStateId() const
     return *stateid;
 }
 
-const nemesis::TemplateClass* nemesis::AnimVarPtr::GetTemplateClass() const
+const nemesis::TemplateCategory* nemesis::AnimVarPtr::GetTemplateCategory() const
 {
     return templateclass;
 }

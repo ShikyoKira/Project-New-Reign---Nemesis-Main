@@ -135,7 +135,7 @@ void AnimDataProject_Condt::modify(const ModCode& modcode, const VecNstr& storel
             {
                 edited = true;
             }
-            else if (line.find(ns::Original()) != NOT_FOUND)
+            else if (line.find(ns::ModOriginal()) != NOT_FOUND)
             {
                 originalopen = true;
             }
@@ -387,7 +387,7 @@ bool AnimDataProject_Condt::ReadUniqueCodeFIle(const std::filesystem::path& uniq
             {
                 edited = true;
             }
-            else if (line.find(ns::Original()) != NOT_FOUND)
+            else if (line.find(ns::ModOriginal()) != NOT_FOUND)
             {
                 originalopen = true;
             }

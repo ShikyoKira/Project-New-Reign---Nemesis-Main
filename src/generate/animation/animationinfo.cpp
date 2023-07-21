@@ -213,7 +213,7 @@ AnimationInfo::AnimationInfo(VecStr newAnimInfo,
 
     mainAnimEvent = animInfo[k + 1];
     filename      = animInfo[k + 2];
-    eventID.push_back(mainAnimEvent);
+    HkxEvent.push_back(mainAnimEvent);
 
     if (animInfo.size() > k + 3)
     {
@@ -304,7 +304,7 @@ void AnimationInfo::groupAdditionProcess(string header,
 
     if (nemesis::iequals(addOnName, "event"))
     {
-        eventID.push_back(newName);
+        HkxEvent.push_back(newName);
     }
     else if (nemesis::iequals(addOnName, "variable"))
     {

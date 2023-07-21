@@ -2,7 +2,7 @@
 
 #include "utilities/animqueryfile.h"
 
-#include "hkx/hkxbehavior.h"
+#include "hkx/HkxBehaviorFile.h"
 
 size_t nemesis::StateIdManager::CreateStateId(const nemesis::AnimQuery& query,
                                             size_t index,
@@ -40,7 +40,7 @@ int nemesis::StateIdManager::StateIdFrom(const nemesis::Template& tmplt, size_t 
     return StateIdFrom(tmplt, index, id_bytemplate);
 }
 
-nemesis::StateIdManager::StateIdManager(const HkxBehavior& behavior)
+nemesis::StateIdManager::StateIdManager(const HkxBehaviorFile& behavior)
     : behavior(behavior)
 {
     for (auto& statelink : behavior.statelinks)

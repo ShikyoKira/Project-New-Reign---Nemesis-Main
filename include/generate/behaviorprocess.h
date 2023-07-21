@@ -20,14 +20,14 @@ class NemesisEngine;
 
 struct var;
 class NemesisInfo;
-struct TemplateInfo;
+struct TemplateDataBase;
 struct registerAnimation;
 
 namespace nemesis
 {
     struct AnimTemplate;
     struct AnimQueryFile;
-    struct HkxBehavior;
+    struct HkxBehaviorFile;
 }
 
 class BehaviorStart : public QObject
@@ -59,7 +59,7 @@ public:
     void AddQueriesToBehaviors();
     void ExportBehaviorList();
 
-    void BehaviorInitialize(nemesis::HkxBehavior* behaviorptr);
+    void BehaviorInitialize(nemesis::HkxBehaviorFile* behaviorptr);
     void CheckQueryInAnimDir(const std::filesystem::path& animdir);
     void AddModQueryList(const std::filesystem::path& moddir);
 
@@ -95,7 +95,7 @@ private:
     UPtr<nemesis::AnimTemplate> animtemp;
     VecSPtr<const nemesis::AnimQueryFile> querylist;
     UPtr<nemesis::QueryManager> querymanager = std::make_unique<nemesis::QueryManager>();
-    VecSPtr<nemesis::HkxBehavior> behaviorlist;
+    VecSPtr<nemesis::HkxBehaviorFile> behaviorlist;
     UPtr<nemesis::animdata::SingleFile> adsf;
 
     SPtr<bool> running_ptr       = std::make_shared<bool>(true);
@@ -105,7 +105,7 @@ private:
 
     std::string* directory2;
     VecStr* filelist2;
-    TemplateInfo* BehaviorTemplate2;
+    TemplateDataBase* BehaviorTemplate2;
     UMap<std::string, std::vector<std::shared_ptr<NewAnimation>>>* newAnimation2;
     std::vector<std::unique_ptr<registerAnimation>>* animationList2;
     MapSetString* newAnimEvent2;

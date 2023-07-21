@@ -10,10 +10,10 @@
 
 namespace nemesis
 {
-    struct TemplateClass;
+    struct TemplateCategory;
     struct ScopeInfo;
     struct OptionModel;
-    struct HkxBehavior;
+    struct HkxBehaviorFile;
     struct OptionModelList;
 
     struct AnimVarPtr : public AnimValue
@@ -154,7 +154,7 @@ namespace nemesis
             bool IsFileModPatch();
             bool TryPopulateAsModPatch();
 
-            void SetupTemplateClass();
+            void SetupTemplateCategory();
 
             bool TryPopulateConstant();
 
@@ -184,6 +184,7 @@ namespace nemesis
             void AddStateId();
 
             bool TryAddAsBase();
+            bool BaseCheck();
 
             void AddAnimValue();
         };
@@ -211,7 +212,7 @@ namespace nemesis
 
         private:
             UPtr<size_t> index = nullptr;
-            Order order      = NONE;
+            Order order        = NONE;
             nemesis::AnimVarPtr& animvar;
 
         public:
@@ -249,7 +250,7 @@ namespace nemesis
 
         std::string raw_expression;
 
-        const nemesis::TemplateClass* templateclass = nullptr;
+        const nemesis::TemplateCategory* templateclass = nullptr;
 
         // grp_result_ptr
         std::string GetResultFromConstant(nemesis::ScopeInfo& scopeinfo) const;
@@ -287,6 +288,7 @@ namespace nemesis
 
         std::string GetResult(nemesis::ScopeInfo& scopeinfo) const;
         bool IsExist(nemesis::ScopeInfo& scopeinfo) const;
+        bool IsMatch(const nemesis::AnimVarPtr& animvarptr) const;
 
         bool IsConstant() const noexcept;
         bool IsAllMaster() const noexcept;
@@ -314,7 +316,7 @@ namespace nemesis
         size_t GetAnimObjIndex() const;
         size_t GetStateId() const;
 
-        const nemesis::TemplateClass* GetTemplateClass() const;
+        const nemesis::TemplateCategory* GetTemplateCategory() const;
 
         std::string_view GetRawExpression() const;
 

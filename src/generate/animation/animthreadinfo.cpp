@@ -21,7 +21,7 @@ AnimThreadInfo::AnimThreadInfo(
     int& _counter,
     size_t& _elementLine,
     int _furnitureCount,
-    ID& _eventid,
+    ID& _HkxEvent,
     ID& _variableid,
     std::vector<int>& _fixedStateID,
     std::vector<int>& _stateCountMultiplier,
@@ -54,7 +54,7 @@ AnimThreadInfo::AnimThreadInfo(
     , counter(_counter)
     , elementLine(_elementLine)
     , furnitureCount(_furnitureCount)
-    , eventid(_eventid)
+    , HkxEvent(_HkxEvent)
     , variableid(_variableid)
     , fixedStateID(_fixedStateID)
     , stateCountMultiplier(_stateCountMultiplier)

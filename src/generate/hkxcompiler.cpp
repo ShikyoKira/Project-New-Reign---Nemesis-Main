@@ -90,6 +90,22 @@ HkxCompiler::~HkxCompiler()
     if (isFileExist(tempdir)) sf::remove_all(tempdir);
 }
 
+bool HkxCompiler::ConvertToHkx(fpath xmlfile, fpath hkxfile)
+{
+    if (QProcess::execute(QString::fromStdString(compiler.tempcompiler),
+                          QStringList() << "convert" << (SSE ? "-v:AMD64" : "-v:WIN32")
+                                        << xmlfile.string().c_str() << hkxfile.string().c_str())
+            != 0)
+    {
+        Lockless lock(failedBehaviorFlag);
+        failedBehaviors.push_back(xmlfile);
+        failedBehaviors.push_back(hkxfile);
+        return false;
+    }
+
+    return true;
+}
+
 bool HkxCompiler::hkxcmdProcess(fpath xmlfile, fpath hkxfile, bool last)
 {
     if (!last) ensureExtension(xmlfile, L".xml", hkxfile, L".hkx");
