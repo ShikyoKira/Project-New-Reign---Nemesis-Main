@@ -8,8 +8,6 @@
 #include "core/ModLine.h"
 #include "core/NObjectParser.h"
 
-#include "../../Test/StopWatch.h"
-
 namespace ns = nemesis::syntax;
 
 const USetStr nemesis::HkxNode::DataClasses
@@ -90,11 +88,6 @@ void nemesis::HkxNode::SerializeTo(DeqNstr& lines) const
     Data->SerializeTo(lines);
 }
 
-//void nemesis::HkxNode::AddData(UPtr<nemesis::NObject>&& data)
-//{
-//    DataList->AddObject(std::move(data));
-//}
-
 const std::string& nemesis::HkxNode::GetNodeId() const noexcept
 {
     return NodeId;
@@ -103,6 +96,12 @@ const std::string& nemesis::HkxNode::GetNodeId() const noexcept
 const std::string& nemesis::HkxNode::GetClassName() const noexcept
 {
     return ClassName;
+}
+
+void nemesis::HkxNode::MatchAndUpdate(const UPtr<nemesis::HkxNode>&& hkxnode)
+{
+    std::scoped_lock<std::mutex> lock(UpdaterMutex);
+    Data->MatchAndUpdate(*hkxnode->Data);
 }
 
 bool nemesis::HkxNode::IsDataClass(nemesis::LineStream& stream)
@@ -140,7 +139,7 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
                                                       nemesis::SemanticManager& manager,
                                                       nemesis::HkxNode*& node)
 {
-    auto token        = stream.GetToken();
+    auto& token       = stream.GetToken();
     auto& token_value = token.Value;
     auto hkx_node     = std::make_unique<nemesis::HkxNode>();
     node              = hkx_node.get();
@@ -187,7 +186,6 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
 
                     if (IsNodeEnd(stream, start))
                     {
-                        auto* node_ptr = hkx_node.get();
                         hkx_node->Data = std::move(collection);
                         auto if_obj    = std::make_unique<nemesis::IfObject>(token_value,
                                                                           token_value.GetLineNumber(),
@@ -255,11 +253,9 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
 
             hkx_node->NodeId    = match[1];
             hkx_node->ClassName = match[2];
-            int counter         = 0;
 
             for (; !IsNodeEnd(stream, start); ++stream)
             {
-                counter++;
                 auto& ntoken = stream.GetToken();
 
                 if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
@@ -349,9 +345,4 @@ UPtr<nemesis::HkxNode> nemesis::HkxNode::ParseHkxNodeFromFile(const std::filesys
 
     hkx_node->Data = std::move(collection);
     return hkx_node;
-}
-
-void nemesis::HkxNode::MatchAndUpdate(const UPtr<nemesis::HkxNode>&& hkxnode)
-{
-    Data->MatchAndUpdate(*hkxnode->Data);
 }

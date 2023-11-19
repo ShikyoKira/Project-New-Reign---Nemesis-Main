@@ -16,6 +16,7 @@ namespace nemesis
         VecStr OptionQueue;
         VecStr RequestQueue;
         VecStr MapQueue;
+        VecStr ForEachQueue;
 
         USetStr ModInUsedList;
 
@@ -40,5 +41,10 @@ namespace nemesis
 
         void AddModInUsed(const std::string& mod_code);
         const USetStr& GetModInUsedList() const noexcept;
+
+        void AddForEachToQueue(const std::string& expression);
+        bool HasForEachInQueue(const std::string& expression) const;
+        void RemoveTopForEachFromQueue(const std::string& expression);
+        size_t GetForEachQueueSize() const;
     };
 }

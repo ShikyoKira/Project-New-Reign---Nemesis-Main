@@ -1,0 +1,8 @@
+		<hkobject name="#$@SubTemplate[0]$" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="1">
+				<hkobject>
+					<hkparam name="id">$@SubTemplate[2]$</hkparam>
+					<hkparam name="payload">$@SubTemplate[3]$</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>

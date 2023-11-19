@@ -1,6 +1,5 @@
 #pragma once
 
-#include "core/AnimationRequest.h"
 #include "core/SubTemplateRequest.h"
 #include "core/AnimationRequestRepository.h"
 
@@ -37,6 +36,8 @@ namespace nemesis
         UMap<std::string, std::string> StateMap;
 
         UMap<std::string, int*> CounterMap;
+
+        UMap<std::string, bool> ConditionCache;
 
         int StateRunningID = -1852516352;
 
@@ -123,5 +124,10 @@ namespace nemesis
         int* GetCounter(const std::string& name) const;
         void AddCounter(const std::string& name, int* counter);
         void RemoveCounter(const std::string& name);
+
+        void CacheConditionResult(const std::string& condition_syntax, bool result);
+        Vec<Pair<std::string, bool>> RemoveConditionCacheContaining(const std::string& syntax);
+        void ClearAllConditionCache();
+        const bool* TryGetCacheConditionResult(const std::string& condition_syntax);
     };
 }

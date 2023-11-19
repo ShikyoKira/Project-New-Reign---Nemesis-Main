@@ -36,7 +36,7 @@ namespace nemesis
                         const nemesis::Line& line) override;
 
         bool IsSelected(nemesis::CompileState& state) const;
-        std::string_view GetModCode() const;
+        const std::string& GetModCode() const;
 
         static bool MatchOpen(const std::string& line, std::string& condition);
         static bool MatchOriginal(const std::string& line);

@@ -1,5 +1,6 @@
 #include "core/NLine.h"
 #include "core/ModLine.h"
+#include "core/BreakObject.h"
 #include "core/NObjectParser.h"
 #include "core/CollectionObject.h"
 
@@ -18,6 +19,8 @@ UPtr<nemesis::NObject> nemesis::NObjectParser::ParseLine(nemesis::LineStream& st
             return ParseForEachObject(stream, manager);
         case nemesis::LineStream::TokenType::NONE:
             return std::make_unique<nemesis::NLine>(token.Value, manager);
+        case nemesis::LineStream::TokenType::BREAK:
+            return std::make_unique<nemesis::BreakObject>(token.Value, manager);
     }
 
     auto& token_value = token.Value;
@@ -35,6 +38,8 @@ UPtr<nemesis::IfObject> nemesis::NObjectParser::ParseIfObject(nemesis::LineStrea
     auto if_object   = std::make_unique<nemesis::IfObject>(
         token_value, token_value.GetLineNumber(), token_value.GetFilePath(), manager, std::move(collection));
 
+    bool has_else = false;
+
     for (++stream; !stream.IsEoF(); ++stream)
     {
         auto ntoken = stream.GetToken();
@@ -43,6 +48,13 @@ UPtr<nemesis::IfObject> nemesis::NObjectParser::ParseIfObject(nemesis::LineStrea
         {
             case nemesis::LineStream::TokenType::ELSE_IF:
             {
+                if (has_else)
+                {
+                    std::runtime_error("Syntax error: ELSE IF syntax cannot come after ELSE (Line: "
+                                       + std::to_string(ntoken.Value.GetLineNumber())
+                                       + ", File: " + ntoken.Value.GetFilePath() + ")");
+                }
+
                 collection   = std::make_unique<nemesis::CollectionObject>();
                 col_ptr      = collection.get();
                 auto& nvalue = ntoken.Value;
@@ -52,6 +64,7 @@ UPtr<nemesis::IfObject> nemesis::NObjectParser::ParseIfObject(nemesis::LineStrea
             }
             case nemesis::LineStream::TokenType::ELSE:
             {
+                has_else   = true;
                 collection = std::make_unique<nemesis::CollectionObject>();
                 col_ptr    = collection.get();
                 if_object->Else(std::move(collection));
@@ -143,14 +156,21 @@ UPtr<nemesis::ForEachObject> nemesis::NObjectParser::ParseForEachObject(nemesis:
 Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseModObjects(nemesis::LineStream& stream,
                                                                      nemesis::SemanticManager& manager)
 {
+    return ParseModObjects(stream, manager, [](nemesis::LineStream& s) { return !s.IsEoF(); });
+}
+
+Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseModObjects(nemesis::LineStream& stream,
+                                                                    nemesis::SemanticManager& manager,
+                                        std::function<bool(nemesis::LineStream&)> terminator)
+{
     Vec<UPtr<nemesis::NObject>> objects;
-    Deq<nemesis::Line> mod_lines;
+    Deq<const nemesis::Line*> mod_lines;
     auto token_value = stream.GetToken().Value;
     std::function<void(nemesis::LineStream&, nemesis::SemanticManager&)> set_line
         = [&mod_lines](nemesis::LineStream& stream, nemesis::SemanticManager& manager)
-    { mod_lines.emplace_back(stream.GetToken().Value); };
+    { mod_lines.emplace_back(&stream.GetToken().Value); };
 
-    for (++stream; !stream.IsEoF(); ++stream)
+    for (++stream; !terminator(stream); ++stream)
     {
         auto token = stream.GetToken();
 
@@ -176,10 +196,10 @@ Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseModObjects(nemesis::Lin
                     {
                         auto& mod_line = mod_lines.front();
                         line_ptr->AddModLine(token_value,
-                                             mod_line.GetLineNumber(),
-                                             mod_line.GetFilePath(),
+                                             mod_line->GetLineNumber(),
+                                             mod_line->GetFilePath(),
                                              manager,
-                                             std::move(mod_line));
+                                             *mod_line);
                         mod_lines.pop_front();
                     }
 
@@ -195,7 +215,7 @@ Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseModObjects(nemesis::Lin
 
                     for (auto& mod_line : mod_lines)
                     {
-                        collection->AddObject(std::make_unique<nemesis::NLine>(std::move(mod_line), manager));
+                        collection->AddObject(std::make_unique<nemesis::NLine>(*mod_line, manager));
                     }
 
                     objects.emplace_back(std::make_unique<nemesis::ModObject>(token_value,
@@ -294,11 +314,11 @@ Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseHkxModObjects(nemesis::
                                                                        nemesis::SemanticManager& manager)
 {
     Vec<UPtr<nemesis::NObject>> objects;
-    Deq<nemesis::Line> mod_lines;
+    Deq<const nemesis::Line*> mod_lines;
     auto token_value = stream.GetToken().Value;
     std::function<void(nemesis::LineStream&, nemesis::SemanticManager&)> set_line
         = [&mod_lines](nemesis::LineStream& stream, nemesis::SemanticManager& manager)
-    { mod_lines.emplace_back(stream.GetToken().Value); };
+    { mod_lines.emplace_back(&stream.GetToken().Value); };
 
     for (++stream; !stream.IsEoF(); ++stream)
     {
@@ -329,10 +349,10 @@ Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseHkxModObjects(nemesis::
                         {
                             auto& mod_line = mod_lines.front();
                             line_ptr->AddModLine(token_value,
-                                                 mod_line.GetLineNumber(),
-                                                 mod_line.GetFilePath(),
+                                                 mod_line->GetLineNumber(),
+                                                 mod_line->GetFilePath(),
                                                  manager,
-                                                 std::move(mod_line));
+                                                 *mod_line);
                             mod_lines.pop_front();
                         }
 
@@ -349,7 +369,7 @@ Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseHkxModObjects(nemesis::
 
                     for (auto& mod_line : mod_lines)
                     {
-                        collection->AddObject(std::make_unique<nemesis::NLine>(std::move(mod_line), manager));
+                        collection->AddObject(std::make_unique<nemesis::NLine>(*mod_line, manager));
                     }
 
                     objects.emplace_back(std::make_unique<nemesis::ModObject>(token_value,

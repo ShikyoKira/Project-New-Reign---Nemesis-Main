@@ -14,7 +14,7 @@ void nemesis::TemplateTester::Run()
         "E:\\C++\\Project New Reign - Nemesis\\test "
         "environment\\behavior_templates\\fuo\\meshes\\actors\\character\\behaviors\\mt_behavior\\fuo_1.xml");
 
-    UPtr<nemesis::AnimationRequest> request = std::make_unique<nemesis::AnimationRequest>("fuo", 0);
+    UPtr<nemesis::AnimationRequest> request = std::make_unique<nemesis::AnimationRequest>("fuo", 0, true);
     request->SetAnimationEvent("ExampleAnimation");
 
     auto model  = templt_class.GetModel("T");
@@ -36,7 +36,7 @@ void nemesis::TemplateTester::Run()
     request->AddOption(std::move(option4));
 
     {
-        UPtr<nemesis::AnimationRequest> irequest = std::make_unique<nemesis::AnimationRequest>("fuo", 1);
+        UPtr<nemesis::AnimationRequest> irequest = std::make_unique<nemesis::AnimationRequest>("fuo", 1, true);
         irequest->SetAnimationEvent("NewAnimation");
 
         auto model  = templt_class.GetModel("T");

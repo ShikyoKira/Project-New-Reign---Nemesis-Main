@@ -1,0 +1,211 @@
+		<hkobject name="#fu_2~$@ID$~0" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">$@MultiChoice$</hkparam>			<!-- ^o || (!h && ((fu_2[] == fu_2[F] && fu_1[][h]) || (fu_2[] != fu_2[F] && fu_2[B][h]))) || ac || ac1^ #fu_2~$@ID$~1 --> <!-- null -->
+			<hkparam name="exitNotifyEvents">$@MultiChoice$</hkparam>			<!-- ^o || (!h && (fu_2[] == fu_2[L] || fu_2[N][h])) || ac || ac0^ #fu_2~$@ID$~2 --> <!-- null -->
+			<hkparam name="transitions">$@MultiChoice$</hkparam>			<!-- ^fu_2[] != fu_2[L] #$@SubTemplate[transitions][LastState]$ --> <!-- null -->
+ 			<hkparam name="generator">$@MultiChoice$</hkparam>			<!-- ^AV || AVI^ #fu_2~$@ID$~3 --> <!-- #fu_2~$@ID$~6 -->
+			<hkparam name="name">$@AnimationEvent$</hkparam>
+			<hkparam name="stateId">$@StateID[fu_2~{@ID}~1]$</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+<!-- IF ^o || (!h && ((fu_2[] == fu_2[F] && fu_1[][h]) || (fu_2[] != fu_2[F] && fu_2[B][h]))) || ac || ac1^ -->
+		<hkobject name="#fu_2~$@ID$~1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="0">
+<!-- IF ^!h && ((fu_2[] == fu_2[F] && fu_1[][h]) || (fu_2[] != fu_2[F] && fu_2[B][h]))^ -->
+				<hkobject>
+					<hkparam name="id">20</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+<!-- IF ^ac || ac1^ -->
+				<hkobject>
+					<hkparam name="id">461</hkparam>
+					<hkparam name="payload">#1978</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+<!-- FOREACH ^@Map[1]^ -->
+				<hkobject>
+					<hkparam name="id">393</hkparam>
+					<hkparam name="payload">#$@SubTemplate[anim_object][{@Map[1][]}]$</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="id">394</hkparam>
+					<hkparam name="payload">#$@SubTemplate[anim_object][{@Map[1][]}]$</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>
+
+<!-- ENDIF -->
+<!-- IF ^o || (!h && (fu_2[] == fu_2[L] || fu_2[N][h])) || ac || ac0^ -->
+		<hkobject name="#fu_2~$@ID$~2" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="0">
+<!-- IF ^!h && (fu_2[] == fu_2[L] || fu_2[N][h])^ -->
+				<hkobject>
+					<hkparam name="id">18</hkparam>			<!-- HeadTrackingOn -->
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+<!-- IF ^o^ -->
+				<hkobject>
+					<hkparam name="id">165</hkparam>		<!-- AnimObjectUnequip -->
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+<!-- IF ^ac || ac0^ -->
+				<hkobject>
+					<hkparam name="id">462</hkparam>		<!-- EndAnimatedCamera -->
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+			</hkparam>
+		</hkobject>
+
+<!-- ENDIF -->
+<!-- IF ^AV || AVI^ -->
+		<hkobject name="#fu_2~$@ID$~3" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">IdleMesmerizes_MG</hkparam>
+			<hkparam name="modifier">#fu_2~$@ID$~4</hkparam>
+			<hkparam name="generator">#fu_2~$@ID$~6</hkparam>
+		</hkobject>
+
+		<hkobject name="#fu_2~$@ID$~4" class="BSIsActiveModifier" signature="0xb0fde45a">
+			<hkparam name="variableBindingSet">#fu_2~$@ID$~5</hkparam>
+			<hkparam name="userData">2</hkparam>
+			<hkparam name="name">bMesmerizeIsActive</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="bIsActive0">false</hkparam>
+			<hkparam name="bInvertActive0">$@MultiChoice$</hkparam>			<!-- ^AVI[0]^ true --> <!-- false -->
+			<hkparam name="bIsActive1">false</hkparam>
+			<hkparam name="bInvertActive1">$@MultiChoice$</hkparam>			<!-- ^AVI[1]^ true --> <!-- false -->
+			<hkparam name="bIsActive2">false</hkparam>
+			<hkparam name="bInvertActive2">$@MultiChoice$</hkparam>			<!-- ^AVI[2]^ true --> <!-- false -->
+			<hkparam name="bIsActive3">false</hkparam>
+			<hkparam name="bInvertActive3">$@MultiChoice$</hkparam>			<!-- ^AVI[3]^ true --> <!-- false -->
+			<hkparam name="bIsActive4">false</hkparam>
+			<hkparam name="bInvertActive4">$@MultiChoice$</hkparam>			<!-- ^AVI[4]^ true --> <!-- false -->
+		</hkobject>
+
+		<hkobject name="#fu_2~$@ID$~5" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="0">			<!-- @Counter -->	<!-- START_COUNTER_0 -->
+<!-- FOREACH ^AVI^ -->
+<!-- IF ^@CurrentCount[0] == "5"^ -->
+<!-- BREAK ^AVI^ -->
+<!-- ENDIF -->
+				<hkobject>
+					<hkparam name="memberPath">bIsActive$@CurrentCount[0]$</hkparam>
+					<hkparam name="variableIndex">$@VariableID[{AVI[][variable]}]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>															<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+<!-- FOREACH ^AV^ -->
+<!-- IF ^@CurrentCount[0] == "5"^ -->
+<!-- BREAK ^AV^ -->
+<!-- ENDIF -->
+				<hkobject>
+					<hkparam name="memberPath">bIsActive$@CurrentCount[0]$</hkparam>
+					<hkparam name="variableIndex">$@VariableID[{AV[][variable]}]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>															<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+			</hkparam>																<!-- END_COUNTER_0 -->
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+<!-- ENDIF -->
+		<hkobject name="#fu_2~$@ID$~6" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemsis_Furniture_Clip_$@Index$</hkparam>
+			<hkparam name="animationName">Animations\$@AnimationFilePath$</hkparam>
+			<hkparam name="triggers">$@MultiChoice$</hkparam>			<!-- ^T || a || fu_2[] == fu_2[L]^ #fu_2~$@ID$~7 --> <!-- null -->
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">$@MultiChoice$</hkparam>			<!-- ^a^ MODE_SINGLE_PLAY --> <!-- MODE_LOOPING -->
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+<!-- IF ^T || a || fu_2[] == fu_2[L]^ -->
+		<hkobject name="#fu_2~$@ID$~7" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="0">
+<!-- FOREACH ^T^ -->
+				<hkobject>
+					<hkparam name="localTime">$T[][time]$</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$@EventID[{T[][event]}]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+<!-- IF ^fu_2[] == fu_2[L]^ -->
+				<hkobject>
+					<hkparam name="localTime">-0.050000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">130</hkparam> 					<!-- IdleForceDefaultState -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">-0.200000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$@EventID[{@AnimationEvent}_DONE]$</hkparam> 				<!-- DONE AnimEvent -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">-0.200000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">5</hkparam>						<!-- IdleFurnitureExit -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- ELSEIF ^a^ -->
+				<hkobject>
+					<hkparam name="localTime">-0.300000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$@EventID[{fu_2[N][@AnimationEvent]}]$</hkparam> 			<!-- next AnimEvent -->
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- ENDIF -->
+			</hkparam>
+		</hkobject>
+
+<!-- ENDIF -->

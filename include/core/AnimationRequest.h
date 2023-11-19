@@ -25,8 +25,10 @@ namespace nemesis
 
         Vec<nemesis::AnimationRequest*> Parents;
 
+        bool SupportArray;
+
     public:
-        AnimationRequest(const std::string& template_name, size_t index) noexcept;
+        AnimationRequest(const std::string& template_name, size_t index, bool support_array) noexcept;
 
         size_t GetId() const noexcept;
         size_t GetIndex() const noexcept;

@@ -124,3 +124,28 @@ const USetStr& nemesis::SemanticManager::GetModInUsedList() const noexcept
 {
     return ModInUsedList;
 }
+
+void nemesis::SemanticManager::AddForEachToQueue(const std::string& expression)
+{
+    ForEachQueue.emplace_back(expression);
+}
+
+bool nemesis::SemanticManager::HasForEachInQueue(const std::string& expression) const
+{
+    for (auto& each : ForEachQueue)
+    {
+        if (each == expression) return true;
+    }
+
+    return false;
+}
+
+void nemesis::SemanticManager::RemoveTopForEachFromQueue(const std::string& expression)
+{
+    ForEachQueue.pop_back();
+}
+
+size_t nemesis::SemanticManager::GetForEachQueueSize() const
+{
+    return ForEachQueue.size();
+}

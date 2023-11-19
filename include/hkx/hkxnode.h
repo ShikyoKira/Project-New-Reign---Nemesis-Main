@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mutex>
+
 #include "utilities/regex.h"
 
 #include "core/LineStream.h"
@@ -18,6 +20,7 @@ namespace nemesis
         std::string NodeId;
         std::string ClassName;
         UPtr<nemesis::CollectionObject> Data;
+        std::mutex UpdaterMutex;
 
         static const USetStr DataClasses;
 
@@ -28,10 +31,10 @@ namespace nemesis
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
-        //void AddData(UPtr<nemesis::NObject>&& data);
-
         const std::string& GetNodeId() const noexcept;
         const std::string& GetClassName() const noexcept;
+
+        void MatchAndUpdate(const UPtr<nemesis::HkxNode>&& hkxnode);
 
         static bool IsDataClass(nemesis::LineStream& stream);
 
@@ -45,8 +48,6 @@ namespace nemesis
                                                    const nemesis::TemplateClass* template_class);
         static UPtr<nemesis::HkxNode> ParseHkxNodeFromFile(const std::filesystem::path& filepath,
                                                    nemesis::SemanticManager& manager);
-
-        void MatchAndUpdate(const UPtr<nemesis::HkxNode>&& hkxnode);
 
         static const nemesis::regex NodeIdRgx;
     };

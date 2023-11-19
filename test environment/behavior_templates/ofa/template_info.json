@@ -1,0 +1,22 @@
+{
+    "MinimumArray": 0,
+    "IsArray": false,
+    "Options": [{
+            "Name": "o",
+            "IsArray": false
+        },
+        {
+            "Name": "a",
+            "IsArray": false
+        },
+        {
+            "Name": "h",
+            "IsArray": false
+        },
+        {
+            "Name": "B",
+            "IsArray": false,
+            "Variables": ["duration"]
+        }
+    ]
+}

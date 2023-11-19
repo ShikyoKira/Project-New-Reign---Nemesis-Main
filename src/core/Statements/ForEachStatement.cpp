@@ -1,3 +1,4 @@
+#include "core/BreakObject.h"
 #include "core/CompileState.h"
 #include "core/SemanticManager.h"
 
@@ -17,9 +18,16 @@ void nemesis::ForEachStatement::ParseComponents(nemesis::SemanticManager& manage
         LoopCycle       = std::stoi(Expression);
         ForEachFunction = [this](nemesis::CompileState& state, std::function<void()> action)
         {
-            for (int i = 0; i < LoopCycle; i++)
+            try
             {
-                action();
+                for (int i = 0; i < LoopCycle; i++)
+                {
+                    action();
+                }
+            }
+            catch (const nemesis::BreakObject::BreakException& bex)
+            {
+                if (bex.GetExpression() != Expression) throw;
             }
         };
         return;
@@ -34,117 +42,213 @@ void nemesis::ForEachStatement::ParseComponents(nemesis::SemanticManager& manage
         {
             nemesis::smatch match;
 
-            if (nemesis::regex_match(Expression, match, "^" + template_name + "_([0-9]+)$"))
+            if (!nemesis::regex_match(Expression, match, "^" + template_name + "_([0-9]+)$"))
             {
-                auto num = std::stoul(match.str(1));
-
-                switch (num)
+                OptionName      = &Components.front();
+                ForEachFunction = [this](nemesis::CompileState& state, std::function<void()> action)
                 {
-                    case 0:
+                    auto request  = state.GetBaseRequest();
+                    auto& name    = *OptionName;
+                    auto& options = request->GetOptions(name);
+
+                    auto removed_cache_list = state.RemoveConditionCacheContaining(Expression + "[]");
+
+                    for (auto& option : options)
                     {
-                        ForEachFunction
-                            = [&template_name](nemesis::CompileState& state, std::function<void()> action)
+                        state.QueueOption(name, option);
+
+                        try
                         {
-                            auto& requests = state.GetRequests(template_name);
-
-                            if (requests.empty()) return;
-
-                            std::string group = template_name + "_1";
-                            Vec<const nemesis::AnimationRequest*> anim_requests;
-
-                            for (auto& request: requests)
-                            {
-                                anim_requests.emplace_back(request.get());
-                            }
-
-                            state.QueueChildRequestList(group, anim_requests);
                             action();
-                            state.DequeChildRequestList(group);
-
-                        };
-                        return;
-                    }
-                    case 1:
-                    {
-                        ForEachFunction =
-                            [&template_name, this](nemesis::CompileState& state, std::function<void()> action)
+                        }
+                        catch (const nemesis::BreakObject::BreakException& bex)
                         {
-                            auto& requests = state.GetRequests(template_name);
+                            if (bex.GetExpression() != Expression) throw;
 
-                            for (auto& req : requests)
-                            {
-                                state.QueueCurrentRequest(Expression, req.get());
-                                action();
-                                state.DequeCurrentRequest(Expression);
-                            }
-                        };
-                        return;
-                    }
-                    default:
-                        break;
-                }
+                            state.DequeueOption(name);
+                            state.RemoveConditionCacheContaining(Expression + "[]");
+                            break;
+                        }
 
-                nemesis::smatch fmatch;
-
-                if (nemesis::regex_match(
-                        FilePath.string(), fmatch, "^" + template_name + "_([1-9]+)\\.[^\\.]+$"))
-                {
-                    auto fnum = std::stoul(fmatch.str(1));
-
-                    if (num - 1 > fnum)
-                    {
-                        throw std::runtime_error("Template can only access to current request, parent "
-                                                 "requests and immediate child request. It "
-                                                 "cannot access to anything beyond the child requests");
+                        state.DequeueOption(name);
+                        state.RemoveConditionCacheContaining(Expression + "[]");
                     }
 
-                    if (num - 1 == fnum)
+                    for (auto& cache_info : removed_cache_list)
                     {
-                        ForEachFunction = [this](nemesis::CompileState& state, std::function<void()> action)
-                        {
-                            auto* request = state.GetBaseRequest();
-                            auto requests = request->GetRequests();
-
-                            for (auto& req : requests)
-                            {
-                                state.QueueCurrentRequest(Expression, req);
-                                action();
-                                state.DequeCurrentRequest(Expression);
-                            }
-                        };
-                        return;
-                    }
-                }
-
-                std::string target_request = template_name + "_" + std::to_string(num - 1);
-                ForEachFunction
-                    = [target_request, this](nemesis::CompileState& state, std::function<void()> action)
-                {
-                    auto* request = state.GetCurrentRequest(target_request);
-                    auto requests = request->GetRequests();
-
-                    for (auto& req : requests)
-                    {
-                        state.QueueCurrentRequest(Expression, req);
-                        action();
-                        state.DequeCurrentRequest(Expression);
+                        state.CacheConditionResult(cache_info.first, cache_info.second);
                     }
                 };
                 return;
             }
 
-            OptionName = &Components.front();
-            ForEachFunction = [this](nemesis::CompileState& state, std::function<void()> action)
-            {
-                auto request  = state.GetBaseRequest();
-                auto& name    = *OptionName;
-                auto& options = request->GetOptions(name);
+            auto num = std::stoul(match.str(1));
 
-                for (auto& option : options)
+            switch (num)
+            {
+                case 0:
                 {
-                    state.QueueOption(name, option);
-                    action();
-                    state.DequeueOption(name);
+                    std::string group = template_name + "_1";
+                    ForEachFunction   = [this, &template_name, group](nemesis::CompileState& state,
+                                                                    std::function<void()> action)
+                    {
+                        auto& requests = state.GetRequests(template_name);
+
+                        if (requests.empty()) return;
+
+                        Vec<const nemesis::AnimationRequest*> anim_requests;
+
+                        for (auto& request : requests)
+                        {
+                            anim_requests.emplace_back(request.get());
+                        }
+
+                        state.QueueChildRequestList(group, anim_requests);
+
+                        try
+                        {
+                            action();
+                        }
+                        catch (const nemesis::BreakObject::BreakException& bex)
+                        {
+                            if (bex.GetExpression() != Expression) throw;
+                        }
+
+                        state.DequeChildRequestList(group);
+                    };
+                    return;
+                }
+                case 1:
+                {
+                    ForEachFunction
+                        = [&template_name, this](nemesis::CompileState& state, std::function<void()> action)
+                    {
+                        auto& requests = state.GetRequests(template_name);
+
+                        auto removed_cache_list = state.RemoveConditionCacheContaining(Expression + "[]");
+
+                        for (auto& req : requests)
+                        {
+                            state.QueueCurrentRequest(Expression, req.get());
+
+                            try
+                            {
+                                action();
+                            }
+                            catch (const nemesis::BreakObject::BreakException& bex)
+                            {
+                                if (bex.GetExpression() != Expression) throw;
+
+                                state.DequeCurrentRequest(Expression);
+                                state.RemoveConditionCacheContaining(Expression + "[]");
+                                break;
+                            }
+
+                            state.DequeCurrentRequest(Expression);
+                            state.RemoveConditionCacheContaining(Expression + "[]");
+                        }
+
+                        for (auto& cache_info : removed_cache_list)
+                        {
+                            state.CacheConditionResult(cache_info.first, cache_info.second);
+                        }
+                    };
+                    return;
+                }
+                default:
+                    break;
+            }
+
+            nemesis::smatch fmatch;
+
+            if (nemesis::regex_match(FilePath.string(), fmatch, "^" + template_name + "_([1-9]+)\\.[^\\.]+$"))
+            {
+                auto fnum = std::stoul(fmatch.str(1));
+
+                if (num - 1 > fnum)
+                {
+                    throw std::runtime_error(
+                        "Template can only access to current request, parent "
+                        "requests and immediate child request. It "
+                        "cannot access to anything beyond the child requests (Expression: "
+                        + Expression + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string()
+                        + ")");
+                }
+
+                if (num - 1 == fnum)
+                {
+                    ForEachFunction = [this](nemesis::CompileState& state, std::function<void()> action)
+                    {
+                        auto* request = state.GetBaseRequest();
+                        auto requests = request->GetRequests();
+
+                        auto removed_cache_list = state.RemoveConditionCacheContaining(Expression + "[]");
+
+                        for (auto& req : requests)
+                        {
+                            auto child_requests = req->GetRequests();
+
+                            state.QueueCurrentRequest(Expression, req);
+
+                            try
+                            {
+                                action();
+                            }
+                            catch (const nemesis::BreakObject::BreakException& bex)
+                            {
+                                if (bex.GetExpression() != Expression) throw;
+
+                                state.DequeCurrentRequest(Expression);
+                                state.RemoveConditionCacheContaining(Expression + "[]");
+                                break;
+                            }
+
+                            state.DequeCurrentRequest(Expression);
+                            state.RemoveConditionCacheContaining(Expression + "[]");
+                        }
+
+                        for (auto& cache_info : removed_cache_list)
+                        {
+                            state.CacheConditionResult(cache_info.first, cache_info.second);
+                        }
+                    };
+                    return;
+                }
+            }
+
+            std::string target_request = template_name + "_" + std::to_string(num - 1);
+            ForEachFunction
+                = [target_request, this](nemesis::CompileState& state, std::function<void()> action)
+            {
+                auto* request = state.GetCurrentRequest(target_request);
+                auto requests = request->GetRequests();
+
+                auto removed_cache_list = state.RemoveConditionCacheContaining(Expression + "[]");
+
+                for (auto& req : requests)
+                {
+                    state.QueueCurrentRequest(Expression, req);
+
+                    try
+                    {
+                        action();
+                    }
+                    catch (const nemesis::BreakObject::BreakException& bex)
+                    {
+                        if (bex.GetExpression() != Expression) throw;
+
+                        state.DequeCurrentRequest(Expression);
+                        state.RemoveConditionCacheContaining(Expression + "[]");
+                        break;
+                    }
+
+                    state.DequeCurrentRequest(Expression);
+                    state.RemoveConditionCacheContaining(Expression + "[]");
+                }
+
+                for (auto& cache_info : removed_cache_list)
+                {
+                    state.CacheConditionResult(cache_info.first, cache_info.second);
                 }
             };
             return;
@@ -159,11 +263,32 @@ void nemesis::ForEachStatement::ParseComponents(nemesis::SemanticManager& manage
                 auto request = state.GetBaseRequest();
                 auto list    = request->GetMapValueList(key);
 
+                auto removed_cache_list = state.RemoveConditionCacheContaining(Expression + "[]");
+
                 for (auto& each : list)
                 {
                     state.QueueCurrentMapValue(key, *each);
-                    action();
+
+                    try
+                    {
+                        action();
+                    }
+                    catch (const nemesis::BreakObject::BreakException& bex)
+                    {
+                        if (bex.GetExpression() != Expression) throw;
+
+                        state.DequeCurrentMapValue(key);
+                        state.RemoveConditionCacheContaining(Expression + "[]");
+                        break;
+                    }
+
                     state.DequeCurrentMapValue(key);
+                    state.RemoveConditionCacheContaining(Expression + "[]");
+                }
+
+                for (auto& cache_info : removed_cache_list)
+                {
+                    state.CacheConditionResult(cache_info.first, cache_info.second);
                 }
             };
             return;
@@ -186,11 +311,32 @@ void nemesis::ForEachStatement::ParseComponents(nemesis::SemanticManager& manage
                 auto& name    = *OptionName;
                 auto& options = request->GetOptions(name);
 
+                auto removed_cache_list = state.RemoveConditionCacheContaining(Expression + "[]");
+
                 for (auto& option : options)
                 {
                     state.QueueRequestOption(request, name, option);
-                    action();
+
+                    try
+                    {
+                        action();
+                    }
+                    catch (const nemesis::BreakObject::BreakException& bex)
+                    {
+                        if (bex.GetExpression() != Expression) throw;
+
+                        state.DequeueRequestOption(request, name);
+                        state.RemoveConditionCacheContaining(Expression + "[]");
+                        break;
+                    }
+
                     state.DequeueRequestOption(request, name);
+                    state.RemoveConditionCacheContaining(Expression + "[]");
+                }
+
+                for (auto& cache_info : removed_cache_list)
+                {
+                    state.CacheConditionResult(cache_info.first, cache_info.second);
                 }
             };
             return;
@@ -210,11 +356,32 @@ void nemesis::ForEachStatement::ParseComponents(nemesis::SemanticManager& manage
                 auto request = (*get_request)(state);
                 auto list    = request->GetMapValueList(key);
 
+                auto removed_cache_list = state.RemoveConditionCacheContaining(Expression + "[]");
+
                 for (auto& each : list)
                 {
                     state.QueueCurrentRequestMapValue(request, key, *each);
-                    action();
+
+                    try
+                    {
+                        action();
+                    }
+                    catch (const nemesis::BreakObject::BreakException& bex)
+                    {
+                        if (bex.GetExpression() != Expression) throw;
+
+                        state.DequeCurrentRequestMapValue(request, key);
+                        state.RemoveConditionCacheContaining(Expression + "[]");
+                        break;
+                    }
+
                     state.DequeCurrentRequestMapValue(request, key);
+                    state.RemoveConditionCacheContaining(Expression + "[]");
+                }
+
+                for (auto& cache_info : removed_cache_list)
+                {
+                    state.CacheConditionResult(cache_info.first, cache_info.second);
                 }
             };
             return;

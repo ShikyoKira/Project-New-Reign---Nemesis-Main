@@ -18,7 +18,8 @@ namespace nemesis
             MOD_ORG,
             MOD_CLOSE,
             FOR_EACH,
-            CLOSE
+            CLOSE,
+            BREAK
         };
 
         struct Token
@@ -51,6 +52,8 @@ namespace nemesis
 
         UMap<int, UPtr<nemesis::LineStream::Token>> TokenPointers;
 
+        const nemesis::LineStream::Token* GenerateToken(VecNstr::const_iterator itr);
+
     public:
         LineStream(VecNstr::const_iterator start, VecNstr::const_iterator end) noexcept;
 
@@ -61,7 +64,10 @@ namespace nemesis
         const nemesis::Line& operator*() noexcept;
 
         const nemesis::LineStream::Token& GetToken();
+        const nemesis::LineStream::Token* GetForwardToken(size_t step);
+        const nemesis::LineStream::Token* GetBackwardToken(size_t step);
         int GetPosition() const noexcept;
+        size_t GetSize() const noexcept;
 
         bool IsEoF() const noexcept;
     };

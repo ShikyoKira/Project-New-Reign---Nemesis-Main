@@ -88,6 +88,7 @@ DeqNstr nemesis::HkxBehavior::CompileAllTemplates(nemesis::CompileState& state) 
 
     for (auto& templt_list : TemplateMap)
     {
+        state.ClearAllConditionCache();
         auto& requests = state.GetRequests(templt_list.first);
 
         if (!requests.empty())
@@ -106,6 +107,7 @@ DeqNstr nemesis::HkxBehavior::CompileAllTemplates(nemesis::CompileState& state) 
         }
     }
 
+    state.ClearAllConditionCache();
     return template_lines;
 }
 
@@ -283,7 +285,6 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
     DeqNstr behavior_lines;
     DataNodes->CompileTo(lines, state);
     RegularNodes->CompileTo(behavior_lines, state);
-    lines.emplace_back("", lines.size() + 1);
 
     DeqNstr template_lines    = CompileAllTemplates(state);
     DeqNstr subtemplate_lines = CompileAllSubTemplates(state);

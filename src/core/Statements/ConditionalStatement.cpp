@@ -103,53 +103,92 @@ nemesis::ConditionalStatement::ConditionalBoolean::ConditionalBoolean(const std:
     {
         case 1:
         {
-            if (!template_class->GetModel(Components.front()))
+            const std::string& name = Components.front();
+
+            if (!template_class->GetModel(name))
             {
-                throw std::runtime_error("Syntax error: '" + Components.front() + "' is not a valid option");
+                throw std::runtime_error("Syntax error: '" + name + "' is not a valid option (Line: "
+                                         + std::to_string(linenum) + ", File: " + filepath.string() + ")");
             }
 
-            IsTrueFunction = [this](nemesis::CompileState& state)
+            IsTrueFunction = [&name](nemesis::CompileState& state)
             {
                 auto request = state.GetBaseRequest();
-                return request->GetOption(Components.front()) != nullptr;
+                return request->GetOption(name) != nullptr;
             };
             break;
         }
         case 2:
         {
-            if (!template_class->GetModel(Components.front()))
+            const std::string& name = Components.front();
+
+            if (!template_class->GetModel(name))
             {
-                throw std::runtime_error("Syntax error: '" + Components.front() + "' is not a valid option");
+                throw std::runtime_error("Syntax error: '" + name + "' is not a valid option (Line: "
+                                         + std::to_string(linenum) + ", File: " + filepath.string() + ")");
             }
 
             size_t index = std::stoul(Components.back());
 
-            IsTrueFunction = [this, index](nemesis::CompileState& state)
+            IsTrueFunction = [&name, index](nemesis::CompileState& state)
             {
                 auto request = state.GetBaseRequest();
-                return index < request->GetOptions(Components.front()).size();
+                return index < request->GetOptions(name).size();
             };
             break;
         }
         case 3:
         {
             auto get_request_func   = GetTargetRequest(*template_class, manager);
-            std::string option_name = Components[2];
-            IsTrueFunction          = [get_request_func, option_name](nemesis::CompileState& state)
+            const std::string& name = Components[2];
+
+            if (!template_class->GetModel(name))
+            {
+                throw std::runtime_error("Syntax error: '" + name + "' is not a valid option (Line: "
+                                         + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+            }
+
+            IsTrueFunction          = [get_request_func, &name](nemesis::CompileState& state)
             {
                 auto request = (*get_request_func)(state);
-                return request->GetOption(option_name) != nullptr;
+                return request->GetOption(name) != nullptr;
+            };
+            break;
+        }
+        case 4:
+        {
+            auto get_request_func   = GetTargetRequest(*template_class, manager);
+            const std::string& name = Components[2];
+
+            if (!template_class->GetModel(name))
+            {
+                throw std::runtime_error("Syntax error: '" + name + "' is not a valid option (Line: "
+                                         + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+            }
+
+            size_t index = std::stoul(Components.back());
+
+            IsTrueFunction = [get_request_func, & name, index](nemesis::CompileState& state)
+            {
+                auto request = (*get_request_func)(state);
+                return index < request->GetOptions(name).size();
             };
             break;
         }
         default:
-            throw std::runtime_error("Syntax error");
+            throw std::runtime_error("Syntax error: Invalid condition statement (Line: "
+                                     + std::to_string(linenum) + ", File: " + filepath.string() + ")");
     }
 }
 
 std::string nemesis::ConditionalStatement::ConditionalBoolean::Serialize() const
 {
     return Expression;
+}
+
+std::string nemesis::ConditionalStatement::ConditionalBoolean::GetExpression() const
+{
+    return (Negative ? "!" : "") + Expression;
 }
 
 bool nemesis::ConditionalStatement::ConditionalBoolean::IsTrue(nemesis::CompileState& state) const
@@ -170,7 +209,7 @@ nemesis::ConditionalStatement::ConditionalAnimationRequest::ConditionalAnimation
     {
         case 2:
         {
-            GetRequestFunction = GetTargetRequest(*template_class, manager);
+            GetRequestFunction = *GetTargetRequest(*template_class, manager);
             break;
         }
         default:
@@ -200,7 +239,7 @@ nemesis::ConditionalStatement::ConditionalAnimationRequest::NotEqualsTo(
 const nemesis::AnimationRequest*
 nemesis::ConditionalStatement::ConditionalAnimationRequest::GetRequest(nemesis::CompileState& state) const
 {
-    return (*GetRequestFunction)(state);
+    return GetRequestFunction(state);
 }
 
 bool nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
@@ -239,6 +278,90 @@ bool nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequ
     }
 }
 
+nemesis::ConditionalStatement::ConditionalOption::ConditionalOption(const std::string& expression,
+                                                                    size_t linenum,
+                                                                    const std::filesystem::path& filepath,
+                                                                    const nemesis::SemanticManager& manager)
+    : nemesis::OptionStatement(expression, linenum, filepath, manager)
+{
+}
+
+nemesis::ConditionalStatement::ConditionOptionComparer*
+nemesis::ConditionalStatement::ConditionalOption::EqualsTo(ConditionalOption* option) noexcept
+{
+    return new ConditionOptionComparer(this, option, false);
+}
+
+nemesis::ConditionalStatement::ConditionOptionComparer*
+nemesis::ConditionalStatement::ConditionalOption::NotEqualsTo(ConditionalOption* option) noexcept
+{
+    return new ConditionOptionComparer(this, option, true);
+}
+
+bool nemesis::ConditionalStatement::ConditionalOption::IsOption(
+    const std::string& expression, const nemesis::TemplateObject& template_object)
+{
+    auto components     = nemesis::Statement::SplitComponents(expression);
+    auto template_class = template_object.GetTemplateClass();
+
+    switch (components.size())
+    {
+        case 1:
+        case 2:
+        {
+            const std::string& name = components.front();
+            auto model              = template_class->GetModel(name);
+            return model;
+        }
+        case 3:
+        case 4:
+        {
+            if (!nemesis::regex_match(expression,
+                                      "^" + template_class->GetName()
+                                          + "_([1-9]+)\\[.*?\\](?:\\[.+?\\]|)(?:\\[.+?\\]|)?$"))
+            {
+                return false;
+            }
+
+            const std::string& name = components[2];
+            auto model              = template_class->GetModel(name);
+            return model;
+        }
+        default:
+            return false;
+    }
+}
+
+nemesis::ConditionalStatement::ConditionOptionComparer::ConditionOptionComparer(ConditionalOption* variable1,
+                                                                                ConditionalOption* variable2,
+                                                                                bool negative) noexcept
+    : Variable1(variable1)
+    , Variable2(variable2)
+{
+    Negative = negative;
+}
+
+nemesis::ConditionalStatement::ConditionOptionComparer::~ConditionOptionComparer() noexcept
+{
+    delete Variable1;
+    delete Variable2;
+}
+
+std::string nemesis::ConditionalStatement::ConditionOptionComparer::GetExpression() const
+{
+    if (Expression.empty())
+    {
+        Expression = Variable1->GetExpression() + (Negative ? " != " : " == ") + Variable2->GetExpression();
+    }
+
+    return Expression;
+}
+
+bool nemesis::ConditionalStatement::ConditionOptionComparer::IsTrue(nemesis::CompileState& state) const
+{
+    return (Variable1->GetOption(state) == Variable2->GetOption(state)) != Negative;
+}
+
 nemesis::ConditionalStatement::ConditionalAnimationRequestComparer::ConditionalAnimationRequestComparer(
     ConditionalAnimationRequest* variable1, ConditionalAnimationRequest* variable2, bool negative) noexcept
     : Variable1(variable1)
@@ -254,9 +377,28 @@ nemesis::ConditionalStatement::ConditionalAnimationRequestComparer::
     delete Variable2;
 }
 
-bool nemesis::ConditionalStatement::ConditionalAnimationRequestComparer::IsTrue(nemesis::CompileState& state) const
+std::string nemesis::ConditionalStatement::ConditionalAnimationRequestComparer::GetExpression() const
 {
-    return (Variable1->GetRequest(state) == Variable2->GetRequest(state)) != Negative;
+    if (Expression.empty())
+    {
+        Expression = Variable1->GetExpression() + (Negative ? " != " : " == ") + Variable2->GetExpression();
+    }
+
+    return Expression;
+}
+
+bool nemesis::ConditionalStatement::ConditionalAnimationRequestComparer::IsTrue(
+    nemesis::CompileState& state) const
+{
+    auto expr    = GetExpression();
+    auto rst_ptr = state.TryGetCacheConditionResult(expr);
+
+    if (rst_ptr) return *rst_ptr;
+
+    bool rst = (Variable1->GetRequest(state) == Variable2->GetRequest(state)) != Negative;
+
+    state.CacheConditionResult(expr, rst);
+    return rst;
 }
 
 nemesis::ConditionalStatement::ConditionalStringComparer::ConditionalStringComparer(ConditionalString* first,
@@ -274,9 +416,26 @@ nemesis::ConditionalStatement::ConditionalStringComparer::~ConditionalStringComp
     delete Second;
 }
 
+std::string nemesis::ConditionalStatement::ConditionalStringComparer::GetExpression() const
+{
+    if (Expression.empty())
+    {
+        Expression = First->GetExpression() + (Negative ? " != " : " == ") + First->GetExpression();
+    }
+
+    return Expression;
+}
+
 bool nemesis::ConditionalStatement::ConditionalStringComparer::IsTrue(nemesis::CompileState& state) const
 {
-    return (First->GetValue(state) == Second->GetValue(state)) != Negative;
+    auto expr = GetExpression();
+    auto rst_ptr = state.TryGetCacheConditionResult(expr);
+
+    if (rst_ptr) return *rst_ptr;
+
+    bool rst = (First->GetValue(state) == Second->GetValue(state)) != Negative;
+    state.CacheConditionResult(expr, rst);
+    return rst;
 }
 
 bool nemesis::ConditionalStatement::ConditionalCollection::AndIsTrue(nemesis::CompileState& state) const
@@ -321,15 +480,59 @@ nemesis::ConditionalStatement::ConditionalCollection::Or(nemesis::ConditionalSta
     return this;
 }
 
+std::string nemesis::ConditionalStatement::ConditionalCollection::GetExpression() const
+{
+    if (Expression.empty())
+    {
+        if (!AndConditions.empty())
+        {
+            Expression.append(AndConditions.front()->GetExpression());
+
+            for (size_t i = 1; i < AndConditions.size(); i++)
+            {
+                Expression.append(" && ");
+                Expression.append(AndConditions[i]->GetExpression());
+            }
+        }
+
+        if (!OrConditions.empty())
+        {
+            Expression.append(OrConditions.front()->GetExpression());
+
+            for (size_t i = 1; i < OrConditions.size(); i++)
+            {
+                Expression.append(" || ");
+                Expression.append(OrConditions[i]->GetExpression());
+            }
+        }
+    }
+
+    return Expression;
+}
+
 bool nemesis::ConditionalStatement::ConditionalCollection::IsTrue(nemesis::CompileState& state) const
 {
-    if (AndIsTrue(state)) return true;
+    auto expr    = GetExpression();
+    auto rst_ptr = state.TryGetCacheConditionResult(expr);
+
+    if (rst_ptr) return *rst_ptr;
+
+    if (AndIsTrue(state))
+    {
+        state.CacheConditionResult(expr, true);
+        return true;
+    }
 
     for (auto& condition : OrConditions)
     {
-        if (condition->IsTrue(state)) return true;
+        if (condition->IsTrue(state))
+        {
+            state.CacheConditionResult(expr, true);
+            return true;
+        }
     }
 
+    state.CacheConditionResult(expr, false);
     return false;
 }
 
@@ -347,9 +550,26 @@ nemesis::ConditionalStatement::ConditionalParentheses::~ConditionalParentheses()
     delete SubNode;
 }
 
+std::string nemesis::ConditionalStatement::ConditionalParentheses::GetExpression() const
+{
+    if (Expression.empty())
+    {
+        Expression = (Negative ? "!(" : "(") + SubNode->GetExpression() + ")";
+    }
+
+    return Expression;
+}
+
 bool nemesis::ConditionalStatement::ConditionalParentheses::IsTrue(nemesis::CompileState& state) const
 {
-    return SubNode->IsTrue(state) != Negative;
+    auto expr    = GetExpression();
+    auto rst_ptr = state.TryGetCacheConditionResult(expr);
+
+    if (rst_ptr) return *rst_ptr;
+
+    bool rst = SubNode->IsTrue(state) != Negative;
+    state.CacheConditionResult(expr, rst);
+    return rst;
 }
 
 nemesis::ConditionalStatement::ConditionalStatementParser::Token::Token(TokenType type,
@@ -475,6 +695,9 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
     nemesis::ConditionalStatement::ConditionalAnimationRequest* req  = nullptr;
     nemesis::ConditionalStatement::ConditionalAnimationRequest* req2 = nullptr;
 
+    nemesis::ConditionalStatement::ConditionalOption* opt  = nullptr;
+    nemesis::ConditionalStatement::ConditionalOption* opt2 = nullptr;
+
     try
     {
         if (Match(TokenType::NOT))
@@ -505,24 +728,34 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                 }
 
                 Consume(TokenType::EQL);
+                auto& templt_obj = *SemanticManager.GetCurrentTemplate();
 
-                if (!nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
-                        token.Value, *SemanticManager.GetCurrentTemplate()))
+                if (nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
+                        token.Value, templt_obj))
                 {
-                    str = new nemesis::ConditionalStatement::ConditionalString(
+                    req = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);
                     auto token2 = Consume(TokenType::SYM);
-                    str2        = new nemesis::ConditionalStatement::ConditionalString(
+                    req2        = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
                         token2.Value, LineNum, *FilePathPtr, SemanticManager);
-                    return str->EqualsTo(str2);
+                    return req->EqualsTo(req2);
+                }
+                else if (nemesis::ConditionalStatement::ConditionalOption::IsOption(token.Value, templt_obj))
+                {
+                    opt = new nemesis::ConditionalStatement::ConditionalOption(
+                        token.Value, LineNum, *FilePathPtr, SemanticManager);
+                    auto token2 = Consume(TokenType::SYM);
+                    opt2        = new nemesis::ConditionalStatement::ConditionalOption(
+                        token2.Value, LineNum, *FilePathPtr, SemanticManager);
+                    return opt->EqualsTo(opt2);
                 }
 
-                req = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
+                str = new nemesis::ConditionalStatement::ConditionalString(
                     token.Value, LineNum, *FilePathPtr, SemanticManager);
                 auto token2 = Consume(TokenType::SYM);
-                req2        = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
+                str2        = new nemesis::ConditionalStatement::ConditionalString(
                     token2.Value, LineNum, *FilePathPtr, SemanticManager);
-                return req->EqualsTo(req2);
+                return str->EqualsTo(str2);
             }
             else if (Match(TokenType::NEQL))
             {
@@ -534,24 +767,34 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                 }
 
                 Consume(TokenType::NEQL);
+                auto& templt_obj = *SemanticManager.GetCurrentTemplate();
 
-                if (!nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
+                if (nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
                         token.Value, *SemanticManager.GetCurrentTemplate()))
                 {
-                    str = new nemesis::ConditionalStatement::ConditionalString(
+                    req = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);
                     auto token2 = Consume(TokenType::SYM);
-                    str2        = new nemesis::ConditionalStatement::ConditionalString(
+                    req2        = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
                         token2.Value, LineNum, *FilePathPtr, SemanticManager);
-                    return str->NotEqualsTo(str2);
+                    return req->NotEqualsTo(req2);
+                }
+                else if (nemesis::ConditionalStatement::ConditionalOption::IsOption(token.Value, templt_obj))
+                {
+                    opt = new nemesis::ConditionalStatement::ConditionalOption(
+                        token.Value, LineNum, *FilePathPtr, SemanticManager);
+                    auto token2 = Consume(TokenType::SYM);
+                    opt2        = new nemesis::ConditionalStatement::ConditionalOption(
+                        token2.Value, LineNum, *FilePathPtr, SemanticManager);
+                    return opt->NotEqualsTo(opt2);
                 }
 
-                req = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
+                str = new nemesis::ConditionalStatement::ConditionalString(
                     token.Value, LineNum, *FilePathPtr, SemanticManager);
                 auto token2 = Consume(TokenType::SYM);
-                req2        = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
+                str2        = new nemesis::ConditionalStatement::ConditionalString(
                     token2.Value, LineNum, *FilePathPtr, SemanticManager);
-                return req->NotEqualsTo(req2);
+                return str->NotEqualsTo(str2);
             }
 
             return new nemesis::ConditionalStatement::ConditionalBoolean(
@@ -570,6 +813,8 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
         if (str2) delete str2;
         if (req) delete req;
         if (req2) delete req2;
+        if (opt) delete opt;
+        if (opt2) delete opt2;
 
         throw;
     }

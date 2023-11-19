@@ -32,6 +32,7 @@ namespace nemesis
         SPtr<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>
         GetTargetRequest(const nemesis::TemplateClass& template_class,
                          const nemesis::SemanticManager& manager) const;
+        size_t GetTemplateNumber(const nemesis::TemplateClass& template_class) const;
 
         virtual std::string Serialize() const = 0;
 

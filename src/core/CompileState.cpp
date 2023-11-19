@@ -531,3 +531,41 @@ void nemesis::CompileState::RemoveCounter(const std::string& name)
 {
     CounterMap.erase(name);
 }
+
+void nemesis::CompileState::CacheConditionResult(const std::string& condition_syntax, bool result)
+{
+    ConditionCache[condition_syntax] = result;
+}
+
+Vec<Pair<std::string, bool>> nemesis::CompileState::RemoveConditionCacheContaining(const std::string& syntax)
+{
+    Vec<Pair<std::string, bool>> removing_list;
+
+    for (auto& each : ConditionCache)
+    {
+        if (each.first.find(syntax) == NOT_FOUND) continue;
+
+        removing_list.emplace_back(each.first, each.second);
+    }
+
+    for (auto& each : removing_list)
+    {
+        ConditionCache.erase(each.first);
+    }
+
+    return removing_list;
+}
+
+void nemesis::CompileState::ClearAllConditionCache()
+{
+    ConditionCache.clear();
+}
+
+const bool* nemesis::CompileState::TryGetCacheConditionResult(const std::string& condition_syntax)
+{
+    auto itr = ConditionCache.find(condition_syntax);
+
+    if (itr != ConditionCache.end()) return &itr->second;
+
+    return nullptr;
+}

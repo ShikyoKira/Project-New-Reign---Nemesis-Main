@@ -2,11 +2,18 @@
 #include "core/Template/TemplateOptionModel.h"
 
 nemesis::TemplateOption::TemplateOption(const std::string& expression,
-                                        const std::string& name,
-                                        const VecStr& children)
+                                        const std::string& name)
     : Expression(expression)
     , Name(name)
-    , Children(children)
+{
+}
+
+nemesis::TemplateOption::TemplateOption(const std::string& expression,
+                                        const std::string& name,
+                                        const VecStr& aliases)
+    : Expression(expression)
+    , Name(name)
+    , Aliases(aliases)
 {
 }
 
@@ -22,14 +29,14 @@ const std::string& nemesis::TemplateOption::GetName() const
 
 const VecStr& nemesis::TemplateOption::GetChildren() const
 {
-    return Children;
+    return Aliases;
 }
 
-bool nemesis::TemplateOption::HasChildren(const std::string& child_name) const
+bool nemesis::TemplateOption::HasAlias(const std::string& alias) const
 {
-    for (auto& child : Children)
+    for (auto& a : Aliases)
     {
-        if (child == child_name) return true;
+        if (a == alias) return true;
     }
 
     return false;

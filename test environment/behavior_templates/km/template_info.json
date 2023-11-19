@@ -1,0 +1,56 @@
+{
+    "MinimumArray": 0,
+    "IsArray": false,
+    "Options": [{
+            "Name": "o",
+            "IsArray": false
+        },
+        {
+            "Name": "h",
+            "IsArray": false
+        },
+        {
+            "Name": "ac",
+            "IsArray": false
+        },
+        {
+            "Name": "ac0",
+            "IsArray": false
+        },
+        {
+            "Name": "ac1",
+            "IsArray": false
+        },
+        {
+            "Name": "ao",
+            "IsArray": false
+        },
+        {
+            "Name": "D",
+            "IsArray": false,
+            "Variables": ["time"]
+        },
+        {
+            "Name": "T",
+            "IsArray": true,
+            "Variables": [
+                "event",
+                "time"
+            ]
+        },
+        {
+            "Name": "T2_",
+            "IsArray": true,
+            "Variables": [
+                "event",
+                "time"
+            ]
+        },
+        {
+            "Name": "AV*",
+            "Aliases": ["AVI", "AV"],
+            "IsArray": true,
+            "Variables": ["variable"]
+        }
+    ]
+}

@@ -66,10 +66,35 @@ Vec<const nemesis::HkxBehavior*> nemesis::MasterRepository::GetBehaviorList() co
 
 void nemesis::MasterRepository::CompileAllBehaviors() const
 {
-    for (auto& behavior : BehaviorList)
+    for (auto& behavior : BehaviorMap)
     {
         nemesis::CompileState state(RequestRepository);
-        DeqNstr lines = behavior->Compile(state);
+        sf::path behavior_path(behavior.second->GetFilePath());
+        sf::path hkx_path(behavior_path.parent_path()
+                          / (sf::path(behavior.first).stem().wstring() + L".hkx"));
+
+        if (behavior.second->IsSameAsCached(state))
+        {
+            sf::copy_file(
+                behavior.second->GetCachedFilePath(), hkx_path, sf::copy_options::overwrite_existing);
+            return;
+        }
+
+        DeqNstr lines = behavior.second->Compile(state);
+
+        sf::path xml_path(behavior_path.parent_path() / (nemesis::generate_guid_w() + L".xml"));
+        std::ofstream output_file(xml_path);
+
+        for (auto& line : lines)
+        {
+            output_file << line.ToString() << "\n";
+        }
+
+        output_file.close();
+
+        HkxCompiler::ConvertToHkx(xml_path, hkx_path);
+
+        sf::remove(xml_path);
     }
 }
 
@@ -107,7 +132,7 @@ void nemesis::MasterRepository::CompileAllBehaviors(nemesis::ThreadPool& tp) con
 
                 HkxCompiler::ConvertToHkx(xml_path, hkx_path);
 
-                //sf::remove(xml_path);
+                sf::remove(xml_path);
             });
     }
 }

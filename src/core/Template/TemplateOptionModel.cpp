@@ -12,6 +12,8 @@ nemesis::TemplateOptionModel::TemplateOptionModel(const std::string name,
     , Variables(variables)
     , bArray(b_array)
 {
+    OrderedNames.insert(Variables.begin(), Variables.end());
+    OrderedNames.insert(Name);
 }
 
 const std::string& nemesis::TemplateOptionModel::GetName() const noexcept
@@ -53,28 +55,34 @@ UPtr<nemesis::TemplateOption> nemesis::TemplateOptionModel::TryCreateOption(
     {
         if (Variables.empty()) return std::make_unique<nemesis::TemplateOption>(expression, Name, Aliases);
 
-        throw std::runtime_error("missing variable for option (Option: " + Name + ", Variable: " + Variables.front() + ", Line: " + std::to_string(linenum)
+        throw std::runtime_error("Missing variable for option (Option: " + Name + ", Variable: " + Variables.front() + ", Line: " + std::to_string(linenum)
                                  + ", File: " + filepath.string() + ")");
     }
 
-    if (!expression._Starts_with(Name)) return nullptr;
-
-    auto option = std::make_unique<nemesis::TemplateOption>(expression, Name, Aliases);
-    std::stringstream ss(expression.substr(Name.size()));
-
-    for (auto& variable : Variables)
+    for (auto& name : OrderedNames)
     {
-        std::string option_expression;
+        if (!expression._Starts_with(name)) continue;
 
-        if (!std::getline(ss, option_expression, '/'))
+        auto option = name == Name ? std::make_unique<nemesis::TemplateOption>(expression, name, Aliases)
+                                   : std::make_unique<nemesis::TemplateOption>(expression, name);
+        std::stringstream ss(expression.substr(name.size()));
+
+        for (auto& variable : Variables)
         {
-            throw std::runtime_error("missing variable for option (Option: " + Name
-                                     + ", Variable: " + variable + ", Line: "
-                                     + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+            std::string option_expression;
+
+            if (!std::getline(ss, option_expression, '/'))
+            {
+                throw std::runtime_error("Missing variable for option (Option: " + name
+                                         + ", Variable: " + variable + ", Line: " + std::to_string(linenum)
+                                         + ", File: " + filepath.string() + ")");
+            }
+
+            option->AddVariable(variable, option_expression);
         }
 
-        option->AddVariable(variable, option_expression);
+        return option;
     }
 
-    return option;
+    return nullptr;
 }

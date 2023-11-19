@@ -30,11 +30,11 @@
 <!-- FOREACH ^@Map[1]^ -->
 				<hkobject>
 					<hkparam name="id">393</hkparam>
-					<hkparam name="payload">#$@SubTemplate[anim_object][{@Map[][1]}]$</hkparam>
+					<hkparam name="payload">#$@SubTemplate[anim_object][{@Map[1][]}]$</hkparam>
 				</hkobject>
 				<hkobject>
 					<hkparam name="id">394</hkparam>
-					<hkparam name="payload">#$@SubTemplate[anim_object][{@Map[][1]}]$</hkparam>
+					<hkparam name="payload">#$@SubTemplate[anim_object][{@Map[1][]}]$</hkparam>
 				</hkobject>
 <!-- CLOSE -->
 <!-- ENDIF -->
@@ -82,23 +82,37 @@
 			<hkparam name="name">bMesmerizeIsActive</hkparam>
 			<hkparam name="enable">true</hkparam>
 			<hkparam name="bIsActive0">false</hkparam>
-			<hkparam name="bInvertActive0">$@MultiChoice$</hkparam>			<!-- ^AV*[0]^ true --> <!-- false -->
+			<hkparam name="bInvertActive0">$@MultiChoice$</hkparam>			<!-- ^AVI[0]^ true --> <!-- false -->
 			<hkparam name="bIsActive1">false</hkparam>
-			<hkparam name="bInvertActive1">$@MultiChoice$</hkparam>			<!-- ^AV*[1]^ true --> <!-- false -->
+			<hkparam name="bInvertActive1">$@MultiChoice$</hkparam>			<!-- ^AVI[1]^ true --> <!-- false -->
 			<hkparam name="bIsActive2">false</hkparam>
-			<hkparam name="bInvertActive2">$@MultiChoice$</hkparam>			<!-- ^AV*[2]^ true --> <!-- false -->
+			<hkparam name="bInvertActive2">$@MultiChoice$</hkparam>			<!-- ^AVI[2]^ true --> <!-- false -->
 			<hkparam name="bIsActive3">false</hkparam>
-			<hkparam name="bInvertActive3">$@MultiChoice$</hkparam>			<!-- ^AV*[3]^ true --> <!-- false -->
+			<hkparam name="bInvertActive3">$@MultiChoice$</hkparam>			<!-- ^AVI[3]^ true --> <!-- false -->
 			<hkparam name="bIsActive4">false</hkparam>
-			<hkparam name="bInvertActive4">$@MultiChoice$</hkparam>			<!-- ^AV*[4]^ true --> <!-- false -->
+			<hkparam name="bInvertActive4">$@MultiChoice$</hkparam>			<!-- ^AVI[4]^ true --> <!-- false -->
 		</hkobject>
 		
 		<hkobject name="#fuo_2~$@ID$~5" class="hkbVariableBindingSet" signature="0x338ad4ff">
 			<hkparam name="bindings" numelements="0">			<!-- @Counter -->	<!-- START_COUNTER_0 -->
-<!-- FOREACH ^AV*^ -->
+<!-- FOREACH ^AVI^ -->
+<!-- IF ^@CurrentCount[0] == "5"^ -->
+<!-- BREAK ^AVI^ -->
+<!-- ENDIF -->
 				<hkobject>
 					<hkparam name="memberPath">bIsActive$@CurrentCount[0]$</hkparam>
-					<hkparam name="variableIndex">$@VariableID[{AV*[][variable]}]$</hkparam>
+					<hkparam name="variableIndex">$@VariableID[{AVI[][variable]}]$</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>															<!-- ADD_COUNTER_0 -->
+<!-- CLOSE -->
+<!-- FOREACH ^AV^ -->
+<!-- IF ^@CurrentCount[0] == "5"^ -->
+<!-- BREAK ^AV^ -->
+<!-- ENDIF -->
+				<hkobject>
+					<hkparam name="memberPath">bIsActive$@CurrentCount[0]$</hkparam>
+					<hkparam name="variableIndex">$@VariableID[{AV[][variable]}]$</hkparam>
 					<hkparam name="bitIndex">-1</hkparam>
 					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
 				</hkobject>															<!-- ADD_COUNTER_0 -->

@@ -19,6 +19,10 @@ namespace nemesis
                                                                nemesis::SemanticManager& manager);
         static Vec<UPtr<nemesis::NObject>> ParseModObjects(nemesis::LineStream& stream,
                                                            nemesis::SemanticManager& manager);
+        static Vec<UPtr<nemesis::NObject>>
+        ParseModObjects(nemesis::LineStream& stream,
+                        nemesis::SemanticManager& manager,
+                        std::function<bool(nemesis::LineStream&)> terminator);
         static Vec<UPtr<nemesis::NObject>> ParseHkxObjects(nemesis::LineStream& stream,
                                                            nemesis::SemanticManager& manager);
         static Vec<UPtr<nemesis::NObject>> ParseHkxModObjects(nemesis::LineStream& stream,

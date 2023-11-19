@@ -70,7 +70,7 @@ void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(Vec<UPtr<nemesis::
         auto& object   = objects[i];
         auto* line_ptr = dynamic_cast<nemesis::NLine*>(object.get());
 
-        if (!line_ptr) throw std::runtime_error("Template update line to line does not  match");
+        if (!line_ptr) throw std::runtime_error("Template update line to line does not match");
 
         Objects.emplace_back(std::move(object));
     }

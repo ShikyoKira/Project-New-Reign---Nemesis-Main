@@ -1,0 +1,45 @@
+		<hkobject name="#0052" class="hkbBehaviorGraphStringData" signature="0xc713064e">
+			<hkparam name="eventNames" numelements="10">
+				<hkcstring>AnimObjLoad</hkcstring>				<!-- 0 -->
+				<hkcstring>AnimObjDraw</hkcstring>				<!-- 1 -->
+				<hkcstring>HeadTrackingOff</hkcstring>			<!-- 2 -->
+				<hkcstring>HeadTrackingOn</hkcstring>			<!-- 3 -->
+				<hkcstring>StartAnimatedCamera</hkcstring>		<!-- 4 -->
+				<hkcstring>EndAnimatedCamera</hkcstring>		<!-- 5 -->
+				<hkcstring>IdleChairSitting</hkcstring>			<!-- 6 -->
+				<hkcstring>IdleChairGetUp</hkcstring>			<!-- 7 -->
+				<hkcstring>AnimObjectUnequip</hkcstring>		<!-- 8 -->
+				<hkcstring>IdleForceDefaultState</hkcstring>	<!-- 9 -->
+<!-- FOREACH ^s_1^ -->
+				<hkcstring>$s_1[][@AnimationEvent]$</hkcstring>
+				<hkcstring>$s_1[][@AnimationEvent]$_REENTER</hkcstring>
+				<hkcstring>$s_2[L][@AnimationEvent]$_DONE</hkcstring>
+	<!-- FOREACH ^s_1[][T]^ -->
+				<hkcstring>$s_1[][T][][event]$</hkcstring>
+	<!-- CLOSE -->
+	<!-- FOREACH ^s_2^ -->
+				<hkcstring>$s_2[][@AnimationEvent]$</hkcstring>
+		<!-- FOREACH ^s_2[][T]^ -->
+				<hkcstring>$s_2[][T][][event]$</hkcstring>
+		<!-- CLOSE -->
+	<!-- CLOSE -->
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="attributeNames" numelements="1">
+				<hkcstring>AttrWM</hkcstring>
+			</hkparam>
+			<hkparam name="variableNames" numelements="1">
+				<hkcstring>bAnimationDriven</hkcstring>
+<!-- FOREACH ^s_1^ -->
+	<!-- FOREACH ^s_1[][AV*]^ -->
+				<hkcstring>$s_1[][AV*][][variable]$</hkcstring>
+	<!-- CLOSE -->
+	<!-- FOREACH ^s_2^ -->
+		<!-- FOREACH ^s_2[][AV*]^ -->
+				<hkcstring>$s_2[][AV*][][variable]$</hkcstring>
+		<!-- CLOSE -->
+	<!-- CLOSE -->
+<!-- CLOSE -->
+			</hkparam>
+			<hkparam name="characterPropertyNames" numelements="0"></hkparam>
+		</hkobject>

@@ -12,14 +12,14 @@ namespace nemesis
     {
     private:
         std::string Name;
-        size_t MinimumArray = 0;
+        size_t MinArraySize = 0;
+        size_t MaxArraySize = 0;
         bool IsArray        = false;
 
         Vec<UPtr<nemesis::TemplateOptionModel>> OptionModelList;
         Vec<SPtr<nemesis::TemplateObject>> Templates;
 
         std::filesystem::path InfoPath;
-
     public:
         TemplateClass(const std::filesystem::path& template_info_path);
 
@@ -34,6 +34,9 @@ namespace nemesis
 
         size_t GetSize() const noexcept;
         const std::string& GetName() const noexcept;
+        size_t GetRequestMinArraySize() const noexcept;
+        size_t GetRequestMaxArraySize() const noexcept;
+        bool IsRequestArray() const noexcept;
 
         const nemesis::TemplateOptionModel* GetModel(const std::string& name) const;
 
@@ -42,6 +45,6 @@ namespace nemesis
         UPtr<nemesis::AnimationRequest> CreateRequest(const std::string& request_info,
                                                       size_t index,
                                                       size_t linenum,
-                                                      const std::filesystem::path& filepath);
+                                                      const std::filesystem::path& filepath) const;
     };
 }

@@ -1,0 +1,9 @@
+<!-- IF ^motion|rotation^ -->
+NPC_Nemesis_KillMove_Clip_$@Index$
+$animOrder[Animations\FilePath]$
+1
+0
+0
+0
+
+<!-- ENDIF -->

@@ -275,130 +275,32 @@ nemesis::OptionVariableStatement::OptionVariableStatement(const std::string& exp
                                                           const std::filesystem::path& filepath,
                                                           const nemesis::SemanticManager& manager)
     : nemesis::CompositeStatement(expression, linenum, filepath)
+    , OptionStatement(expression.substr(0, expression.rfind("[")), linenum, filepath, manager)
 {
+    SPtr<std::function<std::string(nemesis::CompileState&)>> get_option_var;
+    const std::string *name_ptr, *var_name_ptr;
+
     auto template_class = manager.GetCurrentTemplateClass();
 
     switch (Components.size())
     {
         case 2:
-        {
-            std::string& option_name = Components.front();
-            std::string& option_var  = Components.back();
-            auto model               = template_class->GetModel(option_name);
-
-            if (!model)
-            {
-                throw std::runtime_error("Syntax error: Option or joint option does not exist (Option: "
-                                         + option_name + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
-            }
-
-            if (model->IsArray())
-            {
-                throw std::runtime_error("Syntax error: Option is an array (Option: " + option_name
-                                         + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
-            }
-
-            auto get_option_var = GetVariableFunction(option_var, linenum, filepath, manager, model);
-
-            GetValueFunction = [&option_name, get_option_var](nemesis::CompileState& state)
-            {
-                auto option = state.GetBaseRequest()->GetOption(option_name);
-                return option->GetVariableValue((*get_option_var)(state));
-            };
-            break;
-        }
         case 3:
         {
-            std::string& option_name  = Components.front();
-            std::string& option_index = Components[1];
-            std::string& option_var   = Components.back();
-            auto model                = template_class->GetModel(option_name);
-
-            if (!model)
-            {
-                throw std::runtime_error("Syntax error: Option does not exist (Option: " + option_name
-                                         + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
-            }
-
-            if (!model->IsArray()) throw std::runtime_error("Syntax error: Option is not an array (Option: " + option_name
-                                         + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
-
-            auto get_option
-                = GetBaseOptionFunction(option_name, option_index, linenum, filepath, manager);
-            auto get_option_var = GetVariableFunction(option_var, linenum, filepath, manager, model);
-
-            GetValueFunction = [get_option, get_option_var](nemesis::CompileState& state)
-            {
-                auto option = (*get_option)(state);
-                return option->GetVariableValue((*get_option_var)(state));
-            };
+            name_ptr     = &Components.front();
+            var_name_ptr = &Components.back();
             break;
         }
         case 4:
         {
-            auto get_request_func    = GetTargetRequest(*template_class, manager);
-            std::string& option_name = Components[2];
-            std::string& option_var  = Components[3];
-
-            auto model = template_class->GetModel(option_name);
-
-            if (!model)
-            {
-                throw std::runtime_error("Syntax error: Option does not exist (Option: " + option_name
-                                         + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
-            }
-
-            if (model->IsArray()) throw std::runtime_error("Syntax error: Option is an array (Option: " + option_name
-                                         + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
-
-            auto get_option_var = GetVariableFunction(option_var, linenum, filepath, manager, model);
-
-            GetValueFunction = [get_request_func, &option_name, get_option_var](nemesis::CompileState& state)
-            {
-                auto request = (*get_request_func)(state);
-                return request->GetOption(option_name)->GetVariableValue((*get_option_var)(state));
-            };
+            name_ptr     = &Components[2];
+            var_name_ptr = &Components[3];
             break;
         }
         case 5:
         {
-            // how to separate base option index and non-base option index
-            std::string& option_name = Components[2];
-            std::string& option_index = Components[3];
-            std::string& option_var  = Components[4];
-
-            auto model = template_class->GetModel(option_name);
-
-            if (!model)
-            {
-                throw std::runtime_error("Syntax error: Option does not exist (Option: " + option_name
-                                         + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
-            }
-
-            if (!model->IsArray()) throw std::runtime_error("Syntax error: Option is not array (Option: " + option_name
-                                         + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
-
-            std::string option_syntax = Components.front() + "[" + Components[1] + "][" + option_name + "]";
-            auto get_request_func     = GetTargetRequest(*template_class, manager);
-            auto get_option
-                = GetOptionFunction(option_syntax, option_name, option_index, linenum, filepath, manager);
-            auto get_option_var = GetVariableFunction(option_var, linenum, filepath, manager, model);
-
-            GetValueFunction
-                = [get_request_func, get_option, get_option_var](nemesis::CompileState& state)
-            {
-                auto request = (*get_request_func)(state);
-                auto option = (*get_option)(request, state);
-                return option->GetVariableValue((*get_option_var)(state));
-            };
+            name_ptr     = &Components[2];
+            var_name_ptr = &Components[4];
             break;
         }
         default:
@@ -406,6 +308,12 @@ nemesis::OptionVariableStatement::OptionVariableStatement(const std::string& exp
                                          + expression + ", Line: " + std::to_string(linenum)
                                          + ", File: " + filepath.string() + ")");
     }
+
+    auto model       = template_class->GetModel(*name_ptr);
+    get_option_var   = GetVariableFunction(*var_name_ptr, linenum, filepath, manager, model);
+
+    GetValueFunction = [this, get_option_var](nemesis::CompileState& state)
+    { return OptionStatement.GetVariableValue(state, (*get_option_var)(state)); };
 }
 
 std::string nemesis::OptionVariableStatement::Serialize() const

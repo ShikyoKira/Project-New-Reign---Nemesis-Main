@@ -19,7 +19,7 @@ void nemesis::HkxNodeTester::Run()
         "E:\\C++\\Project New Reign - Nemesis\\test environment\\behavior_templates\\fuo\\template_info.json");
     nemesis::TemplateObject templt(&templt_class);
 
-    UPtr<nemesis::AnimationRequest> request = std::make_unique<nemesis::AnimationRequest>("ta", 0);
+    UPtr<nemesis::AnimationRequest> request = std::make_unique<nemesis::AnimationRequest>("ta", 0, true);
 
     auto model  = templt_class.GetModel("T");
     auto option = model->TryCreateOption("TDodgeStop/1.05", 1, "file.txt");

@@ -2,6 +2,7 @@
 
 #include <regex>
 
+#include "core/Statements/OptionStatement.h"
 #include "core/Statements/OptionVariableStatement.h"
 
 #include "base/file.h"
@@ -17,6 +18,7 @@ namespace nemesis
     private:
         struct ConditionalAnimationRequestComparer;
         struct ConditionalStringComparer;
+        struct ConditionOptionComparer;
         struct ConditionalCollection;
 
         struct ConditionalNode
@@ -25,6 +27,7 @@ namespace nemesis
             bool Negative = false;
 
         public:
+            virtual std::string GetExpression() const               = 0;
             virtual bool IsTrue(nemesis::CompileState& state) const = 0;
 
             virtual nemesis::ConditionalStatement::ConditionalCollection*
@@ -36,7 +39,6 @@ namespace nemesis
         struct ConditionalString : public nemesis::CompositeStatement
         {
         private:
-            std::string Expression;
             std::string ConstantValue;
 
         public:
@@ -68,13 +70,15 @@ namespace nemesis
 
             std::string Serialize() const override;
 
+            std::string GetExpression() const override;
+
             bool IsTrue(nemesis::CompileState& state) const override;
         };
 
         struct ConditionalAnimationRequest : public nemesis::Statement
         {
         private:
-            SPtr<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>> GetRequestFunction;
+            std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)> GetRequestFunction;
 
         public:
             ConditionalAnimationRequest(const std::string& expression,
@@ -94,9 +98,47 @@ namespace nemesis
             static bool IsAnimationRequest(const std::string& term, const nemesis::TemplateObject& template_object);
         };
 
+        struct ConditionalOption: public nemesis::OptionStatement
+        {
+        public:
+            ConditionalOption(const std::string& expression,
+                              size_t linenum,
+                              const std::filesystem::path& filepath,
+                              const nemesis::SemanticManager& manager);
+
+            nemesis::ConditionalStatement::ConditionOptionComparer*
+            EqualsTo(ConditionalOption* option) noexcept;
+            nemesis::ConditionalStatement::ConditionOptionComparer*
+            NotEqualsTo(ConditionalOption* option) noexcept;
+
+            static bool IsOption(const std::string& term,
+                                           const nemesis::TemplateObject& template_object);
+        };
+
+        struct ConditionOptionComparer : public nemesis::ConditionalStatement::ConditionalNode
+        {
+        private:
+            mutable std::string Expression;
+
+            ConditionalOption* Variable1;
+            ConditionalOption* Variable2;
+
+        public:
+            ConditionOptionComparer(ConditionalOption* variable1,
+                                    ConditionalOption* variable2,
+                                    bool negative) noexcept;
+            ~ConditionOptionComparer() noexcept;
+
+            std::string GetExpression() const override;
+
+            bool IsTrue(nemesis::CompileState& state) const override;
+        };
+
         struct ConditionalAnimationRequestComparer : public nemesis::ConditionalStatement::ConditionalNode
         {
         private:
+            mutable std::string Expression;
+
             ConditionalAnimationRequest* Variable1;
             ConditionalAnimationRequest* Variable2;
 
@@ -106,12 +148,16 @@ namespace nemesis
                                        bool negative) noexcept;
             ~ConditionalAnimationRequestComparer() noexcept;
 
+            std::string GetExpression() const override;
+
             bool IsTrue(nemesis::CompileState& state) const override;
         };
 
         struct ConditionalStringComparer : public nemesis::ConditionalStatement::ConditionalNode
         {
         private:
+            mutable std::string Expression;
+
             ConditionalString* First;
             ConditionalString* Second;
 
@@ -121,12 +167,16 @@ namespace nemesis
                                       bool negative) noexcept;
             ~ConditionalStringComparer() noexcept;
 
+            std::string GetExpression() const override;
+
             bool IsTrue(nemesis::CompileState& state) const override;
         };
 
         struct ConditionalCollection : public nemesis::ConditionalStatement::ConditionalNode
         {
         private:
+            mutable std::string Expression;
+
             Vec<nemesis::ConditionalStatement::ConditionalNode*> AndConditions;
             Vec<nemesis::ConditionalStatement::ConditionalNode*> OrConditions;
 
@@ -140,18 +190,24 @@ namespace nemesis
             nemesis::ConditionalStatement::ConditionalCollection*
             Or(nemesis::ConditionalStatement::ConditionalNode* node) override;
 
+            std::string GetExpression() const override;
+
             bool IsTrue(nemesis::CompileState& state) const override;
         };
 
         struct ConditionalParentheses : public nemesis::ConditionalStatement::ConditionalNode
         {
         private:
+            mutable std::string Expression;
+
             nemesis::ConditionalStatement::ConditionalNode* SubNode;
 
         public:
             ConditionalParentheses(nemesis::ConditionalStatement::ConditionalNode* subnode,
                                    bool negative) noexcept;
             ~ConditionalParentheses() noexcept;
+
+            std::string GetExpression() const override;
 
             bool IsTrue(nemesis::CompileState& state) const override;
         };

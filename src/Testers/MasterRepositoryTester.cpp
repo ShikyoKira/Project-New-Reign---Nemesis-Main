@@ -77,6 +77,7 @@ void nemesis::MasterRepositoryTester::Run()
 
                     if (!behavior_ptr)
                     {
+                        continue;
                         throw std::runtime_error("Behavior referenced by template cannot be found");
                     }
 
@@ -117,54 +118,27 @@ void nemesis::MasterRepositoryTester::Run()
     }
 
     auto* templt_class = repository.GetTemplateClassByName("fuo");
-    
-    UPtr<nemesis::AnimationRequest> request = std::make_unique<nemesis::AnimationRequest>("fuo", 0);
-    request->SetAnimationEvent("ExampleAnimation");
 
-    auto model  = templt_class->GetModel("T");
-    auto option = model->TryCreateOption("TDodgeStop/1.05", 1, "file.txt");
-    request->AddOption(std::move(option));
-
-    auto model2  = templt_class->GetModel("o");
-    auto option2 = model2->TryCreateOption("o", 2, "file.txt");
-    request->AddOption(std::move(option2));
-
-    auto model3  = templt_class->GetModel("ac");
-    auto option3 = model3->TryCreateOption("ac", 3, "file.txt");
-    request->AddOption(std::move(option3));
-
-    auto option5 = model->TryCreateOption("TDodgeStart/1.3", 4, "file.txt");
-    request->AddOption(std::move(option5));
-
-    auto option4 = model->TryCreateOption("TAttackQuickStart/2.1", 5, "file.txt");
-    request->AddOption(std::move(option4));
-
+    auto request
+        = templt_class->CreateRequest("fuo -TDodgeStop/1.05,o,ac,TDodgeStart/1.3,TAttackQuickStart/2.1 ExampleAnimation  "
+                                      "idlestop.hkx AnimobjectSweetRoll/1",
+                                      0,
+                                      0,
+                                      "E:\\C++\\Project New Reign - Nemesis\\test "
+                                      "environment\\data\\meshes\\actors\\character\\animations\\animated"
+                                      "eatingredux\\fnis_animatedeatingredux_list.txt");
     auto request_ptr = request.get();
     auto& repo       = repository.GetAnimationRequestRepository();
     repo.AddRequest(std::move(request));
 
     {
-        UPtr<nemesis::AnimationRequest> request = std::make_unique<nemesis::AnimationRequest>("fuo", 1);
-        request->SetAnimationEvent("NewAnimation");
-
-        auto model  = templt_class->GetModel("T");
-        auto option = model->TryCreateOption("TRollStop/3.05", 1, "file.txt");
-        request->AddOption(std::move(option));
-
-        auto model2  = templt_class->GetModel("h");
-        auto option2 = model2->TryCreateOption("h", 2, "file.txt");
-        request->AddOption(std::move(option2));
-
-        auto model3  = templt_class->GetModel("o");
-        auto option3 = model3->TryCreateOption("o", 3, "file.txt");
-        request->AddOption(std::move(option3));
-
-        auto option5 = model->TryCreateOption("TRollStart/4.3", 4, "file.txt");
-        request->AddOption(std::move(option5));
-
-        auto option4 = model->TryCreateOption("TBlockStart/1.1", 5, "file.txt");
-        request->AddOption(std::move(option4));
-
+        auto request
+            = templt_class->CreateRequest("fuo -TRollStop/3.05,h,o,TRollStart/4.3,TBlockStart/1.1 FZSweetRoll1  ..\\animobjecteatingidlebase.hkx AnimobjectSweetRoll/1",
+                                          1,
+                                          1,
+                                          "E:\\C++\\Project New Reign - Nemesis\\test "
+                                          "environment\\data\\meshes\\actors\\character\\animations\\animated"
+                                          "eatingredux\\fnis_animatedeatingredux_list.txt");
         request_ptr->AddRequest(std::move(request));
     }
 

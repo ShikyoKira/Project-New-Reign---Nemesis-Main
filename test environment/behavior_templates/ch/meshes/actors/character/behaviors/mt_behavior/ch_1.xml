@@ -1,0 +1,318 @@
+<!-- IF ^ch_1[]==ch_1[F]^ -->
+		<hkobject name="#ch_1~$@ID$~0" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">$@MultiChoice$</hkparam>			<!-- ^o^ #ch_1~$@ID$~1 --> <!-- null -->
+			<hkparam name="exitNotifyEvents">#1731</hkparam>
+			<hkparam name="transitions">#1730</hkparam>
+			<hkparam name="generator">#ch_1~$@ID$~2</hkparam>
+			<hkparam name="name">Nemesis_Chair_State_$@Index$</hkparam>
+			<hkparam name="stateId">$@StateID[ch_1~{@ID}~0]$</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+<!-- IF ^o^ -->
+		<hkobject name="#ch_1~$@ID$~1" class="hkbStateMachineEventPropertyArray" signature="0xb07b4388">
+			<hkparam name="events" numelements="0">
+<!-- FOREACH ^@Map[1]^ -->
+				<hkobject>
+					<hkparam name="id">393</hkparam>
+					<hkparam name="payload">#$@SubTemplate[anim_object][{@Map[1][]}]$</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>
+
+<!-- ENDIF -->
+		<hkobject name="#ch_1~$@ID$~2" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">#ch_1~$@ID$~3</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_Chair_Behavior_$@Index$</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">-1</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_DEFAULT</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="3">
+				#ch_1~$@ID$~4 #ch_1~$@ID$~7 #ch_1~$@ID$~15
+			</hkparam>
+			<hkparam name="wildcardTransitions">#1720</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~3" class="hkbVariableBindingSet" signature="0x338ad4ff">
+			<hkparam name="bindings" numelements="1">
+				<hkobject>
+					<hkparam name="memberPath">isActive</hkparam>
+					<hkparam name="variableIndex">60</hkparam>
+					<hkparam name="bitIndex">-1</hkparam>
+					<hkparam name="bindingType">BINDING_TYPE_VARIABLE</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="indexOfBindingToEnable">-1</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~4" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">#1726</hkparam>
+			<hkparam name="generator">#ch_1~$@ID$~5</hkparam>
+			<hkparam name="name">Nemesis_Chair_Start_$@Index$</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~5" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_Chair_Start_Clip_$@Index$</hkparam>
+			<hkparam name="animationName">Animations\$@AnimationFilePath$</hkparam>
+			<hkparam name="triggers">#ch_1~$@ID$~6</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_SINGLE_PLAY</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~6" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="1">
+				<hkobject>
+					<hkparam name="localTime">-0.200000</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">91</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- FOREACH ^@Map[1]^ -->
+				<hkobject>
+					<hkparam name="localTime">1.0</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">394</hkparam>
+							<hkparam name="payload">#$@SubTemplate[anim_object][{@Map[1][]}]$</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+<!-- CLOSE -->
+			</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~7" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#ch_1~$@ID$~8</hkparam>
+			<hkparam name="name">Nemesis_Chair_Mid_$@Index$</hkparam>
+			<hkparam name="stateId">1</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~8" class="hkbStateMachine" signature="0x816c1dcb">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_Chair_Mid_Behavior_$@Index$</hkparam>
+			<hkparam name="eventToSendWhenStateOrTransitionChanges">
+				<hkobject>
+					<hkparam name="id">-1</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="startStateChooser">null</hkparam>
+			<hkparam name="startStateId">0</hkparam>
+			<hkparam name="returnToPreviousStateEventId">-1</hkparam>
+			<hkparam name="randomTransitionEventId">91</hkparam>
+			<hkparam name="transitionToNextHigherStateEventId">-1</hkparam>
+			<hkparam name="transitionToNextLowerStateEventId">-1</hkparam>
+			<hkparam name="syncVariableIndex">-1</hkparam>
+			<hkparam name="wrapAroundStateId">false</hkparam>
+			<hkparam name="maxSimultaneousTransitions">32</hkparam>
+			<hkparam name="startStateMode">START_STATE_MODE_RANDOM</hkparam>
+			<hkparam name="selfTransitionMode">SELF_TRANSITION_MODE_NO_TRANSITION</hkparam>
+			<hkparam name="states" numelements="3">
+				#ch_1~$@ID$~9 #ch_1~$@ID$~11 #ch_1~$@ID$~13
+			</hkparam>
+			<hkparam name="wildcardTransitions">#1117</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~9" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#ch_1~$@ID$~10</hkparam>
+			<hkparam name="name">Nemesis_Chair_Base_$@Index$</hkparam>
+			<hkparam name="stateId">0</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~10" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_Chair_Base_Clip_$@Index$</hkparam>
+			<hkparam name="animationName">$ch_1[1][@AnimationFilePath]$</hkparam>
+			<hkparam name="triggers">#1130</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~11" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">#1127</hkparam>
+			<hkparam name="exitNotifyEvents">#1126</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#ch_1~$@ID$~12</hkparam>
+			<hkparam name="name">Nemesis_Chair_Var1_$@Index$</hkparam>
+			<hkparam name="stateId">1</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~12" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_Chair_Var1_Clip_$@Index$</hkparam>
+			<hkparam name="animationName">$ch_1[2][@AnimationFilePath]$</hkparam>
+			<hkparam name="triggers">#$@SubTemplate[clip_trigger_3][-0.200000][91][1.000000][20][-1.0][18]$</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~13" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">#1127</hkparam>
+			<hkparam name="exitNotifyEvents">#1126</hkparam>
+			<hkparam name="transitions">null</hkparam>
+			<hkparam name="generator">#ch_1~$@ID$~14</hkparam>
+			<hkparam name="name">Nemesis_Chair_Var2_$@Index$</hkparam>
+			<hkparam name="stateId">2</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~14" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_Chair_Var2_$@Index$</hkparam>
+			<hkparam name="animationName">$ch_1[L][@AnimationFilePath]$</hkparam>
+			<hkparam name="triggers">#$@SubTemplate[clip_trigger_3][-0.200000][91][1.000000][20][-1.0][18]$</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~15" class="hkbStateMachineStateInfo" signature="0xed7f9d0">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="listeners" numelements="0"></hkparam>
+			<hkparam name="enterNotifyEvents">null</hkparam>
+			<hkparam name="exitNotifyEvents">null</hkparam>
+			<hkparam name="transitions">#1721</hkparam>
+			<hkparam name="generator">#ch_1~$@ID$~16</hkparam>
+			<hkparam name="name">Nemesis_Chair_TalkingState_$@Index$</hkparam>
+			<hkparam name="stateId">2</hkparam>
+			<hkparam name="probability">1.000000</hkparam>
+			<hkparam name="enable">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~16" class="hkbModifierGenerator" signature="0x1f81fae6">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">1</hkparam>
+			<hkparam name="name">Nemesis_Chair_MG_$@Index$</hkparam>
+			<hkparam name="modifier">#ch_1~$@ID$~17</hkparam>
+			<hkparam name="generator">#ch_1~$@ID$~18</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~17" class="BSEventEveryNEventsModifier" signature="0x6030970c">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">3</hkparam>
+			<hkparam name="name">BSEventEveryNEventsMod_5and2_$@Index$</hkparam>
+			<hkparam name="enable">true</hkparam>
+			<hkparam name="eventToCheckFor">
+				<hkobject>
+					<hkparam name="id">168</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="eventToSend">
+				<hkobject>
+					<hkparam name="id">132</hkparam>
+					<hkparam name="payload">null</hkparam>
+				</hkobject>
+			</hkparam>
+			<hkparam name="numberOfEventsBeforeSend">5</hkparam>
+			<hkparam name="minimumNumberOfEventsBeforeSend">2</hkparam>
+			<hkparam name="randomizeNumberOfEvents">true</hkparam>
+		</hkobject>
+
+		<hkobject name="#ch_1~$@ID$~18" class="hkbClipGenerator" signature="0x333b85b9">
+			<hkparam name="variableBindingSet">null</hkparam>
+			<hkparam name="userData">0</hkparam>
+			<hkparam name="name">Nemesis_Chair_Talking_Clip_$@Index$</hkparam>
+			<hkparam name="animationName">$ch_1[1][@AnimationFilePath]$</hkparam>
+			<hkparam name="triggers">#1114</hkparam>
+			<hkparam name="cropStartAmountLocalTime">0.000000</hkparam>
+			<hkparam name="cropEndAmountLocalTime">0.000000</hkparam>
+			<hkparam name="startTime">0.000000</hkparam>
+			<hkparam name="playbackSpeed">1.000000</hkparam>
+			<hkparam name="enforcedDuration">0.000000</hkparam>
+			<hkparam name="userControlledTimeFraction">0.000000</hkparam>
+			<hkparam name="animationBindingIndex">-1</hkparam>
+			<hkparam name="mode">MODE_LOOPING</hkparam>
+			<hkparam name="flags">0</hkparam>
+		</hkobject>
+
+<!-- ENDIF -->

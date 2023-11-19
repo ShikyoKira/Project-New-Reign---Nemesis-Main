@@ -13,20 +13,27 @@ nemesis::TemplateClass::TemplateClass(const std::filesystem::path& template_info
     json_file >> template_info;
 
     IsArray        = template_info["IsArray"].get<bool>();
-    MinimumArray   = template_info["MinimumArray"].get<size_t>();
+    MinArraySize   = template_info["MinimumArray"].get<size_t>();
     auto& elements = template_info["Options"];
 
     for (Json::iterator it = elements.begin(); it != elements.end(); ++it)
     {
         auto& body = *it;
 
+        if (!body.contains("Name")) continue;
+
         std::string name = body["Name"].get<std::string>();
         VecStr aliases   = body.contains("Aliases") ? body["Aliases"].get<VecStr>() : VecStr();
-        VecStr variables = body["Variables"].get<VecStr>();
-        bool b_array     = body["IsArray"].get<bool>();
+        VecStr variables = body.contains("Variables") ? body["Variables"].get<VecStr>() : VecStr();
+        bool b_array     = body.contains("IsArray") ? body["IsArray"].get<bool>() : false;
         OptionModelList.emplace_back(
             std::make_unique<nemesis::TemplateOptionModel>(name, aliases, variables, b_array));
     }
+
+    std::sort(OptionModelList.begin(),
+              OptionModelList.end(),
+              [](UPtr<nemesis::TemplateOptionModel>& model_1, UPtr<nemesis::TemplateOptionModel>& model_2)
+              { return model_1->GetName().size() > model_2->GetName().size(); });
 }
 
 void nemesis::TemplateClass::AddTemplate(const SPtr<nemesis::TemplateObject>& template_object)
@@ -75,6 +82,21 @@ const std::string& nemesis::TemplateClass::GetName() const noexcept
     return Name;
 }
 
+size_t nemesis::TemplateClass::GetRequestMinArraySize() const noexcept
+{
+    return MinArraySize;
+}
+
+size_t nemesis::TemplateClass::GetRequestMaxArraySize() const noexcept
+{
+    return MaxArraySize;
+}
+
+bool nemesis::TemplateClass::IsRequestArray() const noexcept
+{
+    return IsArray;
+}
+
 const nemesis::TemplateOptionModel* nemesis::TemplateClass::GetModel(const std::string& name) const
 {
     for (auto& option_model : OptionModelList)
@@ -95,24 +117,28 @@ const std::filesystem::path& nemesis::TemplateClass::GetInfoPath() const noexcep
 UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(const std::string& request_info,
                                                                       size_t index,
                                                                       size_t linenum,
-                                                                      const std::filesystem::path& filepath)
+                                                                      const std::filesystem::path& filepath) const
 {
     UPtr<nemesis::AnimationRequest> request;
     std::stringstream ss(request_info);
     std::string component;
 
-    if (!std::getline(ss, component, ' ')) return nullptr;
+    if (!(ss >> component)) return nullptr;
 
-    request = std::make_unique<nemesis::AnimationRequest>(component, index);
+    if (component != Name && component != "+") return nullptr;
 
-    if (!std::getline(ss, component, ' ') || component.empty()) return nullptr;
+    request = std::make_unique<nemesis::AnimationRequest>(Name, index, IsArray);
+
+    if (!(ss >> component)) return nullptr;
     
     if (component[0] == '-')
     {
-        std::stringstream opt_ss(component);
+        std::stringstream opt_ss(component.substr(1));
 
-        if (std::getline(opt_ss, component, ','))
+        while (std::getline(opt_ss, component, ','))
         {
+            if (component.empty()) continue;
+
             for (auto& option_model : OptionModelList)
             {
                 auto option = option_model->TryCreateOption(component, linenum, filepath);
@@ -120,8 +146,39 @@ UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(const std:
                 if (option == nullptr) continue;
 
                 request->AddOption(std::move(option));
+                break;
             }
         }
+
+        if (!(ss >> component)) return nullptr; 
+    }
+
+    request->SetAnimationEvent(component);
+
+    if (!(ss >> component)) return nullptr;
+
+    request->SetAnimationFilePath(component);
+
+    while (ss >> component)
+    {
+        size_t pos = component.rfind("/");
+
+        if (pos == NOT_FOUND)
+        {
+            request->AddMapValue("1", component);
+            continue;
+        }
+        
+        if (pos == 0)
+        {
+            throw std::runtime_error("Invalid Map key request (Request info: " + request_info + ", Line: "
+                                     + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+        }
+
+        std::string value = component.substr(0, pos);
+        std::string key = component.substr(pos + 1);
+
+        request->AddMapValue(key, value);
     }
 
     return request;

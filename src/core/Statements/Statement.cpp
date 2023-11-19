@@ -56,32 +56,8 @@ SPtr<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>
 nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& template_class,
                                      const nemesis::SemanticManager& manager) const
 {
-    nemesis::smatch match;
-    std::string template_name(template_class.GetName());
-
-    if (!nemesis::regex_match(
-            Expression, match, "^" + template_name + "_([1-9]+)\\[.*?\\](?:\\[.+?\\]|)(?:\\[.+?\\]|)?$"))
-    {
-        throw std::runtime_error("Syntax error: Invalid request target (Expression: " + Expression
-                                 + ", Line: " + std::to_string(LineNum) + ", FilePath: " + FilePath.string()
-                                 + ")");
-    }
-
-    size_t num = stoi(match.str(1));
-    nemesis::smatch fmatch;
-
-    if (nemesis::regex_match(
-            FilePath.stem().string(), fmatch, "^" + template_name + "_([1-9]+)$"))
-    {
-        size_t fnum = std::stoi(fmatch.str(1));
-
-        if (num - 1 > fnum)
-        {
-            throw std::runtime_error("Template can only access to current request, parent "
-                                     "requests and immediate child request. It "
-                                     "cannot access to anything beyond the child requests");
-        }
-    }
+    size_t num          = GetTemplateNumber(template_class);
+    auto& template_name = template_class.GetName();
 
     const std::string& index_str = Components[1];
     SPtr<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>> rst;
@@ -152,6 +128,37 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& template_clas
 
     throw std::runtime_error("Syntax error: Invalid request target (Expression: " + Expression + ", Line: "
                              + std::to_string(LineNum) + ", FilePath: " + FilePath.string() + ")");
+}
+
+size_t nemesis::Statement::GetTemplateNumber(const nemesis::TemplateClass& template_class) const
+{
+    nemesis::smatch match;
+    auto& template_name = template_class.GetName();
+
+    if (!nemesis::regex_match(
+            Expression, match, "^" + template_name + "_([1-9]+)\\[.*?\\](?:\\[.+?\\]|)(?:\\[.+?\\]|)?$"))
+    {
+        throw std::runtime_error("Syntax error: Invalid request target (Expression: " + Expression
+                                 + ", Line: " + std::to_string(LineNum) + ", FilePath: " + FilePath.string()
+                                 + ")");
+    }
+
+    size_t num = stoi(match.str(1));
+    nemesis::smatch fmatch;
+
+    if (nemesis::regex_match(FilePath.stem().string(), fmatch, "^" + template_name + "_([1-9]+)$"))
+    {
+        size_t fnum = std::stoi(fmatch.str(1));
+
+        if (num - 1 > fnum)
+        {
+            throw std::runtime_error("Template can only access to current request, parent "
+                                     "requests and immediate child request. It "
+                                     "cannot access to anything beyond the child requests");
+        }
+    }
+
+    return num;
 }
 
 VecStr nemesis::Statement::SplitComponents(const std::string& value)

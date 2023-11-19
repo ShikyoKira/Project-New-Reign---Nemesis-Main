@@ -1,0 +1,13 @@
+{
+    "MinimumArray": 4,
+    "IsArray": false,
+    "Options": [{
+            "Name": "o",
+            "IsArray": false
+        },
+        {
+            "Name": "a",
+            "IsArray": false
+        }
+    ]
+}

@@ -28,9 +28,8 @@ nemesis::LineStream::TokenParser::TokenParser()
                          [](const std::string& body)
                          { return std::make_pair(body, nemesis::LineStream::MOD_OPEN); });
 
-    StringMatcher.Insert(
-        "<!-- MOD_CODE_ORIGINAL -->",
-        [](const std::string& body)
+    StringMatcher.Insert("<!-- MOD_CODE_ORIGINAL -->",
+                         [](const std::string& body)
                          { return std::make_pair("", nemesis::LineStream::MOD_ORG); });
 
     StringMatcher.Insert("<!-- MOD_CODE_CLOSE -->",
@@ -63,6 +62,11 @@ nemesis::LineStream::TokenParser::TokenParser()
     StringMatcher.Insert("<!-- CLOSE -->",
                          [](const std::string& body)
                          { return std::make_pair("", nemesis::LineStream::CLOSE); });
+
+    StringMatcher.Insert("<!-- BREAK ^",
+                         "^ -->",
+                         [](const std::string& body)
+                         { return std::make_pair(body, nemesis::LineStream::BREAK); });
 }
 
 UPtr<nemesis::LineStream::Token> nemesis::LineStream::TokenParser::GenerateToken(const nemesis::Line& line)
@@ -75,6 +79,18 @@ UPtr<nemesis::LineStream::Token> nemesis::LineStream::TokenParser::GenerateToken
     }
 
     return std::make_unique<nemesis::LineStream::Token>(pair.first, line.GetLineNumber(), line.GetFilePath(), pair.second);
+}
+
+const nemesis::LineStream::Token* nemesis::LineStream::GenerateToken(VecNstr::const_iterator itr)
+{
+    const auto& nline = *itr;
+    int pos           = itr - Start;
+    auto citr          = TokenPointers.find(pos);
+
+    if (citr != TokenPointers.end()) return citr->second.get();
+
+    static nemesis::LineStream::TokenParser Parser;
+    return (TokenPointers[pos] = Parser.GenerateToken(nline)).get();
 }
 
 nemesis::LineStream::LineStream(VecNstr::const_iterator start, VecNstr::const_iterator end) noexcept
@@ -120,17 +136,33 @@ const nemesis::Line& nemesis::LineStream::operator*() noexcept
 
 const nemesis::LineStream::Token& nemesis::LineStream::GetToken()
 {
-    const auto& nline = *Iterator;
-    int pos           = Iterator - Start;
-    auto itr          = TokenPointers.find(pos);
+    return *GenerateToken(Iterator);
+}
 
-    if (itr != TokenPointers.end()) return *itr->second;
+const nemesis::LineStream::Token* nemesis::LineStream::GetForwardToken(size_t step)
+{
+    auto cur_itr = Iterator + step;
 
-    static nemesis::LineStream::TokenParser Parser;
-    return *(TokenPointers[pos] = Parser.GenerateToken(nline));
+    if (cur_itr >= End) return nullptr;
+
+    return GenerateToken(cur_itr);
+}
+
+const nemesis::LineStream::Token* nemesis::LineStream::GetBackwardToken(size_t step)
+{
+    auto cur_itr = Iterator - step;
+
+    if (cur_itr < Start) return nullptr;
+
+    return GenerateToken(cur_itr);
 }
 
 int nemesis::LineStream::GetPosition() const noexcept
 {
     return Iterator - Start;
+}
+
+size_t nemesis::LineStream::GetSize() const noexcept
+{
+    return End - Start;
 }

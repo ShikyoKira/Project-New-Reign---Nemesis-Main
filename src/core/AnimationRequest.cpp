@@ -1,8 +1,11 @@
 #include "core/AnimationRequest.h"
 
-nemesis::AnimationRequest::AnimationRequest(const std::string& template_name, size_t index) noexcept
+nemesis::AnimationRequest::AnimationRequest(const std::string& template_name,
+                                            size_t index,
+                                            bool support_array) noexcept
     : TemplateName(template_name)
     , Index(index)
+    , SupportArray(support_array)
 {
 }
 
@@ -52,7 +55,7 @@ const nemesis::TemplateOption* nemesis::AnimationRequest::GetOption(const std::s
     {
         if (Options[i]->GetName() != option_name) continue;
 
-        if (!Options[i]->HasChildren(option_name)) continue;
+        if (!Options[i]->HasAlias(option_name)) continue;
 
         return Options[i].get();
     }

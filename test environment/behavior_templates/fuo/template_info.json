@@ -1,40 +1,33 @@
 {
     "MinimumArray": 0,
-    "IsArray": false,
+    "IsArray": true,
     "Options": [{
             "Name": "o",
-            "IsArray": false,
-            "Variables": []
+            "IsArray": false
         },
         {
             "Name": "a",
-            "IsArray": false,
-            "Variables": []
+            "IsArray": false
         },
         {
             "Name": "h",
-            "IsArray": false,
-            "Variables": []
+            "IsArray": false
         },
         {
             "Name": "ac",
-            "IsArray": false,
-            "Variables": []
+            "IsArray": false
         },
         {
             "Name": "ac0",
-            "IsArray": false,
-            "Variables": []
+            "IsArray": false
         },
         {
             "Name": "ac1",
-            "IsArray": false,
-            "Variables": []
+            "IsArray": false
         },
         {
             "Name": "ao",
-            "IsArray": false,
-            "Variables": []
+            "IsArray": false
         },
         {
             "Name": "T",

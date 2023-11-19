@@ -169,8 +169,8 @@ nemesis::MapStatement::MapStatement(const std::string& expression,
         }
         case 5:
         {
-            const std::string& index_str = Components[3];
-            const std::string& key       = Components.back();
+            const std::string& key       = Components[3];
+            const std::string& index_str = Components.back();
 
             auto template_class    = manager.GetCurrentTemplateClass();
             auto get_request       = GetTargetRequest(*template_class, manager);

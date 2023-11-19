@@ -33,15 +33,16 @@ void nemesis::ModLine::CompileTo(DeqNstr& lines, nemesis::CompileState& state) c
 
 void nemesis::ModLine::SerializeTo(DeqNstr& lines) const
 {
-    std::string modcode = std::string(Statement.GetExpression());
+    auto& modcode = Statement.GetExpression();
 
     if (Value)
     {
-        lines.emplace_back(*Value + ns::Spaces() + ns::Aster(modcode));
+        lines.emplace_back(*Value + ns::Spaces() + ns::Aster(modcode), Value->GetLineNumber(), Value->GetFilePath());
         return;
     }
 
-    lines.emplace_back(ns::DeleteLine() + ns::Spaces() + ns::Aster(modcode));
+    lines.emplace_back(
+        ns::DeleteLine() + ns::Spaces() + ns::Aster(modcode), Value->GetLineNumber(), Value->GetFilePath());
 }
 
 void nemesis::ModLine::AddModLine(const std::string& modcode,
@@ -66,7 +67,7 @@ bool nemesis::ModLine::IsSelected(nemesis::CompileState& state) const
     return state.IsModSelected(Statement.GetExpression());
 }
 
-std::string_view nemesis::ModLine::GetModCode() const
+const std::string& nemesis::ModLine::GetModCode() const
 {
     return Statement.GetExpression();
 }
@@ -83,17 +84,6 @@ bool nemesis::ModLine::MatchOpen(const std::string& line, std::string& condition
         condition.clear();
         return false;
     }
-
-    //nemesis::smatch match;
-
-    //if (nemesis::regex_match(line, match, "^.*\\<\\!-- MOD_CODE ~(.+?)~ OPEN --\\>.*$"))
-    //{
-    //    condition = match.str(1);
-    //    return true;
-    //}
-
-    //condition.clear();
-    //return false;
 }
 
 bool nemesis::ModLine::MatchOriginal(const std::string& line)

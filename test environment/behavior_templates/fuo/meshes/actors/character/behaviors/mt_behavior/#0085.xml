@@ -3441,6 +3441,14 @@
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+<!-- FOREACH ^fuo_1[][T]^ -->
+				<hkobject>
+					<hkparam name="flags">0</hkparam>
+				</hkobject>
+<!-- CLOSE -->
 <!-- FOREACH ^fuo_2^ -->
 				<hkobject>
 					<hkparam name="flags">0</hkparam>

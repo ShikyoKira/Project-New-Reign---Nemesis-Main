@@ -1,0 +1,33 @@
+#pragma once
+
+#include "core/NObject.h"
+
+namespace nemesis
+{
+    struct AnimationSetDataType : public nemesis::NObject
+    {
+    private:
+        UPtr<nemesis::NLine> Name;
+        UPtr<nemesis::NLine> Type1;
+        UPtr<nemesis::NLine> Type2;
+
+    public:
+        void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
+        void SerializeTo(DeqNstr& lines) const override;
+
+        void MatchAndUpdate(nemesis::AnimationSetDataType& type);
+    };
+
+    struct AnimationSetDataTypeList : public nemesis::NObject
+    {
+    private:
+        Vec<UPtr<nemesis::AnimationSetDataType>> TypeList;
+
+    public:
+        void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
+        void SerializeTo(DeqNstr& lines) const override;
+
+        void AddType(UPtr<nemesis::AnimationSetDataType>&& type);
+        void MatchAndUpdate(nemesis::AnimationSetDataTypeList& type_list);
+    };
+}

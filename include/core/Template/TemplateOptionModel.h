@@ -13,6 +13,7 @@ namespace nemesis
 
         VecStr Aliases;
         VecStr Variables;
+        Set<std::string, std::greater<std::string>> OrderedNames;
 
         bool bArray;
 

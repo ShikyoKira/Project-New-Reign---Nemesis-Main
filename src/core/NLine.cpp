@@ -69,7 +69,9 @@ void nemesis::NLine::CompileTo(DeqNstr& lines, nemesis::CompileState& state) con
         merged.append(tokens[i]);
     }
 
-    auto& line_ref = lines.emplace_back(merged);
+    if (merged.find(ns::DeleteLine()) != NOT_FOUND) return;
+
+    auto& line_ref = lines.emplace_back(merged, Value->GetLineNumber(), Value->GetFilePath());
     state.RaiseAddLineEvent(line_ref);
 }
 

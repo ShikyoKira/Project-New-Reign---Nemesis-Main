@@ -3421,7 +3421,7 @@
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>
-<!-- FOREACH ^ch^ -->
+<!-- FOREACH ^ofa^ -->
 				<hkobject>
 					<hkparam name="flags">0</hkparam>
 				</hkobject>

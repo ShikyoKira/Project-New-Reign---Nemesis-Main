@@ -1,5 +1,6 @@
-#include "core/ForEachObject.h"
 #include "core/CompileState.h"
+#include "core/ForEachObject.h"
+#include "core/SemanticManager.h"
 
 #include "utilities/conditionsyntax.h"
 
@@ -13,6 +14,7 @@ nemesis::ForEachObject::ForEachObject(const std::string& expression,
     : Statement(expression, linenum, filepath, manager)
     , Value(std::move(value))
 {
+    manager.AddForEachToQueue(expression);
 }
 
 void nemesis::ForEachObject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const

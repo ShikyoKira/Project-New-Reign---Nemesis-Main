@@ -2,6 +2,7 @@
 
 #include "core/SemanticManager.h"
 
+#include "core/Statements/OptionStatement.h"
 #include "core/Statements/CompositeStatement.h"
 
 namespace nemesis
@@ -16,6 +17,7 @@ namespace nemesis
 	struct OptionVariableStatement : public nemesis::CompositeStatement
     {
     private:
+        nemesis::OptionStatement OptionStatement;
         std::function<std::string(nemesis::CompileState&)> GetValueFunction;
 
         SPtr<std::function<const nemesis::TemplateOption*(const nemesis::AnimationRequest*,

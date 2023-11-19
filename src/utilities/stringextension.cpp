@@ -51,25 +51,36 @@ void StringSplit(const std::string& line, VecStr& container)
         return;
     }
 
-    std::istringstream iss(line);
-    container.assign(std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>());
+    std::stringstream ss(line);
+    std::string s;
+
+    while (ss >> s)
+    {
+        container.emplace_back(s);
+    }
 }
 
 void StringSplit(const std::string& line, VecStr& container, char delimiter)
 {
     container.clear();
-    container.emplace_back();
+    std::string* last = &container.emplace_back();
 
     for (auto& each : line)
     {
         if (each == delimiter)
         {
-            container.emplace_back();
+            if (last->empty()) continue;
+
+            last = &container.emplace_back();
             continue;
         }
 
-        container.back().push_back(each);
+        last->push_back(each);
     }
+
+    if (container.size() == 1 || !last->empty()) return;
+
+    container.pop_back();
 }
 
 void StringSplit(const std::string& line, VecStr& container, const std::string& delimiters)

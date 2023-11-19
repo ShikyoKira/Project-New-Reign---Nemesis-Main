@@ -1,0 +1,40 @@
+		<hkobject name="#$@SubTemplate[0]$" class="hkbClipTriggerArray" signature="0x59c23a0f">
+			<hkparam name="triggers" numelements="3">
+				<hkobject>
+					<hkparam name="localTime">$@SubTemplate[2]$</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$@SubTemplate[3]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">true</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">$@SubTemplate[4]$</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$@SubTemplate[5]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+				<hkobject>
+					<hkparam name="localTime">$@SubTemplate[6]$</hkparam>
+					<hkparam name="event">
+						<hkobject>
+							<hkparam name="id">$@SubTemplate[7]$</hkparam>
+							<hkparam name="payload">null</hkparam>
+						</hkobject>
+					</hkparam>
+					<hkparam name="relativeToEndOfClip">false</hkparam>
+					<hkparam name="acyclic">false</hkparam>
+					<hkparam name="isAnnotation">false</hkparam>
+				</hkobject>
+			</hkparam>
+		</hkobject>
