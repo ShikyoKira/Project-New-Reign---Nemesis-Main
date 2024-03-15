@@ -26,6 +26,11 @@ nemesis::ModCodeStatement::ModCodeStatement(const nemesis::Line& mod_code,
     manager.AddModInUsed(mod_code);
 }
 
+nemesis::ModCodeStatement::ModCodeStatement(const nemesis::ModCodeStatement& statement)
+    : nemesis::ConditionalStatement(statement)
+{
+}
+
 std::string nemesis::ModCodeStatement::Serialize() const
 {
     return nemesis::syntax::ModCode(Expression);

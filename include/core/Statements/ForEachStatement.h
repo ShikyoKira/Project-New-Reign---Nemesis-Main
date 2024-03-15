@@ -26,6 +26,7 @@ namespace nemesis
                          const std::filesystem::path& filepath,
                          nemesis::SemanticManager& manager);
         ForEachStatement(const nemesis::Line& line, nemesis::SemanticManager& manager);
+        ForEachStatement(const nemesis::ForEachStatement& statement);
 
         std::string Serialize() const override;
 

@@ -24,6 +24,7 @@ namespace nemesis
         Statement(const std::string& expression);
         Statement(const std::string& expression, size_t linenum, const std::filesystem::path filepath);
         Statement(const nemesis::Line& expression);
+        Statement(const nemesis::Statement& statement);
 
     public:
         const std::string& GetExpression() const noexcept;

@@ -34,6 +34,12 @@ nemesis::IfStatement::IfStatement(const nemesis::Line& line, const nemesis::Sema
     Negative = line.front() == '!';
 }
 
+nemesis::IfStatement::IfStatement(const nemesis::IfStatement& statement)
+    : nemesis::ConditionalStatement(statement)
+{
+    Negative = statement.Negative;
+}
+
 std::string nemesis::IfStatement::Serialize() const
 {
     return nemesis::syntax::If(Expression);

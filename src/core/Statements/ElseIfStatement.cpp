@@ -10,6 +10,11 @@ nemesis::ElseIfStatement::ElseIfStatement(const std::string& expression,
 {
 }
 
+nemesis::ElseIfStatement::ElseIfStatement(const nemesis::ElseIfStatement& statement)
+    : nemesis::IfStatement(statement)
+{
+}
+
 std::string nemesis::ElseIfStatement::Serialize() const
 {
     return nemesis::syntax::ElseIf(Expression);

@@ -37,6 +37,14 @@ nemesis::Statement::Statement(const nemesis::Line& expression)
     Components = SplitComponents(expression);
 }
 
+nemesis::Statement::Statement(const nemesis::Statement& statement)
+{
+    Expression = statement.Expression;
+    LineNum    = statement.LineNum;
+    FilePath   = statement.FilePath;
+    Components = statement.Components;
+}
+
 const std::string& nemesis::Statement::GetExpression() const noexcept
 {
     return Expression;

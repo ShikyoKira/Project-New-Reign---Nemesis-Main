@@ -271,11 +271,11 @@ namespace nemesis
             void SetLineNumber(size_t linenum) noexcept;
             void SetFilePath(const std::filesystem::path& filepath) noexcept;
 
-            nemesis::ConditionalStatement::ConditionalNode* MakeCondition() const;
+            SPtr<nemesis::ConditionalStatement::ConditionalNode> MakeCondition() const;
         };
 
     protected:
-        nemesis::ConditionalStatement::ConditionalNode* CondNode;
+        SPtr<nemesis::ConditionalStatement::ConditionalNode> CondNode;
 
         ConditionalStatement() = default;
         ConditionalStatement(const std::string& expression,
@@ -283,10 +283,9 @@ namespace nemesis
                              const std::filesystem::path& filepath,
                              const nemesis::SemanticManager& manager);
         ConditionalStatement(const nemesis::Line& line, const nemesis::SemanticManager& manager);
+        ConditionalStatement(const nemesis::ConditionalStatement& statement);
 
     public:
-        ~ConditionalStatement() noexcept;
-
         virtual std::string Serialize() const = 0;
 
         virtual bool IsTrue(nemesis::CompileState& state) const = 0;

@@ -18,6 +18,7 @@ namespace nemesis
                     const std::filesystem::path& filepath,
                     const nemesis::SemanticManager& manager);
         IfStatement(const nemesis::Line& line, const nemesis::SemanticManager& manager);
+        IfStatement(const nemesis::IfStatement& statement);
 
         std::string Serialize() const override;
 
