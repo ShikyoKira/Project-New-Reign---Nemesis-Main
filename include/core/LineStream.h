@@ -25,7 +25,7 @@ namespace nemesis
         struct Token
         {
             nemesis::Line Value;
-            TokenType Type;
+            nemesis::LineStream::TokenType Type;
 
             Token(const std::string& value,
                   size_t linenum,

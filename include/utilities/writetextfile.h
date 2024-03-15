@@ -12,19 +12,31 @@
 
 class FileWriter
 {
+    enum Encoding
+    {
+        ASCII,
+        UTF8,
+        UTF16,
+        UTF32
+    };
+
 private:
     FILE* file;
     std::filesystem::path filepath;
     std::atomic_flag filelock{};
 
 public:
-    FileWriter(const std::filesystem::path& filename, VecWstr args = { L"ccs=UTF-8" });
+    FileWriter(const std::filesystem::path& filename,
+               Encoding encoding = Encoding::ASCII,
+               VecWstr args      = {L"w"});
 
     ~FileWriter();
 
     const std::filesystem::path& GetFilePath() const;
 
     bool is_open() const;
+
+    void Close();
 
     void LockFreeWrite(const char* line);
     void LockFreeWrite(const wchar_t* line);
@@ -37,30 +49,32 @@ public:
     void LockFreeWriteLine(const std::wstring& line);
 
     void WriteLines(const VecStr& lines);
+    void WriteLines(const VecWstr& lines);
     void WriteLines(const VecNstr& lines);
 
     FileWriter& operator<<(const char* input);
     FileWriter& operator<<(const wchar_t* input);
     FileWriter& operator<<(const std::string& input);
     FileWriter& operator<<(const std::wstring& input);
+    FileWriter& operator<<(const nemesis::Line& input);
 
     template <typename T>
     FileWriter& operator<<(const T& input)
     {
-        std::stringstream sstream;
+        std::wstringstream sstream;
         sstream << input;
         Lockless lock(filelock);
-        fprintf(file, "%s", sstream.str().c_str());
+        LockFreeWrite(sstream.str().c_str());
         return *this;
     }
 
     template <typename T>
     FileWriter& operator<<(const T* input)
     {
-        std::stringstream sstream;
+        std::wstringstream sstream;
         sstream << input;
         Lockless lock(filelock);
-        fprintf(file, "%s", sstream.str().c_str());
+        LockFreeWrite(sstream.str().c_str());
         return *this;
     }
 };

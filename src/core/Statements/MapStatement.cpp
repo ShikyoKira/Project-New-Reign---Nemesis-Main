@@ -49,7 +49,7 @@ bool nemesis::MapStatement::SetupGetValueFunction(
             auto list    = request->GetMapValueList(key);
             auto map_val = state.GetCurrentRequestMapValue(request, key);
 
-            for (size_t i = 1; i < list.size(); i++)
+            for (size_t i = 1; i < list.size(); ++i)
             {
                 if (list[i] == map_val) return *list[i - 1];
             }
@@ -73,7 +73,7 @@ bool nemesis::MapStatement::SetupGetValueFunction(
             auto list    = request->GetMapValueList(key);
             auto map_val = state.GetCurrentRequestMapValue(request, key);
 
-            for (size_t i = 0; i < list.size() - 1; i++)
+            for (size_t i = 0; i < list.size() - 1; ++i)
             {
                 if (list[i] == map_val) return *list[i + 1];
             }

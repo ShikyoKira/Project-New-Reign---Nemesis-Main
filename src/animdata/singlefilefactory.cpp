@@ -25,7 +25,7 @@ void nemesis::animdata::AnimDataProjectFactory::ParseLines(const VecNstr& lines)
         ErrorMessage(3015, rline.GetFilePath(), rline.GetLineNumber());
     }
 
-    for (size_t i = 1; i < lines.size(); i++)
+    for (size_t i = 1; i < lines.size(); ++i)
     {
         auto& line = lines[i];
 

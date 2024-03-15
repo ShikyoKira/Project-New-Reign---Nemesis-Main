@@ -8,7 +8,7 @@ nemesis::SubTemplateStatement::SubTemplateStatement(const std::string& expressio
                                                     const nemesis::SemanticManager& manager)
     : nemesis::CompositeStatement(expression, linenum, filepath)
 {
-    for (size_t i = 1; i < Components.size(); i++)
+    for (size_t i = 1; i < Components.size(); ++i)
     {
         DynamicComponents.emplace_back(Components[i], linenum, filepath, manager);
     }

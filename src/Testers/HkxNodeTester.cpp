@@ -89,7 +89,7 @@ void nemesis::HkxNodeTester::Run()
         throw std::runtime_error("size not match");
     }
 
-    for (size_t i = 0; i < serialized.size(); i++)
+    for (size_t i = 0; i < serialized.size(); ++i)
     {
         if (serialized[i] == lines[i]) continue;
 

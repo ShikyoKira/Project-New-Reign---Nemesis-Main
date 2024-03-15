@@ -1013,7 +1013,7 @@ void nemesis::HkxBehaviorFile::PatchNode(nemesis::HkxBehaviorFile::Node& node, c
         //    templist.push_back(raw->GetRawPtr()->ToString());
         //}
 
-        //for (size_t i = 0; i < contents.size(); i++)
+        //for (size_t i = 0; i < contents.size(); ++i)
         //{
         //    auto raw = contents[i]->GetRawPtr();
 

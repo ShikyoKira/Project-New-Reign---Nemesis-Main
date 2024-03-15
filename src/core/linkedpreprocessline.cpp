@@ -39,7 +39,7 @@ void nemesis::LinkedPreprocessLine::AddTemplate(nemesis::Template& templateref)
 
 void nemesis::LinkedPreprocessLine::SetToStandAlone()
 {
-    for (size_t i = 0; i < conditions.size(); i++)
+    for (size_t i = 0; i < conditions.size(); ++i)
     {
         auto& cond = conditions[i];
         SetToStandAlone(*cond);
@@ -89,7 +89,7 @@ VecNstr nemesis::LinkedPreprocessLine::GetProcessedLines(nemesis::ScopeInfo& sco
     VecNstr lines;
     auto prepro_lines = GetCompiledData(scopeinfo);
 
-    for (size_t i = 0; i < prepro_lines.size(); i++)
+    for (size_t i = 0; i < prepro_lines.size(); ++i)
     {
         lines.emplace_back(prepro_lines[i]->Process(scopeinfo));
     }

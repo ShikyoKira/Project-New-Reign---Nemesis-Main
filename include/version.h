@@ -9,11 +9,11 @@ inline std::string GetNemesisVersion()
 {
 	FileReader BehaviorFormat(std::string("version"));
 
-	if (BehaviorFormat.GetFile())
+	if (BehaviorFormat.TryGetFile())
 	{
 		std::string line;
 
-		while (BehaviorFormat.GetLines(line))
+		while (BehaviorFormat.TryGetLines(line))
 		{
 			nemesis::to_lower(line);
 

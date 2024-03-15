@@ -141,7 +141,7 @@ void nemesis::MasterRepository::AddTemplateClass(UPtr<nemesis::TemplateClass>&& 
 {
     auto* templt_class_ptr = TemplateClasses.emplace_back(std::move(templt_class)).get();
 
-    for (size_t i = 0; i < templt_class_ptr->GetSize(); i++)
+    for (size_t i = 0; i < templt_class_ptr->GetSize(); ++i)
     {
         auto templt    = templt_class_ptr->GetTemplate(i);
         auto* behavior = GetBehaviorByPath(templt->GetTargetPath());

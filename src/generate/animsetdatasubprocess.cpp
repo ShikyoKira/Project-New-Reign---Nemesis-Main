@@ -626,7 +626,7 @@ void BehaviorSub::CompilingASD()
 
         if (!FolderCreate(GetFileDirectory(outpath))) return;
 
-        FileWriter output(outpath, VecWstr());
+        FileWriter output(outpath);
 
         if (output.is_open())
         {

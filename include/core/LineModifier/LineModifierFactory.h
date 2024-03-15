@@ -44,8 +44,8 @@ namespace nemesis
 
         struct ModifierBuilderCollection
         {
-            UMap<std::string, UPtr<ModifierBuilderBase>> FirstBuilders;
-            UMap<std::string, UPtr<ModifierBuilderBase>> LastBuilders;
+            UMap<std::string, SPtr<ModifierBuilderBase>> FirstBuilders;
+            UMap<std::string, SPtr<ModifierBuilderBase>> LastBuilders;
             
             ModifierBuilderCollection();
         };
@@ -53,12 +53,12 @@ namespace nemesis
         LineModifierFactory() = default;
 
     public:
-        static Map<size_t, Vec<UPtr<nemesis::LineModifier>>>
+        static Map<size_t, Vec<SPtr<nemesis::LineModifier>>>
         BuildModifiers(const std::string& line,
                        size_t linenum,
                        const std::filesystem::path& filepath,
                        const nemesis::SemanticManager& manager);
-        static UPtr<nemesis::LineModifier> BuildModifier(size_t begin,
+        static SPtr<nemesis::LineModifier> BuildModifier(size_t begin,
                                                          size_t end,
                                                          const std::string& component,
                                                          const std::string& line,

@@ -78,7 +78,7 @@ void nemesis::animdata::SingleFile::LoadFile(const std::filesystem::path& path)
     size_t num_project = std::stoi(lines[0]); 
     projects.reserve(num_project);
 
-    for (size_t i = 1; i < num_project; i++)
+    for (size_t i = 1; i < num_project; ++i)
     {
         nemesis::animdata::LinkedProject link_proj;
         nemesis::animdata::AnimProject proj;
@@ -91,7 +91,7 @@ void nemesis::animdata::SingleFile::LoadFile(const std::filesystem::path& path)
 
     nemesis::animdata::LinkedProject* project_ptr = &projects.front();
 
-    for (size_t i = num_project; i < lines.size(); i++)
+    for (size_t i = num_project; i < lines.size(); ++i)
     {
         size_t project_size = std::stoi(lines[i++]) + i;
         auto anim_proj_ptr  = project_ptr->GetRawPtr();
@@ -100,19 +100,19 @@ void nemesis::animdata::SingleFile::LoadFile(const std::filesystem::path& path)
 
         size_t hkx_size = std::stoi(lines[i++]) + i;
 
-        for (; i < hkx_size; i++)
+        for (; i < hkx_size; ++i)
         {
             anim_proj_ptr->AddHkxFile(lines[i]);
         }
 
-        for (; i < project_size; i++)
+        for (; i < project_size; ++i)
         {
             anim_proj_ptr->AddAnimationData(lines[i]);
         }
 
         size_t mv_size = std::stoi(lines[i++]) + i;
 
-        for (; i < mv_size; i++)
+        for (; i < mv_size; ++i)
         {
             anim_proj_ptr->AddMovementData(lines[i]);
         }

@@ -73,7 +73,7 @@ void AnimDataProject_Condt::update(const ModCode& modcode, const VecNstr& storel
 
     short type = 0;
 
-    for (size_t i = 1; i < storeline.size(); i++)
+    for (size_t i = 1; i < storeline.size(); ++i)
     {
         auto& line = storeline.at(i);
 

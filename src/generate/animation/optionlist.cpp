@@ -28,7 +28,7 @@ OptionList::OptionList(string filepath, string format)
     unordered_map<string, VecStr> linked;
     FileReader input(filepath);
 
-    if (!input.GetFile()) ErrorMessage(1009, format, filepath);
+    if (!input.TryGetFile()) ErrorMessage(1009, format, filepath);
 
     int linecount       = 0;
     bool minDone        = false;
@@ -42,7 +42,7 @@ OptionList::OptionList(string filepath, string format)
     unordered_map<int, bool> isNumExist;
     string strline;
 
-    while (input.GetLines(strline))
+    while (input.TryGetLines(strline))
     {
         ++linecount;
 

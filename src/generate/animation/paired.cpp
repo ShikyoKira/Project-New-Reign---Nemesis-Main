@@ -29,7 +29,8 @@ Paired::Paired(const string& line,
 
         int fileposition;
         int tempint = 0;
-        for (int i = 0; i < 4; i++)
+
+        for (int i = 0; i < 4; ++i)
         {
             position = line.find(' ', tempint);
             tempint  = line.find(' ', position + 1);
@@ -41,6 +42,7 @@ Paired::Paired(const string& line,
         int x = line.find(' ', fileposition);
         int y = line.length();
         int fileEndPoint;
+
         if (x == -1) 
         {
             fileEndPoint = y; 
@@ -60,7 +62,8 @@ Paired::Paired(const string& line,
 
         int fileposition;
         int tempint = 0;
-        for (int i = 0; i < 3; i++)
+
+        for (int i = 0; i < 3; ++i)
         {
             position = line.find(' ', tempint);
             tempint  = line.find(' ', position + 1);
@@ -85,7 +88,7 @@ Paired::Paired(const string& line,
             int tempint = 0;
             int nextobj = 0;
 
-            for (size_t i = 0; i < AOcount; i++)
+            for (size_t i = 0; i < AOcount; ++i)
             {
                 position = animobjects.find('/', tempint);
 
@@ -157,6 +160,7 @@ Paired::Paired(const string& line,
 
                 int triggercount = 0;
                 int tempInt      = 0;
+
                 while (true)
                 {
                     if (templine2.find("T2_", tempInt) != NOT_FOUND)
@@ -173,7 +177,8 @@ Paired::Paired(const string& line,
                 pairedlines[384].replace(pairedlines[384].find("!nT2$1!"), 7, to_string(triggercount + 1));
 
                 tempInt = 0;
-                for (int i = 0; i < triggercount; i++)
+
+                for (int i = 0; i < triggercount; ++i)
                 {
                     int position = templine2.find("T2_", tempInt);
                     string tempstr;
@@ -215,7 +220,8 @@ Paired::Paired(const string& line,
                 size_t triggercount = count(templine2.begin(), templine2.end(), 'T');
                 pairedlines[171].replace(pairedlines[171].find("!nT$2!"), 6, to_string(triggercount + 2));
                 int tempInt = 0;
-                for (size_t i = 0; i < triggercount; i++)
+
+                for (size_t i = 0; i < triggercount; ++i)
                 {
                     string tempstr;
                     int position = templine2.find('T', tempInt);
@@ -475,7 +481,7 @@ VecStr Paired::GetPairedLine(int id, AOConvert AnimObjectNames, ID HkxEvent, con
 
     string strID = to_string(nextFunctionID);
 
-    for (size_t i = 0; i < pairedlines.size(); i++)
+    for (size_t i = 0; i < pairedlines.size(); ++i)
     {
         string line = pairedlines[i];
         if (line.find("<!--") == NOT_FOUND && !TriggerStateIgnore)

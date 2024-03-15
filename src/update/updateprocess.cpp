@@ -676,14 +676,14 @@ bool UpdateFilesStart::VanillaDisassemble(const wstring& path,
 
     UMap<string, VecStr> statelist; // parent ID, list of children
 
-    if (!vanillafile.GetFile()) ErrorMessage(2000, path, vanillafile.ErrorMessage());
+    if (!vanillafile.TryGetFile()) ErrorMessage(2000, path, vanillafile.ErrorMessage());
 
     bool skip  = true;
     bool start = false;
     bool isSM  = false;
     nemesis::Line curline;
 
-    while (vanillafile.GetLines(curline))
+    while (vanillafile.TryGetLines(curline))
     {
         if (curline.find("	</hksection>") != NOT_FOUND) break;
 

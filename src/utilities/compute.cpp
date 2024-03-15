@@ -36,12 +36,9 @@ namespace nemesis
         expression_t expression;
         parser_t parser;
 
-        if (!parser.compile(equation, expression))
-        {
-            return false;
-        }
+        if (!parser.compile(equation, expression)) return false;
 
         result = std::to_string(no_decimal ? static_cast<int>(expression.value()) : expression.value());
         return true;
     }
-} // namespace nemesis
+}

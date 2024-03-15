@@ -11,7 +11,7 @@ bool nemesis::NumElement::TryGetDigitView(const std::string& line, std::string_v
 {
     sv = line;
 
-    for (size_t i = 0; i < line.length(); i++)
+    for (size_t i = 0; i < line.length(); ++i)
     {
         auto& ch = line[i];
 
@@ -33,7 +33,7 @@ bool nemesis::NumElement::TryGetBracketView(const std::string& line, std::string
 {
     sv = line;
 
-    for (size_t i = 0; i < line.length(); i++)
+    for (size_t i = 0; i < line.length(); ++i)
     {
         auto& ch = line[i];
 
@@ -78,7 +78,7 @@ bool nemesis::NumElement::TryAddElementAsNumber(const std::string& line)
     element++;
     bool next = false;
 
-    for (size_t i = 0; i < sv.length(); i++)
+    for (size_t i = 0; i < sv.length(); ++i)
     {
         auto& ch = sv[i];
 
@@ -105,7 +105,7 @@ bool nemesis::NumElement::TryAddElementAsVector(const std::string& line)
 
     size_t counter = 0;
 
-    for (size_t i = 0; i < sv.length(); i++)
+    for (size_t i = 0; i < sv.length(); ++i)
     {
         switch (sv[i])
         {

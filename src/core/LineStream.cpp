@@ -5,6 +5,10 @@
 #include "core/EmptyObject.h"
 #include "core/ForEachObject.h"
 
+#include "utilities/conditionsyntax.h"
+
+namespace ns = nemesis::syntax;
+
 nemesis::LineStream::Token::Token(const std::string& value,
                                   size_t linenum,
                                   const std::filesystem::path& filepath,
@@ -23,48 +27,48 @@ nemesis::LineStream::Token::Token(const nemesis::Line& value, TokenType type) no
 nemesis::LineStream::TokenParser::TokenParser()
     : StringMatcher([] { return std::make_pair("", nemesis::LineStream::NONE); })
 {
-    StringMatcher.Insert("<!-- MOD_CODE_OPEN ~",
-                         "~ -->",
+    StringMatcher.Insert(ns::ModCode(),
+                         ns::EndModCodeSyntax(),
                          [](const std::string& body)
                          { return std::make_pair(body, nemesis::LineStream::MOD_OPEN); });
 
-    StringMatcher.Insert("<!-- MOD_CODE_ORIGINAL -->",
+    StringMatcher.Insert(ns::ModOriginal(),
                          [](const std::string& body)
                          { return std::make_pair("", nemesis::LineStream::MOD_ORG); });
 
-    StringMatcher.Insert("<!-- MOD_CODE_CLOSE -->",
+    StringMatcher.Insert(ns::ModClose(),
                          [](const std::string& body)
                          { return std::make_pair("", nemesis::LineStream::MOD_CLOSE); });
 
-    StringMatcher.Insert("<!-- IF ^",
-                         "^ -->",
+    StringMatcher.Insert(ns::If(),
+                         ns::EndSyntax(),
                          [](const std::string& body)
                          { return std::make_pair(body, nemesis::LineStream::IF); });
 
-    StringMatcher.Insert("<!-- ELSEIF ^",
-                         "^ -->",
+    StringMatcher.Insert(ns::ElseIf(),
+                         ns::EndSyntax(),
                          [](const std::string& body)
                          { return std::make_pair(body, nemesis::LineStream::ELSE_IF); });
 
-    StringMatcher.Insert("<!-- ELSE -->",
+    StringMatcher.Insert(ns::Else(),
                          [](const std::string& body)
                          { return std::make_pair("", nemesis::LineStream::ELSE); });
 
-    StringMatcher.Insert("<!-- ENDIF -->",
+    StringMatcher.Insert(ns::EndIf(),
                          [](const std::string& body)
                          { return std::make_pair("", nemesis::LineStream::END_IF); });
 
-    StringMatcher.Insert("<!-- FOREACH ^",
-                         "^ -->",
+    StringMatcher.Insert(ns::ForEach(),
+                         ns::EndSyntax(),
                          [](const std::string& body)
                          { return std::make_pair(body, nemesis::LineStream::FOR_EACH); });
 
-    StringMatcher.Insert("<!-- CLOSE -->",
+    StringMatcher.Insert(ns::Close(),
                          [](const std::string& body)
                          { return std::make_pair("", nemesis::LineStream::CLOSE); });
 
-    StringMatcher.Insert("<!-- BREAK ^",
-                         "^ -->",
+    StringMatcher.Insert(ns::Break(),
+                         ns::EndSyntax(),
                          [](const std::string& body)
                          { return std::make_pair(body, nemesis::LineStream::BREAK); });
 }

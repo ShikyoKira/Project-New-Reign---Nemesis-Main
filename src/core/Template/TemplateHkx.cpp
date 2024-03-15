@@ -94,7 +94,7 @@ SPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::CreateFromFile(const nemesis::T
             nemesis::SemanticManager manager;
             manager.SetCurrentTemplate(templt_ptr);
 
-            for (size_t i = 1; i <= templt_ptr->GetIndex(); i++)
+            for (size_t i = 1; i <= templt_ptr->GetIndex(); ++i)
             {
                 manager.TryAddRequestToQueue(name + "_" + std::to_string(i));
             }

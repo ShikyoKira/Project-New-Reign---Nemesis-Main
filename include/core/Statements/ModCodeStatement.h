@@ -14,6 +14,7 @@ namespace nemesis
                          const std::filesystem::path& filepath,
                          nemesis::SemanticManager& manager) noexcept;
         ModCodeStatement(const nemesis::Line& mod_code, nemesis::SemanticManager& manager) noexcept;
+        ModCodeStatement(const nemesis::ModCodeStatement& statement);
 
         std::string Serialize() const override;
 

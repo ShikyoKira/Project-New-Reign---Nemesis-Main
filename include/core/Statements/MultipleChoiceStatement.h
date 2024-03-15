@@ -24,7 +24,7 @@ namespace nemesis
         {
         private:
             std::string Expression;
-            Map<size_t, Vec<UPtr<nemesis::LineModifier>>> Modifiers;
+            Map<size_t, Vec<SPtr<nemesis::LineModifier>>> Modifiers;
 
         public:
             ChoiceValue(const std::string& expression,

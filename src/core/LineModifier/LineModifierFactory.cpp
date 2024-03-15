@@ -21,29 +21,29 @@
 
 nemesis::LineModifierFactory::ModifierBuilderCollection::ModifierBuilderCollection()
 {
-    FirstBuilders["@SubTemplate"]  = std::make_unique<ModifierBuilder<nemesis::SubTemplateModifier>>();
-    FirstBuilders["@StateID"]      = std::make_unique<ModifierBuilder<nemesis::StateIdModifier>>();
-    FirstBuilders["@EventID"]      = std::make_unique<ModifierBuilder<nemesis::EventIdModifier>>();
-    FirstBuilders["@VariableID"]   = std::make_unique<ModifierBuilder<nemesis::VariableIdModifier>>();
-    FirstBuilders["@AttributeID"]  = std::make_unique<ModifierBuilder<nemesis::AttributeIdModifier>>();
-    FirstBuilders["@PropertyID"]   = std::make_unique<ModifierBuilder<nemesis::PropertyIdModifier>>();
-    FirstBuilders["@Math"]         = std::make_unique<ModifierBuilder<nemesis::MathModifier>>();
-    FirstBuilders["@CurrentCount"] = std::make_unique<ModifierBuilder<nemesis::CurrentCountModifier>>();
+    FirstBuilders["@SubTemplate"]  = std::make_shared<ModifierBuilder<nemesis::SubTemplateModifier>>();
+    FirstBuilders["@StateID"]      = std::make_shared<ModifierBuilder<nemesis::StateIdModifier>>();
+    FirstBuilders["@EventID"]      = std::make_shared<ModifierBuilder<nemesis::EventIdModifier>>();
+    FirstBuilders["@VariableID"]   = std::make_shared<ModifierBuilder<nemesis::VariableIdModifier>>();
+    FirstBuilders["@AttributeID"]  = std::make_shared<ModifierBuilder<nemesis::AttributeIdModifier>>();
+    FirstBuilders["@PropertyID"]   = std::make_shared<ModifierBuilder<nemesis::PropertyIdModifier>>();
+    FirstBuilders["@Math"]         = std::make_shared<ModifierBuilder<nemesis::MathModifier>>();
+    FirstBuilders["@CurrentCount"] = std::make_shared<ModifierBuilder<nemesis::CurrentCountModifier>>();
 
-    LastBuilders["@ID"]             = std::make_unique<ModifierBuilder<nemesis::RequestIdModifier>>();
-    LastBuilders["@Index"]          = std::make_unique<ModifierBuilder<nemesis::RequestIndexModifier>>();
-    LastBuilders["@AnimationEvent"] = std::make_unique<ModifierBuilder<nemesis::AnimationEventModifier>>();
+    LastBuilders["@ID"]             = std::make_shared<ModifierBuilder<nemesis::RequestIdModifier>>();
+    LastBuilders["@Index"]          = std::make_shared<ModifierBuilder<nemesis::RequestIndexModifier>>();
+    LastBuilders["@AnimationEvent"] = std::make_shared<ModifierBuilder<nemesis::AnimationEventModifier>>();
     LastBuilders["@AnimationFilePath"]
-        = std::make_unique<ModifierBuilder<nemesis::AnimationFilePathModifier>>();
+        = std::make_shared<ModifierBuilder<nemesis::AnimationFilePathModifier>>();
 }
 
-Map<size_t, Vec<UPtr<nemesis::LineModifier>>>
+Map<size_t, Vec<SPtr<nemesis::LineModifier>>>
 nemesis::LineModifierFactory::BuildModifiers(const std::string& line,
                                              size_t linenum,
                                              const std::filesystem::path& filepath,
                                              const nemesis::SemanticManager& manager)
 {
-    Map<size_t, Vec<UPtr<nemesis::LineModifier>>> modifiers;
+    Map<size_t, Vec<SPtr<nemesis::LineModifier>>> modifiers;
 
     if (line.find("$") != NOT_FOUND)
     {
@@ -75,7 +75,7 @@ nemesis::LineModifierFactory::BuildModifiers(const std::string& line,
                 mc_statement = mc_modifier->GetStatement();
             }
 
-            modifiers[end - begin].emplace_back(std::move(modifier));
+            modifiers[end - begin].emplace_back(modifier);
         }
     }
 
@@ -95,11 +95,11 @@ nemesis::LineModifierFactory::BuildModifiers(const std::string& line,
     if (pos2 == NOT_FOUND) return modifiers;
 
     pos2--;
-    modifiers[pos2 - pos].emplace_back(std::make_unique<nemesis::NumelementModifier>(pos, pos2, linenum, filepath));
+    modifiers[pos2 - pos].emplace_back(std::make_shared<nemesis::NumelementModifier>(pos, pos2, linenum, filepath));
     return modifiers;
 }
 
-UPtr<nemesis::LineModifier>
+SPtr<nemesis::LineModifier>
 nemesis::LineModifierFactory::BuildModifier(size_t begin,
                                             size_t end,
                                             const std::string& component,
@@ -110,7 +110,7 @@ nemesis::LineModifierFactory::BuildModifier(size_t begin,
 {
     if (component == "@MultiChoice")
     {
-        return std::make_unique<nemesis::MultipleChoiceModifier>(
+        return std::make_shared<nemesis::MultipleChoiceModifier>(
             begin - 1, end - 1, line, linenum, filepath, manager);
     }
     else if (component == "@Counter")
@@ -122,7 +122,7 @@ nemesis::LineModifierFactory::BuildModifier(size_t begin,
             throw std::runtime_error("Syntax Error: Element counter name not found");
         }
 
-        return std::make_unique<nemesis::CounterModifier>(
+        return std::make_shared<nemesis::CounterModifier>(
             begin - 1, end - 1, match[1], linenum, filepath);
     }
 
@@ -148,10 +148,10 @@ nemesis::LineModifierFactory::BuildModifier(size_t begin,
 
     if (components.front() == "@Map" || (components.size() > 3 && components[2] == "@Map"))
     {
-        return std::make_unique<nemesis::MapModifier>(
+        return std::make_shared<nemesis::MapModifier>(
             begin - 1, end - 1, component, linenum, filepath, manager);
     }
 
-    return std::make_unique<nemesis::OptionVariableModifier>(
+    return std::make_shared<nemesis::OptionVariableModifier>(
         begin - 1, end - 1, component, linenum, filepath, manager);
 }

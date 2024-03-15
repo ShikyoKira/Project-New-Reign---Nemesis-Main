@@ -561,7 +561,7 @@ void nemesis::ProcessParser::TryAnimVarProcessor(const std::string& syntax, Func
         int end        = 0;
         int eventbegin = begin + syntax.length() + 1;
 
-        for (size_t i = eventbegin; i < lineptr->length(); i++)
+        for (size_t i = eventbegin; i < lineptr->length(); ++i)
         {
             const char& ch = (*lineptr)[i];
 

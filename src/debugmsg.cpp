@@ -108,9 +108,9 @@ VecWstr readUTF8File(wstring filename)
     FileReader file(filename);
     wstring line;
 
-    if (file.GetFile())
+    if (file.TryGetFile())
     {
-        while (file.GetLines(line))
+        while (file.TryGetLines(line))
         {
             storeline.push_back(line);
         }

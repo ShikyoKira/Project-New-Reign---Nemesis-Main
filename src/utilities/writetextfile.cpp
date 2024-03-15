@@ -1,19 +1,37 @@
 #include "utilities/algorithm.h"
 #include "utilities/writetextfile.h"
 
-using namespace std;
-
-FileWriter::FileWriter(const std::filesystem::path& filename, VecWstr args)
-    : filepath(filename)
+FileWriter::FileWriter(const std::filesystem::path& filepath,
+                       Encoding encoding,
+                       VecWstr args)
+    : filepath(filepath)
 {
-    wstring mode = L"w";
-    
+    std::wstring mode;
+
+    switch (encoding)
+    {
+        case FileWriter::ASCII:
+            mode = L"ccs=ASCII";
+            break;
+        case FileWriter::UTF8:
+            mode = L"ccs=UTF-8";
+            break;
+        case FileWriter::UTF16:
+            mode = L"ccs=UTF-16";
+            break;
+        case FileWriter::UTF32:
+            mode = L"ccs=UTF-32";
+            break;
+        default:
+            throw std::runtime_error("Unsupported encoding format. File path (" + filepath.string() + ")");
+    }
+
     for (auto each : args)
     {
         mode.append(L"," + each);
     }
 
-    _wfopen_s(&file, filename.wstring().c_str(), mode.c_str());
+    _wfopen_s(&file, filepath.wstring().c_str(), mode.c_str());
 }
 
 FileWriter::~FileWriter()
@@ -25,7 +43,7 @@ FileWriter::~FileWriter()
     }
 }
 
-const filesystem::path& FileWriter::GetFilePath() const
+const std::filesystem::path& FileWriter::GetFilePath() const
 {
     return filepath;
 }
@@ -35,51 +53,70 @@ bool FileWriter::is_open() const
     return file;
 }
 
+void FileWriter::Close()
+{
+    Lockless lock(filelock);
+
+    if (file == nullptr) return;
+
+    fflush(file);
+    fclose(file);
+    file = nullptr;
+}
+
 void FileWriter::LockFreeWrite(const char* line)
 {
-    fwprintf(file, L"%s", nemesis::transform_to<wstring>(string(line)).c_str());
+    fprintf_s(file, "%s", line);
 }
 
 void FileWriter::LockFreeWrite(const wchar_t* line)
 {
-    fwprintf(file, L"%s", line);
+    fwprintf_s(file, L"%s", line);
 }
 
-void FileWriter::LockFreeWrite(const string& line)
+void FileWriter::LockFreeWrite(const std::string& line)
 {
-    fwprintf(file, L"%s", nemesis::transform_to<wstring>(line).c_str());
+    fprintf_s(file, "%s", line.c_str());
 }
 
 void FileWriter::LockFreeWrite(const std::wstring& line)
 {
-    fwprintf(file, L"%s", (line).c_str());
+    fwprintf_s(file, L"%s", line.c_str());
 }
 
 void FileWriter::LockFreeWriteLine(const char* line)
 {
-    fwprintf(file, L"%s", nemesis::transform_to<wstring>(string(line + '\n')).c_str());
+    fprintf_s(file, "%s\n", line);
 }
 
 void FileWriter::LockFreeWriteLine(const wchar_t* line)
 {
-    fwprintf(file, L"%s", line + L'\n');
+    fwprintf_s(file, L"%s\n", line);
 }
 
-void FileWriter::LockFreeWriteLine(const string& line)
+void FileWriter::LockFreeWriteLine(const std::string& line)
 {
-    fwprintf(file, L"%s", nemesis::transform_to<wstring>(line + "\n").c_str());
+    fprintf_s(file, "%s\n", line.c_str());
 }
 
 void FileWriter::LockFreeWriteLine(const std::wstring& line)
 {
-    fwprintf(file, L"%s", (line + L"\n").c_str());
+    fwprintf_s(file, L"%s\n", line.c_str());
 }
 
 void FileWriter::WriteLines(const VecStr& lines)
 {
     for (auto& line : lines)
     {
-        fwprintf(file, L"%s", nemesis::transform_to<wstring>(line).c_str());
+        LockFreeWrite(line.c_str());
+    }
+}
+
+void FileWriter::WriteLines(const VecWstr& lines)
+{
+    for (auto& line : lines)
+    {
+        LockFreeWrite(line.c_str());
     }
 }
 
@@ -87,34 +124,41 @@ void FileWriter::WriteLines(const VecNstr& lines)
 {
     for (auto& line : lines)
     {
-        fwprintf(file, L"%s", nemesis::transform_to<wstring>(line.ToString()).c_str());
+        LockFreeWrite(line.c_str());
     }
 }
 
 FileWriter& FileWriter::operator<<(const char* input)
 {
     Lockless lock(filelock);
-    fwprintf(file, L"%s", nemesis::transform_to<wstring>(string(input)).c_str());
+    LockFreeWrite(input);
     return *this;
 }
 
 FileWriter& FileWriter::operator<<(const wchar_t* input)
 {
     Lockless lock(filelock);
-    fwprintf(file, L"%s", input);
+    LockFreeWrite(input);
     return *this;
 }
 
-FileWriter& FileWriter::operator<<(const string& input)
+FileWriter& FileWriter::operator<<(const std::string& input)
 {
     Lockless lock(filelock);
-    fwprintf(file, L"%s", nemesis::transform_to<wstring>(input).c_str());
+    LockFreeWrite(input);
     return *this;
 }
 
-FileWriter& FileWriter::operator<<(const wstring& input)
+FileWriter& FileWriter::operator<<(const std::wstring& input)
 {
     Lockless lock(filelock);
-    fwprintf(file, L"%s", input.c_str());
+    LockFreeWrite(input);
+    return *this;
+}
+
+FileWriter& FileWriter::operator<<(const nemesis::Line& input)
+{
+    Lockless lock(filelock);
+    LockFreeWrite(input);
     return *this;
 }

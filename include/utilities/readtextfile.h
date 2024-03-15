@@ -33,7 +33,7 @@ struct FileReader
         return std::filesystem::path(file.fileName().toStdWString());
     }
 
-    bool GetFile()
+    bool TryGetFile()
     {
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
 
@@ -43,7 +43,7 @@ struct FileReader
         return true;
     }
 
-    inline bool GetLines(std::string& line)
+    inline bool TryGetLines(std::string& line)
     {
         ++linenum;
 
@@ -61,7 +61,7 @@ struct FileReader
         return true;
     }
 
-    inline bool GetLines(std::wstring& line)
+    inline bool TryGetLines(std::wstring& line)
     {
         ++linenum;
 
@@ -80,7 +80,7 @@ struct FileReader
         return true;
     }
     
-    inline bool GetLines(QString& line)
+    inline bool TryGetLines(QString& line)
     {
         ++linenum;
 
@@ -98,7 +98,7 @@ struct FileReader
         return true;
     }
     
-    inline bool GetLines(nemesis::Line& line)
+    inline bool TryGetLines(nemesis::Line& line)
     {
         ++linenum;
 
@@ -117,7 +117,7 @@ struct FileReader
         return true;
     }
     
-    inline bool GetLines(nemesis::Line& line, nemesis::SharableWrapper<std::filesystem::path>* path_ptr)
+    inline bool TryGetLines(nemesis::Line& line, nemesis::SharableWrapper<std::filesystem::path>* path_ptr)
     {
         ++linenum;
 

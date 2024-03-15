@@ -5,6 +5,8 @@
 
 namespace nemesis
 {
+    struct NObject;
+
 	struct CompileState
     {
     private:
@@ -22,8 +24,8 @@ namespace nemesis
         UMap<const nemesis::AnimationRequest*, UMap<std::string, Vec<const std::string*>>> CurrentRequestMap;
         UMap<std::string, Vec<const std::string*>> CurrentMap;
 
-        Vec<SPtr<std::function<void(nemesis::Line&)>>> AddLineEvents;
-        Vec<SPtr<std::function<void()>>> EOFEvents;
+        Vec<UPtr<std::function<void(nemesis::Line&, const nemesis::NObject&)>>> AddLineEvents;
+        Vec<UPtr<std::function<void()>>> EOFEvents;
 
         Map<std::string, nemesis::SubTemplateRequest> SubTemplateRequests;
 
@@ -87,16 +89,20 @@ namespace nemesis
         const nemesis::TemplateOption* GetCurrentOption(const std::string& option_name) const;
 
         uintptr_t InsertAddLineHandler(std::function<void(nemesis::Line&)> event);
+        uintptr_t InsertAddLineHandler(std::function<void(nemesis::Line&, const nemesis::NObject&)> event);
         void RemoveAddLineHandler(uintptr_t handler_address);
-        void RaiseAddLineEvent(nemesis::Line& line) const;
+        void RaiseAddLineEvent(nemesis::Line& line, const nemesis::NObject& nobject) const;
 
         uintptr_t InsertEOFHandler(std::function<void()> event);
         void RemoveEOFHandler(uintptr_t handler_address);
         void RaiseEOFEvent() const;
 
+        void SelectMod(const std::string& modcode);
+        void DeselectMod(const std::string& modcode);
+
         bool IsModSelected(const std::string& modcode) const;
         bool IsModSelected(const std::string_view& modcode) const;
-        const VecStr GetSelectedMods() const noexcept;
+        const VecStr& GetSelectedMods() const noexcept;
 
         void AddSubTemplateRequest(const VecStr& arguments);
         void RemoveSubTemplateRequest(const std::string& expression);

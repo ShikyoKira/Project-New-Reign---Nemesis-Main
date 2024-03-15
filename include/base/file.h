@@ -44,7 +44,7 @@ namespace nemesis
 
             SPtr<FileReader> filereader = std::make_shared<FileReader>(filename.wstring());
 
-            if (!filereader->GetFile()) ErrorMessage(3002, filename);
+            if (!filereader->TryGetFile()) ErrorMessage(3002, filename);
 
             functionlines = Vec<LineType>();
             functionlines.reserve(100000);
@@ -131,7 +131,7 @@ namespace nemesis
             SPtr<FileReader> BehaviorFormat = CreateReader(filepath, lines);
             BaseType line;
 
-            while (BehaviorFormat->GetLines(line))
+            while (BehaviorFormat->TryGetLines(line))
             {
                 if (error) throw nemesis::exception();
 

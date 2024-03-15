@@ -54,7 +54,7 @@ nemesis::ConditionalStatement::ConditionalString::ConditionalString(const std::s
 {
     if (expression.front() == '"' && expression.back() == '"')
     {
-        for (size_t i = 1; i < expression.length() - 1; i++)
+        for (size_t i = 1; i < expression.length() - 1; ++i)
         {
             switch (expression[i])
             {
@@ -264,7 +264,7 @@ bool nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequ
 
             if (first[class_name.length()] != '_') return false;
 
-            for (size_t i = class_name.length() + 1; i < first.length(); i++)
+            for (size_t i = class_name.length() + 1; i < first.length(); ++i)
             {
                 auto& ch = first[i];
 
@@ -488,7 +488,7 @@ std::string nemesis::ConditionalStatement::ConditionalCollection::GetExpression(
         {
             Expression.append(AndConditions.front()->GetExpression());
 
-            for (size_t i = 1; i < AndConditions.size(); i++)
+            for (size_t i = 1; i < AndConditions.size(); ++i)
             {
                 Expression.append(" && ");
                 Expression.append(AndConditions[i]->GetExpression());
@@ -499,7 +499,7 @@ std::string nemesis::ConditionalStatement::ConditionalCollection::GetExpression(
         {
             Expression.append(OrConditions.front()->GetExpression());
 
-            for (size_t i = 1; i < OrConditions.size(); i++)
+            for (size_t i = 1; i < OrConditions.size(); ++i)
             {
                 Expression.append(" || ");
                 Expression.append(OrConditions[i]->GetExpression());
@@ -872,7 +872,7 @@ void nemesis::ConditionalStatement::ConditionalStatementParser::SetFilePath(
     FilePathPtr = &filepath;
 }
 
-nemesis::ConditionalStatement::ConditionalNode*
+SPtr<nemesis::ConditionalStatement::ConditionalNode>
 nemesis::ConditionalStatement::ConditionalStatementParser::MakeCondition() const
 {
     TokenIndex = 0;
@@ -881,7 +881,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::MakeCondition() const
 
     auto node = ParseExpression();
 
-    if (IsEnd()) return node;
+    if (IsEnd()) return SPtr<nemesis::ConditionalStatement::ConditionalNode>(node);
 
     auto token = Advance();
     throw std::runtime_error("syntax error. Near " + token.Value);
@@ -917,9 +917,8 @@ nemesis::ConditionalStatement::ConditionalStatement(const nemesis::Line& line,
     CondNode = parser.MakeCondition();
 }
 
-nemesis::ConditionalStatement::~ConditionalStatement() noexcept
+nemesis::ConditionalStatement::ConditionalStatement(const nemesis::ConditionalStatement& statement)
+    : nemesis::Statement(statement)
 {
-    if (!CondNode) return;
-
-    delete CondNode;
+    CondNode = statement.CondNode;
 }

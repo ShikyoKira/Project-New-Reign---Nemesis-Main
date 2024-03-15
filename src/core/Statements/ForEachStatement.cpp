@@ -20,7 +20,7 @@ void nemesis::ForEachStatement::ParseComponents(nemesis::SemanticManager& manage
         {
             try
             {
-                for (int i = 0; i < LoopCycle; i++)
+                for (int i = 0; i < LoopCycle; ++i)
                 {
                     action();
                 }
@@ -408,6 +408,14 @@ nemesis::ForEachStatement::ForEachStatement(const nemesis::Line& line,
     : nemesis::Statement(line)
 {
     ParseComponents(manager);
+}
+
+nemesis::ForEachStatement::ForEachStatement(const nemesis::ForEachStatement& statement)
+    : nemesis::Statement(statement)
+{
+    OptionName      = statement.OptionName;
+    LoopCycle       = statement.LoopCycle;
+    ForEachFunction = statement.ForEachFunction;
 }
 
 std::string nemesis::ForEachStatement::Serialize() const

@@ -107,7 +107,7 @@ void nemesis::Condition::Parser::CopyTo(Condition& condition)
 
 void nemesis::Condition::Parser::GetNestedTokens(const Lexer::Iter& tokens, size_t& offset)
 {
-    for (size_t& i = offset, counter = 1; i < tokens.size(); i++)
+    for (size_t& i = offset, counter = 1; i < tokens.size(); ++i)
     {
         switch (tokens[i].first)
         {
@@ -137,7 +137,7 @@ void nemesis::Condition::Parser::Compare(const Lexer::Iter& tokens, size_t& offs
 {
     int expect = Lexer::ALL;
 
-    for (size_t& i = offset; i < tokens.size(); i++)
+    for (size_t& i = offset; i < tokens.size(); ++i)
     {
         auto& token = tokens[i];
 
@@ -204,7 +204,7 @@ void nemesis::Condition::Parser::FollowingExpression(const Lexer::Iter& tokens,
                                                      size_t& offset,
                                                      Condition& condition)
 {
-    for (size_t& i = offset; i < tokens.size(); i++)
+    for (size_t& i = offset; i < tokens.size(); ++i)
     {
         auto& token = tokens[i];
 
@@ -258,7 +258,7 @@ void nemesis::Condition::Parser::OpenParenthesis(const Lexer::Iter& tokens, size
 
 void nemesis::Condition::Parser::And(const Lexer::Iter& tokens, size_t& offset, Condition& condition)
 {
-    for (size_t& i = offset; i < tokens.size(); i++)
+    for (size_t& i = offset; i < tokens.size(); ++i)
     {
         auto& token = tokens[i];
 
@@ -307,7 +307,7 @@ void nemesis::Condition::Parser::And(Condition& condition)
 
 void nemesis::Condition::Parser::Or(const Lexer::Iter& tokens, size_t& offset, Condition& condition)
 {
-    for (size_t& i = offset; i < tokens.size(); i++)
+    for (size_t& i = offset; i < tokens.size(); ++i)
     {
         auto& token = tokens[i];
 

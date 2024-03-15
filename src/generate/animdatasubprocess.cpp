@@ -947,7 +947,7 @@ void BehaviorSub::CompilingAnimData()
 
     if (!FolderCreate(GetFileDirectory(outpath))) return;
 
-    FileWriter output(outpath, VecWstr());
+    FileWriter output(outpath);
 
     if (!output.is_open()) ErrorMessage(1025, filepath);
 

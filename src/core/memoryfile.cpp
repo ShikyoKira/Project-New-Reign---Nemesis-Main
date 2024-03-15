@@ -32,7 +32,7 @@ void nemesis::MemoryFile::Write(const VecStr& lines)
     contents          = {nemesis::Line(lines.front(), 1, filepath_ptr)};
     auto* path_rawptr = filepath_ptr.get();
 
-    for (size_t i = 1; i < lines.size(); i++)
+    for (size_t i = 1; i < lines.size(); ++i)
     {
         contents.emplace_back(lines[i], i + 1, path_rawptr);
     }
@@ -47,7 +47,7 @@ void nemesis::MemoryFile::Write(const VecNstr& lines)
     contents = {nemesis::Line(lines.front().ToString(), 1, filepath_ptr)};
     auto* path_rawptr = filepath_ptr.get();
 
-    for (size_t i = 1; i < lines.size(); i++)
+    for (size_t i = 1; i < lines.size(); ++i)
     {
         contents.emplace_back(lines[i].ToString(), i + 1, path_rawptr);
     }

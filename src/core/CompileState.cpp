@@ -22,7 +22,7 @@ void nemesis::CompileState::SetBaseRequest(const nemesis::AnimationRequest* requ
 
     QueueCurrentRequest(name + "_" + std::to_string(parents.size() + 1), request);
 
-    for (size_t i = 0; i < parents.size(); i++)
+    for (size_t i = 0; i < parents.size(); ++i)
     {
         QueueCurrentRequest(name + "_" + std::to_string(i + 1), parents[i]);
     }
@@ -312,15 +312,22 @@ const nemesis::TemplateOption* nemesis::CompileState::GetCurrentOption(const std
 
 uintptr_t nemesis::CompileState::InsertAddLineHandler(std::function<void(nemesis::Line&)> event)
 {
-    SPtr<std::function<void(nemesis::Line&)>> func_ptr
-        = std::make_shared<std::function<void(nemesis::Line&)>>([event](nemesis::Line& line)
-                                                                { event(line); });
-    return reinterpret_cast<uintptr_t>(AddLineEvents.emplace_back(func_ptr).get());
+    auto func_ptr = std::make_unique<std::function<void(nemesis::Line&, const nemesis::NObject&)>>(
+        [event](nemesis::Line& line, const nemesis::NObject& nobject) { event(line); });
+    return reinterpret_cast<uintptr_t>(AddLineEvents.emplace_back(std::move(func_ptr)).get());
+}
+
+uintptr_t nemesis::CompileState::InsertAddLineHandler(
+    std::function<void(nemesis::Line&, const nemesis::NObject&)> event)
+{
+    auto func_ptr = std::make_unique<std::function<void(nemesis::Line&, const nemesis::NObject&)>>(
+        [event](nemesis::Line& line, const nemesis::NObject& nobject) { event(line, nobject); });
+    return reinterpret_cast<uintptr_t>(AddLineEvents.emplace_back(std::move(func_ptr)).get());
 }
 
 void nemesis::CompileState::RemoveAddLineHandler(uintptr_t handler_address)
 {
-    for (size_t i = 0; i < AddLineEvents.size(); i++)
+    for (size_t i = 0; i < AddLineEvents.size(); ++i)
     {
         if (reinterpret_cast<uintptr_t>(AddLineEvents[i].get()) != handler_address) continue;
 
@@ -331,30 +338,30 @@ void nemesis::CompileState::RemoveAddLineHandler(uintptr_t handler_address)
     throw std::runtime_error("Invalid handler address");
 }
 
-void nemesis::CompileState::RaiseAddLineEvent(nemesis::Line& line) const
+void nemesis::CompileState::RaiseAddLineEvent(nemesis::Line& line, const nemesis::NObject& nobject) const
 {
-    Vec<SPtr<std::function<void(nemesis::Line&)>>> event_pointers; 
+    Vec<std::function<void(nemesis::Line&, const nemesis::NObject&)>*> event_pointers; 
 
     for (auto& event : AddLineEvents)
     {
-        event_pointers.emplace_back(event);
+        event_pointers.emplace_back(event.get());
     }
 
     for (auto& event_ptr : event_pointers)
     {
-        (*event_ptr)(line);
+        (*event_ptr)(line, nobject);
     }
 }
 
 uintptr_t nemesis::CompileState::InsertEOFHandler(std::function<void()> event)
 {
-    SPtr<std::function<void()>> func_ptr = std::make_shared<std::function<void()>>([event]() { event(); });
-    return reinterpret_cast<uintptr_t>(EOFEvents.emplace_back(func_ptr).get());
+    auto func_ptr = std::make_unique<std::function<void()>>([event]() { event(); });
+    return reinterpret_cast<uintptr_t>(EOFEvents.emplace_back(std::move(func_ptr)).get());
 }
 
 void nemesis::CompileState::RemoveEOFHandler(uintptr_t handler_address)
 {
-    for (size_t i = 0; i < EOFEvents.size(); i++)
+    for (size_t i = 0; i < EOFEvents.size(); ++i)
     {
         if (reinterpret_cast<uintptr_t>(EOFEvents[i].get()) != handler_address) continue;
 
@@ -367,11 +374,11 @@ void nemesis::CompileState::RemoveEOFHandler(uintptr_t handler_address)
 
 void nemesis::CompileState::RaiseEOFEvent() const
 {
-    Vec<SPtr<std::function<void()>>> event_pointers;
+    Vec<std::function<void()>*> event_pointers;
 
     for (auto& event : EOFEvents)
     {
-        event_pointers.emplace_back(event);
+        event_pointers.emplace_back(event.get());
     }
 
     for (auto& event_ptr : event_pointers)
@@ -380,13 +387,28 @@ void nemesis::CompileState::RaiseEOFEvent() const
     }
 }
 
+void nemesis::CompileState::SelectMod(const std::string& modcode)
+{
+    SelectedMods.emplace_back(modcode);
+}
+
+void nemesis::CompileState::DeselectMod(const std::string& modcode)
+{
+    auto start = SelectedMods.begin();
+
+    for (size_t i = 0; i < SelectedMods.size(); ++i)
+    {
+        if (SelectedMods[i] != modcode) continue;
+
+        SelectedMods.erase(start + i);
+    }
+}
+
 bool nemesis::CompileState::IsModSelected(const std::string& modcode) const
 {
-    for (size_t i = 0; i < SelectedMods.size(); i++)
+    for (size_t i = 0; i < SelectedMods.size(); ++i)
     {
-        if (modcode == SelectedMods[i]) continue;
-
-        return true;
+        if (modcode == SelectedMods[i]) return true;
     }
 
     return false;
@@ -394,17 +416,15 @@ bool nemesis::CompileState::IsModSelected(const std::string& modcode) const
 
 bool nemesis::CompileState::IsModSelected(const std::string_view& modcode) const
 {
-    for (size_t i = 0; i < SelectedMods.size(); i++)
+    for (size_t i = 0; i < SelectedMods.size(); ++i)
     {
-        if (modcode == SelectedMods[i]) continue;
-
-        return true;
+        if (modcode == SelectedMods[i]) return true;
     }
 
     return false;
 }
 
-const VecStr nemesis::CompileState::GetSelectedMods() const noexcept
+const VecStr& nemesis::CompileState::GetSelectedMods() const noexcept
 {
     return SelectedMods;
 }

@@ -1,21 +1,14 @@
 #pragma once
 
-#include "core/Statements/Statement.h"
+#include "core/Statements/CompositeStatement.h"
 
 namespace nemesis
 {
     struct LineModifier;
     struct SemanticManager;
 
-	struct MathStatement : public nemesis::Statement
+	struct MathStatement : public nemesis::CompositeStatement
     {
-    private:
-        VecStr Tokens;
-        Vec<UPtr<nemesis::LineModifier>> Modifiers;
-
-        std::function<std::string(nemesis::CompileState&)> GetEquationFunction;
-
-
     public:
         MathStatement(const std::string& expression,
                       size_t linenum,
@@ -24,6 +17,6 @@ namespace nemesis
 
         std::string Serialize() const override;
 
-        std::string GetValue(nemesis::CompileState& state) const;
+        std::string GetValue(nemesis::CompileState& state) const override;
     };
 }

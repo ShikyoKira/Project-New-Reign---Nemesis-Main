@@ -248,7 +248,7 @@ nemesis::AnimVarPtr::Parser::Parser(DeqStr& components,
     auto& express_ref = animvar_ptr->raw_expression;
     express_ref       = components.front();
 
-    for (size_t i = 1; i < components.size(); i++)
+    for (size_t i = 1; i < components.size(); ++i)
     {
         express_ref.push_back('[');
         express_ref.append(components[i]);

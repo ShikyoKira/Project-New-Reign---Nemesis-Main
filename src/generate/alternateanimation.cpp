@@ -57,42 +57,39 @@ void AAInitialize(string AAList)
 
     for (string& groupName : groupList)
     {
-        if (!nemesis::iequals(groupName, "alternate animation.script")
-            && nemesis::iequals(sf::path(AAList + "\\" + groupName).extension().string(), ".txt"))
+        if (nemesis::iequals(groupName, "alternate animation.script")
+            || !nemesis::iequals(sf::path(AAList + "\\" + groupName).extension().string(), ".txt"))
         {
-            FileReader doc(AAList + "\\" + groupName);
+            continue;
+        }
 
-            if (doc.GetFile())
+        FileReader doc(AAList + "\\" + groupName);
+
+        if (!doc.TryGetFile())
+        {
+            ErrorMessage(4000, AAList);
+        }
+
+        string AAGroupName = groupName.substr(0, groupName.find_last_of("."));
+        string animFile;
+
+        while (doc.TryGetLines(animFile))
+        {
+            if (animFile.empty()) continue;
+
+            string lowerAnimFile = nemesis::to_lower_copy(animFile);
+
+            if (!existAAAnim[lowerAnimFile].empty())
             {
-                string AAGroupName = groupName.substr(0, groupName.find_last_of("."));
-                string animFile;
-
-                while (doc.GetLines(animFile))
-                {
-                    if (animFile.length() != 0)
-                    {
-                        string lowerAnimFile = nemesis::to_lower_copy(animFile);
-
-                        if (existAAAnim[lowerAnimFile].length() == 0)
-                        {
-                            string lowerGroupName = nemesis::to_lower_copy(AAGroupName);
-                            groupAA[lowerGroupName].push_back(lowerAnimFile);
-                            AAGroup[lowerAnimFile]     = lowerGroupName;
-                            existAAAnim[lowerAnimFile] = lowerGroupName;
-                            groupNameList.insert(lowerGroupName);
-                            groupNameList.insert(lowerGroupName + "_1p*");
-                        }
-                        else
-                        {
-                            ErrorMessage(4001, AAGroupName, existAAAnim[lowerAnimFile]);
-                        }
-                    }
-                }
+                ErrorMessage(4001, AAGroupName, existAAAnim[lowerAnimFile]);
             }
-            else
-            {
-                ErrorMessage(4000, AAList);
-            }
+
+            string lowerGroupName = nemesis::to_lower_copy(AAGroupName);
+            groupAA[lowerGroupName].push_back(lowerAnimFile);
+            AAGroup[lowerAnimFile]     = lowerGroupName;
+            existAAAnim[lowerAnimFile] = lowerGroupName;
+            groupNameList.insert(lowerGroupName);
+            groupNameList.insert(lowerGroupName + "_1p*");
         }
     }
 
@@ -236,7 +233,7 @@ bool AACoreCompile(sf::path pscfile,
         }
     }
 
-    if (prefixList.size() > 0) // Assign mod ID
+    if (!prefixList.empty()) // Assign mod ID
     {
         auto nextprefix       = prefixList.begin();
         string templine       = "	if (curAAPrefix == \"" + *nextprefix + "\")";
@@ -261,7 +258,7 @@ bool AACoreCompile(sf::path pscfile,
     maxGroup = 0;
     DebugLogging("AA prefix script complete");
 
-    if (groupNameList.size() > 0) // Assign base value
+    if (!groupNameList.empty()) // Assign base value
     {
         VecStr groupID;
         groupIDFunction.push_back("int Function GetGroupID(string groupName) global");
@@ -318,7 +315,7 @@ bool AACoreCompile(sf::path pscfile,
             ++maxGroup;
         }
 
-        if (groupID.size() > 0)
+        if (!groupID.empty())
         {
             groupIDFunction.push_back("	if (groupName == \"" + groupID[0] + "\")");
             groupIDFunction.push_back("		return " + groupID[1]);
@@ -362,7 +359,7 @@ bool AACoreCompile(sf::path pscfile,
         }
         else if (line.find("(DataCode == num)") != NOT_FOUND)
         {
-            if (baseMatch.size() > 0)
+            if (!baseMatch.empty())
             {
                 newline.push_back("	if (" + baseMatch[0] + ")");
                 newline.push_back(baseMatch[1]);
@@ -379,7 +376,7 @@ bool AACoreCompile(sf::path pscfile,
         }
         else if (line.find("(AAgroupID == num)") != NOT_FOUND)
         {
-            if (baseOrder.size() > 0)
+            if (!baseOrder.empty())
             {
                 int counter     = 0;
                 auto firstOrder = baseOrder.begin();
@@ -450,37 +447,33 @@ bool AACoreCompile(sf::path pscfile,
                     newline.push_back(space + "elseif (AAgroupID == " + group->first + ")");
                     space += "	";
 
-                    if (group->second.size() > 1)
-                    {
-                        for (size_t j = 0; j < group->second.size(); ++j)
-                        {
-                            if (j + 1 == group->second.size() - 1)
-                            {
-                                newline.push_back(space + "if (groupValue < " + group->second[j + 1].groupBase
-                                                  + ")");
-                                newline.push_back(space + "	return " + group->second[j].modID);
-                                newline.push_back(space + "else");
-                                newline.push_back(space + "	return " + group->second[j + 1].modID);
-                                break;
-                            }
-                            else
-                            {
-                                newline.push_back(space + "if (groupValue < " + group->second[j + 1].groupBase
-                                                  + ")");
-                                space += "	";
-                                newline.push_back(space + "return " + group->second[j].modID);
-                            }
-                        }
-
-                        while (space.length() > 1)
-                        {
-                            newline.push_back(space + "endif");
-                            space.pop_back();
-                        }
-                    }
-                    else
+                    if (group->second.size() <= 1)
                     {
                         newline.push_back(space + "return " + group->second[0].modID);
+                        space.pop_back();
+                        continue;
+                    }
+
+                    for (size_t j = 0; j < group->second.size(); ++j)
+                    {
+                        if (j + 1 == group->second.size() - 1)
+                        {
+                            newline.push_back(space + "if (groupValue < " + group->second[j + 1].groupBase
+                                              + ")");
+                            newline.push_back(space + "	return " + group->second[j].modID);
+                            newline.push_back(space + "else");
+                            newline.push_back(space + "	return " + group->second[j + 1].modID);
+                            break;
+                        }
+
+                        newline.push_back(space + "if (groupValue < " + group->second[j + 1].groupBase + ")");
+                        space += "	";
+                        newline.push_back(space + "return " + group->second[j].modID);
+                    }
+
+                    while (space.length() > 1)
+                    {
+                        newline.push_back(space + "endif");
                         space.pop_back();
                     }
                 }
@@ -514,16 +507,14 @@ bool AACoreCompile(sf::path pscfile,
     {
         FileWriter output(pscfile.string());
 
-        if (output.is_open())
-        {
-            for (auto& line : newline)
-            {
-                output << line << "\n";
-            }
-        }
-        else
+        if (!output.is_open())
         {
             ErrorMessage(3002, pscfile.wstring());
+        }
+
+        for (auto& line : newline)
+        {
+            output << line << "\n";
         }
     }
 
@@ -576,23 +567,21 @@ bool AAnimAPICompile(sf::path pscfile,
         newline.push_back(line);
     }
 
-    if (newline.size() > 0 && newline.back().length() > 0) newline.push_back("");
+    if (!newline.empty() && !newline.back().empty()) newline.push_back("");
 
     newline.insert(newline.end(), newFunctions.begin(), newFunctions.end());
 
     {
         FileWriter output(pscfile.string());
 
-        if (output.is_open())
-        {
-            for (auto& line : newline)
-            {
-                output << line << "\n";
-            }
-        }
-        else
+        if (!output.is_open())
         {
             ErrorMessage(3002, pscfile);
+        }
+
+        for (auto& line : newline)
+        {
+            output << line << "\n";
         }
     }
 

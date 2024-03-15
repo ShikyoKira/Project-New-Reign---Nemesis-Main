@@ -320,7 +320,7 @@ void BehaviorSub::CompilingBehavior()
 
     if (modID.length() > 0 && isFileExist(outputdir.wstring() + L".hkx"))
     {
-        for (size_t i = 0; i < 9; i++)
+        for (size_t i = 0; i < 9; ++i)
         {
             process->newMilestone();
         }
@@ -370,7 +370,7 @@ void BehaviorSub::CompilingBehavior()
         modLine.reserve(size);
         FileReader BehaviorFormat(filepath);
 
-        if (!BehaviorFormat.GetFile()) ErrorMessage(3002, filepath, BehaviorFormat.ErrorMessage());
+        if (!BehaviorFormat.TryGetFile()) ErrorMessage(3002, filepath, BehaviorFormat.ErrorMessage());
 
         bool hasDeleted = false;
         size_t numline    = 0;
@@ -436,7 +436,7 @@ void BehaviorSub::CompilingBehavior()
             }
         };
 
-        while (BehaviorFormat.GetLines(line))
+        while (BehaviorFormat.TryGetLines(line))
         {
             bool skip = false;
 
@@ -1794,7 +1794,7 @@ void BehaviorSub::CompilingBehavior()
                     if (!sf::remove(outputdir)) WarningMessage(1005, outputdir);
                 }
 
-                for (size_t i = 0; i < 8; i++)
+                for (size_t i = 0; i < 8; ++i)
                 {
                     process->newMilestone();
                 }

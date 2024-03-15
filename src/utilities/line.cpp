@@ -9,6 +9,10 @@ nemesis::SharableWrapper<std::filesystem::path>* nemesis::Line::GetFilePathPtr()
     return r_path ? r_path : s_path.get();
 }
 
+nemesis::Line::Line() noexcept
+{
+}
+
 nemesis::Line::Line(size_t _linenum)
 {
     linenum = _linenum;
@@ -81,22 +85,6 @@ nemesis::Line::Line(const QType& _ch,
     base          = _ch.toStdString();
     this->linenum = linenum;
     r_path        = path_ptr;
-}
-
-nemesis::Line::Line(nemesis::Line& line) noexcept
-{
-    base = line.base;
-    linenum = line.linenum;
-    s_path  = line.r_path ? line.r_path->shared_from_this()
-                          : line.s_path;
-}
-
-nemesis::Line::Line(const nemesis::Line& line) noexcept
-{
-    base = line.base;
-    linenum = line.linenum;
-    s_path  = line.s_path;
-    r_path  = line.r_path;
 }
 
 nemesis::Line::Line(const RawType& _ch, const std::filesystem::path& filepath) noexcept

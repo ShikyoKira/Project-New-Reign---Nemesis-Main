@@ -504,11 +504,11 @@ void GetBehaviorPath()
     int linecount = 0;
     FileReader pathFile(filename);
 
-    if (!pathFile.GetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
+    if (!pathFile.TryGetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
 
     wstring line;
 
-    while (pathFile.GetLines(line))
+    while (pathFile.TryGetLines(line))
     {
         ++linecount;
         size_t pos = line.find(L"=");
@@ -529,11 +529,11 @@ void GetBehaviorProject()
     bool newChar = true;
     FileReader pathFile(filename);
 
-    if (!pathFile.GetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
+    if (!pathFile.TryGetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
 
     string line;
 
-    while (pathFile.GetLines(line))
+    while (pathFile.TryGetLines(line))
     {
         if (line.length() == 0)
         {
@@ -560,11 +560,11 @@ void GetBehaviorProjectPath()
     int linecount = 0;
     FileReader pathFile(filename);
 
-    if (!pathFile.GetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
+    if (!pathFile.TryGetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
 
     wstring line;
 
-    while (pathFile.GetLines(line))
+    while (pathFile.TryGetLines(line))
     {
         ++linecount;
         size_t pos = line.find(L"=");
@@ -587,11 +587,11 @@ void GetAnimData()
     bool newCharacter = false;
     string character;
 
-    if (!pathFile.GetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
+    if (!pathFile.TryGetFile()) ErrorMessage(2000, filename, pathFile.ErrorMessage());
 
     string line;
 
-    while (pathFile.GetLines(line))
+    while (pathFile.TryGetLines(line))
     {
         if (!newCharacter)
         {
@@ -628,12 +628,12 @@ void characterHKX()
     bool open = false;
     FileReader file(filename);
 
-    if (!file.GetFile()) ErrorMessage(3002, filename, file.ErrorMessage());
+    if (!file.TryGetFile()) ErrorMessage(3002, filename, file.ErrorMessage());
 
     string line;
     string header;
 
-    while (file.GetLines(line))
+    while (file.TryGetLines(line))
     {
         if (line.empty())
         {

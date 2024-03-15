@@ -87,7 +87,7 @@ void nemesis::OptionModelList::Parser::AddAnimObject(const nemesis::Line& line)
 
     host.iAnimObj = std::make_unique<size_t>(stoi(animinfo.back()));
 
-    //for (size_t i = 1; i <= *host.iAnimObj; i++)
+    //for (size_t i = 1; i <= *host.iAnimObj; ++i)
     //{
     //    nemesis::Line line(animobj_prefix + std::to_string(i), line.GetLineNumber());
     //    AddOptionModel(line);

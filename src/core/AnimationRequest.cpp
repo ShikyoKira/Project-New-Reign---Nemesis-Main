@@ -51,13 +51,12 @@ void nemesis::AnimationRequest::SetAnimationFilePath(const std::string& filepath
 
 const nemesis::TemplateOption* nemesis::AnimationRequest::GetOption(const std::string& option_name) const
 {
-    for (size_t i = 0; i < Options.size(); i++)
+    for (size_t i = 0; i < Options.size(); ++i)
     {
-        if (Options[i]->GetName() != option_name) continue;
-
-        if (!Options[i]->HasAlias(option_name)) continue;
-
-        return Options[i].get();
+        if (Options[i]->GetName() == option_name || Options[i]->HasAlias(option_name))
+        {
+            return Options[i].get();
+        }
     }
 
     return nullptr;
@@ -120,7 +119,7 @@ Vec<const nemesis::AnimationRequest*> nemesis::AnimationRequest::GetRequests() c
     Vec<const nemesis::AnimationRequest*> requests;
     requests.reserve(Requests.size());
 
-    for (size_t i = 0; i < Requests.size(); i++)
+    for (size_t i = 0; i < Requests.size(); ++i)
     {
         requests.emplace_back(Requests[i].get());
     }

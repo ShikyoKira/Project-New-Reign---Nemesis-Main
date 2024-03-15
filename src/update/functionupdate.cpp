@@ -121,12 +121,12 @@ bool NodeU::NodeUpdate(string modcode,
         VecNstr storeline;
         FileReader BehaviorFormat(filepath);
 
-        if (!BehaviorFormat.GetFile()) ErrorMessage(2000, filepath, BehaviorFormat.ErrorMessage());
+        if (!BehaviorFormat.TryGetFile()) ErrorMessage(2000, filepath, BehaviorFormat.ErrorMessage());
 
         nemesis::Line rline;
         bool IsEventVariable = false;
 
-        while (BehaviorFormat.GetLines(rline))
+        while (BehaviorFormat.TryGetLines(rline))
         {
             string line = rline;
 
