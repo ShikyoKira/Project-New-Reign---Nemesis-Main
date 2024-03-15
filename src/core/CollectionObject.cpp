@@ -11,7 +11,7 @@ namespace ns = nemesis::syntax;
 
 nemesis::NLine* nemesis::CollectionObject::ObjectMatcher::GetNextLine()
 {
-    for (size_t i = BaseIndex; i < Objects.size(); i++)
+    for (size_t i = BaseIndex; i < Objects.size(); ++i)
     {
         nemesis::NLine* line_ptr = dynamic_cast<nemesis::NLine*>(Objects[i].get());
 
@@ -29,7 +29,7 @@ nemesis::CollectionObject::ObjectMatcher::ObjectMatcher(Vec<UPtr<nemesis::NObjec
 {
 }
 
-void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(Vec<UPtr<nemesis::NObject>>& objects)
+void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(const Vec<UPtr<nemesis::NObject>>& objects)
 {
     if (Objects.size() > objects.size())
     {
@@ -39,14 +39,15 @@ void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(Vec<UPtr<nemesis::
     BaseIndex = 0;
     size_t new_index_begin = 0;
 
-    for (size_t i = 0; i < objects.size(); i++)
+    for (size_t i = 0; i < objects.size(); ++i)
     {
         auto& object   = objects[i];
-        auto* line_ptr = dynamic_cast<nemesis::NLine*>(object.get());
+        auto* line_ptr = dynamic_cast<const nemesis::NLine*>(object.get());
 
         if (!line_ptr)
         {
-            Objects.insert(Objects.begin() + BaseIndex, std::move(object));
+            Objects.insert(Objects.begin() + BaseIndex, object->CloneNObject());
+            ++BaseIndex;
             continue;
         }
 
@@ -65,14 +66,14 @@ void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(Vec<UPtr<nemesis::
 
     if (new_index_begin == 0) return;
 
-    for (size_t i = new_index_begin; i < objects.size(); i++)
+    for (size_t i = new_index_begin; i < objects.size(); ++i)
     {
         auto& object   = objects[i];
-        auto* line_ptr = dynamic_cast<nemesis::NLine*>(object.get());
+        auto* line_ptr = dynamic_cast<const nemesis::NLine*>(object.get());
 
-        if (!line_ptr) throw std::runtime_error("Template update line to line does not match");
+        if (line_ptr) throw std::runtime_error("Template update line to line does not match");
 
-        Objects.emplace_back(std::move(object));
+        Objects.emplace_back(object->CloneNObject());
     }
 }
 
@@ -92,12 +93,39 @@ void nemesis::CollectionObject::SerializeTo(DeqNstr& lines) const
     }
 }
 
-void nemesis::CollectionObject::AddObject(UPtr<nemesis::NObject>&& object) noexcept
+UPtr<nemesis::NObject> nemesis::CollectionObject::CloneNObject() const
 {
-    Objects.emplace_back(std::move(object));
+    return Clone();
 }
 
-void nemesis::CollectionObject::MatchAndUpdate(nemesis::CollectionObject& object_list)
+UPtr<nemesis::CollectionObject> nemesis::CollectionObject::Clone() const
+{
+    auto collection = std::make_unique<nemesis::CollectionObject>();
+
+    for (auto& object : Objects)
+    {
+        collection->AddObject(object->CloneNObject());
+    }
+
+    return collection;
+}
+
+UPtr<nemesis::NObject>& nemesis::CollectionObject::AddObject(UPtr<nemesis::NObject>&& object) noexcept
+{
+    return Objects.emplace_back(std::move(object));
+}
+
+nemesis::NObject* nemesis::CollectionObject::GetByIndex(size_t index) noexcept
+{
+    return Objects[index].get();
+}
+
+const nemesis::NObject* nemesis::CollectionObject::GetByIndex(size_t index) const noexcept
+{
+    return Objects[index].get();
+}
+
+void nemesis::CollectionObject::MatchAndUpdate(const nemesis::CollectionObject& object_list)
 {
     ObjectMatcher matcher(Objects);
     matcher.MatchAndUpdate(object_list.Objects);

@@ -33,6 +33,21 @@ void nemesis::TemplateObject::SerializeTo(DeqNstr& lines) const
     Data->SerializeTo(lines);
 }
 
+UPtr<nemesis::NObject> nemesis::TemplateObject::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::TemplateObject> nemesis::TemplateObject::Clone() const
+{
+    auto tmplt      = std::make_unique<nemesis::TemplateObject>(TemplateClass);
+    tmplt->Index    = Index;
+    tmplt->FilePath = FilePath;
+    tmplt->Data     = Data == nullptr ? nullptr : Data->Clone();
+    tmplt->Child    = Child == nullptr ? nullptr : Child->Clone();
+    return tmplt;
+}
+
 const std::string& nemesis::TemplateObject::GetClassName() const noexcept
 {
     return TemplateClass->GetName();

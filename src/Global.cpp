@@ -47,7 +47,7 @@ std::shared_ptr<FileReader> CreateReader(const sf::path& filename, Vec<LineType>
 
     SPtr<FileReader> filereader = std::make_shared<FileReader>(filename.wstring());
 
-    if (!filereader->GetFile()) ErrorMessage(3002, filename);
+    if (!filereader->TryGetFile()) ErrorMessage(3002, filename);
 
     functionlines = Vec<LineType>();
     functionlines.reserve(100000);
@@ -151,11 +151,11 @@ size_t fileLineCount(sf::path filepath)
 	int linecount = 0;
 	FileReader input(filepath.c_str());
 
-	if (!input.GetFile()) ErrorMessage(1002, filepath);
+	if (!input.TryGetFile()) ErrorMessage(1002, filepath);
 
     string line;
 
-    while (input.GetLines(line))
+    while (input.TryGetLines(line))
     {
         ++linecount;
     }
@@ -168,11 +168,11 @@ size_t fileLineCount(const char* filepath)
 	int linecount = 0;
 	FileReader input(filepath);
 
-	if (!input.GetFile()) ErrorMessage(1002, filepath);
+	if (!input.TryGetFile()) ErrorMessage(1002, filepath);
 
     string line;
 
-    while (input.GetLines(line))
+    while (input.TryGetLines(line))
     {
         ++linecount;
     }
@@ -237,12 +237,12 @@ bool GetFileLines(const sf::path& filename,
     QString line;
     size_t linenum = 0;
 
-    if (BehaviorFormat->GetLines(line))
+    if (BehaviorFormat->TryGetLines(line))
     {
         auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
-        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+        functionlines.emplace_back(selector(line.toStdString()), ++linenum, filepath_ptr);
 
-        while (BehaviorFormat->GetLines(line))
+        while (BehaviorFormat->TryGetLines(line))
         {
             if (error) throw nemesis::exception();
 
@@ -264,12 +264,12 @@ bool GetFileLines(const sf::path& filename,
     QString line;
     size_t linenum = 0;
 
-    if (BehaviorFormat->GetLines(line))
+    if (BehaviorFormat->TryGetLines(line))
     {
         auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
-        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+        functionlines.emplace_back(selector(line.toStdWString()), ++linenum, filepath_ptr);
 
-        while (BehaviorFormat->GetLines(line))
+        while (BehaviorFormat->TryGetLines(line))
         {
             if (error) throw nemesis::exception();
 
@@ -290,7 +290,7 @@ bool GetFileLines(const sf::path& filename,
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     QString line;
 
-    while (BehaviorFormat->GetLines(line))
+    while (BehaviorFormat->TryGetLines(line))
     {
         if (error) throw nemesis::exception();
 
@@ -310,7 +310,7 @@ bool GetFileLines(const sf::path& filename,
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     QString line;
 
-    while (BehaviorFormat->GetLines(line))
+    while (BehaviorFormat->TryGetLines(line))
     {
         if (error) throw nemesis::exception();
 
@@ -331,18 +331,18 @@ bool GetFileLines(const sf::path& filename,
     std::string line;
     size_t linenum = 0;
 
-    if (BehaviorFormat->GetLines(line))
+    if (BehaviorFormat->TryGetLines(line))
     {
         auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
-        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+        functionlines.emplace_back(std::move(line), ++linenum, filepath_ptr);
 
-        while (BehaviorFormat->GetLines(line))
+        while (BehaviorFormat->TryGetLines(line))
         {
             if (error) throw nemesis::exception();
 
             if (!predicament(line)) continue;
 
-            functionlines.emplace_back(line, ++linenum, filepath_ptr.get());
+            functionlines.emplace_back(std::move(line), ++linenum, filepath_ptr.get());
         }
     }
 
@@ -360,18 +360,18 @@ bool GetFileLines(const sf::path& filename,
     std::wstring line;
     size_t linenum = 0;
 
-    if (BehaviorFormat->GetLines(line))
+    if (BehaviorFormat->TryGetLines(line))
     {
         auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
-        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+        functionlines.emplace_back(std::move(line), ++linenum, filepath_ptr);
 
-        while (BehaviorFormat->GetLines(line))
+        while (BehaviorFormat->TryGetLines(line))
         {
             if (error) throw nemesis::exception();
 
             if (!predicament(line)) continue;
 
-            functionlines.emplace_back(line, ++linenum, filepath_ptr.get());
+            functionlines.emplace_back(std::move(line), ++linenum, filepath_ptr.get());
         }
     }
 
@@ -388,13 +388,13 @@ bool GetFileLines(const sf::path& filename,
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     std::string line;
 
-    while (BehaviorFormat->GetLines(line))
+    while (BehaviorFormat->TryGetLines(line))
     {
         if (error) throw nemesis::exception();
 
         if (!predicament(line)) continue;
 
-        functionlines.emplace_back(line);
+        functionlines.emplace_back(std::move(line));
     }
 
     bool rst = ValidateEndLine(emptylast, functionlines, condend);
@@ -408,15 +408,15 @@ bool GetFileLines(const sf::path& filename,
                   bool emptylast)
 {
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
-    wstring line;
+    std::wstring line;
 
-    while (BehaviorFormat->GetLines(line))
+    while (BehaviorFormat->TryGetLines(line))
     {
         if (error) throw nemesis::exception();
 
         if (!predicament(line)) continue;
 
-        functionlines.emplace_back(line);
+        functionlines.emplace_back(std::move(line));
     }
 
     bool rst = ValidateEndLine(emptylast, functionlines, wcondend);
@@ -430,16 +430,16 @@ bool GetFileLines(const sf::path& filename, VecNstr& functionlines, bool emptyla
     QString line;
     size_t linenum = 0;
 
-    if (BehaviorFormat->GetLines(line))
+    if (BehaviorFormat->TryGetLines(line))
     {
         auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
-        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+        functionlines.emplace_back(line.toStdString(), ++linenum, filepath_ptr);
 
-        while (BehaviorFormat->GetLines(line))
+        while (BehaviorFormat->TryGetLines(line))
         {
             if (error) throw nemesis::exception();
 
-            functionlines.emplace_back(line, ++linenum, filepath_ptr.get());
+            functionlines.emplace_back(line.toStdString(), ++linenum, filepath_ptr.get());
         }
     }
 
@@ -454,16 +454,16 @@ bool GetFileLines(const sf::path& filename, VecNwstr& functionlines, bool emptyl
     QString line;
     size_t linenum = 0;
 
-    if (BehaviorFormat->GetLines(line))
+    if (BehaviorFormat->TryGetLines(line))
     {
         auto filepath_ptr = std::make_shared<nemesis::SharableWrapper<sf::path>>(filename);
-        functionlines.emplace_back(line, ++linenum, filepath_ptr);
+        functionlines.emplace_back(line.toStdWString(), ++linenum, filepath_ptr);
 
-        while (BehaviorFormat->GetLines(line))
+        while (BehaviorFormat->TryGetLines(line))
         {
             if (error) throw nemesis::exception();
 
-            functionlines.emplace_back(line, ++linenum, filepath_ptr.get());
+            functionlines.emplace_back(line.toStdWString(), ++linenum, filepath_ptr.get());
         }
     }
 
@@ -477,7 +477,7 @@ bool GetFileLines(const sf::path& filename, VecStr& functionlines, bool emptylas
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     QString line;
 
-    while (BehaviorFormat->GetLines(line))
+    while (BehaviorFormat->TryGetLines(line))
     {
         if (error) throw nemesis::exception();
 
@@ -494,7 +494,7 @@ bool GetFileLines(const sf::path& filename, VecWstr& functionlines, bool emptyla
     SPtr<FileReader> BehaviorFormat = CreateReader(filename, functionlines);
     QString line;
 
-    while (BehaviorFormat->GetLines(line))
+    while (BehaviorFormat->TryGetLines(line))
     {
         if (error) throw nemesis::exception();
 

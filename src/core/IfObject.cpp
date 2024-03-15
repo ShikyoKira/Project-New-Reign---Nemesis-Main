@@ -2,6 +2,7 @@
 #include "core/SemanticManager.h"
 
 #include "utilities/conditionsyntax.h"
+#include "..\..\include\core\IfObject.h"
 
 namespace ns = nemesis::syntax;
 
@@ -16,6 +17,18 @@ nemesis::IfObject::ElseIfObject::ElseIfObject(const std::string& expression,
     : Statement(expression, linenum, filepath, manager)
     , Value(std::move(value))
 {
+}
+
+nemesis::IfObject::ElseIfObject::ElseIfObject(const nemesis::IfObject::ElseIfObject& elif_obj)
+    : Statement(elif_obj.Statement)
+{
+    Value = elif_obj.Value->CloneNObject();
+}
+
+nemesis::IfObject::IfObject(const nemesis::IfObject& if_obj)
+    : Statement(if_obj.Statement)
+{
+    Value = if_obj.Value->CloneNObject();
 }
 
 nemesis::IfObject::IfObject(const std::string& expression,
@@ -40,6 +53,21 @@ void nemesis::IfObject::SerializeTo(DeqNstr& lines) const
     lines.emplace_back(Statement.Serialize());
     Value->SerializeTo(lines);
     lines.emplace_back(ns::EndIf());
+}
+
+UPtr<nemesis::NObject> nemesis::IfObject::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::IfObject> nemesis::IfObject::Clone() const
+{
+    return UPtr<nemesis::IfObject>(new nemesis::IfObject(*this));
+}
+
+const nemesis::IfStatement& nemesis::IfObject::GetStatement() const noexcept
+{
+    return Statement;
 }
 
 void nemesis::IfObject::ElseIf(const std::string& expression,

@@ -18,7 +18,7 @@ void nemesis::ModifierTester::Run()
           "#NID~1 --> <!-- fuo_1[]==fuo_1[F]&&(AV||AVI) #NID~3 --> <!-- null -->";
     size_t pos = mc_line.find("$@MultiChoice$") + 1;
 
-    for (size_t i = 0; i < mc_line.length(); i++)
+    for (size_t i = 0; i < mc_line.length(); ++i)
     {
         tokens.emplace_back(1, mc_line[i]);
     }

@@ -1,7 +1,11 @@
 #include "animsetdata/AnimationSetDataProject.h"
 
+#include "core/ModLine.h"
+#include "core/IfObject.h"
 #include "core/ModObject.h"
+#include "core/CompileState.h"
 #include "core/ForEachObject.h"
+#include "core/CollectionObject.h"
 
 bool nemesis::AnimationSetDataProject::IsProjectEnd(nemesis::LineStream& stream, bool& start)
 {
@@ -16,69 +20,48 @@ bool nemesis::AnimationSetDataProject::IsProjectEnd(nemesis::LineStream& stream,
     return token_ptr->Value == "V3";
 }
 
-Vec<UPtr<nemesis::NObject>> nemesis::AnimationSetDataProject::ParseModObjects(
-    nemesis::LineStream& stream, nemesis::SemanticManager& manager, int start_position)
+Vec<UPtr<nemesis::NObject>>
+nemesis::AnimationSetDataProject::ParseModObjects(nemesis::LineStream& stream,
+                                                  nemesis::SemanticManager& manager,
+                                                  std::function<void(nemesis::NLine*)> add_nline_event)
 {
-    bool has_new_project = false;
-    return ParseModObjects(stream, manager, start_position, has_new_project);
-}
-
-Vec<UPtr<nemesis::NObject>> nemesis::AnimationSetDataProject::ParseModObjects(
-    nemesis::LineStream& stream, nemesis::SemanticManager& manager, int start_position, bool& has_new_project)
-{
-    has_new_project = false;
-    Deq<const nemesis::Line*> ori_lines;
-    Deq<const nemesis::Line*> mod_lines;
-    Deq<const nemesis::Line*>* lines = &mod_lines;
     Vec<UPtr<nemesis::NObject>> object_list;
-     
-    for (; stream.IsEoF(); ++stream)
-    {
-        auto* token_ptr = &stream.GetToken();
 
-        switch (token_ptr->Type)
+    if (stream.IsEoF()) return object_list;
+
+    auto* mod_token = &stream.GetToken();
+    auto& mod_value = mod_token->Value;
+
+    if (mod_token->Type != nemesis::LineStream::MOD_OPEN)
+    {
+        throw std::runtime_error("Syntax Error: Unexpected syntax. Expecting MOD_CODE syntax (Line: "
+                                 + std::to_string(mod_value.GetLineNumber())
+                                 + ". File: " + mod_value.GetFilePath().string() + ")");
+    }
+
+    Deq<const nemesis::Line*> mod_lines;
+
+    for (++stream; !stream.IsEoF(); ++stream)
+    {
+        auto& token = stream.GetToken();
+
+        switch (token.Type)
         {
             case nemesis::LineStream::MOD_CLOSE:
             {
-                auto& mod_code = token_ptr->Value;
-
-                while (lines->empty())
-                {
-                    auto& line_ptr = lines->front();
-                    auto nline_ptr = std::make_unique<nemesis::NLine>(*line_ptr, manager);
-
-                    if (mod_lines.empty())
-                    {
-                        nline_ptr->AddModLine(
-                            mod_code, mod_code.GetLineNumber(), mod_code.GetFilePath(), manager);
-                    }
-                    else
-                    {
-                        nline_ptr->AddModLine(mod_code,
-                                              mod_code.GetLineNumber(),
-                                              mod_code.GetFilePath(),
-                                              manager,
-                                              *mod_lines.front());
-                        mod_lines.pop_front();
-                    }
-
-                    lines->pop_front();
-                    object_list.emplace_back(std::move(nline_ptr));
-                }
-
-                if (mod_lines.empty()) return object_list;
-
                 auto collection = std::make_unique<nemesis::CollectionObject>();
                 auto col_ptr    = collection.get();
-                auto mod_object = std::make_unique<nemesis::ModObject>(mod_code,
-                                                                       mod_code.GetLineNumber(),
-                                                                       mod_code.GetFilePath(),
+                auto mod_object = std::make_unique<nemesis::ModObject>(mod_value,
+                                                                       mod_value.GetLineNumber(),
+                                                                       mod_value.GetFilePath(),
                                                                        manager,
                                                                        std::move(collection));
 
                 for (auto& mod_line : mod_lines)
                 {
-                    col_ptr->AddObject(std::make_unique<nemesis::NLine>(*mod_line, manager));
+                    auto uptr = std::make_unique<nemesis::NLine>(*mod_line, manager);
+                    add_nline_event(uptr.get());
+                    col_ptr->AddObject(std::move(uptr));
                 }
 
                 object_list.emplace_back(std::move(mod_object));
@@ -86,653 +69,435 @@ Vec<UPtr<nemesis::NObject>> nemesis::AnimationSetDataProject::ParseModObjects(
             }
             case nemesis::LineStream::MOD_ORG:
             {
-                lines = &ori_lines;
-                break;
+                auto& value = token.Value;
+                throw std::runtime_error("Invalid token type. ORIGINAL syntax is not supported in nemesis::AnimationSetDataProject::ParseModObjects (Line: "
+                                         + std::to_string(value.GetLineNumber())
+                                         + ". File: " + value.GetFilePath().string() + ")");
             }
             case nemesis::LineStream::NONE:
             {
-                auto& token_value = token_ptr->Value;
-                auto& line_ptr    = lines->emplace_back(&token_ptr->Value);
-
-                if (token_value != "V3") break;
-
-                has_new_project = true;
+                auto& value = token.Value;
+                mod_lines.emplace_back(&value);
                 break;
             }
             default:
             {
-                auto& token_value = token_ptr->Value;
-                throw std::runtime_error("Syntax Error: Unsupport syntax within MOD condition (Line: "
-                                         + std::to_string(token_value.GetLineNumber())
-                                         + ". File: " + token_value.GetFilePath().string() + ")");
+                auto& value = token.Value;
+                throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
+                                         + std::to_string(value.GetLineNumber())
+                                         + ". File: " + value.GetFilePath().string() + ")");
             }
         }
     }
 
-    auto& token_value = stream.GetToken().Value;
-    throw std::runtime_error("Syntax Error: Missing MOD_CODE_OPEN statement (Line: "
-                             + std::to_string(token_value.GetLineNumber())
-                             + ", File: " + token_value.GetFilePath().string() + ")");
+    throw std::runtime_error("Syntax Error: Unclosed MOD_CODE statement (Line: "
+                             + std::to_string(mod_value.GetLineNumber())
+                             + ", File: " + mod_value.GetFilePath().string() + ")");
 }
 
-UPtr<nemesis::ForEachObject> nemesis::AnimationSetDataProject::ParseForEachObjects(
-    nemesis::LineStream& stream, nemesis::SemanticManager& manager, int start_position)
+UPtr<nemesis::ForEachObject>
+nemesis::AnimationSetDataProject::ParseForEachObjects(nemesis::LineStream& stream,
+                                                      nemesis::SemanticManager& manager,
+                                                      std::function<void(nemesis::NLine*)> add_nline_event)
 {
-    bool has_new_project = false;
-    return ParseForEachObjects(stream, manager, start_position, has_new_project);
-}
+    if (stream.IsEoF()) return nullptr;
 
-UPtr<nemesis::ForEachObject> nemesis::AnimationSetDataProject::ParseForEachObjects(
-    nemesis::LineStream& stream, nemesis::SemanticManager& manager, int start_position, bool& has_new_project)
-{
-    has_new_project = false;
-    Deq<UPtr<nemesis::NObject>> object_list;
+    auto* fe_token = &stream.GetToken();
+    auto& fe_value = fe_token->Value;
 
-    for (; stream.GetPosition() == start_position - 1; --stream)
+    if (fe_token->Type != nemesis::LineStream::FOR_EACH)
     {
-        auto* token_ptr = &stream.GetToken();
+        throw std::runtime_error("Syntax Error: Unexpected syntax. Expecting FOREACH syntax (Line: "
+                                 + std::to_string(fe_value.GetLineNumber())
+                                 + ". File: " + fe_value.GetFilePath().string() + ")");
+    }
 
-        switch (token_ptr->Type)
+    auto collection  = std::make_unique<nemesis::CollectionObject>();
+    auto* col_ptr    = collection.get();
+    auto foreach_obj = std::make_unique<nemesis::ForEachObject>(
+        fe_value, fe_value.GetLineNumber(), fe_value.GetFilePath(), manager, std::move(collection));
+
+    auto scope = foreach_obj->BuildScope(manager);
+
+    for (++stream; !stream.IsEoF(); ++stream)
+    {
+        auto& token = stream.GetToken();
+
+        switch (token.Type)
         {
-            case nemesis::LineStream::FOR_EACH:
+            case nemesis::LineStream::CLOSE:
             {
-                auto& token_value = token_ptr->Value;
-                auto collection   = std::make_unique<nemesis::CollectionObject>();
-
-                for (auto& obj : object_list)
-                {
-                    collection->AddObject(std::move(obj));
-                }
-
-                return std::make_unique<nemesis::ForEachObject>(token_value,
-                                                                token_value.GetLineNumber(),
-                                                                token_value.GetFilePath(),
-                                                                manager,
-                                                                std::move(collection));
+                return foreach_obj;
             }
-            case nemesis::LineStream::MOD_CLOSE:
+            case nemesis::LineStream::MOD_OPEN:
             {
-                ++stream;
-                auto mod_objects = ParseModObjects(stream, manager, start_position);
+                auto mod_objects = ParseModObjects(stream, manager, add_nline_event);
 
                 for (auto it = mod_objects.rbegin(); it != mod_objects.rend(); ++it)
                 {
-                    object_list.emplace_front(std::move(*it));
+                    col_ptr->AddObject(std::move(*it));
                 }
 
                 break;
             }
-            case nemesis::LineStream::END_IF:
+            case nemesis::LineStream::IF:
             {
-                ++stream;
-                auto if_obj = ParseIfObjects(stream, manager, start_position);
-                object_list.emplace_front(std::move(if_obj));
+                auto if_obj = ParseIfObjects(stream, manager, add_nline_event);
+                col_ptr->AddObject(std::move(if_obj));
                 break;
             }
-            case nemesis::LineStream::CLOSE:
+            case nemesis::LineStream::FOR_EACH:
             {
-                ++stream;
-                auto fe_obj = ParseForEachObjects(stream, manager, start_position);
-                object_list.emplace_front(std::move(fe_obj));
+                auto fe_obj = ParseForEachObjects(stream, manager, add_nline_event);
+                col_ptr->AddObject(std::move(fe_obj));
                 break;
             }
             case nemesis::LineStream::NONE:
             {
-                auto& token_value = token_ptr->Value;
-                object_list.emplace_front(std::make_unique<nemesis::NLine>(
-                    token_value, token_value.GetLineNumber(), token_value.GetFilePath(), manager));
-
-                if (token_value != "V3") break;
-
-                has_new_project = true;
+                auto& value = token.Value;
+                auto uptr   = std::make_unique<nemesis::NLine>(
+                    value, value.GetLineNumber(), value.GetFilePath(), manager);
+                add_nline_event(uptr.get());
+                col_ptr->AddObject(std::move(uptr));
                 break;
             }
             default:
             {
-                auto& token_value = token_ptr->Value;
-                throw std::runtime_error("Syntax Error: Unsupport syntax within MOD condition (Line: "
-                                         + std::to_string(token_value.GetLineNumber())
-                                         + ". File: " + token_value.GetFilePath().string() + ")");
+                auto& value = token.Value;
+                throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
+                                         + std::to_string(value.GetLineNumber())
+                                         + ". File: " + value.GetFilePath().string() + ")");
             }
         }
     }
 
-    auto& token_value = stream.GetToken().Value;
-    throw std::runtime_error("Syntax Error: Missing FOREACH opening statement (Line: "
-                             + std::to_string(token_value.GetLineNumber())
-                             + ", File: " + token_value.GetFilePath().string() + ")");
+    throw std::runtime_error("Syntax Error: Unclosed FOREACH statement (Line: "
+                             + std::to_string(fe_value.GetLineNumber())
+                             + ", File: " + fe_value.GetFilePath().string() + ")");
 }
 
-UPtr<nemesis::IfObject> nemesis::AnimationSetDataProject::ParseIfObjects(nemesis::LineStream& stream,
-                                                                         nemesis::SemanticManager& manager,
-                                                                         int start_position)
+UPtr<nemesis::IfObject>
+nemesis::AnimationSetDataProject::ParseIfObjects(nemesis::LineStream& stream,
+                                                 nemesis::SemanticManager& manager,
+                                                 std::function<void(nemesis::NLine*)> add_nline_event)
 {
-    bool has_new_project = false;
-    return ParseIfObjects(stream, manager, start_position, has_new_project);
-}
+    if (stream.IsEoF()) return nullptr;
 
-UPtr<nemesis::IfObject> nemesis::AnimationSetDataProject::ParseIfObjects(nemesis::LineStream& stream,
-                                                                         nemesis::SemanticManager& manager,
-                                                                         int start_position,
-                                                                         bool& has_new_project)
-{
-    has_new_project = false;
-    Deq<UPtr<nemesis::NObject>> object_list;
-    UPtr<nemesis::IfObject> if_obj;
+    auto* if_token = &stream.GetToken();
+    auto& if_value = if_token->Value;
 
-    Vec<Pair<nemesis::Line, UPtr<nemesis::CollectionObject>>> else_if_list;
-    UPtr<nemesis::CollectionObject> else_collection;
-
-    for (; stream.GetPosition() == start_position - 1; --stream)
+    if (if_token->Type != nemesis::LineStream::IF)
     {
-        auto* token_ptr = &stream.GetToken();
+        throw std::runtime_error("Syntax Error: Unexpected syntax. Expecting IF syntax (Line: "
+                                 + std::to_string(if_value.GetLineNumber())
+                                 + ". File: " + if_value.GetFilePath().string() + ")");
+    }
 
-        switch (token_ptr->Type)
+    bool has_else   = false;
+    auto collection = std::make_unique<nemesis::CollectionObject>();
+    auto* col_ptr   = collection.get();
+    auto if_obj     = std::make_unique<nemesis::IfObject>(
+        if_value, if_value.GetLineNumber(), if_value.GetFilePath(), manager, std::move(collection));
+
+    for (++stream; !stream.IsEoF(); ++stream)
+    {
+        auto& token = stream.GetToken();
+
+        switch (token.Type)
         {
-            case nemesis::LineStream::IF:
+            case nemesis::LineStream::END_IF:
             {
-                auto& line      = token_ptr->Value;
-                auto collection = std::make_unique<nemesis::CollectionObject>();
-                auto* col_ptr   = collection.get();
-                if_obj          = std::make_unique<nemesis::IfObject>(
-                    line, line.GetLineNumber(), line.GetFilePath(), manager, std::move(collection));
-
-                for (auto& obj : object_list)
-                {
-                    col_ptr->AddObject(std::move(obj));
-                }
-
-                object_list.clear();
-
-                for (auto& else_if : else_if_list)
-                {
-                    if_obj->ElseIf(else_if.first,
-                                   else_if.first.GetLineNumber(),
-                                   else_if.first.GetFilePath(),
-                                   manager,
-                                   std::move(else_if.second));
-                }
-
-                if (else_collection)
-                {
-                    if_obj->Else(std::move(else_collection));
-                }
-
                 return if_obj;
             }
             case nemesis::LineStream::ELSE_IF:
             {
-                auto collection = std::make_unique<nemesis::CollectionObject>();
+                auto& value = token.Value;
 
-                for (auto& obj : object_list)
+                if (has_else)
                 {
-                    collection->AddObject(std::move(obj));
+                    throw std::runtime_error("Syntax error: ELSEIF syntax cannot come after ELSE (Line: "
+                                             + std::to_string(value.GetLineNumber())
+                                             + ", File: " + value.GetFilePath().string() + ")");
                 }
 
-                object_list.clear();
-                else_if_list.emplace_back(token_ptr->Value, std::move(collection));
+                collection = std::make_unique<nemesis::CollectionObject>();
+                col_ptr    = collection.get();
+                if_obj->ElseIf(
+                    value, value.GetLineNumber(), value.GetFilePath(), manager, std::move(collection));
                 break;
             }
             case nemesis::LineStream::ELSE:
             {
-                if (!else_if_list.empty())
+                if (has_else)
                 {
-                    std::runtime_error("Syntax error: ELSE IF syntax cannot come after ELSE (Line: "
-                                       + std::to_string(token_ptr->Value.GetLineNumber())
-                                       + ", File: " + token_ptr->Value.GetFilePath().string() + ")");
+                    auto& value = token.Value;
+                    throw std::runtime_error("Syntax error: ELSE syntax cannot come after ELSE (Line: "
+                                             + std::to_string(value.GetLineNumber())
+                                             + ", File: " + value.GetFilePath().string() + ")");
                 }
 
-                else_collection = std::make_unique<nemesis::CollectionObject>();
-
-                for (auto& obj : object_list)
-                {
-                    else_collection->AddObject(std::move(obj));
-                }
-
-                object_list.clear();
+                has_else   = true;
+                collection = std::make_unique<nemesis::CollectionObject>();
+                col_ptr    = collection.get();
+                if_obj->Else(std::move(collection));
                 break;
             }
-            case nemesis::LineStream::MOD_CLOSE:
+            case nemesis::LineStream::MOD_OPEN:
             {
-                ++stream;
-                auto mod_objects = ParseModObjects(stream, manager, start_position);
+                auto mod_objects = ParseModObjects(stream, manager, add_nline_event);
 
                 for (auto it = mod_objects.rbegin(); it != mod_objects.rend(); ++it)
                 {
-                    object_list.emplace_front(std::move(*it));
+                    col_ptr->AddObject(std::move(*it));
                 }
 
                 break;
             }
-            case nemesis::LineStream::CLOSE:
+            case nemesis::LineStream::IF:
             {
-                ++stream;
-                auto fe_obj = ParseForEachObjects(stream, manager, start_position);
-                object_list.emplace_front(std::move(fe_obj));
+                auto if_obj = ParseIfObjects(stream, manager, add_nline_event);
+                col_ptr->AddObject(std::move(if_obj));
+                break;
+            }
+            case nemesis::LineStream::FOR_EACH:
+            {
+                auto fe_obj = ParseForEachObjects(stream, manager, add_nline_event);
+                col_ptr->AddObject(std::move(fe_obj));
                 break;
             }
             case nemesis::LineStream::NONE:
             {
-                auto& token_value = token_ptr->Value;
-                object_list.emplace_front(std::make_unique<nemesis::NLine>(
-                    token_value, token_value.GetLineNumber(), token_value.GetFilePath(), manager));
-
-                if (token_value != "V3") break;
-
-                has_new_project = true;
+                auto& value = token.Value;
+                auto uptr   = std::make_unique<nemesis::NLine>(
+                    value, value.GetLineNumber(), value.GetFilePath(), manager);
+                add_nline_event(uptr.get());
+                col_ptr->AddObject(std::move(uptr));
                 break;
-            }
-            case nemesis::LineStream::END_IF:
-            {
-                ++stream;
-                auto if_obj = ParseIfObjects(stream, manager, start_position);
-                object_list.emplace_front(std::move(if_obj));
             }
             default:
             {
-                auto& token_value = token_ptr->Value;
-                throw std::runtime_error("Syntax Error: Unsupport syntax within MOD condition (Line: "
-                                         + std::to_string(token_value.GetLineNumber())
-                                         + ". File: " + token_value.GetFilePath().string() + ")");
+                auto& value = token.Value;
+                throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
+                                         + std::to_string(value.GetLineNumber())
+                                         + ". File: " + value.GetFilePath().string() + ")");
             }
         }
     }
 
-    auto& token_value = stream.GetToken().Value;
-    throw std::runtime_error("Syntax Error: Missing IF statement (Line: "
-                             + std::to_string(token_value.GetLineNumber())
-                             + ", File: " + token_value.GetFilePath().string() + ")");
+    throw std::runtime_error("Syntax Error: Unclosed IF statement (Line: "
+                             + std::to_string(if_value.GetLineNumber())
+                             + ", File: " + if_value.GetFilePath().string() + ")");
+}
+
+nemesis::AnimationSetDataProject::AnimationSetDataProject(const std::string& name) noexcept
+    : Name(name)
+{
 }
 
 void nemesis::AnimationSetDataProject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
 {
-    DeqNstr templines;
-    ProjectData->CompileTo(templines, state);
+    DeqNstr state_contents;
+    size_t count          = 0;
+    auto& counter_element = lines.emplace_back("");
 
-    auto data_type = DataType::EquipList;
-    size_t counter = 0;
-    nemesis::Line* counter_nline;
-
-    if (templines.empty())
+    for (auto& header : Headers)
     {
-        throw std::runtime_error("AnimationSetDataSingleFile empty project is not supported");
+        DeqNstr templines = StateMap.at(header)->Compile(state);
+
+        if (templines.empty()) continue;
+
+        ++count;
+        lines.emplace_back(header);
+        state_contents.insert(state_contents.end(),
+                              std::make_move_iterator(templines.begin()),
+                              std::make_move_iterator(templines.end()));
     }
 
-    if (templines.front() != "V3")
-    {
-        auto& first = templines.front();
-        throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                 + std::to_string(first.GetLineNumber())
-                                 + ", File: " + first.GetFilePath().string() + ")");
-    }
-
-    for (auto itr = templines.begin() + 1; itr != templines.end(); ++itr)
-    {
-        switch (data_type)
-        {
-            case nemesis::AnimationSetDataProject::EquipCounter:
-            {
-                counter_nline = &(*itr);
-                counter       = 0;
-                data_type     = nemesis::AnimationSetDataProject::EquipList;
-                itr++;
-            }
-            case nemesis::AnimationSetDataProject::EquipList:
-            {
-                if (!isOnlyNumber(*itr))
-                {
-                    counter++;
-                    break;
-                }
-
-                *counter_nline = nemesis::Line(
-                    std::to_string(counter), counter_nline->GetLineNumber(), counter_nline->GetFilePath());
-            }
-            case nemesis::AnimationSetDataProject::TypeCounter:
-            {
-                counter_nline = &(*itr);
-                counter       = 0;
-                data_type     = nemesis::AnimationSetDataProject::TypeList;
-                itr++;
-            }
-            case nemesis::AnimationSetDataProject::TypeList:
-            {
-                if (!isOnlyNumber(*itr))
-                {
-                    if (!isOnlyNumber(*++itr))
-                    {
-                        throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
-                    }
-                    
-                    if (!isOnlyNumber(*++itr))
-                    {
-                        throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
-                    }
-
-                    counter++;
-                    break;
-                }
-
-                *counter_nline = nemesis::Line(
-                    std::to_string(counter), counter_nline->GetLineNumber(), counter_nline->GetFilePath());
-            }
-            case nemesis::AnimationSetDataProject::AnimationCounter:
-            {
-                counter_nline = &(*itr);
-                counter       = 0;
-                data_type     = nemesis::AnimationSetDataProject::AnimationList;
-                itr++;
-            }
-            case nemesis::AnimationSetDataProject::AnimationList:
-            {
-                if (!isOnlyNumber(*itr))
-                {
-                    if (!isOnlyNumber(*++itr))
-                    {
-                        throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
-                    }
-
-                    if (!isOnlyNumber(*++itr))
-                    {
-                        throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
-                    }
-
-                    auto* anim_counter_nline = &(*itr);
-                    size_t anim_counter      = 0;
-
-                    for (++itr; itr != templines.end(); ++itr)
-                    {
-                        if (isOnlyNumber(*itr))
-                        {
-                            auto step2 = itr + 2;
-
-                            if (step2 >= templines.end())
-                            {
-                                // -- Case Example --
-                                // 1                << Animation Counter
-                                // 1HM_AttackLeft   << Animation(s)
-                                // 1HM_AttackRight  << Animation(s)
-                                // 0                << Crc32 Counter (YOU ARE HERE)
-                                break;
-                            }
-
-                            if (!isOnlyNumber(*step2))
-                            {
-                                // -- Case Example 1 --
-                                // 1                << Animation Counter
-                                // shd_BashPower    << Animation(s)
-                                // attackStart      << Event
-                                // 0                << Unknown (YOU ARE HERE)
-                                // 0                << Animation Counter
-                                // bashStart        << Event ("step2" IS HERE)
-
-                                // -- Case Example 2 --
-                                // 1                << Animation Counter
-                                // shd_BashPower    << Animation(s)
-                                // attackStart      << Event
-                                // 0                << Unknown (YOU ARE HERE)
-                                // 1                << Animation Counter
-                                // 1HM_AttackLeft   << Animation ("step2" IS HERE)
-                                anim_counter--;
-                                itr--;
-                            }
-
-                            auto step3 = step2 + 1;
-
-                            if (step3 >= templines.end())
-                            {
-                                // -- Case Example --
-                                // 1                << Animation Counter
-                                // 1HM_AttackLeft   << Animation(s)
-                                // attackStart      << Event
-                                // 0                << Unknown (YOU ARE HERE)
-                                // 0                << Animation Counter
-                                // 0                << Crc32 Counter ("step2" IS HERE)
-                                anim_counter--;
-                                itr--;
-                                break;
-                            }
-
-                            if (*step3 == "7891816")
-                            {
-                                // -- Case Example --
-                                // 1                << Animation Counter
-                                // 1HM_AttackLeft   << Animation(s)
-                                // 1HM_AttackRight  << Animation(s)
-                                // 1                << Crc32 Counter (YOU ARE HERE)
-                                // 3064642194       << Directory Path
-                                // 2909749619       << File Name ("step2" IS HERE)
-                                // 7891816          << Extension ("step3" IS HERE)
-                                break;
-                            }
-
-                            // -- Case Example --
-                            // 1          w          << Animation Counter
-                            // shd_BashPower        << Animation(s)
-                            // attackStart          << Event
-                            // 0                    << Unknown (YOU ARE HERE)
-                            // 0                    << Animation Counter
-                            // 1                    << Crc32 Counter ("step2" IS HERE)
-                            // 3064642194           << Directory Path ("step3" IS HERE)
-                            anim_counter--;
-                            itr--;
-                            break;
-                        }
-
-                        anim_counter++;
-                    }
-
-                    *anim_counter_nline = nemesis::Line(std::to_string(anim_counter),
-                                                        anim_counter_nline->GetLineNumber(),
-                                                        anim_counter_nline->GetFilePath());
-                    counter++;
-                    break;
-                }
-
-                *counter_nline = nemesis::Line(
-                    std::to_string(counter), counter_nline->GetLineNumber(), counter_nline->GetFilePath());
-            }
-            case nemesis::AnimationSetDataProject::Crc32Counter:
-            {
-                counter_nline = &(*itr);
-                counter       = 0;
-                data_type     = nemesis::AnimationSetDataProject::Crc32List;
-                itr++;
-            }
-            case nemesis::AnimationSetDataProject::Crc32List:
-            {
-                for (; itr != templines.end(); ++itr)
-                {
-                    if (!isOnlyNumber(*itr))
-                    {
-                        throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
-                    }
-
-                    counter++;
-                }
-
-                if (counter % 3 != 0)
-                {
-                    itr--;
-                    throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                             + std::to_string(itr->GetLineNumber())
-                                             + ", File: " + itr->GetFilePath().string() + ")");
-                }
-
-                *counter_nline = nemesis::Line(
-                    std::to_string(counter / 3), counter_nline->GetLineNumber(), counter_nline->GetFilePath());
-
-                for (auto& line : templines)
-                {
-                    lines.emplace_back(std::move(line));
-                }
-
-                return;
-            }
-        }
-    }
-
-    auto& last = templines.back();
-    throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                             + std::to_string(last.GetLineNumber()) + ", File: " + last.GetFilePath().string()
-                             + ")");
+    counter_element = std::to_string(count);
+    lines.insert(lines.end(),
+                 std::make_move_iterator(state_contents.begin()),
+                 std::make_move_iterator(state_contents.end()));
 }
 
 void nemesis::AnimationSetDataProject::SerializeTo(DeqNstr& lines) const
 {
-    ProjectData->SerializeTo(lines);
+    throw std::runtime_error("nemesis::AnimationSetDataProject::SerializeTo is not supported");
 }
 
-Deq<UPtr<nemesis::NObject>>
-nemesis::AnimationSetDataProject::ParseObjects(nemesis::LineStream& stream,
-                                               nemesis::SemanticManager& manager,
-                                               Deq<nemesis::AnimationSetDataProject*>& project_list)
+UPtr<nemesis::NObject> nemesis::AnimationSetDataProject::CloneNObject() const
 {
-    Deq<UPtr<nemesis::NObject>> object_list;
-    Deq<UPtr<nemesis::NObject>> temp_object_list;
+    return Clone();
+}
 
-    bool has_new_project = false;
+UPtr<nemesis::AnimationSetDataProject> nemesis::AnimationSetDataProject::Clone() const
+{
+    auto project     = std::make_unique<nemesis::AnimationSetDataProject>(Name);
+    project->Headers = Headers;
+    auto& map        = project->StateMap;
 
-    size_t size = stream.GetSize();
-    int cur_pos = stream.GetPosition();
-    stream.GetForwardToken(size - cur_pos);
+    for (auto& it : StateMap)
+    {
+        map[it.first] = std::move(it.second->Clone());
+    }
 
-    for (; stream.GetPosition() == cur_pos - 1; --stream)
+    return project;
+}
+
+UPtr<nemesis::AnimationSetDataState>&
+nemesis::AnimationSetDataProject::AddState(UPtr<nemesis::AnimationSetDataState>&& state)
+{
+    std::scoped_lock<std::mutex> lock(UpdaterMutex);
+    auto& name = state->GetName();
+    Headers.emplace_back(name);
+    StateMap[name] = std::move(state);
+    return StateMap[name];
+}
+
+const std::string& nemesis::AnimationSetDataProject::GetName() const noexcept
+{
+    return Name;
+}
+
+nemesis::AnimationSetDataState* nemesis::AnimationSetDataProject::GetState(const std::string& name)
+{
+    auto itr = StateMap.find(name);
+
+    if (itr == StateMap.end()) return nullptr;
+
+    return itr->second.get();
+}
+
+const nemesis::AnimationSetDataState*
+nemesis::AnimationSetDataProject::GetState(const std::string& name) const
+{
+    auto itr = StateMap.find(name);
+
+    if (itr == StateMap.end()) return nullptr;
+
+    return itr->second.get();
+}
+
+void nemesis::AnimationSetDataProject::SerializeToDirectory(const std::filesystem::path& directory_path) const
+{
+    std::filesystem::create_directories(directory_path);
+    
+    for (auto& state : StateMap)
+    {
+        std::filesystem::path filepath = state.second->GetName() + ".txt";
+        state.second->SerializeToFile(directory_path / filepath);
+    }
+}
+
+UPtr<nemesis::AnimationSetDataProject>
+nemesis::AnimationSetDataProject::DeserializeFromDirectory(const std::filesystem::path& directory_path)
+{
+    return DeserializeFromDirectory(directory_path, directory_path.stem().string());
+}
+
+UPtr<nemesis::AnimationSetDataProject>
+nemesis::AnimationSetDataProject::DeserializeFromDirectory(const std::filesystem::path& directory_path,
+                                                           const std::string project_name)
+{
+    auto project = std::make_unique<nemesis::AnimationSetDataProject>(project_name);
+
+    for (auto& entry : std::filesystem::directory_iterator(directory_path))
+    {
+        if (!entry.is_regular_file()) continue;
+
+        if (entry.path().extension() != ".txt") continue;
+
+        auto state = nemesis::AnimationSetDataState::DeserializeFromFile(entry.path());
+        project->AddState(std::move(state));
+    }
+
+    return project;
+}
+
+VecNstr nemesis::AnimationSetDataProject::ParseHeaders(nemesis::LineStream& stream,
+                                                      nemesis::SemanticManager& manager)
+{
+    auto token_ptr = &stream.GetToken();
+
+    if (!isOnlyNumber(token_ptr->Value))
+    {
+        auto& token_value = stream.GetToken().Value;
+        throw std::runtime_error("nemesis::AnimationSetDataProject::ParseObjects format error (Line: "
+                                 + std::to_string(token_value.GetLineNumber())
+                                 + ". File: " + token_value.GetFilePath().string() + ")");
+    }
+
+    VecNstr headers;
+
+    for (++stream; !stream.IsEoF(); ++stream)
     {
         auto* token_ptr = &stream.GetToken();
 
-        switch (token_ptr->Type)
+        if (token_ptr->Type != nemesis::LineStream::NONE)
         {
-            case nemesis::LineStream::MOD_CLOSE:
-            {
-                ++stream;
-                auto list = ParseModObjects(stream, manager, cur_pos, has_new_project);
-
-                if (!has_new_project)
-                {
-                    std::move(
-                        list.begin(), list.end(), std::inserter(temp_object_list, temp_object_list.begin()));
-                    break;
-                }
-
-                if (temp_object_list.empty())
-                {
-                    std::move(list.begin(), list.end(), std::inserter(object_list, object_list.begin()));
-                    break;
-                }
-
-                auto collection = std::make_unique<nemesis::CollectionObject>();
-
-                for (auto& each : list)
-                {
-                    collection->AddObject(std::move(each));
-                }
-
-                for (auto& temp_obj : temp_object_list)
-                {
-                    collection->AddObject(std::move(temp_obj));
-                }
-
-                temp_object_list.clear();
-                object_list.emplace_front(std::move(collection));
-                break;
-            }
-            case nemesis::LineStream::CLOSE:
-            {
-                ++stream;
-                auto fe_obj = ParseForEachObjects(stream, manager, cur_pos, has_new_project);
-
-                if (!has_new_project)
-                {
-                    temp_object_list.emplace_front(std::move(fe_obj));
-                    break;
-                }
-
-                if (temp_object_list.empty())
-                {
-                    object_list.emplace_front(std::move(fe_obj));
-                    break;
-                }
-
-                auto collection = std::make_unique<nemesis::CollectionObject>();
-                collection->AddObject(std::move(fe_obj));
-
-                for (auto& temp_obj : temp_object_list)
-                {
-                    collection->AddObject(std::move(temp_obj));
-                }
-
-                temp_object_list.clear();
-                object_list.emplace_front(std::move(collection));
-                break;
-            }
-            case nemesis::LineStream::END_IF:
-            {
-                ++stream;
-                auto if_obj = ParseIfObjects(stream, manager, cur_pos, has_new_project);
-
-                if (!has_new_project)
-                {
-                    temp_object_list.emplace_front(std::move(if_obj));
-                    break;
-                }
-
-                if (temp_object_list.empty())
-                {
-                    object_list.emplace_front(std::move(if_obj));
-                    break;
-                }
-
-                auto collection = std::make_unique<nemesis::CollectionObject>();
-                collection->AddObject(std::move(if_obj));
-
-                for (auto& temp_obj : temp_object_list)
-                {
-                    collection->AddObject(std::move(temp_obj));
-                }
-
-                temp_object_list.clear();
-                object_list.emplace_front(std::move(collection));
-                break;
-            }
-            case nemesis::LineStream::NONE:
-            {
-                temp_object_list.emplace_front(std::make_unique<nemesis::NLine>(token_ptr->Value, manager));
-
-                if (token_ptr->Value != "V3") break;
-
-                auto project         = std::make_unique<nemesis::AnimationSetDataProject>();
-                project->ProjectData = std::make_unique<nemesis::CollectionObject>();
-                auto& data_ptr       = project->ProjectData;
-
-                for (auto& temp_obj : temp_object_list)
-                {
-                    data_ptr->AddObject(std::move(temp_obj));
-                }
-
-                temp_object_list.clear();
-                object_list.emplace_front(std::move(project));
-                break;
-            }
-            default:
-            {
-                auto& token_value = stream.GetToken().Value;
-                throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
-                                         + std::to_string(token_value.GetLineNumber())
-                                         + ". File: " + token_value.GetFilePath().string() + ")");
-            }
+            throw std::runtime_error("nemesis::AnimationSetDataProject::ParseHeaders does not support any "
+                                     "kind of syntax for header");
         }
+
+        if (token_ptr->Value == "V3") return headers;
+
+        headers.emplace_back(token_ptr->Value);
     }
 
-    return object_list;
+    return headers;
+}
+
+Vec<UPtr<nemesis::AnimationSetDataProject>> nemesis::AnimationSetDataProject::ParseObjects(
+    nemesis::LineStream& stream, nemesis::SemanticManager& manager, const VecNstr& project_names)
+{
+    Vec<UPtr<nemesis::AnimationSetDataProject>> project_list;
+    auto name_itr = project_names.begin();
+
+    for (; !stream.IsEoF(); ++stream)
+    {
+        auto& token = stream.GetToken();
+
+        if (token.Type != nemesis::LineStream::NONE)
+        {
+            auto& token_value = stream.GetToken().Value;
+            throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
+                                     + std::to_string(token_value.GetLineNumber())
+                                     + ". File: " + token_value.GetFilePath().string() + ")");
+        }
+
+        if (name_itr == project_names.end())
+        {
+            throw std::runtime_error(
+                "nemesis::AnimationSetDataProject::ParseObjects parsing error. Project name count "
+                "and project body count do not match");
+        }
+
+        auto project     = std::make_unique<nemesis::AnimationSetDataProject>(*name_itr++);
+        project->Headers = ParseHeaders(stream, manager);
+        auto list
+            = nemesis::AnimationSetDataState::ParseObjects(stream, manager, project->Name, project->Headers);
+
+        if (project->Headers.size() != list.size())
+        {
+            throw std::runtime_error("nemesis::AnimationSetDataProject::ParseObjects parsing error ("
+                                     + project->Name
+                                     + "). State name count and state body count do not match");
+        }
+
+        for (size_t i = 0; i < list.size(); ++i)
+        {
+            project->StateMap[list[i]->GetName()] = std::move(list[i]);
+        }
+
+        project_list.emplace_back(std::move(project));
+        --stream;
+    }
+
+    if (name_itr != project_names.end())
+    {
+        throw std::runtime_error(
+            "nemesis::AnimationSetDataProject::ParseObjects parsing error. Project name count and project "
+            "body count do not match");
+    }
+
+    return project_list;
 }

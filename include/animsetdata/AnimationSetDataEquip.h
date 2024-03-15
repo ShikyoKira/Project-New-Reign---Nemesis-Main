@@ -24,6 +24,9 @@ namespace nemesis
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::AnimationSetDataEquipList> Clone() const;
+
         void AddEquip(UPtr<nemesis::AnimationSetDataEquip>&& equip);
     };
 }

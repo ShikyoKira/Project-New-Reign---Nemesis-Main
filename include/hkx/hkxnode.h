@@ -20,6 +20,7 @@ namespace nemesis
         std::string NodeId;
         std::string ClassName;
         UPtr<nemesis::CollectionObject> Data;
+
         std::mutex UpdaterMutex;
 
         static const USetStr DataClasses;
@@ -31,10 +32,13 @@ namespace nemesis
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::HkxNode> Clone() const;
+
         const std::string& GetNodeId() const noexcept;
         const std::string& GetClassName() const noexcept;
 
-        void MatchAndUpdate(const UPtr<nemesis::HkxNode>&& hkxnode);
+        void MatchAndUpdate(const nemesis::HkxNode& hkxnode);
 
         static bool IsDataClass(nemesis::LineStream& stream);
 

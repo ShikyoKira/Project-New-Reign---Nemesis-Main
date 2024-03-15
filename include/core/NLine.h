@@ -13,7 +13,9 @@ namespace nemesis
     protected:
         UPtr<nemesis::Line> Value;
         Map<std::string, UPtr<nemesis::ModLine>> ModLines;
-        Map<size_t, Vec<UPtr<nemesis::LineModifier>>> Modifiers;
+        Map<size_t, Vec<SPtr<nemesis::LineModifier>>> Modifiers;
+
+        NLine(const nemesis::NLine& nline);
 
     public:
         NLine() = default;
@@ -26,7 +28,10 @@ namespace nemesis
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
-        void MatchAndUpdate(nemesis::NLine& nline);
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::NLine> Clone() const;
+
+        void MatchAndUpdate(const nemesis::NLine& nline);
 
         virtual void AddModLine(const std::string& modcode,
                                 size_t linenum,

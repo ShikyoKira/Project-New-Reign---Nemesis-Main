@@ -52,6 +52,9 @@ namespace nemesis
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::HkxBehavior> Clone() const;
+
         void AddTemplate(const SPtr<nemesis::TemplateObject>& templt_obj);
         void AddSubTemplateNode(const SPtr<nemesis::SubTemplateObject>& node);
 

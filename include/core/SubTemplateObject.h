@@ -17,6 +17,9 @@ namespace nemesis
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::SubTemplateObject> Clone() const;
+
         const std::string& GetName() const noexcept;
 
         static UPtr<nemesis::SubTemplateObject> CreateFromFile(const std::filesystem::path& filepath);

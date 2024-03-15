@@ -190,58 +190,278 @@ namespace nemesis
 
     bool iequals(const char* l, const char* r)
     {
-        return strcmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
-                      CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
+        return std::strcmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
+                           CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
                == 0;
     }
 
     bool iequals(const wchar_t* l, const wchar_t* r)
     {
-        return wcscmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
-                      CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
+        return std::wcscmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
+                           CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
                == 0;
     }
 
     bool iequals(const char* l, const string& r)
     {
-        return strcmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
-                      CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
+        return std::strcmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
+                           CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
                == 0;
     }
 
     bool iequals(const wchar_t* l, const wstring& r)
     {
-        return wcscmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
-                      CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
+        return std::wcscmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
+                           CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
                == 0;
     }
 
     bool iequals(const string& l, const char* r)
     {
-        return strcmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                      CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
+        return std::strcmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
+                           CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
                == 0;
     }
 
     bool iequals(const wstring& l, const wchar_t* r)
     {
-        return wcscmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                      CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
+        return std::wcscmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
+                           CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
                == 0;
     }
 
     bool iequals(const string& l, const string& r)
     {
-        return strcmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                      CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
+        return std::strcmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
+                           CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
                == 0;
     }
 
     bool iequals(const wstring& l, const wstring& r)
     {
-        return wcscmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                      CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
+        return std::wcscmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
+                           CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
                == 0;
+    }
+
+    bool starts_with(const char* data, const char* start)
+    {
+        size_t data_size  = std::strlen(data);
+        size_t start_size = std::strlen(start);
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return std::strcmp(data, start) == 0;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[i] == start[i]) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool starts_with(const wchar_t* data, const wchar_t* start)
+    {
+        size_t data_size  = std::wcslen(data);
+        size_t start_size = std::wcslen(start);
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return std::wcscmp(data, start) == 0;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[i] == start[i]) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool starts_with(const char* data, const std::string& start)
+    {
+        size_t data_size  = std::strlen(data);
+        size_t start_size = start.size();
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return std::strcmp(data, start.c_str()) == 0;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[i] == start[i]) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool starts_with(const wchar_t* data, const std::wstring& start)
+    {
+        size_t data_size  = std::wcslen(data);
+        size_t start_size = start.size();
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return std::wcscmp(data, start.c_str()) == 0;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[i] == start[i]) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool starts_with(const std::string& data, const char* start)
+    {
+        return data._Starts_with(start);
+    }
+
+    bool starts_with(const std::wstring& data, const wchar_t* start)
+    {
+        return data._Starts_with(start);
+    }
+
+    bool starts_with(const std::string& data, const std::string& start)
+    {
+        return data._Starts_with(start);
+    }
+
+    bool starts_with(const std::wstring& data, const std::wstring& start)
+    {
+        return data._Starts_with(start);
+    }
+
+    bool ends_with(const char* data, const char* start)
+    {
+        size_t data_size  = std::strlen(data);
+        size_t start_size = std::strlen(start);
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return std::strcmp(data, start) == 0;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[data_size - i - 1] == start[start_size - i - 1]) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool ends_with(const wchar_t* data, const wchar_t* start)
+    {
+        size_t data_size  = std::wcslen(data);
+        size_t start_size = std::wcslen(start);
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return std::wcscmp(data, start) == 0;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[data_size - i - 1] == start[start_size - i - 1]) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool ends_with(const char* data, const std::string& start)
+    {
+        size_t data_size  = std::strlen(data);
+        size_t start_size = start.size();
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return std::strcmp(data, start.c_str()) == 0;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[data_size - i - 1] == start[start_size - i - 1]) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool ends_with(const wchar_t* data, const std::wstring& start)
+    {
+        size_t data_size  = std::wcslen(data);
+        size_t start_size = start.size();
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return std::wcscmp(data, start.c_str()) == 0;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[data_size - i - 1] == start[start_size - i - 1]) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool ends_with(const std::string& data, const char* start)
+    {
+        return ends_with(data.c_str(), start);
+    }
+
+    bool ends_with(const std::wstring& data, const wchar_t* start)
+    {
+        return ends_with(data.c_str(), start);
+    }
+
+    bool ends_with(const std::string& data, const std::string& start)
+    {
+        size_t data_size  = data.size();
+        size_t start_size = start.size();
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return data == start;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[data_size - i - 1] == start[start_size - i - 1]) continue;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool ends_with(const std::wstring& data, const std::wstring& start)
+    {
+        size_t data_size  = data.size();
+        size_t start_size = start.size();
+
+        if (data_size < start_size) return false;
+
+        if (data_size == start_size) return data == start;
+
+        for (size_t i = 0; i < start_size; i++)
+        {
+            if (data[data_size - i - 1] == start[start_size - i - 1]) continue;
+
+            return false;
+        }
+
+        return true;
     }
 
     size_t isearch(const std::string& data, const std::string& key, size_t off)

@@ -5,6 +5,12 @@
 
 namespace ns = nemesis::syntax;
 
+nemesis::ModObject::ModObject(const nemesis::ModObject& modobject)
+    : Statement(modobject.Statement)
+{
+    Value = modobject.Value->CloneNObject();
+}
+
 nemesis::ModObject::ModObject(const std::string& modcode,
                               size_t linenum,
                               const std::filesystem::path& filepath,
@@ -38,7 +44,22 @@ void nemesis::ModObject::SerializeTo(DeqNstr& lines) const
         lines.emplace_back(ns::DeleteLine());
     }
 
-    lines.emplace_back(ns::Close());
+    lines.emplace_back(ns::ModClose());
+}
+
+UPtr<nemesis::NObject> nemesis::ModObject::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::ModObject> nemesis::ModObject::Clone() const
+{
+    return UPtr<nemesis::ModObject>(new nemesis::ModObject(*this));
+}
+
+const nemesis::ModCodeStatement& nemesis::ModObject::GetStatement() const noexcept
+{
+    return Statement;
 }
 
 bool nemesis::ModObject::IsSelected(nemesis::CompileState& state) const

@@ -47,3 +47,17 @@ void nemesis::BreakObject::SerializeTo(DeqNstr& lines) const
 {
     lines.emplace_back("", lines.size() + 1, FilePath);
 }
+
+UPtr<nemesis::NObject> nemesis::BreakObject::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::BreakObject> nemesis::BreakObject::Clone() const
+{
+    auto bo_ptr        = UPtr<nemesis::BreakObject>(new nemesis::BreakObject());
+    bo_ptr->Expression = Expression;
+    bo_ptr->LineNum    = LineNum;
+    bo_ptr->FilePath   = FilePath;
+    return bo_ptr;
+}

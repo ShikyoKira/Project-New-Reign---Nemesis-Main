@@ -16,6 +16,9 @@ namespace nemesis
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::AnimationSetDataCrc32> Clone() const;
+
         void MatchAndUpdate(nemesis::AnimationSetDataCrc32& crc32);
     };
 
@@ -27,6 +30,9 @@ namespace nemesis
     public:
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
+
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::AnimationSetDataCrc32List> Clone() const;
 
         void AddAnimation(UPtr<nemesis::AnimationSetDataCrc32>&& crc32);
         void MatchAndUpdate(nemesis::AnimationSetDataCrc32List& crc32_list);

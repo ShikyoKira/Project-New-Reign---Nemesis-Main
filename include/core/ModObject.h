@@ -12,6 +12,8 @@ namespace nemesis
         nemesis::ModCodeStatement Statement;
         UPtr<nemesis::NObject> Value;
 
+        ModObject(const nemesis::ModObject& modobject);
+
     public:
         ModObject(const std::string& modcode,
                   size_t linenum,
@@ -21,6 +23,11 @@ namespace nemesis
 
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
+
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::ModObject> Clone() const;
+
+        const nemesis::ModCodeStatement& GetStatement() const noexcept;
 
         bool IsSelected(nemesis::CompileState& state) const;
         std::string_view GetModCode() const noexcept;

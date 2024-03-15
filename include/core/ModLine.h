@@ -11,6 +11,8 @@ namespace nemesis
     private:
         nemesis::ModCodeStatement Statement;
 
+        ModLine(const nemesis::ModLine& modline);
+
     public:
         ModLine(const std::string& modcode,
                 size_t linenum,
@@ -24,6 +26,11 @@ namespace nemesis
 
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
+
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::ModLine> Clone() const;
+
+        const nemesis::ModCodeStatement& GetStatement() const noexcept;
 
         void AddModLine(const std::string& modcode,
                         size_t linenum,

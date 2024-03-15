@@ -76,7 +76,7 @@ namespace nemesis
 
         std::string ModCode() noexcept
         {
-            return OpenComment() + "MOD_CODE ~";
+            return OpenComment() + "MOD_CODE_OPEN ~";
         }
 
         std::string ModCode(const std::string& condition) noexcept
@@ -96,7 +96,7 @@ namespace nemesis
 
         std::string EndModCodeSyntax() noexcept
         {
-            return "~ OPEN" + CloseComment();
+            return "~" + CloseComment();
         }
 
         std::string ModOriginal() noexcept
@@ -167,6 +167,16 @@ namespace nemesis
         std::string EndIf() noexcept
         {
             return Comment("ENDIF");
+        }
+
+        std::string Break() noexcept
+        {
+            return OpenComment() + "BREAK ^";
+        }
+
+        std::string Break(const std::string& condition) noexcept
+        {
+            return Break() + condition + EndSyntax();
         }
 
         std::string EndSyntax() noexcept

@@ -88,6 +88,20 @@ void nemesis::HkxNode::SerializeTo(DeqNstr& lines) const
     Data->SerializeTo(lines);
 }
 
+UPtr<nemesis::NObject> nemesis::HkxNode::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::HkxNode> nemesis::HkxNode::Clone() const
+{
+    auto hkxnode       = std::make_unique<nemesis::HkxNode>();
+    hkxnode->NodeId    = NodeId;
+    hkxnode->ClassName = ClassName;
+    hkxnode->Data      = Data == nullptr ? nullptr : Data->Clone();
+    return hkxnode;
+}
+
 const std::string& nemesis::HkxNode::GetNodeId() const noexcept
 {
     return NodeId;
@@ -98,10 +112,10 @@ const std::string& nemesis::HkxNode::GetClassName() const noexcept
     return ClassName;
 }
 
-void nemesis::HkxNode::MatchAndUpdate(const UPtr<nemesis::HkxNode>&& hkxnode)
+void nemesis::HkxNode::MatchAndUpdate(const nemesis::HkxNode& hkxnode)
 {
     std::scoped_lock<std::mutex> lock(UpdaterMutex);
-    Data->MatchAndUpdate(*hkxnode->Data);
+    Data->MatchAndUpdate(*hkxnode.Data);
 }
 
 bool nemesis::HkxNode::IsDataClass(nemesis::LineStream& stream)
@@ -323,6 +337,7 @@ UPtr<nemesis::HkxNode> nemesis::HkxNode::ParseHkxNodeFromFile(const std::filesys
 
     hkx_node->NodeId    = match[1];
     hkx_node->ClassName = match[2];
+    hkx_node->Data      = std::move(collection);
     int counter         = 0;
 
     for (; !IsNodeEnd(stream, start); ++stream)
@@ -343,6 +358,5 @@ UPtr<nemesis::HkxNode> nemesis::HkxNode::ParseHkxNodeFromFile(const std::filesys
         }
     }
 
-    hkx_node->Data = std::move(collection);
     return hkx_node;
 }

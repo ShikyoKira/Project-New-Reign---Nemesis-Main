@@ -2,10 +2,7 @@
 
 #include "core/NObject.h"
 
-#include "animsetdata/AnimationSetDataEquip.h"
-#include "animsetdata/AnimationSetDataType.h"
-#include "animsetdata/AnimationSetDataAnimation.h"
-#include "animsetdata/AnimationSetDataCrc32.h"
+#include "animsetdata/AnimationSetDataState.h"
 
 namespace nemesis
 {
@@ -14,53 +11,51 @@ namespace nemesis
 	struct AnimationSetDataProject : public nemesis::NObject
     {
     private:
-        enum DataType
-        {
-            EquipCounter,
-            EquipList,
-            TypeCounter,
-            TypeList,
-            AnimationCounter,
-            AnimationList,
-            Crc32Counter,
-            Crc32List,
-        };
+        std::string Name;
+        VecNstr Headers;
+        UMap<std::string, UPtr<nemesis::AnimationSetDataState>> StateMap;
 
-        //UPtr<nemesis::AnimationSetDataEquipList> EquipList;
-        //UPtr<nemesis::AnimationSetDataTypeList> TypeList;
-        //UPtr<nemesis::AnimationSetDataAnimationList> AnimationList;
-        //UPtr<nemesis::AnimationSetDataCrc32List> Crc32List;
-        Vec<UPtr<nemesis::NObject>> Headers;
-        UPtr<nemesis::CollectionObject> ProjectData;
+        std::mutex UpdaterMutex;
 
         static bool IsProjectEnd(nemesis::LineStream& stream, bool& start);
 
         static Vec<UPtr<nemesis::NObject>>
-        ParseModObjects(nemesis::LineStream& stream, nemesis::SemanticManager& manager, int start_position);
-        static Vec<UPtr<nemesis::NObject>> ParseModObjects(nemesis::LineStream& stream,
-                                                           nemesis::SemanticManager& manager,
-                                                           int start_position,
-                                                           bool& has_new_project);
-        static UPtr<nemesis::ForEachObject> ParseForEachObjects(nemesis::LineStream& stream,
-                                                                nemesis::SemanticManager& manager,
-                                                                int start_position);
-        static UPtr<nemesis::ForEachObject> ParseForEachObjects(nemesis::LineStream& stream,
-                                                                nemesis::SemanticManager& manager,
-                                                                int start_position,
-                                                                bool& has_new_project);
-        static UPtr<nemesis::IfObject>
-        ParseIfObjects(nemesis::LineStream& stream, nemesis::SemanticManager& manager, int start_position);
+        ParseModObjects(nemesis::LineStream& stream,
+                        nemesis::SemanticManager& manager,
+                        std::function<void(nemesis::NLine*)> add_nline_event);
+        static UPtr<nemesis::ForEachObject>
+        ParseForEachObjects(nemesis::LineStream& stream,
+                            nemesis::SemanticManager& manager,
+                            std::function<void(nemesis::NLine*)> add_nline_event);
         static UPtr<nemesis::IfObject> ParseIfObjects(nemesis::LineStream& stream,
                                                       nemesis::SemanticManager& manager,
-                                                      int start_position,
-                                                      bool& has_new_project);
+                                                      std::function<void(nemesis::NLine*)> add_nline_event);
 
     public:
+        AnimationSetDataProject(const std::string& name) noexcept;
+
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
-        static Deq<UPtr<nemesis::NObject>> ParseObjects(nemesis::LineStream& stream,
-                                                        nemesis::SemanticManager& manager,
-                                                        Deq<nemesis::AnimationSetDataProject*>& project_list);
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::AnimationSetDataProject> Clone() const;
+
+        UPtr<nemesis::AnimationSetDataState>& AddState(UPtr<nemesis::AnimationSetDataState>&& state);
+
+        const std::string& GetName() const noexcept;
+        nemesis::AnimationSetDataState* GetState(const std::string& name);
+        const nemesis::AnimationSetDataState* GetState(const std::string& name) const;
+
+        void SerializeToDirectory(const std::filesystem::path& folder_path) const;
+        static UPtr<nemesis::AnimationSetDataProject> DeserializeFromDirectory(const std::filesystem::path& directory_path);
+        static UPtr<nemesis::AnimationSetDataProject> DeserializeFromDirectory(const std::filesystem::path& directory_path, const std::string project_name);
+
+    private:
+        static VecNstr ParseHeaders(nemesis::LineStream& stream, nemesis::SemanticManager& manager);
+
+    public:
+        static Vec<UPtr<nemesis::AnimationSetDataProject>> ParseObjects(nemesis::LineStream& stream,
+                                                                        nemesis::SemanticManager& manager,
+                                                                        const VecNstr& project_names);
     };
 }

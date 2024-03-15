@@ -53,8 +53,6 @@ namespace nemesis
         Line(const QType& _ch,
              size_t linenum,
              nemesis::SharableWrapper<std::filesystem::path>* path_ptr = nullptr) noexcept;
-        Line(nemesis::Line& line) noexcept;
-        Line(const nemesis::Line& line) noexcept;
         Line(const RawType& _ch, const std::filesystem::path& filepath) noexcept;
         Line(const RawType& _ch, size_t linenum, const std::filesystem::path& filepath) noexcept;
 

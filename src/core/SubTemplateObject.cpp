@@ -14,6 +14,19 @@ void nemesis::SubTemplateObject::SerializeTo(DeqNstr& lines) const
     Data->SerializeTo(lines);
 }
 
+UPtr<nemesis::NObject> nemesis::SubTemplateObject::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::SubTemplateObject> nemesis::SubTemplateObject::Clone() const
+{
+    auto subtmplt  = std::make_unique<nemesis::SubTemplateObject>();
+    subtmplt->Name = Name;
+    subtmplt->Data = Data->Clone();
+    return subtmplt;
+}
+
 const std::string& nemesis::SubTemplateObject::GetName() const noexcept
 {
     return Name;

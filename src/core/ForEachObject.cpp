@@ -3,8 +3,15 @@
 #include "core/SemanticManager.h"
 
 #include "utilities/conditionsyntax.h"
+#include "..\..\include\core\ForEachObject.h"
 
 namespace ns = nemesis::syntax;
+
+nemesis::ForEachObject::ForEachObject(const nemesis::ForEachObject& fe_object)
+    : Statement(fe_object.Statement)
+{
+    Value = fe_object.Value->CloneNObject();
+}
 
 nemesis::ForEachObject::ForEachObject(const std::string& expression,
                                       size_t linenum,
@@ -14,7 +21,6 @@ nemesis::ForEachObject::ForEachObject(const std::string& expression,
     : Statement(expression, linenum, filepath, manager)
     , Value(std::move(value))
 {
-    manager.AddForEachToQueue(expression);
 }
 
 void nemesis::ForEachObject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
@@ -33,9 +39,24 @@ void nemesis::ForEachObject::SerializeTo(DeqNstr& lines) const
     lines.emplace_back(ns::Close());
 }
 
+UPtr<nemesis::NObject> nemesis::ForEachObject::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::ForEachObject> nemesis::ForEachObject::Clone() const
+{
+    return UPtr<nemesis::ForEachObject>(new nemesis::ForEachObject(*this));
+}
+
 const nemesis::ForEachStatement& nemesis::ForEachObject::GetStatement() const noexcept
 {
     return Statement;
+}
+
+UPtr<nemesis::ParsingForEachScope> nemesis::ForEachObject::BuildScope(nemesis::SemanticManager& manager) const
+{
+    return std::make_unique<nemesis::ParsingForEachScope>(Statement, manager);
 }
 
 bool nemesis::ForEachObject::MatchForEach(const std::string& line, std::string& condition)

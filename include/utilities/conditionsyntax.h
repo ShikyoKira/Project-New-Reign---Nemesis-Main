@@ -54,6 +54,9 @@ namespace nemesis
 
         std::string EndIf() noexcept;
 
+        std::string Break() noexcept;
+        std::string Break(const std::string& condition) noexcept;
+
         std::string EndSyntax() noexcept;
     }
 }

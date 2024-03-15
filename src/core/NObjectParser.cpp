@@ -32,17 +32,27 @@ UPtr<nemesis::NObject> nemesis::NObjectParser::ParseLine(nemesis::LineStream& st
 UPtr<nemesis::IfObject> nemesis::NObjectParser::ParseIfObject(nemesis::LineStream& stream,
                                                                nemesis::SemanticManager& manager)
 {
-    auto token_value = stream.GetToken().Value;
-    auto collection  = std::make_unique<nemesis::CollectionObject>();
-    auto col_ptr     = collection.get();
-    auto if_object   = std::make_unique<nemesis::IfObject>(
-        token_value, token_value.GetLineNumber(), token_value.GetFilePath(), manager, std::move(collection));
+    if (stream.IsEoF()) return nullptr;
 
-    bool has_else = false;
+    auto* if_token = &stream.GetToken();
+    auto& if_value = if_token->Value;
+
+    if (if_token->Type != nemesis::LineStream::IF)
+    {
+        throw std::runtime_error("Syntax Error: Unexpected syntax. Expecting IF syntax (Line: "
+                                 + std::to_string(if_value.GetLineNumber())
+                                 + ". File: " + if_value.GetFilePath().string() + ")");
+    }
+
+    bool has_else     = false;
+    auto collection   = std::make_unique<nemesis::CollectionObject>();
+    auto col_ptr      = collection.get();
+    auto if_object    = std::make_unique<nemesis::IfObject>(
+        if_value, if_value.GetLineNumber(), if_value.GetFilePath(), manager, std::move(collection));
 
     for (++stream; !stream.IsEoF(); ++stream)
     {
-        auto ntoken = stream.GetToken();
+        auto& ntoken = stream.GetToken();
 
         switch (ntoken.Type)
         {
@@ -50,9 +60,9 @@ UPtr<nemesis::IfObject> nemesis::NObjectParser::ParseIfObject(nemesis::LineStrea
             {
                 if (has_else)
                 {
-                    std::runtime_error("Syntax error: ELSE IF syntax cannot come after ELSE (Line: "
+                    throw std::runtime_error("Syntax error: ELSE IF syntax cannot come after ELSE (Line: "
                                        + std::to_string(ntoken.Value.GetLineNumber())
-                                       + ", File: " + ntoken.Value.GetFilePath() + ")");
+                                       + ", File: " + ntoken.Value.GetFilePath().string() + ")");
                 }
 
                 collection   = std::make_unique<nemesis::CollectionObject>();
@@ -82,75 +92,54 @@ UPtr<nemesis::IfObject> nemesis::NObjectParser::ParseIfObject(nemesis::LineStrea
         }
     }
 
-    throw std::runtime_error("Syntax Error: Unclosed If Statement (Line: "
-                             + std::to_string(token_value.GetLineNumber())
-                             + ", File: " + token_value.GetFilePath().string() + ")");
+    throw std::runtime_error("Syntax Error: Unclosed IF Statement (Line: "
+                             + std::to_string(if_value.GetLineNumber())
+                             + ", File: " + if_value.GetFilePath().string() + ")");
 }
 
 UPtr<nemesis::ForEachObject> nemesis::NObjectParser::ParseForEachObject(nemesis::LineStream& stream,
                                                                          nemesis::SemanticManager& manager)
 {
-    auto token_value = stream.GetToken().Value;
+    if (stream.IsEoF()) return nullptr;
+
+    auto* fe_token = &stream.GetToken();
+    auto& fe_value = fe_token->Value;
+
+    if (fe_token->Type != nemesis::LineStream::FOR_EACH)
+    {
+        throw std::runtime_error("Syntax Error: Unexpected syntax. Expecting FOREACH syntax (Line: "
+                                 + std::to_string(fe_value.GetLineNumber())
+                                 + ". File: " + fe_value.GetFilePath().string() + ")");
+    }
+
     auto collection  = std::make_unique<nemesis::CollectionObject>();
     auto col_ptr     = collection.get();
     auto fe_object   = std::make_unique<nemesis::ForEachObject>(
-        token_value, token_value.GetLineNumber(), token_value.GetFilePath(), manager, std::move(collection));
+        fe_value, fe_value.GetLineNumber(), fe_value.GetFilePath(), manager, std::move(collection));
 
-    auto& statement = fe_object->GetStatement();
-    std::string option_name;
+    auto scope = fe_object->BuildScope(manager);
 
-    if (statement.TryGetOptionName(option_name))
+    for (++stream; !stream.IsEoF(); ++stream)
     {
-        manager.TryAddOptionToQueue(option_name, statement.GetExpression());
+        auto ntoken = stream.GetToken();
 
-        for (++stream; !stream.IsEoF(); ++stream)
+        switch (ntoken.Type)
         {
-            auto ntoken = stream.GetToken();
-
-            switch (ntoken.Type)
+            case nemesis::LineStream::TokenType::CLOSE:
             {
-                case nemesis::LineStream::TokenType::CLOSE:
-                {
-                    return fe_object;
-                }
-                default:
-                {
-                    col_ptr->AddObject(std::move(ParseLine(stream, manager)));
-                    break;
-                }
+                return fe_object;
+            }
+            default:
+            {
+                col_ptr->AddObject(std::move(ParseLine(stream, manager)));
+                break;
             }
         }
-
-        manager.TryRemoveLastOption();
-    }
-    else
-    {
-        manager.TryAddRequestToQueue(statement.GetExpression());
-
-        for (++stream; !stream.IsEoF(); ++stream)
-        {
-            auto ntoken = stream.GetToken();
-
-            switch (ntoken.Type)
-            {
-                case nemesis::LineStream::TokenType::CLOSE:
-                {
-                    return fe_object;
-                }
-                default:
-                {
-                    col_ptr->AddObject(std::move(ParseLine(stream, manager)));
-                    break;
-                }
-            }
-        }
-
-        manager.TryRemoveLastRequest();
     }
 
-    throw std::runtime_error("Syntax Error: Unclosed ForEach Statement (Line: "
-                             + std::to_string(token_value.GetLineNumber())
-                             + ", File: " + token_value.GetFilePath().string() + ")");
+    throw std::runtime_error("Syntax Error: Unclosed FOREACH Statement (Line: "
+                             + std::to_string(fe_value.GetLineNumber())
+                             + ", File: " + fe_value.GetFilePath().string() + ")");
 }
 
 Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseModObjects(nemesis::LineStream& stream,
@@ -164,6 +153,9 @@ Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseModObjects(nemesis::Lin
                                         std::function<bool(nemesis::LineStream&)> terminator)
 {
     Vec<UPtr<nemesis::NObject>> objects;
+
+    if (stream.IsEoF()) return objects;
+
     Deq<const nemesis::Line*> mod_lines;
     auto token_value = stream.GetToken().Value;
     std::function<void(nemesis::LineStream&, nemesis::SemanticManager&)> set_line
@@ -242,7 +234,7 @@ Vec<UPtr<nemesis::NObject>> nemesis::NObjectParser::ParseModObjects(nemesis::Lin
         }
     }
 
-    throw std::runtime_error("Syntax Error: Unclosed ModCode Statement (Line: "
+    throw std::runtime_error("Syntax Error: Unclosed MOD_CODE Statement (Line: "
                              + std::to_string(token_value.GetLineNumber())
                              + ", File: " + token_value.GetFilePath().string() + ")");
 }

@@ -25,6 +25,8 @@ namespace nemesis
         size_t LineNum;
         std::filesystem::path FilePath;
 
+        BreakObject() = default;
+
     public:
         BreakObject(const nemesis::Line& line,
                     nemesis::SemanticManager& manager);
@@ -35,5 +37,8 @@ namespace nemesis
 
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
+
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::BreakObject> Clone() const;
     };
 }

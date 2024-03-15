@@ -7,6 +7,24 @@
 
 namespace ns = nemesis::syntax;
 
+nemesis::NLine::NLine(const nemesis::NLine& nline)
+{
+    Value = std::make_unique<nemesis::Line>(*nline.Value);
+
+    for (auto& each : nline.ModLines)
+    {
+        ModLines[each.first] = each.second->Clone();
+    }
+
+    for (auto& modifier_list : nline.Modifiers)
+    {
+        for (auto& each : modifier_list.second)
+        {
+            Modifiers[modifier_list.first].emplace_back(each); 
+        }
+    }
+}
+
 nemesis::NLine::NLine(const std::string& expression,
                       size_t linenum,
                       const std::filesystem::path& filepath,
@@ -44,14 +62,14 @@ void nemesis::NLine::CompileTo(DeqNstr& lines, nemesis::CompileState& state) con
     if (Modifiers.empty())
     {
         auto& line = lines.emplace_back(*Value);
-        state.RaiseAddLineEvent(line);
+        state.RaiseAddLineEvent(line, *this);
         return;
     }
 
     VecStr tokens;
     std::string merged;
 
-    for (size_t i = 0; i < Value->length(); i++)
+    for (size_t i = 0; i < Value->length(); ++i)
     {
         tokens.emplace_back(1, (*Value)[i]);
     }
@@ -72,7 +90,7 @@ void nemesis::NLine::CompileTo(DeqNstr& lines, nemesis::CompileState& state) con
     if (merged.find(ns::DeleteLine()) != NOT_FOUND) return;
 
     auto& line_ref = lines.emplace_back(merged, Value->GetLineNumber(), Value->GetFilePath());
-    state.RaiseAddLineEvent(line_ref);
+    state.RaiseAddLineEvent(line_ref, *this);
 }
 
 void nemesis::NLine::SerializeTo(DeqNstr& lines) const
@@ -93,7 +111,17 @@ void nemesis::NLine::SerializeTo(DeqNstr& lines) const
     lines.emplace_back(value + ns::Spaces() + ns::LowerOriginal());
 }
 
-void nemesis::NLine::MatchAndUpdate(nemesis::NLine& nline)
+UPtr<nemesis::NObject> nemesis::NLine::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::NLine> nemesis::NLine::Clone() const
+{
+    return UPtr<nemesis::NLine>(new nemesis::NLine(*this));
+}
+
+void nemesis::NLine::MatchAndUpdate(const nemesis::NLine& nline)
 {
     if (!nline.Value || *Value != *nline.Value)
     {
@@ -104,7 +132,7 @@ void nemesis::NLine::MatchAndUpdate(nemesis::NLine& nline)
 
     for (auto& mod_line : nline.ModLines)
     {
-        ModLines[mod_line.first] = std::move(mod_line.second);
+        ModLines[mod_line.first] = mod_line.second->Clone();
     }
 }
 

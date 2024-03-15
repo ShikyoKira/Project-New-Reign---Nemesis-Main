@@ -6,6 +6,7 @@
 namespace nemesis
 {
     struct IfObject;
+    struct TemplateClass;
     struct ForEachObject;
     struct CollectionObject;
 
@@ -24,19 +25,42 @@ namespace nemesis
             Crc32List,
         };
 
+        std::string Name;
         UPtr<nemesis::CollectionObject> StateData;
-        static Vec<UPtr<nemesis::NObject>> ParseModObjects(nemesis::LineStream& stream, nemesis::SemanticManager& manager, bool& has_new_state);
-        static UPtr<nemesis::ForEachObject> ParseForEachObject(nemesis::LineStream& stream,
-                                                               nemesis::SemanticManager& manager,
-                                                               bool& has_new_state);
-        static UPtr<nemesis::IfObject>
-        ParseIfObjects(nemesis::LineStream& stream, nemesis::SemanticManager& manager, bool& has_new_state);
+
+        std::mutex UpdaterMutex;
+
     public:
+        AnimationSetDataState(const std::string& name) noexcept;
+
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
-        static Vec<UPtr<nemesis::NObject>> ParseObjects(nemesis::LineStream& stream,
-                                                        nemesis::SemanticManager& manager,
-                                                        Vec<nemesis::AnimationSetDataState*>& project_list);
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::AnimationSetDataState> Clone() const;
+
+        void MatchAndUpdate(const nemesis::AnimationSetDataState& state);
+
+        const std::string& GetName() const noexcept;
+
+        void SerializeToFile(const std::filesystem::path& filepath) const;
+
+        static UPtr<nemesis::AnimationSetDataState> Deserialize(const std::string& name,
+                                                                nemesis::LineStream& stream);
+        static UPtr<nemesis::AnimationSetDataState>
+        Deserialize(const std::string& name, nemesis::LineStream& stream, nemesis::SemanticManager& manager);
+        static UPtr<nemesis::AnimationSetDataState>
+        DeserializeFromFile(const std::filesystem::path& filepath);
+        static UPtr<nemesis::AnimationSetDataState>
+        DeserializeFromFile(const std::filesystem::path& filepath,
+                            const nemesis::TemplateClass* template_class);
+        static UPtr<nemesis::AnimationSetDataState> DeserializeFromFile(const std::filesystem::path& filepath,
+                                                                        nemesis::SemanticManager& manager);
+
+        static Vec<UPtr<nemesis::AnimationSetDataState>> ParseObjects(nemesis::LineStream& stream,
+                                                                      nemesis::SemanticManager& manager,
+                                                                      const std::string& project_name,
+                                                                      const VecNstr& state_names);
+
     };
 }

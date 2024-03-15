@@ -6,6 +6,12 @@
 
 namespace ns = nemesis::syntax;
 
+nemesis::ModLine::ModLine(const nemesis::ModLine& modline)
+    : nemesis::NLine(modline)
+    , Statement(modline.Statement)
+{
+}
+
 nemesis::ModLine::ModLine(const std::string& modcode,
                           size_t linenum,
                           const std::filesystem::path& filepath,
@@ -43,6 +49,21 @@ void nemesis::ModLine::SerializeTo(DeqNstr& lines) const
 
     lines.emplace_back(
         ns::DeleteLine() + ns::Spaces() + ns::Aster(modcode), Value->GetLineNumber(), Value->GetFilePath());
+}
+
+UPtr<nemesis::NObject> nemesis::ModLine::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::ModLine> nemesis::ModLine::Clone() const
+{
+    return UPtr<nemesis::ModLine>(new nemesis::ModLine(*this));
+}
+
+const nemesis::ModCodeStatement& nemesis::ModLine::GetStatement() const noexcept
+{
+    return Statement;
 }
 
 void nemesis::ModLine::AddModLine(const std::string& modcode,

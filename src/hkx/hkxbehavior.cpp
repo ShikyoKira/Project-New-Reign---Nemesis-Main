@@ -142,7 +142,7 @@ DeqNstr nemesis::HkxBehavior::CompileAllSubTemplates(nemesis::CompileState& stat
         state_list.emplace_back(std::move(new_state));
     }
 
-    for (size_t i = 0; i < state_list.size(); i++)
+    for (size_t i = 0; i < state_list.size(); ++i)
     {
         auto cur_state = state_list[i].get();
 
@@ -187,7 +187,7 @@ void nemesis::HkxBehavior::UpdateNodeFromFile(const std::filesystem::path& filep
                                  + ", Node File: " + filepath.string() + ")");
     }
 
-    node->second->MatchAndUpdate(std::move(hkx_node));
+    node->second->MatchAndUpdate(*hkx_node);
 
     auto& mod_list = manager.GetModInUsedList();
     ModInUsedList.insert(mod_list.begin(), mod_list.end());
@@ -321,6 +321,16 @@ void nemesis::HkxBehavior::SerializeTo(DeqNstr& lines) const
     lines.emplace_back("	</hksection>", lines.size() + 1);
     lines.emplace_back("", lines.size() + 1);
     lines.emplace_back("</hkpackfile>", lines.size() + 1);
+}
+
+UPtr<nemesis::NObject> nemesis::HkxBehavior::CloneNObject() const
+{
+    return Clone();
+}
+
+UPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::Clone() const
+{
+    throw std::runtime_error("nemesis::HkxBehavior cannot be cloned");
 }
 
 void nemesis::HkxBehavior::AddTemplate(const SPtr<nemesis::TemplateObject>& templt_obj)

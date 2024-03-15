@@ -6,6 +6,10 @@
 #include "Testers/ModifierTester.h"
 #include "Testers/HkxBehaviorTester.h"
 #include "Testers/MasterRepositoryTester.h"
+#include "Testers/AnimationSetDataStateTester.h"
+#include "Testers/AnimationSetDataProjectTester.h"
+#include "Testers/AnimationSetDataSingleFileTester.h"
+#include "Testers/AnimationDataSingleFileTester.h"
 
 namespace nemesis
 {
@@ -15,7 +19,13 @@ namespace nemesis
         //nemesis::NObjectTester::Run();
         //nemesis::HkxNodeTester::Run();
         //nemesis::HkxBehaviorTester::Run();
-        nemesis::TemplateTester::Run();
-        nemesis::MasterRepositoryTester::Run();
+        //nemesis::TemplateTester::Run();
+        //nemesis::MasterRepositoryTester::Run();
+
+        nemesis::AnimationSetDataStateTester::Run();
+        nemesis::AnimationSetDataProjectTester::Run();
+        nemesis::AnimationSetDataSingleFileTester::Run();
+
+        nemesis::AnimationDataSingleFileTester::Run();
     }
 }

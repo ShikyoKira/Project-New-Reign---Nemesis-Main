@@ -40,6 +40,24 @@ namespace nemesis
     bool iequals(const std::string& l, const std::string& r);
     bool iequals(const std::wstring& l, const std::wstring& r);
 
+    bool starts_with(const char* data, const char* start);
+    bool starts_with(const wchar_t* data, const wchar_t* start);
+    bool starts_with(const char* data, const std::string& start);
+    bool starts_with(const wchar_t* data, const std::wstring& start);
+    bool starts_with(const std::string& data, const char* start);
+    bool starts_with(const std::wstring& data, const wchar_t* start);
+    bool starts_with(const std::string& data, const std::string& start);
+    bool starts_with(const std::wstring& data, const std::wstring& start);
+    
+    bool ends_with(const char* data, const char* start);
+    bool ends_with(const wchar_t* data, const wchar_t* start);
+    bool ends_with(const char* data, const std::string& start);
+    bool ends_with(const wchar_t* data, const std::wstring& start);
+    bool ends_with(const std::string& data, const char* start);
+    bool ends_with(const std::wstring& data, const wchar_t* start);
+    bool ends_with(const std::string& data, const std::string& start);
+    bool ends_with(const std::wstring& data, const std::wstring& start);
+
     size_t isearch(const std::string& data, const std::string& key, size_t off = 0U);
     size_t isearch(const std::wstring& data, const std::wstring& key, size_t off = 0U);
     

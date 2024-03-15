@@ -28,6 +28,9 @@ namespace nemesis
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::TemplateObject> Clone() const;
+
         const std::string& GetClassName() const noexcept;
         size_t GetIndex() const noexcept;
         const std::filesystem::path& GetFilePath() const noexcept;

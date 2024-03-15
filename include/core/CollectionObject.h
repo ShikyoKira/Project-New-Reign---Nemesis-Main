@@ -21,7 +21,7 @@ namespace nemesis
         public:
             ObjectMatcher(Vec<UPtr<nemesis::NObject>>& objects);
 
-            void MatchAndUpdate(Vec<UPtr<nemesis::NObject>>& objects);
+            void MatchAndUpdate(const Vec<UPtr<nemesis::NObject>>& objects);
         };
 
     protected:
@@ -31,9 +31,14 @@ namespace nemesis
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
-        void AddObject(UPtr<nemesis::NObject>&& object) noexcept;
+        UPtr<nemesis::NObject> CloneNObject() const override;
+        UPtr<nemesis::CollectionObject> Clone() const;
 
-        void MatchAndUpdate(nemesis::CollectionObject& object_list);
+        UPtr<nemesis::NObject>& AddObject(UPtr<nemesis::NObject>&& object) noexcept;
+        nemesis::NObject* GetByIndex(size_t index) noexcept;
+        const nemesis::NObject* GetByIndex(size_t index) const noexcept;
+
+        void MatchAndUpdate(const nemesis::CollectionObject& object_list);
 
         size_t Size() noexcept;
         bool Empty() noexcept;
