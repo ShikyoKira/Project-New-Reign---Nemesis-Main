@@ -1,0 +1,108 @@
+#include "AlternateAnimation/AlterAnimGroup.h"
+#include "AlternateAnimation/AlterAnimRepository.h"
+
+#include "Utilities/Algorithm.h"
+
+#include "Logger.h"
+#include "NemesisInfo.h"
+
+
+const std::filesystem::path& nemesis::AlterAnimGroup::CanonizePath(const std::filesystem::path& path)
+{
+    static Map<std::wstring, std::filesystem::path> PathCache;
+    static std::mutex PathCacheMutex;
+
+    std::scoped_lock<std::mutex> lock(PathCacheMutex);
+    auto anim_path_it = PathCache.find(path);
+
+    if (anim_path_it != PathCache.end()) return anim_path_it->second;
+
+    return PathCache.insert({path, std::filesystem::absolute(path)}).first->second;
+}
+
+nemesis::AlterAnimGroup::AlterAnimGroup(nemesis::AlterAnimRepository& repo,
+                                        const nlohmann::json& group_info) noexcept
+    : Repository(repo)
+{
+    Id                  = group_info["Id"].get<size_t>();
+    Name                = group_info["Name"].get<std::string>();
+
+    Logger::Log("Alternate Animations Group: " + Name + " (" + std::to_string(Id) + ")");
+
+    auto animation_list = group_info["Animations"].get<VecStr>();
+
+    for (auto& anim_path : animation_list)
+    {
+        AlterAnimList.emplace_back(AlterAnimMap
+                                       .emplace(CanonizePath(repo.GetAnimationDirectory() / anim_path).string(),
+                                                std::make_unique<nemesis::AlterAnim>(*this, anim_path))
+                                       .first->second.get());
+    }
+}
+
+void nemesis::AlterAnimGroup::AddPrefix(const std::filesystem::path& dir_path,
+                                        const std::string& prefix,
+                                        size_t slot_size)
+{
+    auto data_path                     = NemesisInfo::DataPath();
+    auto proj_path                     = data_path / Repository.GetProjectDirectory();
+    std::filesystem::path relative_dir = dir_path.string().substr(proj_path.string().length() + 1);
+
+    for (auto& alter_anim : AlterAnimMap)
+    {
+        alter_anim.second->AddAlternateSlots(relative_dir, dir_path, prefix, slot_size);
+    }
+
+    Repository.AddPrefix(prefix);
+}
+
+const nemesis::AlterAnimRepository& nemesis::AlterAnimGroup::GetRepository() const noexcept
+{
+    return Repository;
+}
+
+VecStr nemesis::AlterAnimGroup::GetAnimations() const
+{
+    VecStr list;
+
+    for (auto& alter_anim : AlterAnimMap)
+    {
+        list.emplace_back(alter_anim.first);
+    }
+
+    return list;
+}
+
+const nemesis::AlterAnim* nemesis::AlterAnimGroup::GetAlternateSet(const std::string& anim_path) const
+{
+    auto canon_anim_path = CanonizePath(anim_path).string();
+
+    for (auto& alter_anim : AlterAnimMap)
+    {
+        if (!nemesis::iequals(alter_anim.first, canon_anim_path)) continue;
+
+        return alter_anim.second.get();
+    }
+
+    return nullptr;
+}
+
+const Vec<const nemesis::AlterAnim*>& nemesis::AlterAnimGroup::GetAlterAnimationList() const noexcept
+{
+    return AlterAnimList;
+}
+
+size_t nemesis::AlterAnimGroup::GetId() const noexcept
+{
+    return Id;
+}
+
+const std::string& nemesis::AlterAnimGroup::GetName() const noexcept
+{
+    return Name;
+}
+
+std::string nemesis::AlterAnimGroup::GetVariableName() const noexcept
+{
+    return "Nemesis_AA_" + Name;
+}

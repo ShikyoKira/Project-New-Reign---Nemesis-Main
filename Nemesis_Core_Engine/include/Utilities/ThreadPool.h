@@ -1,0 +1,96 @@
+#ifndef THREAD_POOL_H_
+#define THREAD_POOL_H_
+
+#include <condition_variable>
+#include <functional>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <stdexcept>
+#include <thread>
+#include <vector>
+#include <queue>
+#include <iostream>
+
+#include "Logger.h"
+
+
+namespace nemesis
+{
+    struct ThreadPool
+    {
+        struct ThreadException : std::exception
+        {
+        };
+
+    public:
+        ThreadPool(size_t threads = std::thread::hardware_concurrency());
+
+        template <class F, class... Args>
+        decltype(auto) enqueue(F&& f, Args&&... args);
+
+        void join_all();
+        void stop();
+        bool has_error() const noexcept;
+        void throw_if_error();
+
+        ~ThreadPool();
+    private:
+        std::vector<std::thread> workers;
+        std::queue<std::function<void()>> tasks;
+        void NewWorker();
+
+        std::condition_variable condition;
+        std::mutex queue_mutex;
+        std::atomic<bool> abort;
+        std::atomic<bool> sync;
+        std::atomic<bool> error;
+    };
+
+    // add new work item to the pool
+    template <class F, class... Args>
+    decltype(auto) ThreadPool::enqueue(F&& f, Args&&... args)
+    {
+        using return_type = std::invoke_result_t<F, Args...>;
+
+        auto task = std::make_shared<std::packaged_task<return_type()>>(
+            std::bind(std::forward<F>(f), std::forward<Args>(args)...));
+
+        std::future<return_type> future = task->get_future();
+        std::shared_future<return_type> shared_future = future.share(); 
+
+        {
+            if (error) return shared_future;
+
+            // don't allow enqueueing after stopping the pool
+            if (abort) throw std::runtime_error("Failed to enqueue on stopped ThreadPool");
+
+            std::unique_lock<std::mutex> lock(queue_mutex);
+            tasks.emplace(
+                [task, shared_future, this]
+                {
+                    (*task)();
+
+                    try
+                    {
+                        shared_future.get();
+                    }
+                    catch (const std::exception& ex)
+                    {
+                        Logger::Log(std::string("ERROR: ") + ex.what(), true);
+                        error = true;
+                    }
+                    catch (...)
+                    {
+                        Logger::Log("ERROR: Unknown exception captured", true);
+                        error = true;
+                    }
+                });
+        }
+
+        condition.notify_one();
+        return shared_future;
+    }
+}
+
+#endif

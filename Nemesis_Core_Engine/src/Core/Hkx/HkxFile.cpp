@@ -1,0 +1,456 @@
+#include "Core/Hkx/HkxFile.h"
+
+#include <chrono>
+
+#include "Core/CoreObject.h"
+
+#include "Utilities/Crc32.h"
+#include "Utilities/FileWriter.h"
+#include "Utilities/OnScopeEnds.h"
+#include "Utilities/LimitedConcurrency.h"
+
+#include "NemesisInfo.h"
+#include "Logger.h"
+
+#include "Serialize/PackfileSerializer.h"
+#include "Serialize/XmlDeserializer.h"
+
+#include "Havok/hkPackfile.h"
+
+#if _WIN32
+#include <Windows.h>
+#elif __linux
+#include <spawn.h>
+#include <sys/wait.h>
+#endif
+
+
+DeqNstr nemesis::HkxFile::CompileAllTemplates(nemesis::CompileState& state) const
+{
+    DeqNstr template_lines;
+    std::scoped_lock<std::mutex> lock(TemplateMutex);
+
+    for (auto& templt_obj : TemplateMap)
+    {
+        auto& requests = state.GetRequests(templt_obj.first);
+
+        if (requests.empty()) continue;
+
+        state.ClearAllConditionCache();
+        auto index = templt_obj.second->GetIndex();
+
+        if (index == 0)
+        {
+            templt_obj.second->CompileTo(template_lines, state);
+            continue;
+        }
+
+        for (auto& request : requests)
+        {
+            state.SetBaseRequest(request);
+            templt_obj.second->CompileTo(template_lines, state);
+        }
+    }
+
+    state.SetBaseRequest(nullptr);
+    state.ClearAllConditionCache();
+
+    if (template_lines.empty()) return template_lines;
+
+    template_lines.emplace_back("");
+    return template_lines;
+}
+
+DeqNstr nemesis::HkxFile::CompileAllSubTemplates(nemesis::CompileState& state) const
+{
+    DeqNstr lines;
+    auto subrequests = state.GetSubTemplateRequestList();
+
+    if (subrequests.empty()) return lines;
+
+    state.ClearAllConditionCache();
+    Vec<UPtr<nemesis::CompileState>> state_list;
+    USetStr checker;
+
+    for (auto& request : subrequests)
+    {
+        auto new_state = state.Clone();
+        new_state->SetCurrentSubTemplateRequest(*request);
+        auto template_name   = request->GetArgument(1);
+        auto sub_templt_list = state.GetManager().GetTemplateRepository().GetSubTemplateList();
+        const nemesis::SubTemplateObject* st_obj = nullptr;
+
+        for (auto& each : sub_templt_list)
+        {
+            if (!nemesis::iequals(each->GetName(), template_name)) continue;
+
+            st_obj = each;
+            break;
+        }
+
+        if (!st_obj)
+        {
+            throw std::runtime_error("SubTemplate cannot be found (\"" + template_name + "\")");
+        }
+
+        checker.insert(request->GetArgument(0));
+        st_obj->CompileTo(lines, *new_state);
+        lines.emplace_back("");
+
+        if (new_state->GetSubTemplateRequestList().empty()) continue;
+
+        state_list.emplace_back(std::move(new_state));
+    }
+
+    for (size_t i = 0; i < state_list.size(); ++i)
+    {
+        auto cur_state = state_list[i].get();
+
+        for (auto& request : cur_state->GetSubTemplateRequestList())
+        {
+            auto& id = request->GetArgument(0);
+
+            if (checker.find(id) != checker.end()) continue;
+
+            auto new_state = state.Clone();
+            new_state->SetCurrentSubTemplateRequest(*request);
+
+            auto template_name   = request->GetArgument(1);
+            auto sub_templt_list = state.GetManager().GetTemplateRepository().GetSubTemplateList();
+            const nemesis::SubTemplateObject* st_obj = nullptr;
+
+            for (auto& each : sub_templt_list)
+            {
+                if (!nemesis::iequals(each->GetName(), template_name)) continue;
+
+                st_obj = each;
+                break;
+            }
+
+            if (!st_obj)
+            {
+                throw std::runtime_error("SubTemplate cannot be found (\"" + template_name + "\")");
+            }
+
+            checker.insert(id);
+            st_obj->CompileTo(lines, *new_state);
+            lines.emplace_back("");
+
+            if (new_state->GetSubTemplateRequestList().empty()) continue;
+
+            state_list.emplace_back(std::move(new_state));
+        }
+    }
+
+    return lines;
+}
+
+std::future<void>
+nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hkx_path,
+                               const std::string& contents,
+                               nemesis::CompileState& state,
+                               nemesis::PlatformType platform,
+                               nemesis::HavokVersion version,
+                               bool include_xml,
+                               const UMap<size_t, Pair<size_t, std::filesystem::path>>& modded_lines,
+                               std::function<void()> callback) const
+{
+    std::filesystem::create_directories(hkx_path.parent_path());
+    std::filesystem::remove(hkx_path);
+
+    return std::async(
+        [hkx_path, contents, platform, version, include_xml, &state, modded_lines, callback]()
+        {
+            if (include_xml)
+            {
+                std::filesystem::path xml_path
+                    = hkx_path.parent_path() / (hkx_path.stem().wstring() + L".xml");
+                FileWriter writer(xml_path);
+                writer.LockFreeWrite(contents);
+            }
+
+            try
+            {
+                nemesis::XmlDeserializer des;
+                des.LoadXml(contents);
+                auto packfile = des.Deserialize();
+
+                nemesis::PackfileSerializer ser(platform, version);
+                ser.Serialize(packfile);
+                ser.Save(hkx_path);
+            }
+            catch (const std::exception& ex)
+            {
+                std::regex rgx(R"(([,\s\(]Line\:)\s([0-9]+))");
+                std::smatch match;
+                std::string msg(ex.what());
+
+                if (std::regex_search(msg, match, rgx))
+                {
+                    auto itr = modded_lines.find(std::stoul(match[2]));
+
+                    if (itr != modded_lines.end())
+                    {
+                        msg = std::regex_replace(msg, rgx, "$1 " + std::to_string(itr->second.first) + ", File: " + itr->second.second.string());
+                    }
+                }
+
+                throw std::runtime_error(msg + "\nFailed to output hkx file (File: " + hkx_path.string()
+                                         + ")");
+            }
+
+            if (std::filesystem::exists(hkx_path))
+            {
+                if (!nemesis::iequals(hkx_path.filename().wstring(), L"build_info.hkx"))
+                {
+                    static nemesis::CRC32 crc32;
+                    size_t checksum = crc32.FullCRC(contents);
+                    state.AddCheckSum(hkx_path, std::to_string(checksum));
+                }
+
+                callback();
+                return;
+            }
+
+            throw std::runtime_error("Failed to output hkx file (File: " + hkx_path.string() + ")");
+        });
+}
+
+std::filesystem::path nemesis::HkxFile::CompileFile(nemesis::CompileState& state,
+                                                    nemesis::PlatformType platform,
+                                                    nemesis::HavokVersion version) const
+{
+    std::filesystem::path target_path = NemesisInfo::PatchOutputPath(TargetPath);
+    CompileFileAsHkx(target_path, state, platform, version, true);
+    return target_path;
+}
+
+void nemesis::HkxFile::CompileFileAsXml(const std::filesystem::path& filepath,
+                                        nemesis::CompileState& state) const
+{
+    Logger::Log(L"Compiling Target File: " + filepath.wstring());
+
+    DeqNstr lines = Compile(state);
+    std::ostringstream stream;
+
+    for (auto& line : lines)
+    {
+        stream << line + "\n";
+    }
+
+    FileWriter writer(filepath);
+    writer.LockFreeWrite(stream.str());
+
+    Logger::Log(L"Compiled Target File: " + filepath.wstring());
+}
+
+void nemesis::HkxFile::CompileFileAsHkx(const std::filesystem::path& filepath,
+                                        nemesis::CompileState& state,
+                                        nemesis::PlatformType platform,
+                                        nemesis::HavokVersion version,
+                                        bool include_xml) const
+{
+    Logger::Log(L"Compiling Target File: " + filepath.wstring());
+
+    DeqNstr lines = Compile(state);
+    std::ostringstream stream;
+    UMap<size_t, Pair<size_t, std::filesystem::path>> modded_lines;
+    size_t line_counter = 0;
+
+#ifdef GetClassName
+#undef GetClassName
+#endif
+    for (auto& line : lines)
+    {
+        stream << line + "\n";
+        line_counter += std::count(line.begin(), line.end(), '\n') + 1;
+        auto file_ptr = line.GetFilePathPtr();
+
+        if (file_ptr != nullptr)
+        {
+            modded_lines.insert({line_counter, {line.GetLineNumber(), file_ptr->Get()}});
+        }
+    }
+#define GetClassName GetClassNameA
+
+    CompileToHkx(filepath, stream.str(), state, platform, version, include_xml, modded_lines, []() {}).get();
+
+    Logger::Log(L"Compiled Target File: " + filepath.wstring());
+}
+
+std::filesystem::path nemesis::HkxFile::ScheduleCompileFile(nemesis::CompileState& state,
+                                                            nemesis::PlatformType platform,
+                                                            nemesis::HavokVersion version,
+                                                            bool include_xml) const
+{
+    std::filesystem::path target_path = NemesisInfo::PatchOutputPath(TargetPath);
+    Logger::Log(L"Compiling Target File: " + target_path.wstring());
+
+    ScheduleCompileFileAs(target_path,
+                          state,
+                          platform,
+                          version,
+                          include_xml,
+                          [target_path] { Logger::Log(L"Compiled Target File: " + target_path.wstring()); });
+    return target_path;
+}
+
+void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepath,
+                                             nemesis::CompileState& state,
+                                             nemesis::PlatformType platform,
+                                             nemesis::HavokVersion version,
+                                             bool include_xml) const
+{
+    ScheduleCompileFileAs(filepath, state, platform, version, include_xml, [] {});
+}
+
+void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepath,
+                                             nemesis::CompileState& state,
+                                             nemesis::PlatformType platform,
+                                             nemesis::HavokVersion version,
+                                             bool include_xml,
+                                             std::function<void()> callback) const
+{
+    DeqNstr lines = Compile(state);
+    std::ostringstream stream;
+    UMap<size_t, Pair<size_t, std::filesystem::path>> modded_lines;
+    size_t line_counter = 0;
+
+#ifdef GetClassName
+#undef GetClassName
+#endif
+    for (auto& line : lines)
+    {
+        stream << line + "\n";
+        line_counter += std::count(line.begin(), line.end(), '\n') + 1;
+        auto file_ptr = line.GetFilePathPtr();
+
+        if (file_ptr != nullptr)
+        {
+            modded_lines.insert({line_counter, {line.GetLineNumber(), file_ptr->Get()}});
+        }
+    }
+#define GetClassName GetClassNameA
+
+    auto future = CompileToHkx(filepath, stream.str(), state, platform, version, include_xml, modded_lines, callback);
+
+    std::scoped_lock<std::mutex> lock(CompileFutureMutex);
+    CompileFuture.emplace_back(std::move(future));
+}
+
+void nemesis::HkxFile::WaitForCompleteCompilation() const
+{
+    std::scoped_lock<std::mutex> lock(CompileFutureMutex);
+
+    for (auto& future : CompileFuture)
+    {
+        future.get();
+    }
+
+    CompileFuture.clear();
+}
+
+void nemesis::HkxFile::AddTemplate(const SPtr<nemesis::TemplateObject>& templt_obj)
+{
+    std::scoped_lock<std::mutex> lock(TemplateMutex);
+#ifdef GetClassName
+#undef GetClassName
+#endif
+    TemplateMap[templt_obj->GetClassName()] = templt_obj;
+#define GetClassName GetClassNameA
+}
+
+nemesis::HkxNode* nemesis::HkxFile::AddModNode(const std::string& modcode, UPtr<nemesis::HkxNode>&& node)
+{
+    nemesis::SemanticManager manager;
+    auto* node_ptr = node.get();
+    auto mod_obj
+        = std::make_unique<nemesis::ModObject>(modcode, 0, node->GetFilePath(), manager, std::move(node));
+
+    {
+        std::scoped_lock<std::mutex> lock(NodeMutex);
+        NewNodes[node_ptr->GetNodeId()] = std::move(mod_obj);
+    }
+
+    auto& mod_list = manager.GetModInUsedList();
+
+    {
+        std::scoped_lock<std::mutex> lock(ModInUsedListMutex);
+        ModInUsedList.insert(mod_list.begin(), mod_list.end());
+    }
+
+    return node_ptr;
+}
+
+nemesis::HkxNode* nemesis::HkxFile::GetNodeById(const std::string& node_id)
+{
+    auto itr = NodeMap.find(node_id);
+
+    if (itr == NodeMap.end()) return nullptr;
+
+    return itr->second;
+}
+
+const nemesis::HkxNode* nemesis::HkxFile::GetNodeById(const std::string& node_id) const
+{
+    auto itr = NodeMap.find(node_id);
+
+    if (itr == NodeMap.end()) return nullptr;
+
+    return itr->second;
+}
+
+const std::filesystem::path& nemesis::HkxFile::GetFilePath() const noexcept
+{
+    return FilePath;
+}
+
+const std::filesystem::path& nemesis::HkxFile::GetTargetPath() const noexcept
+{
+    return TargetPath;
+}
+
+const std::filesystem::path& nemesis::HkxFile::GetCachedFilePath() const noexcept
+{
+    return CachedFilePath;
+}
+
+const std::filesystem::path& nemesis::HkxFile::GetRelativePath() const noexcept
+{
+    return RelativePath;
+}
+
+bool nemesis::HkxFile::IsSameAsCached(nemesis::CompileState& state) const
+{
+    if (!std::filesystem::exists(CachedFilePath)) return false;
+
+    auto mods = state.GetSelectedMods();
+
+    for (auto& mod : mods)
+    {
+        if (ModInUsedList.find(mod) != ModInUsedList.end()) return false;
+    }
+
+    for (auto& templt_list : TemplateMap)
+    {
+        auto& requests = state.GetRequests(templt_list.first);
+
+        if (!requests.empty()) return false;
+    }
+
+    return true;
+}
+
+bool nemesis::HkxFile::TryGetValueInHkcString(const std::string& line, std::string& value)
+{
+    size_t pos = line.find("<hkcstring>");
+
+    if (pos == NOT_FOUND) return false;
+
+    size_t cpos = line.find("</hkcstring>", pos);
+
+    if (cpos == NOT_FOUND) return false;
+
+    value = line.substr(pos + 11, cpos - pos - 11);
+    return true;
+}
