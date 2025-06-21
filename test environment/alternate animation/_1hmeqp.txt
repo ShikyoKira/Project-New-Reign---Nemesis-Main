@@ -1,3 +1,0 @@
-1hm_equip.hkx
-1hm_unequip.hkx
-1hm_boundswordequip.hkx

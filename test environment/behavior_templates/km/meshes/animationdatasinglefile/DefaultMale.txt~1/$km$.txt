@@ -1,9 +1,0 @@
-<!-- IF ^@MotionData || @RotationData^ -->
-NPC_Nemesis_KillMove_Clip_$@ID$
-$@AnimationOrder[Characters\DefaultMale.hkx][Animations\FilePath]$
-1
-0
-0
-0
-
-<!-- ENDIF -->

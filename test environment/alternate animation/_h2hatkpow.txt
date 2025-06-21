@@ -1,3 +1,0 @@
-h2h_attackpowerforwardlefthand.hkx
-h2h_attackpowerforwardrighthand.hkx
-h2h_attackrightpowerforward.hkx

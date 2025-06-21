@@ -1,8 +1,0 @@
-1hm_blockanticipate.hkx
-1hm_blockbash.hkx
-1hm_blockbashintro.hkx
-1hm_blockbashpower.hkx
-1hm_blockhit.hkx
-1hm_blockhita.hkx
-1hm_blockhitb.hkx
-1hm_blockidle.hkx

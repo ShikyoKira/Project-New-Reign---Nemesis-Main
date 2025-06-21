@@ -1,3 +1,0 @@
-		<hkobject name="#$import[0]$" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">$import[1]$</hkparam>
-		</hkobject>

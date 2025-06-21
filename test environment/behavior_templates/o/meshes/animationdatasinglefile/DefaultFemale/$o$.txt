@@ -1,9 +1,0 @@
-<!-- IF ^@MotionData || @RotationData^ -->
-Nemesis_AnimObject_Animation_$@ID$
-$animOrder[Animations\FilePath]$
-1
-0
-0
-0
-
-<!-- ENDIF -->

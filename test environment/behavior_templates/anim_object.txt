@@ -1,3 +1,0 @@
-		<hkobject name="#$@SubTemplate[0]$" class="hkbStringEventPayload" signature="0xed04256a">
-			<hkparam name="data">$@SubTemplate[2]$</hkparam>
-		</hkobject>

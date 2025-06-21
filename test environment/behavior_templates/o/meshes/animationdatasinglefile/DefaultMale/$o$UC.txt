@@ -1,7 +1,0 @@
-<!-- IF ^@MotionData || @RotationData^ -->
-$animOrder[Animations\FilePath]$
-$D[time]$
-$MD$
-$RD$
-
-<!-- ENDIF -->

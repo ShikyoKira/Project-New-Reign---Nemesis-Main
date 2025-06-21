@@ -1,9 +1,0 @@
-<!-- IF ^@MotionData || @RotationData^ -->
-Nemesis_Basic_Animation_$@ID$
-$@AnimationOrder[Characters\DefaultMale.hkx][Animations\FilePath]$
-1
-0
-0
-0
-
-<!-- ENDIF -->

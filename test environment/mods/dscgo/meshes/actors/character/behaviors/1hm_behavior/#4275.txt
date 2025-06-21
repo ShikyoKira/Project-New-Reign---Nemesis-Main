@@ -1,9 +1,0 @@
-		<hkobject name="#4275" class="BSBoneSwitchGeneratorBoneData" signature="0xc1215be6">
-			<hkparam name="variableBindingSet">#4319</hkparam>
-<!-- MOD_CODE_OPEN ~dscgo~ -->
-			<hkparam name="pGenerator">#dscgo~436</hkparam>
-<!-- MOD_CODE_ORIGINAL -->
-			<hkparam name="pGenerator">#4277</hkparam>
-<!-- MOD_CODE_CLOSE -->
-			<hkparam name="spBoneWeight">#4276</hkparam>
-		</hkobject>

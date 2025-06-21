@@ -1,6 +1,0 @@
-TKDodgeLeft
-$@RunningNumber[tkuc~2]$
-1
-0
-0
-0

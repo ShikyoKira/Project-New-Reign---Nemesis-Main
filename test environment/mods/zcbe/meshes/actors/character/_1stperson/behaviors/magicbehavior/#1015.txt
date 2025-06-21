@@ -1,7 +1,0 @@
-		<hkobject name="#1015" class="hkbExpressionCondition" signature="0x1c3c1045">
-<!-- MOD_CODE_OPEN ~zcbe~ -->
-			<hkparam name="expression">((iRightHandType == 8) || (iRightHandType == 9)) &amp;&amp; (IsPlayer == 0)</hkparam>
-<!-- MOD_CODE_ORIGINAL -->
-			<hkparam name="expression">(iRightHandType == 8) || (iRightHandType == 9)</hkparam>
-<!-- MOD_CODE_CLOSE -->
-		</hkobject>

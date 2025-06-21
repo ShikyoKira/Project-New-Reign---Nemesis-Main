@@ -1,3 +1,0 @@
-		<hkobject name="#dscgo~206" class="hkbExpressionCondition" signature="0x1c3c1045">
-			<hkparam name="expression">(bUseAltGrip == 1)  &amp;&amp; (iRightHandType == 8)</hkparam>
-		</hkobject>

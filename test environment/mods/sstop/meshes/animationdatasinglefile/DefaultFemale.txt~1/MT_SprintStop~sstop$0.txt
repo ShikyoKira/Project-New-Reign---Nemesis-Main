@@ -1,7 +1,0 @@
-MT_SprintStop
-$@RunningNumber[sstop~0]$
-1
-0
-0
-1
-SprintStopEnd:0.0500000
