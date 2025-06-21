@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.psc": "papyrus",
+        "array": "cpp"
+    }
+}
