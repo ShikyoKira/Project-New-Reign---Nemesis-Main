@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Nemesis Unlimited Behavior Engine
+Comment=This program processes Nemesis Extended XML (.nemx) and animation queries to generate standard XML (.xml) or Havok (.hkx) binary formats
+Exec=@CMAKE_INSTALL_PREFIX@/Nemesis Unlimited Behavior Engine
+Icon=icon.png
+Terminal=false
+Categories=Utility;Graphics;Animations;
