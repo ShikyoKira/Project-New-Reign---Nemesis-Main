@@ -16,7 +16,7 @@ void ModInfo::ReadFile(const std::filesystem::path& infopath)
 
     while (!file_stream.atEnd())
     {
-        auto& line = storelines.emplace_back(QString(info_file.readLine()).trimmed().toStdWString());
+        storelines.emplace_back(QString(info_file.readLine()).trimmed().toStdWString());
     }
 
     info_file.close();

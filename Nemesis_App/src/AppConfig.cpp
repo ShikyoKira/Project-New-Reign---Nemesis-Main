@@ -18,7 +18,7 @@ AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
 
     while (!file_stream.atEnd())
     {
-        auto& line = storelines.emplace_back(QString(file.readLine()).trimmed().toStdWString());
+        storelines.emplace_back(QString(file.readLine()).trimmed().toStdWString());
     }
 
     file.close();
