@@ -9,6 +9,12 @@ project("Nemesis_Engine" VERSION 1.0.0)
 include_directories(include)
 
 ################################################################################
+# Required packages
+################################################################################
+
+include(Python.cmake)
+
+################################################################################
 # Header Files
 ################################################################################
 set(AlternateAnimation_HeaderFiles
@@ -422,13 +428,23 @@ include_directories(${exprtk_SOURCE_DIR})
 ################################################################################
 add_executable(${PROJECT_NAME} ${AllHeaderFiles} ${AllSourceFiles})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(${PROJECT_NAME} PRIVATE Nemesis::Havok)
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        nlohmann_json::nlohmann_json
+        Nemesis::Havok
+        Nemesis::Python
+)
 
 if(MSVC)
     #Required
     target_compile_options(${PROJECT_NAME} PRIVATE "/bigobj")
     target_link_options(${PROJECT_NAME} PRIVATE "/WHOLEARCHIVE:$<TARGET_FILE:Nemesis::Havok>")
+
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            "${Python_DLL_PATH}"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+    )
 elseif(AppleClang)
     target_link_options(${PROJECT_NAME} PRIVATE "-Wl,-force_load,$<TARGET_FILE:Nemesis::Havok>")
 else()

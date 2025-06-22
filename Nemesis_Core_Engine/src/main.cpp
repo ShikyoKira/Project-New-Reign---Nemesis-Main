@@ -1,8 +1,10 @@
-﻿#include "Logger.h"
-#include "NemesisInfo.h"
-
-#include <chrono>
+﻿#include <chrono>
 #include <iostream>
+
+#include <Python.h>
+
+#include "Logger.h"
+#include "NemesisInfo.h"
 
 #include "Core/CoreObject.h"
 
@@ -12,6 +14,7 @@
 #include "Utilities/MD5.h"
 #include "Utilities/ThreadPool.h"
 #include "Utilities/ProgressMeter.h"
+#include "Utilities/OnScopeEnds.h"
 
 namespace sf = std::filesystem;
 
@@ -59,6 +62,84 @@ std::wstring get_memorable_hash(const std::wstring& data)
     return checksum;
 }
 
+void run_python_scripts(const std::filesystem::path& dir_path)
+{
+    Logger::Log(L"Scanning for Python Scripts: " + dir_path.wstring());
+
+    if (!std::filesystem::exists(dir_path)) return;
+
+    for (auto entry : std::filesystem::directory_iterator(dir_path))
+    {
+        auto path = entry.path();
+
+        if (entry.is_directory()) continue;
+
+        if (!nemesis::iequals(path.extension().wstring(), L".py")) continue;
+
+        try
+        {
+            FILE* py_file;
+            _wfopen_s(&py_file, path.wstring().c_str(), L"r");
+
+            if (!py_file) return;
+
+            Logger::Log(L"Executing Python Script: " + path.filename().wstring(), true);
+
+            Py_Initialize();
+            PyRun_SimpleFile(py_file, path.string().c_str());
+            Py_Finalize();
+
+            fclose(py_file);
+
+            Logger::Log(L"Executed Python Script: " + path.filename().wstring());
+        }
+        catch (const std::exception& ex)
+        {
+            throw std::runtime_error("Exception occured when executing a python script (File: "
+                                     + path.string() + ", Message: " + ex.what() + ")");
+        }
+    }
+}
+
+void change_python_config_settings(std::function<PyStatus()> change_settings)
+{
+    PyStatus status = change_settings();
+
+    if (!PyStatus_Exception(status)) return;
+
+    Py_ExitStatusException(status);
+}
+
+void setup_python_config(const std::filesystem::path& libs_dir)
+{
+    PyStatus status;
+    PyConfig config;
+    nemesis::OnScopeEnds on_ends([&config]() { PyConfig_Clear(&config); });
+
+    config.write_bytecode = 0;
+    PyConfig_InitPythonConfig(&config);
+
+#ifdef _WIN32
+    change_python_config_settings([&config, &libs_dir]()
+                                  { return PyConfig_SetString(&config, &config.home, libs_dir.c_str()); });
+#else
+    change_python_config_settings(
+        [&config, &libs_dir]()
+        { return PyConfig_SetBytesString(&config, &config.home, libs_dir.string().c_str()); });
+#endif
+
+    change_python_config_settings(
+        [&config, &libs_dir]()
+        {
+            return PyWideStringList_Append(&config.module_search_paths,
+                                           (libs_dir / "lib" / "site-packages").c_str());
+        });
+
+    change_python_config_settings([&config]() { return Py_InitializeFromConfig(&config); });
+
+    Py_Finalize();
+}
+
 int wmain(int argc, wchar_t* argv[])
 {
     try
@@ -73,6 +154,8 @@ int wmain(int argc, wchar_t* argv[])
         std::filesystem::path exe_dir  = NemesisInfo::ExeDirectory();
         std::filesystem::path data_dir = NemesisInfo::DataPath();
         size_t check_sum;
+
+        setup_python_config((exe_dir / "scripts").wstring().c_str());
 
         nemesis::ProgressMeter progress_meter(100,
                                               [](unsigned int step, unsigned int max)
@@ -90,6 +173,8 @@ int wmain(int argc, wchar_t* argv[])
         nemesis::ModRepository* mod_repo;
         nemesis::TemplateRepository* templt_repo;
         nemesis::AnimationRequestRepository* anim_repo;
+
+        run_python_scripts(exe_dir / "scripts" / "start");
 
         if (NemesisInfo::IsAsync())
         {
@@ -178,6 +263,8 @@ int wmain(int argc, wchar_t* argv[])
         check_sum   = manager->GetFullCheckSum();
         auto rehash = get_memorable_hash(std::to_wstring(check_sum));
 
+        run_python_scripts(exe_dir / "scripts" / "end");
+
         progress_meter.Complete();
         log_compilation_result(start, rehash);
     }
@@ -188,13 +275,13 @@ int wmain(int argc, wchar_t* argv[])
     catch (const std::exception& ex)
     {
         std::wcout << std::endl;
-        Logger::Log(std::string("ERROR: ") + ex.what(), true);
+        Logger::Log(std::string("[ERROR] ") + ex.what(), true);
         return 1;
     }
     catch (...)
     {
         std::wcout << std::endl;
-        Logger::Log("ERROR: Unknown exception captured", true);
+        Logger::Log("[ERROR] Unknown exception captured", true);
         return 1;
     }
 }
