@@ -25,17 +25,15 @@ void ModModelHandler::populateModel(const QString& mods_dir, bool is_devmode)
 
         ModInfo mod_info;
         mod_info.ReadFile(ini_path);
-        mod_info.SetModCode(QString::fromStdWString(entry.path().stem().wstring()).toLower().toStdWString());
-
-        // if (mod_info.IsHidden()) continue;
+        mod_info.SetModCode(QString::fromStdWString(entry.path().stem().wstring()).toLower().toStdString());
 
         QVariantMap mod_info_map;
         mod_info_map["checked"]      = !is_devmode;
-        mod_info_map["display_name"] = QString::fromStdWString(mod_info.GetDisplayName().data());
-        mod_info_map["name"]         = QString::fromStdWString(mod_info.GetName().data());
-        mod_info_map["author"]       = QString::fromStdWString(mod_info.GetAuthor().data());
-        mod_info_map["mod_code"]     = QString::fromStdWString(mod_info.GetModCode().data());
-        mod_info_map["site"]         = QString::fromStdWString(mod_info.GetSite().data());
+        mod_info_map["display_name"] = QString::fromStdString(mod_info.GetDisplayName().data());
+        mod_info_map["name"]         = QString::fromStdString(mod_info.GetName().data());
+        mod_info_map["author"]       = QString::fromStdString(mod_info.GetAuthor().data());
+        mod_info_map["mod_code"]     = QString::fromStdString(mod_info.GetModCode().data());
+        mod_info_map["site"]         = QString::fromStdString(mod_info.GetSite().data());
         data_list.append(mod_info_map);
     }
 
