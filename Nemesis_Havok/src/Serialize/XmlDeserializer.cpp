@@ -1001,10 +1001,19 @@ nemesis::hkEnumBase& nemesis::XmlDeserializer::ReadValue(const std::string& name
 }
 
 nemesis::hkVector4& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& stream_block,
-                                                        nemesis::hkVector4& vec4)
+                                                        nemesis::hkVector4& vec4,
+                                                        bool skip_last)
 {
-    float x, y, z, w;
+    float x, y, z, w = 0.0;
+
+    if (skip_last)
+    {
+        stream_block.Stream >> x >> y >> z;
+    }
+    else
+{
     stream_block.Stream >> x >> y >> z >> w;
+    }
 
     vec4.SetX(x);
     vec4.SetY(y);
@@ -1013,7 +1022,7 @@ nemesis::hkVector4& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer
 
     if (!stream_block.Stream.fail()) return vec4;
 
-    throw std::runtime_error("Malformed hkVector4: unable to parse string value (" + stream_block.Text
+    throw std::runtime_error("Malformed hkVector4: unable to parse string value (Value: " + stream_block.Text
                              + ", Line: " + std::to_string(CurrentLine) + ")");
 }
 
@@ -1049,7 +1058,7 @@ nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& strea
 
     if (!stream_block.Stream.fail()) return quaternion;
 
-    throw std::runtime_error("Malformed hkQuaternion: unable to parse string value (" + stream_block.Text
+    throw std::runtime_error("Malformed hkQuaternion: unable to parse string value (Value: " + stream_block.Text
                              + ", Line: " + std::to_string(CurrentLine) + ")");
 }
 
@@ -1063,9 +1072,9 @@ nemesis::hkQsTransform&
 nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& stream_block,
                                     nemesis::hkQsTransform& qs_transform)
 {
-    ReadValue(stream_block, qs_transform.GetTranslation());
+    ReadValue(stream_block, qs_transform.GetTranslation(), true);
     ReadValue(stream_block, qs_transform.GetRotation());
-    ReadValue(stream_block, qs_transform.GetScale());
+    ReadValue(stream_block, qs_transform.GetScale(), true);
     return qs_transform;
 }
 

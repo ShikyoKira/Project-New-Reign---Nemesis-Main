@@ -63,7 +63,7 @@ namespace nemesis
             return oss.str();
         }
 
-        static std::string ToString(const nemesis::hkVector4 vec4);
+        static std::string ToString(const nemesis::hkVector4 vec4, bool skip_last = false);
         static std::string ToString(const nemesis::hkQuaternion quaternion);
         static std::string ToString(const nemesis::hkMatrix3 matrix3);
         static std::string ToString(const nemesis::hkMatrix4 matrix4);

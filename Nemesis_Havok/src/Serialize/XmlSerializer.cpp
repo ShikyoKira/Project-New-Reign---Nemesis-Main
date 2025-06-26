@@ -5,7 +5,15 @@
 #include "Havok/hkPackfile.h"
 
 std::string nemesis::XmlSerializer::ToString(const nemesis::hkVector4 vec4)
+std::string nemesis::XmlSerializer::ToString(const nemesis::hkVector4 vec4, bool skip_last)
 {
+    if (skip_last)
+{
+        std::array<std::string, 3> values{
+            ToString(vec4.GetX(), 6), ToString(vec4.GetY(), 6), ToString(vec4.GetZ(), 6)};
+        return "(" + StringJoin(" ", values) + ")";
+    }
+
     std::array<std::string, 4> values{ToString(vec4.GetX(), 6),
                                       ToString(vec4.GetY(), 6),
                                       ToString(vec4.GetZ(), 6),
@@ -417,8 +425,8 @@ void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkQsTransform& qs_transform)
 {
     WriteHkxParam(name,
-                  ToString(qs_transform.GetTranslation()) + ToString(qs_transform.GetRotation())
-                      + ToString(qs_transform.GetScale()));
+                  ToString(qs_transform.GetTranslation(), true) + ToString(qs_transform.GetRotation())
+                      + ToString(qs_transform.GetScale(), true));
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkUFloat8& ufloat8)

@@ -143,9 +143,17 @@ namespace nemesis
             if (!TryReadHkxParam(name, str)) return container;
 
             std::string new_str = TrimXmlString(str);
-            new_str.erase(std::remove_if(
-                              new_str.begin(), new_str.end(), [](char ch) { return ch == '(' || ch == ')'; }),
-                          new_str.end());
+
+            for (auto& ch : new_str)
+            {
+                switch (ch)
+                {
+                    case '(':
+                    case ')':
+                        ch = ' ';
+                        break;
+                }
+            }
 
             nemesis::XmlDeserializer::StreamBlock stream_block(str, new_str);
             return ReadValue(stream_block, container);
@@ -246,7 +254,8 @@ namespace nemesis
                                         unsigned int padding_size) override;
         nemesis::hkEnumBase& ReadValue(const std::string& name, nemesis::hkEnumBase& val) override;
         nemesis::hkVector4& ReadValue(nemesis::XmlDeserializer::StreamBlock& stream_block,
-                                      nemesis::hkVector4& vec4);
+                                      nemesis::hkVector4& vec4,
+                                      bool skip_last = false);
         nemesis::hkVector4& ReadValue(const std::string& name, nemesis::hkVector4& vec4) override;
         nemesis::hkVector8& ReadValue(nemesis::XmlDeserializer::StreamBlock& stream_block,
                                       nemesis::hkVector8& vec8);
