@@ -3,6 +3,10 @@
 
 #include <Python.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "Logger.h"
 #include "NemesisInfo.h"
 
@@ -140,8 +144,15 @@ void setup_python_config(const std::filesystem::path& libs_dir)
     Py_Finalize();
 }
 
+#if _WIN32
 int wmain(int argc, wchar_t* argv[])
 {
+    SetConsoleOutputCP(CP_UTF8);
+#else
+int main(int argc, char* argv[])
+{
+#endif
+
     try
     {
         auto start = std::chrono::high_resolution_clock::now();
