@@ -1,5 +1,6 @@
 #include <QFile>
 #include <QTextStream>
+#include <QMessageBox>
 #include <QDebug>
 #include <sstream>
 #include <unordered_map>
@@ -9,44 +10,65 @@
 AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
     : QObject{parent}
 {
-    std::vector<std::wstring> storelines;
+    std::vector<std::string> storelines;
     QFile file(filepath);
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) throw std::runtime_error("Error opening file: " + filepath.string());
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        std::error_code ec(errno, std::system_category());
+        throw std::runtime_error("Failed to open file: \"" + QString::fromStdWString(filepath).toStdString()
+                                 + "\"\nMessage: " + ec.message());
+    }
 
     QTextStream file_stream(&file);
 
     while (!file_stream.atEnd())
     {
-        storelines.emplace_back(QString(file.readLine()).trimmed().toStdWString());
+        storelines.emplace_back(QString(file.readLine()).trimmed().toStdString());
     }
 
     file.close();
 
-    std::unordered_map<std::wstring, std::function<void(const std::wstring&)>> SetConfigMap = {
-        {L"DataDirectory", [this](const std::wstring& line){
-             DataDirectory = QString(std::filesystem::path(line).wstring());
+    constexpr std::array<const char*, 5> platforms = {"win32", "amd64", "ps3", "ps4", "xb360"};
+
+    std::unordered_map<std::string, std::function<void(const std::string&)>> SetConfigMap = {
+        {"DataDirectory",
+         [this](const std::string& line)
+         {
+             DataDirectory
+                 = QString(std::filesystem::path(std::u8string(line.begin(), line.end())).wstring());
          }},
-        {L"StageDirectory", [this](const std::wstring& line){
-             StageDirectory = QString(std::filesystem::path(line).wstring());
+        {"StageDirectory",
+         [this](const std::string& line)
+         {
+             StageDirectory
+                 = QString(std::filesystem::path(std::u8string(line.begin(), line.end())).wstring());
          }},
-        {L"Width", [this](const std::wstring& line){
-             Width = std::stoi(line);
+        {"Platform",
+         [&platforms, this](const std::string& line)
+         {
+             Platform = QString::fromStdString(line).toLower();
+
+             for (auto& platform : platforms)
+             {
+                 if (platform == Platform) return;
+             }
+
+             QMessageBox::critical(
+                 nullptr,
+                 tr("Configuration Error"),
+                 tr("Unsupported platform. Only win32, amd64, ps3, ps4 and xb360 are supported"));
+             exit(-1);
          }},
-        {L"Height", [this](const std::wstring& line){
-             Height = std::stoi(line);
-         }},
-        {L"ModNameWidth", [this](const std::wstring& line){
-             ModNameWidth = std::stoi(line);
-         }},
-        {L"AuthorWidth", [this](const std::wstring& line){
-             AuthorWidth = std::stoi(line);
-         }},
-        {L"PriorityWidth", [this](const std::wstring& line){
-             PriorityWidth = std::stoi(line);
-         }},
-        {L"DevMode", [this](const std::wstring& line){
-             std::wistringstream ss(QString::fromStdWString(line).toLower().toStdWString());
+        {"Width", [this](const std::string& line) { Width = std::stoi(line); }},
+        {"Height", [this](const std::string& line) { Height = std::stoi(line); }},
+        {"ModNameWidth", [this](const std::string& line) { ModNameWidth = std::stoi(line); }},
+        {"AuthorWidth", [this](const std::string& line) { AuthorWidth = std::stoi(line); }},
+        {"PriorityWidth", [this](const std::string& line) { PriorityWidth = std::stoi(line); }},
+        {"DevMode",
+         [this](const std::string& line)
+         {
+             std::istringstream ss(QString::fromStdString(line).toLower().toStdString());
              ss >> std::boolalpha >> DevMode;
          }},
     };
@@ -55,12 +77,17 @@ AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
     {
         for (auto& set_config : SetConfigMap)
         {
-            if (!line._Starts_with(set_config.first + L"=")) continue;
+            if (!line._Starts_with(set_config.first + "=")) continue;
 
-            set_config.second(line.substr(line.find(L"=") + 1));
+            set_config.second(line.substr(line.find("=") + 1));
             break;
         }
     }
+
+    if (!Platform.isEmpty()) return;
+
+    QMessageBox::critical(nullptr, tr("Configuration Error"), tr("Platform type cannot be found. Only win32, amd64, ps3, ps4 and xb360 are supported"));
+    exit(-1);
 }
 
 QString AppConfig::getDataDirectory() const

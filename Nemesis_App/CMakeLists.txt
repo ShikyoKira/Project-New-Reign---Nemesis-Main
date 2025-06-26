@@ -4,7 +4,7 @@ project(Nemesis_App VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.9 REQUIRED COMPONENTS Quick ShaderTools Multimedia)
+find_package(Qt6 6.9 REQUIRED COMPONENTS Quick ShaderTools Multimedia Widgets)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -76,6 +76,7 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
         Qt6::Quick
         Qt6::Multimedia
+        Qt6::Widgets
 )
 
 include(GNUInstallDirs)
