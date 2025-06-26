@@ -100,6 +100,11 @@ QString AppConfig::getStageDirectory() const
     return StageDirectory;
 }
 
+QString AppConfig::getPlatform() const
+{
+    return Platform;
+}
+
 int AppConfig::getWidth() const
 {
     return Width;

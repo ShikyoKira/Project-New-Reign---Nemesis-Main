@@ -711,7 +711,7 @@ Window {
                     console.log("========= START ===========");
                     let args = [
                             "-p"
-                            , "win32"
+                            , appConfig.getPlatform()
                             , "-pi"
                             , "-o"
                             , dataDirectory + "2"

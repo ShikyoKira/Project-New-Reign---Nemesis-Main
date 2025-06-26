@@ -12,6 +12,7 @@ public:
 
     Q_INVOKABLE QString getDataDirectory() const;
     Q_INVOKABLE QString getStageDirectory() const;
+    Q_INVOKABLE QString getPlatform() const;
     Q_INVOKABLE int getWidth() const;
     Q_INVOKABLE int getHeight() const;
     Q_INVOKABLE int getModNameWidth() const;
@@ -28,6 +29,7 @@ signals:
 private:
     QString DataDirectory;
     QString StageDirectory;
+    QString Platform;
     int Width;
     int Height;
     int ModNameWidth;
