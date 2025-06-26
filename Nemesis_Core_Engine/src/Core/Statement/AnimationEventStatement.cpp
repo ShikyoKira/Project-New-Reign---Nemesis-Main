@@ -1,10 +1,12 @@
 #include "Core/Statement/AnimationEventStatement.h"
 
+#include "Core/AnimationRequest.h"
 #include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
-#include "Core/AnimationRequest.h"
 
 #include "Core/Template/TemplateClass.h"
+
+#include "Utilities/Algorithm.h"
 
 nemesis::AnimationEventStatement::AnimationEventStatement(const std::string& expression,
                                                           size_t linenum,
@@ -34,7 +36,8 @@ nemesis::AnimationEventStatement::AnimationEventStatement(const std::string& exp
         }
         default:
             throw std::runtime_error("Syntax Error: Unsupported AnimationEvent format (Line: "
-                                     + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+                                     + std::to_string(linenum)
+                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 }
 

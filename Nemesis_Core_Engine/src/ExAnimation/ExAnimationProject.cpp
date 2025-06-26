@@ -9,13 +9,12 @@
 #include "Logger.h"
 #include "NemesisInfo.h"
 
-
-using Json = nlohmann::json;
+using Json   = nlohmann::json;
 namespace sf = std::filesystem;
 
 const std::filesystem::path& nemesis::ExAnimationProject::CanonizePath(const std::filesystem::path& path)
 {
-    static UMap<std::wstring, std::filesystem::path> PathCache;
+    static UMap<std::filesystem::path, std::filesystem::path> PathCache;
     static std::mutex PathCacheMutex;
 
     std::scoped_lock<std::mutex> lock(PathCacheMutex);
@@ -44,14 +43,14 @@ void nemesis::ExAnimationProject::PopulateProjectDataTo(nemesis::ExAnimationProj
 
     for (auto& character : characters)
     {
-        project.CanonCharacters.emplace_back(
-            sf::absolute(project.Characters.emplace_back(project.WorkingDirectory / std::move(character))));
+        auto& path = project.Characters.emplace_back(project.WorkingDirectory / std::move(character));
+        project.CanonCharacters.insert(CanonizePath(nemesis::to_lower_copy(path)));
     }
 
     for (auto& behavior : behaviors)
     {
-        project.CanonBehaviors.emplace_back(
-            sf::absolute(project.Behaviors.emplace_back(project.WorkingDirectory / std::move(behavior))));
+        auto& path = project.Behaviors.emplace_back(project.WorkingDirectory / std::move(behavior));
+        project.CanonBehaviors.insert(CanonizePath(nemesis::to_lower_copy(path)));
     }
 
     project.LoadExAnim();
@@ -66,27 +65,29 @@ void nemesis::ExAnimationProject::LoadExAnim()
         throw std::runtime_error("Invalid Animation directory for ExAnimation repository");
     }
 
-    const sf::path pcea_dir      = anim_dir / L"Nemesis_ExAnimation";
-    const sf::path pcea_anim_dir = NemesisInfo::PatchOutputPath(pcea_dir / L"ExAnimations");
+    const sf::path pcea_dir      = anim_dir / LITERAL_PATH("Nemesis_ExAnimation");
+    const sf::path pcea_anim_dir = NemesisInfo::PatchOutputPath(pcea_dir / LITERAL_PATH("ExAnimations"));
 
     sf::remove_all(pcea_anim_dir);
     sf::create_directories(pcea_anim_dir);
-    
+
     for (auto entry : sf::directory_iterator(pcea_dir))
     {
         auto path = entry.path();
 
-        if (nemesis::iequals(path.stem().wstring(), L"exanimations")) continue;
+        if (nemesis::iequals(PATH_TO_STRING(path.stem()), LITERAL_PATH("exanimations"))) continue;
 
         auto ex_anim = std::make_unique<nemesis::ExAnimationPack>(
-            path, AnimationDirectory, AnimationDirectory / L"Nemesis_ExAnimation" / L"ExAnimations");
+            path,
+            AnimationDirectory,
+            AnimationDirectory / LITERAL_PATH("Nemesis_ExAnimation") / LITERAL_PATH("ExAnimations"));
 
         for (auto& request : ex_anim->GetRequestList())
         {
             // Required for VFS to work consistently
-            std::ofstream dst(pcea_anim_dir / request.GetExAnimPath().filename(),
+            std::ofstream dst(pcea_anim_dir / request->GetExAnimPath().filename(),
                               std::ios::in | std::ios::binary);
-            std::ifstream src(pcea_dir / path.filename() / request.GetAnimPath().filename(),
+            std::ifstream src(pcea_dir / path.filename() / request->GetAnimPath().filename(),
                               std::ios::out | std::ios::binary);
             dst << src.rdbuf();
         }
@@ -105,30 +106,12 @@ void nemesis::ExAnimationProject::LoadExAnim()
 
 bool nemesis::ExAnimationProject::MatchBehavior(const std::filesystem::path& hkxfile_path) const
 {
-    auto canon_hf_path = CanonizePath(hkxfile_path);
-
-    for (auto& behavior : CanonBehaviors)
-    {
-        if (!nemesis::iequals(canon_hf_path, behavior)) continue;
-
-        return true;
-    }
-
-    return false;
+    return CanonBehaviors.find(nemesis::to_lower_copy(CanonizePath(hkxfile_path))) != CanonBehaviors.end();
 }
 
 bool nemesis::ExAnimationProject::MatchCharacter(const std::filesystem::path& hkxfile_path) const
 {
-    auto canon_hf_path = CanonizePath(hkxfile_path);
-
-    for (auto& character : CanonCharacters)
-    {
-        if (nemesis::iequals(canon_hf_path, character)) continue;
-
-        return true;
-    }
-
-    return false;
+    return CanonCharacters.find(nemesis::to_lower_copy(CanonizePath(hkxfile_path))) != CanonCharacters.end();
 }
 
 const std::string& nemesis::ExAnimationProject::GetName() const noexcept
@@ -144,7 +127,7 @@ nemesis::ExAnimationProject::GetExAnimationRequest(const std::filesystem::path& 
 
     for (auto& each : ExAnimMap)
     {
-        auto request = each.second->GetExAnimRequest(canon_anim_path);
+        auto* request = each.second->GetExAnimRequest(canon_anim_path);
 
         if (!request) continue;
 
@@ -173,7 +156,8 @@ nemesis::ExAnimationProject::GetLinkedExAnim(const std::filesystem::path& anim_p
 
     if (requests.empty()) return nullptr;
 
-    UPtr<nemesis::LinkedExAnimList> linked_ex_anim = std::make_unique<nemesis::LinkedExAnimList>(*requests.front());
+    UPtr<nemesis::LinkedExAnimList> linked_ex_anim
+        = std::make_unique<nemesis::LinkedExAnimList>(*requests.front());
 
     for (auto it = requests.rbegin() + 1; it != requests.rend(); ++it)
     {
@@ -191,7 +175,7 @@ Vec<const std::filesystem::path*> nemesis::ExAnimationProject::GetExAnimationLis
     {
         for (auto& request : each.second->GetRequestList())
         {
-            anim_list.emplace_back(&request.GetExAnimPath());
+            anim_list.emplace_back(&request->GetExAnimPath());
         }
     }
 

@@ -4,11 +4,12 @@
 #include "Havok/hkbBehaviorGraphStringData.h"
 #include "Havok/hkPackfile.h"
 
-std::string nemesis::XmlSerializer::ToString(const nemesis::hkVector4 vec4)
+#include "Utilities/Algorithm.h"
+
 std::string nemesis::XmlSerializer::ToString(const nemesis::hkVector4 vec4, bool skip_last)
 {
     if (skip_last)
-{
+    {
         std::array<std::string, 3> values{
             ToString(vec4.GetX(), 6), ToString(vec4.GetY(), 6), ToString(vec4.GetZ(), 6)};
         return "(" + StringJoin(" ", values) + ")";
@@ -230,13 +231,18 @@ void nemesis::XmlSerializer::Serialize(const nemesis::hkRootLevelContainer& root
 
 void nemesis::XmlSerializer::Save(const std::filesystem::path& filepath)
 {
-    std::filesystem::create_directories(filepath.parent_path());
+    if (filepath.has_parent_path())
+    {
+        std::filesystem::create_directories(filepath.parent_path());
+    }
+
     std::ofstream file_stream(filepath);
 
     if (!file_stream)
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: \"" + filepath.string() + "\"\nMessage: " + ec.message());
+        throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
     }
 
     file_stream << XmlStream.str();

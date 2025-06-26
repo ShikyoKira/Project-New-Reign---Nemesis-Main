@@ -44,7 +44,8 @@ FileWriter::FileWriter(const std::filesystem::path& filepath, Encoding encoding,
             break;
         }
         default:
-            throw std::runtime_error("Unsupported encoding format. (File: " + filepath.string() + ")");
+            throw std::runtime_error(
+                "Unsupported encoding format. (File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     _wfopen_s(&file, filepath.wstring().c_str(), mode.c_str());

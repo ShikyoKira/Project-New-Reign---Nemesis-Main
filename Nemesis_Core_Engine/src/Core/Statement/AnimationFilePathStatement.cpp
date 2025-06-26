@@ -3,6 +3,8 @@
 #include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::AnimationFilePathStatement::AnimationFilePathStatement(const std::string& expression,
                                                                 size_t linenum,
                                                                 const std::filesystem::path& filepath,
@@ -14,7 +16,7 @@ nemesis::AnimationFilePathStatement::AnimationFilePathStatement(const std::strin
         case 1:
         {
             GetValueFunction = [this](nemesis::CompileState& state)
-            { return GetBaseRequest(state)->GetAnimationFilePath().string(); };
+            { return nemesis::to_utf8_string(GetBaseRequest(state)->GetAnimationFilePath()); };
             break;
         }
         case 3:
@@ -25,13 +27,14 @@ nemesis::AnimationFilePathStatement::AnimationFilePathStatement(const std::strin
             GetValueFunction = [get_request_func](nemesis::CompileState& state)
             {
                 auto request = (*get_request_func)(state);
-                return request->GetAnimationFilePath().string();
+                return nemesis::to_utf8_string(request->GetAnimationFilePath());
             };
             break;
         }
         default:
             throw std::runtime_error("Syntax Error: Unsupported AnimationFilePath format (Line: "
-                                     + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+                                     + std::to_string(linenum)
+                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 }
 

@@ -2,6 +2,8 @@
 
 #include "Core/NObjectParser.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::TemplateAnimDataClipData::TemplateAnimDataClipData(
     const nemesis::TemplateClass* template_class) noexcept
     : nemesis::TemplateObject(template_class)
@@ -20,13 +22,13 @@ nemesis::TemplateAnimDataClipData::ParseFromFile(const nemesis::TemplateClass* t
         throw std::runtime_error("Invalid template name (" + name + ")");
     }
 
-    std::string filename = filepath.stem().string();
+    std::string filename = nemesis::to_utf8_string(filepath.stem());
 
     if (filename != "$" + name + "$")
     {
         throw std::runtime_error("Invalid filename "
                                  "(Template: "
-                                 + name + ", File: " + filepath.string() + ")");
+                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     return NewCustomTemplateObject<nemesis::TemplateAnimDataClipData>(template_class, 0, filepath);
@@ -45,14 +47,15 @@ nemesis::TemplateAnimDataClipData::ParseFromFile(const nemesis::TemplateClass* t
         throw std::runtime_error("Invalid template name (" + name + ")");
     }
 
-    std::string filename = filepath.stem().string();
+    std::string filename = nemesis::to_utf8_string(filepath.stem());
 
     if (filename != "$" + name + "$")
     {
         throw std::runtime_error("Invalid filename "
                                  "(Template: "
-                                 + name + ", File: " + filepath.string() + ")");
+                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
-    return NewCustomTemplateObject<nemesis::TemplateAnimDataClipData>(template_class, 0, filepath, thread_pool);
+    return NewCustomTemplateObject<nemesis::TemplateAnimDataClipData>(
+        template_class, 0, filepath, thread_pool);
 }

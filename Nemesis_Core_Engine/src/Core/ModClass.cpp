@@ -5,7 +5,6 @@
 
 #include "Logger.h"
 
-
 void nemesis::ModClass::ParseModFromMeshesDirectory(const std::filesystem::path& meshes_dir_path,
                                                     nemesis::ThreadPool& threadpool)
 {
@@ -17,7 +16,7 @@ void nemesis::ModClass::ParseModFromMeshesDirectory(const std::filesystem::path&
 
         if (!entry.is_directory())
         {
-            if (!nemesis::iequals(path.extension().wstring(), L".nemx")) continue;
+            if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".nemx"))) continue;
 
             auto node = nemesis::HkxNode::DeserializeHkxNodeFromFile(path, threadpool);
             NodeList.emplace_back(
@@ -25,13 +24,13 @@ void nemesis::ModClass::ParseModFromMeshesDirectory(const std::filesystem::path&
             continue;
         }
 
-        if (nemesis::iequals(path.stem().wstring(), L"animationdatasinglefile"))
+        if (nemesis::iequals(PATH_TO_STRING(path.stem()), LITERAL_PATH("animationdatasinglefile")))
         {
             ParseModAnimDataFromDirectory(path, threadpool);
             continue;
         }
-        
-        if (nemesis::iequals(path.stem().wstring(), L"animationsetdatasinglefile"))
+
+        if (nemesis::iequals(PATH_TO_STRING(path.stem()), LITERAL_PATH("animationsetdatasinglefile")))
         {
             ParseModAnimSetDataFromDirectory(path, threadpool);
             continue;
@@ -71,9 +70,9 @@ void nemesis::ModClass::ParseModAnimDataFromDirectory(const std::filesystem::pat
         }
 
         std::filesystem::path path = entry.path();
-        std::wstring filename      = path.stem().wstring();
+        auto filename              = PATH_TO_STRING(path.stem());
 
-        if (nemesis::iequals(filename, L"$header$"))
+        if (nemesis::iequals(filename, LITERAL_PATH("$header$")))
         {
             auto header = nemesis::AnimationDataProject::DeserializeHeaderFromFile(path, threadpool);
             AnimDataHeaderList.emplace_back(
@@ -83,7 +82,7 @@ void nemesis::ModClass::ParseModAnimDataFromDirectory(const std::filesystem::pat
         }
 
         std::smatch match;
-        std::string search = path.stem().string();
+        std::string search = nemesis::to_utf8_string(path.stem());
 
         if (std::regex_match(search, match, ModRgx))
         {
@@ -111,7 +110,8 @@ void nemesis::ModClass::ParseModAnimDataFromDirectory(const std::filesystem::pat
         }
 
         auto clip_data = nemesis::AnimationDataClipData::DeserializeFromFile(path, threadpool);
-        ClipDataList.emplace_back(std::make_unique<nemesis::ModPatch<nemesis::AnimationDataClipData>>(*this, std::move(clip_data)));
+        ClipDataList.emplace_back(
+            std::make_unique<nemesis::ModPatch<nemesis::AnimationDataClipData>>(*this, std::move(clip_data)));
     }
 }
 
@@ -138,10 +138,10 @@ nemesis::ModClass::ModClass(const std::filesystem::path& ini_file, nemesis::Thre
 {
     auto parent_path = ini_file.parent_path();
     Info.ReadFile(ini_file);
-    Info.SetModCode(nemesis::to_lower_copy(parent_path.stem().wstring()));
-    ModRgx = "^(.+?~|)" + Info.GetModCodeA() + "\\$[0-9]+$";
+    Info.SetModCode(nemesis::to_lower_copy(nemesis::to_utf8_string(parent_path.stem())));
+    ModRgx = "^(.+?~|)" + Info.GetModCode() + "\\$[0-9]+$";
 
-    Logger::Log(L"Mod Class: " + std::wstring(Info.GetModCode()));
+    Logger::Log("Mod Class: " + Info.GetModCode());
 
     if (!std::filesystem::exists(parent_path)) return;
 
@@ -153,9 +153,9 @@ nemesis::ModClass::ModClass(const std::filesystem::path& ini_file, nemesis::Thre
     }
 }
 
-std::string nemesis::ModClass::GetCode() const noexcept
+const std::string& nemesis::ModClass::GetCode() const noexcept
 {
-    return Info.GetModCodeA();
+    return Info.GetModCode();
 }
 
 const nemesis::ModInfo& nemesis::ModClass::GetModInfo() const

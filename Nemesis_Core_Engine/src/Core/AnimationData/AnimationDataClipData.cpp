@@ -1,16 +1,16 @@
 #include "Core/AnimationData/AnimationDataClipData.h"
 
-#include "Core/ModLine.h"
-#include "Core/ModClass.h"
-#include "Core/IfObject.h"
-#include "Core/ModObject.h"
-#include "Core/ForEachObject.h"
 #include "Core/CollectionObject.h"
+#include "Core/ForEachObject.h"
+#include "Core/IfObject.h"
+#include "Core/ModClass.h"
+#include "Core/ModLine.h"
+#include "Core/ModObject.h"
 
 #include "Core/Template/TemplateClass.h"
 
-#include "Utilities/File.h"
 #include "Utilities/Algorithm.h"
+#include "Utilities/File.h"
 #include "Utilities/FileWriter.h"
 #include "Utilities/ThreadPool.h"
 
@@ -66,22 +66,24 @@ void nemesis::AnimationDataClipData::CompileTo(DeqNstr& lines, nemesis::CompileS
     {
         throw std::runtime_error("Invalid AnimationDataClipData. Code format (Code: " + Code + ")");
     }
-    
+
     if (!IsPlaybackSpeeed(templines[2]))
     {
         throw std::runtime_error("Invalid AnimationDataClipData. PlaybackSpeed format (Code: " + Code + ")");
     }
-    
+
     if (!IsCropStartAmountLocalTime(templines[3]))
     {
-        throw std::runtime_error("Invalid AnimationDataClipData. CropStartAmountLocalTime format (Code: " + Code + ")");
+        throw std::runtime_error(
+            "Invalid AnimationDataClipData. CropStartAmountLocalTime format (Code: " + Code + ")");
     }
-    
+
     if (!IsCropEndAmountLocalTime(templines[4]))
     {
-        throw std::runtime_error("Invalid AnimationDataClipData. CropEndAmountLocalTime format (Code: " + Code + ")");
+        throw std::runtime_error("Invalid AnimationDataClipData. CropEndAmountLocalTime format (Code: " + Code
+                                 + ")");
     }
-    
+
     if (!IsEventCounter(templines[5]))
     {
         throw std::runtime_error("Invalid AnimationDataClipData. EventCounter format (Code: " + Code + ")");
@@ -91,7 +93,7 @@ void nemesis::AnimationDataClipData::CompileTo(DeqNstr& lines, nemesis::CompileS
     {
         lines.emplace_back(std::move(templines[i]));
     }
-    
+
     lines.emplace_back(std::to_string(templines.size() - 6));
 
     for (size_t i = 6; i < templines.size(); ++i)
@@ -129,7 +131,8 @@ nemesis::AnimationDataClipData::Clone(const nemesis::ModClass& mod_class,
 {
     auto clone    = Clone();
     auto new_data = std::make_unique<nemesis::CollectionObject>();
-    auto mod_obj  = std::make_unique<nemesis::ModObject>(mod_class.GetCode(), 0, filepath, std::move(clone->ClipData));
+    auto mod_obj
+        = std::make_unique<nemesis::ModObject>(mod_class.GetCode(), 0, filepath, std::move(clone->ClipData));
     new_data->AddObject(std::move(mod_obj));
     clone->ClipData = std::move(new_data);
     return clone;
@@ -200,7 +203,8 @@ void nemesis::AnimationDataClipData::SerializeToFile(const std::filesystem::path
     if (!writer.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: " + filepath.string() + "\nMessage: " + ec.message());
+        throw std::runtime_error("Failed to open file: " + nemesis::to_utf8_string(filepath)
+                                 + "\nMessage: " + ec.message());
     }
 
     for (auto& line : lines)
@@ -256,7 +260,7 @@ void nemesis::AnimationDataClipData::Deserialize(nemesis::CollectionObject& coll
                 auto& value = token.Value;
                 throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                          + std::to_string(value.GetLineNumber())
-                                         + ", File: " + value.GetFilePath().string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
             }
         }
     }
@@ -282,7 +286,7 @@ UPtr<nemesis::AnimationDataClipData>
 nemesis::AnimationDataClipData::DeserializeFromFile(const std::filesystem::path& filepath,
                                                     nemesis::SemanticManager& manager)
 {
-    std::string filename = filepath.stem().string();
+    std::string filename = nemesis::to_utf8_string(filepath.stem());
     std::string name     = filename.substr(0, filename.rfind("~"));
     std::string code     = filename.substr(name.size() + 1);
     auto collection      = std::make_unique<nemesis::CollectionObject>();
@@ -295,8 +299,8 @@ nemesis::AnimationDataClipData::DeserializeFromFile(const std::filesystem::path&
 
     if (lines.empty())
     {
-        throw std::runtime_error(
-            "Failed to deserialize AnimationDataClipData from file (File: " + filepath.string() + ")");
+        throw std::runtime_error("Failed to deserialize AnimationDataClipData from file (File: "
+                                 + nemesis::to_utf8_string(filepath) + ")");
     }
 
     nemesis::LineStream stream(lines.begin(), lines.end());
@@ -304,10 +308,11 @@ nemesis::AnimationDataClipData::DeserializeFromFile(const std::filesystem::path&
     return state;
 }
 
-UPtr<nemesis::AnimationDataClipData> nemesis::AnimationDataClipData::DeserializeFromFile(
-    const std::filesystem::path& filepath, nemesis::ThreadPool& threadpool)
+UPtr<nemesis::AnimationDataClipData>
+nemesis::AnimationDataClipData::DeserializeFromFile(const std::filesystem::path& filepath,
+                                                    nemesis::ThreadPool& threadpool)
 {
-    std::string filename = filepath.stem().string();
+    std::string filename = nemesis::to_utf8_string(filepath.stem());
     std::string name     = filename.substr(0, filename.rfind("~"));
     std::string code     = filename.substr(name.size() + 1);
     auto collection      = std::make_unique<nemesis::CollectionObject>();
@@ -325,7 +330,7 @@ UPtr<nemesis::AnimationDataClipData> nemesis::AnimationDataClipData::Deserialize
             if (lines.empty())
             {
                 throw std::runtime_error("Failed to deserialize AnimationDataClipData from file (File: "
-                                         + filepath.string() + ")");
+                                         + nemesis::to_utf8_string(filepath) + ")");
             }
 
             nemesis::LineStream stream(lines.begin(), lines.end());
@@ -340,7 +345,7 @@ nemesis::AnimationDataClipData::DeserializeFromFile(const std::filesystem::path&
                                                     const nemesis::TemplateClass* template_class,
                                                     nemesis::ThreadPool& threadpool)
 {
-    std::string filename = filepath.stem().string();
+    std::string filename = nemesis::to_utf8_string(filepath.stem());
     std::string name     = filename.substr(0, filename.rfind("~"));
     std::string code     = filename.substr(name.size() + 1);
     auto collection      = std::make_unique<nemesis::CollectionObject>();
@@ -358,7 +363,7 @@ nemesis::AnimationDataClipData::DeserializeFromFile(const std::filesystem::path&
             if (lines.empty())
             {
                 throw std::runtime_error("Failed to deserialize AnimationDataClipData from file (File: "
-                                         + filepath.string() + ")");
+                                         + nemesis::to_utf8_string(filepath) + ")");
             }
 
             nemesis::LineStream stream(lines.begin(), lines.end());
@@ -375,7 +380,7 @@ nemesis::AnimationDataClipData::ParseObjects(nemesis::LineStream& stream,
                                              const nemesis::LineStream::Token* end_token)
 {
     Vec<UPtr<nemesis::AnimationDataClipData>> clip_list;
-    std::function<void(UPtr<nemesis::NObject> &&)> add_object;
+    std::function<void(UPtr<nemesis::NObject>&&)> add_object;
     auto* token_ptr = &stream.GetToken();
 
     if (!token_ptr) return clip_list;
@@ -386,7 +391,7 @@ nemesis::AnimationDataClipData::ParseObjects(nemesis::LineStream& stream,
     {
         throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                  + std::to_string(active_val.GetLineNumber())
-                                 + ", File: " + active_val.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(active_val.GetFilePath()) + ")");
     }
 
     if (active_val == "0") return clip_list;
@@ -395,7 +400,7 @@ nemesis::AnimationDataClipData::ParseObjects(nemesis::LineStream& stream,
     {
         throw std::runtime_error("Invalid AnimationDataClipData::ParseObject (Line: "
                                  + std::to_string(active_val.GetLineNumber())
-                                 + ", File: " + active_val.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(active_val.GetFilePath()) + ")");
     }
 
     nemesis::CollectionObject* collection_ptr = nullptr;
@@ -412,7 +417,7 @@ nemesis::AnimationDataClipData::ParseObjects(nemesis::LineStream& stream,
         {
             throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                      + std::to_string(token_val.GetLineNumber())
-                                     + ", File: " + token_val.GetFilePath().string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(token_val.GetFilePath()) + ")");
         }
 
         if (token_ptr->Value.empty())

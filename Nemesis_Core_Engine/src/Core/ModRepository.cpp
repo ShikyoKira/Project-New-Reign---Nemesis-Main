@@ -10,7 +10,7 @@
 
 nemesis::ModRepository::ModRepository(const std::filesystem::path& mods_dir_path)
 {
-    Logger::Log(L"Processing Mod Objects...", true);
+    Logger::Log("Processing Mod Objects...", true);
 
     if (!std::filesystem::exists(mods_dir_path)) return;
 
@@ -46,47 +46,35 @@ Vec<const nemesis::ModClass*> nemesis::ModRepository::GetModClassList() const
 
 VecStr nemesis::ModRepository::PatchSelectedMods(const VecStr& selected_mods) const
 {
-    constexpr auto has_value = [](const VecStr& selected_mods, const std::string& mod_code)
-    {
-        for (auto& mod : selected_mods)
-        {
-            if (!nemesis::iequals(mod, mod_code)) continue;
-
-            return true;
-        }
-
-        return false;
-    };
-
     VecStr mods;
     USetStr valid_mods;
 
     for (auto& mod_class : ModClassList)
     {
-        auto& info = mod_class->GetModInfo();
-        std::string mod_code = info.GetModCodeA();
-        valid_mods.insert(mod_code);
-
-        if (!info.IsHidden()) continue;
-
-
-        if (has_value(selected_mods, mod_code)) continue;
-
-        Logger::Log("(Auto) Active Mod " + std::to_string(mods.size() + 1) + ": " + mod_code, true);
-        mods.emplace_back(mod_code);
+        auto& info     = mod_class->GetModInfo();
+        auto& mod_code = info.GetModCode();
+        valid_mods.insert(nemesis::to_lower_copy(mod_code));
     }
 
     for (auto& mod : selected_mods)
     {
-        if (valid_mods.find(mod) == valid_mods.end())
+        std::string mod_code = nemesis::to_lower_copy(mod);
+
+        if (valid_mods.find(mod_code) == valid_mods.end())
         {
-            throw std::runtime_error("Invalid mod code (" + mod + ") selected. Please check if you have installed the mod patch correctly");
+            throw std::runtime_error(
+                "Invalid mod code (" + mod_code
+                + ") selected. Please check if you have installed the mod patch correctly");
         }
 
-        Logger::Log("Active Mod " + std::to_string(mods.size() + 1) + ": " + mod, true);
-        mods.emplace_back(mod);
+        Logger::Log("Active Mod " + std::to_string(mods.size() + 1) + ": " + mod_code, true);
+        mods.emplace_back(mod_code);
     }
 
-    std::cout << "\n" << std::endl;
+    if (mods.empty())
+    {
+        Logger::Log("No active mods detected", true);
+    }
+
     return mods;
 }

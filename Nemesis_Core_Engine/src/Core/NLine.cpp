@@ -1,7 +1,8 @@
 #include "Core/NLine.h"
-#include "Core/ModLine.h"
 #include "Core/CompileState.h"
+#include "Core/ModLine.h"
 
+#include "Utilities/Algorithm.h"
 #include "Utilities/ConditionSyntax.h"
 
 namespace ns = nemesis::syntax;
@@ -19,7 +20,7 @@ nemesis::NLine::NLine(const nemesis::NLine& nline)
     {
         for (auto& each : modifier_list.second)
         {
-            Modifiers[modifier_list.first].emplace_back(each); 
+            Modifiers[modifier_list.first].emplace_back(each);
         }
     }
 }
@@ -35,7 +36,8 @@ nemesis::NLine::NLine(const std::string& expression,
 
 nemesis::NLine::NLine(const nemesis::Line& line, const nemesis::SemanticManager& manager)
 {
-    Value = std::make_unique<nemesis::Line>(line, line.GetLineNumber(), line.GetFilePathPtr()->shared_from_this());
+    Value = std::make_unique<nemesis::Line>(
+        line, line.GetLineNumber(), line.GetFilePathPtr()->shared_from_this());
     Modifiers = LineModifierFactory::BuildModifiers(line, line.GetLineNumber(), line.GetFilePath(), manager);
 }
 
@@ -126,7 +128,7 @@ void nemesis::NLine::MatchAndUpdate(const nemesis::NLine& nline)
     {
         throw std::runtime_error("Template update line to line to does not match (Line: "
                                  + std::to_string(nline.Value->GetLineNumber())
-                                 + ", File: " + nline.Value->GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(nline.Value->GetFilePath()) + ")");
     }
 
     if (nline.ModLines.empty()) return;
@@ -143,7 +145,7 @@ void nemesis::NLine::MatchAndUpdate(const std::string& mod_code, const nemesis::
     {
         throw std::runtime_error("Mod update line to line to does not match (Mod: " + mod_code
                                  + ", Line: " + std::to_string(nline.Value->GetLineNumber())
-                                 + ", File: " + nline.Value->GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(nline.Value->GetFilePath()) + ")");
     }
 
     if (nline.ModLines.empty()) return;

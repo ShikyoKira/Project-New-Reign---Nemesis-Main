@@ -19,7 +19,7 @@ namespace nemesis
         const nemesis::TemplateRepository& TemplateRepository;
         const nemesis::ExAnimationRepository& ExAnimRepository;
 
-        UMap<std::string, nemesis::CompileState> StateList;
+        UMap<std::filesystem::path, nemesis::CompileState> StateList;
         VecStr SelectedMods;
         
         Map<std::string, std::string> CheckSumMap;

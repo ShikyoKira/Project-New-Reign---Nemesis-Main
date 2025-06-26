@@ -34,7 +34,7 @@ void print_help(const std::string& program_name)
     std::cout << "Nemesis Havok Compiler made by Shikyo Kira v" << version << "\n"
               << "This program will compile or decompile hkx file to/from xml file"
               << "Usage:\n"
-              << "     " << std::filesystem::path(program_name).filename().string()
+              << "     " << std::filesystem::path(program_name).filename()
               << " -t:<output_type> -v:<version> <input_path> <output_path>\n\n"
               << "Arguments:\n"
               << "     <output_type>   Output format: win32, amd64, xml, ps3, ps4, xb360\n"
@@ -42,14 +42,15 @@ void print_help(const std::string& program_name)
               << "     <input_path>    Path to the input file\n"
               << "     <output_path>   Path where output will be written\n\n"
               << "Example:\n"
-              << "     " << std::filesystem::path(program_name).filename().string()
+              << "     " << std::filesystem::path(program_name).filename()
               << " -t:win32 -v:hk_2010.2.0-r1 input.xml output.hkx\n\n"
-              << "Use --help to show this message.\n";
+              << "Use --help to show this message.\n"
+              << std::endl;
 }
 
 bool is_valid_output_type(const std::string& type)
 {
-    return PlatformMap.find(type) != PlatformMap.end();
+    return PlatformMap.find(type) != PlatformMap.end() || type == "xml";
 }
 
 std::string to_lower(std::string str)
@@ -88,7 +89,7 @@ int main(int argc, char* argv[])
     {
         if (output_type.empty() || !is_valid_output_type(output_type))
         {
-            throw std::runtime_error("Invalid output type. Only win32, amd64 and xml are supported");
+            throw std::runtime_error("Invalid output type. Only win32, amd64, ps3, ps4, xb360 and xml are supported");
         }
 
         nemesis::HavokVersion hk_ver;
@@ -104,11 +105,14 @@ int main(int argc, char* argv[])
             throw std::runtime_error("Failed to open file: \"" + input_path + "\"\nMessage: " + ec.message());
         }
 
-        constexpr std::int64_t magic = 0x57E0E05710C0C010;
-        std::int64_t magic_num;
-        in.read(reinterpret_cast<char*>(&magic_num), sizeof(std::int64_t));
+        constexpr std::int32_t magic = 0x57E0E057;
+        constexpr std::int32_t magic2 = 0x10C0C010;
+        std::int32_t magic_num;
+        std::int32_t magic2_num;
+        in.read(reinterpret_cast<char*>(&magic_num), sizeof(std::int32_t));
+        in.read(reinterpret_cast<char*>(&magic2_num), sizeof(std::int32_t));
 
-        if (in.gcount() < sizeof(std::int64_t))
+        if (in.tellg() < sizeof(std::int64_t))
         {
             throw std::runtime_error("Unsupported input file: \"" + input_path + "\"");
         }
@@ -118,7 +122,7 @@ int main(int argc, char* argv[])
         std::function<nemesis::hkPackfile()> get_packfile;
         std::function<void(const nemesis::hkPackfile&)> to_output;
 
-        if (magic_num == magic)
+        if (magic_num == magic && magic2_num == magic2)
         {
             get_packfile = [input_path]()
             {

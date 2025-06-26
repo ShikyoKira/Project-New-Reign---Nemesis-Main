@@ -3,11 +3,14 @@
 #include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::BreakObject::BreakException::BreakException(const std::string& expression,
                                                      size_t linenum,
                                                      const std::filesystem::path& filepath)
-    : std::exception(std::string("Uncaptured ForEach Break (Expression: " + expression + ", Line: "
-                                 + std::to_string(linenum) + ", File: " + filepath.string() + ")")
+    : std::exception(std::string("Uncaptured ForEach Break (Expression: " + expression
+                                 + ", Line: " + std::to_string(linenum)
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")")
                          .c_str())
     , Expression(expression)
 {
@@ -35,10 +38,10 @@ nemesis::BreakObject::BreakObject(const std::string& expression,
 
     throw std::runtime_error(
         "Syntax Error: Break must be within stated scope of FOREACH and CLOSE (Expression: " + expression
-        + ", Line: " + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+        + ", Line: " + std::to_string(linenum) + ", File: " + nemesis::to_utf8_string(filepath) + ")");
 }
 
-void nemesis::BreakObject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const 
+void nemesis::BreakObject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
 {
     throw BreakException(Expression, LineNum, FilePath);
 }

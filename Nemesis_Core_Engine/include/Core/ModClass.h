@@ -45,7 +45,7 @@ namespace nemesis
     public:
         ModClass(const std::filesystem::path& ini_file, nemesis::ThreadPool& threadpool);
 
-        std::string GetCode() const noexcept;
+        const std::string& GetCode() const noexcept;
         const nemesis::ModInfo& GetModInfo() const;
         Vec<const nemesis::ModPatch<nemesis::HkxNode>*> GetNodeList() const;
         Vec<const nemesis::ModPatch<nemesis::AnimationSetDataState>*> GetStateList() const;

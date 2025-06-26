@@ -702,6 +702,7 @@ set(Havok_HeaderFiles
 source_group("Header Files\\Havok" FILES ${Havok_HeaderFiles})
 
 set(Utilities_HeaderFiles
+    "include/Utilities/Algorithm.h"
     "include/Utilities/Binary.h"
     "include/Utilities/OnScopeEnds.h"
     "include/Utilities/Types.h"

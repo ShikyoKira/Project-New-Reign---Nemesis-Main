@@ -14,7 +14,7 @@ NemesisInfo* NemesisInfo::instance = new NemesisInfo();
 
 const std::filesystem::path& NemesisInfo::CanonizePath(const std::filesystem::path& path)
 {
-    static Map<std::wstring, std::filesystem::path> PathCache;
+    static Map<std::filesystem::path, std::filesystem::path> PathCache;
     static std::mutex PathCacheMutex;
 
     std::scoped_lock<std::mutex> lock(PathCacheMutex);
@@ -62,21 +62,22 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
     }
 
     NemesisInfo::WorkingDirectory(sf::current_path());
-    std::wstring platform = L"win32";
-    std::wstring hk_ver   = L"hk_2010.2.0-r1";
+
+    path_string platform = LITERAL_PATH("win32");
+    path_string hk_ver   = LITERAL_PATH("hk_2010.2.0-r1");
     sf::path data_path;
 
     for (size_t i = 1; i < argc; i++)
     {
         auto& arg = argv[i];
 
-        if (nemesis::iequals(arg, L"-s"))
+        if (nemesis::iequals(arg, LITERAL_PATH("-s")))
         {
             instance->is_async = false;
             continue;
         }
 
-        if (nemesis::iequals(arg, L"-p"))
+        if (nemesis::iequals(arg, LITERAL_PATH("-p")))
         {
             if (i + 1 == argc) continue;
 
@@ -85,7 +86,7 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
             continue;
         }
 
-        if (nemesis::iequals(arg, L"-v"))
+        if (nemesis::iequals(arg, LITERAL_PATH("-v")))
         {
             if (i + 1 == argc) continue;
 
@@ -94,7 +95,7 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
             continue;
         }
 
-        if (nemesis::iequals(arg, L"-d"))
+        if (nemesis::iequals(arg, LITERAL_PATH("-d")))
         {
             if (i + 1 == argc) continue;
 
@@ -102,7 +103,7 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
             continue;
         }
 
-        if (nemesis::iequals(arg, L"-o"))
+        if (nemesis::iequals(arg, LITERAL_PATH("-o")))
         {
             if (i + 1 == argc) continue;
 
@@ -110,29 +111,33 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
             continue;
         }
 
-        if (nemesis::iequals(arg, L"-pi"))
+        if (nemesis::iequals(arg, LITERAL_PATH("-pi")))
         {
             instance->progress_indicator_active = true;
             continue;
         }
 
-        if (nemesis::iequals(arg, L"-db"))
+        if (nemesis::iequals(arg, LITERAL_PATH("-db")))
         {
             instance->debug = true;
             continue;
         }
 
-        if (nemesis::iequals(arg, L"-h"))
+        if (nemesis::iequals(arg, LITERAL_PATH("-h")))
         {
-            std::wcout << help_msg << std::endl;
+            PrintHelp(argv[0]);
             return 0;
         }
 
-        if (!nemesis::iequals(arg, L"-m")) continue;
+        if (!nemesis::iequals(arg, LITERAL_PATH("-m"))) continue;
 
         while (++i < argc)
         {
+#if _WIN32
             mods.emplace_back(nemesis::transform_to(std::wstring(argv[i])));
+#else
+            mods.emplace_back(argv[i]);
+#endif
         }
     }
 
@@ -144,7 +149,7 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
 
         for (auto itr = dir.begin(); itr != dir.end(); ++itr)
         {
-            if (!nemesis::iequals(itr->filename().wstring(), L"data")) continue;
+            if (!nemesis::iequals(PATH_TO_STRING(itr->filename()), LITERAL_PATH("data"))) continue;
 
             data_itr = itr;
         }
@@ -167,45 +172,54 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
     Logger::SetPath(PatchOutputPath(NemesisInfo::ExeDirectory() / Logger::LoggerPath.filename()));
     Logger::ClearLog();
 
-    Logger::Log(L"Nemesis Version: " + version, true);
-    Logger::Log(L"Log Path: " + Logger::LoggerPath.wstring());
-    Logger::Log(L"Executable Path: " + NemesisInfo::ExePath().wstring());
-    Logger::Log(L"Working Directory Path: " + NemesisInfo::WorkingDirectory().wstring(), true);
-    Logger::Log(L"Data Directory: " + data_path.wstring(), true);
-    Logger::Log(L"Staging Path: " + StagePath().wstring(), true);
+    Logger::Log("Nemesis Version: " + version, true);
+    Logger::Log(LITERAL_PATH("Log Path: ") + PATH_TO_STRING(Logger::LoggerPath));
+    Logger::Log(LITERAL_PATH("Executable Path: ") + PATH_TO_STRING(NemesisInfo::ExePath()));
+    Logger::Log(LITERAL_PATH("Executable Directory: ") + PATH_TO_STRING(NemesisInfo::ExeDirectory()), true);
+    Logger::Log(LITERAL_PATH("Working Directory: ") + PATH_TO_STRING(NemesisInfo::WorkingDirectory()), true);
+    Logger::Log(LITERAL_PATH("Data Directory: ") + PATH_TO_STRING(data_path), true);
+    Logger::Log(LITERAL_PATH("Staging Path: ") + PATH_TO_STRING(StagePath()), true);
 
-    if (nemesis::iequals(platform, L"ps3"))
+    if (nemesis::iequals(platform, LITERAL_PATH("ps3")))
     {
         OutputPlatform(nemesis::PlatformType::PS3);
     }
-    else if (nemesis::iequals(platform, L"ps4"))
+    else if (nemesis::iequals(platform, LITERAL_PATH("ps4")))
     {
         OutputPlatform(nemesis::PlatformType::PS4);
     }
-    else if (nemesis::iequals(platform, L"360"))
+    else if (nemesis::iequals(platform, LITERAL_PATH("360")))
     {
         OutputPlatform(nemesis::PlatformType::XB360);
     }
-    else if (nemesis::iequals(platform, L"amd64"))
+    else if (nemesis::iequals(platform, LITERAL_PATH("amd64")))
     {
         OutputPlatform(nemesis::PlatformType::AMD64);
     }
-    else if (nemesis::iequals(platform, L"win32"))
+    else if (nemesis::iequals(platform, LITERAL_PATH("win32")))
     {
         OutputPlatform(nemesis::PlatformType::WIN32);
     }
     else
     {
+#ifdef _WIN32
         throw std::runtime_error("ERROR: Unsupported platform argument (" + nemesis::transform_to(platform)
                                  + ")");
+#else
+        throw std::runtime_error("ERROR: Unsupported platform argument (" + platform + ")");
+#endif
     }
 
-    Logger::Log(std::wstring(L"Havok Version: ") + hk_ver, true);
-    Logger::Log(std::wstring(L"Platform: ") + platform, true);
+    Logger::Log(LITERAL_PATH("Havok Version: ") + hk_ver, true);
+    Logger::Log(LITERAL_PATH("Platform: ") + platform, true);
 
     try
     {
+#ifdef _WIN32
         OutputVersion(nemesis::GetEnumVersion(nemesis::transform_to(hk_ver)));
+#else
+        OutputVersion(nemesis::GetEnumVersion(hk_ver));
+#endif
     }
     catch (const std::exception&)
     {
@@ -215,14 +229,9 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
     return 1;
 }
 
-std::wstring NemesisInfo::GetVersion()
+std::string NemesisInfo::GetVersion()
 {
     return version;
-}
-
-std::string NemesisInfo::GetVersionA()
-{
-    return nemesis::transform_to(version);
 }
 
 nemesis::PlatformType NemesisInfo::OutputPlatform()
@@ -298,8 +307,8 @@ sf::path NemesisInfo::PatchOutputPath(const sf::path& filepath)
 
     if (spath == dpath || spath.empty()) return filepath;
 
-    auto filepath_str = CanonizePath(filepath).wstring();
-    auto datapath_str = dpath.wstring();
+    auto filepath_str = PATH_TO_STRING(CanonizePath(filepath));
+    auto datapath_str = PATH_TO_STRING(dpath);
 
     if (!nemesis::istarts_with(filepath_str, datapath_str)) return filepath;
 

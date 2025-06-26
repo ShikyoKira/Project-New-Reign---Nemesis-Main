@@ -4,6 +4,8 @@
 
 #include "Core/LineModifier/LineModifier.h"
 
+#include "Utilities/Algorithm.h"
+
 std::string nemesis::AttributeIdStatement::GetTypeName() const
 {
     return "AttributeID";
@@ -24,6 +26,7 @@ std::string nemesis::AttributeIdStatement::GetValue(nemesis::CompileState& state
 
     if (state.TryGetAttributeID(component, out)) return out;
 
-    throw std::runtime_error("Attribute id not found (Name: " + component + ", File: "
-                             + FilePath.string() + ", Line: " + std::to_string(LineNum) + ") ");
+    throw std::runtime_error("Attribute id not found (Name: " + component
+                             + ", File: " + nemesis::to_utf8_string(FilePath)
+                             + ", Line: " + std::to_string(LineNum) + ") ");
 }

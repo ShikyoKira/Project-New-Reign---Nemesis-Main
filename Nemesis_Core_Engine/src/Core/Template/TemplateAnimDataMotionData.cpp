@@ -1,5 +1,7 @@
 #include "Core/Template/TemplateAnimDataMotionData.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::TemplateAnimDataMotionData::TemplateAnimDataMotionData(
     const nemesis::TemplateClass* template_class) noexcept
     : nemesis::TemplateObject(template_class)
@@ -18,13 +20,13 @@ nemesis::TemplateAnimDataMotionData::ParseFromFile(const nemesis::TemplateClass*
         throw std::runtime_error("Invalid template name (" + name + ")");
     }
 
-    std::string filename = filepath.stem().string();
+    std::string filename = nemesis::to_utf8_string(filepath.stem());
 
     if (filename != "$" + name + "$UC")
     {
         throw std::runtime_error("Invalid filename "
                                  "(Template: "
-                                 + name + ", File: " + filepath.string() + ")");
+                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     return NewCustomTemplateObject<nemesis::TemplateAnimDataMotionData>(template_class, 0, filepath);
@@ -43,13 +45,13 @@ nemesis::TemplateAnimDataMotionData::ParseFromFile(const nemesis::TemplateClass*
         throw std::runtime_error("Invalid template name (" + name + ")");
     }
 
-    std::string filename = filepath.stem().string();
+    std::string filename = nemesis::to_utf8_string(filepath.stem());
 
     if (filename != "$" + name + "$UC")
     {
         throw std::runtime_error("Invalid filename "
                                  "(Template: "
-                                 + name + ", File: " + filepath.string() + ")");
+                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     return NewCustomTemplateObject<nemesis::TemplateAnimDataMotionData>(

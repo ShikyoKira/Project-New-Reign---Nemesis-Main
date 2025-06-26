@@ -1,12 +1,12 @@
-#include "Core/NObjectParser.h"
-#include "Core/SemanticManager.h"
 #include "Core/SubTemplateObject.h"
 #include "Core/CompileState.h"
+#include "Core/NObjectParser.h"
+#include "Core/SemanticManager.h"
 
+#include "Utilities/Algorithm.h"
 #include "Utilities/File.h"
 
 #include "Logger.h"
-
 
 void nemesis::SubTemplateObject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
 {
@@ -39,7 +39,7 @@ const std::string& nemesis::SubTemplateObject::GetName() const noexcept
 UPtr<nemesis::SubTemplateObject>
 nemesis::SubTemplateObject::ParseFromFile(const std::filesystem::path& filepath)
 {
-    Logger::Log(L"Processing SubTemplate: " + filepath.wstring());
+    Logger::Log(LITERAL_PATH("Processing SubTemplate: ") + PATH_TO_STRING(filepath));
 
     VecNstr lines;
     GetFileLines(filepath, lines, false);
@@ -47,7 +47,7 @@ nemesis::SubTemplateObject::ParseFromFile(const std::filesystem::path& filepath)
     if (lines.empty()) return nullptr;
 
     UPtr<nemesis::SubTemplateObject> templt(new nemesis::SubTemplateObject());
-    templt->Name  = filepath.stem().string();
+    templt->Name  = nemesis::to_utf8_string(filepath.stem());
     templt->Data  = std::make_unique<nemesis::CollectionObject>();
     auto& col_ref = *templt->Data;
 
@@ -78,7 +78,7 @@ UPtr<nemesis::SubTemplateObject>
 nemesis::SubTemplateObject::ParseFromFile(const std::filesystem::path& filepath,
                                           nemesis::ThreadPool& threadpool)
 {
-    Logger::Log(L"Processing SubTemplate: " + filepath.wstring());
+    Logger::Log(LITERAL_PATH("Processing SubTemplate: ") + PATH_TO_STRING(filepath));
 
     VecNstr lines;
     GetFileLines(filepath, lines, false);
@@ -86,7 +86,7 @@ nemesis::SubTemplateObject::ParseFromFile(const std::filesystem::path& filepath,
     if (lines.empty()) return nullptr;
 
     UPtr<nemesis::SubTemplateObject> templt(new nemesis::SubTemplateObject());
-    templt->Name = filepath.stem().string();
+    templt->Name = nemesis::to_utf8_string(filepath.stem());
     templt->Data = std::make_unique<nemesis::CollectionObject>();
     auto col_ptr = templt->Data.get();
 

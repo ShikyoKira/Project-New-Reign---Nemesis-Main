@@ -13,18 +13,20 @@ namespace nemesis
 	struct ExAnimationPack
     {
     private:
-        Vec<nemesis::ExAnimationRequest> RequestList;
+        Vec<UPtr<nemesis::ExAnimationRequest>> RequestList;
+#if _WIN32
+        UMap<std::wstring, const nemesis::ExAnimationRequest*> RequestPathMap;
+#else
+        UMap<std::string, const nemesis::ExAnimationRequest*> RequestPathMap;
+#endif
         unsigned short Order;
         std::string Name;
 
-        mutable UMap<std::wstring, const nemesis::ExAnimationRequest*> ExAnimMap;
+        mutable UMap<std::filesystem::path, const nemesis::ExAnimationRequest*> ExAnimMap;
         mutable std::shared_mutex ExAnimMapMutex;
 
-        mutable UMap<std::wstring, std::shared_future<const nemesis::ExAnimationRequest*>> OngoingGetter;
+        mutable UMap<std::filesystem::path, std::shared_future<const nemesis::ExAnimationRequest*>> OngoingGetter;
         mutable std::shared_mutex OngoingGetterMutex;
-
-        mutable UMap<std::wstring, std::filesystem::path> PathCache;
-        mutable std::mutex PathCacheMutex;
 
     public:
         ExAnimationPack(const std::filesystem::path& pack_dir,
@@ -34,7 +36,7 @@ namespace nemesis
         unsigned short GetOrder() const noexcept;
         const std::string& GetName() const noexcept;
         std::string GetVariableName() const noexcept;
-        const Vec<nemesis::ExAnimationRequest>& GetRequestList() const noexcept;
+        const Vec<UPtr<nemesis::ExAnimationRequest>>& GetRequestList() const noexcept;
         const nemesis::ExAnimationRequest* GetExAnimRequest(const std::filesystem::path& canon_anim_path) const;
     };
 }

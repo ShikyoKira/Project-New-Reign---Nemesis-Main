@@ -1,16 +1,15 @@
 #include "Core/Hkx/HkxBehavior.h"
 #include "Core/Hkx/HkxNode.h"
 
-#include "Core/IfObject.h"
-#include "Core/CompileState.h"
-#include "Core/CompilationManager.h"
 #include "Core/AnimationRequestCollection.h"
+#include "Core/CompilationManager.h"
+#include "Core/CompileState.h"
+#include "Core/IfObject.h"
 
 #include "Logger.h"
 #include "NemesisInfo.h"
 
 #include "Utilities/StringExtension.h"
-
 
 UPtr<nemesis::CollectionObject> nemesis::HkxBehavior::ParseDataNodes(nemesis::LineStream& stream,
                                                                      nemesis::SemanticManager& manager,
@@ -54,7 +53,7 @@ UPtr<nemesis::CollectionObject> nemesis::HkxBehavior::ParseRegularNodes(nemesis:
 
 void nemesis::HkxBehavior::PopulateContentsFromFile(nemesis::HkxBehavior& behavior)
 {
-    Logger::Log(L"Processing HkxBehavior: " + behavior.FilePath.wstring());
+    Logger::Log(LITERAL_PATH("Processing HkxBehavior: ") + PATH_TO_STRING(behavior.FilePath));
 
     VecNstr lines;
     GetFileLines(behavior.FilePath, lines, false);
@@ -98,15 +97,14 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
     void** handler_add       = uhandler_add.get();
 
     auto var_info_add = std::make_shared<std::function<void(nemesis::Line&, const nemesis::NObject&)>>(
-        [handler_add, &state, this, obj_count_ptr](nemesis::Line& line,
-                                                                       const nemesis::NObject& obj)
+        [handler_add, &state, this, obj_count_ptr](nemesis::Line& line, const nemesis::NObject& obj)
         {
             if (line.find("<hkobject>") != NOT_FOUND)
             {
                 (*obj_count_ptr)++;
                 return;
             }
-            
+
             if (line.find("</hkobject>") != NOT_FOUND)
             {
                 (*obj_count_ptr)--;
@@ -173,7 +171,7 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
                     }
                 }
 
-                if (nemesis::iequals(TargetPath.filename().wstring(), L"build_info.hkx"))
+                if (nemesis::iequals(PATH_TO_STRING(TargetPath.filename()), LITERAL_PATH("build_info.hkx")))
                 {
                     for (size_t i = 0; i < alter_anim_repo.GetAlterAnimGroupList().size(); ++i)
                     {
@@ -223,7 +221,8 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
         });
 
     auto var_val_add = std::make_shared<std::function<void(nemesis::Line&, const nemesis::NObject&)>>(
-        [handler_add, &state, this, var_info_header_add, obj_count_ptr](nemesis::Line& line, const nemesis::NObject& obj)
+        [handler_add, &state, this, var_info_header_add, obj_count_ptr](nemesis::Line& line,
+                                                                        const nemesis::NObject& obj)
         {
             if (line.find("<hkobject>") != NOT_FOUND)
             {
@@ -280,7 +279,7 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
                     }
                 }
 
-                if (nemesis::iequals(TargetPath.filename().wstring(), L"build_info.hkx"))
+                if (nemesis::iequals(PATH_TO_STRING(TargetPath.filename()), LITERAL_PATH("build_info.hkx")))
                 {
                     for (size_t i = 0; i < alter_anim_repo.GetAlterAnimGroupList().size(); ++i)
                     {
@@ -352,15 +351,15 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
 
             state.AddPropertyName(str_value);
         });
-    
+
     auto variable_add = std::make_shared<std::function<void(nemesis::Line&, const nemesis::NObject&)>>(
         [handler_add, &state, property_add, this](nemesis::Line& line, const nemesis::NObject& obj)
         {
             if (line.find("</hkparam>") != NOT_FOUND)
             {
                 auto& alter_anim_repo = state.GetAlterAnimRepository();
-                auto& repo = state.GetExAnimationRepository();
-                auto proj  = repo.GetProjectByBehavior(TargetPath);
+                auto& repo            = state.GetExAnimationRepository();
+                auto proj             = repo.GetProjectByBehavior(TargetPath);
                 std::string new_lines;
 
                 if (proj)
@@ -369,7 +368,8 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
 
                     for (auto& pack : pack_list)
                     {
-                        nemesis::Line new_line("\t\t\t\t<hkcstring>" + pack->GetVariableName() + "</hkcstring>");
+                        nemesis::Line new_line("\t\t\t\t<hkcstring>" + pack->GetVariableName()
+                                               + "</hkcstring>");
                         state.RaiseAddLineEvent(new_line, obj);
                         new_lines.append(new_line + "\n");
                     }
@@ -379,13 +379,14 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
                 {
                     for (auto& group : alter_anim_repo.GetAlterAnimGroupList())
                     {
-                        nemesis::Line new_line("\t\t\t\t<hkcstring>" + group->GetVariableName() + "</hkcstring>");
+                        nemesis::Line new_line("\t\t\t\t<hkcstring>" + group->GetVariableName()
+                                               + "</hkcstring>");
                         state.RaiseAddLineEvent(new_line, obj);
                         new_lines.append(new_line + "\n");
                     }
                 }
 
-                if (nemesis::iequals(TargetPath.filename().wstring(), L"build_info.hkx"))
+                if (nemesis::iequals(PATH_TO_STRING(TargetPath.filename()), LITERAL_PATH("build_info.hkx")))
                 {
                     auto checksum = std::to_string(state.GetManager().GetFullCheckSum());
 
@@ -416,7 +417,8 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
                         for (auto& aa_set : aa_list.front()->GetAnimationSetList())
                         {
                             nemesis::Line new_line(
-                                "\t\t\t\t<hkcstring>Nemesis_AA_Group_" + std::to_string(group->GetId()) + "_Mod_"
+                                "\t\t\t\t<hkcstring>Nemesis_AA_Group_" + std::to_string(group->GetId())
+                                + "_Mod_"
                                 + std::to_string(
                                     alter_anim_repo.GetPrefixByName(aa_set->GetPrefix())->GetId())
                                 + "_" + checksum + "</hkcstring>");
@@ -424,7 +426,7 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
                             new_lines.append(new_line + "\n");
                         }
                     }
-                    
+
                     for (auto& group : aa_group_list)
                     {
                         nemesis::Line new_line("\t\t\t\t<hkcstring>Nemesis_AA_" + group->GetName() + "_"
@@ -452,7 +454,7 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
 
             state.AddVariableName(str_value);
         });
-    
+
     auto attribute_add = std::make_shared<std::function<void(nemesis::Line&)>>(
         [handler_add, &state, variable_add](nemesis::Line& line)
         {
@@ -520,12 +522,12 @@ void nemesis::HkxBehavior::CompileTo(DeqNstr& lines, nemesis::CompileState& stat
     {
         lines.emplace_back(std::move(line));
     }
-    
+
     for (auto& line : template_lines)
     {
         lines.emplace_back(std::move(line));
     }
-    
+
     for (auto& line : behavior_lines)
     {
         lines.emplace_back(std::move(line));
@@ -573,21 +575,28 @@ UPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::Clone() const
     throw std::runtime_error("nemesis::HkxBehavior cannot be cloned");
 }
 
+size_t nemesis::HkxBehavior::GetSize() const
+{
+    return DataNodes->Size() + NodeMap.size() + RegularNodes->Size();
+}
+
 UPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::ParseFromFile(const std::filesystem::path& filepath)
 {
-    Logger::Log(L"HkxBehavior: " + filepath.wstring());
+    Logger::Log(LITERAL_PATH("HkxBehavior: ") + PATH_TO_STRING(filepath));
 
     UPtr<nemesis::HkxBehavior> hkxfile_uptr(new nemesis::HkxBehavior());
-    hkxfile_uptr->FilePath            = filepath;
-    hkxfile_uptr->TargetPath          = filepath.parent_path()
-                              / ((nemesis::istarts_with(filepath.filename().wstring(), L"nemesis_")
-                                      ? filepath.stem().wstring().substr(8)
-                                      : filepath.stem().wstring())
-                                 + L".hkx");
-    hkxfile_uptr->RelativePath
-        = hkxfile_uptr->TargetPath.wstring().substr(NemesisInfo::DataPath().wstring().length() + 1);
+    auto filename            = PATH_TO_STRING(filepath.filename());
+    hkxfile_uptr->FilePath   = filepath;
+    hkxfile_uptr->TargetPath = filepath.parent_path()
+                               / ((nemesis::istarts_with(filename, LITERAL_PATH("nemesis_"))
+                                       ? PATH_TO_STRING(filepath.stem()).substr(8)
+                                       : PATH_TO_STRING(filepath.stem()))
+                                  + LITERAL_PATH(".hkx"));
+    hkxfile_uptr->RelativePath = PATH_TO_STRING(hkxfile_uptr->TargetPath)
+                                     .substr(PATH_TO_STRING(NemesisInfo::DataPath()).length() + 1);
 
-    auto cache_path = filepath.parent_path() / (filepath.filename().wstring() + L".cache");
+    auto cache_path = filepath;
+    cache_path.replace_extension(LITERAL_PATH(".cache"));
 
     if (std::filesystem::exists(cache_path))
     {
@@ -599,21 +608,23 @@ UPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::ParseFromFile(const std::filesy
 }
 
 UPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::ParseFromFile(const std::filesystem::path& filepath,
-                                                                nemesis::ThreadPool& thread_pool)
+                                                               nemesis::ThreadPool& thread_pool)
 {
-    Logger::Log(L"HkxBehavior: " + filepath.wstring());
+    Logger::Log(LITERAL_PATH("HkxBehavior: ") + PATH_TO_STRING(filepath));
 
     UPtr<nemesis::HkxBehavior> hkxfile_uptr(new nemesis::HkxBehavior());
-    hkxfile_uptr->FilePath            = filepath;
-    hkxfile_uptr->TargetPath          = filepath.parent_path()
-                              / ((nemesis::istarts_with(filepath.filename().wstring(), L"nemesis_")
-                                      ? filepath.stem().wstring().substr(8)
-                                      : filepath.stem().wstring())
-                                 + L".hkx");
-    hkxfile_uptr->RelativePath
-        = hkxfile_uptr->TargetPath.wstring().substr(NemesisInfo::DataPath().wstring().length() + 1);
+    auto filename            = PATH_TO_STRING(filepath.filename());
+    hkxfile_uptr->FilePath   = filepath;
+    hkxfile_uptr->TargetPath = filepath.parent_path()
+                               / ((nemesis::istarts_with(filename, LITERAL_PATH("nemesis_"))
+                                       ? PATH_TO_STRING(filepath.stem()).substr(8)
+                                       : PATH_TO_STRING(filepath.stem()))
+                                  + LITERAL_PATH(".hkx"));
+    hkxfile_uptr->RelativePath = PATH_TO_STRING(hkxfile_uptr->TargetPath)
+                                     .substr(PATH_TO_STRING(NemesisInfo::DataPath()).length() + 1);
 
-    auto cache_path = filepath.parent_path() / (filepath.filename().wstring() + L".cache");
+    auto cache_path = filepath;
+    cache_path.replace_extension(LITERAL_PATH(".cache"));
 
     if (std::filesystem::exists(cache_path))
     {

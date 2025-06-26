@@ -1,15 +1,15 @@
 #include "Core/AnimationData/AnimationDataMotionData.h"
 
-#include "Core/NLine.h"
-#include "Core/ModLine.h"
-#include "Core/ModClass.h"
-#include "Core/IfObject.h"
-#include "Core/ModObject.h"
-#include "Core/ForEachObject.h"
 #include "Core/CollectionObject.h"
+#include "Core/ForEachObject.h"
+#include "Core/IfObject.h"
+#include "Core/ModClass.h"
+#include "Core/ModLine.h"
+#include "Core/ModObject.h"
+#include "Core/NLine.h"
 
-#include "Utilities/File.h"
 #include "Utilities/Algorithm.h"
+#include "Utilities/File.h"
 #include "Utilities/FileWriter.h"
 #include "Utilities/ThreadPool.h"
 
@@ -34,7 +34,7 @@ void nemesis::AnimationDataMotionData::CompileTo(DeqNstr& lines, nemesis::Compil
         auto& value = templines.back();
         throw std::runtime_error("Invalid nemesis::AnimationDataMotionData::CompileTo format (Line: "
                                  + std::to_string(value.GetLineNumber())
-                                 + ". File: " + value.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
     }
 
     CompileStage stage = nemesis::AnimationDataMotionData::CodeStage;
@@ -49,8 +49,7 @@ void nemesis::AnimationDataMotionData::CompileTo(DeqNstr& lines, nemesis::Compil
             {
                 if (!is_only_number(line.ToString()))
                 {
-                    throw std::runtime_error(
-                        "Invalid nemesis::AnimationDataMotionData::Code value");
+                    throw std::runtime_error("Invalid nemesis::AnimationDataMotionData::Code value");
                 }
 
                 stage = nemesis::AnimationDataMotionData::LengthStage;
@@ -60,8 +59,7 @@ void nemesis::AnimationDataMotionData::CompileTo(DeqNstr& lines, nemesis::Compil
             {
                 if (!is_only_number(line.ToString()))
                 {
-                    throw std::runtime_error(
-                        "Invalid nemesis::AnimationDataMotionData::Length value");
+                    throw std::runtime_error("Invalid nemesis::AnimationDataMotionData::Length value");
                 }
 
                 stage = nemesis::AnimationDataMotionData::PositionLengthStage;
@@ -194,7 +192,8 @@ void nemesis::AnimationDataMotionData::SerializeToFile(const std::filesystem::pa
     if (!writer.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: " + filepath.string() + "\nMessage: " + ec.message());
+        throw std::runtime_error("Failed to open file: " + nemesis::to_utf8_string(filepath)
+                                 + "\nMessage: " + ec.message());
     }
 
     for (auto& line : lines)
@@ -223,16 +222,16 @@ UPtr<nemesis::AnimationDataMotionData>
 nemesis::AnimationDataMotionData::DeserializeFromFile(const std::filesystem::path& filepath,
                                                       nemesis::SemanticManager& manager)
 {
-    std::string code     = filepath.stem().string();
-    auto motion_data     = std::make_unique<nemesis::AnimationDataMotionData>(code);
+    std::string code = nemesis::to_utf8_string(filepath.stem());
+    auto motion_data = std::make_unique<nemesis::AnimationDataMotionData>(code);
 
     VecNstr lines;
     GetFileLines(filepath, lines, false);
 
     if (lines.empty())
     {
-        throw std::runtime_error(
-            "Failed to deserialize AnimationDataClipData from file (File: " + filepath.string() + ")");
+        throw std::runtime_error("Failed to deserialize AnimationDataClipData from file (File: "
+                                 + nemesis::to_utf8_string(filepath) + ")");
     }
 
     nemesis::LineStream stream(lines.begin(), lines.end());
@@ -245,7 +244,7 @@ UPtr<nemesis::AnimationDataMotionData>
 nemesis::AnimationDataMotionData::DeserializeFromFile(const std::filesystem::path& filepath,
                                                       nemesis::ThreadPool& threadpool)
 {
-    std::string code     = filepath.stem().string();
+    std::string code     = nemesis::to_utf8_string(filepath.stem());
     auto motion_data     = std::make_unique<nemesis::AnimationDataMotionData>(code);
     auto motion_data_ptr = motion_data.get();
 
@@ -259,7 +258,7 @@ nemesis::AnimationDataMotionData::DeserializeFromFile(const std::filesystem::pat
             if (lines.empty())
             {
                 throw std::runtime_error("Failed to deserialize AnimationDataClipData from file (File: "
-                                         + filepath.string() + ")");
+                                         + nemesis::to_utf8_string(filepath) + ")");
             }
 
             nemesis::LineStream stream(lines.begin(), lines.end());
@@ -274,7 +273,7 @@ nemesis::AnimationDataMotionData::DeserializeFromFile(const std::filesystem::pat
                                                       const nemesis::TemplateClass* template_class,
                                                       nemesis::ThreadPool& threadpool)
 {
-    std::string code     = filepath.stem().string();
+    std::string code     = nemesis::to_utf8_string(filepath.stem());
     auto motion_data     = std::make_unique<nemesis::AnimationDataMotionData>(code);
     auto motion_data_ptr = motion_data.get();
 
@@ -289,7 +288,7 @@ nemesis::AnimationDataMotionData::DeserializeFromFile(const std::filesystem::pat
             if (lines.empty())
             {
                 throw std::runtime_error("Failed to deserialize AnimationDataClipData from file (File: "
-                                         + filepath.string() + ")");
+                                         + nemesis::to_utf8_string(filepath) + ")");
             }
 
             nemesis::LineStream stream(lines.begin(), lines.end());
@@ -306,7 +305,7 @@ nemesis::AnimationDataMotionData::ParseObjects(nemesis::LineStream& stream, neme
 
     if (stream.IsEoF()) return motion_list;
 
-    std::function<void(UPtr<nemesis::NObject> &&)> add_object;
+    std::function<void(UPtr<nemesis::NObject>&&)> add_object;
 
     auto& size_token = stream.GetToken();
     auto& ssize      = size_token.Value;
@@ -315,20 +314,20 @@ nemesis::AnimationDataMotionData::ParseObjects(nemesis::LineStream& stream, neme
     {
         throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                  + std::to_string(ssize.GetLineNumber())
-                                 + ". File: " + ssize.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(ssize.GetFilePath()) + ")");
     }
 
     size_t size = std::stoul(ssize.ToString());
 
     if (size == 0) return motion_list;
-    
+
     auto* ftoken = stream.GetForwardToken(size);
 
     if (!ftoken || !ftoken->Value.empty())
     {
         throw std::runtime_error("Invalid nemesis::AnimationDataMotionData::ParseObjects size (Line: "
                                  + std::to_string(ssize.GetLineNumber())
-                                 + ". File: " + ssize.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(ssize.GetFilePath()) + ")");
     }
 
     UPtr<nemesis::AnimationDataMotionData> motion_data;
@@ -343,7 +342,7 @@ nemesis::AnimationDataMotionData::ParseObjects(nemesis::LineStream& stream, neme
             auto& value = token.Value;
             throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                      + std::to_string(value.GetLineNumber())
-                                     + ". File: " + value.GetFilePath().string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
         }
 
         auto& value = token.Value;

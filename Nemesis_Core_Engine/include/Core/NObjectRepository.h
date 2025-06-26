@@ -26,6 +26,9 @@ namespace nemesis
     private:
         Vec<UPtr<nemesis::HkxCharacter>> Characters;
         Vec<UPtr<nemesis::HkxBehavior>> Behaviors;
+        UMap<std::filesystem::path, nemesis::HkxCharacter*> CharactersPathMap;
+        UMap<std::filesystem::path, nemesis::HkxBehavior*> BehaviorsPathMap;
+
         UPtr<nemesis::AnimationDataSingleFile> AnimDataSingleFile;
         UPtr<nemesis::AnimationSetDataSingleFile> AnimSetDataSingleFile;
 
@@ -58,6 +61,6 @@ namespace nemesis
 
         void Patch(const nemesis::ModRepository& mod_repo);
 
-        void Compile(nemesis::CompilationManager& manager) const;
+        void Compile(nemesis::CompilationManager& manager, std::function<void(int, int)> prgs_callback) const;
     };
 }

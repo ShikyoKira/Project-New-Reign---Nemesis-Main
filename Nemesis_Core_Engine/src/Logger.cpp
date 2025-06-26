@@ -1,16 +1,16 @@
+#include <chrono>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+
 #include "Logger.h"
 #include "NemesisInfo.h"
 
+#include "Utilities/Algorithm.h"
 #include "Utilities/FileWriter.h"
 
-#include <chrono>
-#include <iomanip>
-#include <sstream>
-#include <iostream>
-
-
 std::mutex Logger::LoggerMutex;
-std::filesystem::path Logger::LoggerPath = std::filesystem::current_path() / L"log.txt";
+std::filesystem::path Logger::LoggerPath = std::filesystem::current_path() / "log.txt";
 
 void Logger::SetPath(const std::filesystem::path& path)
 {
@@ -46,7 +46,7 @@ void Logger::Log(const std::string& msg, bool console_out)
         return;
     }
 
-    throw std::runtime_error("Failed to open log file (File: " + LoggerPath.string() + ")");
+    throw std::runtime_error("Failed to open log file (File: " + nemesis::to_utf8_string(LoggerPath) + ")");
 }
 
 void Logger::Log(const std::wstring& msg, bool console_out)
@@ -77,7 +77,7 @@ void Logger::Log(const std::wstring& msg, bool console_out)
         return;
     }
 
-    throw std::runtime_error("Failed to open log file (File: " + LoggerPath.string() + ")");
+    throw std::runtime_error("Failed to open log file (File: " + nemesis::to_utf8_string(LoggerPath) + ")");
 }
 
 void Logger::ClearLog()

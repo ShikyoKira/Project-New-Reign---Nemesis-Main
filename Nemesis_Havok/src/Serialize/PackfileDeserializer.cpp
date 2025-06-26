@@ -9,6 +9,8 @@
 #include "Havok/hkPackfileSectionHeader.h"
 #include "Havok/hkRootLevelContainer.h"
 
+#include "Utilities/Algorithm.h"
+
 bool nemesis::PackfileDeserializer::IsUSizeLong() const noexcept
 {
     return PointerSize == 8;
@@ -194,7 +196,8 @@ void nemesis::PackfileDeserializer::LoadFile(const std::filesystem::path& filepa
     if (static_cast<std::ifstream*>(Stream.get())->is_open()) return;
 
     std::error_code ec(errno, std::system_category());
-    throw std::runtime_error("Failed to open file: \"" + filepath.string() + "\"\nMessage: " + ec.message());
+    throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                             + "\"\nMessage: " + ec.message());
 }
 
 void nemesis::PackfileDeserializer::LoadData(const Vec<unsigned char>& data)

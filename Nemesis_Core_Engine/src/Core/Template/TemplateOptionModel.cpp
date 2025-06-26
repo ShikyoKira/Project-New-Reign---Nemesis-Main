@@ -1,6 +1,7 @@
-#include "Core/Template/TemplateClass.h"
 #include "Core/Template/TemplateOptionModel.h"
+#include "Core/Template/TemplateClass.h"
 
+#include "Utilities/Algorithm.h"
 #include "Utilities/StringExtension.h"
 
 nemesis::TemplateOptionModel::TemplateOptionModel(const std::string name,
@@ -55,8 +56,9 @@ UPtr<nemesis::TemplateOption> nemesis::TemplateOptionModel::TryCreateOption(
     {
         if (Variables.empty()) return std::make_unique<nemesis::TemplateOption>(expression, Name, Aliases);
 
-        throw std::runtime_error("Missing variable for option (Option: " + Name + ", Variable: " + Variables.front() + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + filepath.string() + ")");
+        throw std::runtime_error("Missing variable for option (Option: " + Name
+                                 + ", Variable: " + Variables.front() + ", Line: " + std::to_string(linenum)
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     for (auto& name : OrderedNames)
@@ -75,7 +77,7 @@ UPtr<nemesis::TemplateOption> nemesis::TemplateOptionModel::TryCreateOption(
             {
                 throw std::runtime_error("Missing variable for option (Option: " + name
                                          + ", Variable: " + variable + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
 
             option->AddVariable(variable, option_expression);

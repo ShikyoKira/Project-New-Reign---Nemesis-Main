@@ -14,6 +14,8 @@ namespace nemesis
     {
     private:
         Vec<UPtr<nemesis::AnimationSetDataProject>> ProjectList;
+        UMap<std::string, nemesis::AnimationSetDataProject*> ProjectNameMap;
+
         Vec<SPtr<nemesis::TemplateObject>> ProjectTemplateList;
 
         std::filesystem::path FilePath;

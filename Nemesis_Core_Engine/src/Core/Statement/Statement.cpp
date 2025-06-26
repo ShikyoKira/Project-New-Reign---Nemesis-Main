@@ -17,7 +17,7 @@ nemesis::Statement::Statement(const std::string& expression,
     if (expression.empty())
     {
         throw std::runtime_error("Syntax Error: empty expression detected (Line: " + std::to_string(linenum)
-                                 + ", File: " + filepath.string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     Expression = expression;
@@ -35,7 +35,7 @@ nemesis::Statement::Statement(const nemesis::Line& expression, bool no_component
     {
         throw std::runtime_error("Syntax Error: empty expression detected (Line: "
                                  + std::to_string(expression.GetLineNumber())
-                                 + ", File: " + expression.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(expression.GetFilePath()) + ")");
     }
 
     Expression = expression;
@@ -65,8 +65,8 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code
-                                 + ") template (Template: " + templt_name + ", File: " + FilePath.string()
+        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code + ") template (Template: "
+                                 + templt_name + ", File: " + nemesis::to_utf8_string(FilePath)
                                  + ",  Line: " + std::to_string(LineNum) + ")");
     }
 
@@ -160,8 +160,8 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code
-                                 + ") template (Template: " + templt_name + ", File: " + FilePath.string()
+        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code + ") template (Template: "
+                                 + templt_name + ", File: " + nemesis::to_utf8_string(FilePath)
                                  + ",  Line: " + std::to_string(LineNum) + ")");
     }
 
@@ -171,8 +171,7 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
     if (index_str == "")
     {
         rst = std::make_shared<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
-            [&templt_code](nemesis::CompileState& state)
-            { return state.GetCurrentRequest(templt_code); });
+            [&templt_code](nemesis::CompileState& state) { return state.GetCurrentRequest(templt_code); });
     }
     else if (is_only_number(index_str))
     {
@@ -201,15 +200,15 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
             Unaccessible:
                 throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
                                          + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             });
     }
     else if (index_str.size() != 1)
     {
     Invalid:
         throw std::runtime_error("Syntax Error: Invalid request target (Expression: " + Expression
-                                 + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string()
-                                 + ")");
+                                 + ", Line: " + std::to_string(LineNum)
+                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
     else
     {
@@ -263,7 +262,7 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
 Unaccessible:
     throw std::runtime_error("Syntax Error: Unable to get target request from queue (Expression: "
                              + Expression + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + FilePath.string() + ")");
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 
 const nemesis::AnimationRequest* nemesis::Statement::GetBaseRequest(nemesis::CompileState& state) const
@@ -275,7 +274,7 @@ const nemesis::AnimationRequest* nemesis::Statement::GetBaseRequest(nemesis::Com
         throw std::runtime_error("Invalid Access: Base request cannot be found. Use specific "
                                  "request reference instead (<template_code>[]) (Expression: "
                                  + Expression + ", Line: " + std::to_string(LineNum)
-                                 + ", File: " + FilePath.string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
 
     return request;
@@ -307,13 +306,13 @@ size_t nemesis::Statement::GetTemplateNumber(const nemesis::TemplateClass& templ
             std::regex("^" + template_name + "_([1-9]+)\\[.*?\\](?:\\[.+?\\]|)(?:\\[.+?\\]|)?$")))
     {
         throw std::runtime_error("Syntax Error: Invalid request target (Expression: " + Expression
-                                 + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string()
-                                 + ")");
+                                 + ", Line: " + std::to_string(LineNum)
+                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
 
     size_t num = stoi(match.str(1));
     std::smatch fmatch;
-    std::string filename = FilePath.stem().string();
+    std::string filename = nemesis::to_utf8_string(FilePath.stem());
 
     if (std::regex_match(filename, fmatch, std::regex("^" + template_name + "_([1-9]+)$")))
     {

@@ -5,15 +5,15 @@
 #include "Logger.h"
 #include "NemesisInfo.h"
 
-
 nemesis::FNISaaPexFile::FNISaaPexFile(const std::filesystem::path& pex_filepath)
     : FilePath(pex_filepath)
 {
-    Logger::Log(L"Reading FNISaaPexFile: " + pex_filepath.wstring());
+    Logger::Log(LITERAL_PATH("Reading FNISaaPexFile: ") + PATH_TO_STRING(pex_filepath));
 
     std::ifstream pex_file(pex_filepath, std::ios::binary | std::ios::ate);
+    std::string pex_filepath_s = nemesis::to_utf8_string(pex_filepath);
 
-    if (!pex_file) throw std::runtime_error("Pex file cannot be found (File: " + pex_filepath.string() + ")");
+    if (!pex_file) throw std::runtime_error("Pex file cannot be found (File: " + pex_filepath_s + ")");
 
     std::streamsize size = pex_file.tellg();
     pex_file.seekg(0, std::ios::beg);
@@ -22,7 +22,7 @@ nemesis::FNISaaPexFile::FNISaaPexFile(const std::filesystem::path& pex_filepath)
 
     if (!pex_file.read(Buffer.data(), size))
     {
-        throw std::runtime_error("Pex file cannot be read (File: " + pex_filepath.string() + ")");
+        throw std::runtime_error("Pex file cannot be read (File: " + pex_filepath_s + ")");
     }
 
     pex_file.close();
@@ -32,15 +32,15 @@ nemesis::FNISaaPexFile::FNISaaPexFile(const std::filesystem::path& pex_filepath)
 
     if (TargetIterator != Buffer.end()) return;
 
-    throw std::runtime_error(
-        "\"crc_value\" not found in the provided Pex file (File: " + pex_filepath.string() + ")");
+    throw std::runtime_error("\"crc_value\" not found in the provided Pex file (File: " + pex_filepath_s
+                             + ")");
 }
 
 void nemesis::FNISaaPexFile::Patch(const nemesis::CompilationManager& manager)
 {
     if (Patched) throw std::runtime_error("FNISaaPexFile has already been patched");
 
-    Logger::Log(L"Patching FNISaaPexFile...");
+    Logger::Log("Patching FNISaaPexFile...");
     Patched = true;
 
     size_t checksum = manager.GetFullCheckSum();
@@ -58,9 +58,9 @@ void nemesis::FNISaaPexFile::OutputPexFile(const std::filesystem::path& output_p
 
     if (file_out.write(Buffer.data(), Buffer.size()))
     {
-        Logger::Log(L"Exported FNISaaPexFile: " + path.wstring());
+        Logger::Log(LITERAL_PATH("Exported FNISaaPexFile: ") + PATH_TO_STRING(path));
         return;
     }
 
-    throw std::runtime_error("Failed to write FNISaaPexFile (File: " + path.string() + ")");
+    throw std::runtime_error("Failed to write FNISaaPexFile (File: " + nemesis::to_utf8_string(path) + ")");
 }

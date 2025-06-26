@@ -50,13 +50,14 @@ namespace nemesis
                                        nemesis::PlatformType platform,
                                        nemesis::HavokVersion version,
                                        bool include_xml,
-                                       const UMap<size_t, Pair<size_t, std::filesystem::path>>& modded_lines,
+                                       const UMap<size_t, const nemesis::Line*>& modded_lines,
                                        std::function<void()> callback) const;
 
     public:
         std::filesystem::path CompileFile(nemesis::CompileState& state,
                                           nemesis::PlatformType platform,
-                                          nemesis::HavokVersion version) const;
+                                          nemesis::HavokVersion version,
+                                          bool include_xml) const;
         void CompileFileAsXml(const std::filesystem::path& filepath, nemesis::CompileState& state) const;
         void CompileFileAsHkx(const std::filesystem::path& filepath,
                               nemesis::CompileState& state,
@@ -93,6 +94,8 @@ namespace nemesis
         const std::filesystem::path& GetRelativePath() const noexcept;
 
         bool IsSameAsCached(nemesis::CompileState& state) const;
+
+        virtual size_t GetSize() const;
 
     protected:
         static bool TryGetValueInHkcString(const std::string& line, std::string& value);

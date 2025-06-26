@@ -28,6 +28,8 @@ namespace nemesis
         UPtr<nemesis::NObject> CloneNObject() const override;
         UPtr<nemesis::HkxBehavior> Clone() const;
 
+        size_t GetSize() const override;
+
         static UPtr<nemesis::HkxBehavior> ParseFromFile(const std::filesystem::path& filepath);
         static UPtr<nemesis::HkxBehavior> ParseFromFile(const std::filesystem::path& filepath,
                                                         nemesis::ThreadPool& thread_pool);

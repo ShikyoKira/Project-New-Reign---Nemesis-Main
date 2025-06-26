@@ -22,8 +22,8 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code
-                                 + ") template (Template: " + templt_name + ", File: " + FilePath.string()
+        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code + ") template (Template: "
+                                 + templt_name + ", File: " + nemesis::to_utf8_string(FilePath)
                                  + ",  Line: " + std::to_string(LineNum) + ")");
     }
 
@@ -56,16 +56,16 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
 
     Unaccessible:
         throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: " + Expression
-                                 + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string()
-                                 + ")");
+                                 + ", Line: " + std::to_string(LineNum)
+                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
-    
+
     if (index_str.size() > 1)
     {
     Invalid:
         throw std::runtime_error("Syntax Error: Invalid request target (Expression: " + Expression
-                                 + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string()
-                                 + ")");
+                                 + ", Line: " + std::to_string(LineNum)
+                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
 
     if (index_str == "")
@@ -76,7 +76,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
         SyntaxError:
             throw std::runtime_error("Syntax Error: Unable to get target request from queue (Expression: "
                                      + Expression + ", Line: " + std::to_string(LineNum)
-                                     + ", File: " + FilePath.string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         }
 
         return state.GetCurrentRequest(templt_code);
@@ -150,7 +150,7 @@ nemesis::CompositeStatement::DynamicComponent::DynamicComponent(const std::strin
                 {
                     throw std::runtime_error("Syntax Error: Unopened '}' (Component: " + component
                                              + ", Line: " + std::to_string(linenum)
-                                             + ", File: " + filepath.string() + ")");
+                                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
                 }
 
                 if (layer > 0) break;
@@ -199,7 +199,7 @@ bool nemesis::CompositeStatement::DynamicComponent::IsDynamic() const
 
 bool nemesis::CompositeStatement::IsComplexComponent(const std::string& component)
 {
-    size_t open = 0;
+    size_t open  = 0;
     size_t close = 0;
 
     for (const char& ch : component)
@@ -237,8 +237,8 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code
-                                 + ") template (Template: " + templt_name + ", File: " + FilePath.string()
+        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code + ") template (Template: "
+                                 + templt_name + ", File: " + nemesis::to_utf8_string(FilePath)
                                  + ",  Line: " + std::to_string(LineNum) + ")");
     }
 
@@ -246,7 +246,8 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
     const auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
     SPtr<nemesis::SemanticManager> sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
     return std::make_shared<std::function<bool(nemesis::CompileState&)>>(
-        [this, &dynamic_index, sptr_manager, &templt_code, &templt_name, templt_num, callback](nemesis::CompileState& state)
+        [this, &dynamic_index, sptr_manager, &templt_code, &templt_name, templt_num, callback](
+            nemesis::CompileState& state)
         {
             const std::string index_str = dynamic_index.GetValue(state);
 
@@ -332,9 +333,9 @@ nemesis::CompositeStatement::GetTargetRequest(const nemesis::TemplateClass& temp
 
     if (!std::regex_match(Components.front(), std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error("Syntax Error: Unable to access (" + Components.front()
-                                 + ") template (Template: " + templt_name + ", File: " + FilePath.string()
-                                 + ",  Line: " + std::to_string(LineNum) + ")");
+        throw std::runtime_error(
+            "Syntax Error: Unable to access (" + Components.front() + ") template (Template: " + templt_name
+            + ", File: " + nemesis::to_utf8_string(FilePath) + ",  Line: " + std::to_string(LineNum) + ")");
     }
 
     const auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);

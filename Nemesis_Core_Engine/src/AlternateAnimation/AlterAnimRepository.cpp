@@ -1,19 +1,16 @@
-#include "AlternateAnimation/AlterAnimRepository.h"
-
 #include <fstream>
 #include <iostream>
 
-#include "Utilities/Algorithm.h"
+#include "AlternateAnimation/AlterAnimRepository.h"
 
 #include "Logger.h"
 #include "NemesisInfo.h"
-
 
 using Json = nlohmann::json;
 
 const std::filesystem::path& nemesis::AlterAnimRepository::CanonizePath(const std::filesystem::path& path)
 {
-    static UMap<std::wstring, std::filesystem::path> PathCache;
+    static UMap<std::filesystem::path, std::filesystem::path> PathCache;
     static std::mutex PathCacheMutex;
 
     std::scoped_lock<std::mutex> lock(PathCacheMutex);
@@ -32,7 +29,7 @@ nemesis::AlterAnimRepository::AlterAnimRepository(const std::filesystem::path& a
     std::fstream json_file(alter_anim_json);
     json_file >> aa_settings;
 
-    ProjectDirectory = aa_settings["ProjectDirectory"].get<std::string>();
+    ProjectDirectory   = aa_settings["ProjectDirectory"].get<std::string>();
     AnimationDirectory = aa_settings["AnimationDirectory"].get<std::string>();
 
     auto characters = aa_settings["Characters"].get<VecStr>();
@@ -60,7 +57,7 @@ nemesis::AlterAnimRepository::AlterAnimRepository(const std::filesystem::path& a
 
         for (auto& anim : alter_anim_group->GetAnimations())
         {
-            GroupAnimationMap[nemesis::to_lower_copy(CanonizePath(anim).string())] = alter_anim_group.get();
+            GroupAnimationMap[nemesis::to_lower_copy(anim)] = alter_anim_group.get();
         }
     }
 }
@@ -185,7 +182,8 @@ nemesis::AlterAnimRepository::GetAlterAnimGroupByName(const std::string& group_n
 const nemesis::AlterAnimGroup*
 nemesis::AlterAnimRepository::GetAlterAnimGroupByAnimation(const std::string& anim_path) const
 {
-    auto itr = GroupAnimationMap.find(nemesis::to_lower_copy(CanonizePath(anim_path).string()));
+    auto itr
+        = GroupAnimationMap.find(nemesis::to_lower_copy(nemesis::to_utf8_string(CanonizePath(anim_path))));
 
     if (itr == GroupAnimationMap.end()) return nullptr;
 

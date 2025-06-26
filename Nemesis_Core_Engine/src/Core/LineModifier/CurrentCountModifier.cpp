@@ -4,6 +4,8 @@
 
 #include "Core/Statement/Statement.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::CurrentCountModifier::CurrentCountModifier(size_t begin,
                                                     size_t end,
                                                     const std::string& expression,
@@ -16,14 +18,15 @@ nemesis::CurrentCountModifier::CurrentCountModifier(size_t begin,
 
     if (components.size() != 2)
     {
-        throw std::runtime_error(
-            "Syntax Error: CurrentCount only accepts 1 argument (Expression: " + expression + ", Line: " + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+        throw std::runtime_error("Syntax Error: CurrentCount only accepts 1 argument (Expression: "
+                                 + expression + ", Line: " + std::to_string(linenum)
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
-     Name = components.back();
+    Name = components.back();
 }
 
-void nemesis::CurrentCountModifier::Apply(VecStr& blocks, nemesis::CompileState& state) const 
+void nemesis::CurrentCountModifier::Apply(VecStr& blocks, nemesis::CompileState& state) const
 {
     ClearCoveredBlocks(blocks);
     blocks[Begin] = std::to_string(*state.GetCounter(Name));

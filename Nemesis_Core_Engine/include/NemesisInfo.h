@@ -8,6 +8,15 @@
 #include "Enums/HavokVersion.h"
 #include "Enums/PlatformType.h"
 
+#if _WIN32
+using path_char = wchar_t;
+using path_string = std::wstring;
+#else
+using path_char = char;
+using path_string = std::string;
+#endif
+
+
 struct NemesisInfo
 {
 private:
@@ -29,10 +38,11 @@ private:
 
     static const std::filesystem::path& CanonizePath(const std::filesystem::path& path);
 
+    static void PrintHelp(const std::filesystem::path& exe_path);
+
 public:
-    static int Setup(int argc, wchar_t* argv[], VecStr& mods);
-    static std::wstring GetVersion();
-    static std::string GetVersionA();
+    static int Setup(int argc, path_char* argv[], VecStr& mods);
+    static std::string GetVersion();
     static nemesis::PlatformType OutputPlatform();
     static nemesis::PlatformType OutputPlatform(nemesis::PlatformType out_platform);
     static nemesis::HavokVersion OutputVersion();

@@ -6,6 +6,8 @@
 
 #include "Core/Template.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::TemplateObject::TemplateObject(const nemesis::TemplateClass* template_class) noexcept
     : TemplateClass(template_class)
 {
@@ -90,12 +92,8 @@ const std::filesystem::path& nemesis::TemplateObject::GetFilePath() const noexce
 
 std::filesystem::path nemesis::TemplateObject::GetTargetPath() const noexcept
 {
-    auto info_path    = TemplateClass->GetInfoPath();
-    size_t dir_length = info_path.parent_path().string().length();
-
-    std::string path = FilePath.parent_path().string();
-    path             = path.substr(dir_length);
-    return path;
+    return PATH_TO_STRING(FilePath.parent_path())
+        .substr(PATH_TO_STRING(TemplateClass->GetInfoPath().parent_path()).length());
 }
 
 const nemesis::TemplateClass* nemesis::TemplateObject::GetTemplateClass() const noexcept
@@ -125,7 +123,7 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
         throw std::runtime_error("Invalid template name (" + name + ")");
     }
 
-    std::string filename = filepath.stem().string();
+    std::string filename = nemesis::to_utf8_string(filepath.stem());
     std::regex name_rgx("(" + name + ")_([0-9]+)");
     std::smatch match;
 
@@ -133,7 +131,7 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
     {
         throw std::runtime_error("Invalid filename "
                                  "(Template: "
-                                 + name + ", File: " + filepath.string() + ")");
+                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     auto templt_ptr = new nemesis::TemplateObject(templt_class);
@@ -175,7 +173,7 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
         throw std::runtime_error("Invalid template name (" + name + ")");
     }
 
-    std::string filename = filepath.stem().string();
+    std::string filename = nemesis::to_utf8_string(filepath.stem());
     std::regex name_rgx("(" + name + ")_([0-9]+)");
     std::smatch match;
 
@@ -183,7 +181,7 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
     {
         throw std::runtime_error("Invalid filename "
                                  "(Template: "
-                                 + name + ", File: " + filepath.string() + ")");
+                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     auto templt_ptr = new nemesis::TemplateObject(templt_class);

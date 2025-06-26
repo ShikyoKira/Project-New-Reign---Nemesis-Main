@@ -1,10 +1,12 @@
+#include <iomanip>
 #include <random>
 #include <sstream>
-#include <iomanip>
 
 #include "Core/LineModifier/CounterModifier.h"
 
 #include "Core/CompileState.h"
+
+#include "Utilities/Algorithm.h"
 
 std::string nemesis::CounterModifier::GenerateGuid()
 {
@@ -41,7 +43,7 @@ nemesis::CounterModifier::CounterModifier(size_t begin,
 {
 }
 
-void nemesis::CounterModifier::Apply(VecStr& blocks, nemesis::CompileState& state) const 
+void nemesis::CounterModifier::Apply(VecStr& blocks, nemesis::CompileState& state) const
 {
     auto element_counter   = std::make_shared<int>(0);
     auto handler_add       = std::make_shared<void*>(nullptr);
@@ -94,6 +96,6 @@ void nemesis::CounterModifier::Apply(VecStr& blocks, nemesis::CompileState& stat
         {
             throw std::runtime_error("Syntax Error: Unclose counter (Counter name: " + CounterName
                                      + ", Line: " + std::to_string(LineNum)
-                                     + ", File: " + FilePath.string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         });
 }

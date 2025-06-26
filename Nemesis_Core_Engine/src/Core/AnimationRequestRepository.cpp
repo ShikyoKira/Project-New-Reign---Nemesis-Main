@@ -1,8 +1,8 @@
 #include "Core/AnimationRequestRepository.h"
 #include "Core/Template.h"
 
-#include <regex>
 #include <iostream>
+#include <regex>
 
 #include "Utilities/Algorithm.h"
 
@@ -10,12 +10,11 @@
 
 #include "Logger.h"
 
-
 void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesystem::path& filepath,
                                                               nemesis::TemplateRepository& templt_repo,
                                                               nemesis::AlterAnimRepository& alter_anim_repo)
 {
-    Logger::Log(L"Animation Request File: " + filepath.stem().wstring());
+    Logger::Log(LITERAL_PATH("Animation Request File: ") + PATH_TO_STRING(filepath.stem()));
 
     VecNstr lines;
     GetFileLines(filepath, lines, false);
@@ -62,7 +61,7 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
             {
                 throw std::runtime_error("Invalid Command: Incorrect AAset syntax (Line: "
                                          + std::to_string(line.GetLineNumber())
-                                         + ", File: " + filepath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
 
             auto group = alter_anim_repo.GetAlterAnimGroupByName(match[1]);
@@ -71,7 +70,7 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
             {
                 throw std::runtime_error("Invalid Command: AAset group (" + match[1].str()
                                          + ") cannot be found (Line: " + std::to_string(line.GetLineNumber())
-                                         + ", File: " + filepath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
 
             group->AddPrefix(dir_path, aa_prefix, std::stol(match[2]));
@@ -100,7 +99,7 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
         {
             throw std::runtime_error("Invalid Command: Parent level (" + std::to_string(length)
                                      + ") cannot be found (Line: " + std::to_string(line.GetLineNumber())
-                                     + ", File: " + filepath.string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
         }
 
         while (length + 1 < request_layers.size())
@@ -108,9 +107,8 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
             request_layers.pop_back();
         }
 
-        auto parent = request_layers[length - 1];
-        auto child_request
-            = parent->GetTemplateClass().CreateRequest(line, line.GetLineNumber(), filepath);
+        auto parent        = request_layers[length - 1];
+        auto child_request = parent->GetTemplateClass().CreateRequest(line, line.GetLineNumber(), filepath);
         request_layers.back() = child_request.get();
         parent->AddRequest(std::move(child_request));
     }
@@ -131,13 +129,17 @@ void nemesis::AnimationRequestRepository::AddRequestsFromDirectory(
             continue;
         }
 
-        if (path.extension().wstring() != L".txt") continue;
+        if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".txt"))) continue;
 
-        std::wstring file = path.stem().wstring();
+        auto file = PATH_TO_STRING(path.stem());
 
-        if (!nemesis::istarts_with(file, L"fnis_") && !nemesis::istarts_with(file, L"nemesis_")) continue;
+        if (!nemesis::istarts_with(file, LITERAL_PATH("fnis_"))
+            && !nemesis::istarts_with(file, LITERAL_PATH("nemesis_")))
+        {
+            continue;
+        }
 
-        if (!nemesis::iends_with(file, L"_list")) continue;
+        if (!nemesis::iends_with(file, LITERAL_PATH("_list"))) continue;
 
         AddRequestsFromFile(path, templt_repo, alter_anim_repo);
     }
@@ -153,7 +155,7 @@ nemesis::AnimationRequestRepository::AnimationRequestRepository(const std::files
 
 void nemesis::AnimationRequestRepository::AddRequest(UPtr<nemesis::AnimationRequest>&& request)
 {
-    auto& collection = Requests[std::string(request->GetTemplateName())];
+    auto& collection = Requests[request->GetTemplateName()];
     request->SetIndex(collection.size());
     collection.emplace_back(std::move(request));
 }

@@ -7,7 +7,6 @@
 
 #include "Logger.h"
 
-
 nemesis::TemplateRepository::TemplateRepository(const std::filesystem::path& templt_dir,
                                                 nemesis::NObjectRepository& repo)
 {
@@ -23,7 +22,7 @@ nemesis::TemplateRepository::TemplateRepository(const std::filesystem::path& tem
 
         if (!entry.is_directory())
         {
-            if (!nemesis::iequals(path.extension().wstring(), L".nemx")) continue;
+            if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".nemx"))) continue;
 
             auto st_obj = nemesis::SubTemplateObject::ParseFromFile(path, thread_pool);
 
@@ -75,7 +74,7 @@ Vec<const nemesis::TemplateClass*> nemesis::TemplateRepository::GetTemplateClass
     {
         TemplateClassList_Cache->emplace_back(templt_class.get());
     }
-    
+
     return *TemplateClassList_Cache;
 }
 

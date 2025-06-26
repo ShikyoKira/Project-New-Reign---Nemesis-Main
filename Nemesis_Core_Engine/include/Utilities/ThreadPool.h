@@ -23,11 +23,33 @@ namespace nemesis
         {
         };
 
+    private:
+        struct ThreadPoolTask
+        {
+            long priority;
+            std::function<void()> task;
+
+            inline ThreadPoolTask() = default;
+            inline ThreadPoolTask(long p, std::function<void()> t)
+            {
+                priority = p;
+                task     = t;
+            }
+
+            inline bool operator<(const ThreadPoolTask& other) const
+            {
+                return priority < other.priority;
+            }
+        };
+
     public:
         ThreadPool(size_t threads = std::thread::hardware_concurrency());
 
         template <class F, class... Args>
         decltype(auto) enqueue(F&& f, Args&&... args);
+
+        template <class F, class... Args>
+        decltype(auto) priority_enqueue(long priority, F&& f, Args&&... args);
 
         void join_all();
         void stop();
@@ -37,7 +59,7 @@ namespace nemesis
         ~ThreadPool();
     private:
         std::vector<std::thread> workers;
-        std::queue<std::function<void()>> tasks;
+        std::priority_queue<ThreadPoolTask> tasks;
         void NewWorker();
 
         std::condition_variable condition;
@@ -50,6 +72,13 @@ namespace nemesis
     // add new work item to the pool
     template <class F, class... Args>
     decltype(auto) ThreadPool::enqueue(F&& f, Args&&... args)
+    {
+        return priority_enqueue(1, std::forward<F>(f), std::forward<Args>(args)...);
+    }
+
+    // add new work item to the pool
+    template <class F, class... Args>
+    decltype(auto) ThreadPool::priority_enqueue(long priority, F&& f, Args&&... args)
     {
         using return_type = std::invoke_result_t<F, Args...>;
 
@@ -66,26 +95,26 @@ namespace nemesis
             if (abort) throw std::runtime_error("Failed to enqueue on stopped ThreadPool");
 
             std::unique_lock<std::mutex> lock(queue_mutex);
-            tasks.emplace(
-                [task, shared_future, this]
-                {
-                    (*task)();
+            tasks.emplace(priority,
+                          [task, shared_future, this]
+                          {
+                              (*task)();
 
-                    try
-                    {
-                        shared_future.get();
-                    }
-                    catch (const std::exception& ex)
-                    {
-                        Logger::Log(std::string("ERROR: ") + ex.what(), true);
-                        error = true;
-                    }
-                    catch (...)
-                    {
-                        Logger::Log("ERROR: Unknown exception captured", true);
-                        error = true;
-                    }
-                });
+                              try
+                              {
+                                  shared_future.get();
+                              }
+                              catch (const std::exception& ex)
+                              {
+                                  Logger::Log(std::string("ERROR: ") + ex.what(), true);
+                                  error = true;
+                              }
+                              catch (...)
+                              {
+                                  Logger::Log("ERROR: Unknown exception captured", true);
+                                  error = true;
+                              }
+                          });
         }
 
         condition.notify_one();

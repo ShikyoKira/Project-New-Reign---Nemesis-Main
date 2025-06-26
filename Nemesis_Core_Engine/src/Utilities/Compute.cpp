@@ -1,9 +1,9 @@
 #include <utility>
 
+#include "Utilities/Algorithm.h"
 #include "Utilities/Compute.h"
 
 #include "exprtk.hpp"
-
 
 using namespace std;
 
@@ -25,8 +25,8 @@ namespace nemesis
         if (!parser.compile(expression_string, expression))
         {
             throw std::runtime_error("Invalid equation (Equation: " + equation + ", Format: " + format
-                                     + +", Line: " + std::to_string(linenum) + +", File: " + filepath.string()
-                                     + ")");
+                                     + +", Line: " + std::to_string(linenum)
+                                     + +", File: " + nemesis::to_utf8_string(filepath) + ")");
         }
 
         equation = to_string(noDecimal ? static_cast<int>(expression.value()) : expression.value());

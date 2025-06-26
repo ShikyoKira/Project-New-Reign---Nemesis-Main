@@ -1,8 +1,9 @@
+#include <fstream>
+
 #include "Utilities/File.h"
 #include "Utilities/Line.h"
 #include "Utilities/SharableWrapper.h"
-
-#include <fstream>
+#include "Utilities/Algorithm.h"
 
 namespace sf = std::filesystem;
 
@@ -74,7 +75,12 @@ void GetFileNLines(const sf::path& filepath,
     lines.clear();
     StreamType stream(filepath);
 
-    if (!stream.is_open()) throw std::runtime_error("Error opening file: " + filepath.string());
+    if (!stream.is_open())
+    {
+        std::error_code ec(errno, std::system_category());
+        throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
+    }
 
     size_t linenum = 0;
     RawType line;
@@ -122,7 +128,12 @@ void GetFileSLines(const sf::path& filepath,
     lines.clear();
     StreamType stream(filepath);
 
-    if (!stream.is_open()) throw std::runtime_error("Error opening file: " + filepath.string());
+    if (!stream.is_open())
+    {
+        std::error_code ec(errno, std::system_category());
+        throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
+    }
 
     LineType line;
     lines.reserve(100000);
@@ -162,7 +173,12 @@ void GetFileNLines(const sf::path& filepath,
     lines.clear();
     StreamType stream(filepath);
 
-    if (!stream.is_open()) throw std::runtime_error("Error opening file: " + filepath.string());
+    if (!stream.is_open())
+    {
+        std::error_code ec(errno, std::system_category());
+        throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
+    }
 
     size_t linenum = 0;
     RawType line;
@@ -219,7 +235,12 @@ void GetFileSLines(const sf::path& filepath,
     lines.clear();
     StreamType stream(filepath);
 
-    if (!stream.is_open()) throw std::runtime_error("Error opening file: " + filepath.string());
+    if (!stream.is_open())
+    {
+        std::error_code ec(errno, std::system_category());
+        throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
+    }
 
     LineType line;
     lines.reserve(100000);
@@ -260,7 +281,12 @@ void GetFileNLines(const sf::path& filepath,
     lines.clear();
     StreamType stream(filepath);
 
-    if (!stream.is_open()) throw std::runtime_error("Error opening file: " + filepath.string());
+    if (!stream.is_open())
+    {
+        std::error_code ec(errno, std::system_category());
+        throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
+    }
 
     size_t linenum = 0;
     RawType line;
@@ -301,7 +327,12 @@ void GetFileSLines(const sf::path& filepath,
     lines.clear();
     StreamType stream(filepath);
 
-    if (!stream.is_open()) throw std::runtime_error("Error opening file: " + filepath.string());
+    if (!stream.is_open())
+    {
+        std::error_code ec(errno, std::system_category());
+        throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
+    }
 
     LineType line;
     lines.reserve(100000);

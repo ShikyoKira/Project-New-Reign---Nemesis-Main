@@ -33,7 +33,7 @@ void nemesis::SubstringStatement::Parse3Components(const nemesis::SemanticManage
 
                 throw std::runtime_error("Syntax Error: Invalid position value (" + index
                                          + ") for Substring (Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             });
     }
     else
@@ -42,7 +42,7 @@ void nemesis::SubstringStatement::Parse3Components(const nemesis::SemanticManage
         {
             throw std::runtime_error("Syntax Error: Invalid position value (" + index
                                      + ") for Substring (Line: " + std::to_string(LineNum)
-                                     + ", File: " + FilePath.string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         }
 
         size_t i_index = std::stoul(index);
@@ -87,7 +87,7 @@ void nemesis::SubstringStatement::Parse4Components(const nemesis::SemanticManage
 
                 throw std::runtime_error("Syntax Error: Invalid position value (" + index
                                          + ") for Substring (Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             });
     }
     else
@@ -96,14 +96,14 @@ void nemesis::SubstringStatement::Parse4Components(const nemesis::SemanticManage
         {
             throw std::runtime_error("Syntax Error: Invalid position value (" + index_1
                                      + ") for Substring (Line: " + std::to_string(LineNum)
-                                     + ", File: " + FilePath.string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         }
 
         size_t i_index = std::stoul(index_1);
         get_index_1    = std::make_shared<std::function<size_t(nemesis::CompileState&)>>(
             [i_index](nemesis::CompileState& state) { return i_index; });
     }
-    
+
     if (IsComplexComponent(index_2))
     {
         auto& dynamic_index = DynamicComponents.emplace_back(index_2, LineNum, FilePath, manager);
@@ -116,7 +116,7 @@ void nemesis::SubstringStatement::Parse4Components(const nemesis::SemanticManage
 
                 throw std::runtime_error("Syntax Error: Invalid position value (" + index
                                          + ") for Substring (Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             });
     }
     else
@@ -125,7 +125,7 @@ void nemesis::SubstringStatement::Parse4Components(const nemesis::SemanticManage
         {
             throw std::runtime_error("Syntax Error: Invalid position value (" + index_1
                                      + ") for Substring (Line: " + std::to_string(LineNum)
-                                     + ", File: " + FilePath.string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         }
 
         size_t i_index = std::stoul(index_2);
@@ -157,7 +157,8 @@ nemesis::SubstringStatement::SubstringStatement(const std::string& expression,
         }
         default:
             throw std::runtime_error("Syntax Error: Unsupported Substring format (Line: "
-                                     + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+                                     + std::to_string(linenum)
+                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 }
 

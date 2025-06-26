@@ -2,6 +2,8 @@
 
 #include "Core/Statement/RunningNumberStatement.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::RunningNumberStatement::RunningNumberStatement(const std::string& expression,
                                                         size_t linenum,
                                                         const std::filesystem::path& filepath,
@@ -11,8 +13,8 @@ nemesis::RunningNumberStatement::RunningNumberStatement(const std::string& expre
     if (Components.size() != 2)
     {
         throw std::runtime_error("Syntax Error: RunningNumber only accepts 1 argument (Syntax: " + expression
-                                 + ", Line: " + std::to_string(linenum) + ", File: " + filepath.string()
-                                 + ")");
+                                 + ", Line: " + std::to_string(linenum)
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     auto key = Components.back();

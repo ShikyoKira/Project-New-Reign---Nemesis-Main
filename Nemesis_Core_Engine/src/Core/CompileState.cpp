@@ -1,7 +1,9 @@
 #include "Core/CompileState.h"
 #include "Core/AnimationRequest.h"
-#include "Core/CompilationManager.h"
 #include "Core/AnimationRequestRepository.h"
+#include "Core/CompilationManager.h"
+
+#include "Utilities/Algorithm.h"
 
 const Pair<const std::string*, size_t>&
 nemesis::CompileState::GetCurrentRequestMap(const nemesis::AnimationRequest* request,
@@ -90,7 +92,6 @@ const nemesis::CompilationManager& nemesis::CompileState::GetManager() const noe
 
 void nemesis::CompileState::SetBaseRequest(const nemesis::AnimationRequest* request)
 {
-
     BaseRequest = request;
     CurrentRequest.clear();
 
@@ -178,7 +179,7 @@ void nemesis::CompileState::QueueCurrentRequest(const std::string& group,
         std::string cur_group = name + "_1";
         auto& collection      = GetRequests(name);
         Vec<const nemesis::AnimationRequest*> anim_requests;
-        
+
         for (auto& each : collection)
         {
             anim_requests.emplace_back(each);
@@ -188,7 +189,7 @@ void nemesis::CompileState::QueueCurrentRequest(const std::string& group,
     }
     else
     {
-        auto parent = parents.back();
+        auto parent           = parents.back();
         std::string cur_group = name + "_" + std::to_string(parents.size() + 1);
         QueueChildRequestList(cur_group, parent->GetRequests());
     }
@@ -275,7 +276,7 @@ void nemesis::CompileState::DequeCurrentRequestMapValue(const nemesis::Animation
 
     if (r_itr == CurrentRequestMap.end()) return;
 
-    auto itr   = r_itr->second.find(key);
+    auto itr = r_itr->second.find(key);
 
     if (itr == r_itr->second.end()) return;
 
@@ -304,7 +305,9 @@ size_t nemesis::CompileState::GetCurrentRequestMapIndex(const nemesis::Animation
     return GetCurrentRequestMap(request, key).second;
 }
 
-void nemesis::CompileState::QueueCurrentMapValue(const std::string& key, const std::string& value, size_t index)
+void nemesis::CompileState::QueueCurrentMapValue(const std::string& key,
+                                                 const std::string& value,
+                                                 size_t index)
 {
     CurrentMap[key].emplace_back(&value, index);
 }
@@ -438,7 +441,7 @@ void nemesis::CompileState::DequeueRequestOption(const nemesis::AnimationRequest
 
     if (r_itr == CurrentRequestOption.end()) return;
 
-    auto itr   = r_itr->second.find(option_name);
+    auto itr = r_itr->second.find(option_name);
 
     if (itr->second.size() != 1)
     {
@@ -519,7 +522,7 @@ void nemesis::CompileState::RemoveAddLineHandler(void* handler_address)
 
 void nemesis::CompileState::RaiseAddLineEvent(nemesis::Line& line, const nemesis::NObject& nobject) const
 {
-    Vec<SPtr<std::function<void(nemesis::Line&, const nemesis::NObject&)>>> event_pointers; 
+    Vec<SPtr<std::function<void(nemesis::Line&, const nemesis::NObject&)>>> event_pointers;
 
     for (auto& event : AddLineEvents)
     {
@@ -739,7 +742,7 @@ size_t nemesis::CompileState::GetAnimationOrder(const std::filesystem::path& fil
 
     if (!compile_state)
     {
-        throw std::runtime_error("Animation order not found (Character: " + filepath.string()
+        throw std::runtime_error("Animation order not found (Character: " + nemesis::to_utf8_string(filepath)
                                  + ", Animtion: " + name + ")");
     }
 
@@ -747,7 +750,7 @@ size_t nemesis::CompileState::GetAnimationOrder(const std::filesystem::path& fil
 
     if (compile_state->TryGetAnimationOrder(name, value)) return value;
 
-    throw std::runtime_error("Animation order not found (Character: " + filepath.string()
+    throw std::runtime_error("Animation order not found (Character: " + nemesis::to_utf8_string(filepath)
                              + ", Animtion: " + name + ")");
 }
 
@@ -841,9 +844,9 @@ void nemesis::CompileState::AddCheckSum(const std::filesystem::path& target_path
 UPtr<nemesis::CompileState> nemesis::CompileState::Clone()
 {
     UPtr<nemesis::CompileState> state = std::make_unique<nemesis::CompileState>(Manager);
-    state->BaseRequest      = BaseRequest;
-    state->CurrentRequest   = CurrentRequest;
-    state->ChildRequestList = ChildRequestList;
+    state->BaseRequest                = BaseRequest;
+    state->CurrentRequest             = CurrentRequest;
+    state->ChildRequestList           = ChildRequestList;
 
     state->CurrentRequestOption = CurrentRequestOption;
     state->CurrentOption        = CurrentOption;

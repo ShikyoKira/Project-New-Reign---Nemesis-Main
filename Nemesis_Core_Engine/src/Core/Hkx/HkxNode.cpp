@@ -1,18 +1,18 @@
 #include <array>
 
-#include "Core/Hkx/HkxNode.h"
 #include "Core/Hkx/HkxFile.h"
+#include "Core/Hkx/HkxNode.h"
 
-#include "Utilities/File.h"
 #include "Utilities/Algorithm.h"
-#include "Utilities/ThreadPool.h"
-#include "Utilities/OnScopeEnds.h"
 #include "Utilities/ConditionSyntax.h"
+#include "Utilities/File.h"
+#include "Utilities/OnScopeEnds.h"
 #include "Utilities/StringExtension.h"
+#include "Utilities/ThreadPool.h"
 
-#include "Core/ModLine.h"
-#include "Core/ModClass.h"
 #include "Core/CompileState.h"
+#include "Core/ModClass.h"
+#include "Core/ModLine.h"
 #include "Core/NObjectParser.h"
 
 #include "AlternateAnimation/AlterAnim.h"
@@ -91,15 +91,16 @@ void nemesis::HkxNode::CompileTo(DeqNstr& lines, nemesis::CompileState& state) c
 
     if (size >= lines.size() || ClassName != "hkbClipGenerator" || !HkxDocument) return;
 
-    auto& target       = HkxDocument->GetTargetPath();
+    auto& target          = HkxDocument->GetTargetPath();
     auto& alter_anim_repo = state.GetAlterAnimRepository();
-    auto& ex_anim_repo = state.GetExAnimationRepository();
-    auto proj          = ex_anim_repo.GetProjectByBehavior(target);
 
-    if (!proj || !alter_anim_repo.IsSupportedBehavior(target)) return;
+    if (!alter_anim_repo.IsSupportedBehavior(target)) return;
+
+    auto proj = state.GetExAnimationRepository().GetProjectByBehavior(target);
+
+    if (!proj) return;
 
     static std::regex anim_path_rgx("^.*<hkparam name=\"animationName\">([^<]+)</hkparam>.*$");
-    std::filesystem::path anim_path;
     size_t anim_pos;
     VecStr temp_lines;
     UPtr<nemesis::LinkedExAnimList> linked_ex_anim;
@@ -112,7 +113,7 @@ void nemesis::HkxNode::CompileTo(DeqNstr& lines, nemesis::CompileState& state) c
 
         if (!std::regex_match(lines[i].ToString(), match, anim_path_rgx)) continue;
 
-        anim_path = match.str(1);
+        auto anim_path = match.str(1);
 
         if (proj)
         {
@@ -121,11 +122,11 @@ void nemesis::HkxNode::CompileTo(DeqNstr& lines, nemesis::CompileState& state) c
 
         if (alter_anim_repo.IsSupportedBehavior(target))
         {
-            auto aa_group = alter_anim_repo.GetAlterAnimGroupByAnimation(anim_path.string());
+            auto aa_group = alter_anim_repo.GetAlterAnimGroupByAnimation(anim_path);
 
             if (aa_group)
             {
-                alternate = aa_group->GetAlternateSet(anim_path.string());
+                alternate = aa_group->GetAlternateSet(anim_path);
             }
         }
 
@@ -133,7 +134,7 @@ void nemesis::HkxNode::CompileTo(DeqNstr& lines, nemesis::CompileState& state) c
 
         anim_pos = i - size;
 
-        for (i++ ; i < lines.size(); i++)
+        for (i++; i < lines.size(); i++)
         {
             temp_lines.emplace_back(lines[i].ToString());
         }
@@ -151,7 +152,7 @@ void nemesis::HkxNode::CompileTo(DeqNstr& lines, nemesis::CompileState& state) c
             if (anim_pos == i)
             {
                 lines.emplace_back("\t\t\t<hkparam name=\"animationName\">"
-                                   + XmlStringEncode(anim_path.string()) + "</hkparam>");
+                                   + XmlStringEncode(nemesis::to_utf8_string(anim_path)) + "</hkparam>");
                 continue;
             }
 
@@ -173,8 +174,8 @@ void nemesis::HkxNode::CompileTo(DeqNstr& lines, nemesis::CompileState& state) c
         ex_anim_lines = linked_ex_anim->CompileAsXml(node_id, state, add_clip_func);
     }
 
-    lines[size] = "\t\t<hkobject name=\"" + node_id
-                  + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">";
+    lines[size]
+        = "\t\t<hkobject name=\"" + node_id + "\" class=\"hkbClipGenerator\" signature=\"0x333b85b9\">";
     lines.insert(lines.end(), ex_anim_lines.begin(), ex_anim_lines.end());
     lines.insert(lines.end(), alter_anim_lines.begin(), alter_anim_lines.end());
 }
@@ -293,10 +294,10 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
             if (!std::regex_match((*stream).ToString(), match, NodeIdRgx))
             {
                 throw std::runtime_error("Behavior Format Error: Node Id not found (Line: "
-                                         + std::to_string(token_value.GetLineNumber())
-                                         + ", File: " + token_value.GetFilePath().string() + ")");
+                                         + std::to_string(token_value.GetLineNumber()) + ", File: "
+                                         + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
             }
-            
+
             hkx_node->NodeId    = match[1];
             hkx_node->ClassName = match[2];
 
@@ -373,7 +374,7 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
 
             throw std::runtime_error("Syntax Error: Unclosed If Statement (Line: "
                                      + std::to_string(token_value.GetLineNumber())
-                                     + ", File: " + token_value.GetFilePath().string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
         }
         case nemesis::LineStream::TokenType::NONE:
         {
@@ -382,15 +383,14 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
             if (!std::regex_match(token_value.ToString(), match, NodeIdRgx))
             {
                 throw std::runtime_error("Behavior Format Error: Node Id not found (Line: "
-                                         + std::to_string(token_value.GetLineNumber())
-                                         + ", File: " + token_value.GetFilePath().string() + ")");
+                                         + std::to_string(token_value.GetLineNumber()) + ", File: "
+                                         + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
             }
 
             hkx_node->NodeId    = match[1];
             hkx_node->ClassName = match[2];
 
-            auto add_line
-                = [col_ptr, &stream, &manager](const nemesis::LineStream::Token& token)
+            auto add_line = [col_ptr, &stream, &manager](const nemesis::LineStream::Token& token)
             {
                 Vec<UPtr<nemesis::NObject>> objects
                     = token.Type != nemesis::LineStream::TokenType::MOD_OPEN
@@ -432,10 +432,8 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
                             val = "0.000000";
                         }
 
-                        col_ptr->AddObject(std::make_unique<nemesis::NLine>(spaces + val,
-                                                                            ntoken.Value.GetLineNumber(),
-                                                                            ntoken.Value.GetFilePath(),
-                                                                            manager));
+                        col_ptr->AddObject(std::make_unique<nemesis::NLine>(
+                            spaces + val, ntoken.Value.GetLineNumber(), ntoken.Value.GetFilePath(), manager));
                     }
                 }
 
@@ -477,7 +475,8 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
                        "hkbTransformVectorModifier",
                        "hkbTwistModifier"};
 
-                if (std::find(coordinate_class_list.begin(), coordinate_class_list.end(), hkx_node->ClassName) != coordinate_class_list.end())
+                if (std::find(coordinate_class_list.begin(), coordinate_class_list.end(), hkx_node->ClassName)
+                    != coordinate_class_list.end())
                 {
                     for (; !IsNodeEnd(stream, start); ++stream)
                     {
@@ -485,8 +484,10 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
 
                         if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
 
-                        static std::regex vec4_rgx("^([\\t]+)<hkparam name\\=\"([^\"]+)\">\\((-?[0-9]+\\.[0-9]+) (-?[0-9]+\\.[0-9]+) "
-                                                   "(-?[0-9]+\\.[0-9]+) (-?[0-9]+\\.[0-9]+)\\)</hkparam>.*$");
+                        static std::regex vec4_rgx(
+                            "^([\\t]+)<hkparam name\\=\"([^\"]+)\">\\((-?[0-9]+\\.[0-9]+) "
+                            "(-?[0-9]+\\.[0-9]+) "
+                            "(-?[0-9]+\\.[0-9]+) (-?[0-9]+\\.[0-9]+)\\)</hkparam>.*$");
                         std::smatch vec4_match;
 
                         if (!std::regex_match(ntoken.Value.ToString(), vec4_match, vec4_rgx))
@@ -519,18 +520,17 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
                                                                                 manager));
                         }
 
-                        col_ptr->AddObject(
-                            std::make_unique<nemesis::NLine>(spaces + "</hkparam>",
-                                                             ntoken.Value.GetLineNumber(),
-                                                             ntoken.Value.GetFilePath(),
-                                                             manager));
+                        col_ptr->AddObject(std::make_unique<nemesis::NLine>(spaces + "</hkparam>",
+                                                                            ntoken.Value.GetLineNumber(),
+                                                                            ntoken.Value.GetFilePath(),
+                                                                            manager));
                     }
 
                     hkx_node->Data = std::move(collection);
                     return hkx_node;
                 }
             }
-            
+
             for (; !IsNodeEnd(stream, start); ++stream)
             {
                 auto& ntoken = stream.GetToken();
@@ -547,7 +547,7 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
         {
             throw std::runtime_error("Syntax Error: Unsupported syntax (Line: "
                                      + std::to_string(token_value.GetLineNumber())
-                                     + ", File: " + token_value.GetFilePath().string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
         }
     }
 }
@@ -565,7 +565,7 @@ void nemesis::HkxNode::Deserialize(nemesis::HkxNode& hkx_node,
     {
         throw std::runtime_error("Behavior Format Error: Node Id not found (Line: "
                                  + std::to_string(token_value.GetLineNumber())
-                                 + ", File: " + token_value.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
     }
 
     auto collection = std::make_unique<nemesis::CollectionObject>();
@@ -574,7 +574,7 @@ void nemesis::HkxNode::Deserialize(nemesis::HkxNode& hkx_node,
     hkx_node.NodeId    = match[1];
     hkx_node.ClassName = match[2];
     hkx_node.Data      = std::move(collection);
-    bool start          = true;
+    bool start         = true;
 
     for (; !IsNodeEnd(stream, start); ++stream)
     {

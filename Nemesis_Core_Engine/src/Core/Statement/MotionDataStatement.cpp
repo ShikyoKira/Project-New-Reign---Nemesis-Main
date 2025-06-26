@@ -30,7 +30,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
 
                 throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
                                          + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             if (index_str.length() > 1)
@@ -38,7 +38,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
             InvalidIndex:
                 throw std::runtime_error("Invalid index (" + index_str + ") value ("
                                          + std::to_string(list.size()) + ") (Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             if (index_str == "")
@@ -48,7 +48,8 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
                 SyntaxError:
                     throw std::runtime_error(
                         "Syntax Error: Unable to get target motion data from queue (Syntax: " + Expression
-                        + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+                        + ", Line: " + std::to_string(LineNum)
+                        + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
                 }
 
                 return state.GetCurrentMotionData();
@@ -93,7 +94,6 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
                 default:
                     goto InvalidIndex;
             }
-
         };
         return true;
     }
@@ -108,8 +108,8 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
             if (index < list.size()) return list[index].ToString();
 
             throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: " + Expression
-                                     + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string()
-                                     + ")");
+                                     + ", Line: " + std::to_string(LineNum)
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         };
         return true;
     }
@@ -184,7 +184,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
 
     throw std::runtime_error("Syntax Error: Unable to get target motion data from queue (Syntax: "
                              + Expression + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + FilePath.string() + ")");
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 
 bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticManager& manager)
@@ -216,7 +216,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
 
                 throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
                                          + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             if (index_str.length() > 1)
@@ -224,7 +224,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             InvalidIndex:
                 throw std::runtime_error("Invalid index (" + index_str + ") value ("
                                          + std::to_string(list.size()) + ") (Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             if (index_str == "")
@@ -234,7 +234,8 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                 SyntaxError:
                     throw std::runtime_error(
                         "Syntax Error: Unable to get target motion data from queue (Syntax: " + Expression
-                        + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+                        + ", Line: " + std::to_string(LineNum)
+                        + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
                 }
 
                 return state.GetCurrentRequestMotionData(request);
@@ -368,15 +369,14 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             }
             default:
                 return false;
-        
         }
     }
 
     if (manager.HasRequestMotionDataInQueue(Components.front())) return true;
-    
+
     throw std::runtime_error("Syntax Error: Unable to get target motion data from queue (Syntax: "
                              + Expression + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + FilePath.string() + ")");
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 
 nemesis::MotionDataStatement::MotionDataStatement(const std::string& expression,
@@ -404,7 +404,8 @@ nemesis::MotionDataStatement::MotionDataStatement(const std::string& expression,
     }
 
     throw std::runtime_error("Syntax Error: Unsupported Motion Data components (Expression: " + expression
-                             + ", Line: " + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+                             + ", Line: " + std::to_string(linenum)
+                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
 }
 
 std::string nemesis::MotionDataStatement::GetValue(nemesis::CompileState& state) const

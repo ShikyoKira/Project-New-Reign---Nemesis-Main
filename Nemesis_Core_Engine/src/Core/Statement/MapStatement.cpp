@@ -47,7 +47,7 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
 
                 throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
                                          + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             if (index_str.length() > 1)
@@ -55,7 +55,7 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
             InvalidIndex:
                 throw std::runtime_error("Syntax Error: Invalid index (" + index_str + ") value ("
                                          + std::to_string(list.size()) + ") (Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             if (index_str == "")
@@ -65,7 +65,8 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
                 SyntaxError:
                     throw std::runtime_error(
                         "Syntax Error: Unable to get target map value from queue (Syntax: " + Expression
-                        + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+                        + ", Line: " + std::to_string(LineNum)
+                        + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
                 }
 
                 return state.GetCurrentMapValue(key);
@@ -126,8 +127,8 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
             if (index < list.size()) return *list[index];
 
             throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: " + Expression
-                                     + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string()
-                                     + ")");
+                                     + ", Line: " + std::to_string(LineNum)
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         };
         return true;
     }
@@ -193,11 +194,12 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
                 return false;
         }
     }
-    
+
     if (manager.HasMapInQueue(key)) return true;
 
     throw std::runtime_error("Syntax Error: Unable to get target map value from queue (Syntax: " + Expression
-                             + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+                             + ", Line: " + std::to_string(LineNum)
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 
 bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& manager)
@@ -246,7 +248,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
 
                 throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
                                          + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             if (index_str.length() > 1)
@@ -254,7 +256,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             InvalidIndex:
                 throw std::runtime_error("Invalid index (" + index_str + ") value ("
                                          + std::to_string(list.size()) + ") (Line: " + std::to_string(LineNum)
-                                         + ", File: " + FilePath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             if (index_str == "")
@@ -264,7 +266,8 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
                 SyntaxError:
                     throw std::runtime_error(
                         "Syntax Error: Unable to get target map value from queue (Syntax: " + Expression
-                        + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+                        + ", Line: " + std::to_string(LineNum)
+                        + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
                 }
 
                 return state.GetCurrentRequestMapValue((*get_request)(state), key);
@@ -325,9 +328,9 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
 
             if (index < list.size()) return *list[index];
 
-            throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
-                                     + Expression + ", Line: " + std::to_string(LineNum)
-                                     + ", File: " + FilePath.string() + ")");
+            throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: " + Expression
+                                     + ", Line: " + std::to_string(LineNum)
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         };
         return true;
     }
@@ -337,9 +340,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
     if (index_str == "")
     {
         GetValueFunction = [get_key, get_request](nemesis::CompileState& state)
-        {
-            return state.GetCurrentRequestMapValue((*get_request)(state), (*get_key)(state));
-        };
+        { return state.GetCurrentRequestMapValue((*get_request)(state), (*get_key)(state)); };
     }
     else
     {
@@ -409,7 +410,8 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
     if (manager.HasRequestMapInQueue(Components.front(), key)) return true;
 
     throw std::runtime_error("Syntax Error: Unable to get target map value from queue (Syntax: " + Expression
-                             + ", Line: " + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+                             + ", Line: " + std::to_string(LineNum)
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 
 nemesis::MapStatement::MapStatement(const std::string& expression,
@@ -437,7 +439,8 @@ nemesis::MapStatement::MapStatement(const std::string& expression,
     }
 
     throw std::runtime_error("Syntax Error: Unsupported Map components (Expression: " + expression
-                             + ", Line: " + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+                             + ", Line: " + std::to_string(linenum)
+                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
 }
 
 std::string nemesis::MapStatement::GetValue(nemesis::CompileState& state) const

@@ -8,110 +8,66 @@
 
 void nemesis::ModInfo::ReadFile(const std::filesystem::path& infopath)
 {
-    VecWstr storeline;
+    VecStr storeline;
     GetFileLines(infopath, storeline, false);
 
     for (auto& line : storeline)
     {
-        if (line._Starts_with(L"name="))
+        if (line._Starts_with("name="))
         {
-            name = line.substr(line.find(L"=") + 1);
+            name = line.substr(line.find("=") + 1);
             continue;
         }
 
-        if (line._Starts_with(L"author="))
+        if (line._Starts_with("author="))
         {
-            author = line.substr(line.find(L"=") + 1);
+            author = line.substr(line.find("=") + 1);
             continue;
         }
 
-        if (line._Starts_with(L"site="))
+        if (line._Starts_with("site="))
         {
-            site = line.substr(line.find(L"=") + 1);
+            site = line.substr(line.find("=") + 1);
             continue;
         }
 
-        if (line._Starts_with(L"auto="))
-        {
-            automatic = line.substr(line.find(L"=") + 1);
-            continue;
-        }
+        if (!line._Starts_with("auto=")) continue;
 
-        if (!line._Starts_with(L"hidden=")) continue;
-
-        std::wstring hide = line.substr(line.find(L"=") + 1);
-        nemesis::to_lower(hide);
-        std::wistringstream stream(hide);
-        stream >> std::boolalpha >> hidden;
+        automatic = line.substr(line.find("=") + 1);
     }
 }
 
-void nemesis::ModInfo::SetModCode(const std::wstring& modcode)
+void nemesis::ModInfo::SetModCode(const std::string& modcode)
 {
     this->modcode = modcode;
 }
 
-std::wstring nemesis::ModInfo::GetDisplayName() const noexcept
+std::string nemesis::ModInfo::GetDisplayName() const noexcept
 {
-    return name + L" (" + site + L")";
+    return name + " (" + site + ")";
 }
 
-std::wstring_view nemesis::ModInfo::GetName() const noexcept
+const std::string& nemesis::ModInfo::GetName() const noexcept
 {
     return name;
 }
 
-std::wstring_view nemesis::ModInfo::GetAuthor() const noexcept
+const std::string& nemesis::ModInfo::GetAuthor() const noexcept
 {
     return author;
 }
 
-std::wstring_view nemesis::ModInfo::GetSite() const noexcept
+const std::string& nemesis::ModInfo::GetSite() const noexcept
 {
     return site;
 }
 
-std::wstring_view nemesis::ModInfo::GetAutoRefFile() const noexcept
+const std::string& nemesis::ModInfo::GetAutoRefFile() const noexcept
 {
     return automatic;
 }
 
-std::wstring_view nemesis::ModInfo::GetModCode() const noexcept
+const std::string& nemesis::ModInfo::GetModCode() const noexcept
 {
     return modcode;
-}
-
-std::string nemesis::ModInfo::GetDisplayNameA() const noexcept
-{
-    return nemesis::transform_to<std::string>(name + L" (" + site + L")");
-}
-
-std::string nemesis::ModInfo::GetNameA() const noexcept
-{
-    return nemesis::transform_to<std::string>(name);
-}
-
-std::string nemesis::ModInfo::GetAuthorA() const noexcept
-{
-    return nemesis::transform_to<std::string>(author);
-}
-
-std::string nemesis::ModInfo::GetSiteA() const noexcept
-{
-    return nemesis::transform_to<std::string>(site);
-}
-
-std::string nemesis::ModInfo::GetAutoRefFileA() const noexcept
-{
-    return nemesis::transform_to<std::string>(automatic);
-}
-
-std::string nemesis::ModInfo::GetModCodeA() const noexcept
-{
-    return nemesis::transform_to<std::string>(modcode);
-}
-
-bool nemesis::ModInfo::IsHidden() const noexcept
-{
-    return hidden;
 }

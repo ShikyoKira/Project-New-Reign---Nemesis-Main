@@ -2,6 +2,8 @@
 
 #include "Core/CompileState.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::AnimationOrderStatement::AnimationOrderStatement(const std::string& expression,
                                                           size_t linenum,
                                                           const std::filesystem::path& filepath,
@@ -10,9 +12,9 @@ nemesis::AnimationOrderStatement::AnimationOrderStatement(const std::string& exp
 {
     if (Components.size() != 3)
     {
-        throw std::runtime_error("Syntax Error: AnimationOrder only accepts 1 argument (Syntax: "
-                                 + expression + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + filepath.string() + ")");
+        throw std::runtime_error("Syntax Error: AnimationOrder only accepts 1 argument (Syntax: " + expression
+                                 + ", Line: " + std::to_string(linenum)
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     auto& char_path = Components[1];
@@ -46,7 +48,7 @@ nemesis::AnimationOrderStatement::AnimationOrderStatement(const std::string& exp
         };
         return;
     }
-    
+
     if (!IsComplexComponent(anim_path))
     {
         GetValueFunction = [&char_path, &anim_path](nemesis::CompileState& state)

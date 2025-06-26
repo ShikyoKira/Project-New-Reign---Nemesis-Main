@@ -1,12 +1,14 @@
-#include "Core/NLine.h"
-#include "Core/ModLine.h"
 #include "Core/NObject.h"
-#include "Core/IfObject.h"
-#include "Core/ModObject.h"
-#include "Core/LineStream.h"
+#include "Core/CollectionObject.h"
 #include "Core/CompileState.h"
 #include "Core/ForEachObject.h"
-#include "Core/CollectionObject.h"
+#include "Core/IfObject.h"
+#include "Core/LineStream.h"
+#include "Core/ModLine.h"
+#include "Core/ModObject.h"
+#include "Core/NLine.h"
+
+#include "Utilities/Algorithm.h"
 
 Vec<UPtr<nemesis::NObject>> nemesis::NObject::ParseModObjects(nemesis::LineStream& stream,
                                                               nemesis::SemanticManager& manager)
@@ -30,7 +32,7 @@ nemesis::NObject::ParseModObjects(nemesis::LineStream& stream,
     {
         throw std::runtime_error("Syntax Error: Unexpected syntax. Expecting MOD_CODE syntax (Line: "
                                  + std::to_string(mod_value.GetLineNumber())
-                                 + ". File: " + mod_value.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(mod_value.GetFilePath()) + ")");
     }
 
     Deq<const nemesis::Line*> ori_lines;
@@ -104,14 +106,14 @@ nemesis::NObject::ParseModObjects(nemesis::LineStream& stream,
                 auto& value = token.Value;
                 throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                          + std::to_string(value.GetLineNumber())
-                                         + ". File: " + value.GetFilePath().string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
             }
         }
     }
 
     throw std::runtime_error("Syntax Error: Unclosed MOD_CODE statement (Line: "
                              + std::to_string(mod_value.GetLineNumber())
-                             + ", File: " + mod_value.GetFilePath().string() + ")");
+                             + ", File: " + nemesis::to_utf8_string(mod_value.GetFilePath()) + ")");
 }
 
 UPtr<nemesis::ForEachObject> nemesis::NObject::ParseForEachObject(nemesis::LineStream& stream,
@@ -134,7 +136,7 @@ nemesis::NObject::ParseForEachObject(nemesis::LineStream& stream,
     {
         throw std::runtime_error("Syntax Error: Unexpected syntax. Expecting FOREACH syntax (Line: "
                                  + std::to_string(fe_value.GetLineNumber())
-                                 + ". File: " + fe_value.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(fe_value.GetFilePath()) + ")");
     }
 
     auto collection = std::make_unique<nemesis::CollectionObject>();
@@ -190,14 +192,14 @@ nemesis::NObject::ParseForEachObject(nemesis::LineStream& stream,
                 auto& value = token.Value;
                 throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                          + std::to_string(value.GetLineNumber())
-                                         + ". File: " + value.GetFilePath().string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
             }
         }
     }
 
     throw std::runtime_error("Syntax Error: Unclosed FOREACH statement (Line: "
                              + std::to_string(fe_value.GetLineNumber())
-                             + ", File: " + fe_value.GetFilePath().string() + ")");
+                             + ", File: " + nemesis::to_utf8_string(fe_value.GetFilePath()) + ")");
 }
 
 UPtr<nemesis::IfObject> nemesis::NObject::ParseIfObject(nemesis::LineStream& stream,
@@ -218,7 +220,7 @@ nemesis::NObject::ParseIfObject(nemesis::LineStream& stream,
     {
         throw std::runtime_error("Syntax Error: Unexpected syntax. Expecting IF syntax (Line: "
                                  + std::to_string(if_value.GetLineNumber())
-                                 + ". File: " + if_value.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(if_value.GetFilePath()) + ")");
     }
 
     bool has_else   = false;
@@ -244,8 +246,8 @@ nemesis::NObject::ParseIfObject(nemesis::LineStream& stream,
                 if (has_else)
                 {
                     throw std::runtime_error("Syntax Error: ELSEIF syntax cannot come after ELSE (Line: "
-                                             + std::to_string(value.GetLineNumber())
-                                             + ", File: " + value.GetFilePath().string() + ")");
+                                             + std::to_string(value.GetLineNumber()) + ", File: "
+                                             + nemesis::to_utf8_string(value.GetFilePath()) + ")");
                 }
 
                 collection = std::make_unique<nemesis::CollectionObject>();
@@ -260,8 +262,8 @@ nemesis::NObject::ParseIfObject(nemesis::LineStream& stream,
                 {
                     auto& value = token.Value;
                     throw std::runtime_error("Syntax Error: ELSE syntax cannot come after ELSE (Line: "
-                                             + std::to_string(value.GetLineNumber())
-                                             + ", File: " + value.GetFilePath().string() + ")");
+                                             + std::to_string(value.GetLineNumber()) + ", File: "
+                                             + nemesis::to_utf8_string(value.GetFilePath()) + ")");
                 }
 
                 has_else   = true;
@@ -306,14 +308,14 @@ nemesis::NObject::ParseIfObject(nemesis::LineStream& stream,
                 auto& value = token.Value;
                 throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                          + std::to_string(value.GetLineNumber())
-                                         + ". File: " + value.GetFilePath().string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
             }
         }
     }
 
     throw std::runtime_error("Syntax Error: Unclosed IF Statement (Line: "
                              + std::to_string(if_value.GetLineNumber())
-                             + ", File: " + if_value.GetFilePath().string() + ")");
+                             + ", File: " + nemesis::to_utf8_string(if_value.GetFilePath()) + ")");
 }
 
 UPtr<nemesis::CollectionObject> nemesis::NObject::ParseAsCollection(nemesis::LineStream& stream,
@@ -373,7 +375,7 @@ nemesis::NObject::ParseAsCollection(nemesis::LineStream& stream,
                 auto& value = token.Value;
                 throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                          + std::to_string(value.GetLineNumber())
-                                         + ". File: " + value.GetFilePath().string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
             }
         }
     }

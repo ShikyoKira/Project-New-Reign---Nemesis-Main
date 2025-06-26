@@ -6,26 +6,25 @@
 #include "Logger.h"
 #include "NemesisInfo.h"
 
-
 const std::filesystem::path& nemesis::AlterAnimGroup::CanonizePath(const std::filesystem::path& path)
 {
-    static Map<std::wstring, std::filesystem::path> PathCache;
+    static Map<std::u8string, std::filesystem::path> PathCache;
     static std::mutex PathCacheMutex;
 
     std::scoped_lock<std::mutex> lock(PathCacheMutex);
-    auto anim_path_it = PathCache.find(path);
+    auto anim_path_it = PathCache.find(path.u8string());
 
     if (anim_path_it != PathCache.end()) return anim_path_it->second;
 
-    return PathCache.insert({path, std::filesystem::absolute(path)}).first->second;
+    return PathCache.insert({path.u8string(), std::filesystem::absolute(path)}).first->second;
 }
 
 nemesis::AlterAnimGroup::AlterAnimGroup(nemesis::AlterAnimRepository& repo,
                                         const nlohmann::json& group_info) noexcept
     : Repository(repo)
 {
-    Id                  = group_info["Id"].get<size_t>();
-    Name                = group_info["Name"].get<std::string>();
+    Id   = group_info["Id"].get<size_t>();
+    Name = group_info["Name"].get<std::string>();
 
     Logger::Log("Alternate Animations Group: " + Name + " (" + std::to_string(Id) + ")");
 
@@ -33,10 +32,10 @@ nemesis::AlterAnimGroup::AlterAnimGroup(nemesis::AlterAnimRepository& repo,
 
     for (auto& anim_path : animation_list)
     {
-        AlterAnimList.emplace_back(AlterAnimMap
-                                       .emplace(CanonizePath(repo.GetAnimationDirectory() / anim_path).string(),
-                                                std::make_unique<nemesis::AlterAnim>(*this, anim_path))
-                                       .first->second.get());
+        std::string path = nemesis::to_utf8_string(CanonizePath(repo.GetAnimationDirectory() / anim_path));
+        AlterAnimList.emplace_back(
+            AlterAnimMap.emplace(path, std::make_unique<nemesis::AlterAnim>(*this, anim_path))
+                .first->second.get());
     }
 }
 
@@ -44,9 +43,16 @@ void nemesis::AlterAnimGroup::AddPrefix(const std::filesystem::path& dir_path,
                                         const std::string& prefix,
                                         size_t slot_size)
 {
-    auto data_path                     = NemesisInfo::DataPath();
-    auto proj_path                     = data_path / Repository.GetProjectDirectory();
-    std::filesystem::path relative_dir = dir_path.string().substr(proj_path.string().length() + 1);
+    static UMap<std::filesystem::path, size_t> path_to_length;
+
+    auto data_path = NemesisInfo::DataPath();
+    auto proj_path = data_path / Repository.GetProjectDirectory();
+    auto itr = path_to_length.find(proj_path);
+    size_t length
+        = itr != path_to_length.end()
+              ? itr->second
+              : path_to_length.insert({proj_path, PATH_TO_STRING(proj_path).length() + 1}).first->second;
+    std::filesystem::path relative_dir = PATH_TO_STRING(dir_path).substr(length);
 
     for (auto& alter_anim : AlterAnimMap)
     {
@@ -75,7 +81,7 @@ VecStr nemesis::AlterAnimGroup::GetAnimations() const
 
 const nemesis::AlterAnim* nemesis::AlterAnimGroup::GetAlternateSet(const std::string& anim_path) const
 {
-    auto canon_anim_path = CanonizePath(anim_path).string();
+    auto canon_anim_path = nemesis::to_utf8_string(CanonizePath(anim_path));
 
     for (auto& alter_anim : AlterAnimMap)
     {

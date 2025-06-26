@@ -1,8 +1,10 @@
 #include "AlternateAnimation/AlterAnimSet.h"
 
+#include "Utilities/Algorithm.h"
+
 const std::filesystem::path& nemesis::AlterAnimSet::CanonizePath(const std::filesystem::path& path)
 {
-    static Map<std::wstring, std::filesystem::path> PathCache;
+    static Map<std::filesystem::path, std::filesystem::path> PathCache;
     static std::mutex PathCacheMutex;
 
     std::scoped_lock<std::mutex> lock(PathCacheMutex);
@@ -23,8 +25,8 @@ nemesis::AlterAnimSet::AlterAnimSet(const std::filesystem::path& relative_dir_pa
     for (size_t i = 0; i < slot_size; i++)
     {
         std::filesystem::path* slot_ptr = nullptr;
-        auto relative_path              = prefix + std::to_string(i) + "_" + anim_path.filename().string();
-        auto absolute_path              = dir_path / relative_path;
+        auto relative_path = prefix + std::to_string(i) + "_" + nemesis::to_utf8_string(anim_path.filename());
+        auto absolute_path = dir_path / relative_path;
 
         if (!std::filesystem::exists(absolute_path))
         {

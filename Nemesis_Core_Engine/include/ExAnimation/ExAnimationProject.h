@@ -17,10 +17,10 @@ namespace nemesis
         std::filesystem::path AnimationDirectory;
 
         Vec<std::filesystem::path> Characters;
-        Vec<std::filesystem::path> CanonCharacters;
+        USet<std::filesystem::path> CanonCharacters;
 
         Vec<std::filesystem::path> Behaviors;
-        Vec<std::filesystem::path> CanonBehaviors;
+        USet<std::filesystem::path> CanonBehaviors;
 
         Map<size_t, UPtr<nemesis::ExAnimationPack>> ExAnimMap;
 

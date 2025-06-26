@@ -1,16 +1,16 @@
 #include "Core/AnimationSetData/AnimationSetDataState.h"
 
-#include "Core/ModLine.h"
-#include "Core/ModClass.h"
-#include "Core/IfObject.h"
-#include "Core/ModObject.h"
-#include "Core/ForEachObject.h"
 #include "Core/CollectionObject.h"
+#include "Core/ForEachObject.h"
+#include "Core/IfObject.h"
+#include "Core/ModClass.h"
+#include "Core/ModLine.h"
+#include "Core/ModObject.h"
 
 #include "Core/Template/TemplateClass.h"
 
-#include "Utilities/File.h"
 #include "Utilities/Algorithm.h"
+#include "Utilities/File.h"
 #include "Utilities/FileWriter.h"
 #include "Utilities/ThreadPool.h"
 
@@ -39,7 +39,7 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
         auto& first = templines.front();
         throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
                                  + std::to_string(first.GetLineNumber())
-                                 + ", File: " + first.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(first.GetFilePath()) + ")");
     }
 
     for (auto itr = templines.begin() + 1; itr != templines.end(); ++itr)
@@ -78,15 +78,15 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
                     if (!is_only_number(*++itr))
                     {
                         throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
+                                                 + std::to_string(itr->GetLineNumber()) + ", File: "
+                                                 + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                     }
 
                     if (!is_only_number(*++itr))
                     {
                         throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
+                                                 + std::to_string(itr->GetLineNumber()) + ", File: "
+                                                 + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                     }
 
                     counter++;
@@ -110,15 +110,15 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
                     if (!is_only_number(*++itr))
                     {
                         throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
+                                                 + std::to_string(itr->GetLineNumber()) + ", File: "
+                                                 + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                     }
 
                     if (!is_only_number(*++itr))
                     {
                         throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
+                                                 + std::to_string(itr->GetLineNumber()) + ", File: "
+                                                 + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                     }
 
                     auto* anim_counter_nline = &(*itr);
@@ -135,10 +135,10 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
                             {
                                 if (step1 != templines.end())
                                 {
-                                    throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                             + std::to_string(itr->GetLineNumber())
-                                                             + ", File: " + itr->GetFilePath().string()
-                                                             + ")");
+                                    throw std::runtime_error(
+                                        "AnimationSetDataSingleFile format error (Line: "
+                                        + std::to_string(itr->GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                                 }
 
                                 // -- Case Example --
@@ -153,18 +153,18 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
                             if (step1 == templines.end())
                             {
                                 throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                         + std::to_string(itr->GetLineNumber())
-                                                         + ", File: " + itr->GetFilePath().string() + ")");
+                                                         + std::to_string(itr->GetLineNumber()) + ", File: "
+                                                         + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                             }
 
                             if (!is_only_number(*step2))
                             {
                                 if (!is_only_number(*step1))
                                 {
-                                    throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                             + std::to_string(itr->GetLineNumber())
-                                                             + ", File: " + itr->GetFilePath().string()
-                                                             + ")");
+                                    throw std::runtime_error(
+                                        "AnimationSetDataSingleFile format error (Line: "
+                                        + std::to_string(itr->GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                                 }
 
                                 // -- Case Example 1 --
@@ -193,10 +193,10 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
                             {
                                 if (!is_only_number(*step1))
                                 {
-                                    throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                             + std::to_string(itr->GetLineNumber())
-                                                             + ", File: " + itr->GetFilePath().string()
-                                                             + ")");
+                                    throw std::runtime_error(
+                                        "AnimationSetDataSingleFile format error (Line: "
+                                        + std::to_string(itr->GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                                 }
 
                                 // -- Case Example --
@@ -215,10 +215,10 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
                             {
                                 if (!is_only_number(*step1))
                                 {
-                                    throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                             + std::to_string(itr->GetLineNumber())
-                                                             + ", File: " + itr->GetFilePath().string()
-                                                             + ")");
+                                    throw std::runtime_error(
+                                        "AnimationSetDataSingleFile format error (Line: "
+                                        + std::to_string(itr->GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                                 }
 
                                 // -- Case Example --
@@ -236,8 +236,8 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
                             if (!is_only_number(*step1))
                             {
                                 throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                         + std::to_string(itr->GetLineNumber())
-                                                         + ", File: " + itr->GetFilePath().string() + ")");
+                                                         + std::to_string(itr->GetLineNumber()) + ", File: "
+                                                         + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                             }
 
                             // -- Case Example --
@@ -280,8 +280,8 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
                     if (!is_only_number(*itr))
                     {
                         throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                                 + std::to_string(itr->GetLineNumber())
-                                                 + ", File: " + itr->GetFilePath().string() + ")");
+                                                 + std::to_string(itr->GetLineNumber()) + ", File: "
+                                                 + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                     }
 
                     counter++;
@@ -291,8 +291,8 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
                 {
                     itr--;
                     throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                                             + std::to_string(itr->GetLineNumber())
-                                             + ", File: " + itr->GetFilePath().string() + ")");
+                                             + std::to_string(itr->GetLineNumber()) + ", File: "
+                                             + nemesis::to_utf8_string(itr->GetFilePath()) + ")");
                 }
 
                 *counter_nline = nemesis::Line(std::to_string(counter / 3),
@@ -311,8 +311,8 @@ void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileS
 
     auto& last = templines.back();
     throw std::runtime_error("AnimationSetDataSingleFile format error (Line: "
-                             + std::to_string(last.GetLineNumber()) + ", File: " + last.GetFilePath().string()
-                             + ")");
+                             + std::to_string(last.GetLineNumber())
+                             + ", File: " + nemesis::to_utf8_string(last.GetFilePath()) + ")");
 }
 
 void nemesis::AnimationSetDataState::SerializeTo(DeqNstr& lines) const
@@ -329,8 +329,8 @@ UPtr<nemesis::NObject> nemesis::AnimationSetDataState::CloneNObject() const
 UPtr<nemesis::AnimationSetDataState> nemesis::AnimationSetDataState::Clone() const
 {
     std::scoped_lock<std::mutex> lock(DataMutex);
-    auto state      = std::make_unique<nemesis::AnimationSetDataState>(Name);
-    state->FilePath = FilePath;
+    auto state       = std::make_unique<nemesis::AnimationSetDataState>(Name);
+    state->FilePath  = FilePath;
     state->StateData = StateData->Clone();
     return state;
 }
@@ -380,7 +380,8 @@ void nemesis::AnimationSetDataState::SerializeToFile(const std::filesystem::path
     if (!writer.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: " + filepath.string() + "\nMessage: " + ec.message());
+        throw std::runtime_error("Failed to open file: " + nemesis::to_utf8_string(filepath)
+                                 + "\nMessage: " + ec.message());
     }
 
     for (auto& line : lines)
@@ -445,7 +446,7 @@ void nemesis::AnimationSetDataState::Deserialize(nemesis::CollectionObject& coll
                 auto& value = token.Value;
                 throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                          + std::to_string(value.GetLineNumber())
-                                         + ", File: " + value.GetFilePath().string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
             }
         }
     }
@@ -471,7 +472,7 @@ UPtr<nemesis::AnimationSetDataState>
 nemesis::AnimationSetDataState::DeserializeFromFile(const std::filesystem::path& filepath,
                                                     nemesis::SemanticManager& manager)
 {
-    std::string name = filepath.filename().string();
+    std::string name = nemesis::to_utf8_string(filepath.filename());
     auto state       = std::make_unique<nemesis::AnimationSetDataState>(name);
     auto collection  = std::make_unique<nemesis::CollectionObject>();
 
@@ -488,7 +489,7 @@ UPtr<nemesis::AnimationSetDataState>
 nemesis::AnimationSetDataState::DeserializeFromFile(const std::filesystem::path& filepath,
                                                     nemesis::ThreadPool& threadpool)
 {
-    std::string name = filepath.filename().string();
+    std::string name = nemesis::to_utf8_string(filepath.filename());
     auto state       = std::make_unique<nemesis::AnimationSetDataState>(name);
     auto collection  = std::make_unique<nemesis::CollectionObject>();
     auto col_ptr     = collection.get();
@@ -513,7 +514,7 @@ nemesis::AnimationSetDataState::DeserializeFromFile(const std::filesystem::path&
                                                     const nemesis::TemplateClass* template_class,
                                                     nemesis::ThreadPool& threadpool)
 {
-    std::string name = filepath.filename().string();
+    std::string name = nemesis::to_utf8_string(filepath.filename());
     auto state       = std::make_unique<nemesis::AnimationSetDataState>(name);
     auto collection  = std::make_unique<nemesis::CollectionObject>();
     auto col_ptr     = collection.get();
@@ -534,7 +535,8 @@ nemesis::AnimationSetDataState::DeserializeFromFile(const std::filesystem::path&
     return state;
 }
 
-Vec<UPtr<nemesis::AnimationSetDataState>> nemesis::AnimationSetDataState::ParseObjects(nemesis::LineStream& stream,
+Vec<UPtr<nemesis::AnimationSetDataState>>
+nemesis::AnimationSetDataState::ParseObjects(nemesis::LineStream& stream,
                                              nemesis::SemanticManager& manager,
                                              const std::string& project_name,
                                              const VecNstr& state_names)
@@ -542,7 +544,7 @@ Vec<UPtr<nemesis::AnimationSetDataState>> nemesis::AnimationSetDataState::ParseO
     Vec<UPtr<nemesis::AnimationSetDataState>> state_list;
 
     if (stream.IsEoF()) return state_list;
-    
+
     std::function<void(UPtr<nemesis::NObject>&&)> add_object;
 
     auto& token   = stream.GetToken();
@@ -553,7 +555,7 @@ Vec<UPtr<nemesis::AnimationSetDataState>> nemesis::AnimationSetDataState::ParseO
         auto& value = token.Value;
         throw std::runtime_error("Invalid nemesis::AnimationSetDataState::ParseObjects format (Line: "
                                  + std::to_string(value.GetLineNumber())
-                                 + ", File: " + value.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
     }
 
     for (; !stream.IsEoF(); ++stream)
@@ -654,7 +656,7 @@ Vec<UPtr<nemesis::AnimationSetDataState>> nemesis::AnimationSetDataState::ParseO
                 }
                 else if (is_only_number(value.ToString()))
                 {
-                    for (size_t i = 1; ; ++i)
+                    for (size_t i = 1;; ++i)
                     {
                         auto* ftoken_ptr = stream.GetForwardToken(i);
 
@@ -675,9 +677,9 @@ Vec<UPtr<nemesis::AnimationSetDataState>> nemesis::AnimationSetDataState::ParseO
             default:
             {
                 auto& token_value = stream.GetToken().Value;
-                throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
-                                         + std::to_string(token_value.GetLineNumber())
-                                         + ", File: " + token_value.GetFilePath().string() + ")");
+                throw std::runtime_error(
+                    "Syntax Error: Unsupport syntax (Line: " + std::to_string(token_value.GetLineNumber())
+                    + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
             }
         }
     }

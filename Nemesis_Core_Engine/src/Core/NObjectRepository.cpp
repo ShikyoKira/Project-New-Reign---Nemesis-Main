@@ -1,11 +1,11 @@
 #include "Core/NObjectRepository.h"
 
-#include <regex>
 #include <iostream>
+#include <regex>
 
+#include "Core/CompilationManager.h"
 #include "Core/FNISaaPexFile.h"
 #include "Core/ModRepository.h"
-#include "Core/CompilationManager.h"
 
 #include "Core/Hkx/HkxBehavior.h"
 #include "Core/Hkx/HkxCharacter.h"
@@ -14,12 +14,11 @@
 
 #include "Core/AnimationSetData/AnimationSetDataSingleFile.h"
 
-#include "Utilities/ThreadPool.h"
 #include "Utilities/StringExtension.h"
+#include "Utilities/ThreadPool.h"
 
 #include "Logger.h"
 #include "NemesisInfo.h"
-
 
 namespace sf = std::filesystem;
 
@@ -38,16 +37,18 @@ void nemesis::NObjectRepository::ParseHkxFilesFromDirectory(const std::filesyste
             continue;
         }
 
-        if (path.extension().wstring() != L".nemx") continue;
+        if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".nemx"))) continue;
 
-        if (nemesis::istarts_with(path.parent_path().stem().wstring(), L"characters"))
+        if (nemesis::istarts_with(PATH_TO_STRING(path.parent_path().stem()), LITERAL_PATH("characters")))
         {
             auto character = nemesis::HkxCharacter::ParseFromFile(path, thread_pool);
+            CharactersPathMap.insert({character->GetFilePath(), character.get()});
             Characters.emplace_back(std::move(character));
             continue;
         }
 
         auto behavior = nemesis::HkxBehavior::ParseFromFile(path, thread_pool);
+        BehaviorsPathMap.insert({behavior->GetFilePath(), behavior.get()});
         Behaviors.emplace_back(std::move(behavior));
     }
 }
@@ -55,24 +56,27 @@ void nemesis::NObjectRepository::ParseHkxFilesFromDirectory(const std::filesyste
 void nemesis::NObjectRepository::PatchNodeList(
     const Vec<const nemesis::ModPatch<nemesis::HkxNode>*> node_list, nemesis::ThreadPool& thread_pool)
 {
+    size_t mod_dir_length = PATH_TO_STRING(NemesisInfo::ExeDirectory() / LITERAL_PATH("mods")).length();
+
     for (auto& node : node_list)
     {
-        std::filesystem::path filepath = node->GetFilePath();
-        std::filesystem::path relative_path
-            = filepath.parent_path().wstring().substr(
-                  (NemesisInfo::ExeDirectory() / L"mods" / node->GetModClass().GetCode()).wstring().length() + 1)
-              + L".hkx";
+        auto& mod_code = node->GetModClass().GetCode();
+        size_t dir_length = mod_dir_length + mod_code.length() + 1;
 
-        auto behavior = GetBehavior(relative_path);
-        auto mod_code = node->GetModClass().GetCode();
+        auto& filepath = node->GetFilePath();
+        std::filesystem::path relative_path
+            = PATH_TO_STRING(filepath.parent_path()).substr(dir_length + 1) + LITERAL_PATH(".hkx");
+
+        auto* behavior = GetBehavior(relative_path);
+        auto node_id   = nemesis::to_utf8_string(filepath.stem());
 
         if (behavior)
         {
             thread_pool.enqueue(
-                [behavior, filepath, node, mod_code]
+                [behavior, node_id, node, &mod_code]
                 {
                     auto& m_node = node->GetContent();
-                    auto* o_node = behavior->GetNodeById(filepath.stem().string());
+                    auto* o_node = behavior->GetNodeById(node_id);
 
                     if (o_node)
                     {
@@ -90,10 +94,10 @@ void nemesis::NObjectRepository::PatchNodeList(
         if (!character) continue;
 
         thread_pool.enqueue(
-            [character, filepath, node, mod_code]
+            [character, node_id, node, &mod_code]
             {
                 auto& m_node = node->GetContent();
-                auto* o_node = character->GetNodeById(filepath.stem().string());
+                auto* o_node = character->GetNodeById(node_id);
 
                 if (o_node)
                 {
@@ -113,7 +117,7 @@ void nemesis::NObjectRepository::PatchHeaderList(
     for (auto& m_header : header_list)
     {
         auto filepath = m_header->GetFilePath();
-        auto folder   = filepath.parent_path().stem().string();
+        std::string folder = nemesis::to_utf8_string(filepath.parent_path().stem());
 
         static std::regex rgx("^([^~]+)~([0-9]+)");
         std::smatch proj_match;
@@ -123,8 +127,8 @@ void nemesis::NObjectRepository::PatchHeaderList(
         auto proj_name = proj_match[1];
         size_t index   = std::stoul(proj_match[2]);
 
-        auto project  = AnimDataSingleFile->GetProject(proj_name, index);
-        auto mod_code = m_header->GetModClass().GetCode();
+        auto* project  = AnimDataSingleFile->GetProject(proj_name, index);
+        auto& mod_code = m_header->GetModClass().GetCode();
 
         if (!project)
         {
@@ -133,7 +137,7 @@ void nemesis::NObjectRepository::PatchHeaderList(
             AnimDataSingleFile->AddProject(std::move(uproject));
         }
 
-        thread_pool.enqueue([m_header, project, mod_code]()
+        thread_pool.enqueue([m_header, project, &mod_code]()
                             { project->MatchAndUpdateHeader(mod_code, m_header->GetContent()); });
     }
 }
@@ -145,7 +149,7 @@ void nemesis::NObjectRepository::PatchClipData(
     for (auto& m_clip_data : clip_data_list)
     {
         auto filepath = m_clip_data->GetFilePath();
-        auto folder   = filepath.parent_path().stem().string();
+        std::string folder = nemesis::to_utf8_string(filepath.parent_path().stem());
 
         static std::regex rgx("^([^~]+)~([0-9]+)");
         std::smatch proj_match;
@@ -155,8 +159,9 @@ void nemesis::NObjectRepository::PatchClipData(
         auto proj_name = proj_match[1];
         size_t index   = std::stoul(proj_match[2]);
 
-        auto project  = AnimDataSingleFile->GetProject(proj_name, index);
-        auto mod_code = m_clip_data->GetModClass().GetCode();
+        auto* project  = AnimDataSingleFile->GetProject(proj_name, index);
+        auto& mod_class = m_clip_data->GetModClass();
+        auto& mod_code  = mod_class.GetCode();
 
         if (!project)
         {
@@ -165,21 +170,19 @@ void nemesis::NObjectRepository::PatchClipData(
             AnimDataSingleFile->AddProject(std::move(uproject));
         }
 
-        auto& m_data   = m_clip_data->GetContent();
-        auto clip_data = project->GetClipData(m_data.GetName(), m_data.GetCode());
+        auto& m_data    = m_clip_data->GetContent();
+        auto* clip_data = project->GetClipData(m_data.GetName(), m_data.GetCode());
 
         if (clip_data)
         {
-            thread_pool.enqueue([clip_data, mod_code, &m_data]
+            thread_pool.enqueue([clip_data, &mod_code, &m_data]
                                 { clip_data->MatchAndUpdate(mod_code, m_data); });
             return;
         }
 
         auto* clip_data_ptr = &project->AddClipData(nullptr);
-
-        thread_pool.enqueue(
-            [m_clip_data, &m_data, clip_data_ptr]
-            { *clip_data_ptr = m_data.Clone(m_clip_data->GetModClass(), m_clip_data->GetFilePath()); });
+        thread_pool.enqueue([filepath, &mod_class, &m_data, clip_data_ptr]
+                            { *clip_data_ptr = m_data.Clone(mod_class, filepath); });
     }
 }
 
@@ -190,17 +193,18 @@ void nemesis::NObjectRepository::PatchMotionData(
     for (auto& m_motion_data : motion_data_list)
     {
         auto filepath = m_motion_data->GetFilePath();
-        auto folder   = filepath.parent_path().stem().string();
+        std::string folder = nemesis::to_utf8_string(filepath.parent_path().stem());
 
         static std::regex rgx("^([^~]+)~([0-9]+)");
         std::smatch proj_match;
 
         if (!std::regex_match(folder, proj_match, rgx)) continue;
 
-        auto proj_name = proj_match[1];
-        size_t index   = std::stoul(proj_match[2]);
-        auto project   = AnimDataSingleFile->GetProject(proj_name, index);
-        auto mod_code  = m_motion_data->GetModClass().GetCode();
+        auto proj_name  = proj_match[1];
+        size_t index    = std::stoul(proj_match[2]);
+        auto* project   = AnimDataSingleFile->GetProject(proj_name, index);
+        auto& mod_class = m_motion_data->GetModClass();
+        auto& mod_code  = mod_class.GetCode();
 
         if (!project)
         {
@@ -209,21 +213,19 @@ void nemesis::NObjectRepository::PatchMotionData(
             AnimDataSingleFile->AddProject(std::move(uproject));
         }
 
-        auto& m_data     = m_motion_data->GetContent();
-        auto motion_data = project->GetMotionData(m_data.GetCode());
+        auto& m_data      = m_motion_data->GetContent();
+        auto* motion_data = project->GetMotionData(m_data.GetCode());
 
         if (motion_data)
         {
-            thread_pool.enqueue([motion_data, mod_code, &m_data]
+            thread_pool.enqueue([motion_data, &mod_code, &m_data]
                                 { motion_data->MatchAndUpdate(mod_code, m_data); });
             return;
         }
 
         auto* motion_data_ptr = &project->AddMotionData(nullptr);
-
-        thread_pool.enqueue(
-            [m_motion_data, &m_data, motion_data_ptr]
-            { *motion_data_ptr = m_data.Clone(m_motion_data->GetModClass(), m_motion_data->GetFilePath()); });
+        thread_pool.enqueue([filepath, &mod_class, &m_data, motion_data_ptr]
+                            { *motion_data_ptr = m_data.Clone(mod_class, filepath); });
     }
 }
 
@@ -233,12 +235,13 @@ void nemesis::NObjectRepository::PatchStateData(
 {
     for (auto& m_state_data : statedata_list)
     {
-        auto filepath  = m_state_data->GetFilePath();
-        auto proj_name = filepath.parent_path().filename().string();
+        auto filepath = m_state_data->GetFilePath();
+        std::string proj_name = nemesis::to_utf8_string(filepath.parent_path().filename());
         nemesis::replace(proj_name, "~", "\\");
 
-        auto project  = AnimSetDataSingleFile->GetProject(proj_name);
-        auto mod_code = m_state_data->GetModClass().GetCode();
+        auto* project  = AnimSetDataSingleFile->GetProject(proj_name);
+        auto& mod_class = m_state_data->GetModClass();
+        auto& mod_code  = mod_class.GetCode();
 
         if (!project)
         {
@@ -247,21 +250,20 @@ void nemesis::NObjectRepository::PatchStateData(
             AnimSetDataSingleFile->AddProject(std::move(uproject));
         }
 
-        auto& m_data    = m_state_data->GetContent();
-        auto state_data = project->GetState(m_data.GetName());
+        auto& m_data     = m_state_data->GetContent();
+        auto* state_data = project->GetState(m_data.GetName());
 
         if (state_data)
         {
-            thread_pool.enqueue([state_data, mod_code, &m_data]
+            thread_pool.enqueue([state_data, &mod_code, &m_data]
                                 { state_data->MatchAndUpdate(mod_code, m_data); });
             return;
         }
 
-        auto* state_data_ptr = &project->AddState(std::make_unique<nemesis::AnimationSetDataState>(m_data.GetName()));
-
-        thread_pool.enqueue(
-            [m_state_data, &m_data, state_data_ptr]
-            { *state_data_ptr = m_data.Clone(m_state_data->GetModClass(), m_state_data->GetFilePath()); });
+        auto* state_data_ptr
+            = &project->AddState(std::make_unique<nemesis::AnimationSetDataState>(m_data.GetName()));
+        thread_pool.enqueue([filepath, &mod_class, &m_data, state_data_ptr]
+                            { *state_data_ptr = m_data.Clone(mod_class, filepath); });
     }
 }
 
@@ -271,13 +273,13 @@ nemesis::NObjectRepository::NObjectRepository(const std::filesystem::path& data_
 
     nemesis::ThreadPool thread_pool;
 
-    sf::path meshes_path = data_path / L"meshes";
+    sf::path meshes_path = data_path / LITERAL_PATH("meshes");
     ParseHkxFilesFromDirectory(meshes_path, thread_pool);
 
     AnimDataSingleFile = nemesis::AnimationDataSingleFile::ParseFromFile(
-        meshes_path / L"nemesis_animationdatasinglefile.txt", thread_pool);
+        meshes_path / LITERAL_PATH("nemesis_animationdatasinglefile.txt"), thread_pool);
     AnimSetDataSingleFile = nemesis::AnimationSetDataSingleFile::ParseFromFile(
-        meshes_path / L"nemesis_animationsetdatasinglefile.txt", thread_pool);
+        meshes_path / LITERAL_PATH("nemesis_animationsetdatasinglefile.txt"), thread_pool);
 
     thread_pool.join_all();
 }
@@ -285,12 +287,9 @@ nemesis::NObjectRepository::NObjectRepository(const std::filesystem::path& data_
 nemesis::HkxBehavior*
 nemesis::NObjectRepository::GetBehavior(const std::filesystem::path& relative_path) noexcept
 {
-    for (auto& behavior : Behaviors)
-    {
-        if (!nemesis::iequals(behavior->GetRelativePath().wstring(), relative_path.wstring())) continue;
+    auto itr = BehaviorsPathMap.find(relative_path);
 
-        return behavior.get();
-    }
+    if (itr != BehaviorsPathMap.end()) return itr->second;
 
     return nullptr;
 }
@@ -298,12 +297,9 @@ nemesis::NObjectRepository::GetBehavior(const std::filesystem::path& relative_pa
 const nemesis::HkxBehavior*
 nemesis::NObjectRepository::GetBehavior(const std::filesystem::path& relative_path) const noexcept
 {
-    for (auto& behavior : Behaviors)
-    {
-        if (!nemesis::iequals(behavior->GetRelativePath().wstring(), relative_path.wstring())) continue;
+    auto itr = BehaviorsPathMap.find(relative_path);
 
-        return behavior.get();
-    }
+    if (itr != BehaviorsPathMap.end()) return itr->second;
 
     return nullptr;
 }
@@ -311,12 +307,9 @@ nemesis::NObjectRepository::GetBehavior(const std::filesystem::path& relative_pa
 nemesis::HkxCharacter*
 nemesis::NObjectRepository::GetCharacter(const std::filesystem::path& relative_path) noexcept
 {
-    for (auto& character : Characters)
-    {
-        if (!nemesis::iequals(character->GetRelativePath().wstring(), relative_path.wstring())) continue;
+    auto itr = CharactersPathMap.find(relative_path);
 
-        return character.get();
-    }
+    if (itr != CharactersPathMap.end()) return itr->second;
 
     return nullptr;
 }
@@ -324,12 +317,9 @@ nemesis::NObjectRepository::GetCharacter(const std::filesystem::path& relative_p
 const nemesis::HkxCharacter*
 nemesis::NObjectRepository::GetCharacter(const std::filesystem::path& relative_path) const noexcept
 {
-    for (auto& character : Characters)
-    {
-        if (!nemesis::iequals(character->GetRelativePath().wstring(), relative_path.wstring())) continue;
+    auto itr = CharactersPathMap.find(relative_path);
 
-        return character.get();
-    }
+    if (itr != CharactersPathMap.end()) return itr->second;
 
     return nullptr;
 }
@@ -357,7 +347,7 @@ nemesis::NObjectRepository::GetAnimSetDataSingleFile() const noexcept
 
 void nemesis::NObjectRepository::Patch(const nemesis::ModRepository& mod_repo)
 {
-    Logger::Log(L"Patching Core Objects with Mod Objects...", true);
+    Logger::Log("Patching Core Objects with Mod Objects...", true);
 
     auto mod_class_list = mod_repo.GetModClassList();
     nemesis::ThreadPool thread_pool;
@@ -374,22 +364,27 @@ void nemesis::NObjectRepository::Patch(const nemesis::ModRepository& mod_repo)
     thread_pool.join_all();
 }
 
-void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager) const
+void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
+                                         std::function<void(int, int)> prgs_callback) const
 {
-    Logger::Log(L"Compiling Core Objects...", true);
+    Logger::Log("Compiling Core Objects...", true);
 
     manager.ClearCheckSum();
     nemesis::ThreadPool cthread_pool;
     nemesis::ThreadPool thread_pool;
+    int TotalObjects = Characters.size() + Behaviors.size() + 3;
+    std::atomic<int> CompiledObjectCounter(0);
 
     for (auto& character : Characters)
     {
         auto& state = manager.CreateCompileState(character->GetFilePath());
-        cthread_pool.enqueue(
-            [&character, &state]()
+        cthread_pool.priority_enqueue(
+            character->GetSize(),
+            [&character, &state, &CompiledObjectCounter, &prgs_callback, TotalObjects]()
             {
-                character->ScheduleCompileFile(
+                character->CompileFile(
                     state, NemesisInfo::OutputPlatform(), NemesisInfo::OutputVersion(), true);
+                prgs_callback(++CompiledObjectCounter, TotalObjects);
             });
     }
 
@@ -398,48 +393,74 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager) c
 
     for (auto& behavior : Behaviors)
     {
-        if (nemesis::iequals(behavior->GetTargetPath().filename().wstring(), L"build_info.hkx"))
+        if (nemesis::iequals(PATH_TO_STRING(behavior->GetTargetPath().filename()),
+                             LITERAL_PATH("build_info.hkx")))
         {
             build_info_bhv = behavior.get();
             continue;
         }
 
         auto& state = manager.CreateCompileState(behavior->GetFilePath());
-        thread_pool.enqueue([&behavior, &state]()
+        thread_pool.priority_enqueue(
+            behavior->GetSize(),
+            [&behavior, &state, &CompiledObjectCounter, &prgs_callback, TotalObjects]()
             {
-                behavior->ScheduleCompileFile(
+                behavior->CompileFile(
                     state, NemesisInfo::OutputPlatform(), NemesisInfo::OutputVersion(), true);
+                prgs_callback(++CompiledObjectCounter, TotalObjects);
             });
     }
 
     auto& adsf_state = manager.CreateCompileState(AnimDataSingleFile->GetFilePath());
-    thread_pool.enqueue([this, &adsf_state]() { AnimDataSingleFile->CompileFile(adsf_state); });
+    thread_pool.priority_enqueue(
+        2000,
+        [this, &adsf_state, &CompiledObjectCounter, &prgs_callback, TotalObjects]()
+        {
+            AnimDataSingleFile->CompileFile(adsf_state);
+            prgs_callback(++CompiledObjectCounter, TotalObjects);
+        });
 
     auto& asdsf_state = manager.CreateCompileState(AnimSetDataSingleFile->GetFilePath());
-    thread_pool.enqueue([this, &asdsf_state]() { AnimSetDataSingleFile->CompileFile(asdsf_state); });
+    thread_pool.priority_enqueue(
+        800,
+        [this, &asdsf_state, &CompiledObjectCounter, &prgs_callback, TotalObjects]()
+        {
+            AnimSetDataSingleFile->CompileFile(asdsf_state);
+            prgs_callback(++CompiledObjectCounter, TotalObjects);
+        });
     thread_pool.join_all();
 
-    if (build_info_bhv != nullptr)
+    std::future<void> build_info_future;
+
+    if (build_info_bhv)
     {
-        auto& state = manager.CreateCompileState(build_info_bhv->GetFilePath());
-        build_info_bhv->ScheduleCompileFile(
-            state, NemesisInfo::OutputPlatform(), NemesisInfo::OutputVersion(), true);
+        build_info_future = std::async(
+            [&manager, &prgs_callback, &CompiledObjectCounter, TotalObjects, build_info_bhv]()
+            {
+                auto& state = manager.CreateCompileState(build_info_bhv->GetFilePath());
+                build_info_bhv->CompileFile(
+                    state, NemesisInfo::OutputPlatform(), NemesisInfo::OutputVersion(), true);
+                prgs_callback(++CompiledObjectCounter, TotalObjects);
+            });
     }
 
-    nemesis::FNISaaPexFile pex_file(NemesisInfo::ExeDirectory() / L"alternate_animations"
-                                    / L"AlternateAnimationsScript.pex");
-    pex_file.Patch(manager);
-    pex_file.OutputPexFile(NemesisInfo::DataPath() / L"Scripts" / L"Nemesis_aa2.pex");
-
-    for (auto& character : Characters)
+    std::future<void> pex_future = std::async(
+        [&manager, &prgs_callback, &CompiledObjectCounter, TotalObjects]()
+        {
+            nemesis::FNISaaPexFile pex_file(NemesisInfo::ExeDirectory() / LITERAL_PATH("alternate_animations")
+                                            / LITERAL_PATH("AlternateAnimationsScript.pex"));
+            pex_file.Patch(manager);
+            pex_file.OutputPexFile(NemesisInfo::DataPath() / LITERAL_PATH("Scripts")
+                                   / LITERAL_PATH("Nemesis_aa2.pex"));
+            prgs_callback(++CompiledObjectCounter, TotalObjects);
+        });
+    
+    if (build_info_bhv)
     {
-        character->WaitForCompleteCompilation();
+        build_info_future.get();
     }
 
-    for (auto& behavior : Behaviors)
-    {
-        behavior->WaitForCompleteCompilation();
-    }
+    pex_future.get();
 
-    Logger::Log("Compile Complete", true);
+    Logger::Log("Total Files Compiled: " + std::to_string(CompiledObjectCounter), true);
 }

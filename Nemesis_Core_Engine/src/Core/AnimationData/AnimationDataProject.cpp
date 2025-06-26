@@ -2,13 +2,12 @@
 
 #include "Core/CoreObject.h"
 
-#include "Utilities/File.h"
 #include "Utilities/Algorithm.h"
+#include "Utilities/File.h"
 #include "Utilities/FileWriter.h"
 #include "Utilities/ThreadPool.h"
 
-const std::filesystem::path&
-nemesis::AnimationDataProject::Headers::GetFilePath() const noexcept
+const std::filesystem::path& nemesis::AnimationDataProject::Headers::GetFilePath() const noexcept
 {
     return FilePath;
 }
@@ -26,8 +25,7 @@ UPtr<nemesis::CollectionObject> nemesis::AnimationDataProject::Headers::Clone() 
     return collection;
 }
 
-UPtr<nemesis::AnimationDataProject::Headers>
-nemesis::AnimationDataProject::Headers::CloneHeaders() const
+UPtr<nemesis::AnimationDataProject::Headers> nemesis::AnimationDataProject::Headers::CloneHeaders() const
 {
     return UPtr<nemesis::AnimationDataProject::Headers>(
         static_cast<nemesis::AnimationDataProject::Headers*>(Clone().release()));
@@ -43,7 +41,7 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
     {
         throw std::runtime_error("Invalid nemesis::AnimationDataProject::ParseProject size (Line: "
                                  + std::to_string(ssize.GetLineNumber())
-                                 + ". File: " + ssize.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(ssize.GetFilePath()) + ")");
     }
 
     size_t fsize;
@@ -54,7 +52,7 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
     {
         throw std::runtime_error("Invalid nemesis::AnimationDataProject::ParseProject size (Line: "
                                  + std::to_string(ssize.GetLineNumber())
-                                 + ". File: " + ssize.GetFilePath().string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(ssize.GetFilePath()) + ")");
     }
 
     ParseStage type = nemesis::AnimationDataProject::IsActiveStage;
@@ -69,7 +67,7 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
         {
             throw std::runtime_error("Syntax Error: Unexpected syntax (Line: "
                                      + std::to_string(value.GetLineNumber())
-                                     + ". File: " + value.GetFilePath().string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
         }
 
         if (end_token == &token)
@@ -95,13 +93,12 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
                 {
                     throw std::runtime_error(
                         "Invalid nemesis::AnimationDataProject::ParseProject format (Line: "
-                        + std::to_string(value.GetLineNumber()) + ". File: " + value.GetFilePath().string()
-                        + ")");
+                        + std::to_string(value.GetLineNumber())
+                        + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
                 }
 
                 fsize             = std::stoul(value.ToString());
-                project->HkxFiles
-                    = std::make_unique<nemesis::AnimationDataProject::Headers>();
+                project->HkxFiles = std::make_unique<nemesis::AnimationDataProject::Headers>();
 
                 if (fsize > 0)
                 {
@@ -141,8 +138,8 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
                 {
                     throw std::runtime_error(
                         "Invalid nemesis::AnimationDataProject::ParseObjects format (Line: "
-                        + std::to_string(value.GetLineNumber()) + ". File: " + value.GetFilePath().string()
-                        + ")");
+                        + std::to_string(value.GetLineNumber())
+                        + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
                 }
 
                 project->MotionDataList = nemesis::AnimationDataMotionData::ParseObjects(stream, manager);
@@ -269,7 +266,7 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::Clone() const
     {
         project->MotionDataList.emplace_back(motion_data->Clone());
     }
-    
+
     for (auto& clip_data : ClipDataTemplateList)
     {
         project->ClipDataTemplateList.emplace_back(clip_data->SClone());
@@ -369,7 +366,8 @@ void nemesis::AnimationDataProject::SerializeToDirectory(const std::filesystem::
     if (!writer.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: " + filepath.string() + "\nMessage: " + ec.message());
+        throw std::runtime_error("Failed to open file: " + nemesis::to_utf8_string(filepath)
+                                 + "\nMessage: " + ec.message());
     }
 
     for (auto& line : lines)
@@ -395,14 +393,14 @@ void nemesis::AnimationDataProject::SerializeToDirectory(const std::filesystem::
 UPtr<nemesis::AnimationDataProject>
 nemesis::AnimationDataProject::DeserializeFromDirectory(const std::filesystem::path& directory_path)
 {
-    return DeserializeFromDirectory(directory_path, directory_path.stem().string());
+    return DeserializeFromDirectory(directory_path, nemesis::to_utf8_string(directory_path.stem()));
 }
 
 UPtr<nemesis::AnimationDataProject>
 nemesis::AnimationDataProject::DeserializeFromDirectory(const std::filesystem::path& directory_path,
                                                         const std::string project_name)
 {
-    auto project  = std::make_unique<nemesis::AnimationDataProject>(project_name);
+    auto project = std::make_unique<nemesis::AnimationDataProject>(project_name);
 
     for (auto& entry : std::filesystem::directory_iterator(directory_path))
     {
@@ -412,13 +410,13 @@ nemesis::AnimationDataProject::DeserializeFromDirectory(const std::filesystem::p
 
         if (path.extension() != ".txt") continue;
 
-        if (nemesis::iequals(path.stem().string(), "$header$"))
+        if (nemesis::iequals(PATH_TO_STRING(path.stem()), LITERAL_PATH("$header$")))
         {
             project->HkxFiles = DeserializeHeaderFromFile(path);
             continue;
         }
 
-        if (path.stem().string().rfind("~") != NOT_FOUND)
+        if (PATH_TO_STRING(path.stem()).rfind(LITERAL_PATH("~")) != NOT_FOUND)
         {
             auto clip_data = nemesis::AnimationDataClipData::DeserializeFromFile(path);
             project->AddClipData(std::move(clip_data));
@@ -436,7 +434,8 @@ UPtr<nemesis::AnimationDataProject>
 nemesis::AnimationDataProject::DeserializeFromDirectory(const std::filesystem::path& directory_path,
                                                         nemesis::ThreadPool& threadpool)
 {
-    return DeserializeFromDirectory(directory_path, directory_path.stem().string(), threadpool);
+    return DeserializeFromDirectory(
+        directory_path, nemesis::to_utf8_string(directory_path.stem()), threadpool);
 }
 
 UPtr<nemesis::AnimationDataProject>
@@ -444,7 +443,7 @@ nemesis::AnimationDataProject::DeserializeFromDirectory(const std::filesystem::p
                                                         const std::string project_name,
                                                         nemesis::ThreadPool& threadpool)
 {
-    auto project  = std::make_unique<nemesis::AnimationDataProject>(project_name);
+    auto project = std::make_unique<nemesis::AnimationDataProject>(project_name);
 
     for (auto& entry : std::filesystem::directory_iterator(directory_path))
     {
@@ -452,15 +451,15 @@ nemesis::AnimationDataProject::DeserializeFromDirectory(const std::filesystem::p
 
         auto path = entry.path();
 
-        if (path.extension() != ".txt") continue;
+        if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".txt"))) continue;
 
-        if (nemesis::iequals(path.stem().string(), "$header$"))
+        if (nemesis::iequals(PATH_TO_STRING(path.stem()), LITERAL_PATH("$header$")))
         {
             project->HkxFiles = DeserializeHeaderFromFile(path, threadpool);
             continue;
         }
 
-        if (path.stem().string().rfind("~") != NOT_FOUND)
+        if (PATH_TO_STRING(path.stem()).rfind(LITERAL_PATH("~")) != NOT_FOUND)
         {
             auto clip_data = nemesis::AnimationDataClipData::DeserializeFromFile(path, threadpool);
             project->AddClipData(std::move(clip_data));
@@ -484,7 +483,6 @@ nemesis::AnimationDataProject::DeserializeHeaderFromFile(const std::filesystem::
     nemesis::LineStream stream(lines.begin(), lines.end());
     UPtr<nemesis::AnimationDataProject::Headers> headers
         = std::make_unique<nemesis::AnimationDataProject::Headers>();
-
 
     for (; !stream.IsEoF(); ++stream)
     {
@@ -527,7 +525,7 @@ nemesis::AnimationDataProject::DeserializeHeaderFromFile(const std::filesystem::
                 auto& value = token.Value;
                 throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                          + std::to_string(value.GetLineNumber())
-                                         + ". File: " + value.GetFilePath().string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
             }
         }
     }
@@ -592,7 +590,7 @@ nemesis::AnimationDataProject::DeserializeHeaderFromFile(const std::filesystem::
                         auto& value = token.Value;
                         throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
                                                  + std::to_string(value.GetLineNumber())
-                                                 + ". File: " + value.GetFilePath().string() + ")");
+                                                 + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
                     }
                 }
             }

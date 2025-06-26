@@ -18,7 +18,11 @@ size_t CountMatches(const std::string& text, const std::string& match)
     return count;
 }
 
-bool TrackLayer(int& layer, const std::string& text, const std::string& open, const std::string& close, std::function<bool()> continue_callback)
+bool TrackLayer(int& layer,
+                const std::string& text,
+                const std::string& open,
+                const std::string& close,
+                std::function<bool()> continue_callback)
 {
     size_t pos  = text.find(open);
     size_t pos2 = text.find(close);
@@ -258,6 +262,6 @@ void nemesis::NumelementModifier::Apply(VecStr& blocks, nemesis::CompileState& s
         [this]()
         {
             throw std::runtime_error("Syntax Error: Unclose counter (Line: " + std::to_string(LineNum)
-                                     + ", File: " + FilePath.string() + ")");
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         });
 }

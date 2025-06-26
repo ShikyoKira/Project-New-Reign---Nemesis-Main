@@ -8,6 +8,8 @@
 #include "Havok/hkbBehaviorGraph.h"
 #include "Havok/hkbBehaviorGraphStringData.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::XmlDeserializer::StreamBlock::StreamBlock(const std::string& text)
     : Text(text)
     , Stream(text)
@@ -616,7 +618,8 @@ void nemesis::XmlDeserializer::LoadFile(const std::filesystem::path& filepath)
     if (static_cast<std::ifstream*>(Stream.get())->is_open()) return;
 
     std::error_code ec(errno, std::system_category());
-    throw std::runtime_error("Failed to open file: \"" + filepath.string() + "\"\nMessage: " + ec.message());
+    throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                             + "\"\nMessage: " + ec.message());
 }
 
 void nemesis::XmlDeserializer::LoadXml(const std::string& xml)
@@ -1011,8 +1014,8 @@ nemesis::hkVector4& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer
         stream_block.Stream >> x >> y >> z;
     }
     else
-{
-    stream_block.Stream >> x >> y >> z >> w;
+    {
+        stream_block.Stream >> x >> y >> z >> w;
     }
 
     vec4.SetX(x);

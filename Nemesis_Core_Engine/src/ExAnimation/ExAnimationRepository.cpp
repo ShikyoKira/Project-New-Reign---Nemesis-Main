@@ -23,7 +23,7 @@ void nemesis::ExAnimationRepository::AddAllProjectsFromFolderRecursively(const s
             continue;
         }
 
-        if (!nemesis::iequals(path.filename().wstring(), L"exanimation.json")) continue;
+        if (!nemesis::iequals(PATH_TO_STRING(path.filename()), LITERAL_PATH("exanimation.json"))) continue;
 
         auto project = nemesis::ExAnimationProject::ParseExAnimationProject(path, thread_pool);
         ProjectList.emplace_back(std::move(project));

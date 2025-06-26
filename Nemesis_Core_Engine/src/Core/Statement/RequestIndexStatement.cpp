@@ -3,6 +3,8 @@
 #include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
 
+#include "Utilities/Algorithm.h"
+
 nemesis::RequestIndexStatement::RequestIndexStatement(const std::string& expression,
                                                       size_t linenum,
                                                       const std::filesystem::path& filepath,
@@ -30,8 +32,9 @@ nemesis::RequestIndexStatement::RequestIndexStatement(const std::string& express
             break;
         }
         default:
-            throw std::runtime_error("Syntax Error: Unsupported request index format (File: "
-                                     + filepath.string() + ", Line: " + std::to_string(linenum) + ")");
+            throw std::runtime_error("Syntax Error: Unsupported request index format (Line: "
+                                     + std::to_string(linenum)
+                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 }
 

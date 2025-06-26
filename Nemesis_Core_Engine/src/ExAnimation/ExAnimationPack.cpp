@@ -1,11 +1,10 @@
-#include "ExAnimation/ExAnimationPack.h"
-
 #include <regex>
+
+#include "ExAnimation/ExAnimationPack.h"
 
 #include "Utilities/Algorithm.h"
 
 #include "Logger.h"
-
 
 namespace sf = std::filesystem;
 
@@ -15,30 +14,36 @@ nemesis::ExAnimationPack::ExAnimationPack(const std::filesystem::path& pack_dir,
 {
     static const std::regex folder_rgx("^([0-9]+)(.+)$");
     std::smatch match;
-    std::string folder_name = pack_dir.stem().string();
+    std::string folder_name = nemesis::to_utf8_string(pack_dir.stem());
 
     if (!std::regex_match(folder_name, match, folder_rgx))
     {
-        throw std::runtime_error("Invalid ExAnimation folder name (ExAnimation folder: " + pack_dir.string()
-                                 + ")");
+        throw std::runtime_error("Invalid ExAnimation folder name (ExAnimation folder: "
+                                 + nemesis::to_utf8_string(pack_dir) + ")");
     }
 
     Order = std::stoi(match.str(1));
     Name  = match.str(2);
     Logger::Log("ExAnimations: " + Name + " (" + std::to_string(Order) + ")");
 
-    if (!std::filesystem::exists(pack_dir)) return;
+    if (!sf::exists(pack_dir)) return;
 
     for (auto entry : sf::directory_iterator(pack_dir))
     {
         if (entry.is_directory()) continue;
 
         sf::path path         = entry.path();
-        sf::path ex_anim_name = L"ex_" + std::to_wstring(Order) + L"_" + path.stem().wstring()
-                                + nemesis::to_lower_copy(path.extension().wstring());
-        RequestList.emplace_back(*this,
-                                 aim_dir / (path.stem().wstring() + path.extension().wstring()),
-                                 ex_anim_dir / ex_anim_name);
+        sf::path ex_anim_name = LITERAL_PATH("ex_") +
+#if _WIN32
+                                std::to_wstring(Order)
+#else
+                                std::to_string(Order)
+#endif
+                                + LITERAL_PATH("_") + PATH_TO_STRING(path.stem())
+                                + nemesis::to_lower_copy(PATH_TO_STRING(path.extension()));
+        auto& req = RequestList.emplace_back(std::make_unique<nemesis::ExAnimationRequest>(
+            *this, aim_dir / path.filename(), ex_anim_dir / ex_anim_name));
+        RequestPathMap.insert({nemesis::to_lower_copy(PATH_TO_STRING(req->GetCanonAnimPath())), req.get()});
     }
 }
 
@@ -57,7 +62,7 @@ std::string nemesis::ExAnimationPack::GetVariableName() const noexcept
     return "Nemesis_Ex_" + Name;
 }
 
-const Vec<nemesis::ExAnimationRequest>& nemesis::ExAnimationPack::GetRequestList() const noexcept
+const Vec<UPtr<nemesis::ExAnimationRequest>>& nemesis::ExAnimationPack::GetRequestList() const noexcept
 {
     return RequestList;
 }
@@ -88,17 +93,9 @@ nemesis::ExAnimationPack::GetExAnimRequest(const std::filesystem::path& canon_an
 
     writer_lock.unlock();
 
-    const nemesis::ExAnimationRequest* cur_req = nullptr;
-
-    for (auto& request : RequestList)
-    {
-        auto req_path = request.GetCanonAnimPath();
-
-        if (!nemesis::iequals(req_path, canon_anim_path)) continue;
-
-        cur_req = &request;
-        break;
-    }
+    auto lower_path = nemesis::to_lower_copy(PATH_TO_STRING(canon_anim_path));
+    auto itr        = RequestPathMap.find(lower_path);
+    auto* cur_req   = itr != RequestPathMap.end() ? itr->second : nullptr;
 
     {
         std::unique_lock<std::shared_mutex> lock(ExAnimMapMutex);

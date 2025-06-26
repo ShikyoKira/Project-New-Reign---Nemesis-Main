@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Serialize/PackfileSerializer.h"
 
 #include "Havok/hkClassMember.h"
@@ -7,7 +9,7 @@
 #include "Havok/hkPackfileSectionHeader.h"
 #include "Havok/hkRootLevelContainer.h"
 
-#include <iostream>
+#include "Utilities/Algorithm.h"
 
 void nemesis::PackfileSerializer::PadStream(std::ostream& stream, int pad_align_to)
 {
@@ -235,13 +237,18 @@ void nemesis::PackfileSerializer::Serialize(const nemesis::hkRootLevelContainer&
 
 void nemesis::PackfileSerializer::Save(const std::filesystem::path& filepath)
 {
-    std::filesystem::create_directories(filepath.parent_path());
+    if (filepath.has_parent_path())
+    {
+        std::filesystem::create_directories(filepath.parent_path());
+    }
+
     std::ofstream file_stream(filepath, std::ios::binary);
 
     if (!file_stream)
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: \"" + filepath.string() + "\"\nMessage: " + ec.message());
+        throw std::runtime_error("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
     }
 
     file_stream << MainStream.str();

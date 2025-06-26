@@ -22,53 +22,53 @@
 
 namespace sf = std::filesystem;
 
-void log_compilation_result(const std::chrono::steady_clock::time_point& start, std::wstring check_sum)
+void log_compilation_result(const std::chrono::steady_clock::time_point& start, std::string check_sum)
 {
     auto end     = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    Logger::Log(L"Time taken: " + std::to_wstring(static_cast<double>(elapsed.count()) / 1000) + L"s", true);
-    Logger::Log(L"CheckSum: " + check_sum, true);
+    Logger::Log("Time taken: " + std::to_string(static_cast<double>(elapsed.count()) / 1000) + "s", true);
+    Logger::Log("CheckSum: " + check_sum, true);
 }
 
-std::wstring get_memorable_hash(const std::wstring& data)
+std::string get_memorable_hash(const std::string& data)
 {
-    constexpr std::array<const wchar_t*, 21> first_adjectives = {
-        L"BIG",  L"SMALL", L"NEW",    L"OLD",  L"FAST", L"SLOW", L"GOOD", L"BAD",   L"DEEP", L"HIGH", L"LOW",
-        L"LONG", L"SHORT", L"BRIGHT", L"DARK", L"HOT",  L"COLD", L"WARM", L"FRESH", L"HARD", L"SOFT"};
-    constexpr std::array<const wchar_t*, 21> second_adjectives
-        = {L"RED",    L"BLUE",   L"GREEN", L"YELLOW", L"ORANGE", L"BROWN", L"PURPLE",
-           L"COPPER", L"GOLDEN", L"THIN",  L"THICK",  L"LOOSE",  L"TIGHT", L"STURDY",
-           L"BOUNCY", L"DUSTY",  L"HEAVY", L"LIGHT",  L"CLEAN",  L"DIRTY", L"FRAGILE"};
-    constexpr std::array<const wchar_t*, 21> objects
-        = {L"HEARTS", L"HANDS", L"BOXES",  L"LEAVES",  L"CARS",   L"PEBBLES", L"TILES",
-           L"KNIVES", L"COINS", L"SWORDS", L"SHIELDS", L"SPOONS", L"PENS",    L"BOOKS",
-           L"CHAIRS", L"BALLS", L"STONES", L"BOATS",   L"LAMPS",  L"TABLES",  L"CLOCKS"};
+    constexpr std::array<const char*, 21> first_adjectives
+        = {"BIG",  "SMALL", "NEW",    "OLD",  "FAST", "SLOW", "GOOD", "BAD",   "DEEP", "HIGH", "LOW",
+           "LONG", "SHORT", "BRIGHT", "DARK", "HOT",  "COLD", "WARM", "FRESH", "HARD", "SOFT"};
+    constexpr std::array<const char*, 21> second_adjectives
+        = {"RED",    "BLUE",   "GREEN", "YELLOW", "ORANGE", "BROWN", "PURPLE",
+           "COPPER", "GOLDEN", "THIN",  "THICK",  "LOOSE",  "TIGHT", "STURDY",
+           "BOUNCY", "DUSTY",  "HEAVY", "LIGHT",  "CLEAN",  "DIRTY", "FRAGILE"};
+    constexpr std::array<const char*, 21> objects
+        = {"PHONES",  "BUDS",  "COINS", "KEYS",    "CARS",    "SHOES",   "BUTTONS",
+           "BOTTLES", "COINS", "HATS",  "EYES",    "BAGS",    "HANDS",   "RINGS",
+           "BADGES",  "BALLS", "ROCKS", "WATCHES", "GLASSES", "WALLETS", "CUPS"};
 
-    constexpr const wchar_t* salt = L"d(3mN*3+H(9cE&>";
-    std::wstring salted_md5       = nemesis::md5::hash_to_string(data + NemesisInfo::GetVersion() + salt);
-    std::wstring checksum;
+    constexpr const char* salt = "d(3mN*3+H(9cE&>";
+    std::string salted_md5     = nemesis::md5::hash_to_string(data + NemesisInfo::GetVersion() + salt);
+    std::string checksum;
 
-    checksum.append(std::to_wstring(std::stoi(salted_md5.substr(0, 4), nullptr, 16) % 98 + 2));
-    checksum.push_back(L' ');
+    checksum.append(std::to_string(std::stoi(salted_md5.substr(0, 4), nullptr, 16) % 98 + 2));
+    checksum.push_back(' ');
     checksum.append(first_adjectives[std::stoi(salted_md5.substr(4, 2), nullptr, 16) % 21]);
-    checksum.push_back(L' ');
+    checksum.push_back(' ');
     checksum.append(second_adjectives[std::stoi(salted_md5.substr(6, 2), nullptr, 16) % 21]);
-    checksum.push_back(L' ');
+    checksum.push_back(' ');
     checksum.append(objects[std::stoi(salted_md5.substr(31, 2), nullptr, 16) % 21]);
-    checksum.append(L" & ");
-    checksum.append(std::to_wstring(std::stoi(salted_md5.substr(12, 4), nullptr, 16) % 98 + 2));
-    checksum.push_back(L' ');
+    checksum.append(" & ");
+    checksum.append(std::to_string(std::stoi(salted_md5.substr(12, 4), nullptr, 16) % 98 + 2));
+    checksum.push_back(' ');
     checksum.append(first_adjectives[std::stoi(salted_md5.substr(16, 2), nullptr, 16) % 21]);
-    checksum.push_back(L' ');
+    checksum.push_back(' ');
     checksum.append(second_adjectives[std::stoi(salted_md5.substr(18, 2), nullptr, 16) % 21]);
-    checksum.push_back(L' ');
+    checksum.push_back(' ');
     checksum.append(objects[std::stoi(salted_md5.substr(25, 2), nullptr, 16) % 21]);
     return checksum;
 }
 
 void run_python_scripts(const std::filesystem::path& dir_path)
 {
-    Logger::Log(L"Scanning for Python Scripts: " + dir_path.wstring());
+    Logger::Log(LITERAL_PATH("Scanning for Python Scripts: ") + PATH_TO_STRING(dir_path));
 
     if (!std::filesystem::exists(dir_path)) return;
 
@@ -78,7 +78,9 @@ void run_python_scripts(const std::filesystem::path& dir_path)
 
         if (entry.is_directory()) continue;
 
-        if (!nemesis::iequals(path.extension().wstring(), L".py")) continue;
+        if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".py"))) continue;
+
+        auto path_s = path.string();
 
         try
         {
@@ -87,20 +89,21 @@ void run_python_scripts(const std::filesystem::path& dir_path)
 
             if (!py_file) return;
 
-            Logger::Log(L"Executing Python Script: " + path.filename().wstring(), true);
+            auto filename_s = nemesis::to_utf8_string(path.filename());
+            Logger::Log("Executing Python Script: " + filename_s, true);
 
             Py_Initialize();
-            PyRun_SimpleFile(py_file, path.string().c_str());
+            PyRun_SimpleFile(py_file, filename_s.c_str());
             Py_Finalize();
 
             fclose(py_file);
 
-            Logger::Log(L"Executed Python Script: " + path.filename().wstring());
+            Logger::Log(LITERAL_PATH("Executed Python Script: ") + PATH_TO_STRING(path.filename()));
         }
         catch (const std::exception& ex)
         {
-            throw std::runtime_error("Exception occured when executing a python script (File: "
-                                     + path.string() + ", Message: " + ex.what() + ")");
+            throw std::runtime_error("Exception occured when executing a python script (File: " + path_s
+                                     + ", Message: " + ex.what() + ")");
         }
     }
 }
@@ -116,7 +119,8 @@ void change_python_config_settings(std::function<PyStatus()> change_settings)
 
 void setup_python_config(const std::filesystem::path& libs_dir)
 {
-    PyStatus status;
+    Logger::Log(LITERAL_PATH("Setting up python environment: ") + PATH_TO_STRING(libs_dir));
+
     PyConfig config;
     nemesis::OnScopeEnds on_ends([&config]() { PyConfig_Clear(&config); });
 
@@ -124,8 +128,9 @@ void setup_python_config(const std::filesystem::path& libs_dir)
     PyConfig_InitPythonConfig(&config);
 
 #ifdef _WIN32
-    change_python_config_settings([&config, &libs_dir]()
-                                  { return PyConfig_SetString(&config, &config.home, libs_dir.c_str()); });
+    change_python_config_settings(
+        [&config, &libs_dir]()
+        { return PyConfig_SetString(&config, &config.home, libs_dir.wstring().c_str()); });
 #else
     change_python_config_settings(
         [&config, &libs_dir]()
@@ -135,8 +140,9 @@ void setup_python_config(const std::filesystem::path& libs_dir)
     change_python_config_settings(
         [&config, &libs_dir]()
         {
-            return PyWideStringList_Append(&config.module_search_paths,
-                                           (libs_dir / "lib" / "site-packages").c_str());
+            return PyWideStringList_Append(
+                &config.module_search_paths,
+                (libs_dir / LITERAL_PATH("lib") / LITERAL_PATH("site-packages")).c_str());
         });
 
     change_python_config_settings([&config]() { return Py_InitializeFromConfig(&config); });
@@ -166,16 +172,13 @@ int main(int argc, char* argv[])
         std::filesystem::path data_dir = NemesisInfo::DataPath();
         size_t check_sum;
 
-        setup_python_config((exe_dir / "scripts").wstring().c_str());
+        setup_python_config(exe_dir / LITERAL_PATH("scripts"));
 
-        nemesis::ProgressMeter progress_meter(100,
-                                              [](unsigned int step, unsigned int max)
-                                              {
-                                                  if (!NemesisInfo::IsProgressIndicatorActive()) return;
-
-                                                  std::cout << "\x1b[999P" << step << " / " << max
-                                                            << "\x1b[999E" << std::endl;
-                                              });
+        nemesis::ProgressMeter progress_meter(
+            120,
+            NemesisInfo::IsProgressIndicatorActive() ? [](unsigned int step, unsigned int max)
+                { std::cout << "\x1b[999P" << step << " / " << max << "\x1b[999E" << std::endl; }
+                                                     : [](unsigned int step, unsigned int max) {});
 
         // Intentional memory leak
         nemesis::ExAnimationRepository* ex_anim_repo;
@@ -185,41 +188,69 @@ int main(int argc, char* argv[])
         nemesis::TemplateRepository* templt_repo;
         nemesis::AnimationRequestRepository* anim_repo;
 
-        run_python_scripts(exe_dir / "scripts" / "start");
+        run_python_scripts(exe_dir / LITERAL_PATH("scripts") / LITERAL_PATH("start"));
+
+        progress_meter.ProgressUp(10);
+
+        std::cout << "\n" << std::endl;
 
         if (NemesisInfo::IsAsync())
         {
-            auto ex_anim_repo_future
-                = std::async([&] { return new nemesis::ExAnimationRepository(data_dir / L"meshes"); });
-            auto repo_future    = std::async([&] { return new nemesis::NObjectRepository(data_dir); });
+            auto ex_anim_repo_future = std::async(
+                [&]
+                {
+                    auto ptr = new nemesis::ExAnimationRepository(data_dir / LITERAL_PATH("meshes"));
+                    progress_meter.ProgressUp(10);
+                    return ptr;
+                });
+            auto repo_future = std::async(
+                [&]
+                {
+                    auto ptr = new nemesis::NObjectRepository(data_dir);
+                    progress_meter.ProgressUp(10);
+                    return ptr;
+                });
             auto aa_repo_future = std::async(
                 [&]
                 {
-                    return new nemesis::AlterAnimRepository(exe_dir / L"alternate_animations"
-                                                            / L"AlternateAnimations.json");
+                    auto ptr = new nemesis::AlterAnimRepository(exe_dir / LITERAL_PATH("alternate_animations")
+                                                                / LITERAL_PATH("AlternateAnimations.json"));
+                    progress_meter.ProgressUp(10);
+                    return ptr;
                 });
-            auto mod_repo_future = std::async([&] { return new nemesis::ModRepository(exe_dir / L"mods"); });
+            auto mod_repo_future = std::async(
+                [&]
+                {
+                    auto ptr = new nemesis::ModRepository(exe_dir / LITERAL_PATH("mods"));
+                    progress_meter.ProgressUp(10);
+                    return ptr;
+                });
 
             repo = repo_future.get();
-            progress_meter.ProgressUp(10);
 
             auto templt_repo_future = std::async(
-                [&] { return new nemesis::TemplateRepository(exe_dir / L"behavior_templates", *repo); });
+                [&]
+                {
+                    auto ptr = new nemesis::TemplateRepository(exe_dir / LITERAL_PATH("behavior_templates"),
+                                                               *repo);
+                    progress_meter.ProgressUp(10);
+                    return ptr;
+                });
 
             templt_repo = templt_repo_future.get();
-            progress_meter.ProgressUp(10);
 
             aa_repo = aa_repo_future.get();
-            progress_meter.ProgressUp(10);
 
             auto anim_repo_future = std::async(
-                [&] { return new nemesis::AnimationRequestRepository(data_dir, *templt_repo, *aa_repo); });
+                [&]
+                {
+                    auto ptr = new nemesis::AnimationRequestRepository(data_dir, *templt_repo, *aa_repo);
+                    progress_meter.ProgressUp(10);
+                    return ptr;
+                });
 
             mod_repo = mod_repo_future.get();
-            progress_meter.ProgressUp(10);
-
             anim_repo = anim_repo_future.get();
-            progress_meter.ProgressUp(10);
 
             repo->Patch(*mod_repo);
             progress_meter.ProgressUp(10);
@@ -227,29 +258,33 @@ int main(int argc, char* argv[])
             std::cout << "\n" << std::endl;
 
             mods = mod_repo->PatchSelectedMods(mods);
+            // Required to make sure the console output is flushed and captured correctly
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
             progress_meter.ProgressUp(10);
 
             ex_anim_repo = ex_anim_repo_future.get();
-            progress_meter.ProgressUp(10);
+
+            std::cout << "\n" << std::endl;
 
             ex_anim_repo->OutputExAnimationInfo();
         }
         else
         {
-            ex_anim_repo = new nemesis::ExAnimationRepository(data_dir / L"meshes");
+            ex_anim_repo = new nemesis::ExAnimationRepository(data_dir / LITERAL_PATH("meshes"));
             progress_meter.ProgressUp(10);
 
             repo = new nemesis::NObjectRepository(data_dir);
             progress_meter.ProgressUp(10);
 
-            aa_repo      = new nemesis::AlterAnimRepository(exe_dir / L"alternate_animations"
-                                                       / L"AlternateAnimations.json");
+            aa_repo = new nemesis::AlterAnimRepository(exe_dir / LITERAL_PATH("alternate_animations")
+                                                       / LITERAL_PATH("AlternateAnimations.json"));
             progress_meter.ProgressUp(10);
 
-            mod_repo = new nemesis::ModRepository(exe_dir / L"mods");
+            mod_repo = new nemesis::ModRepository(exe_dir / "mods");
             progress_meter.ProgressUp(10);
 
-            templt_repo = new nemesis::TemplateRepository(exe_dir / L"behavior_templates", *repo);
+            templt_repo
+                = new nemesis::TemplateRepository(exe_dir / LITERAL_PATH("behavior_templates"), *repo);
             progress_meter.ProgressUp(10);
 
             anim_repo = new nemesis::AnimationRequestRepository(data_dir, *templt_repo, *aa_repo);
@@ -261,20 +296,43 @@ int main(int argc, char* argv[])
             std::cout << "\n" << std::endl;
 
             mods = mod_repo->PatchSelectedMods(mods);
+            // Required to make sure the console output is flushed and captured correctly
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
             progress_meter.ProgressUp(10);
+
+            std::cout << "\n" << std::endl;
 
             ex_anim_repo->OutputExAnimationInfo();
         }
 
+        int cur_step = 0;
+        constexpr int step_size = 20;
+        std::mutex step_mtx;
         nemesis::CompilationManager* manager
             = new nemesis::CompilationManager(mods, *aa_repo, *anim_repo, *templt_repo, *ex_anim_repo);
-        repo->Compile(*manager);
-        progress_meter.ProgressUp(10);
+        repo->Compile(*manager,
+                      [&progress_meter, &cur_step, &step_mtx](int step, int max)
+                      {
+                          std::scoped_lock<std::mutex> lock(step_mtx);
+                          int new_step = static_cast<double>(step) / max * step_size;
+
+                          if (new_step > cur_step)
+                          {
+                              progress_meter.ProgressUp(new_step - cur_step);
+                              cur_step = new_step;
+                          }
+                      });
+
+        std::cout << "\n" << std::endl;
+
+        run_python_scripts(exe_dir / LITERAL_PATH("scripts") / LITERAL_PATH("end"));
+
+        std::cout << "\n" << std::endl;
+        // Required to make sure the console output is flushed and captured correctly
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
         check_sum   = manager->GetFullCheckSum();
-        auto rehash = get_memorable_hash(std::to_wstring(check_sum));
-
-        run_python_scripts(exe_dir / "scripts" / "end");
+        auto rehash = get_memorable_hash(std::to_string(check_sum));
 
         progress_meter.Complete();
         log_compilation_result(start, rehash);
@@ -285,13 +343,13 @@ int main(int argc, char* argv[])
     }
     catch (const std::exception& ex)
     {
-        std::wcout << std::endl;
+        std::cout << std::endl;
         Logger::Log(std::string("[ERROR] ") + ex.what(), true);
         return 1;
     }
     catch (...)
     {
-        std::wcout << std::endl;
+        std::cout << std::endl;
         Logger::Log("[ERROR] Unknown exception captured", true);
         return 1;
     }

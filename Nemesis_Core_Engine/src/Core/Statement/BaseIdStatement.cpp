@@ -5,6 +5,8 @@
 
 #include "Core/LineModifier/LineModifier.h"
 
+#include "Utilities/Algorithm.h"
+
 std::string nemesis::BaseIdStatement::GetComponentValue(nemesis::CompileState& state) const
 {
     if (DynamicComponents.empty()) return Components.back();
@@ -27,7 +29,7 @@ nemesis::BaseIdStatement::BaseIdStatement(const std::string& expression,
     {
         throw std::runtime_error("Syntax Error: " + GetTypeName() + " only accepts 1 argument (Syntax: "
                                  + expression + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + filepath.string() + ")");
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     auto& component = Components.back();

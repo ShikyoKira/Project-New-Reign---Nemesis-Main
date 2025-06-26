@@ -60,7 +60,7 @@ void nemesis::ThreadPool::NewWorker()
     workers.emplace_back([&] {
         for (;;)
         {
-            std::function<void()> task;
+            ThreadPoolTask task;
 
             {
                 std::unique_lock<std::mutex> lock(queue_mutex);
@@ -68,11 +68,11 @@ void nemesis::ThreadPool::NewWorker()
 
                 if (error || abort || tasks.empty()) return;
 
-                task = tasks.front();
+                task = std::move(tasks.top());
                 tasks.pop();
             }
 
-            task();
+            task.task();
         }
     });
 }

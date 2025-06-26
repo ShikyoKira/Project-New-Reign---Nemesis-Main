@@ -76,7 +76,8 @@ void nemesis::HkxCharacter::CompileTo(DeqNstr& lines, nemesis::CompileState& sta
 
                 for (auto& anim : anim_list)
                 {
-                    nemesis::Line new_line("\t\t\t\t<hkcstring>" + XmlStringEncode(anim->string()) + "</hkcstring>\n");
+                    nemesis::Line new_line("\t\t\t\t<hkcstring>" + XmlStringEncode(anim->string())
+                                           + "</hkcstring>\n");
                     state.RaiseAddLineEvent(new_line, obj);
                     new_ex_lines.append(new_line);
                     state.AddAnimationToOrder(anim->string());
@@ -86,11 +87,12 @@ void nemesis::HkxCharacter::CompileTo(DeqNstr& lines, nemesis::CompileState& sta
                 {
                     for (auto& alter_anim : alter_anim_list)
                     {
-                        nemesis::Line new_line("\t\t\t\t<hkcstring>" + XmlStringEncode(alter_anim.string())
+                        nemesis::Line new_line("\t\t\t\t<hkcstring>"
+                                               + XmlStringEncode(nemesis::to_utf8_string(alter_anim))
                                                + "</hkcstring>\n");
                         state.RaiseAddLineEvent(new_line, obj);
                         new_ex_lines.append(new_line);
-                        state.AddAnimationToOrder(alter_anim.string());
+                        state.AddAnimationToOrder(nemesis::to_utf8_string(alter_anim));
                     }
                 }
 
@@ -190,19 +192,21 @@ UPtr<nemesis::HkxCharacter> nemesis::HkxCharacter::Clone() const
 
 UPtr<nemesis::HkxCharacter> nemesis::HkxCharacter::ParseFromFile(const std::filesystem::path& filepath)
 {
-    Logger::Log(L"HkxCharacter: " + filepath.wstring());
+    Logger::Log(LITERAL_PATH("HkxCharacter: ") + PATH_TO_STRING(filepath));
 
     UPtr<nemesis::HkxCharacter> hkxfile_uptr(new nemesis::HkxCharacter());
+    auto filename            = PATH_TO_STRING(filepath.filename());
     hkxfile_uptr->FilePath   = filepath;
     hkxfile_uptr->TargetPath = filepath.parent_path()
-                               / ((nemesis::istarts_with(filepath.filename().wstring(), L"nemesis_")
-                                       ? filepath.stem().wstring().substr(8)
-                                       : filepath.stem().wstring())
-                                  + L".hkx");
-    hkxfile_uptr->RelativePath
-        = hkxfile_uptr->TargetPath.wstring().substr(NemesisInfo::DataPath().wstring().length() + 1);
+                               / ((nemesis::istarts_with(filename, LITERAL_PATH("nemesis_"))
+                                       ? PATH_TO_STRING(filepath.stem()).substr(8)
+                                       : PATH_TO_STRING(filepath.stem()))
+                                  + LITERAL_PATH(".hkx"));
+    hkxfile_uptr->RelativePath = PATH_TO_STRING(hkxfile_uptr->TargetPath)
+                                     .substr(PATH_TO_STRING(NemesisInfo::DataPath()).length() + 1);
 
-    auto cache_path = filepath.parent_path() / (filepath.filename().wstring() + L".cache");
+    auto cache_path = filepath;
+    cache_path.replace_extension(LITERAL_PATH(".cache"));
 
     if (std::filesystem::exists(cache_path))
     {
@@ -216,19 +220,21 @@ UPtr<nemesis::HkxCharacter> nemesis::HkxCharacter::ParseFromFile(const std::file
 UPtr<nemesis::HkxCharacter> nemesis::HkxCharacter::ParseFromFile(const std::filesystem::path& filepath,
                                                                  nemesis::ThreadPool& thread_pool)
 {
-    Logger::Log(L"HkxCharacter: " + filepath.wstring());
+    Logger::Log(LITERAL_PATH("HkxCharacter: ") + PATH_TO_STRING(filepath));
 
     UPtr<nemesis::HkxCharacter> hkxfile_uptr(new nemesis::HkxCharacter());
+    auto filename            = PATH_TO_STRING(filepath.filename());
     hkxfile_uptr->FilePath   = filepath;
     hkxfile_uptr->TargetPath = filepath.parent_path()
-                               / ((nemesis::istarts_with(filepath.filename().wstring(), L"nemesis_")
-                                       ? filepath.stem().wstring().substr(8)
-                                       : filepath.stem().wstring())
-                                  + L".hkx");
-    hkxfile_uptr->RelativePath
-        = hkxfile_uptr->TargetPath.wstring().substr(NemesisInfo::DataPath().wstring().length() + 1);
+                               / ((nemesis::istarts_with(filename, LITERAL_PATH("nemesis_"))
+                                       ? PATH_TO_STRING(filepath.stem()).substr(8)
+                                       : PATH_TO_STRING(filepath.stem()))
+                                  + LITERAL_PATH(".hkx"));
+    hkxfile_uptr->RelativePath = PATH_TO_STRING(hkxfile_uptr->TargetPath)
+                                     .substr(PATH_TO_STRING(NemesisInfo::DataPath()).length() + 1);
 
-    auto cache_path = filepath.parent_path() / (filepath.filename().wstring() + L".cache");
+    auto cache_path = filepath;
+    cache_path.replace_extension(LITERAL_PATH(".cache"));
 
     if (std::filesystem::exists(cache_path))
     {

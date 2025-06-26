@@ -1,8 +1,7 @@
 #include "Core/CompilationManager.h"
 
-#include "Utilities/Crc32.h"
 #include "Utilities/Algorithm.h"
-
+#include "Utilities/Crc32.h"
 
 nemesis::CompilationManager::CompilationManager(const VecStr& selected_mods,
                                                 const nemesis::AlterAnimRepository& alter_anim_repo,
@@ -46,16 +45,16 @@ nemesis::CompileState& nemesis::CompilationManager::CreateCompileState(const std
 {
     std::scoped_lock<std::mutex> lock(CreateMutex);
 
-    auto itr = StateList.find(filepath.string());
+    auto itr = StateList.find(filepath);
 
-    if (itr == StateList.end()) return StateList.try_emplace(filepath.string(), *this).first->second;
+    if (itr == StateList.end()) return StateList.try_emplace(filepath, *this).first->second;
 
-    throw std::runtime_error("CompileState for file already exist (" + filepath.string() + ")");
+    throw std::runtime_error("CompileState for file already exist (" + nemesis::to_utf8_string(filepath) + ")");
 }
 
 nemesis::CompileState* nemesis::CompilationManager::GetCompileState(const std::filesystem::path& filepath)
 {
-    auto itr = StateList.find(filepath.string());
+    auto itr = StateList.find(filepath);
 
     if (itr != StateList.end()) return &itr->second;
 
@@ -67,7 +66,8 @@ const nemesis::AlterAnimRepository& nemesis::CompilationManager::GetAlterAnimRep
     return AlterAnimationRepository;
 }
 
-const nemesis::AnimationRequestRepository& nemesis::CompilationManager::GetAnimationRepository() const noexcept
+const nemesis::AnimationRequestRepository&
+nemesis::CompilationManager::GetAnimationRepository() const noexcept
 {
     return AnimationRepository;
 }
@@ -86,7 +86,7 @@ void nemesis::CompilationManager::AddCheckSum(const std::filesystem::path& targe
                                               const std::string& checksum)
 {
     std::scoped_lock<std::mutex> lock(CheckSumMutex);
-    CheckSumMap[nemesis::to_lower_copy(target_path.string())] = checksum;
+    CheckSumMap[nemesis::to_lower_copy(nemesis::to_utf8_string(target_path))] = checksum;
 }
 
 void nemesis::CompilationManager::ClearCheckSum() noexcept

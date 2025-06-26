@@ -380,7 +380,7 @@ nemesis::SharableWrapper<std::filesystem::path>* nemesis::Line::GetFilePathPtr()
 std::string nemesis::Line::GetClassName() const noexcept
 {
     std::string format  = "Base";
-    std::string path    = nemesis::to_lower_copy(GetFilePath().string());
+    std::string path     = nemesis::to_lower_copy(nemesis::to_utf8_string(GetFilePath()));
     std::string bhv_tmp = "behavior_templates\\";
     auto pos             = nemesis::isearch(path, bhv_tmp);
 

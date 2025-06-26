@@ -1,12 +1,13 @@
-#include <regex>
 #include <algorithm>
+#include <regex>
 
 #include "Core/Statement/ConditionalStatement.h"
 
+#include "Utilities/Algorithm.h"
 #include "Utilities/StringExtension.h"
 
-#include "Core/CompileState.h"
 #include "Core/AnimationRequest.h"
+#include "Core/CompileState.h"
 
 #include "Core/Template.h"
 
@@ -60,7 +61,7 @@ nemesis::ConditionalStatement::ConditionalString::ConditionalString(const std::s
             {
                 case '"':
                     throw std::runtime_error("Syntax Error: near '\"' (Line: " + std::to_string(linenum)
-                                             + ", File: " + filepath.string() + ")");
+                                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
         }
 
@@ -83,8 +84,7 @@ nemesis::ConditionalStatement::ConditionalString::NotEqualsTo(ConditionalString*
     return new ConditionalStringComparer(this, term, true);
 }
 
-std::string
-nemesis::ConditionalStatement::ConditionalString::GetValue(nemesis::CompileState& state) const
+std::string nemesis::ConditionalStatement::ConditionalString::GetValue(nemesis::CompileState& state) const
 {
     return DynamicComponents.empty() ? ConstantValue : DynamicComponents.back().GetValue(state);
 }
@@ -115,8 +115,9 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
 
             if (!templt_class->GetModel(name))
             {
-                throw std::runtime_error("Syntax Error: '" + name + "' is not a valid option (Line: "
-                                         + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+                throw std::runtime_error("Syntax Error: '" + name
+                                         + "' is not a valid option (Line: " + std::to_string(LineNum)
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             auto request = GetBaseRequest(state);
@@ -147,8 +148,9 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
 
     if (!templt_class->GetModel(name))
     {
-        throw std::runtime_error("Syntax Error: '" + name + "' is not a valid option (Line: "
-                                 + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+        throw std::runtime_error("Syntax Error: '" + name
+                                 + "' is not a valid option (Line: " + std::to_string(LineNum)
+                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
 
     IsTrueFunction = [this, &name](nemesis::CompileState& state)
@@ -179,8 +181,9 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
 
             if (!templt_class->GetModel(name))
             {
-                throw std::runtime_error("Syntax Error: '" + name + "' is not a valid option (Line: "
-                                         + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+                throw std::runtime_error("Syntax Error: '" + name
+                                         + "' is not a valid option (Line: " + std::to_string(LineNum)
+                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
             }
 
             size_t index = std::stoul(Components.back());
@@ -203,8 +206,9 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
 
     if (!templt_class->GetModel(name))
     {
-        throw std::runtime_error("Syntax Error: '" + name + "' is not a valid option (Line: "
-                                 + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+        throw std::runtime_error("Syntax Error: '" + name
+                                 + "' is not a valid option (Line: " + std::to_string(LineNum)
+                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
 
     size_t index = std::stoul(Components.back());
@@ -237,8 +241,9 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse3Components(
 
             if (templt_class->GetModel(name)) return request->GetOption(name) != nullptr;
 
-            throw std::runtime_error("Syntax Error: \"" + name + "\" is not a valid option (Line: "
-                                     + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+            throw std::runtime_error("Syntax Error: \"" + name
+                                     + "\" is not a valid option (Line: " + std::to_string(LineNum)
+                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         };
     }
     else if (name == "@MotionData")
@@ -258,8 +263,9 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse3Components(
     }
     else
     {
-        throw std::runtime_error("Syntax Error: \"" + name + "\" is not a valid option (Line: "
-                                 + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+        throw std::runtime_error("Syntax Error: \"" + name
+                                 + "\" is not a valid option (Line: " + std::to_string(LineNum)
+                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
 
     callback_requests = CallbackTargetRequests(*templt_class, manager, callback);
@@ -320,8 +326,9 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
 
     if (!templt_class->GetModel(name))
     {
-        throw std::runtime_error("Syntax Error: '" + name + "' is not a valid option (Line: "
-                                 + std::to_string(LineNum) + ", File: " + FilePath.string() + ")");
+        throw std::runtime_error("Syntax Error: '" + name
+                                 + "' is not a valid option (Line: " + std::to_string(LineNum)
+                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
 
     IsTrueFunction = [get_request_func, &name, get_key](nemesis::CompileState& state)
@@ -340,7 +347,7 @@ nemesis::ConditionalStatement::ConditionalBoolean::ConditionalBoolean(const std:
     : nemesis::CompositeStatement(expression, linenum, filepath)
 {
     auto templt_class = manager.GetCurrentTemplateClass();
-    Negative            = negative;
+    Negative          = negative;
 
     switch (Components.size())
     {
@@ -366,7 +373,8 @@ nemesis::ConditionalStatement::ConditionalBoolean::ConditionalBoolean(const std:
         }
         default:
             throw std::runtime_error("Syntax Error: Invalid condition statement (Line: "
-                                     + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+                                     + std::to_string(linenum)
+                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 }
 
@@ -398,7 +406,7 @@ nemesis::ConditionalStatement::ConditionalAnimationRequest::ConditionalAnimation
     {
         throw std::runtime_error(
             "Syntax Error: ConditionalAnimationRequest only accepts 1 argument (Expression: " + expression
-            + ", Line: " + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+            + ", Line: " + std::to_string(linenum) + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     GetRequestFunction = *GetTargetRequest(*templt_class, manager);
@@ -488,7 +496,7 @@ nemesis::ConditionalStatement::ConditionalOption::NotEqualsTo(ConditionalOption*
 bool nemesis::ConditionalStatement::ConditionalOption::IsOption(
     const std::string& expression, const nemesis::TemplateObject& template_object)
 {
-    auto components     = nemesis::Statement::SplitComponents(expression);
+    auto components   = nemesis::Statement::SplitComponents(expression);
     auto templt_class = template_object.GetTemplateClass();
 
     switch (components.size())
@@ -589,8 +597,8 @@ bool nemesis::ConditionalStatement::ConditionalAnimationRequestComparer::IsTrue(
 }
 
 nemesis::ConditionalStatement::ConditionalStringComparer::ConditionalStringComparer(ConditionalString* first,
-                                                                        ConditionalString* second,
-                                                                        bool negative) noexcept
+                                                                                    ConditionalString* second,
+                                                                                    bool negative) noexcept
     : First(first)
     , Second(second)
 {
@@ -615,7 +623,7 @@ std::string nemesis::ConditionalStatement::ConditionalStringComparer::GetExpress
 
 bool nemesis::ConditionalStatement::ConditionalStringComparer::IsTrue(nemesis::CompileState& state) const
 {
-    auto expr = GetExpression();
+    auto expr    = GetExpression();
     auto rst_ptr = state.TryGetCacheConditionResult(expr);
 
     if (rst_ptr) return *rst_ptr;
@@ -910,7 +918,8 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
             {
                 if (negative)
                 {
-                    throw std::runtime_error("Syntax Error: Near \"" + token.Value + "\" (Line: " + std::to_string(LineNum)
+                    throw std::runtime_error("Syntax Error: Near \"" + token.Value
+                                             + "\" (Line: " + std::to_string(LineNum)
                                              + ", File: " + FilePathPtr->string() + ")");
                 }
 
@@ -1013,8 +1022,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ConditionalStatementP
 {
 }
 
-void nemesis::ConditionalStatement::ConditionalStatementParser::SetExpression(
-    const std::string& expression)
+void nemesis::ConditionalStatement::ConditionalStatementParser::SetExpression(const std::string& expression)
 {
     const static TokenParser Parser;
     bool non_symbol = true;

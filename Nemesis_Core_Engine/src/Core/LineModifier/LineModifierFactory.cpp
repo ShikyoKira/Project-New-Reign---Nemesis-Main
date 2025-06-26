@@ -1,30 +1,32 @@
 #include <regex>
 
+#include "Core/LineModifier/AnimationEventModifier.h"
+#include "Core/LineModifier/AnimationFilePathModifier.h"
+#include "Core/LineModifier/AnimationOrderModifier.h"
+#include "Core/LineModifier/AttributeIdModifier.h"
+#include "Core/LineModifier/CounterModifier.h"
+#include "Core/LineModifier/Crc32Modifier.h"
+#include "Core/LineModifier/CurrentCountModifier.h"
+#include "Core/LineModifier/EventIdModifier.h"
+#include "Core/LineModifier/LengthModifier.h"
+#include "Core/LineModifier/LineModifierFactory.h"
 #include "Core/LineModifier/MapModifier.h"
 #include "Core/LineModifier/MathModifier.h"
-#include "Core/LineModifier/Crc32Modifier.h"
-#include "Core/LineModifier/LengthModifier.h"
-#include "Core/LineModifier/StateIdModifier.h"
-#include "Core/LineModifier/EventIdModifier.h"
-#include "Core/LineModifier/CounterModifier.h"
-#include "Core/LineModifier/SubstringModifier.h"
-#include "Core/LineModifier/RequestIdModifier.h"
 #include "Core/LineModifier/MotionDataModifier.h"
-#include "Core/LineModifier/VariableIdModifier.h"
-#include "Core/LineModifier/PropertyIdModifier.h"
-#include "Core/LineModifier/NumelementModifier.h"
-#include "Core/LineModifier/AttributeIdModifier.h"
-#include "Core/LineModifier/SubTemplateModifier.h"
-#include "Core/LineModifier/LineModifierFactory.h"
-#include "Core/LineModifier/RotationDataModifier.h"
-#include "Core/LineModifier/RequestIndexModifier.h"
-#include "Core/LineModifier/CurrentCountModifier.h"
-#include "Core/LineModifier/RunningNumberModifier.h"
-#include "Core/LineModifier/AnimationEventModifier.h"
-#include "Core/LineModifier/AnimationOrderModifier.h"
 #include "Core/LineModifier/MultipleChoiceModifier.h"
+#include "Core/LineModifier/NumelementModifier.h"
 #include "Core/LineModifier/OptionVariableModifier.h"
-#include "Core/LineModifier/AnimationFilePathModifier.h"
+#include "Core/LineModifier/PropertyIdModifier.h"
+#include "Core/LineModifier/RequestIdModifier.h"
+#include "Core/LineModifier/RequestIndexModifier.h"
+#include "Core/LineModifier/RotationDataModifier.h"
+#include "Core/LineModifier/RunningNumberModifier.h"
+#include "Core/LineModifier/StateIdModifier.h"
+#include "Core/LineModifier/SubTemplateModifier.h"
+#include "Core/LineModifier/SubstringModifier.h"
+#include "Core/LineModifier/VariableIdModifier.h"
+
+#include "Utilities/Algorithm.h"
 
 nemesis::LineModifierFactory::ModifierBuilderCollection::ModifierBuilderCollection()
 {
@@ -73,7 +75,7 @@ nemesis::LineModifierFactory::BuildModifiers(const std::string& line,
             if (++i == line.length())
             {
                 throw std::runtime_error("Syntax Error: Unexpected '$' (Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
+                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
 
             ch2 = line[i];
@@ -94,8 +96,9 @@ nemesis::LineModifierFactory::BuildModifiers(const std::string& line,
         {
             if (mc_statement)
             {
-                throw std::runtime_error("Syntax Error: only 1 MultiChoice per line (Line: " + std::to_string(linenum)
-                                         + ", File: " + filepath.string() + ")");
+                throw std::runtime_error("Syntax Error: only 1 MultiChoice per line (Line: "
+                                         + std::to_string(linenum)
+                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
 
             mc_statement = &mc_modifier->GetStatement();
@@ -151,8 +154,7 @@ nemesis::LineModifierFactory::BuildModifier(size_t begin,
             throw std::runtime_error("Syntax Error: Element counter name not found");
         }
 
-        return std::make_shared<nemesis::CounterModifier>(
-            begin - 1, end - 1, match[1], linenum, filepath);
+        return std::make_shared<nemesis::CounterModifier>(begin - 1, end - 1, match[1], linenum, filepath);
     }
 
     auto components = nemesis::Statement::SplitComponents(component);
@@ -180,13 +182,13 @@ nemesis::LineModifierFactory::BuildModifier(size_t begin,
         return std::make_shared<nemesis::MapModifier>(
             begin - 1, end - 1, component, linenum, filepath, manager);
     }
-    
+
     if (first == "@MotionData" || (components.size() > 2 && components[2] == "@MotionData"))
     {
         return std::make_shared<nemesis::MotionDataModifier>(
             begin - 1, end - 1, component, linenum, filepath, manager);
     }
-    
+
     if (first == "@RotationData" || (components.size() > 2 && components[2] == "@RotationData"))
     {
         return std::make_shared<nemesis::RotationDataModifier>(

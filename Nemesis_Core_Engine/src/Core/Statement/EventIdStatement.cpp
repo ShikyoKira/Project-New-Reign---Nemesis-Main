@@ -4,6 +4,8 @@
 
 #include "Core/LineModifier/LineModifier.h"
 
+#include "Utilities/Algorithm.h"
+
 std::string nemesis::EventIdStatement::GetTypeName() const
 {
     return "EventID";
@@ -24,6 +26,7 @@ std::string nemesis::EventIdStatement::GetValue(nemesis::CompileState& state) co
 
     if (state.TryGetEventID(component, out)) return out;
 
-    throw std::runtime_error("Event id not found (Name: " + component + ", File: " + FilePath.string()
+    throw std::runtime_error("Event id not found (Name: " + component
+                             + ", File: " + nemesis::to_utf8_string(FilePath)
                              + ", Line: " + std::to_string(LineNum) + ") ");
 }

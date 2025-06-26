@@ -1,18 +1,19 @@
-#include <regex>
 #include <fstream>
+#include <regex>
+#include <sstream>
 
-#include "Core/Template/TemplateClass.h"
-#include "Core/Template/TemplateHkx.h"
 #include "Core/Template/TemplateAnimDataClipData.h"
 #include "Core/Template/TemplateAnimDataMotionData.h"
+#include "Core/Template/TemplateClass.h"
+#include "Core/Template/TemplateHkx.h"
 
 #include "nlohmann/json.hpp"
 
 #include "Core/NObjectRepository.h"
 
-#include "Core/Hkx/HkxNode.h"
 #include "Core/Hkx/HkxBehavior.h"
 #include "Core/Hkx/HkxCharacter.h"
+#include "Core/Hkx/HkxNode.h"
 
 #include "Core/AnimationData/AnimationDataSingleFile.h"
 
@@ -21,7 +22,6 @@
 #include "Utilities/Algorithm.h"
 
 #include "Logger.h"
-
 
 using Json = nlohmann::json;
 
@@ -33,11 +33,12 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
                                                             nemesis::NObjectRepository& repo,
                                                             nemesis::ThreadPool& thread_pool)
 {
-    nemesis::HkxFile* hkx_file = repo.GetBehavior(relative_parent_path.wstring() + L".nemx");
+    nemesis::HkxFile* hkx_file
+        = repo.GetBehavior(PATH_TO_STRING(relative_parent_path) + LITERAL_PATH(".nemx"));
 
     if (!hkx_file)
     {
-        hkx_file = repo.GetCharacter(relative_parent_path.wstring() + L".nemx");
+        hkx_file = repo.GetCharacter(PATH_TO_STRING(relative_parent_path) + LITERAL_PATH(".nemx"));
     }
 
     if (!hkx_file)
@@ -67,11 +68,11 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
             continue;
         }
 
-        if (!nemesis::iequals(path.extension().wstring(), L".nemx")) continue;
+        if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".nemx"))) continue;
 
         std::regex templt_rgx("^" + templt_class.GetName() + "_([0-9]+)$");
         std::smatch match;
-        std::string filename = path.stem().string();
+        std::string filename = nemesis::to_utf8_string(path.stem());
 
         if (std::regex_match(filename, match, templt_rgx))
         {
@@ -85,7 +86,7 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
     if (template_files.empty()) return;
 
     nemesis::TemplateObject* templt_obj = nullptr;
-    size_t start_index = template_files.find(0) == template_files.end();
+    size_t start_index                  = template_files.find(0) == template_files.end();
 
     for (size_t i = start_index; i < template_files.size(); i++)
     {
@@ -112,13 +113,13 @@ void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& r
                                                   nemesis::TemplateClass& templt_class,
                                                   nemesis::HkxFile& hkx_file)
 {
-    std::string filename = templt_path.stem().string();
+    std::string filename = nemesis::to_utf8_string(templt_path.stem());
     auto node            = hkx_file.GetNodeById(filename);
 
     if (!node)
     {
-        throw std::runtime_error("Node id does not exist in behavior (Behavior: " + templt_path.string()
-                                 + ", Node Id: " + filename + ")");
+        throw std::runtime_error("Node id does not exist in behavior (Behavior: "
+                                 + nemesis::to_utf8_string(templt_path) + ", Node Id: " + filename + ")");
     }
 
     auto m_node = nemesis::HkxNode::DeserializeHkxNodeFromFile(templt_path, &templt_class);
@@ -140,16 +141,17 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
 
         if (!entry.is_directory())
         {
-            if (!nemesis::iequals(path.extension().wstring(), L".txt")) continue;
+            if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".txt"))) continue;
 
-            SPtr<nemesis::TemplateObject> templt_obj(nemesis::TemplateObject::ParseFromFile(path, &templt_class, thread_pool).release());
+            SPtr<nemesis::TemplateObject> templt_obj(
+                nemesis::TemplateObject::ParseFromFile(path, &templt_class, thread_pool).release());
             templt_class.AddTemplate(templt_obj);
             singlefile.AddProjectTemplate(templt_obj);
             continue;
         }
 
         std::smatch match;
-        std::string proj_name = path.filename().string();
+        std::string proj_name = nemesis::to_utf8_string(path.filename());
 
         if (!std::regex_match(proj_name, match, str_num_rgx)) continue;
 
@@ -162,10 +164,10 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
             if (!inner_entry.is_regular_file()) continue;
 
             sf::path inner_path = inner_entry.path();
-            
-            if (inner_path.extension().string() != ".txt") continue;
-            
-            std::string filename = inner_path.stem().string();
+
+            if (!nemesis::iequals(PATH_TO_STRING(inner_path.extension()), LITERAL_PATH(".txt"))) continue;
+
+            std::string filename = nemesis::to_utf8_string(inner_path.stem());
 
             if (nemesis::iequals(filename, "$header$"))
             {
@@ -234,7 +236,7 @@ void nemesis::TemplateClass::AddTemplateToAnimSetDataSingleFile(
 
         if (!entry.is_directory())
         {
-            if (!nemesis::iequals(path.extension().wstring(), L".txt")) continue;
+            if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".txt"))) continue;
 
             SPtr<nemesis::TemplateObject> templt_obj(
                 nemesis::TemplateObject::ParseFromFile(path, &templt_class).release());
@@ -243,7 +245,7 @@ void nemesis::TemplateClass::AddTemplateToAnimSetDataSingleFile(
             continue;
         }
 
-        std::string name = path.filename().string();
+        std::string name = nemesis::to_utf8_string(path.filename());
         nemesis::replace(name, '~', '\\');
         auto project = singlefile.GetProject(name);
 
@@ -255,7 +257,7 @@ void nemesis::TemplateClass::AddTemplateToAnimSetDataSingleFile(
 
                 sf::path inner_path = inner_entry.path();
 
-                if (!nemesis::iequals(inner_path.extension().wstring(), L".txt")) continue;
+                if (!nemesis::iequals(PATH_TO_STRING(inner_path.extension()), LITERAL_PATH(".txt"))) continue;
 
                 auto m_state = nemesis::AnimationSetDataState::DeserializeFromFile(inner_path, &templt_class);
                 project->AddState(std::move(m_state));
@@ -270,9 +272,9 @@ void nemesis::TemplateClass::AddTemplateToAnimSetDataSingleFile(
 
             sf::path inner_path = inner_entry.path();
 
-            if (!nemesis::iequals(inner_path.extension().wstring(), L".txt")) continue;
+            if (!nemesis::iequals(PATH_TO_STRING(inner_path.extension()), LITERAL_PATH(".txt"))) continue;
 
-            auto state   = project->GetState(inner_path.filename().string());
+            auto state = project->GetState(nemesis::to_utf8_string(inner_path.filename()));
 
             if (!state)
             {
@@ -289,7 +291,7 @@ void nemesis::TemplateClass::AddTemplateToAnimSetDataSingleFile(
 }
 
 nemesis::TemplateClass::TemplateClass(const std::filesystem::path& template_info_path)
-    : Name(template_info_path.parent_path().stem().string())
+    : Name(nemesis::to_utf8_string(template_info_path.parent_path().stem()))
     , InfoPath(template_info_path)
 {
     Logger::Log("Templates Class: " + Name);
@@ -401,9 +403,8 @@ const std::filesystem::path& nemesis::TemplateClass::GetInfoPath() const noexcep
     return InfoPath;
 }
 
-UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(const std::string& request_info,
-                                                                      size_t linenum,
-                                                                      const std::filesystem::path& filepath) const
+UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(
+    const std::string& request_info, size_t linenum, const std::filesystem::path& filepath) const
 {
     UPtr<nemesis::AnimationRequest> request;
     std::stringstream ss(request_info);
@@ -416,7 +417,7 @@ UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(const std:
         for (auto& ch : component)
         {
             if (ch == '+') continue;
-            
+
             return nullptr;
         }
     }
@@ -424,7 +425,7 @@ UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(const std:
     request = std::make_unique<nemesis::AnimationRequest>(*this);
 
     if (!(ss >> component)) return nullptr;
-    
+
     if (component[0] == '-')
     {
         std::stringstream opt_ss(component.substr(1));
@@ -444,7 +445,7 @@ UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(const std:
             }
         }
 
-        if (!(ss >> component)) return nullptr; 
+        if (!(ss >> component)) return nullptr;
     }
 
     request->SetAnimationEvent(component);
@@ -462,15 +463,16 @@ UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(const std:
             request->AddMapValue("1", component);
             continue;
         }
-        
+
         if (pos == 0)
         {
-            throw std::runtime_error("Invalid Map key request (Request info: " + request_info + ", Line: "
-                                     + std::to_string(linenum) + ", File: " + filepath.string() + ")");
+            throw std::runtime_error("Invalid Map key request (Request info: " + request_info
+                                     + ", Line: " + std::to_string(linenum)
+                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
         }
 
         std::string value = component.substr(0, pos);
-        std::string key = component.substr(pos + 1);
+        std::string key   = component.substr(pos + 1);
         request->AddMapValue(key, value);
     }
 
@@ -480,7 +482,7 @@ UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(const std:
 UPtr<nemesis::TemplateClass> nemesis::TemplateClass::ParseTemplateClassFromDirectory(
     const std::filesystem::path& dir, nemesis::NObjectRepository& repo, nemesis::ThreadPool& thread_pool)
 {
-    auto info_path = dir / L"template_info.json";
+    auto info_path = dir / "template_info.json";
 
     if (!sf::exists(info_path) || !sf::is_regular_file(info_path)) return nullptr;
 
@@ -494,9 +496,10 @@ UPtr<nemesis::TemplateClass> nemesis::TemplateClass::ParseTemplateClassFromDirec
 
         auto path = entry.path();
 
-        if (!nemesis::iequals(path.filename().wstring(), L"meshes"))
+        if (!nemesis::iequals(PATH_TO_STRING(path.filename()), LITERAL_PATH("meshes")))
         {
-            sf::path relative_path = sf::path(L"data") / path.wstring().substr(dir.wstring().size() + 1);
+            sf::path relative_path = sf::path(LITERAL_PATH("data"))
+                                     / PATH_TO_STRING(path).substr(PATH_TO_STRING(dir).size() + 1);
             ParseHkxTemplatesLoopDirectory(relative_path, path, *templt_class, repo, thread_pool);
             continue;
         }
@@ -509,18 +512,18 @@ UPtr<nemesis::TemplateClass> nemesis::TemplateClass::ParseTemplateClassFromDirec
 
             if (!inner_entry.is_directory()) continue;
 
-            sf::path relative_path
-                = sf::path(L"data") / inner_path.wstring().substr(dir.wstring().size() + 1);
-            std::wstring filename = inner_path.stem().wstring();
+            sf::path relative_path = sf::path(LITERAL_PATH("data"))
+                                     / PATH_TO_STRING(inner_path).substr(PATH_TO_STRING(dir).size() + 1);
+            auto filename = PATH_TO_STRING(inner_path.stem());
 
-            if (nemesis::iequals(filename, L"animationdatasinglefile"))
+            if (nemesis::iequals(filename, LITERAL_PATH("animationdatasinglefile")))
             {
                 AddTemplateToAnimDataSingleFile(
                     inner_path, *templt_class, *repo.GetAnimDataSingleFile(), thread_pool);
                 continue;
             }
-            
-            if (nemesis::iequals(filename, L"animationdatasinglefile"))
+
+            if (nemesis::iequals(filename, LITERAL_PATH("animationdatasinglefile")))
             {
                 AddTemplateToAnimSetDataSingleFile(
                     inner_path, *templt_class, *repo.GetAnimSetDataSingleFile());
