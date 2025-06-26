@@ -51,7 +51,7 @@ void AppLauncher::launchProgram(const QString& program_path, const QStringList& 
 
 void AppLauncher::readOutput()
 {
-    static const QRegularExpression progress_rgx("\\x1b\\[999P(\\d+) / (\\d+)\\x1b\\[999E");
+    static const QRegularExpression progress_rgx("\\x1b\\[999P(\\d+) / (\\d+)\\x1b\\[999E\n");
     QString output = process->readAllStandardOutput();
     int pos = 0;
 
@@ -80,6 +80,9 @@ void AppLauncher::readOutput()
             if (newlineIndex == -1) break;
 
             QString regularLine = output.mid(pos, newlineIndex - pos + 1);
+
+            qDebug() << regularLine;
+
             emit outputReceived(regularLine);
             pos = newlineIndex + 1;
         }
