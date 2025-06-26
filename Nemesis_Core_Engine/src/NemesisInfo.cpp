@@ -1,15 +1,15 @@
-#include "NemesisInfo.h"
-#include "Logger.h"
-
 #include <functional>
 #include <regex>
+
+#include "Logger.h"
+#include "NemesisInfo.h"
 
 #include "Utilities/File.h"
 #include "Utilities/FileWriter.h"
 
 namespace sf = std::filesystem;
 
-const std::wstring version         = L"1.0.0";
+const std::string version          = "1.0.0";
 NemesisInfo* NemesisInfo::instance = new NemesisInfo();
 
 const std::filesystem::path& NemesisInfo::CanonizePath(const std::filesystem::path& path)
@@ -25,37 +25,39 @@ const std::filesystem::path& NemesisInfo::CanonizePath(const std::filesystem::pa
     return PathCache.insert({path, sf::absolute(path)}).first->second;
 }
 
-int NemesisInfo::Setup(int argc, wchar_t* argv[], VecStr& mods)
+void NemesisInfo::PrintHelp(const std::filesystem::path& exe_path)
 {
-    std::wstring help_msg
-        = L"Nemesis Unlimited Behavior Engine made by Shikyo Kira v" + version
-          + L"\n\n"
-            L"Nemesis Unlimited Behavior Engine processes Nemesis Extended XML (.nemx) and animation queries "
-            L"to generate standard XML (.xml) or Havok (.hkx) binary formats, AnimationDataSingleFile and "
-            L"AnimationSetDataSingleFile\n\n"
-            L"Nemx files provide extended XML syntax with embedded functions and macros for dynamic content "
-            L"generation and modular data building\n\n"
-            L"Usage:\n"
-            L"     "
-          + sf::path(argv[0]).filename().wstring()
-          + " -p win32 -d \"C:\\Program Files "
-            L"(x86)\\steam\\steamapps\\common\\Skyrim Special Edition\\Data\" -o "
-            L"\"My\\Staging\\Directory\\Path\" -m tkuc nemesis bcbi\n\n"
-            L"     -h      Help info\n"
-            L"     -p      Output platform [ps3, ps4, 360, win32 (default), amd64]\n"
-            L"     -v      Havok version. ie: hk_2010.2.0-r1 (default)\n"
-            L"     -d      Skyrim data directory\n"
-            L"     -o      Output directory. Skyrim data directory is the default value (optional)\n"
-            L"     -pi     Output progress indicator (optional)\n"
-            L"     -db     Toggle debug mode (optional)\n"
-            L"     -m      List of active mod codes. Must be the last. Priority order starts from lowest "
-            L"(left) "
-            L"to highest (right)\n"
-            L"     -s      Enable synchronous processing for debugging purposes (default: asynchronous)\n";
+    std::cout
+        << "Nemesis Unlimited Behavior Engine made by Shikyo Kira v" << version << "\n\n"
+        << "Nemesis Unlimited Behavior Engine processes Nemesis Extended XML (.nemx) and animation queries "
+           "to generate standard XML (.xml) or Havok (.hkx) binary formats, AnimationDataSingleFile and "
+           "AnimationSetDataSingleFile\n\n"
+           "Nemx files provide extended XML syntax with embedded functions and macros for dynamic content "
+           "generation and modular data building\n\n"
+           "Usage:\n"
+        << "     " << nemesis::to_utf8_string(exe_path.filename())
+        << " -p win32 -d \"C:\\Program Files "
+           "(x86)\\steam\\steamapps\\common\\Skyrim Special Edition\\Data\" -o "
+           "\"My\\Staging\\Directory\\Path\" -m tkuc nemesis bcbi\n\n"
+           "     -h      Help info\n"
+           "     -p      Output platform [ps3, ps4, 360, win32 (default), amd64]\n"
+           "     -v      Havok version. ie: hk_2010.2.0-r1 (default)\n"
+           "     -d      Skyrim data directory\n"
+           "     -o      Output directory. Skyrim data directory is the default value (optional)\n"
+           "     -pi     Output progress indicator (optional)\n"
+           "     -db     Toggle debug mode (optional)\n"
+           "     -m      List of active mod codes. Must be the last. Priority order starts from lowest "
+           "(left) "
+           "to highest (right)\n"
+           "     -s      Enable synchronous processing for debugging purposes (default: asynchronous)\n"
+        << std::endl;
+}
 
+int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
+{
     if (argc == 1)
     {
-        std::wcout << help_msg << std::endl;
+        PrintHelp(argv[0]);
         return 0;
     }
 
