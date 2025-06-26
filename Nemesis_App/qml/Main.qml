@@ -111,7 +111,7 @@ Window {
                     target: logo
                     opacity: 1
                     height: 100
-                    anchors.horizontalCenterOffset: -150
+                    anchors.horizontalCenterOffset: -140
                 }
             }
         ]
@@ -136,14 +136,14 @@ Window {
                         NumberAnimation {
                             target: logo
                             property: "anchors.horizontalCenterOffset"
-                            duration: 500
+                            duration: 300
                         }
 
                         PropertyAnimation {
                             target: logo_text
                             property: "anchors.leftMargin"
                             to: 15
-                            duration: 500
+                            duration: 300
                         }
                     }
 
@@ -151,7 +151,7 @@ Window {
                         target: window
                         property: "heightOffset"
                         to: 0
-                        duration: 500
+                        duration: 300
                     }
 
                     ParallelAnimation {
@@ -165,7 +165,7 @@ Window {
                             target: contentZone
                             property: "opacity"
                             to: 1
-                            duration: 300
+                            duration: 250
                         }
                     }
                 }
@@ -1118,7 +1118,7 @@ Window {
 
                         Behavior on width {
                             NumberAnimation {
-                                duration: progressBarFill.width / progressBar.width > 0.7 ? 1000 : 2000
+                                duration: 1000
                                 easing.type: Easing.InOutQuint
                             }
                         }
