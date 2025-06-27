@@ -34,10 +34,10 @@ namespace nemesis
                                                    nemesis::TemplateClass& templt_class,
                                                    nemesis::NObjectRepository& repo,
                                                    nemesis::ThreadPool& thread_pool);
-        static void AddTemplateToHkxFile(const std::filesystem::path& relative_parent_path,
-                                         const std::filesystem::path& templt_path,
+        static void AddTemplateToHkxFile(const std::filesystem::path& templt_path,
                                          nemesis::TemplateClass& templt_class,
-                                         nemesis::HkxFile& hkx_file);
+                                         nemesis::HkxFile& hkx_file,
+                                         nemesis::ThreadPool& thread_pool);
         static void AddTemplateToAnimDataSingleFile(const std::filesystem::path& dir,
                                                     nemesis::TemplateClass& templt_class,
                                                     nemesis::AnimationDataSingleFile& singlefile,

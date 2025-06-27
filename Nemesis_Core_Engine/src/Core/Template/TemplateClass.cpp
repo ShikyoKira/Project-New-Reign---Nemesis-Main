@@ -80,7 +80,7 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
             continue;
         }
 
-        AddTemplateToHkxFile(relative_parent_path, path, templt_class, *hkx_file);
+        AddTemplateToHkxFile(path, templt_class, *hkx_file, thread_pool);
     }
 
     if (template_files.empty()) return;
@@ -108,13 +108,13 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
     }
 }
 
-void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& relative_parent_path,
-                                                  const std::filesystem::path& templt_path,
+void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& templt_path,
                                                   nemesis::TemplateClass& templt_class,
-                                                  nemesis::HkxFile& hkx_file)
+                                                  nemesis::HkxFile& hkx_file,
+                                                  nemesis::ThreadPool& thread_pool)
 {
-    std::string filename = nemesis::to_utf8_string(templt_path.stem());
-    auto node            = hkx_file.GetNodeById(filename);
+    auto filename = nemesis::to_utf8_string(templt_path.stem());
+    auto* node    = hkx_file.GetNodeById(filename);
 
     if (!node)
     {
@@ -122,8 +122,12 @@ void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& r
                                  + nemesis::to_utf8_string(templt_path) + ", Node Id: " + filename + ")");
     }
 
+    thread_pool.enqueue(
+        [templt_path, &templt_class, node]()
+        {
     auto m_node = nemesis::HkxNode::DeserializeHkxNodeFromFile(templt_path, &templt_class);
     node->MatchAndUpdate(*m_node);
+        });
 }
 
 void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesystem::path& dir,
