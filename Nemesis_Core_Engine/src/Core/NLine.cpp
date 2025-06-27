@@ -127,7 +127,7 @@ void nemesis::NLine::MatchAndUpdate(const nemesis::NLine& nline)
     if (!nline.Value || *Value != *nline.Value)
     {
         throw std::runtime_error("Template update line to line to does not match (Line: "
-                                 + std::to_string(nline.Value->GetLineNumber())
+                                 + (!nline.Value ? "???" : std::to_string(nline.Value->GetLineNumber()))
                                  + ", File: " + nemesis::to_utf8_string(nline.Value->GetFilePath()) + ")");
     }
 
@@ -144,7 +144,7 @@ void nemesis::NLine::MatchAndUpdate(const std::string& mod_code, const nemesis::
     if (!nline.Value || *Value != *nline.Value)
     {
         throw std::runtime_error("Mod update line to line to does not match (Mod: " + mod_code
-                                 + ", Line: " + std::to_string(nline.Value->GetLineNumber())
+                                 + ", Line: " + (!nline.Value ? "???" : std::to_string(nline.Value->GetLineNumber()))
                                  + ", File: " + nemesis::to_utf8_string(nline.Value->GetFilePath()) + ")");
     }
 
