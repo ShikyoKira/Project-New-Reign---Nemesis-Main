@@ -8,15 +8,6 @@
 #include "Enums/HavokVersion.h"
 #include "Enums/PlatformType.h"
 
-#if _WIN32
-using path_char = wchar_t;
-using path_string = std::wstring;
-#else
-using path_char = char;
-using path_string = std::string;
-#endif
-
-
 struct NemesisInfo
 {
 private:

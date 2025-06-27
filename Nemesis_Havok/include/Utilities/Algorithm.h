@@ -28,7 +28,13 @@ namespace nemesis
 #if _WIN32
 #define PATH_TO_STRING(PATH) nemesis::to_utf8_wstring(PATH)
 #define LITERAL_PATH(PATH) (L##PATH)
+
+using path_char   = wchar_t;
+using path_string = std::wstring;
 #else
 #define PATH_TO_STRING(PATH) (PATH).string()
 #define LITERAL_PATH(PATH) (PATH)
+
+using path_char   = char;
+using path_string = std::string;
 #endif
