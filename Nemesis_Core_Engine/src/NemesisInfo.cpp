@@ -203,10 +203,10 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
     else
     {
 #ifdef _WIN32
-        throw std::runtime_error("ERROR: Unsupported platform argument (" + nemesis::transform_to(platform)
+        throw std::runtime_error("Unsupported platform argument (" + nemesis::transform_to(platform)
                                  + ")");
 #else
-        throw std::runtime_error("ERROR: Unsupported platform argument (" + platform + ")");
+        throw std::runtime_error("Unsupported platform argument (" + platform + ")");
 #endif
     }
 

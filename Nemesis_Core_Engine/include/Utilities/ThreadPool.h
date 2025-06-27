@@ -106,12 +106,12 @@ namespace nemesis
                               }
                               catch (const std::exception& ex)
                               {
-                                  Logger::Log(std::string("ERROR: ") + ex.what(), true);
+                                  Logger::Log(std::string("[ERROR] ") + ex.what(), true);
                                   error = true;
                               }
                               catch (...)
                               {
-                                  Logger::Log("ERROR: Unknown exception captured", true);
+                                  Logger::Log("[ERROR] Unknown exception captured", true);
                                   error = true;
                               }
                           });
