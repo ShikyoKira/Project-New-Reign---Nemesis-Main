@@ -42,13 +42,15 @@ void nemesis::NObjectRepository::ParseHkxFilesFromDirectory(const std::filesyste
         if (nemesis::istarts_with(PATH_TO_STRING(path.parent_path().stem()), LITERAL_PATH("characters")))
         {
             auto character = nemesis::HkxCharacter::ParseFromFile(path, thread_pool);
-            CharactersPathMap.insert({character->GetFilePath(), character.get()});
+            CharactersPathMap.insert(
+                {nemesis::to_lower_copy(PATH_TO_STRING(character->GetFilePath())), character.get()});
             Characters.emplace_back(std::move(character));
             continue;
         }
 
         auto behavior = nemesis::HkxBehavior::ParseFromFile(path, thread_pool);
-        BehaviorsPathMap.insert({behavior->GetFilePath(), behavior.get()});
+        BehaviorsPathMap.insert(
+            {nemesis::to_lower_copy(PATH_TO_STRING(behavior->GetFilePath())), behavior.get()});
         Behaviors.emplace_back(std::move(behavior));
     }
 }
@@ -287,7 +289,8 @@ nemesis::NObjectRepository::NObjectRepository(const std::filesystem::path& data_
 nemesis::HkxBehavior*
 nemesis::NObjectRepository::GetBehavior(const std::filesystem::path& relative_path) noexcept
 {
-    auto itr = BehaviorsPathMap.find(relative_path);
+    auto fullpath = nemesis::to_lower_copy(PATH_TO_STRING(NemesisInfo::DataPath() / relative_path));
+    auto itr      = BehaviorsPathMap.find(fullpath);
 
     if (itr != BehaviorsPathMap.end()) return itr->second;
 
@@ -297,7 +300,8 @@ nemesis::NObjectRepository::GetBehavior(const std::filesystem::path& relative_pa
 const nemesis::HkxBehavior*
 nemesis::NObjectRepository::GetBehavior(const std::filesystem::path& relative_path) const noexcept
 {
-    auto itr = BehaviorsPathMap.find(relative_path);
+    auto fullpath = nemesis::to_lower_copy(PATH_TO_STRING(NemesisInfo::DataPath() / relative_path));
+    auto itr      = BehaviorsPathMap.find(fullpath);
 
     if (itr != BehaviorsPathMap.end()) return itr->second;
 
@@ -307,7 +311,8 @@ nemesis::NObjectRepository::GetBehavior(const std::filesystem::path& relative_pa
 nemesis::HkxCharacter*
 nemesis::NObjectRepository::GetCharacter(const std::filesystem::path& relative_path) noexcept
 {
-    auto itr = CharactersPathMap.find(relative_path);
+    auto fullpath = nemesis::to_lower_copy(PATH_TO_STRING(NemesisInfo::DataPath() / relative_path));
+    auto itr      = CharactersPathMap.find(fullpath);
 
     if (itr != CharactersPathMap.end()) return itr->second;
 
@@ -317,7 +322,8 @@ nemesis::NObjectRepository::GetCharacter(const std::filesystem::path& relative_p
 const nemesis::HkxCharacter*
 nemesis::NObjectRepository::GetCharacter(const std::filesystem::path& relative_path) const noexcept
 {
-    auto itr = CharactersPathMap.find(relative_path);
+    auto fullpath = nemesis::to_lower_copy(PATH_TO_STRING(NemesisInfo::DataPath() / relative_path));
+    auto itr      = CharactersPathMap.find(fullpath);
 
     if (itr != CharactersPathMap.end()) return itr->second;
 

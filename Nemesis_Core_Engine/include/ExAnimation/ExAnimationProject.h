@@ -3,8 +3,8 @@
 #include "ExAnimation/ExAnimationPack.h"
 #include "ExAnimation/LinkedExAnimList.h"
 
+#include "Utilities/Algorithm.h"
 #include "Utilities/ThreadPool.h"
-
 
 namespace nemesis
 {
@@ -17,10 +17,10 @@ namespace nemesis
         std::filesystem::path AnimationDirectory;
 
         Vec<std::filesystem::path> Characters;
-        USet<std::filesystem::path> CanonCharacters;
+        USet<path_string> CanonCharacters;
 
         Vec<std::filesystem::path> Behaviors;
-        USet<std::filesystem::path> CanonBehaviors;
+        USet<path_string> CanonBehaviors;
 
         Map<size_t, UPtr<nemesis::ExAnimationPack>> ExAnimMap;
 

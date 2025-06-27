@@ -2,6 +2,8 @@
 
 #include "Core/AnimationData/AnimationDataProject.h"
 
+#include "Utilities/Algorithm.h"
+
 namespace nemesis
 {
     template<typename Ty>
@@ -26,8 +28,8 @@ namespace nemesis
     private:
         Vec<UPtr<nemesis::HkxCharacter>> Characters;
         Vec<UPtr<nemesis::HkxBehavior>> Behaviors;
-        UMap<std::filesystem::path, nemesis::HkxCharacter*> CharactersPathMap;
-        UMap<std::filesystem::path, nemesis::HkxBehavior*> BehaviorsPathMap;
+        UMap<path_string, nemesis::HkxCharacter*> CharactersPathMap;
+        UMap<path_string, nemesis::HkxBehavior*> BehaviorsPathMap;
 
         UPtr<nemesis::AnimationDataSingleFile> AnimDataSingleFile;
         UPtr<nemesis::AnimationSetDataSingleFile> AnimSetDataSingleFile;

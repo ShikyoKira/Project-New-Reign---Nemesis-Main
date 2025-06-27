@@ -44,13 +44,13 @@ void nemesis::ExAnimationProject::PopulateProjectDataTo(nemesis::ExAnimationProj
     for (auto& character : characters)
     {
         auto& path = project.Characters.emplace_back(project.WorkingDirectory / std::move(character));
-        project.CanonCharacters.insert(CanonizePath(nemesis::to_lower_copy(path)));
+        project.CanonCharacters.insert(nemesis::to_lower_copy(PATH_TO_STRING(CanonizePath(path))));
     }
 
     for (auto& behavior : behaviors)
     {
         auto& path = project.Behaviors.emplace_back(project.WorkingDirectory / std::move(behavior));
-        project.CanonBehaviors.insert(CanonizePath(nemesis::to_lower_copy(path)));
+        project.CanonBehaviors.insert(nemesis::to_lower_copy(PATH_TO_STRING(CanonizePath(path))));
     }
 
     project.LoadExAnim();
@@ -106,12 +106,14 @@ void nemesis::ExAnimationProject::LoadExAnim()
 
 bool nemesis::ExAnimationProject::MatchBehavior(const std::filesystem::path& hkxfile_path) const
 {
-    return CanonBehaviors.find(nemesis::to_lower_copy(CanonizePath(hkxfile_path))) != CanonBehaviors.end();
+    return CanonBehaviors.find(nemesis::to_lower_copy(PATH_TO_STRING(CanonizePath(hkxfile_path))))
+           != CanonBehaviors.end();
 }
 
 bool nemesis::ExAnimationProject::MatchCharacter(const std::filesystem::path& hkxfile_path) const
 {
-    return CanonCharacters.find(nemesis::to_lower_copy(CanonizePath(hkxfile_path))) != CanonCharacters.end();
+    return CanonCharacters.find(nemesis::to_lower_copy(PATH_TO_STRING(CanonizePath(hkxfile_path))))
+           != CanonCharacters.end();
 }
 
 const std::string& nemesis::ExAnimationProject::GetName() const noexcept
