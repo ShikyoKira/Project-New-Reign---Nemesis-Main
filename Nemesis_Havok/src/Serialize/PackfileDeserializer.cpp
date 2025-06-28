@@ -159,8 +159,25 @@ void nemesis::PackfileDeserializer::RunGlobalQueue()
 
         if (itr == GlobalQueue.end())
         {
-            std::cout << "Global queue address not found" << std::endl;
-            exit(-1);
+            std::cout << "Global queue address not found: " << NumberToHex(addr, true) << " (" << addr << ")"
+                      << std::endl;
+
+            auto cls     = GetClassFromAddress(addr - DataAddress);
+            auto obj_itr = ObjectMap.find(addr);
+
+            if (obj_itr != ObjectMap.end()) continue;
+
+            RunScopedQueue(LocalQueue,
+                           [addr, cls, this]()
+                           {
+                               auto obj = PackfilePtr->CreateObject(cls->GetName());
+                               ObjectMap.insert({addr, obj});
+                               obj->DeserializeFrom(*this);
+                               Pad(16);
+
+                               RunLocalQueue();
+                           });
+            continue;
         }
 
         itr->second();
@@ -811,11 +828,11 @@ nemesis::hkSmallArrayBase& nemesis::PackfileDeserializer::ReadArrayObject(const 
             RunScopedQueue(LocalQueue,
                            [&array, this]()
                            {
-            Pad(16);
-            array.DeserializeFrom(*this);
+                               Pad(16);
+                               array.DeserializeFrom(*this);
 
-            RunLocalQueue();
-        });
+                               RunLocalQueue();
+                           });
         });
 
     if (!array.IsVariant())
@@ -850,11 +867,11 @@ nemesis::hkArrayBase& nemesis::PackfileDeserializer::ReadArrayObject(const std::
             RunScopedQueue(LocalQueue,
                            [&array, this]()
                            {
-            Pad(16);
-            array.DeserializeFrom(*this);
+                               Pad(16);
+                               array.DeserializeFrom(*this);
 
-            RunLocalQueue();
-        });
+                               RunLocalQueue();
+                           });
         });
 
     if (!array.IsVariant())
@@ -895,10 +912,10 @@ nemesis::hkRefVariant& nemesis::PackfileDeserializer::ReadRefObject(const std::s
                                 RunScopedQueue(LocalQueue,
                                                [&ref_obj, this]()
                                                {
-                                ref_obj.DeserializeFrom(*this);
-                                Pad(16);
+                                                   ref_obj.DeserializeFrom(*this);
+                                                   Pad(16);
 
-                                RunLocalQueue();
+                                                   RunLocalQueue();
                                                });
                             }});
         return ref_obj;
@@ -945,13 +962,13 @@ nemesis::hkRefVariant& nemesis::PackfileDeserializer::ReadRefObject(const std::s
                             RunScopedQueue(LocalQueue,
                                            [&ref_obj, cls, dest, this]()
                                            {
-                            auto obj = PackfilePtr->CreateObject(cls->GetName());
-                            ObjectMap.insert({dest, obj});
-                            ref_obj.ReferenceTo(obj);
-                            ref_obj.DeserializeFrom(*this);
-                            Pad(16);
+                                               auto obj = PackfilePtr->CreateObject(cls->GetName());
+                                               ObjectMap.insert({dest, obj});
+                                               ref_obj.ReferenceTo(obj);
+                                               ref_obj.DeserializeFrom(*this);
+                                               Pad(16);
 
-                            RunLocalQueue();
+                                               RunLocalQueue();
                                            });
                         }});
     return ref_obj;
@@ -1016,12 +1033,12 @@ nemesis::HavokObject** nemesis::PackfileDeserializer::ReadRefObject(const std::s
                                            [hkx_obj, cls, dest, this]()
                                            {
                                                auto obj = PackfilePtr->CreateObject(cls->GetName());
-                            ObjectMap.insert({dest, obj});
-                            (*hkx_obj) = obj;
-                            (*hkx_obj)->DeserializeFrom(*this);
-                            Pad(16);
+                                               ObjectMap.insert({dest, obj});
+                                               (*hkx_obj) = obj;
+                                               (*hkx_obj)->DeserializeFrom(*this);
+                                               Pad(16);
 
-                            RunLocalQueue();
+                                               RunLocalQueue();
                                            });
                         }});
     return hkx_obj;
