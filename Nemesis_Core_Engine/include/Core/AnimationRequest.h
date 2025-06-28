@@ -34,7 +34,7 @@ namespace nemesis
 
         Vec<nemesis::AnimationRequest*> Parents;
 
-        static std::atomic<unsigned int> IdCounter;
+        static std::atomic_uint32_t IdCounter;
 
     public:
         AnimationRequest(const nemesis::TemplateClass& templt_class) noexcept;
