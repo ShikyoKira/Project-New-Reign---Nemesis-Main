@@ -808,14 +808,14 @@ nemesis::hkSmallArrayBase& nemesis::PackfileDeserializer::ReadArrayObject(const 
     LocalQueue->emplace_back(
         [&array, name, this]
         {
-            auto* local_queue = LocalQueue.release();
-            LocalQueue        = std::make_unique<Vec<std::function<void()>>>();
-
+            RunScopedQueue(LocalQueue,
+                           [&array, this]()
+                           {
             Pad(16);
             array.DeserializeFrom(*this);
 
             RunLocalQueue();
-            LocalQueue.reset(local_queue);
+        });
         });
 
     if (!array.IsVariant())
@@ -847,14 +847,14 @@ nemesis::hkArrayBase& nemesis::PackfileDeserializer::ReadArrayObject(const std::
     LocalQueue->emplace_back(
         [&array, name, this]
         {
-            auto* local_queue = LocalQueue.release();
-            LocalQueue        = std::make_unique<Vec<std::function<void()>>>();
-
+            RunScopedQueue(LocalQueue,
+                           [&array, this]()
+                           {
             Pad(16);
             array.DeserializeFrom(*this);
 
             RunLocalQueue();
-            LocalQueue.reset(local_queue);
+        });
         });
 
     if (!array.IsVariant())
@@ -892,14 +892,14 @@ nemesis::hkRefVariant& nemesis::PackfileDeserializer::ReadRefObject(const std::s
                                           << " =====" << std::endl;
 #endif
 
-                                auto* local_queue = LocalQueue.release();
-                                LocalQueue        = std::make_unique<Vec<std::function<void()>>>();
-
+                                RunScopedQueue(LocalQueue,
+                                               [&ref_obj, this]()
+                                               {
                                 ref_obj.DeserializeFrom(*this);
                                 Pad(16);
 
                                 RunLocalQueue();
-                                LocalQueue.reset(local_queue);
+                                               });
                             }});
         return ref_obj;
     }
@@ -942,9 +942,9 @@ nemesis::hkRefVariant& nemesis::PackfileDeserializer::ReadRefObject(const std::s
                                 return;
                             }
 
-                            auto* local_queue = LocalQueue.release();
-                            LocalQueue        = std::make_unique<Vec<std::function<void()>>>();
-
+                            RunScopedQueue(LocalQueue,
+                                           [&ref_obj, cls, dest, this]()
+                                           {
                             auto obj = PackfilePtr->CreateObject(cls->GetName());
                             ObjectMap.insert({dest, obj});
                             ref_obj.ReferenceTo(obj);
@@ -952,7 +952,7 @@ nemesis::hkRefVariant& nemesis::PackfileDeserializer::ReadRefObject(const std::s
                             Pad(16);
 
                             RunLocalQueue();
-                            LocalQueue.reset(local_queue);
+                                           });
                         }});
     return ref_obj;
 }
@@ -1012,17 +1012,17 @@ nemesis::HavokObject** nemesis::PackfileDeserializer::ReadRefObject(const std::s
                                 return;
                             }
 
-                            auto* local_queue = LocalQueue.release();
-                            LocalQueue        = std::make_unique<Vec<std::function<void()>>>();
-
-                            auto obj   = PackfilePtr->CreateObject(cls->GetName());
+                            RunScopedQueue(LocalQueue,
+                                           [hkx_obj, cls, dest, this]()
+                                           {
+                                               auto obj = PackfilePtr->CreateObject(cls->GetName());
                             ObjectMap.insert({dest, obj});
                             (*hkx_obj) = obj;
                             (*hkx_obj)->DeserializeFrom(*this);
                             Pad(16);
 
                             RunLocalQueue();
-                            LocalQueue.reset(local_queue);
+                                           });
                         }});
     return hkx_obj;
 }

@@ -8,6 +8,7 @@
 #include "Havok/hkPackfile.h"
 
 #include "Utilities/Binary.h"
+#include "Utilities/OnScopeEnds.h"
 
 namespace nemesis
 {
@@ -95,6 +96,15 @@ namespace nemesis
 
         void RunLocalQueue();
         void RunGlobalQueue();
+
+        template <typename Func>
+        static void RunScopedQueue(UPtr<Vec<std::function<void()>>>& queue, Func func)
+        {
+            auto* old_queue = queue.release();
+            nemesis::OnScopeEnds on_ends([old_queue, &queue]() { queue.reset(old_queue); });
+            queue = std::make_unique<Vec<std::function<void()>>>();
+            func();
+        }
 
     protected:
         bool CanAssert() const noexcept override;
