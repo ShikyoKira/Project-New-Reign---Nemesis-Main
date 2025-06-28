@@ -28,28 +28,19 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
 
                 if (index < list.size()) return list[index].ToString();
 
-                throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
-                                         + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowInvalidError("Index is larger than list");
             }
 
             if (index_str.length() > 1)
             {
-            InvalidIndex:
-                throw std::runtime_error("Invalid index (" + index_str + ") value ("
-                                         + std::to_string(list.size()) + ") (Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowInvalidError("Invalid index value (" + index_str + ")");
             }
 
             if (index_str == "")
             {
                 if (!sptr_manager->HasMotionDataInQueue())
                 {
-                SyntaxError:
-                    throw std::runtime_error(
-                        "Syntax Error: Unable to get target motion data from queue (Syntax: " + Expression
-                        + ", Line: " + std::to_string(LineNum)
-                        + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowInaccessibleError("Unable to get target motion data from queue");
                 }
 
                 return state.GetCurrentMotionData();
@@ -69,7 +60,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
                 {
                     if (!sptr_manager->HasMotionDataInQueue())
                     {
-                        goto SyntaxError;
+                        ThrowInaccessibleError("Unable to get target motion data from queue");
                     }
 
                     size_t index = state.GetCurrentMotionIndex();
@@ -82,7 +73,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
                 {
                     if (!sptr_manager->HasMotionDataInQueue())
                     {
-                        goto SyntaxError;
+                        ThrowInaccessibleError("Unable to get target motion data from queue");
                     }
 
                     size_t index = state.GetCurrentMotionIndex();
@@ -92,7 +83,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
                     return list[index + 1].ToString();
                 }
                 default:
-                    goto InvalidIndex;
+                    ThrowSyntaxError("Unsupported Motion Data components");
             }
         };
         return true;
@@ -107,9 +98,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
 
             if (index < list.size()) return list[index].ToString();
 
-            throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: " + Expression
-                                     + ", Line: " + std::to_string(LineNum)
-                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+            ThrowInvalidError("Index is larger than list");
         };
         return true;
     }
@@ -182,9 +171,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
 
     if (manager.HasMotionDataInQueue()) return true;
 
-    throw std::runtime_error("Syntax Error: Unable to get target motion data from queue (Syntax: "
-                             + Expression + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+    ThrowInaccessibleError("Unable to get target motion data from queue");
 }
 
 bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticManager& manager)
@@ -214,28 +201,19 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
 
                 if (index < list.size()) return list[index].ToString();
 
-                throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
-                                         + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowInvalidError("Index is larger than list");
             }
 
             if (index_str.length() > 1)
             {
-            InvalidIndex:
-                throw std::runtime_error("Invalid index (" + index_str + ") value ("
-                                         + std::to_string(list.size()) + ") (Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowInvalidError("Invalid index value (" + index_str + ")");
             }
 
             if (index_str == "")
             {
                 if (!sptr_manager->HasRequestMotionDataInQueue(Components.front()))
                 {
-                SyntaxError:
-                    throw std::runtime_error(
-                        "Syntax Error: Unable to get target motion data from queue (Syntax: " + Expression
-                        + ", Line: " + std::to_string(LineNum)
-                        + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowInaccessibleError("Unable to get target motion data from queue");
                 }
 
                 return state.GetCurrentRequestMotionData(request);
@@ -255,7 +233,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                 {
                     if (!sptr_manager->HasRequestMotionDataInQueue(Components.front()))
                     {
-                        goto SyntaxError;
+                        ThrowInaccessibleError("Unable to get target motion data from queue");
                     }
 
                     size_t index = state.GetCurrentRequestMotionIndex(request);
@@ -268,7 +246,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                 {
                     if (!sptr_manager->HasRequestMotionDataInQueue(Components.front()))
                     {
-                        goto SyntaxError;
+                        ThrowInaccessibleError("Unable to get target motion data from queue");
                     }
 
                     size_t index = state.GetCurrentRequestMotionIndex(request);
@@ -278,7 +256,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                     return list[index + 1].ToString();
                 }
                 default:
-                    goto InvalidIndex;
+                    ThrowSyntaxError("Unsupported Motion Data components");
             }
         };
         return true;
@@ -374,9 +352,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
 
     if (manager.HasRequestMotionDataInQueue(Components.front())) return true;
 
-    throw std::runtime_error("Syntax Error: Unable to get target motion data from queue (Syntax: "
-                             + Expression + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+    ThrowInaccessibleError("Unable to get target motion data from queue");
 }
 
 nemesis::MotionDataStatement::MotionDataStatement(const std::string& expression,
@@ -403,9 +379,7 @@ nemesis::MotionDataStatement::MotionDataStatement(const std::string& expression,
             break;
     }
 
-    throw std::runtime_error("Syntax Error: Unsupported Motion Data components (Expression: " + expression
-                             + ", Line: " + std::to_string(linenum)
-                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+    ThrowSyntaxError("Unsupported Motion Data components");
 }
 
 std::string nemesis::MotionDataStatement::GetValue(nemesis::CompileState& state) const

@@ -22,9 +22,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code + ") template (Template: "
-                                 + templt_name + ", File: " + nemesis::to_utf8_string(FilePath)
-                                 + ",  Line: " + std::to_string(LineNum) + ")");
+        ThrowTemplateUnsupported("Template unsupported (" + templt_code + ")", templt_name);
     }
 
     if (is_only_number(index_str))
@@ -32,7 +30,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
         if (!manager.HasRequestInQueue(templt_code)
             && !manager.HasRequestInQueue(templt_name + "_" + std::to_string(templt_num - 1)))
         {
-            goto SyntaxError;
+            ThrowInaccessibleError("Unable to get target request from queue");
         }
 
         size_t index = std::stoul(index_str);
@@ -45,7 +43,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
 
             if (index < list.size()) return list[index];
 
-            goto Unaccessible;
+            ThrowInvalidError("Index is larger than list");
         }
 
         {
@@ -54,18 +52,12 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
             if (index < collection.size()) return collection[index];
         }
 
-    Unaccessible:
-        throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: " + Expression
-                                 + ", Line: " + std::to_string(LineNum)
-                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+        ThrowInvalidError("Index is larger than list");
     }
 
     if (index_str.size() > 1)
     {
-    Invalid:
-        throw std::runtime_error("Syntax Error: Invalid request target (Expression: " + Expression
-                                 + ", Line: " + std::to_string(LineNum)
-                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+        ThrowInvalidError("Invalid index value (" + index_str + ")");
     }
 
     if (index_str == "")
@@ -73,10 +65,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
         if (!manager.HasRequestInQueue(templt_code)
             && !manager.HasRequestInQueue(templt_name + "_" + std::to_string(templt_num - 1)))
         {
-        SyntaxError:
-            throw std::runtime_error("Syntax Error: Unable to get target request from queue (Expression: "
-                                     + Expression + ", Line: " + std::to_string(LineNum)
-                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+            ThrowInaccessibleError("Unable to get target request from queue");
         }
 
         return state.GetCurrentRequest(templt_code);
@@ -89,7 +78,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
             if (!manager.HasRequestInQueue(templt_code)
                 && !manager.HasRequestInQueue(templt_name + "_" + std::to_string(templt_num - 1)))
             {
-                goto SyntaxError;
+                ThrowInaccessibleError("Unable to get target request from queue");
             }
 
             return state.GetFirstRequest(templt_code);
@@ -99,25 +88,31 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
             if (!manager.HasRequestInQueue(templt_code)
                 && !manager.HasRequestInQueue(templt_name + "_" + std::to_string(templt_num - 1)))
             {
-                goto SyntaxError;
+                ThrowInaccessibleError("Unable to get target request from queue");
             }
 
             return state.GetLastRequest(templt_code);
         }
         case 'B':
         {
-            if (!manager.HasRequestInQueue(templt_code)) goto SyntaxError;
+            if (!manager.HasRequestInQueue(templt_code))
+            {
+                ThrowInaccessibleError("Unable to get target request from queue");
+            }
 
             return state.GetBackRequest(templt_code);
         }
         case 'N':
         {
-            if (!manager.HasRequestInQueue(templt_code)) goto SyntaxError;
+            if (!manager.HasRequestInQueue(templt_code))
+            {
+                ThrowInaccessibleError("Unable to get target request from queue");
+            }
 
             return state.GetNextRequest(templt_code);
         }
         default:
-            goto Invalid;
+            ThrowSyntaxError("Invalid value (" + index_str + ")");
     }
 }
 
@@ -237,9 +232,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code + ") template (Template: "
-                                 + templt_name + ", File: " + nemesis::to_utf8_string(FilePath)
-                                 + ",  Line: " + std::to_string(LineNum) + ")");
+        ThrowTemplateUnsupported("Template unsupported (" + templt_code + ")", templt_name);
     }
 
     size_t templt_num         = GetTemplateNumber(templt_class);
@@ -333,9 +326,7 @@ nemesis::CompositeStatement::GetTargetRequest(const nemesis::TemplateClass& temp
 
     if (!std::regex_match(Components.front(), std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error(
-            "Syntax Error: Unable to access (" + Components.front() + ") template (Template: " + templt_name
-            + ", File: " + nemesis::to_utf8_string(FilePath) + ",  Line: " + std::to_string(LineNum) + ")");
+        ThrowTemplateUnsupported("Template unsupported (" + Components.front() + ")", templt_name);
     }
 
     const auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);

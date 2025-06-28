@@ -32,9 +32,7 @@ nemesis::RequestIndexStatement::RequestIndexStatement(const std::string& express
             break;
         }
         default:
-            throw std::runtime_error("Syntax Error: Unsupported request index format (Line: "
-                                     + std::to_string(linenum)
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+            ThrowSyntaxError("Unsupported request index format");
     }
 }
 

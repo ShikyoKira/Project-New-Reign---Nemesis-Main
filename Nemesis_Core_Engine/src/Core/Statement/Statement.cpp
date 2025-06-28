@@ -65,9 +65,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code + ") template (Template: "
-                                 + templt_name + ", File: " + nemesis::to_utf8_string(FilePath)
-                                 + ",  Line: " + std::to_string(LineNum) + ")");
+        ThrowTemplateUnsupported("Template unsupported (" + templt_code + ")", templt_name);
     }
 
     const std::string& index_str = Components[1];
@@ -160,9 +158,7 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        throw std::runtime_error("Syntax Error: Unable to access (" + templt_code + ") template (Template: "
-                                 + templt_name + ", File: " + nemesis::to_utf8_string(FilePath)
-                                 + ",  Line: " + std::to_string(LineNum) + ")");
+        ThrowTemplateUnsupported("Template unsupported (" + templt_code + ")", templt_name);
     }
 
     const std::string& index_str = Components[1];
@@ -188,27 +184,19 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
 
                     if (index < list.size()) return list[index];
 
-                    goto Unaccessible;
+                    ThrowInvalidError("Index is larger than list");
                 }
 
-                {
-                    auto& collection = state.GetRequests(request->GetTemplateName());
+                auto& collection = state.GetRequests(request->GetTemplateName());
 
-                    if (index < collection.size()) return collection[index];
-                }
+                if (index < collection.size()) return collection[index];
 
-            Unaccessible:
-                throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
-                                         + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowInvalidError("Index is larger than list");
             });
     }
     else if (index_str.size() != 1)
     {
-    Invalid:
-        throw std::runtime_error("Syntax Error: Invalid request target (Expression: " + Expression
-                                 + ", Line: " + std::to_string(LineNum)
-                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+        ThrowInvalidError("Invalid index value (" + index_str + ")");
     }
     else
     {
@@ -232,7 +220,10 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
             }
             case 'B':
             {
-                if (!manager.HasRequestInQueue(templt_code)) goto Unaccessible;
+                if (!manager.HasRequestInQueue(templt_code))
+                {
+                    ThrowInaccessibleError("Unable to get target request from queue");
+                }
 
                 return std::make_shared<
                     std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
@@ -241,7 +232,10 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
             }
             case 'N':
             {
-                if (!manager.HasRequestInQueue(templt_code)) goto Unaccessible;
+                if (!manager.HasRequestInQueue(templt_code))
+                {
+                    ThrowInaccessibleError("Unable to get target request from queue");
+                }
 
                 return std::make_shared<
                     std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
@@ -249,7 +243,7 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
                     { return state.GetNextRequest(templt_code); });
             }
             default:
-                goto Invalid;
+                ThrowSyntaxError("Invalid value (" + index_str + ")");
         }
     }
 
@@ -259,9 +253,35 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
         return rst;
     }
 
-Unaccessible:
-    throw std::runtime_error("Syntax Error: Unable to get target request from queue (Expression: "
+    ThrowInaccessibleError("Unable to get target request from queue");
+}
+
+void nemesis::Statement::ThrowSyntaxError(const std::string& msg) const
+{
+    throw std::runtime_error("Syntax Error: " + msg + " (Expression: "
                              + Expression + ", Line: " + std::to_string(LineNum)
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+}
+
+void nemesis::Statement::ThrowInvalidError(const std::string& msg) const
+{
+    throw std::runtime_error("Invalid Value: " + msg + " (Expression: " + Expression
+                             + ", Line: " + std::to_string(LineNum)
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+}
+
+void nemesis::Statement::ThrowInaccessibleError(const std::string& msg) const
+{
+    throw std::runtime_error("Value Inaccessible: " + msg + " (Syntax: " + Expression
+                             + ", Line: " + std::to_string(LineNum)
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+}
+
+void nemesis::Statement::ThrowTemplateUnsupported(const std::string& msg,
+                                                  const std::string& templt_name) const
+{
+    throw std::runtime_error("Invalid Template: " + msg + " (Template: " + templt_name
+                             + ", Line: " + std::to_string(LineNum)
                              + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 

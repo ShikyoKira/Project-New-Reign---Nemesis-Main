@@ -35,6 +35,10 @@ namespace nemesis
 
         const nemesis::AnimationRequest* GetBaseRequest(nemesis::CompileState& state) const;
 
+        [[noreturn]] void ThrowSyntaxError(const std::string& msg) const;
+        [[noreturn]] void ThrowInvalidError(const std::string& msg) const;
+        [[noreturn]] void ThrowInaccessibleError(const std::string& msg) const;
+        [[noreturn]] void ThrowTemplateUnsupported(const std::string& msg, const std::string& templt_name) const;
     public:
         virtual ~Statement() noexcept {}
 

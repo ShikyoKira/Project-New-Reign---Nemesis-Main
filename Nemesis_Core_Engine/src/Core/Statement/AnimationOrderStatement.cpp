@@ -12,9 +12,7 @@ nemesis::AnimationOrderStatement::AnimationOrderStatement(const std::string& exp
 {
     if (Components.size() != 3)
     {
-        throw std::runtime_error("Syntax Error: AnimationOrder only accepts 1 argument (Syntax: " + expression
-                                 + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        ThrowSyntaxError("AnimationOrder only accepts 1 argument");
     }
 
     auto& char_path = Components[1];

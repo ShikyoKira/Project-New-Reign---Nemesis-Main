@@ -26,7 +26,7 @@ std::string nemesis::AttributeIdStatement::GetValue(nemesis::CompileState& state
 
     if (state.TryGetAttributeID(component, out)) return out;
 
-    throw std::runtime_error("Attribute id not found (Name: " + component
-                             + ", File: " + nemesis::to_utf8_string(FilePath)
-                             + ", Line: " + std::to_string(LineNum) + ") ");
+    throw std::runtime_error("Invalid Value: Attribute id not found (Name: " + component
+                             + ", Line: " + std::to_string(LineNum)
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ") ");
 }

@@ -27,9 +27,7 @@ nemesis::BaseIdStatement::BaseIdStatement(const std::string& expression,
 {
     if (Components.size() != 2)
     {
-        throw std::runtime_error("Syntax Error: " + GetTypeName() + " only accepts 1 argument (Syntax: "
-                                 + expression + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        ThrowSyntaxError(GetTypeName() + " only accepts 1 argument");
     }
 
     auto& component = Components.back();

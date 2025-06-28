@@ -28,28 +28,19 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
 
                 if (index < list.size()) return list[index].ToString();
 
-                throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
-                                         + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowInvalidError("Index is larger than list");
             }
 
             if (index_str.length() > 1)
             {
-            InvalidIndex:
-                throw std::runtime_error("Invalid index (" + index_str + ") value ("
-                                         + std::to_string(list.size()) + ") (Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowInvalidError("Invalid index value (" + index_str + ")");
             }
 
             if (index_str == "")
             {
                 if (!sptr_manager->HasRotationDataInQueue())
                 {
-                SyntaxError:
-                    throw std::runtime_error(
-                        "Syntax Error: Unable to get target rotation data from queue (Syntax: " + Expression
-                        + ", Line: " + std::to_string(LineNum)
-                        + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowInaccessibleError("Unable to get target rotation data from queue");
                 }
 
                 return state.GetCurrentRotationData();
@@ -69,7 +60,7 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
                 {
                     if (!sptr_manager->HasRotationDataInQueue())
                     {
-                        goto SyntaxError;
+                        ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
 
                     size_t index = state.GetCurrentRotationIndex();
@@ -82,7 +73,7 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
                 {
                     if (!sptr_manager->HasRotationDataInQueue())
                     {
-                        goto SyntaxError;
+                        ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
 
                     size_t index = state.GetCurrentRotationIndex();
@@ -92,7 +83,7 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
                     return list[index + 1].ToString();
                 }
                 default:
-                    goto InvalidIndex;
+                    ThrowSyntaxError("Unsupported Rotation Data components");
             }
         };
         return true;
@@ -107,9 +98,7 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
 
             if (index < list.size()) return list[index].ToString();
 
-            throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: " + Expression
-                                     + ", Line: " + std::to_string(LineNum)
-                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+            ThrowInvalidError("Index is larger than list");
         };
         return true;
     }
@@ -182,9 +171,7 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
 
     if (manager.HasRotationDataInQueue()) return true;
 
-    throw std::runtime_error("Syntax Error: Unable to get target rotation data from queue (Syntax: "
-                             + Expression + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+    ThrowInaccessibleError("Unable to get target rotation data from queue");
 }
 
 bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::SemanticManager& manager)
@@ -214,28 +201,19 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
 
                 if (index < list.size()) return list[index].ToString();
 
-                throw std::runtime_error("Value Unaccessible: Index is larger than list (Syntax: "
-                                         + Expression + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowInvalidError("Index is larger than list");
             }
 
             if (index_str.length() > 1)
             {
-            InvalidIndex:
-                throw std::runtime_error("Invalid index (" + index_str + ") value ("
-                                         + std::to_string(list.size()) + ") (Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowInvalidError("Invalid index value (" + index_str + ")");
             }
 
             if (index_str == "")
             {
                 if (!sptr_manager->HasRequestRotationDataInQueue(Components.front()))
                 {
-                SyntaxError:
-                    throw std::runtime_error(
-                        "Syntax Error: Unable to get target rotation data from queue (Syntax: " + Expression
-                        + ", Line: " + std::to_string(LineNum)
-                        + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowInaccessibleError("Unable to get target rotation data from queue");
                 }
 
                 return state.GetCurrentRequestRotationData(request);
@@ -255,7 +233,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                 {
                     if (!sptr_manager->HasRequestRotationDataInQueue(Components.front()))
                     {
-                        goto SyntaxError;
+                        ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
 
                     size_t index = state.GetCurrentRequestRotationIndex(request);
@@ -268,7 +246,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                 {
                     if (!sptr_manager->HasRequestRotationDataInQueue(Components.front()))
                     {
-                        goto SyntaxError;
+                        ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
 
                     size_t index = state.GetCurrentRequestRotationIndex(request);
@@ -278,7 +256,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                     return list[index + 1].ToString();
                 }
                 default:
-                    goto InvalidIndex;
+                    ThrowSyntaxError("Unsupported Rotation Data components");
             }
         };
         return true;
@@ -374,9 +352,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
 
     if (manager.HasRequestRotationDataInQueue(Components.front())) return true;
 
-    throw std::runtime_error("Syntax Error: Unable to get target rotation data from queue (Syntax: "
-                             + Expression + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+    ThrowInaccessibleError("Unable to get target rotation data from queue");
 }
 
 nemesis::RotationDataStatement::RotationDataStatement(const std::string& expression,
@@ -403,9 +379,7 @@ nemesis::RotationDataStatement::RotationDataStatement(const std::string& express
             break;
     }
 
-    throw std::runtime_error("Syntax Error: Unsupported Rotation Data components (Expression: " + expression
-                             + ", Line: " + std::to_string(linenum)
-                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+    ThrowSyntaxError("Unsupported Rotation Data components");
 }
 
 std::string nemesis::RotationDataStatement::GetValue(nemesis::CompileState& state) const

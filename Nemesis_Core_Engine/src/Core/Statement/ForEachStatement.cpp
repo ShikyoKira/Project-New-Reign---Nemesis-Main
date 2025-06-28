@@ -229,11 +229,12 @@ void nemesis::ForEachStatement::Parse1Component(nemesis::SemanticManager& manage
 
         if (num - 1 > fnum)
         {
-            throw std::runtime_error("Template can only access to current request, parent "
-                                     "requests and immediate child request. It "
-                                     "cannot access to anything beyond the child requests (Expression: "
-                                     + Expression + ", Line: " + std::to_string(LineNum)
-                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+            throw std::runtime_error(
+                "Value Inaccessible: Template can only access to current request, parent "
+                "requests and immediate child request. It "
+                "cannot access to anything beyond the child requests (Expression: "
+                + Expression + ", Line: " + std::to_string(LineNum)
+                + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         }
 
         if (num - 1 == fnum)
@@ -377,9 +378,7 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
 
     if (!std::regex_match(Components.front(), std::regex("^" + templt_name + "_([1-9]+)$")))
     {
-        throw std::runtime_error("Syntax Error: Unsupported expression for FOREACH statement (Expression: "
-                                 + Expression + ", Line: " + std::to_string(LineNum)
-                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+        ThrowSyntaxError("Unsupported expression for FOREACH statement");
     }
 
     auto get_request = GetTargetRequest(*templt_class, manager);
@@ -480,9 +479,7 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
 
                 if (!model)
                 {
-                    throw std::runtime_error("Syntax Error: '" + option
-                                             + "' is not a valid option (Line: " + std::to_string(LineNum)
-                                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowSyntaxError("Unsupported option name (" + option + ")");
                 }
 
                 return option;
@@ -494,9 +491,7 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
 
         if (!model)
         {
-            throw std::runtime_error("Syntax Error: '" + option
-                                     + "' is not a valid option (Line: " + std::to_string(LineNum)
-                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+            ThrowSyntaxError("Unsupported option name (" + option + ")");
         }
 
         get_option = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
@@ -561,10 +556,7 @@ bool nemesis::ForEachStatement::Parse4Components(nemesis::SemanticManager& manag
 
                 if (!sptr_manager->HasMapInQueue(key))
                 {
-                    throw std::runtime_error(
-                        "Syntax Error: Unable to get target map value from queue (Syntax: " + Expression
-                        + ", Line: " + std::to_string(LineNum)
-                        + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowInaccessibleError("Unable to get target map value from queue");
                 }
 
                 return key;
@@ -574,9 +566,7 @@ bool nemesis::ForEachStatement::Parse4Components(nemesis::SemanticManager& manag
     {
         if (!manager.HasMapInQueue(key))
         {
-            throw std::runtime_error("Syntax Error: Unable to get target map value from queue (Syntax: "
-                                     + Expression + ", Line: " + std::to_string(LineNum)
-                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+            ThrowInaccessibleError("Unable to get target map value from queue");
         }
 
         get_key = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
@@ -674,9 +664,7 @@ void nemesis::ForEachStatement::ParseComponents(nemesis::SemanticManager& manage
             break;
     }
 
-    throw std::runtime_error("Syntax Error: Invalid ForEach Statement expression (Expression: " + Expression
-                             + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+    ThrowSyntaxError("Invalid ForEach Statement expression");
 }
 
 nemesis::ForEachStatement::ForEachStatement(const std::string& expression,

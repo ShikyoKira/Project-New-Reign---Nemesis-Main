@@ -35,9 +35,7 @@ nemesis::AnimationEventStatement::AnimationEventStatement(const std::string& exp
             break;
         }
         default:
-            throw std::runtime_error("Syntax Error: Unsupported AnimationEvent format (Line: "
-                                     + std::to_string(linenum)
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+            ThrowSyntaxError("Unsupported AnimationEvent format");
     }
 }
 

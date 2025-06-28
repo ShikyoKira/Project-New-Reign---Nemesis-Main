@@ -32,7 +32,7 @@ nemesis::RequestIdStatement::RequestIdStatement(const std::string& expression,
             break;
         }
         default:
-            throw std::runtime_error("Syntax Error: Unsupported RequestId format");
+            ThrowSyntaxError("Unsupported RequestId format");
     }
 }
 

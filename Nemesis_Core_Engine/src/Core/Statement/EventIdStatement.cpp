@@ -26,7 +26,7 @@ std::string nemesis::EventIdStatement::GetValue(nemesis::CompileState& state) co
 
     if (state.TryGetEventID(component, out)) return out;
 
-    throw std::runtime_error("Event id not found (Name: " + component
-                             + ", File: " + nemesis::to_utf8_string(FilePath)
-                             + ", Line: " + std::to_string(LineNum) + ") ");
+    throw std::runtime_error("Invalid Value: Event id not found (Name: " + component
+                             + ", Line: " + std::to_string(LineNum)
+                             + ", File: " + nemesis::to_utf8_string(FilePath) + ") ");
 }

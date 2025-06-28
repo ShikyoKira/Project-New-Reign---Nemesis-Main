@@ -21,8 +21,7 @@ nemesis::OptionVariableStatement::GetOptionFunction(const std::string& option_sy
     {
         if (!manager.HasOptionInQueue(option_syntax))
         {
-            throw std::runtime_error("Syntax Error: Option not in queue (Line: " + std::to_string(linenum)
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+            ThrowInaccessibleError("Option not in queue");
         }
 
         return std::make_shared<std::function<const nemesis::TemplateOption*(const nemesis::AnimationRequest*,
@@ -43,9 +42,7 @@ nemesis::OptionVariableStatement::GetOptionFunction(const std::string& option_sy
 
                     if (!options.empty()) return options.front();
 
-                    throw std::runtime_error("Option is required \"" + option_name + "\" (Syntax: "
-                                             + Expression + ", Line: " + std::to_string(LineNum)
-                                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowSyntaxError("Option is required \"" + option_name + "\"");
                 });
         }
 
@@ -59,9 +56,7 @@ nemesis::OptionVariableStatement::GetOptionFunction(const std::string& option_sy
 
                     if (!options.empty()) return options.back();
 
-                    throw std::runtime_error("Option is required \"" + option_name + "\" (Syntax: "
-                                             + Expression + ", Line: " + std::to_string(LineNum)
-                                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowSyntaxError("Option is required \"" + option_name + "\"");
                 });
         }
 
@@ -78,22 +73,18 @@ nemesis::OptionVariableStatement::GetOptionFunction(const std::string& option_sy
 
                     if (options.size() > i) return options[i];
 
-                    throw std::runtime_error("Option must be more than " + std::to_string(i) + " in array \""
-                                             + option_name + "\" (Syntax: " + Expression
-                                             + ", Line: " + std::to_string(LineNum)
-                                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowSyntaxError("Option must be more than " + std::to_string(i) + " in array");
                 });
         }
 
-        throw std::runtime_error("Syntax Error: Invalid option index (Line: " + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        ThrowSyntaxError("Invalid option index");
     }
 
     auto& component = DynamicComponents.emplace_back(index, linenum, filepath, manager);
 
     return std::make_shared<std::function<const nemesis::TemplateOption*(const nemesis::AnimationRequest*,
                                                                          nemesis::CompileState&)>>(
-        [this, &component, &option_name, linenum, filepath](const nemesis::AnimationRequest* request,
+        [this, &component, &option_name, filepath](const nemesis::AnimationRequest* request,
                                                             nemesis::CompileState& state)
         {
             std::string s_index = component.GetValue(state);
@@ -106,18 +97,14 @@ nemesis::OptionVariableStatement::GetOptionFunction(const std::string& option_sy
             {
                 if (!options.empty()) return options.front();
 
-                throw std::runtime_error("Option is required \"" + option_name + "\" (Syntax: " + Expression
-                                         + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowSyntaxError("Option is required \"" + option_name + "\"");
             }
 
             if (s_index == "L")
             {
                 if (!options.empty()) return options.back();
 
-                throw std::runtime_error("Option is required \"" + option_name + "\" (Syntax: " + Expression
-                                         + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowSyntaxError("Option is required \"" + option_name + "\"");
             }
 
             if (is_only_number(s_index))
@@ -126,12 +113,10 @@ nemesis::OptionVariableStatement::GetOptionFunction(const std::string& option_sy
 
                 if (options.size() > index) return options[index];
 
-                throw std::runtime_error("Option must be more than " + std::to_string(index) + " in array (\""
-                                         + option_name + "\")");
+                ThrowSyntaxError("Option must be more than " + std::to_string(index) + " in array");
             }
 
-            throw std::runtime_error("Syntax Error: Invalid option index (Line: " + std::to_string(linenum)
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+            ThrowSyntaxError("Invalid option index");
         });
 }
 
@@ -146,8 +131,7 @@ nemesis::OptionVariableStatement::GetBaseOptionFunction(const std::string& optio
     {
         if (!manager.HasOptionInQueue(option_name))
         {
-            throw std::runtime_error("Syntax Error: Option not in queue (Line: " + std::to_string(linenum)
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+            ThrowInaccessibleError("Option not in queue");
         }
 
         return std::make_shared<std::function<const nemesis::TemplateOption*(nemesis::CompileState&)>>(
@@ -165,9 +149,7 @@ nemesis::OptionVariableStatement::GetBaseOptionFunction(const std::string& optio
 
                     if (!options.empty()) return options.front();
 
-                    throw std::runtime_error("Option is required \"" + option_name + "\" (Syntax: "
-                                             + Expression + ", Line: " + std::to_string(LineNum)
-                                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowSyntaxError("Option is required \"" + option_name + "\"");
                 });
         }
 
@@ -180,9 +162,7 @@ nemesis::OptionVariableStatement::GetBaseOptionFunction(const std::string& optio
 
                     if (!options.empty()) return options.back();
 
-                    throw std::runtime_error("Option is required \"" + option_name + "\" (Syntax: "
-                                             + Expression + ", Line: " + std::to_string(LineNum)
-                                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowSyntaxError("Option is required \"" + option_name + "\"");
                 });
         }
 
@@ -196,21 +176,17 @@ nemesis::OptionVariableStatement::GetBaseOptionFunction(const std::string& optio
 
                     if (options.size() > index) return options[index];
 
-                    throw std::runtime_error("Option must be more than " + std::to_string(index)
-                                             + " in array \"" + option_name + "\" (Syntax: " + Expression
-                                             + ", Line: " + std::to_string(LineNum)
-                                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                    ThrowSyntaxError("Option must be more than " + std::to_string(index) + " in array");
                 });
         }
 
-        throw std::runtime_error("Syntax Error: Invalid option index (Line: " + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        ThrowSyntaxError("Invalid option index");
     }
 
     auto& component = DynamicComponents.emplace_back(index_str, linenum, filepath, manager);
 
     return std::make_shared<std::function<const nemesis::TemplateOption*(nemesis::CompileState&)>>(
-        [this, &component, &option_name, linenum, filepath](nemesis::CompileState& state)
+        [this, &component, &option_name, filepath](nemesis::CompileState& state)
         {
             std::string s_index = component.GetValue(state);
 
@@ -222,18 +198,14 @@ nemesis::OptionVariableStatement::GetBaseOptionFunction(const std::string& optio
             {
                 if (!options.empty()) return options.front();
 
-                throw std::runtime_error("Option is required \"" + option_name + "\" (Syntax: " + Expression
-                                         + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowSyntaxError("Option is required \"" + option_name + "\"");
             }
 
             if (s_index == "L")
             {
                 if (!options.empty()) return options.back();
 
-                throw std::runtime_error("Option is required \"" + option_name + "\" (Syntax: " + Expression
-                                         + ", Line: " + std::to_string(LineNum)
-                                         + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                ThrowSyntaxError("Option is required \"" + option_name + "\"");
             }
 
             if (is_only_number(s_index))
@@ -242,12 +214,10 @@ nemesis::OptionVariableStatement::GetBaseOptionFunction(const std::string& optio
 
                 if (options.size() > index) return options[index];
 
-                throw std::runtime_error("Option must be more than " + std::to_string(index) + " in array (\""
-                                         + option_name + "\")");
+                ThrowSyntaxError("Option must be more than " + std::to_string(index) + " in array");
             }
 
-            throw std::runtime_error("Syntax Error: Invalid option index (Line: " + std::to_string(linenum)
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+            ThrowSyntaxError("Invalid option index");
         });
 }
 
@@ -266,21 +236,20 @@ nemesis::OptionVariableStatement::GetVariableFunction(const std::string& variabl
                 [variable](nemesis::CompileState& state) { return variable; });
         }
 
-        throw std::runtime_error("Syntax Error: Option variable does not exist (\"" + model->GetName() + "["
-                                 + variable + "]\")");
+        ThrowSyntaxError("Option variable does not exist (\"" + model->GetName() + "[" + variable + "]\")");
     }
 
     auto& component = DynamicComponents.emplace_back(variable, linenum, filepath, manager);
 
     return std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
-        [model, &component](nemesis::CompileState& state)
+        [this, model, &component](nemesis::CompileState& state)
         {
             std::string option_var = component.GetValue(state);
 
             if (model->HasVariable(option_var)) return option_var;
 
-            throw std::runtime_error("Syntax Error: Option variable does not exist (\"" + model->GetName()
-                                     + "[" + option_var + "]\")");
+            ThrowSyntaxError("Option variable does not exist (\"" + model->GetName() + "[" + option_var
+                             + "]\")");
         });
 }
 
@@ -318,9 +287,7 @@ nemesis::OptionVariableStatement::OptionVariableStatement(const std::string& exp
             break;
         }
         default:
-            throw std::runtime_error("Syntax Error: Invalid option components (Expression: " + expression
-                                     + ", Line: " + std::to_string(linenum)
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+            ThrowSyntaxError("Invalid option components");
     }
 
     auto model     = template_class->GetModel(*name_ptr);

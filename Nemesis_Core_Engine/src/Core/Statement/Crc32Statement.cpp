@@ -12,9 +12,7 @@ nemesis::Crc32Statement::Crc32Statement(const std::string& expression,
 {
     if (Components.size() != 2)
     {
-        throw std::runtime_error("Syntax Error: Crc32 only accepts 1 argument (Syntax: " + expression
-                                 + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        ThrowSyntaxError("Crc32 only accepts 1 argument");
     }
 
     auto& key = Components.back();

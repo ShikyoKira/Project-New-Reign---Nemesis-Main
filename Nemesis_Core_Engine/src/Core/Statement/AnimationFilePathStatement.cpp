@@ -32,9 +32,7 @@ nemesis::AnimationFilePathStatement::AnimationFilePathStatement(const std::strin
             break;
         }
         default:
-            throw std::runtime_error("Syntax Error: Unsupported AnimationFilePath format (Line: "
-                                     + std::to_string(linenum)
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+            ThrowSyntaxError("Unsupported AnimationFilePath format");
     }
 }
 

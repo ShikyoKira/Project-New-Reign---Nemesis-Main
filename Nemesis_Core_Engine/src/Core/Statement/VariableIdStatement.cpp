@@ -26,7 +26,7 @@ std::string nemesis::VariableIdStatement::GetValue(nemesis::CompileState& state)
 
     if (state.TryGetVariableID(component, out)) return out;
 
-    throw std::runtime_error("Variable id not found (Name: " + component
+    throw std::runtime_error("Invalid Value: Variable id not found (Name: " + component
                              + ", Line: " + std::to_string(LineNum)
                              + ", File: " + nemesis::to_utf8_string(FilePath) + ") ");
 }

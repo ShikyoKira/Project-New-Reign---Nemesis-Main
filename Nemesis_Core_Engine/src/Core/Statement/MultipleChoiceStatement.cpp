@@ -37,7 +37,7 @@ nemesis::MultipleChoiceStatement::ChoiceValue::ChoiceValue(const std::string& ex
         {
             if (!dynamic_cast<nemesis::MultipleChoiceModifier*>(modifier.get())) continue;
 
-            throw std::runtime_error("Syntax Error: only 1 MultiChoice per line");
+            throw std::runtime_error("Only 1 MultiChoice per line");
         }
     }
 }
@@ -85,7 +85,7 @@ nemesis::MultipleChoiceStatement::Choice::Choice(size_t begin,
     : Begin(begin)
     , End(end)
 {
-    if (value.empty()) throw std::runtime_error("Syntax Error: choice value (" + value + ")");
+    if (value.empty()) throw std::runtime_error("Choice value cannot be empty");
 
     Value = std::make_unique<ChoiceValue>(value, linenum, filepath, manager);
 
@@ -121,7 +121,7 @@ nemesis::MultipleChoiceStatement::MultipleChoiceStatement(const std::string& lin
 
     if (!std::regex_search(line, nmatch, std::regex("[\\t|\\s]+(<!--\\s.+\\s-->)$")))
     {
-        throw std::runtime_error("Syntax Error: Missing component for MultipleChoice");
+        ThrowSyntaxError("Missing component for MultipleChoice");
     }
 
     Expression = nmatch.str(1);
@@ -129,12 +129,19 @@ nemesis::MultipleChoiceStatement::MultipleChoiceStatement(const std::string& lin
     static const std::regex pattern("<!--\\s(?:\\^(.+?)\\^\\s|)(.+?)\\s-->");
     static const std::sregex_iterator end;
 
-    for (std::sregex_iterator itr(Expression.begin(), Expression.end(), pattern); itr != end; ++itr)
+    try
     {
-        size_t pos      = nmatch.position(1) + itr->position(2);
-        std::string val = itr->str(2);
-        Choices.emplace_back(pos, pos + val.size(), itr->str(1), linenum, filepath, manager, val);
-        Components.emplace_back(itr->str(0));
+        for (std::sregex_iterator itr(Expression.begin(), Expression.end(), pattern); itr != end; ++itr)
+        {
+            size_t pos      = nmatch.position(1) + itr->position(2);
+            std::string val = itr->str(2);
+            Choices.emplace_back(pos, pos + val.size(), itr->str(1), linenum, filepath, manager, val);
+            Components.emplace_back(itr->str(0));
+        }
+    }
+    catch (const std::runtime_error& ex)
+    {
+        ThrowSyntaxError(ex.what());
     }
 }
 

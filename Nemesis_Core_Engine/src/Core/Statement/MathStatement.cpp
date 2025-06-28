@@ -13,9 +13,7 @@ nemesis::MathStatement::MathStatement(const std::string& expression,
 {
     if (Components.size() != 2)
     {
-        throw std::runtime_error("Syntax Error: Math only accepts 1 argument (Line: "
-                                 + std::to_string(linenum) + ", File: " + nemesis::to_utf8_string(filepath)
-                                 + ")");
+        ThrowSyntaxError("Math only accepts 1 argument");
     }
 
     DynamicComponents.emplace_back(Components.back(), linenum, filepath, manager);
@@ -32,9 +30,7 @@ std::string nemesis::MathStatement::GetValue(nemesis::CompileState& state) const
 
     if (!nemesis::calculate(equation, result, true))
     {
-        throw std::runtime_error("Invalid math equation (Equation: " + equation
-                                 + ", Line: " + std::to_string(LineNum)
-                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+        ThrowSyntaxError("Invalid math equation");
     }
 
     if (equation.find(".") != NOT_FOUND || !nemesis::ends_with(result, ".000000")) return result;
