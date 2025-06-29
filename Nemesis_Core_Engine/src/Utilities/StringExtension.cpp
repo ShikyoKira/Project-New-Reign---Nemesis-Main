@@ -123,7 +123,7 @@ VecStr StringSplit(const std::string& line, const std::string& delimiters)
 
 bool StringStartWith(const std::string_view& line, const std::string_view& start) noexcept
 {
-    return line._Starts_with(start);
+    return line.starts_with(start);
 }
 
 bool StringEndWith(const std::string_view& line, const std::string_view& end) noexcept
@@ -247,7 +247,7 @@ VecWstr StringSplit(const std::wstring& line, const std::wstring& delimiters)
 
 bool StringStartWith(const std::wstring_view& line, const std::wstring_view& start) noexcept
 {
-    return line._Starts_with(start);
+    return line.starts_with(start);
 }
 
 bool StringEndWith(const std::wstring_view& line, const std::wstring_view& end) noexcept

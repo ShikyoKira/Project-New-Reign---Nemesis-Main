@@ -325,22 +325,22 @@ namespace nemesis
 
     bool starts_with(const std::string& data, const char* start)
     {
-        return data._Starts_with(start);
+        return data.starts_with(start);
     }
 
     bool starts_with(const std::wstring& data, const wchar_t* start)
     {
-        return data._Starts_with(start);
+        return data.starts_with(start);
     }
 
     bool starts_with(const std::string& data, const std::string& start)
     {
-        return data._Starts_with(start);
+        return data.starts_with(start);
     }
 
     bool starts_with(const std::wstring& data, const std::wstring& start)
     {
-        return data._Starts_with(start);
+        return data.starts_with(start);
     }
 
     bool ends_with(const char* data, const char* start)

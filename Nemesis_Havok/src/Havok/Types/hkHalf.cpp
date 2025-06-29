@@ -8,13 +8,13 @@ nemesis::hkHalf::hkHalf(const float& f)
 void nemesis::hkHalf::Store(float* f) const
 {
     int i = static_cast<int>(m_value << 16);
-    std::memcpy(&f, &i, sizeof(float));
+    *f    = std::bit_cast<float>(i);
 }
 
 float nemesis::hkHalf::AsFloat() const
 {
     int i = static_cast<int>(m_value << 16);
-    return std::_Bit_cast<float>(i);
+    return std::bit_cast<float>(i);
 }
 
 short nemesis::hkHalf::AsShort() const

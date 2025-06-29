@@ -77,7 +77,7 @@ AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
     {
         for (auto& set_config : SetConfigMap)
         {
-            if (!line._Starts_with(set_config.first + "=")) continue;
+            if (!line.starts_with(set_config.first + "=")) continue;
 
             set_config.second(line.substr(line.find("=") + 1));
             break;

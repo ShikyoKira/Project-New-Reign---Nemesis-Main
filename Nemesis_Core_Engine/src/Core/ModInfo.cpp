@@ -13,25 +13,25 @@ void nemesis::ModInfo::ReadFile(const std::filesystem::path& infopath)
 
     for (auto& line : storeline)
     {
-        if (line._Starts_with("name="))
+        if (line.starts_with("name="))
         {
             name = line.substr(line.find("=") + 1);
             continue;
         }
 
-        if (line._Starts_with("author="))
+        if (line.starts_with("author="))
         {
             author = line.substr(line.find("=") + 1);
             continue;
         }
 
-        if (line._Starts_with("site="))
+        if (line.starts_with("site="))
         {
             site = line.substr(line.find("=") + 1);
             continue;
         }
 
-        if (!line._Starts_with("auto=")) continue;
+        if (!line.starts_with("auto=")) continue;
 
         automatic = line.substr(line.find("=") + 1);
     }

@@ -1,15 +1,16 @@
 #pragma once
 
+#include <bit>
+#include <deque>
 #include <map>
+#include <memory>
 #include <set>
+#include <stack>
 #include <string>
 #include <string_view>
-#include <vector>
-#include <memory>
-#include <unordered_set>
 #include <unordered_map>
-#include <deque>
-#include <stack>
+#include <unordered_set>
+#include <vector>
 
 #define NOT_FOUND std::string::npos
 namespace nemesis
@@ -123,9 +124,7 @@ private:
     // Convert float to IEEE 754 half-precision bits
     static uint16_t float_to_half(float f)
     {
-        uint32_t x;
-        std::memcpy(&x, &f, sizeof(x));
-
+        uint32_t x    = std::bit_cast<uint32_t>(f);
         uint32_t sign = (x >> 31) & 0x1;
         uint32_t exp  = (x >> 23) & 0xFF;
         uint32_t mant = x & 0x7FFFFF;
@@ -164,7 +163,6 @@ private:
         uint32_t sign = (h >> 15) & 0x1;
         uint32_t exp  = (h >> 10) & 0x1F;
         uint32_t mant = h & 0x3FF;
-
         uint32_t f;
 
         if (exp == 0)
@@ -200,8 +198,7 @@ private:
             f   = (sign << 31) | (exp << 23) | (mant << 13);
         }
 
-        float result;
-        std::memcpy(&result, &f, sizeof(result));
+        float result = std::bit_cast<float>(f);
         return result;
     }
 };

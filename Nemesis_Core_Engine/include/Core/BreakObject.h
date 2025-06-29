@@ -9,7 +9,7 @@ namespace nemesis
 	struct BreakObject : public nemesis::NObject
     {
     public:
-        struct BreakException : public std::exception
+        struct BreakException : public std::runtime_error
         {
         private:
             std::string Expression;

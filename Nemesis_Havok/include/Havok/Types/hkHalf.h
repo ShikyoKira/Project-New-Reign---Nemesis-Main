@@ -17,7 +17,7 @@ namespace nemesis
 
         nemesis::hkHalf& operator=(const float& f)
         {
-            int i = std::_Bit_cast<int>(f);
+            int i = std::bit_cast<int>(f);
             m_value = static_cast<short>(i >> 16);
             return *this;
         }
