@@ -8,10 +8,9 @@
 nemesis::BreakObject::BreakException::BreakException(const std::string& expression,
                                                      size_t linenum,
                                                      const std::filesystem::path& filepath)
-    : std::exception(std::string("Uncaptured ForEach Break (Expression: " + expression
-                                 + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")")
-                         .c_str())
+    : std::runtime_error(std::string("Uncaptured ForEach Break (Expression: " + expression
+                                     + ", Line: " + std::to_string(linenum)
+                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")"))
     , Expression(expression)
 {
 }
