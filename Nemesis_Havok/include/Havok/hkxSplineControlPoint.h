@@ -25,7 +25,6 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkxSplineControlPoint);
 
         using ControlType = nemesis::hkInternalClassEnumItem<unsigned char>;
-        using ControlType = nemesis::hkInternalClassEnumItem<unsigned char>;
 
         nemesis::hkVector4 m_position;
         nemesis::hkVector4 m_tangentIn;
