@@ -1,22 +1,28 @@
-#include <algorithm>
 #include <cctype>
-#include <string>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
 #include <random>
 #include <sstream>
-#include <iomanip>
-
-#if _WIN32
-#include <Windows.h>
-#endif
-
+#include <string>
 
 #include "Utilities/Algorithm.h"
 
-using namespace std;
+#if _WIN32
+#include <Windows.h>
+
+#define DUPLICATE_STRING(CharPtr) _strdup(CharPtr)
+#define DUPLICATE_WSTRING(WCharPtr) _wcsdup(WCharPtr)
+#else
+#include <wchar.h>
+
+#define DUPLICATE_STRING(CharPtr) strdup(CharPtr)
+#define DUPLICATE_WSTRING(WCharPtr) wcsdup(WCharPtr)
+#endif
 
 namespace nemesis
 {
-    template<typename CharType>
+    template <typename CharType>
     struct CharPtrWrapper
     {
     private:
@@ -41,19 +47,20 @@ namespace nemesis
 
     const char* to_lower_copy(const char* data)
     {
-        char* temp = nullptr;
+        char* temp  = DUPLICATE_STRING(data);
 
-        while (!temp)
+        if (temp == nullptr)
         {
-            temp = _strdup(data);
+            std::cerr << "Memory allocation failed. Out of memory or invalid input" << std::endl;
+            exit(-1);
         }
 
-        size_t size = strlen(data);
+        size_t size = std::strlen(data);
         size_t i    = 0;
 
         while (i < size)
         {
-            temp[i] = tolower(temp[i]);
+            temp[i] = std::tolower(temp[i]);
             i++;
         }
 
@@ -62,74 +69,82 @@ namespace nemesis
 
     const wchar_t* to_lower_copy(const wchar_t* data)
     {
-        wchar_t* temp = nullptr;
+        wchar_t* temp = DUPLICATE_WSTRING(data);
 
-        while (!temp)
+        if (temp == nullptr)
         {
-            temp = _wcsdup(data);
+            std::cerr << "Memory allocation failed. Out of memory or invalid input" << std::endl;
+            exit(-1);
         }
 
-        size_t size = wcslen(data);
+        size_t size = std::wcslen(data);
         size_t i    = 0;
 
         while (i < size)
         {
-            temp[i] = tolower(temp[i]);
+            temp[i] = std::tolower(temp[i]);
             i++;
         }
 
         return temp;
     }
 
-    string to_lower_copy(const string& data)
+    std::string to_lower_copy(const std::string& data)
     {
-        return CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr();
+        return nemesis::CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr();
     }
 
-    wstring to_lower_copy(const wstring& data)
+    std::wstring to_lower_copy(const std::wstring& data)
     {
-        return CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr();
+        return nemesis::CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr();
     }
 
     nemesis::Line to_lower_copy(const nemesis::Line& data)
     {
-        return nemesis::Line(CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
+        return nemesis::Line(nemesis::CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
     }
 
     nemesis::Wline to_lower_copy(const nemesis::Wline& data)
     {
-        return nemesis::Wline(CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
+        return nemesis::Wline(nemesis::CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
     }
 
-    void to_lower(string& data)
+    void to_lower(std::string& data)
     {
-        data = CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr();
+        data = nemesis::CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr();
     }
 
-    void to_lower(wstring& data)
+    void to_lower(std::wstring& data)
     {
-        data = CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr();
+        data = nemesis::CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr();
     }
 
     void to_lower(nemesis::Line& data)
     {
-        data = nemesis::Line(CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
+        data = nemesis::Line(nemesis::CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
     }
 
     void to_lower(nemesis::Wline& data)
     {
-        data = nemesis::Wline(CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
+        data = nemesis::Wline(nemesis::CharPtrWrapper(to_lower_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
     }
 
     const char* to_upper_copy(const char* data)
     {
-        char* temp  = _strdup(data);
-        size_t size = strlen(data);
+        char* temp  = DUPLICATE_STRING(data);
+
+        if (temp == nullptr)
+        {
+            std::cerr << "Memory allocation failed. Out of memory or invalid input" << std::endl;
+            exit(-1);
+        }
+
+        size_t size = std::strlen(data);
         size_t i    = 0;
 
         while (i < size)
         {
-            temp[i] = toupper(temp[i]);
+            temp[i] = std::toupper(temp[i]);
             i++;
         }
 
@@ -138,112 +153,119 @@ namespace nemesis
 
     const wchar_t* to_upper_copy(const wchar_t* data)
     {
-        wchar_t* temp = _wcsdup(data);
-        size_t size   = wcslen(data);
+        wchar_t* temp = DUPLICATE_WSTRING(data);
+
+        if (temp == nullptr)
+        {
+            std::cerr << "Memory allocation failed. Out of memory or invalid input" << std::endl;
+            exit(-1);
+        }
+
+        size_t size   = std::wcslen(data);
         size_t i      = 0;
 
         while (i < size)
         {
-            temp[i] = toupper(temp[i]);
+            temp[i] = std::toupper(temp[i]);
             i++;
         }
 
         return temp;
     }
 
-    string to_upper_copy(const string& data)
+    std::string to_upper_copy(const std::string& data)
     {
-        return CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr();
+        return nemesis::CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr();
     }
 
-    wstring to_upper_copy(const wstring& data)
+    std::wstring to_upper_copy(const std::wstring& data)
     {
-        return CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr();
+        return nemesis::CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr();
     }
 
     nemesis::Line to_upper_copy(const nemesis::Line& data)
     {
-        return nemesis::Line(CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
+        return nemesis::Line(nemesis::CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
     }
 
     nemesis::Wline to_upper_copy(const nemesis::Wline& data)
     {
-        return nemesis::Wline(CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
+        return nemesis::Wline(nemesis::CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
     }
 
-    void to_upper(string& data)
+    void to_upper(std::string& data)
     {
-        data = CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr();
+        data = nemesis::CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr();
     }
 
-    void to_upper(wstring& data)
+    void to_upper(std::wstring& data)
     {
-        data = CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr();
+        data = nemesis::CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr();
     }
 
     void to_upper(nemesis::Line& data)
     {
-        data = nemesis::Line(CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
+        data = nemesis::Line(nemesis::CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
     }
 
     void to_upper(nemesis::Wline& data)
     {
-        data = nemesis::Wline(CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
+        data = nemesis::Wline(nemesis::CharPtrWrapper(to_upper_copy(data.c_str())).GetCharPtr(), data.GetLineNumber());
     }
 
     bool iequals(const char* l, const char* r)
     {
-        return std::strcmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
-                           CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
+        return std::strcmp(nemesis::CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
+                           nemesis::CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
                == 0;
     }
 
     bool iequals(const wchar_t* l, const wchar_t* r)
     {
-        return std::wcscmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
-                           CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
+        return std::wcscmp(nemesis::CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
+                           nemesis::CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
                == 0;
     }
 
-    bool iequals(const char* l, const string& r)
+    bool iequals(const char* l, const std::string& r)
     {
-        return std::strcmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
-                           CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
+        return std::strcmp(nemesis::CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
+                           nemesis::CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
                == 0;
     }
 
-    bool iequals(const wchar_t* l, const wstring& r)
+    bool iequals(const wchar_t* l, const std::wstring& r)
     {
-        return std::wcscmp(CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
-                           CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
+        return std::wcscmp(nemesis::CharPtrWrapper(to_lower_copy(l)).GetCharPtr(),
+                           nemesis::CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
                == 0;
     }
 
-    bool iequals(const string& l, const char* r)
+    bool iequals(const std::string& l, const char* r)
     {
-        return std::strcmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                           CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
+        return std::strcmp(nemesis::CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
+                           nemesis::CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
                == 0;
     }
 
-    bool iequals(const wstring& l, const wchar_t* r)
+    bool iequals(const std::wstring& l, const wchar_t* r)
     {
-        return std::wcscmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                           CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
+        return std::wcscmp(nemesis::CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
+                           nemesis::CharPtrWrapper(to_lower_copy(r)).GetCharPtr())
                == 0;
     }
 
-    bool iequals(const string& l, const string& r)
+    bool iequals(const std::string& l, const std::string& r)
     {
-        return std::strcmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                           CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
+        return std::strcmp(nemesis::CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
+                           nemesis::CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
                == 0;
     }
 
-    bool iequals(const wstring& l, const wstring& r)
+    bool iequals(const std::wstring& l, const std::wstring& r)
     {
-        return std::wcscmp(CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                           CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
+        return std::wcscmp(nemesis::CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
+                           nemesis::CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
                == 0;
     }
 
@@ -476,7 +498,7 @@ namespace nemesis
     {
         return to_lower_copy(data).find(to_lower_copy(key), off);
     }
-    
+
     size_t risearch(const std::string& data, const std::string& key, size_t off)
     {
         return to_lower_copy(data).rfind(to_lower_copy(key), off);
@@ -506,7 +528,7 @@ namespace nemesis
     std::wstring_view between(const std::wstring& line, std::wstring_view prefix, std::wstring_view suffix)
     {
         std::wstring_view sv = line;
-        auto pos                = sv.find(prefix);
+        auto pos             = sv.find(prefix);
 
         if (pos == NOT_FOUND) throw std::runtime_error("prefix not matched");
 
@@ -595,13 +617,13 @@ namespace nemesis
     {
         if (old_val.size() == 1)
         {
-            if (new_val.size() == 1) return replace(line, old_val.front(), new_val.front());
+            if (new_val.size() == 1) return nemesis::replace(line, old_val.front(), new_val.front());
 
-            return replace(line, old_val.front(), new_val);
+            return nemesis::replace(line, old_val.front(), new_val);
         }
         else if (new_val.size() == 1)
         {
-            return replace(line, old_val, new_val.front());
+            return nemesis::replace(line, old_val, new_val.front());
         }
 
         size_t length     = line.length();
@@ -716,13 +738,13 @@ namespace nemesis
     {
         if (old_val.size() == 1)
         {
-            if (new_val.size() == 1) return replace(line, old_val.front(), new_val.front());
+            if (new_val.size() == 1) return nemesis::replace(line, old_val.front(), new_val.front());
 
-            return replace(line, old_val.front(), new_val);
+            return nemesis::replace(line, old_val.front(), new_val);
         }
         else if (new_val.size() == 1)
         {
-            return replace(line, old_val, new_val.front());
+            return nemesis::replace(line, old_val, new_val.front());
         }
 
         size_t length     = line.length();
@@ -791,12 +813,12 @@ namespace nemesis
 
     nemesis::Line transform_to(const nemesis::Wline& str) noexcept
     {
-        return nemesis::Line(transform_to(str.ToWstring()), str.GetLineNumber());
+        return nemesis::Line(nemesis::transform_to(str.ToWstring()), str.GetLineNumber());
     }
 
     nemesis::Wline transform_to(const nemesis::Line& str) noexcept
     {
-        return nemesis::Wline(transform_to(str.ToString()), str.GetLineNumber());
+        return nemesis::Wline(nemesis::transform_to(str.ToString()), str.GetLineNumber());
     }
 
     std::string generate_guid()
@@ -884,19 +906,14 @@ namespace nemesis
     bool is_only_number(const std::string& line)
     {
         char* end  = nullptr;
-        double val = strtod(line.c_str(), &end);
+        double val = std::strtod(line.c_str(), &end);
         return end != line.c_str() && *end == '\0' && val != HUGE_VAL;
     }
 
     bool is_only_number(const std::wstring& line)
     {
         wchar_t* end = nullptr;
-        double val   = wcstod(line.c_str(), &end);
+        double val   = std::wcstod(line.c_str(), &end);
         return end != line.c_str() && *end == L'\0' && val != HUGE_VAL;
     }
 }
-
-// Note [1]
-// locale convert and transform_to<wstring, string> does not give consistent result
-// so file system path is used as a temporary workaround
-// until solid workaround is found
