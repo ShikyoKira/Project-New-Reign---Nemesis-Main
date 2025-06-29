@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <atomic>
 #include <filesystem>
 
 #include "Core/Template/TemplateOption.h"

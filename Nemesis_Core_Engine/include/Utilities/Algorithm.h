@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include "Nemesis_Havok/include/Utilities/Algorithm.h"
 
 #include "Utilities/Line.h"
