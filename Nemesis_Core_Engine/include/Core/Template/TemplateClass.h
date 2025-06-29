@@ -5,7 +5,7 @@
 #include "Core/AnimationRequest.h"
 
 #include "Utilities/ThreadPool.h"
-
+#include "Utilities/Trie.h"
 
 namespace nemesis
 {
@@ -25,6 +25,7 @@ namespace nemesis
         bool IsArray        = false;
 
         Vec<UPtr<nemesis::TemplateOptionModel>> OptionModelList;
+        nemesis::Trie<nemesis::TemplateOptionModel*> OptionModelTrie;
         Vec<SPtr<nemesis::TemplateObject>> Templates;
 
         std::filesystem::path InfoPath;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <functional>
 
 #include "Core/Template/TemplateOption.h"
 
@@ -15,10 +16,13 @@ namespace nemesis
 
         VecStr Aliases;
         VecStr Variables;
-        Set<std::string, std::greater<std::string>> OrderedNames;
 
         bool bArray;
 
+        void AddVariablesToOption(nemesis::TemplateOption& opt,
+                                  const std::string& expr,
+                                  size_t linenum,
+                                  const std::filesystem::path& filepath) const;
     public:
         TemplateOptionModel(const std::string name,
                             const VecStr& aliases,

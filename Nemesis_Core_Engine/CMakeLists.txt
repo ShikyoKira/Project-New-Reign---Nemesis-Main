@@ -189,6 +189,7 @@ set(Utilities_HeaderFiles
     "include/Utilities/StringExtension.h"
     "include/Utilities/StringMatchTrie.h"
     "include/Utilities/ThreadPool.h"
+    "include/Utilities/Trie.h"
     "include/Utilities/Types.h"
 
     )

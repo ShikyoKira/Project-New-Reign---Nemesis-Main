@@ -4,6 +4,34 @@
 #include "Utilities/Algorithm.h"
 #include "Utilities/StringExtension.h"
 
+void nemesis::TemplateOptionModel::AddVariablesToOption(nemesis::TemplateOption& opt,
+                                                        const std::string& expr,
+                                                        size_t linenum,
+                                                        const std::filesystem::path& filepath) const
+{
+    std::istringstream iss(expr);
+
+    for (auto& variable : Variables)
+    {
+        std::string opt_expr;
+
+        if (!std::getline(iss, opt_expr, '/'))
+        {
+            throw std::runtime_error("Missing variable for option (Option: " + Name
+                                     + ", Variable: " + variable + ", Line: " + std::to_string(linenum)
+                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        }
+
+        opt.AddVariable(variable, opt_expr);
+    }
+
+    if (iss.eof()) return;
+
+    throw std::runtime_error("Unexpected trailing data after expected input (Option: " + Name
+                             + ", Line: " + std::to_string(linenum)
+                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+}
+
 nemesis::TemplateOptionModel::TemplateOptionModel(const std::string name,
                                                   const VecStr& aliases,
                                                   const VecStr& variables,
@@ -13,8 +41,6 @@ nemesis::TemplateOptionModel::TemplateOptionModel(const std::string name,
     , Variables(variables)
     , bArray(b_array)
 {
-    OrderedNames.insert(Variables.begin(), Variables.end());
-    OrderedNames.insert(Name);
 }
 
 const std::string& nemesis::TemplateOptionModel::GetName() const noexcept
@@ -61,30 +87,9 @@ UPtr<nemesis::TemplateOption> nemesis::TemplateOptionModel::TryCreateOption(
                                  + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
-    for (auto& name : OrderedNames)
-    {
-        if (!expression._Starts_with(name)) continue;
+    if (!expression.starts_with(Name)) return nullptr;
 
-        auto option = name == Name ? std::make_unique<nemesis::TemplateOption>(expression, name, Aliases)
-                                   : std::make_unique<nemesis::TemplateOption>(expression, name);
-        std::stringstream ss(expression.substr(name.size()));
-
-        for (auto& variable : Variables)
-        {
-            std::string option_expression;
-
-            if (!std::getline(ss, option_expression, '/'))
-            {
-                throw std::runtime_error("Missing variable for option (Option: " + name
-                                         + ", Variable: " + variable + ", Line: " + std::to_string(linenum)
-                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
-            }
-
-            option->AddVariable(variable, option_expression);
-        }
-
-        return option;
-    }
-
-    return nullptr;
+    auto option = std::make_unique<nemesis::TemplateOption>(expression, Name, Aliases);
+    AddVariablesToOption(*option, expression.substr(Name.size()), linenum, filepath);
+    return option;
 }

@@ -106,8 +106,8 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
 
         auto templt_uptr = nemesis::TemplateHkx::ParseFromFile(itr->second, &templt_class, thread_pool);
         templt_obj       = (templt_obj->SetChild(std::move(templt_uptr))).get();
-        }
     }
+}
 
 void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& templt_path,
                                                   nemesis::TemplateClass& templt_class,
@@ -126,8 +126,8 @@ void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& t
     thread_pool.enqueue(
         [templt_path, &templt_class, node]()
         {
-    auto m_node = nemesis::HkxNode::DeserializeHkxNodeFromFile(templt_path, &templt_class);
-    node->MatchAndUpdate(*m_node);
+            auto m_node = nemesis::HkxNode::DeserializeHkxNodeFromFile(templt_path, &templt_class);
+            node->MatchAndUpdate(*m_node);
         });
 }
 
@@ -321,8 +321,9 @@ nemesis::TemplateClass::TemplateClass(const std::filesystem::path& template_info
         VecStr aliases   = body.contains("Aliases") ? body["Aliases"].get<VecStr>() : VecStr();
         VecStr variables = body.contains("Variables") ? body["Variables"].get<VecStr>() : VecStr();
         bool b_array     = body.contains("IsArray") ? body["IsArray"].get<bool>() : false;
-        OptionModelList.emplace_back(
+        auto& opt_uptr   = OptionModelList.emplace_back(
             std::make_unique<nemesis::TemplateOptionModel>(name, aliases, variables, b_array));
+        OptionModelTrie.Add(opt_uptr->GetName(), opt_uptr.get());
     }
 
     std::sort(OptionModelList.begin(),
@@ -436,20 +437,52 @@ UPtr<nemesis::AnimationRequest> nemesis::TemplateClass::CreateRequest(
     if (component[0] == '-')
     {
         std::stringstream opt_ss(component.substr(1));
+        USet<std::string> matched_options;
 
         while (std::getline(opt_ss, component, ','))
         {
             if (component.empty()) continue;
 
-            for (auto& option_model : OptionModelList)
+            auto matches = OptionModelTrie.FindMatches(component);
+
+            if (matches.empty()) continue;
+
+            Vec<std::runtime_error> exceptions_caught;
+
+            for (auto& match : matches)
             {
-                auto option = option_model->TryCreateOption(component, linenum, filepath);
+                try
+                {
+                    nemesis::TemplateOptionModel* option_model = *match;
+                    auto option = option_model->TryCreateOption(component, linenum, filepath);
 
-                if (!option) continue;
+                    if (!option) continue;
 
-                request->AddOption(std::move(option));
-                break;
+                    if (matched_options.find(option_model->GetName()) != matched_options.end())
+                    {
+                        throw std::runtime_error(
+                            "Repeated non-array option found (Option: " + option_model->GetName()
+                            + ", Request info : " + request_info + ", Line: " + std::to_string(linenum)
+                            + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+                    }
+
+                    if (!option_model->IsArray())
+                    {
+                        matched_options.insert(option_model->GetName());
+                    }
+
+                    request->AddOption(std::move(option));
+                    goto OptionCreated;
+                }
+                catch (const std::runtime_error& ex)
+                {
+                    exceptions_caught.push_back(ex);
+                }
             }
+
+            if (!exceptions_caught.empty()) throw exceptions_caught.front();
+
+        OptionCreated:
         }
 
         if (!(ss >> component)) return nullptr;
@@ -505,8 +538,7 @@ UPtr<nemesis::TemplateClass> nemesis::TemplateClass::ParseTemplateClassFromDirec
 
         if (!nemesis::iequals(PATH_TO_STRING(path.filename()), LITERAL_PATH("meshes")))
         {
-            sf::path relative_path = sf::path(LITERAL_PATH("data"))
-                                     / PATH_TO_STRING(path).substr(PATH_TO_STRING(dir).size() + 1);
+            sf::path relative_path = PATH_TO_STRING(path).substr(PATH_TO_STRING(dir).size() + 1);
             ParseHkxTemplatesLoopDirectory(relative_path, path, *templt_class, repo, thread_pool);
             continue;
         }
@@ -519,8 +551,6 @@ UPtr<nemesis::TemplateClass> nemesis::TemplateClass::ParseTemplateClassFromDirec
 
             if (!inner_entry.is_directory()) continue;
 
-            sf::path relative_path = sf::path(LITERAL_PATH("data"))
-                                     / PATH_TO_STRING(inner_path).substr(PATH_TO_STRING(dir).size() + 1);
             auto filename = PATH_TO_STRING(inner_path.stem());
 
             if (nemesis::iequals(filename, LITERAL_PATH("animationdatasinglefile")))
@@ -537,6 +567,7 @@ UPtr<nemesis::TemplateClass> nemesis::TemplateClass::ParseTemplateClassFromDirec
                 continue;
             }
 
+            sf::path relative_path = PATH_TO_STRING(inner_path).substr(PATH_TO_STRING(dir).size() + 1);
             ParseHkxTemplatesLoopDirectory(relative_path, inner_path, *templt_class, repo, thread_pool);
         }
     }
