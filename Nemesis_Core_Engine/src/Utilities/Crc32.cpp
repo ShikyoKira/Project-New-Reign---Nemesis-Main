@@ -1,8 +1,10 @@
+#include <cstring>
+
 #include "Utilities/Crc32.h"
 
 nemesis::CRC32::CRC32(void)
 {
-    memset(&iTable, 0, sizeof(iTable)); 
+    std::memset(&iTable, 0, sizeof(iTable)); 
 
     // 256 values representing ASCII character codes.
     for (size_t iCodes = 0; iCodes <= 0xFF; iCodes++)
@@ -97,7 +99,11 @@ bool nemesis::CRC32::FileCRC(const char* sFileName, unsigned int* iOutCRC, unsig
     unsigned char* sBuf = NULL;
     unsigned int iBytesRead   = 0;
 
+#if _WIN32
     if ((fopen_s(&fSource, sFileName, "rb")) != 0) return false;
+#else
+    if ((fSource = fopen(sFileName, "rb")) == NULL) return false;
+#endif
 
     if (!(sBuf = (unsigned char*) malloc(iBufferSize)))
     {

@@ -85,7 +85,11 @@ void run_python_scripts(const std::filesystem::path& dir_path)
         try
         {
             FILE* py_file;
+            #if _WIN32
             _wfopen_s(&py_file, path.wstring().c_str(), L"r");
+            #else
+            py_file = fopen(path.string().c_str(), "r");
+            #endif
 
             if (!py_file) return;
 
