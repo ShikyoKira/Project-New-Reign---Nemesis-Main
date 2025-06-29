@@ -134,30 +134,7 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
                                  + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
-    auto templt_ptr = new nemesis::TemplateObject(templt_class);
-    UPtr<nemesis::TemplateObject> templt(templt_ptr);
-    templt->Index    = std::stoul(match[2]);
-    templt->Data     = std::make_unique<nemesis::CollectionObject>();
-    templt->FilePath = filepath;
-
-    auto& data_ref = *templt_ptr->Data;
-    nemesis::SemanticManager manager;
-    manager.SetCurrentTemplate(templt_ptr);
-
-    for (size_t i = 1; i <= templt->Index; i++)
-    {
-        manager.TryAddRequestToQueue(name + "_" + std::to_string(i));
-    }
-
-    VecNstr lines;
-    GetFileLines(filepath, lines, false);
-
-    for (nemesis::LineStream stream(lines.begin(), lines.end()); !stream.IsEoF(); ++stream)
-    {
-        data_ref.AddObject(nemesis::NObjectParser::ParseLine(stream, manager));
-    }
-
-    return templt;
+    return NewCustomTemplateObject<TemplateObject>(templt_class, std::stoul(match[2]), filepath);
 }
 
 UPtr<nemesis::TemplateObject>
@@ -184,27 +161,5 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
                                  + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
-    auto templt_ptr = new nemesis::TemplateObject(templt_class);
-    UPtr<nemesis::TemplateObject> templt(templt_ptr);
-    templt->Index    = std::stoul(match[2]);
-    templt->Data     = std::make_unique<nemesis::CollectionObject>();
-    templt->FilePath = filepath;
-
-    thread_pool.enqueue(
-        [templt_ptr]()
-        {
-            auto& data_ref = *templt_ptr->Data;
-            nemesis::SemanticManager manager;
-            manager.SetCurrentTemplate(templt_ptr);
-
-            VecNstr lines;
-            GetFileLines(templt_ptr->FilePath, lines, false);
-
-            for (nemesis::LineStream stream(lines.begin(), lines.end()); !stream.IsEoF(); ++stream)
-            {
-                data_ref.AddObject(nemesis::NObjectParser::ParseLine(stream, manager));
-            }
-        });
-
-    return templt;
+    return NewCustomTemplateObject<TemplateObject>(templt_class, std::stoul(match[2]), filepath, thread_pool);
 }

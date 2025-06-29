@@ -12,9 +12,9 @@ namespace nemesis
     public:
         TemplateAnimDataClipData(const nemesis::TemplateClass* template_class) noexcept;
 
-        static SPtr<nemesis::TemplateAnimDataClipData>
+        static UPtr<nemesis::TemplateAnimDataClipData>
         ParseFromFile(const nemesis::TemplateClass* template_class, const std::filesystem::path& filepath);
-        static SPtr<nemesis::TemplateAnimDataClipData>
+        static UPtr<nemesis::TemplateAnimDataClipData>
         ParseFromFile(const nemesis::TemplateClass* template_class,
                       const std::filesystem::path& filepath,
                       nemesis::ThreadPool& thread_pool);

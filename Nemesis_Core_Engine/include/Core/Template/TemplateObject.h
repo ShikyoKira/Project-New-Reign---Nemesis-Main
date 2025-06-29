@@ -22,15 +22,16 @@ namespace nemesis
 
     protected:
         template <typename TemplateType>
-        static SPtr<TemplateType> NewCustomTemplateObject(const nemesis::TemplateClass* template_class,
+        static UPtr<TemplateType> NewCustomTemplateObject(const nemesis::TemplateClass* template_class,
                                                           size_t index,
                                                           const std::filesystem::path& filepath)
         {
-            static_assert(std::is_base_of_v<nemesis::TemplateObject, TemplateType>,
+            static_assert(std::is_base_of_v<nemesis::TemplateObject, TemplateType>
+                              || std::is_same_v<nemesis::TemplateObject, TemplateType>,
                           "Non-TemplateObject type is passed to TemplateType");
 
-            auto templt_ptr = new TemplateType(template_class);
-            SPtr<TemplateType> templt(templt_ptr);
+            auto templt      = std::make_unique<TemplateType>(template_class);
+            auto templt_ptr  = templt.get();
             templt->Index    = index;
             templt->Data     = std::make_unique<nemesis::CollectionObject>();
             templt->FilePath = filepath;
@@ -56,16 +57,17 @@ namespace nemesis
         }
 
         template <typename TemplateType>
-        static SPtr<TemplateType> NewCustomTemplateObject(const nemesis::TemplateClass* template_class,
+        static UPtr<TemplateType> NewCustomTemplateObject(const nemesis::TemplateClass* template_class,
                                                           size_t index,
                                                           const std::filesystem::path& filepath,
                                                           nemesis::ThreadPool& thread_pool)
         {
-            static_assert(std::is_base_of_v<nemesis::TemplateObject, TemplateType>,
+            static_assert(std::is_base_of_v<nemesis::TemplateObject, TemplateType>
+                              || std::is_same_v<nemesis::TemplateObject, TemplateType>,
                           "Non-TemplateObject type is passed to TemplateType");
 
-            auto templt_ptr = new TemplateType(template_class);
-            SPtr<TemplateType> templt(templt_ptr);
+            auto templt      = std::make_unique<TemplateType>(template_class);
+            auto templt_ptr  = templt.get();
             templt->Index    = index;
             templt->Data     = std::make_unique<nemesis::CollectionObject>();
             templt->FilePath = filepath;

@@ -1,4 +1,5 @@
 #include <array>
+#include <sstream>
 
 #include "Core/Hkx/HkxFile.h"
 #include "Core/Hkx/HkxNode.h"
@@ -21,6 +22,43 @@ namespace ns = nemesis::syntax;
 
 const std::regex nemesis::HkxNode::NodeIdRgx(
     "^\\s*\\<hkobject name\\=\"(.+?)\" class\\=\"(.+?)\" signature\\=\"(.+?)\"\\>.*$");
+
+bool nemesis::HkxNode::ClassHasVecf(const std::string& class_name)
+{
+    static USet<std::string> coordinate_class_list
+        = {"hkbPoseMatchingGenerator",
+           "hkbCharacterData",
+           "hkbFootIkDriverInfo",
+           "hkbHandIkDriverInfo",
+           "hkbMirroredSkeletonInfo",
+           "BSComputeAddBoneAnimModifier",
+           "BSDecomposeVectorModifier",
+           "BSDirectAtModifier",
+           "BSDistTriggerModifier",
+           "BSLookAtModifier",
+           "BSPassByTargetTriggerModifier",
+           "BSTweenerModifier",
+           "hkbCombineTransformsModifier",
+           "hkbComputeDirectionModifier",
+           "hkbComputeRotationFromAxisAngleModifier",
+           "hkbComputeRotationToTargetModifier",
+           "hkbDampingModifier",
+           "hkbEvaluateHandleModifier",
+           "hkbFootIkControlsModifier",
+           "hkbFootIkModifier",
+           "hkbGetUpModifier",
+           "hkbGetWorldFromModelModifier",
+           "hkbHandIkControlsModifier",
+           "hkbKeyframeBonesModifier",
+           "hkbLookAtModifier",
+           "hkbMoveCharacterModifier",
+           "hkbProxyModifier",
+           "hkbRotateCharacterModifier",
+           "hkbSenseHandleModifier",
+           "hkbTransformVectorModifier",
+           "hkbTwistModifier"};
+    return coordinate_class_list.find(class_name) != coordinate_class_list.end();
+}
 
 bool nemesis::HkxNode::IsNodeEnd(nemesis::LineStream& stream, bool& start)
 {
@@ -378,169 +416,7 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
         }
         case nemesis::LineStream::TokenType::NONE:
         {
-            std::smatch match;
-
-            if (!std::regex_match(token_value.ToString(), match, NodeIdRgx))
-            {
-                throw std::runtime_error("Behavior Format Error: Node Id not found (Line: "
-                                         + std::to_string(token_value.GetLineNumber()) + ", File: "
-                                         + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
-            }
-
-            hkx_node->NodeId    = match[1];
-            hkx_node->ClassName = match[2];
-
-            auto add_line = [col_ptr, &stream, &manager](const nemesis::LineStream::Token& token)
-            {
-                Vec<UPtr<nemesis::NObject>> objects
-                    = token.Type != nemesis::LineStream::TokenType::MOD_OPEN
-                          ? nemesis::NObjectParser::ParseHkxObjects(stream, manager)
-                          : nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
-
-                for (auto& object : objects)
-                {
-                    col_ptr->AddObject(std::move(object));
-                }
-            };
-
-            if (hkx_node->ClassName == "hkbVariableValueSet")
-            {
-                for (; !IsNodeEnd(stream, start); ++stream)
-                {
-                    auto& ntoken = stream.GetToken();
-
-                    if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
-
-                    static std::regex vec4_rgx("^([\\t]+)\\((-?[0-9]+\\.[0-9]+) (-?[0-9]+\\.[0-9]+) "
-                                               "(-?[0-9]+\\.[0-9]+) (-?[0-9]+\\.[0-9]+)\\).*$");
-                    std::smatch vec4_match;
-
-                    if (!std::regex_match(ntoken.Value.ToString(), vec4_match, vec4_rgx))
-                    {
-                        add_line(ntoken);
-                        continue;
-                    }
-
-                    std::string spaces = vec4_match[1];
-
-                    for (size_t i = 2; i < 6; i++)
-                    {
-                        std::string val = vec4_match.str(i);
-
-                        if (std::stod(val) == 0)
-                        {
-                            val = "0.000000";
-                        }
-
-                        col_ptr->AddObject(std::make_unique<nemesis::NLine>(
-                            spaces + val, ntoken.Value.GetLineNumber(), ntoken.Value.GetFilePath(), manager));
-                    }
-                }
-
-                hkx_node->Data = std::move(collection);
-                return hkx_node;
-            }
-            else
-            {
-                constexpr std::array<std::string_view, 31> coordinate_class_list
-                    = {"hkbPoseMatchingGenerator",
-                       "hkbCharacterData",
-                       "hkbFootIkDriverInfo",
-                       "hkbHandIkDriverInfo",
-                       "hkbMirroredSkeletonInfo",
-                       "BSComputeAddBoneAnimModifier",
-                       "BSDecomposeVectorModifier",
-                       "BSDirectAtModifier",
-                       "BSDistTriggerModifier",
-                       "BSLookAtModifier",
-                       "BSPassByTargetTriggerModifier",
-                       "BSTweenerModifier",
-                       "hkbCombineTransformsModifier",
-                       "hkbComputeDirectionModifier",
-                       "hkbComputeRotationFromAxisAngleModifier",
-                       "hkbComputeRotationToTargetModifier",
-                       "hkbDampingModifier",
-                       "hkbEvaluateHandleModifier",
-                       "hkbFootIkControlsModifier",
-                       "hkbFootIkModifier",
-                       "hkbGetUpModifier",
-                       "hkbGetWorldFromModelModifier",
-                       "hkbHandIkControlsModifier",
-                       "hkbKeyframeBonesModifier",
-                       "hkbLookAtModifier",
-                       "hkbMoveCharacterModifier",
-                       "hkbProxyModifier",
-                       "hkbRotateCharacterModifier",
-                       "hkbSenseHandleModifier",
-                       "hkbTransformVectorModifier",
-                       "hkbTwistModifier"};
-
-                if (std::find(coordinate_class_list.begin(), coordinate_class_list.end(), hkx_node->ClassName)
-                    != coordinate_class_list.end())
-                {
-                    for (; !IsNodeEnd(stream, start); ++stream)
-                    {
-                        auto& ntoken = stream.GetToken();
-
-                        if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
-
-                        static std::regex vec4_rgx(
-                            "^([\\t]+)<hkparam name\\=\"([^\"]+)\">\\((-?[0-9]+\\.[0-9]+) "
-                            "(-?[0-9]+\\.[0-9]+) "
-                            "(-?[0-9]+\\.[0-9]+) (-?[0-9]+\\.[0-9]+)\\)</hkparam>.*$");
-                        std::smatch vec4_match;
-
-                        if (!std::regex_match(ntoken.Value.ToString(), vec4_match, vec4_rgx))
-                        {
-                            add_line(ntoken);
-                            continue;
-                        }
-
-                        std::string spaces     = vec4_match[1];
-                        std::string param_name = vec4_match[2];
-
-                        col_ptr->AddObject(
-                            std::make_unique<nemesis::NLine>(spaces + "<hkparam name=\"" + param_name + "\">",
-                                                             ntoken.Value.GetLineNumber(),
-                                                             ntoken.Value.GetFilePath(),
-                                                             manager));
-
-                        for (size_t i = 3; i < 7; i++)
-                        {
-                            std::string val = vec4_match.str(i);
-
-                            if (std::stod(val) == 0)
-                            {
-                                val = "0.000000";
-                            }
-
-                            col_ptr->AddObject(std::make_unique<nemesis::NLine>(spaces + "\t" + val,
-                                                                                ntoken.Value.GetLineNumber(),
-                                                                                ntoken.Value.GetFilePath(),
-                                                                                manager));
-                        }
-
-                        col_ptr->AddObject(std::make_unique<nemesis::NLine>(spaces + "</hkparam>",
-                                                                            ntoken.Value.GetLineNumber(),
-                                                                            ntoken.Value.GetFilePath(),
-                                                                            manager));
-                    }
-
-                    hkx_node->Data = std::move(collection);
-                    return hkx_node;
-                }
-            }
-
-            for (; !IsNodeEnd(stream, start); ++stream)
-            {
-                auto& ntoken = stream.GetToken();
-
-                if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
-
-                add_line(ntoken);
-            }
-
-            hkx_node->Data = std::move(collection);
+            Deserialize(*hkx_node, stream, manager);
             return hkx_node;
         }
         default:
@@ -576,14 +452,10 @@ void nemesis::HkxNode::Deserialize(nemesis::HkxNode& hkx_node,
     hkx_node.Data      = std::move(collection);
     bool start         = true;
 
-    for (; !IsNodeEnd(stream, start); ++stream)
+    auto add_line = [col_ptr, &stream, &manager](const nemesis::LineStream::Token& token)
     {
-        auto& ntoken = stream.GetToken();
-
-        if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
-
         Vec<UPtr<nemesis::NObject>> objects
-            = ntoken.Type != nemesis::LineStream::TokenType::MOD_OPEN
+            = token.Type != nemesis::LineStream::TokenType::MOD_OPEN
                   ? nemesis::NObjectParser::ParseHkxObjects(stream, manager)
                   : nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
 
@@ -591,6 +463,101 @@ void nemesis::HkxNode::Deserialize(nemesis::HkxNode& hkx_node,
         {
             col_ptr->AddObject(std::move(object));
         }
+    };
+
+    if (hkx_node.ClassName == "hkbVariableValueSet")
+    {
+        for (; !IsNodeEnd(stream, start); ++stream)
+        {
+            auto& ntoken = stream.GetToken();
+
+            if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
+
+            static std::regex vec4_rgx("^([\\t]+)\\((-?\\d+\\.\\d+) (-?\\d+\\.\\d+) "
+                                       "(-?\\d+\\.\\d+) (-?\\d+\\.\\d+)\\).*$");
+            std::smatch vec4_match;
+
+            if (!std::regex_match(ntoken.Value.ToString(), vec4_match, vec4_rgx))
+            {
+                add_line(ntoken);
+                continue;
+            }
+
+            std::string spaces = vec4_match[1];
+
+            for (size_t i = 2; i < 6; i++)
+            {
+                std::string val = vec4_match.str(i);
+                col_ptr->AddObject(std::make_unique<nemesis::NLine>(
+                    spaces + val, ntoken.Value.GetLineNumber(), ntoken.Value.GetFilePath(), manager));
+            }
+        }
+
+        return;
+    }
+    else if (!ClassHasVecf(hkx_node.ClassName))
+    {
+        for (; !IsNodeEnd(stream, start); ++stream)
+        {
+            auto& ntoken = stream.GetToken();
+
+            if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
+
+            add_line(ntoken);
+        }
+
+        return;
+    }
+
+    for (; !IsNodeEnd(stream, start); ++stream)
+    {
+        auto& ntoken = stream.GetToken();
+
+        if (ntoken.Value.find(" SERIALIZE_IGNORED ") != NOT_FOUND) continue;
+
+        static std::regex vec_rgx("^([\\t]+)<hkparam "
+                                  "name\\=\"([^\"]+)\">(\\((?:-?\\d+\\.\\d+)(?:"
+                                  "(?:\\s+|\\)\\()-?\\d+\\.\\d+)*\\))(<\\/hkparam>.*)$");
+        std::smatch vec_match;
+
+        if (!std::regex_match(ntoken.Value.ToString(), vec_match, vec_rgx))
+        {
+            add_line(ntoken);
+            continue;
+        }
+
+        std::string spaces     = vec_match[1];
+        std::string param_name = vec_match[2];
+
+        col_ptr->AddObject(std::make_unique<nemesis::NLine>(spaces + "<hkparam name=\"" + param_name + "\">",
+                                                            ntoken.Value.GetLineNumber(),
+                                                            ntoken.Value.GetFilePath(),
+                                                            manager));
+
+        std::string vec_str = vec_match[3];
+
+        for (auto& ch : vec_str)
+        {
+            switch (ch)
+            {
+                case '(':
+                case ')':
+                    ch = ' ';
+                    break;
+            }
+        }
+
+        std::istringstream oss(vec_str);
+        std::string val;
+
+        while (oss >> val)
+        {
+            col_ptr->AddObject(std::make_unique<nemesis::NLine>(
+                spaces + "\t" + val, ntoken.Value.GetLineNumber(), ntoken.Value.GetFilePath(), manager));
+        }
+
+        col_ptr->AddObject(std::make_unique<nemesis::NLine>(
+            spaces + vec_match.str(4), ntoken.Value.GetLineNumber(), ntoken.Value.GetFilePath(), manager));
     }
 }
 

@@ -26,6 +26,7 @@ namespace nemesis
 
         std::mutex UpdaterMutex;
 
+        static bool ClassHasVecf(const std::string& class_name);
         static bool IsNodeEnd(nemesis::LineStream& stream, bool& start);
 
     public:

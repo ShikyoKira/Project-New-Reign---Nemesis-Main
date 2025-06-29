@@ -10,7 +10,7 @@ nemesis::TemplateAnimDataClipData::TemplateAnimDataClipData(
 {
 }
 
-SPtr<nemesis::TemplateAnimDataClipData>
+UPtr<nemesis::TemplateAnimDataClipData>
 nemesis::TemplateAnimDataClipData::ParseFromFile(const nemesis::TemplateClass* template_class,
                                                  const std::filesystem::path& filepath)
 {
@@ -34,7 +34,7 @@ nemesis::TemplateAnimDataClipData::ParseFromFile(const nemesis::TemplateClass* t
     return NewCustomTemplateObject<nemesis::TemplateAnimDataClipData>(template_class, 0, filepath);
 }
 
-SPtr<nemesis::TemplateAnimDataClipData>
+UPtr<nemesis::TemplateAnimDataClipData>
 nemesis::TemplateAnimDataClipData::ParseFromFile(const nemesis::TemplateClass* template_class,
                                                  const std::filesystem::path& filepath,
                                                  nemesis::ThreadPool& thread_pool)

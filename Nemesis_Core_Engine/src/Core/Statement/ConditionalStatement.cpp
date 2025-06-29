@@ -221,8 +221,8 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse3Components(
     if (IsComplexComponent(name))
     {
         const auto& dynamic_name = DynamicComponents.emplace_back(name, LineNum, FilePath, manager);
-        callback                 = [this, templt_class, dynamic_name](nemesis::CompileState& state,
-                                                      const nemesis::AnimationRequest* request)
+        callback                 = [templt_class, dynamic_name](nemesis::CompileState& state,
+                                                const nemesis::AnimationRequest* request)
         {
             const std::string name = dynamic_name.GetValue(state);
 

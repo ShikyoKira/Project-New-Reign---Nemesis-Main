@@ -88,25 +88,26 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
     nemesis::TemplateObject* templt_obj = nullptr;
     size_t start_index                  = template_files.find(0) == template_files.end();
 
-    for (size_t i = start_index; i < template_files.size(); i++)
+    auto itr = template_files.find(start_index);
+
+    if (itr == template_files.end()) return;
+
+    SPtr<nemesis::TemplateObject> templt_sptr(
+        nemesis::TemplateHkx::ParseFromFile(itr->second, &templt_class, thread_pool).release());
+    templt_class.AddTemplate(templt_sptr);
+    hkx_file->AddTemplate(templt_sptr);
+    templt_obj = templt_sptr.get();
+
+    for (size_t i = start_index + 1; i < template_files.size(); i++)
     {
         auto itr = template_files.find(i);
 
         if (itr == template_files.end()) break;
 
-        auto templt_uptr = nemesis::TemplateObject::ParseFromFile(itr->second, &templt_class, thread_pool);
-
-        if (!templt_obj)
-        {
-            templt_obj = (templt_obj->SetChild(std::move(templt_uptr))).get();
-            continue;
+        auto templt_uptr = nemesis::TemplateHkx::ParseFromFile(itr->second, &templt_class, thread_pool);
+        templt_obj       = (templt_obj->SetChild(std::move(templt_uptr))).get();
         }
-
-        SPtr<nemesis::TemplateObject> templt_sptr(std::move(templt_uptr));
-        templt_class.AddTemplate(templt_sptr);
-        templt_obj = templt_sptr.get();
     }
-}
 
 void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& templt_path,
                                                   nemesis::TemplateClass& templt_class,
@@ -208,8 +209,9 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
 
             if (nemesis::iequals(filename, "$" + templt_class.GetName() + "$"))
             {
-                auto templt_obj = nemesis::TemplateAnimDataClipData::ParseFromFile(
-                    &templt_class, inner_path, thread_pool);
+                auto templt_obj = SPtr<nemesis::TemplateAnimDataClipData>(
+                    nemesis::TemplateAnimDataClipData::ParseFromFile(&templt_class, inner_path, thread_pool)
+                        .release());
                 templt_class.AddTemplate(templt_obj);
                 project->AddClipDataTemplate(templt_obj);
                 continue;
@@ -217,8 +219,9 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
 
             if (!nemesis::iequals(filename, "$" + templt_class.GetName() + "$UC")) continue;
 
-            auto templt_obj
-                = nemesis::TemplateAnimDataMotionData::ParseFromFile(&templt_class, inner_path, thread_pool);
+            auto templt_obj = SPtr<nemesis::TemplateAnimDataMotionData>(
+                nemesis::TemplateAnimDataMotionData::ParseFromFile(&templt_class, inner_path, thread_pool)
+                    .release());
             templt_class.AddTemplate(templt_obj);
             project->AddMotionDataTemplate(templt_obj);
         }

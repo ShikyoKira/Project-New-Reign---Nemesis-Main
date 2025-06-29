@@ -14,8 +14,8 @@ nemesis::TemplateHkx::TemplateHkx(const nemesis::TemplateClass* template_class) 
 {
 }
 
-SPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const nemesis::TemplateClass* template_class,
-                                                               const std::filesystem::path& filepath)
+UPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const std::filesystem::path& filepath,
+                                                               const nemesis::TemplateClass* template_class)
 {
     std::string name(template_class->GetName());
 
@@ -31,16 +31,15 @@ SPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const nemesis::Te
 
     if (!std::regex_match(filename, match, name_rgx))
     {
-        throw std::runtime_error("Invalid filename "
-                                 "(Template: "
-                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw std::runtime_error("Invalid filename (Template: " + name
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     return NewCustomTemplateObject<nemesis::TemplateHkx>(template_class, std::stoul(match[2]), filepath);
 }
 
-SPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const nemesis::TemplateClass* template_class,
-                                                               const std::filesystem::path& filepath,
+UPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const std::filesystem::path& filepath,
+                                                               const nemesis::TemplateClass* template_class,
                                                                nemesis::ThreadPool& thread_pool)
 {
     std::string name = template_class->GetName();
@@ -57,9 +56,8 @@ SPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const nemesis::Te
 
     if (!std::regex_match(filename, match, name_rgx))
     {
-        throw std::runtime_error("Invalid filename "
-                                 "(Template: "
-                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw std::runtime_error("Invalid filename (Template: " + name
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     return NewCustomTemplateObject<nemesis::TemplateHkx>(
