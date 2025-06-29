@@ -1,3 +1,5 @@
+#include <cstring>
+
 #include "Utilities/Line.h"
 #include "Utilities/Algorithm.h"
 
@@ -329,7 +331,7 @@ nemesis::Line& nemesis::Line::replace(const RawChar* from, const RawChar* to)
 
     if (pos == NOT_FOUND) return *this;
 
-    base.replace(pos, strlen(from), to);
+    base.replace(pos, std::strlen(from), to);
     return *this;
 }
 
