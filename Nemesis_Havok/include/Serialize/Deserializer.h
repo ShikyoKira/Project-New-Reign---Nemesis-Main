@@ -77,8 +77,6 @@ namespace nemesis
 
         virtual bool CanAssert() const = 0;
 
-        std::string GetErrorMessage(int err_code);
-
     public:
         virtual nemesis::hkPackfile Deserialize()                          = 0;
         virtual void Deserialize(nemesis::hkPackfileSection& section_data) = 0;

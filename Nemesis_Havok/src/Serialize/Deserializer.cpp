@@ -18,21 +18,6 @@ std::string nemesis::Deserializer::StringToHex(const std::string& str)
     return "0x" + ss.str();
 }
 
-std::string nemesis::Deserializer::GetErrorMessage(int err_code)
-{
-#ifdef _MSC_VER
-    const size_t BUFFER_SIZE = 256;
-    char buffer[BUFFER_SIZE];
-    errno_t result = strerror_s(buffer, BUFFER_SIZE, err_code);
-
-    if (result == 0) return std::string(buffer);
-
-    return "Unknown error (strerror_s failed for code " + std::to_string(err_code) + ")";
-#else
-    return std::string(strerror(err_code));
-#endif
-}
-
 void nemesis::Deserializer::Close() noexcept
 {
     if (!Stream) return;
