@@ -85,11 +85,11 @@ void run_python_scripts(const std::filesystem::path& dir_path)
         try
         {
             FILE* py_file;
-            #if _WIN32
+#if _WIN32
             _wfopen_s(&py_file, path.wstring().c_str(), L"r");
-            #else
+#else
             py_file = fopen(path.string().c_str(), "r");
-            #endif
+#endif
 
             if (!py_file) return;
 
@@ -146,7 +146,7 @@ void setup_python_config(const std::filesystem::path& libs_dir)
         {
             return PyWideStringList_Append(
                 &config.module_search_paths,
-                (libs_dir / LITERAL_PATH("lib") / LITERAL_PATH("site-packages")).c_str());
+                (libs_dir / LITERAL_PATH("lib") / LITERAL_PATH("site-packages")).wstring().c_str());
         });
 
     change_python_config_settings([&config]() { return Py_InitializeFromConfig(&config); });

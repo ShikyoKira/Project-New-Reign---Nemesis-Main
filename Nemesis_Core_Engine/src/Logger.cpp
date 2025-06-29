@@ -1,4 +1,5 @@
 #include <chrono>
+#include <format>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -20,16 +21,8 @@ void Logger::SetPath(const std::filesystem::path& path)
 
 void Logger::Log(const std::string& msg, bool console_out)
 {
-    auto now        = std::chrono::system_clock::now();
-    auto time_t_now = std::chrono::system_clock::to_time_t(now);
-    auto now_ms     = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
-
-    std::tm local_time;
-    localtime_s(&local_time, &time_t_now);
-
     std::stringstream ss;
-    ss << std::put_time(&local_time, "[%Y-%m-%d %H:%M:%S.") << std::setw(3) << std::setfill('0')
-       << now_ms.count() << "] " << msg;
+    ss << "[" << std::format("{:%Y-%m-%d %T}", std::chrono::system_clock::now()).substr(0, 23) << "] " << msg;
 
     std::scoped_lock<std::mutex> lock(LoggerMutex);
 
@@ -51,16 +44,9 @@ void Logger::Log(const std::string& msg, bool console_out)
 
 void Logger::Log(const std::wstring& msg, bool console_out)
 {
-    auto now        = std::chrono::system_clock::now();
-    auto time_t_now = std::chrono::system_clock::to_time_t(now);
-    auto now_ms     = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
-
-    std::tm local_time;
-    localtime_s(&local_time, &time_t_now);
-
     std::wstringstream ss;
-    ss << std::put_time(&local_time, L"[%Y-%m-%d %H:%M:%S.") << std::setw(3) << std::setfill(L'0')
-       << now_ms.count() << L"] " << msg;
+    ss << L"[" << std::format(L"{:%Y-%m-%d %T}", std::chrono::system_clock::now()).substr(0, 23) << L"] "
+       << msg;
 
     std::scoped_lock<std::mutex> lock(LoggerMutex);
 
