@@ -373,7 +373,7 @@ void nemesis::AnimationDataProject::SerializeToDirectory(const std::filesystem::
 
     for (auto& line : lines)
     {
-        file << line.ToString();
+        file << line + "\n";
     }
 
     file.close();

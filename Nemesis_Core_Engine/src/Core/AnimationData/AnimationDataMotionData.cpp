@@ -199,7 +199,7 @@ void nemesis::AnimationDataMotionData::SerializeToFile(const std::filesystem::pa
 
     for (auto& line : lines)
     {
-        file << line.ToString();
+        file << line + "\n";
     }
 
     file.close();

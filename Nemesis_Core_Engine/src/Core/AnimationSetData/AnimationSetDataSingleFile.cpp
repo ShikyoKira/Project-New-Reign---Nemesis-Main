@@ -74,8 +74,9 @@ std::future<void> nemesis::AnimationSetDataSingleFile::CompileFileCore(const std
 
             for (auto& line : lines)
             {
-                file << line.ToString();
-                full_text.append(line + "\n");
+                std::string sline = line + "\n";
+                file << sline;
+                full_text.append(sline);
             }
 
             file.close();

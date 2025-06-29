@@ -386,7 +386,7 @@ void nemesis::AnimationSetDataState::SerializeToFile(const std::filesystem::path
 
     for (auto& line : lines)
     {
-        file << line.ToString();
+        file << line + "\n";
     }
 
     file.close();
