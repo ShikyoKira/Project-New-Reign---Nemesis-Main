@@ -50,7 +50,6 @@ DeqNstr nemesis::HkxFile::CompileAllTemplates(nemesis::CompileState& state) cons
 
     if (template_lines.empty()) return template_lines;
 
-    template_lines.emplace_back("");
     return template_lines;
 }
 
