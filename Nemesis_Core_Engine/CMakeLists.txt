@@ -416,7 +416,7 @@ FetchContent_MakeAvailable(json)
 FetchContent_Declare(
     exprtk
     GIT_REPOSITORY https://github.com/ArashPartow/exprtk.git
-    GIT_TAG 0.0.2
+    GIT_TAG 0.0.3
 )
 FetchContent_MakeAvailable(exprtk)
 include_directories(${exprtk_SOURCE_DIR})
