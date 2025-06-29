@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "Core/AnimationSetData/AnimationSetDataSingleFile.h"
 
 #include "Core/CollectionObject.h"
@@ -13,7 +15,6 @@
 #include "Utilities/Algorithm.h"
 #include "Utilities/Crc32.h"
 #include "Utilities/File.h"
-#include "Utilities/FileWriter.h"
 
 VecNstr nemesis::AnimationSetDataSingleFile::ParseHeaders(nemesis::LineStream& stream,
                                                           nemesis::SemanticManager& manager)
@@ -60,16 +61,25 @@ std::future<void> nemesis::AnimationSetDataSingleFile::CompileFileCore(const std
         [this, filepath, &state, callback]
         {
             DeqNstr lines = Compile(state);
-            FileWriter writer(filepath);
+            std::ofstream file(filepath);
+
+            if (!file.is_open())
+            {
+                std::error_code ec(errno, std::system_category());
+                throw std::runtime_error("Failed to open file: \"" + to_utf8_string(filepath)
+                                         + "\"\nMessage: " + ec.message());
+            }
+
             std::string full_text;
 
             for (auto& line : lines)
             {
-                writer.LockFreeWriteLine(line);
+                file << line.ToString();
                 full_text.append(line + "\n");
             }
 
-            writer.Close();
+            file.close();
+
             static nemesis::CRC32 crc32;
             size_t checksum = crc32.FullCRC(full_text);
             state.AddCheckSum(TargetPath, std::to_string(checksum));

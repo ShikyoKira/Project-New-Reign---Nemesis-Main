@@ -1,4 +1,5 @@
 #include <chrono>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -7,7 +8,6 @@
 #include "NemesisInfo.h"
 
 #include "Utilities/Algorithm.h"
-#include "Utilities/FileWriter.h"
 
 std::mutex Logger::LoggerMutex;
 std::filesystem::path Logger::LoggerPath = std::filesystem::current_path() / "log.txt";

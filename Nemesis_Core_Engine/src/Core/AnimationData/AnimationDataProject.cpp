@@ -1,10 +1,11 @@
+#include <fstream>
+
 #include "Core/AnimationData/AnimationDataProject.h"
 
 #include "Core/CoreObject.h"
 
 #include "Utilities/Algorithm.h"
 #include "Utilities/File.h"
-#include "Utilities/FileWriter.h"
 #include "Utilities/ThreadPool.h"
 
 const std::filesystem::path& nemesis::AnimationDataProject::Headers::GetFilePath() const noexcept
@@ -361,21 +362,21 @@ void nemesis::AnimationDataProject::SerializeToDirectory(const std::filesystem::
     DeqNstr lines = HkxFiles->Serialize();
 
     std::filesystem::path filepath = directory_path / "$header$.txt";
-    FileWriter writer(filepath);
+    std::ofstream file(filepath);
 
-    if (!writer.is_open())
+    if (!file.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: " + nemesis::to_utf8_string(filepath)
-                                 + "\nMessage: " + ec.message());
+        throw std::runtime_error("Failed to open file: \"" + to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
     }
 
     for (auto& line : lines)
     {
-        writer << line;
+        file << line.ToString();
     }
 
-    writer.Close();
+    file.close();
 
     for (auto& clip_data : ClipDataList)
     {

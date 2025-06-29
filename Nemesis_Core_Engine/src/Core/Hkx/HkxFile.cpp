@@ -6,7 +6,6 @@
 
 #include "Utilities/Algorithm.h"
 #include "Utilities/Crc32.h"
-#include "Utilities/FileWriter.h"
 #include "Utilities/LimitedConcurrency.h"
 #include "Utilities/OnScopeEnds.h"
 
@@ -156,8 +155,18 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hk
             {
                 std::filesystem::path xml_path = hkx_path;
                 xml_path.replace_extension(".xml");
-                FileWriter writer(xml_path);
-                writer.LockFreeWrite(contents);
+
+                std::ofstream file(xml_path);
+
+                if (!file.is_open())
+                {
+                    std::error_code ec(errno, std::system_category());
+                    throw std::runtime_error("Failed to open file: \"" + to_utf8_string(xml_path)
+                                             + "\"\nMessage: " + ec.message());
+                }
+
+                file << contents;
+                file.close();
             }
 
             try
@@ -235,8 +244,17 @@ void nemesis::HkxFile::CompileFileAsXml(const std::filesystem::path& filepath,
         stream << line + "\n";
     }
 
-    FileWriter writer(filepath);
-    writer.LockFreeWrite(stream.str());
+    std::ofstream file(filepath);
+
+    if (!file.is_open())
+    {
+        std::error_code ec(errno, std::system_category());
+        throw std::runtime_error("Failed to open file: \"" + to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
+    }
+
+    file << stream.str();
+    file.close();
 
     Logger::Log(LITERAL_PATH("Compiled Target File: ") + PATH_TO_STRING(filepath));
 }

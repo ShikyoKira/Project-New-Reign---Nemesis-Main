@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "Core/AnimationData/AnimationDataMotionData.h"
 
 #include "Core/CollectionObject.h"
@@ -10,7 +12,6 @@
 
 #include "Utilities/Algorithm.h"
 #include "Utilities/File.h"
-#include "Utilities/FileWriter.h"
 #include "Utilities/ThreadPool.h"
 
 nemesis::AnimationDataMotionData::AnimationDataMotionData(const std::string& code) noexcept
@@ -183,23 +184,25 @@ const std::filesystem::path& nemesis::AnimationDataMotionData::GetFilePath() con
 void nemesis::AnimationDataMotionData::SerializeToFile(const std::filesystem::path& filepath) const
 {
     DeqNstr lines = Serialize();
-    FileWriter writer(filepath);
+    std::ofstream file(filepath);
 
     if (lines.empty()) return;
 
     lines.pop_front();
 
-    if (!writer.is_open())
+    if (!file.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: " + nemesis::to_utf8_string(filepath)
-                                 + "\nMessage: " + ec.message());
+        throw std::runtime_error("Failed to open file: \"" + to_utf8_string(filepath)
+                                 + "\"\nMessage: " + ec.message());
     }
 
     for (auto& line : lines)
     {
-        writer << line;
+        file << line.ToString();
     }
+
+    file.close();
 }
 
 UPtr<nemesis::AnimationDataMotionData>

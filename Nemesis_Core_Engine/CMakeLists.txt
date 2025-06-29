@@ -177,7 +177,6 @@ set(Utilities_HeaderFiles
     "include/Utilities/ConditionSyntax.h"
     "include/Utilities/Crc32.h"
     "include/Utilities/File.h"
-    "include/Utilities/FileWriter.h"
     "include/Utilities/LimitedConcurrency.h"
     "include/Utilities/Line.h"
     "include/Utilities/Lockless.h"
@@ -191,7 +190,6 @@ set(Utilities_HeaderFiles
     "include/Utilities/ThreadPool.h"
     "include/Utilities/Trie.h"
     "include/Utilities/Types.h"
-
     )
 source_group("Header Files\\Utilities" FILES ${Utilities_HeaderFiles})
 
@@ -372,7 +370,6 @@ set(Utilities_SourceFiles
     "src/Utilities/ConditionSyntax.cpp"
     "src/Utilities/Crc32.cpp"
     "src/Utilities/File.cpp"
-    "src/Utilities/FileWriter.cpp"
     "src/Utilities/LimitedConcurrency.cpp"
     "src/Utilities/Line.cpp"
     "src/Utilities/MD5.cpp"
