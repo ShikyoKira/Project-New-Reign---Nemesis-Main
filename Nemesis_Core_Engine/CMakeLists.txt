@@ -14,7 +14,7 @@ include_directories(include)
 if(WIN32)
     include(Python.cmake)
 else()
-    find_package(Python 3.12.11 COMPONENTS Interpreter Development.Embed REQUIRED)
+    find_package(Python EXACT 3.12.11 COMPONENTS Interpreter Development.Embed REQUIRED)
     add_library(Nemesis::Python ALIAS Python::Python) 
 endif()
 
