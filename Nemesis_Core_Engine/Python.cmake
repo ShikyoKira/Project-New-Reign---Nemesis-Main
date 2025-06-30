@@ -33,7 +33,7 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(Python_Args "-p" "x64")
 elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
     set(Python_BUILD_DIR ${Python_BUILD_DIR_ROOT}/win32)
-    set(Python_Args "-p" "x86")
+    set(Python_Args "-p" "Win32")
 else()
     message(ERROR "Unknown architecture for Python_Args. CMAKE_SIZEOF_VOID_P is ${CMAKE_SIZEOF_VOID_P}")
 endif()
@@ -49,7 +49,7 @@ else()
 endif()
 
 message("Building CPython:    File: ${Python_BUILD_FILE}   Args: ${Python_Args}")
-# execute_process(COMMAND ${Python_BUILD_FILE} ${Python_Args})
+execute_process(COMMAND ${Python_BUILD_FILE} ${Python_Args})
 
 ################################################################################
 # Add target
