@@ -11,8 +11,12 @@ include_directories(include)
 ################################################################################
 # Required packages
 ################################################################################
-
-include(Python.cmake)
+if(WIN32)
+    include(Python.cmake)
+else()
+    find_package(Python 3.12.11 COMPONENTS Interpreter Development.Embed REQUIRED)
+    add_library(Nemesis::Python ALIAS Python::Python) 
+endif()
 
 ################################################################################
 # Header Files
