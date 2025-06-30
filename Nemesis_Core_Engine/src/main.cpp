@@ -22,7 +22,8 @@
 
 namespace sf = std::filesystem;
 
-void log_compilation_result(const std::chrono::steady_clock::time_point& start, std::string check_sum)
+void log_compilation_result(const std::chrono::high_resolution_clock::time_point& start,
+                            std::string check_sum)
 {
     auto end     = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
