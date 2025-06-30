@@ -126,6 +126,8 @@ void setup_python_config(const std::filesystem::path& libs_dir)
 {
     Logger::Log(LITERAL_PATH("Setting up python environment: ") + PATH_TO_STRING(libs_dir));
 
+    std::wstring dir_path  = libs_dir.wstring();
+    std::wstring site_path = (libs_dir / LITERAL_PATH("lib") / LITERAL_PATH("site-packages")).wstring();
     PyConfig config;
     nemesis::OnScopeEnds on_ends([&config]() { PyConfig_Clear(&config); });
 
@@ -133,9 +135,8 @@ void setup_python_config(const std::filesystem::path& libs_dir)
     PyConfig_InitPythonConfig(&config);
 
 #ifdef _WIN32
-    change_python_config_settings(
-        [&config, &libs_dir]()
-        { return PyConfig_SetString(&config, &config.home, libs_dir.wstring().c_str()); });
+    change_python_config_settings([&config, &dir_path]()
+                                  { return PyConfig_SetString(&config, &config.home, dir_path.c_str()); });
 #else
     change_python_config_settings(
         [&config, &libs_dir]()
@@ -143,12 +144,8 @@ void setup_python_config(const std::filesystem::path& libs_dir)
 #endif
 
     change_python_config_settings(
-        [&config, &libs_dir]()
-        {
-            return PyWideStringList_Append(
-                &config.module_search_paths,
-                (libs_dir / LITERAL_PATH("lib") / LITERAL_PATH("site-packages")).wstring().c_str());
-        });
+        [&config, &site_path]()
+        { return PyWideStringList_Append(&config.module_search_paths, site_path.c_str()); });
 
     change_python_config_settings([&config]() { return Py_InitializeFromConfig(&config); });
 
