@@ -19,13 +19,13 @@ namespace nemesis
         const nemesis::TemplateRepository& TemplateRepository;
         const nemesis::ExAnimationRepository& ExAnimRepository;
 
-        UMap<std::filesystem::path, nemesis::CompileState> StateList;
+        std::mutex StateListMutex;
+        UMap<std::string, nemesis::CompileState> StateList;
         VecStr SelectedMods;
         
-        Map<std::string, std::string> CheckSumMap;
         std::mutex CheckSumMutex;
+        Map<std::string, std::string> CheckSumMap;
 
-        std::mutex CreateMutex;
 
     public:
         CompilationManager(const VecStr& selected_mods,

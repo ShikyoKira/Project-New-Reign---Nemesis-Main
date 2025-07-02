@@ -43,18 +43,26 @@ const VecStr& nemesis::CompilationManager::GetSelectedMods() const noexcept
 
 nemesis::CompileState& nemesis::CompilationManager::CreateCompileState(const std::filesystem::path& filepath)
 {
-    std::scoped_lock<std::mutex> lock(CreateMutex);
+    auto path = filepath;
+    path.replace_extension(".hkx");
+    std::string lower_path(nemesis::to_lower_copy(nemesis::to_utf8_string(path)));
 
-    auto itr = StateList.find(filepath);
+    std::scoped_lock<std::mutex> lock(StateListMutex);
+    auto itr = StateList.find(lower_path);
 
-    if (itr == StateList.end()) return StateList.try_emplace(filepath, *this).first->second;
+    if (itr == StateList.end()) return StateList.try_emplace(lower_path, *this).first->second;
 
     throw std::runtime_error("CompileState for file already exist (" + nemesis::to_utf8_string(filepath) + ")");
 }
 
 nemesis::CompileState* nemesis::CompilationManager::GetCompileState(const std::filesystem::path& filepath)
 {
-    auto itr = StateList.find(filepath);
+    auto path = filepath;
+    path.replace_extension(".hkx");
+    std::string lower_path(nemesis::to_lower_copy(nemesis::to_utf8_string(path)));
+
+    std::scoped_lock<std::mutex> lock(StateListMutex);
+    auto itr = StateList.find(lower_path);
 
     if (itr != StateList.end()) return &itr->second;
 
