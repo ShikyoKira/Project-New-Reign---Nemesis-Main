@@ -5,6 +5,8 @@
 
 #include "Utilities/Algorithm.h"
 
+#include "NemesisInfo.h"
+
 const Pair<const std::string*, size_t>&
 nemesis::CompileState::GetCurrentRequestMap(const nemesis::AnimationRequest* request,
                                             const std::string& key) const
@@ -727,7 +729,7 @@ bool nemesis::CompileState::TryGetAnimationOrder(const std::string& name, size_t
 {
     std::scoped_lock<std::mutex> lock(AnimationOrderMapMutex);
 
-    auto itr = AnimationOrderMap.find(name);
+    auto itr = AnimationOrderMap.find(nemesis::to_lower_copy(name));
 
     if (itr == AnimationOrderMap.end()) return false;
 
@@ -738,12 +740,11 @@ bool nemesis::CompileState::TryGetAnimationOrder(const std::string& name, size_t
 size_t nemesis::CompileState::GetAnimationOrder(const std::filesystem::path& filepath,
                                                 const std::string& name) const
 {
-    auto compile_state = Manager.GetCompileState(filepath);
+    auto compile_state = Manager.GetCompileState(NemesisInfo::DataPath() / filepath);
 
     if (!compile_state)
     {
-        throw std::runtime_error("Animation order not found (Character: " + nemesis::to_utf8_string(filepath)
-                                 + ", Animtion: " + name + ")");
+        throw std::runtime_error("Compile state not found (Target: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     size_t value;
@@ -757,7 +758,7 @@ size_t nemesis::CompileState::GetAnimationOrder(const std::filesystem::path& fil
 size_t nemesis::CompileState::AddAnimationToOrder(const std::string& name)
 {
     std::scoped_lock<std::mutex> lock(AnimationOrderMapMutex);
-    return AnimationOrderMap[name] = AnimationOrderMap.size();
+    return AnimationOrderMap[nemesis::to_lower_copy(name)] = AnimationOrderMap.size();
 }
 
 const std::string& nemesis::CompileState::GetStateID(const std::string& unique_key)
