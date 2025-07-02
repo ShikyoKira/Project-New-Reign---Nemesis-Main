@@ -20,20 +20,6 @@ namespace nemesis
         nemesis::OptionStatement OptionStatement;
         std::function<std::string(nemesis::CompileState&)> GetValueFunction;
 
-        SPtr<std::function<const nemesis::TemplateOption*(const nemesis::AnimationRequest*,
-                                                          nemesis::CompileState&)>>
-        GetOptionFunction(const std::string& option_syntax,
-                          const std::string& option_name,
-                          const std::string& index,
-                          size_t linenum,
-                          const std::filesystem::path& filepath,
-                          const nemesis::SemanticManager& manager);
-        SPtr<std::function<const nemesis::TemplateOption*(nemesis::CompileState&)>>
-        GetBaseOptionFunction(const std::string& option_name,
-                              const std::string& index_str,
-                              size_t linenum,
-                              const std::filesystem::path& filepath,
-                              const nemesis::SemanticManager& manager);
         SPtr<std::function<std::string(nemesis::CompileState&)>>
         GetVariableFunction(const std::string& variable,
                             size_t linenum,
