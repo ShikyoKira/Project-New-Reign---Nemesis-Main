@@ -272,7 +272,7 @@ void nemesis::Statement::ThrowInvalidError(const std::string& msg) const
 
 void nemesis::Statement::ThrowInaccessibleError(const std::string& msg) const
 {
-    throw std::runtime_error("Value Inaccessible: " + msg + " (Syntax: " + Expression
+    throw std::runtime_error("Value Inaccessible: " + msg + " (Expression: " + Expression
                              + ", Line: " + std::to_string(LineNum)
                              + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
