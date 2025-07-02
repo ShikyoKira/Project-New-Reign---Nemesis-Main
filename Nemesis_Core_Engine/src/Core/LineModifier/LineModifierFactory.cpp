@@ -12,6 +12,8 @@
 #include "Core/LineModifier/LineModifierFactory.h"
 #include "Core/LineModifier/MapModifier.h"
 #include "Core/LineModifier/MathModifier.h"
+#include "Core/LineModifier/MaxModifier.h"
+#include "Core/LineModifier/MinModifier.h"
 #include "Core/LineModifier/MotionDataModifier.h"
 #include "Core/LineModifier/MultipleChoiceModifier.h"
 #include "Core/LineModifier/NumelementModifier.h"
@@ -43,6 +45,8 @@ nemesis::LineModifierFactory::ModifierBuilderCollection::ModifierBuilderCollecti
     FirstBuilders["@Crc32"]          = std::make_unique<ModifierBuilder<nemesis::Crc32Modifier>>();
     FirstBuilders["@Substring"]      = std::make_unique<ModifierBuilder<nemesis::SubstringModifier>>();
     FirstBuilders["@Length"]         = std::make_unique<ModifierBuilder<nemesis::LengthModifier>>();
+    FirstBuilders["@Max"]            = std::make_unique<ModifierBuilder<nemesis::MaxModifier>>();
+    FirstBuilders["@Min"]            = std::make_unique<ModifierBuilder<nemesis::MinModifier>>();
 
     LastBuilders["@ID"]             = std::make_unique<ModifierBuilder<nemesis::RequestIdModifier>>();
     LastBuilders["@Index"]          = std::make_unique<ModifierBuilder<nemesis::RequestIndexModifier>>();

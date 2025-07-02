@@ -11,6 +11,9 @@ namespace nemesis
     template <typename StatementType>
     struct StandardLineModifier : public nemesis::LineModifier
     {
+        static_assert(std::is_base_of_v<nemesis::Statement, StatementType>,
+                      "StatementType must be derived from nemesis::Statement");
+
     protected:
         StatementType Statement;
 
