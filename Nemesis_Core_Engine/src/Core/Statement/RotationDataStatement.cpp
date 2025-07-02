@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "Core/Statement/RotationDataStatement.h"
 #include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
@@ -387,6 +389,73 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
     ThrowInaccessibleError("Unable to get target rotation data from queue");
 }
 
+bool nemesis::RotationDataStatement::TryParseExtraComponents(const nemesis::SemanticManager& manager)
+{
+    const std::string& index_str = Components.back();
+
+    if (IsComplexComponent(index_str))
+    {
+        auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
+        auto get_index      = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
+            [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
+        auto uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
+        GetValueFunction  = [this,
+                            inner_get_func = std::move(GetValueFunction),
+                            get_index      = std::move(get_index),
+                            uptr_manager   = std::move(uptr_manager)](nemesis::CompileState& state)
+        {
+            std::string index_str = (*get_index)(state);
+
+            if (!is_only_number(index_str))
+            {
+                ThrowInvalidError("Invalid index value (" + index_str + ")");
+            }
+
+            size_t index    = std::stoul(index_str);
+            std::string rst = (*const_cast<std::move_only_function<std::string(nemesis::CompileState&)>*>(
+                &inner_get_func))(state);
+            std::istringstream iss(rst);
+            std::string token;
+
+            for (size_t i = 0; i <= index; i++)
+            {
+                iss >> token;
+
+                if (iss.fail()) break;
+            }
+
+            if (!iss.fail()) return token;
+
+            ThrowInvalidError("Index is larger than list");
+        };
+        return true;
+    }
+
+    if (!is_only_number(index_str)) return false;
+
+    size_t index = std::stoul(index_str);
+    GetValueFunction
+        = [this, inner_get_func = std::move(GetValueFunction), index](nemesis::CompileState& state)
+    {
+        std::string rst = (*const_cast<std::move_only_function<std::string(nemesis::CompileState&)>*>(
+            &inner_get_func))(state);
+        std::istringstream iss(rst);
+        std::string token;
+
+        for (size_t i = 0; i <= index; i++)
+        {
+            iss >> token;
+
+            if (iss.fail()) break;
+        }
+
+        if (!iss.fail()) return token;
+
+        ThrowInvalidError("Index is larger than list");
+    };
+    return true;
+}
+
 nemesis::RotationDataStatement::RotationDataStatement(const std::string& expression,
                                                       size_t linenum,
                                                       const std::filesystem::path& filepath,
@@ -397,15 +466,31 @@ nemesis::RotationDataStatement::RotationDataStatement(const std::string& express
     {
         case 2:
         {
-            if (TryParse2Components(manager)) return;
+            if (!TryParse2Components(manager)) break;
 
-            break;
+            return;
+        }
+        case 3:
+        {
+            if (!TryParse2Components(manager)) break;
+
+            if (!TryParseExtraComponents(manager)) break;
+
+            return;
         }
         case 4:
         {
-            if (TryParse4Components(manager)) return;
+            if (!TryParse4Components(manager)) break;
 
-            break;
+            return;
+        }
+        case 5:
+        {
+            if (!TryParse4Components(manager)) break;
+
+            if (!TryParseExtraComponents(manager)) break;
+
+            return;
         }
         default:
             break;

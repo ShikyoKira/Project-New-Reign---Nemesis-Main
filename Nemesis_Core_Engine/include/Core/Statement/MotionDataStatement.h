@@ -11,6 +11,7 @@ namespace nemesis
 
         bool TryParse2Components(const nemesis::SemanticManager& manager);
         bool TryParse4Components(const nemesis::SemanticManager& manager);
+        bool TryParseExtraComponents(const nemesis::SemanticManager& manager);
 
     public:
         MotionDataStatement(const std::string& expression,
