@@ -24,15 +24,6 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
 
     for (auto& line : lines)
     {
-        auto request = templt_repo.CreateRequest(line, line.GetLineNumber(), filepath);
-
-        if (request)
-        {
-            request_layers = {request.get()};
-            AddRequest(std::move(request));
-            continue;
-        }
-
         if (nemesis::starts_with(line, "MD "))
         {
             request_layers.back()->SetMotionData(line.substr(3));
@@ -79,38 +70,50 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
 
         static std::regex ext_rgx("^([\\+]+) .+$");
 
-        if (!std::regex_match(line.ToString(), match, ext_rgx)) continue;
-
-        std::string plus  = match[1];
-        size_t length     = plus.length();
-        size_t layer_size = request_layers.size();
-
-        if (length == layer_size)
+        if (std::regex_match(line.ToString(), match, ext_rgx))
         {
-            auto parent = request_layers.back();
+            std::string plus  = match[1];
+            size_t length     = plus.length();
+            size_t layer_size = request_layers.size();
+
+            if (length == layer_size)
+            {
+                auto parent = request_layers.back();
+                auto child_request
+                    = parent->GetTemplateClass().CreateRequest(line, line.GetLineNumber(), filepath);
+                request_layers.emplace_back(child_request.get());
+                parent->AddRequest(std::move(child_request));
+                continue;
+            }
+
+            if (length > layer_size)
+            {
+                throw std::runtime_error("Invalid Command: Parent level (" + std::to_string(length)
+                                         + ") cannot be found (Line: " + std::to_string(line.GetLineNumber())
+                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+            }
+
+            while (length + 1 < request_layers.size())
+            {
+                request_layers.pop_back();
+            }
+
+            auto parent = request_layers[length - 1];
             auto child_request
                 = parent->GetTemplateClass().CreateRequest(line, line.GetLineNumber(), filepath);
-            request_layers.emplace_back(child_request.get());
+            request_layers.back() = child_request.get();
             parent->AddRequest(std::move(child_request));
             continue;
         }
 
-        if (length > layer_size)
-        {
-            throw std::runtime_error("Invalid Command: Parent level (" + std::to_string(length)
-                                     + ") cannot be found (Line: " + std::to_string(line.GetLineNumber())
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")");
-        }
+        auto request = templt_repo.CreateRequest(line, line.GetLineNumber(), filepath);
 
-        while (length + 1 < request_layers.size())
+        if (request)
         {
-            request_layers.pop_back();
+            request_layers = {request.get()};
+            AddRequest(std::move(request));
+            continue;
         }
-
-        auto parent        = request_layers[length - 1];
-        auto child_request = parent->GetTemplateClass().CreateRequest(line, line.GetLineNumber(), filepath);
-        request_layers.back() = child_request.get();
-        parent->AddRequest(std::move(child_request));
     }
 }
 
