@@ -294,7 +294,17 @@ nemesis::OptionVariableStatement::OptionVariableStatement(const std::string& exp
     get_option_var = GetVariableFunction(*var_name_ptr, linenum, filepath, manager, model);
 
     GetValueFunction = [this, get_option_var](nemesis::CompileState& state)
-    { return OptionStatement.GetVariableValue(state, (*get_option_var)(state)); };
+    {
+        auto pair = OptionStatement.GetValue(state);
+
+        if (pair.second != -1) return std::to_string(pair.second);
+
+        auto* option = pair.first;
+
+        if (!option) ThrowInaccessibleError("Failed to access required option");
+
+        return option->GetVariableValue((*get_option_var)(state));
+    };
 }
 
 std::string nemesis::OptionVariableStatement::Serialize() const

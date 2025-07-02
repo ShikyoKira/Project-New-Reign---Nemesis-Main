@@ -31,6 +31,8 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
                 ThrowInvalidError("Index is larger than list");
             }
 
+            if (index_str == "SIZE") return std::to_string(list.size());
+
             if (index_str.length() > 1)
             {
                 ThrowInvalidError("Invalid index value (" + index_str + ")");
@@ -99,6 +101,16 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
             if (index < list.size()) return list[index].ToString();
 
             ThrowInvalidError("Index is larger than list");
+        };
+        return true;
+    }
+
+    if (index_str == "SIZE")
+    {
+        GetValueFunction = [this](nemesis::CompileState& state)
+        {
+            auto list = GetBaseRequest(state)->GetRotationDataList();
+            return std::to_string(list.size());
         };
         return true;
     }
@@ -204,6 +216,12 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                 ThrowInvalidError("Index is larger than list");
             }
 
+            if (index_str == "SIZE")
+            {
+                auto list = request->GetRotationDataList();
+                return std::to_string(list.size());
+            }
+
             if (index_str.length() > 1)
             {
                 ThrowInvalidError("Invalid index value (" + index_str + ")");
@@ -273,6 +291,17 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
             if (list.empty()) return std::string("");
 
             return list[index].ToString();
+        };
+        return true;
+    }
+
+    if (index_str == "SIZE")
+    {
+        GetValueFunction = [get_request](nemesis::CompileState& state)
+        {
+            auto request = (*get_request)(state);
+            auto list    = request->GetRotationDataList();
+            return std::to_string(list.size());
         };
         return true;
     }

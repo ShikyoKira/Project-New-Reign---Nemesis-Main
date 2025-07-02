@@ -31,6 +31,8 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
                 ThrowInvalidError("Index is larger than list");
             }
 
+            if (index_str == "SIZE") return std::to_string(list.size());
+
             if (index_str.length() > 1)
             {
                 ThrowInvalidError("Invalid index value (" + index_str + ")");
@@ -99,6 +101,16 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
             if (index < list.size()) return list[index].ToString();
 
             ThrowInvalidError("Index is larger than list");
+        };
+        return true;
+    }
+
+    if (index_str == "SIZE")
+    {
+        GetValueFunction = [this](nemesis::CompileState& state)
+        {
+            auto list = GetBaseRequest(state)->GetMotionDataList();
+            return std::to_string(list.size());
         };
         return true;
     }
@@ -204,6 +216,8 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                 ThrowInvalidError("Index is larger than list");
             }
 
+            if (index_str == "SIZE") return std::to_string(list.size());
+
             if (index_str.length() > 1)
             {
                 ThrowInvalidError("Invalid index value (" + index_str + ")");
@@ -273,6 +287,17 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             if (list.empty()) return std::string("");
 
             return list[index].ToString();
+        };
+        return true;
+    }
+
+    if (index_str == "SIZE")
+    {
+        GetValueFunction = [get_request](nemesis::CompileState& state)
+        {
+            auto request = (*get_request)(state);
+            auto list    = request->GetMotionDataList();
+            return std::to_string(list.size());
         };
         return true;
     }

@@ -8,21 +8,21 @@
 
 namespace nemesis
 {
-	struct OptionStatement : public nemesis::CompositeStatement
+    struct OptionStatement : public nemesis::CompositeStatement
     {
     private:
-        std::function<const nemesis::TemplateOption*(nemesis::CompileState&)> GetOptionFunction;
+        std::function<Pair<const nemesis::TemplateOption*, int>(nemesis::CompileState&)> GetOptionFunction;
         std::function<bool(nemesis::CompileState&)> HasOptionFunction;
 
-        SPtr<std::function<const nemesis::TemplateOption*(const nemesis::AnimationRequest*,
-                                                          nemesis::CompileState&)>>
+        SPtr<std::function<Pair<const nemesis::TemplateOption*, int>(const nemesis::AnimationRequest*,
+                                                                     nemesis::CompileState&)>>
         BuildGetOptionFunction(const std::string& option_syntax,
                                const std::string& option_name,
                                const std::string& index,
                                size_t linenum,
                                const std::filesystem::path& filepath,
                                const nemesis::SemanticManager& manager);
-        SPtr<std::function<const nemesis::TemplateOption*(nemesis::CompileState&)>>
+        SPtr<std::function<Pair<const nemesis::TemplateOption*, int>(nemesis::CompileState&)>>
         BuildGetBaseOptionFunction(const std::string& option_name,
                                    const std::string& index_str,
                                    size_t linenum,
@@ -40,8 +40,9 @@ namespace nemesis
                         const nemesis::SemanticManager& manager);
 
         std::string Serialize() const override;
-        std::string GetValue(nemesis::CompileState& state) const;
 
+        Pair<const nemesis::TemplateOption*, int> GetValue(nemesis::CompileState& state) const;
+        int GetSize(nemesis::CompileState& state) const;
         const nemesis::TemplateOption* GetOption(nemesis::CompileState& state) const;
         std::string GetVariableValue(nemesis::CompileState& state, const std::string& variable_name) const;
         bool HasOption(nemesis::CompileState& state) const;
