@@ -7,7 +7,7 @@ namespace nemesis
 	struct SubstringStatement : public nemesis::CompositeStatement
     {
     private:
-        std::function<std::string(nemesis::CompileState&)> GetValueFunction;
+        mutable std::move_only_function<std::string(nemesis::CompileState&)> GetValueFunction;
 
         void Parse3Components(const nemesis::SemanticManager& manager);
         void Parse4Components(const nemesis::SemanticManager& manager);

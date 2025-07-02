@@ -7,7 +7,7 @@ namespace nemesis
     struct MotionDataStatement : public nemesis::CompositeStatement
     {
     private:
-        std::function<std::string(nemesis::CompileState&)> GetValueFunction;
+        mutable std::move_only_function<std::string(nemesis::CompileState&)> GetValueFunction;
 
         bool TryParse2Components(const nemesis::SemanticManager& manager);
         bool TryParse4Components(const nemesis::SemanticManager& manager);

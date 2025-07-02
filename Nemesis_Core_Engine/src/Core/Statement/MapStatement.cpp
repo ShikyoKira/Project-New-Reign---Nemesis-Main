@@ -10,27 +10,30 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
     const std::string& key       = Components[1];
     const std::string& index_str = Components.back();
 
-    SPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
+    UPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
 
     if (IsComplexComponent(key))
     {
         auto& dynamic_key = DynamicComponents.emplace_back(key, LineNum, FilePath, manager);
-        get_key           = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key           = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_key](nemesis::CompileState& state) { return dynamic_key.GetValue(state); });
     }
     else
     {
-        get_key = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&key](nemesis::CompileState& state) { return key; });
     }
 
     if (IsComplexComponent(index_str))
     {
         const auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
-        auto get_index            = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        auto get_index            = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
-        auto sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
-        GetValueFunction  = [this, get_key, get_index, sptr_manager](nemesis::CompileState& state)
+        auto uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
+        GetValueFunction  = [this,
+                            get_key      = std::move(get_key),
+                            get_index    = std::move(get_index),
+                            uptr_manager = std::move(uptr_manager)](nemesis::CompileState& state)
         {
             auto key  = (*get_key)(state);
             auto list = GetBaseRequest(state)->GetMapValueList(key);
@@ -55,7 +58,7 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
 
             if (index_str == "")
             {
-                if (!sptr_manager->HasMapInQueue(Components[1]))
+                if (!uptr_manager->HasMapInQueue(Components[1]))
                 {
                     ThrowInaccessibleError("Unable to get target map value from queue");
                 }
@@ -75,7 +78,7 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
                 }
                 case 'B':
                 {
-                    if (!sptr_manager->HasMapInQueue(Components[1]))
+                    if (!uptr_manager->HasMapInQueue(Components[1]))
                     {
                         ThrowInaccessibleError("Unable to get target map value from queue");
                     }
@@ -88,7 +91,7 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
                 }
                 case 'N':
                 {
-                    if (!sptr_manager->HasMapInQueue(Components[1]))
+                    if (!uptr_manager->HasMapInQueue(Components[1]))
                     {
                         ThrowInaccessibleError("Unable to get target map value from queue");
                     }
@@ -109,7 +112,7 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
     if (is_only_number(index_str))
     {
         size_t index     = std::stoul(index_str);
-        GetValueFunction = [this, get_key, index](nemesis::CompileState& state)
+        GetValueFunction = [this, get_key = std::move(get_key), index](nemesis::CompileState& state)
         {
             auto list = GetBaseRequest(state)->GetMapValueList((*get_key)(state));
 
@@ -126,8 +129,8 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
 
     if (index_str == "")
     {
-        GetValueFunction
-            = [get_key](nemesis::CompileState& state) { return state.GetCurrentMapValue((*get_key)(state)); };
+        GetValueFunction = [get_key = std::move(get_key)](nemesis::CompileState& state)
+        { return state.GetCurrentMapValue((*get_key)(state)); };
     }
     else
     {
@@ -135,7 +138,7 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
         {
             case 'F':
             {
-                GetValueFunction = [this, get_key](nemesis::CompileState& state)
+                GetValueFunction = [this, get_key = std::move(get_key)](nemesis::CompileState& state)
                 {
                     auto list = GetBaseRequest(state)->GetMapValueList((*get_key)(state));
 
@@ -147,13 +150,13 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
             }
             case 'L':
             {
-                GetValueFunction = [get_key](nemesis::CompileState& state)
+                GetValueFunction = [get_key = std::move(get_key)](nemesis::CompileState& state)
                 { return state.GetCurrentMapValue((*get_key)(state)); };
                 return true;
             }
             case 'B':
             {
-                GetValueFunction = [this, get_key](nemesis::CompileState& state)
+                GetValueFunction = [this, get_key = std::move(get_key)](nemesis::CompileState& state)
                 {
                     auto key   = (*get_key)(state);
                     auto list  = GetBaseRequest(state)->GetMapValueList(key);
@@ -167,7 +170,7 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
             }
             case 'N':
             {
-                GetValueFunction = [this, get_key](nemesis::CompileState& state)
+                GetValueFunction = [this, get_key = std::move(get_key)](nemesis::CompileState& state)
                 {
                     auto key   = (*get_key)(state);
                     auto list  = GetBaseRequest(state)->GetMapValueList(key);
@@ -196,28 +199,32 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
     auto template_class          = manager.GetCurrentTemplateClass();
     auto get_request             = GetTargetRequest(*template_class, manager);
 
-    SPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
+    UPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
 
     if (IsComplexComponent(key))
     {
         auto& dynamic_key = DynamicComponents.emplace_back(key, LineNum, FilePath, manager);
-        get_key           = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key           = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_key](nemesis::CompileState& state) { return dynamic_key.GetValue(state); });
     }
     else
     {
-        get_key = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&key](nemesis::CompileState& state) { return key; });
     }
 
     if (IsComplexComponent(index_str))
     {
         auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
-        auto get_index      = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        auto get_index      = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
-        SPtr<nemesis::SemanticManager> sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
+        UPtr<nemesis::SemanticManager> uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
 
-        GetValueFunction = [this, get_request, get_key, get_index, sptr_manager](nemesis::CompileState& state)
+        GetValueFunction = [this,
+                            get_request,
+                            get_key      = std::move(get_key),
+                            get_index    = std::move(get_index),
+                            uptr_manager = std::move(uptr_manager)](nemesis::CompileState& state)
         {
             auto key     = (*get_key)(state);
             auto request = (*get_request)(state);
@@ -243,7 +250,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
 
             if (index_str == "")
             {
-                if (!sptr_manager->HasRequestMapInQueue(Components.front(), key))
+                if (!uptr_manager->HasRequestMapInQueue(Components.front(), key))
                 {
                     ThrowInaccessibleError("Unable to get target map value from queue");
                 }
@@ -263,7 +270,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
                 }
                 case 'B':
                 {
-                    if (!sptr_manager->HasRequestMapInQueue(Components.front(), key))
+                    if (!uptr_manager->HasRequestMapInQueue(Components.front(), key))
                     {
                         ThrowInaccessibleError("Unable to get target map value from queue");
                     }
@@ -276,7 +283,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
                 }
                 case 'N':
                 {
-                    if (!sptr_manager->HasRequestMapInQueue(Components.front(), key))
+                    if (!uptr_manager->HasRequestMapInQueue(Components.front(), key))
                     {
                         ThrowInaccessibleError("Unable to get target map value from queue");
                     }
@@ -296,8 +303,9 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
 
     if (is_only_number(index_str))
     {
-        size_t index     = std::stoul(index_str);
-        GetValueFunction = [this, get_key, get_request, index](nemesis::CompileState& state)
+        size_t index = std::stoul(index_str);
+        GetValueFunction
+            = [this, get_key = std::move(get_key), get_request, index](nemesis::CompileState& state)
         {
             auto request = (*get_request)(state);
             auto list    = request->GetMapValueList((*get_key)(state));
@@ -315,7 +323,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
 
     if (index_str == "")
     {
-        GetValueFunction = [get_key, get_request](nemesis::CompileState& state)
+        GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
         { return state.GetCurrentRequestMapValue((*get_request)(state), (*get_key)(state)); };
     }
     else
@@ -324,7 +332,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
         {
             case 'F':
             {
-                GetValueFunction = [get_key, get_request](nemesis::CompileState& state)
+                GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
                 {
                     auto request = (*get_request)(state);
                     auto list    = request->GetMapValueList((*get_key)(state));
@@ -337,7 +345,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             }
             case 'L':
             {
-                GetValueFunction = [get_key, get_request](nemesis::CompileState& state)
+                GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
                 {
                     auto request = (*get_request)(state);
                     auto list    = request->GetMapValueList((*get_key)(state));
@@ -350,7 +358,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             }
             case 'B':
             {
-                GetValueFunction = [get_key, get_request](nemesis::CompileState& state)
+                GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
                 {
                     auto key     = (*get_key)(state);
                     auto request = (*get_request)(state);
@@ -365,7 +373,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             }
             case 'N':
             {
-                GetValueFunction = [get_key, get_request](nemesis::CompileState& state)
+                GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
                 {
                     auto key     = (*get_key)(state);
                     auto request = (*get_request)(state);

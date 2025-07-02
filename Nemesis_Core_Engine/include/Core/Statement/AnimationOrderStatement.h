@@ -7,7 +7,7 @@ namespace nemesis
     struct AnimationOrderStatement : public nemesis::CompositeStatement
     {
     private:
-        std::function<std::string(nemesis::CompileState&)> GetValueFunction;
+        mutable std::move_only_function<std::string(nemesis::CompileState&)> GetValueFunction;
 
     public:
         AnimationOrderStatement(const std::string& expression,

@@ -29,7 +29,7 @@ namespace nemesis
         ForEachType Type        = nemesis::ForEachStatement::ForEachType::NONE;
         std::string* Key        = nullptr;
         int LoopCycle           = 0;
-        std::function<void(nemesis::CompileState&, std::function<void()>)> ForEachFunction;
+        mutable std::move_only_function<void(nemesis::CompileState&, std::function<void()>)> ForEachFunction;
 
         void Parse1Component(nemesis::SemanticManager& manager);
         void Parse2Components(nemesis::SemanticManager& manager);

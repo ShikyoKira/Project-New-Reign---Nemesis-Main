@@ -61,7 +61,7 @@ namespace nemesis
                                     public nemesis::NonCopyableStruct
         {
         private:
-            std::function<bool(nemesis::CompileState&)> IsTrueFunction;
+            mutable std::move_only_function<bool(nemesis::CompileState&)> IsTrueFunction;
 
             void Parse1Component(const nemesis::TemplateClass* templt_class,
                                  const nemesis::SemanticManager& manager);

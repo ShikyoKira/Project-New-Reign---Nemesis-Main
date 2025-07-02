@@ -12,7 +12,7 @@ namespace nemesis
 	struct MapStatement : public nemesis::CompositeStatement
     {
     private:
-        std::function<std::string(nemesis::CompileState&)> GetValueFunction;
+        mutable std::move_only_function<std::string(nemesis::CompileState&)> GetValueFunction;
 
         bool TryParse3Components(const nemesis::SemanticManager& manager);
         bool TryParse5Components(const nemesis::SemanticManager& manager);

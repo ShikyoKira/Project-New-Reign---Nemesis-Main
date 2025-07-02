@@ -266,24 +266,25 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
     auto get_request_func   = GetTargetRequest(*templt_class, manager);
     const std::string& name = Components[2];
     const std::string& key  = Components.back();
-    SPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
+    UPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
 
     if (IsComplexComponent(key))
     {
         const auto& dynamic_key = DynamicComponents.emplace_back(key, LineNum, FilePath, manager);
-        get_key                 = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key                 = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_key](nemesis::CompileState& state) { return dynamic_key.GetValue(state); });
     }
     else
     {
-        get_key = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&key](nemesis::CompileState& state) { return key; });
     }
 
     if (IsComplexComponent(name))
     {
         const auto& dynamic_name = DynamicComponents.emplace_back(name, LineNum, FilePath, manager);
-        IsTrueFunction           = [get_request_func, &dynamic_name, &get_key](nemesis::CompileState& state)
+        IsTrueFunction
+            = [get_request_func, &dynamic_name, get_key = std::move(get_key)](nemesis::CompileState& state)
         {
             const std::string name = dynamic_name.GetValue(state);
             const std::string& key = (*get_key)(state);
@@ -303,7 +304,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
 
     if (name == "@Map")
     {
-        IsTrueFunction = [get_request_func, get_key](nemesis::CompileState& state)
+        IsTrueFunction = [get_request_func, get_key = std::move(get_key)](nemesis::CompileState& state)
         {
             auto request = (*get_request_func)(state);
             return !request->GetMapValueList((*get_key)(state)).empty();
@@ -313,7 +314,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
 
     if (!templt_class->GetModel(name)) throw std::runtime_error("Unsupported option name (" + name + ")");
 
-    IsTrueFunction = [get_request_func, &name, get_key](nemesis::CompileState& state)
+    IsTrueFunction = [get_request_func, &name, get_key = std::move(get_key)](nemesis::CompileState& state)
     {
         size_t index = std::stoul((*get_key)(state));
         auto request = (*get_request_func)(state);

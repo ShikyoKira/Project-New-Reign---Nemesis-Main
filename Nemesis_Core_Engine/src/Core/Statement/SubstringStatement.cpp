@@ -4,27 +4,27 @@
 
 void nemesis::SubstringStatement::Parse3Components(const nemesis::SemanticManager& manager)
 {
-    SPtr<std::function<std::string(nemesis::CompileState&)>> get_value;
-    SPtr<std::function<size_t(nemesis::CompileState&)>> get_index;
+    UPtr<std::function<std::string(nemesis::CompileState&)>> get_value;
+    UPtr<std::function<size_t(nemesis::CompileState&)>> get_index;
     auto& value = Components[1];
     auto& index = Components.back();
 
     if (IsComplexComponent(value))
     {
         auto& dynamic_value = DynamicComponents.emplace_back(value, LineNum, FilePath, manager);
-        get_value           = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_value           = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_value](nemesis::CompileState& state) { return dynamic_value.GetValue(state); });
     }
     else
     {
-        get_value = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_value = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&value](nemesis::CompileState& state) { return value; });
     }
 
     if (IsComplexComponent(index))
     {
         auto& dynamic_index = DynamicComponents.emplace_back(index, LineNum, FilePath, manager);
-        get_index           = std::make_shared<std::function<size_t(nemesis::CompileState&)>>(
+        get_index           = std::make_unique<std::function<size_t(nemesis::CompileState&)>>(
             [this, &dynamic_index](nemesis::CompileState& state)
             {
                 std::string index = dynamic_index.GetValue(state);
@@ -42,19 +42,20 @@ void nemesis::SubstringStatement::Parse3Components(const nemesis::SemanticManage
         }
 
         size_t i_index = std::stoul(index);
-        get_index      = std::make_shared<std::function<size_t(nemesis::CompileState&)>>(
+        get_index      = std::make_unique<std::function<size_t(nemesis::CompileState&)>>(
             [i_index](nemesis::CompileState& state) { return i_index; });
     }
 
-    GetValueFunction = [get_value, get_index](nemesis::CompileState& state)
+    GetValueFunction
+        = [get_value = std::move(get_value), get_index = std::move(get_index)](nemesis::CompileState& state)
     { return (*get_value)(state).substr((*get_index)(state)); };
 }
 
 void nemesis::SubstringStatement::Parse4Components(const nemesis::SemanticManager& manager)
 {
-    SPtr<std::function<std::string(nemesis::CompileState&)>> get_value;
-    SPtr<std::function<size_t(nemesis::CompileState&)>> get_index_1;
-    SPtr<std::function<size_t(nemesis::CompileState&)>> get_index_2;
+    UPtr<std::function<std::string(nemesis::CompileState&)>> get_value;
+    UPtr<std::function<size_t(nemesis::CompileState&)>> get_index_1;
+    UPtr<std::function<size_t(nemesis::CompileState&)>> get_index_2;
     auto& value   = Components[1];
     auto& index_1 = Components[2];
     auto& index_2 = Components.back();
@@ -62,19 +63,19 @@ void nemesis::SubstringStatement::Parse4Components(const nemesis::SemanticManage
     if (IsComplexComponent(value))
     {
         auto& dynamic_value = DynamicComponents.emplace_back(value, LineNum, FilePath, manager);
-        get_value           = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_value           = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_value](nemesis::CompileState& state) { return dynamic_value.GetValue(state); });
     }
     else
     {
-        get_value = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_value = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&value](nemesis::CompileState& state) { return value; });
     }
 
     if (IsComplexComponent(index_1))
     {
         auto& dynamic_index = DynamicComponents.emplace_back(index_1, LineNum, FilePath, manager);
-        get_index_1         = std::make_shared<std::function<size_t(nemesis::CompileState&)>>(
+        get_index_1         = std::make_unique<std::function<size_t(nemesis::CompileState&)>>(
             [this, &dynamic_index](nemesis::CompileState& state)
             {
                 std::string index = dynamic_index.GetValue(state);
@@ -92,14 +93,14 @@ void nemesis::SubstringStatement::Parse4Components(const nemesis::SemanticManage
         }
 
         size_t i_index = std::stoul(index_1);
-        get_index_1    = std::make_shared<std::function<size_t(nemesis::CompileState&)>>(
+        get_index_1    = std::make_unique<std::function<size_t(nemesis::CompileState&)>>(
             [i_index](nemesis::CompileState& state) { return i_index; });
     }
 
     if (IsComplexComponent(index_2))
     {
         auto& dynamic_index = DynamicComponents.emplace_back(index_2, LineNum, FilePath, manager);
-        get_index_2         = std::make_shared<std::function<size_t(nemesis::CompileState&)>>(
+        get_index_2         = std::make_unique<std::function<size_t(nemesis::CompileState&)>>(
             [this, &dynamic_index](nemesis::CompileState& state)
             {
                 std::string index = dynamic_index.GetValue(state);
@@ -120,11 +121,14 @@ void nemesis::SubstringStatement::Parse4Components(const nemesis::SemanticManage
         }
 
         size_t i_index = std::stoul(index_2);
-        get_index_2    = std::make_shared<std::function<size_t(nemesis::CompileState&)>>(
+        get_index_2    = std::make_unique<std::function<size_t(nemesis::CompileState&)>>(
             [i_index](nemesis::CompileState& state) { return i_index; });
     }
 
-    GetValueFunction = [get_value, get_index_1, get_index_2](nemesis::CompileState& state)
+    GetValueFunction = [get_value   = std::move(get_value),
+                        get_index_1 = std::move(get_index_1),
+                        get_index_2 = std::move(get_index_2)](
+                           nemesis::CompileState& state)
     { return (*get_value)(state).substr((*get_index_1)(state), (*get_index_2)(state)); };
 }
 

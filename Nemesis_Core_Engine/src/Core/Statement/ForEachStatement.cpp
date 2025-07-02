@@ -320,21 +320,22 @@ void nemesis::ForEachStatement::Parse2Components(nemesis::SemanticManager& manag
     auto& key = Components.back();
     Type      = nemesis::ForEachStatement::MAP;
     Key       = &key;
-    SPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
+    UPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
 
     if (IsComplexComponent(key))
     {
         const auto& dynamic_key = DynamicComponents.emplace_back(key, LineNum, FilePath, manager);
-        get_key                 = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key                 = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_key](nemesis::CompileState& state) { return dynamic_key.GetValue(state); });
     }
     else
     {
-        get_key = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&key](nemesis::CompileState& state) { return key; });
     }
 
-    ForEachFunction = [this, get_key](nemesis::CompileState& state, std::function<void()> action)
+    ForEachFunction
+        = [this, get_key = std::move(get_key)](nemesis::CompileState& state, std::function<void()> action)
     {
         std::string key         = (*get_key)(state);
         auto request            = GetBaseRequest(state);
@@ -466,12 +467,12 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
 
     Type = nemesis::ForEachStatement::OPTION;
     Key  = &option;
-    SPtr<std::function<std::string(nemesis::CompileState&)>> get_option;
+    UPtr<std::function<std::string(nemesis::CompileState&)>> get_option;
 
     if (IsComplexComponent(option))
     {
         const auto& dynamic_option = DynamicComponents.emplace_back(option, LineNum, FilePath, manager);
-        get_option                 = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_option                 = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [this, &dynamic_option, templt_class](nemesis::CompileState& state)
             {
                 auto option = dynamic_option.GetValue(state);
@@ -494,12 +495,12 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
             ThrowSyntaxError("Unsupported option name (" + option + ")");
         }
 
-        get_option = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_option = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&option](nemesis::CompileState& state) { return option; });
     }
 
-    ForEachFunction
-        = [this, get_request, get_option](nemesis::CompileState& state, std::function<void()> action)
+    ForEachFunction = [this, get_request, get_option = std::move(get_option)](nemesis::CompileState& state,
+                                                                              std::function<void()> action)
     {
         auto request  = (*get_request)(state);
         auto name     = (*get_option)(state);
@@ -543,13 +544,13 @@ bool nemesis::ForEachStatement::Parse4Components(nemesis::SemanticManager& manag
     auto& key = Components.back();
     Type      = nemesis::ForEachStatement::MAP;
     Key       = &key;
-    SPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
+    UPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
 
     if (IsComplexComponent(key))
     {
         auto sptr_manager          = std::make_shared<nemesis::SemanticManager>(manager);
         const auto& dynamic_option = DynamicComponents.emplace_back(key, LineNum, FilePath, manager);
-        get_key                    = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key                    = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [this, &dynamic_option, sptr_manager](nemesis::CompileState& state)
             {
                 std::string key = dynamic_option.GetValue(state);
@@ -569,14 +570,15 @@ bool nemesis::ForEachStatement::Parse4Components(nemesis::SemanticManager& manag
             ThrowInaccessibleError("Unable to get target map value from queue");
         }
 
-        get_key = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        get_key = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&key](nemesis::CompileState& state) { return key; });
     }
 
     auto templt_class = manager.GetCurrentTemplateClass();
     auto get_request  = GetTargetRequest(*templt_class, manager);
 
-    ForEachFunction = [this, get_request, get_key](nemesis::CompileState& state, std::function<void()> action)
+    ForEachFunction = [this, get_request, get_key = std::move(get_key)](nemesis::CompileState& state,
+                                                                        std::function<void()> action)
     {
         auto request = (*get_request)(state);
         auto key     = (*get_key)(state);

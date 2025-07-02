@@ -21,16 +21,17 @@ nemesis::AnimationOrderStatement::AnimationOrderStatement(const std::string& exp
     if (IsComplexComponent(char_path))
     {
         auto& dynamic_char_path = DynamicComponents.emplace_back(char_path, linenum, filepath, manager);
-        auto get_char_path      = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        auto get_char_path      = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_char_path](nemesis::CompileState& state) { return dynamic_char_path.GetValue(state); });
 
         if (IsComplexComponent(anim_path))
         {
             auto& dynamic_anim_path = DynamicComponents.emplace_back(anim_path, linenum, filepath, manager);
-            auto get_anim_path      = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+            auto get_anim_path      = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
                 [&dynamic_anim_path](nemesis::CompileState& state)
                 { return dynamic_anim_path.GetValue(state); });
-            GetValueFunction = [&get_char_path, &get_anim_path](nemesis::CompileState& state)
+            GetValueFunction = [get_char_path = std::move(get_char_path),
+                                get_anim_path = std::move(get_anim_path)](nemesis::CompileState& state)
             {
                 auto char_path = (*get_char_path)(state);
                 auto anim_path = (*get_anim_path)(state);
@@ -39,7 +40,8 @@ nemesis::AnimationOrderStatement::AnimationOrderStatement(const std::string& exp
             return;
         }
 
-        GetValueFunction = [&get_char_path, &anim_path](nemesis::CompileState& state)
+        GetValueFunction
+            = [get_char_path = std::move(get_char_path), &anim_path](nemesis::CompileState& state)
         {
             auto char_path = (*get_char_path)(state);
             return std::to_string(state.GetAnimationOrder(char_path, anim_path));
@@ -55,9 +57,9 @@ nemesis::AnimationOrderStatement::AnimationOrderStatement(const std::string& exp
     }
 
     auto& dynamic_anim_path = DynamicComponents.emplace_back(anim_path, linenum, filepath, manager);
-    auto get_anim_path      = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+    auto get_anim_path      = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
         [&dynamic_anim_path](nemesis::CompileState& state) { return dynamic_anim_path.GetValue(state); });
-    GetValueFunction = [&char_path, &get_anim_path](nemesis::CompileState& state)
+    GetValueFunction = [&char_path, get_anim_path = std::move(get_anim_path)](nemesis::CompileState& state)
     {
         auto anim_path = (*get_anim_path)(state);
         return std::to_string(state.GetAnimationOrder(char_path, anim_path));
@@ -66,5 +68,12 @@ nemesis::AnimationOrderStatement::AnimationOrderStatement(const std::string& exp
 
 std::string nemesis::AnimationOrderStatement::GetValue(nemesis::CompileState& state) const
 {
-    return GetValueFunction(state);
+    try
+    {
+        return GetValueFunction(state);
+    }
+    catch (const std::runtime_error& ex)
+    {
+        ThrowInaccessibleError(ex.what());
+    }
 }

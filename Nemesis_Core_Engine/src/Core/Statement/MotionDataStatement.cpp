@@ -11,10 +11,11 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
     if (IsComplexComponent(index_str))
     {
         auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
-        auto get_index      = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        auto get_index      = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
-        auto sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
-        GetValueFunction  = [this, get_index, sptr_manager](nemesis::CompileState& state)
+        auto uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
+        GetValueFunction  = [this, get_index = std::move(get_index), uptr_manager = std::move(uptr_manager)](
+                               nemesis::CompileState& state)
         {
             auto list = GetBaseRequest(state)->GetMotionDataList();
 
@@ -40,7 +41,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
 
             if (index_str == "")
             {
-                if (!sptr_manager->HasMotionDataInQueue())
+                if (!uptr_manager->HasMotionDataInQueue())
                 {
                     ThrowInaccessibleError("Unable to get target motion data from queue");
                 }
@@ -60,7 +61,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
                 }
                 case 'B':
                 {
-                    if (!sptr_manager->HasMotionDataInQueue())
+                    if (!uptr_manager->HasMotionDataInQueue())
                     {
                         ThrowInaccessibleError("Unable to get target motion data from queue");
                     }
@@ -73,7 +74,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
                 }
                 case 'N':
                 {
-                    if (!sptr_manager->HasMotionDataInQueue())
+                    if (!uptr_manager->HasMotionDataInQueue())
                     {
                         ThrowInaccessibleError("Unable to get target motion data from queue");
                     }
@@ -195,10 +196,12 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
     if (IsComplexComponent(index_str))
     {
         auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
-        auto get_index      = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        auto get_index      = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
-        auto sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
-        GetValueFunction  = [this, get_request, get_index, sptr_manager](nemesis::CompileState& state)
+        auto uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
+        GetValueFunction
+            = [this, get_request, get_index = std::move(get_index), uptr_manager = std::move(uptr_manager)](
+                  nemesis::CompileState& state)
         {
             auto request = (*get_request)(state);
             auto list    = request->GetMotionDataList();
@@ -225,7 +228,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
 
             if (index_str == "")
             {
-                if (!sptr_manager->HasRequestMotionDataInQueue(Components.front()))
+                if (!uptr_manager->HasRequestMotionDataInQueue(Components.front()))
                 {
                     ThrowInaccessibleError("Unable to get target motion data from queue");
                 }
@@ -245,7 +248,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                 }
                 case 'B':
                 {
-                    if (!sptr_manager->HasRequestMotionDataInQueue(Components.front()))
+                    if (!uptr_manager->HasRequestMotionDataInQueue(Components.front()))
                     {
                         ThrowInaccessibleError("Unable to get target motion data from queue");
                     }
@@ -258,7 +261,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                 }
                 case 'N':
                 {
-                    if (!sptr_manager->HasRequestMotionDataInQueue(Components.front()))
+                    if (!uptr_manager->HasRequestMotionDataInQueue(Components.front()))
                     {
                         ThrowInaccessibleError("Unable to get target motion data from queue");
                     }

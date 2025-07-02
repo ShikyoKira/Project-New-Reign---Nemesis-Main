@@ -11,10 +11,11 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
     if (IsComplexComponent(index_str))
     {
         auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
-        auto get_index      = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        auto get_index      = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
-        auto sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
-        GetValueFunction  = [this, get_index, sptr_manager](nemesis::CompileState& state)
+        auto uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
+        GetValueFunction  = [this, get_index = std::move(get_index), uptr_manager = std::move(uptr_manager)](
+                               nemesis::CompileState& state)
         {
             auto list = GetBaseRequest(state)->GetRotationDataList();
 
@@ -40,7 +41,7 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
 
             if (index_str == "")
             {
-                if (!sptr_manager->HasRotationDataInQueue())
+                if (!uptr_manager->HasRotationDataInQueue())
                 {
                     ThrowInaccessibleError("Unable to get target rotation data from queue");
                 }
@@ -60,7 +61,7 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
                 }
                 case 'B':
                 {
-                    if (!sptr_manager->HasRotationDataInQueue())
+                    if (!uptr_manager->HasRotationDataInQueue())
                     {
                         ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
@@ -73,7 +74,7 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
                 }
                 case 'N':
                 {
-                    if (!sptr_manager->HasRotationDataInQueue())
+                    if (!uptr_manager->HasRotationDataInQueue())
                     {
                         ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
@@ -195,10 +196,12 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
     if (IsComplexComponent(index_str))
     {
         auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
-        auto get_index      = std::make_shared<std::function<std::string(nemesis::CompileState&)>>(
+        auto get_index      = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
-        auto sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
-        GetValueFunction  = [this, get_request, get_index, sptr_manager](nemesis::CompileState& state)
+        auto uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
+        GetValueFunction
+            = [this, get_request, get_index = std::move(get_index), uptr_manager = std::move(uptr_manager)](
+                  nemesis::CompileState& state)
         {
             auto request = (*get_request)(state);
             auto list    = request->GetRotationDataList();
@@ -229,7 +232,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
 
             if (index_str == "")
             {
-                if (!sptr_manager->HasRequestRotationDataInQueue(Components.front()))
+                if (!uptr_manager->HasRequestRotationDataInQueue(Components.front()))
                 {
                     ThrowInaccessibleError("Unable to get target rotation data from queue");
                 }
@@ -249,7 +252,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                 }
                 case 'B':
                 {
-                    if (!sptr_manager->HasRequestRotationDataInQueue(Components.front()))
+                    if (!uptr_manager->HasRequestRotationDataInQueue(Components.front()))
                     {
                         ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
@@ -262,7 +265,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                 }
                 case 'N':
                 {
-                    if (!sptr_manager->HasRequestRotationDataInQueue(Components.front()))
+                    if (!uptr_manager->HasRequestRotationDataInQueue(Components.front()))
                     {
                         ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
