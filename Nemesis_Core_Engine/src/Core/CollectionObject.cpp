@@ -109,7 +109,7 @@ void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(const std::string&
             break;
         }
 
-        orig_line_ptr->MatchAndUpdate(mod_code, * line_ptr);
+        orig_line_ptr->MatchAndUpdate(mod_code, *line_ptr);
     }
 
     if (new_index_begin == 0) return;
