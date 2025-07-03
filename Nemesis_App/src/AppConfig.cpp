@@ -16,8 +16,14 @@ AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: \"" + QString::fromStdWString(filepath).toStdString()
+#if WIN32
+        auto u8str = filepath.u8string();
+        throw std::runtime_error("Failed to open file: \"" + std::string(u8str.begin(), u8str.end())
                                  + "\"\nMessage: " + ec.message());
+#else
+        throw std::runtime_error("Failed to open file: \"" + filepath.string()
+                                 + "\"\nMessage: " + ec.message());
+#endif
     }
 
     QTextStream file_stream(&file);
@@ -35,14 +41,14 @@ AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
         {"DataDirectory",
          [this](const std::string& line)
          {
-             DataDirectory
-                 = QString(std::filesystem::path(std::u8string(line.begin(), line.end())).wstring());
+             auto u8str    = std::u8string(line.begin(), line.end());
+             DataDirectory = QString::fromStdWString(std::filesystem::path(u8str).wstring());
          }},
         {"StageDirectory",
          [this](const std::string& line)
          {
-             StageDirectory
-                 = QString(std::filesystem::path(std::u8string(line.begin(), line.end())).wstring());
+             auto u8str     = std::u8string(line.begin(), line.end());
+             StageDirectory = QString::fromStdWString(std::filesystem::path(u8str).wstring());
          }},
         {"Platform",
          [&platforms, this](const std::string& line)

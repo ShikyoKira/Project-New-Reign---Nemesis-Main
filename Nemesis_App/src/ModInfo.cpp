@@ -13,8 +13,14 @@ void ModInfo::ReadFile(const std::filesystem::path& infopath)
     if (!info_file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: \"" + QString::fromStdWString(infopath).toStdString()
+#if WIN32
+        auto u8str = infopath.u8string();
+        throw std::runtime_error("Failed to open file: \"" + std::string(u8str.begin(), u8str.end())
                                  + "\"\nMessage: " + ec.message());
+#else
+        throw std::runtime_error("Failed to open file: \"" + filepath.string()
+                                 + "\"\nMessage: " + ec.message());
+#endif
     }
 
     QTextStream file_stream(&info_file);

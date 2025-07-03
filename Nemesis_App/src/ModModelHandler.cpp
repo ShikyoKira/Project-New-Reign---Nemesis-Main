@@ -1,6 +1,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QRegularExpression>
+#include <QDirIterator>
 
 #include <iostream>
 
@@ -14,18 +15,18 @@ ModModelHandler::ModModelHandler(QObject *parent) : QObject(parent)
 void ModModelHandler::populateModel(const QString& mods_dir, bool is_devmode)
 {
     QVariantList data_list;
+    QDirIterator it(mods_dir, QDir::Dirs);
 
-    for (auto& entry : std::filesystem::directory_iterator(mods_dir.toStdWString()))
+    while (it.hasNext())
     {
-        if (!entry.is_directory()) continue;
+        QDir entry = it.next();
+        QDir ini_path = entry.filePath("info.ini");
 
-        auto ini_path = entry.path() / "info.ini";
-
-        if (!std::filesystem::exists(ini_path)) continue;
+        if (!std::filesystem::exists(ini_path.filesystemPath())) continue;
 
         ModInfo mod_info;
-        mod_info.ReadFile(ini_path);
-        mod_info.SetModCode(QString::fromStdWString(entry.path().stem().wstring()).toLower().toStdString());
+        mod_info.ReadFile(ini_path.filesystemPath());
+        mod_info.SetModCode(QFileInfo(entry.path()).baseName().toLower().toStdString());
 
         QVariantMap mod_info_map;
         mod_info_map["checked"]      = !is_devmode;
