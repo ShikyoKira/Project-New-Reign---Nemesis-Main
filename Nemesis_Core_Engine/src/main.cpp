@@ -352,6 +352,7 @@ int main(int argc, char* argv[])
         StopProcessFlag = true;
         std::cout << std::endl;
         Logger::Log(std::string("[ERROR] ") + ex.what(), true);
+        std::cout << std::endl;
         return 1;
     }
     catch (...)
@@ -359,6 +360,7 @@ int main(int argc, char* argv[])
         StopProcessFlag = true;
         std::cout << std::endl;
         Logger::Log("[ERROR] Unknown exception captured", true);
+        std::cout << std::endl;
         return 1;
     }
 }

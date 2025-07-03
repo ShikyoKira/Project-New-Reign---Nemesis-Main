@@ -110,14 +110,18 @@ namespace nemesis
                               catch (const std::exception& ex)
                               {
                                   StopProcessFlag = true;
-                                  Logger::Log(std::string("[ERROR] ") + ex.what(), true);
                                   error = true;
+                                  std::cout << std::endl;
+                                  Logger::Log(std::string("[ERROR] ") + ex.what(), true);
+                                  std::cout << std::endl;
                               }
                               catch (...)
                               {
                                   StopProcessFlag = true;
-                                  Logger::Log("[ERROR] Unknown exception captured", true);
                                   error = true;
+                                  std::cout << std::endl;
+                                  Logger::Log("[ERROR] Unknown exception captured", true);
+                                  std::cout << std::endl;
                               }
                           });
         }
