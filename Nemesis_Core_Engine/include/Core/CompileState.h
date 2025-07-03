@@ -48,7 +48,9 @@ namespace nemesis
         const nemesis::SubTemplateRequest* CurrentSubTemplateRequest = nullptr;
 
         UMap<std::string, std::string> EventMap;
+        UMap<std::string, std::string> EventNameMap;
         UMap<std::string, std::string> VariableMap;
+        UMap<std::string, std::string> VariableNameMap;
         UMap<std::string, std::string> AttributeMap;
         UMap<std::string, std::string> PropertyMap;
         UMap<std::string, std::string> StateMap;
@@ -172,10 +174,14 @@ namespace nemesis
 
         bool TryGetEventID(const std::string& name, std::string& out) const;
         const std::string& GetEventID(const std::string& name) const;
+        bool TryGetEventName(const std::string& id, std::string& out) const;
+        const std::string& GetEventName(const std::string& id) const;
         const std::string& AddEventName(const std::string& name);
 
         bool TryGetVariableID(const std::string& name, std::string& out) const;
         const std::string& GetVariableID(const std::string& name);
+        bool TryGetVariableName(const std::string& id, std::string& out) const;
+        const std::string& GetVariableName(const std::string& id) const;
         const std::string& AddVariableName(const std::string& name);
         
         bool TryGetAttributeID(const std::string& name, std::string& out) const;

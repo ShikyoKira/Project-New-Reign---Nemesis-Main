@@ -122,12 +122,122 @@ bool nemesis::HkxNode::IsNodeEnd(nemesis::LineStream& stream, bool& start)
     return true;
 }
 
+void nemesis::HkxNode::TryInjectEventNames(DeqNstr& lines, size_t start_pos, nemesis::CompileState& state) const
+{
+    static USet<std::string> classes_with_events = {
+        "hkbEventDrivenModifier",
+        "hkbSequence",
+        "hkbStateMachine"
+        "hkbStateMachineTimeInterval",
+        "hkbStateMachineTransitionInfoArray",
+    };
+
+    static USet<std::string> event_classes = {"BSCyclicBlendTransitionGenerator",
+                                              "BSDistTriggerModifier",
+                                              "BSEventEveryNEventsModifier",
+                                              "BSEventOnDeactivateModifier",
+                                              "BSEventOnFalseToTrueModifier",
+                                              "BSLookAtModifier",
+                                              "BSPassByTargetTriggerModifier",
+                                              "BSRagdollContactListenerModifier",
+                                              "BSTimerModifier",
+                                              "hkbAttachmentModifier",
+                                              "hkbClipTriggerArray",
+                                              "hkbDetectCloseToGroundModifier",
+                                              "hkbEventRangeDataArray",
+                                              "hkbEventSequencedData",
+                                              "hkbFootIkControlsModifier",
+                                              "hkbFootIkModifier",
+                                              "hkbStateMachine",
+                                              "hkbSenseHandleModifier",
+                                              "hkbStateMachineEventPropertyArray",
+                                              "hkbStateMachineStateInfo",
+                                              "hkbTimerModifier"};
+
+    const std::regex* rgx = nullptr;
+
+    if (classes_with_events.find(ClassName) != classes_with_events.end())
+    {
+        static const std::regex event_param_rgx("^.*<hkparam name=\"\\w+[eE]ventId\">([^<]+)</hkparam>.*$");
+        rgx = &event_param_rgx;
+    }
+    else if (event_classes.find(ClassName) != event_classes.end())
+    {
+        static const std::regex event_param_rgx("^.*<hkparam name=\"id\">([^<]+)</hkparam>.*$");
+        rgx = &event_param_rgx;
+    }
+    else
+    {
+        return;
+    }
+
+    for (size_t i = start_pos; i < lines.size(); ++i)
+    {
+        auto& line = lines[i];
+        std::smatch match;
+
+        if (!std::regex_match(line.ToString(), match, *rgx)) continue;
+
+        std::string id = match.str(1);
+
+        if (id == "-1") continue;
+
+        std::string name;
+
+        if (!state.TryGetEventName(id, name))
+        {
+            throw std::runtime_error("Invalid Value: Event name not found (Id: " + id
+                                     + ", Line: " + std::to_string(line.GetLineNumber())
+                                     + ", File: " + nemesis::to_utf8_string(line.GetFilePath()) + ") ");
+        }
+
+        line += "\t\t\t<!-- " + name + "-->";
+    }
+}
+
+void nemesis::HkxNode::TryInjectVariableNames(DeqNstr& lines,
+                                              size_t start_pos,
+                                              nemesis::CompileState& state) const
+{
+    if (ClassName != "hkbVariableBindingSet") return;
+
+    static const std::regex var_param_rgx("^.*<hkparam name=\"variableIndex\">([^<]+)</hkparam>.*$");
+
+    for (size_t i = start_pos; i < lines.size(); ++i)
+    {
+        auto& line = lines[i];
+        std::smatch match;
+
+        if (!std::regex_match(line.ToString(), match, var_param_rgx)) continue;
+
+        std::string id = match.str(1);
+
+        if (id == "-1") continue;
+
+        std::string name;
+
+        if (!state.TryGetVariableName(id, name))
+        {
+            throw std::runtime_error("Invalid Value: Variable name not found (Id: " + id
+                                     + ", Line: " + std::to_string(line.GetLineNumber())
+                                     + ", File: " + nemesis::to_utf8_string(line.GetFilePath()) + ") ");
+        }
+
+        line += "\t\t\t<!-- " + name + "-->";
+    }
+}
+
 void nemesis::HkxNode::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
 {
     size_t size = lines.size();
     Data->CompileTo(lines, state);
 
-    if (size >= lines.size() || ClassName != "hkbClipGenerator" || !HkxDocument) return;
+    if (size >= lines.size()) return;
+
+    TryInjectEventNames(lines, size, state);
+    TryInjectVariableNames(lines, size, state);
+
+    if (ClassName != "hkbClipGenerator" || !HkxDocument) return;
 
     auto& target          = HkxDocument->GetTargetPath();
     auto& alter_anim_repo = state.GetAlterAnimRepository();

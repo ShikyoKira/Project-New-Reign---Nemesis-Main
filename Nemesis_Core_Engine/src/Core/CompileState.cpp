@@ -652,9 +652,33 @@ const std::string& nemesis::CompileState::GetEventID(const std::string& name) co
     throw std::runtime_error("Event id not found (Name: " + name + ")");
 }
 
+bool nemesis::CompileState::TryGetEventName(const std::string& id, std::string& out) const
+{
+    auto itr = EventNameMap.find(id);
+
+    if (itr != EventNameMap.end())
+    {
+        out = itr->second;
+        return true;
+    }
+
+    return false;
+}
+
+const std::string& nemesis::CompileState::GetEventName(const std::string& id) const
+{
+    auto itr = EventNameMap.find(id);
+
+    if (itr != EventNameMap.end()) return itr->second;
+
+    throw std::runtime_error("Event name not found (Id: " + id + ")");
+}
+
 const std::string& nemesis::CompileState::AddEventName(const std::string& name)
 {
-    return EventMap[name] = std::to_string(EventMap.size());
+    std::string id        = std::to_string(EventMap.size());
+    EventNameMap[id]      = name;
+    return EventMap[name] = id;
 }
 
 bool nemesis::CompileState::TryGetVariableID(const std::string& name, std::string& out) const
@@ -679,9 +703,33 @@ const std::string& nemesis::CompileState::GetVariableID(const std::string& name)
     throw std::runtime_error("Variable id not found (Name: " + name + ")");
 }
 
+bool nemesis::CompileState::TryGetVariableName(const std::string& id, std::string& out) const
+{
+    auto itr = VariableNameMap.find(id);
+
+    if (itr != VariableNameMap.end())
+    {
+        out = itr->second;
+        return true;
+    }
+
+    return false;
+}
+
+const std::string& nemesis::CompileState::GetVariableName(const std::string& id) const
+{
+    auto itr = VariableNameMap.find(id);
+
+    if (itr != VariableNameMap.end()) return itr->second;
+
+    throw std::runtime_error("Variable name not found (Id: " + id + ")");
+}
+
 const std::string& nemesis::CompileState::AddVariableName(const std::string& name)
 {
-    return VariableMap[name] = std::to_string(VariableMap.size());
+    std::string id           = std::to_string(VariableMap.size());
+    VariableNameMap[id]      = name;
+    return VariableMap[name] = id;
 }
 
 bool nemesis::CompileState::TryGetAttributeID(const std::string& name, std::string& out) const
