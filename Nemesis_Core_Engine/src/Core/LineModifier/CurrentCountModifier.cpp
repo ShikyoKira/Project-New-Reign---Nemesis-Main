@@ -14,7 +14,7 @@ nemesis::CurrentCountModifier::CurrentCountModifier(size_t begin,
                                                     const nemesis::SemanticManager& manager)
     : nemesis::LineModifier(begin, end)
 {
-    auto components = nemesis::Statement::SplitComponents(expression);
+    auto components = nemesis::Statement::SplitComponents(expression, linenum, filepath);
 
     if (components.size() != 2)
     {

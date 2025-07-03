@@ -417,9 +417,12 @@ nemesis::ConditionalStatement::ConditionalAnimationRequest::GetRequest(nemesis::
 }
 
 bool nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
-    const std::string& term, const nemesis::TemplateObject& template_object)
+    const std::string& term,
+    const nemesis::TemplateObject& template_object,
+    size_t linenum,
+    const std::filesystem::path& filepath)
 {
-    auto components   = nemesis::Statement::SplitComponents(term);
+    auto components   = nemesis::Statement::SplitComponents(term, linenum, filepath);
     auto templt_class = template_object.GetTemplateClass();
 
     switch (components.size())
@@ -473,9 +476,12 @@ nemesis::ConditionalStatement::ConditionalOption::NotEqualsTo(ConditionalOption*
 }
 
 bool nemesis::ConditionalStatement::ConditionalOption::IsOption(
-    const std::string& expression, const nemesis::TemplateObject& template_object)
+    const std::string& expression,
+    const nemesis::TemplateObject& template_object,
+    size_t linenum,
+    const std::filesystem::path& filepath)
 {
-    auto components   = nemesis::Statement::SplitComponents(expression);
+    auto components   = nemesis::Statement::SplitComponents(expression, linenum, filepath);
     auto templt_class = template_object.GetTemplateClass();
 
     switch (components.size())
@@ -901,7 +907,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                 auto& templt_obj = *SemanticManager.GetCurrentTemplate();
 
                 if (nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
-                        token.Value, templt_obj))
+                        token.Value, templt_obj, LineNum, *FilePathPtr))
                 {
                     req = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);
@@ -910,7 +916,8 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                         token2.Value, LineNum, *FilePathPtr, SemanticManager);
                     return req->EqualsTo(req2);
                 }
-                else if (nemesis::ConditionalStatement::ConditionalOption::IsOption(token.Value, templt_obj))
+                else if (nemesis::ConditionalStatement::ConditionalOption::IsOption(
+                             token.Value, templt_obj, LineNum, *FilePathPtr))
                 {
                     opt = new nemesis::ConditionalStatement::ConditionalOption(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);
@@ -935,7 +942,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                 auto& templt_obj = *SemanticManager.GetCurrentTemplate();
 
                 if (nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
-                        token.Value, *SemanticManager.GetCurrentTemplate()))
+                        token.Value, *SemanticManager.GetCurrentTemplate(), LineNum, *FilePathPtr))
                 {
                     req = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);
@@ -944,7 +951,8 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                         token2.Value, LineNum, *FilePathPtr, SemanticManager);
                     return req->NotEqualsTo(req2);
                 }
-                else if (nemesis::ConditionalStatement::ConditionalOption::IsOption(token.Value, templt_obj))
+                else if (nemesis::ConditionalStatement::ConditionalOption::IsOption(
+                             token.Value, templt_obj, LineNum, *FilePathPtr))
                 {
                     opt = new nemesis::ConditionalStatement::ConditionalOption(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);

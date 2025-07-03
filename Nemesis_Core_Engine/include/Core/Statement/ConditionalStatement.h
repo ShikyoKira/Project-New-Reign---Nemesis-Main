@@ -106,7 +106,10 @@ namespace nemesis
 
             const nemesis::AnimationRequest* GetRequest(nemesis::CompileState& state) const;
 
-            static bool IsAnimationRequest(const std::string& term, const nemesis::TemplateObject& template_object);
+            static bool IsAnimationRequest(const std::string& term,
+                                           const nemesis::TemplateObject& template_object,
+                                           size_t linenum,
+                                           const std::filesystem::path& filepath);
         };
 
         struct ConditionalOption : public nemesis::OptionStatement, public nemesis::NonCopyableStruct
@@ -123,7 +126,9 @@ namespace nemesis
             NotEqualsTo(ConditionalOption* option) noexcept;
 
             static bool IsOption(const std::string& term,
-                                           const nemesis::TemplateObject& template_object);
+                                 const nemesis::TemplateObject& template_object,
+                                 size_t linenum,
+                                 const std::filesystem::path& filepath);
         };
 
         struct ConditionOptionComparer : public nemesis::ConditionalStatement::ConditionalNode,

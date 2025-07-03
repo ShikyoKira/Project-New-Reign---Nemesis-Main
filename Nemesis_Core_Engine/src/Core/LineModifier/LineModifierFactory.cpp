@@ -161,7 +161,7 @@ nemesis::LineModifierFactory::BuildModifier(size_t begin,
         return std::make_shared<nemesis::CounterModifier>(begin - 1, end - 1, match[1], linenum, filepath);
     }
 
-    auto components = nemesis::Statement::SplitComponents(component);
+    auto components = nemesis::Statement::SplitComponents(component, linenum, filepath);
     auto& first     = components.front();
     auto& last      = components.back();
 

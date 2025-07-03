@@ -49,6 +49,8 @@ namespace nemesis
 
         virtual std::string Serialize() const = 0;
 
-        static VecStr SplitComponents(const std::string& value);
+        VecStr SplitComponents(const std::string& value);
+        static VecStr
+        SplitComponents(const std::string& value, size_t linenum, const std::filesystem::path& filepath);
     };
 }

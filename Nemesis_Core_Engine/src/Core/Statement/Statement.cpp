@@ -291,10 +291,10 @@ const nemesis::AnimationRequest* nemesis::Statement::GetBaseRequest(nemesis::Com
 
     if (!request)
     {
-        throw std::runtime_error("Invalid Access: Base request cannot be found. Use specific "
-                                 "request reference instead (<template_code>[]) (Expression: "
-                                 + Expression + ", Line: " + std::to_string(LineNum)
-                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+        ThrowInaccessibleError("Base request cannot be found. Use specific "
+                               "request reference instead (<template_code>[]) (Expression: "
+                               + Expression + ", Line: " + std::to_string(LineNum)
+                               + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
     }
 
     return request;
@@ -325,9 +325,7 @@ size_t nemesis::Statement::GetTemplateNumber(const nemesis::TemplateClass& templ
             match,
             std::regex("^" + template_name + "_([1-9]+)\\[.*?\\](?:\\[.+?\\]|)(?:\\[.+?\\]|)?$")))
     {
-        throw std::runtime_error("Syntax Error: Invalid request target (Expression: " + Expression
-                                 + ", Line: " + std::to_string(LineNum)
-                                 + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+        ThrowSyntaxError("Invalid request target");
     }
 
     size_t num = stoi(match.str(1));
@@ -340,9 +338,9 @@ size_t nemesis::Statement::GetTemplateNumber(const nemesis::TemplateClass& templ
 
         if (num - 1 > fnum)
         {
-            throw std::runtime_error("Template can only access to current request, parent "
-                                     "requests and immediate child request. It "
-                                     "cannot access to anything beyond the child requests");
+            ThrowInaccessibleError("Template can only access to current request, parent "
+                                   "requests and immediate child request. It "
+                                   "cannot access to anything beyond the child requests");
         }
     }
 
@@ -378,7 +376,7 @@ VecStr nemesis::Statement::SplitComponents(const std::string& value)
         }
         else if (c == ']')
         {
-            if (!in_bracket) throw std::runtime_error("Syntax Error: Unexpected ']'");
+            if (!in_bracket) ThrowSyntaxError("Unexpected ']'");
 
             if (--bracket_count > 0)
             {
@@ -395,7 +393,7 @@ VecStr nemesis::Statement::SplitComponents(const std::string& value)
         }
         else
         {
-            throw std::runtime_error("Syntax Error: Unexpected character '" + std::string(1, c) + "'");
+            ThrowSyntaxError("Unexpected character '" + std::string(1, c) + "'");
         }
     }
 
@@ -404,9 +402,84 @@ VecStr nemesis::Statement::SplitComponents(const std::string& value)
         components.emplace_back(std::move(cur_com));
     }
 
-    if (in_bracket) throw std::runtime_error("Syntax Error: Unclosed '['");
+    if (in_bracket) ThrowSyntaxError("Unclosed '['");
 
-    if (bracket_count > 0) throw std::runtime_error("Syntax Error: Unmatched '['");
+    if (bracket_count > 0) ThrowSyntaxError("Unmatched '['");
+
+    return components;
+}
+
+VecStr nemesis::Statement::SplitComponents(const std::string& value,
+                                           size_t linenum,
+                                           const std::filesystem::path& filepath)
+{
+    VecStr components;
+    std::string cur_com;
+
+    bool first        = true;
+    bool in_bracket   = false;
+    int bracket_count = 0;
+
+    static std::function<void(const std::string&, const std::string&, size_t, const std::filesystem::path&)>
+        syntax_error = [](const std::string& msg,
+                          const std::string& val,
+                          size_t linenum,
+                          const std::filesystem::path& filepath)
+    {
+        throw std::runtime_error("Syntax Error: " + msg + " (Expression: " + val
+                                 + ", Line: " + std::to_string(linenum)
+                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+    };
+
+    for (const char& c : value)
+    {
+        if (c == '[')
+        {
+            if (first)
+            {
+                components.emplace_back(std::move(cur_com));
+                first = false;
+            }
+
+            if (in_bracket)
+            {
+                cur_com.push_back(c);
+            }
+
+            in_bracket = true;
+            bracket_count++;
+        }
+        else if (c == ']')
+        {
+            if (!in_bracket) syntax_error("Unexpected ']'", value, linenum, filepath);
+
+            if (--bracket_count > 0)
+            {
+                cur_com.push_back(c);
+                continue;
+            }
+
+            components.emplace_back(std::move(cur_com));
+            in_bracket = false;
+        }
+        else if (in_bracket || first)
+        {
+            cur_com.push_back(c);
+        }
+        else
+        {
+            syntax_error("Unexpected character '" + std::string(1, c) + "'", value, linenum, filepath);
+        }
+    }
+
+    if (first)
+    {
+        components.emplace_back(std::move(cur_com));
+    }
+
+    if (in_bracket) syntax_error("Unclosed '['", value, linenum, filepath);
+
+    if (bracket_count > 0) syntax_error("Unmatched '['", value, linenum, filepath);
 
     return components;
 }
