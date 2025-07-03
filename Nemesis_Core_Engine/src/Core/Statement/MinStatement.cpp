@@ -27,9 +27,9 @@ bool nemesis::MinStatement::TryParse3Components(const nemesis::SemanticManager& 
 
     if (IsComplexComponent(val_2))
     {
-        auto& dynamic_val_2 = DynamicComponents.emplace_back(val_1, LineNum, FilePath, manager);
+        auto& dynamic_val_2 = DynamicComponents.emplace_back(val_2, LineNum, FilePath, manager);
         GetValueFunction
-            = [this, &dynamic_val_2, get_val_1 = std::move(get_val_1)](nemesis::CompileState& state)
+            = [this, get_val_1 = std::move(get_val_1), &dynamic_val_2](nemesis::CompileState& state)
         {
             std::string val_1 = (*get_val_1)(state);
             std::string val_2 = dynamic_val_2.GetValue(state);
@@ -50,7 +50,7 @@ bool nemesis::MinStatement::TryParse3Components(const nemesis::SemanticManager& 
     }
     else if (is_only_number(val_2))
     {
-        GetValueFunction = [this, val_2, get_val_1 = std::move(get_val_1)](nemesis::CompileState& state)
+        GetValueFunction = [this, get_val_1 = std::move(get_val_1), val_2](nemesis::CompileState& state)
         {
             std::string val_1 = (*get_val_1)(state);
 
