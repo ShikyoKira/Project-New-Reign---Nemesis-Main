@@ -67,7 +67,7 @@ void nemesis::NObjectRepository::PatchNodeList(
 
         auto& filepath = node->GetFilePath();
         std::filesystem::path relative_path
-            = PATH_TO_STRING(filepath.parent_path()).substr(dir_length + 1) + LITERAL_PATH(".hkx");
+            = PATH_TO_STRING(filepath.parent_path()).substr(dir_length + 1) + LITERAL_PATH(".nemx");
 
         auto* behavior = GetBehavior(relative_path);
         auto node_id   = nemesis::to_utf8_string(filepath.stem());
