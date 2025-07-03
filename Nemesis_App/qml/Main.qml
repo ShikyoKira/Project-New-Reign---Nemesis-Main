@@ -193,7 +193,7 @@ Window {
             }
         });
 
-        modHandler.populateModel(dataDirectory + "\\nemesis_engine\\mods", appConfig.isDevMode());
+        modHandler.populateModel(dataDirectory + "/nemesis_engine/mods", appConfig.isDevMode());
         loader.state = "START";
     }
 
@@ -728,8 +728,8 @@ Window {
 
                         args.push(item.model.mod_code);
                     }
-
-                    appLauncher.launchProgram(dataDirectory + "\\nemesis_engine\\Nemesis_Engine.exe", args);
+                    
+                    appLauncher.launchProgram(dataDirectory + "/nemesis_engine/Nemesis_Engine" + (Qt.platform.os === "windows" ? ".exe" : ""), args);
                     console.log("========= END ===========");
                 }
 

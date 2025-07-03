@@ -36,9 +36,9 @@ void NemesisInfo::PrintHelp(const std::filesystem::path& exe_path)
            "generation and modular data building\n\n"
            "Usage:\n"
         << "     " << nemesis::to_utf8_string(exe_path.filename())
-        << " -p win32 -d \"C:\\Program Files "
-           "(x86)\\steam\\steamapps\\common\\Skyrim Special Edition\\Data\" -o "
-           "\"My\\Staging\\Directory\\Path\" -m tkuc nemesis bcbi\n\n"
+        << " -p win32 -d \"C:/Program Files "
+           "(x86)/steam/steamapps/common/Skyrim Special Edition/Data\" -o "
+           "\"My/Staging/Directory/Path\" -m tkuc nemesis bcbi\n\n"
            "     -h      Help info\n"
            "     -p      Output platform [ps3, ps4, 360, win32 (default), amd64]\n"
            "     -v      Havok version. ie: hk_2010.2.0-r1 (default)\n"

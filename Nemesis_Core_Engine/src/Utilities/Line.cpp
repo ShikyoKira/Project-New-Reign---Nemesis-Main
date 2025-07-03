@@ -383,12 +383,14 @@ std::string nemesis::Line::GetClassName() const noexcept
 {
     std::string format  = "Base";
     std::string path     = nemesis::to_lower_copy(nemesis::to_utf8_string(GetFilePath()));
-    std::string bhv_tmp = "behavior_templates\\";
+    std::string bhv_tmp
+        = "behavior_templates" + std::string(1, static_cast<char>(std::filesystem::path::preferred_separator));
     auto pos             = nemesis::isearch(path, bhv_tmp);
 
     if (pos != NOT_FOUND)
     {
-        format = std::string(nemesis::between(path, bhv_tmp, "\\"));
+        format = std::string(nemesis::between(
+            path, bhv_tmp, std::string(1, static_cast<char>(std::filesystem::path::preferred_separator))));
     }
 
     return format;
@@ -759,13 +761,15 @@ nemesis::SharableWrapper<std::filesystem::path>* nemesis::Wline::GetFilePathPtr(
 std::wstring nemesis::Wline::GetClassName() const noexcept
 {
     std::wstring format  = L"Base";
-    std::wstring path    = nemesis::to_lower_copy(GetFilePath().wstring());
-    std::wstring bhv_tmp = L"behavior_templates\\";
+    std::wstring path    = nemesis::to_lower_copy(nemesis::to_utf8_wstring(GetFilePath()));
+    std::wstring bhv_tmp
+        = L"behavior_templates" + std::wstring(1, static_cast<wchar_t>(std::filesystem::path::preferred_separator));
     auto pos            = nemesis::isearch(path, bhv_tmp);
 
     if (pos != NOT_FOUND)
     {
-        format = std::wstring(nemesis::between(path, bhv_tmp, L"\\"));
+        format = std::wstring(nemesis::between(
+            path, bhv_tmp, std::wstring(1, static_cast<wchar_t>(std::filesystem::path::preferred_separator))));
     }
 
     return format;
