@@ -38,12 +38,12 @@ void nemesis::ThreadPool::stop()
 
 bool nemesis::ThreadPool::has_error() const noexcept
 {
-    return error;
+    return error || StopProcessFlag;
 }
 
 void nemesis::ThreadPool::throw_if_error()
 {
-    if (!error) return;
+    if (!error && !StopProcessFlag) return;
 
     throw nemesis::ThreadPool::ThreadException();
 }
@@ -64,9 +64,9 @@ void nemesis::ThreadPool::NewWorker()
 
             {
                 std::unique_lock<std::mutex> lock(queue_mutex);
-                condition.wait(lock, [&] { return error || abort || sync || !tasks.empty(); });
+                condition.wait(lock, [&] { return StopProcessFlag || error || abort || sync || !tasks.empty(); });
 
-                if (error || abort || tasks.empty()) return;
+                if (StopProcessFlag || error || abort || tasks.empty()) return;
 
                 task = std::move(tasks.top());
                 tasks.pop();

@@ -16,9 +16,11 @@
 
 #include "Utilities/Crc32.h"
 #include "Utilities/MD5.h"
-#include "Utilities/ThreadPool.h"
-#include "Utilities/ProgressMeter.h"
 #include "Utilities/OnScopeEnds.h"
+#include "Utilities/ProgressMeter.h"
+#include "Utilities/ThreadPool.h"
+
+std::atomic_bool StopProcessFlag(false);
 
 namespace sf = std::filesystem;
 
@@ -176,11 +178,13 @@ int main(int argc, char* argv[])
 
         setup_python_config(exe_dir / LITERAL_PATH("scripts"));
 
-        nemesis::ProgressMeter progress_meter(
-            120,
+        nemesis::ProgressMeter progress_meter(120,
             NemesisInfo::IsProgressIndicatorActive() ? [](unsigned int step, unsigned int max)
-                { std::cout << "\x1b[999P" << step << " / " << max << "\x1b[999E" << std::endl; }
-                                                     : [](unsigned int step, unsigned int max) {});
+            {
+                if (StopProcessFlag) return;
+
+                std::cout << "\x1b[999P" << step << " / " << max << "\x1b[999E" << std::endl;
+            } : [](unsigned int step, unsigned int max) {});
 
         // Intentional memory leak
         nemesis::ExAnimationRepository* ex_anim_repo;
@@ -251,7 +255,7 @@ int main(int argc, char* argv[])
                     return ptr;
                 });
 
-            mod_repo = mod_repo_future.get();
+            mod_repo  = mod_repo_future.get();
             anim_repo = anim_repo_future.get();
 
             repo->Patch(*mod_repo);
@@ -307,7 +311,7 @@ int main(int argc, char* argv[])
             ex_anim_repo->OutputExAnimationInfo();
         }
 
-        int cur_step = 0;
+        int cur_step            = 0;
         constexpr int step_size = 20;
         std::mutex step_mtx;
         nemesis::CompilationManager* manager
@@ -345,12 +349,14 @@ int main(int argc, char* argv[])
     }
     catch (const std::exception& ex)
     {
+        StopProcessFlag = true;
         std::cout << std::endl;
         Logger::Log(std::string("[ERROR] ") + ex.what(), true);
         return 1;
     }
     catch (...)
     {
+        StopProcessFlag = true;
         std::cout << std::endl;
         Logger::Log("[ERROR] Unknown exception captured", true);
         return 1;

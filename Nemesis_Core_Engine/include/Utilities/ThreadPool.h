@@ -14,6 +14,7 @@
 
 #include "Logger.h"
 
+extern std::atomic_bool StopProcessFlag;
 
 namespace nemesis
 {
@@ -89,6 +90,8 @@ namespace nemesis
         std::shared_future<return_type> shared_future = future.share(); 
 
         {
+            if (StopProcessFlag) return shared_future;
+
             if (error) return shared_future;
 
             // don't allow enqueueing after stopping the pool
@@ -106,11 +109,13 @@ namespace nemesis
                               }
                               catch (const std::exception& ex)
                               {
+                                  StopProcessFlag = true;
                                   Logger::Log(std::string("[ERROR] ") + ex.what(), true);
                                   error = true;
                               }
                               catch (...)
                               {
+                                  StopProcessFlag = true;
                                   Logger::Log("[ERROR] Unknown exception captured", true);
                                   error = true;
                               }
