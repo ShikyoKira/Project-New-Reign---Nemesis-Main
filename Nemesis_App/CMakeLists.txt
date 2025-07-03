@@ -123,7 +123,7 @@ if(WIN32)
         COMMENT "Running windeployqt6 to prepare deployment files for ${PROJECT_NAME}"
     )
 elseif(UNIX AND NOT APPLE)
-    install(TARGETS YourAppName
+    install(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION bin
         BUNDLE DESTINATION .
     )
@@ -137,4 +137,6 @@ elseif(UNIX AND NOT APPLE)
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/resources/app.desktop"
         DESTINATION "${CMAKE_INSTALL_DATADIR}"
     )
+
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME Nemesis)
 endif()
