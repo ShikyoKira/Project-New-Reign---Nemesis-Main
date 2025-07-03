@@ -29,8 +29,8 @@ namespace nemesis
         float m_minSpeedToSwitch;
         float m_minSwitchTimeNoError;
         float m_minSwitchTimeFullError;
-        int m_startPlayingEventId;
-        int m_startMatchingEventId;
+        nemesis::hkEventId m_startPlayingEventId;
+        nemesis::hkEventId m_startMatchingEventId;
         short m_rootBoneIndex;
         short m_otherBoneIndex;
         short m_anotherBoneIndex;

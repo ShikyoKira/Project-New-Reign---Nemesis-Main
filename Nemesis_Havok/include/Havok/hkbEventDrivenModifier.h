@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbEventDrivenModifier);
 
-        int m_activateEventId;
-        int m_deactivateEventId;
+        nemesis::hkEventId m_activateEventId;
+        nemesis::hkEventId m_deactivateEventId;
         bool m_activeByDefault;
         bool m_isActive;
 
