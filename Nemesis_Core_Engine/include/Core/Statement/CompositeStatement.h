@@ -33,7 +33,7 @@ namespace nemesis
             bool IsDynamic() const;
         };
 
-        Vec<DynamicComponent> DynamicComponents;
+        Deq<DynamicComponent> DynamicComponents;
 
         static bool IsComplexComponent(const std::string& component);
 
