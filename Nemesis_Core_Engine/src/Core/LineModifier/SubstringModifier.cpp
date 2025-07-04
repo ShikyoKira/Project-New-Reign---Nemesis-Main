@@ -7,6 +7,6 @@ nemesis::SubstringModifier::SubstringModifier(size_t begin,
                                               const std::filesystem::path& filepath,
                                               const nemesis::SemanticManager& manager)
     : nemesis::StandardLineModifier<nemesis::SubstringStatement>(
-        begin, end, expression, linenum, filepath, manager)
+          begin, end, expression, linenum, filepath, manager)
 {
 }

@@ -7,6 +7,6 @@ nemesis::AnimationFilePathModifier::AnimationFilePathModifier(size_t begin,
                                                               const std::filesystem::path& filepath,
                                                               const nemesis::SemanticManager& manager)
     : nemesis::StandardLineModifier<nemesis::AnimationFilePathStatement>(
-        begin, end, expression, linenum, filepath, manager)
+          begin, end, expression, linenum, filepath, manager)
 {
 }

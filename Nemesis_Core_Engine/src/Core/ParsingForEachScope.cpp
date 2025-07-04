@@ -6,8 +6,10 @@ nemesis::ParsingForEachScope::ParsingForEachScope(const nemesis::ForEachStatemen
     Manager        = &manager;
     Type           = statement.GetType();
     Expression_Ptr = &statement.GetExpression();
+
     std::string key;
     Manager->AddForEachToQueue(*Expression_Ptr);
+    Manager->PushScope();
 
     switch (Type)
     {
@@ -45,8 +47,6 @@ nemesis::ParsingForEachScope::ParsingForEachScope(const nemesis::ForEachStatemen
 
 nemesis::ParsingForEachScope::~ParsingForEachScope() noexcept
 {
-    Manager->RemoveTopForEachFromQueue(*Expression_Ptr);
-
     switch (Type)
     {
         case nemesis::ForEachStatement::REQUEST:
@@ -77,4 +77,7 @@ nemesis::ParsingForEachScope::~ParsingForEachScope() noexcept
         default:
             break;
     }
+
+    Manager->PopScope();
+    Manager->RemoveTopForEachFromQueue(*Expression_Ptr);
 }

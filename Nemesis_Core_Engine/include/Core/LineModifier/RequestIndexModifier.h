@@ -9,7 +9,7 @@ namespace nemesis
 	struct RequestIndexModifier : public nemesis::LineModifier
     {
     private:
-        nemesis::RequestIndexStatement Statement;
+        SPtr<nemesis::RequestIndexStatement> Statement;
 
     public:
         RequestIndexModifier(size_t begin,
@@ -21,6 +21,6 @@ namespace nemesis
 
         void Apply(VecStr& blocks, nemesis::CompileState& state) const override;
 
-        const nemesis::RequestIndexStatement* GetStatement() const noexcept;
+        const nemesis::RequestIndexStatement& GetStatement() const noexcept;
     };
 }

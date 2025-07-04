@@ -1,5 +1,7 @@
 #include "Core/LineModifier/MotionDataModifier.h"
 
+#include "Core/SemanticManager.h"
+
 nemesis::MotionDataModifier::MotionDataModifier(size_t begin,
                                                 size_t end,
                                                 const std::string& expression,
@@ -7,17 +9,25 @@ nemesis::MotionDataModifier::MotionDataModifier(size_t begin,
                                                 const std::filesystem::path& filepath,
                                                 const nemesis::SemanticManager& manager)
     : nemesis::LineModifier(begin, end)
-    , Statement(expression, linenum, filepath, manager)
 {
+    auto statement = manager.GetCachedStatement(expression);
+
+    if (!statement)
+    {
+        statement = std::make_shared<nemesis::MotionDataStatement>(expression, linenum, filepath, manager);
+        manager.AddStatementToCache(expression, statement);
+    }
+
+    Statement = std::dynamic_pointer_cast<nemesis::MotionDataStatement>(statement);
 }
 
 void nemesis::MotionDataModifier::Apply(VecStr& blocks, nemesis::CompileState& state) const
 {
     ClearCoveredBlocks(blocks);
-    blocks[Begin] = Statement.GetValue(state);
+    blocks[Begin] = Statement->GetValue(state);
 }
 
 const nemesis::MotionDataStatement& nemesis::MotionDataModifier::GetStatement() const noexcept
 {
-    return Statement;
+    return *Statement;
 }

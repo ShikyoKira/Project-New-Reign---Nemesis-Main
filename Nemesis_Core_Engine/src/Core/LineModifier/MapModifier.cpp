@@ -6,7 +6,6 @@ nemesis::MapModifier::MapModifier(size_t begin,
                                   size_t linenum,
                                   const std::filesystem::path& filepath,
                                   const nemesis::SemanticManager& manager)
-    : nemesis::StandardLineModifier<nemesis::MapStatement>(
-        begin, end, expression, linenum, filepath, manager)
+    : nemesis::StandardLineModifier<nemesis::MapStatement>(begin, end, expression, linenum, filepath, manager)
 {
 }

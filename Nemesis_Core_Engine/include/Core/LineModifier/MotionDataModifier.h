@@ -11,7 +11,7 @@ namespace nemesis
 	struct MotionDataModifier : public nemesis::LineModifier
     {
     private:
-        nemesis::MotionDataStatement Statement;
+        SPtr<nemesis::MotionDataStatement> Statement;
 
     public:
         MotionDataModifier(size_t begin,

@@ -2,6 +2,11 @@
 
 #include "Core/Template.h"
 
+nemesis::SemanticManager::SemanticManager()
+{
+    StatementCacheLayerList.emplace_back();
+}
+
 void nemesis::SemanticManager::SetCurrentTemplateClass(const nemesis::TemplateClass* template_class) noexcept
 {
     TemplateClass = template_class;
@@ -292,6 +297,42 @@ void nemesis::SemanticManager::RemoveTopForEachFromQueue(const std::string& expr
 size_t nemesis::SemanticManager::GetForEachQueueSize() const noexcept
 {
     return ForEachQueue.size();
+}
+
+void nemesis::SemanticManager::AddStatementToCache(const std::string& expression,
+                                                   const SPtr<nemesis::Statement>& statement) const
+{
+    StatementCacheLayerList.back()[expression] = statement;
+}
+
+SPtr<nemesis::Statement> nemesis::SemanticManager::GetCachedStatement(const std::string& expression) const
+{
+    for (auto it = StatementCacheLayerList.rbegin(); it != StatementCacheLayerList.rend(); ++it)
+    {
+        auto& cache_layer = *it;
+        auto itr = cache_layer.find(expression);
+
+        if (itr == cache_layer.end()) continue;
+
+        return itr->second;
+    }
+
+    return nullptr;
+}
+
+void nemesis::SemanticManager::ClearStatementCache() const
+{
+    StatementCacheLayerList.clear();
+}
+
+void nemesis::SemanticManager::PushScope()
+{
+    StatementCacheLayerList.emplace_back();
+}
+
+void nemesis::SemanticManager::PopScope()
+{
+    StatementCacheLayerList.pop_back();
 }
 
 void nemesis::SemanticManager::ClearCacheInFileScope()

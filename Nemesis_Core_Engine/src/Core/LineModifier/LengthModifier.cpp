@@ -7,6 +7,6 @@ nemesis::LengthModifier::LengthModifier(size_t begin,
                                         const std::filesystem::path& filepath,
                                         const nemesis::SemanticManager& manager)
     : nemesis::StandardLineModifier<nemesis::LengthStatement>(
-        begin, end, expression, linenum, filepath, manager)
+          begin, end, expression, linenum, filepath, manager)
 {
 }

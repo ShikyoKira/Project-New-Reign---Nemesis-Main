@@ -9,6 +9,6 @@ nemesis::AnimationEventModifier::AnimationEventModifier(size_t begin,
                                                         const std::filesystem::path& filepath,
                                                         const nemesis::SemanticManager& manager)
     : nemesis::StandardLineModifier<nemesis::AnimationEventStatement>(
-        begin, end, expression, linenum, filepath, manager)
+          begin, end, expression, linenum, filepath, manager)
 {
 }

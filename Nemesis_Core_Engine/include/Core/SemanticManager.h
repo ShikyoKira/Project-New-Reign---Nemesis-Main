@@ -2,6 +2,8 @@
 
 #include "Nemesis_Core_Engine/include/Utilities/Types.h"
 
+#include "Core/Statement/Statement.h"
+
 namespace nemesis
 {
     struct TemplateClass;
@@ -30,7 +32,12 @@ namespace nemesis
         size_t MotionQueue = 0;
         size_t RotationQueue = 0;
 
+        using StatementCacheLayer = UMap<std::string, SPtr<nemesis::Statement>>;
+        mutable Vec<StatementCacheLayer> StatementCacheLayerList;
+
     public:
+        SemanticManager();
+
         void SetCurrentTemplateClass(const nemesis::TemplateClass* template_class) noexcept;
         const nemesis::TemplateClass* GetCurrentTemplateClass() const noexcept;
 
@@ -76,6 +83,14 @@ namespace nemesis
         bool HasForEachInQueue(const std::string& expression) const noexcept;
         void RemoveTopForEachFromQueue(const std::string& expression) noexcept;
         size_t GetForEachQueueSize() const noexcept;
+
+        void AddStatementToCache(const std::string& expression,
+                                 const SPtr<nemesis::Statement>& statement) const;
+        SPtr<nemesis::Statement> GetCachedStatement(const std::string& expression) const;
+        void ClearStatementCache() const;
+
+        void PushScope();
+        void PopScope();
 
         template <typename Ty>
         void AddCacheInFileScope(const std::string& key, SPtr<Ty> obj)

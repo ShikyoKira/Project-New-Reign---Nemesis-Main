@@ -9,7 +9,7 @@ namespace nemesis
     struct SubTemplateModifier : public nemesis::LineModifier
     {
     private:
-        SubTemplateStatement Statement;
+        SPtr<nemesis::SubTemplateStatement> Statement;
 
     public:
         SubTemplateModifier(size_t begin,
@@ -21,6 +21,6 @@ namespace nemesis
 
         void Apply(VecStr& blocks, nemesis::CompileState& state) const override;
 
-        const nemesis::SubTemplateStatement* GetStatement() const noexcept;
+        const nemesis::SubTemplateStatement& GetStatement() const noexcept;
     };
 }
