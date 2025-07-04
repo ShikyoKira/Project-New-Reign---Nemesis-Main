@@ -1,5 +1,6 @@
 #include <QProcess>
 #include <QDebug>
+#include <QDir>
 #include <iostream>
 #include <QCoreApplication>
 #include <QCryptographicHash>
@@ -41,7 +42,7 @@ void AppLauncher::launchProgram(const QString& program_path, const QStringList& 
 
     qDebug() << "Starting program: \"" << program_path << "\" " << args_str;
 
-    process->start(program_path, args);
+    process->start(QDir::toNativeSeparators(program_path), args);
 
     if (process->waitForStarted()) return;
 

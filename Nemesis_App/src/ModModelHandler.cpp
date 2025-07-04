@@ -19,13 +19,14 @@ void ModModelHandler::populateModel(const QString& mods_dir, bool is_devmode)
 
     while (it.hasNext())
     {
-        QDir entry = it.next();
-        QDir ini_path = entry.filePath("info.ini");
+        QDir entry     = it.next();
+        QDir ini_path  = entry.filePath("info.ini");
+        auto ini_fpath = ini_path.filesystemPath();
 
-        if (!std::filesystem::exists(ini_path.filesystemPath())) continue;
+        if (!std::filesystem::exists(ini_fpath)) continue;
 
         ModInfo mod_info;
-        mod_info.ReadFile(ini_path.filesystemPath());
+        mod_info.ReadFile(ini_fpath);
         mod_info.SetModCode(QFileInfo(entry.path()).baseName().toLower().toStdString());
 
         QVariantMap mod_info_map;

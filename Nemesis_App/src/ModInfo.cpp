@@ -1,4 +1,5 @@
 #include <QFile>
+#include <QDir>
 #include <QTextStream>
 #include <sstream>
 #include <iostream>
@@ -8,26 +9,25 @@
 void ModInfo::ReadFile(const std::filesystem::path& infopath)
 {
     std::vector<std::string> storelines;
-    QFile info_file(infopath);
+#if WIN32
+    auto u8_path = infopath.u8string();
+    std::string spath(u8_path.begin(), u8_path.end());
+#else
+    std::string spath = infopath.string();
+#endif
+    QFile info_file(QDir::toNativeSeparators(QString::fromStdString(spath)));
 
     if (!info_file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         std::error_code ec(errno, std::system_category());
-#if WIN32
-        auto u8str = infopath.u8string();
-        throw std::runtime_error("Failed to open file: \"" + std::string(u8str.begin(), u8str.end())
-                                 + "\"\nMessage: " + ec.message());
-#else
-        throw std::runtime_error("Failed to open file: \"" + filepath.string()
-                                 + "\"\nMessage: " + ec.message());
-#endif
+        throw std::runtime_error("Failed to open file: \"" + spath + "\"\nMessage: " + ec.message());
     }
 
     QTextStream file_stream(&info_file);
 
     while (!file_stream.atEnd())
     {
-        storelines.emplace_back(QString(info_file.readLine()).trimmed().toStdString());
+        storelines.emplace_back(file_stream.readLine().trimmed().toStdString());
     }
 
     info_file.close();
