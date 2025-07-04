@@ -714,7 +714,7 @@ Window {
                             , appConfig.getPlatform()
                             , "-pi"
                             , "-o"
-                            , dataDirectory + "2"
+                            , dataDirectory
                             , "-d"
                             , dataDirectory
                             , "-m"
