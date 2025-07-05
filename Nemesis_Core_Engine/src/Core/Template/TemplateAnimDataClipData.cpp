@@ -10,33 +10,26 @@ nemesis::TemplateAnimDataClipData::TemplateAnimDataClipData(
 {
 }
 
-UPtr<nemesis::TemplateAnimDataClipData>
-nemesis::TemplateAnimDataClipData::ParseFromFile(const nemesis::TemplateClass* template_class,
-                                                 const std::filesystem::path& filepath)
+UPtr<nemesis::TemplateAnimDataClipData> nemesis::TemplateAnimDataClipData::ParseFromFile(
+    const std::filesystem::path& filepath, const nemesis::TemplateClass* template_class, size_t index)
 {
     std::string name(template_class->GetName());
 
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name (" + name + ")");
+        throw std::runtime_error("Invalid template name (" + name
+                                 + ") (File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());
-
-    if (filename != "$" + name + "$")
-    {
-        throw std::runtime_error("Invalid filename "
-                                 "(Template: "
-                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
-    }
-
-    return NewCustomTemplateObject<nemesis::TemplateAnimDataClipData>(template_class, 0, filepath);
+    return NewCustomTemplateObject<nemesis::TemplateAnimDataClipData>(template_class, index, filepath);
 }
 
 UPtr<nemesis::TemplateAnimDataClipData>
-nemesis::TemplateAnimDataClipData::ParseFromFile(const nemesis::TemplateClass* template_class,
-                                                 const std::filesystem::path& filepath,
+nemesis::TemplateAnimDataClipData::ParseFromFile(const std::filesystem::path& filepath,
+                                                 const nemesis::TemplateClass* template_class,
+                                                 size_t index,
                                                  nemesis::ThreadPool& thread_pool)
 {
     std::string name(template_class->GetName());
@@ -44,18 +37,11 @@ nemesis::TemplateAnimDataClipData::ParseFromFile(const nemesis::TemplateClass* t
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name (" + name + ")");
+        throw std::runtime_error("Invalid template name (" + name
+                                 + ") (File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());
-
-    if (filename != "$" + name + "$")
-    {
-        throw std::runtime_error("Invalid filename "
-                                 "(Template: "
-                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
-    }
-
     return NewCustomTemplateObject<nemesis::TemplateAnimDataClipData>(
-        template_class, 0, filepath, thread_pool);
+        template_class, index, filepath, thread_pool);
 }

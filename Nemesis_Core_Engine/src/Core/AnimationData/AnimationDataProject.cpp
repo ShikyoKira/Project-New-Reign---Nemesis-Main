@@ -178,11 +178,21 @@ void nemesis::AnimationDataProject::CompileTo(DeqNstr& lines, nemesis::CompileSt
             motion_data->CompileTo(motiondata_lines, state);
         }
 
-        state.ClearAllConditionCache();
-
         for (auto& clip_data : ClipDataTemplateList)
         {
             auto& requests = state.GetRequests(clip_data->GetClassName());
+
+            if (requests.empty()) continue;
+
+        state.ClearAllConditionCache();
+            size_t index = clip_data->GetIndex();
+
+            if (index == 0)
+        {
+                state.SetBaseRequest(nullptr);
+                clip_data->CompileTo(clipdata_lines, state);
+                continue;
+            }
 
             for (auto& request : requests)
             {
@@ -191,12 +201,21 @@ void nemesis::AnimationDataProject::CompileTo(DeqNstr& lines, nemesis::CompileSt
             }
         }
 
-        state.SetBaseRequest(nullptr);
-        state.ClearAllConditionCache();
-
         for (auto& motion_data : MotionDataTemplateList)
         {
             auto& requests = state.GetRequests(motion_data->GetClassName());
+
+            if (requests.empty()) continue;
+
+        state.ClearAllConditionCache();
+            size_t index = motion_data->GetIndex();
+
+            if (index == 0)
+        {
+                state.SetBaseRequest(nullptr);
+                motion_data->CompileTo(clipdata_lines, state);
+                continue;
+            }
 
             for (auto& request : requests)
             {

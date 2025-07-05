@@ -13,10 +13,13 @@ namespace nemesis
         TemplateAnimDataMotionData(const nemesis::TemplateClass* template_class) noexcept;
 
         static UPtr<nemesis::TemplateAnimDataMotionData>
-        ParseFromFile(const nemesis::TemplateClass* template_class, const std::filesystem::path& filepath);
+        ParseFromFile(const std::filesystem::path& filepath,
+                      const nemesis::TemplateClass* template_class,
+                      size_t index);
         static UPtr<nemesis::TemplateAnimDataMotionData>
-        ParseFromFile(const nemesis::TemplateClass* template_class,
-                      const std::filesystem::path& filepath,
+        ParseFromFile(const std::filesystem::path& filepath,
+                      const nemesis::TemplateClass* template_class,
+                      size_t index,
                       nemesis::ThreadPool& thread_pool);
     };
 }
