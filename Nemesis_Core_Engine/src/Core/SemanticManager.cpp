@@ -323,6 +323,7 @@ SPtr<nemesis::Statement> nemesis::SemanticManager::GetCachedStatement(const std:
 void nemesis::SemanticManager::ClearStatementCache() const
 {
     StatementCacheLayerList.clear();
+    StatementCacheLayerList.emplace_back();
 }
 
 void nemesis::SemanticManager::PushScope()
