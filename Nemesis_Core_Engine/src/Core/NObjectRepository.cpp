@@ -278,10 +278,19 @@ nemesis::NObjectRepository::NObjectRepository(const std::filesystem::path& data_
     sf::path meshes_path = data_path / LITERAL_PATH("meshes");
     ParseHkxFilesFromDirectory(meshes_path, thread_pool);
 
-    AnimDataSingleFile = nemesis::AnimationDataSingleFile::ParseFromFile(
-        meshes_path / LITERAL_PATH("nemesis_animationdatasinglefile.txt"), thread_pool);
-    AnimSetDataSingleFile = nemesis::AnimationSetDataSingleFile::ParseFromFile(
-        meshes_path / LITERAL_PATH("nemesis_animationsetdatasinglefile.txt"), thread_pool);
+    sf::path adsf_path = meshes_path / LITERAL_PATH("nemesis_animationdatasinglefile.txt");
+
+    if (sf::exists(adsf_path))
+    {
+        AnimDataSingleFile = nemesis::AnimationDataSingleFile::ParseFromFile(adsf_path, thread_pool);
+    }
+
+    sf::path asdsf_path = meshes_path / LITERAL_PATH("nemesis_animationsetdatasinglefile.txt");
+
+    if (sf::exists(asdsf_path))
+    {
+        AnimSetDataSingleFile = nemesis::AnimationSetDataSingleFile::ParseFromFile(asdsf_path, thread_pool);
+    }
 
     thread_pool.join_all();
 }
@@ -378,7 +387,8 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
     manager.ClearCheckSum();
     nemesis::ThreadPool cthread_pool;
     nemesis::ThreadPool thread_pool;
-    int TotalObjects = Characters.size() + Behaviors.size() + 3;
+    int TotalObjects = Characters.size() + Behaviors.size() + 1 + (AnimDataSingleFile != nullptr)
+                       + (AnimSetDataSingleFile != nullptr);
     std::atomic<int> CompiledObjectCounter(0);
 
     for (auto& character : Characters)
@@ -417,23 +427,36 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
             });
     }
 
-    auto& adsf_state = manager.CreateCompileState(AnimDataSingleFile->GetFilePath());
-    thread_pool.priority_enqueue(
-        2000,
-        [this, &adsf_state, &CompiledObjectCounter, &prgs_callback, TotalObjects]()
-        {
-            AnimDataSingleFile->CompileFile(adsf_state);
-            prgs_callback(++CompiledObjectCounter, TotalObjects);
-        });
+    if (AnimDataSingleFile)
+    {
+        thread_pool.priority_enqueue(
+            2000,
+            [this,
+             &adsf_state = manager.CreateCompileState(AnimDataSingleFile->GetFilePath()),
+             &CompiledObjectCounter,
+             &prgs_callback,
+             TotalObjects]()
+            {
+                AnimDataSingleFile->CompileFile(adsf_state);
+                prgs_callback(++CompiledObjectCounter, TotalObjects);
+            });
+    }
 
-    auto& asdsf_state = manager.CreateCompileState(AnimSetDataSingleFile->GetFilePath());
-    thread_pool.priority_enqueue(
-        800,
-        [this, &asdsf_state, &CompiledObjectCounter, &prgs_callback, TotalObjects]()
-        {
-            AnimSetDataSingleFile->CompileFile(asdsf_state);
-            prgs_callback(++CompiledObjectCounter, TotalObjects);
-        });
+    if (AnimSetDataSingleFile)
+    {
+        thread_pool.priority_enqueue(
+            800,
+            [this,
+             &asdsf_state = manager.CreateCompileState(AnimSetDataSingleFile->GetFilePath()),
+             &CompiledObjectCounter,
+             &prgs_callback,
+             TotalObjects]()
+            {
+                AnimSetDataSingleFile->CompileFile(asdsf_state);
+                prgs_callback(++CompiledObjectCounter, TotalObjects);
+            });
+    }
+
     thread_pool.join_all();
 
     std::future<void> build_info_future;
