@@ -145,12 +145,21 @@ nemesis::ModClass::ModClass(const std::filesystem::path& ini_file, nemesis::Thre
 
     if (!std::filesystem::exists(parent_path)) return;
 
-    for (auto& entry : std::filesystem::directory_iterator(parent_path))
-    {
-        if (!entry.is_directory()) continue;
+    InitializerFuture = std::async(
+        [this, &threadpool, parent_path]()
+        {
+            for (auto& entry : std::filesystem::directory_iterator(parent_path))
+            {
+                if (!entry.is_directory()) continue;
 
-        ParseModFromMeshesDirectory(entry.path(), threadpool);
-    }
+                ParseModFromMeshesDirectory(entry.path(), threadpool);
+            }
+        });
+}
+
+void nemesis::ModClass::FinalizeInitialization()
+{
+    InitializerFuture.get();
 }
 
 const std::string& nemesis::ModClass::GetCode() const noexcept

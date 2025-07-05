@@ -1,6 +1,7 @@
 #pragma once
 
 #include <regex>
+#include <future>
 
 #include "Core/ModInfo.h"
 #include "Core/ModPatch.h"
@@ -27,6 +28,8 @@ namespace nemesis
         Vec<UPtr<nemesis::ModPatch<nemesis::AnimationDataClipData>>> ClipDataList;
         Vec<UPtr<nemesis::ModPatch<nemesis::AnimationDataMotionData>>> MotionDataList;
 
+        std::future<void> InitializerFuture;
+
         mutable UPtr<Vec<const nemesis::ModPatch<nemesis::HkxNode>*>> NodeListCache;
         mutable UPtr<Vec<const nemesis::ModPatch<nemesis::AnimationSetDataState>*>> StateListCache;
         mutable UPtr<Vec<const nemesis::ModPatch<nemesis::AnimationDataProject::Headers>*>>
@@ -44,6 +47,8 @@ namespace nemesis
 
     public:
         ModClass(const std::filesystem::path& ini_file, nemesis::ThreadPool& threadpool);
+
+        void FinalizeInitialization();
 
         const std::string& GetCode() const noexcept;
         const nemesis::ModInfo& GetModInfo() const;

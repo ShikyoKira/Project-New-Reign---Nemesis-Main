@@ -30,6 +30,8 @@ namespace nemesis
 
         std::filesystem::path InfoPath;
 
+        std::future<void> InitializerFuture;
+
         static void ParseHkxTemplatesLoopDirectory(const std::filesystem::path& relative_parent_path,
                                                    const std::filesystem::path& dir,
                                                    nemesis::TemplateClass& templt_class,
@@ -47,8 +49,15 @@ namespace nemesis
                                                        nemesis::TemplateClass& templt_class,
                                                        nemesis::AnimationSetDataSingleFile& singlefile);
 
+        void LoadConfig();
+        std::future<void> SetupAsync(nemesis::NObjectRepository& repo, nemesis::ThreadPool& thread_pool);
+
     public:
-        TemplateClass(const std::filesystem::path& template_info_path);
+        TemplateClass(const std::filesystem::path& template_info_path,
+                      nemesis::NObjectRepository& repo,
+                      nemesis::ThreadPool& thread_pool);
+
+        void FinalizeInitialization();
 
         void AddTemplate(const SPtr<nemesis::TemplateObject>& template_object);
         SPtr<nemesis::TemplateObject> AddTemplate(const std::filesystem::path& filepath);
@@ -72,9 +81,5 @@ namespace nemesis
         UPtr<nemesis::AnimationRequest> CreateRequest(const std::string& request_info,
                                                       size_t linenum,
                                                       const std::filesystem::path& filepath) const;
-
-        static UPtr<nemesis::TemplateClass> ParseTemplateClassFromDirectory(const std::filesystem::path& dir,
-                                                                            nemesis::NObjectRepository& repo,
-                                                                            nemesis::ThreadPool& thread_pool);
     };
 }

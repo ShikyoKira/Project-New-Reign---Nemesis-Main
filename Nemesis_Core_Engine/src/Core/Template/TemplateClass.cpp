@@ -351,14 +351,10 @@ void nemesis::TemplateClass::AddTemplateToAnimSetDataSingleFile(
     }
 }
 
-nemesis::TemplateClass::TemplateClass(const std::filesystem::path& template_info_path)
-    : Name(nemesis::to_utf8_string(template_info_path.parent_path().stem()))
-    , InfoPath(template_info_path)
+void nemesis::TemplateClass::LoadConfig()
 {
-    Logger::Log("Templates Class: " + Name);
-
     Json template_info;
-    std::ifstream json_file(template_info_path);
+    std::ifstream json_file(InfoPath);
     json_file >> template_info;
 
     IsArray        = template_info["IsArray"].get<bool>();
@@ -384,6 +380,77 @@ nemesis::TemplateClass::TemplateClass(const std::filesystem::path& template_info
               OptionModelList.end(),
               [](UPtr<nemesis::TemplateOptionModel>& model_1, UPtr<nemesis::TemplateOptionModel>& model_2)
               { return model_1->GetName().size() > model_2->GetName().size(); });
+}
+
+std::future<void> nemesis::TemplateClass::SetupAsync(nemesis::NObjectRepository& repo,
+                                                     nemesis::ThreadPool& thread_pool)
+{
+    return std::async(
+        [this, &repo, &thread_pool]()
+        {
+            sf::path dir = InfoPath.parent_path();
+
+            for (auto& entry : sf::directory_iterator(dir))
+            {
+                if (!entry.is_directory()) continue;
+
+                auto path = entry.path();
+
+                if (!nemesis::iequals(PATH_TO_STRING(path.filename()), LITERAL_PATH("meshes")))
+                {
+                    sf::path relative_path = PATH_TO_STRING(path).substr(PATH_TO_STRING(dir).size() + 1);
+                    ParseHkxTemplatesLoopDirectory(relative_path, path, *this, repo, thread_pool);
+                    continue;
+                }
+
+                if (!sf::exists(path)) continue;
+
+                for (auto& inner_entry : sf::directory_iterator(path))
+                {
+                    auto inner_path = inner_entry.path();
+
+                    if (!inner_entry.is_directory()) continue;
+
+                    auto filename = PATH_TO_STRING(inner_path.stem());
+
+                    if (nemesis::iequals(filename, LITERAL_PATH("animationdatasinglefile")))
+                    {
+                        AddTemplateToAnimDataSingleFile(
+                            inner_path, *this, *repo.GetAnimDataSingleFile(), thread_pool);
+                        continue;
+                    }
+
+                    if (nemesis::iequals(filename, LITERAL_PATH("animationdatasinglefile")))
+                    {
+                        AddTemplateToAnimSetDataSingleFile(
+                            inner_path, *this, *repo.GetAnimSetDataSingleFile());
+                        continue;
+                    }
+
+                    sf::path relative_path
+                        = PATH_TO_STRING(inner_path).substr(PATH_TO_STRING(dir).size() + 1);
+                    ParseHkxTemplatesLoopDirectory(
+                        relative_path, inner_path, *this, repo, thread_pool);
+                }
+            }
+        });
+}
+
+nemesis::TemplateClass::TemplateClass(const std::filesystem::path& template_info_path,
+                                      nemesis::NObjectRepository& repo,
+                                      nemesis::ThreadPool& thread_pool)
+    : Name(nemesis::to_utf8_string(template_info_path.parent_path().stem()))
+    , InfoPath(template_info_path)
+{
+    Logger::Log("Templates Class: " + Name);
+
+    LoadConfig();
+    InitializerFuture = SetupAsync(repo, thread_pool);
+}
+
+void nemesis::TemplateClass::FinalizeInitialization()
+{
+    InitializerFuture.get();
 }
 
 void nemesis::TemplateClass::AddTemplate(const SPtr<nemesis::TemplateObject>& template_object)

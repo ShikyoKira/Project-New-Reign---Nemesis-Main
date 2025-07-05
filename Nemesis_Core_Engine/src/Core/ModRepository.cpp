@@ -24,7 +24,8 @@ nemesis::ModRepository::ModRepository(const std::filesystem::path& mods_dir_path
 
         if (!std::filesystem::exists(ini_path)) continue;
 
-        ModClassList.emplace_back(std::make_unique<nemesis::ModClass>(ini_path, thread_pool));
+        auto& mod_cls = ModClassList.emplace_back(std::make_unique<nemesis::ModClass>(ini_path, thread_pool));
+        mod_cls->FinalizeInitialization();
     }
 
     thread_pool.join_all();

@@ -32,11 +32,13 @@ nemesis::TemplateRepository::TemplateRepository(const std::filesystem::path& tem
             continue;
         }
 
-        auto templt_class = nemesis::TemplateClass::ParseTemplateClassFromDirectory(path, repo, thread_pool);
+        auto info_path = path / "template_info.json";
 
-        if (!templt_class) continue;
+        if (!std::filesystem::exists(info_path) || !std::filesystem::is_regular_file(info_path)) continue;
 
-        TemplateClassList.emplace_back(std::move(templt_class));
+        auto& tmplt_cls = TemplateClassList.emplace_back(
+            std::make_unique<nemesis::TemplateClass>(info_path, repo, thread_pool));
+        tmplt_cls->FinalizeInitialization();
     }
 
     thread_pool.join_all();
