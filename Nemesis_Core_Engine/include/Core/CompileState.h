@@ -6,6 +6,8 @@
 #include "Core/SubTemplateRequest.h"
 #include "Core/AnimationRequestRepository.h"
 
+#include "Core/Statement/Statement.h"
+
 #include "ExAnimation/ExAnimationRepository.h"
 
 #include "AlternateAnimation/AlterAnimRepository.h"
@@ -59,6 +61,7 @@ namespace nemesis
         UMap<std::string, int*> CounterMap;
 
         UMap<std::string, bool> ConditionCache;
+        Vec<UMap<const nemesis::Statement*, std::string>> StatementValueCacheList;
 
         nemesis::CompilationManager& Manager;
 
@@ -208,6 +211,12 @@ namespace nemesis
         Vec<Pair<std::string, bool>> RemoveConditionCacheContaining(const std::string& syntax);
         void ClearAllConditionCache() noexcept;
         const bool* TryGetCacheConditionResult(const std::string& condition_syntax);
+
+        void CacheStatementValue(const nemesis::Statement* statement_ptr, const std::string& value);
+        const std::string* TryGetCachedStatementValue(const nemesis::Statement* statement_ptr) const;
+        void PushStatementValueScope();
+        void PopStatementValueScope();
+        void ClearAllStatementValueCache();
 
         void AddCheckSum(const std::filesystem::path& target_path, const std::string& checksum);
 

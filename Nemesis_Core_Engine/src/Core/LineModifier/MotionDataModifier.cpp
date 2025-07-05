@@ -1,5 +1,6 @@
 #include "Core/LineModifier/MotionDataModifier.h"
 
+#include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
 
 nemesis::MotionDataModifier::MotionDataModifier(size_t begin,
@@ -24,7 +25,15 @@ nemesis::MotionDataModifier::MotionDataModifier(size_t begin,
 void nemesis::MotionDataModifier::Apply(VecStr& blocks, nemesis::CompileState& state) const
 {
     ClearCoveredBlocks(blocks);
-    blocks[Begin] = Statement->GetValue(state);
+    auto* val_ptr = state.TryGetCachedStatementValue(Statement.get());
+
+    if (val_ptr)
+    {
+        blocks[Begin] = *val_ptr;
+        return;
+    }
+
+    state.CacheStatementValue(Statement.get(), blocks[Begin] = Statement->GetValue(state));
 }
 
 const nemesis::MotionDataStatement& nemesis::MotionDataModifier::GetStatement() const noexcept

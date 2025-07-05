@@ -85,6 +85,7 @@ const Pair<const std::string*, size_t>& nemesis::CompileState::GetCurrentRotatio
 nemesis::CompileState::CompileState(nemesis::CompilationManager& manager) noexcept
     : Manager(manager)
 {
+    StatementValueCacheList.emplace_back();
 }
 
 const nemesis::CompilationManager& nemesis::CompileState::GetManager() const noexcept
@@ -883,6 +884,43 @@ const bool* nemesis::CompileState::TryGetCacheConditionResult(const std::string&
     if (itr != ConditionCache.end()) return &itr->second;
 
     return nullptr;
+}
+
+void nemesis::CompileState::CacheStatementValue(const nemesis::Statement* statement_ptr,
+                                                const std::string& value)
+{
+    StatementValueCacheList.back()[statement_ptr] = value;
+}
+
+const std::string* nemesis::CompileState::TryGetCachedStatementValue(const nemesis::Statement* statement_ptr) const
+{
+    for (auto it = StatementValueCacheList.rbegin(); it != StatementValueCacheList.rend(); ++it)
+    {
+        auto& cache_layer = *it;
+        auto itr = cache_layer.find(statement_ptr);
+
+        if (itr == cache_layer.end()) continue;
+
+        return &itr->second;
+    }
+
+    return nullptr;
+}
+
+void nemesis::CompileState::PushStatementValueScope()
+{
+    StatementValueCacheList.emplace_back();
+}
+
+void nemesis::CompileState::PopStatementValueScope()
+{
+    StatementValueCacheList.pop_back();
+}
+
+void nemesis::CompileState::ClearAllStatementValueCache()
+{
+    StatementValueCacheList.clear();
+    StatementValueCacheList.emplace_back();
 }
 
 void nemesis::CompileState::AddCheckSum(const std::filesystem::path& target_path, const std::string& checksum)

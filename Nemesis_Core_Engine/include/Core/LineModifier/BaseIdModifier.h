@@ -4,6 +4,7 @@
 
 #include "Core/Statement/BaseIdStatement.h"
 
+#include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
 
 namespace nemesis
@@ -37,7 +38,15 @@ namespace nemesis
         void Apply(VecStr& blocks, nemesis::CompileState& state) const override
         {
             ClearCoveredBlocks(blocks);
-            blocks[Begin] = Statement->GetValue(state);
+            auto* val_ptr = state.TryGetCachedStatementValue(Statement.get());
+
+            if (val_ptr)
+            {
+                blocks[Begin] = *val_ptr;
+                return;
+            }
+
+            state.CacheStatementValue(Statement.get(), blocks[Begin] = Statement->GetValue(state));
         }
 
         const BaseIdStatementType& GetStatement() const noexcept

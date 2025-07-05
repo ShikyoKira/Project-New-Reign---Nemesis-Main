@@ -29,16 +29,28 @@ nemesis::SubTemplateModifier::SubTemplateModifier(size_t begin,
 void nemesis::SubTemplateModifier::Apply(VecStr& blocks, nemesis::CompileState& state) const
 {
     ClearCoveredBlocks(blocks);
+    auto* val_ptr = state.TryGetCachedStatementValue(Statement.get());
+
+    if (val_ptr)
+    {
+        blocks[Begin] = *val_ptr;
+        return;
+    }
+    
     auto components = Statement->GetComponents(state);
+    std::string val;
 
     if (!is_only_number(components[1]))
     {
         state.AddSubTemplateRequest(components);
-        blocks[Begin] = components.front();
-        return;
+        val = blocks[Begin] = components.front();
+    }
+    else
+    {
+        val = blocks[Begin] = state.GetCurrentSubTemplateRequest()->GetArgument(std::stoul(components[1]));
     }
 
-    blocks[Begin] = state.GetCurrentSubTemplateRequest()->GetArgument(std::stoul(components[1]));
+    state.CacheStatementValue(Statement.get(), val);
 }
 
 const nemesis::SubTemplateStatement& nemesis::SubTemplateModifier::GetStatement() const noexcept

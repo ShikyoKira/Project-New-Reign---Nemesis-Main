@@ -28,12 +28,13 @@ void nemesis::ForEachStatement::Parse1Component(nemesis::SemanticManager& manage
 
             for (size_t i = 0; i < list.size(); i++)
             {
-                auto& each = list[i];
-                state.QueueCurrentMotionData(each.ToString(), i);
+                state.PushStatementValueScope();
+                state.QueueCurrentMotionData(list[i].ToString(), i);
                 nemesis::OnScopeEnds on_scope_end(
                     [this, &state]()
                     {
                         state.DequeCurrentMotionData();
+                        state.PopStatementValueScope();
                         state.RemoveConditionCacheContaining(Expression + "[]");
                     });
 
@@ -68,12 +69,13 @@ void nemesis::ForEachStatement::Parse1Component(nemesis::SemanticManager& manage
 
             for (size_t i = 0; i < list.size(); i++)
             {
-                auto& each = list[i];
-                state.QueueCurrentRotationData(each.ToString(), i);
+                state.PushStatementValueScope();
+                state.QueueCurrentRotationData(list[i].ToString(), i);
                 nemesis::OnScopeEnds on_scope_end(
                     [this, &state]()
                     {
                         state.DequeCurrentRotationData();
+                        state.PopStatementValueScope();
                         state.RemoveConditionCacheContaining(Expression + "[]");
                     });
 
@@ -114,11 +116,13 @@ void nemesis::ForEachStatement::Parse1Component(nemesis::SemanticManager& manage
 
             for (auto& option : options)
             {
+                state.PushStatementValueScope();
                 state.QueueOption(name, option);
                 nemesis::OnScopeEnds on_scope_end(
                     [this, &state, name]()
                     {
                         state.DequeueOption(name);
+                        state.PopStatementValueScope();
                         state.RemoveConditionCacheContaining(Expression + "[]");
                     });
 
@@ -164,8 +168,14 @@ void nemesis::ForEachStatement::Parse1Component(nemesis::SemanticManager& manage
                     anim_requests.emplace_back(request);
                 }
 
+                state.PushStatementValueScope();
                 state.QueueChildRequestList(group, anim_requests);
-                nemesis::OnScopeEnds on_scope_end([group, &state]() { state.DequeChildRequestList(group); });
+                nemesis::OnScopeEnds on_scope_end(
+                    [group, &state]()
+                    {
+                        state.DequeChildRequestList(group);
+                        state.PopStatementValueScope();
+                    });
 
                 try
                 {
@@ -189,11 +199,13 @@ void nemesis::ForEachStatement::Parse1Component(nemesis::SemanticManager& manage
 
                 for (auto& req : requests)
                 {
+                    state.PushStatementValueScope();
                     state.QueueCurrentRequest(Expression, req);
                     nemesis::OnScopeEnds on_scope_end(
                         [this, &state]()
                         {
                             state.DequeCurrentRequest(Expression);
+                            state.PopStatementValueScope();
                             state.RemoveConditionCacheContaining(Expression + "[]");
                         });
 
@@ -247,12 +259,13 @@ void nemesis::ForEachStatement::Parse1Component(nemesis::SemanticManager& manage
 
                 for (auto& req : requests)
                 {
-                    auto child_requests = req->GetRequests();
+                    state.PushStatementValueScope();
                     state.QueueCurrentRequest(Expression, req);
                     nemesis::OnScopeEnds on_scope_end(
                         [this, &state]()
                         {
                             state.DequeCurrentRequest(Expression);
+                            state.PopStatementValueScope();
                             state.RemoveConditionCacheContaining(Expression + "[]");
                         });
 
@@ -286,11 +299,13 @@ void nemesis::ForEachStatement::Parse1Component(nemesis::SemanticManager& manage
 
         for (auto& req : requests)
         {
+            state.PushStatementValueScope();
             state.QueueCurrentRequest(Expression, req);
             nemesis::OnScopeEnds on_scope_end(
                 [this, &state]()
                 {
                     state.DequeCurrentRequest(Expression);
+                    state.PopStatementValueScope();
                     state.RemoveConditionCacheContaining(Expression + "[]");
                 });
 
@@ -344,12 +359,13 @@ void nemesis::ForEachStatement::Parse2Components(nemesis::SemanticManager& manag
 
         for (size_t i = 0; i < list.size(); i++)
         {
-            auto& each = list[i];
-            state.QueueCurrentMapValue(key, *each, i);
+            state.PushStatementValueScope();
+            state.QueueCurrentMapValue(key, *list[i], i);
             nemesis::OnScopeEnds on_scope_end(
                 [this, &state, key]()
                 {
                     state.DequeCurrentMapValue(key);
+                    state.PopStatementValueScope();
                     state.RemoveConditionCacheContaining(Expression + "[]");
                 });
 
@@ -396,12 +412,13 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
 
             for (size_t i = 0; i < list.size(); i++)
             {
-                auto& each = list[i];
-                state.QueueCurrentRequestMotionData(request, each.ToString(), i);
+                state.PushStatementValueScope();
+                state.QueueCurrentRequestMotionData(request, list[i].ToString(), i);
                 nemesis::OnScopeEnds on_scope_end(
                     [this, &state, &request]()
                     {
                         state.DequeCurrentRequestMotionData(request);
+                        state.PopStatementValueScope();
                         state.RemoveConditionCacheContaining(Expression + "[]");
                     });
 
@@ -436,12 +453,13 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
 
             for (size_t i = 0; i < list.size(); i++)
             {
-                auto& each = list[i];
-                state.QueueCurrentRequestRotationData(request, each.ToString(), i);
+                state.PushStatementValueScope();
+                state.QueueCurrentRequestRotationData(request, list[i].ToString(), i);
                 nemesis::OnScopeEnds on_scope_end(
                     [this, &state, &request]()
                     {
                         state.DequeCurrentRequestRotationData(request);
+                        state.PopStatementValueScope();
                         state.RemoveConditionCacheContaining(Expression + "[]");
                     });
 
@@ -510,11 +528,13 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
 
         for (auto& option : options)
         {
+            state.PushStatementValueScope();
             state.QueueRequestOption(request, name, option);
             nemesis::OnScopeEnds on_scope_end(
                 [this, &state, request, name]()
                 {
                     state.DequeueRequestOption(request, name);
+                    state.PopStatementValueScope();
                     state.RemoveConditionCacheContaining(Expression + "[]");
                 });
 
@@ -588,12 +608,13 @@ bool nemesis::ForEachStatement::Parse4Components(nemesis::SemanticManager& manag
 
         for (size_t i = 0; i < list.size(); i++)
         {
-            auto& each = list[i];
-            state.QueueCurrentRequestMapValue(request, key, *each, i);
+            state.PushStatementValueScope();
+            state.QueueCurrentRequestMapValue(request, key, *list[i], i);
             nemesis::OnScopeEnds on_scope_end(
                 [this, &state, request, key]()
                 {
                     state.DequeCurrentRequestMapValue(request, key);
+                    state.PopStatementValueScope();
                     state.RemoveConditionCacheContaining(Expression + "[]");
                 });
 
@@ -628,6 +649,8 @@ void nemesis::ForEachStatement::ParseComponents(nemesis::SemanticManager& manage
             {
                 for (int i = 0; i < LoopCycle; ++i)
                 {
+                    state.PushStatementValueScope();
+                    nemesis::OnScopeEnds on_ends([&state]() { state.PopStatementValueScope(); });
                     action();
                 }
             }

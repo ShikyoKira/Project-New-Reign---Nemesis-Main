@@ -1,5 +1,6 @@
 #include "Core/LineModifier/RequestIndexModifier.h"
 
+#include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
 
 nemesis::RequestIndexModifier::RequestIndexModifier(size_t begin,
@@ -24,7 +25,15 @@ nemesis::RequestIndexModifier::RequestIndexModifier(size_t begin,
 void nemesis::RequestIndexModifier::Apply(VecStr& blocks, nemesis::CompileState& state) const
 {
     ClearCoveredBlocks(blocks);
-    blocks[Begin] = Statement->GetValue(state);
+    auto* val_ptr = state.TryGetCachedStatementValue(Statement.get());
+
+    if (val_ptr)
+    {
+        blocks[Begin] = *val_ptr;
+        return;
+    }
+
+    state.CacheStatementValue(Statement.get(), blocks[Begin] = Statement->GetValue(state));
 }
 
 const nemesis::RequestIndexStatement& nemesis::RequestIndexModifier::GetStatement() const noexcept
