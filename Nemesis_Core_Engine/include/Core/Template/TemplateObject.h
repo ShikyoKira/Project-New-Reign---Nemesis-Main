@@ -75,6 +75,9 @@ namespace nemesis
             thread_pool.enqueue(
                 [templt_ptr, template_class]()
                 {
+                    VecNstr lines;
+                    GetFileLines(templt_ptr->FilePath, lines, false);
+
                     auto& data_ref = *templt_ptr->Data;
                     nemesis::SemanticManager manager;
                     manager.SetCurrentTemplate(templt_ptr);
@@ -83,9 +86,6 @@ namespace nemesis
                     {
                         manager.TryAddRequestToQueue(template_class->GetName() + "_" + std::to_string(i));
                     }
-
-                    VecNstr lines;
-                    GetFileLines(templt_ptr->FilePath, lines, false);
 
                     for (nemesis::LineStream stream(lines.begin(), lines.end()); !stream.IsEoF(); ++stream)
                     {
@@ -113,7 +113,8 @@ namespace nemesis
 
         const nemesis::TemplateClass* GetTemplateClass() const noexcept;
 
-        nemesis::TemplateObject* GetChild(UPtr<nemesis::TemplateObject>&& child);
+        nemesis::TemplateObject* GetChild();
+        const nemesis::TemplateObject* GetChild() const;
         UPtr<nemesis::TemplateObject>& SetChild(UPtr<nemesis::TemplateObject>&& child);
 
         static UPtr<nemesis::TemplateObject> ParseFromFile(const std::filesystem::path& filepath,

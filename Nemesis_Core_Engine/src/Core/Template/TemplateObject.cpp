@@ -101,7 +101,12 @@ const nemesis::TemplateClass* nemesis::TemplateObject::GetTemplateClass() const 
     return TemplateClass;
 }
 
-nemesis::TemplateObject* nemesis::TemplateObject::GetChild(UPtr<nemesis::TemplateObject>&& child)
+nemesis::TemplateObject* nemesis::TemplateObject::GetChild()
+{
+    return Child.get();
+}
+
+const nemesis::TemplateObject* nemesis::TemplateObject::GetChild() const
 {
     return Child.get();
 }

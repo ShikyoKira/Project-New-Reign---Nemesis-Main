@@ -30,7 +30,7 @@ DeqNstr nemesis::HkxFile::CompileAllTemplates(nemesis::CompileState& state) cons
 
         state.ClearAllConditionCache();
         state.ClearAllStatementValueCache();
-        auto index = templt_obj.second->GetIndex();
+        size_t index = templt_obj.second->GetIndex();
 
         if (index == 0)
         {

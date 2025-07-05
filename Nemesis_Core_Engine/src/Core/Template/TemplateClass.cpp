@@ -56,6 +56,7 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
     }
 
     Map<size_t, std::filesystem::path> template_files;
+    std::regex templt_rgx("^" + templt_class.GetName() + "_([0-9]+)$");
 
     for (auto& entry : sf::directory_iterator(dir))
     {
@@ -70,7 +71,6 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
 
         if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".nemx"))) continue;
 
-        std::regex templt_rgx("^" + templt_class.GetName() + "_([0-9]+)$");
         std::smatch match;
         std::string filename = nemesis::to_utf8_string(path.stem());
 
@@ -85,8 +85,7 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
 
     if (template_files.empty()) return;
 
-    nemesis::TemplateObject* templt_obj = nullptr;
-    size_t start_index                  = template_files.find(0) == template_files.end();
+    size_t start_index = template_files.find(0) == template_files.end();
 
     auto itr = template_files.find(start_index);
 
@@ -96,7 +95,7 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
         nemesis::TemplateHkx::ParseFromFile(itr->second, &templt_class, thread_pool).release());
     templt_class.AddTemplate(templt_sptr);
     hkx_file->AddTemplate(templt_sptr);
-    templt_obj = templt_sptr.get();
+    nemesis::TemplateObject* templt_obj = templt_sptr.get();
 
     for (size_t i = start_index + 1; i < template_files.size(); i++)
     {
@@ -252,7 +251,7 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
                     templt_obj = (templt_obj->SetChild(std::move(templt_uptr))).get();
                 }
             }
-            }
+        }
 
         if (motion_template_files.empty()) return;
 
@@ -265,7 +264,7 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
         auto templt_sptr = SPtr<nemesis::TemplateAnimDataMotionData>(
             nemesis::TemplateAnimDataMotionData::ParseFromFile(
                 itr->second, &templt_class, start_index, thread_pool)
-                    .release());
+                .release());
         templt_class.AddTemplate(templt_sptr);
         project->AddMotionDataTemplate(templt_sptr);
         nemesis::TemplateObject* templt_obj = templt_sptr.get();
