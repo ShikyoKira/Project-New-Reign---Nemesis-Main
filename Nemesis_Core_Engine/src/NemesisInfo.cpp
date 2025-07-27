@@ -9,7 +9,7 @@
 
 namespace sf = std::filesystem;
 
-const std::string version          = "1.0.0";
+const std::string version          = "2.0.0";
 NemesisInfo* NemesisInfo::instance = new NemesisInfo();
 
 const std::filesystem::path& NemesisInfo::CanonizePath(const std::filesystem::path& path)
