@@ -7,6 +7,9 @@ class AppConfig : public QObject
 {
     Q_OBJECT
 
+private:
+    QString formatPlatform(const QString& platform) const;
+
 public:
     explicit AppConfig(const std::filesystem::path& filepath, QObject* parent = nullptr);
 

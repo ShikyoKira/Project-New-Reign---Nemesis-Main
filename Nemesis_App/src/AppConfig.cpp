@@ -2,10 +2,27 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QDebug>
+#include <QSettings>
 #include <sstream>
 #include <unordered_map>
 
 #include "AppConfig.h"
+
+QString AppConfig::formatPlatform(const QString& platform) const
+{
+    constexpr std::array<const char*, 5> platforms = {"win32", "amd64", "ps3", "ps4", "xb360"};
+
+    for (auto& pltrm : platforms)
+    {
+        if (pltrm == platform) return platform;
+    }
+
+    QMessageBox::critical(nullptr,
+                          tr("Configuration Error"),
+                          tr("Unsupported platform. Only win32, amd64, ps3, ps4 and xb360 are supported"));
+    exit(-1);
+    return "";
+}
 
 AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
     : QObject{parent}
@@ -35,8 +52,6 @@ AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
 
     file.close();
 
-    constexpr std::array<const char*, 5> platforms = {"win32", "amd64", "ps3", "ps4", "xb360"};
-
     std::unordered_map<std::string, std::function<void(const std::string&)>> SetConfigMap = {
         {"DataDirectory",
          [this](const std::string& line)
@@ -51,20 +66,9 @@ AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
              StageDirectory = QString::fromStdWString(std::filesystem::path(u8str).wstring());
          }},
         {"Platform",
-         [&platforms, this](const std::string& line)
+         [this](const std::string& line)
          {
-             Platform = QString::fromStdString(line).toLower();
-
-             for (auto& platform : platforms)
-             {
-                 if (platform == Platform) return;
-             }
-
-             QMessageBox::critical(
-                 nullptr,
-                 tr("Configuration Error"),
-                 tr("Unsupported platform. Only win32, amd64, ps3, ps4 and xb360 are supported"));
-             exit(-1);
+             Platform = formatPlatform(QString::fromStdString(line).toLower());
          }},
         {"Width", [this](const std::string& line) { Width = std::stoi(line); }},
         {"Height", [this](const std::string& line) { Height = std::stoi(line); }},
