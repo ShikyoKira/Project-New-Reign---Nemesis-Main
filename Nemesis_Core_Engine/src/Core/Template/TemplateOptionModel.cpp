@@ -85,16 +85,27 @@ UPtr<nemesis::TemplateOption> nemesis::TemplateOptionModel::TryCreateOption(
 {
     if (expression == Name)
     {
-        if (Variables.empty()) return std::make_unique<nemesis::TemplateOption>(expression, Name, Aliases);
+        if (Variables.empty()) return std::make_unique<nemesis::TemplateOption>(expression, Name, *this);
 
         throw std::runtime_error("Missing variable for option (Option: " + Name
                                  + ", Variable: " + Variables.front() + ", Line: " + std::to_string(linenum)
                                  + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
-    if (!expression.starts_with(Name)) return nullptr;
+    if (expression.starts_with(Name))
+    {
+        auto option = std::make_unique<nemesis::TemplateOption>(expression, Name, *this);
+        AddVariablesToOption(*option, expression.substr(Name.size()), linenum, filepath);
+        return option;
+    }
 
-    auto option = std::make_unique<nemesis::TemplateOption>(expression, Name, Aliases);
-    AddVariablesToOption(*option, expression.substr(Name.size()), linenum, filepath);
+    auto itr = std::find_if(Aliases.begin(),
+                            Aliases.end(),
+                            [&](const std::string& alias) { return expression.starts_with(alias); });
+
+    if (itr == Aliases.end()) return nullptr;
+
+    auto option = std::make_unique<nemesis::TemplateOption>(expression, *itr, *this);
+    AddVariablesToOption(*option, expression.substr(itr->size()), linenum, filepath);
     return option;
 }

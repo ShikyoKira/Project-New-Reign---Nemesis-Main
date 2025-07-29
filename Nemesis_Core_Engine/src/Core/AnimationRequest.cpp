@@ -112,11 +112,11 @@ void nemesis::AnimationRequest::AddOption(UPtr<nemesis::TemplateOption>&& option
     OptionsCache.emplace_back(option.get());
     OptionsCacheMap[option->GetName()].emplace_back(option.get());
 
-    auto& children = option->GetChildren();
+    auto& aliases = option->GetAliases();
 
-    for (auto& child : children)
+    for (auto& alias : aliases)
     {
-        OptionsCacheMap[child].emplace_back(option.get());
+        OptionsCacheMap[alias].emplace_back(option->GetExpressionName() == alias ? option.get() : nullptr);
     }
 
     Options.emplace_back(std::move(option));

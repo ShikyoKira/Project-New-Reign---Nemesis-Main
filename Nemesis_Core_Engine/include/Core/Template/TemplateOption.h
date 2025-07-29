@@ -10,17 +10,17 @@ namespace nemesis
     {
     private:
         std::string Expression;
-        std::string Name;
-        VecStr Aliases;
+        std::string ExpressionName;
+        const nemesis::TemplateOptionModel& Model;
         UMap<std::string, std::string> Variables;
 
     public:
-        TemplateOption(const std::string& expression, const std::string& name);
-        TemplateOption(const std::string& expression, const std::string& name, const VecStr& aliases);
+        TemplateOption(const std::string& expression, const std::string& expression_name, const nemesis::TemplateOptionModel& model);
 
         const std::string& GetExpression() const;
         const std::string& GetName() const;
-        const VecStr& GetChildren() const;
+        const std::string& GetExpressionName() const;
+        const VecStr& GetAliases() const;
 
         bool HasAlias(const std::string& alias) const;
 
