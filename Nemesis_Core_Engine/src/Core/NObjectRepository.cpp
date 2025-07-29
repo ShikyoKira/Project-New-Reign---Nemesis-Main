@@ -398,7 +398,7 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
             character->GetSize(),
             [&character, &state, &CompiledObjectCounter, &prgs_callback, TotalObjects]()
             {
-                character->CompileFile(
+                character->ScheduleCompileFile(
                     state, NemesisInfo::OutputPlatform(), NemesisInfo::OutputVersion(), true);
                 prgs_callback(++CompiledObjectCounter, TotalObjects);
             });
@@ -421,7 +421,7 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
             behavior->GetSize(),
             [&behavior, &state, &CompiledObjectCounter, &prgs_callback, TotalObjects]()
             {
-                behavior->CompileFile(
+                behavior->ScheduleCompileFile(
                     state, NemesisInfo::OutputPlatform(), NemesisInfo::OutputVersion(), true);
                 prgs_callback(++CompiledObjectCounter, TotalObjects);
             });
@@ -437,8 +437,10 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
              &prgs_callback,
              TotalObjects]()
             {
-                AnimDataSingleFile->CompileFile(adsf_state);
-                prgs_callback(++CompiledObjectCounter, TotalObjects);
+                AnimDataSingleFile->ScheduleCompileFile(
+                    adsf_state,
+                    [&CompiledObjectCounter, &prgs_callback, TotalObjects]()
+                    { prgs_callback(++CompiledObjectCounter, TotalObjects); });
             });
     }
 
@@ -452,8 +454,10 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
              &prgs_callback,
              TotalObjects]()
             {
-                AnimSetDataSingleFile->CompileFile(asdsf_state);
-                prgs_callback(++CompiledObjectCounter, TotalObjects);
+                AnimSetDataSingleFile->ScheduleCompileFile(
+                    asdsf_state,
+                    [&CompiledObjectCounter, &prgs_callback, TotalObjects]()
+                    { prgs_callback(++CompiledObjectCounter, TotalObjects); });
             });
     }
 
@@ -490,6 +494,26 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
     }
 
     pex_future.get();
+
+    for (auto& character : Characters)
+    {
+        character->WaitForCompleteCompilation();
+    }
+
+    for (auto& behavior : Behaviors)
+    {
+        behavior->WaitForCompleteCompilation();
+    }
+
+    if (AnimDataSingleFile)
+    {
+        AnimDataSingleFile->WaitForCompleteCompilation();
+    }
+
+    if (AnimSetDataSingleFile)
+    {
+        AnimSetDataSingleFile->WaitForCompleteCompilation();
+    }
 
     Logger::Log("Total Files Compiled: " + std::to_string(CompiledObjectCounter), true);
 }

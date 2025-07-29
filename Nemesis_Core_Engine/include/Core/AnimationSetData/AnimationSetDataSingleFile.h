@@ -44,6 +44,8 @@ namespace nemesis
         std::filesystem::path CompileFile(nemesis::CompileState& state) const;
         void CompileFileAs(const std::filesystem::path& filepath, nemesis::CompileState& state) const;
         std::filesystem::path ScheduleCompileFile(nemesis::CompileState& state) const;
+        std::filesystem::path ScheduleCompileFile(nemesis::CompileState& state,
+                                                  std::function<void()> callback) const;
         void ScheduleCompileFileAs(const std::filesystem::path& filepath, nemesis::CompileState& state) const;
         void ScheduleCompileFileAs(const std::filesystem::path& filepath,
                                    nemesis::CompileState& state,

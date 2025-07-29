@@ -171,30 +171,35 @@ UPtr<nemesis::AnimationSetDataSingleFile> nemesis::AnimationSetDataSingleFile::C
 std::filesystem::path nemesis::AnimationSetDataSingleFile::CompileFile(nemesis::CompileState& state) const
 {
     auto target_path = NemesisInfo::PatchOutputPath(TargetPath);
-    Logger::Log(LITERAL_PATH("Compiling Target File: ") + PATH_TO_STRING(target_path));
-
     CompileFileAs(target_path, state);
-
-    Logger::Log(LITERAL_PATH("Compiled Target File: ") + PATH_TO_STRING(target_path));
     return target_path;
 }
 
 void nemesis::AnimationSetDataSingleFile::CompileFileAs(const std::filesystem::path& filepath,
                                                         nemesis::CompileState& state) const
 {
+    auto path = PATH_TO_STRING(filepath);
+    Logger::Log(LITERAL_PATH("Compiling Target File: ") + path);
+
     CompileFileCore(filepath, state, [] {}).get();
+
+    Logger::Log(LITERAL_PATH("Compiled Target File: ") + path);
 }
 
 std::filesystem::path
 nemesis::AnimationSetDataSingleFile::ScheduleCompileFile(nemesis::CompileState& state) const
 {
     auto target_path = NemesisInfo::PatchOutputPath(TargetPath);
-    Logger::Log(LITERAL_PATH("Compiling Target File: ") + PATH_TO_STRING(target_path));
+    ScheduleCompileFileAs(target_path, state);
+    return target_path;
+}
 
-    ScheduleCompileFileAs(
-        target_path,
-        state,
-        [target_path] { Logger::Log(LITERAL_PATH("Compiled Target File: ") + PATH_TO_STRING(target_path)); });
+std::filesystem::path
+nemesis::AnimationSetDataSingleFile::ScheduleCompileFile(nemesis::CompileState& state,
+                                                         std::function<void()> callback) const
+{
+    auto target_path = NemesisInfo::PatchOutputPath(TargetPath);
+    ScheduleCompileFileAs(target_path, state, callback);
     return target_path;
 }
 
@@ -208,7 +213,16 @@ void nemesis::AnimationSetDataSingleFile::ScheduleCompileFileAs(const std::files
                                                                 nemesis::CompileState& state,
                                                                 std::function<void()> callback) const
 {
-    auto future = CompileFileCore(filepath, state, callback);
+    auto path = PATH_TO_STRING(filepath);
+    Logger::Log(LITERAL_PATH("Compiling Target File: ") + path);
+
+    auto future = CompileFileCore(filepath,
+                                  state,
+                                  [path, callback]()
+                                  {
+                                      callback();
+                                      Logger::Log(LITERAL_PATH("Compiled Target File: ") + path);
+                                  });
 
     std::scoped_lock<std::mutex> lock(CompileFutureMutex);
     CompileFuture.emplace_back(std::move(future));
