@@ -14,7 +14,7 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
                                                               nemesis::TemplateRepository& templt_repo,
                                                               nemesis::AlterAnimRepository& alter_anim_repo)
 {
-    Logger::Log(LITERAL_PATH("Animation Request File: ") + PATH_TO_STRING(filepath.stem()));
+    Logger::Log("Animation Request File: " + nemesis::to_utf8_string(filepath.stem()), true);
 
     VecNstr lines;
     GetFileLines(filepath, lines, false);
@@ -153,6 +153,8 @@ nemesis::AnimationRequestRepository::AnimationRequestRepository(const std::files
                                                                 nemesis::AlterAnimRepository& alter_anim_repo)
 {
     Logger::Log("Processing Animation Requests...", true);
+    std::cout << std::endl;
+
     AddRequestsFromDirectory(data_dir, templt_repo, alter_anim_repo);
 }
 
