@@ -373,6 +373,12 @@ void nemesis::TemplateClass::LoadConfig()
         bool b_array     = body.contains("IsArray") ? body["IsArray"].get<bool>() : false;
         auto& opt_uptr   = OptionModelList.emplace_back(
             std::make_unique<nemesis::TemplateOptionModel>(name, aliases, variables, b_array));
+
+        for (auto& var : opt_uptr->GetAliases())
+        {
+            OptionModelTrie.Add(var, opt_uptr.get());
+        }
+
         OptionModelTrie.Add(opt_uptr->GetName(), opt_uptr.get());
     }
 

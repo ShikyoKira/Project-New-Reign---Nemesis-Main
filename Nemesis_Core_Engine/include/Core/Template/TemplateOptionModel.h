@@ -30,6 +30,7 @@ namespace nemesis
                             bool b_array);
 
         const std::string& GetName() const noexcept;
+        const VecStr& GetAliases() const noexcept;
         bool HasAlias(const std::string& alias) const noexcept;
         bool HasVariable(const std::string& variable_name) const noexcept;
         bool IsArray() const noexcept;

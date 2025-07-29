@@ -48,6 +48,11 @@ const std::string& nemesis::TemplateOptionModel::GetName() const noexcept
     return Name;
 }
 
+const VecStr& nemesis::TemplateOptionModel::GetAliases() const noexcept
+{
+    return Aliases;
+}
+
 bool nemesis::TemplateOptionModel::HasAlias(const std::string& alias) const noexcept
 {
     for (auto& each : Aliases)
