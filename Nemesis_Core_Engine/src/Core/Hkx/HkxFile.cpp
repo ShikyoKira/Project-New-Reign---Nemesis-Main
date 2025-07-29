@@ -34,6 +34,7 @@ DeqNstr nemesis::HkxFile::CompileAllTemplates(nemesis::CompileState& state) cons
 
         if (index == 0)
         {
+            state.SetBaseRequest(nullptr);
             templt_obj.second->CompileTo(template_lines, state);
             continue;
         }
@@ -61,6 +62,7 @@ DeqNstr nemesis::HkxFile::CompileAllSubTemplates(nemesis::CompileState& state) c
 
     if (subrequests.empty()) return lines;
 
+    state.SetBaseRequest(nullptr);
     state.ClearAllConditionCache();
     state.ClearAllStatementValueCache();
     Vec<UPtr<nemesis::CompileState>> state_list;

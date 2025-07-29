@@ -184,11 +184,12 @@ void nemesis::AnimationDataProject::CompileTo(DeqNstr& lines, nemesis::CompileSt
 
             if (requests.empty()) continue;
 
-        state.ClearAllConditionCache();
+            state.ClearAllConditionCache();
+            state.ClearAllStatementValueCache();
             size_t index = clip_data->GetIndex();
 
             if (index == 0)
-        {
+            {
                 state.SetBaseRequest(nullptr);
                 clip_data->CompileTo(clipdata_lines, state);
                 continue;
@@ -207,11 +208,12 @@ void nemesis::AnimationDataProject::CompileTo(DeqNstr& lines, nemesis::CompileSt
 
             if (requests.empty()) continue;
 
-        state.ClearAllConditionCache();
+            state.ClearAllConditionCache();
+            state.ClearAllStatementValueCache();
             size_t index = motion_data->GetIndex();
 
             if (index == 0)
-        {
+            {
                 state.SetBaseRequest(nullptr);
                 motion_data->CompileTo(clipdata_lines, state);
                 continue;
@@ -226,6 +228,7 @@ void nemesis::AnimationDataProject::CompileTo(DeqNstr& lines, nemesis::CompileSt
 
         state.SetBaseRequest(nullptr);
         state.ClearAllConditionCache();
+        state.ClearAllStatementValueCache();
     }
 
     if (hkxfile_lines.empty() && clipdata_lines.empty()) return;

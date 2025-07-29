@@ -331,11 +331,14 @@ void nemesis::AnimationSetDataProject::CompileTo(DeqNstr& lines, nemesis::Compil
             }
         }
 
-        state.ClearAllConditionCache();
-
         for (auto& templt_obj : StateTemplateList)
         {
             auto& requests = state.GetRequests(templt_obj->GetClassName());
+
+            if (requests.empty()) continue;
+
+            state.ClearAllConditionCache();
+            state.ClearAllStatementValueCache();
 
             for (auto& request : requests)
             {
@@ -355,6 +358,7 @@ void nemesis::AnimationSetDataProject::CompileTo(DeqNstr& lines, nemesis::Compil
 
         state.SetBaseRequest(nullptr);
         state.ClearAllConditionCache();
+        state.ClearAllStatementValueCache();
     }
 
     if (header_lines.empty()) return;
