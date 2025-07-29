@@ -55,7 +55,7 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
         return;
     }
 
-    Map<size_t, std::filesystem::path> template_files;
+    Map<size_t, sf::path> template_files;
     std::regex templt_rgx("^" + templt_class.GetName() + "_([0-9]+)$");
 
     for (auto& entry : sf::directory_iterator(dir))
@@ -138,7 +138,7 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
     static const std::regex str_num_rgx("^([^~]+)~([0-9]+)$");
     std::regex templt_rgx("^\\$" + templt_class.GetName() + "_([0-9]+)\\$(UC|)$");
 
-    if (!std::filesystem::exists(dir)) return;
+    if (!sf::exists(dir)) return;
 
     for (auto& entry : sf::directory_iterator(dir))
     {
@@ -164,8 +164,8 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
 
         if (!project) continue;
 
-        Map<size_t, std::filesystem::path> clip_template_files;
-        Map<size_t, std::filesystem::path> motion_template_files;
+        Map<size_t, sf::path> clip_template_files;
+        Map<size_t, sf::path> motion_template_files;
 
         for (auto& inner_entry : sf::directory_iterator(path))
         {
@@ -289,7 +289,7 @@ void nemesis::TemplateClass::AddTemplateToAnimSetDataSingleFile(
 {
     static const std::regex str_num_rgx("^([^~]+)~([0-9]+)$");
 
-    if (!std::filesystem::exists(dir)) return;
+    if (!sf::exists(dir)) return;
 
     for (auto& entry : sf::directory_iterator(dir))
     {
@@ -647,60 +647,4 @@ nemesis::TemplateClass::CreateRequest(const std::string& list_name,
     }
 
     return request;
-}
-
-UPtr<nemesis::TemplateClass> nemesis::TemplateClass::ParseTemplateClassFromDirectory(
-    const std::filesystem::path& dir, nemesis::NObjectRepository& repo, nemesis::ThreadPool& thread_pool)
-{
-    auto info_path = dir / "template_info.json";
-
-    if (!sf::exists(info_path) || !sf::is_regular_file(info_path)) return nullptr;
-
-    UPtr<nemesis::TemplateClass> templt_class = std::make_unique<nemesis::TemplateClass>(info_path);
-
-    if (!std::filesystem::exists(dir)) return templt_class;
-
-    for (auto& entry : sf::directory_iterator(dir))
-    {
-        if (!entry.is_directory()) continue;
-
-        auto path = entry.path();
-
-        if (!nemesis::iequals(PATH_TO_STRING(path.filename()), LITERAL_PATH("meshes")))
-        {
-            sf::path relative_path = PATH_TO_STRING(path).substr(PATH_TO_STRING(dir).size() + 1);
-            ParseHkxTemplatesLoopDirectory(relative_path, path, *templt_class, repo, thread_pool);
-            continue;
-        }
-
-        if (!std::filesystem::exists(path)) continue;
-
-        for (auto& inner_entry : sf::directory_iterator(path))
-        {
-            auto inner_path = inner_entry.path();
-
-            if (!inner_entry.is_directory()) continue;
-
-            auto filename = PATH_TO_STRING(inner_path.stem());
-
-            if (nemesis::iequals(filename, LITERAL_PATH("animationdatasinglefile")))
-            {
-                AddTemplateToAnimDataSingleFile(
-                    inner_path, *templt_class, *repo.GetAnimDataSingleFile(), thread_pool);
-                continue;
-            }
-
-            if (nemesis::iequals(filename, LITERAL_PATH("animationdatasinglefile")))
-            {
-                AddTemplateToAnimSetDataSingleFile(
-                    inner_path, *templt_class, *repo.GetAnimSetDataSingleFile());
-                continue;
-            }
-
-            sf::path relative_path = PATH_TO_STRING(inner_path).substr(PATH_TO_STRING(dir).size() + 1);
-            ParseHkxTemplatesLoopDirectory(relative_path, inner_path, *templt_class, repo, thread_pool);
-        }
-    }
-
-    return templt_class;
 }

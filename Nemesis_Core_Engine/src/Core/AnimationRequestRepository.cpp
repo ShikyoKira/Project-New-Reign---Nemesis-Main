@@ -18,6 +18,7 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
 
     VecNstr lines;
     GetFileLines(filepath, lines, false);
+
     Vec<nemesis::AnimationRequest*> request_layers;
     std::string aa_prefix;
     std::filesystem::path dir_path = filepath.parent_path();
@@ -124,6 +125,9 @@ void nemesis::AnimationRequestRepository::AddRequestsFromDirectory(
     nemesis::TemplateRepository& templt_repo,
     nemesis::AlterAnimRepository& alter_anim_repo)
 {
+    auto fnis_list_file = LITERAL_PATH("fnis_") + PATH_TO_STRING(dir.stem()) + LITERAL_PATH("_list");
+    auto nemesis_list_file = LITERAL_PATH("nemesis_") + PATH_TO_STRING(dir.stem()) + LITERAL_PATH("_list");
+
     for (auto& entry : std::filesystem::directory_iterator(dir))
     {
         auto path = entry.path();
@@ -138,13 +142,7 @@ void nemesis::AnimationRequestRepository::AddRequestsFromDirectory(
 
         auto file = PATH_TO_STRING(path.stem());
 
-        if (!nemesis::istarts_with(file, LITERAL_PATH("fnis_"))
-            && !nemesis::istarts_with(file, LITERAL_PATH("nemesis_")))
-        {
-            continue;
-        }
-
-        if (!nemesis::iends_with(file, LITERAL_PATH("_list"))) continue;
+        if (!nemesis::iequals(file, fnis_list_file) && !nemesis::iequals(file, nemesis_list_file)) continue;
 
         AddRequestsFromFile(path, templt_repo, alter_anim_repo);
     }

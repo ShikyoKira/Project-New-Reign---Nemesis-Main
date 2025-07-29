@@ -1,7 +1,5 @@
 #include "Core/Statement/RequestIdStatement.h"
 
-#include "Core/Template/TemplateClass.h"
-
 #include "Core/CompileState.h"
 #include "Core/AnimationRequest.h"
 
